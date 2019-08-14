@@ -30,6 +30,7 @@ $0 [options]
     --buildGenium         Build and use local Genium version
     --geniumPath [PATH]   Implies --buildGenium, path to local genium (default: ${GENIUM_PATH})
     --debug               Build with debug symbols
+    --docs                Generate Javadoc of SDK
     --jemalloc            Run tests with jemalloc
     --help                Print this message
 EOF
@@ -37,6 +38,7 @@ EOF
 
 CMAKE_BUILD_TYPE=
 BUILD_LOCAL_GENIUM=false
+GENERATE_DOCS=false
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --publish)
@@ -58,6 +60,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --debug)
             CMAKE_BUILD_TYPE="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --docs)
+            GENERATE_DOCS=true
             shift
             ;;
         --help|*)
@@ -108,10 +114,17 @@ if [ -z "$NDK_CMAKE_BINARY" ]; then
     NDK_CMAKE_BINARY=cmake
 fi
 
+BUILD_DIR_PREFIX="${PWD}/build-android-"
+ANDROID_DIR="${PWD}/platforms/android"
+DIST_ANDROID_DIR="${PWD}/dist/android"
+DOCS_DIR="${DIST_ANDROID_DIR}/docs"
+INSTALL_AAR_DIR="${ANDROID_DIR}/app/libs/"
+TMP_DIR=$(mktemp -d)
+
 # Do cross-compilation build for generating a proper Android Archive
 for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
-    build_dir=${PWD}/build-android-${arch}
-    install_dir=${PWD}/dist/android/${arch}
+    build_dir="${BUILD_DIR_PREFIX}${arch}"
+    install_dir="${DIST_ANDROID_DIR}/${arch}"
 
     [ -d ${build_dir} ] || mkdir -p ${build_dir}
     [ -d ${install_dir} ] || mkdir -p ${install_dir}
@@ -145,11 +158,6 @@ for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
         --target install
 done
 
-ANDROID_DIR=${PWD}/platforms/android
-DIST_ANDROID_DIR=${PWD}/dist/android
-INSTALL_AAR_DIR=${ANDROID_DIR}/app/libs/
-TMP_DIR=$(mktemp -d)
-
 # At the moment we build one AAR per target architecture as it is not straightforward
 # to do a multi-arch build in one CMake build invocation. However, for simplicity we
 # want to include all architectures into one Android Archive. Hence do it in bash:
@@ -163,6 +171,13 @@ rm -rf ${TMP_DIR}
 find ${DIST_ANDROID_DIR}/${HOST_ARCH} -name *.aar -exec unzip -n {} -d ${TMP_DIR} \;
 mkdir -p ${INSTALL_AAR_DIR}/${HOST_ARCH}
 cp ${TMP_DIR}/jni/* ${INSTALL_AAR_DIR}/${HOST_ARCH}
+
+if [ "$GENERATE_DOCS" = true ]; then
+    mkdir -p "${DOCS_DIR}"
+    pushd "${DOCS_DIR}"
+    safe javadoc com.here.android $(find ${BUILD_DIR_PREFIX}${HOST_ARCH}/ -name *.java)
+    popd
+fi
 
 # Finally build the example app itself and run tests
 pushd ${ANDROID_DIR}
