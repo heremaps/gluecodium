@@ -19,6 +19,9 @@
 
 package com.here.genium.model.lime
 
+/**
+ * Represents a return type of a [LimeFunction].
+ */
 class LimeReturnType(
     val typeRef: LimeTypeRef,
     val comment: LimeComment = LimeComment(),

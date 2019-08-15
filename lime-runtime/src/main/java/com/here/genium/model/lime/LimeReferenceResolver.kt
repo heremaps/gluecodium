@@ -23,12 +23,4 @@ interface LimeReferenceResolver {
     val referenceMap: Map<String, LimeElement>
     fun registerElement(element: LimeNamedElement)
     fun registerElement(key: String, element: LimeElement)
-
-    companion object {
-        fun getArrayKey(elementTypeKey: String) = "[$elementTypeKey]"
-
-        fun getMapKey(keyTypeKey: String, valueTypeKey: String) = "[$keyTypeKey:$valueTypeKey]"
-
-        fun getSetKey(elementTypeKey: String) = getMapKey(elementTypeKey, "")
-    }
 }

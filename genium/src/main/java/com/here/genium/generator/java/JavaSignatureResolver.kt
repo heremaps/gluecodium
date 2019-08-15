@@ -30,7 +30,7 @@ class JavaSignatureResolver(
     private val nameRules: NameRules
 ) : LimeSignatureResolver(limeReferenceMap) {
 
-    override fun getFunctionName(limeMethod: LimeFunction) = nameRules.getName(limeMethod)
+    override fun getFunctionName(limeFunction: LimeFunction) = nameRules.getName(limeFunction)
 
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 

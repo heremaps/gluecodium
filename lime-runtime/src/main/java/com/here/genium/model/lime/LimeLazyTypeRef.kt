@@ -19,6 +19,12 @@
 
 package com.here.genium.model.lime
 
+/**
+ * A delayed-resolution reference to a type, represented by [elementFullName]. The name is resolved
+ * into an actual type through the [referenceMap] on the first call. The resolution logic is "lazy":
+ * if it succeed on the first call then the result is stored and the stored result is used on
+ * subsequent calls instead.
+ */
 class LimeLazyTypeRef(
     override val elementFullName: String,
     private val referenceMap: Map<String, LimeElement>,

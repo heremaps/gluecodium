@@ -19,4 +19,8 @@
 
 package com.here.genium.model.lime
 
+/**
+ * A common base class for "generic" types, i.e. types that are parameterized by one or more other
+ * types (e.g. List<Int>, Map<String, Int>, etc.).
+ */
 abstract class LimeGenericType : LimeType(LimePath.EMPTY_PATH)

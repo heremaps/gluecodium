@@ -19,6 +19,12 @@
 
 package com.here.genium.model.lime
 
+/**
+ * The comment block is built from a sequence of tagged text section. A section with an empty tag
+ * represents text that applies regardless of the chosen platform. A non-empty tag means the text
+ * only applies to the platform represented by the tag (and thus should be skipped for all other
+ * platforms).
+ */
 class LimeComment(private val taggedSections: List<Pair<String, String>> = emptyList()) {
 
     constructor(comment: String): this(listOf("" to comment))

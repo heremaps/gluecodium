@@ -19,6 +19,9 @@
 
 package com.here.genium.model.lime
 
+/**
+ * An direct reference to a type that requires no ambiguity resolution or postponed resolution.
+ */
 class LimeDirectTypeRef(
     override val type: LimeType,
     override val isNullable: Boolean = false

@@ -42,7 +42,8 @@ object LimeTypeHelper {
             else -> limeType
         }
 
-    /* Backtick-escape the given identifier if at least one of the following is true:
+    /**
+     * Backtick-escape the given identifier if at least one of the following is true:
      * * identifier exactly matches a LimeIDL keyword
      * * identifier contains a non-alphanumeric character that is not underscore
      * * identifier starts with a digit

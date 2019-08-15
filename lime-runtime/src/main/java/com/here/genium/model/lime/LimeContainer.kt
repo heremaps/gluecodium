@@ -19,6 +19,10 @@
 
 package com.here.genium.model.lime
 
+/**
+ * This class represents a top-level container which is either a class, an interface or a `types`
+ * collection (as indicated by [type] field).
+ */
 class LimeContainer(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,

@@ -19,6 +19,11 @@
 
 package com.here.genium.model.lime
 
+/**
+ * This class provides several tools for analysis of method signatures. Since treatment of generic
+ * types is different between various target languages, `get*Name()` family of functions here can
+ * be overridden if needed (e.g. to account for type-erased generics in Java, etc.).
+ */
 open class LimeSignatureResolver(private val referenceMap: Map<String, LimeElement>) {
 
     private val signatureCache = hashMapOf<String, List<String>>()

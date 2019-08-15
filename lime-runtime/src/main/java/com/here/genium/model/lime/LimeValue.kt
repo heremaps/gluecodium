@@ -21,7 +21,15 @@ package com.here.genium.model.lime
 
 import com.here.genium.common.StringHelper
 
+/**
+ * Represents a constant value on the right-hand side of an assignment (used in constants, field
+ * default values, and enumerator values).
+ */
 sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
+    /**
+     * Represents a literal value, i.e. a value that should be interpreted "literally", without any
+     * additional processing or resolution.
+     */
     class Literal(type: LimeTypeRef, val value: String) : LimeValue(type) {
         override fun toString(): String {
             val limeType = LimeTypeHelper.getActualType(typeRef.type)
@@ -33,6 +41,10 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
         }
     }
 
+    /**
+     * Represents a value that is a reference to a specific enumerator element (i.e. an single item
+     * from an enumeration).
+     */
     class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {
         override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
 
@@ -44,6 +56,10 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
             }
     }
 
+    /**
+     * Represents a special numerical value: either a "not a number" (NaN) value or an infinite
+     * value (positive or negative).
+     */
     class Special(type: LimeTypeRef, val value: ValueId) : LimeValue(type) {
         enum class ValueId(private val tag: String) {
             NAN("NaN"),

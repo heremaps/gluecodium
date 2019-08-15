@@ -19,6 +19,11 @@
 
 package com.here.genium.model.lime
 
+/**
+ * Abstraction for modules that load the LIME models from some source (usually files) into the
+ * in-memory representation. The intent is to reduce the coupling between loader modules and the
+ * rest of the binary to absolute minimum.
+ */
 interface LimeModelLoader {
     fun loadModel(fileNames: List<String>): LimeModel
 

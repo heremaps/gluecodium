@@ -19,6 +19,19 @@
 
 package com.here.genium.model.lime
 
+/**
+ * An ambiguous reference to an enumerator element, represented by [relativePath]. The ambiguity is
+ * resolved with the following logic:
+ * * for each import in [imports], try to match the last component of the import to the first
+ * component of the [relativePath]. If it matches, try to resolve into to an actual element through
+ * the [referenceMap].
+ * * if import resolution fails, try appending [relativePath] to each parent path in [parentPaths]
+ * and try resolving the combined path to an actual element through the [referenceMap].
+ * * if both approaches fail, the reference is invalid and a [LimeModelLoaderException] is thrown.
+ *
+ * The resolution logic is "lazy": if it succeed on the first call then the result is stored and the
+ * stored result is used on subsequent calls instead.
+ */
 class LimeAmbiguousEnumeratorRef(
     relativePath: List<String>,
     parentPaths: List<LimePath>,

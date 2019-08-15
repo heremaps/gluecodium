@@ -19,6 +19,9 @@
 
 package com.here.genium.model.lime
 
+/**
+ * Represents a "throws" clause of a [LimeFunction].
+ */
 class LimeThrownType(
     val typeRef: LimeTypeRef,
     val comment: LimeComment = LimeComment()
