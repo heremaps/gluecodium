@@ -27,7 +27,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -54,7 +54,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         walkCollection(limeContainer.exceptions)
     }
 
-    private fun walkChildNodes(limeMethod: LimeMethod) {
+    private fun walkChildNodes(limeMethod: LimeFunction) {
         walk(limeMethod.exception?.errorEnum)
         walkCollection(limeMethod.parameters)
     }
@@ -116,7 +116,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
                 LimeTreeWalker::walkChildNodes
             )
             initTreeNode(
-                LimeMethod::class.java,
+                LimeFunction::class.java,
                 LimeBasedModelBuilder::finishBuilding,
                 LimeTreeWalker::walkChildNodes
             )

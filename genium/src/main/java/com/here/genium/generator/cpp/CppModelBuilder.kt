@@ -48,7 +48,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -105,7 +105,7 @@ class CppModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeMethod: LimeMethod) {
+    override fun finishBuilding(limeMethod: LimeFunction) {
         val specifiers = EnumSet.noneOf(CppMethod.Specifier::class.java)
         val qualifiers = EnumSet.noneOf(CppMethod.Qualifier::class.java)
         if (limeMethod.isStatic) {

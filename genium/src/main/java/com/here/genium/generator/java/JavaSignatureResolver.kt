@@ -21,7 +21,7 @@ package com.here.genium.generator.java
 
 import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeTypeRef
 
@@ -30,7 +30,7 @@ class JavaSignatureResolver(
     private val nameRules: NameRules
 ) : LimeSignatureResolver(limeReferenceMap) {
 
-    override fun getMethodName(limeMethod: LimeMethod) = nameRules.getName(limeMethod)
+    override fun getMethodName(limeMethod: LimeFunction) = nameRules.getName(limeMethod)
 
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 

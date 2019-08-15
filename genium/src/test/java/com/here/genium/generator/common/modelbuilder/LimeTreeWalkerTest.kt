@@ -28,7 +28,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
@@ -56,7 +56,7 @@ class LimeTreeWalkerTest {
     private val limePropertyTypeRef = LimeLazyTypeRef("foobarbaz", emptyMap())
     private val limeValueTypeRef = LimeLazyTypeRef("nonsense", emptyMap())
     private val limeProperty =
-        LimeProperty(EMPTY_PATH, typeRef = limePropertyTypeRef, getter = LimeMethod(EMPTY_PATH))
+        LimeProperty(EMPTY_PATH, typeRef = limePropertyTypeRef, getter = LimeFunction(EMPTY_PATH))
     private val limeConstantValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "baz")
     private val limeConstant = LimeConstant(
         path = EMPTY_PATH,
@@ -76,7 +76,7 @@ class LimeTreeWalkerTest {
     private val limeStruct = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
     private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeParameterTypeRef)
     private val limeException = LimeException(EMPTY_PATH, errorEnum = limeErrorTypeRef)
-    private val limeMethod = LimeMethod(
+    private val limeMethod = LimeFunction(
         path = EMPTY_PATH,
         thrownType = LimeThrownType(LimeDirectTypeRef(limeException)),
         parameters = listOf(limeParameter)

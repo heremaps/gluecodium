@@ -24,7 +24,7 @@ import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoaderException
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -91,10 +91,10 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
         fun testData() = listOf(
             arrayOf<(LimeTypeRef) -> LimeElement>({ DummyTypedElement(it) }),
             arrayOf<(LimeTypeRef) -> LimeElement>(
-                { LimeMethod(EMPTY_PATH, returnType = LimeReturnType(it)) }
+                { LimeFunction(EMPTY_PATH, returnType = LimeReturnType(it)) }
             ),
             arrayOf<(LimeTypeRef) -> LimeElement>({
-                LimeMethod(
+                LimeFunction(
                     EMPTY_PATH,
                     thrownType = LimeThrownType(it)
                 )

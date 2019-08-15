@@ -19,7 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimeMethod(
+class LimeFunction(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),

@@ -24,7 +24,7 @@ import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeType
@@ -37,7 +37,7 @@ open class NameRules(val ruleSet: NameRuleSet) {
             is LimeParameter -> ruleSet.getParameterName(limeElement.name)
             is LimeConstant -> ruleSet.getConstantName(limeElement.name)
             is LimeEnumerator -> ruleSet.getEnumeratorName(limeElement.name)
-            is LimeMethod -> ruleSet.getMethodName(limeElement.name)
+            is LimeFunction -> ruleSet.getMethodName(limeElement.name)
             is LimeType -> ruleSet.getTypeName(limeElement.name)
             is LimeProperty -> getPropertyName(limeElement)
             else -> throw IllegalArgumentException()

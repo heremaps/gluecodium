@@ -35,7 +35,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -177,7 +177,7 @@ class SwiftModelBuilder(
         return swiftFile
     }
 
-    override fun finishBuilding(limeMethod: LimeMethod) {
+    override fun finishBuilding(limeMethod: LimeFunction) {
         val returnType = when {
             limeMethod.isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME, null)
             else -> {

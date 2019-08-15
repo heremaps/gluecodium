@@ -19,7 +19,7 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeSignatureResolver
 
@@ -28,14 +28,14 @@ internal class LimeMethodsSignatureValidator(private val logger: LimeLogger) {
     fun validate(limeModel: LimeModel): Boolean {
         val signatureResolver = LimeSignatureResolver(limeModel.referenceMap)
         val validationResults = limeModel.referenceMap.values
-            .filterIsInstance<LimeMethod>()
+            .filterIsInstance<LimeFunction>()
             .map { validateMethod(it, signatureResolver) }
 
         return !validationResults.contains(false)
     }
 
     private fun validateMethod(
-        limeMethod: LimeMethod,
+        limeMethod: LimeFunction,
         signatureResolver: LimeSignatureResolver
     ) = when {
         limeMethod.isConstructor &&

@@ -67,7 +67,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -150,7 +150,7 @@ class JniModelBuilderTest {
     private val cppStruct = CppStruct("cPpClass")
 
     private val fooPath = LimePath(listOf("foo", "bar"), emptyList())
-    private val limeMethod = LimeMethod(EMPTY_PATH)
+    private val limeMethod = LimeFunction(EMPTY_PATH)
     private val limeTypeCollection =
         LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
     private val limeInterface = LimeContainer(fooPath, type = LimeContainer.ContainerType.INTERFACE)
@@ -160,8 +160,8 @@ class JniModelBuilderTest {
     private val limeProperty = LimeProperty(
         EMPTY_PATH,
         typeRef = limeTypeRef,
-        getter = LimeMethod(EMPTY_PATH),
-        setter = LimeMethod(EMPTY_PATH)
+        getter = LimeFunction(EMPTY_PATH),
+        setter = LimeFunction(EMPTY_PATH)
     )
 
     private val contextStack = MockContextStack<JniElement>()
@@ -626,7 +626,7 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingAttributeReadonly() {
         val limeElement =
-            LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, getter = LimeMethod(EMPTY_PATH))
+            LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, getter = LimeFunction(EMPTY_PATH))
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -643,8 +643,8 @@ class JniModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = limeTypeRef,
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH),
+            getter = LimeFunction(EMPTY_PATH),
+            setter = LimeFunction(EMPTY_PATH),
             isStatic = true
         )
 

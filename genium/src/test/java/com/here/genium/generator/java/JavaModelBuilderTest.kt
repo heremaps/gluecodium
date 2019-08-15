@@ -51,7 +51,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeProperty
@@ -114,7 +114,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethod() {
-        val limeElement = LimeMethod(
+        val limeElement = LimeFunction(
             fooPath,
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
@@ -131,7 +131,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsVisibility() {
-        val limeElement = LimeMethod(fooPath, visibility = LimeVisibility.INTERNAL)
+        val limeElement = LimeFunction(fooPath, visibility = LimeVisibility.INTERNAL)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -143,7 +143,7 @@ class JavaModelBuilderTest {
     fun finishBuildingMethodReadsReturnType() {
         every { typeMapper.mapType(any()) } returns javaType
         every { typeMapper.applyNullability(javaType, any()) } returns anotherJavaType
-        val limeElement = LimeMethod(fooPath)
+        val limeElement = LimeFunction(fooPath)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -157,7 +157,7 @@ class JavaModelBuilderTest {
             LimeBasicTypeRef.FLOAT,
             comment = LimeComment("some comment")
         )
-        val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
+        val limeElement = LimeFunction(fooPath, returnType = limeReturnType)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -169,7 +169,7 @@ class JavaModelBuilderTest {
     fun finishBuildingMethodReadsErrorType() {
         val limeErrorType = object : LimeType(fooPath) {}
         val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeErrorType))
-        val limeElement = LimeMethod(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
+        val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val javaExceptionType =
             JavaExceptionType("", emptyList(), JavaImport("", JavaPackage.DEFAULT))
         every { typeMapper.mapExceptionType(any()) } returns javaExceptionType
@@ -184,7 +184,7 @@ class JavaModelBuilderTest {
     fun finishBuildingMethodReadsParameters() {
         val javaParameter = JavaParameter("", javaType)
         contextStack.injectResult(javaParameter)
-        val limeElement = LimeMethod(fooPath)
+        val limeElement = LimeFunction(fooPath)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -194,7 +194,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructor() {
-        val limeElement = LimeMethod(fooPath, isConstructor = true, isStatic = true)
+        val limeElement = LimeFunction(fooPath, isConstructor = true, isStatic = true)
         every {
             typeMapper.mapParentType(limeElement)
         } returns JavaCustomType("", isInterface = true)
@@ -209,7 +209,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsStructConstructor() {
-        val limeElement = LimeMethod(fooPath, isConstructor = true, isStatic = true)
+        val limeElement = LimeFunction(fooPath, isConstructor = true, isStatic = true)
         val parentType = JavaCustomType("")
         every { typeMapper.mapParentType(limeElement) } returns parentType
 
@@ -221,7 +221,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsStatic() {
-        val limeElement = LimeMethod(fooPath, isStatic = true)
+        val limeElement = LimeFunction(fooPath, isStatic = true)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -614,12 +614,12 @@ class JavaModelBuilderTest {
             fooPath,
             typeRef = limeTypeRef,
             comment = LimeComment("Some comment"),
-            getter = LimeMethod(
+            getter = LimeFunction(
                 fooPath,
                 comment = LimeComment("Gets some comment"),
                 attributes = deprecatedAttributes
             ),
-            setter = LimeMethod(
+            setter = LimeFunction(
                 fooPath,
                 comment = LimeComment("Sets some comment"),
                 attributes = deprecatedAttributes
@@ -651,7 +651,7 @@ class JavaModelBuilderTest {
     fun finishBuildingPropertyReadsReadonly() {
         contextStack.injectResult(javaType)
         val limeElement =
-            LimeProperty(fooPath, typeRef = limeTypeRef, getter = LimeMethod(fooPath))
+            LimeProperty(fooPath, typeRef = limeTypeRef, getter = LimeFunction(fooPath))
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -665,8 +665,8 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             fooPath,
             typeRef = limeTypeRef,
-            getter = LimeMethod(fooPath),
-            setter = LimeMethod(fooPath),
+            getter = LimeFunction(fooPath),
+            setter = LimeFunction(fooPath),
             isStatic = true
         )
 
@@ -684,8 +684,8 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             fooPath,
             typeRef = limeTypeRef,
-            getter = LimeMethod(fooPath, visibility = LimeVisibility.INTERNAL),
-            setter = LimeMethod(fooPath, visibility = LimeVisibility.INTERNAL)
+            getter = LimeFunction(fooPath, visibility = LimeVisibility.INTERNAL),
+            setter = LimeFunction(fooPath, visibility = LimeVisibility.INTERNAL)
         )
 
         modelBuilder.finishBuilding(limeElement)

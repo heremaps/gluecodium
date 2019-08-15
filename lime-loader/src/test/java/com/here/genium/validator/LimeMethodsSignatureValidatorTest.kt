@@ -22,7 +22,7 @@ package com.here.genium.validator
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -36,8 +36,8 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class LimeMethodsSignatureValidatorTest(
-    private val limeMethod1: LimeMethod,
-    private val limeMethod2: LimeMethod,
+    private val limeMethod1: LimeFunction,
+    private val limeMethod2: LimeFunction,
     private val expectedResult: Boolean
 ) {
 
@@ -79,23 +79,23 @@ class LimeMethodsSignatureValidatorTest(
         @Parameterized.Parameters
         fun testData() = listOf(
             arrayOf(
-                LimeMethod(barPath.withSuffix("0")),
-                LimeMethod(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
+                LimeFunction(barPath.withSuffix("0")),
+                LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
                 true
             ),
             arrayOf(
-                LimeMethod(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
-                LimeMethod(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
+                LimeFunction(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
+                LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
                 false
             ),
             arrayOf(
-                LimeMethod(barPath, isConstructor = true),
-                LimeMethod(bazPath, isConstructor = true, parameters = listOf(limeParameter)),
+                LimeFunction(barPath, isConstructor = true),
+                LimeFunction(bazPath, isConstructor = true, parameters = listOf(limeParameter)),
                 true
             ),
             arrayOf(
-                LimeMethod(barPath, isConstructor = true, parameters = listOf(limeParameter)),
-                LimeMethod(bazPath, isConstructor = true, parameters = listOf(limeParameter)),
+                LimeFunction(barPath, isConstructor = true, parameters = listOf(limeParameter)),
+                LimeFunction(bazPath, isConstructor = true, parameters = listOf(limeParameter)),
                 false
             )
         )

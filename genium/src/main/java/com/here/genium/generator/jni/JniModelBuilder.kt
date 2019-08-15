@@ -61,7 +61,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
@@ -160,7 +160,7 @@ class JniModelBuilder(
         return jniContainer
     }
 
-    override fun finishBuilding(limeMethod: LimeMethod) {
+    override fun finishBuilding(limeMethod: LimeFunction) {
         val javaMethod = javaBuilder.getFinalResult(JavaMethod::class.java)
         val cppMethod = cppBuilder.getFinalResult(CppMethod::class.java)
 

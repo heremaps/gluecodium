@@ -46,7 +46,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -115,7 +115,7 @@ class CBridgeModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeMethod: LimeMethod) {
+    override fun finishBuilding(limeMethod: LimeFunction) {
         var parameterSelf: CParameter? = null
         if (!limeMethod.isStatic) {
             val cppTypeInfo = parentContext!!.currentResults.filterIsInstance<CppTypeInfo>().first()

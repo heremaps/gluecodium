@@ -28,7 +28,7 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
@@ -71,7 +71,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
                     (limeElement.parent?.let { collectImports(context, it) } ?: emptyList())
             is LimeStruct -> (limeElement.fields + limeElement.constants +
                     limeElement.methods).flatMap { collectImports(limeElement.path, it) }
-            is LimeMethod -> limeElement.parameters.flatMap { collectImports(context, it) } +
+            is LimeFunction -> limeElement.parameters.flatMap { collectImports(context, it) } +
                     collectImports(context, limeElement.returnType) +
                     (limeElement.thrownType?.let { collectImports(context, it.typeRef) } ?: emptyList())
             is LimeTypedElement -> collectImports(context, limeElement.typeRef)

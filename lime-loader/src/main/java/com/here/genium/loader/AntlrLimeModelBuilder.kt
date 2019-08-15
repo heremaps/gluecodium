@@ -39,7 +39,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -118,7 +118,7 @@ internal class AntlrLimeModelBuilder(
             enumerations = getPreviousResults(LimeEnumeration::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
             typeDefs = getPreviousResults(LimeTypeDef::class.java),
-            methods = getPreviousResults(LimeMethod::class.java),
+            methods = getPreviousResults(LimeFunction::class.java),
             properties = getPreviousResults(LimeProperty::class.java),
             exceptions = getPreviousResults(LimeException::class.java)
         )
@@ -172,7 +172,7 @@ internal class AntlrLimeModelBuilder(
                     getComment("throws", it.docComment(), it)
                 )
             }
-        val limeElement = LimeMethod(
+        val limeElement = LimeFunction(
             path = currentPath,
             visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
@@ -207,7 +207,7 @@ internal class AntlrLimeModelBuilder(
                     getComment("throws", it.docComment(), it)
                 )
             }
-        val limeElement = LimeMethod(
+        val limeElement = LimeFunction(
             path = currentPath,
             visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
@@ -247,26 +247,26 @@ internal class AntlrLimeModelBuilder(
         val propertyType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         val propertyVisibility = currentVisibility
 
-        val getter: LimeMethod
-        val setter: LimeMethod?
+        val getter: LimeFunction
+        val setter: LimeFunction?
         val getterPath = currentPath.child("get")
         val getterContext = ctx.getter()
         if (getterContext == null) {
-            getter = LimeMethod(
+            getter = LimeFunction(
                 path = getterPath,
                 comment = getComment("get", emptyList(), ctx),
                 visibility = propertyVisibility,
                 parameters =
                     listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
             )
-            setter = LimeMethod(
+            setter = LimeFunction(
                 path = currentPath.child("set"),
                 comment = getComment("set", emptyList(), ctx),
                 visibility = propertyVisibility,
                 returnType = LimeReturnType(propertyType)
             )
         } else {
-            getter = LimeMethod(
+            getter = LimeFunction(
                 path = getterPath,
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
                 comment = getComment("get", getterContext.docComment(), getterContext),
@@ -275,7 +275,7 @@ internal class AntlrLimeModelBuilder(
                     listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
             )
             setter = ctx.setter()?.let {
-                LimeMethod(
+                LimeFunction(
                     path = currentPath.child("set"),
                     visibility = convertVisibility(it.visibility(), propertyVisibility),
                     comment = getComment("set", it.docComment(), it),
@@ -311,7 +311,7 @@ internal class AntlrLimeModelBuilder(
             comment = structuredCommentsStack.peek().description,
             attributes = convertAnnotations(ctx.annotation()),
             fields = getPreviousResults(LimeField::class.java),
-            methods = getPreviousResults(LimeMethod::class.java),
+            methods = getPreviousResults(LimeFunction::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
             constructorComment = structuredCommentsStack.peek().getTagBlock("constructor")
         )

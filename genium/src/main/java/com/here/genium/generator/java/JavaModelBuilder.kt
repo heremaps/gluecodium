@@ -53,7 +53,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -82,7 +82,7 @@ class JavaModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeMethod: LimeMethod) {
+    override fun finishBuilding(limeMethod: LimeFunction) {
         val returnType = when {
             limeMethod.isConstructor -> {
                 val parentType = typeMapper.mapParentType(limeMethod) as JavaCustomType

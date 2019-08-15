@@ -21,7 +21,7 @@ package com.here.genium.common
 
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeTypeDef
@@ -32,7 +32,7 @@ abstract class LimeTypeRefsVisitor<T> {
     protected fun traverseModel(limeModel: LimeModel): List<T> {
         val allElements = limeModel.referenceMap.values
         return allElements.filterIsInstance<LimeTypedElement>().map { visitTypeRef(it, it.typeRef) } +
-            allElements.filterIsInstance<LimeMethod>().flatMap {
+            allElements.filterIsInstance<LimeFunction>().flatMap {
                 listOf(visitTypeRef(it, it.returnType.typeRef), visitTypeRef(it, it.thrownType?.typeRef))
             } + allElements.filterIsInstance<LimeContainer>().map { visitTypeRef(it, it.parent) } +
             allElements.filterIsInstance<LimeTypeDef>().map { visitTypeRef(it, it.typeRef) } +

@@ -50,7 +50,7 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -95,7 +95,7 @@ class CBridgeModelBuilderTest {
 
     private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val limeContainer = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
-    private val limeMethod = LimeMethod(fooPath)
+    private val limeMethod = LimeFunction(fooPath)
     private val limeStruct = LimeStruct(fooPath)
 
     private val fooInclude = Include.createInternalInclude("")
@@ -308,7 +308,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructor() {
-        val limeElement = LimeMethod(
+        val limeElement = LimeFunction(
             LimePath(emptyList(), listOf("foo", "bar")),
             isConstructor = true,
             isStatic = true
@@ -327,7 +327,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsStructConstructor() {
-        val limeElement = LimeMethod(
+        val limeElement = LimeFunction(
             LimePath(emptyList(), listOf("foo", "bar")),
             isConstructor = true,
             isStatic = true
@@ -343,7 +343,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsStatic() {
-        val limeElement = LimeMethod(fooPath, isStatic = true)
+        val limeElement = LimeFunction(fooPath, isStatic = true)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -354,7 +354,7 @@ class CBridgeModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsNullable() {
         val limeReturnType = LimeReturnType(LimeBasicTypeRef.DOUBLE.asNullable())
-        val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
+        val limeElement = LimeFunction(fooPath, returnType = limeReturnType)
         contextStack.injectParentCurrentResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
@@ -367,7 +367,7 @@ class CBridgeModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsErrorType() {
         val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeMethod(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
+        val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val enumTypeInfo = CppTypeInfo(CType.UINT32)
         contextStack.injectParentCurrentResult(cppTypeInfo)
         every { typeMapper.createEnumTypeInfo(any(), true) } returns enumTypeInfo
@@ -534,8 +534,8 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH)
+            getter = LimeFunction(EMPTY_PATH),
+            setter = LimeFunction(EMPTY_PATH)
         )
         val swiftProperty = SwiftProperty("", null, null, swiftMethod, SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(cppMethod, CppMethod(""))
@@ -561,8 +561,8 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH)
+            getter = LimeFunction(EMPTY_PATH),
+            setter = LimeFunction(EMPTY_PATH)
         )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), swiftMethod, false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), cppMethod)
@@ -590,7 +590,7 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = LimeMethod(EMPTY_PATH)
+            getter = LimeFunction(EMPTY_PATH)
         )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
@@ -609,8 +609,8 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH),
+            getter = LimeFunction(EMPTY_PATH),
+            setter = LimeFunction(EMPTY_PATH),
             isStatic = true
         )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
@@ -632,8 +632,8 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE.asNullable(),
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH)
+            getter = LimeFunction(EMPTY_PATH),
+            setter = LimeFunction(EMPTY_PATH)
         )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))

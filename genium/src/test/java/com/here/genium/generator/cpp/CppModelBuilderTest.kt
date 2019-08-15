@@ -48,7 +48,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -81,12 +81,12 @@ class CppModelBuilderTest {
     private val limeProperty = LimeProperty(
         EMPTY_PATH,
         typeRef = LimeBasicTypeRef.DOUBLE,
-        getter = LimeMethod(EMPTY_PATH),
-        setter = LimeMethod(EMPTY_PATH)
+        getter = LimeFunction(EMPTY_PATH),
+        setter = LimeFunction(EMPTY_PATH)
     )
     private val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
     private val limeStruct = LimeStruct(EMPTY_PATH)
-    private val limeMethod = LimeMethod(EMPTY_PATH)
+    private val limeMethod = LimeFunction(EMPTY_PATH)
     private val limeInterface = LimeContainer(
         path = EMPTY_PATH,
         type = LimeContainer.ContainerType.INTERFACE
@@ -241,7 +241,7 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsReturnType() {
         val limeReturnType = LimeReturnType(LimeBasicTypeRef.DOUBLE)
-        val limeElement = LimeMethod(EMPTY_PATH, returnType = limeReturnType)
+        val limeElement = LimeFunction(EMPTY_PATH, returnType = limeReturnType)
         every { typeMapper.mapType(any()) } returns cppTypeRef
 
         modelBuilder.finishBuilding(limeElement)
@@ -275,7 +275,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsStaticFlag() {
-        val limeElement = LimeMethod(EMPTY_PATH, isStatic = true)
+        val limeElement = LimeFunction(EMPTY_PATH, isStatic = true)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -285,7 +285,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructorFlag() {
-        val limeElement = LimeMethod(EMPTY_PATH, isConstructor = true, isStatic = true)
+        val limeElement = LimeFunction(EMPTY_PATH, isConstructor = true, isStatic = true)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -571,7 +571,7 @@ class CppModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = LimeMethod(EMPTY_PATH)
+            getter = LimeFunction(EMPTY_PATH)
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -586,8 +586,8 @@ class CppModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH),
+            getter = LimeFunction(EMPTY_PATH),
+            setter = LimeFunction(EMPTY_PATH),
             isStatic = true
         )
 
