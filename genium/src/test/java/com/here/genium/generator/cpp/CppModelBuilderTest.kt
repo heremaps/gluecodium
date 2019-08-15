@@ -55,7 +55,7 @@ import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -524,7 +524,7 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingTypeDefReadsName() {
         contextStack.injectResult(cppTypeRef)
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
 
         modelBuilder.finishBuilding(limeElement)
 

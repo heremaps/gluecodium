@@ -23,11 +23,11 @@ import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 
 object CBridgeNameResolver {
     fun getCollectionName(limeType: LimeType): String = when (limeType) {
-        is LimeTypeDef -> getCollectionName(limeType.typeRef.type)
+        is LimeTypeAlias -> getCollectionName(limeType.typeRef.type)
         is LimeList -> "ArrayOf_${getCollectionName(limeType.elementType.type)}"
         is LimeMap -> {
             val keyTypeName = getCollectionName(limeType.keyType.type)

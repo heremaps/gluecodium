@@ -30,7 +30,7 @@ import com.here.genium.model.lime.LimeModelLoaderException
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
 import com.here.genium.model.lime.LimeVisibility
@@ -102,7 +102,7 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
             arrayOf<(LimeTypeRef) -> LimeElement>(
                 { LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS, parent = it) }
             ),
-            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeTypeDef(EMPTY_PATH, typeRef = it) }),
+            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeTypeAlias(EMPTY_PATH, typeRef = it) }),
             arrayOf<(LimeTypeRef) -> LimeElement>({ LimeException(EMPTY_PATH, errorEnum = it) })
         )
     }

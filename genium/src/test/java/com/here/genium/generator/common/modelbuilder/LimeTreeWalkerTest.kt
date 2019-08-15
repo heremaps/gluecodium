@@ -33,7 +33,7 @@ import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
@@ -63,7 +63,7 @@ class LimeTreeWalkerTest {
         typeRef = limeConstantTypeRef,
         value = limeConstantValue
     )
-    private val limeTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = limeTypeDefTypeRef)
+    private val limeTypeDef = LimeTypeAlias(EMPTY_PATH, typeRef = limeTypeDefTypeRef)
     private val limeEnumeratorValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "bar")
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH, value = limeEnumeratorValue)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH, enumerators = listOf(limeEnumerator))
@@ -87,7 +87,7 @@ class LimeTreeWalkerTest {
         parent = limeParentTypeRef,
         functions = listOf(limeMethod),
         structs = listOf(limeStruct),
-        typeDefs = listOf(limeTypeDef),
+        typeAliases = listOf(limeTypeDef),
         enumerations = listOf(limeEnumeration),
         constants = listOf(limeConstant),
         properties = listOf(limeProperty)

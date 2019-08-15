@@ -29,7 +29,7 @@ class LimeContainer(
     val structs: List<LimeStruct> = emptyList(),
     val enumerations: List<LimeEnumeration> = emptyList(),
     val constants: List<LimeConstant> = emptyList(),
-    val typeDefs: List<LimeTypeDef> = emptyList(),
+    val typeAliases: List<LimeTypeAlias> = emptyList(),
     val functions: List<LimeFunction> = emptyList(),
     val properties: List<LimeProperty> = emptyList(),
     val exceptions: List<LimeException> = emptyList()

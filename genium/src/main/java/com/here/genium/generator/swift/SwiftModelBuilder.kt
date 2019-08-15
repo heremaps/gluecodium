@@ -42,7 +42,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
@@ -300,7 +300,7 @@ class SwiftModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeTypeDef: LimeTypeDef) {
+    override fun finishBuilding(limeTypeDef: LimeTypeAlias) {
         val swiftTypeDef = SwiftTypeDef(
             nameResolver.getFullName(limeTypeDef),
             getVisibility(limeTypeDef),

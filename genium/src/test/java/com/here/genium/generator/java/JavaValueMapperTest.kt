@@ -35,7 +35,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -89,7 +89,7 @@ class JavaValueMapperTest {
         )
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
-        limeReferenceMap["barDef"] = LimeTypeDef(
+        limeReferenceMap["barDef"] = LimeTypeAlias(
             LimePath(emptyList(), listOf("foo", "barDef")),
             typeRef = LimeLazyTypeRef("bar", limeReferenceMap)
         )
@@ -168,7 +168,7 @@ class JavaValueMapperTest {
 
     @Test
     fun mapTypedefToLongValue() {
-        limeReferenceMap["foo"] = LimeTypeDef(
+        limeReferenceMap["foo"] = LimeTypeAlias(
             LimePath(emptyList(), listOf("foo")),
             typeRef = LimeBasicTypeRef(LimeBasicType.TypeId.INT64)
         )

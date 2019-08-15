@@ -32,7 +32,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftDictionary
@@ -54,7 +54,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
                 CBridgeNameRules.getTypeName(limeType)
             )
             is LimeEnumeration -> SwiftEnum(nameResolver.getFullName(limeType))
-            is LimeTypeDef ->
+            is LimeTypeAlias ->
                 mapType(limeType.typeRef.type).withAlias(nameResolver.getFullName(limeType))
             is LimeContainer -> SwiftStruct(
                 name = nameResolver.getFullName(limeType),
@@ -72,7 +72,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
 
     private fun getActualTypeKey(limeType: LimeType): String =
         when (limeType) {
-            is LimeTypeDef -> getActualTypeKey(limeType.typeRef.type)
+            is LimeTypeAlias -> getActualTypeKey(limeType.typeRef.type)
             is LimeList -> "[${getActualTypeKey(limeType.elementType.type)}]"
             is LimeMap -> {
                 val keyTypeKey = getActualTypeKey(limeType.keyType.type)

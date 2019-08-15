@@ -35,7 +35,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
@@ -66,7 +66,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
     private fun collectImports(context: LimePath, limeElement: LimeElement): List<LimePath> =
         when (limeElement) {
             is LimeContainer -> (limeElement.structs + limeElement.constants +
-                    limeElement.typeDefs + limeElement.functions + limeElement.properties +
+                    limeElement.typeAliases + limeElement.functions + limeElement.properties +
                     limeElement.exceptions).flatMap { collectImports(limeElement.path, it) } +
                     (limeElement.parent?.let { collectImports(context, it) } ?: emptyList())
             is LimeStruct -> (limeElement.fields + limeElement.constants +
@@ -75,7 +75,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
                     collectImports(context, limeElement.returnType) +
                     (limeElement.thrownType?.let { collectImports(context, it.typeRef) } ?: emptyList())
             is LimeTypedElement -> collectImports(context, limeElement.typeRef)
-            is LimeTypeDef -> collectImports(context, limeElement.typeRef)
+            is LimeTypeAlias -> collectImports(context, limeElement.typeRef)
             is LimeReturnType -> collectImports(context, limeElement.typeRef)
             is LimeException -> collectImports(context, limeElement.errorEnum)
             is LimeTypeRef -> {
@@ -100,7 +100,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
             is LimeContainer -> "lime/LimeContainer"
             is LimeStruct -> "lime/LimeStruct"
             is LimeEnumeration -> "lime/LimeEnumeration"
-            is LimeTypeDef -> "lime/LimeTypeAlias"
+            is LimeTypeAlias -> "lime/LimeTypeAlias"
             is LimeException -> "lime/LimeException"
             else -> throw GeniumExecutionException("Unsupported top-level element: " +
                     limeElement::class.java.name)

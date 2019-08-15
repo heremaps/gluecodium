@@ -35,7 +35,7 @@ import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -92,7 +92,7 @@ class LimeGenericTypesValidatorTest(
                 attributes = LimeAttributes.Builder()
                     .addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
             ), true),
-            arrayOf(LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT), true)
+            arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT), true)
         )
     }
 }

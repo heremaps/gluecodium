@@ -42,7 +42,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -131,7 +131,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapTypeTypeDef() {
-        limeReferenceMap["foo"] = LimeTypeDef(LimePath.EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
+        limeReferenceMap["foo"] = LimeTypeAlias(LimePath.EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
 
         val result = typeMapper.mapType(limeTypeRef)
 

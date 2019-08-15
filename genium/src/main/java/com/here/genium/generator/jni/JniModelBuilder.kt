@@ -66,7 +66,7 @@ import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 
@@ -119,7 +119,7 @@ class JniModelBuilder(
         getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
         getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
 
-        val types = limeContainer.structs + limeContainer.enumerations + limeContainer.typeDefs
+        val types = limeContainer.structs + limeContainer.enumerations + limeContainer.typeAliases
         jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
 
         return jniContainer
@@ -154,7 +154,7 @@ class JniModelBuilder(
         getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
 
         val types = listOf(limeContainer) + limeContainer.structs + limeContainer.enumerations +
-                limeContainer.typeDefs
+                limeContainer.typeAliases
         jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
 
         return jniContainer
@@ -300,7 +300,7 @@ class JniModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeTypeDef: LimeTypeDef) {
+    override fun finishBuilding(limeTypeDef: LimeTypeAlias) {
         val actualType = LimeTypeHelper.getActualType(limeTypeDef)
         if (actualType is LimeSet && actualType.elementType.type is LimeEnumeration) {
             setsCollector[actualType.elementType.elementFullName] =

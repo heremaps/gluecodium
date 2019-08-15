@@ -32,7 +32,7 @@ import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 
@@ -47,7 +47,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         walk(limeContainer.parent?.type)
         walkCollection(limeContainer.functions)
         walkCollection(limeContainer.structs)
-        walkCollection(limeContainer.typeDefs)
+        walkCollection(limeContainer.typeAliases)
         walkCollection(limeContainer.properties)
         walkCollection(limeContainer.enumerations)
         walkCollection(limeContainer.constants)
@@ -74,7 +74,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         walk(limeField.defaultValue)
     }
 
-    private fun walkChildNodes(limeTypeDef: LimeTypeDef) {
+    private fun walkChildNodes(limeTypeDef: LimeTypeAlias) {
         walk(limeTypeDef.typeRef)
     }
 
@@ -137,7 +137,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
                 LimeTreeWalker::walkChildNodes
             )
             initTreeNode(
-                LimeTypeDef::class.java,
+                LimeTypeAlias::class.java,
                 LimeBasedModelBuilder::finishBuilding,
                 LimeTreeWalker::walkChildNodes
             )

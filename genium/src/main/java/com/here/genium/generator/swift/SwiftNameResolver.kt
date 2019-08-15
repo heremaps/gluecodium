@@ -23,7 +23,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 
 class SwiftNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
@@ -41,7 +41,7 @@ class SwiftNameResolver(
         return when (limeContainer?.type) {
             ContainerType.CLASS -> nameRules.getName(limeContainer) + "."
             ContainerType.INTERFACE -> when (limeType) {
-                is LimeTypeDef -> nameRules.getName(limeContainer) + "."
+                is LimeTypeAlias -> nameRules.getName(limeContainer) + "."
                 else -> ""
             }
             else -> ""

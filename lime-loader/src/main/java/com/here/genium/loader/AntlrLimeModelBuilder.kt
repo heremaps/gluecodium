@@ -48,7 +48,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
@@ -117,7 +117,7 @@ internal class AntlrLimeModelBuilder(
             structs = getPreviousResults(LimeStruct::class.java),
             enumerations = getPreviousResults(LimeEnumeration::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
-            typeDefs = getPreviousResults(LimeTypeDef::class.java),
+            typeAliases = getPreviousResults(LimeTypeAlias::class.java),
             functions = getPreviousResults(LimeFunction::class.java),
             properties = getPreviousResults(LimeProperty::class.java),
             exceptions = getPreviousResults(LimeException::class.java)
@@ -140,7 +140,7 @@ internal class AntlrLimeModelBuilder(
             structs = getPreviousResults(LimeStruct::class.java),
             enumerations = getPreviousResults(LimeEnumeration::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
-            typeDefs = getPreviousResults(LimeTypeDef::class.java),
+            typeAliases = getPreviousResults(LimeTypeAlias::class.java),
             exceptions = getPreviousResults(LimeException::class.java)
         )
 
@@ -392,7 +392,7 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitTypealias(ctx: LimeParser.TypealiasContext) {
-        val limeElement = LimeTypeDef(
+        val limeElement = LimeTypeAlias(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,

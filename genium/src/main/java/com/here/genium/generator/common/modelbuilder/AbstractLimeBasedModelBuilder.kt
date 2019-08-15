@@ -31,7 +31,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeValue
 
 abstract class AbstractLimeBasedModelBuilder<E>(
@@ -46,7 +46,7 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     override fun startBuilding(limeContainer: LimeContainer) = openContext()
     override fun startBuilding(limeStruct: LimeStruct) = openContext()
 
-    override fun finishBuilding(limeTypeDef: LimeTypeDef) = closeContext()
+    override fun finishBuilding(limeTypeDef: LimeTypeAlias) = closeContext()
     override fun finishBuilding(limeEnumerator: LimeEnumerator) = closeContext()
     override fun finishBuilding(limeConstant: LimeConstant) = closeContext()
     override fun finishBuilding(limeValue: LimeValue) = closeContext()

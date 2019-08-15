@@ -74,7 +74,7 @@ import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -658,7 +658,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingTypeDef() {
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
         contextStack.injectResult(jniType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -669,8 +669,8 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingSetTypeDef() {
         val setType = LimeSet(LimeBasicTypeRef.FLOAT)
-        val setTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
+        val setTypeDef = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
         contextStack.injectResult(jniType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -681,8 +681,8 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingEnumSetTypeDef() {
         val setType = LimeSet(LimeDirectTypeRef(limeEnum))
-        val setTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
+        val setTypeDef = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
         contextStack.injectResult(jniType)
 
         modelBuilder.finishBuilding(limeElement)

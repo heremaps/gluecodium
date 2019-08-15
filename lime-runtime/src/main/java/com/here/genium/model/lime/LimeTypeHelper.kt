@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 object LimeTypeHelper {
     fun getActualType(limeType: LimeType): LimeType =
         when (limeType) {
-            is LimeTypeDef -> getActualType(limeType.typeRef.type)
+            is LimeTypeAlias -> getActualType(limeType.typeRef.type)
             else -> limeType
         }
 
@@ -36,7 +36,7 @@ object LimeTypeHelper {
 
     private fun getLeafType(limeType: LimeType): LimeType =
         when (limeType) {
-            is LimeTypeDef -> getLeafType(limeType.typeRef.type)
+            is LimeTypeAlias -> getLeafType(limeType.typeRef.type)
             is LimeList -> getLeafType(limeType.elementType.type)
             is LimeMap -> getLeafType(limeType.valueType.type)
             else -> limeType

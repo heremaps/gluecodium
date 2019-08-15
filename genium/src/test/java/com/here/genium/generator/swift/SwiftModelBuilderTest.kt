@@ -47,7 +47,7 @@ import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
@@ -475,7 +475,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingTypeDef() {
-        val limeElement = LimeTypeDef(
+        val limeElement = LimeTypeAlias(
             fooPath,
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
@@ -494,7 +494,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingTypeDefReadsVisibility() {
-        val limeElement = LimeTypeDef(
+        val limeElement = LimeTypeAlias(
             fooPath,
             typeRef = LimeBasicTypeRef.FLOAT,
             visibility = LimeVisibility.INTERNAL

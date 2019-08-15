@@ -36,7 +36,7 @@ import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.test.AssertHelpers.assertContains
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -65,7 +65,7 @@ class CBridgeTypeMapperTest {
 
     @Test
     fun mapTypeTypeDef() {
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
 
         val result = typeMapper.mapType(limeElement)
 
@@ -75,7 +75,7 @@ class CBridgeTypeMapperTest {
     @Test
     fun mapTypeTypeDefToMapType() {
         val limeMap = LimeMap(LimeBasicTypeRef(TypeId.STRING), LimeBasicTypeRef.DOUBLE)
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
 
         val result = typeMapper.mapType(limeElement)
 
@@ -93,7 +93,7 @@ class CBridgeTypeMapperTest {
     fun mapTypeTypeDefToMapTypeWithEnum() {
         val limeEnum = LimeEnumeration(LimePath(emptyList(), listOf("bar")))
         val limeMap = LimeMap(LimeDirectTypeRef(limeEnum), LimeBasicTypeRef.DOUBLE)
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
         every { cppNameResolver.getFullyQualifiedName(limeEnum) } returns "Baz"
         every { cppNameResolver.getFullyQualifiedName(limeElement) } returns ""
 
@@ -107,7 +107,7 @@ class CBridgeTypeMapperTest {
     @Test
     fun mapTypeTypeDefToSetType() {
         val limeSet = LimeSet(LimeBasicTypeRef.DOUBLE)
-        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeSet))
+        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeSet))
 
         val result = typeMapper.mapType(limeElement)
 

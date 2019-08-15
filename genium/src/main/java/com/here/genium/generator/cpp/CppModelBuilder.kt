@@ -53,7 +53,7 @@ import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
@@ -219,7 +219,7 @@ class CppModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeTypeDef: LimeTypeDef) {
+    override fun finishBuilding(limeTypeDef: LimeTypeAlias) {
         val cppUsing = CppUsing(
             nameResolver.getName(limeTypeDef),
             nameResolver.getFullyQualifiedName(limeTypeDef),

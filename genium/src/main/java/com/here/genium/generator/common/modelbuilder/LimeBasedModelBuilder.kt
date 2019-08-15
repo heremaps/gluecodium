@@ -30,7 +30,7 @@ import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 
@@ -46,7 +46,7 @@ interface LimeBasedModelBuilder {
     fun finishBuilding(limeParameter: LimeParameter)
     fun finishBuilding(limeStruct: LimeStruct)
     fun finishBuilding(limeField: LimeField)
-    fun finishBuilding(limeTypeDef: LimeTypeDef)
+    fun finishBuilding(limeTypeDef: LimeTypeAlias)
     fun finishBuilding(limeProperty: LimeProperty)
     fun finishBuilding(limeEnumeration: LimeEnumeration)
     fun finishBuilding(limeEnumerator: LimeEnumerator)

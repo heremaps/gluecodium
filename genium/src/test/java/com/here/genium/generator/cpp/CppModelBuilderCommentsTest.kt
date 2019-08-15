@@ -49,7 +49,7 @@ import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -244,7 +244,7 @@ class CppModelBuilderCommentsTest {
     @Test
     fun finishBuildingTypeDefReadsComment() {
         contextStack.injectResult(CppPrimitiveTypeRef.BOOL)
-        val limeElement = LimeTypeDef(
+        val limeElement = LimeTypeAlias(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
             comment = LimeComment("Foo"),

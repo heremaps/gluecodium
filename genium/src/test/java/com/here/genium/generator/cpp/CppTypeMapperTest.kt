@@ -37,7 +37,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -71,7 +71,7 @@ class CppTypeMapperTest {
 
     @Test
     fun mapTypeDefRef() {
-        val limeType = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeType = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
         val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
@@ -230,7 +230,7 @@ class CppTypeMapperTest {
 
     @Test
     fun `default hash in set is used for typedef to primitive type`() {
-        val limeElementType = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeElementType = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
         val limeElementTypeRef = LimeDirectTypeRef(limeElementType)
         val limeType = LimeSet(limeElementTypeRef)
         val limeTypeRef = LimeDirectTypeRef(limeType)
@@ -271,7 +271,7 @@ class CppTypeMapperTest {
 
     @Test
     fun `default hash is used in map for typedef to primitive type`() {
-        val limeKeyType = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeKeyType = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
         val limeKeyTypeRef = LimeDirectTypeRef(limeKeyType)
         val limeType = LimeMap(limeKeyTypeRef, LimeBasicTypeRef.INT)
         val limeTypeRef = LimeDirectTypeRef(limeType)

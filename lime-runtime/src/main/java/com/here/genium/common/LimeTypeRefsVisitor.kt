@@ -24,7 +24,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
 
@@ -35,7 +35,7 @@ abstract class LimeTypeRefsVisitor<T> {
             allElements.filterIsInstance<LimeFunction>().flatMap {
                 listOf(visitTypeRef(it, it.returnType.typeRef), visitTypeRef(it, it.thrownType?.typeRef))
             } + allElements.filterIsInstance<LimeContainer>().map { visitTypeRef(it, it.parent) } +
-            allElements.filterIsInstance<LimeTypeDef>().map { visitTypeRef(it, it.typeRef) } +
+            allElements.filterIsInstance<LimeTypeAlias>().map { visitTypeRef(it, it.typeRef) } +
             allElements.filterIsInstance<LimeException>().map { visitTypeRef(it, it.errorEnum) }
     }
 

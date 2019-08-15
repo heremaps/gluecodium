@@ -25,7 +25,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftStruct
@@ -78,7 +78,7 @@ class SwiftTypeMapperTest {
 
     @Test
     fun mapTypeTypeDef() {
-        val limeElement = LimeTypeDef(
+        val limeElement = LimeTypeAlias(
             LimePath(emptyList(), listOf("foo", "bar")),
             typeRef = LimeBasicTypeRef.FLOAT
         )

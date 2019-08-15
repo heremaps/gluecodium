@@ -38,7 +38,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 
@@ -80,7 +80,7 @@ class CppTypeMapper(
     private fun mapType(limeType: LimeType): CppTypeRef =
         when (limeType) {
             is LimeBasicType -> mapPredefined(limeType)
-            is LimeTypeDef -> CppTypeDefRef(
+            is LimeTypeAlias -> CppTypeDefRef(
                 nameResolver.getFullyQualifiedName(limeType),
                 includeResolver.resolveIncludes(limeType),
                 mapType(limeType.typeRef)
