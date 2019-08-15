@@ -65,7 +65,6 @@ internal class AntlrTypeMapper(
         predefinedType: LimeParser.PredefinedTypeContext
     ): TypeId =
         when {
-            predefinedType.VOID_TYPE() != null -> TypeId.VOID
             predefinedType.BYTE_TYPE() != null -> TypeId.INT8
             predefinedType.SHORT_TYPE() != null -> TypeId.INT16
             predefinedType.INT_TYPE() != null -> TypeId.INT32

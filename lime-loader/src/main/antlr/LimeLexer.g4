@@ -75,7 +75,6 @@ TYPES: 'types' ;
 
 // Predefined types
 
-VOID_TYPE: 'Void' ;
 BOOL_TYPE: 'Boolean' ;
 FLOAT_TYPE: 'Float' ;
 DOUBLE_TYPE: 'Double' ;
