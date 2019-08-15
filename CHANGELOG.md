@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.2.0
+- Release date: 2019-08-15
 - Features:
   + Structured documentation comments for are now supported for function and property definitions.
   + Auto-generated struct constructors can now be documented.
