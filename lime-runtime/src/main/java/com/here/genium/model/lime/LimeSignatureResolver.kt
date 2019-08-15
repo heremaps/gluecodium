@@ -80,7 +80,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
     private fun getTypeName(limeTypeRef: LimeTypeRef): String =
         when (val limeType = limeTypeRef.type) {
             is LimeTypeDef -> getTypeName(limeType.typeRef)
-            is LimeArray -> getArrayName(limeType.elementType)
+            is LimeList -> getArrayName(limeType.elementType)
             is LimeMap -> getMapName(limeType.keyType, limeType.valueType)
             is LimeSet -> getSetName(limeType.elementType)
             else -> limeType.name

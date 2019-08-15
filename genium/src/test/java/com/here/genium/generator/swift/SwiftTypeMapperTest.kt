@@ -19,7 +19,7 @@
 
 package com.here.genium.generator.swift
 
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
@@ -119,7 +119,7 @@ class SwiftTypeMapperTest {
 
     @Test
     fun mapTypeArray() {
-        val limeElement = LimeArray(LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeList(LimeBasicTypeRef.FLOAT)
 
         val result = typeMapper.mapType(limeElement)
 

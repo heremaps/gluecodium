@@ -22,7 +22,7 @@ package com.here.genium.generator.swift
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.generator.cbridge.CBridgeNameResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
@@ -62,7 +62,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
                 category = SwiftType.TypeCategory.CLASS,
                 isInterface = limeType.type == LimeContainer.ContainerType.INTERFACE
             )
-            is LimeArray -> mapArrayType(limeType)
+            is LimeList -> mapArrayType(limeType)
             is LimeMap -> mapMapType(limeType)
             is LimeSet -> mapSetType(limeType)
             is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorEnum.type))
@@ -73,7 +73,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
     private fun getActualTypeKey(limeType: LimeType): String =
         when (limeType) {
             is LimeTypeDef -> getActualTypeKey(limeType.typeRef.type)
-            is LimeArray -> "[${getActualTypeKey(limeType.elementType.type)}]"
+            is LimeList -> "[${getActualTypeKey(limeType.elementType.type)}]"
             is LimeMap -> {
                 val keyTypeKey = getActualTypeKey(limeType.keyType.type)
                 val valueTypeKey = getActualTypeKey(limeType.valueType.type)
@@ -83,12 +83,12 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             else -> mapType(limeType).name
         }
 
-    private fun mapArrayType(limeType: LimeArray): SwiftArray {
+    private fun mapArrayType(limeType: LimeList): SwiftArray {
         val result = SwiftArray(
             mapType(limeType.elementType.type),
             CBridgeNameResolver.getCollectionName(limeType)
         )
-        val actualType = LimeTypeHelper.getActualType(limeType) as LimeArray
+        val actualType = LimeTypeHelper.getActualType(limeType) as LimeList
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
         genericsCollector.putIfAbsent(elementTypeKey, result.withoutAlias())
 

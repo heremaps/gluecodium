@@ -19,7 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimeArray(val elementType: LimeTypeRef) : LimeGenericType() {
+class LimeList(val elementType: LimeTypeRef) : LimeGenericType() {
     override val name
         get() = "List<$elementType>"
 

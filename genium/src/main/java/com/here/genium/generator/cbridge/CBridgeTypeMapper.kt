@@ -33,7 +33,7 @@ import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
@@ -70,7 +70,7 @@ class CBridgeTypeMapper(
             is LimeContainer -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.CLASS)
             is LimeStruct -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.STRUCT)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
-            is LimeArray -> {
+            is LimeList -> {
                 val result = createArrayTypeInfo(mapType(limeType.elementType.type))
                 val arrayName = CBridgeNameResolver.getCollectionName(limeType)
                 genericsCollector.putIfAbsent(arrayName, CArray(arrayName, result))

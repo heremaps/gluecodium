@@ -22,7 +22,7 @@ package com.here.genium.generator.lime
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
@@ -82,7 +82,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
                 val limeType = limeElement.type
                 val elementPath = limeType.path
                 when {
-                    limeType is LimeArray -> collectImports(context, limeType.elementType)
+                    limeType is LimeList -> collectImports(context, limeType.elementType)
                     limeType is LimeSet -> collectImports(context, limeType.elementType)
                     limeType is LimeMap -> collectImports(context, limeType.keyType) +
                             collectImports(context, limeType.valueType)

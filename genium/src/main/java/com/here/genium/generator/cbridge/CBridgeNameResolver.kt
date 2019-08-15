@@ -19,7 +19,7 @@
 
 package com.here.genium.generator.cbridge
 
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeType
@@ -28,7 +28,7 @@ import com.here.genium.model.lime.LimeTypeDef
 object CBridgeNameResolver {
     fun getCollectionName(limeType: LimeType): String = when (limeType) {
         is LimeTypeDef -> getCollectionName(limeType.typeRef.type)
-        is LimeArray -> "ArrayOf_${getCollectionName(limeType.elementType.type)}"
+        is LimeList -> "ArrayOf_${getCollectionName(limeType.elementType.type)}"
         is LimeMap -> {
             val keyTypeName = getCollectionName(limeType.keyType.type)
             val valueTypeName = getCollectionName(limeType.valueType.type)

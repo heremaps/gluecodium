@@ -20,7 +20,7 @@
 package com.here.genium.validator
 
 import com.here.genium.common.LimeTypeRefsVisitor
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeEnumeration
@@ -79,7 +79,7 @@ internal class LimeGenericTypesValidator(private val logger: LimeLogger)
             actualType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> true
             actualType is LimeBasicType -> actualType.typeId != LimeBasicType.TypeId.BLOB &&
                     actualType.typeId != LimeBasicType.TypeId.DATE
-            actualType is LimeArray -> isHashable(actualType.elementType.type)
+            actualType is LimeList -> isHashable(actualType.elementType.type)
             actualType is LimeSet -> isHashable(actualType.elementType.type)
             actualType is LimeMap ->
                 isHashable(actualType.keyType.type) && isHashable(actualType.valueType.type)

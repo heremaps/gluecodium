@@ -26,7 +26,7 @@ import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass
 import com.here.genium.model.cpp.CppTypeDefRef
 import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeBasicType
@@ -94,7 +94,7 @@ class CppTypeMapper(
                 includeResolver.resolveIncludes(limeType),
                 refersToValueType = true
             )
-            is LimeArray ->
+            is LimeList ->
                 CppTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
             is LimeMap -> {
                 val keyType = mapType(limeType.keyType)

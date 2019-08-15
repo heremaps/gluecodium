@@ -19,7 +19,7 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
@@ -78,7 +78,7 @@ class LimeGenericTypesValidatorTest(
             arrayOf(LimeBasicType(LimeBasicType.TypeId.BLOB), false),
             arrayOf(LimeBasicType(LimeBasicType.TypeId.DATE), false),
             arrayOf(LimeEnumeration(EMPTY_PATH), true),
-            arrayOf(LimeArray(LimeBasicTypeRef.INT), true),
+            arrayOf(LimeList(LimeBasicTypeRef.INT), true),
             arrayOf(LimeSet(LimeBasicTypeRef.INT), true),
             arrayOf(LimeMap(LimeBasicTypeRef.INT, LimeBasicTypeRef.INT), true),
             arrayOf(LimeStruct(

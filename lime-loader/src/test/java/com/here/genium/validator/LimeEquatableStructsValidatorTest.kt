@@ -19,7 +19,7 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -70,7 +70,7 @@ class LimeEquatableStructsValidatorTest {
 
     @Test
     fun validateWithArrayType() {
-        val limeArray = LimeArray(LimeBasicTypeRef.INT)
+        val limeArray = LimeList(LimeBasicTypeRef.INT)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeArray))
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))

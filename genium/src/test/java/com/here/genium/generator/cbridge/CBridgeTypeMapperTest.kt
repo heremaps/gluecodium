@@ -26,7 +26,7 @@ import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -122,7 +122,7 @@ class CBridgeTypeMapperTest {
 
     @Test
     fun mapTypeArray() {
-        val limeElement = LimeArray(LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeList(LimeBasicTypeRef.FLOAT)
 
         val result = typeMapper.mapType(limeElement)
 

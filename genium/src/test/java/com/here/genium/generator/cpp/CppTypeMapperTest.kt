@@ -24,7 +24,7 @@ import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTypeDefRef
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
@@ -108,7 +108,7 @@ class CppTypeMapperTest {
 
     @Test
     fun mapArrayRef() {
-        val limeType = LimeArray(LimeBasicTypeRef.DOUBLE)
+        val limeType = LimeList(LimeBasicTypeRef.DOUBLE)
         val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)

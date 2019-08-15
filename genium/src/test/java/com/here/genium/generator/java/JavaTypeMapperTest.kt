@@ -28,7 +28,7 @@ import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
@@ -140,7 +140,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapTypeArray() {
-        limeReferenceMap["foo"] = LimeArray(LimeBasicTypeRef.FLOAT)
+        limeReferenceMap["foo"] = LimeList(LimeBasicTypeRef.FLOAT)
 
         val result = typeMapper.mapType(limeTypeRef)
 

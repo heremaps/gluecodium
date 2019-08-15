@@ -22,7 +22,7 @@ package com.here.genium.generator.swift
 import com.here.genium.Genium
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
@@ -582,7 +582,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingValueEmptyArray() {
         val limeElement = LimeValue.InitializerList(
-            LimeDirectTypeRef(LimeArray(LimeBasicTypeRef.FLOAT)),
+            LimeDirectTypeRef(LimeList(LimeBasicTypeRef.FLOAT)),
             emptyList()
         )
 

@@ -22,7 +22,7 @@ package com.here.genium.generator.swift
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.SWIFT
 import com.here.genium.model.lime.LimeAttributeValueType
@@ -400,7 +400,7 @@ class SwiftModelBuilder(
             is LimeValue.InitializerList -> {
                 val initializer = when (LimeTypeHelper.getActualType(limeValue.typeRef.type)) {
                     is LimeMap -> "[:]"
-                    is LimeArray, is LimeSet -> "[]"
+                    is LimeList, is LimeSet -> "[]"
                     else -> {
                         val limeType = limeValue.typeRef.type as LimeStruct
                         val valuesString = limeValue.values

@@ -31,7 +31,7 @@ import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaTemplateType.TemplateClass
 import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
@@ -80,7 +80,7 @@ class JavaTypeMapper(
         when (val limeType = limeTypeRef.type) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeDef -> mapType(limeType.typeRef)
-            is LimeArray -> mapTemplateType(TemplateClass.LIST, limeType.elementType)
+            is LimeList -> mapTemplateType(TemplateClass.LIST, limeType.elementType)
             is LimeMap -> mapMapType(limeType)
             is LimeStruct, is LimeEnumeration, is LimeException -> mapCustomType(limeType)
             is LimeContainer -> {

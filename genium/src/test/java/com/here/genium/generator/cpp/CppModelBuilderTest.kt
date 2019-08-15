@@ -34,7 +34,7 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
@@ -456,7 +456,7 @@ class CppModelBuilderTest {
             EMPTY_PATH,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
         )
-        val limeArray = LimeArray(LimeDirectTypeRef(structType))
+        val limeArray = LimeList(LimeDirectTypeRef(structType))
         val limeElement = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeArray))
 
         modelBuilder.finishBuilding(limeElement)

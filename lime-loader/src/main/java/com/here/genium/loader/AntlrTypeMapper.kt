@@ -20,7 +20,7 @@
 package com.here.genium.loader
 
 import com.here.genium.antlr.LimeParser
-import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -89,7 +89,7 @@ internal class AntlrTypeMapper(
     ): LimeType =
         when {
             genericType.listType() != null ->
-                LimeArray(mapTypeRef(currentPath, genericType.listType().typeRef()))
+                LimeList(mapTypeRef(currentPath, genericType.listType().typeRef()))
             genericType.setType() != null ->
                 LimeSet(mapTypeRef(currentPath, genericType.setType().typeRef()))
             genericType.mapType() != null ->
