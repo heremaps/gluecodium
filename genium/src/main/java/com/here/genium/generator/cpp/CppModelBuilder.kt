@@ -249,7 +249,7 @@ class CppModelBuilder(
 
         val getterComments = Comments(
             limeProperty.getter.comment.getFor(PLATFORM_TAG),
-            limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
+            limeProperty.getter.attributes.get(DEPRECATED, MESSAGE)
         )
         val getterMethod = CppMethod(
             name = nameResolver.getGetterName(limeProperty),
@@ -274,7 +274,7 @@ class CppModelBuilder(
             }
             val setterComments = Comments(
                 limeSetter.comment.getFor(PLATFORM_TAG),
-                limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
+                limeSetter.attributes.get(DEPRECATED, MESSAGE)
             )
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),

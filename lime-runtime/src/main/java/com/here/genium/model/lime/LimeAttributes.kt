@@ -42,6 +42,9 @@ class LimeAttributes private constructor(
         return if (clazz.isInstance(value)) clazz.cast(value) else null
     }
 
+    fun get(attributeType: LimeAttributeType, valueType: LimeAttributeValueType) =
+        get(attributeType, valueType, String::class.java)
+
     fun isEmpty() = attributes.isEmpty()
 
     override fun toString() = attributes.entries.sortedBy { it.key }.joinToString("\n") {

@@ -106,5 +106,5 @@ object CBridgeNameRules {
     fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
-        limeElement?.attributes?.get(SWIFT, NAME, String::class.java)
+        limeElement?.attributes?.get(SWIFT, NAME)
 }

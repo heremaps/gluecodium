@@ -43,7 +43,7 @@ class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
                 ".swift")
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
-        limeElement?.attributes?.get(SWIFT, NAME, String::class.java)
+        limeElement?.attributes?.get(SWIFT, NAME)
 
     companion object {
         val TARGET_DIRECTORY = "swift" + File.separator

@@ -220,13 +220,11 @@ class JniModelBuilder(
             cppField = cppField,
             cppGetterName = limeField.attributes.get(
                 LimeAttributeType.CPP,
-                LimeAttributeValueType.EXTERNAL_GETTER,
-                String::class.java
+                LimeAttributeValueType.EXTERNAL_GETTER
             ),
             cppSetterName = limeField.attributes.get(
                 LimeAttributeType.CPP,
-                LimeAttributeValueType.EXTERNAL_SETTER,
-                String::class.java
+                LimeAttributeValueType.EXTERNAL_SETTER
             )
         )
 

@@ -67,6 +67,6 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     protected fun createComments(limeElement: LimeNamedElement, platform: String) =
         Comments(
             limeElement.comment.getFor(platform),
-            limeElement.attributes.get(DEPRECATED, MESSAGE, String::class.java)
+            limeElement.attributes.get(DEPRECATED, MESSAGE)
         )
 }

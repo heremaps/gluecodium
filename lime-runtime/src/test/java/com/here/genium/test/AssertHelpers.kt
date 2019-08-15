@@ -46,6 +46,6 @@ object AssertHelpers {
         actual: LimeNamedElement
     ) = Assert.assertEquals(
         expectedValue,
-        actual.attributes.get(expectedType, expectedValueType, String::class.java)
+        actual.attributes.get(expectedType, expectedValueType)
     )
 }

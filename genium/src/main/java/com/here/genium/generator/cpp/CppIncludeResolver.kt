@@ -50,8 +50,7 @@ class CppIncludeResolver(
     private fun inferExternalType(limeNamedElement: LimeNamedElement): String? {
         val externalType = limeNamedElement.attributes.get(
             LimeAttributeType.CPP,
-            LimeAttributeValueType.EXTERNAL_TYPE,
-            String::class.java
+            LimeAttributeValueType.EXTERNAL_TYPE
         )
         if (externalType != null) {
             return externalType

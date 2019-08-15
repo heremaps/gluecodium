@@ -32,8 +32,8 @@ class CppNameRules(
 ) : NameRules(nameRuleSet) {
 
     fun getOutputFilePath(limeElement: LimeNamedElement): String {
-        val platformName = limeElement.attributes.get(CPP, NAME, String::class.java)
-        val fileName = platformName ?: ruleSet.getTypeName(limeElement.path.container)
+        val fileName =
+            limeElement.attributes.get(CPP, NAME) ?: ruleSet.getTypeName(limeElement.path.container)
         return (rootNamespace + limeElement.path.head + fileName)
             .joinToString(separator = File.separator)
     }

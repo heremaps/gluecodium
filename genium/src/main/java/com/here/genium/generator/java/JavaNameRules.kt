@@ -45,5 +45,5 @@ class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
         ruleSet.getErrorName(getPlatformName(limeEnum) ?: limeEnum.name)
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
-        limeElement?.attributes?.get(JAVA, NAME, String::class.java)
+        limeElement?.attributes?.get(JAVA, NAME)
 }

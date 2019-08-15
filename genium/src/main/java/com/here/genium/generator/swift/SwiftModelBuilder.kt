@@ -225,7 +225,7 @@ class SwiftModelBuilder(
         val swiftParameter = SwiftParameter(
             nameRules.getName(limeParameter),
             swiftType,
-            limeParameter.attributes.get(SWIFT, LimeAttributeValueType.LABEL, String::class.java)
+            limeParameter.attributes.get(SWIFT, LimeAttributeValueType.LABEL)
         )
         swiftParameter.comment = createComments(limeParameter)
 

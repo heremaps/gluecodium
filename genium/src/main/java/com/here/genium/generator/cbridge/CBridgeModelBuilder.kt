@@ -204,8 +204,8 @@ class CBridgeModelBuilder(
             swiftField.name,
             cppField.name,
             cppTypeInfo,
-            limeField.attributes.get(CPP, EXTERNAL_GETTER, String::class.java),
-            limeField.attributes.get(CPP, EXTERNAL_SETTER, String::class.java)
+            limeField.attributes.get(CPP, EXTERNAL_GETTER),
+            limeField.attributes.get(CPP, EXTERNAL_SETTER)
         )
 
         storeResult(cField)
