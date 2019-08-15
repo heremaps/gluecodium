@@ -23,49 +23,49 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     private val signatureCache = hashMapOf<String, List<String>>()
 
-    fun getSignature(limeMethod: LimeFunction) =
-        signatureCache.getOrPut(limeMethod.path.toString()) { computeSignature(limeMethod) }
+    fun getSignature(limeFunction: LimeFunction) =
+        signatureCache.getOrPut(limeFunction.path.toString()) { computeSignature(limeFunction) }
 
-    fun isOverloaded(limeMethod: LimeFunction) = getAllOverloads(limeMethod).count() > 1
+    fun isOverloaded(limeFunction: LimeFunction) = getAllOverloads(limeFunction).count() > 1
 
     fun hasSignatureClash(
-        limeMethod: LimeFunction,
-        methods: List<LimeFunction> = getAllOverloads(limeMethod)
+        limeFunction: LimeFunction,
+        functions: List<LimeFunction> = getAllOverloads(limeFunction)
     ): Boolean {
-        val signature = getSignature(limeMethod)
-        return methods.map { getSignature(it) }.filter { it == signature }.count() > 1
+        val signature = getSignature(limeFunction)
+        return functions.map { getSignature(it) }.filter { it == signature }.count() > 1
     }
 
-    fun hasConstructorSignatureClash(limeMethod: LimeFunction) =
-        hasSignatureClash(limeMethod, getAllConstructorOverloads(limeMethod))
+    fun hasConstructorSignatureClash(limeFunction: LimeFunction) =
+        hasSignatureClash(limeFunction, getAllConstructorOverloads(limeFunction))
 
-    private fun getAllOverloads(limeMethod: LimeFunction): List<LimeFunction> {
-        val parentElement = referenceMap[limeMethod.path.parent.toString()]
-        val methodName = getMethodName(limeMethod)
+    private fun getAllOverloads(limeFunction: LimeFunction): List<LimeFunction> {
+        val parentElement = referenceMap[limeFunction.path.parent.toString()]
+        val functionName = getFunctionName(limeFunction)
         return when (parentElement) {
             is LimeContainer ->
-                getAllMethods(parentElement).filter { getMethodName(it) == methodName }
-            is LimeStruct -> parentElement.methods.filter { getMethodName(it) == methodName }
+                getAllFunctions(parentElement).filter { getFunctionName(it) == functionName }
+            is LimeStruct -> parentElement.functions.filter { getFunctionName(it) == functionName }
             else -> emptyList()
         }
     }
 
-    private fun getAllConstructorOverloads(limeMethod: LimeFunction): List<LimeFunction> {
-        val parentElement = referenceMap[limeMethod.path.parent.toString()]
+    private fun getAllConstructorOverloads(limeFunction: LimeFunction): List<LimeFunction> {
+        val parentElement = referenceMap[limeFunction.path.parent.toString()]
         return when (parentElement) {
-            is LimeContainer -> parentElement.methods.filter { it.isConstructor }
-            is LimeStruct -> parentElement.methods.filter { it.isConstructor }
+            is LimeContainer -> parentElement.functions.filter { it.isConstructor }
+            is LimeStruct -> parentElement.functions.filter { it.isConstructor }
             else -> emptyList()
         }
     }
 
-    private fun getAllMethods(limeContainer: LimeContainer): List<LimeFunction> {
+    private fun getAllFunctions(limeContainer: LimeContainer): List<LimeFunction> {
         val parentContainer = limeContainer.parent?.type as? LimeContainer
-        val parentMethods = parentContainer?.let { getAllMethods(it) } ?: emptyList()
-        return parentMethods + limeContainer.methods
+        val parentFunctions = parentContainer?.let { getAllFunctions(it) } ?: emptyList()
+        return parentFunctions + limeContainer.functions
     }
 
-    protected open fun getMethodName(limeMethod: LimeFunction) = limeMethod.name
+    protected open fun getFunctionName(limeFunction: LimeFunction) = limeFunction.name
 
     protected open fun getArrayName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}]"
 
@@ -74,8 +74,8 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     protected open fun getSetName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}:]"
 
-    private fun computeSignature(limeMethod: LimeFunction) =
-        limeMethod.parameters.map { getTypeName(it.typeRef) }
+    private fun computeSignature(limeFunction: LimeFunction) =
+        limeFunction.parameters.map { getTypeName(it.typeRef) }
 
     private fun getTypeName(limeTypeRef: LimeTypeRef): String =
         when (val limeType = limeTypeRef.type) {

@@ -85,7 +85,7 @@ class LimeTreeWalkerTest {
         path = EMPTY_PATH,
         type = ContainerType.TYPE_COLLECTION,
         parent = limeParentTypeRef,
-        methods = listOf(limeMethod),
+        functions = listOf(limeMethod),
         structs = listOf(limeStruct),
         typeDefs = listOf(limeTypeDef),
         enumerations = listOf(limeEnumeration),

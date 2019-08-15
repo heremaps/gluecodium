@@ -118,7 +118,7 @@ internal class AntlrLimeModelBuilder(
             enumerations = getPreviousResults(LimeEnumeration::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
             typeDefs = getPreviousResults(LimeTypeDef::class.java),
-            methods = getPreviousResults(LimeFunction::class.java),
+            functions = getPreviousResults(LimeFunction::class.java),
             properties = getPreviousResults(LimeProperty::class.java),
             exceptions = getPreviousResults(LimeException::class.java)
         )
@@ -311,7 +311,7 @@ internal class AntlrLimeModelBuilder(
             comment = structuredCommentsStack.peek().description,
             attributes = convertAnnotations(ctx.annotation()),
             fields = getPreviousResults(LimeField::class.java),
-            methods = getPreviousResults(LimeFunction::class.java),
+            functions = getPreviousResults(LimeFunction::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
             constructorComment = structuredCommentsStack.peek().getTagBlock("constructor")
         )

@@ -53,7 +53,7 @@ class LimeMethodsSignatureValidatorTest(
         allElements[fooPath.toString()] = LimeContainer(
             fooPath,
             type = LimeContainer.ContainerType.CLASS,
-            methods = listOf(limeMethod1, limeMethod2)
+            functions = listOf(limeMethod1, limeMethod2)
         )
 
         assertEquals(expectedResult, validator.validate(limeModel))
@@ -64,7 +64,7 @@ class LimeMethodsSignatureValidatorTest(
         allElements[limeMethod1.path.toString()] = limeMethod1
         allElements[limeMethod2.path.toString()] = limeMethod2
         allElements[fooPath.toString()] =
-            LimeStruct(fooPath, methods = listOf(limeMethod1, limeMethod2))
+            LimeStruct(fooPath, functions = listOf(limeMethod1, limeMethod2))
 
         assertEquals(expectedResult, validator.validate(limeModel))
     }

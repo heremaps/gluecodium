@@ -30,7 +30,7 @@ class LimeContainer(
     val enumerations: List<LimeEnumeration> = emptyList(),
     val constants: List<LimeConstant> = emptyList(),
     val typeDefs: List<LimeTypeDef> = emptyList(),
-    val methods: List<LimeFunction> = emptyList(),
+    val functions: List<LimeFunction> = emptyList(),
     val properties: List<LimeProperty> = emptyList(),
     val exceptions: List<LimeException> = emptyList()
 ) : LimeType(path, visibility, comment, attributes) {

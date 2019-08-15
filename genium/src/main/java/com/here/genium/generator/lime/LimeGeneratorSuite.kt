@@ -66,11 +66,11 @@ class LimeGeneratorSuite : GeneratorSuite() {
     private fun collectImports(context: LimePath, limeElement: LimeElement): List<LimePath> =
         when (limeElement) {
             is LimeContainer -> (limeElement.structs + limeElement.constants +
-                    limeElement.typeDefs + limeElement.methods + limeElement.properties +
+                    limeElement.typeDefs + limeElement.functions + limeElement.properties +
                     limeElement.exceptions).flatMap { collectImports(limeElement.path, it) } +
                     (limeElement.parent?.let { collectImports(context, it) } ?: emptyList())
             is LimeStruct -> (limeElement.fields + limeElement.constants +
-                    limeElement.methods).flatMap { collectImports(limeElement.path, it) }
+                    limeElement.functions).flatMap { collectImports(limeElement.path, it) }
             is LimeFunction -> limeElement.parameters.flatMap { collectImports(context, it) } +
                     collectImports(context, limeElement.returnType) +
                     (limeElement.thrownType?.let { collectImports(context, it.typeRef) } ?: emptyList())
