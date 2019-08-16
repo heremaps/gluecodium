@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_CommentsInterface")
+internal func _CBridgeInitsmoke_CommentsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _CommentsInterface(cCommentsInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -197,7 +202,11 @@ internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInte
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsInterface {
         return re_constructed
     }
-    return _CommentsInterface(cCommentsInterface: smoke_CommentsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_CommentsInterface_get_typed(smoke_CommentsInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CommentsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface {
     if let swift_pointer = smoke_CommentsInterface_get_swift_object_from_cache(handle),
@@ -205,7 +214,11 @@ internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInte
         smoke_CommentsInterface_release_handle(handle)
         return re_constructed
     }
-    return _CommentsInterface(cCommentsInterface: handle)
+    if let swift_pointer = smoke_CommentsInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CommentsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface? {
     guard handle != 0 else {

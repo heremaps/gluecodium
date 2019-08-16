@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ObjcChildClass")
+internal func _CBridgeInitsmoke_ObjcChildClass(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ObjcChildClass(cObjcChildClass: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ObjcChildClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -18,10 +23,18 @@ public class ObjcChildClass: ObjcClass {
     }
 }
 internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass {
-    return ObjcChildClass(cObjcChildClass: smoke_ObjcChildClass_copy_handle(handle))
+    if let swift_pointer = smoke_ObjcChildClass_get_typed(smoke_ObjcChildClass_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcChildClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcChildClassmoveFromCType(_ handle: _baseRef) -> ObjcChildClass {
-    return ObjcChildClass(cObjcChildClass: handle)
+    if let swift_pointer = smoke_ObjcChildClass_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcChildClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass? {
     guard handle != 0 else {

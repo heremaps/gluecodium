@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_PlatformNamesListener")
+internal func _CBridgeInitsmoke_PlatformNamesListener(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _bazListener(cbazListener: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -53,7 +58,11 @@ internal func bazListenercopyFromCType(_ handle: _baseRef) -> bazListener {
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         return re_constructed
     }
-    return _bazListener(cbazListener: smoke_PlatformNamesListener_copy_handle(handle))
+    if let swift_pointer = smoke_PlatformNamesListener_get_typed(smoke_PlatformNamesListener_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? bazListener {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func bazListenermoveFromCType(_ handle: _baseRef) -> bazListener {
     if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_cache(handle),
@@ -61,7 +70,11 @@ internal func bazListenermoveFromCType(_ handle: _baseRef) -> bazListener {
         smoke_PlatformNamesListener_release_handle(handle)
         return re_constructed
     }
-    return _bazListener(cbazListener: handle)
+    if let swift_pointer = smoke_PlatformNamesListener_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? bazListener {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func bazListenercopyFromCType(_ handle: _baseRef) -> bazListener? {
     guard handle != 0 else {

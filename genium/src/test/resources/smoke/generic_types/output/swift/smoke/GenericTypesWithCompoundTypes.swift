@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_GenericTypesWithCompoundTypes")
+internal func _CBridgeInitsmoke_GenericTypesWithCompoundTypes(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = GenericTypesWithCompoundTypes(cGenericTypesWithCompoundTypes: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: GenericTypesWithCompoundTypes?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -85,10 +90,18 @@ extension GenericTypesWithCompoundTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func GenericTypesWithCompoundTypescopyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
-    return GenericTypesWithCompoundTypes(cGenericTypesWithCompoundTypes: smoke_GenericTypesWithCompoundTypes_copy_handle(handle))
+    if let swift_pointer = smoke_GenericTypesWithCompoundTypes_get_typed(smoke_GenericTypesWithCompoundTypes_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? GenericTypesWithCompoundTypes {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func GenericTypesWithCompoundTypesmoveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
-    return GenericTypesWithCompoundTypes(cGenericTypesWithCompoundTypes: handle)
+    if let swift_pointer = smoke_GenericTypesWithCompoundTypes_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? GenericTypesWithCompoundTypes {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func GenericTypesWithCompoundTypescopyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes? {
     guard handle != 0 else {

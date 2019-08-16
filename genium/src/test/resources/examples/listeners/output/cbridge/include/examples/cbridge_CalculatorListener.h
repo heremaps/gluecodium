@@ -9,6 +9,7 @@ extern "C" {
 #include "cbridge/include/Export.h"
 _GENIUM_C_EXPORT void examples_CalculatorListener_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef examples_CalculatorListener_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void* examples_CalculatorListener_get_typed(_baseRef handle);
 typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);

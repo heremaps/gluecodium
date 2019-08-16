@@ -19,6 +19,7 @@ _GENIUM_C_EXPORT double smoke_MethodOverloads_Point_x_get(_baseRef handle);
 _GENIUM_C_EXPORT double smoke_MethodOverloads_Point_y_get(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_MethodOverloads_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_MethodOverloads_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void* smoke_MethodOverloads_get_typed(_baseRef handle);
 _GENIUM_C_EXPORT bool smoke_MethodOverloads_isBoolean_Boolean(_baseRef _instance, bool input);
 _GENIUM_C_EXPORT bool smoke_MethodOverloads_isBoolean_Byte(_baseRef _instance, int8_t input);
 _GENIUM_C_EXPORT bool smoke_MethodOverloads_isBoolean_String(_baseRef _instance, _baseRef input);

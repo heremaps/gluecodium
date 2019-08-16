@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_SpecialNames")
+internal func _CBridgeInitsmoke_SpecialNames(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = SpecialNames(cSpecialNames: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: SpecialNames?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -39,10 +44,18 @@ extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames {
-    return SpecialNames(cSpecialNames: smoke_SpecialNames_copy_handle(handle))
+    if let swift_pointer = smoke_SpecialNames_get_typed(smoke_SpecialNames_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? SpecialNames {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func SpecialNamesmoveFromCType(_ handle: _baseRef) -> SpecialNames {
-    return SpecialNames(cSpecialNames: handle)
+    if let swift_pointer = smoke_SpecialNames_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? SpecialNames {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {

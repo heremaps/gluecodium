@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ErrorsInterface")
+internal func _CBridgeInitsmoke_ErrorsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _ErrorsInterface(cErrorsInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -101,7 +106,11 @@ internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterfac
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ErrorsInterface {
         return re_constructed
     }
-    return _ErrorsInterface(cErrorsInterface: smoke_ErrorsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_ErrorsInterface_get_typed(smoke_ErrorsInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ErrorsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterface {
     if let swift_pointer = smoke_ErrorsInterface_get_swift_object_from_cache(handle),
@@ -109,7 +118,11 @@ internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterfac
         smoke_ErrorsInterface_release_handle(handle)
         return re_constructed
     }
-    return _ErrorsInterface(cErrorsInterface: handle)
+    if let swift_pointer = smoke_ErrorsInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ErrorsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterface? {
     guard handle != 0 else {

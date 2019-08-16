@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitexamples_InheritanceChild")
+internal func _CBridgeInitexamples_InheritanceChild(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _InheritanceChild(cInheritanceChild: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -62,7 +67,11 @@ internal func InheritanceChildcopyFromCType(_ handle: _baseRef) -> InheritanceCh
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InheritanceChild {
         return re_constructed
     }
-    return _InheritanceChild(cInheritanceChild: examples_InheritanceChild_copy_handle(handle))
+    if let swift_pointer = examples_InheritanceChild_get_typed(examples_InheritanceChild_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InheritanceChild {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func InheritanceChildmoveFromCType(_ handle: _baseRef) -> InheritanceChild {
     if let swift_pointer = examples_InheritanceChild_get_swift_object_from_cache(handle),
@@ -70,7 +79,11 @@ internal func InheritanceChildmoveFromCType(_ handle: _baseRef) -> InheritanceCh
         examples_InheritanceChild_release_handle(handle)
         return re_constructed
     }
-    return _InheritanceChild(cInheritanceChild: handle)
+    if let swift_pointer = examples_InheritanceChild_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InheritanceChild {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func InheritanceChildcopyFromCType(_ handle: _baseRef) -> InheritanceChild? {
     guard handle != 0 else {

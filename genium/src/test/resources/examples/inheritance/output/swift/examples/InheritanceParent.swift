@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitexamples_InheritanceParent")
+internal func _CBridgeInitexamples_InheritanceParent(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _InheritanceParent(cInheritanceParent: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -53,7 +58,11 @@ internal func InheritanceParentcopyFromCType(_ handle: _baseRef) -> InheritanceP
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InheritanceParent {
         return re_constructed
     }
-    return _InheritanceParent(cInheritanceParent: examples_InheritanceParent_copy_handle(handle))
+    if let swift_pointer = examples_InheritanceParent_get_typed(examples_InheritanceParent_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InheritanceParent {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func InheritanceParentmoveFromCType(_ handle: _baseRef) -> InheritanceParent {
     if let swift_pointer = examples_InheritanceParent_get_swift_object_from_cache(handle),
@@ -61,7 +70,11 @@ internal func InheritanceParentmoveFromCType(_ handle: _baseRef) -> InheritanceP
         examples_InheritanceParent_release_handle(handle)
         return re_constructed
     }
-    return _InheritanceParent(cInheritanceParent: handle)
+    if let swift_pointer = examples_InheritanceParent_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InheritanceParent {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func InheritanceParentcopyFromCType(_ handle: _baseRef) -> InheritanceParent? {
     guard handle != 0 else {

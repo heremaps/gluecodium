@@ -4,8 +4,10 @@
 #include "cbridge/include/smoke/cbridge_ExternalInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "foo/Bar.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include <memory>
 #include <new>
 #include <string>
@@ -16,6 +18,21 @@ _baseRef smoke_ExternalInterface_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitsmoke_ExternalInterface(_baseRef handle);
+}
+namespace {
+struct smoke_ExternalInterfaceRegisterInit {
+    smoke_ExternalInterfaceRegisterInit() {
+        get_init_repository().add_init("smoke_ExternalInterface", &_CBridgeInitsmoke_ExternalInterface);
+    }
+} s_smoke_ExternalInterface_register_init;
+}
+void* smoke_ExternalInterface_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::ExternalInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitsmoke_ExternalInterface(handle);
 }
 _baseRef
 smoke_ExternalInterface_SomeStruct_create_handle( _baseRef someField )

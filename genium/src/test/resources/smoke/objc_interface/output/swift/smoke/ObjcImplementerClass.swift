@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ObjcImplementerClass")
+internal func _CBridgeInitsmoke_ObjcImplementerClass(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ObjcImplementerClass(cObjcImplementerClass: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ObjcImplementerClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -28,10 +33,18 @@ extension ObjcImplementerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
-    return ObjcImplementerClass(cObjcImplementerClass: smoke_ObjcImplementerClass_copy_handle(handle))
+    if let swift_pointer = smoke_ObjcImplementerClass_get_typed(smoke_ObjcImplementerClass_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcImplementerClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcImplementerClassmoveFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
-    return ObjcImplementerClass(cObjcImplementerClass: handle)
+    if let swift_pointer = smoke_ObjcImplementerClass_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcImplementerClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImplementerClass? {
     guard handle != 0 else {

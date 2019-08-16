@@ -18,6 +18,7 @@ typedef struct {
 } package_Class_fun_result;
 _GENIUM_C_EXPORT void package_Class_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef package_Class_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void* package_Class_get_typed(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef package_Class_constructor();
 _GENIUM_C_EXPORT package_Class_fun_result package_Class_fun(_baseRef _instance, _baseRef double);
 _GENIUM_C_EXPORT package_Types_Enum package_Class_property_get(_baseRef _instance);

@@ -4,8 +4,10 @@
 #include "cbridge/include/examples/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "examples/CalculatorListener.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include <memory>
 #include <new>
 void examples_CalculatorListener_release_handle(_baseRef handle) {
@@ -15,6 +17,21 @@ _baseRef examples_CalculatorListener_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitexamples_CalculatorListener(_baseRef handle);
+}
+namespace {
+struct examples_CalculatorListenerRegisterInit {
+    examples_CalculatorListenerRegisterInit() {
+        get_init_repository().add_init("examples_CalculatorListener", &_CBridgeInitexamples_CalculatorListener);
+    }
+} s_examples_CalculatorListener_register_init;
+}
+void* examples_CalculatorListener_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::examples::CalculatorListener>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitexamples_CalculatorListener(handle);
 }
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<std::shared_ptr<::examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult)

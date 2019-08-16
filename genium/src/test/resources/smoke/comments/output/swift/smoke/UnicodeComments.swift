@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_UnicodeComments")
+internal func _CBridgeInitsmoke_UnicodeComments(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = UnicodeComments(cUnicodeComments: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -40,10 +45,18 @@ extension UnicodeComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func UnicodeCommentscopyFromCType(_ handle: _baseRef) -> UnicodeComments {
-    return UnicodeComments(cUnicodeComments: smoke_UnicodeComments_copy_handle(handle))
+    if let swift_pointer = smoke_UnicodeComments_get_typed(smoke_UnicodeComments_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? UnicodeComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func UnicodeCommentsmoveFromCType(_ handle: _baseRef) -> UnicodeComments {
-    return UnicodeComments(cUnicodeComments: handle)
+    if let swift_pointer = smoke_UnicodeComments_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? UnicodeComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func UnicodeCommentscopyFromCType(_ handle: _baseRef) -> UnicodeComments? {
     guard handle != 0 else {

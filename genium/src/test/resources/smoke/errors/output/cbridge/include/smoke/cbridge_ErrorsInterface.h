@@ -21,6 +21,7 @@ typedef struct {
 } smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result;
 _GENIUM_C_EXPORT void smoke_ErrorsInterface_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_ErrorsInterface_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void* smoke_ErrorsInterface_get_typed(_baseRef handle);
 typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);

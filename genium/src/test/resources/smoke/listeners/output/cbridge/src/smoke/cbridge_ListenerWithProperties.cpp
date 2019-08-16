@@ -4,7 +4,9 @@
 #include "cbridge/include/smoke/cbridge_ListenerWithProperties.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/ListenerWithProperties.h"
 #include <memory>
@@ -19,6 +21,21 @@ _baseRef smoke_ListenerWithProperties_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenerWithProperties>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitsmoke_ListenerWithProperties(_baseRef handle);
+}
+namespace {
+struct smoke_ListenerWithPropertiesRegisterInit {
+    smoke_ListenerWithPropertiesRegisterInit() {
+        get_init_repository().add_init("smoke_ListenerWithProperties", &_CBridgeInitsmoke_ListenerWithProperties);
+    }
+} s_smoke_ListenerWithProperties_register_init;
+}
+void* smoke_ListenerWithProperties_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::ListenerWithProperties>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ListenerWithProperties>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitsmoke_ListenerWithProperties(handle);
 }
 _baseRef
 smoke_ListenerWithProperties_ResultStruct_create_handle( double result )

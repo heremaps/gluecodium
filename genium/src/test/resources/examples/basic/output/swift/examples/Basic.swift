@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitexamples_Basic")
+internal func _CBridgeInitexamples_Basic(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = Basic(cBasic: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: Basic?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -31,10 +36,18 @@ extension Basic: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic {
-    return Basic(cBasic: examples_Basic_copy_handle(handle))
+    if let swift_pointer = examples_Basic_get_typed(examples_Basic_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Basic {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic {
-    return Basic(cBasic: handle)
+    if let swift_pointer = examples_Basic_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Basic {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic? {
     guard handle != 0 else {

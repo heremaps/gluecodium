@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_MultiLineComments")
+internal func _CBridgeInitsmoke_MultiLineComments(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = MultiLineComments(cMultiLineComments: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: MultiLineComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -59,10 +64,18 @@ extension MultiLineComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments {
-    return MultiLineComments(cMultiLineComments: smoke_MultiLineComments_copy_handle(handle))
+    if let swift_pointer = smoke_MultiLineComments_get_typed(smoke_MultiLineComments_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? MultiLineComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments {
-    return MultiLineComments(cMultiLineComments: handle)
+    if let swift_pointer = smoke_MultiLineComments_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? MultiLineComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {

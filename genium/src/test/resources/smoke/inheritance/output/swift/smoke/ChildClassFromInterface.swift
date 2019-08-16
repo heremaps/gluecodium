@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ChildClassFromInterface")
+internal func _CBridgeInitsmoke_ChildClassFromInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ChildClassFromInterface(cChildClassFromInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -42,10 +47,18 @@ extension ChildClassFromInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ChildClassFromInterfacecopyFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
-    return ChildClassFromInterface(cChildClassFromInterface: smoke_ChildClassFromInterface_copy_handle(handle))
+    if let swift_pointer = smoke_ChildClassFromInterface_get_typed(smoke_ChildClassFromInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ChildClassFromInterfacemoveFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
-    return ChildClassFromInterface(cChildClassFromInterface: handle)
+    if let swift_pointer = smoke_ChildClassFromInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ChildClassFromInterfacecopyFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
     guard handle != 0 else {

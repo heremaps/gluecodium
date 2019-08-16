@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ObjcChildInterface")
+internal func _CBridgeInitsmoke_ObjcChildInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _ObjcChildInterface(cObjcChildInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ObjcChildInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -45,7 +50,11 @@ internal func ObjcChildInterfacecopyFromCType(_ handle: _baseRef) -> ObjcChildIn
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcChildInterface {
         return re_constructed
     }
-    return _ObjcChildInterface(cObjcChildInterface: smoke_ObjcChildInterface_copy_handle(handle))
+    if let swift_pointer = smoke_ObjcChildInterface_get_typed(smoke_ObjcChildInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcChildInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcChildInterfacemoveFromCType(_ handle: _baseRef) -> ObjcChildInterface {
     if let swift_pointer = smoke_ObjcChildInterface_get_swift_object_from_cache(handle),
@@ -53,7 +62,11 @@ internal func ObjcChildInterfacemoveFromCType(_ handle: _baseRef) -> ObjcChildIn
         smoke_ObjcChildInterface_release_handle(handle)
         return re_constructed
     }
-    return _ObjcChildInterface(cObjcChildInterface: handle)
+    if let swift_pointer = smoke_ObjcChildInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcChildInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcChildInterfacecopyFromCType(_ handle: _baseRef) -> ObjcChildInterface? {
     guard handle != 0 else {

@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitnamerules_NameRules")
+internal func _CBridgeInitnamerules_NameRules(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = INameRules(cINameRules: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: INameRules?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -90,10 +95,18 @@ extension INameRules: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func INameRulescopyFromCType(_ handle: _baseRef) -> INameRules {
-    return INameRules(cINameRules: namerules_NameRules_copy_handle(handle))
+    if let swift_pointer = namerules_NameRules_get_typed(namerules_NameRules_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? INameRules {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func INameRulesmoveFromCType(_ handle: _baseRef) -> INameRules {
-    return INameRules(cINameRules: handle)
+    if let swift_pointer = namerules_NameRules_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? INameRules {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func INameRulescopyFromCType(_ handle: _baseRef) -> INameRules? {
     guard handle != 0 else {

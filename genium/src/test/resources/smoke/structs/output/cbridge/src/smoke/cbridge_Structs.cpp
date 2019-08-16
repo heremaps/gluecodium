@@ -3,9 +3,11 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 #include "cbridge/include/smoke/cbridge_Structs.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include "non/Sense.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
@@ -20,6 +22,21 @@ _baseRef smoke_Structs_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Structs>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitsmoke_Structs(_baseRef handle);
+}
+namespace {
+struct smoke_StructsRegisterInit {
+    smoke_StructsRegisterInit() {
+        get_init_repository().add_init("smoke_Structs", &_CBridgeInitsmoke_Structs);
+    }
+} s_smoke_Structs_register_init;
+}
+void* smoke_Structs_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::Structs>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::Structs>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitsmoke_Structs(handle);
 }
 _baseRef
 smoke_Structs_Point_create_handle( double x, double y )

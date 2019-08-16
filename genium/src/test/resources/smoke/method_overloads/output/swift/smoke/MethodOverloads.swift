@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_MethodOverloads")
+internal func _CBridgeInitsmoke_MethodOverloads(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = MethodOverloads(cMethodOverloads: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -83,10 +88,18 @@ extension MethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverloads {
-    return MethodOverloads(cMethodOverloads: smoke_MethodOverloads_copy_handle(handle))
+    if let swift_pointer = smoke_MethodOverloads_get_typed(smoke_MethodOverloads_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? MethodOverloads {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func MethodOverloadsmoveFromCType(_ handle: _baseRef) -> MethodOverloads {
-    return MethodOverloads(cMethodOverloads: handle)
+    if let swift_pointer = smoke_MethodOverloads_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? MethodOverloads {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverloads? {
     guard handle != 0 else {

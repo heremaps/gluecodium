@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_PublicClass")
+internal func _CBridgeInitsmoke_PublicClass(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = PublicClass(cPublicClass: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -90,10 +95,18 @@ extension PublicClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func PublicClasscopyFromCType(_ handle: _baseRef) -> PublicClass {
-    return PublicClass(cPublicClass: smoke_PublicClass_copy_handle(handle))
+    if let swift_pointer = smoke_PublicClass_get_typed(smoke_PublicClass_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PublicClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PublicClassmoveFromCType(_ handle: _baseRef) -> PublicClass {
-    return PublicClass(cPublicClass: handle)
+    if let swift_pointer = smoke_PublicClass_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PublicClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PublicClasscopyFromCType(_ handle: _baseRef) -> PublicClass? {
     guard handle != 0 else {

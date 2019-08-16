@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ListenerWithProperties")
+internal func _CBridgeInitsmoke_ListenerWithProperties(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _ListenerWithProperties(cListenerWithProperties: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ListenerWithProperties?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -171,7 +176,11 @@ internal func ListenerWithPropertiescopyFromCType(_ handle: _baseRef) -> Listene
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithProperties {
         return re_constructed
     }
-    return _ListenerWithProperties(cListenerWithProperties: smoke_ListenerWithProperties_copy_handle(handle))
+    if let swift_pointer = smoke_ListenerWithProperties_get_typed(smoke_ListenerWithProperties_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ListenerWithProperties {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ListenerWithPropertiesmoveFromCType(_ handle: _baseRef) -> ListenerWithProperties {
     if let swift_pointer = smoke_ListenerWithProperties_get_swift_object_from_cache(handle),
@@ -179,7 +188,11 @@ internal func ListenerWithPropertiesmoveFromCType(_ handle: _baseRef) -> Listene
         smoke_ListenerWithProperties_release_handle(handle)
         return re_constructed
     }
-    return _ListenerWithProperties(cListenerWithProperties: handle)
+    if let swift_pointer = smoke_ListenerWithProperties_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ListenerWithProperties {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ListenerWithPropertiescopyFromCType(_ handle: _baseRef) -> ListenerWithProperties? {
     guard handle != 0 else {

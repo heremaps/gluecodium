@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_CalculatorListener")
+internal func _CBridgeInitsmoke_CalculatorListener(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _CalculatorListener(cCalculatorListener: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -99,7 +104,11 @@ internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorL
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
         return re_constructed
     }
-    return _CalculatorListener(cCalculatorListener: smoke_CalculatorListener_copy_handle(handle))
+    if let swift_pointer = smoke_CalculatorListener_get_typed(smoke_CalculatorListener_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CalculatorListener {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener {
     if let swift_pointer = smoke_CalculatorListener_get_swift_object_from_cache(handle),
@@ -107,7 +116,11 @@ internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorL
         smoke_CalculatorListener_release_handle(handle)
         return re_constructed
     }
-    return _CalculatorListener(cCalculatorListener: handle)
+    if let swift_pointer = smoke_CalculatorListener_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CalculatorListener {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener? {
     guard handle != 0 else {

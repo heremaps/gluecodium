@@ -5,7 +5,9 @@
 #include "alien/FooStruct.h"
 #include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
 #include <memory>
 #include <new>
@@ -20,6 +22,21 @@ _baseRef smoke_GenericTypesWithCompoundTypes_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitsmoke_GenericTypesWithCompoundTypes(_baseRef handle);
+}
+namespace {
+struct smoke_GenericTypesWithCompoundTypesRegisterInit {
+    smoke_GenericTypesWithCompoundTypesRegisterInit() {
+        get_init_repository().add_init("smoke_GenericTypesWithCompoundTypes", &_CBridgeInitsmoke_GenericTypesWithCompoundTypes);
+    }
+} s_smoke_GenericTypesWithCompoundTypes_register_init;
+}
+void* smoke_GenericTypesWithCompoundTypes_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitsmoke_GenericTypesWithCompoundTypes(handle);
 }
 _baseRef
 smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle( double value )

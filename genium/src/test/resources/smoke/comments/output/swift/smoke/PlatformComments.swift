@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_PlatformComments")
+internal func _CBridgeInitsmoke_PlatformComments(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = PlatformComments(cPlatformComments: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -53,10 +58,18 @@ extension PlatformComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func PlatformCommentscopyFromCType(_ handle: _baseRef) -> PlatformComments {
-    return PlatformComments(cPlatformComments: smoke_PlatformComments_copy_handle(handle))
+    if let swift_pointer = smoke_PlatformComments_get_typed(smoke_PlatformComments_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PlatformComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PlatformCommentsmoveFromCType(_ handle: _baseRef) -> PlatformComments {
-    return PlatformComments(cPlatformComments: handle)
+    if let swift_pointer = smoke_PlatformComments_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PlatformComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PlatformCommentscopyFromCType(_ handle: _baseRef) -> PlatformComments? {
     guard handle != 0 else {

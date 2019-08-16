@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_LongComments")
+internal func _CBridgeInitsmoke_LongComments(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = LongComments(cLongComments: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: LongComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -38,10 +43,18 @@ extension LongComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func LongCommentscopyFromCType(_ handle: _baseRef) -> LongComments {
-    return LongComments(cLongComments: smoke_LongComments_copy_handle(handle))
+    if let swift_pointer = smoke_LongComments_get_typed(smoke_LongComments_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? LongComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func LongCommentsmoveFromCType(_ handle: _baseRef) -> LongComments {
-    return LongComments(cLongComments: handle)
+    if let swift_pointer = smoke_LongComments_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? LongComments {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func LongCommentscopyFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {

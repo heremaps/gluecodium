@@ -4,7 +4,9 @@
 #include "cbridge/include/smoke/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
@@ -18,6 +20,21 @@ _baseRef smoke_CalculatorListener_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitsmoke_CalculatorListener(_baseRef handle);
+}
+namespace {
+struct smoke_CalculatorListenerRegisterInit {
+    smoke_CalculatorListenerRegisterInit() {
+        get_init_repository().add_init("smoke_CalculatorListener", &_CBridgeInitsmoke_CalculatorListener);
+    }
+} s_smoke_CalculatorListener_register_init;
+}
+void* smoke_CalculatorListener_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::CalculatorListener>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitsmoke_CalculatorListener(handle);
 }
 _baseRef
 smoke_CalculatorListener_ResultStruct_create_handle( double result )

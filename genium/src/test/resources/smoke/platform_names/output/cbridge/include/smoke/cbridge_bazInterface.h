@@ -12,6 +12,7 @@ extern "C" {
 #include <stdint.h>
 _GENIUM_C_EXPORT void smoke_PlatformNamesInterface_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNamesInterface_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void* smoke_PlatformNamesInterface_get_typed(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNamesInterface_BazMethod(_baseRef _instance, _baseRef BazParameter);
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNamesInterface_make(_baseRef makeParameter);
 _GENIUM_C_EXPORT uint32_t smoke_PlatformNamesInterface_basicProperty_get(_baseRef _instance);

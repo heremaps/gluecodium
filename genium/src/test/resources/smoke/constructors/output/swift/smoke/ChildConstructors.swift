@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ChildConstructors")
+internal func _CBridgeInitsmoke_ChildConstructors(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ChildConstructors(cChildConstructors: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ChildConstructors?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -32,10 +37,18 @@ public class ChildConstructors: Constructors {
     }
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
-    return ChildConstructors(cChildConstructors: smoke_ChildConstructors_copy_handle(handle))
+    if let swift_pointer = smoke_ChildConstructors_get_typed(smoke_ChildConstructors_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildConstructors {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors {
-    return ChildConstructors(cChildConstructors: handle)
+    if let swift_pointer = smoke_ChildConstructors_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildConstructors {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors? {
     guard handle != 0 else {

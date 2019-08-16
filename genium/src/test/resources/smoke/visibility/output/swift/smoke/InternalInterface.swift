@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_InternalInterface")
+internal func _CBridgeInitsmoke_InternalInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _InternalInterface(cInternalInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -44,7 +49,11 @@ internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInte
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
         return re_constructed
     }
-    return _InternalInterface(cInternalInterface: smoke_InternalInterface_copy_handle(handle))
+    if let swift_pointer = smoke_InternalInterface_get_typed(smoke_InternalInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface {
     if let swift_pointer = smoke_InternalInterface_get_swift_object_from_cache(handle),
@@ -52,7 +61,11 @@ internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInte
         smoke_InternalInterface_release_handle(handle)
         return re_constructed
     }
-    return _InternalInterface(cInternalInterface: handle)
+    if let swift_pointer = smoke_InternalInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface? {
     guard handle != 0 else {

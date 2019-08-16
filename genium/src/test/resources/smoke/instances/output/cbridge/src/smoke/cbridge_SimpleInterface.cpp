@@ -4,7 +4,9 @@
 #include "cbridge/include/smoke/cbridge_SimpleInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
 #include <new>
@@ -16,6 +18,21 @@ _baseRef smoke_SimpleInterface_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(handle)))
         : 0;
+}
+extern "C" {
+extern void* _CBridgeInitsmoke_SimpleInterface(_baseRef handle);
+}
+namespace {
+struct smoke_SimpleInterfaceRegisterInit {
+    smoke_SimpleInterfaceRegisterInit() {
+        get_init_repository().add_init("smoke_SimpleInterface", &_CBridgeInitsmoke_SimpleInterface);
+    }
+} s_smoke_SimpleInterface_register_init;
+}
+void* smoke_SimpleInterface_get_typed(_baseRef handle) {
+    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::SimpleInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInitsmoke_SimpleInterface(handle);
 }
 _baseRef smoke_SimpleInterface_getStringValue(_baseRef _instance) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(_instance)->get()->get_string_value())

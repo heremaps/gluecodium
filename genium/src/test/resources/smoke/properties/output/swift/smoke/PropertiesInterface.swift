@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_PropertiesInterface")
+internal func _CBridgeInitsmoke_PropertiesInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _PropertiesInterface(cPropertiesInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -62,7 +67,11 @@ internal func PropertiesInterfacecopyFromCType(_ handle: _baseRef) -> Properties
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PropertiesInterface {
         return re_constructed
     }
-    return _PropertiesInterface(cPropertiesInterface: smoke_PropertiesInterface_copy_handle(handle))
+    if let swift_pointer = smoke_PropertiesInterface_get_typed(smoke_PropertiesInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PropertiesInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PropertiesInterfacemoveFromCType(_ handle: _baseRef) -> PropertiesInterface {
     if let swift_pointer = smoke_PropertiesInterface_get_swift_object_from_cache(handle),
@@ -70,7 +79,11 @@ internal func PropertiesInterfacemoveFromCType(_ handle: _baseRef) -> Properties
         smoke_PropertiesInterface_release_handle(handle)
         return re_constructed
     }
-    return _PropertiesInterface(cPropertiesInterface: handle)
+    if let swift_pointer = smoke_PropertiesInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PropertiesInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PropertiesInterfacecopyFromCType(_ handle: _baseRef) -> PropertiesInterface? {
     guard handle != 0 else {

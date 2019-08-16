@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_DeprecationCommentsOnly")
+internal func _CBridgeInitsmoke_DeprecationCommentsOnly(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _DeprecationCommentsOnly(cDeprecationCommentsOnly: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -86,7 +91,11 @@ internal func DeprecationCommentsOnlycopyFromCType(_ handle: _baseRef) -> Deprec
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationCommentsOnly {
         return re_constructed
     }
-    return _DeprecationCommentsOnly(cDeprecationCommentsOnly: smoke_DeprecationCommentsOnly_copy_handle(handle))
+    if let swift_pointer = smoke_DeprecationCommentsOnly_get_typed(smoke_DeprecationCommentsOnly_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? DeprecationCommentsOnly {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func DeprecationCommentsOnlymoveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_swift_object_from_cache(handle),
@@ -94,7 +103,11 @@ internal func DeprecationCommentsOnlymoveFromCType(_ handle: _baseRef) -> Deprec
         smoke_DeprecationCommentsOnly_release_handle(handle)
         return re_constructed
     }
-    return _DeprecationCommentsOnly(cDeprecationCommentsOnly: handle)
+    if let swift_pointer = smoke_DeprecationCommentsOnly_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? DeprecationCommentsOnly {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func DeprecationCommentsOnlycopyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
     guard handle != 0 else {

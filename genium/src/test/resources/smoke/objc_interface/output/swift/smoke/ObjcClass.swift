@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ObjcClass")
+internal func _CBridgeInitsmoke_ObjcClass(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ObjcClass(cObjcClass: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ObjcClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -28,10 +33,18 @@ extension ObjcClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass {
-    return ObjcClass(cObjcClass: smoke_ObjcClass_copy_handle(handle))
+    if let swift_pointer = smoke_ObjcClass_get_typed(smoke_ObjcClass_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass {
-    return ObjcClass(cObjcClass: handle)
+    if let swift_pointer = smoke_ObjcClass_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass? {
     guard handle != 0 else {

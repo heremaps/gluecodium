@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ChildClassFromClass")
+internal func _CBridgeInitsmoke_ChildClassFromClass(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ChildClassFromClass(cChildClassFromClass: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ChildClassFromClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -20,10 +25,18 @@ public class ChildClassFromClass: ParentClass {
     }
 }
 internal func ChildClassFromClasscopyFromCType(_ handle: _baseRef) -> ChildClassFromClass {
-    return ChildClassFromClass(cChildClassFromClass: smoke_ChildClassFromClass_copy_handle(handle))
+    if let swift_pointer = smoke_ChildClassFromClass_get_typed(smoke_ChildClassFromClass_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ChildClassFromClassmoveFromCType(_ handle: _baseRef) -> ChildClassFromClass {
-    return ChildClassFromClass(cChildClassFromClass: handle)
+    if let swift_pointer = smoke_ChildClassFromClass_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromClass {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ChildClassFromClasscopyFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
     guard handle != 0 else {

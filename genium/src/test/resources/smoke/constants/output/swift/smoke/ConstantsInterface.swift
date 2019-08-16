@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ConstantsInterface")
+internal func _CBridgeInitsmoke_ConstantsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ConstantsInterface(cConstantsInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ConstantsInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -38,10 +43,18 @@ extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsInterface {
-    return ConstantsInterface(cConstantsInterface: smoke_ConstantsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_ConstantsInterface_get_typed(smoke_ConstantsInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ConstantsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ConstantsInterfacemoveFromCType(_ handle: _baseRef) -> ConstantsInterface {
-    return ConstantsInterface(cConstantsInterface: handle)
+    if let swift_pointer = smoke_ConstantsInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ConstantsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsInterface? {
     guard handle != 0 else {

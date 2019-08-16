@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitexamples_Properties")
+internal func _CBridgeInitexamples_Properties(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _Properties(cProperties: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -72,7 +77,11 @@ internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties {
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Properties {
         return re_constructed
     }
-    return _Properties(cProperties: examples_Properties_copy_handle(handle))
+    if let swift_pointer = examples_Properties_get_typed(examples_Properties_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Properties {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties {
     if let swift_pointer = examples_Properties_get_swift_object_from_cache(handle),
@@ -80,7 +89,11 @@ internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties {
         examples_Properties_release_handle(handle)
         return re_constructed
     }
-    return _Properties(cProperties: handle)
+    if let swift_pointer = examples_Properties_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Properties {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {

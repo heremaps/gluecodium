@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_EnumsInTypeCollectionInterface")
+internal func _CBridgeInitsmoke_EnumsInTypeCollectionInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -31,10 +36,18 @@ extension EnumsInTypeCollectionInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
-    return EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: smoke_EnumsInTypeCollectionInterface_copy_handle(handle))
+    if let swift_pointer = smoke_EnumsInTypeCollectionInterface_get_typed(smoke_EnumsInTypeCollectionInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? EnumsInTypeCollectionInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func EnumsInTypeCollectionInterfacemoveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
-    return EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: handle)
+    if let swift_pointer = smoke_EnumsInTypeCollectionInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? EnumsInTypeCollectionInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
     guard handle != 0 else {

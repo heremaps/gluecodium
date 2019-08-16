@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_SimpleInterface")
+internal func _CBridgeInitsmoke_SimpleInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _SimpleInterface(cSimpleInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -52,7 +57,11 @@ internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterfac
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
         return re_constructed
     }
-    return _SimpleInterface(cSimpleInterface: smoke_SimpleInterface_copy_handle(handle))
+    if let swift_pointer = smoke_SimpleInterface_get_typed(smoke_SimpleInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? SimpleInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface {
     if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(handle),
@@ -60,7 +69,11 @@ internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterfac
         smoke_SimpleInterface_release_handle(handle)
         return re_constructed
     }
-    return _SimpleInterface(cSimpleInterface: handle)
+    if let swift_pointer = smoke_SimpleInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? SimpleInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface? {
     guard handle != 0 else {

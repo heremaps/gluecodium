@@ -16,6 +16,7 @@ _GENIUM_C_EXPORT void smoke_CalculatorListener_ResultStruct_release_optional_han
 _GENIUM_C_EXPORT double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_CalculatorListener_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void* smoke_CalculatorListener_get_typed(_baseRef handle);
 typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);

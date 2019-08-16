@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_PublicInterface")
+internal func _CBridgeInitsmoke_PublicInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _PublicInterface(cPublicInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -44,7 +49,11 @@ internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterfac
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
         return re_constructed
     }
-    return _PublicInterface(cPublicInterface: smoke_PublicInterface_copy_handle(handle))
+    if let swift_pointer = smoke_PublicInterface_get_typed(smoke_PublicInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PublicInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterface {
     if let swift_pointer = smoke_PublicInterface_get_swift_object_from_cache(handle),
@@ -52,7 +61,11 @@ internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterfac
         smoke_PublicInterface_release_handle(handle)
         return re_constructed
     }
-    return _PublicInterface(cPublicInterface: handle)
+    if let swift_pointer = smoke_PublicInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PublicInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterface? {
     guard handle != 0 else {

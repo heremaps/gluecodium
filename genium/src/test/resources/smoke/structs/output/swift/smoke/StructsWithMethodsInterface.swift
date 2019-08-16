@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_StructsWithMethodsInterface")
+internal func _CBridgeInitsmoke_StructsWithMethodsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = StructsWithMethodsInterface(cStructsWithMethodsInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: StructsWithMethodsInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -86,10 +91,18 @@ extension StructsWithMethodsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructsWithMethodsInterfacecopyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
-    return StructsWithMethodsInterface(cStructsWithMethodsInterface: smoke_StructsWithMethodsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_StructsWithMethodsInterface_get_typed(smoke_StructsWithMethodsInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? StructsWithMethodsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func StructsWithMethodsInterfacemoveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
-    return StructsWithMethodsInterface(cStructsWithMethodsInterface: handle)
+    if let swift_pointer = smoke_StructsWithMethodsInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? StructsWithMethodsInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func StructsWithMethodsInterfacecopyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface? {
     guard handle != 0 else {

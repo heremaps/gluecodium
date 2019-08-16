@@ -2,6 +2,11 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
+@_cdecl("_CBridgeInitsmoke_ExternalInterface")
+internal func _CBridgeInitsmoke_ExternalInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _ExternalInterface(cExternalInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
 internal func getRef(_ ref: ExternalInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -63,7 +68,11 @@ internal func ExternalInterfacecopyFromCType(_ handle: _baseRef) -> ExternalInte
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
         return re_constructed
     }
-    return _ExternalInterface(cExternalInterface: smoke_ExternalInterface_copy_handle(handle))
+    if let swift_pointer = smoke_ExternalInterface_get_typed(smoke_ExternalInterface_copy_handle(handle)),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ExternalInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ExternalInterfacemoveFromCType(_ handle: _baseRef) -> ExternalInterface {
     if let swift_pointer = smoke_ExternalInterface_get_swift_object_from_cache(handle),
@@ -71,7 +80,11 @@ internal func ExternalInterfacemoveFromCType(_ handle: _baseRef) -> ExternalInte
         smoke_ExternalInterface_release_handle(handle)
         return re_constructed
     }
-    return _ExternalInterface(cExternalInterface: handle)
+    if let swift_pointer = smoke_ExternalInterface_get_typed(handle),
+        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ExternalInterface {
+        return typed
+    }
+    fatalError("Failed to initialize Swift object")
 }
 internal func ExternalInterfacecopyFromCType(_ handle: _baseRef) -> ExternalInterface? {
     guard handle != 0 else {
