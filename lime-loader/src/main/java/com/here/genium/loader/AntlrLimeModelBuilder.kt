@@ -29,17 +29,17 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -48,8 +48,10 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
 import com.here.genium.model.lime.LimeVisibility
@@ -107,21 +109,38 @@ internal class AntlrLimeModelBuilder(
                 referenceMap = referenceResolver.referenceMap
             )
         }
-        val limeElement = LimeContainer(
-            path = currentPath,
-            visibility = currentVisibility,
-            comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
-            type = if (ctx.INTERFACE() != null) ContainerType.INTERFACE else ContainerType.CLASS,
-            parent = parentRef,
-            structs = getPreviousResults(LimeStruct::class.java),
-            enumerations = getPreviousResults(LimeEnumeration::class.java),
-            constants = getPreviousResults(LimeConstant::class.java),
-            typeAliases = getPreviousResults(LimeTypeAlias::class.java),
-            functions = getPreviousResults(LimeFunction::class.java),
-            properties = getPreviousResults(LimeProperty::class.java),
-            exceptions = getPreviousResults(LimeException::class.java)
-        )
+        val limeElement: LimeContainerWithInheritance
+        if (ctx.INTERFACE() == null) {
+            limeElement = LimeClass(
+                path = currentPath,
+                visibility = currentVisibility,
+                comment = parseStructuredComment(ctx.docComment(), ctx).description,
+                attributes = convertAnnotations(ctx.annotation()),
+                parent = parentRef,
+                structs = getPreviousResults(LimeStruct::class.java),
+                enumerations = getPreviousResults(LimeEnumeration::class.java),
+                constants = getPreviousResults(LimeConstant::class.java),
+                typeAliases = getPreviousResults(LimeTypeAlias::class.java),
+                functions = getPreviousResults(LimeFunction::class.java),
+                properties = getPreviousResults(LimeProperty::class.java),
+                exceptions = getPreviousResults(LimeException::class.java)
+            )
+        } else {
+            limeElement = LimeInterface(
+                path = currentPath,
+                visibility = currentVisibility,
+                comment = parseStructuredComment(ctx.docComment(), ctx).description,
+                attributes = convertAnnotations(ctx.annotation()),
+                parent = parentRef,
+                structs = getPreviousResults(LimeStruct::class.java),
+                enumerations = getPreviousResults(LimeEnumeration::class.java),
+                constants = getPreviousResults(LimeConstant::class.java),
+                typeAliases = getPreviousResults(LimeTypeAlias::class.java),
+                functions = getPreviousResults(LimeFunction::class.java),
+                properties = getPreviousResults(LimeProperty::class.java),
+                exceptions = getPreviousResults(LimeException::class.java)
+            )
+        }
 
         storeResultAndPopStacks(limeElement)
     }
@@ -131,12 +150,11 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitTypes(ctx: LimeParser.TypesContext) {
-        val limeElement = LimeContainer(
+        val limeElement = LimeTypesCollection(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = convertAnnotations(ctx.annotation()),
-            type = ContainerType.TYPE_COLLECTION,
             structs = getPreviousResults(LimeStruct::class.java),
             enumerations = getPreviousResults(LimeEnumeration::class.java),
             constants = getPreviousResults(LimeConstant::class.java),

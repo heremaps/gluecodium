@@ -20,32 +20,27 @@
 package com.here.genium.validator
 
 import com.here.genium.common.LimeTypeRefsVisitor
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 
-// Validate against referring to a type collection directly
+// Validate against referring to a type collection directly.
 internal class LimeTypesContainerRefsValidator(private val logger: LimeLogger) :
     LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitTypeRef(
-        parentElement: LimeNamedElement,
-        limeTypeRef: LimeTypeRef?
-    ): Boolean {
-        if (limeTypeRef == null) {
-            return true
+    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?) =
+        when (val referredType = limeTypeRef?.type) {
+            is LimeTypesCollection -> {
+                logger.error(
+                    parentElement,
+                    "refers to `types` container ${referredType.fullName} " +
+                            "which cannot be used as a type itself."
+                )
+                false
+            }
+            else -> true
         }
-
-        val referredType = limeTypeRef.type
-        return if (referredType is LimeContainer && referredType.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
-            logger.error(
-                parentElement,
-                "refers to `types` container ${referredType.fullName} which cannot be used as a type itself."
-            )
-            false
-        } else true
-    }
 }

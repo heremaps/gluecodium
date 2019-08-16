@@ -20,16 +20,13 @@
 package com.here.genium.model.lime
 
 /**
- * This class represents a top-level container which is either a class, an interface or a `types`
- * collection (as indicated by [type] field).
+ * A common base class for elements that could contain various other elements inside.
  */
-class LimeContainer(
+abstract class LimeContainer(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    val type: ContainerType,
-    val parent: LimeTypeRef? = null,
     val structs: List<LimeStruct> = emptyList(),
     val enumerations: List<LimeEnumeration> = emptyList(),
     val constants: List<LimeConstant> = emptyList(),
@@ -37,13 +34,4 @@ class LimeContainer(
     val functions: List<LimeFunction> = emptyList(),
     val properties: List<LimeProperty> = emptyList(),
     val exceptions: List<LimeException> = emptyList()
-) : LimeType(path, visibility, comment, attributes) {
-
-    enum class ContainerType(private val tag: String) {
-        TYPE_COLLECTION("types"),
-        INTERFACE("interface"),
-        CLASS("class");
-
-        override fun toString() = tag
-    }
-}
+) : LimeType(path, visibility, comment, attributes)

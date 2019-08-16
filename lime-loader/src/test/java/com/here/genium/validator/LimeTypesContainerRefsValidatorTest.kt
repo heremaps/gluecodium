@@ -19,12 +19,13 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeTypesCollection
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -42,7 +43,7 @@ class LimeTypesContainerRefsValidatorTest {
 
     @Test
     fun validateClassReference() {
-        val limeClass = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS)
+        val limeClass = LimeClass(EMPTY_PATH)
         allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeClass))
 
         assertTrue(validator.validate(limeModel))
@@ -50,7 +51,7 @@ class LimeTypesContainerRefsValidatorTest {
 
     @Test
     fun validateTypesReference() {
-        val limeClass = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
+        val limeClass = LimeTypesCollection(EMPTY_PATH)
         allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeClass))
 
         assertFalse(validator.validate(limeModel))

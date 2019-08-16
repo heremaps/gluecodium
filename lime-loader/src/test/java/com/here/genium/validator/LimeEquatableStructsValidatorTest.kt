@@ -19,15 +19,15 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
@@ -100,7 +100,7 @@ class LimeEquatableStructsValidatorTest {
 
     @Test
     fun validateWithNonEquatableContainerType() {
-        val limeContainer = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS)
+        val limeContainer = LimeClass(EMPTY_PATH)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
@@ -110,11 +110,7 @@ class LimeEquatableStructsValidatorTest {
 
     @Test
     fun validateWithEquatableContainerType() {
-        val limeContainer = LimeContainer(
-            EMPTY_PATH,
-            type = LimeContainer.ContainerType.CLASS,
-            attributes = equatableAttributes
-        )
+        val limeContainer = LimeClass(EMPTY_PATH, attributes = equatableAttributes)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
@@ -124,9 +120,8 @@ class LimeEquatableStructsValidatorTest {
 
     @Test
     fun validateWithPointerEquatableContainerType() {
-        val limeContainer = LimeContainer(
+        val limeContainer = LimeClass(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.CLASS,
             attributes =
                 LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
         )

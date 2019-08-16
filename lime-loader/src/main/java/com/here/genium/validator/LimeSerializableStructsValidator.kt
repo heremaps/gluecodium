@@ -20,7 +20,7 @@
 package com.here.genium.validator
 
 import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeStruct
 
@@ -41,7 +41,7 @@ internal class LimeSerializableStructsValidator(private val logger: LimeLogger) 
         val allFieldTypes = limeStruct.childTypes.map { it.type }
 
         return when {
-            allFieldTypes.filterIsInstance<LimeContainer>().isNotEmpty() -> {
+            allFieldTypes.filterIsInstance<LimeContainerWithInheritance>().isNotEmpty() -> {
                 logger.error(limeStruct, MESSAGE)
                 false
             }

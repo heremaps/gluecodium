@@ -19,16 +19,16 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -86,9 +86,8 @@ class LimeGenericTypesValidatorTest(
                 attributes =
                     LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
             ), true),
-            arrayOf(LimeContainer(
+            arrayOf(LimeClass(
                 EMPTY_PATH,
-                type = LimeContainer.ContainerType.CLASS,
                 attributes = LimeAttributes.Builder()
                     .addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
             ), true),

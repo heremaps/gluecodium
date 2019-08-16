@@ -19,16 +19,16 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType.CLASS
-import com.here.genium.model.lime.LimeContainer.ContainerType.INTERFACE
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeTypesCollection
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -48,15 +48,14 @@ class LimeInheritanceValidatorTest {
 
     @Test
     fun validateWithTypeCollection() {
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
+        allElements[""] = LimeTypesCollection(EMPTY_PATH)
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateWithClassWithNoParent() {
-        allElements[""] = LimeContainer(EMPTY_PATH, type = CLASS)
+        allElements[""] = LimeClass(EMPTY_PATH)
 
         assertTrue(validator.validate(limeModel))
     }
@@ -64,51 +63,45 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateClassWithInvalidParent() {
         val limeStruct = LimeStruct(fooPath)
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = CLASS, parent = LimeDirectTypeRef(limeStruct))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(limeStruct))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateClassWithSelfParent() {
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = CLASS, parent = LimeLazyTypeRef("", allElements))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeLazyTypeRef("", allElements))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateClassWithChildParent() {
-        val childClass =
-            LimeContainer(fooPath, type = CLASS, parent = LimeLazyTypeRef("", allElements))
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = CLASS, parent = LimeDirectTypeRef(childClass))
+        val childClass = LimeClass(fooPath, parent = LimeLazyTypeRef("", allElements))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(childClass))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateClassWithClassParent() {
-        val anotherClass = LimeContainer(fooPath, type = CLASS)
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = CLASS, parent = LimeDirectTypeRef(anotherClass))
+        val anotherClass = LimeClass(fooPath)
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateClassWithInterfaceParent() {
-        val anotherInterface = LimeContainer(fooPath, type = INTERFACE)
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = CLASS, parent = LimeDirectTypeRef(anotherInterface))
+        val anotherInterface = LimeInterface(fooPath)
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherInterface))
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithNoParent() {
-        allElements[""] = LimeContainer(EMPTY_PATH, type = INTERFACE)
+        allElements[""] = LimeInterface(EMPTY_PATH)
 
         assertTrue(validator.validate(limeModel))
     }
@@ -116,47 +109,38 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateInterfaceWithInvalidParent() {
         val limeStruct = LimeStruct(fooPath)
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = INTERFACE, parent = LimeDirectTypeRef(limeStruct))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(limeStruct))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithSelfParent() {
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = INTERFACE, parent = LimeLazyTypeRef("", allElements))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeLazyTypeRef("", allElements))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithChildParent() {
-        val childInterface =
-            LimeContainer(fooPath, type = INTERFACE, parent = LimeLazyTypeRef("", allElements))
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = INTERFACE, parent = LimeDirectTypeRef(childInterface))
+        val childInterface = LimeInterface(fooPath, parent = LimeLazyTypeRef("", allElements))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(childInterface))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithClassParent() {
-        val anotherClass = LimeContainer(fooPath, type = CLASS)
-        allElements[""] =
-            LimeContainer(EMPTY_PATH, type = INTERFACE, parent = LimeDirectTypeRef(anotherClass))
+        val anotherClass = LimeClass(fooPath)
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithInterfaceParent() {
-        val anotherInterface = LimeContainer(fooPath, type = INTERFACE)
-        allElements[""] = LimeContainer(
-            EMPTY_PATH,
-            type = INTERFACE,
-            parent = LimeDirectTypeRef(anotherInterface)
-        )
+        val anotherInterface = LimeInterface(fooPath)
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(anotherInterface))
 
         assertTrue(validator.validate(limeModel))
     }

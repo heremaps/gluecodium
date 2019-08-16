@@ -20,8 +20,8 @@
 package com.here.genium.validator
 
 import com.here.genium.model.lime.LimeBasicType
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeComment
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeFunction
@@ -99,9 +99,7 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
                     thrownType = LimeThrownType(it)
                 )
             }),
-            arrayOf<(LimeTypeRef) -> LimeElement>(
-                { LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS, parent = it) }
-            ),
+            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeClass(EMPTY_PATH, parent = it) }),
             arrayOf<(LimeTypeRef) -> LimeElement>({ LimeTypeAlias(EMPTY_PATH, typeRef = it) }),
             arrayOf<(LimeTypeRef) -> LimeElement>({ LimeException(EMPTY_PATH, errorEnum = it) })
         )

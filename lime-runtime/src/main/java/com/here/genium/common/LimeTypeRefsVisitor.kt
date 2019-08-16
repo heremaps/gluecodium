@@ -19,7 +19,7 @@
 
 package com.here.genium.common
 
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
@@ -34,7 +34,8 @@ abstract class LimeTypeRefsVisitor<T> {
         return allElements.filterIsInstance<LimeTypedElement>().map { visitTypeRef(it, it.typeRef) } +
             allElements.filterIsInstance<LimeFunction>().flatMap {
                 listOf(visitTypeRef(it, it.returnType.typeRef), visitTypeRef(it, it.thrownType?.typeRef))
-            } + allElements.filterIsInstance<LimeContainer>().map { visitTypeRef(it, it.parent) } +
+            } +
+            allElements.filterIsInstance<LimeContainerWithInheritance>().map { visitTypeRef(it, it.parent) } +
             allElements.filterIsInstance<LimeTypeAlias>().map { visitTypeRef(it, it.typeRef) } +
             allElements.filterIsInstance<LimeException>().map { visitTypeRef(it, it.errorEnum) }
     }

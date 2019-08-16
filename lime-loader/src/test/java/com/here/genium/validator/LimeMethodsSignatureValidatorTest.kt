@@ -20,7 +20,7 @@
 package com.here.genium.validator
 
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
@@ -50,11 +50,8 @@ class LimeMethodsSignatureValidatorTest(
     fun validateInContainer() {
         allElements[limeMethod1.path.toString()] = limeMethod1
         allElements[limeMethod2.path.toString()] = limeMethod2
-        allElements[fooPath.toString()] = LimeContainer(
-            fooPath,
-            type = LimeContainer.ContainerType.CLASS,
-            functions = listOf(limeMethod1, limeMethod2)
-        )
+        allElements[fooPath.toString()] =
+            LimeClass(fooPath, functions = listOf(limeMethod1, limeMethod2))
 
         assertEquals(expectedResult, validator.validate(limeModel))
     }

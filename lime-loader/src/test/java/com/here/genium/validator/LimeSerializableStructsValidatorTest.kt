@@ -19,15 +19,15 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
@@ -100,7 +100,7 @@ class LimeSerializableStructsValidatorTest {
 
     @Test
     fun validateWithContainerType() {
-        val limeContainer = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS)
+        val limeContainer = LimeClass(EMPTY_PATH)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = serializableAttributes, fields = listOf(limeField))

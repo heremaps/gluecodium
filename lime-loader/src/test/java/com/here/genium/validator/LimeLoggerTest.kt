@@ -19,7 +19,7 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeStruct
 import io.mockk.MockKAnnotations
@@ -48,10 +48,7 @@ class LimeLoggerTest {
 
     @Test
     fun logErrorForContainer() {
-        val limeElement = LimeContainer(
-            LimePath(listOf("mo", "del"), listOf("foo")),
-            type = LimeContainer.ContainerType.CLASS
-        )
+        val limeElement = LimeClass(LimePath(listOf("mo", "del"), listOf("foo")))
 
         limeLogger.error(limeElement, "it happened")
 

@@ -19,23 +19,24 @@
 
 package com.here.genium.model.lime
 
-class LimeStruct(
+class LimeTypesCollection(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    functions: List<LimeFunction> = emptyList(),
+    structs: List<LimeStruct> = emptyList(),
+    enumerations: List<LimeEnumeration> = emptyList(),
     constants: List<LimeConstant> = emptyList(),
-    val fields: List<LimeField> = emptyList(),
-    val constructorComment: LimeComment = LimeComment()
+    typeAliases: List<LimeTypeAlias> = emptyList(),
+    exceptions: List<LimeException> = emptyList()
 ) : LimeContainer(
     path = path,
     visibility = visibility,
     comment = comment,
     attributes = attributes,
-    functions = functions,
-    constants = constants
-) {
-    override val childTypes
-        get() = fields.map { it.typeRef }
-}
+    structs = structs,
+    enumerations = enumerations,
+    constants = constants,
+    typeAliases = typeAliases,
+    exceptions = exceptions
+)

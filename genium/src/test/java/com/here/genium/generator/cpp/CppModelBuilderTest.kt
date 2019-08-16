@@ -41,6 +41,7 @@ import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -380,9 +381,8 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingStructTypeReadsParentExternalType() {
         val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
-        limeReferenceMap["foo"] = LimeContainer(
+        limeReferenceMap["foo"] = LimeClass(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
@@ -665,9 +665,8 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingEnumerationTypeReadsParentExternalType() {
         val limeElement = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
-        limeReferenceMap["foo"] = LimeContainer(
+        limeReferenceMap["foo"] = LimeClass(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()

@@ -43,7 +43,7 @@ internal class LimeEquatableStructsValidator(private val logger: LimeLogger) {
             .filterNot { it.attributes.have(LimeAttributeType.POINTER_EQUATABLE) }
 
         return when {
-            nonEquatableFieldTypes.any { it is LimeStruct || it is LimeContainer } -> {
+            nonEquatableFieldTypes.any { it is LimeContainer } -> {
                 logger.error(
                     limeStruct,
                     "fields of non-equatable types are not supported for equatable structs"
