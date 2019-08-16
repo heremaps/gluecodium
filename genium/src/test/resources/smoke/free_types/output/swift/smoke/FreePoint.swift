@@ -3,6 +3,7 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
 public struct FreePoint {
+    public static let aBar: FreeEnum = FreeEnum.bar
     public var x: Double
     public var y: Double
     public init(x: Double, y: Double) {

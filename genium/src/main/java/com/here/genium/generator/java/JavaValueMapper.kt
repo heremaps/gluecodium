@@ -54,8 +54,9 @@ class JavaValueMapper(
                 var names = listOf(nameRules.getName(limeEnumeration)) +
                         nameRules.getName(limeEnumerator)
                 val parentContainer =
-                    limeReferenceMap[limeEnumeration.path.parent.toString()] as LimeContainer
-                if (parentContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
+                    limeReferenceMap[limeEnumeration.path.parent.toString()] as? LimeContainer
+                if (parentContainer != null &&
+                    parentContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
                     names = listOf(nameRules.getName(parentContainer)) + names
                 }
                 JavaValue(names.joinToString("."), true)

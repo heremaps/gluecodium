@@ -51,5 +51,5 @@ class CppStruct(
     val hasDefaultConstructor =
         (!isImmutable || uninitializedFields.isEmpty()) && !uninitializedFields.any { it.hasImmutableType }
 
-    override fun stream() = Stream.concat(fields.stream(), methods.stream())
+    override fun stream() = Stream.of(fields, methods, constants).flatMap { it.stream() }
 }

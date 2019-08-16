@@ -3,6 +3,7 @@
 ## Unreleased
 - Bug fixes:
   + Fixed Swift compilation for top-level exceptions.
+  + Fixed Java and C++ compilation for top-level enumerations.
 
 ## 5.2.0
 - Release date: 2019-08-15

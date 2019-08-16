@@ -1,7 +1,7 @@
 package smoke
-
 struct FreePoint {
     x: Double
     y: Double
+    const A_BAR: FreeEnum = FreeEnum.BAR
     fun flip(): FreePoint
 }

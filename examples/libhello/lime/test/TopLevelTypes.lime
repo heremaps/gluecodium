@@ -24,6 +24,8 @@ struct TopLevelPoint {
     y: Double
 
     fun flip(): TopLevelPoint
+
+    const A_CRASH: TopLevelEnum = TopLevelEnum.CRASHED
 }
 
 enum TopLevelEnum {

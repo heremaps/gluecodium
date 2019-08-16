@@ -24,6 +24,8 @@ struct FreePoint {
     y: Double
 
     fun flip(): FreePoint
+
+    const A_BAR: FreeEnum = FreeEnum.BAR
 }
 
 enum FreeEnum {
