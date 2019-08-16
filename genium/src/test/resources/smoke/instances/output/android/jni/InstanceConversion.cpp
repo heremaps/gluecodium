@@ -27,7 +27,7 @@ JniReference<jclass>& get_cached_native_base_class()
 {
     return CachedJavaClass<DummyNativeBaseType>::java_class;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass", ::fire::Baz)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ExternalClass", "smoke_::fire::Baz", ::fire::Baz)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
 {
@@ -40,7 +40,8 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::fire::Baz>::java_class;
+    const auto& id = ::genium::get_type_repository(static_cast< ::fire::Baz* >(nullptr)).get_id(_ninput.get());
+    const auto& javaClass = CachedJavaClass<::fire::Baz>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::fire::Baz>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
@@ -52,7 +53,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalInterfaceImpl", ::smoke::ExternalInterface)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ExternalInterfaceImpl", "smoke_ExternalInterface", ::smoke::ExternalInterface)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface> & _ninput)
 {
@@ -65,7 +66,8 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::smoke::ExternalInterface>::java_class;
+    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::ExternalInterface* >(nullptr)).get_id(_ninput.get());
+    const auto& javaClass = CachedJavaClass<::smoke::ExternalInterface>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::ExternalInterface>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
@@ -77,7 +79,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClass", ::smoke::SimpleClass)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleClass", "smoke_SimpleClass", ::smoke::SimpleClass)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _ninput)
 {
@@ -90,7 +92,8 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _n
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::smoke::SimpleClass>::java_class;
+    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::SimpleClass* >(nullptr)).get_id(_ninput.get());
+    const auto& javaClass = CachedJavaClass<::smoke::SimpleClass>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleClass>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
@@ -102,7 +105,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _n
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleInterfaceImpl", ::smoke::SimpleInterface)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleInterfaceImpl", "smoke_SimpleInterface", ::smoke::SimpleInterface)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInterface> & _ninput)
 {
@@ -115,7 +118,8 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInterface> 
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::smoke::SimpleInterface>::java_class;
+    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::SimpleInterface* >(nullptr)).get_id(_ninput.get());
+    const auto& javaClass = CachedJavaClass<::smoke::SimpleInterface>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInterface>( _ninput );
     if ( pInstanceSharedPointer == nullptr )

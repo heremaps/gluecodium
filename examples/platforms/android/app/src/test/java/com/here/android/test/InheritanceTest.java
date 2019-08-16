@@ -134,4 +134,83 @@ public class InheritanceTest {
     assertFalse(checkInheritance(ChildInterface.class, AnotherConcreteGrandChild.class));
     assertFalse(checkInheritance(AnotherChildInterface.class, ConcreteGrandChild.class));
   }
+
+  @Test
+  public void testChildAsParentReturnsSameType() {
+    ChildClass child = ChildClass.createChildClass();
+    ParentInterface parent = child.castToParent();
+
+    assertTrue(parent instanceof ChildClass);
+  }
+
+  @Test
+  public void testCreateChildAsParentSameType() {
+    RootInterface rootInterface = InheritanceTestHelper.createChildAsRootInterface();
+    assertTrue(rootInterface instanceof ChildInterface);
+  }
+
+  @Test
+  public void testCreateConcreteChildAsChildInterfaceSameType() {
+    ChildInterface childInterface = InheritanceTestHelper.createConcreteChildAsChildInterface();
+    assertTrue(childInterface instanceof ConcreteChild);
+  }
+
+  @Test
+  public void testCreateGrandchildAsChildSameType() {
+    ConcreteChild child = InheritanceTestHelper.createGrandchildClassAsChildClass();
+
+    assertTrue(child instanceof ConcreteGrandChild);
+    ConcreteGrandChild grandchild = (ConcreteGrandChild) child;
+
+    grandchild.setText("jump");
+
+    assertEquals("jump", grandchild.getText());
+  }
+
+  // test C++ diamond inheritance
+  @Test
+  public void testCreateConjoinedChildrenAsChildInterface() {
+    ChildInterface childInterface = InheritanceTestHelper.createConjoinedChildrenAsChildInterface();
+
+    assertTrue(childInterface instanceof ConcreteChild);
+    assertFalse(childInterface instanceof AnotherConcreteChild);
+  }
+
+  // test C++ diamond inheritance
+  @Test
+  public void testCreateConjoinedChildrenAsAnotherChildInterface() {
+    AnotherChildInterface childInterface = InheritanceTestHelper.createConjoinedChildrenAsAnotherChildInterface();
+
+    assertTrue(childInterface instanceof AnotherConcreteChild);
+    assertFalse(childInterface instanceof ConcreteChild);
+  }
+
+  // test C++ multiple unrelated inheritance
+  @Test
+  public void testCreateDisjoinedChildrenAsParentInterface() {
+    ParentInterface childInterface = InheritanceTestHelper.createDisjoinedChildrenAsParentInterface();
+
+    assertTrue(childInterface instanceof ChildClass);
+  }
+
+  // test C++ multiple unrelated inheritance
+  @Test
+  public void testCreateDisjoinedChildrenAsRootInterface() {
+    RootInterface childInterface = InheritanceTestHelper.createDisjoinedChildrenAsRootInterface();
+
+    assertTrue(childInterface instanceof  ConcreteChild);
+  }
+
+  @Test
+  public void testFamilyListOfSubtypes() {
+    List<RootInterface> family = InheritanceTestHelper.createFamilyList();
+
+    assertEquals(6, family.size());
+    assertTrue(family.get(0) instanceof ChildInterface);
+    assertTrue(family.get(1) instanceof ConcreteChild);
+    assertTrue(family.get(2) instanceof AnotherChildInterface);
+    assertTrue(family.get(3) instanceof AnotherConcreteChild);
+    assertTrue(family.get(4) instanceof ConcreteGrandChild);
+    assertTrue(family.get(5) instanceof AnotherConcreteGrandChild);
+  }
 }

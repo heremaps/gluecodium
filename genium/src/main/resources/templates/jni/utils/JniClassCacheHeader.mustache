@@ -35,15 +35,20 @@ class CachedJavaClassBase
 {
 public:
     explicit CachedJavaClassBase(const char* name);
+    CachedJavaClassBase(const char* name, const char* cpp_name);
     virtual ~CachedJavaClassBase();
 
     static void init(JNIEnv* env);
 
+protected:
+    static jni::JniReference<jclass>* get_java_class_for_instance(const std::string& id);
+
 private:
     void do_init(JNIEnv* env);
-    virtual void set_java_class(JniReference<jclass> java_class_reference) = 0;
+    virtual JniReference<jclass>* set_java_class(JniReference<jclass> java_class_reference) = 0;
 
     const char* m_name;
+    const char* m_cpp_name;
 };
 
 template <class ... CppTypes>
@@ -51,13 +56,19 @@ class CachedJavaClass : public CachedJavaClassBase
 {
 public:
     using CachedJavaClassBase::CachedJavaClassBase;
+    static const jni::JniReference<jclass>& get_java_class(const std::string& id)
+    {
+        auto instance_java_class = get_java_class_for_instance(id);
+        return instance_java_class != nullptr ? *instance_java_class : java_class;
+    }
 
     static JniReference<jclass> java_class;
 
 private:
-    void set_java_class(JniReference<jclass> java_class_reference) override
+    JniReference<jclass>* set_java_class(JniReference<jclass> java_class_reference) override
     {
         java_class = std::move(java_class_reference);
+        return &java_class;
     }
 };
 
@@ -66,13 +77,21 @@ JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
 
 #define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y) x ## y
 #define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(x, y) REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y)
+#define REGISTER_JNI_CLASS_CACHE_TAKE_FIRST(name, ...) name
 
 #define REGISTER_JNI_CLASS_CACHE(name, ...) \
   namespace { \
   CachedJavaClass<__VA_ARGS__> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name); \
   }
 
+#define REGISTER_JNI_CLASS_CACHE_INHERITANCE(name, cpp_name, ...) \
+  namespace { \
+  CachedJavaClass<__VA_ARGS__> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name, cpp_name); \
+  }
+
+
 }
+
 {{#internalNamespace}}
 }
 {{/internalNamespace}}
