@@ -17,20 +17,25 @@
 
 package test
 
-typealias FreeTypeDef = Date
+typealias TopLevelAlias = Date
 
-struct FreePoint {
+struct TopLevelPoint {
     x: Double
     y: Double
 
-    fun flip(): FreePoint
+    fun flip(): TopLevelPoint
 }
 
-enum FreeEnum {
-    FOO,
-    BAR
+enum TopLevelEnum {
+    WORKS,
+    CRASHED
 }
 
 class UseTopLevelTypes {
-    fun doStuff(point: FreePoint, mode: FreeEnum): FreeTypeDef
+    static fun doStuff(
+        point: TopLevelPoint,
+        mode: TopLevelEnum
+    ): TopLevelAlias throws TopLevelException
 }
+
+exception TopLevelException(TopLevelEnum)

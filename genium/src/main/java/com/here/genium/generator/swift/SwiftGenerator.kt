@@ -24,6 +24,7 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.swift.SwiftEnum
+import com.here.genium.model.swift.SwiftError
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftStruct
@@ -64,12 +65,13 @@ class SwiftGenerator(
     private fun wrapInFile(swiftElement: SwiftModelElement, limeElement: LimeNamedElement) =
         when (swiftElement) {
             is SwiftFile -> swiftElement
-            is SwiftStruct, is SwiftEnum, is SwiftTypeDef -> {
+            is SwiftStruct, is SwiftEnum, is SwiftTypeDef, is SwiftError -> {
                 val result = SwiftFile(nameRules.getImplementationFileName(limeElement))
                 when (swiftElement) {
                     is SwiftStruct -> result.structs += swiftElement
                     is SwiftEnum -> result.enums += swiftElement
                     is SwiftTypeDef -> result.typeDefs += swiftElement
+                    is SwiftError -> result.errors += swiftElement
                 }
                 result
             }

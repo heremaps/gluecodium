@@ -18,13 +18,21 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/FreePoint.h"
+#include "test/TopLevelPoint.h"
+#include "test/UseTopLevelTypes.h"
 
 namespace test
 {
-FreePoint
-FreePoint::flip() const
+TopLevelPoint
+TopLevelPoint::flip() const
 {
     return {y, x};
 }
+
+lorem_ipsum::test::Return< TopLevelAlias, std::error_code >
+UseTopLevelTypes::do_stuff( const TopLevelPoint& point, const TopLevelEnum mode )
+{
+    return std::error_code( TopLevelEnum::CRASHED );
+}
+
 }  // namespace test
