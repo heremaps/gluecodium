@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.2.1
+- Release date: 2019-08-16
 - Bug fixes:
   + Fixed Swift compilation for top-level exceptions.
   + Fixed Java and C++ compilation for top-level enumerations.
