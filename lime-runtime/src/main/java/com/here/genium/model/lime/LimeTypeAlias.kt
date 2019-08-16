@@ -19,6 +19,15 @@
 
 package com.here.genium.model.lime
 
+/**
+ * There are two different use cases that involve a type alias:
+ * * creating a typealias-like element in the target language. This does not require any additional
+ * information and can be done solely based on information contained in this class.
+ * * handling the type alias as if it actually were the type it points to (this is necessary, for
+ * example, for various type conversion routines). This needs additional information obtainable
+ * through resolving the [typeRef]. A recommended way to do this is to use
+ * [LimeTypeHelper.getActualType].
+ */
 class LimeTypeAlias(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
