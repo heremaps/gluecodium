@@ -28,21 +28,23 @@ import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeTypeAlias
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -171,10 +173,7 @@ class JavaTypeMapperTest {
     fun mapTypeEnumSet() {
         val limeEnumeration = LimeEnumeration(LimePath(emptyList(), listOf("bar", "baz")))
         limeReferenceMap["foo"] = LimeSet(LimeDirectTypeRef(limeEnumeration))
-        limeReferenceMap["bar"] = LimeContainer(
-            LimePath.EMPTY_PATH,
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        limeReferenceMap["bar"] = LimeTypesCollection(LimePath.EMPTY_PATH)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -184,10 +183,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapTypeContainer() {
-        limeReferenceMap["foo"] = LimeContainer(
-            LimePath(listOf("bar"), listOf("baz")),
-            type = LimeContainer.ContainerType.INTERFACE
-        )
+        limeReferenceMap["foo"] = LimeInterface(LimePath(listOf("bar"), listOf("baz")))
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -204,10 +200,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapCustomTypeContainer() {
-        val limeType = LimeContainer(
-            LimePath(listOf("bar"), emptyList()),
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        val limeType = LimeClass(LimePath(listOf("bar"), emptyList()))
 
         val result = typeMapper.mapCustomType(limeType, "Foo")
 
@@ -223,10 +216,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapCustomTypeStructInTypeCollection() {
-        limeReferenceMap["baz.foo"] = LimeContainer(
-            LimePath(listOf("baz"), emptyList()),
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        limeReferenceMap["baz.foo"] = LimeTypesCollection(LimePath(listOf("baz"), emptyList()))
         val limeType = LimeStruct(LimePath(listOf("baz"), listOf("foo", "bar")))
 
         val result = typeMapper.mapCustomType(limeType, "SomeType")
@@ -243,10 +233,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapCustomTypeEnumInTypeCollection() {
-        limeReferenceMap["foo"] = LimeContainer(
-            LimePath(listOf("baz"), emptyList()),
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        limeReferenceMap["foo"] = LimeTypesCollection(LimePath(listOf("baz"), emptyList()))
         val limeType = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
 
         val result = typeMapper.mapCustomType(limeType, "SomeType")
@@ -256,10 +243,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapCustomTypeInInterface() {
-        limeReferenceMap["baz.foo"] = LimeContainer(
-            LimePath(listOf("baz"), listOf("nonsense")),
-            type = LimeContainer.ContainerType.INTERFACE
-        )
+        limeReferenceMap["baz.foo"] = LimeInterface(LimePath(listOf("baz"), listOf("nonsense")))
         val limeType = LimeStruct(LimePath(listOf("baz"), listOf("foo", "bar")))
 
         val result = typeMapper.mapCustomType(limeType, "SomeType")
@@ -276,10 +260,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapExceptionTypeInTypeCollection() {
-        limeReferenceMap["baz.foo"] = LimeContainer(
-            LimePath(listOf("baz"), emptyList()),
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        limeReferenceMap["baz.foo"] = LimeTypesCollection(LimePath(listOf("baz"), emptyList()))
         val limeEnum = LimeEnumeration(LimePath(listOf("baz"), listOf("foo", "bar")))
         val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
         val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
@@ -297,10 +278,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapExceptionTypeInInterface() {
-        limeReferenceMap["baz.foo"] = LimeContainer(
-            LimePath(listOf("baz"), listOf("nonsense")),
-            type = LimeContainer.ContainerType.INTERFACE
-        )
+        limeReferenceMap["baz.foo"] = LimeInterface(LimePath(listOf("baz"), listOf("nonsense")))
         val limeEnum = LimeEnumeration(LimePath(listOf("baz"), listOf("foo", "bar")))
         val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
         val limeType = LimeThrownType(LimeDirectTypeRef(limeException))

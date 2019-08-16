@@ -22,9 +22,9 @@ package com.here.genium.generator.cbridge
 import com.here.genium.generator.common.NameHelper
 import com.here.genium.model.lime.LimeAttributeType.SWIFT
 import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
@@ -56,10 +56,10 @@ object CBridgeNameRules {
     fun getName(limeElement: LimeNamedElement) =
         getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name)
 
-    fun getFunctionTableName(limeContainer: LimeContainer) =
-        getInterfaceName(limeContainer) + "_FunctionTable"
+    fun getFunctionTableName(limeInterface: LimeInterface) =
+        getInterfaceName(limeInterface) + "_FunctionTable"
 
-    fun getInterfaceName(limeContainer: LimeContainer) = getNestedSpecifierString(limeContainer)
+    fun getInterfaceName(limeElement: LimeNamedElement) = getNestedSpecifierString(limeElement)
 
     fun getShortMethodName(
         limeReferenceMap: Map<String, LimeElement>,

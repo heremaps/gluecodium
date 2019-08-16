@@ -22,13 +22,15 @@ package com.here.genium.generator.lime
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeList
+import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
@@ -39,6 +41,7 @@ import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.platform.common.GeneratorSuite
 
 class LimeGeneratorSuite : GeneratorSuite() {
@@ -65,10 +68,13 @@ class LimeGeneratorSuite : GeneratorSuite() {
 
     private fun collectImports(context: LimePath, limeElement: LimeElement): List<LimePath> =
         when (limeElement) {
-            is LimeContainer -> (limeElement.structs + limeElement.constants +
+            is LimeContainerWithInheritance -> (limeElement.structs + limeElement.constants +
                     limeElement.typeAliases + limeElement.functions + limeElement.properties +
                     limeElement.exceptions).flatMap { collectImports(limeElement.path, it) } +
                     (limeElement.parent?.let { collectImports(context, it) } ?: emptyList())
+            is LimeTypesCollection ->
+                (limeElement.structs + limeElement.constants + limeElement.typeAliases +
+                    limeElement.exceptions).flatMap { collectImports(limeElement.path, it) }
             is LimeStruct -> (limeElement.fields + limeElement.constants +
                     limeElement.functions).flatMap { collectImports(limeElement.path, it) }
             is LimeFunction -> limeElement.parameters.flatMap { collectImports(context, it) } +
@@ -97,7 +103,9 @@ class LimeGeneratorSuite : GeneratorSuite() {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeContainer -> "lime/LimeContainer"
+            is LimeClass -> "lime/LimeClass"
+            is LimeInterface -> "lime/LimeInterface"
+            is LimeTypesCollection -> "lime/LimeTypesCollection"
             is LimeStruct -> "lime/LimeStruct"
             is LimeEnumeration -> "lime/LimeEnumeration"
             is LimeTypeAlias -> "lime/LimeTypeAlias"

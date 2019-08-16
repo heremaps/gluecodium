@@ -57,11 +57,12 @@ import com.here.genium.model.jni.JniTopLevelElement
 import com.here.genium.model.jni.JniType
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
@@ -69,6 +70,7 @@ import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 
 /**
  * This class builds a correspondence-tree containing correspondences between Java and C++ model
@@ -94,38 +96,7 @@ class JniModelBuilder(
 
     val setsCollector = mutableMapOf<String, JniType>()
 
-    override fun finishBuilding(limeContainer: LimeContainer) {
-        val jniContainer = when {
-            limeContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION ->
-                finishBuildingTypeCollection(limeContainer)
-            else -> finishBuildingInterfaceOrClass(limeContainer)
-        }
-
-        storeResult(jniContainer)
-        closeContext()
-    }
-
-    private fun finishBuildingTypeCollection(limeContainer: LimeContainer): JniContainer {
-        val jniTopLevelElement = getPreviousResultOrNull(JniTopLevelElement::class.java)
-        val packageNames = jniTopLevelElement?.javaPackage?.packageNames ?: emptyList()
-
-        val cppNameSpace = limeContainer.path.head
-        val jniContainer = JniContainer(
-            javaPackages = packageNames,
-            cppNameSpaces = cppNameSpace,
-            containerType = getContainerType(limeContainer),
-            internalNamespace = internalNamespace
-        )
-        getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
-        getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
-
-        val types = limeContainer.structs + limeContainer.enumerations + limeContainer.typeAliases
-        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
-
-        return jniContainer
-    }
-
-    private fun finishBuildingInterfaceOrClass(limeContainer: LimeContainer): JniContainer {
+    override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
         val cppClass = cppBuilder.getFinalResult(CppClass::class.java)
         val javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement::class.java)
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
@@ -137,7 +108,10 @@ class JniModelBuilder(
             javaInterfaceName = javaTopLevelElement.name,
             cppName = cppClass.name,
             cppFullyQualifiedName = cppClass.fullyQualifiedName,
-            containerType = getContainerType(limeContainer),
+            containerType = when (limeContainer) {
+                is LimeInterface -> JniContainer.ContainerType.INTERFACE
+                else -> JniContainer.ContainerType.CLASS
+            },
             internalNamespace = internalNamespace,
             isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
             isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
@@ -157,7 +131,29 @@ class JniModelBuilder(
                 limeContainer.typeAliases
         jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
 
-        return jniContainer
+        storeResult(jniContainer)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeTypes: LimeTypesCollection) {
+        val jniTopLevelElement = getPreviousResultOrNull(JniTopLevelElement::class.java)
+        val packageNames = jniTopLevelElement?.javaPackage?.packageNames ?: emptyList()
+
+        val cppNameSpace = limeTypes.path.head
+        val jniContainer = JniContainer(
+            javaPackages = packageNames,
+            cppNameSpaces = cppNameSpace,
+            containerType = JniContainer.ContainerType.TYPE_COLLECTION,
+            internalNamespace = internalNamespace
+        )
+        getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
+        getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
+
+        val types = limeTypes.structs + limeTypes.enumerations + limeTypes.typeAliases
+        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
+
+        storeResult(jniContainer)
+        closeContext()
     }
 
     override fun finishBuilding(limeMethod: LimeFunction) {
@@ -309,12 +305,4 @@ class JniModelBuilder(
 
         closeContext()
     }
-
-    private fun getContainerType(limeContainer: LimeContainer) =
-        when (limeContainer.type) {
-            LimeContainer.ContainerType.TYPE_COLLECTION ->
-                JniContainer.ContainerType.TYPE_COLLECTION
-            LimeContainer.ContainerType.INTERFACE -> JniContainer.ContainerType.INTERFACE
-            LimeContainer.ContainerType.CLASS -> JniContainer.ContainerType.CLASS
-        }
 }

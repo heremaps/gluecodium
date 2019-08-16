@@ -43,16 +43,18 @@ import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftParameter
@@ -68,13 +70,11 @@ class CBridgeModelBuilder(
     private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<CElement>(contextStack) {
 
-    override fun startBuilding(limeContainer: LimeContainer) {
+    override fun startBuilding(limeContainer: LimeContainerWithInheritance) {
         openContext()
-        if (limeContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
-            val cppTypeInfo =
-                typeMapper.createCustomTypeInfo(limeContainer, CppTypeInfo.TypeCategory.CLASS)
-            storeResult(cppTypeInfo)
-        }
+        val cppTypeInfo =
+            typeMapper.createCustomTypeInfo(limeContainer, CppTypeInfo.TypeCategory.CLASS)
+        storeResult(cppTypeInfo)
     }
 
     override fun startBuilding(limeStruct: LimeStruct) {
@@ -84,13 +84,15 @@ class CBridgeModelBuilder(
         storeResult(cppTypeInfo)
     }
 
-    override fun finishBuilding(limeContainer: LimeContainer) {
+    override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
         val parentClass = getPreviousResultOrNull(CInterface::class.java)
         val inheritedFunctions = mutableListOf<CFunction>()
         if (parentClass != null) {
             inheritedFunctions.addAll(parentClass.inheritedFunctions)
             inheritedFunctions.addAll(parentClass.functions)
         }
+        val functionTableName =
+            (limeContainer as? LimeInterface)?.let { CBridgeNameRules.getFunctionTableName(it) }
 
         val cInterface = CInterface(
             name = CBridgeNameRules.getInterfaceName(limeContainer),
@@ -100,19 +102,30 @@ class CBridgeModelBuilder(
             enums = getPreviousResults(CEnum::class.java),
             functions = getPreviousResults(CFunction::class.java),
             inheritedFunctions = inheritedFunctions,
-            functionTableName = if (limeContainer.type == LimeContainer.ContainerType.INTERFACE)
-                CBridgeNameRules.getFunctionTableName(limeContainer) else null,
+            functionTableName = functionTableName,
             isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
             isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
 
-        if (limeContainer.type == LimeContainer.ContainerType.INTERFACE) {
+        if (limeContainer is LimeInterface) {
             cInterface.implementationIncludes.add(
                 Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME)
             )
         }
         cInterface.implementationIncludes.add(CppLibraryIncludes.TYPE_REPOSITORY)
         cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeNameRules.TYPE_INIT_REPOSITORY))
+
+        storeResult(cInterface)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeTypes: LimeTypesCollection) {
+        val cInterface = CInterface(
+            name = CBridgeNameRules.getInterfaceName(limeTypes),
+            internalNamespace = internalNamespace,
+            structs = getPreviousResults(CStruct::class.java),
+            enums = getPreviousResults(CEnum::class.java)
+        )
 
         storeResult(cInterface)
         closeContext()

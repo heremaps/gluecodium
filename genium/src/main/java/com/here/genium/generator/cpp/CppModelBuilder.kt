@@ -47,7 +47,7 @@ import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -61,6 +61,7 @@ import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
 import java.util.EnumSet
@@ -73,23 +74,19 @@ class CppModelBuilder(
     private val limeReferenceMap: Map<String, LimeElement>
 ) : AbstractLimeBasedModelBuilder<CppElement>(contextStack) {
 
-    override fun finishBuilding(limeContainer: LimeContainer) {
-        val members: List<CppElement> = getPreviousResults(CppEnum::class.java) +
+    override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
+        val members = getPreviousResults(CppEnum::class.java) +
             getPreviousResults(CppUsing::class.java) +
             getPreviousResults(CppStruct::class.java) +
             getPreviousResults(CppConstant::class.java)
 
-        if (limeContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
-            members.forEach { storeResult(it) }
-            closeContext()
-            return
-        }
-
         val limeParentType = limeContainer.parent
         val inheritances = when {
             limeParentType != null -> {
-                val parentType =
-                    typeMapper.mapInstanceType(limeParentType.type as LimeContainer, false)
+                val parentType = typeMapper.mapInstanceType(
+                    limeParentType.type as LimeContainerWithInheritance,
+                    false
+                )
                 listOf(CppInheritance(parentType, CppInheritance.Type.Public))
             }
             else -> emptyList()
@@ -115,6 +112,16 @@ class CppModelBuilder(
         closeContext()
     }
 
+    override fun finishBuilding(limeTypes: LimeTypesCollection) {
+        (getPreviousResults(CppEnum::class.java) +
+            getPreviousResults(CppUsing::class.java) +
+            getPreviousResults(CppStruct::class.java) +
+            getPreviousResults(CppConstant::class.java)
+        ).forEach { storeResult(it) }
+
+        closeContext()
+    }
+
     override fun finishBuilding(limeMethod: LimeFunction) {
         val specifiers = EnumSet.noneOf(CppMethod.Specifier::class.java)
         val qualifiers = EnumSet.noneOf(CppMethod.Qualifier::class.java)
@@ -130,7 +137,7 @@ class CppModelBuilder(
         }
 
         val isNullable = limeMethod.returnType.typeRef.isNullable
-        val isInstance = limeMethod.returnType.typeRef.type is LimeContainer
+        val isInstance = limeMethod.returnType.typeRef.type is LimeContainerWithInheritance
         val cppReturnType = typeMapper.mapType(limeMethod.returnType.typeRef)
         val errorEnum = getPreviousResultOrNull(CppTypeRef::class.java)
         val returnType = when {
@@ -163,7 +170,7 @@ class CppModelBuilder(
 
     override fun finishBuilding(limeParameter: LimeParameter) {
         val isNullable = limeParameter.typeRef.isNullable
-        val isInstance = limeParameter.typeRef.type is LimeContainer
+        val isInstance = limeParameter.typeRef.type is LimeContainerWithInheritance
 
         val cppParameter = CppParameter(
             name = nameResolver.getName(limeParameter),
@@ -218,7 +225,7 @@ class CppModelBuilder(
 
     override fun finishBuilding(limeField: LimeField) {
         val isNullable = limeField.typeRef.isNullable
-        val isInstance = limeField.typeRef.type is LimeContainer
+        val isInstance = limeField.typeRef.type is LimeContainerWithInheritance
 
         val allTypes = LimeTypeHelper.getAllFieldTypes(limeField.typeRef.type)
         val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
@@ -257,7 +264,7 @@ class CppModelBuilder(
     override fun finishBuilding(limeProperty: LimeProperty) {
         val cppTypeRef = getPreviousResult(CppTypeRef::class.java)
         val isNullable = limeProperty.typeRef.isNullable
-        val isInstance = limeProperty.typeRef.type is LimeContainer
+        val isInstance = limeProperty.typeRef.type is LimeContainerWithInheritance
         val isNotNull = !isNullable && isInstance
         val propertyComment = limeProperty.comment.getFor(PLATFORM_TAG)
 

@@ -24,11 +24,12 @@ import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeComment
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeSignatureResolver
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
@@ -99,7 +100,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsMembers() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
+        val limeElement = LimeTypesCollection(fooPath)
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)
@@ -114,7 +115,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsConstants() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
+        val limeElement = LimeTypesCollection(fooPath)
         contextStack.injectResult(swiftConstant)
 
         modelBuilder.finishBuilding(limeElement)
@@ -127,9 +128,8 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsConstantsReadsVisibility() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeTypesCollection(
             fooPath,
-            type = ContainerType.TYPE_COLLECTION,
             visibility = LimeVisibility.INTERNAL
         )
         contextStack.injectResult(swiftConstant)
@@ -143,13 +143,11 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClass() {
-        val limeElement =
-            LimeContainer(
-                fooPath,
-                type = ContainerType.CLASS,
-                comment = LimeComment("some comment"),
-                attributes = deprecatedAttributes
-            )
+        val limeElement = LimeClass(
+            fooPath,
+            comment = LimeComment("some comment"),
+            attributes = deprecatedAttributes
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -165,9 +163,8 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsLegacyCompatible() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             fooPath,
-            type = ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.OBJC)
                 .build()
@@ -182,7 +179,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsParentClass() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.CLASS)
+        val limeElement = LimeClass(fooPath)
         val swiftClass = SwiftClass("swiftFooName")
         contextStack.injectResult(swiftClass)
 
@@ -195,7 +192,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsParentProtocol() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.CLASS)
+        val limeElement = LimeClass(fooPath)
         val swiftClass = SwiftClass("swiftFooName", isInterface = true)
         swiftClass.methods.add(swiftMethod)
         swiftClass.properties.add(swiftProperty)
@@ -211,8 +208,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsVisibility() {
-        val limeElement =
-            LimeContainer(fooPath, type = ContainerType.CLASS, visibility = LimeVisibility.INTERNAL)
+        val limeElement = LimeClass(fooPath, visibility = LimeVisibility.INTERNAL)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -222,7 +218,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsMembers() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.CLASS)
+        val limeElement = LimeClass(fooPath)
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)
@@ -243,9 +239,8 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterface() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             fooPath,
-            type = ContainerType.INTERFACE,
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
@@ -265,9 +260,8 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterfaceReadsLegacyCompatible() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             fooPath,
-            type = ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.OBJC)
                 .build()
@@ -281,7 +275,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterfaceReadsParentProtocol() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.INTERFACE)
+        val limeElement = LimeInterface(fooPath)
         val swiftClass = SwiftClass("swiftFooName", isInterface = true)
         swiftClass.methods.add(swiftMethod)
         swiftClass.properties.add(swiftProperty)
@@ -298,11 +292,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterfaceReadsVisibility() {
-        val limeElement = LimeContainer(
-            fooPath,
-            type = ContainerType.INTERFACE,
-            visibility = LimeVisibility.INTERNAL
-        )
+        val limeElement = LimeInterface(fooPath, visibility = LimeVisibility.INTERNAL)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -312,7 +302,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterfaceReadsMembers() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.INTERFACE)
+        val limeElement = LimeInterface(fooPath)
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)

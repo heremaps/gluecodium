@@ -19,13 +19,14 @@
 
 package com.here.genium.generator.swift
 
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftStruct
@@ -90,10 +91,7 @@ class SwiftTypeMapperTest {
 
     @Test
     fun mapTypeContainer() {
-        val limeElement = LimeContainer(
-            LimePath(emptyList(), listOf("foo", "bar")),
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        val limeElement = LimeTypesCollection(LimePath(emptyList(), listOf("foo", "bar")))
 
         val result = typeMapper.mapType(limeElement)
 
@@ -104,10 +102,7 @@ class SwiftTypeMapperTest {
 
     @Test
     fun mapTypeContainerInterface() {
-        val limeElement = LimeContainer(
-            LimePath(emptyList(), listOf("foo", "bar")),
-            type = LimeContainer.ContainerType.INTERFACE
-        )
+        val limeElement = LimeInterface(LimePath(emptyList(), listOf("foo", "bar")))
 
         val result = typeMapper.mapType(limeElement)
 

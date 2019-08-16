@@ -22,22 +22,22 @@ package com.here.genium.generator.swift
 import com.here.genium.Genium
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeLazyEnumeratorRef
-import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeLazyEnumeratorRef
+import com.here.genium.model.lime.LimeList
+import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -747,9 +747,8 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingClassReadsEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             fooPath,
-            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.EQUATABLE)
                 .build()
@@ -763,9 +762,8 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingClassReadsPointerEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             fooPath,
-            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.POINTER_EQUATABLE)
                 .build()

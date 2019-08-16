@@ -19,11 +19,14 @@
 
 package com.here.genium.generator.swift
 
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeAlias
+import com.here.genium.model.lime.LimeTypesCollection
 
 class SwiftNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
@@ -33,14 +36,14 @@ class SwiftNameResolver(
         getNamespacePrefix(limeType) + nameRules.getName(limeType)
 
     private fun getNamespacePrefix(limeType: LimeType): String {
-        if (limeType is LimeContainer) {
+        if (limeType is LimeContainerWithInheritance || limeType is LimeTypesCollection) {
             return ""
         }
 
         val limeContainer = limeReferenceMap[limeType.path.parent.toString()] as? LimeContainer
-        return when (limeContainer?.type) {
-            ContainerType.CLASS -> nameRules.getName(limeContainer) + "."
-            ContainerType.INTERFACE -> when (limeType) {
+        return when (limeContainer) {
+            is LimeClass -> nameRules.getName(limeContainer) + "."
+            is LimeInterface -> when (limeType) {
                 is LimeTypeAlias -> nameRules.getName(limeContainer) + "."
                 else -> ""
             }

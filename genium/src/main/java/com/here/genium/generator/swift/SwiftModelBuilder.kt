@@ -27,8 +27,9 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.SWIFT
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeBasicType
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -36,6 +37,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -45,6 +47,7 @@ import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
@@ -74,19 +77,17 @@ class SwiftModelBuilder(
     private val nameRules: SwiftNameRules
 ) : AbstractLimeBasedModelBuilder<SwiftModelElement>(contextStack) {
 
-    override fun finishBuilding(limeContainer: LimeContainer) {
-        when (limeContainer.type) {
-            LimeContainer.ContainerType.TYPE_COLLECTION ->
-                finishBuildingTypeCollection(limeContainer)
-            LimeContainer.ContainerType.CLASS -> finishBuildingClass(limeContainer)
-            LimeContainer.ContainerType.INTERFACE -> finishBuildingInterface(limeContainer)
+    override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
+        when (limeContainer) {
+            is LimeClass -> finishBuildingClass(limeContainer)
+            is LimeInterface -> finishBuildingInterface(limeContainer)
         }
 
         closeContext()
     }
 
-    private fun finishBuildingTypeCollection(limeContainer: LimeContainer) {
-        val file = SwiftFile(nameRules.getImplementationFileName(limeContainer))
+    override fun finishBuilding(limeTypes: LimeTypesCollection) {
+        val file = SwiftFile(nameRules.getImplementationFileName(limeTypes))
         file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
@@ -95,19 +96,20 @@ class SwiftModelBuilder(
         val constants = getPreviousResults(SwiftConstant::class.java)
         if (constants.isNotEmpty()) {
             val swiftStruct = SwiftStruct(
-                name = nameRules.getName(limeContainer),
-                visibility = getVisibility(limeContainer),
+                name = nameRules.getName(limeTypes),
+                visibility = getVisibility(limeTypes),
                 constants = constants
             )
             file.structs.add(swiftStruct)
         }
 
         storeResult(file)
+        closeContext()
     }
 
-    private fun finishBuildingClass(limeContainer: LimeContainer) {
+    private fun finishBuildingClass(limeClass: LimeClass) {
         val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
-        val isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC)
+        val isObjcInterface = limeClass.attributes.have(SWIFT, LimeAttributeValueType.OBJC)
         val parentClassName = when {
             parentClass != null && !parentClass.isInterface -> parentClass.name
             isObjcInterface -> SwiftTypeMapper.OBJC_PARENT_CLASS
@@ -115,29 +117,29 @@ class SwiftModelBuilder(
         }
 
         val swiftClass = SwiftClass(
-            name = nameRules.getName(limeContainer),
-            visibility = getVisibility(limeContainer),
+            name = nameRules.getName(limeClass),
+            visibility = getVisibility(limeClass),
             parentClass = parentClassName,
-            nameSpace = limeContainer.path.head.joinToString("_"),
-            cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
+            nameSpace = limeClass.path.head.joinToString("_"),
+            cInstance = CBridgeNameRules.getInterfaceName(limeClass),
             useParentCInstance = parentClass != null && !parentClass.isInterface,
-            hasEquatableType = limeContainer.attributes.have(LimeAttributeType.EQUATABLE) ||
-                    limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
+            hasEquatableType = limeClass.attributes.have(LimeAttributeType.EQUATABLE) ||
+                    limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
             isObjcInterface = isObjcInterface
         )
-        swiftClass.comment = createComments(limeContainer)
+        swiftClass.comment = createComments(limeClass)
 
-        val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
+        val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeClass))
         addMembersAndParent(swiftFile, swiftClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         swiftClass.errors.addAll(getPreviousResults(SwiftError::class.java))
 
-        storeNamedResult(limeContainer, swiftClass)
+        storeNamedResult(limeClass, swiftClass)
         storeResult(swiftFile)
     }
 
-    private fun finishBuildingInterface(limeContainer: LimeContainer) {
+    private fun finishBuildingInterface(limeContainer: LimeInterface) {
         val swiftClass = SwiftClass(
             name = nameRules.getName(limeContainer),
             visibility = getVisibility(limeContainer),

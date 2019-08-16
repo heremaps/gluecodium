@@ -22,12 +22,12 @@ package com.here.genium.generator.cpp
 import com.here.genium.Genium
 import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeType
+import com.here.genium.model.lime.LimeTypesCollection
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -101,10 +101,7 @@ class CppNameResolverTest(
                     "::ro::ot::mo::del::AnElement",
                     "::ro::ot::mo::del::an_Element"
                 ), arrayOf<Any?>(
-                    LimeContainer(
-                        LIME_ROOT_PATH.child("type_Collection"),
-                        type = LimeContainer.ContainerType.TYPE_COLLECTION
-                    ),
+                    LimeTypesCollection(LIME_ROOT_PATH.child("type_Collection")),
                     "::ro::ot::mo::del::AnElement",
                     "::ro::ot::mo::del::an_Element"
                 ), arrayOf<Any?>(

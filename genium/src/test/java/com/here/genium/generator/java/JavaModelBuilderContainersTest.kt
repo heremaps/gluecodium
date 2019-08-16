@@ -39,12 +39,13 @@ import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeComment
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeDirectTypeRef
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -71,10 +72,8 @@ class JavaModelBuilderContainersTest {
     private val javaException = JavaExceptionClass("", javaEnumTypeRef)
     private val javaMethod = JavaMethod("")
 
-    private val limeInterface =
-        LimeContainer(LimePath(emptyList(), listOf("foo")), type = ContainerType.INTERFACE)
-    private val limeClass =
-        LimeContainer(LimePath(emptyList(), listOf("foo")), type = ContainerType.CLASS)
+    private val limeInterface = LimeInterface(LimePath(emptyList(), listOf("foo")))
+    private val limeClass = LimeClass(LimePath(emptyList(), listOf("foo")))
     private val deprecatedAttributes =
         LimeAttributes.Builder().addAttribute(
             LimeAttributeType.DEPRECATED,
@@ -107,7 +106,7 @@ class JavaModelBuilderContainersTest {
     fun finishBuildingTypeCollectionPropagatesElements() {
         val javaTopLevelElement = object : JavaTopLevelElement("") {}
         contextStack.injectResult(javaTopLevelElement)
-        val limeElement = LimeContainer(EMPTY_PATH, type = ContainerType.TYPE_COLLECTION)
+        val limeElement = LimeTypesCollection(EMPTY_PATH)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -118,9 +117,8 @@ class JavaModelBuilderContainersTest {
     @Test
     fun finishBuildingTypeCollectionReadsConstants() {
         contextStack.injectResult(javaConstant)
-        val limeElement = LimeContainer(
+        val limeElement = LimeTypesCollection(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.TYPE_COLLECTION,
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
@@ -140,9 +138,8 @@ class JavaModelBuilderContainersTest {
     @Test
     fun finishBuildingTypeCollectionReadsVisibility() {
         contextStack.injectResult(JavaConstant("", JavaPrimitiveType.VOID, JavaValue("")))
-        val limeElement = LimeContainer(
+        val limeElement = LimeTypesCollection(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.TYPE_COLLECTION,
             visibility = LimeVisibility.INTERNAL
         )
 
@@ -154,9 +151,8 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingInterface() {
-        val javaElement = LimeContainer(
+        val javaElement = LimeInterface(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.INTERFACE,
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
@@ -173,9 +169,8 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingInterfaceReadsVisibility() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.INTERFACE,
             visibility = LimeVisibility.INTERNAL
         )
 
@@ -249,13 +244,9 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingInterfaceReadsParentInterface() {
-        val parentContainer = LimeContainer(
-            LimePath(emptyList(), listOf("bar")),
-            type = ContainerType.INTERFACE
-        )
-        val limeElement = LimeContainer(
+        val parentContainer = LimeInterface(LimePath(emptyList(), listOf("bar")))
+        val limeElement = LimeInterface(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.INTERFACE,
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
@@ -271,9 +262,8 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingClass() {
-        val javaElement = LimeContainer(
+        val javaElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.CLASS,
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
@@ -291,9 +281,8 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingClassReadsVisibility() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.CLASS,
             visibility = LimeVisibility.INTERNAL
         )
 
@@ -305,10 +294,10 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingClassReadsPointerEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.CLASS,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
+            attributes =
+                LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -319,9 +308,8 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingClassReadsEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.CLASS,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
         )
 
@@ -372,13 +360,9 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingClassReadsParentInterface() {
-        val parentContainer = LimeContainer(
-            LimePath(emptyList(), listOf("bar")),
-            type = ContainerType.INTERFACE
-        )
-        val limeElement = LimeContainer(
+        val parentContainer = LimeInterface(LimePath(emptyList(), listOf("bar")))
+        val limeElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.CLASS,
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
@@ -393,13 +377,9 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingClassReadsParentClass() {
-        val parentContainer = LimeContainer(
-            LimePath(emptyList(), listOf("bar")),
-            type = ContainerType.CLASS
-        )
-        val limeElement = LimeContainer(
+        val parentContainer = LimeClass(LimePath(emptyList(), listOf("bar")))
+        val limeElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
-            type = ContainerType.CLASS,
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}

@@ -23,11 +23,10 @@ import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeTypesCollection
 import java.util.HashMap
 
 class CppNameResolver(
@@ -76,9 +75,7 @@ class CppNameResolver(
     private fun resolveNames(limeElement: LimeNamedElement): NamesCacheEntry {
         var parentPath = limeElement.path.parent
         var parentElement = limeReferenceMap[parentPath.toString()] as? LimeNamedElement
-        if (parentElement is LimeContainer &&
-            parentElement.type === ContainerType.TYPE_COLLECTION
-        ) {
+        if (parentElement is LimeTypesCollection) {
             // A type collection doesn't correspond to any named entity in C++ generated code.
             // So skip it and use the parent namespace instead.
             parentPath = parentPath.parent

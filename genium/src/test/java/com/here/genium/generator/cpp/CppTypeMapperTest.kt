@@ -24,15 +24,16 @@ import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTypeDefRef
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeSet
@@ -151,7 +152,7 @@ class CppTypeMapperTest {
 
     @Test
     fun mapInstanceRef() {
-        val limeType = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
+        val limeType = LimeInterface(EMPTY_PATH)
         val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
@@ -171,9 +172,8 @@ class CppTypeMapperTest {
 
     @Test
     fun mapExternalInstanceRef() {
-        val limeType = LimeContainer(
+        val limeType = LimeClass(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.TYPE_COLLECTION,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_TYPE)
                 .build()

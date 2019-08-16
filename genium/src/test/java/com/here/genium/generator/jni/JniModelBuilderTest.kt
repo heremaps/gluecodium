@@ -62,13 +62,14 @@ import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -76,6 +77,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -152,9 +154,8 @@ class JniModelBuilderTest {
 
     private val fooPath = LimePath(listOf("foo", "bar"), emptyList())
     private val limeMethod = LimeFunction(EMPTY_PATH)
-    private val limeTypeCollection =
-        LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
-    private val limeInterface = LimeContainer(fooPath, type = LimeContainer.ContainerType.INTERFACE)
+    private val limeTypeCollection = LimeTypesCollection(EMPTY_PATH)
+    private val limeInterface = LimeInterface(fooPath)
     private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeEnum = LimeEnumeration(EMPTY_PATH)
@@ -201,8 +202,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsStructs() {
-        val limeElement =
-            LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
+        val limeElement = LimeTypesCollection(EMPTY_PATH)
         val jniStruct = JniStruct(javaClass.name, javaClass.javaPackage, cppStruct, emptyList())
         contextStack.injectResult(jniStruct)
 
@@ -216,11 +216,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsTypeIncludes() {
-        val limeElement = LimeContainer(
-            EMPTY_PATH,
-            type = LimeContainer.ContainerType.TYPE_COLLECTION,
-            structs = listOf(limeStruct)
-        )
+        val limeElement = LimeTypesCollection(EMPTY_PATH, structs = listOf(limeStruct))
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -242,7 +238,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingClass() {
-        val limeElement = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS)
+        val limeElement = LimeClass(EMPTY_PATH)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -299,9 +295,8 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsTypeIncludes() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             LimePath(listOf("foo", "bar"), emptyList()),
-            type = LimeContainer.ContainerType.INTERFACE,
             structs = listOf(limeStruct)
         )
         val cppStructInclude = Include.createInternalInclude("Foo")
@@ -327,9 +322,8 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsPointerEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             fooPath,
-            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.POINTER_EQUATABLE)
                 .build()
@@ -342,9 +336,8 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeClass(
             fooPath,
-            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.EQUATABLE)
                 .build()

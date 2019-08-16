@@ -26,7 +26,7 @@ import java.util.TreeSet
 /** Collection of related methods and structs forming an interface (like a C header file)  */
 class CInterface(
     name: String,
-    val selfType: CppTypeInfo?,
+    val selfType: CppTypeInfo? = null,
     val internalNamespace: List<String>,
     val structs: List<CStruct> = listOf(),
     val inheritedFunctions: List<CFunction> = listOf(),

@@ -38,12 +38,12 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
@@ -67,10 +67,7 @@ class CppModelBuilderCommentsTest {
     @MockK private lateinit var nameResolver: CppNameResolver
     @MockK private lateinit var includeResolver: CppIncludeResolver
 
-    private val limeContainer = LimeContainer(
-        EMPTY_PATH,
-        type = LimeContainer.ContainerType.TYPE_COLLECTION
-    )
+    private val limeContainer = LimeInterface(EMPTY_PATH)
     private val limeContainerTypeRef = LimeDirectTypeRef(limeContainer)
     private val deprecatedAttributes =
         LimeAttributes.Builder().addAttribute(DEPRECATED, MESSAGE, "Bar").build()
@@ -89,9 +86,8 @@ class CppModelBuilderCommentsTest {
 
     @Test
     fun finishBuildingContainerReadsComment() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.INTERFACE,
             comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )

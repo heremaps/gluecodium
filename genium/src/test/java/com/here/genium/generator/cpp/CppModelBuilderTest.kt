@@ -35,7 +35,6 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
@@ -43,15 +42,16 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -59,6 +59,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -92,10 +93,7 @@ class CppModelBuilderTest {
     private val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeMethod = LimeFunction(EMPTY_PATH)
-    private val limeInterface = LimeContainer(
-        path = EMPTY_PATH,
-        type = LimeContainer.ContainerType.INTERFACE
-    )
+    private val limeInterface = LimeInterface(EMPTY_PATH)
 
     private val cppEnum = CppEnum("", "", emptyList(), false, emptyList())
     private val cppUsing = CppUsing("", "", Comments(), CppPrimitiveTypeRef.BOOL)
@@ -124,10 +122,7 @@ class CppModelBuilderTest {
         contextStack.injectResult(cppUsing)
         contextStack.injectResult(cppStruct)
         contextStack.injectResult(cppConstant)
-        val limeElement = LimeContainer(
-            EMPTY_PATH,
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        val limeElement = LimeTypesCollection(EMPTY_PATH)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -177,11 +172,7 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingInterfaceReadsParent() {
         val limeParentTypeRef = LimeDirectTypeRef(limeInterface)
-        val limeElement = LimeContainer(
-            EMPTY_PATH,
-            type = LimeContainer.ContainerType.INTERFACE,
-            parent = limeParentTypeRef
-        )
+        val limeElement = LimeInterface(EMPTY_PATH, parent = limeParentTypeRef)
         every { typeMapper.mapInstanceType(limeInterface, any()) } returns cppTypeRef
 
         modelBuilder.finishBuilding(limeElement)
@@ -194,9 +185,8 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsExternalType() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
                 .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
@@ -210,9 +200,8 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsEquatable() {
-        val limeElement = LimeContainer(
+        val limeElement = LimeInterface(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.EQUATABLE)
                 .build()
@@ -511,9 +500,8 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingFieldReadsIsClassEquatable() {
         contextStack.injectResult(cppTypeRef)
-        val limeInterface = LimeContainer(
+        val limeInterface = LimeInterface(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.EQUATABLE)
                 .build()
@@ -530,9 +518,8 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingFieldReadsIsClassPointerEquatable() {
         contextStack.injectResult(cppTypeRef)
-        val limeInterface = LimeContainer(
+        val limeInterface = LimeInterface(
             EMPTY_PATH,
-            type = LimeContainer.ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.POINTER_EQUATABLE)
                 .build()

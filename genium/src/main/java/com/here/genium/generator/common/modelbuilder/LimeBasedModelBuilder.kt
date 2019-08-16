@@ -20,7 +20,7 @@
 package com.here.genium.generator.common.modelbuilder
 
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -32,15 +32,17 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 
 /** An interface for a model builder, used by [LimeTreeWalker].  */
 interface LimeBasedModelBuilder {
     fun startBuilding(limeElement: LimeElement)
-    fun startBuilding(limeContainer: LimeContainer)
+    fun startBuilding(limeContainer: LimeContainerWithInheritance)
     fun startBuilding(limeStruct: LimeStruct)
 
-    fun finishBuilding(limeContainer: LimeContainer)
+    fun finishBuilding(limeContainer: LimeContainerWithInheritance)
+    fun finishBuilding(limeTypes: LimeTypesCollection)
     fun finishBuilding(limeTypeRef: LimeTypeRef)
     fun finishBuilding(limeMethod: LimeFunction)
     fun finishBuilding(limeParameter: LimeParameter)

@@ -3,9 +3,7 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 #include "cbridge/include/smoke/cbridge_StructsWithMethods.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
-#include "cbridge_internal/include/TypeInitRepository.h"
 #include "genium/Optional.h"
-#include "genium/TypeRepository.h"
 #include "smoke/StructsWithMethods.h"
 #include "smoke/ValidationUtils.h"
 #include <memory>

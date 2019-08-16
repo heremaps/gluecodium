@@ -31,14 +31,15 @@ import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaTemplateType.TemplateClass
 import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSet
@@ -48,6 +49,7 @@ import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 
 class JavaTypeMapper(
     private val limeReferenceMap: Map<String, LimeElement>,
@@ -83,7 +85,7 @@ class JavaTypeMapper(
             is LimeList -> mapTemplateType(TemplateClass.LIST, limeType.elementType)
             is LimeMap -> mapMapType(limeType)
             is LimeStruct, is LimeEnumeration, is LimeException -> mapCustomType(limeType)
-            is LimeContainer -> {
+            is LimeContainerWithInheritance -> {
                 val packageNames =
                     basePackage.createChildPackage(limeType.path.head).packageNames
                 val className = nameRules.getName(limeType)
@@ -146,7 +148,7 @@ class JavaTypeMapper(
         implClassName: String? = null
     ): JavaType {
         val className = implClassName ?: nameRules.getName(limeType)
-        if (limeType is LimeContainer) {
+        if (limeType is LimeContainerWithInheritance) {
             val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
 
             return JavaCustomType(
@@ -163,8 +165,7 @@ class JavaTypeMapper(
         val importClassName: String
         val typeName: String
         val classNames: List<String>
-        if (parentContainer == null ||
-                parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
+        if (parentContainer == null || parentContainer is LimeTypesCollection) {
             importClassName = className
             typeName = className
             classNames = listOf(className)
@@ -193,8 +194,7 @@ class JavaTypeMapper(
 
         val importClassName: String
         val classNames: List<String>
-        if (parentContainer == null ||
-                parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
+        if (parentContainer == null || parentContainer is LimeTypesCollection) {
             importClassName = exceptionName
             classNames = listOf(exceptionName)
         } else {

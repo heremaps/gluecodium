@@ -19,22 +19,22 @@
 
 package com.here.genium.generator.common.modelbuilder
 
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -46,7 +46,7 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeTreeWalkerTest {
-    private val limeParentContainer = LimeContainer(EMPTY_PATH, type = ContainerType.INTERFACE)
+    private val limeParentContainer = LimeInterface(EMPTY_PATH)
     private val limeParentTypeRef = LimeLazyTypeRef("foo", mapOf("foo" to limeParentContainer))
     private val limeErrorTypeRef = LimeLazyTypeRef("bar", emptyMap())
     private val limeParameterTypeRef = LimeLazyTypeRef("baz", emptyMap())
@@ -81,9 +81,8 @@ class LimeTreeWalkerTest {
         thrownType = LimeThrownType(LimeDirectTypeRef(limeException)),
         parameters = listOf(limeParameter)
     )
-    private val limeContainer = LimeContainer(
+    private val limeContainer = LimeClass(
         path = EMPTY_PATH,
-        type = ContainerType.TYPE_COLLECTION,
         parent = limeParentTypeRef,
         functions = listOf(limeMethod),
         structs = listOf(limeStruct),

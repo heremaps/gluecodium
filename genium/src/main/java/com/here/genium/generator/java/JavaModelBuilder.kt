@@ -46,19 +46,21 @@ import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.genium.model.lime.LimeAttributeType.JAVA
 import com.here.genium.model.lime.LimeAttributeValueType.BUILDER
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import java.util.EnumSet
@@ -72,11 +74,29 @@ class JavaModelBuilder(
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
     private val nativeBase: JavaType = typeMapper.nativeBase
 
-    override fun finishBuilding(limeContainer: LimeContainer) {
-        when (limeContainer.type) {
-            ContainerType.TYPE_COLLECTION -> finishBuildingTypeCollection(limeContainer)
-            ContainerType.INTERFACE -> finishBuildingInterface(limeContainer)
-            ContainerType.CLASS -> finishBuildingClass(limeContainer)
+    override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
+        when (limeContainer) {
+            is LimeInterface -> finishBuildingInterface(limeContainer)
+            is LimeClass -> finishBuildingClass(limeContainer)
+        }
+
+        closeContext()
+    }
+
+    override fun finishBuilding(limeTypes: LimeTypesCollection) {
+        getPreviousResults(JavaTopLevelElement::class.java).forEach { this.storeResult(it) }
+
+        val constants = getPreviousResults(JavaConstant::class.java)
+        if (constants.isNotEmpty()) {
+            val javaClass = JavaClass(nameRules.getName(limeTypes))
+            javaClass.visibility = getVisibility(limeTypes)
+            javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
+            javaClass.javaPackage = rootPackage
+            javaClass.comment = createComments(limeTypes)
+            addDeprecatedAnnotationIfNeeded(javaClass)
+            javaClass.constants.addAll(constants)
+
+            storeNamedResult(limeTypes, javaClass)
         }
 
         closeContext()
@@ -303,13 +323,13 @@ class JavaModelBuilder(
         closeContext()
     }
 
-    private fun createJavaInterface(limeContainer: LimeContainer): JavaInterface {
+    private fun createJavaInterface(limeInterface: LimeInterface): JavaInterface {
 
-        val javaInterface = JavaInterface(nameRules.getName(limeContainer))
-        javaInterface.visibility = getVisibility(limeContainer)
+        val javaInterface = JavaInterface(nameRules.getName(limeInterface))
+        javaInterface.visibility = getVisibility(limeInterface)
         javaInterface.javaPackage = rootPackage
 
-        javaInterface.comment = createComments(limeContainer)
+        javaInterface.comment = createComments(limeInterface)
         addDeprecatedAnnotationIfNeeded(javaInterface)
         javaInterface.constants.addAll(getPreviousResults(JavaConstant::class.java))
         javaInterface.enums.addAll(getPreviousResults(JavaEnum::class.java))
@@ -322,7 +342,7 @@ class JavaModelBuilder(
     }
 
     private fun createJavaImplementationClass(
-        limeContainer: LimeContainer,
+        limeContainer: LimeContainerWithInheritance,
         javaInterface: JavaInterface,
         extendedClass: JavaType
     ): JavaClass {
@@ -349,29 +369,12 @@ class JavaModelBuilder(
         return javaClass
     }
 
-    private fun finishBuildingTypeCollection(limeContainer: LimeContainer) {
-        getPreviousResults(JavaTopLevelElement::class.java).forEach { this.storeResult(it) }
-
-        val constants = getPreviousResults(JavaConstant::class.java)
-        if (constants.isEmpty()) return
-
-        val javaClass = JavaClass(nameRules.getName(limeContainer))
-        javaClass.visibility = getVisibility(limeContainer)
-        javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
-        javaClass.javaPackage = rootPackage
-        javaClass.comment = createComments(limeContainer)
-        addDeprecatedAnnotationIfNeeded(javaClass)
-        javaClass.constants.addAll(constants)
-
-        storeNamedResult(limeContainer, javaClass)
-    }
-
-    private fun finishBuildingClass(limeContainer: LimeContainer) {
+    private fun finishBuildingClass(limeClass: LimeClass) {
         var extendedClass = nativeBase
-        val parentContainer = limeContainer.parent?.type as? LimeContainer
+        val parentContainer = limeClass.parent?.type as? LimeContainerWithInheritance
         if (parentContainer != null) {
             val parentClassName = when {
-                parentContainer.type == ContainerType.INTERFACE ->
+                parentContainer is LimeInterface ->
                     nameRules.getImplementationClassName(parentContainer)
                 else -> nameRules.getName(parentContainer)
             }
@@ -379,17 +382,17 @@ class JavaModelBuilder(
         }
 
         val javaClass = JavaClass(
-            name = nameRules.getName(limeContainer),
+            name = nameRules.getName(limeClass),
             extendedClass = extendedClass,
             fields = getPreviousResults(JavaField::class.java),
             isImplClass = true,
             needsDisposer = parentContainer == null,
-            hasNativeEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE) ||
-                    limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
+            hasNativeEquatable = limeClass.attributes.have(LimeAttributeType.EQUATABLE) ||
+                    limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
-        javaClass.visibility = getVisibility(limeContainer)
+        javaClass.visibility = getVisibility(limeClass)
         javaClass.javaPackage = rootPackage
-        javaClass.comment = createComments(limeContainer)
+        javaClass.comment = createComments(limeClass)
         addDeprecatedAnnotationIfNeeded(javaClass)
 
         javaClass.constants.addAll(getPreviousResults(JavaConstant::class.java))
@@ -400,14 +403,14 @@ class JavaModelBuilder(
 
         addInnerClasses(javaClass)
 
-        storeNamedResult(limeContainer, javaClass)
+        storeNamedResult(limeClass, javaClass)
     }
 
-    private fun finishBuildingInterface(limeContainer: LimeContainer) {
-        val javaInterface = createJavaInterface(limeContainer)
+    private fun finishBuildingInterface(limeInterface: LimeInterface) {
+        val javaInterface = createJavaInterface(limeInterface)
 
         var extendedClass = nativeBase
-        val parentContainer = limeContainer.parent?.type as? LimeContainer
+        val parentContainer = limeInterface.parent?.type as? LimeContainerWithInheritance
         if (parentContainer != null) {
             javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentContainer))
             extendedClass = typeMapper.mapCustomType(
@@ -417,9 +420,9 @@ class JavaModelBuilder(
         }
 
         val javaImplementationClass =
-            createJavaImplementationClass(limeContainer, javaInterface, extendedClass)
+            createJavaImplementationClass(limeInterface, javaInterface, extendedClass)
 
-        storeNamedResult(limeContainer, javaInterface)
+        storeNamedResult(limeInterface, javaInterface)
         storeResult(javaImplementationClass)
     }
 

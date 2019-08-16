@@ -26,14 +26,14 @@ import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass
 import com.here.genium.model.cpp.CppTypeDefRef
 import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
@@ -57,12 +57,13 @@ class CppTypeMapper(
 
     fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef {
         val result = mapType(limeTypeRef.type)
-        val needsOptionalType = limeTypeRef.isNullable && limeTypeRef.type !is LimeContainer
+        val needsOptionalType =
+            limeTypeRef.isNullable && limeTypeRef.type !is LimeContainerWithInheritance
         return if (needsOptionalType) createOptionalType(result) else result
     }
 
     fun mapInstanceType(
-        limeContainer: LimeContainer,
+        limeContainer: LimeContainerWithInheritance,
         needsForwardDeclaration: Boolean
     ) = CppComplexTypeRef(
         fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
@@ -118,7 +119,7 @@ class CppTypeMapper(
                     )
                 }
             }
-            is LimeContainer -> {
+            is LimeContainerWithInheritance -> {
                 val instanceType =
                     mapInstanceType(limeType, !limeType.attributes.have(CPP, EXTERNAL_TYPE))
                 CppTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)

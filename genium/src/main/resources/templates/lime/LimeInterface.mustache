@@ -18,15 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "// "}}
-{{/unless}}{{!!
-}}{{#unless constructorComment.isEmpty}}// @constructor {{prefix constructorComment "// " skipFirstLine=true}}
-{{/unless}}{{!!
-}}{{#if attributes.toString}}{{attributes}}
-{{/if}}
-{{visibility}}struct {{escapedName}} {
-{{#set parentVisibility=visibility}}{{#fields}}
-{{prefixPartial "lime/LimeField" "    "}}
-{{/fields}}{{/set}}
+{{>lime/LimeDocumentation}}
+{{visibility}}interface {{escapedName}} {{#parent}}: {{type.name}} {{/parent}}{
 {{>lime/LimeContainerContents}}
 }

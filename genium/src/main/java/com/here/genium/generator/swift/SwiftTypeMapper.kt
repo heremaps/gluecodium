@@ -22,18 +22,20 @@ package com.here.genium.generator.swift
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.generator.cbridge.CBridgeNameResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeHelper
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
@@ -56,11 +58,16 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeEnumeration -> SwiftEnum(nameResolver.getFullName(limeType))
             is LimeTypeAlias ->
                 mapType(limeType.typeRef.type).withAlias(nameResolver.getFullName(limeType))
-            is LimeContainer -> SwiftStruct(
+            is LimeClass, is LimeTypesCollection -> SwiftStruct(
+                name = nameResolver.getFullName(limeType),
+                cPrefix = CBridgeNameRules.getNestedSpecifierString(limeType),
+                category = SwiftType.TypeCategory.CLASS
+            )
+            is LimeInterface -> SwiftStruct(
                 name = nameResolver.getFullName(limeType),
                 cPrefix = CBridgeNameRules.getNestedSpecifierString(limeType),
                 category = SwiftType.TypeCategory.CLASS,
-                isInterface = limeType.type == LimeContainer.ContainerType.INTERFACE
+                isInterface = true
             )
             is LimeList -> mapArrayType(limeType)
             is LimeMap -> mapMapType(limeType)

@@ -36,7 +36,7 @@ import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
@@ -67,7 +67,8 @@ class CBridgeTypeMapper(
         when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeAlias -> mapType(LimeTypeHelper.getActualType(limeType))
-            is LimeContainer -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.CLASS)
+            is LimeContainerWithInheritance ->
+                createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.CLASS)
             is LimeStruct -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.STRUCT)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
             is LimeList -> {

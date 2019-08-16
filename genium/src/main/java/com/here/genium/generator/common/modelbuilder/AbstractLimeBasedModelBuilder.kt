@@ -25,7 +25,7 @@ import com.here.genium.model.common.Comments
 import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
@@ -43,7 +43,7 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     val referenceMap = mutableMapOf<String, E>()
 
     override fun startBuilding(limeElement: LimeElement) = openContext()
-    override fun startBuilding(limeContainer: LimeContainer) = openContext()
+    override fun startBuilding(limeContainer: LimeContainerWithInheritance) = openContext()
     override fun startBuilding(limeStruct: LimeStruct) = openContext()
 
     override fun finishBuilding(limeTypeDef: LimeTypeAlias) = closeContext()

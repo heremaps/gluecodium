@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeTypeHelper
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 
 class JavaValueMapper(
@@ -55,8 +56,7 @@ class JavaValueMapper(
                         nameRules.getName(limeEnumerator)
                 val parentContainer =
                     limeReferenceMap[limeEnumeration.path.parent.toString()] as? LimeContainer
-                if (parentContainer != null &&
-                    parentContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
+                if (parentContainer != null && parentContainer !is LimeTypesCollection) {
                     names = listOf(nameRules.getName(parentContainer)) + names
                 }
                 JavaValue(names.joinToString("."), true)

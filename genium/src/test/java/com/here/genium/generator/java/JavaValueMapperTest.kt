@@ -28,14 +28,15 @@ import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeLazyEnumeratorRef
-import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeTypeAlias
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -65,10 +66,7 @@ class JavaValueMapperTest {
 
     @Test
     fun mapEnumeratorInContainer() {
-        limeReferenceMap["foo"] = LimeContainer(
-            LimePath(emptyList(), listOf("foo")),
-            type = LimeContainer.ContainerType.INTERFACE
-        )
+        limeReferenceMap["foo"] = LimeInterface(LimePath(emptyList(), listOf("foo")))
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
         val enumeratorRef = LimeLazyTypeRef("bar", limeReferenceMap)
@@ -83,10 +81,7 @@ class JavaValueMapperTest {
 
     @Test
     fun mapTypeDefToEnumerator() {
-        limeReferenceMap["foo"] = LimeContainer(
-            LimePath(emptyList(), listOf("foo")),
-            type = LimeContainer.ContainerType.INTERFACE
-        )
+        limeReferenceMap["foo"] = LimeInterface(LimePath(emptyList(), listOf("foo")))
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
         limeReferenceMap["barDef"] = LimeTypeAlias(
@@ -105,10 +100,7 @@ class JavaValueMapperTest {
 
     @Test
     fun mapEnumeratorInTypeCollection() {
-        limeReferenceMap["foo"] = LimeContainer(
-            LimePath(emptyList(), listOf("foo")),
-            type = LimeContainer.ContainerType.TYPE_COLLECTION
-        )
+        limeReferenceMap["foo"] = LimeTypesCollection(LimePath(emptyList(), listOf("foo")))
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
         val enumeratorRef = LimeLazyTypeRef("bar", limeReferenceMap)

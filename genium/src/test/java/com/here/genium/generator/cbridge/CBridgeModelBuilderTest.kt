@@ -43,14 +43,14 @@ import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -59,6 +59,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeThrownType
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftParameter
@@ -94,7 +95,7 @@ class CBridgeModelBuilderTest {
     private lateinit var typeMapper: CBridgeTypeMapper
 
     private val fooPath = LimePath(emptyList(), listOf("foo"))
-    private val limeContainer = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
+    private val limeContainer = LimeClass(fooPath)
     private val limeMethod = LimeFunction(fooPath)
     private val limeStruct = LimeStruct(fooPath)
 
@@ -151,7 +152,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun startBuildingTypeCollection() {
-        val limeElement = LimeContainer(EMPTY_PATH, type = ContainerType.TYPE_COLLECTION)
+        val limeElement = LimeTypesCollection(EMPTY_PATH)
 
         modelBuilder.startBuilding(limeElement)
 
@@ -160,7 +161,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun startBuildingContainer() {
-        val limeElement = LimeContainer(EMPTY_PATH, type = ContainerType.INTERFACE)
+        val limeElement = LimeInterface(EMPTY_PATH)
         every {
             typeMapper.createCustomTypeInfo(limeElement, CppTypeInfo.TypeCategory.CLASS)
         } returns cppTypeInfo
@@ -240,9 +241,8 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingContainerReadsEquatable() {
-        val limeContainer = LimeContainer(
+        val limeContainer = LimeClass(
             fooPath,
-            type = ContainerType.CLASS,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
         )
         modelBuilder.finishBuilding(limeContainer)
@@ -254,10 +254,10 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingContainerReadsPointerEquatable() {
-        val limeContainer = LimeContainer(
+        val limeContainer = LimeClass(
             fooPath,
-            type = ContainerType.CLASS,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
+            attributes =
+                LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
         )
         modelBuilder.finishBuilding(limeContainer)
 
@@ -268,7 +268,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingInterface() {
-        val limeElement = LimeContainer(fooPath, type = ContainerType.INTERFACE)
+        val limeElement = LimeInterface(fooPath)
 
         modelBuilder.finishBuilding(limeElement)
 

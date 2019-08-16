@@ -22,6 +22,7 @@ package com.here.genium.generator.common.modelbuilder
 import com.here.genium.common.GenericTreeWalker
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -34,6 +35,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
 
 class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
@@ -43,8 +45,21 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         walk(rootElement)
     }
 
-    private fun walkChildNodes(limeContainer: LimeContainer) {
+    private fun walkChildNodes(limeContainer: LimeContainerWithInheritance) {
         walk(limeContainer.parent?.type)
+        walkChildNodes(limeContainer as LimeContainer)
+    }
+
+    private fun walkChildNodes(limeTypes: LimeTypesCollection) {
+        walkChildNodes(limeTypes as LimeContainer)
+    }
+
+    private fun walkChildNodes(limeStruct: LimeStruct) {
+        walkCollection(limeStruct.fields)
+        walkChildNodes(limeStruct as LimeContainer)
+    }
+
+    private fun walkChildNodes(limeContainer: LimeContainer) {
         walkCollection(limeContainer.functions)
         walkCollection(limeContainer.structs)
         walkCollection(limeContainer.typeAliases)
@@ -61,12 +76,6 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
 
     private fun walkChildNodes(limeParameter: LimeParameter) {
         walk(limeParameter.typeRef)
-    }
-
-    private fun walkChildNodes(limeStruct: LimeStruct) {
-        walkCollection(limeStruct.fields)
-        walkCollection(limeStruct.functions)
-        walkCollection(limeStruct.constants)
     }
 
     private fun walkChildNodes(limeField: LimeField) {
@@ -110,7 +119,13 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         init {
             // Regular nodes
             initTreeNode(
-                LimeContainer::class.java,
+                LimeContainerWithInheritance::class.java,
+                LimeBasedModelBuilder::startBuilding,
+                LimeBasedModelBuilder::finishBuilding,
+                LimeTreeWalker::walkChildNodes
+            )
+            initTreeNode(
+                LimeTypesCollection::class.java,
                 LimeBasedModelBuilder::startBuilding,
                 LimeBasedModelBuilder::finishBuilding,
                 LimeTreeWalker::walkChildNodes
