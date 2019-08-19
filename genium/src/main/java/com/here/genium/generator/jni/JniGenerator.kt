@@ -80,7 +80,12 @@ class JniGenerator(
 
         val includeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules)
         val typeMapper = CppTypeMapper(cppNameResolver, includeResolver, internalNamespace)
-        val cppBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = cppNameResolver)
+        val cppBuilder = CppModelBuilder(
+            typeMapper = typeMapper,
+            nameResolver = cppNameResolver,
+            includeResolver = includeResolver,
+            limeReferenceMap = limeReferenceMap
+        )
 
         val jniBuilder = JniModelBuilder(
             javaBuilder = javaBuilder,

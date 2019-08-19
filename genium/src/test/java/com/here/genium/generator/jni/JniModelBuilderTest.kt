@@ -34,6 +34,7 @@ import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaEnum
@@ -575,7 +576,7 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingEnumerator() {
         val javaEnumItem = JavaEnumItem("javaEnumerator")
-        val cppEnumItem = CppEnumItem("cppEnumerator", "nested::cppEnumerator", null)
+        val cppEnumItem = CppEnumItem("cppEnumerator", "nested::cppEnumerator", null, CppValue("0"))
         every { javaBuilder.getFinalResult(JavaEnumItem::class.java) } returns javaEnumItem
         every { cppBuilder.getFinalResult(CppEnumItem::class.java) } returns cppEnumItem
         val limeElement = LimeEnumerator(EMPTY_PATH)

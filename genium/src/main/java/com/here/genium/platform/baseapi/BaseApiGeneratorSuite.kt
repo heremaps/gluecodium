@@ -73,7 +73,12 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             CppIncludeResolver(limeReferenceMap, nameRules)
         val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
         val typeMapper = CppTypeMapper(nameResolver, includeResolver, internalNamespace)
-        val cppModelBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = nameResolver)
+        val cppModelBuilder = CppModelBuilder(
+            typeMapper = typeMapper,
+            nameResolver = nameResolver,
+            includeResolver = includeResolver,
+            limeReferenceMap = limeReferenceMap
+        )
 
         val allErrorEnums = limeReferenceMap.values
             .filterIsInstance<LimeException>()

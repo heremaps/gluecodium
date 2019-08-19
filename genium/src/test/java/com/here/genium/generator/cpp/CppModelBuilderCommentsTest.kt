@@ -65,6 +65,7 @@ import org.junit.runners.JUnit4
 class CppModelBuilderCommentsTest {
     @MockK private lateinit var typeMapper: CppTypeMapper
     @MockK private lateinit var nameResolver: CppNameResolver
+    @MockK private lateinit var includeResolver: CppIncludeResolver
 
     private val limeContainer = LimeContainer(
         EMPTY_PATH,
@@ -82,7 +83,8 @@ class CppModelBuilderCommentsTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder = CppModelBuilder(contextStack, typeMapper, nameResolver)
+        modelBuilder =
+            CppModelBuilder(contextStack, typeMapper, nameResolver, includeResolver, emptyMap())
     }
 
     @Test

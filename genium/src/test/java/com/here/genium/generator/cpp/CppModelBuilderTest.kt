@@ -75,6 +75,7 @@ class CppModelBuilderTest {
     private lateinit var typeMapper: CppTypeMapper
     @MockK
     private lateinit var nameResolver: CppNameResolver
+    @MockK private lateinit var includeResolver: CppIncludeResolver
 
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH)
@@ -106,7 +107,8 @@ class CppModelBuilderTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder = CppModelBuilder(contextStack, typeMapper, nameResolver)
+        modelBuilder =
+            CppModelBuilder(contextStack, typeMapper, nameResolver, includeResolver, emptyMap())
 
         every { nameResolver.getName(any()) } returns "Foo"
         every { nameResolver.getFullyQualifiedName(any()) } returns "Bar"
@@ -610,7 +612,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerationReadsEnumItems() {
-        val cppEnumItem = CppEnumItem("", "", null)
+        val cppEnumItem = CppEnumItem("", "", null, CppValue(""))
         contextStack.injectResult(cppEnumItem)
 
         modelBuilder.finishBuilding(limeEnumeration)

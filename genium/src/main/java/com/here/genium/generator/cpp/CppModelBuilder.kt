@@ -63,7 +63,9 @@ import java.util.EnumSet
 class CppModelBuilder(
     contextStack: ModelBuilderContextStack<CppElement> = ModelBuilderContextStack(),
     private val typeMapper: CppTypeMapper,
-    private val nameResolver: CppNameResolver
+    private val nameResolver: CppNameResolver,
+    private val includeResolver: CppIncludeResolver,
+    private val limeReferenceMap: Map<String, LimeElement>
 ) : AbstractLimeBasedModelBuilder<CppElement>(contextStack) {
 
     override fun finishBuilding(limeContainer: LimeContainer) {
