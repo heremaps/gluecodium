@@ -5,6 +5,10 @@
 #include "JniCppConversionUtils.h"
 #include "com_example_smoke_FreePoint.h"
 #include "com_example_smoke_UseFreeTypes.h"
+#include "smoke/FreeEnum.h"
+#include "smoke/FreePoint.h"
+#include "smoke/UnusedTopLevelEnum.h"
+#include "smoke/UnusedTopLevelPoint.h"
 #include "smoke/UseFreeTypes.h"
 #include <jni.h>
 #include <memory>
@@ -17,5 +21,9 @@ namespace jni
 ::genium::optional<::smoke::FreePoint> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::FreePoint>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::FreePoint& _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::FreePoint> _ninput);
+::smoke::UnusedTopLevelPoint convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::UnusedTopLevelPoint* dummy);
+::genium::optional<::smoke::UnusedTopLevelPoint> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::UnusedTopLevelPoint>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::UnusedTopLevelPoint& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::UnusedTopLevelPoint> _ninput);
 }
 }

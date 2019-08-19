@@ -204,7 +204,7 @@ class JniModelBuilder(
             methods = getPreviousResults(JniMethod::class.java)
         )
 
-        storeResult(jniStruct)
+        storeNamedResult(limeStruct, jniStruct)
         closeContext()
     }
 
@@ -242,7 +242,7 @@ class JniModelBuilder(
             enumerators = getPreviousResults(JniEnumerator::class.java)
         )
 
-        storeResult(jniEnum)
+        storeNamedResult(limeEnumeration, jniEnum)
         closeContext()
     }
 

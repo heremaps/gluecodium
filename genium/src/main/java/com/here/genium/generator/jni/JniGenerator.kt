@@ -40,6 +40,7 @@ import com.here.genium.model.jni.JniContainer
 import com.here.genium.model.jni.JniElement
 import com.here.genium.model.jni.JniEnum
 import com.here.genium.model.jni.JniStruct
+import com.here.genium.model.jni.JniTopLevelElement
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 
@@ -92,7 +93,11 @@ class JniGenerator(
         val treeWalker = LimeTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
         treeWalker.walkTree(rootElement)
 
-        val jniResults = jniBuilder.finalResults.mapNotNull { wrapInContainer(it) }
+        val jniToLimeMap =
+            jniBuilder.referenceMap.entries.associate { it.value to limeReferenceMap[it.key] }
+        val jniResults = jniBuilder.finalResults.mapNotNull {
+            wrapInContainer(it, jniToLimeMap, includeResolver)
+        }
         jniResults.forEach { it.includes.addAll(getIncludes(it)) }
 
         return JavaModel(
@@ -103,31 +108,53 @@ class JniGenerator(
         )
     }
 
-    private fun wrapInContainer(jniElement: JniElement) =
+    private fun wrapInContainer(
+        jniElement: JniElement,
+        jniToLimeMap: Map<JniElement, LimeElement?>,
+        includeResolver: CppIncludeResolver
+    ) =
         when (jniElement) {
             is JniContainer -> jniElement
             is JniStruct -> {
-                val jniContainer = JniContainer(
-                    javaPackages = jniElement.javaPackage.packageNames,
-                    cppNameSpaces = jniElement.cppFullyQualifiedName.split("::").dropLast(1),
-                    containerType = JniContainer.ContainerType.TYPE_COLLECTION,
-                    internalNamespace = internalNamespace
+                val jniContainer = wrapInContainer(
+                    jniElement,
+                    jniElement.cppFullyQualifiedName,
+                    jniToLimeMap,
+                    includeResolver
                 )
                 jniContainer.add(jniElement)
                 jniContainer
             }
             is JniEnum -> {
-                val jniContainer = JniContainer(
-                    javaPackages = jniElement.javaPackage.packageNames,
-                    cppNameSpaces = jniElement.cppEnumName.split("::").dropLast(1),
-                    containerType = JniContainer.ContainerType.TYPE_COLLECTION,
-                    internalNamespace = internalNamespace
+                val jniContainer = wrapInContainer(
+                    jniElement,
+                    jniElement.cppEnumName,
+                    jniToLimeMap,
+                    includeResolver
                 )
                 jniContainer.add(jniElement)
                 jniContainer
             }
             else -> null
         }
+
+    private fun wrapInContainer(
+        jniElement: JniTopLevelElement,
+        cppFullyQualifiedName: String,
+        jniToLimeMap: Map<JniElement, LimeElement?>,
+        includeResolver: CppIncludeResolver
+    ): JniContainer {
+        val jniContainer = JniContainer(
+            javaPackages = jniElement.javaPackage.packageNames,
+            cppNameSpaces = cppFullyQualifiedName.split("::").dropLast(1),
+            containerType = JniContainer.ContainerType.TYPE_COLLECTION,
+            internalNamespace = internalNamespace
+        )
+        (jniToLimeMap[jniElement] as? LimeNamedElement)?.let {
+            jniContainer.includes += includeResolver.resolveIncludes(it)
+        }
+        return jniContainer
+    }
 
     private fun getIncludes(jniContainer: JniContainer): List<Include> {
         val includes = mutableListOf<String>()

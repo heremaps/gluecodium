@@ -41,3 +41,12 @@ class UseTopLevelTypes {
 }
 
 exception TopLevelException(TopLevelEnum)
+
+enum UnusedTopLevelEnum {
+    DOESNT_WORK,
+    CRASHED_ANYWAY
+}
+
+struct UnusedTopLevelPoint {
+    foo: String
+}

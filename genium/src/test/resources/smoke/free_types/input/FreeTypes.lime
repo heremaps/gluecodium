@@ -38,3 +38,12 @@ exception FreeEnumException(FreeEnum)
 class UseFreeTypes {
     fun doStuff(point: FreePoint, mode: FreeEnum): FreeTypeDef throws FreeEnumException
 }
+
+enum UnusedTopLevelEnum {
+    DOESNT_WORK,
+    CRASHED_ANYWAY
+}
+
+struct UnusedTopLevelPoint {
+    foo: String
+}
