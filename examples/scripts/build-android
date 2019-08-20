@@ -79,6 +79,10 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+if [ $BUILD_LOCAL_GENIUM ]; then
+    export GENIUM_PATH
+fi
+
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
 [ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio"
