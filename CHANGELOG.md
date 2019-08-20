@@ -1,8 +1,9 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.2.2
+- Release date: 2019-08-20
 - Bug fixes:
-  + Fixed Java for top-level enumerations and structs.
+  + Fixed Java compilation for top-level enumerations and structs.
 
 ## 5.2.1
 - Release date: 2019-08-16
