@@ -18,4 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppMethodParameterType}} {{name}}
+const {{#type}}{{name}}{{^refersToValueType}}&{{/refersToValueType}}{{/type}}

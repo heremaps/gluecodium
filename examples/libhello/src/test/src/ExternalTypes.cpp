@@ -56,13 +56,13 @@ ExternalStruct::setSomeArray( const std::vector< int32_t >& value )
 }
 
 even_more_external::AlienStructure
-ExternalStruct::madnessEnsues( ) const
+ExternalStruct::aStruct( ) const
 {
     return m_some_struct;
 }
 
 void
-ExternalStruct::madnessEnsues( const even_more_external::AlienStructure& value )
+ExternalStruct::_set_aStruct( const even_more_external::AlienStructure& value )
 {
     m_some_struct = value;
 }

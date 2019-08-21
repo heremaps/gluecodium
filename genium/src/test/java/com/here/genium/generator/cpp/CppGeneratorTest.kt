@@ -75,12 +75,4 @@ class CppGeneratorTest {
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
-
-    @Test
-    fun fileWithExternalElementWillBeSkipped() {
-        val externable = object : CppExternableElement("", "", emptyList(), Comments(), true) {}
-        val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
-        val generatedFiles = generator.generateCode(model)
-        assertEquals(0, generatedFiles.size)
-    }
 }

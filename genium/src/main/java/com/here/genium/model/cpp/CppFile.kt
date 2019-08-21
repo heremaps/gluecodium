@@ -52,4 +52,8 @@ class CppFile(
         get() = members.flatMap { it.streamRecursive().toList() }
             .filterIsInstance<CppExternableElement>()
             .filter { !it.isExternal && (it is CppEnum || it is CppClass && it.isEquatable || it is CppStruct && it.isEquatable) }
+
+    @Suppress("unused")
+    val hasExternalTypes
+        get() = members.filterIsInstance<CppExternableElement>().any { it.isExternal }
 }

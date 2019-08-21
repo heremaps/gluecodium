@@ -34,10 +34,10 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
 
         val hasConstants = cppModel.members.any { it is CppConstant }
         val hasTypedefs = cppModel.members.any { it is CppUsing }
-        val hasNonExternalElements =
-            cppModel.members.filterIsInstance<CppExternableElement>().any { !it.isExternal }
+        val hasExternableElements =
+            cppModel.members.filterIsInstance<CppExternableElement>().isNotEmpty()
         val hasErrorEnums = cppModel.errorEnums.isNotEmpty()
-        val hasCode = hasConstants || hasNonExternalElements || hasErrorEnums || hasTypedefs
+        val hasCode = hasConstants || hasExternableElements || hasErrorEnums || hasTypedefs
         if (!hasCode) {
             return emptyList()
         }

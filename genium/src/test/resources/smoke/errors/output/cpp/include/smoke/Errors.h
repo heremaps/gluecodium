@@ -7,6 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "foo/Bar.h"
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Return.h"

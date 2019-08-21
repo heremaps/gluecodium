@@ -20,6 +20,7 @@
 package com.here.genium.generator.cpp
 
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppConstant
@@ -43,6 +44,7 @@ import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
@@ -76,6 +78,7 @@ class CppModelBuilderTest {
     @MockK
     private lateinit var nameResolver: CppNameResolver
     @MockK private lateinit var includeResolver: CppIncludeResolver
+    private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH)
@@ -108,7 +111,7 @@ class CppModelBuilderTest {
         MockKAnnotations.init(this, relaxed = true)
 
         modelBuilder =
-            CppModelBuilder(contextStack, typeMapper, nameResolver, includeResolver, emptyMap())
+            CppModelBuilder(contextStack, typeMapper, nameResolver, includeResolver, limeReferenceMap)
 
         every { nameResolver.getName(any()) } returns "Foo"
         every { nameResolver.getFullyQualifiedName(any()) } returns "Bar"
@@ -360,6 +363,26 @@ class CppModelBuilderTest {
     fun finishBuildingStructTypeReadsExternalType() {
         val limeElement = LimeStruct(
             EMPTY_PATH,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(CPP, EXTERNAL_TYPE)
+                .build()
+        )
+        val externalInclude = Include.createInternalInclude("foo.h")
+        every { includeResolver.resolveIncludes(limeElement) } returns listOf(externalInclude)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppStruct::class.java)
+        assertTrue(result.isExternal)
+        assertContains(externalInclude, result.includes)
+    }
+
+    @Test
+    fun finishBuildingStructTypeReadsParentExternalType() {
+        val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
+        limeReferenceMap["foo"] = LimeContainer(
+            EMPTY_PATH,
+            type = LimeContainer.ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
                 .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
@@ -629,6 +652,26 @@ class CppModelBuilderTest {
                 .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
         )
+        val externalInclude = Include.createInternalInclude("foo.h")
+        every { includeResolver.resolveIncludes(limeElement) } returns listOf(externalInclude)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppEnum::class.java)
+        assertTrue(result.isExternal)
+        assertContains(externalInclude, result.includes)
+    }
+
+    @Test
+    fun finishBuildingEnumerationTypeReadsParentExternalType() {
+        val limeElement = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
+        limeReferenceMap["foo"] = LimeContainer(
+            EMPTY_PATH,
+            type = LimeContainer.ContainerType.CLASS,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(CPP, EXTERNAL_TYPE)
+                .build()
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -653,6 +696,16 @@ class CppModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(CppEnumItem::class.java)
         assertEquals(cppValue, result.value)
+    }
+
+    @Test
+    fun finishBuildingEnumeratorInfersValue() {
+        contextStack.injectParentResult(CppEnumItem("", "", null, CppValue("1")))
+
+        modelBuilder.finishBuilding(limeEnumerator)
+
+        val result = modelBuilder.getFinalResult(CppEnumItem::class.java)
+        assertEquals("2", result.inferredValue.name)
     }
 
     @Test

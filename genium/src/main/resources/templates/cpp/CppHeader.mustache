@@ -103,9 +103,9 @@ struct EqualityHash< std::shared_ptr< {{fullyQualifiedName}} > >
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
-{{#classes}}
+{{#classes}}{{#unless isExternal}}
 {{>cpp/CppExportMacro}}TypeRepository& get_type_repository(const ::{{#namespace}}{{.}}::{{/namespace}}{{name}}*);
-{{/classes}}
+{{/unless}}{{/classes}}
 {{#internalNamespace}}
 }
 {{/internalNamespace}}

@@ -80,4 +80,7 @@ class CppMethod(
             specifiers ?: this.specifiers,
             qualifiers ?: this.qualifiers
         )
+
+    val isStatic
+        get() = specifiers.contains(Specifier.STATIC)
 }

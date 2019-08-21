@@ -24,7 +24,8 @@ import java.util.stream.Stream
 class CppEnumItem(
     name: String,
     fullyQualifiedName: String,
-    val value: CppValue?
+    val value: CppValue?,
+    @Suppress("unused") val inferredValue: CppValue
 ) : CppElementWithComment(name, fullyQualifiedName) {
     override fun stream() = Stream.of(value)
 }

@@ -18,4 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppMethodParameterType}} {{name}}
+static_assert(std::is_same<
+    {{returnType.name}},
+    typename std::result_of<decltype(&{{className}}::{{name}})({{!!
+}}{{#unless isStatic}}{{className}}*{{#if parameters}}, {{/if}}{{/unless}}{{!!
+}}{{joinPartial parameters "cpp/CppMethodParameterType" ", "}})>::type
+>::value);

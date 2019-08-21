@@ -54,6 +54,30 @@ bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rh
 }
 
 {{/if}}{{/unless}}{{!!
+
+}}{{#if isExternal}}
+{{#set structName=fullyQualifiedName}}{{#fields}}
+{{#if externalGetter}}
+static_assert(std::is_same<
+    {{type.name}},
+    typename std::result_of<decltype(&{{structName}}::{{externalGetter}})({{structName}}*)>::type
+>::value);
+{{/if}}
+{{#if externalSetter}}
+static_assert(std::is_same<
+    void,
+    typename std::result_of<decltype(&{{structName}}::{{externalSetter}})({{structName}}*, {{>cpp/CppMethodParameterType}})>::type
+>::value);
+{{/if}}
+{{#unless externalGetter externalSetter}}
+static_assert(std::is_same<{{type.name}}, decltype({{structName}}::{{name}})>::value);
+{{/unless}}
+{{/fields}}{{/set}}
+{{#set className=fullyQualifiedName}}{{#methods}}
+{{>cpp/CppMethodStaticCheck}}
+{{/methods}}{{/set}}
+{{/if}}{{!!
+
 }}{{+fieldEq}}{{#needsPointerValueEqual}}( ( {{name}} && rhs.{{name}} )
             ? ( *{{name}} == *rhs.{{name}} )
             : ( static_cast< bool >( {{name}} ) == static_cast< bool >( rhs.{{name}} ) ) ){{!!

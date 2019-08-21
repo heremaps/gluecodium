@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppConstant
 import com.here.genium.model.cpp.CppElement
@@ -40,10 +41,14 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
@@ -99,7 +104,7 @@ class CppModelBuilder(
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
             includes = includes,
             comment = createComments(limeContainer),
-            isExternal = limeContainer.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
+            isExternal = limeContainer.attributes.have(CPP, EXTERNAL_TYPE),
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
             inheritances = inheritances,
@@ -172,6 +177,19 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeStruct: LimeStruct) {
+        val parentIsExternal = limeStruct.path.hasParent &&
+            (limeReferenceMap[limeStruct.path.parent.toString()] as? LimeNamedElement)
+                ?.attributes?.have(CPP, EXTERNAL_TYPE) ?: false
+        val isExternal = parentIsExternal || limeStruct.attributes.have(CPP, EXTERNAL_TYPE)
+        val isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE)
+        val includes = mutableListOf<Include>()
+        if (isEquatable) {
+            includes += listOf(CppLibraryIncludes.HASH)
+        }
+        if (isExternal) {
+            includes += includeResolver.resolveIncludes(limeStruct)
+        }
+
         val methods = getPreviousResults(CppMethod::class.java).map {
             val specifiers = setOf(CppMethod.Specifier.STATIC) intersect it.specifiers
             val qualifiers = when {
@@ -180,14 +198,12 @@ class CppModelBuilder(
             }
             it.copy(specifiers, qualifiers)
         }
-        val isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE)
-        val includes = if (isEquatable) listOf(CppLibraryIncludes.HASH) else emptyList()
         val cppStruct = CppStruct(
             name = nameResolver.getName(limeStruct),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeStruct),
             includes = includes,
             comment = createComments(limeElement = limeStruct),
-            isExternal = limeStruct.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
+            isExternal = isExternal,
             fields = getPreviousResults(CppField::class.java),
             methods = methods,
             constants = getPreviousResults(CppConstant::class.java),
@@ -216,7 +232,9 @@ class CppModelBuilder(
             isNullable = isNullable,
             hasImmutableType = hasImmutableType,
             isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE),
-            isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
+            isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
+            externalGetter = limeField.attributes.get(CPP, EXTERNAL_GETTER),
+            externalSetter = limeField.attributes.get(CPP, EXTERNAL_SETTER)
         )
         cppField.comment = createComments(limeField)
 
@@ -297,11 +315,20 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
+        val parentIsExternal = limeEnumeration.path.hasParent &&
+                (limeReferenceMap[limeEnumeration.path.parent.toString()] as? LimeNamedElement)
+                    ?.attributes?.have(CPP, EXTERNAL_TYPE) ?: false
+        val isExternal = parentIsExternal || limeEnumeration.attributes.have(CPP, EXTERNAL_TYPE)
+        val includes = mutableListOf(CppLibraryIncludes.HASH)
+        if (isExternal) {
+            includes += includeResolver.resolveIncludes(limeEnumeration)
+        }
+
         val cppEnum = CppEnum(
             name = nameResolver.getName(limeEnumeration),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeEnumeration),
-            includes = listOf(CppLibraryIncludes.HASH),
-            isExternal = limeEnumeration.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
+            includes = includes,
+            isExternal = isExternal,
             items = getPreviousResults(CppEnumItem::class.java)
         )
         cppEnum.comment = createComments(limeEnumeration)
@@ -311,10 +338,12 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeEnumerator: LimeEnumerator) {
+        val actualValue = getPreviousResultOrNull(CppValue::class.java)
         val cppEnumItem = CppEnumItem(
             nameResolver.getName(limeEnumerator),
             nameResolver.getFullyQualifiedName(limeEnumerator),
-            getPreviousResultOrNull(CppValue::class.java)
+            actualValue,
+            actualValue ?: inferEnumValue()
         )
         cppEnumItem.comment = createComments(limeEnumerator)
 
@@ -388,6 +417,14 @@ class CppModelBuilder(
 
     private fun createComments(limeElement: LimeNamedElement) =
         createComments(limeElement, PLATFORM_TAG)
+
+    private fun inferEnumValue(): CppValue {
+        val previousValue = parentContext!!.previousResults
+            .filterIsInstance<CppEnumItem>()
+            .lastOrNull()?.inferredValue
+            ?: return CppValue("0")
+        return CppValue((Integer.parseInt(previousValue.name) + 1).toString())
+    }
 
     companion object {
         const val PLATFORM_TAG = "Cpp"

@@ -39,6 +39,8 @@ enum BazEnum {
 
 @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::foo::BarClass")
 class FooClass {
+    fun doStuff(input: Int): String
+    static fun doStaticStuff(input: BazEnum): FooEnum
 }
 
 @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::foo::BarClass")

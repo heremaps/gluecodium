@@ -22,14 +22,15 @@
 
 {{#headerInclude}}{{>common/Include}}{{/headerInclude}}
 {{#if errorEnums}}#include <string>{{/if}}
+{{#if hasExternalTypes}}#include <type_traits>{{/if}}
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 
-{{#classes}}
+{{#classes}}{{#unless isExternal}}
 {{>cpp/CppClassTypeImpl}}
-{{/classes}}
+{{/unless}}{{/classes}}
 
 {{#internalNamespace}}
 }
@@ -45,6 +46,7 @@ namespace {{.}} {
 {{#members}}
 {{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
+{{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
 {{/members}}
 {{#errorEnums}}
 std::error_code

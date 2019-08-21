@@ -35,9 +35,12 @@ bool
 {{name}}::operator!=( const {{name}}& rhs ) {
     return !( *this == rhs );
 }
-{{/isEquatable}}
+{{/isEquatable}}{{/unless}}
 {{#set className=name}}{{#members}}
-{{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#unless isExternal}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/unless}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
+{{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
 {{/members}}{{/set}}
-{{/unless}}
+{{#if isExternal}}{{#set className=fullyQualifiedName}}{{#methods}}
+{{>cpp/CppMethodStaticCheck}}
+{{/methods}}{{/set}}{{/if}}

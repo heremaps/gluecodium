@@ -33,7 +33,7 @@ external::even_more_external::AlienStructure
 UseExternalTypes::extract_another_external_struct(
     const UseExternalTypes::StructWithExternalTypes& nested_struct )
 {
-    return nested_struct.struct_field.madnessEnsues( );
+    return nested_struct.struct_field.aStruct( );
 }
 
 external::even_more_external::AlienEnum

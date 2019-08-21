@@ -25,7 +25,7 @@ types ExternalTypes {
         externalStringField: String
         @Cpp(ExternalGetter = "getSomeArray", ExternalSetter = "setSomeArray")
         externalArrayField: List<Int>
-        @Cpp(ExternalGetter = "madnessEnsues", ExternalSetter = "madnessEnsues")
+        @Cpp(ExternalGetter = "aStruct", ExternalSetter = "_set_aStruct")
         externalStructField: AnotherExternalStruct
     }
     @Cpp(

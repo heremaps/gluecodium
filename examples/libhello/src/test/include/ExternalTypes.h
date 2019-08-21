@@ -68,8 +68,8 @@ public:
     void set_some_string( const std::string& value );
     std::vector< int32_t > getSomeArray( ) const;
     void setSomeArray( const std::vector< int32_t >& value );
-    even_more_external::AlienStructure madnessEnsues( ) const;
-    void madnessEnsues( const even_more_external::AlienStructure& value );
+    even_more_external::AlienStructure aStruct( ) const;
+    void _set_aStruct( const even_more_external::AlienStructure& value );
 
 public:
     std::string string_field;
