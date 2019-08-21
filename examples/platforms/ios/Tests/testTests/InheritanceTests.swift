@@ -123,6 +123,76 @@ class InheritanceTests: XCTestCase {
         child.doSomethingToChildClass(input: child)
     }
 
+    func testChildAsParentReturnsSameType() {
+        let child = ChildClass.createChildClass()
+        let parent = child.castToParent()
+
+        XCTAssertTrue(parent is ChildClass)
+    }
+
+    func testCreateChildAsParentSameType() {
+        let rootInterface = InheritanceTestHelper.createChildAsRootInterface()
+        XCTAssertTrue(rootInterface is ChildInterface)
+    }
+
+    func testCreateConcreteChildAsChildInterfaceSameType() {
+        let childInterface = InheritanceTestHelper.createConcreteChildAsChildInterface()
+        XCTAssertTrue(childInterface is ConcreteChild)
+    }
+
+    func testCreateGrandchildAsChildSameType() {
+        let child = InheritanceTestHelper.createGrandchildClassAsChildClass()
+        let grandchild = child as? ConcreteGrandChild
+
+        grandchild?.text = "jump"
+
+        XCTAssertTrue(child is ConcreteGrandChild)
+        XCTAssertNotNil(grandchild)
+        XCTAssertEqual("jump", grandchild?.text ?? "")
+    }
+
+    // test C++ diamond inheritance
+    func testCreateConjoinedChildrenAsChildInterface() {
+        let childInterface = InheritanceTestHelper.createConjoinedChildrenAsChildInterface()
+
+        XCTAssertTrue(childInterface is ConcreteChild)
+        XCTAssertFalse(childInterface is AnotherConcreteChild)
+    }
+
+    // test C++ diamond inheritance
+    func testCreateConjoinedChildrenAsAnotherChildInterface() {
+        let childInterface = InheritanceTestHelper.createConjoinedChildrenAsAnotherChildInterface()
+
+        XCTAssertTrue(childInterface is AnotherConcreteChild)
+        XCTAssertFalse(childInterface is ConcreteChild)
+    }
+
+    // test C++ multiple unrelated inheritance
+    func testCreateDisjoinedChildrenAsParentInterface() {
+        let childInterface = InheritanceTestHelper.createDisjoinedChildrenAsParentInterface()
+
+        XCTAssertTrue(childInterface is ChildClass)
+    }
+
+    // test C++ multiple unrelated inheritance
+    func testCreateDisjoinedChildrenAsRootInterface() {
+        let childInterface = InheritanceTestHelper.createDisjoinedChildrenAsRootInterface()
+
+        XCTAssertTrue(childInterface is ConcreteChild)
+    }
+
+    func testFamilyListOfSubtypes() {
+        let family = InheritanceTestHelper.createFamilyList()
+
+        XCTAssertEqual(6, family.count)
+        XCTAssertTrue(family[0] is ChildInterface)
+        XCTAssertTrue(family[1] is ConcreteChild)
+        XCTAssertTrue(family[2] is AnotherChildInterface)
+        XCTAssertTrue(family[3] is AnotherConcreteChild)
+        XCTAssertTrue(family[4] is ConcreteGrandChild)
+        XCTAssertTrue(family[5] is AnotherConcreteGrandChild)
+    }
+
     class SwiftChild: ChildInterface {
         var data = String()
 
@@ -214,6 +284,15 @@ class InheritanceTests: XCTestCase {
         ("testTalkToParents", testTalkToParents),
         ("testDoSomethingToChildClassDoesNotCrash", testDoSomethingToChildClassDoesNotCrash),
         ("testCallingListenerMethodFromCpp", testCallingListenerMethodFromCpp),
-        ("testCallingListenerMethodFromSwift", testCallingListenerMethodFromSwift)
+        ("testCallingListenerMethodFromSwift", testCallingListenerMethodFromSwift),
+        ("testChildAsParentReturnsSameType", testChildAsParentReturnsSameType),
+        ("testCreateChildAsParentSameType", testCreateChildAsParentSameType),
+        ("testCreateConcreteChildAsChildInterfaceSameType", testCreateConcreteChildAsChildInterfaceSameType),
+        ("testCreateGrandchildAsChildSameType", testCreateGrandchildAsChildSameType),
+        ("testCreateConjoinedChildrenAsChildInterface", testCreateConjoinedChildrenAsChildInterface),
+        ("testCreateConjoinedChildrenAsAnotherChildInterface", testCreateConjoinedChildrenAsAnotherChildInterface),
+        ("testCreateDisjoinedChildrenAsParentInterface", testCreateDisjoinedChildrenAsParentInterface),
+        ("testCreateDisjoinedChildrenAsRootInterface", testCreateDisjoinedChildrenAsRootInterface),
+        ("testFamilyListOfSubtypes", testFamilyListOfSubtypes)
     ]
 }

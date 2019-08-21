@@ -49,6 +49,8 @@ object CBridgeNameRules {
         Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString()
     val BASE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString()
     val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
+    val TYPE_INIT_REPOSITORY =
+        Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "TypeInitRepository.h").toString()
     const val SRC_DIR = "src"
 
     fun getName(limeElement: LimeNamedElement) =

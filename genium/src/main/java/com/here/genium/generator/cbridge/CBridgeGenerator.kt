@@ -90,6 +90,14 @@ class CBridgeGenerator(
             generateHelperContent(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString()
+            ),
+            generateHelperContent(
+                "TypeInitRepository",
+                CBridgeNameRules.TYPE_INIT_REPOSITORY
+            ),
+            generateHelperContent(
+                "TypeInitRepositoryImpl",
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "TypeInitRepository.cpp").toString()
             )
         )
 

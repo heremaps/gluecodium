@@ -22,6 +22,7 @@ package com.here.genium.generator.cbridge
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.model.cbridge.CElement
@@ -110,6 +111,8 @@ class CBridgeModelBuilder(
                 Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME)
             )
         }
+        cInterface.implementationIncludes.add(CppLibraryIncludes.TYPE_REPOSITORY)
+        cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeNameRules.TYPE_INIT_REPOSITORY))
 
         storeResult(cInterface)
         closeContext()

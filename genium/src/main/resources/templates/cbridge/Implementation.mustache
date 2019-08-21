@@ -34,7 +34,27 @@ _baseRef {{name}}_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<{{selfType.name}}>(handle)))
         : 0;
 }
+
+extern "C" {
+extern void* _CBridgeInit{{name}}(_baseRef handle);
+}
+
+namespace {
+struct {{name}}RegisterInit {
+    {{name}}RegisterInit() {
+        get_init_repository().add_init("{{name}}", &_CBridgeInit{{name}});
+    }
+} s_{{name}}_register_init;
+}
+
+void* {{name}}_get_typed(_baseRef handle) {
+    const auto& real_type_id = {{>common/InternalNamespace}}get_type_repository(static_cast<{{selfType}}::element_type*>(nullptr)).get_id(get_pointer<{{selfType.name}}>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInit{{name}}(handle);
+}
+
 {{/if}}
+
 {{#hasEquatableType}}
 bool {{name}}_equal(_baseRef lhs, _baseRef rhs) {
 {{#isEquatable}}
