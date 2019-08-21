@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Subclasses are now passed as their actual type from C++ to Java/Swift.
+
 ## 5.2.2
 - Release date: 2019-08-20
 - Bug fixes:
