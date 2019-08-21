@@ -9,11 +9,13 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 namespace examples {
 class _GENIUM_CPP_EXPORT DefaultValues {
 public:
+    DefaultValues();
     virtual ~DefaultValues() = 0;
 public:
 enum class SomeEnum {
@@ -36,4 +38,7 @@ template<>
 struct hash< ::examples::DefaultValues::SomeEnum > {
     std::size_t operator( )( const ::examples::DefaultValues::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::DefaultValues*);
 }

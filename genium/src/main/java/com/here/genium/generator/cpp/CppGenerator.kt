@@ -73,8 +73,16 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
         return result
     }
 
-    fun generateHelperHeader(headerName: String) =
-        generateHelperHeader(headerName, mapOf("internalNamespace" to internalNamespace))
+    fun generateHelperImpl(fileName: String, extraInfo: Any): GeneratedFile {
+        val content = TemplateEngine.render("cpp/$fileName", extraInfo)
+        val resultFileName = Paths.get(
+            pathPrefix,
+            PACKAGE_NAME_SPECIFIER_SRC,
+            internalNamespace.joinToString("/"),
+            fileName
+        ).toString() + IMPLEMENTATION_FILE_SUFFIX
+        return GeneratedFile(content, resultFileName)
+    }
 
     fun generateHelperHeader(headerName: String, extraInfo: Any): GeneratedFile {
         val content = TemplateEngine.render("cpp/$headerName", extraInfo)

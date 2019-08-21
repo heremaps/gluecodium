@@ -101,9 +101,11 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             .filterIsInstance<CppElementWithComment>()
             .forEach { processElementComments(it, cppToLimeName, limeToCppName) }
 
+        val helperModel = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
         return cppModel.flatMap { generator.generateCode(it) } +
-                ADDITIONAL_HEADERS.map(generator::generateHelperHeader) +
-                generator.generateHelperHeader("Export", exportName)
+                ADDITIONAL_HEADERS.map { generator.generateHelperHeader(it, helperModel) } +
+                generator.generateHelperImpl("TypeRepositoryImpl", helperModel) +
+                generator.generateHelperHeader("Export", helperModel)
     }
 
     private fun mapLimeModelToCppModel(
@@ -183,9 +185,11 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
 
         internal val ADDITIONAL_HEADERS = listOf(
             "Hash",
-            "Return",
+            "Mutex",
             "Optional",
             "OptionalImpl",
+            "Return",
+            "TypeRepository",
             "UnorderedMapHash",
             "UnorderedSetHash",
             "VectorHash"

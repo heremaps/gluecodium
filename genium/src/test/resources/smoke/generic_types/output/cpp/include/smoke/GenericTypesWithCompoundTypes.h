@@ -11,6 +11,7 @@
 #include "alien/FooStruct.h"
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/UnorderedSetHash.h"
 #include "genium/VectorHash.h"
@@ -31,6 +32,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT GenericTypesWithCompoundTypes {
 public:
+    GenericTypesWithCompoundTypes();
     virtual ~GenericTypesWithCompoundTypes() = 0;
 public:
 enum class SomeEnum {
@@ -58,4 +60,7 @@ template<>
 struct hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > {
     std::size_t operator( )( const ::smoke::GenericTypesWithCompoundTypes::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::GenericTypesWithCompoundTypes*);
 }

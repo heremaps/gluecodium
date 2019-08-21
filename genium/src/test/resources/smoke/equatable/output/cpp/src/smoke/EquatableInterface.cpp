@@ -7,8 +7,17 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/EquatableInterface.h"
+namespace genium {
+TypeRepository& get_type_repository(const ::smoke::EquatableInterface*) {
+    static TypeRepository s_repo;
+    return s_repo;
+}
+}
 namespace smoke {
-EquatableInterface::~EquatableInterface() = default;
+EquatableInterface::EquatableInterface() {
+}
+EquatableInterface::~EquatableInterface() {
+}
 bool
 EquatableInterface::operator!=( const EquatableInterface& rhs ) {
     return !( *this == rhs );

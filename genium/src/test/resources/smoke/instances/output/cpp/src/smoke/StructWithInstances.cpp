@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/StructWithInstances.h"
+namespace genium {
+}
 namespace smoke {
 StructWithInstances::StructWithInstances( )
     : class_instance{ }, interface_instance{ }

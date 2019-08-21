@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "examples/Constants.h"
+namespace genium {
+}
 namespace examples {
 const bool BOOL_CONSTANT = true;
 const int32_t INT_CONSTANT = 42;

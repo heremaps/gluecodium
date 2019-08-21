@@ -11,6 +11,7 @@
 #include "genium/Hash.h"
 #include "genium/Optional.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
@@ -20,6 +21,7 @@ namespace smoke {
  */
 class _GENIUM_CPP_EXPORT Comments {
 public:
+    Comments();
     virtual ~Comments() = 0;
 public:
 /**
@@ -153,4 +155,7 @@ template<>
 struct hash< ::smoke::Comments::SomeEnum > {
     std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Comments*);
 }

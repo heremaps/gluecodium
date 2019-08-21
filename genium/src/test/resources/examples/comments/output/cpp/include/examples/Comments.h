@@ -9,6 +9,7 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
@@ -21,6 +22,7 @@ namespace examples {
  */
 class _GENIUM_CPP_EXPORT Comments {
 public:
+    Comments();
     virtual ~Comments() = 0;
 public:
 /**
@@ -87,4 +89,7 @@ template<>
 struct hash< ::examples::Comments::SomeEnum > {
     std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Comments*);
 }

@@ -18,20 +18,18 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppCommentHeader}}
-
-#pragma once
-
-#ifdef {{exportName}}_SHARED
-#   if defined(_WIN32) || defined(__CYGWIN)
-#       ifdef {{exportName}}_INTERNAL
-#           define {{exportName}}_EXPORT __declspec( dllexport )
-#       else
-#           define {{exportName}}_EXPORT __declspec( dllimport )
-#       endif
-#   else
-#       define {{exportName}}_EXPORT __attribute__( ( visibility( "default" ) ) )
-#   endif
-#else
-#   define {{exportName}}_EXPORT
-#endif
+{{#unless inheritances}}
+TypeRepository& get_type_repository(const ::{{#namespace}}{{.}}::{{/namespace}}{{name}}*) {
+    static TypeRepository s_repo;
+    return s_repo;
+}
+{{/unless}}
+{{#if inheritances}}
+{{#set className=name}}
+{{#inheritances}}
+TypeRepository& get_type_repository(const ::{{#namespace}}{{.}}::{{/namespace}}{{className}}*) {
+    return get_type_repository(static_cast<{{parent.name}}*>(nullptr));
+}
+{{/inheritances}}
+{{/set}}
+{{/if}}

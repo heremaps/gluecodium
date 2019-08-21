@@ -8,10 +8,12 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include <cstdint>
 namespace examples {
 class _GENIUM_CPP_EXPORT Structs {
 public:
+    Structs();
     virtual ~Structs() = 0;
 public:
 struct _GENIUM_CPP_EXPORT SyncResult {
@@ -28,4 +30,7 @@ public:
 static ::examples::Structs::SyncResult method_with_non_nested_type( const ::examples::Structs::SyncResult& input );
 static ::examples::Structs::IdentifiableSyncResult method_with_nested_type( const ::examples::Structs::IdentifiableSyncResult& input );
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Structs*);
 }

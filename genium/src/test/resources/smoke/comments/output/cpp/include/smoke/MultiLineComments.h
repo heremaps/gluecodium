@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include <string>
 namespace smoke {
 /**
@@ -27,6 +28,7 @@ namespace smoke {
  */
 class _GENIUM_CPP_EXPORT MultiLineComments {
 public:
+    MultiLineComments();
     virtual ~MultiLineComments() = 0;
 public:
 /**
@@ -46,4 +48,7 @@ public:
  */
 virtual float some_method_with_long_comment( const ::std::string& input, const double ratio ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::MultiLineComments*);
 }

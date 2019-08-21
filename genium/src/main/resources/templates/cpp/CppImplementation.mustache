@@ -23,24 +23,25 @@
 {{#headerInclude}}{{>common/Include}}{{/headerInclude}}
 {{#if errorEnums}}#include <string>{{/if}}
 
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+
+{{#classes}}
+{{>cpp/CppClassTypeImpl}}
+{{/classes}}
+
+{{#internalNamespace}}
+}
+{{/internalNamespace}}
+
 {{#namespace}}
 namespace {{.}} {
 
 {{/namespace}}
-{{#classes}}{{#unless isExternal}}
-{{name}}::~{{name}}() = default;
-
-{{#isEquatable}}
-bool
-{{name}}::operator!=( const {{name}}& rhs ) {
-    return !( *this == rhs );
-}
-{{/isEquatable}}
-{{#set className=name}}{{#members}}
-{{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
-{{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
-{{/members}}{{/set}}
-{{/unless}}{{/classes}}
+{{#classes}}
+{{>cpp/CppClassImpl}}
+{{/classes}}
 {{#members}}
 {{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}

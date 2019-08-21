@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include "smoke/RouteUtils.h"
 #include <string>
@@ -15,6 +16,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT StructsWithConstantsInterface {
 public:
+    StructsWithConstantsInterface();
     virtual ~StructsWithConstantsInterface() = 0;
 public:
 struct _GENIUM_CPP_EXPORT MultiRoute {
@@ -26,4 +28,7 @@ struct _GENIUM_CPP_EXPORT MultiRoute {
     _GENIUM_CPP_EXPORT static const ::smoke::RouteType DEFAULT_TYPE;
 };
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::StructsWithConstantsInterface*);
 }

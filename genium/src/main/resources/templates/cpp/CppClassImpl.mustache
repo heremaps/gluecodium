@@ -18,20 +18,26 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppCommentHeader}}
+{{#unless isExternal}}
+{{name}}::{{name}}() {
+{{#if inheritances}}
+    {{>common/InternalNamespace}}get_type_repository(this).add_type(this, "{{#namespace}}{{.}}_{{/namespace}}{{name}}");
+{{/if}}
+}
+{{name}}::~{{name}}() {
+{{#if inheritances}}
+    {{>common/InternalNamespace}}get_type_repository(this).remove_type(this);
+{{/if}}
+}
 
-#pragma once
-
-#ifdef {{exportName}}_SHARED
-#   if defined(_WIN32) || defined(__CYGWIN)
-#       ifdef {{exportName}}_INTERNAL
-#           define {{exportName}}_EXPORT __declspec( dllexport )
-#       else
-#           define {{exportName}}_EXPORT __declspec( dllimport )
-#       endif
-#   else
-#       define {{exportName}}_EXPORT __attribute__( ( visibility( "default" ) ) )
-#   endif
-#else
-#   define {{exportName}}_EXPORT
-#endif
+{{#isEquatable}}
+bool
+{{name}}::operator!=( const {{name}}& rhs ) {
+    return !( *this == rhs );
+}
+{{/isEquatable}}
+{{#set className=name}}{{#members}}
+{{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
+{{/members}}{{/set}}
+{{/unless}}

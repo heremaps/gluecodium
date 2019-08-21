@@ -10,6 +10,7 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>
@@ -22,6 +23,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT Constructors {
 public:
+    Constructors();
     virtual ~Constructors() = 0;
 public:
 enum class ErrorEnum {
@@ -73,4 +75,7 @@ template<>
 struct hash< ::smoke::Constructors::ErrorEnum > {
     std::size_t operator( )( const ::smoke::Constructors::ErrorEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Constructors*);
 }

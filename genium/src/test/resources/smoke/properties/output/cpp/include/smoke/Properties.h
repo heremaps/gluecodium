@@ -9,6 +9,7 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include "smoke/PropertiesInterface.h"
 #include <cstdint>
@@ -21,6 +22,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT Properties {
 public:
+    Properties();
     virtual ~Properties() = 0;
 public:
 enum class InternalError {
@@ -66,4 +68,7 @@ template<>
 struct hash< ::smoke::Properties::InternalError > {
     std::size_t operator( )( const ::smoke::Properties::InternalError& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Properties*);
 }

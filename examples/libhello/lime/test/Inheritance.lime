@@ -17,6 +17,7 @@
 
 package test
 
+// Simple inheritance chain with interface as base
 interface ParentInterface {
     // Example method that returns a name. Should be overridden in child implementations.
     fun getName(): String
@@ -48,6 +49,7 @@ class GrandchildClass : ChildClass {
     )
 }
 
+// Inheritance tree with multiple children
 interface RootInterface {
     fun rootMethod(
         data: String
@@ -65,7 +67,10 @@ interface AnotherChildInterface : RootInterface {
 class ConcreteChild : ChildInterface {}
 class AnotherConcreteChild : AnotherChildInterface {}
 
-class ConcreteGrandChild : ConcreteChild {}
+class ConcreteGrandChild : ConcreteChild {
+    property text: String
+}
+
 class AnotherConcreteGrandChild : AnotherConcreteChild {}
 
 class InheritanceTestHelper {
@@ -73,10 +78,27 @@ class InheritanceTestHelper {
         object: RootInterface,
         data: String
     )
+    static fun createRoot(): RootInterface
     static fun createChild(): ChildInterface
     static fun createAnotherChild(): AnotherChildInterface
     static fun createConcreteChild(): ConcreteChild
     static fun createAnotherConcreteChild(): AnotherConcreteChild
     static fun createConcreteGrandChild(): ConcreteGrandChild
     static fun createAnotherConcreteGrandChild(): AnotherConcreteGrandChild
+
+    static fun createChildAsRootInterface(): RootInterface
+    static fun createConcreteChildAsChildInterface(): ChildInterface
+    static fun createGrandchildClassAsChildClass(): ConcreteChild
+
+    // When multiple inheritance is used in C++ it could mess up the type information
+    // Return a class that inherits from ChildInterface and AnotherChildInterface. It can only be
+    // returned as one of the branches, not RootInterface, because Genium does not generate virtual inheritance.
+    static fun createConjoinedChildrenAsChildInterface(): ChildInterface
+    static fun createConjoinedChildrenAsAnotherChildInterface(): AnotherChildInterface
+
+    // Using multiple inheritance in C++ with disjoined inheritance chains works
+    static fun createDisjoinedChildrenAsRootInterface(): RootInterface
+    static fun createDisjoinedChildrenAsParentInterface(): ParentInterface
+
+    static fun createFamilyList(): List<RootInterface>
 }

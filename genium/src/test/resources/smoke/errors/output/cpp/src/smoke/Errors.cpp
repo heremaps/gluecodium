@@ -8,8 +8,17 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Errors.h"
 #include <string>
+namespace genium {
+TypeRepository& get_type_repository(const ::smoke::Errors*) {
+    static TypeRepository s_repo;
+    return s_repo;
+}
+}
 namespace smoke {
-Errors::~Errors() = default;
+Errors::Errors() {
+}
+Errors::~Errors() {
+}
 std::error_code
 make_error_code( ::smoke::Errors::InternalError value ) noexcept
 {

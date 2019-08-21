@@ -9,6 +9,7 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include "smoke/FreeEnum.h"
 #include "smoke/FreePoint.h"
 #include "smoke/FreeTypeDef.h"
@@ -16,8 +17,12 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT UseFreeTypes {
 public:
+    UseFreeTypes();
     virtual ~UseFreeTypes() = 0;
 public:
 virtual ::genium::Return< ::smoke::FreeTypeDef, ::std::error_code > do_stuff( const ::smoke::FreePoint& point, const ::smoke::FreeEnum mode ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::UseFreeTypes*);
 }

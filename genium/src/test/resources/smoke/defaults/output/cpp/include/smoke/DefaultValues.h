@@ -11,6 +11,7 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Optional.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/UnorderedSetHash.h"
 #include "genium/VectorHash.h"
@@ -23,6 +24,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT DefaultValues {
 public:
+    DefaultValues();
     virtual ~DefaultValues() = 0;
 public:
 enum class SomeEnum {
@@ -94,4 +96,7 @@ template<>
 struct hash< ::smoke::DefaultValues::SomeEnum > {
     std::size_t operator( )( const ::smoke::DefaultValues::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DefaultValues*);
 }

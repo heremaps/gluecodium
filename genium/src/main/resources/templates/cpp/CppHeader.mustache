@@ -98,3 +98,15 @@ struct EqualityHash< std::shared_ptr< {{fullyQualifiedName}} > >
 }
 {{/internalNamespace}}
 {{/if}}
+
+{{#if classes}}
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+{{#classes}}
+{{>cpp/CppExportMacro}}TypeRepository& get_type_repository(const ::{{#namespace}}{{.}}::{{/namespace}}{{name}}*);
+{{/classes}}
+{{#internalNamespace}}
+}
+{{/internalNamespace}}
+{{/if}}

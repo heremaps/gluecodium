@@ -48,9 +48,17 @@ public final class CppLibraryIncludes {
       Include.Companion.createInternalInclude("UnorderedMapHash.h");
   public static final Include SET_HASH =
       Include.Companion.createInternalInclude("UnorderedSetHash.h");
+  public static final Include TYPE_REPOSITORY =
+      Include.Companion.createInternalInclude("TypeRepository.h");
 
   public static final String[] INTERNAL_INCLUDES = {
-    "Return.h", "Optional.h", "UnorderedMapHash.h", "UnorderedSetHash.h", "VectorHash.h", "Hash.h"
+    "Return.h",
+    "Optional.h",
+    "UnorderedMapHash.h",
+    "UnorderedSetHash.h",
+    "VectorHash.h",
+    "Hash.h",
+    "TypeRepository.h"
   };
 
   public static void filterIncludes(Set<Include> includes, List<String> internalNamespace) {

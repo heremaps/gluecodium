@@ -10,6 +10,7 @@
 #include "Export.h"
 #include "Hash.h"
 #include "Return.h"
+#include "TypeRepository.h"
 #include "VectorHash.h"
 #include <cstdint>
 #include <memory>
@@ -22,6 +23,7 @@ namespace namerules {
 namespace namerules {
 class _GENIUM_CPP_EXPORT NameRules {
 public:
+    NameRules();
     virtual ~NameRules() = 0;
 public:
 enum class ExampleError {
@@ -61,4 +63,7 @@ template<>
 struct hash< ::namerules::NameRules::ExampleError > {
     std::size_t operator( )( const ::namerules::NameRules::ExampleError& t ) const;
 };
+}
+namespace  {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::namerules::NameRules*);
 }

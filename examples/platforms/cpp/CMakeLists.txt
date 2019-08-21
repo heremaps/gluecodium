@@ -53,6 +53,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 set(SOURCES
   tests/OptionalTest.cpp
   tests/ReturnTest.cpp
+  tests/RuntimeTypeInformationTest.cpp
   tests/StructConstructorTest.cpp)
 
 if(HELLO_TEST_CPP_VERSION LESS 17)
@@ -69,6 +70,7 @@ set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
 add_executable(test_cpp ${SOURCES})
 target_compile_definitions(test_cpp PRIVATE -DHELLO_TEST_CPP_VERSION=Cxx${HELLO_TEST_CPP_VERSION})
 target_link_libraries(test_cpp
+  hello
   gmock_main
   hello)
 

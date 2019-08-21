@@ -10,6 +10,7 @@
 #include "foo/Bar.h"
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include <cstdint>
 #include <string>
@@ -17,6 +18,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT Enums {
 public:
+    Enums();
     virtual ~Enums() = 0;
 public:
 enum class SimpleEnum {
@@ -51,4 +53,7 @@ template<>
 struct hash< ::smoke::Enums::InternalError > {
     std::size_t operator( )( const ::smoke::Enums::InternalError& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Enums*);
 }

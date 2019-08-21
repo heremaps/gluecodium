@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/VectorHash.h"
 #include "smoke/CalculationResult.h"
@@ -21,6 +22,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT CalculatorListener {
 public:
+    CalculatorListener();
     virtual ~CalculatorListener() = 0;
 public:
 using NamedCalculationResults = ::std::unordered_map< ::std::string, double >;
@@ -41,4 +43,7 @@ virtual void on_calculation_result_map( const ::smoke::CalculatorListener::Named
  */
 virtual void on_calculation_result_instance( const ::std::shared_ptr< ::smoke::CalculationResult >& calculation_result ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::CalculatorListener*);
 }

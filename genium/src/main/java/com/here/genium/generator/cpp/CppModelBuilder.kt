@@ -88,7 +88,10 @@ class CppModelBuilder(
             else -> emptyList()
         }
         val isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
-        val includes = if (isEquatable) listOf(CppLibraryIncludes.HASH) else emptyList()
+        val includes = mutableListOf(CppLibraryIncludes.TYPE_REPOSITORY)
+        if (isEquatable) {
+            includes.add(CppLibraryIncludes.HASH)
+        }
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),

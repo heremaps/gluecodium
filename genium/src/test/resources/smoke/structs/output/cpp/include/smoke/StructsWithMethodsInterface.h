@@ -9,11 +9,13 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include <string>
 #include <system_error>
 namespace smoke {
 class _GENIUM_CPP_EXPORT StructsWithMethodsInterface {
 public:
+    StructsWithMethodsInterface();
     virtual ~StructsWithMethodsInterface() = 0;
 public:
 struct _GENIUM_CPP_EXPORT Vector3 {
@@ -29,4 +31,7 @@ struct _GENIUM_CPP_EXPORT Vector3 {
     static ::genium::Return< ::smoke::StructsWithMethodsInterface::Vector3, ::std::error_code > create( const ::smoke::StructsWithMethodsInterface::Vector3& other );
 };
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::StructsWithMethodsInterface*);
 }

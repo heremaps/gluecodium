@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "examples/Equatable.h"
+namespace genium {
+}
 namespace examples {
 EquatableStruct::EquatableStruct( )
     : int_field{ }, string_field{ }, struct_field{ }

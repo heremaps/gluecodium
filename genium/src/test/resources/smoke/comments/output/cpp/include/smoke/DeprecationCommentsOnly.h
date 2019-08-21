@@ -9,6 +9,7 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 namespace smoke {
@@ -17,6 +18,7 @@ namespace smoke {
  */
 class _GENIUM_CPP_EXPORT DeprecationCommentsOnly {
 public:
+    DeprecationCommentsOnly();
     virtual ~DeprecationCommentsOnly() = 0;
 public:
 /**
@@ -71,4 +73,7 @@ template<>
 struct hash< ::smoke::DeprecationCommentsOnly::SomeEnum > {
     std::size_t operator( )( const ::smoke::DeprecationCommentsOnly::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationCommentsOnly*);
 }

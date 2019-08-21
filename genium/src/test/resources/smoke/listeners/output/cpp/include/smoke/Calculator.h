@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
 namespace smoke {
@@ -16,6 +17,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT Calculator {
 public:
+    Calculator();
     virtual ~Calculator() = 0;
 public:
 /**
@@ -29,4 +31,7 @@ static void register_listener( const ::std::shared_ptr< ::smoke::CalculatorListe
  */
 static void unregister_listener( const ::std::shared_ptr< ::smoke::CalculatorListener >& listener );
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Calculator*);
 }

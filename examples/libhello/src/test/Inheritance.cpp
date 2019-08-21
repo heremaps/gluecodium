@@ -25,13 +25,25 @@
 #include "test/ConcreteChild.h"
 #include "test/ConcreteGrandChild.h"
 #include "test/RootInterface.h"
-
 #include "test/InheritanceTestHelper.h"
+#include "ChildClassImpl.h"
 
 #include <memory>
 
 namespace
 {
+class RootInterfaceImpl: public ::test::RootInterface
+{
+public:
+    RootInterfaceImpl( ) = default;
+    ~RootInterfaceImpl( ) = default;
+
+    void
+    root_method( const std::string& s ) override
+    {
+    }
+};
+
 class ChildInterfaceImpl : public ::test::ChildInterface
 {
 public:
@@ -39,7 +51,7 @@ public:
     ~ChildInterfaceImpl( ) = default;
 
     void
-    root_method( const std::string& s )
+    root_method( const std::string& s ) override
     {
         data = "C++ Child data is '" + s + "'";
     }
@@ -61,7 +73,7 @@ public:
     ~AnotherChildInterfaceImpl( ) = default;
 
     void
-    root_method( const std::string& s )
+    root_method( const std::string& s ) override
     {
         data = "C++ AnotherChild data is '" + s + "'";
     }
@@ -83,7 +95,7 @@ public:
     ~ConcreteChildImpl( ) = default;
 
     void
-    root_method( const std::string& s )
+    root_method( const std::string& s ) override
     {
         data = "C++ ConcreteChild data is '" + s + "'";
     }
@@ -105,7 +117,7 @@ public:
     ~AnotherConcreteChildImpl( ) = default;
 
     void
-    root_method( const std::string& s )
+    root_method( const std::string& s ) override
     {
         data = "C++ AnotherConcreteChild data is '" + s + "'";
     }
@@ -120,6 +132,9 @@ private:
     std::string data;
 };
 
+class ConjoinedConcreteChildImpl: public ConcreteChildImpl, public AnotherConcreteChildImpl { };
+class DisjoinedChildImpl: public ConcreteChildImpl, public test::ChildClassImpl { };
+
 class ConcreteGrandChildImpl : public ::test::ConcreteGrandChild
 {
 public:
@@ -129,17 +144,30 @@ public:
     void
     root_method( const std::string& s )
     {
-        data = "C++ ConcreteGrandChild data is '" + s + "'";
+        m_data = "C++ ConcreteGrandChild data is '" + s + "'";
     }
 
     ::std::string
     get_data( )
     {
-        return data;
+        return m_data;
+    }
+
+    void
+    set_text( const std::string& text ) override
+    {
+        m_text = text;
+    }
+
+    ::std::string
+    get_text( ) const override
+    {
+        return m_text;
     }
 
 private:
-    std::string data;
+    std::string m_data;
+    std::string m_text;
 };
 
 class AnotherConcreteGrandChildImpl : public ::test::AnotherConcreteGrandChild
@@ -172,6 +200,12 @@ InheritanceTestHelper::call_root_method( std::shared_ptr< test::RootInterface > 
                                          std::string const& data )
 {
     object->root_method( data );
+}
+
+::std::shared_ptr< RootInterface >
+InheritanceTestHelper::create_root( )
+{
+    return ::std::make_shared< RootInterfaceImpl >( );
 }
 
 ::std::shared_ptr< ChildInterface >
@@ -209,4 +243,61 @@ InheritanceTestHelper::create_another_concrete_grand_child( )
 {
     return ::std::make_shared< AnotherConcreteGrandChildImpl >( );
 }
+
+::std::shared_ptr< RootInterface >
+InheritanceTestHelper::create_child_as_root_interface( )
+{
+    return ::std::make_shared< ChildInterfaceImpl >( );
+}
+
+::std::shared_ptr< ChildInterface >
+InheritanceTestHelper::create_concrete_child_as_child_interface( )
+{
+    return ::std::make_shared< ConcreteChildImpl >( );
+}
+
+::std::shared_ptr< ConcreteChild >
+InheritanceTestHelper::create_grandchild_class_as_child_class( )
+{
+    return ::std::make_shared< ConcreteGrandChildImpl >( );
+}
+
+::std::shared_ptr< ChildInterface >
+InheritanceTestHelper::create_conjoined_children_as_child_interface( )
+{
+    return ::std::make_shared< ConjoinedConcreteChildImpl >( );
+}
+
+::std::shared_ptr< AnotherChildInterface >
+InheritanceTestHelper::create_conjoined_children_as_another_child_interface( )
+{
+    return ::std::make_shared< ConjoinedConcreteChildImpl >( );
+}
+
+::std::shared_ptr< RootInterface >
+InheritanceTestHelper::create_disjoined_children_as_root_interface( )
+{
+    return ::std::make_shared< DisjoinedChildImpl >( );
+}
+
+::std::shared_ptr< ParentInterface >
+InheritanceTestHelper::create_disjoined_children_as_parent_interface( )
+{
+    return ::std::make_shared< DisjoinedChildImpl >( );
+}
+
+::std::vector< std::shared_ptr< RootInterface > >
+InheritanceTestHelper::create_family_list( )
+{
+    return {
+        ::std::make_shared< ChildInterfaceImpl >( ),
+        ::std::make_shared< ConcreteChildImpl >( ),
+        ::std::make_shared< AnotherChildInterfaceImpl >( ),
+        ::std::make_shared< AnotherConcreteChildImpl >( ),
+        ::std::make_shared< ConcreteGrandChildImpl >( ),
+        ::std::make_shared< AnotherConcreteGrandChildImpl >( )
+    };
+}
+
+
 }  // namespace test

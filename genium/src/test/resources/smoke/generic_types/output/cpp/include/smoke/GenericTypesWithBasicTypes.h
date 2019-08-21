@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/UnorderedSetHash.h"
 #include "genium/VectorHash.h"
@@ -19,6 +20,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT GenericTypesWithBasicTypes {
 public:
+    GenericTypesWithBasicTypes();
     virtual ~GenericTypesWithBasicTypes() = 0;
 public:
 using BasicList = ::std::vector< ::std::string >;
@@ -45,4 +47,7 @@ virtual void set_map_property( const ::std::unordered_map< float, double >& valu
 virtual ::std::unordered_set< float > get_set_property(  ) const = 0;
 virtual void set_set_property( const ::std::unordered_set< float >& value ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::GenericTypesWithBasicTypes*);
 }

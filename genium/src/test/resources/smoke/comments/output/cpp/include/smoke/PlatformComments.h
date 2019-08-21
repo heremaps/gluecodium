@@ -10,12 +10,14 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
 namespace smoke {
 class _GENIUM_CPP_EXPORT PlatformComments {
 public:
+    PlatformComments();
     virtual ~PlatformComments() = 0;
 public:
 enum class SomeEnum {
@@ -55,4 +57,7 @@ template<>
 struct hash< ::smoke::PlatformComments::SomeEnum > {
     std::size_t operator( )( const ::smoke::PlatformComments::SomeEnum& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::PlatformComments*);
 }

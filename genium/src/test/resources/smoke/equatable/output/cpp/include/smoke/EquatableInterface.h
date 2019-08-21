@@ -9,6 +9,7 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include "smoke/PointerEquatableInterface.h"
 #include <cstdint>
 #include <memory>
@@ -22,6 +23,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT EquatableInterface {
 public:
+    EquatableInterface();
     virtual ~EquatableInterface() = 0;
 public:
 struct _GENIUM_CPP_EXPORT EquatableStruct {
@@ -55,4 +57,7 @@ template<>
 struct hash< ::smoke::EquatableInterface::EquatableStruct > {
     std::size_t operator( )( const ::smoke::EquatableInterface::EquatableStruct& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::EquatableInterface*);
 }

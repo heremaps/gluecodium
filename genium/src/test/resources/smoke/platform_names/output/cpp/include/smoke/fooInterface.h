@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "smoke/fooTypes.h"
 #include <cstdint>
 #include <memory>
@@ -18,6 +19,7 @@ namespace smoke {
 namespace smoke {
 class _GENIUM_CPP_EXPORT fooInterface {
 public:
+    fooInterface();
     virtual ~fooInterface() = 0;
 public:
 virtual ::smoke::fooStruct FooMethod( const ::std::string& FooParameter ) = 0;
@@ -30,4 +32,7 @@ static ::std::shared_ptr< ::smoke::fooInterface > make( const ::std::string& mak
 virtual uint32_t GET_FOO_PROPERTY(  ) const = 0;
 virtual void SET_FOO_PROPERTY( const uint32_t value ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::fooInterface*);
 }

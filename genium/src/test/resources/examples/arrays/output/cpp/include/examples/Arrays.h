@@ -8,12 +8,14 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <vector>
 namespace examples {
 class _GENIUM_CPP_EXPORT Arrays {
 public:
+    Arrays();
     virtual ~Arrays() = 0;
 public:
 struct _GENIUM_CPP_EXPORT SyncResult {
@@ -27,4 +29,7 @@ public:
 static ::examples::Arrays::SyncResults explicit_array_method( const ::examples::Arrays::SyncResults& input );
 static ::std::vector< ::examples::Arrays::SyncResult > implicit_array_method( const ::std::vector< ::examples::Arrays::SyncResult >& input );
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Arrays*);
 }

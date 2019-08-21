@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Equatable.h"
+namespace genium {
+}
 namespace smoke {
 EquatableStruct::EquatableStruct( )
     : bool_field{ }, int_field{ }, long_field{ }, float_field{ }, double_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }

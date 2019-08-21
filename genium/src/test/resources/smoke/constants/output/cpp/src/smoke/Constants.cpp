@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Constants.h"
+namespace genium {
+}
 namespace smoke {
 const bool BOOL_CONSTANT = true;
 const int32_t INT_CONSTANT = -11;

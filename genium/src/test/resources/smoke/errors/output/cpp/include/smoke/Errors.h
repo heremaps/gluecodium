@@ -10,12 +10,14 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
 namespace smoke {
 class _GENIUM_CPP_EXPORT Errors {
 public:
+    Errors();
     virtual ~Errors() = 0;
 public:
 enum class InternalError {
@@ -41,4 +43,7 @@ template<>
 struct hash< ::smoke::Errors::InternalError > {
     std::size_t operator( )( const ::smoke::Errors::InternalError& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Errors*);
 }

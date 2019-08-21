@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/VectorHash.h"
 #include <chrono>
@@ -17,6 +18,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT Dates {
 public:
+    Dates();
     virtual ~Dates() = 0;
 public:
 using DateTypeDef = ::std::chrono::system_clock::time_point;
@@ -32,4 +34,7 @@ virtual ::std::chrono::system_clock::time_point date_method( const ::std::chrono
 virtual ::std::chrono::system_clock::time_point get_date_property(  ) const = 0;
 virtual void set_date_property( const ::std::chrono::system_clock::time_point& value ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Dates*);
 }

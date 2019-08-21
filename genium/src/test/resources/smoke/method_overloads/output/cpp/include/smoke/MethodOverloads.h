@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <string>
@@ -15,6 +16,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT MethodOverloads {
 public:
+    MethodOverloads();
     virtual ~MethodOverloads() = 0;
 public:
 using StringArray = ::std::vector< ::std::string >;
@@ -37,4 +39,7 @@ virtual bool is_boolean(  ) const = 0;
 virtual bool is_float( const ::std::string& input ) = 0;
 virtual bool is_float( const ::smoke::MethodOverloads::IntArray& input ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::MethodOverloads*);
 }

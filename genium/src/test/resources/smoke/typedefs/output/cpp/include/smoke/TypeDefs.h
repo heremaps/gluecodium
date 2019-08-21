@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include "smoke/TypeCollection.h"
 #include <string>
@@ -15,6 +16,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT TypeDefs {
 public:
+    TypeDefs();
     virtual ~TypeDefs() = 0;
 public:
 using PrimitiveTypeDef = double;
@@ -43,4 +45,7 @@ static ::smoke::PointTypeDef return_type_def_point_from_type_collection( const :
 virtual ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef > get_primitive_type_property(  ) const = 0;
 virtual void set_primitive_type_property( const ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef >& value ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::TypeDefs*);
 }

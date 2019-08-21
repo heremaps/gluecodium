@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>
@@ -16,6 +17,7 @@
 namespace examples {
 class _GENIUM_CPP_EXPORT BuiltinTypes {
 public:
+    BuiltinTypes();
     virtual ~BuiltinTypes() = 0;
 public:
 static uint8_t method_with_u_int8( const uint8_t input_number );
@@ -26,4 +28,7 @@ static double method_with_double( const double input_number );
 static ::std::string method_with_string( const ::std::string& input_string );
 static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input_buffer );
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::BuiltinTypes*);
 }

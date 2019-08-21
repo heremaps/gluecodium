@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         --debug)
-            CMAKE_EXTRA_PARAMETERS+=("-DCMAKE_BUILD_TYPE=RelWithDebInfo")
+            CMAKE_EXTRA_PARAMETERS+=("-DCMAKE_BUILD_TYPE=Debug")
             shift
             ;;
         --valgrind)
@@ -82,6 +82,10 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+if [ $BUILD_LOCAL_GENIUM ]; then
+    export GENIUM_PATH
+fi
 
 GENIUM_VERSION="${GENIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-cpp

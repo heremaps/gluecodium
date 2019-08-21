@@ -9,6 +9,7 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Return.h"
+#include "genium/TypeRepository.h"
 #include "smoke/Comments.h"
 #include <system_error>
 namespace smoke {
@@ -23,6 +24,7 @@ namespace smoke {
  */
 class _GENIUM_CPP_EXPORT CommentsLinks {
 public:
+    CommentsLinks();
     virtual ~CommentsLinks() = 0;
 public:
 /**
@@ -78,4 +80,7 @@ public:
  */
 virtual ::genium::Return< ::smoke::Comments::SomeEnum, ::std::error_code > random_method( const ::smoke::Comments::SomeEnum input_parameter ) = 0;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::CommentsLinks*);
 }

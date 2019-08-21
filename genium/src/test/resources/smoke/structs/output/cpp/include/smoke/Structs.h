@@ -11,6 +11,7 @@
 #include "foo/Bazz.h"
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include "non/Sense.h"
 #include "smoke/TypeCollection.h"
@@ -21,6 +22,7 @@
 namespace smoke {
 class _GENIUM_CPP_EXPORT Structs {
 public:
+    Structs();
     virtual ~Structs() = 0;
 public:
 enum class FooBar {
@@ -84,4 +86,7 @@ template<>
 struct hash< ::smoke::Structs::FooBar > {
     std::size_t operator( )( const ::smoke::Structs::FooBar& t ) const;
 };
+}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Structs*);
 }

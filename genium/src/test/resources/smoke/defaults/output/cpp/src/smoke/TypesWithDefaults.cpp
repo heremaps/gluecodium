@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/TypesWithDefaults.h"
+namespace genium {
+}
 namespace smoke {
 StructWithDefaults::StructWithDefaults( )
 {
