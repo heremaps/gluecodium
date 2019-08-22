@@ -43,7 +43,7 @@ class Structs {
         @Cpp(ExternalGetter = "get_some_struct", ExternalSetter = "set_some_struct")
         externalStructField: AnotherExternalStruct
     }
-    @Cpp(ExternalType = "foo/Bazz.h, non/Sense.h", ExternalName = "::fire::SomeVeryExternalStruct")
+    @Cpp(ExternalType = ["foo/Bazz.h", "non/Sense.h"], ExternalName = "::fire::SomeVeryExternalStruct")
     struct AnotherExternalStruct {
         intField: Byte
     }

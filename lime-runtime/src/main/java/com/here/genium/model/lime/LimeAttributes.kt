@@ -64,14 +64,21 @@ class LimeAttributes private constructor(
         literal: Any
     ): String {
         val prefix = if (valueType != attributeType.defaultValueType) valueType.toString() else ""
-        val suffix = when (literal) {
-            true -> ""
-            is String -> StringHelper.escapeStringLiteral(literal)
-            else -> literal.toString()
-        }
+        val suffix = createValueLiteral(literal)
         val infix = if (prefix.isNotEmpty() && suffix.isNotEmpty()) " = " else ""
         return "$prefix$infix$suffix"
     }
+
+    private fun createValueLiteral(value: Any?): String =
+        when (value) {
+            null, true -> ""
+            is String -> StringHelper.escapeStringLiteral(value)
+            is List<*> -> {
+                val listLiteral = value.joinToString(", ") { createValueLiteral(it) }
+                "[$listLiteral]"
+            }
+            else -> value.toString()
+        }
 
     class Builder {
         private val attributes =

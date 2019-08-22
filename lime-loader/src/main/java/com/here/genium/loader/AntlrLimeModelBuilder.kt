@@ -462,9 +462,7 @@ internal class AntlrLimeModelBuilder(
                 attributes.addAttribute(
                     attributeType,
                     convertAnnotationValueType(valueContext, attributeType),
-                    valueContext.stringLiteral()
-                        ?.let { literalContext -> convertStringLiteral(literalContext) }
-                        ?: true
+                    convertAnnotationValue(valueContext)
                 )
             }
         }
@@ -502,6 +500,15 @@ internal class AntlrLimeModelBuilder(
             "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER
             "ExternalSetter" -> LimeAttributeValueType.EXTERNAL_SETTER
             else -> throw LimeLoadingException("Unsupported annotation value: '$id'")
+        }
+    }
+
+    private fun convertAnnotationValue(valueContext: LimeParser.AnnotationValueContext): Any {
+        val literals = valueContext.stringLiteral()
+        return when {
+            literals.isEmpty() -> true
+            literals.size == 1 -> convertStringLiteral(literals.first())
+            else -> literals.map { convertStringLiteral(it) }
         }
     }
 

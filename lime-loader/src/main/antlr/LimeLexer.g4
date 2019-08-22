@@ -49,6 +49,8 @@ LCURL: '{' ;
 RCURL: '}' ;
 LANGLE: '<' ;
 RANGLE: '>' ;
+LSQUARE: '[' ;
+RSQUARE: ']' ;
 
 // Keywords
 

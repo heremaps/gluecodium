@@ -125,6 +125,7 @@ annotation
 
 annotationValue
     : simpleId NL* ('=' NL* stringLiteral NL*)?
+    | simpleId NL* '=' NL* '[' NL* stringLiteral (',' NL* stringLiteral)* NL* ']' NL*
     | stringLiteral NL*
     ;
 

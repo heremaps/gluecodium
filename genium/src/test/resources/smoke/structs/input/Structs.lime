@@ -57,7 +57,7 @@ class Structs {
         externalStructField: AnotherExternalStruct
     }
 
-    @Cpp(ExternalType = "foo/Bazz.h, non/Sense.h", ExternalName = "::fire::SomeVeryExternalStruct")
+    @Cpp(ExternalType = ["foo/Bazz.h", "non/Sense.h"], ExternalName = "::fire::SomeVeryExternalStruct")
     struct AnotherExternalStruct {
         intField: Byte
     }

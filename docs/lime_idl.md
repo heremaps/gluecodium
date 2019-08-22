@@ -419,7 +419,7 @@ Initializes an enumeration-type constant or field with the given enumerator valu
 Most elements can be prefixed by attributes:
 * Syntax: __@__*AttributeName*\[__(__*list-of-attribute-properties*__)__\]
 * where *list-of-attribute-properties* is a comma-separated list of properties, each optionally with
-a value: *PropertyName* \[**=** *FieldValue*\]
+a value: *PropertyName* \[**=** *PropertyValue*\]
 * Example: `fun process(mode: Mode, @Swift(Label = "_") input: String): GenericResult`
 * Description: each attributes specifies some additional behavior for the element, most often some
 behavior specific to a single output language.
@@ -449,9 +449,11 @@ deprecated, takes a string literal value as a deprecation message.
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
   This is the default property for this attribute.
   * **Const**: marks a function with a `const` qualifier in C++ generated code.
-  * **ExternalType** **=** **"**_HeaderPath_**"**: marks a class, interface, struct type or
+  * **ExternalType** **=** **"**_HeaderPaths_**"**: marks a class, interface, struct type or
   enumeration as an "external" type. This skips the generation of C++ code for this type and the
-  given (pre-existing) header file is used instead.
+  given (pre-existing) header file(s) is used instead. `HeaderPaths` could either be a single string
+  literal or a comma-separated list of strings in square brackets:
+  __\[__*HeaderPath* \[**,** *HeaderPath*\]*__\]__.
   * **ExternalName** **=** **"**_FullyQualifiedName_**"**: marks a type that is already marked with
   `ExternalType` to have a distinct fully-qualified name in C++ generated code (i.e. to have a name
   that is not derived automatically from the element's name given in the declaration).

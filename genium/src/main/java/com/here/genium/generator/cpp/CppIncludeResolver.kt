@@ -35,8 +35,12 @@ class CppIncludeResolver(
         resolvedIncludes.getOrPut(limeNamedElement.fullName) {
             val externalType = inferExternalType(limeNamedElement)
             when {
-                externalType != null ->
+                externalType is String ->
                     externalType.split(',').map { Include.createInternalInclude(it.trim()) }
+                externalType is List<*> ->
+                    externalType
+                        .filterIsInstance<String>()
+                        .map { Include.createInternalInclude(it.trim()) }
                 !limeNamedElement.path.hasParent -> listOf(Include.createInternalInclude(
                     nameRules.getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
                 ))
@@ -47,10 +51,11 @@ class CppIncludeResolver(
             }
         }
 
-    private fun inferExternalType(limeNamedElement: LimeNamedElement): String? {
+    private fun inferExternalType(limeNamedElement: LimeNamedElement): Any? {
         val externalType = limeNamedElement.attributes.get(
             LimeAttributeType.CPP,
-            LimeAttributeValueType.EXTERNAL_TYPE
+            LimeAttributeValueType.EXTERNAL_TYPE,
+            Object::class.java
         )
         if (externalType != null) {
             return externalType
