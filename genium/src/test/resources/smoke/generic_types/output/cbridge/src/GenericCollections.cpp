@@ -388,7 +388,7 @@ void MapOf_ArrayOf_Int_To_Boolean_iterator_release_handle(_baseRef iterator_hand
     delete reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, ::genium::hash<std::vector<int32_t>> >::iterator*>( iterator_handle );
 }
 void MapOf_ArrayOf_Int_To_Boolean_put(_baseRef handle, _baseRef key, bool value) {
-    (*get_pointer<std::unordered_map<std::vector<int32_t>, bool, ::genium::hash<std::vector<int32_t>> >>(handle)).emplace(std::move(Conversion<std::vector<int32_t>>::toCpp(key)), std::move(value));
+    (*get_pointer<std::unordered_map<std::vector<int32_t>, bool, ::genium::hash<std::vector<int32_t>> >>(handle)).emplace(Conversion<std::vector<int32_t>>::toCpp(key), value);
 }
 bool MapOf_ArrayOf_Int_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, ::genium::hash<std::vector<int32_t>> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::vector<int32_t>, bool, ::genium::hash<std::vector<int32_t>> >>(handle)->end();
@@ -426,7 +426,7 @@ void MapOf_ExternalEnum_To_Boolean_iterator_release_handle(_baseRef iterator_han
     delete reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, ::genium::hash<::alien::FooEnum> >::iterator*>( iterator_handle );
 }
 void MapOf_ExternalEnum_To_Boolean_put(_baseRef handle, smoke_GenericTypesWithCompoundTypes_ExternalEnum key, bool value) {
-    (*get_pointer<std::unordered_map<::alien::FooEnum, bool, ::genium::hash<::alien::FooEnum> >>(handle)).emplace(std::move(static_cast<::alien::FooEnum>(key)), std::move(value));
+    (*get_pointer<std::unordered_map<::alien::FooEnum, bool, ::genium::hash<::alien::FooEnum> >>(handle)).emplace(static_cast<::alien::FooEnum>(key), value);
 }
 bool MapOf_ExternalEnum_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, ::genium::hash<::alien::FooEnum> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<::alien::FooEnum, bool, ::genium::hash<::alien::FooEnum> >>(handle)->end();
@@ -464,7 +464,7 @@ void MapOf_Float_To_Double_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<float, double >::iterator*>( iterator_handle );
 }
 void MapOf_Float_To_Double_put(_baseRef handle, float key, double value) {
-    (*get_pointer<std::unordered_map<float, double >>(handle)).emplace(std::move(key), std::move(value));
+    (*get_pointer<std::unordered_map<float, double >>(handle)).emplace(key, value);
 }
 bool MapOf_Float_To_Double_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<float, double >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<float, double >>(handle)->end();
@@ -502,7 +502,7 @@ void MapOf_Int_To_ArrayOf_Int_iterator_release_handle(_baseRef iterator_handle) 
     delete reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t> >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_ArrayOf_Int_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<int32_t, std::vector<int32_t> >>(handle)).emplace(std::move(key), std::move(Conversion<std::vector<int32_t>>::toCpp(value)));
+    (*get_pointer<std::unordered_map<int32_t, std::vector<int32_t> >>(handle)).emplace(key, Conversion<std::vector<int32_t>>::toCpp(value));
 }
 bool MapOf_Int_To_ArrayOf_Int_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::vector<int32_t> >>(handle)->end();
@@ -540,7 +540,7 @@ void MapOf_Int_To_Boolean_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, bool >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_Boolean_put(_baseRef handle, int32_t key, bool value) {
-    (*get_pointer<std::unordered_map<int32_t, bool >>(handle)).emplace(std::move(key), std::move(value));
+    (*get_pointer<std::unordered_map<int32_t, bool >>(handle)).emplace(key, value);
 }
 bool MapOf_Int_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, bool >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, bool >>(handle)->end();
@@ -578,7 +578,7 @@ void MapOf_Int_To_DummyClass_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass> >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_DummyClass_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass> >>(handle)).emplace(std::move(key), std::move(Conversion<std::shared_ptr<::smoke::DummyClass>>::toCpp(value)));
+    (*get_pointer<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass> >>(handle)).emplace(key, Conversion<std::shared_ptr<::smoke::DummyClass>>::toCpp(value));
 }
 bool MapOf_Int_To_DummyClass_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass> >>(handle)->end();
@@ -616,7 +616,7 @@ void MapOf_Int_To_DummyInterface_iterator_release_handle(_baseRef iterator_handl
     delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface> >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_DummyInterface_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface> >>(handle)).emplace(std::move(key), std::move(Conversion<std::shared_ptr<::smoke::DummyInterface>>::toCpp(value)));
+    (*get_pointer<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface> >>(handle)).emplace(key, Conversion<std::shared_ptr<::smoke::DummyInterface>>::toCpp(value));
 }
 bool MapOf_Int_To_DummyInterface_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface> >>(handle)->end();
@@ -654,7 +654,7 @@ void MapOf_Int_To_ExternalEnum_iterator_release_handle(_baseRef iterator_handle)
     delete reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_ExternalEnum_put(_baseRef handle, int32_t key, smoke_GenericTypesWithCompoundTypes_ExternalEnum value) {
-    (*get_pointer<std::unordered_map<int32_t, ::alien::FooEnum >>(handle)).emplace(std::move(key), std::move(static_cast<::alien::FooEnum>(value)));
+    (*get_pointer<std::unordered_map<int32_t, ::alien::FooEnum >>(handle)).emplace(key, static_cast<::alien::FooEnum>(value));
 }
 bool MapOf_Int_To_ExternalEnum_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, ::alien::FooEnum >>(handle)->end();
@@ -692,7 +692,7 @@ void MapOf_Int_To_MapOf_Int_To_Boolean_iterator_release_handle(_baseRef iterator
     delete reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool> >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_MapOf_Int_To_Boolean_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<int32_t, std::unordered_map<int32_t, bool> >>(handle)).emplace(std::move(key), std::move(Conversion<std::unordered_map<int32_t, bool>>::toCpp(value)));
+    (*get_pointer<std::unordered_map<int32_t, std::unordered_map<int32_t, bool> >>(handle)).emplace(key, Conversion<std::unordered_map<int32_t, bool>>::toCpp(value));
 }
 bool MapOf_Int_To_MapOf_Int_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::unordered_map<int32_t, bool> >>(handle)->end();
@@ -730,7 +730,7 @@ void MapOf_Int_To_SetOf_Int_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t> >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_SetOf_Int_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<int32_t, std::unordered_set<int32_t> >>(handle)).emplace(std::move(key), std::move(Conversion<std::unordered_set<int32_t>>::toCpp(value)));
+    (*get_pointer<std::unordered_map<int32_t, std::unordered_set<int32_t> >>(handle)).emplace(key, Conversion<std::unordered_set<int32_t>>::toCpp(value));
 }
 bool MapOf_Int_To_SetOf_Int_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::unordered_set<int32_t> >>(handle)->end();
@@ -768,7 +768,7 @@ void MapOf_Int_To_SomeEnum_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >::iterator*>( iterator_handle );
 }
 void MapOf_Int_To_SomeEnum_put(_baseRef handle, int32_t key, smoke_GenericTypesWithCompoundTypes_SomeEnum value) {
-    (*get_pointer<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>(handle)).emplace(std::move(key), std::move(static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(value)));
+    (*get_pointer<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>(handle)).emplace(key, static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(value));
 }
 bool MapOf_Int_To_SomeEnum_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>(handle)->end();
@@ -806,7 +806,7 @@ void MapOf_MapOf_Int_To_Boolean_To_Boolean_iterator_release_handle(_baseRef iter
     delete reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, ::genium::hash<std::unordered_map<int32_t, bool>> >::iterator*>( iterator_handle );
 }
 void MapOf_MapOf_Int_To_Boolean_To_Boolean_put(_baseRef handle, _baseRef key, bool value) {
-    (*get_pointer<std::unordered_map<std::unordered_map<int32_t, bool>, bool, ::genium::hash<std::unordered_map<int32_t, bool>> >>(handle)).emplace(std::move(Conversion<std::unordered_map<int32_t, bool>>::toCpp(key)), std::move(value));
+    (*get_pointer<std::unordered_map<std::unordered_map<int32_t, bool>, bool, ::genium::hash<std::unordered_map<int32_t, bool>> >>(handle)).emplace(Conversion<std::unordered_map<int32_t, bool>>::toCpp(key), value);
 }
 bool MapOf_MapOf_Int_To_Boolean_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, ::genium::hash<std::unordered_map<int32_t, bool>> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::unordered_map<int32_t, bool>, bool, ::genium::hash<std::unordered_map<int32_t, bool>> >>(handle)->end();
@@ -844,7 +844,7 @@ void MapOf_SetOf_Int_To_Boolean_iterator_release_handle(_baseRef iterator_handle
     delete reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, ::genium::hash<std::unordered_set<int32_t>> >::iterator*>( iterator_handle );
 }
 void MapOf_SetOf_Int_To_Boolean_put(_baseRef handle, _baseRef key, bool value) {
-    (*get_pointer<std::unordered_map<std::unordered_set<int32_t>, bool, ::genium::hash<std::unordered_set<int32_t>> >>(handle)).emplace(std::move(Conversion<std::unordered_set<int32_t>>::toCpp(key)), std::move(value));
+    (*get_pointer<std::unordered_map<std::unordered_set<int32_t>, bool, ::genium::hash<std::unordered_set<int32_t>> >>(handle)).emplace(Conversion<std::unordered_set<int32_t>>::toCpp(key), value);
 }
 bool MapOf_SetOf_Int_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, ::genium::hash<std::unordered_set<int32_t>> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::unordered_set<int32_t>, bool, ::genium::hash<std::unordered_set<int32_t>> >>(handle)->end();
@@ -882,7 +882,7 @@ void MapOf_SomeEnum_To_Boolean_iterator_release_handle(_baseRef iterator_handle)
     delete reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum> >::iterator*>( iterator_handle );
 }
 void MapOf_SomeEnum_To_Boolean_put(_baseRef handle, smoke_GenericTypesWithCompoundTypes_SomeEnum key, bool value) {
-    (*get_pointer<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum> >>(handle)).emplace(std::move(static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(key)), std::move(value));
+    (*get_pointer<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum> >>(handle)).emplace(static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(key), value);
 }
 bool MapOf_SomeEnum_To_Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum> >>(handle)->end();
@@ -920,7 +920,7 @@ void MapOf_String_To_BasicStruct_iterator_release_handle(_baseRef iterator_handl
     delete reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >::iterator*>( iterator_handle );
 }
 void MapOf_String_To_BasicStruct_put(_baseRef handle, _baseRef key, _baseRef value) {
-    (*get_pointer<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)));
+    (*get_pointer<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>(handle)).emplace(Conversion<std::string>::toCpp(key), Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value));
 }
 bool MapOf_String_To_BasicStruct_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>(handle)->end();
@@ -958,7 +958,7 @@ void MapOf_String_To_ExternalStruct_iterator_release_handle(_baseRef iterator_ha
     delete reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct >::iterator*>( iterator_handle );
 }
 void MapOf_String_To_ExternalStruct_put(_baseRef handle, _baseRef key, _baseRef value) {
-    (*get_pointer<std::unordered_map<std::string, ::alien::FooStruct >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(Conversion<::alien::FooStruct>::toCpp(value)));
+    (*get_pointer<std::unordered_map<std::string, ::alien::FooStruct >>(handle)).emplace(Conversion<std::string>::toCpp(key), Conversion<::alien::FooStruct>::toCpp(value));
 }
 bool MapOf_String_To_ExternalStruct_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, ::alien::FooStruct >>(handle)->end();
@@ -996,7 +996,7 @@ void MapOf_String_To_String_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, std::string >::iterator*>( iterator_handle );
 }
 void MapOf_String_To_String_put(_baseRef handle, _baseRef key, _baseRef value) {
-    (*get_pointer<std::unordered_map<std::string, std::string >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(Conversion<std::string>::toCpp(value)));
+    (*get_pointer<std::unordered_map<std::string, std::string >>(handle)).emplace(Conversion<std::string>::toCpp(key), Conversion<std::string>::toCpp(value));
 }
 bool MapOf_String_To_String_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, std::string >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, std::string >>(handle)->end();
@@ -1034,7 +1034,7 @@ void MapOf_UByte_To_String_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, std::string >::iterator*>( iterator_handle );
 }
 void MapOf_UByte_To_String_put(_baseRef handle, uint8_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<uint8_t, std::string >>(handle)).emplace(std::move(key), std::move(Conversion<std::string>::toCpp(value)));
+    (*get_pointer<std::unordered_map<uint8_t, std::string >>(handle)).emplace(key, Conversion<std::string>::toCpp(value));
 }
 bool MapOf_UByte_To_String_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<uint8_t, std::string >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<uint8_t, std::string >>(handle)->end();

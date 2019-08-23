@@ -112,7 +112,7 @@ class InheritanceViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     private func callMethodOnAllObjects() {
         HelloWorldStaticLogger.clearLog()
-        InheritanceHelper.applyScaleOn(scaleFactor: 2.0, shapes: objects.flatMap {$0.object})
+        InheritanceHelper.applyScaleOn(scaleFactor: 2.0, shapes: objects.compactMap {$0.object})
         inheritanceTableWebView.loadHTMLString(HTML.renderLog(HelloWorldStaticLogger.getLog()), baseURL: nil)
     }
 

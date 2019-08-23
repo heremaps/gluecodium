@@ -57,7 +57,7 @@ public:
     }
 
     ::std::string
-    get_data( )
+    get_data( ) override
     {
         return data;
     }
@@ -79,7 +79,7 @@ public:
     }
 
     ::std::string
-    get_data( )
+    get_data( ) override
     {
         return data;
     }
@@ -101,7 +101,7 @@ public:
     }
 
     ::std::string
-    get_data( )
+    get_data( ) override
     {
         return data;
     }
@@ -123,7 +123,7 @@ public:
     }
 
     ::std::string
-    get_data( )
+    get_data( ) override
     {
         return data;
     }
@@ -142,13 +142,13 @@ public:
     ~ConcreteGrandChildImpl( ) = default;
 
     void
-    root_method( const std::string& s )
+    root_method( const std::string& s ) override
     {
         m_data = "C++ ConcreteGrandChild data is '" + s + "'";
     }
 
     ::std::string
-    get_data( )
+    get_data( ) override
     {
         return m_data;
     }
