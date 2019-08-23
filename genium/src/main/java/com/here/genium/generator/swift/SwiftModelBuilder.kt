@@ -49,7 +49,6 @@ import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypesCollection
 import com.here.genium.model.lime.LimeValue
-import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
 import com.here.genium.model.swift.SwiftEnum
@@ -422,10 +421,9 @@ class SwiftModelBuilder(
     }
 
     private fun getVisibility(limeElement: LimeNamedElement) =
-        when (limeElement.visibility) {
-            LimeVisibility.INTERNAL -> SwiftVisibility.INTERNAL
-            LimeVisibility.PUBLIC -> SwiftVisibility.PUBLIC
-            LimeVisibility.OPEN -> SwiftVisibility.OPEN
+        when {
+            limeElement.visibility.isInteral -> SwiftVisibility.INTERNAL
+            else -> SwiftVisibility.PUBLIC
         }
 
     private fun createComments(limeElement: LimeNamedElement) =

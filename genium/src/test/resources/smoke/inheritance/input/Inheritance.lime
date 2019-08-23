@@ -30,7 +30,7 @@ class ChildClassFromInterface : ParentInterface {
     fun childClassMethod()
 }
 
-class ParentClass {
+open class ParentClass {
     fun rootMethod()
 }
 

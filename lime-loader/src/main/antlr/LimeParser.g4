@@ -161,7 +161,7 @@ setType
 // Literals
 
 visibility
-    : ('internal' | 'public' | 'open') NL*
+    : ('internal' | 'public' | 'open' | 'open' 'internal') NL*
     ;
 
 literalConstant

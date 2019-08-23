@@ -4,6 +4,12 @@
 - Features:
   + Subclasses are now passed as their actual type from C++ to Java/Swift.
   + Added compile-time validation for "external" types in C++.
+  + Added support for `open` visibility modifier in LimeIDL.
+- Breaking changes:
+  + Classes can now only inherit from other classes in LimeIDL if the "parent" class has `open`
+    visibility modifier.
+  + Classes are now generated with `final` qualifier in Java by default (unless marked as `open` in
+    LimeIDL definition).
 
 ## 5.2.2
 - Release date: 2019-08-20

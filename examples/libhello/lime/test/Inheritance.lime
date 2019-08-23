@@ -32,7 +32,7 @@ interface ParentInterface {
     }
 }
 
-class ChildClass : ParentInterface {
+open class ChildClass : ParentInterface {
     // Creates an instance of ChildClass.
     static fun createChildClass(): ChildClass
     // Does nothing, just checks that it compiles.
@@ -64,8 +64,8 @@ interface AnotherChildInterface : RootInterface {
     fun getData(): String
 }
 
-class ConcreteChild : ChildInterface {}
-class AnotherConcreteChild : AnotherChildInterface {}
+open class ConcreteChild : ChildInterface {}
+open class AnotherConcreteChild : AnotherChildInterface {}
 
 class ConcreteGrandChild : ConcreteChild {
     property text: String

@@ -17,7 +17,7 @@
 
 package smoke
 
-class Constructors {
+open class Constructors {
     enum ErrorEnum {
         NONE,
         CRASHED

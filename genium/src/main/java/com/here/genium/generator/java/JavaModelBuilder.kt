@@ -184,6 +184,7 @@ class JavaModelBuilder(
             generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
         )
         javaClass.visibility = getVisibility(limeStruct)
+        javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaClass.javaPackage = rootPackage
         javaClass.comment = createComments(limeStruct)
         addDeprecatedAnnotationIfNeeded(javaClass)
@@ -236,6 +237,7 @@ class JavaModelBuilder(
         val javaEnumType = typeMapper.mapCustomType(limeException.errorEnum.type) as JavaEnumType
         val javaException = JavaExceptionClass(nameRules.getExceptionName(limeEnumeration), javaEnumType)
         javaException.visibility = getVisibility(limeEnumeration)
+        javaException.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaException.comment = createComments(limeException)
         storeNamedResult(limeException, javaException)
         closeContext()
@@ -391,6 +393,9 @@ class JavaModelBuilder(
                     limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
         javaClass.visibility = getVisibility(limeClass)
+        if (limeClass.visibility == LimeVisibility.PUBLIC) {
+            javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
+        }
         javaClass.javaPackage = rootPackage
         javaClass.comment = createComments(limeClass)
         addDeprecatedAnnotationIfNeeded(javaClass)
@@ -435,7 +440,7 @@ class JavaModelBuilder(
 
     private fun getVisibility(limeElement: LimeNamedElement) =
         when {
-            limeElement.visibility == LimeVisibility.INTERNAL -> JavaVisibility.PACKAGE
+            limeElement.visibility.isInteral -> JavaVisibility.PACKAGE
             else -> JavaVisibility.PUBLIC
         }
 

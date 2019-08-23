@@ -68,7 +68,7 @@ interface SpecialNames {
     fun createProxy()
 }
 
-class ConstructorOverloads {
+open class ConstructorOverloads {
     enum ErrorEnum {
         NONE,
         CRASHED

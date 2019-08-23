@@ -21,7 +21,7 @@ package test
 interface ObjcInterface {}
 
 @Swift(ObjC)
-class ObjcClass {}
+open class ObjcClass {}
 
 @Swift(ObjC)
 interface ObjcChildInterface: ObjcInterface {}

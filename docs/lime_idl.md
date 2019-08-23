@@ -163,8 +163,9 @@ might vary per compiler implementation.
 #### Visibility
 
 Most elements can be prefixed with a visibility prefix. Possible visibility prefixes are currently
-`public` and `internal`. Visibility prefix is optional, an element without such prefix is considered
-`public`. The visibility prefix, if present, should precede the rest of the declaration.
+`public`, `internal`, `open` and `open internal`. Visibility prefix is optional, an element without
+such prefix is considered `public`. The visibility prefix, if present, should precede the rest of
+the declaration.
 
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
 * List of element kinds that can have a visibility prefix: class, interface, types, function,
@@ -172,6 +173,8 @@ constructor, property, property accessor, struct, struct field, enumeration, exc
 type alias.
 * List of element kinds that cannot have a visibility prefix: package, import, function parameter,
 enumerator.
+* `open` and `open internal` are currently only supported for classes. Both mean the class can be
+inherited from (see `Inheritance` below).
 
 #### Line breaks
 
@@ -216,12 +219,16 @@ immediately after the package declaration.
   * **types** declares a loose collection of elements, most of which become free-standing elements
   in the output languages.
 
+#### Inheritance
+
 Classes and interfaces support inheritance (optionally, see *ParentName* in the syntax above).
 There are some restrictions on inheritance:
 * multiple inheritance is currently not supported.
 * an interface cannot inherit from a class.
+* an class can only inherit from another ("parent") class if the parent class has "open" visibility
+(see `Visibility` above).
 * a class or an interface with "public" visibility cannot inherit from a class or an interface with
-"internal" visibility (see `Visibility` below).
+"internal" visibility (see `Visibility` above).
 
 ### Child element declarations
 

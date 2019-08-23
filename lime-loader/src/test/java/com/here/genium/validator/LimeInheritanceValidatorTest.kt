@@ -29,6 +29,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypesCollection
+import com.here.genium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -86,6 +87,14 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateClassWithClassParent() {
         val anotherClass = LimeClass(fooPath)
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateClassWithOpenClassParent() {
+        val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
         allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
 
         assertTrue(validator.validate(limeModel))

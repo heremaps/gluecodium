@@ -277,10 +277,11 @@ class JavaModelBuilderContainersTest {
         assertEquals("Bar", result.comment.deprecated)
         assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertTrue(result.needsDisposer)
+        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
     }
 
     @Test
-    fun finishBuildingClassReadsVisibility() {
+    fun finishBuildingClassReadsInternalVisibility() {
         val limeElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),
             visibility = LimeVisibility.INTERNAL
@@ -290,6 +291,17 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals(JavaVisibility.PACKAGE, result.visibility)
+    }
+
+    @Test
+    fun finishBuildingClassReadsOpenVisibility() {
+        val limeElement =
+            LimeClass(LimePath(emptyList(), listOf("foo")), visibility = LimeVisibility.OPEN)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaClass::class.java)
+        assertTrue(result.qualifiers.isEmpty())
     }
 
     @Test

@@ -460,14 +460,16 @@ internal class AntlrLimeModelBuilder(
     private fun convertVisibility(
         ctx: LimeParser.VisibilityContext?,
         parentVisibility: LimeVisibility?
-    ): LimeVisibility =
-        when {
-            parentVisibility == LimeVisibility.INTERNAL -> LimeVisibility.INTERNAL
-            ctx == null -> LimeVisibility.PUBLIC
-            ctx.OPEN() != null -> LimeVisibility.OPEN
-            ctx.INTERNAL() != null -> LimeVisibility.INTERNAL
+    ): LimeVisibility {
+        val isInternal = parentVisibility == LimeVisibility.INTERNAL || ctx?.INTERNAL() != null
+        val isOpen = ctx?.OPEN() != null
+        return when {
+            isOpen && isInternal -> LimeVisibility.OPEN_INTERNAL
+            isOpen -> LimeVisibility.OPEN
+            isInternal -> LimeVisibility.INTERNAL
             else -> LimeVisibility.PUBLIC
         }
+    }
 
     private fun convertAnnotations(
         annotations: List<LimeParser.AnnotationContext>

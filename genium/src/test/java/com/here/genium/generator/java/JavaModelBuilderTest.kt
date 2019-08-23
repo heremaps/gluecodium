@@ -36,6 +36,7 @@ import com.here.genium.model.java.JavaMethod
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaParameter
 import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
@@ -323,6 +324,7 @@ class JavaModelBuilderTest {
         assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(rootPackage, result.javaPackage)
         assertEquals("other comment", result.generatedConstructorComment)
+        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
     }
 
     @Test
@@ -562,6 +564,7 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaExceptionClass::class.java)
         assertEquals("FooException", result.name)
         assertEquals(javaEnumTypeRef, result.enumTypeRef)
+        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
     }
 
     @Test

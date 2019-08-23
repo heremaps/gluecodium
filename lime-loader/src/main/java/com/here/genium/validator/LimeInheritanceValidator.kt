@@ -25,8 +25,10 @@ import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath
 
-/* Validate inheritance relationships for classes and interfaces. Classes can inherit from classes
- * and interfaces (but not from other types). Interfaces can inherit only from other interfaces.
+/**
+ * Validate inheritance relationships for classes and interfaces. Classes can inherit from open
+ * classes and interfaces (but not from other types). Interfaces can inherit only from other
+ * interfaces.
  */
 internal class LimeInheritanceValidator(private val logger: LimeLogger) {
 
@@ -34,7 +36,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         val allElements = limeModel.referenceMap.values
         val validationResults =
             allElements.filterIsInstance<LimeClass>().map { validateClass(it) } +
-                    allElements.filterIsInstance<LimeInterface>().map { validateInterface(it) }
+            allElements.filterIsInstance<LimeInterface>().map { validateInterface(it) }
 
         return !validationResults.contains(false)
     }
@@ -47,11 +49,15 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 logger.error(limeClass, "a class cannot inherit from itself or its own descendants")
                 false
             }
-            parentType is LimeClass || parentType is LimeInterface -> true
-            else -> {
-                logger.error(limeClass, "a class can inherit only from a class or an interface")
+            parentType !is LimeClass && parentType !is LimeInterface -> {
+                logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
                 false
             }
+            parentType is LimeClass && !parentType.visibility.isOpen -> {
+                logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
+                false
+            }
+            else -> true
         }
     }
 
@@ -66,11 +72,11 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 )
                 false
             }
-            parentType is LimeInterface -> true
-            else -> {
+            parentType !is LimeInterface -> {
                 logger.error(limeInterface, "an interface can inherit only from an interface")
                 false
             }
+            else -> true
         }
     }
 
@@ -85,5 +91,10 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
             }
         }
         return false
+    }
+
+    companion object {
+        private const val CLASS_INHERITANCE_MESSAGE =
+            "a class can inherit only from an interface or from an open class"
     }
 }
