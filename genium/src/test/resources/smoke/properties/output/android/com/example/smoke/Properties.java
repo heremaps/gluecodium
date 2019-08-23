@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-public class Properties extends NativeBase {
+public final class Properties extends NativeBase {
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(999);
@@ -15,7 +15,7 @@ public class Properties extends NativeBase {
             this.value = value;
         }
     }
-    public static class ExampleStruct {
+    public final static class ExampleStruct {
         public double value;
         public ExampleStruct(final double value) {
             this.value = value;

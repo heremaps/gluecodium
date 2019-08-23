@@ -6,14 +6,14 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-public class TypeDefs extends NativeBase {
-    public static class StructHavingAliasFieldDefinedBelow {
+public final class TypeDefs extends NativeBase {
+    public final static class StructHavingAliasFieldDefinedBelow {
         public double field;
         public StructHavingAliasFieldDefinedBelow(final double field) {
             this.field = field;
         }
     }
-    public static class TestStruct {
+    public final static class TestStruct {
         @NonNull
         public String something;
         public TestStruct(@NonNull final String something) {

@@ -5,7 +5,7 @@
 package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class BuiltinTypes extends NativeBase {
+public final class BuiltinTypes extends NativeBase {
     /**
      * For internal use only.
      * @exclude

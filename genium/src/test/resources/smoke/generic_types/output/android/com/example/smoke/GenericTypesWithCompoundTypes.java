@@ -8,7 +8,7 @@ import com.example.NativeBase;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-public class GenericTypesWithCompoundTypes extends NativeBase {
+public final class GenericTypesWithCompoundTypes extends NativeBase {
     public enum SomeEnum {
         FOO(0),
         BAR(1);
@@ -25,13 +25,13 @@ public class GenericTypesWithCompoundTypes extends NativeBase {
             this.value = value;
         }
     }
-    public static class BasicStruct {
+    public final static class BasicStruct {
         public double value;
         public BasicStruct(final double value) {
             this.value = value;
         }
     }
-    public static class ExternalStruct {
+    public final static class ExternalStruct {
         @NonNull
         public String string;
         public ExternalStruct(@NonNull final String string) {

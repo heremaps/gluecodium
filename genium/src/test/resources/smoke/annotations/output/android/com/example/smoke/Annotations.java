@@ -6,7 +6,7 @@ package com.example.smoke;
 import com.example.NativeBase;
 import my.custom.annotations.NeverBeNull;
 import my.other.annotations.Optional;
-public class Annotations extends NativeBase {
+public final class Annotations extends NativeBase {
     /**
      * For internal use only.
      * @exclude

@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class Route {
+public final class Route {
     public static final String DEFAULT_DESCRIPTION = "Nonsense";
     public static final RouteType DEFAULT_TYPE = RouteType.EQUESTRIAN;
     @NonNull

@@ -7,7 +7,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
-public class EnumsInTypeCollectionInterface extends NativeBase {
+public final class EnumsInTypeCollectionInterface extends NativeBase {
     /**
      * For internal use only.
      * @exclude

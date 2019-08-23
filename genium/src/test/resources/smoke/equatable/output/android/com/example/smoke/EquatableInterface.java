@@ -5,8 +5,8 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class EquatableInterface extends NativeBase {
-    public static class EquatableStruct {
+public final class EquatableInterface extends NativeBase {
+    public final static class EquatableStruct {
         public int intField;
         @NonNull
         public String stringField;

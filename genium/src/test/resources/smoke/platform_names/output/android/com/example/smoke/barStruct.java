@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class barStruct {
+public final class barStruct {
     @NonNull
     public String BAR_FIELD;
     public barStruct(@NonNull final String BarParameter) {

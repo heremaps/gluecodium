@@ -6,7 +6,7 @@ package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 class InternalClass extends NativeBase {
-    static class InternalStruct {
+    final static class InternalStruct {
         @NonNull
         String stringField;
         InternalStruct(@NonNull final String stringField) {

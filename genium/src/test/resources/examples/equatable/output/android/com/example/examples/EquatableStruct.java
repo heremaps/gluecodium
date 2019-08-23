@@ -4,7 +4,7 @@
  */
 package com.example.examples;
 import android.support.annotation.NonNull;
-public class EquatableStruct {
+public final class EquatableStruct {
     public int intField;
     @NonNull
     public String stringField;

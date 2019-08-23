@@ -8,7 +8,7 @@ import com.example.NativeBase;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-public class GenericTypesWithGenericTypes extends NativeBase {
+public final class GenericTypesWithGenericTypes extends NativeBase {
     /**
      * For internal use only.
      * @exclude

@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
 import java.util.Map;
-public class Nullable extends NativeBase {
+public final class Nullable extends NativeBase {
     public enum SomeEnum {
         ON(0),
         OFF(1);
@@ -17,14 +17,14 @@ public class Nullable extends NativeBase {
             this.value = value;
         }
     }
-    public static class SomeStruct {
+    public final static class SomeStruct {
         @NonNull
         public String stringField;
         public SomeStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
-    public static class NullableStruct {
+    public final static class NullableStruct {
         @Nullable
         public String stringField;
         @Nullable
@@ -55,7 +55,7 @@ public class Nullable extends NativeBase {
             this.instanceField = instanceField;
         }
     }
-    public static class NullableIntsStruct {
+    public final static class NullableIntsStruct {
         @Nullable
         public Byte int8Field;
         @Nullable

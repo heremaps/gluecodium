@@ -5,7 +5,7 @@
 package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class Calculator extends NativeBase {
+public final class Calculator extends NativeBase {
     public Calculator() {
         this(create());
     }

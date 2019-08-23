@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-public class SerializableStruct implements Parcelable {
+public final class SerializableStruct implements Parcelable {
     public static final Parcelable.Creator<SerializableStruct> CREATOR = new Parcelable.Creator<SerializableStruct>() {
         public SerializableStruct createFromParcel(final Parcel in_parcel) {
             return new SerializableStruct(in_parcel);

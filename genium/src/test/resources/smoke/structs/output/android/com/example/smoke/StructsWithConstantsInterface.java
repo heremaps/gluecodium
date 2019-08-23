@@ -6,8 +6,8 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-public class StructsWithConstantsInterface extends NativeBase {
-    public static class MultiRoute {
+public final class StructsWithConstantsInterface extends NativeBase {
+    public final static class MultiRoute {
         public static final String DEFAULT_DESCRIPTION = "Foo";
         public static final RouteType DEFAULT_TYPE = RouteType.NONE;
         @NonNull

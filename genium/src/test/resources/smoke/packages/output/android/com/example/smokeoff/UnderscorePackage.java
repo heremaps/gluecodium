@@ -5,7 +5,7 @@
 package com.example.smokeoff;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class UnderscorePackage extends NativeBase {
+public final class UnderscorePackage extends NativeBase {
     /**
      * For internal use only.
      * @exclude

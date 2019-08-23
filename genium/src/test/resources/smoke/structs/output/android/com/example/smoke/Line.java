@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class Line {
+public final class Line {
     @NonNull
     public Point a;
     @NonNull

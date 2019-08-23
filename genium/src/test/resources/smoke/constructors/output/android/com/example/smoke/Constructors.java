@@ -15,7 +15,7 @@ public class Constructors extends NativeBase {
             this.value = value;
         }
     }
-    public static class ErrorEnumException extends Exception {
+    public final static class ErrorEnumException extends Exception {
         public ErrorEnumException(final Constructors.ErrorEnum error) {
             super(Integer.toString(error.value));
             this.error = error;

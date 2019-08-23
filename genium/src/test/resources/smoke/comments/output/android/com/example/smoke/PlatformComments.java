@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class PlatformComments extends NativeBase {
+public final class PlatformComments extends NativeBase {
     public enum SomeEnum {
         USELESS(0),
         USEFUL(1);
@@ -17,7 +17,7 @@ public class PlatformComments extends NativeBase {
     /**
      * <p>An exception when something goes wrong.</p>
      */
-    public static class SomeEnumException extends Exception {
+    public final static class SomeEnumException extends Exception {
         public SomeEnumException(final PlatformComments.SomeEnum error) {
             super(Integer.toString(error.value));
             this.error = error;

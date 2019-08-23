@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class Enums extends NativeBase {
+public final class Enums extends NativeBase {
     public enum SimpleEnum {
         FIRST(0),
         SECOND(1);
@@ -38,7 +38,7 @@ public class Enums extends NativeBase {
             this.value = value;
         }
     }
-    public static class ErrorStruct {
+    public final static class ErrorStruct {
         @NonNull
         public Enums.InternalError type;
         @NonNull

@@ -6,7 +6,7 @@ package com.example.smoke;
 /**
  * <p>Nicely documented struct</p>
  */
-public class TwoMandatoryTwoOptional {
+public final class TwoMandatoryTwoOptional {
     /**
      * <p>This field is important</p>
      */

@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-public class Structs extends NativeBase {
+public final class Structs extends NativeBase {
     public enum FooBar {
         FOO(0),
         BAR(1);
@@ -15,7 +15,7 @@ public class Structs extends NativeBase {
             this.value = value;
         }
     }
-    public static class Point {
+    public final static class Point {
         public double x;
         public double y;
         public Point(final double x, final double y) {
@@ -23,7 +23,7 @@ public class Structs extends NativeBase {
             this.y = y;
         }
     }
-    public static class Line {
+    public final static class Line {
         @NonNull
         public Structs.Point a;
         @NonNull
@@ -33,7 +33,7 @@ public class Structs extends NativeBase {
             this.b = b;
         }
     }
-    public static class AllTypesStruct {
+    public final static class AllTypesStruct {
         public final byte int8Field;
         public final short uint8Field;
         public final short int16Field;
@@ -366,7 +366,7 @@ public class Structs extends NativeBase {
             }
         }
     }
-    public static class ExternalStruct {
+    public final static class ExternalStruct {
         @NonNull
         public String stringField;
         @NonNull
@@ -382,34 +382,34 @@ public class Structs extends NativeBase {
             this.externalStructField = externalStructField;
         }
     }
-    public static class AnotherExternalStruct {
+    public final static class AnotherExternalStruct {
         public byte intField;
         public AnotherExternalStruct(final byte intField) {
             this.intField = intField;
         }
     }
-    public static class YetAnotherExternalStruct {
+    public final static class YetAnotherExternalStruct {
         @NonNull
         public String stringField;
         public YetAnotherExternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
-    public static class NestingImmutableStruct {
+    public final static class NestingImmutableStruct {
         @NonNull
         public Structs.AllTypesStruct structField;
         public NestingImmutableStruct(@NonNull final Structs.AllTypesStruct structField) {
             this.structField = structField;
         }
     }
-    public static class DoubleNestingImmutableStruct {
+    public final static class DoubleNestingImmutableStruct {
         @NonNull
         public Structs.NestingImmutableStruct nestingStructField;
         public DoubleNestingImmutableStruct(@NonNull final Structs.NestingImmutableStruct nestingStructField) {
             this.nestingStructField = nestingStructField;
         }
     }
-    public static class StructWithArrayOfImmutable {
+    public final static class StructWithArrayOfImmutable {
         @NonNull
         public List<Structs.AllTypesStruct> arrayField;
         public StructWithArrayOfImmutable(@NonNull final List<Structs.AllTypesStruct> arrayField) {

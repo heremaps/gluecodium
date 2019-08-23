@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-public class DefaultValues extends NativeBase {
+public final class DefaultValues extends NativeBase {
     public enum SomeEnum {
         FOO_VALUE(0),
         BAR_VALUE(1);
@@ -29,7 +29,7 @@ public class DefaultValues extends NativeBase {
             this.value = value;
         }
     }
-    public static class StructWithDefaults {
+    public final static class StructWithDefaults {
         public int intField;
         public long uintField;
         public float floatField;
@@ -62,7 +62,7 @@ public class DefaultValues extends NativeBase {
             this.externalEnumField = externalEnumField;
         }
     }
-    public static class NullableStructWithDefaults {
+    public final static class NullableStructWithDefaults {
         @Nullable
         public Integer intField;
         @Nullable
@@ -92,7 +92,7 @@ public class DefaultValues extends NativeBase {
             this.enumField = enumField;
         }
     }
-    public static class StructWithSpecialDefaults {
+    public final static class StructWithSpecialDefaults {
         public float floatNanField;
         public float floatInfinityField;
         public float floatNegativeInfinityField;
@@ -116,7 +116,7 @@ public class DefaultValues extends NativeBase {
             this.doubleNegativeInfinityField = doubleNegativeInfinityField;
         }
     }
-    public static class StructWithEmptyDefaults {
+    public final static class StructWithEmptyDefaults {
         @NonNull
         public List<Integer> intsField;
         @NonNull
@@ -142,7 +142,7 @@ public class DefaultValues extends NativeBase {
             this.setTypeField = setTypeField;
         }
     }
-    public static class StructWithTypedefDefaults {
+    public final static class StructWithTypedefDefaults {
         public long longField;
         public boolean boolField;
         @NonNull

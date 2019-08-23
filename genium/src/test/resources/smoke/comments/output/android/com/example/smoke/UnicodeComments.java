@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class UnicodeComments extends NativeBase {
+public final class UnicodeComments extends NativeBase {
     /**
      * For internal use only.
      * @exclude

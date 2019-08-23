@@ -5,7 +5,7 @@
 package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class Errors extends NativeBase {
+public final class Errors extends NativeBase {
     public enum InternalErrors {
         NONE(0),
         CRASHED(1),
@@ -15,7 +15,7 @@ public class Errors extends NativeBase {
             this.value = value;
         }
     }
-    public static class InternalErrorsException extends Exception {
+    public final static class InternalErrorsException extends Exception {
         public InternalErrorsException(final Errors.InternalErrors error) {
             super(Integer.toString(error.value));
             this.error = error;

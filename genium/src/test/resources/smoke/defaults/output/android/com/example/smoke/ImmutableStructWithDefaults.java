@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class ImmutableStructWithDefaults {
+public final class ImmutableStructWithDefaults {
     public final int intField;
     public final long uintField;
     public final float floatField;

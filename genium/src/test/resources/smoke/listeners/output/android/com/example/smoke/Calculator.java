@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class Calculator extends NativeBase {
+public final class Calculator extends NativeBase {
     /**
      * For internal use only.
      * @exclude

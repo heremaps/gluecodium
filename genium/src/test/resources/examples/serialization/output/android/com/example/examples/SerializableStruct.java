@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
-public class SerializableStruct implements Parcelable {
+public final class SerializableStruct implements Parcelable {
     public static final Parcelable.Creator<SerializableStruct> CREATOR = new Parcelable.Creator<SerializableStruct>() {
         public SerializableStruct createFromParcel(final Parcel in_parcel) {
             return new SerializableStruct(in_parcel);

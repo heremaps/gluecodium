@@ -5,7 +5,7 @@
 package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class DefaultValues extends NativeBase {
+public final class DefaultValues extends NativeBase {
     public enum SomeEnum {
         FOO_VALUE(0),
         BAR_VALUE(1);
@@ -14,7 +14,7 @@ public class DefaultValues extends NativeBase {
             this.value = value;
         }
     }
-    public static class StructWithDefaults {
+    public final static class StructWithDefaults {
         public int intField;
         public float floatField;
         public boolean boolField;

@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.Date;
-public class UseFreeTypes extends NativeBase {
+public final class UseFreeTypes extends NativeBase {
     /**
      * For internal use only.
      * @exclude

@@ -5,8 +5,8 @@
 package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class Structs extends NativeBase {
-    public static class SyncResult {
+public final class Structs extends NativeBase {
+    public final static class SyncResult {
         public final long lastUpdatedTimeStamp;
         public final long numberOfChanges;
         public SyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {
@@ -14,7 +14,7 @@ public class Structs extends NativeBase {
             this.numberOfChanges = numberOfChanges;
         }
     }
-    public static class IdentifiableSyncResult {
+    public final static class IdentifiableSyncResult {
         public int id;
         @NonNull
         public Structs.SyncResult syncResult;

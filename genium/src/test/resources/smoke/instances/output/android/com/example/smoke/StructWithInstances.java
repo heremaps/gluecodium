@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class StructWithInstances {
+public final class StructWithInstances {
     @NonNull
     public SimpleClass classInstance;
     @NonNull

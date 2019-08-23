@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class barInterface extends NativeBase {
+public final class barInterface extends NativeBase {
     public barInterface(@NonNull final String makeParameter) {
         this(make(makeParameter));
     }

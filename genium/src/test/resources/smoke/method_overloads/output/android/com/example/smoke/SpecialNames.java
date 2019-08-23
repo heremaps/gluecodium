@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import com.example.NativeBase;
-public class SpecialNames extends NativeBase {
+public final class SpecialNames extends NativeBase {
     /**
      * For internal use only.
      * @exclude

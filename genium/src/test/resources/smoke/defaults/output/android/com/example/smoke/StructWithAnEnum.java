@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class StructWithAnEnum {
+public final class StructWithAnEnum {
     @NonNull
     public AnEnum config;
     public StructWithAnEnum() {

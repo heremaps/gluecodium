@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class AllTypesStruct {
+public final class AllTypesStruct {
     public byte int8Field;
     public short uint8Field;
     public short int16Field;

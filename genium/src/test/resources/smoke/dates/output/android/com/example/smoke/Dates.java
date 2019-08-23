@@ -6,8 +6,8 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.Date;
-public class Dates extends NativeBase {
-    public static class DateStruct {
+public final class Dates extends NativeBase {
+    public final static class DateStruct {
         @NonNull
         public Date dateField;
         public DateStruct(@NonNull final Date dateField) {

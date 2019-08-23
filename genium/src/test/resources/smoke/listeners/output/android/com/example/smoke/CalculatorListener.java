@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 import java.util.Map;
 public interface CalculatorListener {
-    public static class ResultStruct {
+    public final static class ResultStruct {
         public double result;
         public ResultStruct(final double result) {
             this.result = result;

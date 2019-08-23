@@ -6,8 +6,8 @@ package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-public class Arrays extends NativeBase {
-    public static class SyncResult {
+public final class Arrays extends NativeBase {
+    public final static class SyncResult {
         public long lastUpdatedTimeStamp;
         public long numberOfChanges;
         public SyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {

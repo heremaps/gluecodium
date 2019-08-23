@@ -1,5 +1,4 @@
 package smoke
-
 @Swift(ObjC)
-class ObjcClass {
+open class ObjcClass {
 }

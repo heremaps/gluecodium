@@ -4,7 +4,7 @@
  */
 package com.example.package;
 import android.support.annotation.NonNull;
-public class Struct {
+public final class Struct {
     @NonNull
     public Enum null;
     public Struct() {

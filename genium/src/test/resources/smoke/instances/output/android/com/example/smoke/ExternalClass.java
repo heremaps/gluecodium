@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class ExternalClass extends NativeBase {
+public final class ExternalClass extends NativeBase {
     public enum SomeEnum {
         SOME_VALUE(0);
         public final int value;
@@ -13,7 +13,7 @@ public class ExternalClass extends NativeBase {
             this.value = value;
         }
     }
-    public static class SomeStruct {
+    public final static class SomeStruct {
         @NonNull
         public String someField;
         public SomeStruct(@NonNull final String someField) {

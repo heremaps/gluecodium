@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-public class EquatableNullableStruct {
+public final class EquatableNullableStruct {
     @Nullable
     public Boolean boolField;
     @Nullable

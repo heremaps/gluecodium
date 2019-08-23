@@ -8,7 +8,7 @@ import com.example.NativeBase;
 /**
  * <p>This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.</p>
  */
-public class LongComments extends NativeBase {
+public final class LongComments extends NativeBase {
     /**
      * For internal use only.
      * @exclude

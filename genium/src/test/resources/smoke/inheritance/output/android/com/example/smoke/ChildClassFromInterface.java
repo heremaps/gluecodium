@@ -3,7 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
-public class ChildClassFromInterface extends ParentInterfaceImpl {
+public final class ChildClassFromInterface extends ParentInterfaceImpl {
     /**
      * For internal use only.
      * @exclude

@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class ChildConstructors extends Constructors {
+public final class ChildConstructors extends Constructors {
     public ChildConstructors() {
         this(createNoArgsChild());
     }

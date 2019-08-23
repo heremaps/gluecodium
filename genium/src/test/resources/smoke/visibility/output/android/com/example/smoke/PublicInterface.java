@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 public interface PublicInterface {
-    static class InternalStruct {
+    final static class InternalStruct {
         @NonNull
         PublicClass.InternalStruct fieldOfInternalType;
         InternalStruct(@NonNull final PublicClass.InternalStruct fieldOfInternalType) {

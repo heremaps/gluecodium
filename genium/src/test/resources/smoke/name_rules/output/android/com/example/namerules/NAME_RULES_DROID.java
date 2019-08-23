@@ -5,7 +5,7 @@
 package com.example.namerules;
 import com.example.NativeBase;
 import java.util.List;
-public class NAME_RULES_DROID extends NativeBase {
+public final class NAME_RULES_DROID extends NativeBase {
     public enum EXAMPLE_ERROR_DROID {
         NONE(0),
         FATAL(1);
@@ -14,14 +14,14 @@ public class NAME_RULES_DROID extends NativeBase {
             this.value = value;
         }
     }
-    public static class example_error_x extends Exception {
+    public final static class example_error_x extends Exception {
         public example_error_x(final NAME_RULES_DROID.EXAMPLE_ERROR_DROID error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
         public final NAME_RULES_DROID.EXAMPLE_ERROR_DROID error;
     }
-    public static class EXAMPLE_STRUCT_DROID {
+    public final static class EXAMPLE_STRUCT_DROID {
         public double j_value;
         public List<Long> j_int_value;
         public EXAMPLE_STRUCT_DROID(final double j_value, final List<Long> j_int_value) {

@@ -6,8 +6,8 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-public class MethodOverloads extends NativeBase {
-    public static class Point {
+public final class MethodOverloads extends NativeBase {
+    public final static class Point {
         public double x;
         public double y;
         public Point(final double x, final double y) {

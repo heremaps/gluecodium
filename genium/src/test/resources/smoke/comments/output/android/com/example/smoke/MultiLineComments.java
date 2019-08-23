@@ -18,7 +18,7 @@ import com.example.NativeBase;
  * </ul>
  * <p><code>Some example code;</code></p>
  */
-public class MultiLineComments extends NativeBase {
+public final class MultiLineComments extends NativeBase {
     /**
      * For internal use only.
      * @exclude

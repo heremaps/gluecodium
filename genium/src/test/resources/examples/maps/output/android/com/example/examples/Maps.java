@@ -6,7 +6,7 @@ package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.Map;
-public class Maps extends NativeBase {
+public final class Maps extends NativeBase {
     /**
      * For internal use only.
      * @exclude

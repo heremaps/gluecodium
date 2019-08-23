@@ -11,11 +11,11 @@ import com.example.NativeBase;
  * {@link com.example.smoke.Comments#someMethodWithAllComments}.</p>
  * <p>Weblinks are not modified like this <a href="http://example.com">example</a> or [www.example.com].</p>
  */
-public class CommentsLinks extends NativeBase {
+public final class CommentsLinks extends NativeBase {
     /**
      * <p>Links also work in:</p>
      */
-    public static class RandomStruct {
+    public final static class RandomStruct {
         /**
          * <p>Some random field {@link com.example.smoke.Comments.SomeStruct}</p>
          */

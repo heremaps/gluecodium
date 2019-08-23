@@ -3,7 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
-public class OneMandatoryField {
+public final class OneMandatoryField {
     public int mandatory;
     public OneMandatoryField(final int mandatory) {
         this.mandatory = mandatory;

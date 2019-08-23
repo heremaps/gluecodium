@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import java.util.List;
 import java.util.Map;
-public class EquatableStruct {
+public final class EquatableStruct {
     public boolean boolField;
     public int intField;
     public long longField;

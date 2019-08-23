@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-public class Vector {
+public final class Vector {
     public double x;
     public double y;
     public Vector(final double x, final double y) {

@@ -8,8 +8,8 @@ import com.example.NativeBase;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-public class GenericTypesWithBasicTypes extends NativeBase {
-    public static class StructWithGenerics {
+public final class GenericTypesWithBasicTypes extends NativeBase {
+    public final static class StructWithGenerics {
         @NonNull
         public List<Short> numbersList;
         @NonNull

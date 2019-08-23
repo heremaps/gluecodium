@@ -5,8 +5,8 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class StructsWithMethodsInterface extends NativeBase {
-    public static class Vector3 {
+public final class StructsWithMethodsInterface extends NativeBase {
+    public final static class Vector3 {
         public double x;
         public double y;
         public double z;

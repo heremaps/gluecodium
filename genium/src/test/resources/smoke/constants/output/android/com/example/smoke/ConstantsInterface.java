@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 import com.example.NativeBase;
-public class ConstantsInterface extends NativeBase {
+public final class ConstantsInterface extends NativeBase {
     public static final boolean BOOL_CONSTANT = true;
     public static final int INT_CONSTANT = -11;
     public static final long UINT_CONSTANT = 4294967295L;

@@ -5,7 +5,7 @@
 package com.example.package;
 import android.support.annotation.NonNull;
 import java.util.List;
-public class Class extends InterfaceImpl {
+public final class Class extends InterfaceImpl {
     public Class() {
         this(constructor());
     }

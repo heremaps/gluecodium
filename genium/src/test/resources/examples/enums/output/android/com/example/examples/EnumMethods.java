@@ -7,7 +7,7 @@ package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
-public class EnumMethods extends NativeBase {
+public final class EnumMethods extends NativeBase {
     /**
      * For internal use only.
      * @exclude

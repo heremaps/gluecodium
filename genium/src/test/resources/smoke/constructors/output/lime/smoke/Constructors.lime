@@ -1,13 +1,10 @@
 package smoke
-
-class Constructors {
+open class Constructors {
     enum ErrorEnum {
         NONE,
         CRASHED
     }
-
     exception ErrorEnumException(ErrorEnum)
-
     constructor create()
     constructor create(
         other: Constructors

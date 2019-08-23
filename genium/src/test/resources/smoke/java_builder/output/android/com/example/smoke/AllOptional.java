@@ -6,7 +6,7 @@ package com.example.smoke;
 /**
  * <p>This is also nicely documented</p>
  */
-public class AllOptional {
+public final class AllOptional {
     /**
      * <p>This field may or may not be set</p>
      */

@@ -8,7 +8,7 @@ import com.example.NativeBase;
 /**
  * <p>This is some very useful interface.</p>
  */
-public class Comments extends NativeBase {
+public final class Comments extends NativeBase {
     /**
      * <p>This is some very useful constant.</p>
      */
@@ -33,7 +33,7 @@ public class Comments extends NativeBase {
     /**
      * <p>This is some very useful struct.</p>
      */
-    public static class SomeStruct {
+    public final static class SomeStruct {
         /**
          * <p>How useful this struct is</p>
          */

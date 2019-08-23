@@ -3,7 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
-public class ManyMandatoryAndOptionalFields {
+public final class ManyMandatoryAndOptionalFields {
     public int mandatory;
     public int alsoMandatory;
     public int moreMandatory;

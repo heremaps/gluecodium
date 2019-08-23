@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class Errors extends NativeBase {
+public final class Errors extends NativeBase {
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(1);
@@ -23,14 +23,14 @@ public class Errors extends NativeBase {
             this.value = value;
         }
     }
-    public static class InternalErrorException extends Exception {
+    public final static class InternalErrorException extends Exception {
         public InternalErrorException(final Errors.InternalError error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
         public final Errors.InternalError error;
     }
-    public static class ExternalErrorsException extends Exception {
+    public final static class ExternalErrorsException extends Exception {
         public ExternalErrorsException(final Errors.ExternalErrors error) {
             super(Integer.toString(error.value));
             this.error = error;

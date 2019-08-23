@@ -6,7 +6,7 @@ package com.example.example;
 import com.example.NativeBase;
 import com.example.smoke.Errors;
 import com.example.smoke.SomeTypeCollectionErrorException;
-public class FooBar extends NativeBase {
+public final class FooBar extends NativeBase {
     /**
      * For internal use only.
      * @exclude

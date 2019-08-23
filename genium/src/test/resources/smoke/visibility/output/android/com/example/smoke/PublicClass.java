@@ -5,7 +5,7 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public class PublicClass extends NativeBase {
+public final class PublicClass extends NativeBase {
     enum InternalEnum {
         FOO(0),
         BAR(1);
@@ -14,21 +14,21 @@ public class PublicClass extends NativeBase {
             this.value = value;
         }
     }
-    static class InternalStruct {
+    final static class InternalStruct {
         @NonNull
         String stringField;
         InternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
-    public static class PublicStruct {
+    public final static class PublicStruct {
         @NonNull
         PublicClass.InternalStruct internalField;
         PublicStruct(@NonNull final PublicClass.InternalStruct internalField) {
             this.internalField = internalField;
         }
     }
-    public static class PublicStructWithInternalDefaults {
+    public final static class PublicStructWithInternalDefaults {
         @NonNull
         String internalField;
         public float publicField;
