@@ -41,6 +41,7 @@
 #pragma once
 
 #include "{{>common/InternalInclude}}Mutex.h"
+#include "cbridge/include/BaseHandle.h"
 #include <string>
 #include <unordered_map>
 
@@ -50,7 +51,7 @@
 class TypeInitRepository
 {
 public:
-    using InitFunction = void*(long);
+    using InitFunction = void*(_baseRef);
     void add_init(const std::string& id, InitFunction* init);
     InitFunction* get_init(const std::string& id) const;
 
