@@ -20,7 +20,7 @@
   !}}
 {{#if isExternal}}
 {{#set enumName=fullyQualifiedName}}
-static_assert(std::is_enum<{{enumName}}>::value);
+static_assert(std::is_enum<{{enumName}}>::value, "Expected '{{enumName}}' to be an enumeration'.");
 {{#items}}
 static_assert(
     {{inferredValue.name}} == static_cast<int64_t>({{enumName}}::{{name}}),

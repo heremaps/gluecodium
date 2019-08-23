@@ -19,7 +19,7 @@ Errors::Errors() {
 }
 Errors::~Errors() {
 }
-static_assert(std::is_enum<::fire::SomeEnum>::value);
+static_assert(std::is_enum<::fire::SomeEnum>::value, "Expected '::fire::SomeEnum' to be an enumeration'.");
 static_assert(
     0 == static_cast<int64_t>(::fire::SomeEnum::NONE),
     "Expected '0' value for '::fire::SomeEnum::NONE'."

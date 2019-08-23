@@ -18,7 +18,7 @@ DefaultValues::DefaultValues() {
 }
 DefaultValues::~DefaultValues() {
 }
-static_assert(std::is_enum<::fire::SomeVeryExternalEnum>::value);
+static_assert(std::is_enum<::fire::SomeVeryExternalEnum>::value, "Expected '::fire::SomeVeryExternalEnum' to be an enumeration'.");
 static_assert(
     0 == static_cast<int64_t>(::fire::SomeVeryExternalEnum::One_Value),
     "Expected '0' value for '::fire::SomeVeryExternalEnum::One_Value'."
