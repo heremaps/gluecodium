@@ -37,3 +37,7 @@ open class ParentClass {
 class ChildClassFromClass : ParentClass {
     fun childClassMethod()
 }
+
+open internal class InternalParent {}
+
+internal class InternalChild : InternalParent {}
