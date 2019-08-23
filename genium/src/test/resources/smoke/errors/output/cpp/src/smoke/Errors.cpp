@@ -20,9 +20,18 @@ Errors::Errors() {
 Errors::~Errors() {
 }
 static_assert(std::is_enum<::fire::SomeEnum>::value);
-static_assert(0 == static_cast<int64_t>(::fire::SomeEnum::NONE));
-static_assert(1 == static_cast<int64_t>(::fire::SomeEnum::BOOM));
-static_assert(2 == static_cast<int64_t>(::fire::SomeEnum::BUST));
+static_assert(
+    0 == static_cast<int64_t>(::fire::SomeEnum::NONE),
+    "Expected '0' value for '::fire::SomeEnum::NONE'."
+);
+static_assert(
+    1 == static_cast<int64_t>(::fire::SomeEnum::BOOM),
+    "Expected '1' value for '::fire::SomeEnum::BOOM'."
+);
+static_assert(
+    2 == static_cast<int64_t>(::fire::SomeEnum::BUST),
+    "Expected '2' value for '::fire::SomeEnum::BUST'."
+);
 std::error_code
 make_error_code( ::smoke::Errors::InternalError value ) noexcept
 {

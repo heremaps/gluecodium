@@ -22,6 +22,9 @@
 {{#set enumName=fullyQualifiedName}}
 static_assert(std::is_enum<{{enumName}}>::value);
 {{#items}}
-static_assert({{inferredValue.name}} == static_cast<int64_t>({{enumName}}::{{name}}));
+static_assert(
+    {{inferredValue.name}} == static_cast<int64_t>({{enumName}}::{{name}}),
+    "Expected '{{inferredValue.name}}' value for '{{enumName}}::{{name}}'."
+);
 {{/items}}{{/set}}
 {{/if}}

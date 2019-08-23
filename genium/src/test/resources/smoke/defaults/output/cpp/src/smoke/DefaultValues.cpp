@@ -19,8 +19,14 @@ DefaultValues::DefaultValues() {
 DefaultValues::~DefaultValues() {
 }
 static_assert(std::is_enum<::fire::SomeVeryExternalEnum>::value);
-static_assert(0 == static_cast<int64_t>(::fire::SomeVeryExternalEnum::One_Value));
-static_assert(1 == static_cast<int64_t>(::fire::SomeVeryExternalEnum::Another_Value));
+static_assert(
+    0 == static_cast<int64_t>(::fire::SomeVeryExternalEnum::One_Value),
+    "Expected '0' value for '::fire::SomeVeryExternalEnum::One_Value'."
+);
+static_assert(
+    1 == static_cast<int64_t>(::fire::SomeVeryExternalEnum::Another_Value),
+    "Expected '1' value for '::fire::SomeVeryExternalEnum::Another_Value'."
+);
 DefaultValues::StructWithDefaults::StructWithDefaults( )
 {
 }

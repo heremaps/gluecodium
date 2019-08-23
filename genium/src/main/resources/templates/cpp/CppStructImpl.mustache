@@ -58,19 +58,28 @@ bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rh
 }}{{#if isExternal}}
 {{#set structName=fullyQualifiedName}}{{#fields}}
 {{#if externalGetter}}
-static_assert(std::is_same<
-    {{type.name}},
-    typename std::result_of<decltype(&{{structName}}::{{externalGetter}})({{structName}}*)>::type
->::value);
+static_assert(
+    std::is_same<
+        {{type.name}},
+        typename std::result_of<decltype(&{{structName}}::{{externalGetter}})({{structName}}*)>::type
+    >::value,
+    "Expected '{{type.name}}' return type for '{{structName}}::{{externalGetter}}'."
+);
 {{/if}}
 {{#if externalSetter}}
-static_assert(std::is_same<
-    void,
-    typename std::result_of<decltype(&{{structName}}::{{externalSetter}})({{structName}}*, {{>cpp/CppMethodParameterType}})>::type
->::value);
+static_assert(
+    std::is_same<
+        void,
+        typename std::result_of<decltype(&{{structName}}::{{externalSetter}})({{structName}}*, {{>cpp/CppMethodParameterType}})>::type
+    >::value,
+    "Expected 'void' return type for '{{structName}}::{{externalSetter}}'."
+);
 {{/if}}
 {{#unless externalGetter externalSetter}}
-static_assert(std::is_same<{{type.name}}, decltype({{structName}}::{{name}})>::value);
+static_assert(
+    std::is_same<{{type.name}}, decltype({{structName}}::{{name}})>::value,
+    "Expected '{{type.name}}' type for '{{structName}}::{{name}}'."
+);
 {{/unless}}
 {{/fields}}{{/set}}
 {{#set className=fullyQualifiedName}}{{#methods}}

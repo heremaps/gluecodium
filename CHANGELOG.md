@@ -3,6 +3,7 @@
 ## Unreleased
 - Features:
   + Subclasses are now passed as their actual type from C++ to Java/Swift.
+  + Added compile-time validation for "external" types in C++.
 
 ## 5.2.2
 - Release date: 2019-08-20
