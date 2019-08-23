@@ -54,6 +54,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -96,6 +97,7 @@ class CppModelBuilder(
         if (isEquatable) {
             includes.add(CppLibraryIncludes.HASH)
         }
+        val isInheritable = limeContainer is LimeInterface || limeContainer.visibility.isOpen
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
@@ -105,7 +107,8 @@ class CppModelBuilder(
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
             inheritances = inheritances,
-            isEquatable = isEquatable
+            isEquatable = isEquatable,
+            isInheritable = isInheritable
         )
 
         storeNamedResult(limeContainer, cppClass)

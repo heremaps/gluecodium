@@ -27,13 +27,14 @@ import java.util.stream.Stream
 class CppClass(
     name: String,
     fullyQualifiedName: String,
-    includes: List<Include>,
-    comment: Comments,
-    isExternal: Boolean,
-    val members: List<CppElement>,
-    val methods: List<CppMethod>,
-    val inheritances: List<CppInheritance>,
-    val isEquatable: Boolean
+    includes: List<Include> = emptyList(),
+    comment: Comments = Comments(),
+    isExternal: Boolean = false,
+    val members: List<CppElement> = emptyList(),
+    val methods: List<CppMethod> = emptyList(),
+    val inheritances: List<CppInheritance> = emptyList(),
+    val isEquatable: Boolean = false,
+    @Suppress("unused") val isInheritable: Boolean = false
 ) : CppExternableElement(name, fullyQualifiedName, includes, comment, isExternal) {
 
     @Suppress("unused")

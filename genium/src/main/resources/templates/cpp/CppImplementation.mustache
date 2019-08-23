@@ -24,17 +24,22 @@
 {{#if errorEnums}}#include <string>{{/if}}
 {{#if hasExternalTypes}}#include <type_traits>{{/if}}
 
+{{#if typeRegisteredClasses}}
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 
-{{#classes}}{{#unless isExternal}}
-{{>cpp/CppClassTypeImpl}}
-{{/unless}}{{/classes}}
+{{#typeRegisteredClasses}}
+TypeRepository& get_type_repository(const ::{{#namespace}}{{.}}::{{/namespace}}{{name}}*) {
+    static TypeRepository s_repo;
+    return s_repo;
+}
+{{/typeRegisteredClasses}}
 
 {{#internalNamespace}}
 }
 {{/internalNamespace}}
+{{/if}}
 
 {{#namespace}}
 namespace {{.}} {

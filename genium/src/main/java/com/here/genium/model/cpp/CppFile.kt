@@ -56,4 +56,9 @@ class CppFile(
     @Suppress("unused")
     val hasExternalTypes
         get() = members.filterIsInstance<CppExternableElement>().any { it.isExternal }
+
+    @Suppress("unused")
+    val typeRegisteredClasses
+        get() = members.filterIsInstance<CppClass>()
+            .filter { !it.isExternal && it.isInheritable && it.inheritances.isEmpty() }
 }
