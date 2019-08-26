@@ -27,7 +27,7 @@ JniReference<jclass>& get_cached_native_base_class()
 {
     return CachedJavaClass<DummyNativeBaseType>::java_class;
 }
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ExternalClass", "smoke_::fire::Baz", ::fire::Baz)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass", ::fire::Baz)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
 {
@@ -40,8 +40,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
     {
         return jResult;
     }
-    const auto& id = ::genium::get_type_repository(static_cast< ::fire::Baz* >(nullptr)).get_id(_ninput.get());
-    const auto& javaClass = CachedJavaClass<::fire::Baz>::get_java_class(id);
+    auto &javaClass = CachedJavaClass<::fire::Baz>::java_class;
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::fire::Baz>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
@@ -79,7 +78,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleClass", "smoke_SimpleClass", ::smoke::SimpleClass)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClass", ::smoke::SimpleClass)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _ninput)
 {
@@ -92,8 +91,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _n
     {
         return jResult;
     }
-    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::SimpleClass* >(nullptr)).get_id(_ninput.get());
-    const auto& javaClass = CachedJavaClass<::smoke::SimpleClass>::get_java_class(id);
+    auto &javaClass = CachedJavaClass<::smoke::SimpleClass>::java_class;
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleClass>( _ninput );
     if ( pInstanceSharedPointer == nullptr )

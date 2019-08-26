@@ -44,7 +44,11 @@ JniReference<jclass>& get_cached_native_base_class()
 }
 
 {{#models}}
+{{#if hasTypeRepository}}
 REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}", "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
+{{/if}}{{#unless hasTypeRepository}}
+REGISTER_JNI_CLASS_CACHE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}", {{cppFullyQualifiedName}})
+{{/unless}}
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput)
@@ -60,8 +64,12 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
         return jResult;
     }
 
+{{#if hasTypeRepository}}
     const auto& id = {{>common/InternalNamespace}}get_type_repository(static_cast< {{cppFullyQualifiedName}}* >(nullptr)).get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::get_java_class(id);
+{{/if}}{{#unless hasTypeRepository}}
+    auto &javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
+{{/unless}}
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
     if ( pInstanceSharedPointer == nullptr )

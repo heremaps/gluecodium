@@ -77,7 +77,6 @@ JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
 
 #define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y) x ## y
 #define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(x, y) REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y)
-#define REGISTER_JNI_CLASS_CACHE_TAKE_FIRST(name, ...) name
 
 #define REGISTER_JNI_CLASS_CACHE(name, ...) \
   namespace { \
