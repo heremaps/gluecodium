@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_PointerEquatableInterface")
-internal func _CBridgeInitsmoke_PointerEquatableInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = PointerEquatableInterface(cPointerEquatableInterface: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: PointerEquatableInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -40,18 +35,10 @@ extension PointerEquatableInterface: Hashable {
     }
 }
 internal func PointerEquatableInterfacecopyFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
-    if let swift_pointer = smoke_PointerEquatableInterface_get_typed(smoke_PointerEquatableInterface_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PointerEquatableInterface {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return PointerEquatableInterface(cPointerEquatableInterface: smoke_PointerEquatableInterface_copy_handle(handle))
 }
 internal func PointerEquatableInterfacemoveFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
-    if let swift_pointer = smoke_PointerEquatableInterface_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? PointerEquatableInterface {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return PointerEquatableInterface(cPointerEquatableInterface: handle)
 }
 internal func PointerEquatableInterfacecopyFromCType(_ handle: _baseRef) -> PointerEquatableInterface? {
     guard handle != 0 else {

@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitexamples_BuiltinTypes")
-internal func _CBridgeInitexamples_BuiltinTypes(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = BuiltinTypes(cBuiltinTypes: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: BuiltinTypes?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -60,18 +55,10 @@ extension BuiltinTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func BuiltinTypescopyFromCType(_ handle: _baseRef) -> BuiltinTypes {
-    if let swift_pointer = examples_BuiltinTypes_get_typed(examples_BuiltinTypes_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? BuiltinTypes {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return BuiltinTypes(cBuiltinTypes: examples_BuiltinTypes_copy_handle(handle))
 }
 internal func BuiltinTypesmoveFromCType(_ handle: _baseRef) -> BuiltinTypes {
-    if let swift_pointer = examples_BuiltinTypes_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? BuiltinTypes {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return BuiltinTypes(cBuiltinTypes: handle)
 }
 internal func BuiltinTypescopyFromCType(_ handle: _baseRef) -> BuiltinTypes? {
     guard handle != 0 else {

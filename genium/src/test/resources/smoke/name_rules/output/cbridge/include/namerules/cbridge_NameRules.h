@@ -26,7 +26,6 @@ _GENIUM_C_EXPORT double namerules_NameRules_ExampleStruct_iValue_get(_baseRef ha
 _GENIUM_C_EXPORT _baseRef namerules_NameRules_ExampleStruct_iIntValue_get(_baseRef handle);
 _GENIUM_C_EXPORT void namerules_NameRules_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef namerules_NameRules_copy_handle(_baseRef handle);
-_GENIUM_C_EXPORT void* namerules_NameRules_get_typed(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef namerules_NameRules_create();
 _GENIUM_C_EXPORT namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _instance, _baseRef someArgument);
 _GENIUM_C_EXPORT uint32_t namerules_NameRules_intProperty_get(_baseRef _instance);

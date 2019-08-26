@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_EquatableInterface")
-internal func _CBridgeInitsmoke_EquatableInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = EquatableInterface(cEquatableInterface: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -58,18 +53,10 @@ extension EquatableInterface: Hashable {
     }
 }
 internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface {
-    if let swift_pointer = smoke_EquatableInterface_get_typed(smoke_EquatableInterface_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? EquatableInterface {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return EquatableInterface(cEquatableInterface: smoke_EquatableInterface_copy_handle(handle))
 }
 internal func EquatableInterfacemoveFromCType(_ handle: _baseRef) -> EquatableInterface {
-    if let swift_pointer = smoke_EquatableInterface_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? EquatableInterface {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return EquatableInterface(cEquatableInterface: handle)
 }
 internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface? {
     guard handle != 0 else {

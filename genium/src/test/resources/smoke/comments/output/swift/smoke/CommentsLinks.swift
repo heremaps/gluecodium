@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_CommentsLinks")
-internal func _CBridgeInitsmoke_CommentsLinks(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = CommentsLinks(cCommentsLinks: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -92,18 +87,10 @@ extension CommentsLinks: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func CommentsLinkscopyFromCType(_ handle: _baseRef) -> CommentsLinks {
-    if let swift_pointer = smoke_CommentsLinks_get_typed(smoke_CommentsLinks_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CommentsLinks {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return CommentsLinks(cCommentsLinks: smoke_CommentsLinks_copy_handle(handle))
 }
 internal func CommentsLinksmoveFromCType(_ handle: _baseRef) -> CommentsLinks {
-    if let swift_pointer = smoke_CommentsLinks_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CommentsLinks {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return CommentsLinks(cCommentsLinks: handle)
 }
 internal func CommentsLinkscopyFromCType(_ handle: _baseRef) -> CommentsLinks? {
     guard handle != 0 else {

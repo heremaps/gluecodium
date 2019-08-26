@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_DefaultValues")
-internal func _CBridgeInitsmoke_DefaultValues(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = DefaultValues(cDefaultValues: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -168,18 +163,10 @@ extension DefaultValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues {
-    if let swift_pointer = smoke_DefaultValues_get_typed(smoke_DefaultValues_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? DefaultValues {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return DefaultValues(cDefaultValues: smoke_DefaultValues_copy_handle(handle))
 }
 internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues {
-    if let swift_pointer = smoke_DefaultValues_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? DefaultValues {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return DefaultValues(cDefaultValues: handle)
 }
 internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues? {
     guard handle != 0 else {

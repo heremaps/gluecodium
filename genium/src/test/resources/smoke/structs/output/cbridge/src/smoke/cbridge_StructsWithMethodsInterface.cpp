@@ -19,21 +19,6 @@ _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)))
         : 0;
 }
-extern "C" {
-extern void* _CBridgeInitsmoke_StructsWithMethodsInterface(_baseRef handle);
-}
-namespace {
-struct smoke_StructsWithMethodsInterfaceRegisterInit {
-    smoke_StructsWithMethodsInterfaceRegisterInit() {
-        get_init_repository().add_init("smoke_StructsWithMethodsInterface", &_CBridgeInitsmoke_StructsWithMethodsInterface);
-    }
-} s_smoke_StructsWithMethodsInterface_register_init;
-}
-void* smoke_StructsWithMethodsInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::StructsWithMethodsInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get());
-    auto init_function = get_init_repository().get_init(real_type_id);
-    return init_function ? init_function(handle) : _CBridgeInitsmoke_StructsWithMethodsInterface(handle);
-}
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_handle( double x, double y, double z )
 {

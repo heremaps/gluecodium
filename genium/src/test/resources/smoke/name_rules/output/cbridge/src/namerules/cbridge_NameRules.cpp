@@ -18,21 +18,6 @@ _baseRef namerules_NameRules_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::namerules::NameRules>>(handle)))
         : 0;
 }
-extern "C" {
-extern void* _CBridgeInitnamerules_NameRules(_baseRef handle);
-}
-namespace {
-struct namerules_NameRulesRegisterInit {
-    namerules_NameRulesRegisterInit() {
-        get_init_repository().add_init("namerules_NameRules", &_CBridgeInitnamerules_NameRules);
-    }
-} s_namerules_NameRules_register_init;
-}
-void* namerules_NameRules_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::get_type_repository(static_cast<std::shared_ptr<::namerules::NameRules>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::namerules::NameRules>>(handle)->get());
-    auto init_function = get_init_repository().get_init(real_type_id);
-    return init_function ? init_function(handle) : _CBridgeInitnamerules_NameRules(handle);
-}
 _baseRef
 namerules_NameRules_ExampleStruct_create_handle( double iValue, _baseRef iIntValue )
 {

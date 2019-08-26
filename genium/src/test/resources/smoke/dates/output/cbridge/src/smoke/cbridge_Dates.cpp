@@ -19,21 +19,6 @@ _baseRef smoke_Dates_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Dates>>(handle)))
         : 0;
 }
-extern "C" {
-extern void* _CBridgeInitsmoke_Dates(_baseRef handle);
-}
-namespace {
-struct smoke_DatesRegisterInit {
-    smoke_DatesRegisterInit() {
-        get_init_repository().add_init("smoke_Dates", &_CBridgeInitsmoke_Dates);
-    }
-} s_smoke_Dates_register_init;
-}
-void* smoke_Dates_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::Dates>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::Dates>>(handle)->get());
-    auto init_function = get_init_repository().get_init(real_type_id);
-    return init_function ? init_function(handle) : _CBridgeInitsmoke_Dates(handle);
-}
 _baseRef
 smoke_Dates_DateStruct_create_handle( double dateField )
 {

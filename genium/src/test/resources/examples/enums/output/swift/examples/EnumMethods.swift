@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitexamples_EnumMethods")
-internal func _CBridgeInitexamples_EnumMethods(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = EnumMethods(cEnumMethods: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: EnumMethods?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -36,18 +31,10 @@ extension EnumMethods: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods {
-    if let swift_pointer = examples_EnumMethods_get_typed(examples_EnumMethods_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? EnumMethods {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return EnumMethods(cEnumMethods: examples_EnumMethods_copy_handle(handle))
 }
 internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods {
-    if let swift_pointer = examples_EnumMethods_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? EnumMethods {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return EnumMethods(cEnumMethods: handle)
 }
 internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods? {
     guard handle != 0 else {

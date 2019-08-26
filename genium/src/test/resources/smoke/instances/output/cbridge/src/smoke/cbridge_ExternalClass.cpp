@@ -18,21 +18,6 @@ _baseRef smoke_ExternalClass_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::fire::Baz>>(handle)))
         : 0;
 }
-extern "C" {
-extern void* _CBridgeInitsmoke_ExternalClass(_baseRef handle);
-}
-namespace {
-struct smoke_ExternalClassRegisterInit {
-    smoke_ExternalClassRegisterInit() {
-        get_init_repository().add_init("smoke_ExternalClass", &_CBridgeInitsmoke_ExternalClass);
-    }
-} s_smoke_ExternalClass_register_init;
-}
-void* smoke_ExternalClass_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::fire::Baz>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::fire::Baz>>(handle)->get());
-    auto init_function = get_init_repository().get_init(real_type_id);
-    return init_function ? init_function(handle) : _CBridgeInitsmoke_ExternalClass(handle);
-}
 _baseRef
 smoke_ExternalClass_SomeStruct_create_handle( _baseRef someField )
 {

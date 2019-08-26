@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_StructConstants")
-internal func _CBridgeInitsmoke_StructConstants(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = StructConstants(cStructConstants: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: StructConstants?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -55,18 +50,10 @@ extension StructConstants: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructConstantscopyFromCType(_ handle: _baseRef) -> StructConstants {
-    if let swift_pointer = smoke_StructConstants_get_typed(smoke_StructConstants_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? StructConstants {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return StructConstants(cStructConstants: smoke_StructConstants_copy_handle(handle))
 }
 internal func StructConstantsmoveFromCType(_ handle: _baseRef) -> StructConstants {
-    if let swift_pointer = smoke_StructConstants_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? StructConstants {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return StructConstants(cStructConstants: handle)
 }
 internal func StructConstantscopyFromCType(_ handle: _baseRef) -> StructConstants? {
     guard handle != 0 else {

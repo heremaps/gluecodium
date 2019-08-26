@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_Dates")
-internal func _CBridgeInitsmoke_Dates(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = Dates(cDates: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -57,18 +52,10 @@ extension Dates: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func DatescopyFromCType(_ handle: _baseRef) -> Dates {
-    if let swift_pointer = smoke_Dates_get_typed(smoke_Dates_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Dates {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return Dates(cDates: smoke_Dates_copy_handle(handle))
 }
 internal func DatesmoveFromCType(_ handle: _baseRef) -> Dates {
-    if let swift_pointer = smoke_Dates_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Dates {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return Dates(cDates: handle)
 }
 internal func DatescopyFromCType(_ handle: _baseRef) -> Dates? {
     guard handle != 0 else {

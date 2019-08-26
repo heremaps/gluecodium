@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_InternalClass")
-internal func _CBridgeInitsmoke_InternalClass(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = InternalClass(cInternalClass: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -32,18 +27,10 @@ extension InternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass {
-    if let swift_pointer = smoke_InternalClass_get_typed(smoke_InternalClass_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalClass {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return InternalClass(cInternalClass: smoke_InternalClass_copy_handle(handle))
 }
 internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass {
-    if let swift_pointer = smoke_InternalClass_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalClass {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return InternalClass(cInternalClass: handle)
 }
 internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass? {
     guard handle != 0 else {

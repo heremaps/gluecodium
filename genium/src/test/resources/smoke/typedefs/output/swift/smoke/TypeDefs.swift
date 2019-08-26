@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_TypeDefs")
-internal func _CBridgeInitsmoke_TypeDefs(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = TypeDefs(cTypeDefs: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -89,18 +84,10 @@ extension TypeDefs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs {
-    if let swift_pointer = smoke_TypeDefs_get_typed(smoke_TypeDefs_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? TypeDefs {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return TypeDefs(cTypeDefs: smoke_TypeDefs_copy_handle(handle))
 }
 internal func TypeDefsmoveFromCType(_ handle: _baseRef) -> TypeDefs {
-    if let swift_pointer = smoke_TypeDefs_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? TypeDefs {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return TypeDefs(cTypeDefs: handle)
 }
 internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs? {
     guard handle != 0 else {

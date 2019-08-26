@@ -20,21 +20,6 @@ _baseRef smoke_GenericTypesWithBasicTypes_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)))
         : 0;
 }
-extern "C" {
-extern void* _CBridgeInitsmoke_GenericTypesWithBasicTypes(_baseRef handle);
-}
-namespace {
-struct smoke_GenericTypesWithBasicTypesRegisterInit {
-    smoke_GenericTypesWithBasicTypesRegisterInit() {
-        get_init_repository().add_init("smoke_GenericTypesWithBasicTypes", &_CBridgeInitsmoke_GenericTypesWithBasicTypes);
-    }
-} s_smoke_GenericTypesWithBasicTypes_register_init;
-}
-void* smoke_GenericTypesWithBasicTypes_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get());
-    auto init_function = get_init_repository().get_init(real_type_id);
-    return init_function ? init_function(handle) : _CBridgeInitsmoke_GenericTypesWithBasicTypes(handle);
-}
 _baseRef
 smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle( _baseRef numbersList, _baseRef numbersMap, _baseRef numbersSet )
 {

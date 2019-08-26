@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_Nullable")
-internal func _CBridgeInitsmoke_Nullable(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = Nullable(cNullable: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -240,18 +235,10 @@ extension Nullable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func NullablecopyFromCType(_ handle: _baseRef) -> Nullable {
-    if let swift_pointer = smoke_Nullable_get_typed(smoke_Nullable_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Nullable {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return Nullable(cNullable: smoke_Nullable_copy_handle(handle))
 }
 internal func NullablemoveFromCType(_ handle: _baseRef) -> Nullable {
-    if let swift_pointer = smoke_Nullable_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Nullable {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return Nullable(cNullable: handle)
 }
 internal func NullablecopyFromCType(_ handle: _baseRef) -> Nullable? {
     guard handle != 0 else {

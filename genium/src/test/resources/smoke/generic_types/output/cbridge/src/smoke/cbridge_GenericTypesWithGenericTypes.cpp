@@ -20,21 +20,6 @@ _baseRef smoke_GenericTypesWithGenericTypes_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::GenericTypesWithGenericTypes>>(handle)))
         : 0;
 }
-extern "C" {
-extern void* _CBridgeInitsmoke_GenericTypesWithGenericTypes(_baseRef handle);
-}
-namespace {
-struct smoke_GenericTypesWithGenericTypesRegisterInit {
-    smoke_GenericTypesWithGenericTypesRegisterInit() {
-        get_init_repository().add_init("smoke_GenericTypesWithGenericTypes", &_CBridgeInitsmoke_GenericTypesWithGenericTypes);
-    }
-} s_smoke_GenericTypesWithGenericTypes_register_init;
-}
-void* smoke_GenericTypesWithGenericTypes_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::GenericTypesWithGenericTypes>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::GenericTypesWithGenericTypes>>(handle)->get());
-    auto init_function = get_init_repository().get_init(real_type_id);
-    return init_function ? init_function(handle) : _CBridgeInitsmoke_GenericTypesWithGenericTypes(handle);
-}
 _baseRef smoke_GenericTypesWithGenericTypes_methodWithListOfLists(_baseRef _instance, _baseRef input) {
     return Conversion<std::vector<std::vector<int32_t>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithGenericTypes>>(_instance)->get()->method_with_list_of_lists(Conversion<std::vector<std::vector<int32_t>>>::toCpp(input)))
 ;

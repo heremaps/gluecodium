@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_Calculator")
-internal func _CBridgeInitsmoke_Calculator(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = Calculator(cCalculator: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -40,18 +35,10 @@ extension Calculator: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator {
-    if let swift_pointer = smoke_Calculator_get_typed(smoke_Calculator_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Calculator {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return Calculator(cCalculator: smoke_Calculator_copy_handle(handle))
 }
 internal func CalculatormoveFromCType(_ handle: _baseRef) -> Calculator {
-    if let swift_pointer = smoke_Calculator_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Calculator {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return Calculator(cCalculator: handle)
 }
 internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator? {
     guard handle != 0 else {

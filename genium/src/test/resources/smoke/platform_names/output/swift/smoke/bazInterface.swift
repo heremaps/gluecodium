@@ -2,11 +2,6 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-@_cdecl("_CBridgeInitsmoke_PlatformNamesInterface")
-internal func _CBridgeInitsmoke_PlatformNamesInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = bazInterface(cbazInterface: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
 internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -56,18 +51,10 @@ extension bazInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func bazInterfacecopyFromCType(_ handle: _baseRef) -> bazInterface {
-    if let swift_pointer = smoke_PlatformNamesInterface_get_typed(smoke_PlatformNamesInterface_copy_handle(handle)),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? bazInterface {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return bazInterface(cbazInterface: smoke_PlatformNamesInterface_copy_handle(handle))
 }
 internal func bazInterfacemoveFromCType(_ handle: _baseRef) -> bazInterface {
-    if let swift_pointer = smoke_PlatformNamesInterface_get_typed(handle),
-        let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? bazInterface {
-        return typed
-    }
-    fatalError("Failed to initialize Swift object")
+    return bazInterface(cbazInterface: handle)
 }
 internal func bazInterfacecopyFromCType(_ handle: _baseRef) -> bazInterface? {
     guard handle != 0 else {

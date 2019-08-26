@@ -19,7 +19,6 @@ typedef struct {
 } smoke_UseFreeTypes_doStuff_result;
 _GENIUM_C_EXPORT void smoke_UseFreeTypes_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_UseFreeTypes_copy_handle(_baseRef handle);
-_GENIUM_C_EXPORT void* smoke_UseFreeTypes_get_typed(_baseRef handle);
 _GENIUM_C_EXPORT smoke_UseFreeTypes_doStuff_result smoke_UseFreeTypes_doStuff(_baseRef _instance, _baseRef point, smoke_FreeEnum_FreeEnum mode);
 #ifdef __cplusplus
 }
