@@ -46,6 +46,3 @@ virtual ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef > get_primitive_type_
 virtual void set_primitive_type_property( const ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef >& value ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::TypeDefs*);
-}

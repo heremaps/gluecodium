@@ -61,6 +61,3 @@ struct hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > {
     std::size_t operator( )( const ::smoke::GenericTypesWithCompoundTypes::SomeEnum& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::GenericTypesWithCompoundTypes*);
-}

@@ -64,6 +64,3 @@ struct hash< ::namerules::NameRules::ExampleError > {
     std::size_t operator( )( const ::namerules::NameRules::ExampleError& t ) const;
 };
 }
-namespace  {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::namerules::NameRules*);
-}

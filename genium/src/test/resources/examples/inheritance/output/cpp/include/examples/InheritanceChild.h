@@ -20,6 +20,3 @@ public:
 virtual int16_t child_method( const uint8_t input ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::InheritanceChild*);
-}

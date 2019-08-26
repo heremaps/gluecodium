@@ -48,6 +48,3 @@ virtual ::std::unordered_set< float > get_set_property(  ) const = 0;
 virtual void set_set_property( const ::std::unordered_set< float >& value ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::GenericTypesWithBasicTypes*);
-}

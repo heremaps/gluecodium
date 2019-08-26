@@ -31,6 +31,3 @@ static ::examples::Structs::SyncResult method_with_non_nested_type( const ::exam
 static ::examples::Structs::IdentifiableSyncResult method_with_nested_type( const ::examples::Structs::IdentifiableSyncResult& input );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Structs*);
-}

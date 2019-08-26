@@ -33,6 +33,3 @@ virtual uint32_t GET_FOO_PROPERTY(  ) const = 0;
 virtual void SET_FOO_PROPERTY( const uint32_t value ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::fooInterface*);
-}

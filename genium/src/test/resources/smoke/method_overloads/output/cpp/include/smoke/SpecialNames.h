@@ -21,6 +21,3 @@ virtual void create_proxy(  ) = 0;
 virtual void _uppercase(  ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::SpecialNames*);
-}

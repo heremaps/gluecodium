@@ -103,6 +103,3 @@ struct hash< ::smoke::Nullable::SomeEnum > {
     std::size_t operator( )( const ::smoke::Nullable::SomeEnum& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Nullable*);
-}

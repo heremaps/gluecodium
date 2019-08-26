@@ -29,6 +29,3 @@ struct _GENIUM_CPP_EXPORT MultiRoute {
 };
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::StructsWithConstantsInterface*);
-}

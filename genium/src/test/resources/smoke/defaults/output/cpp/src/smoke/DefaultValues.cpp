@@ -7,12 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/DefaultValues.h"
-namespace genium {
-TypeRepository& get_type_repository(const ::smoke::DefaultValues*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 DefaultValues::DefaultValues() {
 }

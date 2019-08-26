@@ -27,6 +27,3 @@ static ::smoke::off::NestedPackages::SomeStruct basic_method( const ::smoke::off
 };
 }
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::off::NestedPackages*);
-}

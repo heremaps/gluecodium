@@ -7,12 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/StructConstants.h"
-namespace genium {
-TypeRepository& get_type_repository(const ::smoke::StructConstants*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 StructConstants::StructConstants() {
 }

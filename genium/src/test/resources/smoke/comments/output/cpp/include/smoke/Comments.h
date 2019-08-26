@@ -156,6 +156,3 @@ struct hash< ::smoke::Comments::SomeEnum > {
     std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Comments*);
-}

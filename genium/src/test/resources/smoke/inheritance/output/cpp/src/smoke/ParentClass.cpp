@@ -6,10 +6,16 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-#include "smoke/SimpleClass.h"
-namespace smoke {
-SimpleClass::SimpleClass() {
+#include "smoke/ParentClass.h"
+namespace genium {
+TypeRepository& get_type_repository(const ::smoke::ParentClass*) {
+    static TypeRepository s_repo;
+    return s_repo;
 }
-SimpleClass::~SimpleClass() {
+}
+namespace smoke {
+ParentClass::ParentClass() {
+}
+ParentClass::~ParentClass() {
 }
 }

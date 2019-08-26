@@ -87,6 +87,3 @@ struct hash< ::smoke::Structs::FooBar > {
     std::size_t operator( )( const ::smoke::Structs::FooBar& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Structs*);
-}

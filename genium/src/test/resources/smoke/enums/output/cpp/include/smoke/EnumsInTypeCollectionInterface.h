@@ -19,6 +19,3 @@ public:
 static ::smoke::TCEnum flip_enum_value( const ::smoke::TCEnum input );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::EnumsInTypeCollectionInterface*);
-}

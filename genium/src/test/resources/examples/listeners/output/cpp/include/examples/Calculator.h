@@ -41,6 +41,3 @@ virtual void unregister_listener( const ::std::shared_ptr< ::examples::Calculato
 virtual void calculate(  ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Calculator*);
-}

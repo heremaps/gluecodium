@@ -25,6 +25,3 @@ static ::examples::Maps::NameMap map_method( const ::examples::Maps::NameMap& in
 static ::std::unordered_map< uint64_t, ::std::string > inline_map_method( const ::std::unordered_map< uint64_t, ::std::string >& input );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Maps*);
-}

@@ -7,12 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Structs.h"
-namespace genium {
-TypeRepository& get_type_repository(const ::smoke::Structs*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 Structs::Structs() {
 }

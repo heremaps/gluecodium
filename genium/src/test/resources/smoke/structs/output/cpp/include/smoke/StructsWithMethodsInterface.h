@@ -32,6 +32,3 @@ struct _GENIUM_CPP_EXPORT Vector3 {
 };
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::StructsWithMethodsInterface*);
-}

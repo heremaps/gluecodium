@@ -19,6 +19,3 @@ public:
 static ::examples::ShoeSizes method_with_enumeration( const ::examples::ShoeSizes input );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::EnumMethods*);
-}

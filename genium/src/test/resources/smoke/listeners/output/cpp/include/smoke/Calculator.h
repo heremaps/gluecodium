@@ -32,6 +32,3 @@ static void register_listener( const ::std::shared_ptr< ::smoke::CalculatorListe
 static void unregister_listener( const ::std::shared_ptr< ::smoke::CalculatorListener >& listener );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Calculator*);
-}

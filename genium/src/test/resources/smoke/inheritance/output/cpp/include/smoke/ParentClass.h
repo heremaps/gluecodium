@@ -6,10 +6,18 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-#include "smoke/SimpleClass.h"
+#pragma once
+#include "genium/Export.h"
+#include "genium/TypeRepository.h"
 namespace smoke {
-SimpleClass::SimpleClass() {
+class _GENIUM_CPP_EXPORT ParentClass {
+public:
+    ParentClass();
+    virtual ~ParentClass() = 0;
+public:
+virtual void root_method(  ) = 0;
+};
 }
-SimpleClass::~SimpleClass() {
-}
+namespace genium {
+_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::ParentClass*);
 }

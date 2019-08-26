@@ -7,12 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/EquatableInterface.h"
-namespace genium {
-TypeRepository& get_type_repository(const ::smoke::EquatableInterface*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 EquatableInterface::EquatableInterface() {
 }

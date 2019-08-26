@@ -8,8 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/FooClass.h"
 #include <type_traits>
-namespace genium {
-}
+
 namespace smoke {
 static_assert(
     std::is_same<

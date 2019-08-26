@@ -8,12 +8,6 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Errors.h"
 #include <string>
-namespace genium {
-TypeRepository& get_type_repository(const ::smoke::Errors*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 Errors::Errors() {
 }

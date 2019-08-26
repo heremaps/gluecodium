@@ -32,6 +32,3 @@ virtual ::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::genium::h
 virtual ::std::unordered_map< ::std::vector< int32_t >, bool, ::genium::hash< ::std::vector< int32_t > > > method_with_map_generic_keys( const ::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::genium::hash< ::std::unordered_set< int32_t > > >& input ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::GenericTypesWithGenericTypes*);
-}

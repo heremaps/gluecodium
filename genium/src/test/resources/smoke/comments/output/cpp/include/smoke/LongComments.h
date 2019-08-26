@@ -28,6 +28,3 @@ public:
 virtual float some_method_with_long_comment( const ::std::string& input, const double ratio ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::LongComments*);
-}

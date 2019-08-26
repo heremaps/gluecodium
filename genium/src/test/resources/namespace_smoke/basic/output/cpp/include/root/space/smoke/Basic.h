@@ -23,6 +23,3 @@ static ::std::string basic_method( const ::std::string& input_string );
 }
 }
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::root::space::smoke::Basic*);
-}

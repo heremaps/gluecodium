@@ -30,6 +30,3 @@ static ::examples::Arrays::SyncResults explicit_array_method( const ::examples::
 static ::std::vector< ::examples::Arrays::SyncResult > implicit_array_method( const ::std::vector< ::examples::Arrays::SyncResult >& input );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Arrays*);
-}

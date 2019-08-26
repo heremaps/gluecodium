@@ -54,6 +54,3 @@ struct hash< ::smoke::Enums::InternalError > {
     std::size_t operator( )( const ::smoke::Enums::InternalError& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Enums*);
-}

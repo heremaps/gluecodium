@@ -29,6 +29,3 @@ static ::std::string method_with_string( const ::std::string& input_string );
 static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input_buffer );
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::BuiltinTypes*);
-}

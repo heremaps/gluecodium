@@ -19,6 +19,3 @@ public:
 virtual void child_class_method(  ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::ChildClassFromInterface*);
-}

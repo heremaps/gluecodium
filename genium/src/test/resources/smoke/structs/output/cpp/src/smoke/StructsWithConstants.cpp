@@ -7,8 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/StructsWithConstants.h"
-namespace genium {
-}
+
 namespace smoke {
 const ::std::string Route::DEFAULT_DESCRIPTION = "Nonsense";
 const ::smoke::RouteType Route::DEFAULT_TYPE = ::smoke::RouteType::EQUESTRIAN;

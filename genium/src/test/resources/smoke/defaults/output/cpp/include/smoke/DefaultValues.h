@@ -97,6 +97,3 @@ struct hash< ::smoke::DefaultValues::SomeEnum > {
     std::size_t operator( )( const ::smoke::DefaultValues::SomeEnum& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DefaultValues*);
-}

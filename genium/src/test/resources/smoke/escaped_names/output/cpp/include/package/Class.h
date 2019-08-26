@@ -33,6 +33,3 @@ virtual ::package::Enum get_property(  ) const = 0;
 virtual void set_property( const ::package::Enum value ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::package::Class*);
-}

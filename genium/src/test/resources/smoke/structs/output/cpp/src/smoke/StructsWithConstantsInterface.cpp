@@ -7,12 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/StructsWithConstantsInterface.h"
-namespace genium {
-TypeRepository& get_type_repository(const ::smoke::StructsWithConstantsInterface*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 StructsWithConstantsInterface::StructsWithConstantsInterface() {
 }

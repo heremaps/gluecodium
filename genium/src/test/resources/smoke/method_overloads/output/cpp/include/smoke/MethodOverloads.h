@@ -40,6 +40,3 @@ virtual bool is_float( const ::std::string& input ) = 0;
 virtual bool is_float( const ::smoke::MethodOverloads::IntArray& input ) = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::MethodOverloads*);
-}

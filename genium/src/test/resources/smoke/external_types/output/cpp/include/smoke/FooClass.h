@@ -14,5 +14,4 @@
 #include <string>
 namespace smoke {
 }
-namespace genium {
-}
+
