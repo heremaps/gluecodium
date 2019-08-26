@@ -18,11 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#if hasTypeRepository}}
 @_cdecl("_CBridgeInit{{cInstance}}")
 internal func _CBridgeInit{{cInstance}}(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
     return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
 }
+{{/if}}
 {{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
 {{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
 
@@ -112,11 +114,15 @@ internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}} {
         return re_constructed
     }
 {{/if}}
+{{#if hasTypeRepository}}
     if let swift_pointer = {{cInstance}}_get_typed({{cInstance}}_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? {{name}} {
         return typed
     }
     fatalError("Failed to initialize Swift object")
+{{/if}}{{#unless hasTypeRepository}}
+    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: {{cInstance}}_copy_handle(handle))
+{{/unless}}
 }
 internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}} {
 {{#if isInterface}}
@@ -126,11 +132,15 @@ internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}} {
         return re_constructed
     }
 {{/if}}
+{{#if hasTypeRepository}}
     if let swift_pointer = {{cInstance}}_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? {{name}} {
         return typed
     }
     fatalError("Failed to initialize Swift object")
+{{/if}}{{#unless hasTypeRepository}}
+    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
+{{/unless}}
 }
 
 internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}}? {

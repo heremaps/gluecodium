@@ -50,7 +50,7 @@ _GENIUM_C_EXPORT {{>cbridge/FunctionSignature}};
 {{#if selfType}}
 _GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef {{name}}_copy_handle(_baseRef handle);
-_GENIUM_C_EXPORT void* {{name}}_get_typed(_baseRef handle);
+{{#if hasTypeRepository}}_GENIUM_C_EXPORT void* {{name}}_get_typed(_baseRef handle);{{/if}}
 
 {{/if}}
 {{#hasEquatableType}}

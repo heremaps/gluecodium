@@ -124,7 +124,8 @@ class SwiftModelBuilder(
             useParentCInstance = parentClass != null && !parentClass.isInterface,
             hasEquatableType = limeClass.attributes.have(LimeAttributeType.EQUATABLE) ||
                     limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
-            isObjcInterface = isObjcInterface
+            isObjcInterface = isObjcInterface,
+            hasTypeRepository = parentClass != null || limeClass.visibility.isOpen
         )
         swiftClass.comment = createComments(limeClass)
 
@@ -147,7 +148,8 @@ class SwiftModelBuilder(
             nameSpace = limeContainer.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
-            isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC)
+            isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC),
+            hasTypeRepository = true
         )
         swiftClass.comment = createComments(limeContainer)
 

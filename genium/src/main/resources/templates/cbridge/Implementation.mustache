@@ -35,6 +35,7 @@ _baseRef {{name}}_copy_handle(_baseRef handle) {
         : 0;
 }
 
+{{#if hasTypeRepository}}
 extern "C" {
 extern void* _CBridgeInit{{name}}(_baseRef handle);
 }
@@ -52,6 +53,7 @@ void* {{name}}_get_typed(_baseRef handle) {
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInit{{name}}(handle);
 }
+{{/if}}
 
 {{/if}}
 

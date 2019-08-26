@@ -104,7 +104,9 @@ class CBridgeModelBuilder(
             inheritedFunctions = inheritedFunctions,
             functionTableName = functionTableName,
             isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
-            isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
+            isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
+            hasTypeRepository = limeContainer is LimeInterface || parentClass != null ||
+                    limeContainer.visibility.isOpen
         )
 
         if (limeContainer is LimeInterface) {

@@ -32,8 +32,9 @@ class SwiftClass(
     val functionTableName: String? = null,
     val useParentCInstance: Boolean = false,
     val hasEquatableType: Boolean = false,
-    @Suppress("unused") val isObjcInterface: Boolean = false
-) : SwiftType(name, null, visibility, SwiftType.TypeCategory.CLASS, name, false) {
+    @Suppress("unused") val isObjcInterface: Boolean = false,
+    @Suppress("unused") val hasTypeRepository: Boolean = false
+) : SwiftType(name, null, visibility, TypeCategory.CLASS, name, false) {
 
     val implementsProtocols = mutableListOf<String>()
     val properties = mutableListOf<SwiftProperty>()
