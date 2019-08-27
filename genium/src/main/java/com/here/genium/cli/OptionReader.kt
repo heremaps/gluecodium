@@ -23,8 +23,11 @@ import com.here.genium.Genium
 import com.here.genium.platform.common.GeneratorSuite
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
+import com.natpryce.konfig.Key
+import com.natpryce.konfig.booleanType
+import com.natpryce.konfig.listType
 import com.natpryce.konfig.overriding
-import org.apache.commons.cli.CommandLine
+import com.natpryce.konfig.stringType
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Option
@@ -37,6 +40,7 @@ object OptionReader {
     private val options: Options = Options().run {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output destination")
+        addOption("options", true, "Options file to load options from")
         addOption("javapackage", true, "Java package name")
         addOption(
             "javanonnullannotation",
@@ -122,73 +126,53 @@ object OptionReader {
             return null
         }
 
+        val optionsConfig = when {
+            cmd.hasOption("options") -> readConfigFile(cmd.getOptionValue("options"))
+            else -> null
+        }
+        fun getStringListValue(key: String) =
+            cmd.getOptionValues(key)?.toList()
+                ?: optionsConfig?.getOrNull(Key(key, listType(stringType)))
+        fun getStringValue(key: String) =
+            cmd.getOptionValues(key)?.also {
+                if (it.size > 1) {
+                    throw OptionReaderException("multiple values for option: $key")
+                }
+            }?.get(0) ?: optionsConfig?.getOrNull(Key(key, stringType))
+        fun getFlagValue(key: String) =
+            cmd.hasOption(key) || optionsConfig?.getOrNull(Key(key, booleanType)) == true
+
         val options = Genium.Options()
-        if (cmd.hasOption("input")) {
-            options.inputDirs = cmd.getOptionValues("input").toList()
+
+        options.inputDirs = getStringListValue("input") ?: emptyList()
+        options.outputDir = getStringValue("output")
+        options.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
+        options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
+        options.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
+        options.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
+        options.androidMergeManifestPath = getStringValue("mergemanifest")
+        options.generators = getStringListValue("generators")?.toSet() ?: GeneratorSuite.generatorShortNames()
+
+        options.isValidatingOnly = getFlagValue("validate")
+        options.isDumpingToStdout = getFlagValue("stdout")
+        options.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
+        options.isLoggingTimes = getFlagValue("time")
+
+        options.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
+        options.cppInternalNamespace = getStringValue("intnamespace")?.split(".")
+        getStringValue("cppexport")?.let { options.cppExport = it }
+
+        getStringValue("cppnamerules")?.let {
+            options.cppNameRules = readConfigFile(it) overriding options.cppNameRules
+        }
+        getStringValue("javanamerules")?.let {
+            options.javaNameRules = readConfigFile(it) overriding options.javaNameRules
+        }
+        getStringValue("swiftnamerules")?.let {
+            options.swiftNameRules = readConfigFile(it) overriding options.swiftNameRules
         }
 
-        options.outputDir = getSingleOptionValue(cmd, "output")
-        val javaPackage = getSingleOptionValue(cmd, "javapackage")
-        options.javaPackages = javaPackage?.split(".") ?: emptyList()
-
-        options.javaNonNullAnnotation =
-            getAnnotation(getSingleOptionValue(cmd, "javanonnullannotation"))
-        options.javaNullableAnnotation =
-            getAnnotation(getSingleOptionValue(cmd, "javanullableannotation"))
-
-        val javaInternalPackage = getSingleOptionValue(cmd, "intpackage")
-        options.javaInternalPackages = javaInternalPackage?.split(".") ?: emptyList()
-
-        options.androidMergeManifestPath = getSingleOptionValue(cmd, "mergemanifest")
-
-        if (cmd.hasOption("generators")) {
-            val arg = cmd.getOptionValues("generators")
-            // Use all generators none are provided in the options.
-            options.generators = arg?.let { setOf(*it) } ?: GeneratorSuite.generatorShortNames()
-        }
-
-        options.isValidatingOnly = cmd.hasOption("validate")
-        options.isDumpingToStdout = cmd.hasOption("stdout")
-        options.isEnableCaching = cmd.hasOption("output") && cmd.hasOption("cache")
-        options.isLoggingTimes = cmd.hasOption("time")
-
-        val cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace")
-        options.cppRootNamespace = when {
-            cppRootNamespaces.isNullOrEmpty() -> emptyList()
-            else -> cppRootNamespaces.split(".")
-        }
-
-        val internalNamespaces = getSingleOptionValue(cmd, "intnamespace")
-        options.cppInternalNamespace = internalNamespaces?.split(".")
-
-        val cppExport = getSingleOptionValue(cmd, "cppexport")
-        if (cppExport != null) {
-            options.cppExport = cppExport
-        }
-
-        val cppNameRulesPath = getSingleOptionValue(cmd, "cppnamerules")
-        if (cppNameRulesPath != null) {
-            options.cppNameRules =
-                readNameRulesConfig(cppNameRulesPath) overriding options.cppNameRules
-        }
-
-        val javaNameRulesPath = getSingleOptionValue(cmd, "javanamerules")
-        if (javaNameRulesPath != null) {
-            options.javaNameRules =
-                readNameRulesConfig(javaNameRulesPath) overriding options.javaNameRules
-        }
-
-        val swiftNameRulesPath = getSingleOptionValue(cmd, "swiftnamerules")
-        if (swiftNameRulesPath != null) {
-            options.swiftNameRules =
-                readNameRulesConfig(swiftNameRulesPath) overriding options.swiftNameRules
-        }
-
-        val copyrightHeader = cmd.getOptionValue("copyright")
-        if (copyrightHeader != null) {
-            val contents = File(copyrightHeader).readText()
-            options.copyrightHeaderContents = contents
-        }
+        options.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
 
         // Validation
         if (options.inputDirs.isEmpty()) {
@@ -206,27 +190,15 @@ object OptionReader {
     }
 
     @Throws(OptionReaderException::class)
-    private fun readNameRulesConfig(path: String): Configuration {
+    private fun readConfigFile(path: String): Configuration {
         val nameRulesFile = File(path)
         if (!nameRulesFile.exists()) {
             val currentDir = Paths.get("").toAbsolutePath()
-            throw OptionReaderException("Name rules file $path does not exit in $currentDir")
+            throw OptionReaderException("File $path does not exit in $currentDir")
         }
         return ConfigurationProperties.fromFile(nameRulesFile)
     }
 
-    @Throws(OptionReaderException::class)
-    private fun getSingleOptionValue(cmd: CommandLine, option: String): String? {
-        val result = cmd.getOptionValues(option) ?: return null
-
-        if (result.size != 1) {
-            throw OptionReaderException("multiple values for option: $option")
-        }
-        return result[0]
-    }
-
-    private fun getAnnotation(argument: String?) = argument?.let {
-        val nameElements = argument.split('.')
-        Pair(nameElements.last(), nameElements.dropLast(1))
-    }
+    private fun parseAnnotation(argument: String?) =
+        argument?.split('.')?.let { Pair(it.last(), it.dropLast(1)) }
 }

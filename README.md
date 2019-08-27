@@ -38,6 +38,13 @@ For information on Genium command line parameters run it with "-help":
 ./generate -help
 ```
 
+Options listed in the "-help" can also be passed in a file, using "-options <file-name>" command
+line parameter. Options file follows [".properties" file format](https://en.wikipedia.org/wiki/.properties).
+* For command-line options with two names (short and long) the short name is used as a key in the
+file.
+* Boolean flags need to be specified with "true" value (e.g. "cache=true"). Specifying "false" for a
+Boolean flag is also possible but does nothing.
+
 ## Caching of output files
 Activation of caching feature in Genium tool is done by passing the command line option, like:
 

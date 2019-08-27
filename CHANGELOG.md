@@ -5,6 +5,7 @@
   + Subclasses are now passed as their actual type from C++ to Java/Swift.
   + Added compile-time validation for "external" types in C++.
   + Added support for `open` visibility modifier in LimeIDL.
+  + Genium options can now be loaded from file with "-options" command line parameter.
 - Breaking changes:
   + Classes can now only inherit from other classes in LimeIDL if the "parent" class has `open`
     visibility modifier.
