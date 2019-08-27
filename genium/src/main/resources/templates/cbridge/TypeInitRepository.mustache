@@ -40,10 +40,8 @@
 
 #pragma once
 
-#include "{{>common/InternalInclude}}Mutex.h"
 #include "cbridge/include/BaseHandle.h"
 #include <string>
-#include <unordered_map>
 
 /**
  * Stores links to Swift init functions.
@@ -51,13 +49,16 @@
 class TypeInitRepository
 {
 public:
+    TypeInitRepository();
+    ~TypeInitRepository();
+
     using InitFunction = void*(_baseRef);
     void add_init(const std::string& id, InitFunction* init);
     InitFunction* get_init(const std::string& id) const;
 
 private:
-    std::unordered_map<std::string, InitFunction*> m_init;
-    mutable {{>common/InternalNamespace}}Mutex m_mutex;
+    struct Impl;
+    Impl* pimpl;
 };
 
 TypeInitRepository& get_init_repository();

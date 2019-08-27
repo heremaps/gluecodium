@@ -39,18 +39,36 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "cbridge_internal/include/TypeInitRepository.h"
+#include "{{>common/InternalInclude}}Mutex.h"
+#include <unordered_map>
+
+struct TypeInitRepository::Impl
+{
+    std::unordered_map<std::string, InitFunction*> m_init;
+    mutable {{>common/InternalNamespace}}Mutex m_mutex;
+};
+
+TypeInitRepository::TypeInitRepository()
+    : pimpl(new Impl())
+{
+}
+
+TypeInitRepository::~TypeInitRepository()
+{
+    delete pimpl;
+}
 
 void
 TypeInitRepository::add_init(const std::string& id, TypeInitRepository::InitFunction* init) {
-    {{>common/InternalNamespace}}WriteLock lock(m_mutex);
-    m_init[id] = init;
+    {{>common/InternalNamespace}}WriteLock lock(pimpl->m_mutex);
+    pimpl->m_init[id] = init;
 }
 
 TypeInitRepository::InitFunction*
 TypeInitRepository::get_init(const std::string& id) const {
-    {{>common/InternalNamespace}}ReadLock lock(m_mutex);
-    const auto& found = m_init.find(id);
-    return found != m_init.end() ? found->second : nullptr;
+    {{>common/InternalNamespace}}ReadLock lock(pimpl->m_mutex);
+    const auto& found = pimpl->m_init.find(id);
+    return found != pimpl->m_init.end() ? found->second : nullptr;
 }
 
 TypeInitRepository& get_init_repository()

@@ -40,9 +40,7 @@
 
 #pragma once
 #include "Export.h"
-#include "Mutex.h"
 #include <string>
-#include <unordered_map>
 
 {{#internalNamespace}}
 namespace {{.}} {
@@ -53,13 +51,16 @@ using TypeId = std::string;
 class {{>cpp/CppExportMacro}}TypeRepository
 {
 public:
+    TypeRepository();
+    ~TypeRepository();
+
     void add_type(const void* instance, const TypeId& id);
     std::string get_id(const void* instance) const;
     void remove_type(const void* instance);
 
 private:
-    std::unordered_map<const void*, TypeId> m_repo;
-    mutable Mutex m_mutex;
+    struct Impl;
+    Impl* pimpl;
 };
 
 {{>cpp/CppExportMacro}}TypeRepository& get_type_repository(const void*);
