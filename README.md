@@ -13,7 +13,7 @@ bindings for modern languages like Swift.
 ## Getting started
 
 The easiest way to get started is by running the [Examples](examples/README.md).
-For a list of features and how to get started writing IDL, see [Genium Franca IDL](./docs/franca.md).
+For a list of features and how to get started writing IDL, see [User guide](./docs/guide.md).
 
 ## Building and testing
 Outside of IntelliJ you can invoke the following Gradle tasks to build

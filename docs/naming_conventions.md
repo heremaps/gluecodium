@@ -4,25 +4,18 @@ Naming conventions for the generated code
 This document discusses the transformations applied to entity names in the generated code and the
 naming conventions governing these transformations.
 
-Franca (FIDL) names
+LimeIDL names
 -------------------
 
 ### Entity names
-Entity names supplied in the FIDL definitions are used as a source for the entity names in the
-generated code. Both snake_case and camelCase naming conventions are recognized in the FIDL
+Entity names supplied in the LimeIDL definitions are used as a source for the entity names in the
+generated code. Both snake_case and camelCase naming conventions are recognized in the LimeIDL
 definitions (both conventions with both lowercase and UPPERCASE variations).
 
-### Method selectors
-Overloaded methods in FIDL definitions require arbitrary "selector" suffixes, in the form of
-`methodName:selectorName`. The selector never affects the generated code (for one corner-case
-exception see "Java names" section below).
-
-### Circumventing Franca reserved words
-Franca IDL has some reserved words that are not reserved in target languages (e.g. "update"). Using
-these words as identifiers in a FIDL files results in validation failures during code generation. To
-get around this limitation, the first letter of the word should be capitalized (e.g. "Update"). Due
-to naming conventions being applied for target languages, this change does not affect the generated
-code at all, but it allows the validation step to pass normally.
+### Circumventing LimeIDL reserved words
+LimeIDL has some reserved words that are not reserved in target languages (e.g. "exception"). Using
+these words as identifiers in a LimeIDL file results in validation failures during code generation.
+To get around this limitation, the identifier can be put in \`backticks\` (e.g. \`exception\`).
 
 Custom name rules
 -----------------
@@ -108,9 +101,9 @@ Default Java names
 Arrays and Maps defined in FIDL definition are generated as List<> and Map<> generics in Java
 respectively. Since Java language applies type erasure to its generics, declaring two method
 overloads that differ only in the parameters of the generic (e.g. element type of the array) leads
-to a compile-time error. Therefore Genium applies additional naming logic when generating such
-ambiguous method overloads. The ambiguity is resolved by appending the "selector" from the FIDL
-definition to the generated method name.
+to a compile-time error. This can be resolved manually at LimeIDL level by specifying alternative
+names for these conflicting methods through marking them with `@Java("<method-name>")` attribute in
+the IDL definition.
 
 ### Default namerules/java.properties
 ```
