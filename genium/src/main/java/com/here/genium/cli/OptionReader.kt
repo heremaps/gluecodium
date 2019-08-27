@@ -77,9 +77,8 @@ object OptionReader {
         addOption(Option(
             "generators",
             true,
-            "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: ${GeneratorSuite.generatorShortNames().joinToString(
-                ","
-            )}\n"
+            "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: " +
+                    GeneratorSuite.generatorShortNames().joinToString(", ") + "\n"
         ).apply {
             valueSeparator = ','
             setOptionalArg(true)
@@ -112,89 +111,83 @@ object OptionReader {
 
     @Throws(OptionReaderException::class)
     fun read(args: Array<String>): Genium.Options? {
-        val options = Genium.Options()
-        val parser = DefaultParser()
-
-        try {
-            val cmd = parser.parse(this.options, args)
-
-            if (cmd.hasOption("help")) {
-                printUsage()
-                return null
-            }
-
-            if (cmd.hasOption("input")) {
-                options.inputDirs = cmd.getOptionValues("input").toList()
-            }
-
-            options.outputDir = getSingleOptionValue(cmd, "output")
-            val javaPackage = getSingleOptionValue(cmd, "javapackage")
-            options.javaPackages = javaPackage?.split(".") ?: emptyList()
-
-            options.javaNonNullAnnotation =
-                getAnnotation(getSingleOptionValue(cmd, "javanonnullannotation"))
-            options.javaNullableAnnotation =
-                getAnnotation(getSingleOptionValue(cmd, "javanullableannotation"))
-
-            val javaInternalPackage = getSingleOptionValue(cmd, "intpackage")
-            options.javaInternalPackages = javaInternalPackage?.split(".") ?: emptyList()
-
-            options.androidMergeManifestPath = getSingleOptionValue(cmd, "mergemanifest")
-
-            if (cmd.hasOption("generators")) {
-                val arg = cmd.getOptionValues("generators")
-                // use all generators if option provided without argument
-                options.generators = if (arg != null)
-                    hashSetOf(*arg)
-                else
-                    GeneratorSuite.generatorShortNames()
-            }
-
-            options.isValidatingOnly = cmd.hasOption("validate")
-            options.isDumpingToStdout = cmd.hasOption("stdout")
-            options.isEnableCaching = cmd.hasOption("output") && cmd.hasOption("cache")
-            options.isLoggingTimes = cmd.hasOption("time")
-
-            val cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace")
-            options.cppRootNamespace = if (cppRootNamespaces?.isNotEmpty() == true) {
-                cppRootNamespaces.split(".")
-            } else {
-                listOf()
-            }
-
-            val internalNamespaces = getSingleOptionValue(cmd, "intnamespace")
-            options.cppInternalNamespace = internalNamespaces?.split(".")
-
-            val cppExport = getSingleOptionValue(cmd, "cppexport")
-            if (cppExport != null) {
-                options.cppExport = cppExport
-            }
-
-            val cppNameRulesPath = getSingleOptionValue(cmd, "cppnamerules")
-            if (cppNameRulesPath != null) {
-                options.cppNameRules =
-                    readNameRulesConfig(cppNameRulesPath) overriding options.cppNameRules
-            }
-
-            val javaNameRulesPath = getSingleOptionValue(cmd, "javanamerules")
-            if (javaNameRulesPath != null) {
-                options.javaNameRules =
-                    readNameRulesConfig(javaNameRulesPath) overriding options.javaNameRules
-            }
-
-            val swiftNameRulesPath = getSingleOptionValue(cmd, "swiftnamerules")
-            if (swiftNameRulesPath != null) {
-                options.swiftNameRules =
-                    readNameRulesConfig(swiftNameRulesPath) overriding options.swiftNameRules
-            }
-
-            val copyrightHeader = cmd.getOptionValue("copyright")
-            if (copyrightHeader != null) {
-                val contents = File(copyrightHeader).readText()
-                options.copyrightHeaderContents = contents
-            }
+        val cmd = try {
+            DefaultParser().parse(this.options, args)
         } catch (e: ParseException) {
             throw OptionReaderException(e)
+        }
+
+        if (cmd.hasOption("help")) {
+            printUsage()
+            return null
+        }
+
+        val options = Genium.Options()
+        if (cmd.hasOption("input")) {
+            options.inputDirs = cmd.getOptionValues("input").toList()
+        }
+
+        options.outputDir = getSingleOptionValue(cmd, "output")
+        val javaPackage = getSingleOptionValue(cmd, "javapackage")
+        options.javaPackages = javaPackage?.split(".") ?: emptyList()
+
+        options.javaNonNullAnnotation =
+            getAnnotation(getSingleOptionValue(cmd, "javanonnullannotation"))
+        options.javaNullableAnnotation =
+            getAnnotation(getSingleOptionValue(cmd, "javanullableannotation"))
+
+        val javaInternalPackage = getSingleOptionValue(cmd, "intpackage")
+        options.javaInternalPackages = javaInternalPackage?.split(".") ?: emptyList()
+
+        options.androidMergeManifestPath = getSingleOptionValue(cmd, "mergemanifest")
+
+        if (cmd.hasOption("generators")) {
+            val arg = cmd.getOptionValues("generators")
+            // Use all generators none are provided in the options.
+            options.generators = arg?.let { setOf(*it) } ?: GeneratorSuite.generatorShortNames()
+        }
+
+        options.isValidatingOnly = cmd.hasOption("validate")
+        options.isDumpingToStdout = cmd.hasOption("stdout")
+        options.isEnableCaching = cmd.hasOption("output") && cmd.hasOption("cache")
+        options.isLoggingTimes = cmd.hasOption("time")
+
+        val cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace")
+        options.cppRootNamespace = when {
+            cppRootNamespaces.isNullOrEmpty() -> emptyList()
+            else -> cppRootNamespaces.split(".")
+        }
+
+        val internalNamespaces = getSingleOptionValue(cmd, "intnamespace")
+        options.cppInternalNamespace = internalNamespaces?.split(".")
+
+        val cppExport = getSingleOptionValue(cmd, "cppexport")
+        if (cppExport != null) {
+            options.cppExport = cppExport
+        }
+
+        val cppNameRulesPath = getSingleOptionValue(cmd, "cppnamerules")
+        if (cppNameRulesPath != null) {
+            options.cppNameRules =
+                readNameRulesConfig(cppNameRulesPath) overriding options.cppNameRules
+        }
+
+        val javaNameRulesPath = getSingleOptionValue(cmd, "javanamerules")
+        if (javaNameRulesPath != null) {
+            options.javaNameRules =
+                readNameRulesConfig(javaNameRulesPath) overriding options.javaNameRules
+        }
+
+        val swiftNameRulesPath = getSingleOptionValue(cmd, "swiftnamerules")
+        if (swiftNameRulesPath != null) {
+            options.swiftNameRules =
+                readNameRulesConfig(swiftNameRulesPath) overriding options.swiftNameRules
+        }
+
+        val copyrightHeader = cmd.getOptionValue("copyright")
+        if (copyrightHeader != null) {
+            val contents = File(copyrightHeader).readText()
+            options.copyrightHeaderContents = contents
         }
 
         // Validation
