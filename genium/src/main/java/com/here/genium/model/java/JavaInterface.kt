@@ -17,11 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-public final class JavaInterface extends JavaTopLevelElement {
-
-  public JavaInterface(final String name) {
-    super(name);
-  }
-}
+class JavaInterface(name: String) : JavaTopLevelElement(name)

@@ -17,18 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.Collections;
-import java.util.List;
-
-public final class JavaEnumType extends JavaCustomType {
-
-  public JavaEnumType(
-      final String fullName,
-      final List<String> classNames,
-      final List<String> packageNames,
-      final JavaImport anImport) {
-    super(fullName, classNames, packageNames, Collections.singletonList(anImport), false);
-  }
-}
+class JavaEnumType(
+    fullName: String,
+    classNames: List<String>,
+    packageNames: List<String>,
+    anImport: JavaImport
+) : JavaCustomType(fullName, classNames, packageNames, listOf(anImport), false)

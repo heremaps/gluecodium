@@ -17,22 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class JavaEnum extends JavaTopLevelElement {
-
-  public final List<JavaEnumItem> items = new LinkedList<>();
-
-  public JavaEnum(final String name) {
-    super(name);
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.concat(super.stream(), items.stream());
-  }
+class JavaEnum(name: String, val items: List<JavaEnumItem>) : JavaTopLevelElement(name) {
+    override fun stream() = Stream.concat(super.stream(), items.stream())
 }

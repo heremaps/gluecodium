@@ -17,10 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-public final class JavaParameter extends JavaTypedElement {
-  public JavaParameter(final String name, final JavaType type) {
-    super(name, type);
-  }
-}
+class JavaParameter(name: String, type: JavaType) : JavaTypedElement(name, type)

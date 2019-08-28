@@ -17,22 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-public enum JavaVisibility {
-  PACKAGE(""),
-  PUBLIC("public"),
-  PROTECTED("protected"),
-  PRIVATE("private");
+enum class JavaVisibility(private val value: String) {
+    PACKAGE(""),
+    PUBLIC("public"),
+    PROTECTED("protected"),
+    PRIVATE("private");
 
-  private final String value;
-
-  JavaVisibility(final String value) {
-    this.value = value;
-  }
-
-  @Override
-  public String toString() {
-    return value;
-  }
+    override fun toString() = value
 }

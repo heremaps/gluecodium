@@ -116,7 +116,7 @@ class JniModelBuilderTest {
     private val mangledClassName = "/jAvaClazz"
     private val javaClass = JavaClass(javaClassName)
     private val cppClass = CppClass("cPpClass", "::cPpClass")
-    private val javaEnum = JavaEnum("jAvaClazz")
+    private val javaEnum = JavaEnum("jAvaClazz", emptyList())
     private val cppEnum = CppEnum("cPpClass", "::cPpClass", emptyList(), false, emptyList())
     private val javaCustomType = JavaCustomType("jAvaClazz")
     private val javaField = JavaField("theParam", javaCustomType, JavaValue(""))

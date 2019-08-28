@@ -17,20 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.Collections;
-import java.util.List;
-
-public final class JavaExceptionType extends JavaCustomType {
-
-  public JavaExceptionType(
-      final String fullName, final List<String> classNames, final JavaImport anImport) {
-    super(
-        fullName,
-        classNames,
-        anImport.getJavaPackage().getPackageNames(),
-        Collections.singletonList(anImport),
-        false);
-  }
-}
+class JavaExceptionType(
+    fullName: String,
+    classNames: List<String>,
+    anImport: JavaImport
+) : JavaCustomType(fullName, classNames, anImport.javaPackage.packageNames, listOf(anImport), false)

@@ -41,9 +41,9 @@ public final class JniTypeNameMapper {
       return map((JavaArrayType) javaType);
     } else if (javaType instanceof JavaPrimitiveType) {
       JavaPrimitiveType javaPrimitiveType = (JavaPrimitiveType) javaType;
-      if (JavaPrimitiveType.TYPES.contains(javaPrimitiveType.type)) {
-        return javaPrimitiveType.type != Type.VOID
-            ? "j" + javaPrimitiveType.type.getValue()
+      if (JavaPrimitiveType.Companion.getTYPES().contains(javaPrimitiveType.getType())) {
+        return javaPrimitiveType.getType() != Type.VOID
+            ? "j" + javaPrimitiveType.getType().getValue()
             : "void";
       }
     }
@@ -77,7 +77,7 @@ public final class JniTypeNameMapper {
   }
 
   private static String map(final JavaArrayType refType) {
-    switch (refType.type) {
+    switch (refType.getType()) {
       case BOOL:
         return "jbooleanArray";
       case BYTE:

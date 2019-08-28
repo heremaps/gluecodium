@@ -17,24 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class JavaEnumItem extends JavaElement {
-  public JavaValue value;
-
-  public JavaEnumItem(final String name) {
-    this(name, null);
-  }
-
-  public JavaEnumItem(final String name, final JavaValue value) {
-    super(name);
-    this.value = value;
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.of(value);
-  }
+class JavaEnumItem(name: String, val value: JavaValue? = null) : JavaElement(name) {
+    override fun stream(): Stream<JavaElement> = Stream.of(value)
 }

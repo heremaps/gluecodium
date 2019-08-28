@@ -17,21 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class JavaConstant extends JavaTypedElement {
+class JavaConstant(name: String, type: JavaType, val value: JavaValue) :
+    JavaTypedElement(name, type) {
 
-  public final JavaValue value;
-
-  public JavaConstant(final String name, final JavaType type, final JavaValue value) {
-    super(name, type);
-    this.value = value;
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.concat(super.stream(), Stream.of(value));
-  }
+    override fun stream() = Stream.concat(super.stream(), Stream.of(value))
 }

@@ -222,12 +222,15 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
-        val javaEnum = JavaEnum(nameRules.getName(limeEnumeration))
+        val javaEnum = JavaEnum(
+            nameRules.getName(limeEnumeration),
+            getPreviousResults(JavaEnumItem::class.java)
+        )
         javaEnum.visibility = getVisibility(limeEnumeration)
         javaEnum.javaPackage = rootPackage
         javaEnum.comment = createComments(limeEnumeration)
         addDeprecatedAnnotationIfNeeded(javaEnum)
-        javaEnum.items.addAll(getPreviousResults(JavaEnumItem::class.java))
+
         storeNamedResult(limeEnumeration, javaEnum)
         closeContext()
     }

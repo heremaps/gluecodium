@@ -17,25 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import static com.here.genium.model.java.JavaPrimitiveType.Type;
+import com.here.genium.model.java.JavaPrimitiveType.Type
 
-public final class JavaArrayType extends JavaType {
-
-  public static final JavaArrayType BYTE_ARRAY = new JavaArrayType(Type.BYTE);
-  public static final JavaArrayType SHORT_ARRAY = new JavaArrayType(Type.SHORT);
-  public static final JavaArrayType INT_ARRAY = new JavaArrayType(Type.INT);
-  public static final JavaArrayType LONG_ARRAY = new JavaArrayType(Type.LONG);
-  public static final JavaArrayType FLOAT_ARRAY = new JavaArrayType(Type.FLOAT);
-  public static final JavaArrayType DOUBLE_ARRAY = new JavaArrayType(Type.DOUBLE);
-  public static final JavaArrayType BOOL_ARRAY = new JavaArrayType(Type.BOOL);
-  public static final JavaArrayType CHAR_ARRAY = new JavaArrayType(Type.CHAR);
-
-  public final Type type;
-
-  public JavaArrayType(final Type type) {
-    super(type.getValue() + "[]");
-    this.type = type;
-  }
+class JavaArrayType(val type: Type) : JavaType("${type.value}[]") {
+    companion object {
+        val BYTE_ARRAY = JavaArrayType(Type.BYTE)
+        val SHORT_ARRAY = JavaArrayType(Type.SHORT)
+        val INT_ARRAY = JavaArrayType(Type.INT)
+        val LONG_ARRAY = JavaArrayType(Type.LONG)
+        val FLOAT_ARRAY = JavaArrayType(Type.FLOAT)
+        val DOUBLE_ARRAY = JavaArrayType(Type.DOUBLE)
+        val BOOL_ARRAY = JavaArrayType(Type.BOOL)
+        val CHAR_ARRAY = JavaArrayType(Type.CHAR)
+    }
 }

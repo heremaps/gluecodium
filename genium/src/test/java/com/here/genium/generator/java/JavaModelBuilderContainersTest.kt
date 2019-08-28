@@ -66,7 +66,7 @@ class JavaModelBuilderContainersTest {
     @MockK private lateinit var valueMapper: JavaValueMapper
 
     private val javaConstant = JavaConstant("", JavaPrimitiveType.VOID, JavaValue(""))
-    private val javaEnum = JavaEnum("")
+    private val javaEnum = JavaEnum("", emptyList())
     private val javaEnumTypeRef =
         JavaEnumType("", emptyList(), emptyList(), JavaImport("", JavaPackage.DEFAULT))
     private val javaException = JavaExceptionClass("", javaEnumTypeRef)

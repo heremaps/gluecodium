@@ -17,60 +17,35 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.EnumSet;
-import java.util.stream.Stream;
+import java.util.EnumSet
 
-public final class JavaPrimitiveType extends JavaType {
+class JavaPrimitiveType private constructor(val type: Type) : JavaType(type.value) {
 
-  public static final EnumSet<Type> TYPES = EnumSet.allOf(Type.class);
-
-  public static final JavaPrimitiveType VOID = new JavaPrimitiveType(Type.VOID);
-  public static final JavaPrimitiveType BYTE = new JavaPrimitiveType(Type.BYTE);
-  public static final JavaPrimitiveType SHORT = new JavaPrimitiveType(Type.SHORT);
-  public static final JavaPrimitiveType INT = new JavaPrimitiveType(Type.INT);
-  public static final JavaPrimitiveType LONG = new JavaPrimitiveType(Type.LONG);
-  public static final JavaPrimitiveType FLOAT = new JavaPrimitiveType(Type.FLOAT);
-  public static final JavaPrimitiveType DOUBLE = new JavaPrimitiveType(Type.DOUBLE);
-  public static final JavaPrimitiveType BOOL = new JavaPrimitiveType(Type.BOOL);
-  public static final JavaPrimitiveType CHAR = new JavaPrimitiveType(Type.CHAR);
-
-  public enum Type {
-    VOID("void"),
-    BYTE("byte"),
-    SHORT("short"),
-    INT("int"),
-    LONG("long"),
-    FLOAT("float"),
-    DOUBLE("double"),
-    BOOL("boolean"),
-    CHAR("char");
-
-    private final String value;
-
-    Type(final String value) {
-      this.value = value;
+    enum class Type(val value: String) {
+        VOID("void"),
+        BYTE("byte"),
+        SHORT("short"),
+        INT("int"),
+        LONG("long"),
+        FLOAT("float"),
+        DOUBLE("double"),
+        BOOL("boolean"),
+        CHAR("char")
     }
 
-    public String getValue() {
-      return value;
+    companion object {
+        val TYPES = EnumSet.allOf(Type::class.java)
+
+        val VOID = JavaPrimitiveType(Type.VOID)
+        val BYTE = JavaPrimitiveType(Type.BYTE)
+        val SHORT = JavaPrimitiveType(Type.SHORT)
+        val INT = JavaPrimitiveType(Type.INT)
+        val LONG = JavaPrimitiveType(Type.LONG)
+        val FLOAT = JavaPrimitiveType(Type.FLOAT)
+        val DOUBLE = JavaPrimitiveType(Type.DOUBLE)
+        val BOOL = JavaPrimitiveType(Type.BOOL)
+        val CHAR = JavaPrimitiveType(Type.CHAR)
     }
-  }
-
-  public final Type type;
-
-  private JavaPrimitiveType(final Type type) {
-    super(type.getValue());
-    this.type = type;
-  }
-
-  public String getName() {
-    return type.getValue();
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.empty();
-  }
 }

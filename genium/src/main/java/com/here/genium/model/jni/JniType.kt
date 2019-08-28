@@ -78,8 +78,6 @@ class JniType(javaType: JavaType, cppType: CppTypeRef) : JniElement {
                 JavaPrimitiveType.Type.FLOAT -> "F"
                 JavaPrimitiveType.Type.SHORT -> "S"
                 JavaPrimitiveType.Type.DOUBLE -> "D"
-                else -> throw GeniumExecutionException("invalid java primitive type: " +
-                        primitiveType.type)
             }
 
         private fun createJniSignature(arrayType: JavaArrayType) =
