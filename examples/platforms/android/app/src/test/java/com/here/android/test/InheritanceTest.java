@@ -27,7 +27,6 @@ import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.List;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -86,7 +85,6 @@ public class InheritanceTest {
   }
 
   @Test
-  @Ignore("TODO: APIGEN-1398, fix the underlying issue behind this flaky test and unignore it")
   public void castGrandchildClassInstanceToParent() {
     ParentInterface instance = GrandchildClass.createGrandchildClass().castToParent();
 
