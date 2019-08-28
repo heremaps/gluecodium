@@ -42,7 +42,7 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     }
 
     override fun enterDescriptionMoreLines(ctx: LimedocParser.DescriptionMoreLinesContext) {
-        contentCollector += "" to "\n".repeat(ctx.NL().size)
+        contentCollector += "" to "\n".repeat(ctx.NewLine().size)
     }
 
     override fun exitDecriptionFirstWord(ctx: LimedocParser.DecriptionFirstWordContext) {

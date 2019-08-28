@@ -24,11 +24,11 @@ LocalComment
       -> channel(HIDDEN)
     ;
 
-WS  : [ \t]+
+WhiteSpace  : [ \t]+
       -> skip
     ;
 
-NL  : '\n'
+NewLine  : '\n'
     | '\r'
     | '\r' '\n'
     ;

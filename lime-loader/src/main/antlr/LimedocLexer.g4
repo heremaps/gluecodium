@@ -19,10 +19,10 @@
 
 lexer grammar LimedocLexer;
 
-WS  : ' ' | '\t'
+WhiteSpace  : ' ' | '\t'
     ;
 
-NL  : '\n'
+NewLine  : '\n'
     | '\r'
     | '\r' '\n'
     ;
@@ -30,15 +30,15 @@ NL  : '\n'
 AT  : '@' ;
 LCURL_AT : '{@' ;
 
-NAME
+Name
     : LETTER+
     ;
 
-IDENTIFIER
+Identifier
     : (LETTER | '_') (LETTER | '_' | [0-9])*
     ;
 
-TEXT_CONTENT
+TextContent
     : ~([\n\r\t @{}a-zA-Z] | '[' | ']')+
     ;
 

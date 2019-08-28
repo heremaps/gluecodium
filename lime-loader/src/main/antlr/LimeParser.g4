@@ -22,117 +22,117 @@ parser grammar LimeParser;
 options { tokenVocab = LimeLexer; }
 
 limeFile
-    : NL* packageHeader importHeader*
+    : NewLine* packageHeader importHeader*
       (container | types | struct | enumeration | typealias | exception)+ EOF
     ;
 
 packageHeader
-    : 'package' identifier NL+
+    : 'package' identifier NewLine+
     ;
 
 importHeader
-    : 'import' identifier NL+
+    : 'import' identifier NewLine+
     ;
 
 container
-    : docComment* annotation* visibility? ('class' | 'interface') NL* simpleId NL*
-      (':' NL* identifier NL*)? '{' NL* ((function | constructor | property |
-      struct | enumeration | constant | typealias | exception) NL*)* '}' NL+
+    : docComment* annotation* visibility? ('class' | 'interface') NewLine* simpleId NewLine*
+      (':' NewLine* identifier NewLine*)? '{' NewLine* ((function | constructor | property |
+      struct | enumeration | constant | typealias | exception) NewLine*)* '}' NewLine+
     ;
 
 types
-    : docComment* annotation* visibility? 'types' NL* simpleId NL*
-      '{' NL* ((struct | enumeration | constant | typealias | exception) NL*)* '}' NL+
+    : docComment* annotation* visibility? 'types' NewLine* simpleId NewLine*
+      '{' NewLine* ((struct | enumeration | constant | typealias | exception) NewLine*)* '}' NewLine+
     ;
 
 function
-    : docComment* annotation* visibility? ('static' NL*)? 'fun' NL* simpleId NL*
-      '(' NL* (parameter NL* (',' NL* parameter NL*)*)?  ')' NL*
-      returnType? throwsClause? NL+
+    : docComment* annotation* visibility? ('static' NewLine*)? 'fun' NewLine* simpleId NewLine*
+      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)?  ')' NewLine*
+      returnType? throwsClause? NewLine+
     ;
 
 constructor
-    : docComment* annotation* visibility? 'constructor' NL* simpleId NL*
-      '(' NL* (parameter NL* (',' NL* parameter NL*)*)? ')' NL* throwsClause? NL+
+    : docComment* annotation* visibility? 'constructor' NewLine* simpleId NewLine*
+      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)? ')' NewLine* throwsClause? NewLine+
     ;
 
 parameter
-    : docComment* annotation* simpleId NL* ':' NL* typeRef NL*
+    : docComment* annotation* simpleId NewLine* ':' NewLine* typeRef NewLine*
     ;
 
 returnType
-    : ':' NL* docComment* typeRef NL*
+    : ':' NewLine* docComment* typeRef NewLine*
     ;
 
 throwsClause
-    : 'throws' NL* docComment* typeRef NL*
+    : 'throws' NewLine* docComment* typeRef NewLine*
     ;
 
 property
-    : docComment* annotation* visibility? ('static' NL*)? 'property' NL* simpleId NL*
-      ':' NL* typeRef NL* ('{' NL* getter (setter)? '}' )? NL+
+    : docComment* annotation* visibility? ('static' NewLine*)? 'property' NewLine* simpleId NewLine*
+      ':' NewLine* typeRef NewLine* ('{' NewLine* getter (setter)? '}' )? NewLine+
     ;
 
 getter
-    : docComment* annotation* visibility? 'get' NL*
+    : docComment* annotation* visibility? 'get' NewLine*
     ;
 
 setter
-    : docComment* annotation* visibility? 'set' NL*
+    : docComment* annotation* visibility? 'set' NewLine*
     ;
 
 struct
-    : docComment* annotation* visibility? 'struct' NL* simpleId NL*
-      '{' NL* ((field | function | constructor | constant) NL*)+ '}' NL+
+    : docComment* annotation* visibility? 'struct' NewLine* simpleId NewLine*
+      '{' NewLine* ((field | function | constructor | constant) NewLine*)+ '}' NewLine+
     ;
 
 field
-    : docComment* annotation* visibility? NL* simpleId NL* ':' NL* typeRef NL*
-      ('=' NL* literalConstant NL*)? NL+
+    : docComment* annotation* visibility? NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
+      ('=' NewLine* literalConstant NewLine*)? NewLine+
     ;
 
 enumeration
-    : docComment* annotation* visibility? 'enum' NL* simpleId NL*
-      '{' NL* enumerator NL* (',' NL* enumerator NL*)* '}' NL+
+    : docComment* annotation* visibility? 'enum' NewLine* simpleId NewLine*
+      '{' NewLine* enumerator NewLine* (',' NewLine* enumerator NewLine*)* '}' NewLine+
     ;
 
 enumerator
-    : docComment* annotation* simpleId NL* ('=' NL* literalConstant NL*)?
+    : docComment* annotation* simpleId NewLine* ('=' NewLine* literalConstant NewLine*)?
     ;
 
 constant
-    : docComment* annotation* visibility? 'const' NL* simpleId NL* ':' NL* typeRef NL*
-      '=' NL* literalConstant NL+
+    : docComment* annotation* visibility? 'const' NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
+      '=' NewLine* literalConstant NewLine+
     ;
 
 typealias
-    : docComment* annotation* visibility? 'typealias' NL* simpleId NL* '=' NL* typeRef NL+
+    : docComment* annotation* visibility? 'typealias' NewLine* simpleId NewLine* '=' NewLine* typeRef NewLine+
     ;
 
 exception
-    : docComment* annotation* visibility? 'exception' NL* simpleId NL*
-      '(' NL* identifier NL* ')' NL+
+    : docComment* annotation* visibility? 'exception' NewLine* simpleId NewLine*
+      '(' NewLine* identifier NewLine* ')' NewLine+
     ;
 
 docComment
-    : DELIMITED_COMMENT_OPEN DelimitedCommentText NL*
-    | LINE_COMMENT_OPEN LineCommentText NL*
+    : DELIMITED_COMMENT_OPEN DelimitedCommentText NewLine*
+    | LINE_COMMENT_OPEN LineCommentText NewLine*
     ;
 
 annotation
-    : '@' simpleId ('(' NL* annotationValue (',' NL* annotationValue)* ')')? NL*
+    : '@' simpleId ('(' NewLine* annotationValue (',' NewLine* annotationValue)* ')')? NewLine*
     ;
 
 annotationValue
-    : simpleId NL* ('=' NL* stringLiteral NL*)?
-    | simpleId NL* '=' NL* '[' NL* stringLiteral (',' NL* stringLiteral)* NL* ']' NL*
-    | stringLiteral NL*
+    : simpleId NewLine* ('=' NewLine* stringLiteral NewLine*)?
+    | simpleId NewLine* '=' NewLine* '[' NewLine* stringLiteral (',' NewLine* stringLiteral)* NewLine* ']' NewLine*
+    | stringLiteral NewLine*
     ;
 
 // Type references
 
 typeRef
-    : (identifier | predefinedType | genericType) ('?')? NL*
+    : (identifier | predefinedType | genericType) ('?')? NewLine*
     ;
 
 predefinedType
@@ -147,21 +147,21 @@ genericType
     ;
 
 listType
-    : 'List' NL* '<' NL* typeRef NL* '>' NL*
+    : 'List' NewLine* '<' NewLine* typeRef NewLine* '>' NewLine*
     ;
 
 mapType
-    : 'Map' NL* '<' NL* typeRef NL* ',' NL* typeRef NL* '>' NL*
+    : 'Map' NewLine* '<' NewLine* typeRef NewLine* ',' NewLine* typeRef NewLine* '>' NewLine*
     ;
 
 setType
-    : 'Set' NL* '<' NL* typeRef NL* '>' NL*
+    : 'Set' NewLine* '<' NewLine* typeRef NewLine* '>' NewLine*
     ;
 
 // Literals
 
 visibility
-    : ('internal' | 'public' | 'open' | 'open' 'internal') NL*
+    : ('internal' | 'public' | 'open' | 'open' 'internal') NewLine*
     ;
 
 literalConstant
@@ -198,12 +198,12 @@ multiLineStringContent
     ;
 
 enumeratorRef
-    : identifier NL*
+    : identifier NewLine*
     ;
 
 initializerList
-    : '{' NL* ((simpleId NL* '=' NL*)? literalConstant NL*
-    (',' NL* (simpleId NL* '=' NL*)? literalConstant NL*)*)? '}' NL*
+    : '{' NewLine* ((simpleId NewLine* '=' NewLine*)? literalConstant NewLine*
+      (',' NewLine* (simpleId NewLine* '=' NewLine*)? literalConstant NewLine*)*)? '}' NewLine*
     ;
 
 // Identifiers

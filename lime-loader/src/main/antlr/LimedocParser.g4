@@ -22,17 +22,17 @@ parser grammar LimedocParser;
 options { tokenVocab = LimedocLexer; }
 
 documentation
-    : skipWS* documentationContent? skipWS* EOF
+    : skipWhiteSpace* documentationContent? skipWhiteSpace* EOF
     ;
 
-skipWS
-    : WS | NL
+skipWhiteSpace
+    : WhiteSpace | NewLine
     ;
 
 documentationContent
     : description
     | tagSection
-    | description skipWS* NL skipWS* tagSection
+    | description skipWhiteSpace* NewLine skipWhiteSpace* tagSection
     ;
 
 description
@@ -40,11 +40,11 @@ description
     ;
 
 descriptionMoreLines
-    : NL+ descriptionLine
+    : NewLine+ descriptionLine
     ;
 
 descriptionLine
-    : WS* decriptionFirstWord+ descriptionContent*
+    : WhiteSpace* decriptionFirstWord+ descriptionContent*
     ;
 
 decriptionFirstWord
@@ -52,7 +52,7 @@ decriptionFirstWord
     ;
 
 descriptionContent
-    : (textContent | '{' | '}' | '@' | WS+) | inlineTag
+    : (textContent | '{' | '}' | '@' | WhiteSpace+) | inlineTag
     ;
 
 tagSection
@@ -60,30 +60,30 @@ tagSection
     ;
 
 blockTag
-    : WS* '@' tagName ('[' blockTagParameter ']')? WS blockTagContent*
+    : WhiteSpace* '@' tagName ('[' blockTagParameter ']')? WhiteSpace blockTagContent*
     ;
 
 tagName
-    : NAME
+    : Name
     ;
 
 blockTagParameter
-    : NAME | IDENTIFIER
+    : Name | Identifier
     ;
 
 blockTagContent
-    : (textContent | '{' | '}' | WS+ | NL+) | inlineTag
+    : (textContent | '{' | '}' | WhiteSpace+ | NewLine+) | inlineTag
     ;
 
 inlineTag
-      : '{@' tagName WS inlineTagContent* '}'
+      : '{@' tagName WhiteSpace inlineTagContent* '}'
       ;
 
 inlineTagContent
     // TODO: escaping
-    : textContent | WS+ | NL+
+    : textContent | WhiteSpace+ | NewLine+
     ;
 
 textContent
-    : TEXT_CONTENT | NAME | IDENTIFIER | '[' | ']'
+    : TextContent | Name | Identifier | '[' | ']'
     ;
