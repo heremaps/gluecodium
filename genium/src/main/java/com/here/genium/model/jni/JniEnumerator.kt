@@ -17,15 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-public class JniEnumerator implements JniElement {
-
-  public final String javaName;
-  public final String cppName;
-
-  public JniEnumerator(final String javaName, final String cppName) {
-    this.javaName = javaName;
-    this.cppName = cppName;
-  }
-}
+class JniEnumerator(val javaName: String, val cppName: String) : JniElement

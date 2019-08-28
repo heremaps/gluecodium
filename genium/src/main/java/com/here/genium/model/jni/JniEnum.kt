@@ -22,13 +22,8 @@ package com.here.genium.model.jni
 import com.here.genium.model.java.JavaPackage
 
 class JniEnum(
-    javaPackage: JavaPackage? = null,
+    javaPackage: JavaPackage,
     val javaEnumName: String,
     val cppEnumName: String,
-    val enumerators: List<JniEnumerator> = listOf(),
-    owningContainer: JniContainer? = null
-) : JniTopLevelElement(javaPackage) {
-    init {
-        this.owningContainer = owningContainer
-    }
-}
+    val enumerators: List<JniEnumerator> = emptyList()
+) : JniTopLevelElement(javaPackage)

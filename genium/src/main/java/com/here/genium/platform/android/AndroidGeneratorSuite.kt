@@ -17,31 +17,22 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.android;
+package com.here.genium.platform.android
 
-import com.here.genium.Genium;
-import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
-import com.here.genium.generator.jni.JniGenerator;
+import com.here.genium.Genium
+import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
+import com.here.genium.generator.jni.JniGenerator
 
 /**
- * Combines generators {@link AndroidManifestGenerator}, {@link JniGenerator} and {@link
- * JavaGeneratorSuite} to generate Java code and bindings to BaseAPI layer for Android.
+ * Combines generators [AndroidManifestGenerator], [JniGenerator], and [JavaGeneratorSuite] to
+ * generate Java code and bindings to BaseAPI layer for Android.
  */
-public final class AndroidGeneratorSuite extends JavaGeneratorSuite {
+class AndroidGeneratorSuite(options: Genium.Options) : JavaGeneratorSuite(options, true) {
+    override val generatorName = GENERATOR_NAME
 
-  public static final String GENERATOR_NAME = "android";
+    override fun getName() = "com.here.AndroidGeneratorSuite"
 
-  public AndroidGeneratorSuite(final Genium.Options options) {
-    super(options, true);
-  }
-
-  @Override
-  public String getName() {
-    return "com.here.AndroidGeneratorSuite";
-  }
-
-  @Override
-  protected String getGeneratorName() {
-    return GENERATOR_NAME;
-  }
+    companion object {
+        const val GENERATOR_NAME = "android"
+    }
 }

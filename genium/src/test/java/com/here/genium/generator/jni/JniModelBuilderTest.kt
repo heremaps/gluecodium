@@ -122,7 +122,7 @@ class JniModelBuilderTest {
     private val javaField = JavaField("theParam", javaCustomType, JavaValue(""))
     private val cppCustomType = CppComplexTypeRef("cPpClass")
     private val cppField = CppField("cPpClass", "neSTed::cPpClass", cppCustomType)
-    private val jniParameter = JniParameter("theParam", null)
+    private val jniParameter = JniParameter("theParam", JniType.VOID)
     private val javaGetter =
         JavaMethod("getFoo", Comments(), JavaVisibility.PUBLIC, JavaCustomType("FooType"))
     private val cppGetter =
@@ -301,7 +301,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsEnums() {
-        val jniEnum = JniEnum(null, "MyJavaEnumName", "MyCppEnumName")
+        val jniEnum = JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName")
         contextStack.injectResult(jniEnum)
 
         modelBuilder.finishBuilding(limeInterface)

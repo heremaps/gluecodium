@@ -17,22 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.androidmanifest;
+package com.here.genium.generator.androidmanifest
 
-import com.here.genium.generator.common.AbstractGenerator;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import java.util.List;
+import com.here.genium.generator.common.AbstractGenerator
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.platform.android.AndroidGeneratorSuite
+import java.io.File
 
-public final class AndroidManifestGenerator extends AbstractGenerator {
-
-  public AndroidManifestGenerator(final List<String> packageList) {
-    super(packageList);
-  }
-
-  public GeneratedFile generate() {
-    String fileContent =
-        TemplateEngine.INSTANCE.render("android/AndroidManifest", String.join(".", basePackages));
-    return new GeneratedFile(fileContent, AndroidManifestNameRules.getManifestFilename());
-  }
+class AndroidManifestGenerator(packageList: List<String>) : AbstractGenerator(packageList) {
+    fun generate(): GeneratedFile =
+        GeneratedFile(
+            TemplateEngine.render("android/AndroidManifest", basePackages.joinToString(".")),
+            AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "AndroidManifest.xml"
+        )
 }

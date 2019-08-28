@@ -17,15 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-public final class JniParameter implements JniElement {
-
-  public final String name;
-  public final JniType type;
-
-  public JniParameter(final String name, final JniType type) {
-    this.name = name;
-    this.type = type;
-  }
-}
+class JniParameter(val name: String, val type: JniType) : JniElement

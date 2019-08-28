@@ -17,17 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-import com.here.genium.model.java.JavaPackage;
+import com.here.genium.model.java.JavaPackage
 
-public abstract class JniTopLevelElement implements JniElement {
-
-  public JniContainer owningContainer;
-
-  public final JavaPackage javaPackage;
-
-  protected JniTopLevelElement(final JavaPackage javaPackage) {
-    this.javaPackage = javaPackage;
-  }
+abstract class JniTopLevelElement(val javaPackage: JavaPackage) : JniElement {
+    lateinit var owningContainer: JniContainer
 }
