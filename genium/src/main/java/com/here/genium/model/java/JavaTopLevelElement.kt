@@ -71,19 +71,19 @@ public abstract class JavaTopLevelElement extends JavaElement {
         streamRecursive()
             .filter(JavaElementWithImports.class::isInstance)
             .map(JavaElementWithImports.class::cast)
-            .map(element -> element.imports)
+            .map(element -> element.getImports())
             .flatMap(Set::stream)
             .collect(Collectors.toCollection(TreeSet::new));
     imports.addAll(
         parentInterfaces
             .stream()
-            .flatMap(javaType -> javaType.imports.stream())
+            .flatMap(javaType -> javaType.getImports().stream())
             .collect(Collectors.toList()));
     imports.addAll(
         methods
             .stream()
             .filter(javaMethod -> javaMethod.getException() != null)
-            .flatMap(javaMethod -> javaMethod.getException().imports.stream())
+            .flatMap(javaMethod -> javaMethod.getException().getImports().stream())
             .collect(Collectors.toList()));
 
     // No need to import things from the same package. This also filters out a self-import.

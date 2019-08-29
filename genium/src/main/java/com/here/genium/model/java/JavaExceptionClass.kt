@@ -25,7 +25,7 @@ public class JavaExceptionClass extends JavaTopLevelElement {
   public JavaExceptionClass(final String exceptionName, final JavaEnumType enumTypeRef) {
     super(exceptionName);
 
-    super.javaPackage = new JavaPackage(enumTypeRef.packageNames);
+    super.javaPackage = new JavaPackage(enumTypeRef.getPackageNames());
     this.enumTypeRef = enumTypeRef;
   }
 }
