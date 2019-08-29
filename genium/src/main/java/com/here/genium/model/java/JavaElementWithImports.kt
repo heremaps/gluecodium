@@ -17,20 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.*;
-
-public abstract class JavaElementWithImports extends JavaElement {
-
-  public final Set<JavaImport> imports;
-
-  public JavaElementWithImports(final String name) {
-    this(name, null);
-  }
-
-  public JavaElementWithImports(final String name, final Collection<JavaImport> imports) {
-    super(name);
-    this.imports = imports != null ? new LinkedHashSet<>(imports) : new LinkedHashSet<>();
-  }
-}
+abstract class JavaElementWithImports(
+    name: String,
+    val imports: Set<JavaImport> = emptySet()
+) : JavaElement(name)

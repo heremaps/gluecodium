@@ -17,34 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import com.here.genium.model.common.Comments;
-import com.here.genium.model.common.ModelElement;
-import com.here.genium.model.common.Streamable;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Stream;
+import com.here.genium.model.common.Comments
+import com.here.genium.model.common.ModelElement
+import com.here.genium.model.common.Streamable
+import java.util.LinkedHashSet
 
-public abstract class JavaElement extends Streamable<JavaElement> implements ModelElement {
+abstract class JavaElement(val name: String) : Streamable<JavaElement>(), ModelElement {
+    var comment = Comments()
+    var visibility = JavaVisibility.PACKAGE
+    val annotations: MutableSet<JavaType> = LinkedHashSet()
 
-  public final String name;
-  public Comments comment = new Comments();
-  public JavaVisibility visibility = JavaVisibility.PACKAGE;
-  public final Set<JavaType> annotations = new LinkedHashSet<>();
+    override fun toString() = name
 
-  public JavaElement(final String name) {
-    super();
-    this.name = name;
-  }
-
-  @Override
-  public String toString() {
-    return name;
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return annotations.stream().map(JavaElement.class::cast);
-  }
+    override fun stream() = annotations.stream().map { JavaElement::class.java.cast(it) }
 }

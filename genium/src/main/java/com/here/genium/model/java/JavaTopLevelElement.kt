@@ -17,78 +17,48 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.Stream
+import kotlin.streams.toList
 
-public abstract class JavaTopLevelElement extends JavaElement {
+abstract class JavaTopLevelElement protected constructor(name: String) : JavaElement(name) {
 
-  public JavaPackage javaPackage = JavaPackage.Companion.getDEFAULT();
-  public final Set<JavaMethod> methods = new LinkedHashSet<>();
-  public final Set<JavaType> parentInterfaces = new LinkedHashSet<>();
+    var javaPackage = JavaPackage.DEFAULT
+    val methods: MutableSet<JavaMethod> = mutableSetOf()
+    val parentInterfaces: MutableSet<JavaType> = mutableSetOf()
 
-  public final Set<JavaConstant> constants = new LinkedHashSet<>();
-  public final Set<JavaEnum> enums = new LinkedHashSet<>();
-  public final Set<JavaExceptionClass> exceptions = new LinkedHashSet<>();
+    val constants: MutableSet<JavaConstant> = mutableSetOf()
+    val enums: MutableSet<JavaEnum> = mutableSetOf()
+    val exceptions: MutableSet<JavaExceptionClass> = mutableSetOf()
 
-  public final Set<JavaClass> innerClasses = new LinkedHashSet<>();
-  public final Set<Qualifier> qualifiers = new LinkedHashSet<>();
+    val innerClasses: MutableSet<JavaClass> = mutableSetOf()
+    val qualifiers: MutableSet<Qualifier> = mutableSetOf()
 
-  public enum Qualifier {
-    STATIC("static"),
-    FINAL("final");
+    open val imports: Set<JavaImport>
+        get() {
+            val imports = streamRecursive().toList()
+                .filterIsInstance<JavaElementWithImports>()
+                .flatMap { it.imports }
+                .toSortedSet()
+            imports += parentInterfaces.flatMap { it.imports }
+            imports += methods.mapNotNull { it.exception }.flatMap { it.imports }
 
-    private final String value;
+            // No need to import things from the same package. This also filters out a self-import.
+            imports.removeIf { it.javaPackage == this.javaPackage }
 
-    Qualifier(final String value) {
-      this.value = value;
+            return imports
+        }
+
+    enum class Qualifier(private val value: String) {
+        STATIC("static"),
+        FINAL("final");
+
+        override fun toString() = value
     }
 
-    @Override
-    public String toString() {
-      return value;
+    override fun stream(): Stream<JavaElement> {
+        return Stream.of(methods, constants, parentInterfaces, enums, innerClasses, exceptions)
+            .flatMap { it.stream() }
     }
-  }
-
-  protected JavaTopLevelElement(String name) {
-    super(name);
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.of(methods, constants, parentInterfaces, enums, innerClasses, exceptions)
-        .flatMap(Collection::stream);
-  }
-
-  public Set<JavaImport> getImports() {
-    Set<JavaImport> imports =
-        streamRecursive()
-            .filter(JavaElementWithImports.class::isInstance)
-            .map(JavaElementWithImports.class::cast)
-            .map(element -> element.getImports())
-            .flatMap(Set::stream)
-            .collect(Collectors.toCollection(TreeSet::new));
-    imports.addAll(
-        parentInterfaces
-            .stream()
-            .flatMap(javaType -> javaType.getImports().stream())
-            .collect(Collectors.toList()));
-    imports.addAll(
-        methods
-            .stream()
-            .filter(javaMethod -> javaMethod.getException() != null)
-            .flatMap(javaMethod -> javaMethod.getException().getImports().stream())
-            .collect(Collectors.toList()));
-
-    // No need to import things from the same package. This also filters out a self-import.
-    imports.removeIf(anImport -> Objects.equals(anImport.getJavaPackage(), this.javaPackage));
-
-    return imports;
-  }
 }

@@ -48,7 +48,7 @@ public final class JniTypeNameMapper {
       }
     }
     throw new IllegalArgumentException(
-        "mapping from Java type to jni type name is not possible: " + javaType.name);
+        "mapping from Java type to jni type name is not possible: " + javaType.getName());
   }
 
   private static String map(final JavaReferenceType refType) {
@@ -72,7 +72,7 @@ public final class JniTypeNameMapper {
         return "jobject";
       default:
         throw new IllegalArgumentException(
-            "mapping from Java type to jni type name is not possible: " + refType.name);
+            "mapping from Java type to jni type name is not possible: " + refType.getName());
     }
   }
 
@@ -96,7 +96,7 @@ public final class JniTypeNameMapper {
         return "jdoubleArray";
       default:
         throw new IllegalArgumentException(
-            "mapping from Java type to jni type name is not possible: " + refType.name);
+            "mapping from Java type to jni type name is not possible: " + refType.getName());
     }
   }
 }

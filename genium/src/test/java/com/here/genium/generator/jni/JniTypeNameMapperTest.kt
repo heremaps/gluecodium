@@ -17,72 +17,66 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni;
+package com.here.genium.generator.jni
 
-import static org.junit.Assert.assertEquals;
+import com.here.genium.model.java.JavaArrayType
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaReferenceType
+import com.here.genium.model.java.JavaType
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
-import com.here.genium.model.java.*;
-import java.util.Arrays;
-import java.util.Collection;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class JniTypeNameMapperTest(
+    private val javaType: JavaType,
+    private val expectedJniTypeName: String
+) {
+    @Test
+    fun mapTypeName() {
+        // Act
+        val result = JniTypeNameMapper.map(javaType)
 
-@RunWith(Parameterized.class)
-public final class JniTypeNameMapperTest {
+        // Assert
+        assertEquals(expectedJniTypeName, result)
+    }
 
-  private final JavaType javaType;
-  private final String expectedJniTypeName;
-
-  public JniTypeNameMapperTest(final JavaType javaType, final String expectedJniTypeName) {
-    this.javaType = javaType;
-    this.expectedJniTypeName = expectedJniTypeName;
-  }
-
-  @Parameterized.Parameters
-  public static Collection<Object[]> testData() {
-    return Arrays.asList(
-        new Object[][] {
-          {JavaPrimitiveType.Companion.getVOID(), "void"},
-          {JavaPrimitiveType.Companion.getINT(), "jint"},
-          {JavaPrimitiveType.Companion.getDOUBLE(), "jdouble"},
-          {JavaPrimitiveType.Companion.getFLOAT(), "jfloat"},
-          {JavaPrimitiveType.Companion.getLONG(), "jlong"},
-          {JavaPrimitiveType.Companion.getBOOL(), "jboolean"},
-          {JavaPrimitiveType.Companion.getBYTE(), "jbyte"},
-          {JavaPrimitiveType.Companion.getSHORT(), "jshort"},
-          {JavaPrimitiveType.Companion.getCHAR(), "jchar"},
-          {JavaArrayType.Companion.getBOOL_ARRAY(), "jbooleanArray"},
-          {JavaArrayType.Companion.getBYTE_ARRAY(), "jbyteArray"},
-          {JavaArrayType.Companion.getCHAR_ARRAY(), "jcharArray"},
-          {JavaArrayType.Companion.getDOUBLE_ARRAY(), "jdoubleArray"},
-          {JavaArrayType.Companion.getFLOAT_ARRAY(), "jfloatArray"},
-          {JavaArrayType.Companion.getINT_ARRAY(), "jintArray"},
-          {JavaArrayType.Companion.getLONG_ARRAY(), "jlongArray"},
-          {JavaArrayType.Companion.getSHORT_ARRAY(), "jshortArray"},
-          {new JavaReferenceType(JavaReferenceType.Type.BOOL), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.BYTE), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.CHAR), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.CLASS), "jclass"},
-          {new JavaReferenceType(JavaReferenceType.Type.DOUBLE), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.FLOAT), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.INT), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.LONG), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.OBJECT), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.SHORT), "jobject"},
-          {new JavaReferenceType(JavaReferenceType.Type.STRING), "jstring"},
-          {new JavaReferenceType(JavaReferenceType.Type.THROWABLE), "jthrowable"},
-          {new JavaCustomType("MyFancyType", null, null, null, false), "jobject"}
-        });
-  }
-
-  @Test
-  public void mapTypeName() {
-
-    // Act
-    String result = JniTypeNameMapper.map(javaType);
-
-    // Assert
-    assertEquals(expectedJniTypeName, result);
-  }
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters
+        fun testData(): Collection<Array<Any>> = listOf(
+            arrayOf(JavaPrimitiveType.VOID, "void"),
+            arrayOf(JavaPrimitiveType.INT, "jint"),
+            arrayOf(JavaPrimitiveType.DOUBLE, "jdouble"),
+            arrayOf(JavaPrimitiveType.FLOAT, "jfloat"),
+            arrayOf(JavaPrimitiveType.LONG, "jlong"),
+            arrayOf(JavaPrimitiveType.BOOL, "jboolean"),
+            arrayOf(JavaPrimitiveType.BYTE, "jbyte"),
+            arrayOf(JavaPrimitiveType.SHORT, "jshort"),
+            arrayOf(JavaPrimitiveType.CHAR, "jchar"),
+            arrayOf(JavaArrayType.BOOL_ARRAY, "jbooleanArray"),
+            arrayOf(JavaArrayType.BYTE_ARRAY, "jbyteArray"),
+            arrayOf(JavaArrayType.CHAR_ARRAY, "jcharArray"),
+            arrayOf(JavaArrayType.DOUBLE_ARRAY, "jdoubleArray"),
+            arrayOf(JavaArrayType.FLOAT_ARRAY, "jfloatArray"),
+            arrayOf(JavaArrayType.INT_ARRAY, "jintArray"),
+            arrayOf(JavaArrayType.LONG_ARRAY, "jlongArray"),
+            arrayOf(JavaArrayType.SHORT_ARRAY, "jshortArray"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.BOOL), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.BYTE), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.CHAR), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.CLASS), "jclass"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.DOUBLE), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.FLOAT), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.INT), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.LONG), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.OBJECT), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.SHORT), "jobject"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.STRING), "jstring"),
+            arrayOf(JavaReferenceType(JavaReferenceType.Type.THROWABLE), "jthrowable"),
+            arrayOf(JavaCustomType("MyFancyType"), "jobject")
+        )
+    }
 }

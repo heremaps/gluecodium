@@ -17,30 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-public abstract class JavaComplexType extends JavaType {
-
-  /** List of all class names (outer and inner class names); required for cppProxy generation */
-  public final List<String> classNames = new LinkedList<>();
-  /** List of all package identifiers; required for cppProxy generation */
-  public final List<String> packageNames = new LinkedList<>();
-
-  protected JavaComplexType(
-      final String name,
-      final List<String> classNames,
-      final List<String> packageNames,
-      final Collection<JavaImport> importCollection) {
-    super(name, importCollection);
-    if (classNames != null) {
-      this.classNames.addAll(classNames);
-    }
-    if (packageNames != null) {
-      this.packageNames.addAll(packageNames);
-    }
-  }
-}
+abstract class JavaComplexType protected constructor(
+    name: String,
+    imports: Set<JavaImport>,
+    val classNames: List<String>,
+    val packageNames: List<String>
+) : JavaType(name, imports)

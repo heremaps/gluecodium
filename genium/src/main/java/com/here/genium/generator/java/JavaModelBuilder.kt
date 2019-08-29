@@ -190,7 +190,7 @@ class JavaModelBuilder(
         addDeprecatedAnnotationIfNeeded(javaClass)
 
         if (isSerializable) {
-            javaClass.parentInterfaces.add(serializationBase)
+            serializationBase?.let { javaClass.parentInterfaces.add(it) }
         }
 
         storeNamedResult(limeStruct, javaClass)

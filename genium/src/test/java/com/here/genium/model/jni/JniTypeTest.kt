@@ -81,6 +81,7 @@ class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSig
             arrayOf(
                 JavaCustomType(
                     "myNonNestedType",
+                    emptySet(),
                     listOf("nonNestedClass"),
                     listOf("nested", "package")),
                 "Lnested/package/nonNestedClass;"
@@ -88,6 +89,7 @@ class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSig
             arrayOf(
                 JavaCustomType(
                     "myNestedType",
+                    emptySet(),
                     listOf("outerClass", "innerClass"),
                     listOf("nested", "package")),
                 "Lnested/package/outerClass\$innerClass;"

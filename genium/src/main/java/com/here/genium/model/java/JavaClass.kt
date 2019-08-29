@@ -88,16 +88,13 @@ class JavaClass(
             .flatMap(Function.identity())
     }
 
-    override fun getImports(): Set<JavaImport> {
-
-        val imports = super.getImports()
-        if (extendedClass != null) {
-            imports.addAll(extendedClass.imports)
-        }
-
-        // No need to import things from the same package. This also filters out a self-import.
-        imports.removeIf { anImport -> anImport.javaPackage == this.javaPackage }
-
-        return imports
-    }
+    override val imports
+        get() =
+            if (extendedClass != null) {
+                val parentImports =
+                    extendedClass.imports.filterNot { it.javaPackage == this.javaPackage }
+                (super.imports + parentImports).toSortedSet()
+            } else {
+                super.imports
+            }
 }

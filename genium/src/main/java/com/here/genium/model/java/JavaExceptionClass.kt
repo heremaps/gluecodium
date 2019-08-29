@@ -17,15 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-public class JavaExceptionClass extends JavaTopLevelElement {
-  public final JavaEnumType enumTypeRef;
+class JavaExceptionClass(exceptionName: String, val enumTypeRef: JavaEnumType) :
+    JavaTopLevelElement(exceptionName) {
 
-  public JavaExceptionClass(final String exceptionName, final JavaEnumType enumTypeRef) {
-    super(exceptionName);
-
-    super.javaPackage = new JavaPackage(enumTypeRef.getPackageNames());
-    this.enumTypeRef = enumTypeRef;
-  }
+    init {
+        super.javaPackage = JavaPackage(enumTypeRef.packageNames)
+    }
 }

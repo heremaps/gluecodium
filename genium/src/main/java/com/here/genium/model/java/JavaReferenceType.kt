@@ -22,12 +22,12 @@ package com.here.genium.model.java
 import com.here.genium.cli.GeniumExecutionException
 
 class JavaReferenceType(val type: Type) :
-    JavaComplexType(type.value, listOf(type.value), type.packageNames, type.imports) {
+    JavaComplexType(type.value, type.imports, listOf(type.value), type.packageNames) {
 
     enum class Type(
         val value: String,
         val packageNames: List<String> = JAVA_LANG_PACKAGE,
-        val imports: List<JavaImport> = emptyList()
+        val imports: Set<JavaImport> = emptySet()
     ) {
         OBJECT("Object"), // All java objects
         CLASS("Class"), // java.lang.Class objects
@@ -41,7 +41,7 @@ class JavaReferenceType(val type: Type) :
         LONG("Long"),
         FLOAT("Float"),
         DOUBLE("Double"),
-        DATE("Date", JAVA_UTIL_PACKAGE, listOf(JavaImport("Date", JavaPackage(JAVA_UTIL_PACKAGE))))
+        DATE("Date", JAVA_UTIL_PACKAGE, setOf(JavaImport("Date", JavaPackage(JAVA_UTIL_PACKAGE))))
     }
 
     companion object {

@@ -23,4 +23,4 @@ class JavaExceptionType(
     fullName: String,
     classNames: List<String>,
     anImport: JavaImport
-) : JavaCustomType(fullName, classNames, anImport.javaPackage.packageNames, listOf(anImport), false)
+) : JavaCustomType(fullName, setOf(anImport), classNames, anImport.javaPackage.packageNames)

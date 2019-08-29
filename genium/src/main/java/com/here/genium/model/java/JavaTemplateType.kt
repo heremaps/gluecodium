@@ -17,73 +17,49 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.LinkedHashSet
 
-public final class JavaTemplateType extends JavaCustomType {
+class JavaTemplateType private constructor(
+    name: String,
+    imports: Set<JavaImport>,
+    templateClass: TemplateClass,
+    val templateParameters: List<JavaType>
+) : JavaCustomType(name, imports, listOf(templateClass.interfaceName), templateClass.packageNames) {
 
-  public static final JavaPackage JAVA_UTIL = new JavaPackage(Arrays.asList("java", "util"));
-  public static final String IMPLICIT_TEMPLATE_DECLARATION = "<>";
+    val implementationType = templateClass.implementationType
 
-  public final JavaCustomType implementationType;
-  public final TemplateClass templateClass;
-  public final List<JavaType> templateParameters;
+    enum class TemplateClass(
+        val interfaceName: String,
+        javaPackage: JavaPackage,
+        implementationTypeName: String
+    ) {
+        LIST("List", JAVA_UTIL, "ArrayList"),
+        MAP("Map", JAVA_UTIL, "HashMap"),
+        SET("Set", JAVA_UTIL, "HashSet"),
+        ENUM_SET("Set", JAVA_UTIL, "EnumSet");
 
-  public enum TemplateClass {
-    LIST("List", JAVA_UTIL, "ArrayList"),
-    MAP("Map", JAVA_UTIL, "HashMap"),
-    SET("Set", JAVA_UTIL, "HashSet"),
-    ENUM_SET("Set", JAVA_UTIL, "EnumSet");
-
-    public final String name;
-    public final JavaCustomType implementationType;
-    public final JavaImport javaImport;
-    public final List<String> packageNames;
-
-    TemplateClass(final String name, final JavaPackage javaPackage, String implementationTypeName) {
-      this.name = name;
-      this.implementationType =
-          new JavaCustomType(
-              implementationTypeName + IMPLICIT_TEMPLATE_DECLARATION,
-              null,
-              javaPackage.getPackageNames(),
-              Collections.singletonList(new JavaImport(implementationTypeName, javaPackage)),
-              false);
-      this.javaImport = new JavaImport(name, javaPackage);
-      this.packageNames = javaPackage.getPackageNames();
+        val implementationType = JavaCustomType(
+            fullName = "$implementationTypeName<>",
+            packageNames = javaPackage.packageNames,
+            imports = setOf(JavaImport(implementationTypeName, javaPackage))
+        )
+        val javaImport = JavaImport(interfaceName, javaPackage)
+        val packageNames = javaPackage.packageNames
     }
-  }
 
-  private JavaTemplateType(
-      final String name,
-      final TemplateClass templateClass,
-      final List<JavaType> templateParameters) {
-    super(
-        name,
-        Collections.singletonList(templateClass.name),
-        templateClass.packageNames,
-        null,
-        false);
-    this.implementationType = templateClass.implementationType;
-    this.templateClass = templateClass;
-    this.templateParameters = templateParameters;
-  }
+    companion object {
+        val JAVA_UTIL = JavaPackage(listOf("java", "util"))
 
-  public static JavaTemplateType create(final TemplateClass templateClass, JavaType... parameters) {
-    List<JavaType> templateParameters = Arrays.asList(parameters);
-    String name =
-        templateClass.name
-            + "<"
-            + templateParameters.stream().map(type -> type.name).collect(Collectors.joining(", "))
-            + ">";
+        fun create(templateClass: TemplateClass, vararg parameters: JavaType): JavaTemplateType {
+            val templateParameters = parameters.toList()
+            val templateParametersString = templateParameters.joinToString(", ") { it.name }
+            val name = "${templateClass.interfaceName}<$templateParametersString>"
+            val imports = listOf(templateClass.javaImport) +
+                templateParameters.flatMap { it.imports.toList() }
 
-    JavaTemplateType templateType = new JavaTemplateType(name, templateClass, templateParameters);
-
-    templateType.imports.add(templateClass.javaImport);
-    templateParameters.forEach(parameter -> templateType.imports.addAll(parameter.imports));
-
-    return templateType;
-  }
+            return JavaTemplateType(name, LinkedHashSet(imports), templateClass, templateParameters)
+        }
+    }
 }

@@ -182,12 +182,12 @@ class JniGenerator(
     companion object {
         private val ANDROID_OS_PACKAGE = JavaPackage(listOf("android", "os"))
         private val PARCELABLE = JavaCustomType(
-            "Parcelable", null,
-            ANDROID_OS_PACKAGE.packageNames,
-            listOf(
+            fullName = "Parcelable",
+            packageNames = ANDROID_OS_PACKAGE.packageNames,
+            imports = LinkedHashSet(listOf(
                 JavaImport("Parcelable", ANDROID_OS_PACKAGE),
                 JavaImport("Parcel", ANDROID_OS_PACKAGE)
-            )
+            ))
         )
     }
 }

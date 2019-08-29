@@ -17,17 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.Collection;
-
-public abstract class JavaType extends JavaElementWithImports {
-
-  public JavaType(String name) {
-    super(name);
-  }
-
-  public JavaType(final String name, final Collection<JavaImport> imports) {
-    super(name, imports);
-  }
-}
+abstract class JavaType(
+    name: String,
+    imports: Set<JavaImport> = emptySet()
+) : JavaElementWithImports(name, imports)

@@ -21,16 +21,15 @@ package com.here.genium.model.java
 
 open class JavaCustomType(
     fullName: String,
-    classNames: List<String>? = null,
-    packageNames: List<String>? = null,
-    javaImports: List<JavaImport>? = null,
+    imports: Set<JavaImport> = emptySet(),
+    classNames: List<String> = listOf(fullName),
+    packageNames: List<String> = emptyList(),
     val isInterface: Boolean = false
-) : JavaComplexType(fullName, classNames ?: listOf(fullName), packageNames, javaImports) {
+) : JavaComplexType(fullName, imports, classNames, packageNames) {
 
     constructor(fullName: String, javaPackage: JavaPackage) : this(
-        fullName,
-        null,
-        javaPackage.packageNames,
-        listOf(JavaImport(fullName, javaPackage))
+        fullName = fullName,
+        packageNames = javaPackage.packageNames,
+        imports = setOf(JavaImport(fullName, javaPackage))
     )
 }

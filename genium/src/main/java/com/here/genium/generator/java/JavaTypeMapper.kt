@@ -92,7 +92,7 @@ class JavaTypeMapper(
                 JavaCustomType(
                     fullName = className,
                     packageNames = packageNames,
-                    javaImports = listOf(JavaImport(className, JavaPackage(packageNames))),
+                    imports = setOf(JavaImport(className, JavaPackage(packageNames))),
                     isInterface = true
                 )
             }
@@ -152,10 +152,9 @@ class JavaTypeMapper(
             val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
 
             return JavaCustomType(
-                className,
-                null,
-                packageNames,
-                listOf(JavaImport(className, JavaPackage(packageNames)))
+                fullName = className,
+                packageNames = packageNames,
+                imports = setOf(JavaImport(className, JavaPackage(packageNames)))
             )
         }
 
@@ -179,7 +178,7 @@ class JavaTypeMapper(
 
         return when (limeType) {
             is LimeEnumeration -> JavaEnumType(typeName, classNames, packageNames, javaImport)
-            else -> JavaCustomType(typeName, classNames, packageNames, listOf(javaImport))
+            else -> JavaCustomType(typeName, setOf(javaImport), classNames, packageNames)
         }
     }
 

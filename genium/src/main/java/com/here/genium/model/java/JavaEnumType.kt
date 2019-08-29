@@ -24,4 +24,4 @@ class JavaEnumType(
     classNames: List<String>,
     packageNames: List<String>,
     anImport: JavaImport
-) : JavaCustomType(fullName, classNames, packageNames, listOf(anImport), false)
+) : JavaCustomType(fullName, setOf(anImport), classNames, packageNames)
