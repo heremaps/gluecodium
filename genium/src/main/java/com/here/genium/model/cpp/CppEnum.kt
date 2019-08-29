@@ -29,6 +29,5 @@ class CppEnum(
     isExternal: Boolean,
     val items: List<CppEnumItem>
 ) : CppExternableElement(name, fullyQualifiedName, includes, Comments(), isExternal) {
-
-    override fun stream() = items.stream()
+    override fun stream() = items
 }

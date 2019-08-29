@@ -21,7 +21,6 @@ package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
 import com.here.genium.model.common.Include
-import java.util.stream.Stream
 
 class CppStruct(
     name: String,
@@ -52,5 +51,5 @@ class CppStruct(
     val hasDefaultConstructor =
         (!isImmutable || uninitializedFields.isEmpty()) && !uninitializedFields.any { it.hasImmutableType }
 
-    override fun stream() = Stream.of(fields, methods, constants).flatMap { it.stream() }
+    override fun stream() = fields + methods + constants
 }

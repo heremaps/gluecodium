@@ -17,14 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.genium.model.common
 
-class CppConstant(
-    name: String,
-    fullyQualifiedName: String,
-    type: CppTypeRef,
-    val value: CppValue
-) : CppTypedElement(name, fullyQualifiedName, type) {
+// TODO: APIGEN-1457 rename stream(), streamRecursive() and the class itself
+abstract class PseudoStreamable<T : PseudoStreamable<T>> {
 
-    override fun stream() = listOf(type, value)
+    open fun stream(): List<T> = emptyList()
+
+    fun streamRecursive(): List<PseudoStreamable<T>> =
+        listOf(this) + stream().flatMap { it.streamRecursive() }
 }

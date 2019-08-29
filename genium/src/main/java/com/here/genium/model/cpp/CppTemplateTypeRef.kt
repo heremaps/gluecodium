@@ -48,7 +48,7 @@ class CppTemplateTypeRef(
         HASH(null, "hash", listOf(CppLibraryIncludes.HASH))
     }
 
-    override fun stream() = templateParameters.stream()
+    override fun stream() = templateParameters
 
     companion object {
         private fun composeTemplateName(

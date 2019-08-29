@@ -28,7 +28,6 @@ import com.here.genium.model.cpp.CppTypeDefRef
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.cpp.CppTypedElement
 import com.here.genium.model.cpp.CppUsing
-import java.util.stream.Collectors
 
 class TopologicalSort(private val elements: List<CppElement>) {
 
@@ -87,10 +86,8 @@ class TopologicalSort(private val elements: List<CppElement>) {
                 }
                 dependencies
             }
-            is CppStruct -> cppElement
-                .stream()
-                .flatMap { getElementDependencies(it).stream() }
-                .collect(Collectors.toSet())
+            is CppStruct ->
+                cppElement.stream().flatMap { getElementDependencies(it) }.toMutableSet()
             is CppUsing -> getTypeDependencies(cppElement.definition)
             is CppMethod -> (cppElement.parameters.map { it.type } + cppElement.returnType)
                 .flatMapTo(mutableSetOf()) { getTypeDependencies(it) }

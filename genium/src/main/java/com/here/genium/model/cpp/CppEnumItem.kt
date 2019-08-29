@@ -19,13 +19,11 @@
 
 package com.here.genium.model.cpp
 
-import java.util.stream.Stream
-
 class CppEnumItem(
     name: String,
     fullyQualifiedName: String,
     val value: CppValue?,
     @Suppress("unused") val inferredValue: CppValue
 ) : CppElementWithComment(name, fullyQualifiedName) {
-    override fun stream() = Stream.of(value)
+    override fun stream() = listOfNotNull(value)
 }

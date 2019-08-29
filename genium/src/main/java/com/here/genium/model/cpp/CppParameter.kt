@@ -19,14 +19,12 @@
 
 package com.here.genium.model.cpp
 
-import java.util.stream.Stream
-
 class CppParameter(
     name: String,
     type: CppTypeRef,
     val isNotNull: Boolean = false
 ) : CppTypedElement(name, type = type) {
-    override fun stream() = Stream.of(type)
+    override fun stream() = listOf(type)
 
     fun hasComment() = isNotNull || !comment.isEmpty
 }

@@ -21,7 +21,6 @@ package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
 import java.util.EnumSet
-import java.util.stream.Stream
 
 class CppMethod(
     name: String,
@@ -64,7 +63,7 @@ class CppMethod(
     @Suppress("unused")
     val isReturningVoid = returnType == CppPrimitiveTypeRef.VOID
 
-    override fun stream() = Stream.concat(Stream.of(returnType), parameters.stream())
+    override fun stream() = listOf(returnType) + parameters
 
     fun copy(specifiers: Set<Specifier>? = null, qualifiers: Set<Qualifier>? = null) =
         CppMethod(

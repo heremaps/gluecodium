@@ -19,9 +19,9 @@
 
 package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Streamable
+import com.here.genium.model.common.PseudoStreamable
 
 abstract class CppElement(
     val name: String,
     val fullyQualifiedName: String
-) : Streamable<CppElement>()
+) : PseudoStreamable<CppElement>()

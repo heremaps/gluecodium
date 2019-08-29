@@ -20,7 +20,6 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
-import java.util.stream.Stream
 
 class CppUsing(
     name: String,
@@ -29,5 +28,5 @@ class CppUsing(
     val definition: CppTypeRef
 ) : CppElementWithComment(name, fullyQualifiedName, comment = comment) {
 
-    override fun stream() = Stream.of(definition)
+    override fun stream() = listOf(definition)
 }

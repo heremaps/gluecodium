@@ -19,8 +19,6 @@
 
 package com.here.genium.model.cpp
 
-import java.util.stream.Stream
-
 class CppField(
     name: String,
     fullyQualifiedName: String,
@@ -35,7 +33,7 @@ class CppField(
     val setterName: String? = null
 ) : CppTypedElement(name, fullyQualifiedName, type) {
 
-    override fun stream() = Stream.of(type, initializer)
+    override fun stream() = listOfNotNull(type, initializer)
 
     @Suppress("unused")
     fun hasComment() = !comment.isEmpty || isNotNull

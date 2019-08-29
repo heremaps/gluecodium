@@ -47,8 +47,6 @@ import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.platform.common.GeneratorSuite
 import java.io.File
 import java.nio.file.Paths
-import java.util.stream.Collectors
-import kotlin.streams.toList
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
@@ -201,15 +199,15 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         )
 
         private fun flattenCppModel(members: List<CppElement>) =
-            members.stream().flatMap(CppElement::streamRecursive).collect(Collectors.toList())
+            members.flatMap { it.streamRecursive() }
 
         private fun collectIncludes(members: List<CppElement>) =
             flattenCppModel(members)
-                .filterIsInstance(CppElementWithIncludes::class.java)
+                .filterIsInstance<CppElementWithIncludes>()
                 .flatMap(CppElementWithIncludes::includes)
 
         private fun collectEnums(members: List<CppElement>) =
-            flattenCppModel(members).filterIsInstance(CppEnum::class.java).filter { !it.isExternal }
+            flattenCppModel(members).filterIsInstance<CppEnum>().filterNot { it.isExternal }
 
         private fun collectForwardDeclarations(
             members: List<CppElement>
