@@ -8,9 +8,15 @@
 #include "com_example_smoke_ExternalInterfaceImpl.h"
 #include "com_example_smoke_SimpleClass.h"
 #include "com_example_smoke_SimpleInterfaceImpl.h"
+#include "com_example_smoke_forward_Class1.h"
+#include "com_example_smoke_forward_Class2.h"
+#include "com_example_smoke_forward_UseForwardImpl.h"
 #include "foo/Bar.h"
 #include "smoke/SimpleClass.h"
 #include "smoke/SimpleInterface.h"
+#include "smoke/forward/Class1.h"
+#include "smoke/forward/Class2.h"
+#include "smoke/forward/UseForward.h"
 #include <memory>
 #include <new>
 #include "JniReference.h"
@@ -48,5 +54,8 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fi
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface> & _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInterface> & _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class1> & _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class2> & _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::UseForward> & _ninput);
 }
 }

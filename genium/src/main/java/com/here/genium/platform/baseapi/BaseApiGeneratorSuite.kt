@@ -38,7 +38,7 @@ import com.here.genium.model.cpp.CppElementWithComment
 import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
-import com.here.genium.model.cpp.CppForwardDeclaration
+import com.here.genium.model.cpp.CppForwardDeclarationGroup
 import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.lime.LimeException
@@ -208,13 +208,45 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
                 .filterIsInstance(CppElementWithIncludes::class.java)
                 .flatMap(CppElementWithIncludes::includes)
 
-        private fun collectForwardDeclarations(members: List<CppElement>) =
-            flattenCppModel(members)
-                .filterIsInstance(CppComplexTypeRef::class.java)
-                .filter { it.needsForwardDeclaration }
-                .map { CppForwardDeclaration(it.name) }
-
         private fun collectEnums(members: List<CppElement>) =
             flattenCppModel(members).filterIsInstance(CppEnum::class.java).filter { !it.isExternal }
+
+        private fun collectForwardDeclarations(
+            members: List<CppElement>
+        ): List<CppForwardDeclarationGroup> {
+            val forwardDeclarations = flattenCppModel(members)
+                .asSequence()
+                .filterIsInstance<CppComplexTypeRef>()
+                .filter { it.needsForwardDeclaration }
+                .map { it.name }
+                .distinct()
+                .sorted()
+                .map { splitForwardDeclaration(it) }
+                .toList()
+
+            return createForwardDeclarationGroup("", forwardDeclarations, 0).subGroups
+        }
+
+        private fun splitForwardDeclaration(declaration: String): Pair<List<String>, String> {
+            val namespaceTypeSplit = Regex("((?>[^:<]+::)*)([^:<].*)$")
+            val nameComponents = namespaceTypeSplit.find(declaration, 0)
+            return Pair(
+                nameComponents!!.groupValues[1].split("::".toRegex()).filter { it.isNotEmpty() },
+                nameComponents.groupValues[2]
+            )
+        }
+
+        private fun createForwardDeclarationGroup(
+            name: String,
+            declarations: List<Pair<List<String>, String>>,
+            level: Int
+        ): CppForwardDeclarationGroup =
+            CppForwardDeclarationGroup(
+                name,
+                declarations.filter { level == it.first.size }.map { it.second },
+                declarations.filter { level < it.first.size }
+                    .groupBy { it.first[level] }
+                    .map { createForwardDeclarationGroup(it.key, it.value, level + 1) }
+            )
     }
 }

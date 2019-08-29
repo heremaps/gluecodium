@@ -30,13 +30,7 @@
 {{/if}}
 {{#if forwardDeclarations}}
 {{#forwardDeclarations}}
-{{#namespaces}}
-namespace {{.}} {
-{{/namespaces}}
-    class {{type}};
-{{#namespaces}}
-}
-{{/namespaces}}
+{{>forwardDeclarationGroup}}
 {{/forwardDeclarations}}
 
 {{/if}}
@@ -109,4 +103,15 @@ namespace {{.}} {
 {{#internalNamespace}}
 }
 {{/internalNamespace}}
-{{/if}}
+{{/if}}{{!!
+
+}}{{+forwardDeclarationGroup}}
+namespace {{namespace}} {
+{{#types}}
+    class {{.}};
+{{/types}}
+{{#subGroups}}
+{{>forwardDeclarationGroup}}
+{{/subGroups}}
+}
+{{/forwardDeclarationGroup}}

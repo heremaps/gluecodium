@@ -25,8 +25,6 @@
 #include <vector>
 namespace smoke {
     class DummyClass;
-}
-namespace smoke {
     class DummyInterface;
 }
 namespace smoke {

@@ -13,8 +13,6 @@
 #include <memory>
 namespace smoke {
     class SimpleClass;
-}
-namespace smoke {
     class SimpleInterface;
 }
 namespace smoke {

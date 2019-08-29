@@ -16,8 +16,6 @@
 #include <string>
 namespace smoke {
     class EquatableInterface;
-}
-namespace smoke {
     class PointerEquatableInterface;
 }
 namespace smoke {

@@ -19,21 +19,8 @@
 
 package com.here.genium.model.cpp
 
-class CppForwardDeclaration(fullName: String) : Comparable<CppForwardDeclaration> {
-    @Suppress("MemberVisibilityCanBePrivate")
-    val namespaces: List<String>
-    val type: String
-
-    private val fullName: String
-        get() = (namespaces + type).joinToString("::")
-
-    init {
-        val namespaceTypeSplit = Regex("((?>[^:<]+::)*)([^:<].*)$")
-        val nameComponents = namespaceTypeSplit.find(fullName, 0)
-        type = nameComponents!!.groupValues[2]
-        namespaces =
-            nameComponents.groupValues[1].split("::".toRegex()).filter { !it.isEmpty() }
-    }
-
-    override fun compareTo(other: CppForwardDeclaration) = fullName.compareTo(other.fullName)
-}
+class CppForwardDeclarationGroup(
+    val namespace: String,
+    @Suppress("unused") val types: List<String>,
+    @Suppress("unused") val subGroups: List<CppForwardDeclarationGroup>
+)

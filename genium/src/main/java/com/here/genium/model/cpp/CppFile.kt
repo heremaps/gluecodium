@@ -29,7 +29,7 @@ class CppFile(
     val namespace: List<String>,
     val members: List<CppElement>,
     includes: List<Include>,
-    forwardDeclarations: List<CppForwardDeclaration>,
+    @Suppress("unused") val forwardDeclarations: List<CppForwardDeclarationGroup>,
     @Suppress("unused") val errorEnums: List<CppEnum>,
     var headerInclude: Include? = null,
     @Suppress("unused") var exportName: String? = null,
@@ -37,8 +37,6 @@ class CppFile(
 ) {
 
     val includes = TreeSet(includes)
-    @Suppress("unused")
-    val forwardDeclarations = TreeSet(forwardDeclarations)
 
     @Suppress("unused")
     val sortedMembers: List<CppElement>

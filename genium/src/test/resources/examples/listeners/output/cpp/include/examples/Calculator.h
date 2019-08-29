@@ -13,8 +13,6 @@
 #include <memory>
 namespace examples {
     class Calculator;
-}
-namespace examples {
     class CalculatorListener;
 }
 namespace examples {
