@@ -21,7 +21,6 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.model.cpp.CppElement
-import com.here.genium.model.cpp.CppInheritance
 import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTemplateTypeRef
@@ -93,13 +92,6 @@ class TopologicalSort(private val elements: List<CppElement>) {
                 .flatMap { getElementDependencies(it).stream() }
                 .collect(Collectors.toSet())
             is CppUsing -> getTypeDependencies(cppElement.definition)
-            is CppInheritance -> {
-                val name = cppElement.parent.fullyQualifiedName
-                when {
-                    fullyQualifiedNames.contains(name) -> mutableSetOf(name)
-                    else -> mutableSetOf()
-                }
-            }
             is CppMethod -> (cppElement.parameters.map { it.type } + cppElement.returnType)
                 .flatMapTo(mutableSetOf()) { getTypeDependencies(it) }
             else -> mutableSetOf()

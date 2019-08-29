@@ -50,9 +50,9 @@ class TopologicalSortTest(
 
         assertEquals(elements.size, sortedElements.size)
 
-        for (i in elements.indices) {
-            val index = expectedOrder[i]
-            assertEquals(elements[index], sortedElements[i])
+        elements.indices.forEach {
+            val index = expectedOrder[it]
+            assertEquals(elements[index], sortedElements[it])
         }
     }
 
@@ -72,8 +72,8 @@ class TopologicalSortTest(
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
-        fun testData(): Collection<Array<Any>> {
-            return listOf(
+        fun testData(): Collection<Array<Any>> =
+            listOf(
                 arrayOf(
                     "sortIndependentStructsKeepsSameOrder", listOf(
                         createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
@@ -228,7 +228,6 @@ class TopologicalSortTest(
                     ), listOf(0)
                 )
             )
-        }
 
         private fun createCppStruct(name: String, firstType: String, secondType: String) =
             CppStruct(
