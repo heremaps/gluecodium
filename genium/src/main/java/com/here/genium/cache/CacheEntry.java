@@ -21,7 +21,6 @@ package com.here.genium.cache;
 
 import java.io.Serializable;
 
-/** This class represents a cache entry. EqualsAndHashCode is for tests only. */
 final class CacheEntry implements Serializable {
 
   // DO NOT CHANGE! Value obtained with "serialver" tool for Genium release v3.4.0
