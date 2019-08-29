@@ -27,26 +27,26 @@ NewLine  : '\n'
     | '\r' '\n'
     ;
 
-AT  : '@' ;
-LCURL_AT : '{@' ;
+At  : '@' ;
+LCurlAt : '{@' ;
 
 Name
-    : LETTER+
+    : Letter+
     ;
 
 Identifier
-    : (LETTER | '_') (LETTER | '_' | [0-9])*
+    : (Letter | '_') (Letter | '_' | [0-9])*
     ;
 
 TextContent
     : ~([\n\r\t @{}a-zA-Z] | '[' | ']')+
     ;
 
-LSQUARE : '[' ;
-RSQUARE : ']' ;
-LCURL : '{' ;
-RCURL : '}' ;
+LSquare : '[' ;
+RSquare : ']' ;
+LCurl : '{' ;
+RCurl : '}' ;
 
-fragment LETTER
+fragment Letter
     : [a-zA-Z]
     ;

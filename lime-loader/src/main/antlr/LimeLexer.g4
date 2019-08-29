@@ -35,66 +35,66 @@ NewLine  : '\n'
 
 // Separators and operators
 
-ASSIGNMENT: '=' ;
-AT: '@' ;
-COLON: ':' ;
-COMMA: ',' ;
-DOT: '.' ;
-MINUS: '-' ;
-PLUS: '+' ;
-QUEST: '?' ;
-LPAREN: '(' ;
-RPAREN: ')' ;
-LCURL: '{' ;
-RCURL: '}' ;
-LANGLE: '<' ;
-RANGLE: '>' ;
-LSQUARE: '[' ;
-RSQUARE: ']' ;
+Assignment: '=' ;
+At: '@' ;
+Colon: ':' ;
+Comma: ',' ;
+Dot: '.' ;
+Minus: '-' ;
+Plus: '+' ;
+Quest: '?' ;
+LParen: '(' ;
+RParen: ')' ;
+LCurl: '{' ;
+RCurl: '}' ;
+LAngle: '<' ;
+RAngle: '>' ;
+LSquare: '[' ;
+RSquare: ']' ;
 
 // Keywords
 
-CLASS: 'class' ;
-CONST: 'const' ;
-CONSTRUCTOR: 'constructor' ;
-FUN: 'fun' ;
-ENUM: 'enum' ;
-EXCEPTION: 'exception' ;
-GET: 'get' ;
-IMPORT: 'import' ;
-INTERFACE: 'interface' ;
-INTERNAL: 'internal' ;
-OPEN: 'open' ;
-PACKAGE: 'package' ;
-PROPERTY: 'property' ;
-PUBLIC: 'public' ;
-SET: 'set' ;
-STATIC: 'static' ;
-STRUCT: 'struct' ;
-THROWS: 'throws' ;
-TYPEALIAS: 'typealias' ;
-TYPES: 'types' ;
+Class: 'class' ;
+Const: 'const' ;
+Constructor: 'constructor' ;
+Fun: 'fun' ;
+Enum: 'enum' ;
+Exception: 'exception' ;
+Get: 'get' ;
+Import: 'import' ;
+Interface: 'interface' ;
+Internal: 'internal' ;
+Open: 'open' ;
+Package: 'package' ;
+Property: 'property' ;
+Public: 'public' ;
+Set: 'set' ;
+Static: 'static' ;
+Struct: 'struct' ;
+Throws: 'throws' ;
+TypeAlias: 'typealias' ;
+Types: 'types' ;
 
 // Predefined types
 
-BOOL_TYPE: 'Boolean' ;
-FLOAT_TYPE: 'Float' ;
-DOUBLE_TYPE: 'Double' ;
-BYTE_TYPE: 'Byte' ;
-SHORT_TYPE: 'Short' ;
-INT_TYPE: 'Int' ;
-LONG_TYPE: 'Long' ;
-UBYTE_TYPE: 'UByte' ;
-USHORT_TYPE: 'UShort' ;
-UINT_TYPE: 'UInt' ;
-ULONG_TYPE: 'ULong' ;
-STRING_TYPE: 'String' ;
-BLOB_TYPE: 'Blob' ;
-DATE_TYPE: 'Date' ;
+BoolType: 'Boolean' ;
+FloatType: 'Float' ;
+DoubleType: 'Double' ;
+ByteType: 'Byte' ;
+ShortType: 'Short' ;
+IntType: 'Int' ;
+LongType: 'Long' ;
+UByteType: 'UByte' ;
+UShortType: 'UShort' ;
+UIntType: 'UInt' ;
+ULongType: 'ULong' ;
+StringType: 'String' ;
+BlobType: 'Blob' ;
+DateType: 'Date' ;
 
-LIST_TYPE: 'List' ;
-MAP_TYPE: 'Map' ;
-SET_TYPE: 'Set' ;
+ListType: 'List' ;
+MapType: 'Map' ;
+SetType: 'Set' ;
 
 // Literals
 
@@ -140,20 +140,20 @@ fragment DecimalDigit
 
 // Modes
 
-QUOTE_OPEN: '"' -> pushMode(LineString) ;
-TRIPLE_QUOTE_OPEN: '"""' -> pushMode(MultiLineString) ;
-LINE_COMMENT_OPEN: '//' -> pushMode(LineComment) ;
-DELIMITED_COMMENT_OPEN: '/*' -> pushMode(DelimitedComment) ;
+QuoteOpen: '"' -> pushMode(LineString) ;
+TripleQuoteOpen: '"""' -> pushMode(MultiLineString) ;
+LineCommentOpen: '//' -> pushMode(LineComment) ;
+DelimitedCommentOpen: '/*' -> pushMode(DelimitedComment) ;
 
 mode LineString ;
 LineStrText: ~('\\' | '"')+ ;
 LineStrEscapedChar: '\\' ('t' | 'b' | 'r' | 'n' | '"' | '\\') ;
-QUOTE_CLOSE: '"' -> popMode ;
+QuoteClose: '"' -> popMode ;
 
 mode MultiLineString ;
 MultiLineStringQuote : '"'+ ;
 MultiLineStrText :  ~'"'+ ;
-TRIPLE_QUOTE_CLOSE : MultiLineStringQuote? '"""' -> popMode ;
+TripleQuoteClose : MultiLineStringQuote? '"""' -> popMode ;
 
 mode LineComment ;
 LineCommentText: .*? [\r\n] -> popMode ;

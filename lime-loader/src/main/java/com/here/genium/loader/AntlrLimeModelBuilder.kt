@@ -110,7 +110,7 @@ internal class AntlrLimeModelBuilder(
             )
         }
         val limeElement: LimeContainerWithInheritance
-        if (ctx.INTERFACE() == null) {
+        if (ctx.Interface() == null) {
             limeElement = LimeClass(
                 path = currentPath,
                 visibility = currentVisibility,
@@ -198,7 +198,7 @@ internal class AntlrLimeModelBuilder(
             returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
             thrownType = exceptionType,
-            isStatic = ctx.STATIC() != null
+            isStatic = ctx.Static() != null
         )
 
         storeResultAndPopStacks(limeElement)
@@ -311,7 +311,7 @@ internal class AntlrLimeModelBuilder(
             typeRef = propertyType,
             getter = getter,
             setter = setter,
-            isStatic = ctx.STATIC() != null
+            isStatic = ctx.Static() != null
         )
 
         storeResultAndPopStacks(limeElement)
@@ -461,8 +461,8 @@ internal class AntlrLimeModelBuilder(
         ctx: LimeParser.VisibilityContext?,
         parentVisibility: LimeVisibility?
     ): LimeVisibility {
-        val isInternal = parentVisibility == LimeVisibility.INTERNAL || ctx?.INTERNAL() != null
-        val isOpen = ctx?.OPEN() != null
+        val isInternal = parentVisibility == LimeVisibility.INTERNAL || ctx?.Internal() != null
+        val isOpen = ctx?.Open() != null
         return when {
             isOpen && isInternal -> LimeVisibility.OPEN_INTERNAL
             isOpen -> LimeVisibility.OPEN
@@ -592,7 +592,7 @@ internal class AntlrLimeModelBuilder(
             ctx.NanLiteral() != null -> return LimeValue.Special(limeTypeRef, ValueId.NAN)
             ctx.InfinityLiteral() != null -> return LimeValue.Special(
                 limeTypeRef,
-                if (ctx.MINUS() != null) ValueId.NEGATIVE_INFINITY else ValueId.INFINITY
+                if (ctx.Minus() != null) ValueId.NEGATIVE_INFINITY else ValueId.INFINITY
             )
         }
 
@@ -606,7 +606,7 @@ internal class AntlrLimeModelBuilder(
         }
         return LimeValue.Literal(
             limeTypeRef,
-            if (ctx.MINUS() != null) "-$literalString" else literalString
+            if (ctx.Minus() != null) "-$literalString" else literalString
         )
     }
 
@@ -651,9 +651,9 @@ internal class AntlrLimeModelBuilder(
     ): LimeStructuredComment {
         val commentString = commentContexts.joinToString(separator = "\n") {
             when {
-                it.DELIMITED_COMMENT_OPEN() != null -> it.DelimitedCommentText()?.text?.dropLast(2)
+                it.DelimitedCommentOpen() != null -> it.DelimitedCommentText()?.text?.dropLast(2)
                     ?.split('\n')?.joinToString("\n") { line -> line.trim() } ?: ""
-                it.LINE_COMMENT_OPEN() != null -> it.LineCommentText()?.text?.trim() ?: ""
+                it.LineCommentOpen() != null -> it.LineCommentText()?.text?.trim() ?: ""
                 else -> ""
             }
         }

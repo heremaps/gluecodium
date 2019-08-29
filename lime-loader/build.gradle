@@ -39,6 +39,10 @@ sourceSets {
     }
 }
 
+javadoc {
+    exclude 'com/here/genium/antlr/**'
+}
+
 apply from: "$rootDir/gradle/spotless.gradle"
 
 spotless {

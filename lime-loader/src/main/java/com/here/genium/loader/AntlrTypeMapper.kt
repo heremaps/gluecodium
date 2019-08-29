@@ -39,7 +39,7 @@ internal class AntlrTypeMapper(
 ) {
 
     fun mapTypeRef(currentPath: LimePath, typeRef: LimeParser.TypeRefContext): LimeTypeRef {
-        val isOptional = typeRef.QUEST() != null
+        val isOptional = typeRef.Quest() != null
         return when {
             typeRef.predefinedType() != null ->
                 LimeBasicTypeRef(mapPredefinedType(typeRef.predefinedType()), isOptional)
@@ -65,20 +65,20 @@ internal class AntlrTypeMapper(
         predefinedType: LimeParser.PredefinedTypeContext
     ): TypeId =
         when {
-            predefinedType.BYTE_TYPE() != null -> TypeId.INT8
-            predefinedType.SHORT_TYPE() != null -> TypeId.INT16
-            predefinedType.INT_TYPE() != null -> TypeId.INT32
-            predefinedType.LONG_TYPE() != null -> TypeId.INT64
-            predefinedType.UBYTE_TYPE() != null -> TypeId.UINT8
-            predefinedType.USHORT_TYPE() != null -> TypeId.UINT16
-            predefinedType.UINT_TYPE() != null -> TypeId.UINT32
-            predefinedType.ULONG_TYPE() != null -> TypeId.UINT64
-            predefinedType.BOOL_TYPE() != null -> TypeId.BOOLEAN
-            predefinedType.STRING_TYPE() != null -> TypeId.STRING
-            predefinedType.FLOAT_TYPE() != null -> TypeId.FLOAT
-            predefinedType.DOUBLE_TYPE() != null -> TypeId.DOUBLE
-            predefinedType.BLOB_TYPE() != null -> TypeId.BLOB
-            predefinedType.DATE_TYPE() != null -> TypeId.DATE
+            predefinedType.ByteType() != null -> TypeId.INT8
+            predefinedType.ShortType() != null -> TypeId.INT16
+            predefinedType.IntType() != null -> TypeId.INT32
+            predefinedType.LongType() != null -> TypeId.INT64
+            predefinedType.UByteType() != null -> TypeId.UINT8
+            predefinedType.UShortType() != null -> TypeId.UINT16
+            predefinedType.UIntType() != null -> TypeId.UINT32
+            predefinedType.ULongType() != null -> TypeId.UINT64
+            predefinedType.BoolType() != null -> TypeId.BOOLEAN
+            predefinedType.StringType() != null -> TypeId.STRING
+            predefinedType.FloatType() != null -> TypeId.FLOAT
+            predefinedType.DoubleType() != null -> TypeId.DOUBLE
+            predefinedType.BlobType() != null -> TypeId.BLOB
+            predefinedType.DateType() != null -> TypeId.DATE
             else -> throw LimeLoadingException("Unrecognized predefined type: $predefinedType")
         }
 

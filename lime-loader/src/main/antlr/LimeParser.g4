@@ -115,8 +115,8 @@ exception
     ;
 
 docComment
-    : DELIMITED_COMMENT_OPEN DelimitedCommentText NewLine*
-    | LINE_COMMENT_OPEN LineCommentText NewLine*
+    : DelimitedCommentOpen DelimitedCommentText NewLine*
+    | LineCommentOpen LineCommentText NewLine*
     ;
 
 annotation
@@ -183,14 +183,14 @@ stringLiteral
     ;
 
 singleLineStringLiteral
-    : QUOTE_OPEN singleLineStringContent* QUOTE_CLOSE
+    : QuoteOpen singleLineStringContent* QuoteClose
     ;
 
 singleLineStringContent
     : LineStrText | LineStrEscapedChar ;
 
 multiLineStringLiteral
-    : TRIPLE_QUOTE_OPEN multiLineStringContent* TRIPLE_QUOTE_CLOSE
+    : TripleQuoteOpen multiLineStringContent* TripleQuoteClose
     ;
 
 multiLineStringContent

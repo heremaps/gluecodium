@@ -72,6 +72,7 @@ blockTagParameter
     ;
 
 blockTagContent
+    // TODO: APIGEN-1724 escaping: '@'
     : (textContent | '{' | '}' | WhiteSpace+ | NewLine+) | inlineTag
     ;
 
@@ -80,7 +81,7 @@ inlineTag
       ;
 
 inlineTagContent
-    // TODO: escaping
+    // TODO: APIGEN-1724 escaping: '@', '{', '}'
     : textContent | WhiteSpace+ | NewLine+
     ;
 
