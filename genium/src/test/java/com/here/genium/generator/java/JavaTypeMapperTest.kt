@@ -261,8 +261,10 @@ class JavaTypeMapperTest {
     @Test
     fun mapExceptionTypeInTypeCollection() {
         limeReferenceMap["baz.foo"] = LimeTypesCollection(LimePath(listOf("baz"), emptyList()))
-        val limeEnum = LimeEnumeration(LimePath(listOf("baz"), listOf("foo", "bar")))
-        val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
+        val limeException = LimeException(
+            LimePath(listOf("baz"), listOf("foo", "bar")),
+            errorEnum = LimeDirectTypeRef(LimeEnumeration(LimePath.EMPTY_PATH))
+        )
         val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
 
         val result = typeMapper.mapExceptionType(limeType)
@@ -279,8 +281,10 @@ class JavaTypeMapperTest {
     @Test
     fun mapExceptionTypeInInterface() {
         limeReferenceMap["baz.foo"] = LimeInterface(LimePath(listOf("baz"), listOf("nonsense")))
-        val limeEnum = LimeEnumeration(LimePath(listOf("baz"), listOf("foo", "bar")))
-        val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
+        val limeException = LimeException(
+            LimePath(listOf("baz"), listOf("foo", "bar")),
+            errorEnum = LimeDirectTypeRef(LimeEnumeration(LimePath.EMPTY_PATH))
+        )
         val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
 
         val result = typeMapper.mapExceptionType(limeType)

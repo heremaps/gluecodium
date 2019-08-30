@@ -549,7 +549,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingExceptionCreatesJavaException() {
-        val limeEnumeration = LimeEnumeration(fooPath)
+        val limeEnumeration = LimeEnumeration(LimePath.EMPTY_PATH)
         val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeEnumeration))
         val javaEnumTypeRef = JavaEnumType(
             "",
@@ -569,8 +569,12 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerationCreatesJavaExceptionReadsVisibility() {
-        val limeEnumeration = LimeEnumeration(fooPath, visibility = LimeVisibility.INTERNAL)
-        val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeEnumeration))
+        val limeEnumeration = LimeEnumeration(LimePath.EMPTY_PATH)
+        val limeException = LimeException(
+            fooPath,
+            visibility = LimeVisibility.INTERNAL,
+            errorEnum = LimeDirectTypeRef(limeEnumeration)
+        )
         val javaEnumTypeRef = JavaEnumType(
             "",
             emptyList(),
@@ -587,8 +591,11 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerator() {
-        val limeElement =
-            LimeEnumerator(fooPath, comment = LimeComment("some comment"), attributes = deprecatedAttributes)
+        val limeElement = LimeEnumerator(
+            fooPath,
+            comment = LimeComment("some comment"),
+            attributes = deprecatedAttributes
+        )
 
         modelBuilder.finishBuilding(limeElement)
 

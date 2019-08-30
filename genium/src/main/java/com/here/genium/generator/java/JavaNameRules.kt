@@ -24,7 +24,6 @@ import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeAttributeType.JAVA
 import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeTypedElement
@@ -42,9 +41,6 @@ class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
             ?: super.getSetterName(limeElement)
 
     fun getImplementationClassName(limeElement: LimeNamedElement) = getName(limeElement) + "Impl"
-
-    fun getExceptionName(limeEnum: LimeEnumeration) =
-        ruleSet.getErrorName(getPlatformName(limeEnum) ?: limeEnum.name)
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
         limeElement?.attributes?.get(JAVA, NAME)

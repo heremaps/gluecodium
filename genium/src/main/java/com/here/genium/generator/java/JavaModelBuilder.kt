@@ -205,8 +205,7 @@ class JavaModelBuilder(
         )
 
         val defaultValue = limeField.defaultValue
-        val initialValue: JavaValue
-        initialValue = when {
+        val initialValue = when {
             defaultValue != null -> valueMapper.mapValue(defaultValue, javaType)
             limeField.typeRef.isNullable -> JavaValueMapper.mapNullValue(javaType)
             else -> JavaValueMapper.mapDefaultValue(javaType)
@@ -236,12 +235,14 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeException: LimeException) {
-        val limeEnumeration = limeException.errorEnum.type as LimeEnumeration
-        val javaEnumType = typeMapper.mapCustomType(limeException.errorEnum.type) as JavaEnumType
-        val javaException = JavaExceptionClass(nameRules.getExceptionName(limeEnumeration), javaEnumType)
-        javaException.visibility = getVisibility(limeEnumeration)
+        val javaException = JavaExceptionClass(
+            nameRules.getName(limeException),
+            typeMapper.mapCustomType(limeException.errorEnum.type) as JavaEnumType
+        )
+        javaException.visibility = getVisibility(limeException)
         javaException.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaException.comment = createComments(limeException)
+
         storeNamedResult(limeException, javaException)
         closeContext()
     }
@@ -377,13 +378,12 @@ class JavaModelBuilder(
     private fun finishBuildingClass(limeClass: LimeClass) {
         var extendedClass = nativeBase
         val parentContainer = limeClass.parent?.type as? LimeContainerWithInheritance
-        if (parentContainer != null) {
-            val parentClassName = when {
-                parentContainer is LimeInterface ->
-                    nameRules.getImplementationClassName(parentContainer)
-                else -> nameRules.getName(parentContainer)
+        parentContainer?.let {
+            val parentClassName = when (it) {
+                is LimeInterface -> nameRules.getImplementationClassName(it)
+                else -> nameRules.getName(it)
             }
-            extendedClass = typeMapper.mapCustomType(parentContainer, parentClassName)
+            extendedClass = typeMapper.mapCustomType(it, parentClassName)
         }
 
         val javaClass = JavaClass(

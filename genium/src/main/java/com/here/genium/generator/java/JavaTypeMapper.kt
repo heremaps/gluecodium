@@ -134,9 +134,8 @@ class JavaTypeMapper(
         templateClass: TemplateClass,
         limeTypeRef: LimeTypeRef
     ): JavaTemplateType {
-        val elementType = mapType(limeTypeRef)
         val objectElementType =
-            when (elementType) {
+            when (val elementType = mapType(limeTypeRef)) {
                 is JavaPrimitiveType -> JavaReferenceType.boxPrimitiveType(elementType)
                 else -> elementType
             }
@@ -185,11 +184,10 @@ class JavaTypeMapper(
     fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionType {
         val limeException =
             LimeTypeHelper.getActualType(limeThrownType.typeRef.type) as LimeException
-        val limeEnum = limeException.errorEnum.type as LimeEnumeration
-        val exceptionName = nameRules.getExceptionName(limeEnum)
-        val parentContainer = limeReferenceMap[limeEnum.path.parent.toString()] as? LimeContainer
+        val exceptionName = nameRules.getName(limeException)
+        val parentContainer = limeReferenceMap[limeException.path.parent.toString()] as? LimeContainer
         val javaPackage =
-            JavaPackage(basePackage.createChildPackage(limeEnum.path.head).packageNames)
+            JavaPackage(basePackage.createChildPackage(limeException.path.head).packageNames)
 
         val importClassName: String
         val classNames: List<String>
