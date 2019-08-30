@@ -19,7 +19,7 @@
 
 package com.here.genium.model.swift;
 
-public final class SwiftTypeDef extends SwiftTypedModelElement {
+public class SwiftTypeDef extends SwiftTypedModelElement {
 
   public SwiftTypeDef(final String name, final SwiftVisibility visibility, final SwiftType type) {
     super(name, visibility, type);

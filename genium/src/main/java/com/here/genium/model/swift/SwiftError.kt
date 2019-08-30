@@ -19,11 +19,8 @@
 
 package com.here.genium.model.swift
 
-import com.here.genium.model.common.Comments
-
-class SwiftError(name: String, comment: Comments) :
-    SwiftModelElement(name) {
-    init {
-        this.comment = comment
-    }
-}
+class SwiftError(
+    name: String,
+    visibility: SwiftVisibility,
+    enumType: SwiftEnum
+) : SwiftTypeDef(name, visibility, enumType)

@@ -90,7 +90,6 @@ class SwiftModelBuilder(
         file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
-        file.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         val constants = getPreviousResults(SwiftConstant::class.java)
         if (constants.isNotEmpty()) {
@@ -133,7 +132,6 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
-        swiftClass.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         storeNamedResult(limeClass, swiftClass)
         storeResult(swiftFile)
@@ -157,7 +155,6 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass)
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
-        swiftClass.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         storeNamedResult(limeContainer, swiftClass)
         storeResult(swiftFile)
@@ -191,7 +188,7 @@ class SwiftModelBuilder(
 
         val error = limeMethod.thrownType?.let {
             val exception = LimeTypeHelper.getActualType(it.typeRef.type) as LimeException
-            val swiftEnumName = nameResolver.getFullName(exception.errorEnum.type)
+            val swiftEnumName = nameResolver.getFullName(exception)
             SwiftThrownType(swiftEnumName, it.comment.getFor(PLATFORM_TAG))
         }
 
@@ -297,8 +294,13 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeException: LimeException) {
-        val swiftEnum = getPreviousResult(SwiftEnum::class.java)
-        val error = SwiftError(swiftEnum.name, createComments(limeException))
+        val error = SwiftError(
+            nameRules.getName(limeException),
+            getVisibility(limeException),
+            getPreviousResult(SwiftEnum::class.java)
+        )
+        error.comment = createComments(limeException)
+
         storeNamedResult(limeException, error)
         closeContext()
     }

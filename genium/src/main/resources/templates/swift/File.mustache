@@ -33,7 +33,8 @@ import Foundation
 {{/typeDefs}}{{!!
 
 }}{{#allErrors}}
-{{>swift/Error}}
+extension {{type.publicName}} : Error {
+}
 {{/allErrors}}{{!!
 
 }}{{#enums}}

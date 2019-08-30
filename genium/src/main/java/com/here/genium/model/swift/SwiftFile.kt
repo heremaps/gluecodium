@@ -28,21 +28,19 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val structs = mutableListOf<SwiftStruct>()
     val enums = mutableListOf<SwiftEnum>()
     val typeDefs = mutableListOf<SwiftTypeDef>()
-    val errors = mutableListOf<SwiftError>()
 
     val isEmpty
         get() = classes.isEmpty() &&
                 structs.isEmpty() &&
                 enums.isEmpty() &&
-                typeDefs.isEmpty() &&
-                errors.isEmpty()
+                typeDefs.isEmpty()
 
     /**
      * SwiftErrors are implemented as extension on the enum. Extensions need to be declared
      * at file level, so collect all nested errors here.
      */
     @Suppress("Unused")
-    val allErrors: List<SwiftError>
+    val allErrors
         get() = streamRecursive().toList().filterIsInstance(SwiftError::class.java)
 
     override fun stream() =
@@ -51,7 +49,6 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
             classes.stream(),
             structs.stream(),
             enums.stream(),
-            typeDefs.stream(),
-            errors.stream()
+            typeDefs.stream()
         ).flatMap(Function.identity())
 }

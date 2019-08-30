@@ -71,7 +71,6 @@ class SwiftGenerator(
                     is SwiftStruct -> result.structs += swiftElement
                     is SwiftEnum -> result.enums += swiftElement
                     is SwiftTypeDef -> result.typeDefs += swiftElement
-                    is SwiftError -> result.errors += swiftElement
                 }
                 result
             }

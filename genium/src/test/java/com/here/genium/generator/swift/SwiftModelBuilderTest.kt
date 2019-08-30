@@ -181,14 +181,16 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingExceptionReadsErrorType() {
-        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.FLOAT)
+        val limeException =
+            LimeException(LimePath(emptyList(), listOf("bar")), errorEnum = LimeBasicTypeRef.FLOAT)
         val swiftEnum = SwiftEnum("EnumName")
         contextStack.injectResult(swiftEnum)
 
         modelBuilder.finishBuilding(limeException)
 
         val result = modelBuilder.getFinalResult(SwiftError::class.java)
-        assertEquals("EnumName", result.name)
+        assertEquals("BarError", result.name)
+        assertEquals("EnumName", result.type.publicName)
     }
 
     @Test
