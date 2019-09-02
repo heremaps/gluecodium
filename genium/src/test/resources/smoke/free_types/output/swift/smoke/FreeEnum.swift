@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 public enum FreeEnum : UInt32, CaseIterable {
     case foo

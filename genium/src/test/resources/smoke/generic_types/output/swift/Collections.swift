@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 internal func copyFromCType(_ handle: _baseRef) -> [DummyClass] {
     var result: [DummyClass] = []

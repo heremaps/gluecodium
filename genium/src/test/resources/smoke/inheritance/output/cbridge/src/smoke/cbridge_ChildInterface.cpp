@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_ChildInterface.h"
 #include "cbridge/include/smoke/cbridge_ParentInterface.h"

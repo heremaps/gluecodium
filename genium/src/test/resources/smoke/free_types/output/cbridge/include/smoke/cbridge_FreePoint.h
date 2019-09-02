@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 #pragma once
 #ifdef __cplusplus
 extern "C" {

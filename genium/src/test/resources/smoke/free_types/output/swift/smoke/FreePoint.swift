@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 public struct FreePoint {
     public static let aBar: FreeEnum = FreeEnum.bar

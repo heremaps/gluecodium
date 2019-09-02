@@ -1,6 +1,6 @@
 /*
  *
- * Automatically generated. Do not modify. Your changes will be lost.
+
  */
 #include "foo/Bar.h"
 #include "CppProxyBase.h"

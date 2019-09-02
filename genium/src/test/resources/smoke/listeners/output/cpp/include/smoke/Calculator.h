@@ -2,10 +2,6 @@
 //
 //
 // -------------------------------------------------------------------------------------------------
-//
-// Automatically generated. Do not modify. Your changes will be lost.
-//
-// -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
 #include "smoke/CalculatorListener.h"

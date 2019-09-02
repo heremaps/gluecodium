@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 public typealias bazTypedef = Double
 public enum bazEnum : UInt32, CaseIterable {

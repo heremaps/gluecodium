@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 @_cdecl("_CBridgeInitexamples_InheritanceChild")
 internal func _CBridgeInitexamples_InheritanceChild(handle: _baseRef) -> UnsafeMutableRawPointer {

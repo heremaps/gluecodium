@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 #include "cbridge/include/DateHandle.h"
 #include "cbridge/include/smoke/cbridge_Dates.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"

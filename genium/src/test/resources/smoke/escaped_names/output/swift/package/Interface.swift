@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 @_cdecl("_CBridgeInitpackage_Interface")
 internal func _CBridgeInitpackage_Interface(handle: _baseRef) -> UnsafeMutableRawPointer {

@@ -1,6 +1,6 @@
 /*
  *
- * Automatically generated. Do not modify. Your changes will be lost.
+
  */
 #include "root/space/smoke/Basic.h"
 #include "CppProxyBase.h"

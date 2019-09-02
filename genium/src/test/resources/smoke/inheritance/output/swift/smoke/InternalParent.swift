@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 @_cdecl("_CBridgeInitsmoke_InternalParent")
 internal func _CBridgeInitsmoke_InternalParent(handle: _baseRef) -> UnsafeMutableRawPointer {

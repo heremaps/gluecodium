@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {

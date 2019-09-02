@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 import Foundation
 @_cdecl("_CBridgeInitexamples_CalculatorListener")
 internal func _CBridgeInitexamples_CalculatorListener(handle: _baseRef) -> UnsafeMutableRawPointer {

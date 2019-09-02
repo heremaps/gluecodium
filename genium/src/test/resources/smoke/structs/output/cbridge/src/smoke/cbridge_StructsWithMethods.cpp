@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 #include "cbridge/include/smoke/cbridge_StructsWithMethods.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "genium/Optional.h"

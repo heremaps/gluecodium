@@ -1,6 +1,6 @@
 /*
  *
- * Automatically generated. Do not modify. Your changes will be lost.
+
  */
 #include "smoke/StructWithInstances.h"
 #include "CppProxyBase.h"

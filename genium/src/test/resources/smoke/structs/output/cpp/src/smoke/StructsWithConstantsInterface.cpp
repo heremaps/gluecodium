@@ -2,10 +2,6 @@
 //
 //
 // -------------------------------------------------------------------------------------------------
-//
-// Automatically generated. Do not modify. Your changes will be lost.
-//
-// -------------------------------------------------------------------------------------------------
 #include "smoke/StructsWithConstantsInterface.h"
 namespace smoke {
 StructsWithConstantsInterface::StructsWithConstantsInterface() {

@@ -1,6 +1,6 @@
 /*
  *
- * Automatically generated. Do not modify. Your changes will be lost.
+
  */
 package com.example.smoke;
 public final class ChildClassFromClass extends ParentClass {

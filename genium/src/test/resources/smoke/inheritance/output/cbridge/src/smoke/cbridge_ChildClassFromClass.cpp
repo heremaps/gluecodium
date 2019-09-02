@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 #include "cbridge/include/smoke/cbridge_ChildClassFromClass.h"
 #include "cbridge/include/smoke/cbridge_ParentClass.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"

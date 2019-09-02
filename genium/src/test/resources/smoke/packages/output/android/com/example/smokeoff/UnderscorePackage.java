@@ -1,6 +1,6 @@
 /*
  *
- * Automatically generated. Do not modify. Your changes will be lost.
+
  */
 package com.example.smokeoff;
 import android.support.annotation.NonNull;

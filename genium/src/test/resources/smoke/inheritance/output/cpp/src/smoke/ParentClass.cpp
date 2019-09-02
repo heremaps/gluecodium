@@ -2,10 +2,6 @@
 //
 //
 // -------------------------------------------------------------------------------------------------
-//
-// Automatically generated. Do not modify. Your changes will be lost.
-//
-// -------------------------------------------------------------------------------------------------
 #include "smoke/ParentClass.h"
 namespace genium {
 TypeRepository& get_type_repository(const ::smoke::ParentClass*) {

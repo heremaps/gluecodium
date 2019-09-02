@@ -1,6 +1,6 @@
 //
 //
-// Automatically generated. Do not modify. Your changes will be lost.
+
 #include "Optional.h"
 #include "TypeRepository.h"
 #include "cbridge/include/namerules/cbridge_NameRules.h"
