@@ -6,9 +6,11 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-#include "smoke/FooClass.h"
+#include "foo/Bar.h"
+#include "genium/Export.h"
+#include <cstdint>
+#include <string>
 #include <type_traits>
-
 namespace smoke {
 static_assert(
     std::is_same<

@@ -34,26 +34,18 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
 
         val hasConstants = cppModel.members.any { it is CppConstant }
         val hasTypedefs = cppModel.members.any { it is CppUsing }
-        val hasExternableElements =
-            cppModel.members.filterIsInstance<CppExternableElement>().isNotEmpty()
+        val externableElements =
+            cppModel.members.filterIsInstance<CppExternableElement>()
         val hasErrorEnums = cppModel.errorEnums.isNotEmpty()
-        val hasCode = hasConstants || hasExternableElements || hasErrorEnums || hasTypedefs
-        if (!hasCode) {
+
+        val needsHeader =
+            hasConstants || hasErrorEnums || hasTypedefs || externableElements.any { !it.isExternal }
+        val needsImplementation = needsHeader || externableElements.isNotEmpty()
+        if (!needsHeader && !needsImplementation) {
             return emptyList()
         }
 
         val relativeFilePath = cppModel.filename
-        val absoluteHeaderPath = Paths.get(
-            pathPrefix,
-            PACKAGE_NAME_SPECIFIER_INCLUDE,
-            relativeFilePath
-        ).toString() + HEADER_FILE_SUFFIX
-        val absoluteImplPath = Paths.get(
-            pathPrefix,
-            PACKAGE_NAME_SPECIFIER_SRC,
-            relativeFilePath
-        ).toString() + IMPLEMENTATION_FILE_SUFFIX
-
         // Filter out self-includes
         val includes = cppModel.includes
         includes.removeIf { it.fileName == relativeFilePath + HEADER_FILE_SUFFIX }
@@ -61,14 +53,29 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
 
         val result = mutableListOf<GeneratedFile>()
 
-        val headerContent = TemplateEngine.render("cpp/CppHeader", cppModel)
-        result.add(GeneratedFile(headerContent, absoluteHeaderPath))
+        if (needsHeader) {
+            val absoluteHeaderPath = Paths.get(
+                pathPrefix,
+                PACKAGE_NAME_SPECIFIER_INCLUDE,
+                relativeFilePath
+            ).toString() + HEADER_FILE_SUFFIX
 
-        cppModel.headerInclude =
-            Include.createInternalInclude(relativeFilePath + HEADER_FILE_SUFFIX)
+            val headerContent = TemplateEngine.render("cpp/CppHeader", cppModel)
+            result.add(GeneratedFile(headerContent, absoluteHeaderPath))
 
-        val implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel)
-        result.add(GeneratedFile(implementationContent, absoluteImplPath))
+            cppModel.includes.clear()
+            cppModel.includes.add(Include.createInternalInclude(relativeFilePath + HEADER_FILE_SUFFIX))
+        }
+        if (needsImplementation) {
+            val absoluteImplPath = Paths.get(
+                pathPrefix,
+                PACKAGE_NAME_SPECIFIER_SRC,
+                relativeFilePath
+            ).toString() + IMPLEMENTATION_FILE_SUFFIX
+
+            val implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel)
+            result.add(GeneratedFile(implementationContent, absoluteImplPath))
+        }
 
         return result
     }

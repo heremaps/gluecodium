@@ -31,7 +31,6 @@ class CppFile(
     includes: List<Include>,
     @Suppress("unused") val forwardDeclarations: List<CppForwardDeclarationGroup>,
     @Suppress("unused") val errorEnums: List<CppEnum>,
-    var headerInclude: Include? = null,
     @Suppress("unused") var exportName: String? = null,
     var internalNamespace: List<String>? = null
 ) {
