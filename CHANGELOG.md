@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Breaking changes:
+  + The comment header warning "Automatically generated, do not change..." is no longer generated
+    automatically. If needed it can be manually added at the end of the copyright header.
+
 ## 5.3.0
 - Release date: 2019-09-03
 - Features:
