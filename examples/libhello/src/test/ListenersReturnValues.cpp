@@ -69,8 +69,8 @@ MessageDeliveryImpl::get_mapped_message( const std::shared_ptr< ListenerWithRetu
 std::string
 MessageDeliveryImpl::get_buffered_message( const std::shared_ptr< ListenerWithReturn >& envelope )
 {
-    return std::string(
-        reinterpret_cast< char const* >( envelope->get_buffered_message( )->data( ) ) );
+    auto char_vector = envelope->get_buffered_message( );
+    return std::string( char_vector->cbegin( ), char_vector->cend( ) );
 }
 
 std::shared_ptr< MessageDelivery >

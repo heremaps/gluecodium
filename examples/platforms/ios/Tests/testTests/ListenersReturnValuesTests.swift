@@ -59,7 +59,7 @@ class ListenersReturnValuesTests: XCTestCase {
           }
 
           public func getBufferedMessage() -> Data {
-              return Data([0x57, 0x6F, 0x72, 0x6B, 0x73, 0x00])
+              return Data([0x57, 0x6F, 0x72, 0x6B, 0x73])
           }
       }
 
