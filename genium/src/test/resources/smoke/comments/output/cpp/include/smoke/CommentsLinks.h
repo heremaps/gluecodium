@@ -9,7 +9,6 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Return.h"
-#include "genium/TypeRepository.h"
 #include "smoke/Comments.h"
 #include <system_error>
 namespace smoke {

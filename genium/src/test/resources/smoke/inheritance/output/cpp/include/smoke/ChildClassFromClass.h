@@ -8,7 +8,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
-#include "genium/TypeRepository.h"
 #include "smoke/ParentClass.h"
 namespace smoke {
 class _GENIUM_CPP_EXPORT ChildClassFromClass: public ::smoke::ParentClass {

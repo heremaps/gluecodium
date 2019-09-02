@@ -10,7 +10,6 @@
 #include "foo/Bar.h"
 #include "genium/Export.h"
 #include "genium/Hash.h"
-#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include <cstdint>
 #include <string>

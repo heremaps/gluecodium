@@ -10,7 +10,6 @@
 #include "Export.h"
 #include "Hash.h"
 #include "Return.h"
-#include "TypeRepository.h"
 #include "VectorHash.h"
 #include <cstdint>
 #include <memory>

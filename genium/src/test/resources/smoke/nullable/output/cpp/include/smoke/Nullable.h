@@ -10,7 +10,6 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Optional.h"
-#include "genium/TypeRepository.h"
 #include "genium/UnorderedMapHash.h"
 #include "genium/VectorHash.h"
 #include "smoke/SomeInterface.h"

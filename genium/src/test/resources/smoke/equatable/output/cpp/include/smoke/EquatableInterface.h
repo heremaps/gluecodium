@@ -9,7 +9,6 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
-#include "genium/TypeRepository.h"
 #include "smoke/PointerEquatableInterface.h"
 #include <cstdint>
 #include <memory>

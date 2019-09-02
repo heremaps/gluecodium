@@ -9,7 +9,6 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Return.h"
-#include "genium/TypeRepository.h"
 #include "package/Interface.h"
 #include "package/Types.h"
 #include <memory>

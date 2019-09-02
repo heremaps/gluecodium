@@ -9,7 +9,6 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Return.h"
-#include "genium/TypeRepository.h"
 #include "smoke/FreeEnum.h"
 #include "smoke/FreePoint.h"
 #include "smoke/FreeTypeDef.h"

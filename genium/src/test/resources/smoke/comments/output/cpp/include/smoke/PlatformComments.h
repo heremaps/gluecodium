@@ -10,7 +10,6 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Return.h"
-#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 #include <system_error>

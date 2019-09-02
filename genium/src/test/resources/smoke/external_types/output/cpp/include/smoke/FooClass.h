@@ -9,9 +9,7 @@
 #pragma once
 #include "foo/Bar.h"
 #include "genium/Export.h"
-#include "genium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 namespace smoke {
 }
-

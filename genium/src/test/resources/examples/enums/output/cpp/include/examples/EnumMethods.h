@@ -9,7 +9,6 @@
 #pragma once
 #include "examples/Enums.h"
 #include "genium/Export.h"
-#include "genium/TypeRepository.h"
 namespace examples {
 class _GENIUM_CPP_EXPORT EnumMethods {
 public:

@@ -8,7 +8,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
-#include "genium/TypeRepository.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>

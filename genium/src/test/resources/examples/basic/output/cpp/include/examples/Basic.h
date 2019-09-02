@@ -8,7 +8,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
-#include "genium/TypeRepository.h"
 #include <string>
 namespace examples {
 class _GENIUM_CPP_EXPORT Basic {

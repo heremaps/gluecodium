@@ -9,7 +9,6 @@
 #pragma once
 #include "examples/CalculatorListener.h"
 #include "genium/Export.h"
-#include "genium/TypeRepository.h"
 #include <memory>
 namespace examples {
     class Calculator;
