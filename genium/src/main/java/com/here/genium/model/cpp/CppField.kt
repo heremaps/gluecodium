@@ -31,8 +31,8 @@ class CppField(
     val hasImmutableType: Boolean = false,
     val isClassEquatable: Boolean = false,
     val isClassPointerEquatable: Boolean = false,
-    @Suppress("unused") val externalGetter: String? = null,
-    @Suppress("unused") val externalSetter: String? = null
+    val getterName: String? = null,
+    val setterName: String? = null
 ) : CppTypedElement(name, fullyQualifiedName, type) {
 
     override fun stream() = Stream.of(type, initializer)

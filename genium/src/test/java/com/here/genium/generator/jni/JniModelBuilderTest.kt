@@ -58,8 +58,6 @@ import com.here.genium.model.jni.JniParameter
 import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniType
 import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeClass
@@ -519,14 +517,15 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingFieldReadsExternalAccessors() {
-        val limeElement = LimeField(
-            EMPTY_PATH,
-            typeRef = limeTypeRef,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_GETTER, "get_foo")
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_SETTER, "setFoo")
-                .build()
+        val limeElement = LimeField(EMPTY_PATH, typeRef = limeTypeRef)
+        val cppFieldWithAccessors = CppField(
+            name = "cPpClass",
+            fullyQualifiedName = "neSTed::cPpClass",
+            type = cppCustomType,
+            getterName = "get_foo",
+            setterName = "setFoo"
         )
+        every { cppBuilder.getFinalResult(CppField::class.java) } returns cppFieldWithAccessors
 
         modelBuilder.finishBuilding(limeElement)
 

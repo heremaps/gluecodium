@@ -56,7 +56,6 @@ import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniTopLevelElement
 import com.here.genium.model.jni.JniType
 import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -211,18 +210,11 @@ class JniModelBuilder(
 
         val jniField = JniField(
             javaName = javaField.name,
-            javaCustomType = if (javaField.type is JavaCustomType) JniNameRules.getFullClassName(
-                javaField.type
-            ) else null,
+            javaCustomType =
+                (javaField.type as? JavaCustomType)?.let { JniNameRules.getFullClassName(it) },
             cppField = cppField,
-            cppGetterName = limeField.attributes.get(
-                LimeAttributeType.CPP,
-                LimeAttributeValueType.EXTERNAL_GETTER
-            ),
-            cppSetterName = limeField.attributes.get(
-                LimeAttributeType.CPP,
-                LimeAttributeValueType.EXTERNAL_SETTER
-            )
+            cppGetterName = cppField.getterName,
+            cppSetterName = cppField.setterName
         )
 
         storeResult(jniField)

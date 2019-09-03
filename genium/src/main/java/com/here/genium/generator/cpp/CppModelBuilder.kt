@@ -235,6 +235,8 @@ class CppModelBuilder(
 
         val allTypes = LimeTypeHelper.getAllFieldTypes(limeField.typeRef.type)
         val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
+        val externalGetter = limeField.attributes.get(CPP, EXTERNAL_GETTER)
+        val externalSetter = limeField.attributes.get(CPP, EXTERNAL_SETTER)
 
         val cppField = CppField(
             name = nameResolver.getName(limeField),
@@ -246,8 +248,8 @@ class CppModelBuilder(
             hasImmutableType = hasImmutableType,
             isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE),
             isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
-            externalGetter = limeField.attributes.get(CPP, EXTERNAL_GETTER),
-            externalSetter = limeField.attributes.get(CPP, EXTERNAL_SETTER)
+            getterName = externalGetter,
+            setterName = externalSetter
         )
         cppField.comment = createComments(limeField)
 

@@ -41,8 +41,6 @@ import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
@@ -219,11 +217,11 @@ class CBridgeModelBuilder(
         }
 
         val cField = CField(
-            swiftField.name,
-            cppField.name,
-            cppTypeInfo,
-            limeField.attributes.get(CPP, EXTERNAL_GETTER),
-            limeField.attributes.get(CPP, EXTERNAL_SETTER)
+            swiftLayerName = swiftField.name,
+            baseLayerName = cppField.name,
+            type = cppTypeInfo,
+            baseLayerGetterName = cppField.getterName,
+            baseLayerSetterName = cppField.setterName
         )
 
         storeResult(cField)

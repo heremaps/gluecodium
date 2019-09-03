@@ -39,8 +39,6 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeClass
@@ -500,14 +498,15 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingFieldReadsExternalAccessors() {
-        val limeElement = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_GETTER, "getFooBar")
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_SETTER, "setBarBaz")
-                .build()
+        val limeElement = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val cppFieldWithAccessors = CppField(
+            name = "cppFooField",
+            fullyQualifiedName = "Nested.cppFooField",
+            type = CppPrimitiveTypeRef.VOID,
+            getterName = "getFooBar",
+            setterName = "setBarBaz"
         )
+        every { cppModelBuilder.getFinalResult(CppField::class.java) } returns cppFieldWithAccessors
         contextStack.injectResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
