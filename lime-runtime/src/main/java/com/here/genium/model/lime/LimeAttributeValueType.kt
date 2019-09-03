@@ -29,7 +29,8 @@ enum class LimeAttributeValueType(private val tag: String) {
     EXTERNAL_TYPE("ExternalType"),
     EXTERNAL_NAME("ExternalName"),
     EXTERNAL_GETTER("ExternalGetter"),
-    EXTERNAL_SETTER("ExternalSetter");
+    EXTERNAL_SETTER("ExternalSetter"),
+    ACCESSORS("Accessors");
 
     override fun toString() = tag
 }

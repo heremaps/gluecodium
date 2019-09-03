@@ -66,6 +66,22 @@ struct _GENIUM_CPP_EXPORT StructWithArrayOfImmutable {
     ::smoke::Structs::ArrayOfImmutable array_field;
     StructWithArrayOfImmutable( const ::smoke::Structs::ArrayOfImmutable& array_field );
 };
+struct _GENIUM_CPP_EXPORT ImmutableStructWithCppAccessors {
+private:
+    ::std::string string_field;
+public:
+    ImmutableStructWithCppAccessors( const ::std::string& string_field );
+    ::std::string get_string_field( ) const { return string_field; }
+};
+struct _GENIUM_CPP_EXPORT MutableStructWithCppAccessors {
+private:
+    ::std::string string_field;
+public:
+    MutableStructWithCppAccessors( );
+    MutableStructWithCppAccessors( const ::std::string& string_field );
+    ::std::string get_string_field( ) const { return string_field; }
+    void set_string_field( const ::std::string& value_ ) { string_field = value_; }
+};
 public:
 static ::smoke::Structs::Point swap_point_coordinates( const ::smoke::Structs::Point& input );
 static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );

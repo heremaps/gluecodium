@@ -27,16 +27,19 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeTypedElement
 
 class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     override fun getName(limeElement: LimeElement) =
         getPlatformName(limeElement as? LimeNamedElement) ?: super.getName(limeElement)
 
-    override fun getGetterName(limeProperty: LimeProperty) =
-        getPlatformName(limeProperty.getter) ?: super.getGetterName(limeProperty)
+    override fun getGetterName(limeElement: LimeTypedElement) =
+        (limeElement as? LimeProperty)?.let { getPlatformName(it.getter) }
+            ?: super.getGetterName(limeElement)
 
-    override fun getSetterName(limeProperty: LimeProperty) =
-        getPlatformName(limeProperty.setter) ?: super.getSetterName(limeProperty)
+    override fun getSetterName(limeElement: LimeTypedElement) =
+        (limeElement as? LimeProperty)?.let { getPlatformName(it.setter) }
+            ?: super.getSetterName(limeElement)
 
     fun getImplementationClassName(limeElement: LimeNamedElement) = getName(limeElement) + "Impl"
 

@@ -66,10 +66,18 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::s
 ::genium::optional<::smoke::Structs::ExternalStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::ExternalStruct>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::ExternalStruct> _ninput);
+::smoke::Structs::ImmutableStructWithCppAccessors convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ImmutableStructWithCppAccessors* dummy);
+::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ImmutableStructWithCppAccessors& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors> _ninput);
 ::smoke::Structs::Line convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Line* dummy);
 ::genium::optional<::smoke::Structs::Line> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::Line>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::Line> _ninput);
+::smoke::Structs::MutableStructWithCppAccessors convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::MutableStructWithCppAccessors* dummy);
+::genium::optional<::smoke::Structs::MutableStructWithCppAccessors> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::MutableStructWithCppAccessors& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors> _ninput);
 ::smoke::Structs::NestingImmutableStruct convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::NestingImmutableStruct* dummy);
 ::genium::optional<::smoke::Structs::NestingImmutableStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::NestingImmutableStruct>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _ninput);

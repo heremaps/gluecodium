@@ -30,7 +30,7 @@ _baseRef
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{type.name}}>( {{name}} ){{/case}}{{!!
     }}{{#default}}Conversion<{{type}}>::toCpp( {{name}} ){{/default}}{{!!
-}}{{/switch}}{{#if baseLayerSetterName}} ){{/if}};
+}}{{/switch}}{{#unless hasImmutableFields}}{{#if baseLayerSetterName}} ){{/if}}{{/unless}};
 {{/fields}}
 {{#if hasImmutableFields}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{/if}}
     return reinterpret_cast<_baseRef>( _struct );
@@ -54,7 +54,7 @@ _baseRef
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{type.name}}>( {{name}} ){{/case}}{{!!
     }}{{#default}}Conversion<{{type}}>::toCpp( {{name}} ){{/default}}{{!!
-}}{{/switch}}{{#if baseLayerSetterName}} ){{/if}};
+}}{{/switch}}{{#unless hasImmutableFields}}{{#if baseLayerSetterName}} ){{/if}}{{/unless}};
 {{/fields}}
 {{#if hasImmutableFields}}    auto _struct = new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{baseApiName}}>( {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} ) );{{/if}}
     return reinterpret_cast<_baseRef>( _struct );

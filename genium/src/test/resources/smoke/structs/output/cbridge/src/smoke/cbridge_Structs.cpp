@@ -410,6 +410,68 @@ _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle
     auto struct_pointer = get_pointer<::smoke::Structs::StructWithArrayOfImmutable>(handle);
 return Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toBaseRef(struct_pointer->array_field);
 }
+_baseRef
+smoke_Structs_ImmutableStructWithCppAccessors_create_handle( _baseRef stringField )
+{
+    auto _stringField = Conversion<std::string>::toCpp( stringField );
+    ::smoke::Structs::ImmutableStructWithCppAccessors* _struct = new ( std::nothrow ) ::smoke::Structs::ImmutableStructWithCppAccessors( _stringField );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_Structs_ImmutableStructWithCppAccessors_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::ImmutableStructWithCppAccessors>( handle );
+}
+_baseRef
+smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(_baseRef stringField)
+{
+    auto _stringField = Conversion<std::string>::toCpp( stringField );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>( ::smoke::Structs::ImmutableStructWithCppAccessors( _stringField ) );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_Structs_ImmutableStructWithCppAccessors_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle ) );
+}
+void smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle );
+}
+_baseRef smoke_Structs_ImmutableStructWithCppAccessors_stringField_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::Structs::ImmutableStructWithCppAccessors>(handle);
+return Conversion<std::string>::toBaseRef(struct_pointer->get_string_field());
+}
+_baseRef
+smoke_Structs_MutableStructWithCppAccessors_create_handle( _baseRef stringField )
+{
+    ::smoke::Structs::MutableStructWithCppAccessors* _struct = new ( std::nothrow ) ::smoke::Structs::MutableStructWithCppAccessors();
+    _struct->set_string_field( Conversion<std::string>::toCpp( stringField ) );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_Structs_MutableStructWithCppAccessors_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::MutableStructWithCppAccessors>( handle );
+}
+_baseRef
+smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(_baseRef stringField)
+{
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>( ::smoke::Structs::MutableStructWithCppAccessors( ) );
+    (*_struct)->set_string_field( Conversion<std::string>::toCpp( stringField ) );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_Structs_MutableStructWithCppAccessors_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle ) );
+}
+void smoke_Structs_MutableStructWithCppAccessors_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle );
+}
+_baseRef smoke_Structs_MutableStructWithCppAccessors_stringField_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::Structs::MutableStructWithCppAccessors>(handle);
+return Conversion<std::string>::toBaseRef(struct_pointer->get_string_field());
+}
 _baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {
     return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::swap_point_coordinates(Conversion<::smoke::Structs::Point>::toCpp(input)))
 ;

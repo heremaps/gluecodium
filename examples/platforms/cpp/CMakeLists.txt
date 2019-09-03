@@ -51,6 +51,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  EXCLUDE_FROM_ALL)
 
 set(SOURCES
+  tests/ImmutableStructsTest.cpp
   tests/OptionalTest.cpp
   tests/ReturnTest.cpp
   tests/RuntimeTypeInformationTest.cpp

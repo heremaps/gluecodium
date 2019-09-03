@@ -20,12 +20,21 @@
   !}}
 {{#unless isExternal}}
 struct {{>cpp/CppExportMacro}}{{name}} {
+{{#if hasAccessors}}
+private:
+{{#fields}}
+    {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
+{{/fields}}
+public:
+{{/if}}{{!!
+}}{{#unless hasAccessors}}
 {{#fields}}
 {{#if hasComment}}
 {{prefixPartial "cpp/CppFieldComment" "    "}}
 {{/if}}
     {{#if isImmutable}}const {{/if}}{{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
-{{/fields}}{{!!
+{{/fields}}
+{{/unless}}{{!!
 }}{{#if fields}}
 
 {{#if hasDefaultConstructor}}
@@ -61,7 +70,19 @@ struct {{>cpp/CppExportMacro}}{{name}} {
     {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
 
 {{/if}}{{!!
-}}{{#if methods}}
+}}{{#if hasAccessors}}
+{{#fields}}
+{{#if hasComment}}
+{{prefixPartial "cpp/CppFieldComment" "    "}}
+{{/if}}
+    {{type.name}} {{getterName}}( ) const { return {{name}}; }{{#unless isImmutable}}
+{{#if hasComment}}
+{{prefixPartial "cpp/CppFieldComment" "    "}}
+{{/if}}
+    void {{setterName}}( {{>cpp/CppMethodParameterType}} value_ ) { {{name}} = value_; }{{/unless}}
+{{/fields}}
+
+{{/if}}{{!!}}{{#if methods}}
 {{#methods}}
     {{>cpp/CppMethodSignature}};
 {{/methods}}

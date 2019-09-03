@@ -34,6 +34,7 @@ class CppStruct(
     val constants: List<CppConstant> = emptyList(),
     val isEquatable: Boolean = false,
     val isImmutable: Boolean = false,
+    val hasAccessors: Boolean = false,
     var constructorComment: String? = null
 ) : CppExternableElement(name, fullyQualifiedName, includes, comment, isExternal) {
 

@@ -84,6 +84,15 @@ class PlainDataStructures {
     struct StructWithArrayOfImmutable {
         arrayField: ArrayOfImmutable
     }
+    @Cpp(Accessors)
+    @Immutable
+    struct ImmutableStructWithCppAccessors {
+        stringField: String
+    }
+    @Cpp(Accessors)
+    struct MutableStructWithCppAccessors {
+        stringField: String
+    }
     typealias ArrayOfImmutable = List<AllTypesImmutableStruct>
     typealias MapToImmutableStruct = Map<Int, AllTypesImmutableStruct>
     static fun MapOfImmutablesRoundTrip(

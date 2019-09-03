@@ -416,6 +416,20 @@ public final class Structs extends NativeBase {
             this.arrayField = arrayField;
         }
     }
+    public final static class ImmutableStructWithCppAccessors {
+        @NonNull
+        public final String stringField;
+        public ImmutableStructWithCppAccessors(@NonNull final String stringField) {
+            this.stringField = stringField;
+        }
+    }
+    public final static class MutableStructWithCppAccessors {
+        @NonNull
+        public String stringField;
+        public MutableStructWithCppAccessors(@NonNull final String stringField) {
+            this.stringField = stringField;
+        }
+    }
     /**
      * For internal use only.
      * @exclude

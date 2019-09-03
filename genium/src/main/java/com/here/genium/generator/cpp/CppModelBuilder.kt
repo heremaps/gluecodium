@@ -44,6 +44,7 @@ import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.genium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeConstant
@@ -222,6 +223,7 @@ class CppModelBuilder(
             constants = getPreviousResults(CppConstant::class.java),
             isEquatable = isEquatable,
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
+            hasAccessors = limeStruct.attributes.have(CPP, ACCESSORS),
             constructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
         )
 
@@ -230,13 +232,28 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeField: LimeField) {
+        val parentHasAccessors = limeField.path.hasParent &&
+            (limeReferenceMap[limeField.path.parent.toString()] as? LimeNamedElement)
+                ?.attributes?.have(CPP, ACCESSORS) ?: false
+
         val isNullable = limeField.typeRef.isNullable
         val isInstance = limeField.typeRef.type is LimeContainerWithInheritance
 
         val allTypes = LimeTypeHelper.getAllFieldTypes(limeField.typeRef.type)
         val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
+
         val externalGetter = limeField.attributes.get(CPP, EXTERNAL_GETTER)
         val externalSetter = limeField.attributes.get(CPP, EXTERNAL_SETTER)
+        val getterName = when {
+            externalGetter != null -> externalGetter
+            parentHasAccessors -> nameResolver.getGetterName(limeField)
+            else -> null
+        }
+        val setterName = when {
+            externalSetter != null -> externalSetter
+            parentHasAccessors -> nameResolver.getSetterName(limeField)
+            else -> null
+        }
 
         val cppField = CppField(
             name = nameResolver.getName(limeField),
@@ -248,8 +265,8 @@ class CppModelBuilder(
             hasImmutableType = hasImmutableType,
             isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE),
             isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
-            getterName = externalGetter,
-            setterName = externalSetter
+            getterName = getterName,
+            setterName = setterName
         )
         cppField.comment = createComments(limeField)
 

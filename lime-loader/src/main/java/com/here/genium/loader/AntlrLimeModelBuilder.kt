@@ -519,6 +519,7 @@ internal class AntlrLimeModelBuilder(
             "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
             "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER
             "ExternalSetter" -> LimeAttributeValueType.EXTERNAL_SETTER
+            "Accessors" -> LimeAttributeValueType.ACCESSORS
             else -> throw LimeLoadingException("Unsupported annotation value: '$id'")
         }
     }

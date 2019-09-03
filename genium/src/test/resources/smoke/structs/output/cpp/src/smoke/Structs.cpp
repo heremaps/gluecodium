@@ -94,6 +94,18 @@ Structs::StructWithArrayOfImmutable::StructWithArrayOfImmutable( const ::smoke::
     : array_field( array_field )
 {
 }
+Structs::ImmutableStructWithCppAccessors::ImmutableStructWithCppAccessors( const ::std::string& string_field )
+    : string_field( string_field )
+{
+}
+Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( )
+    : string_field{ }
+{
+}
+Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( const ::std::string& string_field )
+    : string_field( string_field )
+{
+}
 }
 namespace genium {
 std::size_t

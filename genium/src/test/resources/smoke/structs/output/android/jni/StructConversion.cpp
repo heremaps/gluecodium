@@ -662,6 +662,38 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::Externa
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
+::smoke::Structs::ImmutableStructWithCppAccessors
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ImmutableStructWithCppAccessors* dummy)
+{
+    ::std::string n_string_field = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
+    return ::smoke::Structs::ImmutableStructWithCppAccessors(std::move(n_string_field));
+}
+::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ImmutableStructWithCppAccessors*)nullptr))
+        : ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ImmutableStructWithCppAccessors", ::smoke::Structs::ImmutableStructWithCppAccessors)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ImmutableStructWithCppAccessors& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Structs::ImmutableStructWithCppAccessors>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jstring_field = _ninput.get_string_field();
+    ::genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_field);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::smoke::Structs::Line
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Line* dummy)
 {
@@ -709,6 +741,40 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput)
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::Line> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::Structs::MutableStructWithCppAccessors
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::MutableStructWithCppAccessors* dummy)
+{
+    ::smoke::Structs::MutableStructWithCppAccessors _nout{};
+    ::std::string n_string_field = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
+    _nout.set_string_field(n_string_field);
+    return _nout;
+}
+::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::MutableStructWithCppAccessors*)nullptr))
+        : ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$MutableStructWithCppAccessors", ::smoke::Structs::MutableStructWithCppAccessors)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::MutableStructWithCppAccessors& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Structs::MutableStructWithCppAccessors>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jstring_field = _ninput.get_string_field();
+    ::genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_field);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::MutableStructWithCppAccessors> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

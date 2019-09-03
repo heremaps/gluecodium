@@ -24,6 +24,7 @@ import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeTypesCollection
@@ -56,6 +57,10 @@ class CppNameResolver(
         limeProperty.setter?.attributes?.get(CPP, EXTERNAL_NAME)
             ?: limeProperty.setter?.attributes?.get(CPP, NAME)
             ?: nameRules.getSetterName(limeProperty)
+
+    fun getGetterName(limeField: LimeField) = nameRules.getGetterName(limeField)
+
+    fun getSetterName(limeField: LimeField) = nameRules.getSetterName(limeField)
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
         getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)

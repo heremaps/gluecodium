@@ -76,6 +76,15 @@ class Structs {
     struct StructWithArrayOfImmutable {
         arrayField: ArrayOfImmutable
     }
+    @Cpp(Accessors)
+    @Immutable
+    struct ImmutableStructWithCppAccessors {
+        stringField: String
+    }
+    @Cpp(Accessors)
+    struct MutableStructWithCppAccessors {
+        stringField: String
+    }
 
     enum FooBar {
         FOO,

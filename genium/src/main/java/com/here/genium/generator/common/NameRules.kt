@@ -29,6 +29,7 @@ import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeHelper
+import com.here.genium.model.lime.LimeTypedElement
 
 open class NameRules(val ruleSet: NameRuleSet) {
     open fun getName(limeElement: LimeElement) =
@@ -50,13 +51,13 @@ open class NameRules(val ruleSet: NameRuleSet) {
         )
     }
 
-    open fun getGetterName(limeProperty: LimeProperty): String {
-        val type = LimeTypeHelper.getActualType(limeProperty.typeRef.type)
+    open fun getGetterName(limeElement: LimeTypedElement): String {
+        val type = LimeTypeHelper.getActualType(limeElement.typeRef.type)
         return ruleSet.getGetterName(
-            limeProperty.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
+            limeElement.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
         )
     }
 
-    open fun getSetterName(limeProperty: LimeProperty) =
-        ruleSet.getSetterName(limeProperty.name)
+    open fun getSetterName(limeElement: LimeTypedElement) =
+        ruleSet.getSetterName(limeElement.name)
 }

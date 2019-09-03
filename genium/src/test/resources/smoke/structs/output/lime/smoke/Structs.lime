@@ -60,6 +60,15 @@ class Structs {
     struct StructWithArrayOfImmutable {
         arrayField: ArrayOfImmutable
     }
+    @Cpp(Accessors)
+    @Immutable
+    struct ImmutableStructWithCppAccessors {
+        stringField: String
+    }
+    @Cpp(Accessors)
+    struct MutableStructWithCppAccessors {
+        stringField: String
+    }
     static fun swapPointCoordinates(
         input: Point
     ): Point

@@ -1,6 +1,8 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Features:
+  + Added support for `@Cpp(Accessors)` attribute for structs.
 - Breaking changes:
   + The comment header warning "Automatically generated, do not change..." is no longer generated
     automatically. If needed it can be manually added at the end of the copyright header.

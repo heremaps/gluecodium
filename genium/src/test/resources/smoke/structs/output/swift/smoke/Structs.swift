@@ -162,6 +162,24 @@ public class Structs {
             arrayField = moveFromCType(smoke_Structs_StructWithArrayOfImmutable_arrayField_get(cHandle))
         }
     }
+    public struct ImmutableStructWithCppAccessors {
+        public let stringField: String
+        public init(stringField: String) {
+            self.stringField = stringField
+        }
+        internal init(cHandle: _baseRef) {
+            stringField = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_stringField_get(cHandle))
+        }
+    }
+    public struct MutableStructWithCppAccessors {
+        public var stringField: String
+        public init(stringField: String) {
+            self.stringField = stringField
+        }
+        internal init(cHandle: _baseRef) {
+            stringField = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_stringField_get(cHandle))
+        }
+    }
     public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_swapPointCoordinates(c_input.ref))
@@ -608,6 +626,84 @@ internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> R
 }
 internal func moveToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_StructWithArrayOfImmutable_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCppAccessors {
+    return Structs.ImmutableStructWithCppAccessors(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCppAccessors {
+    defer {
+        smoke_Structs_ImmutableStructWithCppAccessors_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors) -> RefHolder {
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_Structs_ImmutableStructWithCppAccessors_create_handle(c_stringField.ref))
+}
+internal func moveToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ImmutableStructWithCppAccessors_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCppAccessors? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_ImmutableStructWithCppAccessors_unwrap_optional_handle(handle)
+    return Structs.ImmutableStructWithCppAccessors(cHandle: unwrappedHandle) as Structs.ImmutableStructWithCppAccessors
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCppAccessors? {
+    defer {
+        smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(c_stringField.ref))
+}
+internal func moveToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppAccessors {
+    return Structs.MutableStructWithCppAccessors(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppAccessors {
+    defer {
+        smoke_Structs_MutableStructWithCppAccessors_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.MutableStructWithCppAccessors) -> RefHolder {
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_Structs_MutableStructWithCppAccessors_create_handle(c_stringField.ref))
+}
+internal func moveToCType(_ swiftType: Structs.MutableStructWithCppAccessors) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_MutableStructWithCppAccessors_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppAccessors? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_MutableStructWithCppAccessors_unwrap_optional_handle(handle)
+    return Structs.MutableStructWithCppAccessors(cHandle: unwrappedHandle) as Structs.MutableStructWithCppAccessors
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppAccessors? {
+    defer {
+        smoke_Structs_MutableStructWithCppAccessors_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.MutableStructWithCppAccessors?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(c_stringField.ref))
+}
+internal func moveToCType(_ swiftType: Structs.MutableStructWithCppAccessors?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_MutableStructWithCppAccessors_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
