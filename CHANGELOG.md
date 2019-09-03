@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.3.0
+- Release date: 2019-09-03
 - Features:
   + Subclasses are now passed as their actual type from C++ to Java/Swift.
   + Added compile-time validation for "external" types in C++.
