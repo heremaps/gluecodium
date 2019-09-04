@@ -6,6 +6,10 @@
 - Breaking changes:
   + The comment header warning "Automatically generated, do not change..." is no longer generated
     automatically. If needed it can be manually added at the end of the copyright header.
+  + Java exceptions are now named after LimeIDL exceptions by appending "Exception" suffix to the
+    IDL name. The suffix can be adjusted with custom naming rules.
+  + Swift errors are now named after LimeIDL exceptions by appending "Error" suffix to the IDL name.
+    The suffix can be adjusted with custom naming rules.
 
 ## 5.3.0
 - Release date: 2019-09-03

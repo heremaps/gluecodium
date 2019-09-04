@@ -11,7 +11,7 @@ C++ documentation comments
 * Doxygen markup is added to the generated documentation comments.
 * Each documentation comment is enclosed in `/**` and `*/` "brackets".
 * Each line of a multi-line comment is prefixed with `*`.
-* The text for the documentation comment is taken verbatim from its FIDL definition, with some
+* The text for the documentation comment is taken verbatim from its IDL definition, with some
   exceptions outlined below.
 
 ### Method comment
@@ -33,7 +33,7 @@ Java documentation comments
 * JavaDoc markup is added to the generated documentation comments.
 * Each documentation comment is enclosed in `/**` and `*/` "brackets".
 * Each line of a multi-line comment is prefixed with `*`.
-* The text for the documentation comment is taken verbatim from its FIDL definition, with some
+* The text for the documentation comment is taken verbatim from its IDL definition, with some
   exceptions outlined below.
 
 ### Method comment
@@ -54,7 +54,7 @@ Swift documentation comments
 ### General conventions
 * Markdown markup is added to the generated documentation comments.
 * Each line of a multi-line comment is prefixed with `///`.
-* The text for the documentation comment is taken verbatim from its FIDL definition, with some
+* The text for the documentation comment is taken verbatim from its IDL definition, with some
   exceptions outlined below.
 * An inline code block which is exactly `null` is replaced by `nil`.
 

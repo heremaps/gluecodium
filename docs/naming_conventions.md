@@ -98,7 +98,7 @@ Default Java names
 * Property setter names are prefixed with `set`.
 
 ### Method overloads ambiguity resolution
-Arrays and Maps defined in FIDL definition are generated as List<> and Map<> generics in Java
+Arrays and Maps defined in IDL definition are generated as List<> and Map<> generics in Java
 respectively. Since Java language applies type erasure to its generics, declaring two method
 overloads that differ only in the parameters of the generic (e.g. element type of the array) leads
 to a compile-time error. This can be resolved manually at LimeIDL level by specifying alternative
@@ -146,5 +146,7 @@ method=lowerCamelCase
 property=lowerCamelCase
 property.prefix.boolean=is
 type=UpperCamelCase
+error=UpperCamelCase
+error.suffix=Error
 
 ```
