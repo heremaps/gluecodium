@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -29,7 +28,7 @@ public class UseFreeTypes {
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw FreeEnum(rawValue: RESULT.error_code)!
+            throw FreeError(rawValue: RESULT.error_code)!
         }
     }
 }

@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_StructsWithMethods.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "genium/Optional.h"
@@ -67,6 +66,6 @@ smoke_StructsWithMethods_Vector_create_Vector_result smoke_StructsWithMethods_Ve
         return {true, .returned_value = Conversion<::smoke::Vector>::toBaseRef(RESULT.unsafe_value())
 };
     } else {
-        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationError >(RESULT.error().value())};
+        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }

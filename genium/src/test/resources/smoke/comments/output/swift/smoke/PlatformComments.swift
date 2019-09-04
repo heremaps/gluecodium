@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -13,6 +12,8 @@ internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder
 }
 public class PlatformComments {
     public typealias Boom = PlatformComments.SomeEnum
+    /// An error when something goes wrong.
+    public typealias SomethingWrongError = PlatformComments.SomeEnum
     let c_instance : _baseRef
     init(cPlatformComments: _baseRef) {
         guard cPlatformComments != 0 else {
@@ -38,14 +39,14 @@ public class PlatformComments {
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful parameter
     /// - Returns: Usefulness of the input
-    /// - Throws: `PlatformComments.SomeEnum` Sometimes it happens but not on iOS `PlatformComments.SomeEnum`.
+    /// - Throws: `PlatformComments.SomethingWrongError` Sometimes it happens but not on iOS `PlatformComments.SomethingWrongError`.
     public func someMethodWithAllComments(input: String) throws -> Bool {
         let c_input = moveToCType(input)
         let RESULT = smoke_PlatformComments_someMethodWithAllComments(self.c_instance, c_input.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw PlatformComments.SomeEnum(rawValue: RESULT.error_code)!
+            throw PlatformComments.SomethingWrongError(rawValue: RESULT.error_code)!
         }
     }
 }
@@ -112,6 +113,5 @@ internal func moveFromCType(_ handle: _baseRef) -> PlatformComments.SomeEnum? {
     }
     return copyFromCType(handle)
 }
-/// An error when something goes wrong.
 extension PlatformComments.SomeEnum : Error {
 }

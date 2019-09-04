@@ -25,7 +25,7 @@ class ErrorsTests: XCTestCase {
 
     func testMethodWithErrorThrows() {
       XCTAssertThrowsError(try Errors.methodWithError(errorFlag: true)) { error in
-        XCTAssertEqual(error as? Errors.InternalErrors, Errors.InternalErrors.crashed)
+        XCTAssertEqual(error as? Errors.InternalError, Errors.InternalError.crashed)
       }
     }
 
@@ -35,7 +35,7 @@ class ErrorsTests: XCTestCase {
 
     func testMethodWithErrorAndStringThrows() {
       XCTAssertThrowsError(try Errors.methodWithErrorAndString(errorFlag: true)) { error in
-        XCTAssertEqual(error as? AdditionalErrors.ExternalErrors, AdditionalErrors.ExternalErrors.failed)
+        XCTAssertEqual(error as? AdditionalErrors.ExternalError, AdditionalErrors.ExternalError.failed)
       }
     }
 
@@ -45,7 +45,7 @@ class ErrorsTests: XCTestCase {
 
     func testMethodThatExplodesThrows() {
       XCTAssertThrowsError(try Errors.methodThatExplodes(errorFlag: true)) { error in
-        XCTAssertEqual(error as? ExplosiveErrors, ExplosiveErrors.exploded)
+        XCTAssertEqual(error as? ExplosiveError, ExplosiveError.exploded)
       }
     }
 
@@ -55,7 +55,7 @@ class ErrorsTests: XCTestCase {
 
     func testMethodWithGoodAndBadThrows() {
       XCTAssertThrowsError(try Errors.methodWithGoodAndBad(errorFlag: true)) { error in
-        XCTAssertEqual(error as? YetAnotherErrors, YetAnotherErrors.bad)
+        XCTAssertEqual(error as? YetAnotherError, YetAnotherError.bad)
       }
     }
 
@@ -65,7 +65,7 @@ class ErrorsTests: XCTestCase {
 
     func testMethodWithExternalErrorThrows() {
       XCTAssertThrowsError(try Errors.methodWithExternalError(errorFlag: true)) { error in
-        XCTAssertEqual(error as? Errors.ExternalErrors, Errors.ExternalErrors.boom)
+        XCTAssertEqual(error as? Errors.ExternalError, Errors.ExternalError.boom)
       }
     }
 
@@ -76,7 +76,7 @@ class ErrorsTests: XCTestCase {
     func testGetErrorCategoryMessage() {
       let result = Errors.getErrorCategoryMessage(value: .crashed)
 
-      XCTAssertEqual(result, "::test::Errors::InternalErrors::CRASHED")
+      XCTAssertEqual(result, "::test::Errors::InternalErrorCode::CRASHED")
     }
 
     static var allTests = [

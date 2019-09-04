@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_ErrorsInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -34,7 +33,7 @@ void* smoke_ErrorsInterface_get_typed(_baseRef handle) {
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ErrorsInterface(handle);
 }
-smoke_ErrorsInterface_InternalError smoke_ErrorsInterface_methodWithErrors(_baseRef _instance) {
+smoke_ErrorsInterface_InternalErrorCode smoke_ErrorsInterface_methodWithErrors(_baseRef _instance) {
     return get_pointer<std::shared_ptr<::smoke::ErrorsInterface>>(_instance)->get()->method_with_errors().value();
 }
 smoke_ErrorsInterface_ExternalErrors smoke_ErrorsInterface_methodWithExternalErrors(_baseRef _instance) {
@@ -46,7 +45,7 @@ smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result smoke_ErrorsInterfac
         return {true, .returned_value = Conversion<std::string>::toBaseRef(RESULT.unsafe_value())
 };
     } else {
-        return {false, .error_code = static_cast< smoke_ErrorsInterface_InternalError >(RESULT.error().value())};
+        return {false, .error_code = static_cast< smoke_ErrorsInterface_InternalErrorCode >(RESULT.error().value())};
     }
 }
 class smoke_ErrorsInterfaceProxy : public std::shared_ptr<::smoke::ErrorsInterface>::element_type, public CachedProxyBase<smoke_ErrorsInterfaceProxy> {
@@ -59,14 +58,14 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     ::std::error_code method_with_errors() override {
-        return static_cast<::smoke::ErrorsInterface::InternalError>(mFunctions.smoke_ErrorsInterface_methodWithErrors(mFunctions.swift_pointer));    }
+        return static_cast<::smoke::ErrorsInterface::InternalErrorCode>(mFunctions.smoke_ErrorsInterface_methodWithErrors(mFunctions.swift_pointer));    }
     ::std::error_code method_with_external_errors() override {
         return static_cast<::smoke::ErrorsInterface::ExternalErrors>(mFunctions.smoke_ErrorsInterface_methodWithExternalErrors(mFunctions.swift_pointer));    }
     ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value() override {
         auto _result_with_error = mFunctions.smoke_ErrorsInterface_methodWithErrorsAndReturnValue(mFunctions.swift_pointer);
         if (!_result_with_error.has_value)
         {
-            return std::error_code{static_cast<::smoke::ErrorsInterface::InternalError>(_result_with_error.error_code)};
+            return std::error_code{static_cast<::smoke::ErrorsInterface::InternalErrorCode>(_result_with_error.error_code)};
         }
         auto _call_result = _result_with_error.returned_value;
         return Conversion<std::string>::toCppReturn(_call_result);

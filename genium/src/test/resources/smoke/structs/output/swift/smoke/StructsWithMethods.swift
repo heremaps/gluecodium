@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 public struct Vector {
     public var x: Double

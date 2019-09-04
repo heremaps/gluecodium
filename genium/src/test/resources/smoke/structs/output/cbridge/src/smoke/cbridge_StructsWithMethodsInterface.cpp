@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_StructsWithMethodsInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
@@ -84,6 +83,6 @@ smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWit
         return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())
 };
     } else {
-        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationError >(RESULT.error().value())};
+        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }

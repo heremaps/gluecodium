@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 @_cdecl("_CBridgeInitsmoke_Constructors")
 internal func _CBridgeInitsmoke_Constructors(handle: _baseRef) -> UnsafeMutableRawPointer {
@@ -17,6 +16,7 @@ internal func getRef(_ ref: Constructors?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Constructors {
+    public typealias ConstructorExplodedError = Constructors.ErrorEnum
     public init() {
         let _result = Constructors.create()
         guard _result != 0 else {
@@ -84,7 +84,7 @@ public class Constructors {
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw Constructors.ErrorEnum(rawValue: RESULT.error_code)!
+            throw Constructors.ConstructorExplodedError(rawValue: RESULT.error_code)!
         }
     }
     private static func create(input: [Double]) -> _baseRef {

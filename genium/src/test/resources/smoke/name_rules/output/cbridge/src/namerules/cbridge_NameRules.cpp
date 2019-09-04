@@ -1,6 +1,5 @@
 //
 //
-
 #include "Optional.h"
 #include "TypeRepository.h"
 #include "cbridge/include/namerules/cbridge_NameRules.h"
@@ -65,7 +64,7 @@ namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _i
         return {true, .returned_value = RESULT.unsafe_value()
 };
     } else {
-        return {false, .error_code = static_cast< namerules_NameRules_ExampleError >(RESULT.error().value())};
+        return {false, .error_code = static_cast< namerules_NameRules_ExampleErrorCode >(RESULT.error().value())};
     }
 }
 uint32_t namerules_NameRules_intProperty_get(_baseRef _instance) {

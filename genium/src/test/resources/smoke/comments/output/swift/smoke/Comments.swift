@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -15,6 +14,8 @@ internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {
 public class Comments {
     /// This is some very useful typedef.
     public typealias Usefulness = Bool
+    /// This is some very useful exception.
+    public typealias SomethingWrongError = Comments.SomeEnum
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
     /// Some very useful property.
@@ -66,14 +67,14 @@ public class Comments {
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
-    /// - Throws: `Comments.SomeEnum` Sometimes it happens.
+    /// - Throws: `Comments.SomethingWrongError` Sometimes it happens.
     public func someMethodWithAllComments(input: String) throws -> Comments.Usefulness {
         let c_input = moveToCType(input)
         let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_input.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw Comments.SomeEnum(rawValue: RESULT.error_code)!
+            throw Comments.SomethingWrongError(rawValue: RESULT.error_code)!
         }
     }
     /// This is some very useful method that measures the usefulness of its input.
@@ -248,6 +249,5 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
     }
     return copyFromCType(handle)
 }
-/// This is some very useful exception.
 extension Comments.SomeEnum : Error {
 }

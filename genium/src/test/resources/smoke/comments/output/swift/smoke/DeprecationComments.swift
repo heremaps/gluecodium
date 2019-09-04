@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 @_cdecl("_CBridgeInitsmoke_DeprecationComments")
 internal func _CBridgeInitsmoke_DeprecationComments(handle: _baseRef) -> UnsafeMutableRawPointer {
@@ -45,6 +44,8 @@ public protocol DeprecationComments : AnyObject {
     /// This is some very useful typedef.
     @available(*, deprecated, message: "Unfortunately, this typedef is deprecated. Use `Comments.Usefulness` instead.")
     typealias Usefulness = Bool
+    @available(*, deprecated, message: "Unfortunately, this exception is deprecated, please use `Comments.SomethingWrongError` instead.")
+    typealias SomethingWrongError = SomeEnum
     /// Some very useful property.
     @available(*, deprecated, message: "Unfortunately, this property is deprecated.
     Use `Comments.isSomeProperty` instead.")
@@ -142,7 +143,6 @@ internal func copyToCType(_ swiftClass: DeprecationComments?) -> RefHolder {
 internal func moveToCType(_ swiftClass: DeprecationComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-@available(*, deprecated, message: "Unfortunately, this exception is deprecated, please use `Comments.SomeEnum` instead.")
 extension SomeEnum : Error {
 }
 /// This is some very useful enum.

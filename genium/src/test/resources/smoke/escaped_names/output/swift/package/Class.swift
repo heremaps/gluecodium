@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 @_cdecl("_CBridgeInitpackage_Class")
 internal func _CBridgeInitpackage_Class(handle: _baseRef) -> UnsafeMutableRawPointer {
@@ -52,7 +51,7 @@ public class Class: Interface {
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw Enum(rawValue: RESULT.error_code)!
+            throw ExceptionError(rawValue: RESULT.error_code)!
         }
     }
 }

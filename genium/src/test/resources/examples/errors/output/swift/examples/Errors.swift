@@ -11,6 +11,7 @@ internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Errors {
+    public typealias FailError = Errors.InternalErrorCode
     let c_instance : _baseRef
     init(cErrors: _baseRef) {
         guard cErrors != 0 else {
@@ -29,7 +30,7 @@ public class Errors {
     public static func startSomethingOrFail() throws -> Void {
         let ERROR_CODE = examples_Errors_startSomethingOrFail()
         if (ERROR_CODE != 0) {
-            throw Errors.InternalErrorCode(rawValue: ERROR_CODE)!
+            throw Errors.FailError(rawValue: ERROR_CODE)!
         }
     }
     public static func getSomethingOrFail() throws -> String {
@@ -37,7 +38,7 @@ public class Errors {
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw Errors.InternalErrorCode(rawValue: RESULT.error_code)!
+            throw Errors.FailError(rawValue: RESULT.error_code)!
         }
     }
 }

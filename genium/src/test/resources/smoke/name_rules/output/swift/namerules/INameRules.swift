@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: INameRules?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -13,6 +12,7 @@ internal func getRef(_ ref: INameRules?, owning: Bool = true) -> RefHolder {
 }
 public class INameRules {
     public typealias IStringArray = [String]
+    public typealias ExampleError = INameRules.IExampleErrorCode
     public init() {
         let _result = INameRules.create()
         guard _result != 0 else {
@@ -57,7 +57,7 @@ public class INameRules {
     deinit {
         namerules_NameRules_release_handle(c_instance)
     }
-    public enum IExampleError : UInt32, CaseIterable {
+    public enum IExampleErrorCode : UInt32, CaseIterable {
         case none
         case fatal
     }
@@ -82,7 +82,7 @@ public class INameRules {
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw INameRules.IExampleError(rawValue: RESULT.error_code)!
+            throw INameRules.ExampleError(rawValue: RESULT.error_code)!
         }
     }
 }
@@ -160,35 +160,35 @@ internal func copyToCType(_ swiftType: INameRules.IExampleStruct?) -> RefHolder 
 internal func moveToCType(_ swiftType: INameRules.IExampleStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: namerules_NameRules_ExampleStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: INameRules.IExampleError) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: INameRules.IExampleErrorCode) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: INameRules.IExampleError) -> PrimitiveHolder<UInt32> {
+internal func moveToCType(_ swiftEnum: INameRules.IExampleErrorCode) -> PrimitiveHolder<UInt32> {
     return copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: INameRules.IExampleError?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: INameRules.IExampleErrorCode?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: INameRules.IExampleError?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: INameRules.IExampleErrorCode?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> INameRules.IExampleError {
-    return INameRules.IExampleError(rawValue: cValue)!
+internal func copyFromCType(_ cValue: UInt32) -> INameRules.IExampleErrorCode {
+    return INameRules.IExampleErrorCode(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> INameRules.IExampleError {
+internal func moveFromCType(_ cValue: UInt32) -> INameRules.IExampleErrorCode {
     return copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> INameRules.IExampleError? {
+internal func copyFromCType(_ handle: _baseRef) -> INameRules.IExampleErrorCode? {
     guard handle != 0 else {
         return nil
     }
-    return INameRules.IExampleError(rawValue: uint32_t_value_get(handle))!
+    return INameRules.IExampleErrorCode(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> INameRules.IExampleError? {
+internal func moveFromCType(_ handle: _baseRef) -> INameRules.IExampleErrorCode? {
     defer {
         uint32_t_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-extension INameRules.IExampleError : Error {
+extension INameRules.IExampleErrorCode : Error {
 }

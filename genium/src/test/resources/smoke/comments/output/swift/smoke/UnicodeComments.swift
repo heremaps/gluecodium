@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -25,14 +24,14 @@ public class UnicodeComments {
     /// Süßölgefäß
     /// - Parameter input: שלום
     /// - Returns: товарищ
-    /// - Throws: `Comments.SomeEnum` ネコ
+    /// - Throws: `Comments.SomethingWrongError` ネコ
     public func someMethodWithAllComments(input: String) throws -> Comments.Usefulness {
         let c_input = moveToCType(input)
         let RESULT = smoke_UnicodeComments_someMethodWithAllComments(self.c_instance, c_input.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw Comments.SomeEnum(rawValue: RESULT.error_code)!
+            throw Comments.SomethingWrongError(rawValue: RESULT.error_code)!
         }
     }
 }

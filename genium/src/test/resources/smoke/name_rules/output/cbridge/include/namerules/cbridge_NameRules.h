@@ -1,6 +1,5 @@
 //
 //
-
 #pragma once
 #ifdef __cplusplus
 extern "C" {
@@ -9,11 +8,11 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include <stdbool.h>
 #include <stdint.h>
-typedef uint32_t namerules_NameRules_ExampleError;
+typedef uint32_t namerules_NameRules_ExampleErrorCode;
 typedef struct {
     bool has_value;
     union {
-        namerules_NameRules_ExampleError error_code;
+        namerules_NameRules_ExampleErrorCode error_code;
         double returned_value;
     };
 } namerules_NameRules_someMethod_result;

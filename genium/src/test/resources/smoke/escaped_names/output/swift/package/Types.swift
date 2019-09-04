@@ -1,8 +1,8 @@
 //
 //
-
 import Foundation
 public typealias List = [Struct]
+public typealias ExceptionError = Enum
 extension Enum : Error {
 }
 public enum Enum : UInt32, CaseIterable {

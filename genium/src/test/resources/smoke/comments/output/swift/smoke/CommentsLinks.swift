@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -58,7 +57,7 @@ public class CommentsLinks {
     /// * top level struct field: `TypeCollectionStruct.field`
     /// * top level enum: `TypeCollectionEnum`
     /// * top level enum item: `TypeCollectionEnum.item`
-    /// * error: `Comments.SomeEnum`
+    /// * error: `Comments.SomethingWrongError`
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`
@@ -72,14 +71,14 @@ public class CommentsLinks {
     /// * output parameter: [outputParameter]
     /// - Parameter inputParameter: Sometimes takes `Comments.SomeEnum.useful`
     /// - Returns: Sometimes returns `Comments.SomeEnum.useful`
-    /// - Throws: `Comments.SomeEnum` May or may not throw `Comments.SomeEnum`
+    /// - Throws: `Comments.SomethingWrongError` May or may not throw `Comments.SomethingWrongError`
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
         let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_CommentsLinks_randomMethod(self.c_instance, c_inputParameter.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw Comments.SomeEnum(rawValue: RESULT.error_code)!
+            throw Comments.SomethingWrongError(rawValue: RESULT.error_code)!
         }
     }
 }
