@@ -1,13 +1,13 @@
 package smoke
 class PlatformComments {
     // {@Cpp An error code when something goes wrong.}
-    typealias BOOM = SomethingWrongException
+    typealias BOOM = SomethingWrong
     enum SomeEnum {
         Useless,
         Useful
     }
     // An {@Java exception}{@Swift error} when something goes wrong.
-    exception SomethingWrongException(SomeEnum)
+    exception SomethingWrong(SomeEnum)
     // This is some very useless method that {@Cpp does nothing}{@Java makes some coffee}{@Swift is very swift}.
     fun doNothing()
     // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Swift Eats a hip bruschetta.}
@@ -15,7 +15,7 @@ class PlatformComments {
     // This is some very useful method that measures the usefulness of its input.
     // @param[input] Very useful {@Cpp input [PlatformComments] }parameter
     // @return {@Cpp Usefulness}{@Java Uselessness [SomeEnum]}{@Swift Usefulness} of the input
-    // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrongException]}.
+    // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong]}.
     fun someMethodWithAllComments(
         input: String
     ): Boolean throws BOOM

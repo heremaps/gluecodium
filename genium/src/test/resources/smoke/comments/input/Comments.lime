@@ -46,7 +46,7 @@ class comments {
     // @param[input] Very useful input parameter
     // @return Usefulness of the input
     // @throws Sometimes it happens.
-    fun someMethodWithAllComments(input: String): Usefulness throws SomeEnumException
+    fun someMethodWithAllComments(input: String): Usefulness throws SomethingWrong
     // This is some very useful method that measures the usefulness of its input.
     // @param[input] Very useful input parameter
     fun someMethodWithInputComments(input: String): Usefulness
@@ -79,7 +79,7 @@ class comments {
     property SomeProperty: Usefulness
 
     // This is some very useful exception.
-    exception SomeEnumException(SomeEnum)
+    exception SomethingWrong(SomeEnum)
 }
 
 // This is some very useful interface.
@@ -159,7 +159,7 @@ class CommentsLinks {
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
-    // * error: [comments.SomeEnumException]
+    // * error: [comments.SomethingWrong]
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]
@@ -173,8 +173,8 @@ class CommentsLinks {
     // * output parameter: [outputParameter]
     // @param[inputParameter] Sometimes takes [comments.SomeEnum.Useful]
     // @return Sometimes returns [comments.SomeEnum.Useful]
-    // @throws May or may not throw [comments.SomeEnumException]
-    fun random_method(inputParameter: comments.SomeEnum): comments.SomeEnum throws comments.SomeEnumException
+    // @throws May or may not throw [comments.SomethingWrong]
+    fun random_method(inputParameter: comments.SomeEnum): comments.SomeEnum throws comments.SomethingWrong
 
     // Links also work in:
     // @constructor constructor comments [comments.SomeStruct]

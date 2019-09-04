@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -59,7 +58,7 @@ public final class CommentsLinks extends NativeBase {
      * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
      * <li>top level enum: {@link com.example.smoke.TypeCollectionEnum}</li>
      * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
-     * <li>error: {@link com.example.smoke.Comments.SomeEnumException}</li>
+     * <li>error: {@link com.example.smoke.Comments.SomethingWrongException}</li>
      * </ul>
      * <p>Not working for Java:</p>
      * <ul>
@@ -77,8 +76,8 @@ public final class CommentsLinks extends NativeBase {
      * </ul>
      * @param inputParameter <p>Sometimes takes {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
      * @return <p>Sometimes returns {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
-     * @throws Comments.SomeEnumException <p>May or may not throw {@link com.example.smoke.Comments.SomeEnumException}</p>
+     * @throws Comments.SomethingWrongException <p>May or may not throw {@link com.example.smoke.Comments.SomethingWrongException}</p>
      */
     @NonNull
-    public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws Comments.SomeEnumException;
+    public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws Comments.SomethingWrongException;
 }

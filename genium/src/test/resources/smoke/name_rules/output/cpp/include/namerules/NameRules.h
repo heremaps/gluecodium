@@ -21,7 +21,7 @@ public:
     NameRules();
     virtual ~NameRules() = 0;
 public:
-enum class ExampleError {
+enum class ExampleErrorCode {
     NONE,
     FATAL
 };
@@ -46,16 +46,16 @@ virtual void STORE_BOOLEAN_PROPERTY_NOW( const bool value ) = 0;
 virtual ::namerules::NameRules::ExampleStruct retrieve_struct_property(  ) const = 0;
 virtual void STORE_STRUCT_PROPERTY_NOW( const ::namerules::NameRules::ExampleStruct& value ) = 0;
 };
-_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::namerules::NameRules::ExampleError value ) noexcept;
+_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::namerules::NameRules::ExampleErrorCode value ) noexcept;
 }
 namespace std
 {
 template <>
-struct is_error_code_enum< ::namerules::NameRules::ExampleError > : public std::true_type { };
+struct is_error_code_enum< ::namerules::NameRules::ExampleErrorCode > : public std::true_type { };
 }
 namespace  {
 template<>
-struct hash< ::namerules::NameRules::ExampleError > {
-    std::size_t operator( )( const ::namerules::NameRules::ExampleError& t ) const;
+struct hash< ::namerules::NameRules::ExampleErrorCode > {
+    std::size_t operator( )( const ::namerules::NameRules::ExampleErrorCode& t ) const;
 };
 }

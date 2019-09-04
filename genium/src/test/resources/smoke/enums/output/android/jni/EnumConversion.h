@@ -22,10 +22,10 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::f
 ::genium::optional<::smoke::Enums::External_Enum> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::External_Enum>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::External_Enum> _ninput);
-::smoke::Enums::InternalError convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::InternalError* dummy);
-::genium::optional<::smoke::Enums::InternalError> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::InternalError>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::InternalError> _ninput);
+::smoke::Enums::InternalErrorCode convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::InternalErrorCode* dummy);
+::genium::optional<::smoke::Enums::InternalErrorCode> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::InternalErrorCode>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::InternalErrorCode _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::InternalErrorCode> _ninput);
 ::smoke::Enums::SimpleEnum convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum* dummy);
 ::genium::optional<::smoke::Enums::SimpleEnum> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::SimpleEnum>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput);

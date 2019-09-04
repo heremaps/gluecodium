@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.package;
 import android.support.annotation.NonNull;
@@ -18,7 +17,7 @@ public final class Class extends InterfaceImpl {
     }
     private static native long constructor();
     @NonNull
-    public native Struct fun(@NonNull final List<Struct> double) throws EnumException;
+    public native Struct fun(@NonNull final List<Struct> double) throws ExceptionException;
     @NonNull
     public native Enum getProperty();
     public native void setProperty(@NonNull final Enum value);

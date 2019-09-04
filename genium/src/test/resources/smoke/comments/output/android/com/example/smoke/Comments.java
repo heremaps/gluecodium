@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -34,8 +33,8 @@ public final class Comments extends NativeBase {
     /**
      * <p>This is some very useful exception.</p>
      */
-    public final static class SomeEnumException extends Exception {
-        public SomeEnumException(final Comments.SomeEnum error) {
+    public final static class SomethingWrongException extends Exception {
+        public SomethingWrongException(final Comments.SomeEnum error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
@@ -81,9 +80,9 @@ public final class Comments extends NativeBase {
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input <p>Very useful input parameter</p>
      * @return <p>Usefulness of the input</p>
-     * @throws Comments.SomeEnumException <p>Sometimes it happens.</p>
+     * @throws Comments.SomethingWrongException <p>Sometimes it happens.</p>
      */
-    public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomeEnumException;
+    public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomethingWrongException;
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input <p>Very useful input parameter</p>

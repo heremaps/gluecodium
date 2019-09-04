@@ -12,8 +12,8 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this item is deprecated.\nUse [comments.SomeEnum.Useless] instead.")
         Useless
     }
-    @Deprecated("Unfortunately, this exception is deprecated, please use [comments.SomeEnumException] instead.")
-    exception SomeEnumException(SomeEnum)
+    @Deprecated("Unfortunately, this exception is deprecated, please use [comments.SomethingWrong] instead.")
+    exception SomethingWrong(SomeEnum)
     // This is some very useful struct.
     @Deprecated("Unfortunately, this struct is deprecated. Use [comments.SomeStruct] instead.")
     struct SomeStruct {

@@ -23,37 +23,37 @@ static_assert(
     "Expected '2' value for '::fire::SomeEnum::BUST'."
 );
 std::error_code
-make_error_code( ::smoke::Errors::InternalError value ) noexcept
+make_error_code( ::smoke::Errors::InternalErrorCode value ) noexcept
 {
-    class InternalErrorErrorCategory: public ::std::error_category
+    class InternalErrorCodeErrorCategory: public ::std::error_category
     {
     public:
-        ~InternalErrorErrorCategory( ) override = default;
+        ~InternalErrorCodeErrorCategory( ) override = default;
         const char*
         name( ) const noexcept override
         {
-            return "InternalErrorErrorCategory";
+            return "InternalErrorCodeErrorCategory";
         }
         std::string
         message( int condition ) const override
         {
-            switch( ::smoke::Errors::InternalError( condition ) )
+            switch( ::smoke::Errors::InternalErrorCode( condition ) )
             {
-            case( ::smoke::Errors::InternalError::ERROR_NONE ):
-                return "::smoke::Errors::InternalError::ERROR_NONE";
-            case( ::smoke::Errors::InternalError::ERROR_FATAL ):
-                return "::smoke::Errors::InternalError::ERROR_FATAL";
+            case( ::smoke::Errors::InternalErrorCode::ERROR_NONE ):
+                return "::smoke::Errors::InternalErrorCode::ERROR_NONE";
+            case( ::smoke::Errors::InternalErrorCode::ERROR_FATAL ):
+                return "::smoke::Errors::InternalErrorCode::ERROR_FATAL";
             }
             return "Unknown enum value";
         }
     };
-    static InternalErrorErrorCategory category{};
+    static InternalErrorCodeErrorCategory category{};
     return std::error_code( static_cast<int>( value ), category );
 }
 }
 namespace genium {
 std::size_t
-hash< ::smoke::Errors::InternalError >::operator( )( const ::smoke::Errors::InternalError& t ) const
+hash< ::smoke::Errors::InternalErrorCode >::operator( )( const ::smoke::Errors::InternalErrorCode& t ) const
 {
     return static_cast< std::size_t >( t );
 }

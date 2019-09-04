@@ -20,7 +20,7 @@ public:
     Properties();
     virtual ~Properties() = 0;
 public:
-enum class InternalError {
+enum class InternalErrorCode {
     ERROR_NONE,
     ERROR_FATAL = 999
 };
@@ -37,8 +37,8 @@ virtual ::smoke::Properties::ExampleStruct get_struct_property(  ) const = 0;
 virtual void set_struct_property( const ::smoke::Properties::ExampleStruct& value ) = 0;
 virtual ::std::vector< ::std::string > get_array_property(  ) const = 0;
 virtual void set_array_property( const ::std::vector< ::std::string >& value ) = 0;
-virtual ::smoke::Properties::InternalError get_complex_type_property(  ) const = 0;
-virtual void set_complex_type_property( const ::smoke::Properties::InternalError value ) = 0;
+virtual ::smoke::Properties::InternalErrorCode get_complex_type_property(  ) const = 0;
+virtual void set_complex_type_property( const ::smoke::Properties::InternalErrorCode value ) = 0;
 virtual ::std::shared_ptr< ::std::vector< uint8_t > > get_byte_buffer_property(  ) const = 0;
 virtual void set_byte_buffer_property( const ::std::shared_ptr< ::std::vector< uint8_t > >& value ) = 0;
 /**
@@ -60,7 +60,7 @@ static ::smoke::Properties::ExampleStruct get_static_readonly_property(  );
 }
 namespace genium {
 template<>
-struct hash< ::smoke::Properties::InternalError > {
-    std::size_t operator( )( const ::smoke::Properties::InternalError& t ) const;
+struct hash< ::smoke::Properties::InternalErrorCode > {
+    std::size_t operator( )( const ::smoke::Properties::InternalErrorCode& t ) const;
 };
 }

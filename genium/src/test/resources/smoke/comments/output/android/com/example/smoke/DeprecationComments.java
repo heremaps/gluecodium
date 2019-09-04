@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -35,10 +34,10 @@ public interface DeprecationComments {
         }
     }
     /**
-     * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomeEnumException} instead.</p>
+     * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomethingWrongException} instead.</p>
      */
-    public final static class SomeEnumException extends Exception {
-        public SomeEnumException(final DeprecationComments.SomeEnum error) {
+    public final static class SomethingWrongException extends Exception {
+        public SomethingWrongException(final DeprecationComments.SomeEnum error) {
             super(Integer.toString(error.value));
             this.error = error;
         }

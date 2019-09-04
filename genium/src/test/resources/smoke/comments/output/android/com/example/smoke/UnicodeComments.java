@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -23,7 +22,7 @@ public final class UnicodeComments extends NativeBase {
      * <p>Süßölgefäß</p>
      * @param input <p>שלום</p>
      * @return <p>товарищ</p>
-     * @throws Comments.SomeEnumException <p>ネコ</p>
+     * @throws Comments.SomethingWrongException <p>ネコ</p>
      */
-    public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomeEnumException;
+    public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomethingWrongException;
 }

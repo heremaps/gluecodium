@@ -11,7 +11,7 @@ class comments {
         Useful
     }
     // This is some very useful exception.
-    exception SomeEnumException(SomeEnum)
+    exception SomethingWrong(SomeEnum)
     // This is some very useful struct.
     // @constructor This is how easy it is to construct.
     struct SomeStruct {
@@ -28,7 +28,7 @@ class comments {
     // @throws Sometimes it happens.
     fun someMethodWithAllComments(
         input: String
-    ): Usefulness throws SomeEnumException
+    ): Usefulness throws SomethingWrong
     // This is some very useful method that measures the usefulness of its input.
     // @param[input] Very useful input parameter
     fun someMethodWithInputComments(

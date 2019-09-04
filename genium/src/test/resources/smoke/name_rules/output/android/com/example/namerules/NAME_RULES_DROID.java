@@ -1,25 +1,24 @@
 /*
  *
-
  */
 package com.example.namerules;
 import com.example.NativeBase;
 import java.util.List;
 public final class NAME_RULES_DROID extends NativeBase {
-    public enum EXAMPLE_ERROR_DROID {
+    public enum EXAMPLE_ERROR_CODE_DROID {
         NONE(0),
         FATAL(1);
         public final int value;
-        EXAMPLE_ERROR_DROID(final int value) {
+        EXAMPLE_ERROR_CODE_DROID(final int value) {
             this.value = value;
         }
     }
-    public final static class example_error_x extends Exception {
-        public example_error_x(final NAME_RULES_DROID.EXAMPLE_ERROR_DROID error) {
+    public final static class example_x extends Exception {
+        public example_x(final NAME_RULES_DROID.EXAMPLE_ERROR_CODE_DROID error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
-        public final NAME_RULES_DROID.EXAMPLE_ERROR_DROID error;
+        public final NAME_RULES_DROID.EXAMPLE_ERROR_CODE_DROID error;
     }
     public final static class EXAMPLE_STRUCT_DROID {
         public double j_value;
@@ -46,7 +45,7 @@ public final class NAME_RULES_DROID extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     private static native long create();
-    public native double some_method(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_error_x;
+    public native double some_method(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_x;
     public native long loadIntProperty();
     public native void STORE_INT_PROPERTY(final long value);
     public native boolean loadBooleanProperty();

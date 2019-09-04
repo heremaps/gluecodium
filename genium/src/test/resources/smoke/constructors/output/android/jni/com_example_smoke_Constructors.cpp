@@ -1,6 +1,5 @@
 /*
  *
-
  */
 #include "smoke/Constructors.h"
 #include "CppProxyBase.h"
@@ -74,7 +73,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
     {
         auto nEnumValue = static_cast<::smoke::Constructors::ErrorEnum>(errorCode.value());
         auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Constructors$ErrorEnumException");
+        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Constructors$ConstructorExplodedException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Constructors$ErrorEnum;)V");
         auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));

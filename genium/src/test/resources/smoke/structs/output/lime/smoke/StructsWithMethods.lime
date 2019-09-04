@@ -1,7 +1,5 @@
 package smoke
-
-import smoke.ValidationUtils.ValidationErrorException
-
+import smoke.ValidationUtils.Validation
 types StructsWithMethods {
     struct Vector {
         x: Double
@@ -22,6 +20,6 @@ types StructsWithMethods {
         )
         constructor create(
             other: Vector
-        ) throws ValidationErrorException
+        ) throws Validation
     }
 }

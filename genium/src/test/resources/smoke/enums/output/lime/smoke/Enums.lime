@@ -7,7 +7,7 @@ class Enums {
         First,
         SECOND
     }
-    enum InternalError {
+    enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL = 999
     }
@@ -23,7 +23,7 @@ class Enums {
     }
 
     struct ErrorStruct {
-        type: InternalError
+        type: InternalErrorCode
         message: String
     }
 
@@ -31,13 +31,13 @@ class Enums {
         input: SimpleEnum
     ): SimpleEnum
     static fun flipEnumValue(
-        input: InternalError
-    ): InternalError
+        input: InternalErrorCode
+    ): InternalErrorCode
     static fun extractEnumFromStruct(
         input: ErrorStruct
-    ): InternalError
+    ): InternalErrorCode
     static fun createStructWithEnumInside(
-        type: InternalError,
+        type: InternalErrorCode,
         message: String
     ): ErrorStruct
     static fun methodWithExternalEnum(

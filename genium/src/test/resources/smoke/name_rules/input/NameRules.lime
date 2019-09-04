@@ -23,7 +23,7 @@ class NameRules {
         intValue: List<Long>
     }
 
-    enum ExampleError {
+    enum ExampleErrorCode {
         None,
         Fatal
     }
@@ -32,11 +32,11 @@ class NameRules {
 
     constructor create()
 
-    fun someMethod(someArgument: ExampleStruct): Double throws ExampleErrorException
+    fun someMethod(someArgument: ExampleStruct): Double throws Example
 
     property intProperty: UInt
     property booleanProperty: Boolean
     property structProperty: ExampleStruct
 
-    exception ExampleErrorException(ExampleError)
+    exception Example(ExampleErrorCode)
 }

@@ -1,6 +1,5 @@
 /*
  *
-
  */
 #include "namerules/NameRules.h"
 #include "CppProxyBase.h"
@@ -45,10 +44,10 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
     auto errorCode = nativeCallResult.error();
     if (!nativeCallResult.has_value())
     {
-        auto nEnumValue = static_cast<::namerules::NameRules::ExampleError>(errorCode.value());
+        auto nEnumValue = static_cast<::namerules::NameRules::ExampleErrorCode>(errorCode.value());
         auto jEnumValue = ::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::jni::find_class(_jenv, "com/example/namerules/NAME_RULES_DROID$example_error_x");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/namerules/NAME_RULES_DROID$EXAMPLE_ERROR_DROID;)V");
+        auto exceptionClass = ::jni::find_class(_jenv, "com/example/namerules/NAME_RULES_DROID$example_x");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/namerules/NAME_RULES_DROID$EXAMPLE_ERROR_CODE_DROID;)V");
         auto exception = ::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return nativeCallResult.unsafe_value();

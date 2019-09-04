@@ -19,7 +19,7 @@ package smoke
 
 class Enums {
     struct ErrorStruct {
-        type: InternalError
+        type: InternalErrorCode
         message: String
     }
 
@@ -27,7 +27,7 @@ class Enums {
         First,
         SECOND
     }
-    enum InternalError {
+    enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL = 999
     }
@@ -45,10 +45,10 @@ class Enums {
     typealias ExampleMap = Map<SimpleEnum, ULong>
 
     static fun methodWithEnumeration(input: SimpleEnum): SimpleEnum
-    static fun flipEnumValue(input: InternalError): InternalError
-    static fun extractEnumFromStruct(input: ErrorStruct): InternalError
+    static fun flipEnumValue(input: InternalErrorCode): InternalErrorCode
+    static fun extractEnumFromStruct(input: ErrorStruct): InternalErrorCode
     static fun createStructWithEnumInside(
-        type: InternalError,
+        type: InternalErrorCode,
         message: String
     ): ErrorStruct
     static fun methodWithExternalEnum(input: External_Enum)

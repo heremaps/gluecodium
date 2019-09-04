@@ -18,12 +18,12 @@
 package smoke
 
 types ValidationUtils {
-    enum ValidationError {
+    enum ValidationErrorCode {
         NONE,
         VALIDATION_FAILED
     }
 
-    exception ValidationErrorException(ValidationError)
+    exception Validation(ValidationErrorCode)
 }
 
 types StructsWithMethods {
@@ -41,7 +41,7 @@ types StructsWithMethods {
             x: Double,
             y: Double
         )
-        constructor create(other: Vector) throws ValidationUtils.ValidationErrorException
+        constructor create(other: Vector) throws ValidationUtils.Validation
     }
 }
 
@@ -60,6 +60,6 @@ class StructsWithMethodsInterface {
         ): Boolean
 
         constructor create(input: String)
-        constructor create(other: Vector3) throws ValidationUtils.ValidationErrorException
+        constructor create(other: Vector3) throws ValidationUtils.Validation
     }
 }

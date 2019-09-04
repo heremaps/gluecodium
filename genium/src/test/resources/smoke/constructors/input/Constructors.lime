@@ -29,10 +29,10 @@ open class Constructors {
         foo: String,
         bar: ULong
     )
-    constructor create(input: String) throws ErrorEnumException
+    constructor create(input: String) throws ConstructorExploded
     constructor create(input: List<Double>)
 
-    exception ErrorEnumException(ErrorEnum)
+    exception ConstructorExploded(ErrorEnum)
 }
 
 class ChildConstructors : Constructors {

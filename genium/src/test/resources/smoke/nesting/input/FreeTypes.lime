@@ -33,10 +33,10 @@ enum FreeEnum {
     BAR
 }
 
-exception FreeEnumException(FreeEnum)
+exception Free(FreeEnum)
 
 class UseFreeTypes {
-    fun doStuff(point: FreePoint, mode: FreeEnum): FreeTypeDef throws FreeEnumException
+    fun doStuff(point: FreePoint, mode: FreeEnum): FreeTypeDef throws Free
 }
 
 enum UnusedTopLevelEnum {

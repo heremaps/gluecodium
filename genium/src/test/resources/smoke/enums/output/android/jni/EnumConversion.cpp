@@ -74,38 +74,38 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::External_
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
-::smoke::Enums::InternalError
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::InternalError* dummy)
+::smoke::Enums::InternalErrorCode
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::InternalErrorCode* dummy)
 {
-    return ::smoke::Enums::InternalError(
+    return ::smoke::Enums::InternalErrorCode(
         ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::genium::optional<::smoke::Enums::InternalError>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::InternalError>* dummy)
+::genium::optional<::smoke::Enums::InternalErrorCode>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::InternalErrorCode>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::Enums::InternalError>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::InternalError*)nullptr))
-        : ::genium::optional<::smoke::Enums::InternalError>{};
+        ? ::genium::optional<::smoke::Enums::InternalErrorCode>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::InternalErrorCode*)nullptr))
+        : ::genium::optional<::smoke::Enums::InternalErrorCode>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$InternalError", ::smoke::Enums::InternalError)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$InternalErrorCode", ::smoke::Enums::InternalErrorCode)
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::InternalErrorCode _ninput)
 {
-    auto& javaClass = CachedJavaClass<::smoke::Enums::InternalError>::java_class;
+    auto& javaClass = CachedJavaClass<::smoke::Enums::InternalErrorCode>::java_class;
     const char* enumeratorName = nullptr;
     switch(_ninput) {
-        case(::smoke::Enums::InternalError::ERROR_NONE):
+        case(::smoke::Enums::InternalErrorCode::ERROR_NONE):
             enumeratorName = "ERROR_NONE";
             break;
-        case(::smoke::Enums::InternalError::ERROR_FATAL):
+        case(::smoke::Enums::InternalErrorCode::ERROR_FATAL):
             enumeratorName = "ERROR_FATAL";
             break;
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/Enums$InternalError;");
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/Enums$InternalErrorCode;");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::InternalError> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::InternalErrorCode> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

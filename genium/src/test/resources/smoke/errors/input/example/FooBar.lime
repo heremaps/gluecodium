@@ -17,10 +17,10 @@
 
 package example
 
-import smoke.Errors.InternalErrorException
-import smoke.SomeTypeCollection.SomeTypeCollectionErrorException
+import smoke.Errors.Internal
+import smoke.SomeTypeCollection.Some
 
 class FooBar {
-    static fun methodWithInternalError() throws InternalErrorException
-    static fun methodWithTypeCollectionError() throws SomeTypeCollectionErrorException
+    static fun methodWithInternalError() throws Internal
+    static fun methodWithTypeCollectionError() throws Some
 }

@@ -1,16 +1,15 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class Errors extends NativeBase {
-    public enum InternalError {
+    public enum InternalErrorCode {
         ERROR_NONE(0),
         ERROR_FATAL(1);
         public final int value;
-        InternalError(final int value) {
+        InternalErrorCode(final int value) {
             this.value = value;
         }
     }
@@ -23,15 +22,15 @@ public final class Errors extends NativeBase {
             this.value = value;
         }
     }
-    public final static class InternalErrorException extends Exception {
-        public InternalErrorException(final Errors.InternalError error) {
+    public final static class InternalException extends Exception {
+        public InternalException(final Errors.InternalErrorCode error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
-        public final Errors.InternalError error;
+        public final Errors.InternalErrorCode error;
     }
-    public final static class ExternalErrorsException extends Exception {
-        public ExternalErrorsException(final Errors.ExternalErrors error) {
+    public final static class ExternalException extends Exception {
+        public ExternalException(final Errors.ExternalErrors error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
@@ -50,9 +49,9 @@ public final class Errors extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native void methodWithErrors() throws Errors.InternalErrorException;
-    public static native void methodWithExternalErrors() throws Errors.ExternalErrorsException;
+    public static native void methodWithErrors() throws Errors.InternalException;
+    public static native void methodWithExternalErrors() throws Errors.ExternalException;
     @NonNull
-    public static native String methodWithErrorsAndReturnValue() throws Errors.InternalErrorException;
-    public static native void methodWithAliasedError() throws Errors.InternalErrorException;
+    public static native String methodWithErrorsAndReturnValue() throws Errors.InternalException;
+    public static native void methodWithAliasedError() throws Errors.InternalException;
 }

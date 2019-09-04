@@ -18,7 +18,7 @@
 package smoke
 
 class Errors {
-    enum InternalError {
+    enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL
     }
@@ -29,19 +29,19 @@ class Errors {
         BUST
     }
 
-    static fun methodWithErrors() throws InternalErrorException
-    static fun methodWithExternalErrors() throws ExternalErrorsException
-    static fun methodWithErrorsAndReturnValue(): String throws InternalErrorException
+    static fun methodWithErrors() throws Internal
+    static fun methodWithExternalErrors() throws External
+    static fun methodWithErrorsAndReturnValue(): String throws Internal
     static fun methodWithAliasedError() throws BOOM
 
-    exception InternalErrorException(InternalError)
-    exception ExternalErrorsException(ExternalErrors)
+    exception Internal(InternalErrorCode)
+    exception External(ExternalErrors)
 
-    typealias BOOM = InternalErrorException
+    typealias BOOM = Internal
 }
 
 interface ErrorsInterface {
-    enum InternalError {
+    enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL
     }
@@ -51,12 +51,12 @@ interface ErrorsInterface {
         BUST
     }
 
-    fun methodWithErrors() throws InternalErrorException
-    fun methodWithExternalErrors() throws ExternalErrorsException
-    fun methodWithErrorsAndReturnValue(): String throws InternalErrorException
+    fun methodWithErrors() throws Internal
+    fun methodWithExternalErrors() throws External
+    fun methodWithErrorsAndReturnValue(): String throws Internal
 
-    exception InternalErrorException(InternalError)
-    exception ExternalErrorsException(ExternalErrors)
+    exception Internal(InternalErrorCode)
+    exception External(ExternalErrors)
 }
 
 types SomeTypeCollection {
@@ -64,5 +64,5 @@ types SomeTypeCollection {
         ERROR_A,
         ERROR_B
     }
-    exception SomeTypeCollectionErrorException(SomeTypeCollectionError)
+    exception Some(SomeTypeCollectionError)
 }

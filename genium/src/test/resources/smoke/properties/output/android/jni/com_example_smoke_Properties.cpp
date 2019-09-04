@@ -1,6 +1,5 @@
 /*
  *
-
  */
 #include "smoke/Properties.h"
 #include "CppProxyBase.h"
@@ -119,9 +118,9 @@ Java_com_example_smoke_Properties_getComplexTypeProperty(JNIEnv* _jenv, jobject 
 void
 Java_com_example_smoke_Properties_setComplexTypeProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
 {
-    ::smoke::Properties::InternalError value = ::genium::jni::convert_from_jni(_jenv,
+    ::smoke::Properties::InternalErrorCode value = ::genium::jni::convert_from_jni(_jenv,
             ::genium::jni::make_non_releasing_ref(jvalue),
-            (::smoke::Properties::InternalError*)nullptr);
+            (::smoke::Properties::InternalErrorCode*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
         ::genium::jni::get_field_value(
             _jenv,

@@ -18,12 +18,12 @@
 package smoke
 
 import smoke.comments.Usefulness
-import smoke.comments.SomeEnumException
+import smoke.comments.SomethingWrong
 
 class UnicodeComments {
     // Süßölgefäß
     // @param[input] שלום
     // @return товарищ
     // @throws ネコ
-    fun someMethodWithAllComments(input: String): Usefulness throws SomeEnumException
+    fun someMethodWithAllComments(input: String): Usefulness throws SomethingWrong
 }

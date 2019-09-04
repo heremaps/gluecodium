@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -15,8 +14,8 @@ public class Constructors extends NativeBase {
             this.value = value;
         }
     }
-    public final static class ErrorEnumException extends Exception {
-        public ErrorEnumException(final Constructors.ErrorEnum error) {
+    public final static class ConstructorExplodedException extends Exception {
+        public ConstructorExplodedException(final Constructors.ErrorEnum error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
@@ -31,7 +30,7 @@ public class Constructors extends NativeBase {
     public Constructors(@NonNull final String foo, final long bar) {
         this(create(foo, bar));
     }
-    public Constructors(@NonNull final String input) throws Constructors.ErrorEnumException {
+    public Constructors(@NonNull final String input) throws Constructors.ConstructorExplodedException {
         this(create(input));
     }
     public Constructors(@NonNull final List<Double> input) {
@@ -53,6 +52,6 @@ public class Constructors extends NativeBase {
     private static native long create();
     private static native long create(@NonNull final Constructors other);
     private static native long create(@NonNull final String foo, final long bar);
-    private static native long create(@NonNull final String input) throws Constructors.ErrorEnumException;
+    private static native long create(@NonNull final String input) throws Constructors.ConstructorExplodedException;
     private static native long create(@NonNull final List<Double> input);
 }

@@ -22,7 +22,7 @@ class Properties {
         value: Double
     }
 
-    enum InternalError {
+    enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL = 999
     }
@@ -31,7 +31,7 @@ class Properties {
     property readonlyProperty: Float { get }
     property structProperty: ExampleStruct
     property arrayProperty: List<String>
-    property complexTypeProperty: InternalError
+    property complexTypeProperty: InternalErrorCode
     property byteBufferProperty: Blob
     property instanceProperty: PropertiesInterface
     property booleanProperty: Boolean

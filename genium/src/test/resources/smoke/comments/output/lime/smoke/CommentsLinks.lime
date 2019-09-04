@@ -1,7 +1,7 @@
 package smoke
 import smoke.comments.SomeStruct
 import smoke.comments.SomeEnum
-import smoke.comments.SomeEnumException
+import smoke.comments.SomethingWrong
 // The nested types like [random_method] don't need full name prefix, but it's
 // possible to references other interfaces like [smoke.CommentsInterface] or other members
 // [comments.someMethodWithAllComments].
@@ -31,7 +31,7 @@ class CommentsLinks {
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
-    // * error: [comments.SomeEnumException]
+    // * error: [comments.SomethingWrong]
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]
@@ -45,8 +45,8 @@ class CommentsLinks {
     // * output parameter: [outputParameter]
     // @param[inputParameter] Sometimes takes [comments.SomeEnum.Useful]
     // @return Sometimes returns [comments.SomeEnum.Useful]
-    // @throws May or may not throw [comments.SomeEnumException]
+    // @throws May or may not throw [comments.SomethingWrong]
     fun random_method(
         inputParameter: SomeEnum
-    ): SomeEnum throws SomeEnumException
+    ): SomeEnum throws SomethingWrong
 }

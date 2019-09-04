@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -21,5 +20,5 @@ public final class UseFreeTypes extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public native Date doStuff(@NonNull final FreePoint point, @NonNull final FreeEnum mode) throws FreeEnumException;
+    public native Date doStuff(@NonNull final FreePoint point, @NonNull final FreeEnum mode) throws FreeException;
 }

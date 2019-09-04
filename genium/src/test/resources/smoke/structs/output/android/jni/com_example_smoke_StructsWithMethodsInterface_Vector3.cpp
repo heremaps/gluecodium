@@ -1,6 +1,5 @@
 /*
  *
-
  */
 #include "smoke/StructsWithMethodsInterface.h"
 #include "CppProxyBase.h"
@@ -69,10 +68,10 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Lcom_exa
     auto errorCode = nativeCallResult.error();
     if (!nativeCallResult.has_value())
     {
-        auto nEnumValue = static_cast<::smoke::ValidationError>(errorCode.value());
+        auto nEnumValue = static_cast<::smoke::ValidationErrorCode>(errorCode.value());
         auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/ValidationErrorException");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/ValidationError;)V");
+        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/ValidationException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/ValidationErrorCode;)V");
         auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return nullptr;

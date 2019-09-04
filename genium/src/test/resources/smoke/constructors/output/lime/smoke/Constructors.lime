@@ -4,7 +4,7 @@ open class Constructors {
         NONE,
         CRASHED
     }
-    exception ErrorEnumException(ErrorEnum)
+    exception ConstructorExploded(ErrorEnum)
     constructor create()
     constructor create(
         other: Constructors
@@ -15,7 +15,7 @@ open class Constructors {
     )
     constructor create(
         input: String
-    ) throws ErrorEnumException
+    ) throws ConstructorExploded
     constructor create(
         input: List<Double>
     )

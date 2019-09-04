@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -12,7 +11,7 @@ public final class Vector {
         this.x = _other.x;
         this.y = _other.y;
     }
-    public Vector(@NonNull final Vector other) throws ValidationErrorException {
+    public Vector(@NonNull final Vector other) throws ValidationException {
         Vector _other = create(other);
         this.x = _other.x;
         this.y = _other.y;
@@ -22,5 +21,5 @@ public final class Vector {
     public native Vector add(@NonNull final Vector other);
     public static native boolean validate(final double x, final double y);
     private static native Vector create(final double x, final double y);
-    private static native Vector create(@NonNull final Vector other) throws ValidationErrorException;
+    private static native Vector create(@NonNull final Vector other) throws ValidationException;
 }

@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -27,7 +26,7 @@ public class Enums {
         case first
         case second
     }
-    public enum InternalError : UInt32, CaseIterable {
+    public enum InternalErrorCode : UInt32, CaseIterable {
         case errorNone
         case errorFatal = 999
     }
@@ -40,9 +39,9 @@ public class Enums {
         case bar
     }
     public struct ErrorStruct {
-        public var type: Enums.InternalError
+        public var type: Enums.InternalErrorCode
         public var message: String
-        public init(type: Enums.InternalError, message: String) {
+        public init(type: Enums.InternalErrorCode, message: String) {
             self.type = type
             self.message = message
         }
@@ -55,15 +54,15 @@ public class Enums {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_methodWithEnumeration(c_input.ref))
     }
-    public static func flipEnumValue(input: Enums.InternalError) -> Enums.InternalError {
+    public static func flipEnumValue(input: Enums.InternalErrorCode) -> Enums.InternalErrorCode {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_flipEnumValue(c_input.ref))
     }
-    public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalError {
+    public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalErrorCode {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_extractEnumFromStruct(c_input.ref))
     }
-    public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct {
+    public static func createStructWithEnumInside(type: Enums.InternalErrorCode, message: String) -> Enums.ErrorStruct {
         let c_type = moveToCType(type)
         let c_message = moveToCType(message)
         return moveFromCType(smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref))
@@ -177,31 +176,31 @@ internal func moveFromCType(_ handle: _baseRef) -> Enums.SimpleEnum? {
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftEnum: Enums.InternalError) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: Enums.InternalErrorCode) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Enums.InternalError) -> PrimitiveHolder<UInt32> {
+internal func moveToCType(_ swiftEnum: Enums.InternalErrorCode) -> PrimitiveHolder<UInt32> {
     return copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: Enums.InternalError?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: Enums.InternalErrorCode?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Enums.InternalError?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: Enums.InternalErrorCode?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> Enums.InternalError {
-    return Enums.InternalError(rawValue: cValue)!
+internal func copyFromCType(_ cValue: UInt32) -> Enums.InternalErrorCode {
+    return Enums.InternalErrorCode(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> Enums.InternalError {
+internal func moveFromCType(_ cValue: UInt32) -> Enums.InternalErrorCode {
     return copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Enums.InternalError? {
+internal func copyFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
     guard handle != 0 else {
         return nil
     }
-    return Enums.InternalError(rawValue: uint32_t_value_get(handle))!
+    return Enums.InternalErrorCode(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> Enums.InternalError? {
+internal func moveFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
     defer {
         uint32_t_release_handle(handle)
     }

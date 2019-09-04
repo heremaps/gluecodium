@@ -1,17 +1,16 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 public final class Properties extends NativeBase {
-    public enum InternalError {
+    public enum InternalErrorCode {
         ERROR_NONE(0),
         ERROR_FATAL(999);
         public final int value;
-        InternalError(final int value) {
+        InternalErrorCode(final int value) {
             this.value = value;
         }
     }
@@ -44,8 +43,8 @@ public final class Properties extends NativeBase {
     public native List<String> getArrayProperty();
     public native void setArrayProperty(@NonNull final List<String> value);
     @NonNull
-    public native Properties.InternalError getComplexTypeProperty();
-    public native void setComplexTypeProperty(@NonNull final Properties.InternalError value);
+    public native Properties.InternalErrorCode getComplexTypeProperty();
+    public native void setComplexTypeProperty(@NonNull final Properties.InternalErrorCode value);
     @NonNull
     public native byte[] getByteBufferProperty();
     public native void setByteBufferProperty(@NonNull final byte[] value);

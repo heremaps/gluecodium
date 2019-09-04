@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -14,11 +13,11 @@ public final class Enums extends NativeBase {
             this.value = value;
         }
     }
-    public enum InternalError {
+    public enum InternalErrorCode {
         ERROR_NONE(0),
         ERROR_FATAL(999);
         public final int value;
-        InternalError(final int value) {
+        InternalErrorCode(final int value) {
             this.value = value;
         }
     }
@@ -40,10 +39,10 @@ public final class Enums extends NativeBase {
     }
     public final static class ErrorStruct {
         @NonNull
-        public Enums.InternalError type;
+        public Enums.InternalErrorCode type;
         @NonNull
         public String message;
-        public ErrorStruct(@NonNull final Enums.InternalError type, @NonNull final String message) {
+        public ErrorStruct(@NonNull final Enums.InternalErrorCode type, @NonNull final String message) {
             this.type = type;
             this.message = message;
         }
@@ -64,10 +63,10 @@ public final class Enums extends NativeBase {
     @NonNull
     public static native Enums.SimpleEnum methodWithEnumeration(@NonNull final Enums.SimpleEnum input);
     @NonNull
-    public static native Enums.InternalError flipEnumValue(@NonNull final Enums.InternalError input);
+    public static native Enums.InternalErrorCode flipEnumValue(@NonNull final Enums.InternalErrorCode input);
     @NonNull
-    public static native Enums.InternalError extractEnumFromStruct(@NonNull final Enums.ErrorStruct input);
+    public static native Enums.InternalErrorCode extractEnumFromStruct(@NonNull final Enums.ErrorStruct input);
     @NonNull
-    public static native Enums.ErrorStruct createStructWithEnumInside(@NonNull final Enums.InternalError type, @NonNull final String message);
+    public static native Enums.ErrorStruct createStructWithEnumInside(@NonNull final Enums.InternalErrorCode type, @NonNull final String message);
     public static native void methodWithExternalEnum(@NonNull final Enums.ExternalEnum input);
 }

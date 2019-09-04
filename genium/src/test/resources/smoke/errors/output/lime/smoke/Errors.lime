@@ -1,7 +1,7 @@
 package smoke
 class Errors {
-    typealias BOOM = InternalErrorException
-    enum InternalError {
+    typealias BOOM = Internal
+    enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL
     }
@@ -11,10 +11,10 @@ class Errors {
         BOOM,
         BUST
     }
-    exception InternalErrorException(InternalError)
-    exception ExternalErrorsException(ExternalErrors)
-    static fun methodWithErrors() throws InternalErrorException
-    static fun methodWithExternalErrors() throws ExternalErrorsException
-    static fun methodWithErrorsAndReturnValue(): String throws InternalErrorException
+    exception Internal(InternalErrorCode)
+    exception External(ExternalErrors)
+    static fun methodWithErrors() throws Internal
+    static fun methodWithExternalErrors() throws External
+    static fun methodWithErrorsAndReturnValue(): String throws Internal
     static fun methodWithAliasedError() throws BOOM
 }
