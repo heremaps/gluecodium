@@ -19,9 +19,6 @@
 
 package com.here.genium.model.java
 
-import java.util.stream.Stream
-import kotlin.streams.toList
-
 abstract class JavaTopLevelElement protected constructor(name: String) : JavaElement(name) {
 
     var javaPackage = JavaPackage.DEFAULT
@@ -57,8 +54,6 @@ abstract class JavaTopLevelElement protected constructor(name: String) : JavaEle
         override fun toString() = value
     }
 
-    override fun stream(): Stream<JavaElement> {
-        return Stream.of(methods, constants, parentInterfaces, enums, innerClasses, exceptions)
-            .flatMap { it.stream() }
-    }
+    override fun stream() =
+        listOf(methods, constants, parentInterfaces, enums, innerClasses, exceptions).flatten()
 }

@@ -21,15 +21,15 @@ package com.here.genium.model.java
 
 import com.here.genium.model.common.Comments
 import com.here.genium.model.common.ModelElement
-import com.here.genium.model.common.Streamable
+import com.here.genium.model.common.PseudoStreamable
 import java.util.LinkedHashSet
 
-abstract class JavaElement(val name: String) : Streamable<JavaElement>(), ModelElement {
+abstract class JavaElement(val name: String) : PseudoStreamable<JavaElement>(), ModelElement {
     var comment = Comments()
     var visibility = JavaVisibility.PACKAGE
     val annotations: MutableSet<JavaType> = LinkedHashSet()
 
     override fun toString() = name
 
-    override fun stream() = annotations.stream().map { JavaElement::class.java.cast(it) }
+    override fun stream(): List<JavaElement> = annotations.toList()
 }

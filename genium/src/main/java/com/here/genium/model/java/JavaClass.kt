@@ -19,9 +19,6 @@
 
 package com.here.genium.model.java
 
-import java.util.function.Function
-import java.util.stream.Stream
-
 class JavaClass(
     name: String,
     val extendedClass: JavaType? = null,
@@ -71,9 +68,8 @@ class JavaClass(
     val constructors
         get() = methods.filter { it.isConstructor }
 
-    override fun stream(): Stream<JavaElement> {
-        val extendedClassStream =
-            if (extendedClass != null) extendedClass.stream() else Stream.empty()
+    override fun stream(): List<JavaElement> {
+        val extendedClassStream = extendedClass?.stream() ?: emptyList()
         val implClassStream =
             when {
                 isParcelable || needsBuilder ->
@@ -81,11 +77,9 @@ class JavaClass(
                         .map { it.type }
                         .filterIsInstance<JavaTemplateType>()
                         .map { it.implementationType }
-                        .stream()
-                else -> Stream.empty()
+                else -> emptyList()
             }
-        return Stream.of(super.stream(), fields.stream(), extendedClassStream, implClassStream)
-            .flatMap(Function.identity())
+        return super.stream() + fields + extendedClassStream + implClassStream
     }
 
     override val imports

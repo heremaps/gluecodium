@@ -19,13 +19,10 @@
 
 package com.here.genium.model.java
 
-import java.util.stream.Collectors
-import java.util.stream.Stream
-
 abstract class JavaTypedElement(name: String, val type: JavaType) : JavaElement(name) {
-    override fun stream(): Stream<JavaElement> = Stream.concat(super.stream(), Stream.of(type))
+    override fun stream() = super.stream() + type
 
     @Suppress("unused")
-    fun getAllAnnotations() = Stream.concat(type.annotations.stream(), annotations.stream())
-            .collect(Collectors.toList())
+    val allAnnotations
+        get() = type.annotations + annotations
 }

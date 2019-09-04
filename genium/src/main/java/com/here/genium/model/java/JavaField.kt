@@ -19,13 +19,11 @@
 
 package com.here.genium.model.java
 
-import java.util.stream.Stream
-
 class JavaField(
     name: String,
     type: JavaType,
     val initial: JavaValue
 ) : JavaTypedElement(name, type) {
 
-    override fun stream(): Stream<JavaElement> = Stream.concat(super.stream(), Stream.of(initial))
+    override fun stream() = super.stream() + listOf(initial)
 }

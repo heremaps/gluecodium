@@ -21,7 +21,6 @@ package com.here.genium.model.java
 
 import com.here.genium.model.common.Comments
 import java.util.EnumSet
-import java.util.stream.Stream
 
 class JavaMethod(
     name: String,
@@ -64,9 +63,7 @@ class JavaMethod(
         override fun toString() = value
     }
 
-    override fun stream() = Stream.concat(
-        Stream.of(returnType, exception).filter { it != null },
-        Stream.concat(parameters.stream(), super.stream()))
+    override fun stream() = listOfNotNull(returnType, exception) + parameters + super.stream()
 
     fun shallowCopy() = JavaMethod(
         name = name,

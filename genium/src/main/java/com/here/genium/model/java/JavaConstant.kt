@@ -19,10 +19,8 @@
 
 package com.here.genium.model.java
 
-import java.util.stream.Stream
-
 class JavaConstant(name: String, type: JavaType, val value: JavaValue) :
     JavaTypedElement(name, type) {
 
-    override fun stream() = Stream.concat(super.stream(), Stream.of(value))
+    override fun stream() = super.stream() + value
 }

@@ -19,8 +19,6 @@
 
 package com.here.genium.model.java
 
-import java.util.stream.Stream
-
 class JavaEnum(name: String, val items: List<JavaEnumItem>) : JavaTopLevelElement(name) {
-    override fun stream() = Stream.concat(super.stream(), items.stream())
+    override fun stream() = super.stream() + items
 }

@@ -19,8 +19,6 @@
 
 package com.here.genium.model.java
 
-import java.util.stream.Stream
-
 class JavaEnumItem(name: String, val value: JavaValue? = null) : JavaElement(name) {
-    override fun stream(): Stream<JavaElement> = Stream.of(value)
+    override fun stream() = listOfNotNull(value)
 }
