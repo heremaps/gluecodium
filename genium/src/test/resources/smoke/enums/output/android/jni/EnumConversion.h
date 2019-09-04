@@ -4,11 +4,9 @@
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
 #include "com_example_smoke_Enums.h"
-#include "com_example_smoke_EnumsInTypeCollectionInterface.h"
 #include "foo/Bar.h"
 #include "smoke/Enums.h"
 #include "smoke/EnumsInTypeCollection.h"
-#include "smoke/EnumsInTypeCollectionInterface.h"
 #include <jni.h>
 #include <memory>
 #include "genium/Optional.h"

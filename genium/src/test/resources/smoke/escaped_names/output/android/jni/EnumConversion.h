@@ -3,10 +3,6 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "com_example_package_Class.h"
-#include "com_example_package_InterfaceImpl.h"
-#include "package/Class.h"
-#include "package/Interface.h"
 #include "package/Types.h"
 #include <jni.h>
 #include <memory>

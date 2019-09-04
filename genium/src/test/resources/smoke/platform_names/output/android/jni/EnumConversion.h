@@ -3,11 +3,7 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "com_example_smoke_barInterface.h"
-#include "com_example_smoke_barListenerImpl.h"
 #include "com_example_smoke_barStruct.h"
-#include "smoke/fooInterface.h"
-#include "smoke/fooListener.h"
 #include "smoke/fooTypes.h"
 #include <jni.h>
 #include <memory>

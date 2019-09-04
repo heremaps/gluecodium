@@ -4,12 +4,8 @@
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
 #include "com_example_smoke_FreePoint.h"
-#include "com_example_smoke_UseFreeTypes.h"
-#include "smoke/FreeEnum.h"
 #include "smoke/FreePoint.h"
-#include "smoke/UnusedTopLevelEnum.h"
 #include "smoke/UnusedTopLevelPoint.h"
-#include "smoke/UseFreeTypes.h"
 #include <jni.h>
 #include <memory>
 #include "genium/Optional.h"

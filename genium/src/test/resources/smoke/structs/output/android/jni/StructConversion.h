@@ -5,7 +5,6 @@
 #include "JniCppConversionUtils.h"
 #include "com_example_fire_StructsQualifiedType.h"
 #include "com_example_smoke_Structs.h"
-#include "com_example_smoke_StructsInstance.h"
 #include "com_example_smoke_StructsWithConstantsInterface.h"
 #include "com_example_smoke_StructsWithMethodsInterface.h"
 #include "com_example_smoke_StructsWithMethodsInterface_Vector3.h"
@@ -14,15 +13,12 @@
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
 #include "non/Sense.h"
-#include "smoke/RouteUtils.h"
 #include "smoke/Structs.h"
-#include "smoke/StructsInstance.h"
 #include "smoke/StructsWithConstants.h"
 #include "smoke/StructsWithConstantsInterface.h"
 #include "smoke/StructsWithMethods.h"
 #include "smoke/StructsWithMethodsInterface.h"
 #include "smoke/TypeCollection.h"
-#include "smoke/ValidationUtils.h"
 #include <jni.h>
 #include <memory>
 #include "genium/Optional.h"

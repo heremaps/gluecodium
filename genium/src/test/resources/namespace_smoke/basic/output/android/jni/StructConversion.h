@@ -3,8 +3,6 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "com_example_smoke_Basic.h"
-#include "root/space/smoke/Basic.h"
 #include "root/space/smoke/BasicTypes.h"
 #include <jni.h>
 #include <memory>
