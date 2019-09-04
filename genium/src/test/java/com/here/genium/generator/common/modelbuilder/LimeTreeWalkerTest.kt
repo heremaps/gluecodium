@@ -81,6 +81,8 @@ class LimeTreeWalkerTest {
         thrownType = LimeThrownType(LimeDirectTypeRef(limeException)),
         parameters = listOf(limeParameter)
     )
+    private val limeNestedClass = LimeClass(EMPTY_PATH)
+    private val limeNestedInterface = LimeInterface(EMPTY_PATH)
     private val limeContainer = LimeClass(
         path = EMPTY_PATH,
         parent = limeParentTypeRef,
@@ -89,7 +91,9 @@ class LimeTreeWalkerTest {
         typeAliases = listOf(limeTypeDef),
         enumerations = listOf(limeEnumeration),
         constants = listOf(limeConstant),
-        properties = listOf(limeProperty)
+        properties = listOf(limeProperty),
+        classes = listOf(limeNestedClass),
+        interfaces = listOf(limeNestedInterface)
     )
 
     @MockK private lateinit var modelBuilder: LimeBasedModelBuilder
@@ -269,5 +273,21 @@ class LimeTreeWalkerTest {
 
         verify { modelBuilder.startBuilding(limePropertyTypeRef) }
         verify { modelBuilder.finishBuilding(limePropertyTypeRef) }
+    }
+
+    @Test
+    fun walkNestedClass() {
+        treeWalker.walkTree(limeContainer)
+
+        verify { modelBuilder.startBuilding(limeNestedClass) }
+        verify { modelBuilder.finishBuilding(limeNestedClass) }
+    }
+
+    @Test
+    fun walkNestedInterface() {
+        treeWalker.walkTree(limeContainer)
+
+        verify { modelBuilder.startBuilding(limeNestedInterface) }
+        verify { modelBuilder.finishBuilding(limeNestedInterface) }
     }
 }

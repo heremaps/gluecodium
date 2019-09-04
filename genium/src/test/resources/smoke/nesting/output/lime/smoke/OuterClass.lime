@@ -1,0 +1,16 @@
+package smoke
+class OuterClass {
+    class InnerClass {
+        fun foo(
+            input: String
+        ): String
+    }
+    interface InnerInterface {
+        fun foo(
+            input: String
+        ): String
+    }
+    fun foo(
+        input: String
+    ): String
+}

@@ -1,0 +1,12 @@
+package smoke
+import smoke.OuterClass.InnerInterface
+import smoke.OuterInterface.InnerClass
+class LevelOne {
+    class LevelTwo {
+        class LevelThree {
+            fun foo(
+                input: InnerInterface
+            ): InnerClass
+        }
+    }
+}

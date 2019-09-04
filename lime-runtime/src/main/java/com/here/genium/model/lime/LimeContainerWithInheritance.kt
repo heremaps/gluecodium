@@ -31,6 +31,8 @@ abstract class LimeContainerWithInheritance(
     functions: List<LimeFunction> = emptyList(),
     properties: List<LimeProperty> = emptyList(),
     exceptions: List<LimeException> = emptyList(),
+    val classes: List<LimeClass> = emptyList(),
+    val interfaces: List<LimeInterface> = emptyList(),
     val parent: LimeTypeRef? = null
 ) : LimeContainer(
     path = path,

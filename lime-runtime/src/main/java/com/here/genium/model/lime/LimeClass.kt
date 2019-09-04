@@ -31,6 +31,8 @@ class LimeClass(
     functions: List<LimeFunction> = emptyList(),
     properties: List<LimeProperty> = emptyList(),
     exceptions: List<LimeException> = emptyList(),
+    classes: List<LimeClass> = emptyList(),
+    interfaces: List<LimeInterface> = emptyList(),
     parent: LimeTypeRef? = null
 ) : LimeContainerWithInheritance(
     path = path,
@@ -44,5 +46,7 @@ class LimeClass(
     functions = functions,
     properties = properties,
     exceptions = exceptions,
+    classes = classes,
+    interfaces = interfaces,
     parent = parent
 )

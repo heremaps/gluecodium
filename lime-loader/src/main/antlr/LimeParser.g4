@@ -37,7 +37,7 @@ importHeader
 container
     : docComment* annotation* visibility? ('class' | 'interface') NewLine* simpleId NewLine*
       (':' NewLine* identifier NewLine*)? '{' NewLine* ((function | constructor | property |
-      struct | enumeration | constant | typealias | exception) NewLine*)* '}' NewLine+
+      struct | enumeration | constant | typealias | exception | container) NewLine*)* '}' NewLine+
     ;
 
 types

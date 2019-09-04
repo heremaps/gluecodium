@@ -123,7 +123,9 @@ internal class AntlrLimeModelBuilder(
                 typeAliases = getPreviousResults(LimeTypeAlias::class.java),
                 functions = getPreviousResults(LimeFunction::class.java),
                 properties = getPreviousResults(LimeProperty::class.java),
-                exceptions = getPreviousResults(LimeException::class.java)
+                exceptions = getPreviousResults(LimeException::class.java),
+                classes = getPreviousResults(LimeClass::class.java),
+                interfaces = getPreviousResults(LimeInterface::class.java)
             )
         } else {
             limeElement = LimeInterface(
@@ -138,7 +140,9 @@ internal class AntlrLimeModelBuilder(
                 typeAliases = getPreviousResults(LimeTypeAlias::class.java),
                 functions = getPreviousResults(LimeFunction::class.java),
                 properties = getPreviousResults(LimeProperty::class.java),
-                exceptions = getPreviousResults(LimeException::class.java)
+                exceptions = getPreviousResults(LimeException::class.java),
+                classes = getPreviousResults(LimeClass::class.java),
+                interfaces = getPreviousResults(LimeInterface::class.java)
             )
         }
 
