@@ -107,13 +107,13 @@ public final class MethodOverloadsTest {
   }
 
   @Test
-  public void constructorDoesNotThrow() throws ConstructorOverloads.ErrorEnumException {
+  public void constructorDoesNotThrow() throws ConstructorOverloads.SomeException {
     ConstructorOverloads result = new ConstructorOverloads(0.0);
   }
 
   @Test
-  public void constructorThrows() throws ConstructorOverloads.ErrorEnumException {
-    expectedException.expect(ConstructorOverloads.ErrorEnumException.class);
+  public void constructorThrows() throws ConstructorOverloads.SomeException {
+    expectedException.expect(ConstructorOverloads.SomeException.class);
     expectedException.expect(
         FieldMatcher.hasFieldWithValue("error", ConstructorOverloads.ErrorEnum.CRASHED));
 

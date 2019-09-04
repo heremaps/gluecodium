@@ -18,19 +18,19 @@
 package another
 
 class AdditionalErrors {
-    enum ExternalErrors {
+    enum ExternalErrorCode {
         NONE,
         FAILED
     }
-    exception ExternalErrorsException(ExternalErrors)
+    exception External(ExternalErrorCode)
 }
 
 types TypeCollectionWithEnums {
-    enum ExplosiveErrors {
+    enum ExplosiveErrorCode {
         NONE,
         EXPLODED
     }
-    enum YetAnotherErrors {
+    enum YetAnotherErrorCode {
         GOOD,
         BAD
     }
@@ -38,6 +38,6 @@ types TypeCollectionWithEnums {
         RESULT,
         ANOTHER_RESULT
     }
-    exception ExplosiveErrorsException(ExplosiveErrors)
-    exception YetAnotherErrorsException(YetAnotherErrors)
+    exception Explosive(ExplosiveErrorCode)
+    exception YetAnother(YetAnotherErrorCode)
 }

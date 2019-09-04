@@ -37,10 +37,10 @@ class UseTopLevelTypes {
     static fun doStuff(
         point: TopLevelPoint,
         mode: TopLevelEnum
-    ): TopLevelAlias throws TopLevelException
+    ): TopLevelAlias throws TopLevel
 }
 
-exception TopLevelException(TopLevelEnum)
+exception TopLevel(TopLevelEnum)
 
 enum UnusedTopLevelEnum {
     DOESNT_WORK,

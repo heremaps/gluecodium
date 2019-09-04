@@ -34,7 +34,7 @@ enum class AlienEnum
     Bar
 };
 
-enum class AlienErrors
+enum class AlienErrorCode
 {
     NONE,
     BOOM
@@ -52,7 +52,7 @@ struct AlienStructure
     int32_t int_field;
 };
 
-std::error_code make_error_code( AlienErrors value ) noexcept;
+std::error_code make_error_code( AlienErrorCode value ) noexcept;
 }  // namespace even_more_external
 
 enum class Very_External_Enum
@@ -131,7 +131,7 @@ public:
 namespace std
 {
 template <>
-struct is_error_code_enum< external::even_more_external::AlienErrors > : public std::true_type
+struct is_error_code_enum< external::even_more_external::AlienErrorCode > : public std::true_type
 {
 };
 }  // namespace std

@@ -43,7 +43,7 @@ class comments {
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness throws /* This is some very useful enum. */ SomeCommentedEnumException
+    ): /* Usefulness of the input */ Usefulness throws /* This is some very useful enum. */ SomeCommented
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithInputComments(
         // Very useful input parameter
@@ -92,8 +92,8 @@ class comments {
         // Some very useful attribute.
         set
     }
-    // This is some very useful enum.
-    exception SomeCommentedEnumException(SomeCommentedEnum)
+    // This is some very useful exception.
+    exception SomeCommented(SomeCommentedEnum)
 }
 
 // This is some very useful interface.
@@ -164,7 +164,7 @@ types CommentsTypeCollection {
 // possible to references other interfaces like [another.CommentsInterface] or other members
 // [comments.someMethodWithAllComments].
 class CommentsLinks {
-    enum TooUseful {
+    enum TooUsefulErrorCode {
         Twice,
         ThreeTimes
     }
@@ -181,6 +181,7 @@ class CommentsLinks {
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
+    // * error: [TooUseful]
     //
     //
     // Not working for Java:
@@ -190,11 +191,10 @@ class CommentsLinks {
     // * top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]
     //
     // Not working:
-    // * error: [TooUsefulException]
     // * input parameter: [inputParameter]
     // * output parameter: [outputParameter]
     fun random_method(
         inputParameter: comments.SomeCommentedEnum
-    ): comments.SomeCommentedEnum throws TooUsefulException
-    exception TooUsefulException(TooUseful)
+    ): comments.SomeCommentedEnum throws TooUseful
+    exception TooUseful(TooUsefulErrorCode)
 }

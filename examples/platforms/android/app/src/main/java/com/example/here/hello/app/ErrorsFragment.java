@@ -86,7 +86,7 @@ public final class ErrorsFragment extends Fragment {
       case 0:
         try {
           HelloWorldErrors.helloWorldMethodWithError(flag);
-        } catch (HelloWorldErrors.InternalErrorsException exception) {
+        } catch (HelloWorldErrors.InternalException exception) {
           result.setText(
               String.format(
                   EXCEPTION_TEXT,
@@ -102,7 +102,7 @@ public final class ErrorsFragment extends Fragment {
 
         try {
           resultString = HelloWorldErrors.helloWorldMethodWithErrorAndString(flag);
-        } catch (HelloWorldErrors.InternalErrorsException exception) {
+        } catch (HelloWorldErrors.InternalException exception) {
           result.setText(
               String.format(
                   EXCEPTION_TEXT,

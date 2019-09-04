@@ -18,14 +18,14 @@
 package examples
 
 class Errors {
-    enum InternalErrors {
+    enum InternalErrorCode {
         NONE,
         CRASHED,
         EXPLODED
     }
 
-    static fun startSomethingOrFail() throws InternalErrorsException
-    static fun getSomethingOrFail(): String throws InternalErrorsException
+    static fun startSomethingOrFail() throws Fail
+    static fun getSomethingOrFail(): String throws Fail
 
-    exception InternalErrorsException(InternalErrors)
+    exception Fail(InternalErrorCode)
 }

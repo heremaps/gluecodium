@@ -18,11 +18,11 @@
 package test
 
 types ValidationUtils {
-    enum ValidationError {
+    enum ValidationErrorCode {
         NONE,
         VALIDATION_FAILED
     }
-    exception ValidationErrorException(ValidationError)
+    exception Validation(ValidationErrorCode)
 }
 
 types StructsWithMethods {
@@ -48,7 +48,7 @@ types StructsWithMethods {
         )
         constructor create(
             other: Vector
-        ) throws ValidationUtils.ValidationErrorException
+        ) throws ValidationUtils.Validation
     }
 }
 
@@ -80,7 +80,7 @@ class StructsWithMethodsInterface {
         )
         constructor create(
             other: Vector3
-        ) throws ValidationUtils.ValidationErrorException
+        ) throws ValidationUtils.Validation
     }
 }
 

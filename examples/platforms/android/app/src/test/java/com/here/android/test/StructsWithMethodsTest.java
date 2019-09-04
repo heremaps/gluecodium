@@ -96,16 +96,16 @@ public class StructsWithMethodsTest {
   }
 
   @Test
-  public void vectorCopyConstructorDoesNotThrow() throws ValidationErrorException {
+  public void vectorCopyConstructorDoesNotThrow() throws ValidationException {
     Vector vector = new Vector(1, 2);
 
     new Vector(vector);
   }
 
   @Test
-  public void vectorCopyConstructorThrows() throws ValidationErrorException {
+  public void vectorCopyConstructorThrows() throws ValidationException {
     Vector vector = new Vector(1, Double.NaN);
-    expectedException.expect(ValidationErrorException.class);
+    expectedException.expect(ValidationException.class);
 
     new Vector(vector);
   }
@@ -165,7 +165,7 @@ public class StructsWithMethodsTest {
   }
 
   @Test
-  public void vector3CopyConstructorDoesNotThrow() throws ValidationErrorException {
+  public void vector3CopyConstructorDoesNotThrow() throws ValidationException {
     StructsWithMethodsInterface.Vector3 vector =
         new StructsWithMethodsInterface.Vector3(1, 2, 3);
 
@@ -173,10 +173,10 @@ public class StructsWithMethodsTest {
   }
 
   @Test
-  public void vector3CopyConstructorThrows() throws ValidationErrorException {
+  public void vector3CopyConstructorThrows() throws ValidationException {
     StructsWithMethodsInterface.Vector3 vector =
         new StructsWithMethodsInterface.Vector3(1, Double.NaN, 3);
-    expectedException.expect(ValidationErrorException.class);
+    expectedException.expect(ValidationException.class);
 
     new StructsWithMethodsInterface.Vector3(vector);
   }

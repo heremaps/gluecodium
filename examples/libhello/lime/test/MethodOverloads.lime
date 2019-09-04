@@ -86,11 +86,11 @@ open class ConstructorOverloads {
     )
     constructor create(
         input: Double
-    ) throws ErrorEnumException
+    ) throws Some
     constructor create(
         input: List<Double>
     )
-    exception ErrorEnumException(ErrorEnum)
+    exception Some(ErrorEnum)
 }
 
 class ChildConstructorOverloads : ConstructorOverloads {
@@ -99,5 +99,5 @@ class ChildConstructorOverloads : ConstructorOverloads {
     @Java("createWithErrorChild")
     constructor create(
         input: Double
-    ) throws ConstructorOverloads.ErrorEnumException
+    ) throws ConstructorOverloads.Some
 }

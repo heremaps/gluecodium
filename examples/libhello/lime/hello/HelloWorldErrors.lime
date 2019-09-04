@@ -18,7 +18,7 @@
 package hello
 
 class HelloWorldErrors {
-    enum InternalErrors {
+    enum InternalErrorCode {
         NONE,
         CRASHED,
         EXPLODED
@@ -26,11 +26,11 @@ class HelloWorldErrors {
     // Example static method with an error enum that raises "CRASHED" error if errorFlag is true
     static fun helloWorldMethodWithError(
         errorFlag: Boolean
-    ) throws InternalErrorsException
+    ) throws Internal
     // Example static method with an error enum which returns a String and raises "CRASHED" error if
     // errorFlag is true
     static fun helloWorldMethodWithErrorAndString(
         errorFlag: Boolean
-    ): /* Output string */ String throws InternalErrorsException
-    exception InternalErrorsException(InternalErrors)
+    ): /* Output string */ String throws Internal
+    exception Internal(InternalErrorCode)
 }

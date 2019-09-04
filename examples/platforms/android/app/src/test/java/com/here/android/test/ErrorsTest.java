@@ -44,62 +44,62 @@ public class ErrorsTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
-  public void methodWithError_throws() throws Errors.InternalErrorsException {
-    expectedException.expect(Errors.InternalErrorsException.class);
+  public void methodWithError_throws() throws Errors.InternalException {
+    expectedException.expect(Errors.InternalException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", Errors.InternalErrors.CRASHED));
+        FieldMatcher.hasFieldWithValue("error", Errors.InternalErrorCode.CRASHED));
 
     Errors.methodWithError(true);
   }
 
   @Test
-  public void methodWithError_doesNotThrow() throws Errors.InternalErrorsException {
+  public void methodWithError_doesNotThrow() throws Errors.InternalException {
     Errors.methodWithError(false);
   }
 
   @Test
-  public void otherMethodWithError_throws() throws OtherErrors.InternalErrorsException {
-    expectedException.expect(OtherErrors.InternalErrorsException.class);
+  public void otherMethodWithError_throws() throws OtherErrors.InternalException {
+    expectedException.expect(OtherErrors.InternalException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", OtherErrors.InternalErrors.CRASHED));
+        FieldMatcher.hasFieldWithValue("error", OtherErrors.InternalErrorCode.CRASHED));
 
     OtherErrors.methodWithError(true);
   }
 
   @Test
   public void otherMethodWithError_doesNotThrow()
-      throws OtherErrors.InternalErrorsException {
+      throws OtherErrors.InternalException {
     OtherErrors.methodWithError(false);
   }
 
   @Test
   public void methodWithErrorAndString_throws()
-      throws AdditionalErrors.ExternalErrorsException {
-    expectedException.expect(AdditionalErrors.ExternalErrorsException.class);
+      throws AdditionalErrors.ExternalException {
+    expectedException.expect(AdditionalErrors.ExternalException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", AdditionalErrors.ExternalErrors.FAILED));
+        FieldMatcher.hasFieldWithValue("error", AdditionalErrors.ExternalErrorCode.FAILED));
 
     Errors.methodWithErrorAndString(true);
   }
 
   @Test
   public void methodWithErrorAndString_doesNotThrow()
-      throws AdditionalErrors.ExternalErrorsException {
+      throws AdditionalErrors.ExternalException {
     String result = Errors.methodWithErrorAndString(false);
 
     assertEquals("SUCCEEDED", result);
   }
 
   @Test
-  public void methodThatExplodes_throws() throws ExplosiveErrorsException {
-    expectedException.expect(ExplosiveErrorsException.class);
-    expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExplosiveErrors.EXPLODED));
+  public void methodThatExplodes_throws() throws ExplosiveException {
+    expectedException.expect(ExplosiveException.class);
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExplosiveErrorCode.EXPLODED));
 
     Errors.methodThatExplodes(true);
   }
 
   @Test
-  public void methodThatExplodes_doesNotThrow() throws ExplosiveErrorsException {
+  public void methodThatExplodes_doesNotThrow() throws ExplosiveException {
     byte[] result = Errors.methodThatExplodes(false);
 
     assertEquals(0, result[0]);
@@ -108,38 +108,38 @@ public class ErrorsTest {
   }
 
   @Test
-  public void methodWithGoodAndBad_throws() throws YetAnotherErrorsException {
-    expectedException.expect(YetAnotherErrorsException.class);
-    expectedException.expect(FieldMatcher.hasFieldWithValue("error", YetAnotherErrors.BAD));
+  public void methodWithGoodAndBad_throws() throws YetAnotherException {
+    expectedException.expect(YetAnotherException.class);
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", YetAnotherErrorCode.BAD));
 
     Errors.methodWithGoodAndBad(true);
   }
 
   @Test
-  public void methodWithGoodAndBad_doesNotThrow() throws YetAnotherErrorsException {
+  public void methodWithGoodAndBad_doesNotThrow() throws YetAnotherException {
     SomeEnum result = Errors.methodWithGoodAndBad(false);
 
     assertEquals(SomeEnum.ANOTHER_RESULT, result);
   }
 
   @Test
-  public void methodWithExternalError_throws() throws Errors.ExternalErrorsException {
-    expectedException.expect(Errors.ExternalErrorsException.class);
+  public void methodWithExternalError_throws() throws Errors.ExternalException {
+    expectedException.expect(Errors.ExternalException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", Errors.ExternalErrors.BOOM));
+        FieldMatcher.hasFieldWithValue("error", Errors.ExternalErrorCode.BOOM));
 
     Errors.methodWithExternalError(true);
   }
 
   @Test
-  public void methodWithExternalError_doesNotThrow() throws Errors.ExternalErrorsException {
+  public void methodWithExternalError_doesNotThrow() throws Errors.ExternalException {
     Errors.methodWithExternalError(false);
   }
 
   @Test
   public void getErrorCategoryMessage() {
-    String result = Errors.getErrorCategoryMessage(Errors.InternalErrors.CRASHED);
+    String result = Errors.getErrorCategoryMessage(Errors.InternalErrorCode.CRASHED);
 
-    assertEquals("::test::Errors::InternalErrors::CRASHED", result);
+    assertEquals("::test::Errors::InternalErrorCode::CRASHED", result);
   }
 }

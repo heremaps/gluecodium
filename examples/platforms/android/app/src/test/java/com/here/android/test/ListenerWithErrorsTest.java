@@ -24,8 +24,8 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
-import com.here.android.another.AdditionalErrors.ExternalErrors;
-import com.here.android.another.AdditionalErrors.ExternalErrorsException;
+import com.here.android.another.AdditionalErrors.ExternalErrorCode;
+import com.here.android.another.AdditionalErrors.ExternalException;
 import com.here.android.matchers.FieldMatcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -49,12 +49,12 @@ public class ListenerWithErrorsTest {
     private String data = "Doesn't work";
 
     @Override
-    public String getMessage() throws ExternalErrorsException {
+    public String getMessage() throws ExternalException {
       return data;
     }
 
     @Override
-    public void setMessage(String value) throws ExternalErrorsException {
+    public void setMessage(String value) throws ExternalException {
       data = value;
     }
   }
@@ -62,18 +62,18 @@ public class ListenerWithErrorsTest {
   static class ThrowingListener implements ListenerWithErrors {
 
     @Override
-    public String getMessage() throws ExternalErrorsException {
-      throw new ExternalErrorsException(ExternalErrors.FAILED);
+    public String getMessage() throws ExternalException {
+      throw new ExternalException(ExternalErrorCode.FAILED);
     }
 
     @Override
-    public void setMessage(String value) throws ExternalErrorsException {
-      throw new ExternalErrorsException(ExternalErrors.FAILED);
+    public void setMessage(String value) throws ExternalException {
+      throw new ExternalException(ExternalErrorCode.FAILED);
     }
   }
 
   @Test
-  public void stringRoundTripWorks() throws ExternalErrorsException {
+  public void stringRoundTripWorks() throws ExternalException {
     ListenerWithErrors listener = new TestListener();
 
     ErrorMessenger messenger = new ErrorMessenger();
@@ -84,19 +84,19 @@ public class ListenerWithErrorsTest {
   }
 
   @Test
-  public void getMessageErrorRethrown() throws ExternalErrorsException {
-    expectedException.expect(ExternalErrorsException.class);
+  public void getMessageErrorRethrown() throws ExternalException {
+    expectedException.expect(ExternalException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", ExternalErrors.FAILED));
+        FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
 
     new ErrorMessenger().getMessage(new ThrowingListener());
   }
 
   @Test
-  public void setMessageErrorRethrown() throws ExternalErrorsException {
-    expectedException.expect(ExternalErrorsException.class);
+  public void setMessageErrorRethrown() throws ExternalException {
+    expectedException.expect(ExternalException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", ExternalErrors.FAILED));
+        FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
 
     new ErrorMessenger().setMessage(new ThrowingListener(), "Foo");
   }

@@ -24,7 +24,7 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
-import com.here.android.hello.HelloWorldErrors.InternalErrors;
+import com.here.android.hello.HelloWorldErrors.InternalErrorCode;
 import com.here.android.matchers.FieldMatcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,33 +45,33 @@ public class HelloWorldErrorsTest {
 
   @Test
   public void helloWorldMethodWithError_throwsCrashed()
-      throws HelloWorldErrors.InternalErrorsException {
-    expectedException.expect(HelloWorldErrors.InternalErrorsException.class);
-    expectedException.expectMessage(Integer.toString(InternalErrors.CRASHED.value));
-    expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrors.CRASHED));
+      throws HelloWorldErrors.InternalException {
+    expectedException.expect(HelloWorldErrors.InternalException.class);
+    expectedException.expectMessage(Integer.toString(InternalErrorCode.CRASHED.value));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrorCode.CRASHED));
 
     HelloWorldErrors.helloWorldMethodWithError(true);
   }
 
   @Test
   public void helloWorldMethodWithError_doesNotThrow()
-      throws HelloWorldErrors.InternalErrorsException {
+      throws HelloWorldErrors.InternalException {
     HelloWorldErrors.helloWorldMethodWithError(false);
   }
 
   @Test
   public void helloWorldMethodWithErrorAndString_throwsCrashed()
-      throws HelloWorldErrors.InternalErrorsException {
-    expectedException.expect(HelloWorldErrors.InternalErrorsException.class);
-    expectedException.expectMessage(Integer.toString(InternalErrors.CRASHED.value));
-    expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrors.CRASHED));
+      throws HelloWorldErrors.InternalException {
+    expectedException.expect(HelloWorldErrors.InternalException.class);
+    expectedException.expectMessage(Integer.toString(InternalErrorCode.CRASHED.value));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrorCode.CRASHED));
 
     HelloWorldErrors.helloWorldMethodWithErrorAndString(true);
   }
 
   @Test
   public void helloWorldMethodWithErrorAndString_doesNotThrow()
-      throws HelloWorldErrors.InternalErrorsException {
+      throws HelloWorldErrors.InternalException {
     String result = HelloWorldErrors.helloWorldMethodWithErrorAndString(false);
 
     assertEquals("Hello!", result);

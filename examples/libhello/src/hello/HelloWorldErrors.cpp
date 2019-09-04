@@ -27,7 +27,7 @@ HelloWorldErrors::hello_world_method_with_error( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( HelloWorldErrors::InternalErrors::CRASHED );
+        return std::error_code( HelloWorldErrors::InternalErrorCode::CRASHED );
     }
     else
     {
@@ -40,7 +40,7 @@ HelloWorldErrors::hello_world_method_with_error_and_string( const bool error_fla
 {
     if ( error_flag )
     {
-        return std::error_code( HelloWorldErrors::InternalErrors::CRASHED );
+        return std::error_code( HelloWorldErrors::InternalErrorCode::CRASHED );
     }
     else
     {

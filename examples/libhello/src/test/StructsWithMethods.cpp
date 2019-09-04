@@ -57,7 +57,7 @@ Vector::create( const Vector& other )
 {
     return validate( other.x, other.y ) ?
         lorem_ipsum::test::Return< Vector, std::error_code >( Vector( other.x, other.y ) ) :
-        lorem_ipsum::test::Return< Vector, std::error_code >( ValidationError::VALIDATION_FAILED );
+        lorem_ipsum::test::Return< Vector, std::error_code >( ValidationErrorCode::VALIDATION_FAILED );
 }
 
 double
@@ -95,7 +95,7 @@ StructsWithMethodsInterface::Vector3::create( const StructsWithMethodsInterface:
         lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >(
             StructsWithMethodsInterface::Vector3( other.x, other.y, other.z ) ) :
         lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >(
-            ValidationError::VALIDATION_FAILED );
+            ValidationErrorCode::VALIDATION_FAILED );
 }
 
 }  // namespace test

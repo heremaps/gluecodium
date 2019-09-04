@@ -17,23 +17,23 @@
 
 package test
 
-import another.AdditionalErrors.ExternalErrorsException
+import another.AdditionalErrors.External
 
 interface ListenerWithErrors {
-    fun getMessage(): String throws ExternalErrorsException
+    fun getMessage(): String throws External
     fun setMessage(
         message: String
-    ) throws ExternalErrorsException
+    ) throws External
 }
 
 class ErrorMessenger {
     fun getMessage(
         listener: ListenerWithErrors
-    ): String throws ExternalErrorsException
+    ): String throws External
     fun setMessage(
         listener: ListenerWithErrors,
 
         message: String
-    ) throws ExternalErrorsException
+    ) throws External
     constructor create()
 }

@@ -32,7 +32,7 @@ Errors::method_with_error( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( Errors::InternalErrors::CRASHED );
+        return std::error_code( Errors::InternalErrorCode::CRASHED );
     }
     else
     {
@@ -45,7 +45,7 @@ OtherErrors::method_with_error( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( OtherErrors::InternalErrors::CRASHED );
+        return std::error_code( OtherErrors::InternalErrorCode::CRASHED );
     }
     else
     {
@@ -58,7 +58,7 @@ Errors::method_with_error_and_string( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( another::AdditionalErrors::ExternalErrors::FAILED );
+        return std::error_code( another::AdditionalErrors::ExternalErrorCode::FAILED );
     }
     else
     {
@@ -71,7 +71,7 @@ Errors::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( another::ExplosiveErrors::EXPLODED );
+        return std::error_code( another::ExplosiveErrorCode::EXPLODED );
     }
     else
     {
@@ -85,7 +85,7 @@ Errors::method_with_good_and_bad( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( another::YetAnotherErrors::BAD );
+        return std::error_code( another::YetAnotherErrorCode::BAD );
     }
     else
     {
@@ -98,7 +98,7 @@ Errors::method_with_external_error( const bool error_flag )
 {
     if ( error_flag )
     {
-        return external::even_more_external::AlienErrors::BOOM;
+        return external::even_more_external::AlienErrorCode::BOOM;
     }
     else
     {
@@ -111,7 +111,7 @@ Errors::method_with_error_and_non_default_struct( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( OtherErrors::InternalErrors::CRASHED );
+        return std::error_code( OtherErrors::InternalErrorCode::CRASHED );
     }
     else
     {
@@ -120,7 +120,7 @@ Errors::method_with_error_and_non_default_struct( const bool error_flag )
 }
 
 std::string
-Errors::get_error_category_message( const Errors::InternalErrors value )
+Errors::get_error_category_message( const Errors::InternalErrorCode value )
 {
     auto error_code = std::error_code{value};
     return error_code.category( ).message( error_code.value( ) );

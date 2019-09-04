@@ -17,69 +17,69 @@
 
 package test
 
-import another.TypeCollectionWithEnums.ExplosiveErrorsException
+import another.TypeCollectionWithEnums.Explosive
 import another.TypeCollectionWithEnums.SomeEnum
-import another.TypeCollectionWithEnums.YetAnotherErrorsException
+import another.TypeCollectionWithEnums.YetAnother
 
 class Errors {
     @Immutable
     struct NonDefaultConstructor {
         id: Long
     }
-    enum InternalErrors {
+    enum InternalErrorCode {
         NONE,
         CRASHED
     }
     @Cpp(
         ExternalType = "include/ExternalTypes.h",
-        ExternalName = "::external::even_more_external::AlienErrors"
+        ExternalName = "::external::even_more_external::AlienErrorCode"
     )
-    enum ExternalErrors {
+    enum ExternalErrorCode {
         NONE,
         BOOM
     }
     // Example static method with an error enum that raises "CRASHED" error if errorFlag is true
     static fun methodWithError(
         errorFlag: Boolean
-    ) throws InternalErrorsException
+    ) throws Internal
     // Example static method with an error enum which returns a String "SUCCEEDED" or raises "FAILED" error if
     // errorFlag is true
     static fun methodWithErrorAndString(
         errorFlag: Boolean
-    ): /* Output string */ String throws another.AdditionalErrors.ExternalErrorsException
+    ): /* Output string */ String throws another.AdditionalErrors.External
     // Example static method with an error enum which returns an array with bytes [x00, x01, x02]
     // or raises "EXPLODED" error if errorFlag is true
     static fun methodThatExplodes(
         errorFlag: Boolean
-    ): /* Output buffer */ Blob throws ExplosiveErrorsException
+    ): /* Output buffer */ Blob throws Explosive
     // Example static method with an error enum which returns enum ANOTHER_RESULT
     // or raises "BAD" error if errorFlag is true
     static fun methodWithGoodAndBad(
         errorFlag: Boolean
-    ): SomeEnum throws YetAnotherErrorsException
+    ): SomeEnum throws YetAnother
     // Example static method with an external error enum that raises "BOOM" error if errorFlag is true
     static fun methodWithExternalError(
         errorFlag: Boolean
-    ) throws ExternalErrorsException
+    ) throws External
     static fun getErrorCategoryMessage(
-        value: InternalErrors
+        value: InternalErrorCode
     ): String
     // Check whether Return works with structs without default constructor
     static fun methodWithErrorAndNonDefaultStruct(
         errorFlag: Boolean
-    ): NonDefaultConstructor throws InternalErrorsException
-    exception InternalErrorsException(InternalErrors)
-    exception ExternalErrorsException(ExternalErrors)
+    ): NonDefaultConstructor throws Internal
+    exception Internal(InternalErrorCode)
+    exception External(ExternalErrorCode)
 }
 
 class OtherErrors {
-    enum InternalErrors {
+    enum InternalErrorCode {
         NONE,
         CRASHED
     }
     // Example static method with an error enum that raises "CRASHED" error if errorFlag is true
     static fun methodWithError(
         errorFlag: Boolean
-    ) throws InternalErrorsException
-    exception InternalErrorsException(InternalErrors)
+    ) throws Internal
+    exception Internal(InternalErrorCode)
 }
