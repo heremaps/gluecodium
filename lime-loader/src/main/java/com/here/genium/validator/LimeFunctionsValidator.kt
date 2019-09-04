@@ -19,35 +19,44 @@
 
 package com.here.genium.validator
 
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeSignatureResolver
+import com.here.genium.model.lime.LimeTypeHelper
 
-internal class LimeMethodsSignatureValidator(private val logger: LimeLogger) {
+internal class LimeFunctionsValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val signatureResolver = LimeSignatureResolver(limeModel.referenceMap)
         val validationResults = limeModel.referenceMap.values
             .filterIsInstance<LimeFunction>()
-            .map { validateMethod(it, signatureResolver) }
+            .map { validateFunction(it, signatureResolver) }
 
         return !validationResults.contains(false)
     }
 
-    private fun validateMethod(
-        limeMethod: LimeFunction,
+    private fun validateFunction(
+        limeFunction: LimeFunction,
         signatureResolver: LimeSignatureResolver
-    ) = when {
-        limeMethod.isConstructor &&
-                signatureResolver.hasConstructorSignatureClash(limeMethod) -> {
-            logger.error(limeMethod, "constructor has conflicting overloads")
-            false
+    ): Boolean {
+        val thrownType =
+            limeFunction.thrownType?.typeRef?.type?.let { LimeTypeHelper.getActualType(it) }
+        return when {
+            limeFunction.isConstructor &&
+                    signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
+                logger.error(limeFunction, "constructor has conflicting overloads")
+                false
+            }
+            !limeFunction.isConstructor && signatureResolver.hasSignatureClash(limeFunction) -> {
+                logger.error(limeFunction, "function has conflicting overloads")
+                false
+            }
+            thrownType != null && thrownType !is LimeException -> {
+                logger.error(limeFunction, "function throws a non-exception type ${thrownType.fullName}")
+                false
+            }
+            else -> true
         }
-        !limeMethod.isConstructor && signatureResolver.hasSignatureClash(limeMethod) -> {
-            logger.error(limeMethod, "method has conflicting overloads")
-            logger.error(limeMethod, "method has conflicting overloads")
-            false
-        }
-        else -> true
     }
 }

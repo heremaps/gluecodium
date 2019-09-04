@@ -35,7 +35,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LimeMethodsSignatureValidatorTest(
+class LimeFunctionsValidatorSignatureTest(
     private val limeMethod1: LimeFunction,
     private val limeMethod2: LimeFunction,
     private val expectedResult: Boolean
@@ -44,7 +44,7 @@ class LimeMethodsSignatureValidatorTest(
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
-    private val validator = LimeMethodsSignatureValidator(mockk(relaxed = true))
+    private val validator = LimeFunctionsValidator(mockk(relaxed = true))
 
     @Test
     fun validateInContainer() {

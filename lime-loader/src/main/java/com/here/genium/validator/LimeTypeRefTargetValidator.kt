@@ -20,20 +20,28 @@
 package com.here.genium.validator
 
 import com.here.genium.common.LimeTypeRefsVisitor
+import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypesCollection
 
-// Validate against referring to a type collection directly.
-internal class LimeTypesContainerRefsValidator(private val logger: LimeLogger) :
+/**
+ * Validate against:
+ * * Referring to type collections directly.
+ * * Referring to non-enum types from exception types.
+ */
+internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
     LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?) =
-        when (val referredType = limeTypeRef?.type) {
-            is LimeTypesCollection -> {
+    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
+        val referredType = limeTypeRef?.type?.let { LimeTypeHelper.getActualType(it) }
+        return when {
+            referredType is LimeTypesCollection -> {
                 logger.error(
                     parentElement,
                     "refers to `types` container ${referredType.fullName} " +
@@ -41,6 +49,11 @@ internal class LimeTypesContainerRefsValidator(private val logger: LimeLogger) :
                 )
                 false
             }
+            parentElement is LimeException && referredType !is LimeEnumeration -> {
+                logger.error(parentElement, "refers to a non-enumeration type.")
+                false
+            }
             else -> true
         }
+    }
 }

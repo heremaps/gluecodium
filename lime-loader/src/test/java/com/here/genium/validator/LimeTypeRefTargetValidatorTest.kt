@@ -19,12 +19,16 @@
 
 package com.here.genium.validator
 
+import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypesCollection
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
@@ -34,12 +38,12 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class LimeTypesContainerRefsValidatorTest {
+class LimeTypeRefTargetValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
-    private val validator = LimeTypesContainerRefsValidator(mockk(relaxed = true))
+    private val validator = LimeTypeRefTargetValidator(mockk(relaxed = true))
 
     @Test
     fun validateClassReference() {
@@ -51,8 +55,40 @@ class LimeTypesContainerRefsValidatorTest {
 
     @Test
     fun validateTypesReference() {
-        val limeClass = LimeTypesCollection(EMPTY_PATH)
-        allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeClass))
+        val limeTypesCollection = LimeTypesCollection(EMPTY_PATH)
+        allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeTypesCollection))
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionWithEnum() {
+        val limeEnumeration = LimeEnumeration(EMPTY_PATH)
+        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnumeration))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionWithInvalidType() {
+        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionWithAliasedEnum() {
+        val limeEnumeration = LimeEnumeration(EMPTY_PATH)
+        val limeTypeAlias = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeEnumeration))
+        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeTypeAlias))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionWithAliasedInvalidType() {
+        val limeTypeAlias = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
+        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeTypeAlias))
 
         assertFalse(validator.validate(limeModel))
     }

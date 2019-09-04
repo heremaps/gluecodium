@@ -31,10 +31,10 @@ import com.here.genium.validator.LimeExternalTypesValidator
 import com.here.genium.validator.LimeGenericTypesValidator
 import com.here.genium.validator.LimeInheritanceValidator
 import com.here.genium.validator.LimeLogger
-import com.here.genium.validator.LimeMethodsSignatureValidator
+import com.here.genium.validator.LimeFunctionsValidator
 import com.here.genium.validator.LimeSerializableStructsValidator
 import com.here.genium.validator.LimeTypeRefsValidator
-import com.here.genium.validator.LimeTypesContainerRefsValidator
+import com.here.genium.validator.LimeTypeRefTargetValidator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.misc.ParseCancellationException
@@ -116,12 +116,12 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
 
     private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
-            { LimeTypesContainerRefsValidator(limeLogger).validate(it) },
+            { LimeTypeRefTargetValidator(limeLogger).validate(it) },
             { LimeGenericTypesValidator(limeLogger).validate(it) },
             { LimeEquatableStructsValidator(limeLogger).validate(it) },
             { LimeSerializableStructsValidator(limeLogger).validate(it) },
             { LimeInheritanceValidator(limeLogger).validate(it) },
-            { LimeMethodsSignatureValidator(limeLogger).validate(it) }
+            { LimeFunctionsValidator(limeLogger).validate(it) }
         )
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =
