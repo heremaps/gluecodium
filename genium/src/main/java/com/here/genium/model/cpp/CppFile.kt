@@ -22,7 +22,6 @@ package com.here.genium.model.cpp
 import com.here.genium.generator.cpp.TopologicalSort
 import com.here.genium.model.common.Include
 import java.util.TreeSet
-import kotlin.streams.toList
 
 class CppFile(
     val filename: String,
@@ -46,7 +45,7 @@ class CppFile(
 
     @Suppress("unused")
     val equatables: List<CppElement>
-        get() = members.flatMap { it.streamRecursive().toList() }
+        get() = members.flatMap { it.streamRecursive() }
             .filterIsInstance<CppExternableElement>()
             .filter { !it.isExternal && (it is CppEnum || it is CppClass && it.isEquatable || it is CppStruct && it.isEquatable) }
 
@@ -56,6 +55,6 @@ class CppFile(
 
     @Suppress("unused")
     val typeRegisteredClasses
-        get() = members.filterIsInstance<CppClass>()
+        get() = members.flatMap { it.streamRecursive() }.filterIsInstance<CppClass>()
             .filter { !it.isExternal && it.isInheritable && it.inheritances.isEmpty() }
 }

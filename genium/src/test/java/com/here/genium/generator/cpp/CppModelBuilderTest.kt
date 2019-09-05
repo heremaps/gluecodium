@@ -100,6 +100,7 @@ class CppModelBuilderTest {
     private val cppStruct = CppStruct("")
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))
     private val cppTypeRef = CppComplexTypeRef("foobarbaz")
+    private val cppClass = CppClass("", "")
 
     private val contextStack = MockContextStack<CppElement>()
 
@@ -159,6 +160,7 @@ class CppModelBuilderTest {
         contextStack.injectResult(cppUsing)
         contextStack.injectResult(cppStruct)
         contextStack.injectResult(cppConstant)
+        contextStack.injectResult(cppClass)
 
         modelBuilder.finishBuilding(limeInterface)
 
@@ -167,6 +169,7 @@ class CppModelBuilderTest {
         assertContains(cppUsing, result.members)
         assertContains(cppStruct, result.members)
         assertContains(cppConstant, result.members)
+        assertContains(cppClass, result.members)
     }
 
     @Test

@@ -120,8 +120,14 @@ class CppTypeMapper(
                 }
             }
             is LimeContainerWithInheritance -> {
-                val instanceType =
-                    mapInstanceType(limeType, !limeType.attributes.have(CPP, EXTERNAL_TYPE))
+                val isTopLevel = !limeType.path.hasParent
+                val isExternal = limeType.attributes.have(CPP, EXTERNAL_TYPE)
+                val instanceType = mapInstanceType(
+                    limeContainer = limeType,
+                    // C++ does not allow forward declarations for nested classes, so only top-level
+                    // classes are considered here.
+                    needsForwardDeclaration = isTopLevel && !isExternal
+                )
                 CppTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
             }
             is LimeSet -> {

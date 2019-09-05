@@ -20,35 +20,35 @@
   !}}
 {{#unless isExternal}}{{!!
 }}{{#set structName=name}}{{#constants}}
-const {{type.name}} {{#className}}{{.}}::{{/className}}{{structName}}::{{name}} = {{value.name}};
+const {{type.name}} {{#parentName}}{{.}}::{{/parentName}}{{structName}}::{{name}} = {{value.name}};
 {{/constants}}{{/set}}{{!!
 }}{{#if fields}}
-{{#if hasDefaultConstructor}}{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( ){{#if uninitializedFields}}
+{{#if hasDefaultConstructor}}{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( ){{#if uninitializedFields}}
     : {{#uninitializedFields}}{{name}}{ }{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}{{/if}}
 {
 }{{/if}}
 {{#if hasPartialDefaults}}
 
-{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} )
+{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} )
     : {{#uninitializedFields}}{{name}}{{#initializer}}( {{name}} ){{/initializer}}{{!!
 }}{{^initializer}}( {{name}} ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
 {
 }{{/if}}
 
-{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} )
+{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} )
     : {{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 
 {{/if}}{{!!
 }}{{#if isEquatable}}
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
+bool {{#parentName}}{{.}}::{{/parentName}}{{name}}::operator==( const {{name}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&
         " }};
 }
 
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rhs ) const
+bool {{#parentName}}{{.}}::{{/parentName}}{{name}}::operator!=( const {{name}}& rhs ) const
 {
     return !( *this == rhs );
 }

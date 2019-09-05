@@ -32,6 +32,7 @@ public:
 {{#instanceOf this "CppConstant"}}{{#set storageQualifier="static"}}{{prefixPartial "cpp/CppConstant" "    "}}{{/set}}{{/instanceOf}}
 {{#instanceOf this "CppUsing"}}{{prefixPartial "cpp/CppUsing" "    "}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}
+{{#instanceOf this "CppClass"}}{{prefixPartial "cpp/CppClass" "    "}}{{/instanceOf}}
 {{/sortedMembers}}
 
 {{/if}}

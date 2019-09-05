@@ -19,12 +19,12 @@
   !
   !}}
 {{#unless isExternal}}
-{{name}}::{{name}}() {
+{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}() {
 {{#if inheritances}}
     {{>common/InternalNamespace}}get_type_repository(this).add_type(this, "{{#namespace}}{{.}}_{{/namespace}}{{name}}");
 {{/if}}
 }
-{{name}}::~{{name}}() {
+{{#parentName}}{{.}}::{{/parentName}}{{name}}::~{{name}}() {
 {{#if inheritances}}
     {{>common/InternalNamespace}}get_type_repository(this).remove_type(this);
 {{/if}}
@@ -36,11 +36,12 @@ bool
     return !( *this == rhs );
 }
 {{/isEquatable}}{{/unless}}
-{{#set className=name}}{{#members}}
-{{#instanceOf this "CppConstant"}}{{#unless isExternal}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/unless}}{{/instanceOf}}
+{{#setJoin "parentName" parentName name delimiter="::"}}{{#members}}
+{{#instanceOf this "CppConstant"}}{{#unless isExternal}}const {{type.name}} {{parentName}}::{{name}} = {{value.name}};{{/unless}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
-{{/members}}{{/set}}
+{{#instanceOf this "CppClass"}}{{>cpp/CppClassImpl}}{{/instanceOf}}
+{{/members}}{{/setJoin}}
 {{#if isExternal}}{{#set className=fullyQualifiedName}}{{#methods}}
 {{>cpp/CppMethodStaticCheck}}
 {{/methods}}{{/set}}{{/if}}

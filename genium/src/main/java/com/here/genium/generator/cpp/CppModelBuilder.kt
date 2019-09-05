@@ -41,10 +41,10 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.genium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeConstant
@@ -80,7 +80,8 @@ class CppModelBuilder(
         val members = getPreviousResults(CppEnum::class.java) +
             getPreviousResults(CppUsing::class.java) +
             getPreviousResults(CppStruct::class.java) +
-            getPreviousResults(CppConstant::class.java)
+            getPreviousResults(CppConstant::class.java) +
+            getPreviousResults(CppClass::class.java)
 
         val limeParentType = limeContainer.parent?.type as? LimeContainerWithInheritance
         val inheritances = listOfNotNull(limeParentType?.let {

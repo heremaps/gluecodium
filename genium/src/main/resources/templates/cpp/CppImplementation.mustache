@@ -30,7 +30,7 @@ namespace {{.}} {
 {{/internalNamespace}}
 
 {{#typeRegisteredClasses}}
-TypeRepository& get_type_repository(const ::{{#namespace}}{{.}}::{{/namespace}}{{name}}*) {
+TypeRepository& get_type_repository(const {{fullyQualifiedName}}*) {
     static TypeRepository s_repo;
     return s_repo;
 }
