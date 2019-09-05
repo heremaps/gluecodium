@@ -16,16 +16,16 @@ public:
     Errors();
     virtual ~Errors() = 0;
 public:
-enum class InternalErrorCode {
-    ERROR_NONE,
-    ERROR_FATAL
-};
-using Boom = ::std::error_code;
+    enum class InternalErrorCode {
+        ERROR_NONE,
+        ERROR_FATAL
+    };
+    using Boom = ::std::error_code;
 public:
-static ::std::error_code method_with_errors(  );
-static ::std::error_code method_with_external_errors(  );
-static ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value(  );
-static ::std::error_code method_with_aliased_error(  );
+    static ::std::error_code method_with_errors(  );
+    static ::std::error_code method_with_external_errors(  );
+    static ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value(  );
+    static ::std::error_code method_with_aliased_error(  );
 };
 _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Errors::InternalErrorCode value ) noexcept;
 }

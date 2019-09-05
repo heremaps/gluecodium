@@ -15,6 +15,6 @@ public:
     UseFreeTypes();
     virtual ~UseFreeTypes() = 0;
 public:
-virtual ::genium::Return< ::smoke::FreeTypeDef, ::std::error_code > do_stuff( const ::smoke::FreePoint& point, const ::smoke::FreeEnum mode ) = 0;
+    virtual ::genium::Return< ::smoke::FreeTypeDef, ::std::error_code > do_stuff( const ::smoke::FreePoint& point, const ::smoke::FreeEnum mode ) = 0;
 };
 }

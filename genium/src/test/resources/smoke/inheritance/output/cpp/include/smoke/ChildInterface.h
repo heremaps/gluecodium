@@ -12,6 +12,6 @@ public:
     ChildInterface();
     virtual ~ChildInterface() = 0;
 public:
-virtual void child_method(  ) = 0;
+    virtual void child_method(  ) = 0;
 };
 }

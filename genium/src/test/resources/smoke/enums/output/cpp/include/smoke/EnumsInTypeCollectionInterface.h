@@ -11,6 +11,6 @@ public:
     EnumsInTypeCollectionInterface();
     virtual ~EnumsInTypeCollectionInterface() = 0;
 public:
-static ::smoke::TCEnum flip_enum_value( const ::smoke::TCEnum input );
+    static ::smoke::TCEnum flip_enum_value( const ::smoke::TCEnum input );
 };
 }

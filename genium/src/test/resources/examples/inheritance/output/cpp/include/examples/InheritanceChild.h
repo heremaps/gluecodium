@@ -13,6 +13,6 @@ public:
     InheritanceChild();
     virtual ~InheritanceChild() = 0;
 public:
-virtual int16_t child_method( const uint8_t input ) = 0;
+    virtual int16_t child_method( const uint8_t input ) = 0;
 };
 }

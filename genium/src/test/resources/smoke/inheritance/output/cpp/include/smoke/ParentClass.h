@@ -11,7 +11,7 @@ public:
     ParentClass();
     virtual ~ParentClass() = 0;
 public:
-virtual void root_method(  ) = 0;
+    virtual void root_method(  ) = 0;
 };
 }
 namespace genium {

@@ -28,20 +28,17 @@ public:
 {{#if members}}
 public:
 {{#sortedMembers}}
-{{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
-{{#instanceOf this "CppConstant"}}{{#set storageQualifier="static"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
-{{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
-{{#instanceOf this "CppStruct"}}
-{{>cpp/DocComment}}
-{{>cpp/CppStruct}}
-{{/instanceOf}}
+{{#instanceOf this "CppEnum"}}{{prefixPartial "cpp/CppEnum" "    "}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#set storageQualifier="static"}}{{prefixPartial "cpp/CppConstant" "    "}}{{/set}}{{/instanceOf}}
+{{#instanceOf this "CppUsing"}}{{prefixPartial "cpp/CppUsing" "    "}}{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}
 {{/sortedMembers}}
 
 {{/if}}
 {{#if methods}}
 public:
 {{#methods}}
-{{>cpp/CppMethodSignature}};
+{{prefixPartial "cpp/CppMethodSignature" "    "}};
 {{/methods}}
 
 {{/if}}

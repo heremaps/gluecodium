@@ -11,6 +11,6 @@ public:
     EnumMethods();
     virtual ~EnumMethods() = 0;
 public:
-static ::examples::ShoeSizes method_with_enumeration( const ::examples::ShoeSizes input );
+    static ::examples::ShoeSizes method_with_enumeration( const ::examples::ShoeSizes input );
 };
 }

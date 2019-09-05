@@ -28,24 +28,24 @@ public:
     GenericTypesWithCompoundTypes();
     virtual ~GenericTypesWithCompoundTypes() = 0;
 public:
-enum class SomeEnum {
-    FOO,
-    BAR
-};
-struct _GENIUM_CPP_EXPORT BasicStruct {
-    double value;
-    BasicStruct( );
-    BasicStruct( const double value );
-};
+    enum class SomeEnum {
+        FOO,
+        BAR
+    };
+    struct _GENIUM_CPP_EXPORT BasicStruct {
+        double value;
+        BasicStruct( );
+        BasicStruct( const double value );
+    };
 public:
-virtual ::std::vector< ::alien::FooStruct > method_with_struct_list( const ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;
-virtual ::std::unordered_map< ::std::string, ::alien::FooStruct > method_with_struct_map( const ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;
-virtual ::std::vector< ::alien::FooEnum > method_with_enum_list( const ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >& input ) = 0;
-virtual ::std::unordered_map< ::alien::FooEnum, bool, ::genium::hash< ::alien::FooEnum > > method_with_enum_map_key( const ::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >& input ) = 0;
-virtual ::std::unordered_map< int32_t, ::alien::FooEnum > method_with_enum_map_value( const ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >& input ) = 0;
-virtual ::std::unordered_set< ::alien::FooEnum, ::genium::hash< ::alien::FooEnum > > method_with_enum_set( const ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::genium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >& input ) = 0;
-virtual ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_list( const ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
-virtual ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_map( const ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
+    virtual ::std::vector< ::alien::FooStruct > method_with_struct_list( const ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;
+    virtual ::std::unordered_map< ::std::string, ::alien::FooStruct > method_with_struct_map( const ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;
+    virtual ::std::vector< ::alien::FooEnum > method_with_enum_list( const ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >& input ) = 0;
+    virtual ::std::unordered_map< ::alien::FooEnum, bool, ::genium::hash< ::alien::FooEnum > > method_with_enum_map_key( const ::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::genium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >& input ) = 0;
+    virtual ::std::unordered_map< int32_t, ::alien::FooEnum > method_with_enum_map_value( const ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >& input ) = 0;
+    virtual ::std::unordered_set< ::alien::FooEnum, ::genium::hash< ::alien::FooEnum > > method_with_enum_set( const ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::genium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >& input ) = 0;
+    virtual ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_list( const ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
+    virtual ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_map( const ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
 };
 }
 namespace genium {

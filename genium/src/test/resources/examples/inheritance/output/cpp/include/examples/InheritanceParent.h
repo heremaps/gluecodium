@@ -12,7 +12,7 @@ public:
     InheritanceParent();
     virtual ~InheritanceParent() = 0;
 public:
-virtual ::std::string parent_method( const ::std::string& input ) = 0;
+    virtual ::std::string parent_method( const ::std::string& input ) = 0;
 };
 }
 namespace genium {

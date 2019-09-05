@@ -14,12 +14,12 @@ public:
     UnicodeComments();
     virtual ~UnicodeComments() = 0;
 public:
-/**
- * Süßölgefäß
- * \param[in] input שלום
- * \return товарищ
- * \retval ::smoke::Comments::SomeEnum ネコ
- */
-virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
+    /**
+     * Süßölgefäß
+     * \param[in] input שלום
+     * \return товарищ
+     * \retval ::smoke::Comments::SomeEnum ネコ
+     */
+    virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
 };
 }

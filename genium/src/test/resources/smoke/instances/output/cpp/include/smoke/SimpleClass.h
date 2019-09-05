@@ -11,6 +11,6 @@ public:
     SimpleClass();
     virtual ~SimpleClass() = 0;
 public:
-virtual ::std::string get_string_value(  ) = 0;
+    virtual ::std::string get_string_value(  ) = 0;
 };
 }

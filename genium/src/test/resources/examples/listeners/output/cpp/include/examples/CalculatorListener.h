@@ -11,7 +11,7 @@ public:
     CalculatorListener();
     virtual ~CalculatorListener() = 0;
 public:
-virtual void on_calculation_result( const double calculation_result ) = 0;
+    virtual void on_calculation_result( const double calculation_result ) = 0;
 };
 }
 namespace genium {

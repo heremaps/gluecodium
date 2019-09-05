@@ -11,6 +11,6 @@ public:
     UnderscorePackage();
     virtual ~UnderscorePackage() = 0;
 public:
-static ::std::string basic_method( const ::std::string& input_string );
+    static ::std::string basic_method( const ::std::string& input_string );
 };
 }
