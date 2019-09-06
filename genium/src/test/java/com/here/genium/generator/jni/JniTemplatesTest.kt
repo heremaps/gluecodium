@@ -37,7 +37,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class JniTemplatesTest {
     private val jniContainer = JniContainer(
-        javaName = "classy",
+        javaNames = listOf("classy"),
         javaInterfaceName = "classy",
         cppName = "classy",
         containerType = JniContainer.ContainerType.CLASS
@@ -54,7 +54,7 @@ class JniTemplatesTest {
     fun isInterfaceProxyIsGenerated() {
         // Arrange
         val instantiableJniContainer = JniContainer(
-            javaName = "classy",
+            javaNames = listOf("classy"),
             javaInterfaceName = "classy",
             cppName = "classy",
             containerType = JniContainer.ContainerType.INTERFACE
@@ -107,7 +107,7 @@ class JniTemplatesTest {
     fun generateConversionFiles() {
         // Arrange
         val instantiableJniContainer = JniContainer(
-            javaName = "classy",
+            javaNames = listOf("classy"),
             javaInterfaceName = "classy",
             cppName = "classy",
             containerType = JniContainer.ContainerType.INTERFACE
@@ -139,7 +139,7 @@ class JniTemplatesTest {
     companion object {
         private const val MAIN_FILES_COUNT = 2
         private const val MAIN_FILES_WITH_INSTANCES_COUNT = 11
-        private const val PROXY_HEADER_NAME = "_classyCppProxy.h"
-        private const val PROXY_IMPLEMENTATION_NAME = "_classyCppProxy.cpp"
+        private const val PROXY_HEADER_NAME = "classyCppProxy.h"
+        private const val PROXY_IMPLEMENTATION_NAME = "classyCppProxy.cpp"
     }
 }

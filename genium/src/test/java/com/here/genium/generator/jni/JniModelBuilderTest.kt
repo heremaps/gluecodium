@@ -111,10 +111,9 @@ class JniModelBuilderTest {
         parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8))
     )
     private val javaClassName = "jAvaClazz"
-    private val mangledClassName = "/jAvaClazz"
     private val javaClass = JavaClass(javaClassName)
     private val cppClass = CppClass("cPpClass", "::cPpClass")
-    private val javaEnum = JavaEnum("jAvaClazz", emptyList())
+    private val javaEnum = JavaEnum("jAvaClazz")
     private val cppEnum = CppEnum("cPpClass", "::cPpClass", emptyList(), false, emptyList())
     private val javaCustomType = JavaCustomType("jAvaClazz")
     private val javaField = JavaField("theParam", javaCustomType, JavaValue(""))
@@ -243,7 +242,7 @@ class JniModelBuilderTest {
         val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
         assertEquals(JniContainer.ContainerType.INTERFACE, jniContainer.containerType)
         assertEquals("cPpClass", jniContainer.cppName)
-        assertEquals("jAvaClazz", jniContainer.javaName)
+        assertEquals("jAvaClazz", jniContainer.javaNames.first())
         assertEquals(listOf("foo", "bar"), jniContainer.cppNameSpaces)
         assertEquals(listOf("my", "java", "test"), jniContainer.javaPackages)
         assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
@@ -514,7 +513,7 @@ class JniModelBuilderTest {
         val jniField = modelBuilder.getFinalResult(JniField::class.java)
         assertNotNull(jniField)
         assertEquals(javaField.name, jniField.javaName)
-        assertEquals(mangledClassName, jniField.javaCustomType)
+        assertEquals(javaClassName, jniField.javaCustomType)
         assertEquals(cppField, jniField.cppField)
     }
 

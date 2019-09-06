@@ -60,7 +60,7 @@ class JavaTypeMapperTest {
     private val nonNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}
     private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
-    private val nameRules = JavaNameRules(nameRuleSet)
+    private val nameResolver = JavaNameResolver(JavaNameRules(nameRuleSet), limeReferenceMap)
 
     private val typeMapper = JavaTypeMapper(
         limeReferenceMap,
@@ -69,7 +69,7 @@ class JavaTypeMapperTest {
         serializationBase = null,
         nonNullAnnotation = nonNullAnnotation,
         nullableAnnotation = nullableAnnotation,
-        nameRules = nameRules
+        nameResolver = nameResolver
     )
 
     @Test
@@ -111,7 +111,7 @@ class JavaTypeMapperTest {
             serializationBase = null,
             nonNullAnnotation = null,
             nullableAnnotation = null,
-            nameRules = nameRules
+            nameResolver = nameResolver
         )
         val javaType = JavaPrimitiveType.BOOL
 
@@ -202,7 +202,7 @@ class JavaTypeMapperTest {
     fun mapCustomTypeContainer() {
         val limeType = LimeClass(LimePath(listOf("bar"), emptyList()))
 
-        val result = typeMapper.mapCustomType(limeType, "Foo")
+        val result = typeMapper.mapInheritanceParent(limeType, "Foo")
 
         assertTrue(result is JavaCustomType)
         assertEquals("Foo", result.name)
@@ -219,12 +219,12 @@ class JavaTypeMapperTest {
         limeReferenceMap["baz.foo"] = LimeTypesCollection(LimePath(listOf("baz"), emptyList()))
         val limeType = LimeStruct(LimePath(listOf("baz"), listOf("foo", "bar")))
 
-        val result = typeMapper.mapCustomType(limeType, "SomeType")
+        val result = typeMapper.mapCustomType(limeType)
 
         assertTrue(result is JavaCustomType)
-        assertEquals("SomeType", result.name)
+        assertEquals("Bar", result.name)
         assertEquals(listOf("com", "example", "baz"), (result as JavaCustomType).packageNames)
-        assertEquals("SomeType", result.imports.first().className)
+        assertEquals("Bar", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
             result.imports.first().javaPackage.packageNames
@@ -236,7 +236,7 @@ class JavaTypeMapperTest {
         limeReferenceMap["foo"] = LimeTypesCollection(LimePath(listOf("baz"), emptyList()))
         val limeType = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
 
-        val result = typeMapper.mapCustomType(limeType, "SomeType")
+        val result = typeMapper.mapCustomType(limeType)
 
         assertTrue(result is JavaEnumType)
     }
@@ -246,12 +246,12 @@ class JavaTypeMapperTest {
         limeReferenceMap["baz.foo"] = LimeInterface(LimePath(listOf("baz"), listOf("nonsense")))
         val limeType = LimeStruct(LimePath(listOf("baz"), listOf("foo", "bar")))
 
-        val result = typeMapper.mapCustomType(limeType, "SomeType")
+        val result = typeMapper.mapCustomType(limeType)
 
         assertTrue(result is JavaCustomType)
-        assertEquals("Nonsense.SomeType", result.name)
+        assertEquals("Foo.Bar", result.name)
         assertEquals(listOf("com", "example", "baz"), (result as JavaCustomType).packageNames)
-        assertEquals("Nonsense", result.imports.first().className)
+        assertEquals("Foo", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
             result.imports.first().javaPackage.packageNames

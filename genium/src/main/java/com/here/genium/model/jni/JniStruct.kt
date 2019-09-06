@@ -31,14 +31,15 @@ class JniStruct(
     val methods: List<JniMethod> = emptyList()
 ) : JniTopLevelElement(javaPackage) {
 
-    val includes get() = owningContainer.includes
-    val javaPackages get() = owningContainer.javaPackages
-    val mangledName get() = JniNameRules.getMangledName(getContainerPrefix() + javaStructName)
-    val cppFullyQualifiedName = cppStruct.fullyQualifiedName
+    val includes
+        get() = owningContainer.includes
 
-    private fun getContainerPrefix() =
-        when (owningContainer.containerType) {
-            JniContainer.ContainerType.TYPE_COLLECTION -> ""
-            else -> owningContainer.javaName + "$"
-        }
+    val javaPackages
+        get() = owningContainer.javaPackages
+
+    @Suppress("unused")
+    val mangledName: String
+        get() = JniNameRules.getMangledName(javaStructName)
+
+    val cppFullyQualifiedName = cppStruct.fullyQualifiedName
 }

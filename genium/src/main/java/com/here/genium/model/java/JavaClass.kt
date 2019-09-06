@@ -21,6 +21,7 @@ package com.here.genium.model.java
 
 class JavaClass(
     name: String,
+    classNames: List<String> = listOf(name),
     val extendedClass: JavaType? = null,
     val fields: List<JavaField> = emptyList(),
     methods: List<JavaMethod> = emptyList(),
@@ -33,7 +34,7 @@ class JavaClass(
     val isImmutable: Boolean = false,
     val needsBuilder: Boolean = false,
     var generatedConstructorComment: String? = null
-) : JavaTopLevelElement(name) {
+) : JavaTopLevelElement(name, classNames) {
 
     init {
         this.methods += methods

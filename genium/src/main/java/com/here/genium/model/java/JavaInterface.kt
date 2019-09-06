@@ -19,4 +19,7 @@
 
 package com.here.genium.model.java
 
-class JavaInterface(name: String) : JavaTopLevelElement(name)
+class JavaInterface(
+    name: String,
+    classNames: List<String> = listOf(name)
+) : JavaTopLevelElement(name, classNames)

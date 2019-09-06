@@ -19,9 +19,10 @@
 
 package com.here.genium.model.java
 
-class JavaExceptionClass(exceptionName: String, val enumTypeRef: JavaEnumType) :
-    JavaTopLevelElement(exceptionName) {
-
+class JavaExceptionClass(
+    exceptionName: String,
+    val enumTypeRef: JavaEnumType
+) : JavaTopLevelElement(exceptionName, listOf(exceptionName)) {
     init {
         super.javaPackage = JavaPackage(enumTypeRef.packageNames)
     }

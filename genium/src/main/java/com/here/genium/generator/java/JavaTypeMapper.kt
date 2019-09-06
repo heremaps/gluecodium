@@ -58,7 +58,7 @@ class JavaTypeMapper(
     val serializationBase: JavaType?,
     private val nonNullAnnotation: JavaType?,
     private val nullableAnnotation: JavaType?,
-    private val nameRules: JavaNameRules
+    private val nameResolver: JavaNameResolver
 ) {
     val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, internalPackage)
 
@@ -88,7 +88,7 @@ class JavaTypeMapper(
             is LimeContainerWithInheritance -> {
                 val packageNames =
                     basePackage.createChildPackage(limeType.path.head).packageNames
-                val className = nameRules.getName(limeType)
+                val className = nameResolver.getClassNames(limeType).joinToString(".")
                 JavaCustomType(
                     fullName = className,
                     packageNames = packageNames,
@@ -142,39 +142,24 @@ class JavaTypeMapper(
         return JavaTemplateType.create(templateClass, objectElementType)
     }
 
-    fun mapCustomType(
-        limeType: LimeType,
-        implClassName: String? = null
+    fun mapInheritanceParent(
+        limeContainer: LimeContainerWithInheritance,
+        implClassName: String
     ): JavaType {
-        val className = implClassName ?: nameRules.getName(limeType)
-        if (limeType is LimeContainerWithInheritance) {
-            val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
+        val packageNames = basePackage.createChildPackage(limeContainer.path.head).packageNames
+        return JavaCustomType(
+            fullName = implClassName,
+            packageNames = packageNames,
+            imports = setOf(JavaImport(implClassName, JavaPackage(packageNames)))
+        )
+    }
 
-            return JavaCustomType(
-                fullName = className,
-                packageNames = packageNames,
-                imports = setOf(JavaImport(className, JavaPackage(packageNames)))
-            )
-        }
-
-        val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as? LimeContainer
+    fun mapCustomType(limeType: LimeType): JavaType {
+        val classNames = nameResolver.getClassNames(limeType)
         val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
 
-        val importClassName: String
-        val typeName: String
-        val classNames: List<String>
-        if (parentContainer == null || parentContainer is LimeTypesCollection) {
-            importClassName = className
-            typeName = className
-            classNames = listOf(className)
-        } else {
-            importClassName = nameRules.getName(parentContainer)
-            typeName = "$importClassName.$className"
-            classNames = listOf(importClassName, className)
-        }
-
-        val javaImport = JavaImport(importClassName, JavaPackage(packageNames))
-
+        val javaImport = JavaImport(classNames.first(), JavaPackage(packageNames))
+        val typeName = classNames.joinToString(".")
         return when (limeType) {
             is LimeEnumeration -> JavaEnumType(typeName, classNames, packageNames, javaImport)
             else -> JavaCustomType(typeName, setOf(javaImport), classNames, packageNames)
@@ -184,7 +169,7 @@ class JavaTypeMapper(
     fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionType {
         val limeException =
             LimeTypeHelper.getActualType(limeThrownType.typeRef.type) as LimeException
-        val exceptionName = nameRules.getName(limeException)
+        val exceptionName = nameResolver.getName(limeException)
         val parentContainer = limeReferenceMap[limeException.path.parent.toString()] as? LimeContainer
         val javaPackage =
             JavaPackage(basePackage.createChildPackage(limeException.path.head).packageNames)
@@ -195,7 +180,7 @@ class JavaTypeMapper(
             importClassName = exceptionName
             classNames = listOf(exceptionName)
         } else {
-            importClassName = nameRules.getName(parentContainer)
+            importClassName = nameResolver.getName(parentContainer)
             classNames = listOf(importClassName, exceptionName)
         }
 

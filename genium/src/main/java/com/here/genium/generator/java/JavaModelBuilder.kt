@@ -70,7 +70,8 @@ class JavaModelBuilder(
     private val rootPackage: JavaPackage,
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
-    private val nameRules: JavaNameRules
+    private val nameRules: JavaNameRules,
+    private val nameResolver: JavaNameResolver
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
     private val nativeBase: JavaType = typeMapper.nativeBase
 
@@ -174,6 +175,7 @@ class JavaModelBuilder(
 
         val javaClass = JavaClass(
             name = nameRules.getName(limeStruct),
+            classNames = nameResolver.getClassNames(limeStruct),
             fields = getPreviousResults(JavaField::class.java),
             methods = methods,
             constants = getPreviousResults(JavaConstant::class.java),
@@ -222,8 +224,9 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val javaEnum = JavaEnum(
-            nameRules.getName(limeEnumeration),
-            getPreviousResults(JavaEnumItem::class.java)
+            name = nameRules.getName(limeEnumeration),
+            classNames = nameResolver.getClassNames(limeEnumeration),
+            items = getPreviousResults(JavaEnumItem::class.java)
         )
         javaEnum.visibility = getVisibility(limeEnumeration)
         javaEnum.javaPackage = rootPackage
@@ -331,7 +334,10 @@ class JavaModelBuilder(
 
     private fun createJavaInterface(limeInterface: LimeInterface): JavaInterface {
 
-        val javaInterface = JavaInterface(nameRules.getName(limeInterface))
+        val javaInterface = JavaInterface(
+            name = nameRules.getName(limeInterface),
+            classNames = nameResolver.getClassNames(limeInterface)
+        )
         javaInterface.visibility = getVisibility(limeInterface)
         javaInterface.javaPackage = rootPackage
 
@@ -359,8 +365,10 @@ class JavaModelBuilder(
             it.visibility = JavaVisibility.PUBLIC
         }
 
+        val implClassName = nameRules.getImplementationClassName(limeContainer)
         val javaClass = JavaClass(
-            name = nameRules.getImplementationClassName(limeContainer),
+            name = implClassName,
+            classNames = nameResolver.getClassNames(limeContainer).dropLast(1) + implClassName,
             extendedClass = extendedClass,
             methods = classMethods,
             isImplClass = true,
@@ -383,11 +391,12 @@ class JavaModelBuilder(
                 is LimeInterface -> nameRules.getImplementationClassName(it)
                 else -> nameRules.getName(it)
             }
-            extendedClass = typeMapper.mapCustomType(it, parentClassName)
+            extendedClass = typeMapper.mapInheritanceParent(it, parentClassName)
         }
 
         val javaClass = JavaClass(
             name = nameRules.getName(limeClass),
+            classNames = nameResolver.getClassNames(limeClass),
             extendedClass = extendedClass,
             fields = getPreviousResults(JavaField::class.java),
             isImplClass = true,
@@ -420,8 +429,10 @@ class JavaModelBuilder(
         var extendedClass = nativeBase
         val parentContainer = limeInterface.parent?.type as? LimeContainerWithInheritance
         if (parentContainer != null) {
-            javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentContainer))
-            extendedClass = typeMapper.mapCustomType(
+            val javaParent =
+                typeMapper.mapInheritanceParent(parentContainer, nameRules.getName(parentContainer))
+            javaInterface.parentInterfaces.add(javaParent)
+            extendedClass = typeMapper.mapInheritanceParent(
                 parentContainer,
                 nameRules.getImplementationClassName(parentContainer)
             )

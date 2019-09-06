@@ -45,9 +45,9 @@ JniReference<jclass>& get_cached_native_base_class()
 
 {{#models}}
 {{#if hasTypeRepository}}
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}", "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{mangledName}}", "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
 {{/if}}{{#unless hasTypeRepository}}
-REGISTER_JNI_CLASS_CACHE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}", {{cppFullyQualifiedName}})
+REGISTER_JNI_CLASS_CACHE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{mangledName}}", {{cppFullyQualifiedName}})
 {{/unless}}
 
 JniReference<jobject>

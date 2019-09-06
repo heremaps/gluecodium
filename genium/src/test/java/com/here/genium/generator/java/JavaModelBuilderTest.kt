@@ -109,7 +109,8 @@ class JavaModelBuilderTest {
             rootPackage = rootPackage,
             typeMapper = typeMapper,
             valueMapper = valueMapper,
-            nameRules = nameRules
+            nameRules = nameRules,
+            nameResolver = JavaNameResolver(nameRules, emptyMap())
         )
     }
 
@@ -557,7 +558,7 @@ class JavaModelBuilderTest {
             emptyList(),
             JavaImport("", JavaPackage.DEFAULT)
         )
-        every { typeMapper.mapCustomType(limeEnumeration, any()) } returns javaEnumTypeRef
+        every { typeMapper.mapCustomType(limeEnumeration) } returns javaEnumTypeRef
 
         modelBuilder.finishBuilding(limeException)
 
@@ -581,7 +582,7 @@ class JavaModelBuilderTest {
             emptyList(),
             JavaImport("", JavaPackage.DEFAULT)
         )
-        every { typeMapper.mapCustomType(limeEnumeration, any()) } returns javaEnumTypeRef
+        every { typeMapper.mapCustomType(limeEnumeration) } returns javaEnumTypeRef
 
         modelBuilder.finishBuilding(limeException)
 

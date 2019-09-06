@@ -105,7 +105,7 @@ class JniModelBuilder(
         val jniContainer = JniContainer(
             javaPackages = javaTopLevelElement.javaPackage.packageNames,
             cppNameSpaces = limeContainer.path.head,
-            javaName = javaClass.name,
+            javaNames = javaClass.classNames,
             javaInterfaceName = javaTopLevelElement.name,
             cppName = cppClass.name,
             cppFullyQualifiedName = cppClass.fullyQualifiedName,
@@ -195,7 +195,7 @@ class JniModelBuilder(
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
         val jniStruct = JniStruct(
-            javaStructName = javaClass.name,
+            javaStructName = javaClass.classNames.joinToString("$"),
             javaPackage = javaClass.javaPackage,
             cppStruct = cppStruct,
             fields = getPreviousResults(JniField::class.java),
@@ -227,7 +227,7 @@ class JniModelBuilder(
         val javaEnum = javaBuilder.getFinalResult(JavaEnum::class.java)
         val cppEnum = cppBuilder.getFinalResult(CppEnum::class.java)
         val jniEnum = JniEnum(
-            javaEnumName = javaEnum.name,
+            javaEnumName = javaEnum.classNames.joinToString("$"),
             cppEnumName = cppEnum.fullyQualifiedName,
             javaPackage = javaEnum.javaPackage,
             enumerators = getPreviousResults(JniEnumerator::class.java)

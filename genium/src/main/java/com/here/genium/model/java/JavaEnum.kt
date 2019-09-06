@@ -19,6 +19,10 @@
 
 package com.here.genium.model.java
 
-class JavaEnum(name: String, val items: List<JavaEnumItem>) : JavaTopLevelElement(name) {
+class JavaEnum(
+    name: String,
+    classNames: List<String> = listOf(name),
+    val items: List<JavaEnumItem> = emptyList()
+) : JavaTopLevelElement(name, classNames) {
     override fun stream() = super.stream() + items
 }

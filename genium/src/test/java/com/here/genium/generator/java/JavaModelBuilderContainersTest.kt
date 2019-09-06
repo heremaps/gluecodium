@@ -66,7 +66,7 @@ class JavaModelBuilderContainersTest {
     @MockK private lateinit var valueMapper: JavaValueMapper
 
     private val javaConstant = JavaConstant("", JavaPrimitiveType.VOID, JavaValue(""))
-    private val javaEnum = JavaEnum("", emptyList())
+    private val javaEnum = JavaEnum("")
     private val javaEnumTypeRef =
         JavaEnumType("", emptyList(), emptyList(), JavaImport("", JavaPackage.DEFAULT))
     private val javaException = JavaExceptionClass("", javaEnumTypeRef)
@@ -98,13 +98,14 @@ class JavaModelBuilderContainersTest {
             typeMapper = typeMapper,
             valueMapper = valueMapper,
             nameRules = nameRules,
+            nameResolver = JavaNameResolver(nameRules, emptyMap()),
             contextStack = contextStack
         )
     }
 
     @Test
     fun finishBuildingTypeCollectionPropagatesElements() {
-        val javaTopLevelElement = object : JavaTopLevelElement("") {}
+        val javaTopLevelElement = object : JavaTopLevelElement("", emptyList()) {}
         contextStack.injectResult(javaTopLevelElement)
         val limeElement = LimeTypesCollection(EMPTY_PATH)
 
@@ -250,7 +251,7 @@ class JavaModelBuilderContainersTest {
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
-        every { typeMapper.mapCustomType(parentContainer, null) } returns javaType
+        every { typeMapper.mapInheritanceParent(parentContainer, any()) } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -378,7 +379,7 @@ class JavaModelBuilderContainersTest {
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
-        every { typeMapper.mapCustomType(parentContainer, "BarImpl") } returns javaType
+        every { typeMapper.mapInheritanceParent(parentContainer, "BarImpl") } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -395,7 +396,7 @@ class JavaModelBuilderContainersTest {
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
-        every { typeMapper.mapCustomType(parentContainer, "Bar") } returns javaType
+        every { typeMapper.mapInheritanceParent(parentContainer, "Bar") } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
 

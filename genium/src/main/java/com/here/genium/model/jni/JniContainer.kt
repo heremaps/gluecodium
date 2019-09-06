@@ -30,9 +30,9 @@ import com.here.genium.model.common.Include
  * interface or the name of the package in case of type collection.
  */
 class JniContainer(
-    val javaPackages: List<String> = listOf(),
-    val cppNameSpaces: List<String> = listOf(),
-    val javaName: String? = null,
+    val javaPackages: List<String> = emptyList(),
+    val cppNameSpaces: List<String> = emptyList(),
+    val javaNames: List<String> = emptyList(),
     val javaInterfaceName: String? = null,
     val cppName: String? = null,
     val cppFullyQualifiedName: String? = null,
@@ -51,7 +51,7 @@ class JniContainer(
     val hasNativeEquatable =
         containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
     @Suppress("unused")
-    val mangledName = javaName?.let { JniNameRules.getMangledName(it) }
+    val mangledName = JniNameRules.getMangledName(javaNames.joinToString("$"))
 
     enum class ContainerType {
         TYPE_COLLECTION,

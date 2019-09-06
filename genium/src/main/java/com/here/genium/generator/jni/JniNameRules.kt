@@ -23,31 +23,24 @@ import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.jni.JniContainer
 import com.here.genium.model.jni.JniStruct
 import java.io.File
-import java.util.Arrays
-import java.util.LinkedList
 
-class JniNameRules(private val generatorName: String) {
+class JniNameRules(generatorName: String) {
 
-    private val jniPathPrefix: String
-        get() = generatorName + File.separator + "jni" + File.separator
+    private val jniPathPrefix = generatorName + File.separator + "jni" + File.separator
 
-    fun getHeaderFilePath(fileName: String): String {
-        return jniPathPrefix + getHeaderFileName(fileName)
-    }
+    fun getHeaderFilePath(fileName: String) = jniPathPrefix + getHeaderFileName(fileName)
 
-    fun getImplementationFilePath(fileName: String): String {
-        return jniPathPrefix + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX
-    }
+    fun getImplementationFilePath(fileName: String) =
+        jniPathPrefix + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX
 
     companion object {
-
-        private val JNI_HEADER_FILE_SUFFIX = ".h"
-        private val JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp"
-        val JNI_ENUM_CONVERSION_NAME = "EnumConversion"
-        val JNI_STRUCT_CONVERSION_NAME = "StructConversion"
-        val JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion"
-        val JNI_PROXY_CONVERSION_NAME = "ProxyConversion"
-        val JNI_CPP_PROXY_SUFFIX = "CppProxy"
+        private const val JNI_HEADER_FILE_SUFFIX = ".h"
+        private const val JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp"
+        const val JNI_ENUM_CONVERSION_NAME = "EnumConversion"
+        const val JNI_STRUCT_CONVERSION_NAME = "StructConversion"
+        const val JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion"
+        const val JNI_PROXY_CONVERSION_NAME = "ProxyConversion"
+        const val JNI_CPP_PROXY_SUFFIX = "CppProxy"
 
         fun getHeaderFileName(fileName: String): String {
             return fileName + JNI_HEADER_FILE_SUFFIX
@@ -65,36 +58,13 @@ class JniNameRules(private val generatorName: String) {
                 .replace("/", "_")
         }
 
-        fun getFullClassName(javaType: JavaCustomType): String {
-            return javaType.packageNames.joinToString("/") + "/" + javaType.classNames.joinToString(
-                "$"
-            )
-        }
+        fun getFullClassName(javaType: JavaCustomType) =
+            (javaType.packageNames + javaType.classNames.joinToString("$")).joinToString("/")
 
-        private fun formatPackageName(packageNames: List<String>): String {
-            return if (packageNames.isEmpty()) "" else packageNames.joinToString("_")
-        }
+        fun getJniClassFileName(jniContainer: JniContainer) =
+            (jniContainer.javaPackages + jniContainer.javaNames).joinToString("_")
 
-        fun getJniClassFileName(jniContainer: JniContainer): String {
-            val nameComponents = Arrays.asList<String>(
-                formatPackageName(jniContainer.javaPackages), jniContainer.javaName
-            )
-            return nameComponents.joinToString("_")
-        }
-
-        fun getJniStructFileName(
-            jniContainer: JniContainer,
-            jniStruct: JniStruct
-        ): String {
-
-            val nameComponents = LinkedList<String>()
-            nameComponents.add(formatPackageName(jniContainer.javaPackages))
-            if (jniContainer.javaName != null) {
-                nameComponents.add(jniContainer.javaName)
-            }
-            nameComponents.add(jniStruct.javaStructName)
-
-            return nameComponents.joinToString("_")
-        }
+        fun getJniStructFileName(jniContainer: JniContainer, jniStruct: JniStruct) =
+            (jniContainer.javaPackages + jniStruct.javaStructName.replace("$", "_")).joinToString("_")
     }
 }

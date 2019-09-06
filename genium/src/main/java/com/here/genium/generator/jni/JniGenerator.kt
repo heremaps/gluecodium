@@ -27,6 +27,7 @@ import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.generator.java.JavaNameResolver
 import com.here.genium.generator.java.JavaNameRules
 import com.here.genium.generator.java.JavaSignatureResolver
 import com.here.genium.generator.java.JavaTypeMapper
@@ -57,6 +58,7 @@ class JniGenerator(
     private val javaNameRules: JavaNameRules
 ) {
     private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
+    private val javaNameResolver = JavaNameResolver(javaNameRules, limeReferenceMap)
 
     fun generateModel(rootElement: LimeNamedElement): JavaModel {
         val basePackage = JavaPackage(basePackages)
@@ -68,13 +70,14 @@ class JniGenerator(
             serializationBase = if (enableAndroidFeatures) PARCELABLE else null,
             nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation,
-            nameRules = javaNameRules
+            nameResolver = javaNameResolver
         )
         val javaBuilder = JavaModelBuilder(
             rootPackage = basePackage.createChildPackage(rootElement.path.head),
             typeMapper = javaTypeMapper,
             valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules, javaTypeMapper),
-            nameRules = javaNameRules
+            nameRules = javaNameRules,
+            nameResolver = javaNameResolver
         )
 
         val includeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules)
