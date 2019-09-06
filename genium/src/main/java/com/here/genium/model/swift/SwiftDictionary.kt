@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 class SwiftDictionary(
     val keyType: SwiftType,
     val valueType: SwiftType,
@@ -31,7 +29,7 @@ class SwiftDictionary(
     override fun withAlias(aliasName: String) =
         SwiftDictionary(keyType, valueType, cPrefix, aliasName)
 
-    override fun stream() = Stream.concat(super.stream(), Stream.of(keyType, valueType))
+    override fun stream() = super.stream() + keyType + valueType
 
     companion object {
         private fun composePublicName(keyType: SwiftType, valueType: SwiftType) =

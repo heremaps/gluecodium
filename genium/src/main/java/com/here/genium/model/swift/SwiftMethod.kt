@@ -22,8 +22,6 @@ package com.here.genium.model.swift
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.NameHelper
 import com.here.genium.model.common.Comments
-import java.util.function.Function
-import java.util.stream.Stream
 
 class SwiftMethod(
     name: String,
@@ -57,8 +55,5 @@ class SwiftMethod(
         cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE
     )
 
-    override fun stream(): Stream<SwiftModelElement> =
-        Stream.of(super.stream(), parameters.stream(), Stream.of(returnType)).flatMap(
-            Function.identity()
-        )
+    override fun stream() = super.stream() + parameters + returnType
 }

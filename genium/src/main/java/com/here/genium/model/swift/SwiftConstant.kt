@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 class SwiftConstant(
     name: String,
     visibility: SwiftVisibility?,
@@ -28,5 +26,5 @@ class SwiftConstant(
     val value: SwiftValue
 ) : SwiftTypedModelElement(name, visibility, type) {
 
-    override fun stream() = Stream.concat(super.stream(), Stream.of(value))
+    override fun stream() = super.stream() + value
 }

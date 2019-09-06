@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 class SwiftProperty(
     propertyName: String,
     visibility: SwiftVisibility?,
@@ -30,9 +28,5 @@ class SwiftProperty(
     val isStatic: Boolean
 ) : SwiftTypedModelElement(propertyName, visibility, type) {
 
-    override fun stream() =
-        if (setter != null)
-            Stream.concat(super.stream(), Stream.of(getter, setter))
-        else
-            Stream.concat(super.stream(), Stream.of(getter))
+    override fun stream() = super.stream() + listOfNotNull(getter, setter)
 }

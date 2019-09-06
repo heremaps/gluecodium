@@ -19,10 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.function.Function
-import java.util.stream.Stream
-import kotlin.streams.toList
-
 class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val classes = mutableListOf<SwiftClass>()
     val structs = mutableListOf<SwiftStruct>()
@@ -41,14 +37,7 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
      */
     @Suppress("Unused")
     val allErrors
-        get() = streamRecursive().toList().filterIsInstance(SwiftError::class.java)
+        get() = streamRecursive().filterIsInstance<SwiftError>()
 
-    override fun stream() =
-        Stream.of(
-            super.stream(),
-            classes.stream(),
-            structs.stream(),
-            enums.stream(),
-            typeDefs.stream()
-        ).flatMap(Function.identity())
+    override fun stream() = super.stream() + classes + structs + enums + typeDefs
 }

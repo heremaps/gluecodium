@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 class SwiftArray private constructor(
     val underlyingType: SwiftType,
     visibility: SwiftVisibility?,
@@ -56,8 +54,7 @@ class SwiftArray private constructor(
     fun withoutAlias() =
         SwiftArray(underlyingType, visibility, getImplName(underlyingType), optional, cPrefix)
 
-    override fun stream() =
-        Stream.concat(super.stream(), Stream.of(underlyingType))
+    override fun stream() = super.stream() + underlyingType
 
     companion object {
         private fun getImplName(underlyingType: SwiftType) = "[${underlyingType.publicName}]"

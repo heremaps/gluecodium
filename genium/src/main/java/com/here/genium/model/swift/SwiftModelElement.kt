@@ -20,14 +20,13 @@
 package com.here.genium.model.swift
 
 import com.here.genium.model.common.Comments
-import com.here.genium.model.common.Streamable
-import java.util.stream.Stream
+import com.here.genium.model.common.PseudoStreamable
 import org.trimou.util.Strings
 
 abstract class SwiftModelElement(
     val name: String,
     visibility: SwiftVisibility? = null
-) : Streamable<SwiftModelElement>() {
+) : PseudoStreamable<SwiftModelElement>() {
     val visibility = visibility ?: SwiftVisibility.PUBLIC
     var comment = Comments()
 
@@ -39,5 +38,5 @@ abstract class SwiftModelElement(
 
     override fun toString() = name
 
-    override fun stream(): Stream<SwiftModelElement> = Stream.empty()
+    override fun stream() = emptyList<SwiftModelElement>()
 }

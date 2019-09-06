@@ -19,9 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.function.Function
-import java.util.stream.Stream
-
 class SwiftStruct(
     name: String,
     cPrefix: String = "",
@@ -100,7 +97,5 @@ class SwiftStruct(
         return swiftStruct
     }
 
-    override fun stream(): Stream<SwiftModelElement> =
-        Stream.of(super.stream(), fields.stream(), constants.stream()).flatMap(
-            Function.identity())
+    override fun stream() = super.stream() + fields + constants
 }

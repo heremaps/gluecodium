@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 class SwiftField(
     name: String,
     visibility: SwiftVisibility?,
@@ -28,9 +26,5 @@ class SwiftField(
     val defaultValue: SwiftValue?
 ) : SwiftTypedModelElement(name, visibility, type) {
 
-    override fun stream() =
-        if (defaultValue == null)
-            super.stream()
-        else
-            Stream.concat(super.stream(), Stream.of(defaultValue))
+    override fun stream() = super.stream() + listOfNotNull(defaultValue)
 }

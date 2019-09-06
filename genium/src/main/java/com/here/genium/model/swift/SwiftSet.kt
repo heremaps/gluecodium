@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 class SwiftSet(
     val elementType: SwiftType,
     cPrefix: String,
@@ -45,7 +43,7 @@ class SwiftSet(
             else -> this
         }
 
-    override fun stream() = Stream.concat(super.stream(), Stream.of(elementType))
+    override fun stream() = super.stream() + elementType
 
     companion object {
         private fun getImplName(underlyingType: SwiftType) =

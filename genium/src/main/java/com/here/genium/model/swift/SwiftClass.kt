@@ -19,9 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.function.Function
-import java.util.stream.Stream
-
 class SwiftClass(
     name: String,
     visibility: SwiftVisibility? = null,
@@ -61,17 +58,6 @@ class SwiftClass(
     val constructors
         get() = methods.filter { it.isConstructor }
 
-    override fun stream(): Stream<SwiftModelElement> {
-        return Stream.of(
-            super.stream(),
-            properties.stream(),
-            methods.stream(),
-            structs.stream(),
-            enums.stream(),
-            typedefs.stream(),
-            constants.stream()
-        ).flatMap(
-            Function.identity()
-        )
-    }
+    override fun stream() =
+        super.stream() + properties + methods + structs + enums + typedefs + constants
 }

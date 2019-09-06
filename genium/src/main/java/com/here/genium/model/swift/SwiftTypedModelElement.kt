@@ -19,13 +19,10 @@
 
 package com.here.genium.model.swift
 
-import java.util.stream.Stream
-
 abstract class SwiftTypedModelElement(
     name: String,
     visibility: SwiftVisibility?,
     val type: SwiftType
 ) : SwiftModelElement(name, visibility) {
-
-    override fun stream() = Stream.concat(super.stream(), Stream.of(type))
+    override fun stream() = super.stream() + type
 }

@@ -37,7 +37,6 @@ import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.platform.common.GeneratorSuite
-import kotlin.streams.toList
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -86,7 +85,7 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             swiftModel.referenceMap.mapValues { elementToSwiftName[it.value] ?: "" }
         val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
-        swiftModel.containers.flatMap { it.streamRecursive().toList() }
+        swiftModel.containers.flatMap { it.streamRecursive() }
             .filterIsInstance<SwiftModelElement>()
             .forEach { processElementComments(it, elementToLimeName, limeToSwiftName) }
 
