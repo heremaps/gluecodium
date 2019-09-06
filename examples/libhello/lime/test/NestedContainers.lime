@@ -15,18 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package smoke
-
-class OuterClass {
-    class InnerClass {
-        fun foo(input: String): String
-    }
-    interface InnerInterface {
-        fun foo(input: String): String
-    }
-
-    fun foo(input: String): String
-}
+package test
 
 interface OuterInterface {
     class InnerClass {
@@ -42,14 +31,11 @@ interface OuterInterface {
 class LevelOne {
     class LevelTwo {
         class LevelThree {
-            fun foo(input: OuterClass.InnerInterface): OuterInterface.InnerClass
+            fun foo(input: OuterInterface.InnerClass): OuterInterface.InnerClass
             struct LevelFour {
                 stringField: String
                 static fun foo_factory(): LevelFour
                 const FOO: Boolean = false
-            }
-            enum LevelFourEnum {
-                NONE
             }
         }
     }

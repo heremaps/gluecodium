@@ -357,6 +357,13 @@ feature(TopLevelTypes cpp android swift SOURCES
     lime/test/TopLevelTypes.lime
 )
 
+# TODO: APIGEN-1727: merge with "TopLevelTypes" into "Nesting" feature when all generators are done
+feature(NestedContainers cpp SOURCES
+    src/test/NestedContainers.cpp
+
+    lime/test/NestedContainers.lime
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

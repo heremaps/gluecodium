@@ -4,6 +4,14 @@ import smoke.OuterInterface.InnerClass
 class LevelOne {
     class LevelTwo {
         class LevelThree {
+            enum LevelFourEnum {
+                NONE
+            }
+            struct LevelFour {
+                stringField: String
+                const FOO: Boolean = false
+                static fun foo_factory(): LevelFour
+            }
             fun foo(
                 input: InnerInterface
             ): InnerClass
