@@ -30,6 +30,6 @@ struct is_error_code_enum< ::package::Enum > : public std::true_type { };
 namespace genium {
 template<>
 struct hash< ::package::Enum > {
-    std::size_t operator( )( const ::package::Enum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::package::Enum& t ) const;
 };
 }

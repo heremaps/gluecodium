@@ -75,13 +75,13 @@ namespace {{.}} {
 {{#equatables}}
 template<>
 struct hash< {{fullyQualifiedName}} > {
-    std::size_t operator( )( const {{fullyQualifiedName}}& t ) const;
+    {{>cpp/CppExportMacro}}std::size_t operator( )( const {{fullyQualifiedName}}& t ) const;
 };
 {{#instanceOf this "CppClass"}}
 template <>
 struct EqualityHash< std::shared_ptr< {{fullyQualifiedName}} > >
 {
-    std::size_t operator( )( const std::shared_ptr< {{fullyQualifiedName}} >& t ) const;
+    {{>cpp/CppExportMacro}}std::size_t operator( )( const std::shared_ptr< {{fullyQualifiedName}} >& t ) const;
 };
 {{/instanceOf}}
 {{/equatables}}

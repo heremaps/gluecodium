@@ -95,6 +95,6 @@ public:
 namespace genium {
 template<>
 struct hash< ::smoke::Structs::FooBar > {
-    std::size_t operator( )( const ::smoke::Structs::FooBar& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Structs::FooBar& t ) const;
 };
 }

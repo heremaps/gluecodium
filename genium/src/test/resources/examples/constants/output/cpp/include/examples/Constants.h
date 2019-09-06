@@ -21,6 +21,6 @@ _GENIUM_CPP_EXPORT extern const ::examples::StateEnum ENUM_CONSTANT;
 namespace genium {
 template<>
 struct hash< ::examples::StateEnum > {
-    std::size_t operator( )( const ::examples::StateEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::StateEnum& t ) const;
 };
 }

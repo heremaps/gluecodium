@@ -56,6 +56,6 @@ struct is_error_code_enum< ::namerules::NameRules::ExampleErrorCode > : public s
 namespace  {
 template<>
 struct hash< ::namerules::NameRules::ExampleErrorCode > {
-    std::size_t operator( )( const ::namerules::NameRules::ExampleErrorCode& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::namerules::NameRules::ExampleErrorCode& t ) const;
 };
 }

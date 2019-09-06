@@ -89,7 +89,7 @@ struct is_error_code_enum< ::smoke::DeprecationComments::SomeEnum > : public std
 namespace genium {
 template<>
 struct hash< ::smoke::DeprecationComments::SomeEnum > {
-    std::size_t operator( )( const ::smoke::DeprecationComments::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationComments::SomeEnum& t ) const;
 };
 }
 namespace genium {

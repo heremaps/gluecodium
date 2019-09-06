@@ -37,6 +37,6 @@ struct is_error_code_enum< ::smoke::Errors::InternalErrorCode > : public std::tr
 namespace genium {
 template<>
 struct hash< ::smoke::Errors::InternalErrorCode > {
-    std::size_t operator( )( const ::smoke::Errors::InternalErrorCode& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Errors::InternalErrorCode& t ) const;
 };
 }

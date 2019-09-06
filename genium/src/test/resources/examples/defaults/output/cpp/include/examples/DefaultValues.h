@@ -31,6 +31,6 @@ public:
 namespace genium {
 template<>
 struct hash< ::examples::DefaultValues::SomeEnum > {
-    std::size_t operator( )( const ::examples::DefaultValues::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::DefaultValues::SomeEnum& t ) const;
 };
 }

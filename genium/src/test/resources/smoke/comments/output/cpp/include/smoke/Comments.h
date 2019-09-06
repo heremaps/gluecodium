@@ -148,6 +148,6 @@ struct is_error_code_enum< ::smoke::Comments::SomeEnum > : public std::true_type
 namespace genium {
 template<>
 struct hash< ::smoke::Comments::SomeEnum > {
-    std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
 };
 }

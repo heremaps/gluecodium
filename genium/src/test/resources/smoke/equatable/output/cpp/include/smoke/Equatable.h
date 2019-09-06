@@ -60,18 +60,18 @@ struct _GENIUM_CPP_EXPORT EquatableNullableStruct {
 namespace genium {
 template<>
 struct hash< ::smoke::SomeEnum > {
-    std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 template<>
 struct hash< ::smoke::EquatableStruct > {
-    std::size_t operator( )( const ::smoke::EquatableStruct& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::EquatableStruct& t ) const;
 };
 template<>
 struct hash< ::smoke::EquatableNullableStruct > {
-    std::size_t operator( )( const ::smoke::EquatableNullableStruct& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::EquatableNullableStruct& t ) const;
 };
 template<>
 struct hash< ::smoke::NestedEquatableStruct > {
-    std::size_t operator( )( const ::smoke::NestedEquatableStruct& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::NestedEquatableStruct& t ) const;
 };
 }

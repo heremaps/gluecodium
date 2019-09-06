@@ -22,6 +22,6 @@ struct _GENIUM_CPP_EXPORT fooStruct {
 namespace genium {
 template<>
 struct hash< ::smoke::fooEnum > {
-    std::size_t operator( )( const ::smoke::fooEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::fooEnum& t ) const;
 };
 }

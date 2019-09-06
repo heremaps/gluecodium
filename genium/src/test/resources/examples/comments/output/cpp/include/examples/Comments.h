@@ -82,6 +82,6 @@ public:
 namespace genium {
 template<>
 struct hash< ::examples::Comments::SomeEnum > {
-    std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
 };
 }

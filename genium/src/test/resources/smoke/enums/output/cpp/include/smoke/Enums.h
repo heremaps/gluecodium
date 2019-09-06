@@ -42,10 +42,10 @@ public:
 namespace genium {
 template<>
 struct hash< ::smoke::Enums::SimpleEnum > {
-    std::size_t operator( )( const ::smoke::Enums::SimpleEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::SimpleEnum& t ) const;
 };
 template<>
 struct hash< ::smoke::Enums::InternalErrorCode > {
-    std::size_t operator( )( const ::smoke::Enums::InternalErrorCode& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::InternalErrorCode& t ) const;
 };
 }

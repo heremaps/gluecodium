@@ -34,6 +34,6 @@ struct is_error_code_enum< ::examples::Errors::InternalErrorCode > : public std:
 namespace genium {
 template<>
 struct hash< ::examples::Errors::InternalErrorCode > {
-    std::size_t operator( )( const ::examples::Errors::InternalErrorCode& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::Errors::InternalErrorCode& t ) const;
 };
 }

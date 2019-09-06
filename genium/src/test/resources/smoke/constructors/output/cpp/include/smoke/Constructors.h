@@ -69,7 +69,7 @@ struct is_error_code_enum< ::smoke::Constructors::ErrorEnum > : public std::true
 namespace genium {
 template<>
 struct hash< ::smoke::Constructors::ErrorEnum > {
-    std::size_t operator( )( const ::smoke::Constructors::ErrorEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Constructors::ErrorEnum& t ) const;
 };
 }
 namespace genium {

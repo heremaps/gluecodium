@@ -50,6 +50,6 @@ struct is_error_code_enum< ::smoke::PlatformComments::SomeEnum > : public std::t
 namespace genium {
 template<>
 struct hash< ::smoke::PlatformComments::SomeEnum > {
-    std::size_t operator( )( const ::smoke::PlatformComments::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::PlatformComments::SomeEnum& t ) const;
 };
 }

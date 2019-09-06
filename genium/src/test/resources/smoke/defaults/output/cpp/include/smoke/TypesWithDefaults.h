@@ -46,6 +46,6 @@ struct _GENIUM_CPP_EXPORT StructWithAnEnum {
 namespace genium {
 template<>
 struct hash< ::smoke::SomeEnum > {
-    std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 }

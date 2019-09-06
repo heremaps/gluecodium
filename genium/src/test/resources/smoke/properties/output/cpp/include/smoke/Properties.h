@@ -61,6 +61,6 @@ public:
 namespace genium {
 template<>
 struct hash< ::smoke::Properties::InternalErrorCode > {
-    std::size_t operator( )( const ::smoke::Properties::InternalErrorCode& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Properties::InternalErrorCode& t ) const;
 };
 }

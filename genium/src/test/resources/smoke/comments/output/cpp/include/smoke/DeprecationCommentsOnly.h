@@ -67,7 +67,7 @@ public:
 namespace genium {
 template<>
 struct hash< ::smoke::DeprecationCommentsOnly::SomeEnum > {
-    std::size_t operator( )( const ::smoke::DeprecationCommentsOnly::SomeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationCommentsOnly::SomeEnum& t ) const;
 };
 }
 namespace genium {

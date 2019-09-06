@@ -15,6 +15,6 @@ enum class TCEnum {
 namespace genium {
 template<>
 struct hash< ::smoke::TCEnum > {
-    std::size_t operator( )( const ::smoke::TCEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::TCEnum& t ) const;
 };
 }

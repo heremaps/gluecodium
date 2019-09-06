@@ -17,6 +17,6 @@ enum class ShoeSizes {
 namespace genium {
 template<>
 struct hash< ::examples::ShoeSizes > {
-    std::size_t operator( )( const ::examples::ShoeSizes& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::ShoeSizes& t ) const;
 };
 }

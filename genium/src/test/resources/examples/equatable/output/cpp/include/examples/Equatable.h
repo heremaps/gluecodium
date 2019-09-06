@@ -28,10 +28,10 @@ struct _GENIUM_CPP_EXPORT EquatableStruct {
 namespace genium {
 template<>
 struct hash< ::examples::EquatableStruct > {
-    std::size_t operator( )( const ::examples::EquatableStruct& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::EquatableStruct& t ) const;
 };
 template<>
 struct hash< ::examples::NestedEquatableStruct > {
-    std::size_t operator( )( const ::examples::NestedEquatableStruct& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::NestedEquatableStruct& t ) const;
 };
 }

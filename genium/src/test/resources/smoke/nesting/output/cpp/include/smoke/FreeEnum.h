@@ -22,6 +22,6 @@ struct is_error_code_enum< ::smoke::FreeEnum > : public std::true_type { };
 namespace genium {
 template<>
 struct hash< ::smoke::FreeEnum > {
-    std::size_t operator( )( const ::smoke::FreeEnum& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::FreeEnum& t ) const;
 };
 }

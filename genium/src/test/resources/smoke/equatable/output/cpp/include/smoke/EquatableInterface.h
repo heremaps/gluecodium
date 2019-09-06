@@ -39,15 +39,15 @@ public:
 namespace genium {
 template<>
 struct hash< ::smoke::EquatableInterface > {
-    std::size_t operator( )( const ::smoke::EquatableInterface& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::EquatableInterface& t ) const;
 };
 template <>
 struct EqualityHash< std::shared_ptr< ::smoke::EquatableInterface > >
 {
-    std::size_t operator( )( const std::shared_ptr< ::smoke::EquatableInterface >& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const std::shared_ptr< ::smoke::EquatableInterface >& t ) const;
 };
 template<>
 struct hash< ::smoke::EquatableInterface::EquatableStruct > {
-    std::size_t operator( )( const ::smoke::EquatableInterface::EquatableStruct& t ) const;
+    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::EquatableInterface::EquatableStruct& t ) const;
 };
 }
