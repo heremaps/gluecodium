@@ -343,12 +343,9 @@ class JavaModelBuilder(
 
         javaInterface.comment = createComments(limeInterface)
         addDeprecatedAnnotationIfNeeded(javaInterface)
-        javaInterface.constants.addAll(getPreviousResults(JavaConstant::class.java))
-        javaInterface.enums.addAll(getPreviousResults(JavaEnum::class.java))
-        javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
         javaInterface.methods.addAll(getPreviousResults(JavaMethod::class.java))
 
-        addInnerClasses(javaInterface)
+        addMembers(javaInterface)
 
         return javaInterface
     }
@@ -412,13 +409,10 @@ class JavaModelBuilder(
         javaClass.comment = createComments(limeClass)
         addDeprecatedAnnotationIfNeeded(javaClass)
 
-        javaClass.constants.addAll(getPreviousResults(JavaConstant::class.java))
         javaClass.methods.addAll(getPreviousResults(JavaMethod::class.java))
         javaClass.methods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
-        javaClass.enums.addAll(getPreviousResults(JavaEnum::class.java))
-        javaClass.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
 
-        addInnerClasses(javaClass)
+        addMembers(javaClass)
 
         storeNamedResult(limeClass, javaClass)
     }
@@ -445,11 +439,15 @@ class JavaModelBuilder(
         storeResult(javaImplementationClass)
     }
 
-    private fun addInnerClasses(javaTopLevelElement: JavaTopLevelElement) {
+    private fun addMembers(javaTopLevelElement: JavaTopLevelElement) {
         val innerClasses = getPreviousResults(JavaClass::class.java)
-            .filterNot { it.isImplClass }
         innerClasses.forEach { it.qualifiers.add(JavaTopLevelElement.Qualifier.STATIC) }
         javaTopLevelElement.innerClasses.addAll(innerClasses)
+        javaTopLevelElement.innerInterfaces.addAll(getPreviousResults(JavaInterface::class.java))
+
+        javaTopLevelElement.constants.addAll(getPreviousResults(JavaConstant::class.java))
+        javaTopLevelElement.enums.addAll(getPreviousResults(JavaEnum::class.java))
+        javaTopLevelElement.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
     }
 
     private fun getVisibility(limeElement: LimeNamedElement) =

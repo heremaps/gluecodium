@@ -36,7 +36,7 @@ class JavaTemplates(generatorName: String) {
         val classFiles = javaModel.filterIsInstance<JavaClass>()
             .map { generateFileForElement("java/ClassHeader", it) }
         val interfaceFiles = javaModel.filterIsInstance<JavaInterface>()
-            .map { generateFileForElement("java/Interface", it) }
+            .map { generateFileForElement("java/InterfaceHeader", it) }
         val enumFiles = javaModel.filterIsInstance<JavaEnum>()
             .map { generateFileForElement("java/EnumHeader", it) }
         val exceptionFiles = javaModel.filterIsInstance<JavaExceptionClass>()

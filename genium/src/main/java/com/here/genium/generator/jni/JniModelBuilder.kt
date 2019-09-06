@@ -133,6 +133,8 @@ class JniModelBuilder(
                 limeContainer.typeAliases
         jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
 
+        getPreviousResults(JniContainer::class.java).forEach { storeResult(it) }
+
         storeResult(jniContainer)
         closeContext()
     }

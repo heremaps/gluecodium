@@ -36,6 +36,8 @@
 {{/exceptions}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
+{{#innerInterfaces}}{{prefixPartial "java/Interface" "    "}}
+{{/innerInterfaces}}
 {{#set className=name}}{{#constructors}}
 {{prefixPartial "java/MethodComment" "    "}}
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {

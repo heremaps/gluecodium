@@ -30,21 +30,24 @@ abstract class JavaTopLevelElement(name: String, val classNames: List<String>) :
     val exceptions: MutableSet<JavaExceptionClass> = mutableSetOf()
 
     val innerClasses: MutableSet<JavaClass> = mutableSetOf()
+    val innerInterfaces: MutableSet<JavaInterface> = mutableSetOf()
     val qualifiers: MutableSet<Qualifier> = mutableSetOf()
 
     open val imports: Set<JavaImport>
         get() {
-            val imports = streamRecursive().toList()
+            val imports = streamRecursive()
                 .filterIsInstance<JavaElementWithImports>()
                 .flatMap { it.imports }
-                .toSortedSet()
+                .toMutableList()
             imports += parentInterfaces.flatMap { it.imports }
             imports += methods.mapNotNull { it.exception }.flatMap { it.imports }
+            imports += innerClasses.flatMap { it.imports }
+            imports += innerInterfaces.flatMap { it.imports }
 
             // No need to import things from the same package. This also filters out a self-import.
             imports.removeIf { it.javaPackage == this.javaPackage }
 
-            return imports
+            return imports.toSortedSet()
         }
 
     enum class Qualifier(private val value: String) {

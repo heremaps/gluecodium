@@ -51,6 +51,8 @@ class JniContainer(
     val hasNativeEquatable =
         containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
     @Suppress("unused")
+    val fullJavaName = (javaPackages + javaNames.joinToString("$")).joinToString("/")
+    @Suppress("unused")
     val mangledName = JniNameRules.getMangledName(javaNames.joinToString("$"))
 
     enum class ContainerType {

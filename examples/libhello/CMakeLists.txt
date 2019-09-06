@@ -358,7 +358,7 @@ feature(TopLevelTypes cpp android swift SOURCES
 )
 
 # TODO: APIGEN-1727: merge with "TopLevelTypes" into "Nesting" feature when all generators are done
-feature(NestedContainers cpp SOURCES
+feature(NestedContainers cpp android SOURCES
     src/test/NestedContainers.cpp
 
     lime/test/NestedContainers.lime

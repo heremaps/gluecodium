@@ -18,18 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/CopyrightHeader}}
-
-{{#javaPackage}}
-{{>java/Package}}
-{{/javaPackage}}
-
-{{#if imports}}
-{{#imports}}
-{{>java/Import}}
-{{/imports}}
-
-{{/if}}
 {{>java/DocComment}}
 {{#annotations}}
 @{{name}}
@@ -43,6 +31,8 @@
 {{/exceptions}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
+{{#innerInterfaces}}{{prefixPartial "java/Interface" "    "}}
+{{/innerInterfaces}}
 {{#set isInterface=true}}{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}{{/set}}
 }

@@ -196,15 +196,18 @@ class JavaModelBuilderContainersTest {
     }
 
     @Test
-    fun finishBuildingInterfaceReadsInnerClasses() {
+    fun finishBuildingInterfaceReadsInnerClassesAndInterfaces() {
         val javaClass = JavaClass("")
+        val javaInterface = JavaInterface("")
         contextStack.injectResult(javaClass)
+        contextStack.injectResult(javaInterface)
 
         modelBuilder.finishBuilding(limeInterface)
 
         val result = modelBuilder.getFinalResult(JavaInterface::class.java)
         assertContains(javaClass, result.innerClasses)
         assertContains(JavaTopLevelElement.Qualifier.STATIC, javaClass.qualifiers)
+        assertContains(javaInterface, result.innerInterfaces)
     }
 
     @Test
