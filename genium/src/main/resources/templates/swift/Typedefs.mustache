@@ -18,5 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#isNotEq simpleName type.publicName}}
 {{>swift/Comment}}
 {{^isInterface}}{{visibility}} {{/isInterface}}typealias {{simpleName}} = {{type.publicName}}
+{{/isNotEq}}

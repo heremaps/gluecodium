@@ -41,7 +41,7 @@ class Errors {
 }
 
 interface ErrorsInterface {
-    enum InternalErrorCode {
+    enum InternalError {
         ERROR_NONE,
         ERROR_FATAL
     }
@@ -55,7 +55,7 @@ interface ErrorsInterface {
     fun methodWithExternalErrors() throws External
     fun methodWithErrorsAndReturnValue(): String throws Internal
 
-    exception Internal(InternalErrorCode)
+    exception Internal(InternalError)
     exception External(ExternalErrors)
 }
 

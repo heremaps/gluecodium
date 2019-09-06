@@ -19,11 +19,11 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
             jniEnv,
             jException,
             "error",
-            "Lcom/example/smoke/ErrorsInterface$InternalErrorCode;" );
+            "Lcom/example/smoke/ErrorsInterface$InternalError;" );
         auto nEnumValue = ::genium::jni::convert_from_jni(
             jniEnv,
             jEnumValue,
-            (::smoke::ErrorsInterface::InternalErrorCode*)nullptr );
+            (::smoke::ErrorsInterface::InternalError*)nullptr );
         jniEnv->ExceptionClear( );
         return ::std::error_code{nEnumValue};
     }
@@ -65,11 +65,11 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
             jniEnv,
             jException,
             "error",
-            "Lcom/example/smoke/ErrorsInterface$InternalErrorCode;" );
+            "Lcom/example/smoke/ErrorsInterface$InternalError;" );
         auto nEnumValue = ::genium::jni::convert_from_jni(
             jniEnv,
             jEnumValue,
-            (::smoke::ErrorsInterface::InternalErrorCode*)nullptr );
+            (::smoke::ErrorsInterface::InternalError*)nullptr );
         jniEnv->ExceptionClear( );
         return ::std::error_code{nEnumValue};
     }

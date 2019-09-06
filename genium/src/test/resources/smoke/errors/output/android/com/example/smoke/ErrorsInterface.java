@@ -4,11 +4,11 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 public interface ErrorsInterface {
-    public enum InternalErrorCode {
+    public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(1);
         public final int value;
-        InternalErrorCode(final int value) {
+        InternalError(final int value) {
             this.value = value;
         }
     }
@@ -22,11 +22,11 @@ public interface ErrorsInterface {
         }
     }
     public final static class InternalException extends Exception {
-        public InternalException(final ErrorsInterface.InternalErrorCode error) {
+        public InternalException(final ErrorsInterface.InternalError error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
-        public final ErrorsInterface.InternalErrorCode error;
+        public final ErrorsInterface.InternalError error;
     }
     public final static class ExternalException extends Exception {
         public ExternalException(final ErrorsInterface.ExternalErrors error) {

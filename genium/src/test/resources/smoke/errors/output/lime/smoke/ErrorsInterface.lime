@@ -1,7 +1,6 @@
 package smoke
-
 interface ErrorsInterface {
-    enum InternalErrorCode {
+    enum InternalError {
         ERROR_NONE,
         ERROR_FATAL
     }
@@ -10,10 +9,8 @@ interface ErrorsInterface {
         BOOM,
         BUST
     }
-
-    exception Internal(InternalErrorCode)
+    exception Internal(InternalError)
     exception External(ExternalErrors)
-
     fun methodWithErrors() throws Internal
     fun methodWithExternalErrors() throws External
     fun methodWithErrorsAndReturnValue(): String throws Internal
