@@ -100,7 +100,7 @@ class SwiftStruct(
         return swiftStruct
     }
 
-    override fun stream(): Stream<SwiftModelElement>? =
+    override fun stream(): Stream<SwiftModelElement> =
         Stream.of(super.stream(), fields.stream(), constants.stream()).flatMap(
             Function.identity())
 }

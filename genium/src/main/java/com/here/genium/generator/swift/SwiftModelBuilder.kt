@@ -179,7 +179,7 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeMethod: LimeFunction) {
         val returnType = when {
-            limeMethod.isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME, null)
+            limeMethod.isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME)
             else -> {
                 val isNullable = limeMethod.returnType.typeRef.isNullable
                 typeMapper.mapType(limeMethod.returnType.typeRef.type).withOptional(isNullable)

@@ -17,22 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public abstract class SwiftTypedModelElement extends SwiftModelElement {
+abstract class SwiftTypedModelElement(
+    name: String,
+    visibility: SwiftVisibility?,
+    val type: SwiftType
+) : SwiftModelElement(name, visibility) {
 
-  public final SwiftType type;
-
-  protected SwiftTypedModelElement(
-      final String name, final SwiftVisibility visibility, final SwiftType type) {
-    super(name, visibility);
-    this.type = type;
-  }
-
-  @Override
-  public Stream<SwiftModelElement> stream() {
-    return Stream.concat(super.stream(), Stream.of(type));
-  }
+    override fun stream() = Stream.concat(super.stream(), Stream.of(type))
 }

@@ -25,7 +25,11 @@ class SwiftEnum(
     name: String,
     visibility: SwiftVisibility? = null,
     val items: List<SwiftEnumItem> = emptyList()
-) : SwiftType(name, null, visibility, SwiftType.TypeCategory.ENUM, name, false) {
-
-    override fun stream(): Stream<SwiftModelElement>? = Stream.concat(super.stream(), items.stream())
+) : SwiftType(
+    name = name,
+    visibility = visibility,
+    category = TypeCategory.ENUM,
+    publicName = name
+) {
+    override fun stream(): Stream<SwiftModelElement> = Stream.concat(super.stream(), items.stream())
 }

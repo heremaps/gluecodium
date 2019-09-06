@@ -17,27 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class SwiftField extends SwiftTypedModelElement {
+class SwiftField(
+    name: String,
+    visibility: SwiftVisibility?,
+    type: SwiftType,
+    val defaultValue: SwiftValue?
+) : SwiftTypedModelElement(name, visibility, type) {
 
-  public final SwiftValue defaultValue;
-
-  public SwiftField(
-      final String name,
-      final SwiftVisibility visibility,
-      final SwiftType type,
-      final SwiftValue defaultValue) {
-    super(name, visibility, type);
-    this.defaultValue = defaultValue;
-  }
-
-  @Override
-  public Stream<SwiftModelElement> stream() {
-    return defaultValue == null
-        ? super.stream()
-        : Stream.concat(super.stream(), Stream.of(defaultValue));
-  }
+    override fun stream() =
+        if (defaultValue == null)
+            super.stream()
+        else
+            Stream.concat(super.stream(), Stream.of(defaultValue))
 }

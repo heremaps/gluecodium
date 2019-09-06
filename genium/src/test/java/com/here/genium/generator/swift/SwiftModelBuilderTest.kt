@@ -327,7 +327,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingStructReadsFields() {
-        val swiftField = SwiftField("", null, null, null)
+        val swiftField = SwiftField("", null, SwiftType.VOID, null)
         contextStack.injectResult(swiftField)
 
         modelBuilder.finishBuilding(limeStruct)
@@ -386,7 +386,7 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftField::class.java)
         assertTrue(result.type.optional)
-        assertEquals("nil", result.defaultValue.name)
+        assertEquals("nil", result.defaultValue?.name)
     }
 
     @Test
@@ -675,9 +675,9 @@ class SwiftModelBuilderTest {
         assertEquals(swiftType, result.getter.returnType)
         assertEquals("mo_del_Foo", result.getter.cNestedSpecifier)
         assertEquals("foo_get", result.getter.cShortName)
-        assertEquals(swiftType, result.setter.parameters.first().type)
-        assertEquals("mo_del_Foo", result.setter.cNestedSpecifier)
-        assertEquals("foo_set", result.setter.cShortName)
+        assertEquals(swiftType, result.setter?.parameters?.first()?.type)
+        assertEquals("mo_del_Foo", result.setter?.cNestedSpecifier)
+        assertEquals("foo_set", result.setter?.cShortName)
     }
 
     @Test
@@ -696,7 +696,7 @@ class SwiftModelBuilderTest {
         val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
         assertEquals(SwiftVisibility.INTERNAL, result.visibility)
         assertEquals(SwiftVisibility.INTERNAL, result.getter.visibility)
-        assertEquals(SwiftVisibility.INTERNAL, result.setter.visibility)
+        assertEquals(SwiftVisibility.INTERNAL, result.setter?.visibility)
     }
 
     @Test
@@ -725,7 +725,7 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
         assertTrue(result.getter.returnType.optional)
-        assertTrue(result.setter.parameters.first().type.optional)
+        assertEquals(true, result.setter?.parameters?.first()?.type?.optional)
     }
 
     @Test
@@ -744,7 +744,7 @@ class SwiftModelBuilderTest {
         val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
         assertTrue(result.isStatic)
         assertTrue(result.getter.isStatic)
-        assertTrue(result.setter.isStatic)
+        assertEquals(true, result.setter?.isStatic)
     }
 
     @Test

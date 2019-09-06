@@ -57,7 +57,7 @@ class SwiftMethod(
         cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE
     )
 
-    override fun stream(): Stream<SwiftModelElement>? =
+    override fun stream(): Stream<SwiftModelElement> =
         Stream.of(super.stream(), parameters.stream(), Stream.of(returnType)).flatMap(
             Function.identity()
         )

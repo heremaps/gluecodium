@@ -34,7 +34,12 @@ class SwiftClass(
     val hasEquatableType: Boolean = false,
     @Suppress("unused") val isObjcInterface: Boolean = false,
     @Suppress("unused") val hasTypeRepository: Boolean = false
-) : SwiftType(name, null, visibility, TypeCategory.CLASS, name, false) {
+) : SwiftType(
+    name = name,
+    visibility = visibility,
+    category = TypeCategory.CLASS,
+    publicName = name
+) {
 
     val implementsProtocols = mutableListOf<String>()
     val properties = mutableListOf<SwiftProperty>()
@@ -56,7 +61,7 @@ class SwiftClass(
     val constructors
         get() = methods.filter { it.isConstructor }
 
-    override fun stream(): Stream<SwiftModelElement>? {
+    override fun stream(): Stream<SwiftModelElement> {
         return Stream.of(
             super.stream(),
             properties.stream(),

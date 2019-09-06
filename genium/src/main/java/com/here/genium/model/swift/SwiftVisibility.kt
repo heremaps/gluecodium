@@ -17,17 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-public enum SwiftVisibility {
-  OPEN,
-  PUBLIC,
-  INTERNAL,
-  FILEPRIVATE,
-  PRIVATE;
+enum class SwiftVisibility {
+    OPEN,
+    PUBLIC,
+    INTERNAL,
+    FILEPRIVATE,
+    PRIVATE;
 
-  @Override
-  public String toString() {
-    return super.toString().toLowerCase();
-  }
+    override fun toString() = super.toString().toLowerCase()
 }

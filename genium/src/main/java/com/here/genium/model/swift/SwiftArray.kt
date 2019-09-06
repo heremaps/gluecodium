@@ -17,52 +17,49 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class SwiftArray extends SwiftType {
+class SwiftArray private constructor(
+    val underlyingType: SwiftType,
+    visibility: SwiftVisibility?,
+    publicName: String,
+    optional: Boolean,
+    cPrefix: String
+) : SwiftType(
+    getImplName(underlyingType),
+    cPrefix,
+    visibility,
+    TypeCategory.ARRAY,
+    publicName,
+    optional
+) {
 
-  public final SwiftType underlyingType;
+    constructor(underlyingType: SwiftType, cPrefix: String) : this(
+        underlyingType,
+        null,
+        getImplName(underlyingType),
+        false,
+        cPrefix
+    )
 
-  public SwiftArray(final SwiftType underlyingType, final String cPrefix) {
-    this(underlyingType, null, getImplName(underlyingType), false, cPrefix);
-  }
+    override fun withAlias(aliasName: String) =
+        SwiftArray(underlyingType, visibility, aliasName, optional, cPrefix)
 
-  private SwiftArray(
-      final SwiftType underlyingType,
-      final SwiftVisibility visibility,
-      final String publicName,
-      final boolean optional,
-      final String cPrefix) {
-    super(
-        getImplName(underlyingType), cPrefix, visibility, TypeCategory.ARRAY, publicName, optional);
-    this.underlyingType = underlyingType;
-  }
+    override fun withOptional(optional: Boolean): SwiftType =
+        when (optional) {
+            this.optional -> this
+            else -> SwiftArray(underlyingType, visibility, publicName, optional, cPrefix)
+        }
 
-  @Override
-  public SwiftType withAlias(String aliasName) {
-    return new SwiftArray(underlyingType, visibility, aliasName, optional, cPrefix);
-  }
+    fun withoutAlias() =
+        SwiftArray(underlyingType, visibility, getImplName(underlyingType), optional, cPrefix)
 
-  @Override
-  public SwiftType withOptional(final boolean optional) {
-    return this.optional != optional
-        ? new SwiftArray(underlyingType, visibility, publicName, optional, cPrefix)
-        : this;
-  }
+    override fun stream() =
+        Stream.concat(super.stream(), Stream.of(underlyingType))
 
-  public SwiftArray withoutAlias() {
-    return new SwiftArray(
-        underlyingType, visibility, getImplName(underlyingType), optional, cPrefix);
-  }
-
-  private static String getImplName(SwiftType underlyingType) {
-    return "[" + underlyingType.publicName + "]";
-  }
-
-  @Override
-  public Stream<SwiftModelElement> stream() {
-    return Stream.concat(super.stream(), Stream.of(underlyingType));
-  }
+    companion object {
+        private fun getImplName(underlyingType: SwiftType) = "[${underlyingType.publicName}]"
+    }
 }

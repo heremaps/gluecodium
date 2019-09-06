@@ -17,11 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-public class SwiftTypeDef extends SwiftTypedModelElement {
-
-  public SwiftTypeDef(final String name, final SwiftVisibility visibility, final SwiftType type) {
-    super(name, visibility, type);
-  }
-}
+open class SwiftTypeDef(name: String, visibility: SwiftVisibility?, type: SwiftType) :
+    SwiftTypedModelElement(name, visibility, type)

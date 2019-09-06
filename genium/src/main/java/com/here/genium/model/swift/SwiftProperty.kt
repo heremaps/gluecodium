@@ -17,33 +17,22 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class SwiftProperty extends SwiftTypedModelElement {
+class SwiftProperty(
+    propertyName: String,
+    visibility: SwiftVisibility?,
+    type: SwiftType,
+    val getter: SwiftMethod,
+    val setter: SwiftMethod?,
+    val isStatic: Boolean
+) : SwiftTypedModelElement(propertyName, visibility, type) {
 
-  public final SwiftMethod getter;
-  public final SwiftMethod setter;
-  public final boolean isStatic;
-
-  public SwiftProperty(
-      final String propertyName,
-      final SwiftVisibility visibility,
-      final SwiftType type,
-      final SwiftMethod getter,
-      final SwiftMethod setter,
-      final boolean isStatic) {
-    super(propertyName, visibility, type);
-    this.getter = getter;
-    this.setter = setter;
-    this.isStatic = isStatic;
-  }
-
-  @Override
-  public Stream<SwiftModelElement> stream() {
-    return setter != null
-        ? Stream.concat(super.stream(), Stream.of(getter, setter))
-        : Stream.concat(super.stream(), Stream.of(getter));
-  }
+    override fun stream() =
+        if (setter != null)
+            Stream.concat(super.stream(), Stream.of(getter, setter))
+        else
+            Stream.concat(super.stream(), Stream.of(getter))
 }

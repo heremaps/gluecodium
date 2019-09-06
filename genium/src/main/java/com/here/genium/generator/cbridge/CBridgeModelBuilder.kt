@@ -276,8 +276,8 @@ class CBridgeModelBuilder(
             val setterSwiftMethod = swiftProperty.setter
             val cppSetterMethod = cppMethods[1]
             val setterFunction = CFunction(
-                setterSwiftMethod.cShortName,
-                setterSwiftMethod.cNestedSpecifier,
+                setterSwiftMethod?.cShortName,
+                setterSwiftMethod?.cNestedSpecifier,
                 CppTypeInfo(CType.VOID),
                 listOf(CParameter("newValue", attributeTypeInfo)),
                 selfParameter,

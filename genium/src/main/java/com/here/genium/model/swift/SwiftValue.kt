@@ -17,10 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-public final class SwiftValue extends SwiftModelElement {
-  public SwiftValue(String value) {
-    super(value);
-  }
-}
+class SwiftValue(value: String) : SwiftModelElement(value)

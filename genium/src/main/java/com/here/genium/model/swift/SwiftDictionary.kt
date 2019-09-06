@@ -24,7 +24,7 @@ import java.util.stream.Stream
 class SwiftDictionary(
     val keyType: SwiftType,
     val valueType: SwiftType,
-    cPrefix: String?,
+    cPrefix: String,
     publicName: String = composePublicName(keyType, valueType)
 ) : SwiftType("", cPrefix, null, TypeCategory.DICTIONARY, publicName, false) {
 

@@ -113,7 +113,7 @@ class CBridgeModelBuilderTest {
     )
     private val cppField =
         CppField("cppFooField", "Nested.cppFooField", type = CppPrimitiveTypeRef.VOID)
-    private val swiftField = SwiftField("swiftBarField", null, null, null)
+    private val swiftField = SwiftField("swiftBarField", null, SwiftType.VOID, null)
 
     private val contextStack = MockContextStack<CElement>()
     private val limeReferenceMap =
@@ -536,7 +536,8 @@ class CBridgeModelBuilderTest {
             getter = LimeFunction(EMPTY_PATH),
             setter = LimeFunction(EMPTY_PATH)
         )
-        val swiftProperty = SwiftProperty("", null, null, swiftMethod, SwiftMethod(""), false)
+        val swiftProperty =
+            SwiftProperty("", null, SwiftType.VOID, swiftMethod, SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(cppMethod, CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
         every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
@@ -563,7 +564,8 @@ class CBridgeModelBuilderTest {
             getter = LimeFunction(EMPTY_PATH),
             setter = LimeFunction(EMPTY_PATH)
         )
-        val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), swiftMethod, false)
+        val swiftProperty =
+            SwiftProperty("", null, SwiftType.VOID, SwiftMethod(""), swiftMethod, false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), cppMethod)
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
         every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
@@ -591,7 +593,8 @@ class CBridgeModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE,
             getter = LimeFunction(EMPTY_PATH)
         )
-        val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
+        val swiftProperty =
+            SwiftProperty("", null, SwiftType.VOID, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
         contextStack.injectParentCurrentResult(cppTypeInfo)
@@ -612,7 +615,8 @@ class CBridgeModelBuilderTest {
             setter = LimeFunction(EMPTY_PATH),
             isStatic = true
         )
-        val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
+        val swiftProperty =
+            SwiftProperty("", null, SwiftType.VOID, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
         contextStack.injectParentCurrentResult(cppTypeInfo)
@@ -634,7 +638,8 @@ class CBridgeModelBuilderTest {
             getter = LimeFunction(EMPTY_PATH),
             setter = LimeFunction(EMPTY_PATH)
         )
-        val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
+        val swiftProperty =
+            SwiftProperty("", null, SwiftType.VOID, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
         contextStack.injectParentCurrentResult(cppTypeInfo)
