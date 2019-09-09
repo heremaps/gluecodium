@@ -19,13 +19,12 @@
 
 package com.here.genium.generator.androidmanifest
 
-import com.here.genium.generator.common.AbstractGenerator
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.platform.android.AndroidGeneratorSuite
 import java.io.File
 
-class AndroidManifestGenerator(packageList: List<String>) : AbstractGenerator(packageList) {
+class AndroidManifestGenerator(private val basePackages: List<String>) {
     fun generate(): GeneratedFile =
         GeneratedFile(
             TemplateEngine.render("android/AndroidManifest", basePackages.joinToString(".")),

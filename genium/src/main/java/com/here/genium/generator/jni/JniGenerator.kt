@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.jni
 
-import com.here.genium.generator.common.AbstractGenerator
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
@@ -46,7 +45,7 @@ import com.here.genium.model.lime.LimeNamedElement
 
 class JniGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
-    packageList: List<String>,
+    private val basePackages: List<String>,
     private val internalPackageList: List<String>,
     private val additionalIncludes: List<String>,
     private val enableAndroidFeatures: Boolean,
@@ -56,7 +55,7 @@ class JniGenerator(
     private val nullableAnnotation: JavaCustomType?,
     private val cppNameRules: CppNameRules,
     private val javaNameRules: JavaNameRules
-) : AbstractGenerator(packageList) {
+) {
     private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
 
     fun generateModel(rootElement: LimeNamedElement): JavaModel {

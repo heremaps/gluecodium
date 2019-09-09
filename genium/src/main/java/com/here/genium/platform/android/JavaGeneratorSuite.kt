@@ -39,7 +39,6 @@ import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
-import kotlin.streams.toList
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
@@ -74,7 +73,7 @@ open class JavaGeneratorSuite protected constructor(
 
         val jniGenerator = JniGenerator(
             limeReferenceMap = limeModel.referenceMap,
-            packageList = javaPackageList,
+            basePackages = javaPackageList,
             internalPackageList = internalPackage,
             additionalIncludes = UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
             enableAndroidFeatures = enableAndroidFeatures,
