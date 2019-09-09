@@ -1,0 +1,6 @@
+package smoke
+import smoke.Nullable.SomeStruct
+struct NullableCollectionsStruct {
+    dates: List<Date?>
+    structs: Map<Int, SomeStruct?>
+}

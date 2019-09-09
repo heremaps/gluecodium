@@ -38,6 +38,7 @@ import com.here.genium.model.cpp.CppField
 import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType
@@ -146,7 +147,8 @@ class CBridgeModelBuilder(
             limeParent !is LimeStruct && limeMethod.isConstructor ->
                 typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
             else -> {
-                val cppTypeInfo = typeMapper.mapType(limeMethod.returnType.typeRef.type)
+                val cppTypeInfo =
+                    typeMapper.mapType(limeMethod.returnType.typeRef.type, cppMethod.returnType)
                 if (limeMethod.returnType.typeRef.isNullable) {
                     CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppMethod.returnType)
                 } else {
@@ -293,7 +295,8 @@ class CBridgeModelBuilder(
     }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
-        val cppTypeInfo = typeMapper.mapType(limeTypeRef.type)
+        val cppType = cppBuilder.getFinalResult(CppTypeRef::class.java)
+        val cppTypeInfo = typeMapper.mapType(limeTypeRef.type, cppType)
 
         storeResult(cppTypeInfo)
         closeContext()

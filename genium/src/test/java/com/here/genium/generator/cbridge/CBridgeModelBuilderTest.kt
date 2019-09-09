@@ -101,11 +101,9 @@ class CBridgeModelBuilderTest {
     private val cppTypeInfo = CppTypeInfo(CType.DOUBLE)
     private val cppArrayTypeInfo =
         CppArrayTypeInfo("", CType.DOUBLE, CType.DOUBLE, emptyList(), cppTypeInfo)
-    private val cppMethod = CppMethod(
-        "nonsenseName",
-        fullyQualifiedName = "someFqn",
-        returnType = object : CppTypeRef("returnTypeFqn", emptyList()) {}
-    )
+    private val cppTypeRef = object : CppTypeRef("returnTypeFqn", emptyList()) {}
+    private val cppMethod =
+        CppMethod("nonsenseName", fullyQualifiedName = "someFqn", returnType = cppTypeRef)
     private val swiftMethod = SwiftMethod(
         "",
         cShortName = "nonsenseShortName",
@@ -278,7 +276,7 @@ class CBridgeModelBuilderTest {
     fun finishBuildingMethod() {
         contextStack.injectParentCurrentResult(cppTypeInfo)
         every { cppIncludeResolver.resolveIncludes(limeMethod) } returns listOf(fooInclude)
-        every { typeMapper.mapType(any()) } returns CppTypeInfo.STRING
+        every { typeMapper.mapType(any(), any()) } returns CppTypeInfo.STRING
 
         modelBuilder.finishBuilding(limeMethod)
 
@@ -331,7 +329,7 @@ class CBridgeModelBuilderTest {
             isStatic = true
         )
         limeReferenceMap["foo"] = limeStruct
-        every { typeMapper.mapType(any()) } returns cppTypeInfo
+        every { typeMapper.mapType(any(), any()) } returns cppTypeInfo
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -667,7 +665,8 @@ class CBridgeModelBuilderTest {
     @Test
     fun finishBuildingTypeRef() {
         val limeElement = LimeBasicTypeRef.DOUBLE
-        every { typeMapper.mapType(any()) } returns cppTypeInfo
+        every { typeMapper.mapType(any(), any()) } returns cppTypeInfo
+        every { cppModelBuilder.getFinalResult(CppTypeRef::class.java) } returns cppTypeRef
 
         modelBuilder.finishBuilding(limeElement)
 

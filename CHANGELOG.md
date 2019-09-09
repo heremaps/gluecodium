@@ -5,6 +5,7 @@
   + Added support for `@Cpp(Accessors)` attribute for structs.
 - Bug fixes:
   + Hash functions were not properly exported and could have caused linking errors.
+  + Fixed Swift compilation issue for lists of nullable elements.
 - Breaking changes:
   + The comment header warning "Automatically generated, do not change..." is no longer generated
     automatically. If needed it can be manually added at the end of the copyright header.

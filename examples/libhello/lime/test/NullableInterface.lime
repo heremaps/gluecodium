@@ -110,3 +110,8 @@ interface NullableListener {
     ): Double?
     property arrayAttribute: List<String>?
 }
+
+struct NullableCollectionsStruct {
+    dates: List<Date?>
+    structs: Map<Int, NullableInterface.SomeStruct?>
+}

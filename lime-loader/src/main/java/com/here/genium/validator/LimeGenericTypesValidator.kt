@@ -20,69 +20,62 @@
 package com.here.genium.validator
 
 import com.here.genium.common.LimeTypeRefsVisitor
-import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeHelper
+import com.here.genium.model.lime.LimeTypeAlias
 import com.here.genium.model.lime.LimeTypeRef
 
-// Validate set element types and map key types to ensure these are hashable types.
+/**
+ * Validate set element types and map key types to ensure these are hashable types.
+ */
 internal class LimeGenericTypesValidator(private val logger: LimeLogger)
     : LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitTypeRef(
-        parentElement: LimeNamedElement,
-        limeTypeRef: LimeTypeRef?
-    ): Boolean {
-        if (limeTypeRef == null) {
-            return true
-        }
-
-        val referredType = limeTypeRef.type
-        return when (referredType) {
+    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?) =
+        when (val referredType = limeTypeRef?.type) {
             is LimeSet ->
                 validateGenericType(parentElement, referredType.elementType, "set element")
             is LimeMap -> validateGenericType(parentElement, referredType.keyType, "map key")
             else -> true
         }
-    }
 
     private fun validateGenericType(
         parentElement: LimeNamedElement,
         elementTypeRef: LimeTypeRef,
         elementDescription: String
     ): Boolean {
-        val limeType = elementTypeRef.type
-        val result = isHashable(limeType)
+        val result = isHashable(elementTypeRef)
         if (!result) {
             logger.error(
                 parentElement,
-                "$elementDescription type ${limeType.fullName} is not hashable"
+                "$elementDescription type ${elementTypeRef.type.fullName} is not hashable"
             )
         }
         return result
     }
 
-    private fun isHashable(limeType: LimeType): Boolean {
-        val actualType = LimeTypeHelper.getActualType(limeType)
+    private fun isHashable(limeTypeRef: LimeTypeRef): Boolean {
+        val actualType = limeTypeRef.type
         return when {
+            limeTypeRef.isNullable -> false
             actualType is LimeEnumeration -> true
             actualType.attributes.have(LimeAttributeType.EQUATABLE) -> true
             actualType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> true
             actualType is LimeBasicType -> actualType.typeId != LimeBasicType.TypeId.BLOB &&
                     actualType.typeId != LimeBasicType.TypeId.DATE
-            actualType is LimeList -> isHashable(actualType.elementType.type)
-            actualType is LimeSet -> isHashable(actualType.elementType.type)
+            actualType is LimeTypeAlias -> isHashable(actualType.typeRef)
+            actualType is LimeList -> isHashable(actualType.elementType)
+            actualType is LimeSet -> isHashable(actualType.elementType)
             actualType is LimeMap ->
-                isHashable(actualType.keyType.type) && isHashable(actualType.valueType.type)
+                isHashable(actualType.keyType) && isHashable(actualType.valueType)
             else -> false
         }
     }

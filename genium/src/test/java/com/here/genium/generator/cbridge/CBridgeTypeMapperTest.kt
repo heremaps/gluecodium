@@ -26,11 +26,13 @@ import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
-import com.here.genium.model.lime.LimeList
+import com.here.genium.model.cpp.CppPrimitiveTypeRef
+import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
@@ -53,6 +55,10 @@ class CBridgeTypeMapperTest {
     @MockK private lateinit var cppNameResolver: CppNameResolver
     @MockK private lateinit var includeResolver: CBridgeIncludeResolver
 
+    private val cppTypeRef = CppPrimitiveTypeRef.VOID
+    private val cppTemplateTypeRef =
+        CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.MAP, cppTypeRef, cppTypeRef)
+
     private lateinit var typeMapper: CBridgeTypeMapper
 
     @Before
@@ -67,7 +73,7 @@ class CBridgeTypeMapperTest {
     fun mapTypeTypeDef() {
         val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(limeElement, cppTypeRef)
 
         assertEquals(CType.FLOAT, result.cType)
     }
@@ -77,7 +83,7 @@ class CBridgeTypeMapperTest {
         val limeMap = LimeMap(LimeBasicTypeRef(TypeId.STRING), LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
 
         assertEquals("std::unordered_map<std::string, double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
@@ -97,7 +103,7 @@ class CBridgeTypeMapperTest {
         every { cppNameResolver.getFullyQualifiedName(limeEnum) } returns "Baz"
         every { cppNameResolver.getFullyQualifiedName(limeElement) } returns ""
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
 
         assertEquals(2, result.includes.size)
         assertEquals("Baz", (result as CppMapTypeInfo).keyType.name)
@@ -109,7 +115,7 @@ class CBridgeTypeMapperTest {
         val limeSet = LimeSet(LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeSet))
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
 
         assertEquals("std::unordered_set<double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
@@ -124,7 +130,7 @@ class CBridgeTypeMapperTest {
     fun mapTypeArray() {
         val limeElement = LimeList(LimeBasicTypeRef.FLOAT)
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
 
         assertEquals("std::vector<float>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)

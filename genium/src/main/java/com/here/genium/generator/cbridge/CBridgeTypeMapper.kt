@@ -32,6 +32,7 @@ import com.here.genium.model.cbridge.CMap
 import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeBasicType
@@ -63,41 +64,18 @@ class CBridgeTypeMapper(
         listOf(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
     )
 
-    fun mapType(limeType: LimeType): CppTypeInfo =
+    fun mapType(limeType: LimeType, cppTypeRef: CppTypeRef): CppTypeInfo =
         when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
-            is LimeTypeAlias -> mapType(LimeTypeHelper.getActualType(limeType))
+            is LimeTypeAlias ->
+                mapType(LimeTypeHelper.getActualType(limeType), cppTypeRef.actualType)
             is LimeContainerWithInheritance ->
                 createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.CLASS)
             is LimeStruct -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.STRUCT)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
-            is LimeList -> {
-                val result = createArrayTypeInfo(mapType(limeType.elementType.type))
-                val arrayName = CBridgeNameResolver.getCollectionName(limeType)
-                genericsCollector.putIfAbsent(arrayName, CArray(arrayName, result))
-                result
-            }
-            is LimeMap -> {
-                val keyType = mapType(limeType.keyType.type)
-                val valueType = mapType(limeType.valueType.type)
-                val hasStdHash = CppTypeMapper.hasStdHash(limeType.keyType)
-                val result = createMapTypeInfo(keyType, valueType, hasStdHash)
-
-                val mapName = CBridgeNameResolver.getCollectionName(limeType)
-                val cMap = CMap(mapName, keyType, valueType, CppLibraryIncludes.MAP, hasStdHash)
-                genericsCollector.putIfAbsent(mapName, cMap)
-                result
-            }
-            is LimeSet -> {
-                val elementType = mapType(limeType.elementType.type)
-                val hasStdHash = CppTypeMapper.hasStdHash(limeType.elementType)
-                val result = createSetTypeInfo(elementType, hasStdHash)
-
-                val setName = CBridgeNameResolver.getCollectionName(limeType)
-                val cSet = CSet(setName, elementType, CppLibraryIncludes.SET, hasStdHash)
-                genericsCollector.putIfAbsent(setName, cSet)
-                result
-            }
+            is LimeList -> createArrayTypeInfo(limeType, cppTypeRef.actualType)
+            is LimeMap -> createMapTypeInfo(limeType, cppTypeRef.actualType)
+            is LimeSet -> createSetTypeInfo(limeType, cppTypeRef.actualType)
             else -> CppTypeInfo(CType.VOID)
         }
 
@@ -154,19 +132,30 @@ class CBridgeTypeMapper(
             TypeId.DATE -> CppTypeInfo.DATE
         }
 
-    private fun createMapTypeInfo(
-        keyType: CppTypeInfo,
-        valueType: CppTypeInfo,
-        hasStdHash: Boolean
-    ): CppMapTypeInfo {
+    private fun createMapTypeInfo(limeType: LimeMap, cppType: CppTypeRef): CppMapTypeInfo {
+
+        val cppMapTypeRef = cppType as CppTemplateTypeRef
+        val cppKeyType = cppMapTypeRef.templateParameters.first()
+        val cppValueType = cppMapTypeRef.templateParameters.last()
+        var keyType = mapType(limeType.keyType.type, cppKeyType)
+        if (limeType.keyType.isNullable) {
+            keyType = createNullableTypeInfo(keyType, cppKeyType)
+        }
+        var valueType = mapType(limeType.valueType.type, cppValueType)
+        if (limeType.valueType.isNullable) {
+            valueType = createNullableTypeInfo(valueType, cppValueType)
+        }
+
+        val hasStdHash = CppTypeMapper.hasStdHash(limeType.keyType)
         val keyTypeName = keyType.name
+        val valueTypeName = valueType.name
         val cppName = if (hasStdHash) {
-            "std::unordered_map<$keyTypeName, ${valueType.name}>"
+            "std::unordered_map<$keyTypeName, $valueTypeName>"
         } else {
             val namespace = internalNamespace.joinToString("::")
-            "std::unordered_map<$keyTypeName, ${valueType.name}, $namespace::hash<$keyTypeName>>"
+            "std::unordered_map<$keyTypeName, $valueTypeName, $namespace::hash<$keyTypeName>>"
         }
-        return CppMapTypeInfo(
+        val result = CppMapTypeInfo(
             cppName,
             CType(BASE_REF_NAME),
             listOf(
@@ -176,17 +165,33 @@ class CBridgeTypeMapper(
             keyType,
             valueType
         )
+
+        val mapName = CBridgeNameResolver.getCollectionName(limeType)
+        val cMap = CMap(mapName, keyType, valueType, CppLibraryIncludes.MAP, hasStdHash)
+        genericsCollector.putIfAbsent(mapName, cMap)
+        return result
     }
 
-    private fun createSetTypeInfo(elementType: CppTypeInfo, hasStdHash: Boolean): CppSetTypeInfo {
+    private fun createSetTypeInfo(
+        limeType: LimeSet,
+        cppType: CppTypeRef
+    ): CppSetTypeInfo {
+
+        val cppElementType = (cppType as CppTemplateTypeRef).templateParameters.first()
+        var elementType = mapType(limeType.elementType.type, cppElementType)
+        if (limeType.elementType.isNullable) {
+            elementType = createNullableTypeInfo(elementType, cppElementType)
+        }
+
         val keyTypeName = elementType.name
+        val hasStdHash = CppTypeMapper.hasStdHash(limeType.elementType)
         val cppName = if (hasStdHash) {
             "std::unordered_set<$keyTypeName>"
         } else {
             val namespace = internalNamespace.joinToString("::")
             "std::unordered_set<$keyTypeName, $namespace::hash<$keyTypeName>>"
         }
-        return CppSetTypeInfo(
+        val result = CppSetTypeInfo(
             cppName,
             CType(BASE_REF_NAME),
             listOf(
@@ -195,22 +200,41 @@ class CBridgeTypeMapper(
             ),
             elementType
         )
+
+        val setName = CBridgeNameResolver.getCollectionName(limeType)
+        val cSet = CSet(setName, elementType, CppLibraryIncludes.SET, hasStdHash)
+        genericsCollector.putIfAbsent(setName, cSet)
+
+        return result
+    }
+
+    private fun createArrayTypeInfo(limeType: LimeList, cppType: CppTypeRef): CppArrayTypeInfo {
+
+        val cppElementType = (cppType as CppTemplateTypeRef).templateParameters.first()
+        var elementType = mapType(limeType.elementType.type, cppElementType)
+        if (limeType.elementType.isNullable) {
+            elementType = createNullableTypeInfo(elementType, cppElementType)
+        }
+
+        val result = CppArrayTypeInfo(
+            "std::vector<${elementType.name}>",
+            CType(BASE_REF_NAME),
+            CType(BASE_REF_NAME),
+            listOf(
+                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+                CppLibraryIncludes.VECTOR
+            ),
+            elementType
+        )
+
+        val arrayName = CBridgeNameResolver.getCollectionName(limeType)
+        genericsCollector.putIfAbsent(arrayName, CArray(arrayName, result))
+
+        return result
     }
 
     companion object {
         val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(BASE_HANDLE_IMPL_FILE)
-
-        private fun createArrayTypeInfo(elementTypeInfo: CppTypeInfo) =
-            CppArrayTypeInfo(
-                "std::vector<${elementTypeInfo.name}>",
-                CType(BASE_REF_NAME),
-                CType(BASE_REF_NAME),
-                listOf(
-                    Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-                    CppLibraryIncludes.VECTOR
-                ),
-                elementTypeInfo
-            )
 
         fun createNullableTypeInfo(
             baseTypeInfo: CppTypeInfo,

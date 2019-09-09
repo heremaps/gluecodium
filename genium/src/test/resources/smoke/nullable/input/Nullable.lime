@@ -74,4 +74,9 @@ class Nullable {
     property instanceProperty: SomeInterface?
 }
 
+struct NullableCollectionsStruct {
+    dates: List<Date?>
+    structs: Map<Int, Nullable.SomeStruct?>
+}
+
 class SomeInterface {}

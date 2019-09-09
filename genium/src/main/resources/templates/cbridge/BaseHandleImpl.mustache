@@ -194,7 +194,7 @@ struct Conversion< {{>common/InternalNamespace}}optional< T > >
     }
 
     static _baseRef
-    referenceBaseRef( {{>common/InternalNamespace}}optional< T >& t )
+    referenceBaseRef( const {{>common/InternalNamespace}}optional< T >& t )
     {
         return reinterpret_cast< _baseRef >( &t );
     }

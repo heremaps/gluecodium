@@ -379,6 +379,9 @@ Any type reference can be marked "nullable" by appending "?" to it, e.g. `String
 applies to type references inside other type references, like container types: `List<String?>`.
 Combining these two usages is also valid: `List<String?>?`.
 
+**Note**: currently the only supported usages for nullable elements in containers are List element
+type (e.g. `List<String?>`) and Map value type (e.g. `Map<Int, String?>`).
+
 ### Values and literals
 
 Struct field default values and constant values support the following literals on the right side of
