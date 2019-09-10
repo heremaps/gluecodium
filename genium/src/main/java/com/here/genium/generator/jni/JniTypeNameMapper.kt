@@ -17,86 +17,54 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni;
+package com.here.genium.generator.jni
 
-import com.here.genium.model.java.*;
-import com.here.genium.model.java.JavaPrimitiveType.Type;
+import com.here.genium.model.java.JavaArrayType
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaPrimitiveType.Type
+import com.here.genium.model.java.JavaReferenceType
+import com.here.genium.model.java.JavaType
 
-public final class JniTypeNameMapper {
+object JniTypeNameMapper {
+    /**
+     * Maps from Java types to JNI type names.
+     *
+     * See https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/types.html#wp428
+     *
+     * @param javaType Java type to convert
+     * @return Equivalent JNI type name
+     */
+    fun map(javaType: JavaType) =
+        when (javaType) {
+            is JavaCustomType -> "jobject"
+            is JavaReferenceType -> mapReferenceType(javaType)
+            is JavaArrayType -> mapArrayType(javaType)
+            is JavaPrimitiveType -> mapPrimitiveType(javaType.type)
+            else -> throw IllegalArgumentException(
+                "Mapping from Java type to jni type name is not possible: ${javaType.name}"
+            )
+        }
 
-  /**
-   * Maps from Java types to JNI type names.
-   *
-   * <p>See https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/types.html#wp428
-   *
-   * @param javaType Java type to convert
-   * @return Equivalent JNI type name
-   */
-  public static String map(final JavaType javaType) {
-    if (javaType instanceof JavaCustomType) {
-      return "jobject";
-    } else if (javaType instanceof JavaReferenceType) {
-      return map((JavaReferenceType) javaType);
-    } else if (javaType instanceof JavaArrayType) {
-      return map((JavaArrayType) javaType);
-    } else if (javaType instanceof JavaPrimitiveType) {
-      JavaPrimitiveType javaPrimitiveType = (JavaPrimitiveType) javaType;
-      if (JavaPrimitiveType.Companion.getTYPES().contains(javaPrimitiveType.getType())) {
-        return javaPrimitiveType.getType() != Type.VOID
-            ? "j" + javaPrimitiveType.getType().getValue()
-            : "void";
-      }
-    }
-    throw new IllegalArgumentException(
-        "mapping from Java type to jni type name is not possible: " + javaType.getName());
-  }
+    private fun mapPrimitiveType(primitiveType: Type) =
+        when (primitiveType) {
+            Type.VOID -> "void"
+            else -> "j${primitiveType.value}"
+        }
 
-  private static String map(final JavaReferenceType refType) {
-    switch (refType.getType()) {
-      case CLASS:
-        return "jclass";
-      case STRING:
-        return "jstring";
-      case THROWABLE:
-        return "jthrowable";
-      case OBJECT:
-      case BOOL:
-      case BYTE:
-      case CHAR:
-      case SHORT:
-      case INT:
-      case LONG:
-      case FLOAT:
-      case DOUBLE:
-      case DATE:
-        return "jobject";
-      default:
-        throw new IllegalArgumentException(
-            "mapping from Java type to jni type name is not possible: " + refType.getName());
-    }
-  }
+    private fun mapReferenceType(refType: JavaReferenceType) =
+        when (refType.type) {
+            JavaReferenceType.Type.CLASS -> "jclass"
+            JavaReferenceType.Type.STRING -> "jstring"
+            JavaReferenceType.Type.THROWABLE -> "jthrowable"
+            else -> "jobject"
+        }
 
-  private static String map(final JavaArrayType refType) {
-    switch (refType.getType()) {
-      case BOOL:
-        return "jbooleanArray";
-      case BYTE:
-        return "jbyteArray";
-      case CHAR:
-        return "jcharArray";
-      case SHORT:
-        return "jshortArray";
-      case INT:
-        return "jintArray";
-      case LONG:
-        return "jlongArray";
-      case FLOAT:
-        return "jfloatArray";
-      case DOUBLE:
-        return "jdoubleArray";
-      default:
-        throw new IllegalArgumentException(
-            "mapping from Java type to jni type name is not possible: " + refType.getName());
-    }
-  }
+    private fun mapArrayType(refType: JavaArrayType) =
+        when (refType.type) {
+            Type.VOID -> throw IllegalArgumentException(
+                "Mapping from 'void' array to a JNI type name is not possible: ${refType.name}"
+            )
+            else -> mapPrimitiveType(refType.type) + "Array"
+        }
 }
