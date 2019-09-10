@@ -26,7 +26,6 @@ import com.here.genium.cli.OptionReader
 import com.here.genium.cli.OptionReaderException
 import com.here.genium.common.TimeLogger
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.Version
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.loader.getLoader
 import com.here.genium.model.lime.LimeModel
@@ -53,7 +52,7 @@ class Genium(
     private val options: Options,
     private val modelLoader: LimeModelLoader = LimeModelLoader.getLoader()
 ) {
-    private val version = parseVersion()
+    private val version = loadVersion()
     private val cacheStrategy = CachingStrategyCreator.initializeCaching(
         options.isEnableCaching,
         options.outputDir,
@@ -201,16 +200,16 @@ class Genium(
             javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
         )
 
-        private fun parseVersion(): Version {
+        private fun loadVersion(): String {
             val prop = Properties()
             try {
                 val stream =
                     Genium::class.java.classLoader.getResourceAsStream("version.properties")
                 prop.load(stream)
-            } catch (ex: IOException) {
-                ex.printStackTrace()
+            } catch (e: IOException) {
+                LOGGER.severe("Could not load Genium version value: " + e.message)
             }
-            return Version.createFromString(prop.getProperty("version", "0.0.1"))
+            return prop.getProperty("version", "0.0.1")
         }
 
         private fun checkForFileNameCollisions(
