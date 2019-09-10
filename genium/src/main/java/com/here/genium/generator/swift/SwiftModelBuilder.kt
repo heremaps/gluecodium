@@ -73,7 +73,8 @@ class SwiftModelBuilder(
     private val signatureResolver: LimeSignatureResolver,
     private val nameResolver: SwiftNameResolver,
     private val typeMapper: SwiftTypeMapper,
-    private val nameRules: SwiftNameRules
+    private val nameRules: SwiftNameRules,
+    private val buildTransientModel: (LimeNamedElement) -> List<SwiftFile>
 ) : AbstractLimeBasedModelBuilder<SwiftModelElement>(contextStack) {
 
     override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
@@ -106,7 +107,8 @@ class SwiftModelBuilder(
     }
 
     private fun finishBuildingClass(limeClass: LimeClass) {
-        val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
+        val parentClass =
+            limeClass.parent?.type?.let { buildTransientModel(it).first().classes.first() }
         val isObjcInterface = limeClass.attributes.have(SWIFT, LimeAttributeValueType.OBJC)
         val parentClassName = when {
             parentClass != null && !parentClass.isInterface -> parentClass.name
@@ -129,7 +131,7 @@ class SwiftModelBuilder(
         swiftClass.comment = createComments(limeClass)
 
         val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeClass))
-        addMembersAndParent(swiftFile, swiftClass)
+        addMembersAndParent(swiftFile, swiftClass, parentClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
 
@@ -138,11 +140,13 @@ class SwiftModelBuilder(
     }
 
     private fun finishBuildingInterface(limeContainer: LimeInterface) {
+        val parentClass =
+            limeContainer.parent?.type?.let { buildTransientModel(it).first().classes.first() }
         val swiftClass = SwiftClass(
             name = nameRules.getName(limeContainer),
             visibility = getVisibility(limeContainer),
             isInterface = true,
-            parentClass = getPreviousResultOrNull(SwiftClass::class.java)?.name,
+            parentClass = parentClass?.name,
             nameSpace = limeContainer.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
@@ -152,7 +156,7 @@ class SwiftModelBuilder(
         swiftClass.comment = createComments(limeContainer)
 
         val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
-        addMembersAndParent(swiftFile, swiftClass)
+        addMembersAndParent(swiftFile, swiftClass, parentClass)
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
 
@@ -160,8 +164,11 @@ class SwiftModelBuilder(
         storeResult(swiftFile)
     }
 
-    private fun addMembersAndParent(swiftFile: SwiftFile, swiftClass: SwiftClass): SwiftFile {
-        val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
+    private fun addMembersAndParent(
+        swiftFile: SwiftFile,
+        swiftClass: SwiftClass,
+        parentClass: SwiftClass?
+    ): SwiftFile {
         if (parentClass != null && parentClass.isInterface) {
             swiftClass.implementsProtocols.add(parentClass.name)
             swiftClass.methods.addAll(parentClass.methods)

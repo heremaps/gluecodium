@@ -112,7 +112,8 @@ class SwiftModelBuilderTest {
                 nameResolver = nameResolver,
                 typeMapper = typeMapper,
                 nameRules = SwiftNameRules(nameRuleSet),
-                contextStack = contextStack
+                contextStack = contextStack,
+                buildTransientModel = { emptyList() }
             )
 
         every { nameResolver.getFullName(any()) } returns "nonsense"

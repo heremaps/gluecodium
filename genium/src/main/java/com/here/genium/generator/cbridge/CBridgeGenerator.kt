@@ -43,6 +43,7 @@ import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
+import com.here.genium.model.swift.SwiftFile
 import com.here.genium.platform.common.GeneratorSuite
 import java.nio.file.Paths
 
@@ -123,7 +124,8 @@ class CBridgeGenerator(
                 signatureResolver = signatureResolver,
                 nameResolver = nameResolver,
                 typeMapper = swiftTypeMapper,
-                nameRules = swiftNameRules
+                nameRules = swiftNameRules,
+                buildTransientModel = { buildTransientSwiftModel(it) }
             )
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,
@@ -138,16 +140,32 @@ class CBridgeGenerator(
             cppBuilder = cppBuilder,
             swiftBuilder = swiftBuilder,
             typeMapper = typeMapper,
-            internalNamespace = internalNamespace
+            internalNamespace = internalNamespace,
+            buildTransientModel = { buildCBridgeModel(it) }
         )
         val treeWalker = LimeTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
-
         treeWalker.walkTree(rootElement)
+
         val cModel = modelBuilder.finalResults.mapNotNull { wrapInInterface(it, rootElement) }
         cModel.forEach { removeRedundantIncludes(rootElement, it) }
         collectionsGenerator.collect(typeMapper.generics)
 
         return cModel
+    }
+
+    private fun buildTransientSwiftModel(rootElement: LimeNamedElement): List<SwiftFile> {
+        val swiftBuilder =
+            SwiftModelBuilder(
+                limeReferenceMap = limeReferenceMap,
+                signatureResolver = signatureResolver,
+                nameResolver = nameResolver,
+                typeMapper = swiftTypeMapper,
+                nameRules = swiftNameRules,
+                buildTransientModel = { buildTransientSwiftModel(it) }
+            )
+        LimeTreeWalker(listOf(swiftBuilder)).walkTree(rootElement)
+
+        return swiftBuilder.finalResults.filterIsInstance<SwiftFile>()
     }
 
     private fun wrapInInterface(cElement: CElement, limeElement: LimeNamedElement): CInterface? {

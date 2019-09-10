@@ -112,6 +112,7 @@ class CBridgeModelBuilderTest {
     private val cppField =
         CppField("cppFooField", "Nested.cppFooField", type = CppPrimitiveTypeRef.VOID)
     private val swiftField = SwiftField("swiftBarField", null, SwiftType.VOID, null)
+    private val transientModel = mutableListOf<CInterface>()
 
     private val contextStack = MockContextStack<CElement>()
     private val limeReferenceMap =
@@ -125,13 +126,14 @@ class CBridgeModelBuilderTest {
         mockkStatic(CppLibraryIncludes::class)
 
         modelBuilder = CBridgeModelBuilder(
-            contextStack,
-            limeReferenceMap,
-            cppIncludeResolver,
-            cppModelBuilder,
-            swiftModelBuilder,
-            typeMapper,
-            emptyList()
+            contextStack = contextStack,
+            limeReferenceMap = limeReferenceMap,
+            cppIncludeResolver = cppIncludeResolver,
+            cppBuilder = cppModelBuilder,
+            swiftBuilder = swiftModelBuilder,
+            typeMapper = typeMapper,
+            internalNamespace = emptyList(),
+            buildTransientModel = { transientModel }
         )
 
         every { CppLibraryIncludes.filterIncludes(any(), any()) } just Runs
@@ -209,9 +211,10 @@ class CBridgeModelBuilderTest {
             inheritedFunctions = listOf(parentInheritedFunction),
             functions = listOf(parentFunction)
         )
-        contextStack.injectResult(parentInterface)
+        transientModel += parentInterface
+        val limeElement = LimeClass(fooPath, parent = LimeBasicTypeRef.INT)
 
-        modelBuilder.finishBuilding(limeContainer)
+        modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CInterface::class.java)
         assertContains(parentFunction, result.inheritedFunctions)

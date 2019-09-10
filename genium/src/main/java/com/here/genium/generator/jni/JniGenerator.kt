@@ -91,7 +91,8 @@ class JniGenerator(
             javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules),
             cppBuilder = cppBuilder,
             cppIncludeResolver = includeResolver,
-            internalNamespace = internalNamespace
+            internalNamespace = internalNamespace,
+            buildTransientModel = { generateModel(it).jniContainers }
         )
 
         val treeWalker = LimeTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))

@@ -139,6 +139,7 @@ class JniModelBuilderTest {
     private val jniType = JniType(javaCustomType, cppCustomType)
     private val cppInclude = Include.createInternalInclude("Foo.h")
     private val cppStruct = CppStruct("cPpClass")
+    private val transientModel = mutableListOf<JniContainer>()
 
     private val fooPath = LimePath(listOf("foo", "bar"), emptyList())
     private val limeMethod = LimeFunction(EMPTY_PATH)
@@ -168,7 +169,8 @@ class JniModelBuilderTest {
             javaSignatureResolver = javaSignatureResolver,
             cppBuilder = cppBuilder,
             cppIncludeResolver = cppIncludeResolver,
-            internalNamespace = INTERNAL_NAMESPACE
+            internalNamespace = INTERNAL_NAMESPACE,
+            buildTransientModel = { transientModel }
         )
 
         javaClass.javaPackage = JavaPackage(listOf("my", "java", "test"))
@@ -264,9 +266,10 @@ class JniModelBuilderTest {
         val parentContainer = JniContainer()
         parentContainer.parentMethods.add(JniMethod())
         parentContainer.methods.add(JniMethod())
-        contextStack.injectResult(parentContainer)
+        transientModel += parentContainer
+        val limeElement = LimeInterface(fooPath, parent = LimeBasicTypeRef.INT)
 
-        modelBuilder.finishBuilding(limeInterface)
+        modelBuilder.finishBuilding(limeElement)
 
         val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
         assertEquals(2, jniContainer.parentMethods.size)

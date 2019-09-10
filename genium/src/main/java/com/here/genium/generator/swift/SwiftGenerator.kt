@@ -48,7 +48,8 @@ class SwiftGenerator(
                 signatureResolver = signatureResolver,
                 nameResolver = nameResolver,
                 typeMapper = typeMapper,
-                nameRules = nameRules
+                nameRules = nameRules,
+                buildTransientModel = { generateModel(it).containers }
             )
         val treeWalker = LimeTreeWalker(listOf(modelBuilder))
 

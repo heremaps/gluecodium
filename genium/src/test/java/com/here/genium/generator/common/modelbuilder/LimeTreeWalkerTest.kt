@@ -46,8 +46,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeTreeWalkerTest {
-    private val limeParentContainer = LimeInterface(EMPTY_PATH)
-    private val limeParentTypeRef = LimeLazyTypeRef("foo", mapOf("foo" to limeParentContainer))
     private val limeErrorTypeRef = LimeLazyTypeRef("bar", emptyMap())
     private val limeParameterTypeRef = LimeLazyTypeRef("baz", emptyMap())
     private val limeFieldTypeRef = LimeLazyTypeRef("foobar", emptyMap())
@@ -85,7 +83,6 @@ class LimeTreeWalkerTest {
     private val limeNestedInterface = LimeInterface(EMPTY_PATH)
     private val limeContainer = LimeClass(
         path = EMPTY_PATH,
-        parent = limeParentTypeRef,
         functions = listOf(limeMethod),
         structs = listOf(limeStruct),
         typeAliases = listOf(limeTypeDef),
@@ -113,14 +110,6 @@ class LimeTreeWalkerTest {
 
         verify { modelBuilder.startBuilding(limeContainer) }
         verify { modelBuilder.finishBuilding(limeContainer) }
-    }
-
-    @Test
-    fun walkContainerWalksParentContainer() {
-        treeWalker.walkTree(limeContainer)
-
-        verify { modelBuilder.startBuilding(limeParentContainer) }
-        verify { modelBuilder.finishBuilding(limeParentContainer) }
     }
 
     @Test

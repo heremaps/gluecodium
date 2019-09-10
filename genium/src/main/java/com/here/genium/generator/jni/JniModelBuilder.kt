@@ -62,6 +62,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeSet
@@ -90,7 +91,8 @@ class JniModelBuilder(
     private val javaSignatureResolver: JavaSignatureResolver,
     private val cppBuilder: CppModelBuilder,
     private val cppIncludeResolver: CppIncludeResolver,
-    private val internalNamespace: List<String>
+    private val internalNamespace: List<String>,
+    private val buildTransientModel: (LimeNamedElement) -> List<JniContainer>
 ) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
 
     val setsCollector = mutableMapOf<String, JniType>()
@@ -117,10 +119,10 @@ class JniModelBuilder(
             hasTypeRepository = cppClass.isInheritable || cppClass.inheritances.isNotEmpty()
         )
 
-        val parentContainer = getPreviousResultOrNull(JniContainer::class.java)
-        if (parentContainer != null) {
-            jniContainer.parentMethods += parentContainer.parentMethods
-            jniContainer.parentMethods += parentContainer.methods
+        limeContainer.parent?.type?.let {
+            val transientParent = buildTransientModel(it).first()
+            jniContainer.parentMethods += transientParent.parentMethods
+            jniContainer.parentMethods += transientParent.methods
         }
 
         jniContainer.methods += getPreviousResults(JniMethod::class.java)

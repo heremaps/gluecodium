@@ -66,7 +66,8 @@ class CBridgeModelBuilder(
     private val cppBuilder: CppModelBuilder,
     private val swiftBuilder: SwiftModelBuilder,
     private val typeMapper: CBridgeTypeMapper,
-    private val internalNamespace: List<String>
+    private val internalNamespace: List<String>,
+    private val buildTransientModel: (LimeNamedElement) -> List<CInterface>
 ) : AbstractLimeBasedModelBuilder<CElement>(contextStack) {
 
     override fun startBuilding(limeContainer: LimeContainerWithInheritance) {
@@ -84,7 +85,7 @@ class CBridgeModelBuilder(
     }
 
     override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
-        val parentClass = getPreviousResultOrNull(CInterface::class.java)
+        val parentClass = limeContainer.parent?.type?.let { buildTransientModel(it).first() }
         val inheritedFunctions = mutableListOf<CFunction>()
         if (parentClass != null) {
             inheritedFunctions.addAll(parentClass.inheritedFunctions)

@@ -24,6 +24,7 @@ import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeInterface
@@ -68,6 +69,7 @@ class SwiftModelBuilderContainerTest {
     private val swiftMethod = SwiftMethod("")
     private val swiftProperty =
         SwiftProperty("", null, SwiftType.VOID, swiftMethod, swiftMethod, false)
+    private val transientModel = mutableListOf<SwiftFile>()
     private val deprecatedAttributes =
         LimeAttributes.Builder().addAttribute(
             LimeAttributeType.DEPRECATED,
@@ -92,7 +94,8 @@ class SwiftModelBuilderContainerTest {
                 nameResolver = nameResolver,
                 typeMapper = typeMapper,
                 nameRules = SwiftNameRules(nameRuleSet),
-                contextStack = contextStack
+                contextStack = contextStack,
+                buildTransientModel = { transientModel }
             )
 
         every { nameResolver.getFullName(any()) } returns "nonsense"
@@ -179,9 +182,10 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsParentClass() {
-        val limeElement = LimeClass(fooPath)
-        val swiftClass = SwiftClass("swiftFooName")
-        contextStack.injectResult(swiftClass)
+        val limeElement = LimeClass(fooPath, parent = LimeBasicTypeRef.INT)
+        val swiftFile = SwiftFile("")
+        swiftFile.classes += SwiftClass("swiftFooName")
+        transientModel += swiftFile
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -192,11 +196,13 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingClassReadsParentProtocol() {
-        val limeElement = LimeClass(fooPath)
+        val limeElement = LimeClass(fooPath, parent = LimeBasicTypeRef.INT)
         val swiftClass = SwiftClass("swiftFooName", isInterface = true)
         swiftClass.methods.add(swiftMethod)
         swiftClass.properties.add(swiftProperty)
-        contextStack.injectResult(swiftClass)
+        val swiftFile = SwiftFile("")
+        swiftFile.classes += swiftClass
+        transientModel += swiftFile
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -275,11 +281,13 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterfaceReadsParentProtocol() {
-        val limeElement = LimeInterface(fooPath)
+        val limeElement = LimeInterface(fooPath, parent = LimeBasicTypeRef.INT)
         val swiftClass = SwiftClass("swiftFooName", isInterface = true)
         swiftClass.methods.add(swiftMethod)
         swiftClass.properties.add(swiftProperty)
-        contextStack.injectResult(swiftClass)
+        val swiftFile = SwiftFile("")
+        swiftFile.classes += swiftClass
+        transientModel += swiftFile
 
         modelBuilder.finishBuilding(limeElement)
 

@@ -82,17 +82,12 @@ class CppModelBuilder(
             getPreviousResults(CppStruct::class.java) +
             getPreviousResults(CppConstant::class.java)
 
-        val limeParentType = limeContainer.parent
-        val inheritances = when {
-            limeParentType != null -> {
-                val parentType = typeMapper.mapInstanceType(
-                    limeParentType.type as LimeContainerWithInheritance,
-                    false
-                )
-                listOf(CppInheritance(parentType, CppInheritance.Type.Public))
-            }
-            else -> emptyList()
-        }
+        val limeParentType = limeContainer.parent?.type as? LimeContainerWithInheritance
+        val inheritances = listOfNotNull(limeParentType?.let {
+            val parentType = typeMapper.mapInstanceType(limeParentType, false)
+            CppInheritance(parentType, CppInheritance.Type.Public)
+        })
+
         val isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
         val isInheritable = limeContainer is LimeInterface || limeContainer.visibility.isOpen
         val includes = mutableListOf<Include>()
