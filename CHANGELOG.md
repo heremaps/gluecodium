@@ -1,10 +1,11 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.4.0
+- Release date: 2019-09-10
 - Features:
   + Added support for `@Cpp(Accessors)` attribute for structs.
 - Bug fixes:
-  + Hash functions were not properly exported and could have caused linking errors.
+  + Fixed C++ linking issue where Hash functions were not properly exported.
   + Fixed Swift compilation issue for lists of nullable elements.
 - Breaking changes:
   + The comment header warning "Automatically generated, do not change..." is no longer generated
