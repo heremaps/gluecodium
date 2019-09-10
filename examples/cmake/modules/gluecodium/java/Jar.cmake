@@ -62,7 +62,8 @@ function(apigen_java_jar target)
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${target} PROPERTIES
-    APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR})
+    APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR}
+    APIGEN_JAVA_JAR_OUTPUT_DIR ${APIGEN_JAVA_JAR_OUTPUT_DIR})
 
   add_custom_command(TARGET ${target} POST_BUILD
     COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}

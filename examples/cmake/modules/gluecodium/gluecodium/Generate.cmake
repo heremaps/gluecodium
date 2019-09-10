@@ -44,12 +44,19 @@ cmake_minimum_required(VERSION 3.5)
 # This function invokes the Gluecodium tool based on a set of of input *.lime
 # files with a specific target language generator.
 #
-# Following properties will be set for given `target`:
+# Following properties will be set for given `target` based on the corresponding option without
+# APIGEN_ prefix:
 #  * APIGEN_GENERATOR The generator passed.
-#  * APIGEN_GENERATOR_OUTPUT_DIR The main output dir, generators will
-#        create subdirectories for generated sources.
-# * APIGEN_BUILD_OUTPUT_DIR Build artifacts created by custom build steps
-#        will end up in this directory.
+#  * APIGEN_OUTPUT_DIR Output dir for the main source set, generators will create subdirectories.
+#        The main code set generated here is the generated code which depends on input IDL files.
+#  * APIGEN_COMMON_OUTPUT_DIR Output dir for the common source set, generators will create
+#        subdirectories. The common source set is independent of input IDL files, only depends on
+#        options like JAVA_PACKAGE, CPP_INTERNAL_NAMESPACE etc. and can be shared between multiple
+#        targets which use the same settings.
+#        The output directories can be nested inside another.
+#  * APIGEN_BUILD_OUTPUT_DIR Build artifacts created by custom build steps
+#        will end up in this directory. This should not be placed in the source output dir since
+#        since the generated file cache will delete these build results otherwise.
 #
 
 if(COMMAND find_host_package)
@@ -80,7 +87,8 @@ function(apigen_generate)
       CPP_NAMERULES
       SWIFT_NAMERULES
       OUTPUT_DIR
-      BUILD_OUTPUT_BUILD)
+      COMMON_OUTPUT_DIR
+      BUILD_OUTPUT_DIR)
   set(multiValueArgs LIME_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -107,11 +115,16 @@ function(apigen_generate)
     set(apigen_generate_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${apigen_generate_TARGET}/${apigen_generate_GENERATOR}")
   endif()
   set(GLUECODIUM_OUTPUT_DIR ${apigen_generate_OUTPUT_DIR})
+  set(GLUECODIUM_COMMON_OUTPUT_DIR "${GLUECODIUM_OUTPUT_DIR}")
+  if(apigen_generate_COMMON_OUTPUT_DIR)
+    set(GLUECODIUM_COMMON_OUTPUT_DIR "${apigen_generate_COMMON_OUTPUT_DIR}")
+  endif()
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_generate_TARGET} PROPERTIES
     APIGEN_GENERATOR "${apigen_generate_GENERATOR}"
-    APIGEN_GENERATOR_OUTPUT_DIR "${GLUECODIUM_OUTPUT_DIR}"
+    APIGEN_OUTPUT_DIR "${GLUECODIUM_OUTPUT_DIR}"
+    APIGEN_COMMON_OUTPUT_DIR "${GLUECODIUM_COMMON_OUTPUT_DIR}"
     APIGEN_BUILD_OUTPUT_DIR "${apigen_generate_BUILD_OUTPUT_DIR}")
 
   if(NOT apigen_generate_GENERATOR MATCHES cpp)
@@ -148,6 +161,7 @@ function(apigen_generate)
   apigen_parse_path_option(-cppnamerules CPP_NAMERULES)
   apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
   apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
+  apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
 
   if(apigen_generate_CPP_EXPORT)
     string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
@@ -170,6 +184,7 @@ function(apigen_generate)
 
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_COMMON_OUTPUT_DIR}
     COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} ${BUILD_LOCAL_GLUECODIUM} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GLUECODIUM_ARGS}
     WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
     RESULT_VARIABLE GENERATE_RESULT

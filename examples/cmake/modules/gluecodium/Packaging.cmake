@@ -151,7 +151,7 @@ function(apigen_create_package)
 
     set(local_jars)
     foreach(dep ${ARG_DEPENDS})
-      get_target_property(output_dir ${dep} APIGEN_GENERATOR_OUTPUT_DIR)
+      get_target_property(output_dir ${dep} APIGEN_OUTPUT_DIR)
       list(APPEND local_jars ${output_dir}/../android-java-jar/${dep}.jar)
     endforeach()
 
@@ -171,7 +171,7 @@ function(apigen_create_package)
 
     # NOTE: These steps must be last.
     if(ARG_EXTRA_SOURCE_DIR)
-      get_target_property(generated_output_dir ${ARG_TARGET} APIGEN_GENERATOR_OUTPUT_DIR)
+      get_target_property(generated_output_dir ${ARG_TARGET} APIGEN_OUTPUT_DIR)
       add_custom_command(TARGET ${ARG_TARGET} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${ARG_EXTRA_SOURCE_DIR}
           ${generated_output_dir}/android/)

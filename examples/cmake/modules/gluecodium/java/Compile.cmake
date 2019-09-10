@@ -50,6 +50,41 @@ cmake_minimum_required(VERSION 3.5)
 
 find_package(Java COMPONENTS Development REQUIRED)
 
+function(collect_dependencies TARGET DEPENDENCY_LIST)
+  get_target_property(interface_libs ${TARGET} INTERFACE_LINK_LIBRARIES)
+  # CMake doesn't want us to ask INTERFACE_LIBRARY targets for arbitrary properties,
+  # instead of just returning it's not defined it fails because it's not whitelisted
+  # for INTERFACE_LIBRARY. So we have to do an additional check before the real check.
+  get_target_property(target_type ${TARGET} TYPE)
+  if(target_type STREQUAL "INTERFACE_LIBRARY")
+    set(link_libs)
+  else()
+    get_target_property(link_libs ${TARGET} LINK_LIBRARIES)
+  endif()
+  foreach(lib ${interface_libs} ${link_libs})
+      if(TARGET ${lib})
+          list(APPEND DEPENDENCIES ${lib})
+          collect_dependencies(${lib} DEPENDENCIES)
+      endif()
+  endforeach()
+  set(${DEPENDENCY_LIST} "${${DEPENDENCY_LIST}};${DEPENDENCIES}" PARENT_SCOPE)
+endfunction()
+
+function(collect_java_source_dirs TARGET SOURCE_DIRS)
+  get_target_property(INTERFACE_LIBS ${TARGET} INTERFACE_LINK_LIBRARIES)
+  get_target_property(LINK_LIBS ${TARGET} LINK_LIBRARIES)
+  foreach(LIB ${INTERFACE_LIBS} ${LINK_LIBS})
+      if(TARGET ${LIB})
+          list(FIND VISITED_TARGETS ${LIB} VISITED)
+          if(${VISITED} EQUAL -1)
+              collect_java_source_dirs(${LIB} DEP_SOURCES)
+          endif()
+      endif()
+  endforeach()
+  get_target_property(DIRS ${TARGET} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
+  set(${SOURCE_DIRS} "${${SOURCE_DIRS}};${DIRS};${DEP_SOURCES}" PARENT_SCOPE)
+endfunction()
+
 function(apigen_java_compile)
   set(options)
   set(oneValueArgs TARGET)
@@ -58,7 +93,8 @@ function(apigen_java_compile)
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_OUTPUT_DIR)
+  get_target_property(APIGEN_JAVA_SOURCE_DIR ${apigen_java_compile_TARGET} ANDROID_JAVA_SOURCE_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
@@ -67,7 +103,7 @@ function(apigen_java_compile)
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
   set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_java_compile_TARGET}-${GENERATOR}-java-compile)
-  set(APIGEN_GLUECODIUM_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
+  set_target_properties(${target} PROPERTIES APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_java_compile_TARGET} PROPERTIES
@@ -82,15 +118,36 @@ function(apigen_java_compile)
   foreach(local_jars ${apigen_java_compile_LOCAL_JARS})
     list(APPEND APIGEN_JAVA_LOCAL_JARS "${local_jars}")
   endforeach()
+
+  collect_dependencies(${apigen_java_compile_TARGET} DEPENDENCIES)
+  foreach(dep ${DEPENDENCIES})
+    # CMake doesn't want us to ask INTERFACE_LIBRARY targets for arbitrary properties,
+    # instead of just returning it's not defined it fails because it's not whitelisted
+    # for INTERFACE_LIBRARY. So we have to do an additional check before the real check.
+    get_target_property(dependency_type ${dep} TYPE)
+    if(NOT dependency_type STREQUAL "INTERFACE_LIBRARY")
+      get_target_property(java_output ${dep} APIGEN_JAVA_JAR_OUTPUT_DIR)
+      if (java_output)
+        list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES ${dep})
+        list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS ${java_output})
+      endif()
+    endif()
+  endforeach()
+
   foreach(remote_dependencies ${apigen_java_compile_REMOTE_DEPENDENCIES})
     list(APPEND APIGEN_JAVA_REMOTE_DEPENDENCIES "${remote_dependencies}")
   endforeach()
+
+  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_SOURCE_DIR "${APIGEN_JAVA_SOURCE_DIR}")
+  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES "${APIGEN_JAVA_LOCAL_DEPENDENCIES}")
+  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
+  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_REMOTE_DEPENDENCIES "${APIGEN_JAVA_REMOTE_DEPENDENCIES}")
 
   add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
     COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
       -b=compileJava.gradle
-      -PsrcDir=${APIGEN_GLUECODIUM_JAVA_SOURCE_DIR}
+      -PsrcDirs=${APIGEN_JAVA_SOURCE_DIR}
       -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
       -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
       -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
@@ -98,5 +155,6 @@ function(apigen_java_compile)
       -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
       compileJava
     WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
+    VERBATIM
     COMMENT "Compiling generated Java sources into class files...")
 endfunction()

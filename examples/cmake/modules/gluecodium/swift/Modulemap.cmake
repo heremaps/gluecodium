@@ -48,7 +48,7 @@ function(apigen_swift_modulemap target)
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_MODULE_NAME ${target} APIGEN_SWIFT_MODULE_NAME)
 

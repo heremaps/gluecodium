@@ -40,7 +40,8 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_target_sources target)
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
+  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
   get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GLUECODIUM_GENERATOR_ADDITIONAL_SOURCES)
   if(NOT ADDITIONAL_SOURCES)
     set(ADDITIONAL_SOURCES "")
@@ -60,10 +61,14 @@ function(apigen_target_sources target)
   elseif(${GENERATOR} MATCHES android)
 
     file(GLOB_RECURSE JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
+    file(GLOB_RECURSE JNI_COMMON_SOURCES ${COMMON_OUTPUT_DIR}/android/jni/*.cpp)
     target_sources(${target} PRIVATE
       ${GENERATED_CPP_SOURCES}
       ${GENERATED_CPP_HEADERS}
-      ${JNI_SOURCES})
+      ${JNI_SOURCES}
+      ${JNI_COMMON_SOURCES})
+    set_property(TARGET ${target} APPEND PROPERTY ANDROID_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
+    set_property(TARGET ${target} APPEND PROPERTY ANDROID_JAVA_SOURCE_DIR ${COMMON_OUTPUT_DIR}/android)
 
   elseif(${GENERATOR} MATCHES swift)
 

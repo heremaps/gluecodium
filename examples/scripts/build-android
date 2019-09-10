@@ -118,7 +118,7 @@ EOF
 # https://github.com/android-ndk/ndk/issues/254 or
 # https://gitlab.kitware.com/cmake/cmake/issues/16708
 if [ -d "$ANDROID_HOME/cmake" ]; then
-    NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake)
+    NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake | head -n1)
 fi
 if [ -z "$NDK_CMAKE_BINARY" ]; then
     NDK_CMAKE_BINARY=cmake

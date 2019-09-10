@@ -42,7 +42,7 @@ function(apigen_swift_fat_library target)
   endif()
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_ARCH ${target} APIGEN_SWIFT_BUILD_ARCH)
 

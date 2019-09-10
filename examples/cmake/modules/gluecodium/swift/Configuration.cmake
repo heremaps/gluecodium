@@ -44,7 +44,7 @@ endif()
 function(apigen_swift_configuration target)
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
   get_target_property(OUTPUT_BUILD_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SDK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SDK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)

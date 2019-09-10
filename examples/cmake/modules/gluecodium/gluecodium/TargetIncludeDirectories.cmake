@@ -44,7 +44,8 @@ cmake_minimum_required(VERSION 3.5)
 function(apigen_target_include_directories target)
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
+  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
 
   if(ARGV1 STREQUAL ALWAYS_EXPOSE_CPP)
     set(CPP_VISIBILITY PUBLIC)
@@ -57,7 +58,9 @@ function(apigen_target_include_directories target)
     # If generator exactly matches 'cpp' the user intended C++ only
     target_include_directories(${target}
       PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
-      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
+      PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>
+      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>
+      PRIVATE $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
 
   elseif(${GENERATOR} MATCHES android)
 
@@ -65,7 +68,9 @@ function(apigen_target_include_directories target)
     # but should not expose those to the public.
     target_include_directories(${target}
       ${CPP_VISIBILITY} $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
-      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>) # JNI headers and sources
+      ${CPP_VISIBILITY} $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>
+      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}> # JNI headers and sources
+      PRIVATE $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
 
     # Check if we are doing a host build (no cross compilation)
     if(NOT(${CMAKE_SYSTEM_NAME} STREQUAL "Android"))
@@ -80,9 +85,11 @@ function(apigen_target_include_directories target)
     # but should not expose those to the public.
     target_include_directories(${target}
       ${CPP_VISIBILITY} $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+      ${CPP_VISIBILITY} $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>
       # There are file name conflicts between cbridge and cbridge_internal so the top folder
       # needs to be added to have cbridge/cbridge_internal as part of the include path
-      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)
+      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>
+      PRIVATE $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
   else()
     message(FATAL_ERROR "apigen_target_include_directories() cannot match the generator '${GENERATOR}'")
   endif()
