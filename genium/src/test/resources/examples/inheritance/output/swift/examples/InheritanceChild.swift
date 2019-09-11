@@ -1,7 +1,30 @@
 //
 //
-
 import Foundation
+public protocol InheritanceChild : InheritanceParent {
+    func parentMethod(input: String) -> String
+    func childMethod(input: UInt8) -> Int16
+}
+internal class _InheritanceChild: InheritanceChild {
+    let c_instance : _baseRef
+    init(cInheritanceChild: _baseRef) {
+        guard cInheritanceChild != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cInheritanceChild
+    }
+    deinit {
+        examples_InheritanceChild_release_handle(c_instance)
+    }
+    public func parentMethod(input: String) -> String {
+        let c_input = moveToCType(input)
+        return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
+    }
+    public func childMethod(input: UInt8) -> Int16 {
+        let c_input = moveToCType(input)
+        return moveFromCType(examples_InheritanceChild_childMethod(self.c_instance, c_input.ref))
+    }
+}
 @_cdecl("_CBridgeInitexamples_InheritanceChild")
 internal func _CBridgeInitexamples_InheritanceChild(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _InheritanceChild(cInheritanceChild: handle)
@@ -34,30 +57,6 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
     }
     let proxy = examples_InheritanceChild_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_InheritanceChild_release_handle) : RefHolder(proxy)
-}
-public protocol InheritanceChild : InheritanceParent {
-    func parentMethod(input: String) -> String
-    func childMethod(input: UInt8) -> Int16
-}
-internal class _InheritanceChild: InheritanceChild {
-    let c_instance : _baseRef
-    init(cInheritanceChild: _baseRef) {
-        guard cInheritanceChild != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cInheritanceChild
-    }
-    deinit {
-        examples_InheritanceChild_release_handle(c_instance)
-    }
-    public func parentMethod(input: String) -> String {
-        let c_input = moveToCType(input)
-        return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
-    }
-    public func childMethod(input: UInt8) -> Int16 {
-        let c_input = moveToCType(input)
-        return moveFromCType(examples_InheritanceChild_childMethod(self.c_instance, c_input.ref))
-    }
 }
 extension _InheritanceChild: NativeBase {
     var c_handle: _baseRef { return c_instance }

@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_InternalClass_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_InternalClass_release_handle)
-        : RefHolder(handle_copy)
-}
 internal class InternalClass {
     let c_instance : _baseRef
     init(cInternalClass: _baseRef) {
@@ -35,6 +25,15 @@ internal class InternalClass {
         let c_input = moveToCType(input)
         return moveFromCType(examples_InternalClass_internalMethod(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_InternalClass_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_InternalClass_release_handle)
+        : RefHolder(handle_copy)
 }
 extension InternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }

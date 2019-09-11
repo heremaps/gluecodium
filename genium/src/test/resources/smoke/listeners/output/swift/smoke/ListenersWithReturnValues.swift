@@ -1,7 +1,49 @@
 //
 //
-
 import Foundation
+public protocol ListenersWithReturnValues : AnyObject {
+    typealias StringToDouble = [String: Double]
+    func fetchDataDouble() -> Double
+    func fetchDataString() -> String
+    func fetchDataStruct() -> ResultStruct
+    func fetchDataEnum() -> ResultEnum
+    func fetchDataArray() -> [Double]
+    func fetchDataMap() -> ListenersWithReturnValues.StringToDouble
+    func fetchDataInstance() -> CalculationResult
+}
+internal class _ListenersWithReturnValues: ListenersWithReturnValues {
+    let c_instance : _baseRef
+    init(cListenersWithReturnValues: _baseRef) {
+        guard cListenersWithReturnValues != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cListenersWithReturnValues
+    }
+    deinit {
+        smoke_ListenersWithReturnValues_release_handle(c_instance)
+    }
+    public func fetchDataDouble() -> Double {
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataDouble(self.c_instance))
+    }
+    public func fetchDataString() -> String {
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataString(self.c_instance))
+    }
+    public func fetchDataStruct() -> ResultStruct {
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataStruct(self.c_instance))
+    }
+    public func fetchDataEnum() -> ResultEnum {
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance))
+    }
+    public func fetchDataArray() -> [Double] {
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance))
+    }
+    public func fetchDataMap() -> ListenersWithReturnValues.StringToDouble {
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
+    }
+    public func fetchDataInstance() -> CalculationResult {
+        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ListenersWithReturnValues")
 internal func _CBridgeInitsmoke_ListenersWithReturnValues(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ListenersWithReturnValues(cListenersWithReturnValues: handle)
@@ -54,49 +96,6 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
     }
     let proxy = smoke_ListenersWithReturnValues_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ListenersWithReturnValues_release_handle) : RefHolder(proxy)
-}
-public protocol ListenersWithReturnValues : AnyObject {
-    typealias StringToDouble = [String: Double]
-    func fetchDataDouble() -> Double
-    func fetchDataString() -> String
-    func fetchDataStruct() -> ResultStruct
-    func fetchDataEnum() -> ResultEnum
-    func fetchDataArray() -> [Double]
-    func fetchDataMap() -> ListenersWithReturnValues.StringToDouble
-    func fetchDataInstance() -> CalculationResult
-}
-internal class _ListenersWithReturnValues: ListenersWithReturnValues {
-    let c_instance : _baseRef
-    init(cListenersWithReturnValues: _baseRef) {
-        guard cListenersWithReturnValues != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cListenersWithReturnValues
-    }
-    deinit {
-        smoke_ListenersWithReturnValues_release_handle(c_instance)
-    }
-    public func fetchDataDouble() -> Double {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataDouble(self.c_instance))
-    }
-    public func fetchDataString() -> String {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataString(self.c_instance))
-    }
-    public func fetchDataStruct() -> ResultStruct {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataStruct(self.c_instance))
-    }
-    public func fetchDataEnum() -> ResultEnum {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance))
-    }
-    public func fetchDataArray() -> [Double] {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance))
-    }
-    public func fetchDataMap() -> ListenersWithReturnValues.StringToDouble {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
-    }
-    public func fetchDataInstance() -> CalculationResult {
-        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
-    }
 }
 extension _ListenersWithReturnValues: NativeBase {
     var c_handle: _baseRef { return c_instance }

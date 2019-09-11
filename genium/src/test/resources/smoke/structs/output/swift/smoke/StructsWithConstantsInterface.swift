@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: StructsWithConstantsInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_StructsWithConstantsInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_StructsWithConstantsInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class StructsWithConstantsInterface {
     let c_instance : _baseRef
     init(cStructsWithConstantsInterface: _baseRef) {
@@ -36,6 +26,15 @@ public class StructsWithConstantsInterface {
             type = moveFromCType(smoke_StructsWithConstantsInterface_MultiRoute_type_get(cHandle))
         }
     }
+}
+internal func getRef(_ ref: StructsWithConstantsInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_StructsWithConstantsInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_StructsWithConstantsInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension StructsWithConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

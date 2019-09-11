@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_DefaultValues_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_DefaultValues_release_handle)
-        : RefHolder(handle_copy)
-}
 public class DefaultValues {
     public typealias LongTypedef = Int64
     public typealias BooleanTypedef = Bool
@@ -158,6 +148,15 @@ public class DefaultValues {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_DefaultValues_processStructWithDefaults(c_input.ref))
     }
+}
+internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_DefaultValues_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_DefaultValues_release_handle)
+        : RefHolder(handle_copy)
 }
 extension DefaultValues: NativeBase {
     var c_handle: _baseRef { return c_instance }

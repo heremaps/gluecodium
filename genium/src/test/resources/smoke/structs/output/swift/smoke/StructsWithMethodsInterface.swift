@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: StructsWithMethodsInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_StructsWithMethodsInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_StructsWithMethodsInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class StructsWithMethodsInterface {
     let c_instance : _baseRef
     init(cStructsWithMethodsInterface: _baseRef) {
@@ -80,6 +71,15 @@ public class StructsWithMethodsInterface {
             }
         }
     }
+}
+internal func getRef(_ ref: StructsWithMethodsInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_StructsWithMethodsInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_StructsWithMethodsInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension StructsWithMethodsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

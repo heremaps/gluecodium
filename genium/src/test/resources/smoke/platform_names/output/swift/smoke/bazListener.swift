@@ -1,7 +1,25 @@
 //
 //
-
 import Foundation
+public protocol bazListener : AnyObject {
+    func BazMethod(_ BazParameter: String) -> Void
+}
+internal class _bazListener: bazListener {
+    let c_instance : _baseRef
+    init(cbazListener: _baseRef) {
+        guard cbazListener != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cbazListener
+    }
+    deinit {
+        smoke_PlatformNamesListener_release_handle(c_instance)
+    }
+    public func BazMethod(_ BazParameter: String) -> Void {
+        let c_BazParameter = moveToCType(BazParameter)
+        return moveFromCType(smoke_PlatformNamesListener_BazMethod(self.c_instance, c_BazParameter.ref))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_PlatformNamesListener")
 internal func _CBridgeInitsmoke_PlatformNamesListener(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _bazListener(cbazListener: handle)
@@ -30,25 +48,6 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
     }
     let proxy = smoke_PlatformNamesListener_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PlatformNamesListener_release_handle) : RefHolder(proxy)
-}
-public protocol bazListener : AnyObject {
-    func BazMethod(_ BazParameter: String) -> Void
-}
-internal class _bazListener: bazListener {
-    let c_instance : _baseRef
-    init(cbazListener: _baseRef) {
-        guard cbazListener != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cbazListener
-    }
-    deinit {
-        smoke_PlatformNamesListener_release_handle(c_instance)
-    }
-    public func BazMethod(_ BazParameter: String) -> Void {
-        let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_PlatformNamesListener_BazMethod(self.c_instance, c_BazParameter.ref))
-    }
 }
 extension _bazListener: NativeBase {
     var c_handle: _baseRef { return c_instance }

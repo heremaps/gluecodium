@@ -1,21 +1,6 @@
 //
 //
-
 import Foundation
-@_cdecl("_CBridgeInitsmoke_ChildClassFromInterface")
-internal func _CBridgeInitsmoke_ChildClassFromInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = ChildClassFromInterface(cChildClassFromInterface: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
-internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_ChildClassFromInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_ChildClassFromInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class ChildClassFromInterface: ParentInterface {
     public var rootProperty: String {
         get {
@@ -42,6 +27,20 @@ public class ChildClassFromInterface: ParentInterface {
     public func childClassMethod() -> Void {
         return moveFromCType(smoke_ChildClassFromInterface_childClassMethod(self.c_instance))
     }
+}
+@_cdecl("_CBridgeInitsmoke_ChildClassFromInterface")
+internal func _CBridgeInitsmoke_ChildClassFromInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ChildClassFromInterface(cChildClassFromInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
+internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_ChildClassFromInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_ChildClassFromInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension ChildClassFromInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

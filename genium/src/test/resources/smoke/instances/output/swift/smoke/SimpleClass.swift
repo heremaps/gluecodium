@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_SimpleClass_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_SimpleClass_release_handle)
-        : RefHolder(handle_copy)
-}
 public class SimpleClass {
     let c_instance : _baseRef
     init(cSimpleClass: _baseRef) {
@@ -25,6 +15,15 @@ public class SimpleClass {
     public func getStringValue() -> String {
         return moveFromCType(smoke_SimpleClass_getStringValue(self.c_instance))
     }
+}
+internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_SimpleClass_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_SimpleClass_release_handle)
+        : RefHolder(handle_copy)
 }
 extension SimpleClass: NativeBase {
     var c_handle: _baseRef { return c_instance }

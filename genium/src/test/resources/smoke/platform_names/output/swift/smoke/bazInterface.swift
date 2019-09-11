@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_PlatformNamesInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_PlatformNamesInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class bazInterface {
     public init(_ makeParameter: String) {
         let _result = bazInterface.make(makeParameter)
@@ -46,6 +36,15 @@ public class bazInterface {
         let c_makeParameter = moveToCType(makeParameter)
         return moveFromCType(smoke_PlatformNamesInterface_make(c_makeParameter.ref))
     }
+}
+internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_PlatformNamesInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_PlatformNamesInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension bazInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

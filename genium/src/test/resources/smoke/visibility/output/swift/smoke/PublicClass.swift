@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_PublicClass_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_PublicClass_release_handle)
-        : RefHolder(handle_copy)
-}
 public class PublicClass {
     internal typealias InternalArray = [PublicClass.InternalStruct]
     internal typealias InternalStructTypeDef = PublicClass.InternalStruct
@@ -85,6 +75,15 @@ public class PublicClass {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_PublicClass_internalMethod(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_PublicClass_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_PublicClass_release_handle)
+        : RefHolder(handle_copy)
 }
 extension PublicClass: NativeBase {
     var c_handle: _baseRef { return c_instance }

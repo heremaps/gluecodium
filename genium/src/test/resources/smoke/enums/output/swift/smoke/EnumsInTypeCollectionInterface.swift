@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_EnumsInTypeCollectionInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_EnumsInTypeCollectionInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class EnumsInTypeCollectionInterface {
     let c_instance : _baseRef
     init(cEnumsInTypeCollectionInterface: _baseRef) {
@@ -26,6 +16,15 @@ public class EnumsInTypeCollectionInterface {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(c_input.ref))
     }
+}
+internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_EnumsInTypeCollectionInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_EnumsInTypeCollectionInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension EnumsInTypeCollectionInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

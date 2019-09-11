@@ -1,7 +1,24 @@
 //
 //
-
 import Foundation
+public protocol SimpleInterface : AnyObject {
+    func getStringValue() -> String
+}
+internal class _SimpleInterface: SimpleInterface {
+    let c_instance : _baseRef
+    init(cSimpleInterface: _baseRef) {
+        guard cSimpleInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cSimpleInterface
+    }
+    deinit {
+        smoke_SimpleInterface_release_handle(c_instance)
+    }
+    public func getStringValue() -> String {
+        return moveFromCType(smoke_SimpleInterface_getStringValue(self.c_instance))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_SimpleInterface")
 internal func _CBridgeInitsmoke_SimpleInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _SimpleInterface(cSimpleInterface: handle)
@@ -30,24 +47,6 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
     }
     let proxy = smoke_SimpleInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_SimpleInterface_release_handle) : RefHolder(proxy)
-}
-public protocol SimpleInterface : AnyObject {
-    func getStringValue() -> String
-}
-internal class _SimpleInterface: SimpleInterface {
-    let c_instance : _baseRef
-    init(cSimpleInterface: _baseRef) {
-        guard cSimpleInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cSimpleInterface
-    }
-    deinit {
-        smoke_SimpleInterface_release_handle(c_instance)
-    }
-    public func getStringValue() -> String {
-        return moveFromCType(smoke_SimpleInterface_getStringValue(self.c_instance))
-    }
 }
 extension _SimpleInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

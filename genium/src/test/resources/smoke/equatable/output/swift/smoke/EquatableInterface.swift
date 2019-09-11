@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_EquatableInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_EquatableInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class EquatableInterface {
     let c_instance : _baseRef
     init(cEquatableInterface: _baseRef) {
@@ -40,6 +30,15 @@ public class EquatableInterface {
             nestedPointerEquatableInstance = PointerEquatableInterfacemoveFromCType(smoke_EquatableInterface_EquatableStruct_nestedPointerEquatableInstance_get(cHandle))
         }
     }
+}
+internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_EquatableInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_EquatableInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

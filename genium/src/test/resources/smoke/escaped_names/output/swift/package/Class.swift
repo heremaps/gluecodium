@@ -1,20 +1,6 @@
 //
 //
 import Foundation
-@_cdecl("_CBridgeInitpackage_Class")
-internal func _CBridgeInitpackage_Class(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = Class(cClass: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
-internal func getRef(_ ref: Class?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = package_Class_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: package_Class_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Class: Interface {
     public init() {
         let _result = Class.constructor()
@@ -54,6 +40,20 @@ public class Class: Interface {
             throw ExceptionError(rawValue: RESULT.error_code)!
         }
     }
+}
+@_cdecl("_CBridgeInitpackage_Class")
+internal func _CBridgeInitpackage_Class(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = Class(cClass: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
+internal func getRef(_ ref: Class?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = package_Class_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: package_Class_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Class: NativeBase {
     var c_handle: _baseRef { return c_instance }

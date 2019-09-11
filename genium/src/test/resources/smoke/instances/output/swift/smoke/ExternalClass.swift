@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_ExternalClass_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_ExternalClass_release_handle)
-        : RefHolder(handle_copy)
-}
 public class ExternalClass {
     public var someProperty: String {
         get {
@@ -43,6 +33,15 @@ public class ExternalClass {
         let c_someParameter = moveToCType(someParameter)
         return moveFromCType(smoke_ExternalClass_someMethod(self.c_instance, c_someParameter.ref))
     }
+}
+internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_ExternalClass_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_ExternalClass_release_handle)
+        : RefHolder(handle_copy)
 }
 extension ExternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }

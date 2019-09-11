@@ -1,7 +1,25 @@
 //
 //
-
 import Foundation
+public protocol InheritanceParent : AnyObject {
+    func parentMethod(input: String) -> String
+}
+internal class _InheritanceParent: InheritanceParent {
+    let c_instance : _baseRef
+    init(cInheritanceParent: _baseRef) {
+        guard cInheritanceParent != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cInheritanceParent
+    }
+    deinit {
+        examples_InheritanceParent_release_handle(c_instance)
+    }
+    public func parentMethod(input: String) -> String {
+        let c_input = moveToCType(input)
+        return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
+    }
+}
 @_cdecl("_CBridgeInitexamples_InheritanceParent")
 internal func _CBridgeInitexamples_InheritanceParent(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _InheritanceParent(cInheritanceParent: handle)
@@ -30,25 +48,6 @@ internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolde
     }
     let proxy = examples_InheritanceParent_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_InheritanceParent_release_handle) : RefHolder(proxy)
-}
-public protocol InheritanceParent : AnyObject {
-    func parentMethod(input: String) -> String
-}
-internal class _InheritanceParent: InheritanceParent {
-    let c_instance : _baseRef
-    init(cInheritanceParent: _baseRef) {
-        guard cInheritanceParent != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cInheritanceParent
-    }
-    deinit {
-        examples_InheritanceParent_release_handle(c_instance)
-    }
-    public func parentMethod(input: String) -> String {
-        let c_input = moveToCType(input)
-        return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
-    }
 }
 extension _InheritanceParent: NativeBase {
     var c_handle: _baseRef { return c_instance }

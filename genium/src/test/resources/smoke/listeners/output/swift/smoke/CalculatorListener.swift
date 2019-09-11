@@ -1,7 +1,51 @@
 //
 //
-
 import Foundation
+public protocol CalculatorListener : AnyObject {
+    typealias NamedCalculationResults = [String: Double]
+    func onCalculationResult(calculationResult: Double) -> Void
+    func onCalculationResultConst(calculationResult: Double) -> Void
+    func onCalculationResultStruct(calculationResult: ResultStruct) -> Void
+    func onCalculationResultArray(calculationResult: [Double]) -> Void
+    func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void
+    func onCalculationResultInstance(calculationResult: CalculationResult) -> Void
+}
+internal class _CalculatorListener: CalculatorListener {
+    let c_instance : _baseRef
+    init(cCalculatorListener: _baseRef) {
+        guard cCalculatorListener != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cCalculatorListener
+    }
+    deinit {
+        smoke_CalculatorListener_release_handle(c_instance)
+    }
+    public func onCalculationResult(calculationResult: Double) -> Void {
+        let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
+    }
+    public func onCalculationResultConst(calculationResult: Double) -> Void {
+        let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultConst(self.c_instance, c_calculationResult.ref))
+    }
+    public func onCalculationResultStruct(calculationResult: ResultStruct) -> Void {
+        let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(self.c_instance, c_calculationResult.ref))
+    }
+    public func onCalculationResultArray(calculationResult: [Double]) -> Void {
+        let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(self.c_instance, c_calculationResult.ref))
+    }
+    public func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void {
+        let c_calculationResults = moveToCType(calculationResults)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(self.c_instance, c_calculationResults.ref))
+    }
+    public func onCalculationResultInstance(calculationResult: CalculationResult) -> Void {
+        let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(self.c_instance, c_calculationResult.ref))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_CalculatorListener")
 internal func _CBridgeInitsmoke_CalculatorListener(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _CalculatorListener(cCalculatorListener: handle)
@@ -50,51 +94,6 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     let proxy = smoke_CalculatorListener_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_CalculatorListener_release_handle) : RefHolder(proxy)
-}
-public protocol CalculatorListener : AnyObject {
-    typealias NamedCalculationResults = [String: Double]
-    func onCalculationResult(calculationResult: Double) -> Void
-    func onCalculationResultConst(calculationResult: Double) -> Void
-    func onCalculationResultStruct(calculationResult: ResultStruct) -> Void
-    func onCalculationResultArray(calculationResult: [Double]) -> Void
-    func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void
-    func onCalculationResultInstance(calculationResult: CalculationResult) -> Void
-}
-internal class _CalculatorListener: CalculatorListener {
-    let c_instance : _baseRef
-    init(cCalculatorListener: _baseRef) {
-        guard cCalculatorListener != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cCalculatorListener
-    }
-    deinit {
-        smoke_CalculatorListener_release_handle(c_instance)
-    }
-    public func onCalculationResult(calculationResult: Double) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
-    }
-    public func onCalculationResultConst(calculationResult: Double) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultConst(self.c_instance, c_calculationResult.ref))
-    }
-    public func onCalculationResultStruct(calculationResult: ResultStruct) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(self.c_instance, c_calculationResult.ref))
-    }
-    public func onCalculationResultArray(calculationResult: [Double]) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(self.c_instance, c_calculationResult.ref))
-    }
-    public func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void {
-        let c_calculationResults = moveToCType(calculationResults)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(self.c_instance, c_calculationResults.ref))
-    }
-    public func onCalculationResultInstance(calculationResult: CalculationResult) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(self.c_instance, c_calculationResult.ref))
-    }
 }
 extension _CalculatorListener: NativeBase {
     var c_handle: _baseRef { return c_instance }

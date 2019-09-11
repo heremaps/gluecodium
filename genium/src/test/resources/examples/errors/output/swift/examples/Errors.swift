@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_Errors_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_Errors_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Errors {
     public typealias FailError = Errors.InternalErrorCode
     let c_instance : _baseRef
@@ -41,6 +32,15 @@ public class Errors {
             throw Errors.FailError(rawValue: RESULT.error_code)!
         }
     }
+}
+internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_Errors_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_Errors_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Errors: NativeBase {
     var c_handle: _baseRef { return c_instance }

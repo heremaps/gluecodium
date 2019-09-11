@@ -1,20 +1,6 @@
 //
 //
 import Foundation
-@_cdecl("_CBridgeInitsmoke_Constructors")
-internal func _CBridgeInitsmoke_Constructors(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = Constructors(cConstructors: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
-internal func getRef(_ ref: Constructors?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_Constructors_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Constructors_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Constructors {
     public typealias ConstructorExplodedError = Constructors.ErrorEnum
     public init() {
@@ -91,6 +77,20 @@ public class Constructors {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Constructors_create__3Double_4(c_input.ref))
     }
+}
+@_cdecl("_CBridgeInitsmoke_Constructors")
+internal func _CBridgeInitsmoke_Constructors(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = Constructors(cConstructors: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
+internal func getRef(_ ref: Constructors?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Constructors_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Constructors_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Constructors: NativeBase {
     var c_handle: _baseRef { return c_instance }

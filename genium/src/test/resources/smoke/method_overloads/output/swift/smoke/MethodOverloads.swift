@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_MethodOverloads_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_MethodOverloads_release_handle)
-        : RefHolder(handle_copy)
-}
 public class MethodOverloads {
     public typealias StringArray = [String]
     public typealias IntArray = [Int8]
@@ -78,6 +68,15 @@ public class MethodOverloads {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_MethodOverloads_isFloat__3Byte_4(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_MethodOverloads_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_MethodOverloads_release_handle)
+        : RefHolder(handle_copy)
 }
 extension MethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }

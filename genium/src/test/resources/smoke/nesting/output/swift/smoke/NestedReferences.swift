@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_NestedReferences_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_NestedReferences_release_handle)
-        : RefHolder(handle_copy)
-}
 public class NestedReferences {
     let c_instance : _baseRef
     init(cNestedReferences: _baseRef) {
@@ -35,6 +26,15 @@ public class NestedReferences {
         let c_struct2 = moveToCType(struct2)
         return NestedReferencesmoveFromCType(smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref))
     }
+}
+internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_NestedReferences_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_NestedReferences_release_handle)
+        : RefHolder(handle_copy)
 }
 extension NestedReferences: NativeBase {
     var c_handle: _baseRef { return c_instance }

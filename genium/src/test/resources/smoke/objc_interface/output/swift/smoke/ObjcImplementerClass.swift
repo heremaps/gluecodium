@@ -1,7 +1,19 @@
 //
 //
-
 import Foundation
+@objcMembers
+public class ObjcImplementerClass: NSObject, ObjcInterface {
+    let c_instance : _baseRef
+    init(cObjcImplementerClass: _baseRef) {
+        guard cObjcImplementerClass != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cObjcImplementerClass
+    }
+    deinit {
+        smoke_ObjcImplementerClass_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ObjcImplementerClass")
 internal func _CBridgeInitsmoke_ObjcImplementerClass(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = ObjcImplementerClass(cObjcImplementerClass: handle)
@@ -15,19 +27,6 @@ internal func getRef(_ ref: ObjcImplementerClass?, owning: Bool = true) -> RefHo
     return owning
         ? RefHolder(ref: handle_copy, release: smoke_ObjcImplementerClass_release_handle)
         : RefHolder(handle_copy)
-}
-@objcMembers
-public class ObjcImplementerClass: NSObject, ObjcInterface {
-    let c_instance : _baseRef
-    init(cObjcImplementerClass: _baseRef) {
-        guard cObjcImplementerClass != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cObjcImplementerClass
-    }
-    deinit {
-        smoke_ObjcImplementerClass_release_handle(c_instance)
-    }
 }
 extension ObjcImplementerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }

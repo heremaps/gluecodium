@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_CommentsLinks_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_CommentsLinks_release_handle)
-        : RefHolder(handle_copy)
-}
 /// The nested types like `CommentsLinks.randomMethod(...)` don't need full name prefix, but it's
 /// possible to references other interfaces like `CommentsInterface` or other members
 /// `Comments.someMethodWithAllComments(...)`.
@@ -81,6 +72,15 @@ public class CommentsLinks {
             throw Comments.SomethingWrongError(rawValue: RESULT.error_code)!
         }
     }
+}
+internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_CommentsLinks_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_CommentsLinks_release_handle)
+        : RefHolder(handle_copy)
 }
 extension CommentsLinks: NativeBase {
     var c_handle: _baseRef { return c_instance }

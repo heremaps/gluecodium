@@ -1,7 +1,20 @@
 //
 //
-
 import Foundation
+internal protocol InternalInterface : AnyObject {
+}
+internal class _InternalInterface: InternalInterface {
+    let c_instance : _baseRef
+    init(cInternalInterface: _baseRef) {
+        guard cInternalInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cInternalInterface
+    }
+    deinit {
+        smoke_InternalInterface_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_InternalInterface")
 internal func _CBridgeInitsmoke_InternalInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _InternalInterface(cInternalInterface: handle)
@@ -26,20 +39,6 @@ internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolde
     }
     let proxy = smoke_InternalInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InternalInterface_release_handle) : RefHolder(proxy)
-}
-internal protocol InternalInterface : AnyObject {
-}
-internal class _InternalInterface: InternalInterface {
-    let c_instance : _baseRef
-    init(cInternalInterface: _baseRef) {
-        guard cInternalInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cInternalInterface
-    }
-    deinit {
-        smoke_InternalInterface_release_handle(c_instance)
-    }
 }
 extension _InternalInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

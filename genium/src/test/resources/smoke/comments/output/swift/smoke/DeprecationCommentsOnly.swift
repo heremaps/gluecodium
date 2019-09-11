@@ -1,44 +1,6 @@
 //
 //
-
 import Foundation
-@_cdecl("_CBridgeInitsmoke_DeprecationCommentsOnly")
-internal func _CBridgeInitsmoke_DeprecationCommentsOnly(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = _DeprecationCommentsOnly(cDeprecationCommentsOnly: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
-internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> RefHolder {
-    guard let reference = ref else {
-        return RefHolder(0)
-    }
-    if let instanceReference = reference as? NativeBase {
-        let handle_copy = smoke_DeprecationCommentsOnly_copy_handle(instanceReference.c_handle)
-        return owning
-            ? RefHolder(ref: handle_copy, release: smoke_DeprecationCommentsOnly_release_handle)
-            : RefHolder(handle_copy)
-    }
-    var functions = smoke_DeprecationCommentsOnly_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-    functions.release = {swift_class_pointer in
-        if let swift_class = swift_class_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
-        }
-    }
-    functions.smoke_DeprecationCommentsOnly_someMethodWithAllComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
-        return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
-    }
-    functions.smoke_DeprecationCommentsOnly_someProperty_get = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
-        return copyToCType(swift_class.isSomeProperty).ref
-    }
-    functions.smoke_DeprecationCommentsOnly_someProperty_set = {(swift_class_pointer, newValue) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
-        swift_class.isSomeProperty = moveFromCType(newValue)
-    }
-    let proxy = smoke_DeprecationCommentsOnly_create_proxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_DeprecationCommentsOnly_release_handle) : RefHolder(proxy)
-}
 @available(*, deprecated, message: "Unfortunately, this interface is deprecated.")
 public protocol DeprecationCommentsOnly : AnyObject {
     @available(*, deprecated, message: "Unfortunately, this typedef is deprecated.")
@@ -82,6 +44,43 @@ internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_DeprecationCommentsOnly_someMethodWithAllComments(self.c_instance, c_input.ref))
     }
+}
+@_cdecl("_CBridgeInitsmoke_DeprecationCommentsOnly")
+internal func _CBridgeInitsmoke_DeprecationCommentsOnly(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _DeprecationCommentsOnly(cDeprecationCommentsOnly: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
+internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
+        let handle_copy = smoke_DeprecationCommentsOnly_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_DeprecationCommentsOnly_release_handle)
+            : RefHolder(handle_copy)
+    }
+    var functions = smoke_DeprecationCommentsOnly_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
+        }
+    }
+    functions.smoke_DeprecationCommentsOnly_someMethodWithAllComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
+        return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
+    }
+    functions.smoke_DeprecationCommentsOnly_someProperty_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
+        return copyToCType(swift_class.isSomeProperty).ref
+    }
+    functions.smoke_DeprecationCommentsOnly_someProperty_set = {(swift_class_pointer, newValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
+        swift_class.isSomeProperty = moveFromCType(newValue)
+    }
+    let proxy = smoke_DeprecationCommentsOnly_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_DeprecationCommentsOnly_release_handle) : RefHolder(proxy)
 }
 extension _DeprecationCommentsOnly: NativeBase {
     var c_handle: _baseRef { return c_instance }

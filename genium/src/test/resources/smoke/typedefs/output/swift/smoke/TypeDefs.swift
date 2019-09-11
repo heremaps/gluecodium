@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_TypeDefs_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_TypeDefs_release_handle)
-        : RefHolder(handle_copy)
-}
 public class TypeDefs {
     public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
     public typealias PrimitiveTypeDef = Double
@@ -79,6 +69,15 @@ public class TypeDefs {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_returnTypeDefPointFromTypeCollection(c_input.ref))
     }
+}
+internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_TypeDefs_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_TypeDefs_release_handle)
+        : RefHolder(handle_copy)
 }
 extension TypeDefs: NativeBase {
     var c_handle: _baseRef { return c_instance }

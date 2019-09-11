@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_PlatformComments_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_PlatformComments_release_handle)
-        : RefHolder(handle_copy)
-}
 public class PlatformComments {
     public typealias Boom = PlatformComments.SomeEnum
     /// An error when something goes wrong.
@@ -49,6 +40,15 @@ public class PlatformComments {
             throw PlatformComments.SomethingWrongError(rawValue: RESULT.error_code)!
         }
     }
+}
+internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_PlatformComments_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_PlatformComments_release_handle)
+        : RefHolder(handle_copy)
 }
 extension PlatformComments: NativeBase {
     var c_handle: _baseRef { return c_instance }

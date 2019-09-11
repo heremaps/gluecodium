@@ -1,7 +1,31 @@
 //
 //
-
 import Foundation
+public protocol ExternalInterface : AnyObject {
+    var someProperty: String { get }
+    func someMethod(someParameter: Int8) -> Void
+}
+internal class _ExternalInterface: ExternalInterface {
+    var someProperty: String {
+        get {
+            return moveFromCType(smoke_ExternalInterface_someProperty_get(self.c_instance))
+        }
+    }
+    let c_instance : _baseRef
+    init(cExternalInterface: _baseRef) {
+        guard cExternalInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cExternalInterface
+    }
+    deinit {
+        smoke_ExternalInterface_release_handle(c_instance)
+    }
+    public func someMethod(someParameter: Int8) -> Void {
+        let c_someParameter = moveToCType(someParameter)
+        return moveFromCType(smoke_ExternalInterface_someMethod(self.c_instance, c_someParameter.ref))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ExternalInterface")
 internal func _CBridgeInitsmoke_ExternalInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ExternalInterface(cExternalInterface: handle)
@@ -34,31 +58,6 @@ internal func getRef(_ ref: ExternalInterface?, owning: Bool = true) -> RefHolde
     }
     let proxy = smoke_ExternalInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ExternalInterface_release_handle) : RefHolder(proxy)
-}
-public protocol ExternalInterface : AnyObject {
-    var someProperty: String { get }
-    func someMethod(someParameter: Int8) -> Void
-}
-internal class _ExternalInterface: ExternalInterface {
-    var someProperty: String {
-        get {
-            return moveFromCType(smoke_ExternalInterface_someProperty_get(self.c_instance))
-        }
-    }
-    let c_instance : _baseRef
-    init(cExternalInterface: _baseRef) {
-        guard cExternalInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cExternalInterface
-    }
-    deinit {
-        smoke_ExternalInterface_release_handle(c_instance)
-    }
-    public func someMethod(someParameter: Int8) -> Void {
-        let c_someParameter = moveToCType(someParameter)
-        return moveFromCType(smoke_ExternalInterface_someMethod(self.c_instance, c_someParameter.ref))
-    }
 }
 extension _ExternalInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

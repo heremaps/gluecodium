@@ -1,7 +1,36 @@
 //
 //
-
 import Foundation
+public protocol Properties : AnyObject {
+    var builtInTypeProperty: UInt32 { get set }
+    var readonlyProperty: Float { get }
+}
+internal class _Properties: Properties {
+    var builtInTypeProperty: UInt32 {
+        get {
+            return moveFromCType(examples_Properties_builtInTypeProperty_get(self.c_instance))
+        }
+        set {
+            let c_newValue = moveToCType(newValue)
+            return moveFromCType(examples_Properties_builtInTypeProperty_set(self.c_instance, c_newValue.ref))
+        }
+    }
+    var readonlyProperty: Float {
+        get {
+            return moveFromCType(examples_Properties_readonlyProperty_get(self.c_instance))
+        }
+    }
+    let c_instance : _baseRef
+    init(cProperties: _baseRef) {
+        guard cProperties != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cProperties
+    }
+    deinit {
+        examples_Properties_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitexamples_Properties")
 internal func _CBridgeInitexamples_Properties(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _Properties(cProperties: handle)
@@ -38,36 +67,6 @@ internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
     }
     let proxy = examples_Properties_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_Properties_release_handle) : RefHolder(proxy)
-}
-public protocol Properties : AnyObject {
-    var builtInTypeProperty: UInt32 { get set }
-    var readonlyProperty: Float { get }
-}
-internal class _Properties: Properties {
-    var builtInTypeProperty: UInt32 {
-        get {
-            return moveFromCType(examples_Properties_builtInTypeProperty_get(self.c_instance))
-        }
-        set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(examples_Properties_builtInTypeProperty_set(self.c_instance, c_newValue.ref))
-        }
-    }
-    var readonlyProperty: Float {
-        get {
-            return moveFromCType(examples_Properties_readonlyProperty_get(self.c_instance))
-        }
-    }
-    let c_instance : _baseRef
-    init(cProperties: _baseRef) {
-        guard cProperties != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cProperties
-    }
-    deinit {
-        examples_Properties_release_handle(c_instance)
-    }
 }
 extension _Properties: NativeBase {
     var c_handle: _baseRef { return c_instance }

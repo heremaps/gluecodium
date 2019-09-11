@@ -1,7 +1,11 @@
 //
 //
-
 import Foundation
+internal class InternalChild: InternalParent {
+    init(cInternalChild: _baseRef) {
+        super.init(cInternalParent: cInternalChild)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_InternalChild")
 internal func _CBridgeInitsmoke_InternalChild(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = InternalChild(cInternalChild: handle)
@@ -15,11 +19,6 @@ internal func getRef(_ ref: InternalChild?, owning: Bool = true) -> RefHolder {
     return owning
         ? RefHolder(ref: handle_copy, release: smoke_InternalChild_release_handle)
         : RefHolder(handle_copy)
-}
-internal class InternalChild: InternalParent {
-    init(cInternalChild: _baseRef) {
-        super.init(cInternalParent: cInternalChild)
-    }
 }
 internal func InternalChildcopyFromCType(_ handle: _baseRef) -> InternalChild {
     if let swift_pointer = smoke_InternalChild_get_typed(smoke_InternalChild_copy_handle(handle)),

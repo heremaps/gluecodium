@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_Structs_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Structs_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Structs {
     public typealias ArrayOfImmutable = [Structs.AllTypesStruct]
     let c_instance : _baseRef
@@ -206,6 +196,15 @@ public class Structs {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_modifyAllTypesStruct(c_input.ref))
     }
+}
+internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Structs_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Structs_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }

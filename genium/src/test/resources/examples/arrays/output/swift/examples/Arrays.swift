@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_Arrays_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_Arrays_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Arrays {
     public typealias SyncResults = [Arrays.SyncResult]
     let c_instance : _baseRef
@@ -43,6 +33,15 @@ public class Arrays {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Arrays_implicitArrayMethod(c_input.ref))
     }
+}
+internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_Arrays_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_Arrays_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }

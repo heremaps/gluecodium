@@ -1,7 +1,25 @@
 //
 //
-
 import Foundation
+public protocol CalculatorListener : AnyObject {
+    func onCalculationResult(calculationResult: Double) -> Void
+}
+internal class _CalculatorListener: CalculatorListener {
+    let c_instance : _baseRef
+    init(cCalculatorListener: _baseRef) {
+        guard cCalculatorListener != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cCalculatorListener
+    }
+    deinit {
+        examples_CalculatorListener_release_handle(c_instance)
+    }
+    public func onCalculationResult(calculationResult: Double) -> Void {
+        let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(examples_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
+    }
+}
 @_cdecl("_CBridgeInitexamples_CalculatorListener")
 internal func _CBridgeInitexamples_CalculatorListener(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _CalculatorListener(cCalculatorListener: handle)
@@ -30,25 +48,6 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     let proxy = examples_CalculatorListener_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_CalculatorListener_release_handle) : RefHolder(proxy)
-}
-public protocol CalculatorListener : AnyObject {
-    func onCalculationResult(calculationResult: Double) -> Void
-}
-internal class _CalculatorListener: CalculatorListener {
-    let c_instance : _baseRef
-    init(cCalculatorListener: _baseRef) {
-        guard cCalculatorListener != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cCalculatorListener
-    }
-    deinit {
-        examples_CalculatorListener_release_handle(c_instance)
-    }
-    public func onCalculationResult(calculationResult: Double) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
-        return moveFromCType(examples_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
-    }
 }
 extension _CalculatorListener: NativeBase {
     var c_handle: _baseRef { return c_instance }

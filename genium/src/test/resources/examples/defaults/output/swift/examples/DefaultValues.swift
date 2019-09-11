@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_DefaultValues_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_DefaultValues_release_handle)
-        : RefHolder(handle_copy)
-}
 public class DefaultValues {
     let c_instance : _baseRef
     init(cDefaultValues: _baseRef) {
@@ -47,6 +37,15 @@ public class DefaultValues {
             enumField = moveFromCType(examples_DefaultValues_StructWithDefaults_enumField_get(cHandle))
         }
     }
+}
+internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_DefaultValues_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_DefaultValues_release_handle)
+        : RefHolder(handle_copy)
 }
 extension DefaultValues: NativeBase {
     var c_handle: _baseRef { return c_instance }

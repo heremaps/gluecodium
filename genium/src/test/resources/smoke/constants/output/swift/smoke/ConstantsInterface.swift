@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: ConstantsInterface?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_ConstantsInterface_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_ConstantsInterface_release_handle)
-        : RefHolder(handle_copy)
-}
 public class ConstantsInterface {
     public static let boolConstant: Bool = true
     public static let intConstant: Int32 = -11
@@ -33,6 +23,15 @@ public class ConstantsInterface {
         case off
         case on
     }
+}
+internal func getRef(_ ref: ConstantsInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_ConstantsInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_ConstantsInterface_release_handle)
+        : RefHolder(handle_copy)
 }
 extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

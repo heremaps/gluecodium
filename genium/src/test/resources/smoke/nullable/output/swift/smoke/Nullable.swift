@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_Nullable_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Nullable_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Nullable {
     public typealias SomeArray = [String]
     public typealias SomeMap = [Int64: String]
@@ -230,6 +220,15 @@ public class Nullable {
         let c_input = moveToCType(input)
         return SomeInterfacemoveFromCType(smoke_Nullable_methodWithInstance(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Nullable_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Nullable_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Nullable: NativeBase {
     var c_handle: _baseRef { return c_instance }

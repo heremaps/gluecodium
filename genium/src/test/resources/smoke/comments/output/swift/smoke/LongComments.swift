@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: LongComments?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_LongComments_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_LongComments_release_handle)
-        : RefHolder(handle_copy)
-}
 /// This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
 public class LongComments {
     let c_instance : _baseRef
@@ -33,6 +23,15 @@ public class LongComments {
         let c_ratio = moveToCType(ratio)
         return moveFromCType(smoke_LongComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref))
     }
+}
+internal func getRef(_ ref: LongComments?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_LongComments_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_LongComments_release_handle)
+        : RefHolder(handle_copy)
 }
 extension LongComments: NativeBase {
     var c_handle: _baseRef { return c_instance }

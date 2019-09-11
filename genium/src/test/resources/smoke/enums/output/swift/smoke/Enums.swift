@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_Enums_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Enums_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Enums {
     public typealias ExampleMap = [Enums.SimpleEnum: UInt64]
     let c_instance : _baseRef
@@ -71,6 +62,15 @@ public class Enums {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_methodWithExternalEnum(c_input.ref))
     }
+}
+internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Enums_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Enums_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Enums: NativeBase {
     var c_handle: _baseRef { return c_instance }

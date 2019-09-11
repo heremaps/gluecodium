@@ -1,6 +1,44 @@
 //
 //
 import Foundation
+public protocol ErrorsInterface : AnyObject {
+    typealias ExternalError = ExternalErrors
+    func methodWithErrors() throws -> Void
+    func methodWithExternalErrors() throws -> Void
+    func methodWithErrorsAndReturnValue() throws -> String
+}
+internal class _ErrorsInterface: ErrorsInterface {
+    let c_instance : _baseRef
+    init(cErrorsInterface: _baseRef) {
+        guard cErrorsInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cErrorsInterface
+    }
+    deinit {
+        smoke_ErrorsInterface_release_handle(c_instance)
+    }
+    public func methodWithErrors() throws -> Void {
+        let ERROR_CODE = smoke_ErrorsInterface_methodWithErrors(self.c_instance)
+        if (ERROR_CODE != 0) {
+            throw InternalError(rawValue: ERROR_CODE)!
+        }
+    }
+    public func methodWithExternalErrors() throws -> Void {
+        let ERROR_CODE = smoke_ErrorsInterface_methodWithExternalErrors(self.c_instance)
+        if (ERROR_CODE != 0) {
+            throw ExternalError(rawValue: ERROR_CODE)!
+        }
+    }
+    public func methodWithErrorsAndReturnValue() throws -> String {
+        let RESULT = smoke_ErrorsInterface_methodWithErrorsAndReturnValue(self.c_instance)
+        if (RESULT.has_value) {
+            return moveFromCType(RESULT.returned_value)
+        } else {
+            throw InternalError(rawValue: RESULT.error_code)!
+        }
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ErrorsInterface")
 internal func _CBridgeInitsmoke_ErrorsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ErrorsInterface(cErrorsInterface: handle)
@@ -59,44 +97,6 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
     }
     let proxy = smoke_ErrorsInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ErrorsInterface_release_handle) : RefHolder(proxy)
-}
-public protocol ErrorsInterface : AnyObject {
-    typealias ExternalError = ExternalErrors
-    func methodWithErrors() throws -> Void
-    func methodWithExternalErrors() throws -> Void
-    func methodWithErrorsAndReturnValue() throws -> String
-}
-internal class _ErrorsInterface: ErrorsInterface {
-    let c_instance : _baseRef
-    init(cErrorsInterface: _baseRef) {
-        guard cErrorsInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cErrorsInterface
-    }
-    deinit {
-        smoke_ErrorsInterface_release_handle(c_instance)
-    }
-    public func methodWithErrors() throws -> Void {
-        let ERROR_CODE = smoke_ErrorsInterface_methodWithErrors(self.c_instance)
-        if (ERROR_CODE != 0) {
-            throw InternalError(rawValue: ERROR_CODE)!
-        }
-    }
-    public func methodWithExternalErrors() throws -> Void {
-        let ERROR_CODE = smoke_ErrorsInterface_methodWithExternalErrors(self.c_instance)
-        if (ERROR_CODE != 0) {
-            throw ExternalError(rawValue: ERROR_CODE)!
-        }
-    }
-    public func methodWithErrorsAndReturnValue() throws -> String {
-        let RESULT = smoke_ErrorsInterface_methodWithErrorsAndReturnValue(self.c_instance)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
-        } else {
-            throw InternalError(rawValue: RESULT.error_code)!
-        }
-    }
 }
 extension _ErrorsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_Structs_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_Structs_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Structs {
     let c_instance : _baseRef
     init(cStructs: _baseRef) {
@@ -54,6 +44,15 @@ public class Structs {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Structs_methodWithNestedType(c_input.ref))
     }
+}
+internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_Structs_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_Structs_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }

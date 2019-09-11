@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_UseFreeTypes_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_UseFreeTypes_release_handle)
-        : RefHolder(handle_copy)
-}
 public class UseFreeTypes {
     let c_instance : _baseRef
     init(cUseFreeTypes: _baseRef) {
@@ -31,6 +22,15 @@ public class UseFreeTypes {
             throw FreeError(rawValue: RESULT.error_code)!
         }
     }
+}
+internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_UseFreeTypes_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_UseFreeTypes_release_handle)
+        : RefHolder(handle_copy)
 }
 extension UseFreeTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }

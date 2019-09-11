@@ -1,7 +1,21 @@
 //
 //
-
 import Foundation
+@objcMembers
+public protocol ObjcChildInterface : ObjcInterface {
+}
+internal class _ObjcChildInterface: ObjcChildInterface {
+    let c_instance : _baseRef
+    init(cObjcChildInterface: _baseRef) {
+        guard cObjcChildInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cObjcChildInterface
+    }
+    deinit {
+        smoke_ObjcChildInterface_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ObjcChildInterface")
 internal func _CBridgeInitsmoke_ObjcChildInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ObjcChildInterface(cObjcChildInterface: handle)
@@ -26,21 +40,6 @@ internal func getRef(_ ref: ObjcChildInterface?, owning: Bool = true) -> RefHold
     }
     let proxy = smoke_ObjcChildInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ObjcChildInterface_release_handle) : RefHolder(proxy)
-}
-@objc
-public protocol ObjcChildInterface : ObjcInterface {
-}
-internal class _ObjcChildInterface: ObjcChildInterface {
-    let c_instance : _baseRef
-    init(cObjcChildInterface: _baseRef) {
-        guard cObjcChildInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cObjcChildInterface
-    }
-    deinit {
-        smoke_ObjcChildInterface_release_handle(c_instance)
-    }
 }
 extension _ObjcChildInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

@@ -1,80 +1,6 @@
 //
 //
-
 import Foundation
-@_cdecl("_CBridgeInitsmoke_CommentsInterface")
-internal func _CBridgeInitsmoke_CommentsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = _CommentsInterface(cCommentsInterface: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
-internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolder {
-    guard let reference = ref else {
-        return RefHolder(0)
-    }
-    if let instanceReference = reference as? NativeBase {
-        let handle_copy = smoke_CommentsInterface_copy_handle(instanceReference.c_handle)
-        return owning
-            ? RefHolder(ref: handle_copy, release: smoke_CommentsInterface_release_handle)
-            : RefHolder(handle_copy)
-    }
-    var functions = smoke_CommentsInterface_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-    functions.release = {swift_class_pointer in
-        if let swift_class = swift_class_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
-        }
-    }
-    functions.smoke_CommentsInterface_someMethodWithAllComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
-    }
-    functions.smoke_CommentsInterface_someMethodWithInputComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someMethodWithInputComments(input: moveFromCType(input))).ref
-    }
-    functions.smoke_CommentsInterface_someMethodWithOutputComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someMethodWithOutputComments(input: moveFromCType(input))).ref
-    }
-    functions.smoke_CommentsInterface_someMethodWithNoComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someMethodWithNoComments(input: moveFromCType(input))).ref
-    }
-    functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.someMethodWithoutReturnTypeWithAllComments(input: moveFromCType(input))
-    }
-    functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments = {(swift_class_pointer, input) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.someMethodWithoutReturnTypeWithNoComments(input: moveFromCType(input))
-    }
-    functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someMethodWithoutInputParametersWithAllComments()).ref
-    }
-    functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someMethodWithoutInputParametersWithNoComments()).ref
-    }
-    functions.smoke_CommentsInterface_someMethodWithNothing = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.someMethodWithNothing()
-    }
-    functions.smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.someMethodWithoutReturnTypeOrInputParameters()
-    }
-    functions.smoke_CommentsInterface_someProperty_get = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.isSomeProperty).ref
-    }
-    functions.smoke_CommentsInterface_someProperty_set = {(swift_class_pointer, newValue) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.isSomeProperty = moveFromCType(newValue)
-    }
-    let proxy = smoke_CommentsInterface_create_proxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
-}
 /// This is some very useful interface.
 public protocol CommentsInterface : AnyObject {
     /// This is some very useful typedef.
@@ -193,6 +119,79 @@ internal class _CommentsInterface: CommentsInterface {
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
     }
+}
+@_cdecl("_CBridgeInitsmoke_CommentsInterface")
+internal func _CBridgeInitsmoke_CommentsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = _CommentsInterface(cCommentsInterface: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
+internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
+        let handle_copy = smoke_CommentsInterface_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_CommentsInterface_release_handle)
+            : RefHolder(handle_copy)
+    }
+    var functions = smoke_CommentsInterface_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
+        }
+    }
+    functions.smoke_CommentsInterface_someMethodWithAllComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
+    }
+    functions.smoke_CommentsInterface_someMethodWithInputComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.someMethodWithInputComments(input: moveFromCType(input))).ref
+    }
+    functions.smoke_CommentsInterface_someMethodWithOutputComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.someMethodWithOutputComments(input: moveFromCType(input))).ref
+    }
+    functions.smoke_CommentsInterface_someMethodWithNoComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.someMethodWithNoComments(input: moveFromCType(input))).ref
+    }
+    functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        swift_class.someMethodWithoutReturnTypeWithAllComments(input: moveFromCType(input))
+    }
+    functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        swift_class.someMethodWithoutReturnTypeWithNoComments(input: moveFromCType(input))
+    }
+    functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.someMethodWithoutInputParametersWithAllComments()).ref
+    }
+    functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.someMethodWithoutInputParametersWithNoComments()).ref
+    }
+    functions.smoke_CommentsInterface_someMethodWithNothing = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        swift_class.someMethodWithNothing()
+    }
+    functions.smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        swift_class.someMethodWithoutReturnTypeOrInputParameters()
+    }
+    functions.smoke_CommentsInterface_someProperty_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        return copyToCType(swift_class.isSomeProperty).ref
+    }
+    functions.smoke_CommentsInterface_someProperty_set = {(swift_class_pointer, newValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
+        swift_class.isSomeProperty = moveFromCType(newValue)
+    }
+    let proxy = smoke_CommentsInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
 }
 extension _CommentsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

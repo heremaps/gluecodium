@@ -1,15 +1,6 @@
 //
 //
 import Foundation
-internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_Properties_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Properties_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Properties {
     public var builtInTypeProperty: UInt32 {
         get {
@@ -116,6 +107,15 @@ public class Properties {
             value = moveFromCType(smoke_Properties_ExampleStruct_value_get(cHandle))
         }
     }
+}
+internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Properties_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Properties_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Properties: NativeBase {
     var c_handle: _baseRef { return c_instance }

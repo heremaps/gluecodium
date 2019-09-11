@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_Calculator_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_Calculator_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Calculator {
     public init() {
         let _result = Calculator.create()
@@ -43,6 +33,15 @@ public class Calculator {
     public func calculate() -> Void {
         return moveFromCType(examples_Calculator_calculate(self.c_instance))
     }
+}
+internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_Calculator_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_Calculator_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Calculator: NativeBase {
     var c_handle: _baseRef { return c_instance }

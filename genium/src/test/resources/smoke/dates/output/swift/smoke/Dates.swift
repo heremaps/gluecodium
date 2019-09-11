@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_Dates_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Dates_release_handle)
-        : RefHolder(handle_copy)
-}
 public class Dates {
     public typealias DateTypeDef = Date
     public typealias DateArray = [Date]
@@ -47,6 +37,15 @@ public class Dates {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Dates_dateMethod(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Dates_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Dates_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Dates: NativeBase {
     var c_handle: _baseRef { return c_instance }

@@ -1,7 +1,20 @@
 //
 //
-
 import Foundation
+public protocol PublicInterface : AnyObject {
+}
+internal class _PublicInterface: PublicInterface {
+    let c_instance : _baseRef
+    init(cPublicInterface: _baseRef) {
+        guard cPublicInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cPublicInterface
+    }
+    deinit {
+        smoke_PublicInterface_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_PublicInterface")
 internal func _CBridgeInitsmoke_PublicInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _PublicInterface(cPublicInterface: handle)
@@ -26,20 +39,6 @@ internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder 
     }
     let proxy = smoke_PublicInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PublicInterface_release_handle) : RefHolder(proxy)
-}
-public protocol PublicInterface : AnyObject {
-}
-internal class _PublicInterface: PublicInterface {
-    let c_instance : _baseRef
-    init(cPublicInterface: _baseRef) {
-        guard cPublicInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cPublicInterface
-    }
-    deinit {
-        smoke_PublicInterface_release_handle(c_instance)
-    }
 }
 extension _PublicInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

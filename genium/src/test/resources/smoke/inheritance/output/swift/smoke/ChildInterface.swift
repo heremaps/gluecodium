@@ -1,7 +1,38 @@
 //
 //
-
 import Foundation
+public protocol ChildInterface : ParentInterface {
+    var rootProperty: String { get set }
+    func rootMethod() -> Void
+    func childMethod() -> Void
+}
+internal class _ChildInterface: ChildInterface {
+    var rootProperty: String {
+        get {
+            return moveFromCType(smoke_ParentInterface_rootProperty_get(self.c_instance))
+        }
+        set {
+            let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_newValue.ref))
+        }
+    }
+    let c_instance : _baseRef
+    init(cChildInterface: _baseRef) {
+        guard cChildInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cChildInterface
+    }
+    deinit {
+        smoke_ChildInterface_release_handle(c_instance)
+    }
+    public func rootMethod() -> Void {
+        return moveFromCType(smoke_ParentInterface_rootMethod(self.c_instance))
+    }
+    public func childMethod() -> Void {
+        return moveFromCType(smoke_ChildInterface_childMethod(self.c_instance))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ChildInterface")
 internal func _CBridgeInitsmoke_ChildInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ChildInterface(cChildInterface: handle)
@@ -42,38 +73,6 @@ internal func getRef(_ ref: ChildInterface?, owning: Bool = true) -> RefHolder {
     }
     let proxy = smoke_ChildInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ChildInterface_release_handle) : RefHolder(proxy)
-}
-public protocol ChildInterface : ParentInterface {
-    var rootProperty: String { get set }
-    func rootMethod() -> Void
-    func childMethod() -> Void
-}
-internal class _ChildInterface: ChildInterface {
-    var rootProperty: String {
-        get {
-            return moveFromCType(smoke_ParentInterface_rootProperty_get(self.c_instance))
-        }
-        set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_newValue.ref))
-        }
-    }
-    let c_instance : _baseRef
-    init(cChildInterface: _baseRef) {
-        guard cChildInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cChildInterface
-    }
-    deinit {
-        smoke_ChildInterface_release_handle(c_instance)
-    }
-    public func rootMethod() -> Void {
-        return moveFromCType(smoke_ParentInterface_rootMethod(self.c_instance))
-    }
-    public func childMethod() -> Void {
-        return moveFromCType(smoke_ChildInterface_childMethod(self.c_instance))
-    }
 }
 extension _ChildInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

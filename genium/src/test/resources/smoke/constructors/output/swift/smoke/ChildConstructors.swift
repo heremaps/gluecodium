@@ -1,21 +1,6 @@
 //
 //
-
 import Foundation
-@_cdecl("_CBridgeInitsmoke_ChildConstructors")
-internal func _CBridgeInitsmoke_ChildConstructors(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = ChildConstructors(cChildConstructors: handle)
-    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-}
-internal func getRef(_ ref: ChildConstructors?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_ChildConstructors_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_ChildConstructors_release_handle)
-        : RefHolder(handle_copy)
-}
 public class ChildConstructors: Constructors {
     public override init() {
         let _result = ChildConstructors.create()
@@ -35,6 +20,20 @@ public class ChildConstructors: Constructors {
         let c_other = moveToCType(other)
         return moveFromCType(smoke_ChildConstructors_create_Constructors(c_other.ref))
     }
+}
+@_cdecl("_CBridgeInitsmoke_ChildConstructors")
+internal func _CBridgeInitsmoke_ChildConstructors(handle: _baseRef) -> UnsafeMutableRawPointer {
+    let reference = ChildConstructors(cChildConstructors: handle)
+    return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+}
+internal func getRef(_ ref: ChildConstructors?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_ChildConstructors_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_ChildConstructors_release_handle)
+        : RefHolder(handle_copy)
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
     if let swift_pointer = smoke_ChildConstructors_get_typed(smoke_ChildConstructors_copy_handle(handle)),

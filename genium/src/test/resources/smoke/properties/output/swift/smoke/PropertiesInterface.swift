@@ -1,7 +1,30 @@
 //
 //
-
 import Foundation
+public protocol PropertiesInterface : AnyObject {
+    var structProperty: ExampleStruct { get set }
+}
+internal class _PropertiesInterface: PropertiesInterface {
+    var structProperty: ExampleStruct {
+        get {
+            return moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
+        }
+        set {
+            let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_newValue.ref))
+        }
+    }
+    let c_instance : _baseRef
+    init(cPropertiesInterface: _baseRef) {
+        guard cPropertiesInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cPropertiesInterface
+    }
+    deinit {
+        smoke_PropertiesInterface_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_PropertiesInterface")
 internal func _CBridgeInitsmoke_PropertiesInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _PropertiesInterface(cPropertiesInterface: handle)
@@ -34,30 +57,6 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
     }
     let proxy = smoke_PropertiesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PropertiesInterface_release_handle) : RefHolder(proxy)
-}
-public protocol PropertiesInterface : AnyObject {
-    var structProperty: ExampleStruct { get set }
-}
-internal class _PropertiesInterface: PropertiesInterface {
-    var structProperty: ExampleStruct {
-        get {
-            return moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
-        }
-        set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_newValue.ref))
-        }
-    }
-    let c_instance : _baseRef
-    init(cPropertiesInterface: _baseRef) {
-        guard cPropertiesInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cPropertiesInterface
-    }
-    deinit {
-        smoke_PropertiesInterface_release_handle(c_instance)
-    }
 }
 extension _PropertiesInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }

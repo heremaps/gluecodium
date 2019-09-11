@@ -1,7 +1,18 @@
 //
 //
-
 import Foundation
+internal class InternalParent {
+    let c_instance : _baseRef
+    init(cInternalParent: _baseRef) {
+        guard cInternalParent != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cInternalParent
+    }
+    deinit {
+        smoke_InternalParent_release_handle(c_instance)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_InternalParent")
 internal func _CBridgeInitsmoke_InternalParent(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = InternalParent(cInternalParent: handle)
@@ -15,18 +26,6 @@ internal func getRef(_ ref: InternalParent?, owning: Bool = true) -> RefHolder {
     return owning
         ? RefHolder(ref: handle_copy, release: smoke_InternalParent_release_handle)
         : RefHolder(handle_copy)
-}
-internal class InternalParent {
-    let c_instance : _baseRef
-    init(cInternalParent: _baseRef) {
-        guard cInternalParent != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cInternalParent
-    }
-    deinit {
-        smoke_InternalParent_release_handle(c_instance)
-    }
 }
 extension InternalParent: NativeBase {
     var c_handle: _baseRef { return c_instance }

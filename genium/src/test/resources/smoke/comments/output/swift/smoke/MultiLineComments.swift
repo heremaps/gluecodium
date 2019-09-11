@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: MultiLineComments?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_MultiLineComments_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_MultiLineComments_release_handle)
-        : RefHolder(handle_copy)
-}
 /// This is some very useful interface.
 /// There is a lot to say about this interface.
 /// at least it has multiline comments.
@@ -54,6 +44,15 @@ public class MultiLineComments {
         let c_ratio = moveToCType(ratio)
         return moveFromCType(smoke_MultiLineComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref))
     }
+}
+internal func getRef(_ ref: MultiLineComments?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_MultiLineComments_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_MultiLineComments_release_handle)
+        : RefHolder(handle_copy)
 }
 extension MultiLineComments: NativeBase {
     var c_handle: _baseRef { return c_instance }

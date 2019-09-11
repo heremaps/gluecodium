@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: StructConstants?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_StructConstants_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_StructConstants_release_handle)
-        : RefHolder(handle_copy)
-}
 public class StructConstants {
     public static let structConstant: StructConstants.SomeStruct = StructConstants.SomeStruct(stringField: "bar Buzz", floatField: 1.41)
     public static let nestingStructConstant: StructConstants.NestingStruct = StructConstants.NestingStruct(structField: StructConstants.SomeStruct(stringField: "nonsense", floatField: -2.82))
@@ -45,6 +35,15 @@ public class StructConstants {
             structField = moveFromCType(smoke_StructConstants_NestingStruct_structField_get(cHandle))
         }
     }
+}
+internal func getRef(_ ref: StructConstants?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_StructConstants_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_StructConstants_release_handle)
+        : RefHolder(handle_copy)
 }
 extension StructConstants: NativeBase {
     var c_handle: _baseRef { return c_instance }

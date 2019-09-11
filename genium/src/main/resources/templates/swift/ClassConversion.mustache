@@ -24,12 +24,22 @@ internal func _CBridgeInit{{cInstance}}(handle: _baseRef) -> UnsafeMutableRawPoi
     let reference = {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
     return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
 }
+
 {{/if}}
-{{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
-{{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
+{{#isInterface}}{{>swift/GetReference}}{{/isInterface}}{{!!
+}}{{^isInterface}}
+internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = {{cInstance}}_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: {{cInstance}}_release_handle)
+        : RefHolder(handle_copy)
+}
+{{/isInterface}}
 
-}}{{^useParentCInstance}}
-
+{{^useParentCInstance}}
 extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }{{/useParentCInstance}}{{!!
@@ -44,68 +54,7 @@ extension {{name}}: Hashable {
         hasher.combine({{cInstance}}_hash(c_handle))
     }
 }
-{{/hasEquatableType}}{{!!
-
-}}{{+ClassWithoutProtocol}}
-
-internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = {{cInstance}}_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: {{cInstance}}_release_handle)
-        : RefHolder(handle_copy)
-}
-
-{{>swift/Comment}}{{!!
-}}{{#if isObjcInterface}}@objcMembers
-{{/if}}{{!!
-}}{{visibility}} class {{name}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
-
-{{#typedefs}}
-{{prefixPartial 'swift/Typedefs' '    '}}
-{{/typedefs}}{{#set className=name}}{{#constructors}}
-{{prefixPartial "swift/MethodComment" "    "}}
-    {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
-        let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
-}}{{#argumentLabel}}{{#isNotEq . "_"}}{{.}}: {{/isNotEq}}{{/argumentLabel}}{{^argumentLabel}}{{name}}: {{/argumentLabel}}{{!!
-}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
-        {{#if useParentCInstance}}super.init(c{{parentClass}}: _result){{/if}}{{!!
-        }}{{#unless useParentCInstance}}guard _result != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = _result{{/unless}}
-    }
-
-{{/constructors}}{{/set}}{{!!
-
-}}{{>CommonClassParts}}
-}
-{{/ClassWithoutProtocol}}{{!!
-
-}}{{+ClassWithProtocol}}
-{{>swift/GetReference}}
-
-{{>swift/Comment}}{{!!
-}}{{#if isObjcInterface}}@objc
-{{/if}}{{!!
-}}{{visibility}} protocol {{name}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
-{{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
-{{/typedefs}}
-{{#properties}}
-{{prefixPartial "swift/Comment" "    "}}
-    {{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} { get {{#setter}}set {{/setter}}}
-{{/properties}}
-{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
-{{/methods}}
-}
-
-internal class _{{name}}: {{name}} {
-
-{{>CommonClassParts}}
-}
-{{/ClassWithProtocol}}
+{{/hasEquatableType}}
 
 internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}} {
 {{#if isInterface}}
@@ -178,27 +127,3 @@ internal func moveToCType(_ swiftClass: {{name}}?) -> RefHolder {
 {{#enums}}
 {{>swift/EnumConversion}}{{!!
 }}{{/enums}}
-{{!!
-
-}}{{+CommonClassParts}}{{!!
-}}{{#constants}}
-{{prefixPartial "swift/Constant" "    "}}
-{{/constants}}{{!!
-}}{{#properties}}
-{{prefixPartial 'swift/Property' '    '}}
-{{/properties}}{{!!
-
-}}{{prefixPartial 'swift/Constructor' '    '}}{{!!
-
-}}{{#enums}}
-{{prefixPartial 'swift/Enum' '    '}}
-{{/enums}}{{!!
-
-}}{{#structs}}
-{{prefixPartial 'swift/Struct' '    '}}
-{{/structs}}{{!!
-
-}}{{#methods}}
-{{prefixPartial 'swift/Method' '    '}}
-{{/methods}}{{!!
-}}{{/CommonClassParts}}

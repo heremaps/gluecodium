@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = examples_Comments_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: examples_Comments_release_handle)
-        : RefHolder(handle_copy)
-}
 /// This is some very useful interface.
 public class Comments {
     /// This is some very useful typedef.
@@ -66,6 +56,15 @@ public class Comments {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Comments_someMethod(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_Comments_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_Comments_release_handle)
+        : RefHolder(handle_copy)
 }
 extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }

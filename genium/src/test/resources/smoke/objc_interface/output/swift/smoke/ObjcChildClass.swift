@@ -1,7 +1,12 @@
 //
 //
-
 import Foundation
+@objcMembers
+public class ObjcChildClass: ObjcClass {
+    init(cObjcChildClass: _baseRef) {
+        super.init(cObjcClass: cObjcChildClass)
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ObjcChildClass")
 internal func _CBridgeInitsmoke_ObjcChildClass(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = ObjcChildClass(cObjcChildClass: handle)
@@ -15,12 +20,6 @@ internal func getRef(_ ref: ObjcChildClass?, owning: Bool = true) -> RefHolder {
     return owning
         ? RefHolder(ref: handle_copy, release: smoke_ObjcChildClass_release_handle)
         : RefHolder(handle_copy)
-}
-@objcMembers
-public class ObjcChildClass: ObjcClass {
-    init(cObjcChildClass: _baseRef) {
-        super.init(cObjcClass: cObjcChildClass)
-    }
 }
 internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass {
     if let swift_pointer = smoke_ObjcChildClass_get_typed(smoke_ObjcChildClass_copy_handle(handle)),

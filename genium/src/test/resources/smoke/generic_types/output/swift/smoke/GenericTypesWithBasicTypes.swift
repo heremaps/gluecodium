@@ -1,16 +1,6 @@
 //
 //
-
 import Foundation
-internal func getRef(_ ref: GenericTypesWithBasicTypes?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_GenericTypesWithBasicTypes_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_GenericTypesWithBasicTypes_release_handle)
-        : RefHolder(handle_copy)
-}
 public class GenericTypesWithBasicTypes {
     public typealias BasicList = [String]
     public typealias BasicMap = [String: String]
@@ -91,6 +81,15 @@ public class GenericTypesWithBasicTypes {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(self.c_instance, c_input.ref))
     }
+}
+internal func getRef(_ ref: GenericTypesWithBasicTypes?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_GenericTypesWithBasicTypes_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_GenericTypesWithBasicTypes_release_handle)
+        : RefHolder(handle_copy)
 }
 extension GenericTypesWithBasicTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
