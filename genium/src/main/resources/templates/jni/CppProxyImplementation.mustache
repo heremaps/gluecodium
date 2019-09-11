@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{>java/CopyrightHeader}}
 
 {{#headerInclude}}{{>common/Include}}{{/headerInclude}}
 #include "ArrayConversionUtils.h"
@@ -26,15 +27,15 @@
 #include "InstanceConversion.h"
 #include "StructConversion.h"
 
+{{#internalNamespace}}
+namespace {{.}}
+{
+{{/internalNamespace}}
+namespace jni
+{
+
 {{#container}}
-{{#cppNameSpaces}}
-namespace {{.}} {
-
-{{/cppNameSpaces}}
-
-using namespace {{>common/InternalNamespace}}jni;
-
-{{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+{{mangledName}}_CppProxy::{{mangledName}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
     : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
 }
 {{#parentMethods}}
@@ -44,14 +45,15 @@ using namespace {{>common/InternalNamespace}}jni;
 }}{{#methods}}
 {{>proxyMethod}}
 {{/methods}}
+{{/container}}
 
-{{#cppNameSpaces}}
 }
-{{/cppNameSpaces}}
-{{/container}}{{!!
+{{#internalNamespace}}
+}
+{{/internalNamespace}}{{!!
 
 }}{{+proxyMethod}}
-{{returnType.cppName}} {{cppName}}CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
+{{returnType.cppName}} {{mangledName}}_CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#if type.isComplex}}
@@ -65,15 +67,15 @@ using namespace {{>common/InternalNamespace}}jni;
     }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
     }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#if exception}}
-    auto jException = {{>common/InternalNamespace}}jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
+    auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = {{>common/InternalNamespace}}jni::get_object_field_value(
+        auto jEnumValue = get_object_field_value(
             jniEnv,
             jException,
             "error",
             "{{exception.jniEnum.jniTypeSignature}}" );
-        auto nEnumValue = {{>common/InternalNamespace}}jni::convert_from_jni(
+        auto nEnumValue = convert_from_jni(
             jniEnv,
             jEnumValue,
             ({{exception.jniEnum.cppFullyQualifiedName}}*)nullptr );
@@ -92,7 +94,7 @@ using namespace {{>common/InternalNamespace}}jni;
     }
 {{/unless}}{{!!
 }}{{#unless returnType.isJavaVoid}}
-    return {{#if returnType.isComplex}}{{>common/InternalNamespace}}jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
+    return {{#if returnType.isComplex}}convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
     }}{{#unless returnType.isComplex}}result{{/unless}};
 {{/unless}}
 {{#if exception}}{{#if returnType.isJavaVoid}}

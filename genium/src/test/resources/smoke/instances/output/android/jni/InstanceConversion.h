@@ -36,7 +36,7 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared
     {
         if (_jobj != nullptr)
         {
-            auto long_ptr = ::genium::jni::get_field_value(
+            auto long_ptr = get_field_value(
                 _env,
                 _jobj,
                 "nativeHandle",
@@ -46,7 +46,7 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared
     }
     else
     {
-        ::createCppProxy<>( _env, _jobj, _nresult);
+        createCppProxy<>( _env, _jobj, _nresult);
     }
     return _nresult;
 }

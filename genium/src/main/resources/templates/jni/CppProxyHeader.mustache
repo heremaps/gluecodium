@@ -30,20 +30,18 @@
 {{>common/Include}}
 {{/includes}}
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+{{#internalNamespace}}
+namespace {{.}}
+{
+{{/internalNamespace}}
+namespace jni
+{
 
-{{#cppNameSpaces}}
-namespace {{.}} {
-
-{{/cppNameSpaces}}
-
-class {{cppName}}CppProxy : public {{>common/InternalNamespace}}jni::CppProxyBase, public {{cppName}} {
+class {{mangledName}}_CppProxy : public CppProxyBase, public {{cppFullyQualifiedName}} {
 
 public:
 
-    {{cppName}}CppProxy( JNIEnv* _jenv, {{>common/InternalNamespace}}jni::JniReference<jobject> globalRef, jint _jHashCode );
+    {{mangledName}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
 
 {{#parentMethods}}
     {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
@@ -53,10 +51,7 @@ public:
 {{/methods}}
 };
 
-{{#cppNameSpaces}}
 }
-{{/cppNameSpaces}}{{/container}}
-
-#ifdef __cplusplus
+{{#internalNamespace}}
 }
-#endif
+{{/internalNamespace}}{{/container}}

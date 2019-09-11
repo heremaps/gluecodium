@@ -18,11 +18,20 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{>java/CopyrightHeader}}
+
 #pragma once
 
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
+
+{{#internalNamespace}}
+namespace {{.}}
+{
+{{/internalNamespace}}
+namespace jni
+{
 
 template<class T>
 inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {
@@ -31,6 +40,11 @@ inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::
 {{#models}}
 template<>
 inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result) {
-    {{>common/InternalNamespace}}jni::CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{cppFullyQualifiedName}}CppProxy>(env, obj, result);
+    {{>common/InternalNamespace}}jni::CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{>common/InternalNamespace}}jni::{{mangledName}}_CppProxy>(env, obj, result);
 }
 {{/models}}
+
+}
+{{#internalNamespace}}
+}
+{{/internalNamespace}}
