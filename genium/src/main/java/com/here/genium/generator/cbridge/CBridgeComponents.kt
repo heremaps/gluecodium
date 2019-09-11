@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.cbridge
 
-import com.here.genium.model.cbridge.CArray
 import com.here.genium.model.cbridge.CFunction
 import com.here.genium.model.cbridge.CInterface
 import com.here.genium.model.cbridge.CType
@@ -55,6 +54,7 @@ object CBridgeComponents {
         for (enumeration in cInterface.enums) {
             includes.addAll(enumeration.mappedType.includes)
         }
+        includes += cInterface.interfaces.flatMap { collectImplementationIncludes(it) }
 
         return includes
     }
@@ -67,6 +67,8 @@ object CBridgeComponents {
         if (cInterface.selfType != null) {
             includes.addAll(cInterface.selfType.includes)
         }
+        includes += cInterface.interfaces.flatMap { collectPrivateHeaderIncludes(it) }
+
         return includes
     }
 
@@ -91,13 +93,10 @@ object CBridgeComponents {
         if (cInterface.hasEquatableType) {
             includes.add(CType.BOOL_INCLUDE)
         }
+        includes += cInterface.interfaces.flatMap { collectHeaderIncludes(it) }
 
         return includes
     }
-
-    fun collectImplementationIncludes(arrays: Collection<CArray>) = arrays.flatMap { it.includes }
-
-    fun collectHeaderIncludes(arrays: Collection<CArray>) = arrays.flatMap { it.returnTypeIncludes }
 
     private fun collectFunctionSignatureIncludes(function: CFunction): List<Include> {
         val includes = mutableListOf<Include>()

@@ -21,7 +21,7 @@
 {{#if hasTypeRepository}}
 @_cdecl("_CBridgeInit{{cInstance}}")
 internal func _CBridgeInit{{cInstance}}(handle: _baseRef) -> UnsafeMutableRawPointer {
-    let reference = {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
+    let reference = {{implName}}(c{{simpleName}}: handle)
     return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
 }
 
@@ -40,7 +40,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 {{/isInterface}}
 
 {{^useParentCInstance}}
-extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
+extension {{implName}}: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }{{/useParentCInstance}}{{!!
 
@@ -70,7 +70,7 @@ internal func {{mangledName}}copyFromCType(_ handle: _baseRef) -> {{name}} {
     }
     fatalError("Failed to initialize Swift object")
 {{/if}}{{#unless hasTypeRepository}}
-    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: {{cInstance}}_copy_handle(handle))
+    return {{implName}}(c{{simpleName}}: {{cInstance}}_copy_handle(handle))
 {{/unless}}
 }
 internal func {{mangledName}}moveFromCType(_ handle: _baseRef) -> {{name}} {
@@ -88,7 +88,7 @@ internal func {{mangledName}}moveFromCType(_ handle: _baseRef) -> {{name}} {
     }
     fatalError("Failed to initialize Swift object")
 {{/if}}{{#unless hasTypeRepository}}
-    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
+    return {{implName}}(c{{simpleName}}: handle)
 {{/unless}}
 }
 
@@ -121,6 +121,9 @@ internal func moveToCType(_ swiftClass: {{name}}?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 
+{{#classes}}
+{{>swift/ClassConversion}}{{!!
+}}{{/classes}}
 {{#structs}}
 {{>swift/StructConversion}}{{!!
 }}{{/structs}}

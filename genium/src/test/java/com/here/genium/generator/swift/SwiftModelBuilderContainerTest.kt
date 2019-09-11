@@ -99,6 +99,7 @@ class SwiftModelBuilderContainerTest {
             )
 
         every { nameResolver.getFullName(any()) } returns "nonsense"
+        every { nameResolver.getNestedNames(any()) } returns listOf("Foo")
     }
 
     @Test
@@ -184,7 +185,7 @@ class SwiftModelBuilderContainerTest {
     fun finishBuildingClassReadsParentClass() {
         val limeElement = LimeClass(fooPath, parent = LimeBasicTypeRef.INT)
         val swiftFile = SwiftFile("")
-        swiftFile.classes += SwiftClass("swiftFooName")
+        swiftFile.classes += SwiftClass(listOf("swiftFooName"))
         transientModel += swiftFile
 
         modelBuilder.finishBuilding(limeElement)
@@ -197,7 +198,7 @@ class SwiftModelBuilderContainerTest {
     @Test
     fun finishBuildingClassReadsParentProtocol() {
         val limeElement = LimeClass(fooPath, parent = LimeBasicTypeRef.INT)
-        val swiftClass = SwiftClass("swiftFooName", isInterface = true)
+        val swiftClass = SwiftClass(listOf("swiftFooName"), isInterface = true)
         swiftClass.methods.add(swiftMethod)
         swiftClass.properties.add(swiftProperty)
         val swiftFile = SwiftFile("")
@@ -282,7 +283,7 @@ class SwiftModelBuilderContainerTest {
     @Test
     fun finishBuildingInterfaceReadsParentProtocol() {
         val limeElement = LimeInterface(fooPath, parent = LimeBasicTypeRef.INT)
-        val swiftClass = SwiftClass("swiftFooName", isInterface = true)
+        val swiftClass = SwiftClass(listOf("swiftFooName"), isInterface = true)
         swiftClass.methods.add(swiftMethod)
         swiftClass.properties.add(swiftProperty)
         val swiftFile = SwiftFile("")

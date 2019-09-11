@@ -21,33 +21,27 @@ package com.here.genium.generator.swift
 
 import com.here.genium.model.lime.LimeClass
 import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypesCollection
 
 class SwiftNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: SwiftNameRules
 ) {
-    fun getFullName(limeType: LimeType) =
-        getNamespacePrefix(limeType) + nameRules.getName(limeType)
+    fun getNestedNames(limeType: LimeType): List<String> {
+        val parentContainer = limeReferenceMap.takeIf { limeType.path.hasParent }
+            ?.get(limeType.path.parent.toString()) as? LimeContainer
 
-    private fun getNamespacePrefix(limeType: LimeType): String {
-        if (limeType is LimeContainerWithInheritance || limeType is LimeTypesCollection) {
-            return ""
-        }
-
-        val limeContainer = limeReferenceMap[limeType.path.parent.toString()] as? LimeContainer
-        return when (limeContainer) {
-            is LimeClass -> nameRules.getName(limeContainer) + "."
-            is LimeInterface -> when (limeType) {
-                is LimeTypeAlias -> nameRules.getName(limeContainer) + "."
-                else -> ""
-            }
-            else -> ""
+        val name = nameRules.getName(limeType)
+        return when {
+            parentContainer is LimeClass -> getNestedNames(parentContainer) + name
+            parentContainer is LimeInterface && limeType is LimeTypeAlias ->
+                getNestedNames(parentContainer) + name
+            else -> listOf(name)
         }
     }
+
+    fun getFullName(limeType: LimeType) = getNestedNames(limeType).joinToString(".")
 }

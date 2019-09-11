@@ -24,13 +24,13 @@ open class SwiftType protected constructor(
     val cPrefix: String = "",
     visibility: SwiftVisibility?,
     val category: TypeCategory,
-    val publicName: String,
+    val publicName: String = name,
     val optional: Boolean = false
 ) : SwiftModelElement(name, visibility) {
     val className
         get() = if (category == TypeCategory.CLASS) mangledName else ""
 
-    val mangledName
+    open val mangledName
         get() = name.replace("_", "_1").replace(".", "_") + "_"
 
     constructor(

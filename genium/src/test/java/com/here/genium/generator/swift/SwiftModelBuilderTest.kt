@@ -125,7 +125,7 @@ class SwiftModelBuilderTest {
         val limeReturnType =
             LimeReturnType(LimeDirectTypeRef(limeType), LimeComment("returnComment"))
         val limeElement = LimeFunction(
-            fooPath,
+            fooPath.child("buzz"),
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             returnType = limeReturnType
@@ -135,13 +135,13 @@ class SwiftModelBuilderTest {
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftMethod::class.java)
-        assertEquals("foo", result.name)
+        assertEquals("buzz", result.name)
         assertEquals("some comment", result.comment.documentation)
         assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.returnType)
         assertEquals("returnComment", result.returnComment)
-        assertEquals("mo_del_Foo", result.cNestedSpecifier)
-        assertEquals("foo", result.cShortName)
+        assertEquals("mo_del", result.cNestedSpecifier)
+        assertEquals("buzz", result.cShortName)
     }
 
     @Test
@@ -674,10 +674,10 @@ class SwiftModelBuilderTest {
         assertEquals("some comment", result.comment.documentation)
         assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.getter.returnType)
-        assertEquals("mo_del_Foo", result.getter.cNestedSpecifier)
+        assertEquals("mo_del", result.getter.cNestedSpecifier)
         assertEquals("foo_get", result.getter.cShortName)
         assertEquals(swiftType, result.setter?.parameters?.first()?.type)
-        assertEquals("mo_del_Foo", result.setter?.cNestedSpecifier)
+        assertEquals("mo_del", result.setter?.cNestedSpecifier)
         assertEquals("foo_set", result.setter?.cShortName)
     }
 

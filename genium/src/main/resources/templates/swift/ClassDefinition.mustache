@@ -25,11 +25,11 @@
 }}{{+ClassWithoutProtocol}}{{!!
 }}{{#if isObjcInterface}}@objcMembers
 {{/if}}{{!!
-}}{{visibility}} class {{name}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
+}}{{visibility}} class {{simpleName}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
 
 {{#typedefs}}
 {{prefixPartial 'swift/Typedefs' '    '}}
-{{/typedefs}}{{#set className=name}}{{#constructors}}
+{{/typedefs}}{{#set className=simpleName}}{{#constructors}}
 {{prefixPartial "swift/MethodComment" "    "}}
     {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
         let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
@@ -51,7 +51,7 @@
 }}{{+ClassWithProtocol}}{{!!
 }}{{#if isObjcInterface}}@objc
 {{/if}}{{!!
-}}{{visibility}} protocol {{name}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
+}}{{visibility}} protocol {{simpleName}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}
 {{#properties}}
@@ -62,7 +62,7 @@
 {{/methods}}
 }
 
-internal class _{{name}}: {{name}} {
+internal class _{{simpleName}}: {{simpleName}} {
 
 {{>CommonClassParts}}
 }
@@ -77,6 +77,10 @@ internal class _{{name}}: {{name}} {
 {{/properties}}{{!!
 
 }}{{prefixPartial 'swift/Constructor' '    '}}{{!!
+
+}}{{#classes}}
+{{prefixPartial "swift/ClassDefinition" "    "}}
+{{/classes}}{{!!
 
 }}{{#enums}}
 {{prefixPartial 'swift/Enum' '    '}}

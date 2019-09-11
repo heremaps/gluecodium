@@ -117,7 +117,7 @@ class SwiftModelBuilder(
         }
 
         val swiftClass = SwiftClass(
-            name = nameRules.getName(limeClass),
+            nestedNames = nameResolver.getNestedNames(limeClass),
             visibility = getVisibility(limeClass),
             parentClass = parentClassName,
             nameSpace = limeClass.path.head.joinToString("_"),
@@ -134,6 +134,7 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass, parentClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        swiftClass.classes.addAll(getPreviousResults(SwiftClass::class.java))
 
         storeNamedResult(limeClass, swiftClass)
         storeResult(swiftFile)
@@ -143,7 +144,7 @@ class SwiftModelBuilder(
         val parentClass =
             limeContainer.parent?.type?.let { buildTransientModel(it).first().classes.first() }
         val swiftClass = SwiftClass(
-            name = nameRules.getName(limeContainer),
+            nestedNames = nameResolver.getNestedNames(limeContainer),
             visibility = getVisibility(limeContainer),
             isInterface = true,
             parentClass = parentClass?.name,
@@ -159,6 +160,7 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass, parentClass)
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        swiftFile.classes.addAll(getPreviousResults(SwiftClass::class.java))
 
         storeNamedResult(limeContainer, swiftClass)
         storeResult(swiftFile)
@@ -168,7 +170,7 @@ class SwiftModelBuilder(
         swiftFile: SwiftFile,
         swiftClass: SwiftClass,
         parentClass: SwiftClass?
-    ): SwiftFile {
+    ) {
         if (parentClass != null && parentClass.isInterface) {
             swiftClass.implementsProtocols.add(parentClass.name)
             swiftClass.methods.addAll(parentClass.methods)
@@ -181,7 +183,6 @@ class SwiftModelBuilder(
         swiftClass.constants.addAll(getPreviousResults(SwiftConstant::class.java))
 
         swiftFile.classes.add(swiftClass)
-        return swiftFile
     }
 
     override fun finishBuilding(limeMethod: LimeFunction) {

@@ -30,7 +30,7 @@ abstract class SwiftModelElement(
     val visibility = visibility ?: SwiftVisibility.PUBLIC
     var comment = Comments()
 
-    val simpleName: String
+    open val simpleName: String
         get() {
             val parts = Strings.split(name, ".")
             return parts[parts.size - 1]

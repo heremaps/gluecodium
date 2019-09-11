@@ -101,6 +101,7 @@ class CBridgeModelBuilder(
             structs = getPreviousResults(CStruct::class.java),
             enums = getPreviousResults(CEnum::class.java),
             functions = getPreviousResults(CFunction::class.java),
+            interfaces = getPreviousResults(CInterface::class.java),
             inheritedFunctions = inheritedFunctions,
             functionTableName = functionTableName,
             isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),

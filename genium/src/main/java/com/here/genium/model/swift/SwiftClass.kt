@@ -20,7 +20,7 @@
 package com.here.genium.model.swift
 
 class SwiftClass(
-    name: String,
+    private val nestedNames: List<String>,
     visibility: SwiftVisibility? = null,
     val isInterface: Boolean = false,
     val parentClass: String? = null,
@@ -32,12 +32,10 @@ class SwiftClass(
     @Suppress("unused") val isObjcInterface: Boolean = false,
     @Suppress("unused") val hasTypeRepository: Boolean = false
 ) : SwiftType(
-    name = name,
+    name = nestedNames.joinToString("."),
     visibility = visibility,
-    category = TypeCategory.CLASS,
-    publicName = name
+    category = TypeCategory.CLASS
 ) {
-
     val implementsProtocols = mutableListOf<String>()
     val properties = mutableListOf<SwiftProperty>()
     val methods = mutableListOf<SwiftMethod>()
@@ -45,6 +43,7 @@ class SwiftClass(
     val enums = mutableListOf<SwiftEnum>()
     val typedefs = mutableListOf<SwiftTypeDef>()
     val constants = mutableListOf<SwiftConstant>()
+    val classes = mutableListOf<SwiftClass>()
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
@@ -52,7 +51,7 @@ class SwiftClass(
 
     @Suppress("unused")
     val hasParents
-        get() = parentClass != null || !implementsProtocols.isEmpty()
+        get() = parentClass != null || implementsProtocols.isNotEmpty()
 
     @Suppress("unused")
     val constructors
@@ -60,4 +59,16 @@ class SwiftClass(
 
     override fun stream() =
         super.stream() + properties + methods + structs + enums + typedefs + constants
+
+    override val simpleName: String
+        get() = nestedNames.last()
+
+    override val mangledName
+        get() = nestedNames.joinToString("_") { it.replace("_", "_1") } + "_"
+
+    val implName
+        get() = when {
+            isInterface -> (nestedNames.dropLast(1) + "_$simpleName" ).joinToString(".")
+            else -> name
+        }
 }

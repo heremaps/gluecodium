@@ -20,17 +20,17 @@
   !}}
 {{^useParentCInstance}}let c_instance : _baseRef
 
-init(c{{name}}: _baseRef) {
-    guard c{{name}} != 0 else {
+init(c{{simpleName}}: _baseRef) {
+    guard c{{simpleName}} != 0 else {
         fatalError("Nullptr value is not supported for initializers")
     }
-    c_instance = c{{name}}
+    c_instance = c{{simpleName}}
 }
 
 deinit {
     {{cInstance}}_release_handle(c_instance)
 }{{/useParentCInstance}}{{!!
 
-}}{{#useParentCInstance}}init(c{{name}}: _baseRef) {
-    super.init(c{{parentClass}}: c{{name}})
+}}{{#useParentCInstance}}init(c{{simpleName}}: _baseRef) {
+    super.init(c{{parentClass}}: c{{simpleName}})
 }{{/useParentCInstance}}
