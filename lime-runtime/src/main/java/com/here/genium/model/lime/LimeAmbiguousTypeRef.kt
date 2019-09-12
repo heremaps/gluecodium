@@ -20,14 +20,8 @@
 package com.here.genium.model.lime
 
 /**
- * An ambiguous reference to a type, represented by [relativePath]. The ambiguity is resolved with
- * the following logic:
- * * for each import in [imports], try to match the last component of the import to the first
- * component of the [relativePath]. If it matches, try to resolve it into an actual element through
- * the [referenceMap].
- * * if import resolution fails, try appending [relativePath] to each parent path in [parentPaths]
- * and try resolving the combined path to an actual element through the [referenceMap].
- * * if both approaches fail, the reference is invalid and a [LimeModelLoaderException] is thrown.
+ * An ambiguous reference to a type, represented by [relativePath]. The ambiguity is resolved
+ * through the [LimeAmbiguityResolver].
  *
  * The resolution logic is "lazy": if it succeed on the first call then the result is stored and the
  * stored result is used on subsequent calls instead.
@@ -43,15 +37,7 @@ class LimeAmbiguousTypeRef(
     override val elementFullName by lazy { type.path.toString() }
 
     override val type by lazy {
-        for (limePath in imports.filter { it.name == relativePath.first() }) {
-            val key = limePath.child(relativePath.drop(1)).toString()
-            return@lazy referenceMap[key] as? LimeType ?: continue
-        }
-        for (limePath in parentPaths) {
-            val key = limePath.child(relativePath).toString()
-            return@lazy referenceMap[key] as? LimeType ?: continue
-        }
-        throw LimeModelLoaderException("Type $relativePath was not found")
+        LimeAmbiguityResolver.resolve<LimeType>(relativePath, parentPaths, imports, referenceMap)
     }
 
     override fun asNullable() =

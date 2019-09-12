@@ -22,7 +22,7 @@ parser grammar LimeParser;
 options { tokenVocab = LimeLexer; }
 
 limeFile
-    : NewLine* packageHeader importHeader*
+    : NewLine* packageHeader importHeader
       (container | types | struct | enumeration | typealias | exception)+ EOF
     ;
 
@@ -31,6 +31,10 @@ packageHeader
     ;
 
 importHeader
+    : importStatement*
+    ;
+
+importStatement
     : 'import' identifier NewLine+
     ;
 

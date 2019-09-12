@@ -91,9 +91,18 @@ internal class AntlrLimeModelBuilder(
         )
     }
 
-    override fun exitImportHeader(ctx: LimeParser.ImportHeaderContext) {
+    override fun exitImportStatement(ctx: LimeParser.ImportStatementContext) {
         val pathComponents = ctx.identifier().simpleId().map { convertSimpleId(it) }
         imports += LimePath(pathComponents.dropLast(1), listOf(pathComponents.last()))
+    }
+
+    override fun exitImportHeader(ctx: LimeParser.ImportHeaderContext) {
+        val ambiguousImports = imports.groupBy { it.name }.values.filter { it.size > 1 }
+        if (ambiguousImports.isNotEmpty()) {
+            throw ParseCancellationException(
+                "Ambiguous imports: " + ambiguousImports.joinToString()
+            )
+        }
     }
 
     override fun enterContainer(ctx: LimeParser.ContainerContext) {
