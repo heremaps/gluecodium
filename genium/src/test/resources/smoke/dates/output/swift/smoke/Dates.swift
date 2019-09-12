@@ -50,23 +50,23 @@ internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
 extension Dates: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func DatescopyFromCType(_ handle: _baseRef) -> Dates {
+internal func Dates_copyFromCType(_ handle: _baseRef) -> Dates {
     return Dates(cDates: smoke_Dates_copy_handle(handle))
 }
-internal func DatesmoveFromCType(_ handle: _baseRef) -> Dates {
+internal func Dates_moveFromCType(_ handle: _baseRef) -> Dates {
     return Dates(cDates: handle)
 }
-internal func DatescopyFromCType(_ handle: _baseRef) -> Dates? {
+internal func Dates_copyFromCType(_ handle: _baseRef) -> Dates? {
     guard handle != 0 else {
         return nil
     }
-    return DatesmoveFromCType(handle) as Dates
+    return Dates_moveFromCType(handle) as Dates
 }
-internal func DatesmoveFromCType(_ handle: _baseRef) -> Dates? {
+internal func Dates_moveFromCType(_ handle: _baseRef) -> Dates? {
     guard handle != 0 else {
         return nil
     }
-    return DatesmoveFromCType(handle) as Dates
+    return Dates_moveFromCType(handle) as Dates
 }
 internal func copyToCType(_ swiftClass: Dates) -> RefHolder {
     return getRef(swiftClass, owning: false)

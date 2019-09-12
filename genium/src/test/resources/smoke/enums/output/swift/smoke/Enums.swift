@@ -75,23 +75,23 @@ internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
 extension Enums: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums {
+internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums {
     return Enums(cEnums: smoke_Enums_copy_handle(handle))
 }
-internal func EnumsmoveFromCType(_ handle: _baseRef) -> Enums {
+internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums {
     return Enums(cEnums: handle)
 }
-internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums? {
+internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums? {
     guard handle != 0 else {
         return nil
     }
-    return EnumsmoveFromCType(handle) as Enums
+    return Enums_moveFromCType(handle) as Enums
 }
-internal func EnumsmoveFromCType(_ handle: _baseRef) -> Enums? {
+internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums? {
     guard handle != 0 else {
         return nil
     }
-    return EnumsmoveFromCType(handle) as Enums
+    return Enums_moveFromCType(handle) as Enums
 }
 internal func copyToCType(_ swiftClass: Enums) -> RefHolder {
     return getRef(swiftClass, owning: false)

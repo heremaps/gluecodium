@@ -57,23 +57,23 @@ internal func getRef(_ ref: MultiLineComments?, owning: Bool = true) -> RefHolde
 extension MultiLineComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments {
+internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments {
     return MultiLineComments(cMultiLineComments: smoke_MultiLineComments_copy_handle(handle))
 }
-internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments {
+internal func MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments {
     return MultiLineComments(cMultiLineComments: handle)
 }
-internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments? {
+internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {
         return nil
     }
-    return MultiLineCommentsmoveFromCType(handle) as MultiLineComments
+    return MultiLineComments_moveFromCType(handle) as MultiLineComments
 }
-internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments? {
+internal func MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {
         return nil
     }
-    return MultiLineCommentsmoveFromCType(handle) as MultiLineComments
+    return MultiLineComments_moveFromCType(handle) as MultiLineComments
 }
 internal func copyToCType(_ swiftClass: MultiLineComments) -> RefHolder {
     return getRef(swiftClass, owning: false)

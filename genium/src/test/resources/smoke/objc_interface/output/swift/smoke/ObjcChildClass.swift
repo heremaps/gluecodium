@@ -21,31 +21,31 @@ internal func getRef(_ ref: ObjcChildClass?, owning: Bool = true) -> RefHolder {
         ? RefHolder(ref: handle_copy, release: smoke_ObjcChildClass_release_handle)
         : RefHolder(handle_copy)
 }
-internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass {
+internal func ObjcChildClass_copyFromCType(_ handle: _baseRef) -> ObjcChildClass {
     if let swift_pointer = smoke_ObjcChildClass_get_typed(smoke_ObjcChildClass_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcChildClass {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ObjcChildClassmoveFromCType(_ handle: _baseRef) -> ObjcChildClass {
+internal func ObjcChildClass_moveFromCType(_ handle: _baseRef) -> ObjcChildClass {
     if let swift_pointer = smoke_ObjcChildClass_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcChildClass {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass? {
+internal func ObjcChildClass_copyFromCType(_ handle: _baseRef) -> ObjcChildClass? {
     guard handle != 0 else {
         return nil
     }
-    return ObjcChildClassmoveFromCType(handle) as ObjcChildClass
+    return ObjcChildClass_moveFromCType(handle) as ObjcChildClass
 }
-internal func ObjcChildClassmoveFromCType(_ handle: _baseRef) -> ObjcChildClass? {
+internal func ObjcChildClass_moveFromCType(_ handle: _baseRef) -> ObjcChildClass? {
     guard handle != 0 else {
         return nil
     }
-    return ObjcChildClassmoveFromCType(handle) as ObjcChildClass
+    return ObjcChildClass_moveFromCType(handle) as ObjcChildClass
 }
 internal func copyToCType(_ swiftClass: ObjcChildClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

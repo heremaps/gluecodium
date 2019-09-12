@@ -101,7 +101,7 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
 extension _ErrorsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterface {
+internal func ErrorsInterface_copyFromCType(_ handle: _baseRef) -> ErrorsInterface {
     if let swift_pointer = smoke_ErrorsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ErrorsInterface {
         return re_constructed
@@ -112,7 +112,7 @@ internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterfac
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterface {
+internal func ErrorsInterface_moveFromCType(_ handle: _baseRef) -> ErrorsInterface {
     if let swift_pointer = smoke_ErrorsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ErrorsInterface {
         smoke_ErrorsInterface_release_handle(handle)
@@ -124,17 +124,17 @@ internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterfac
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterface? {
+internal func ErrorsInterface_copyFromCType(_ handle: _baseRef) -> ErrorsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ErrorsInterfacemoveFromCType(handle) as ErrorsInterface
+    return ErrorsInterface_moveFromCType(handle) as ErrorsInterface
 }
-internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterface? {
+internal func ErrorsInterface_moveFromCType(_ handle: _baseRef) -> ErrorsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ErrorsInterfacemoveFromCType(handle) as ErrorsInterface
+    return ErrorsInterface_moveFromCType(handle) as ErrorsInterface
 }
 internal func copyToCType(_ swiftClass: ErrorsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -38,23 +38,23 @@ internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder 
 extension UnicodeComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func UnicodeCommentscopyFromCType(_ handle: _baseRef) -> UnicodeComments {
+internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments {
     return UnicodeComments(cUnicodeComments: smoke_UnicodeComments_copy_handle(handle))
 }
-internal func UnicodeCommentsmoveFromCType(_ handle: _baseRef) -> UnicodeComments {
+internal func UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments {
     return UnicodeComments(cUnicodeComments: handle)
 }
-internal func UnicodeCommentscopyFromCType(_ handle: _baseRef) -> UnicodeComments? {
+internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments? {
     guard handle != 0 else {
         return nil
     }
-    return UnicodeCommentsmoveFromCType(handle) as UnicodeComments
+    return UnicodeComments_moveFromCType(handle) as UnicodeComments
 }
-internal func UnicodeCommentsmoveFromCType(_ handle: _baseRef) -> UnicodeComments? {
+internal func UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments? {
     guard handle != 0 else {
         return nil
     }
-    return UnicodeCommentsmoveFromCType(handle) as UnicodeComments
+    return UnicodeComments_moveFromCType(handle) as UnicodeComments
 }
 internal func copyToCType(_ swiftClass: UnicodeComments) -> RefHolder {
     return getRef(swiftClass, owning: false)

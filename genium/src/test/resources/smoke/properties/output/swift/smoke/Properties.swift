@@ -54,7 +54,7 @@ public class Properties {
     }
     public var instanceProperty: PropertiesInterface {
         get {
-            return PropertiesInterfacemoveFromCType(smoke_Properties_instanceProperty_get(self.c_instance))
+            return PropertiesInterface_moveFromCType(smoke_Properties_instanceProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
@@ -120,23 +120,23 @@ internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
 extension Properties: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties {
+internal func Properties_copyFromCType(_ handle: _baseRef) -> Properties {
     return Properties(cProperties: smoke_Properties_copy_handle(handle))
 }
-internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties {
+internal func Properties_moveFromCType(_ handle: _baseRef) -> Properties {
     return Properties(cProperties: handle)
 }
-internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties? {
+internal func Properties_copyFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {
         return nil
     }
-    return PropertiesmoveFromCType(handle) as Properties
+    return Properties_moveFromCType(handle) as Properties
 }
-internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties? {
+internal func Properties_moveFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {
         return nil
     }
-    return PropertiesmoveFromCType(handle) as Properties
+    return Properties_moveFromCType(handle) as Properties
 }
 internal func copyToCType(_ swiftClass: Properties) -> RefHolder {
     return getRef(swiftClass, owning: false)

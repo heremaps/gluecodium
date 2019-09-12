@@ -62,7 +62,7 @@ internal func getRef(_ ref: ExternalInterface?, owning: Bool = true) -> RefHolde
 extension _ExternalInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ExternalInterfacecopyFromCType(_ handle: _baseRef) -> ExternalInterface {
+internal func ExternalInterface_copyFromCType(_ handle: _baseRef) -> ExternalInterface {
     if let swift_pointer = smoke_ExternalInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
         return re_constructed
@@ -73,7 +73,7 @@ internal func ExternalInterfacecopyFromCType(_ handle: _baseRef) -> ExternalInte
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ExternalInterfacemoveFromCType(_ handle: _baseRef) -> ExternalInterface {
+internal func ExternalInterface_moveFromCType(_ handle: _baseRef) -> ExternalInterface {
     if let swift_pointer = smoke_ExternalInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
         smoke_ExternalInterface_release_handle(handle)
@@ -85,17 +85,17 @@ internal func ExternalInterfacemoveFromCType(_ handle: _baseRef) -> ExternalInte
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ExternalInterfacecopyFromCType(_ handle: _baseRef) -> ExternalInterface? {
+internal func ExternalInterface_copyFromCType(_ handle: _baseRef) -> ExternalInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ExternalInterfacemoveFromCType(handle) as ExternalInterface
+    return ExternalInterface_moveFromCType(handle) as ExternalInterface
 }
-internal func ExternalInterfacemoveFromCType(_ handle: _baseRef) -> ExternalInterface? {
+internal func ExternalInterface_moveFromCType(_ handle: _baseRef) -> ExternalInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ExternalInterfacemoveFromCType(handle) as ExternalInterface
+    return ExternalInterface_moveFromCType(handle) as ExternalInterface
 }
 internal func copyToCType(_ swiftClass: ExternalInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

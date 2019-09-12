@@ -46,23 +46,23 @@ internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
 extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays {
+internal func Arrays_copyFromCType(_ handle: _baseRef) -> Arrays {
     return Arrays(cArrays: examples_Arrays_copy_handle(handle))
 }
-internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays {
+internal func Arrays_moveFromCType(_ handle: _baseRef) -> Arrays {
     return Arrays(cArrays: handle)
 }
-internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays? {
+internal func Arrays_copyFromCType(_ handle: _baseRef) -> Arrays? {
     guard handle != 0 else {
         return nil
     }
-    return ArraysmoveFromCType(handle) as Arrays
+    return Arrays_moveFromCType(handle) as Arrays
 }
-internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays? {
+internal func Arrays_moveFromCType(_ handle: _baseRef) -> Arrays? {
     guard handle != 0 else {
         return nil
     }
-    return ArraysmoveFromCType(handle) as Arrays
+    return Arrays_moveFromCType(handle) as Arrays
 }
 internal func copyToCType(_ swiftClass: Arrays) -> RefHolder {
     return getRef(swiftClass, owning: false)

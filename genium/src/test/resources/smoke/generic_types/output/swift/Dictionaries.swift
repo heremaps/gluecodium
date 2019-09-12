@@ -236,7 +236,7 @@ internal func copyFromCType(_ handle: _baseRef) -> [Int32: DummyClass] {
     let iterator_handle = MapOf_Int_To_DummyClass_iterator(handle)
     while MapOf_Int_To_DummyClass_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(MapOf_Int_To_DummyClass_iterator_key(iterator_handle))] =
-            DummyClassmoveFromCType(MapOf_Int_To_DummyClass_iterator_value(iterator_handle)) as DummyClass
+            DummyClass_moveFromCType(MapOf_Int_To_DummyClass_iterator_value(iterator_handle)) as DummyClass
         MapOf_Int_To_DummyClass_iterator_increment(iterator_handle)
     }
     MapOf_Int_To_DummyClass_iterator_release_handle(iterator_handle)
@@ -294,7 +294,7 @@ internal func copyFromCType(_ handle: _baseRef) -> [Int32: DummyInterface] {
     let iterator_handle = MapOf_Int_To_DummyInterface_iterator(handle)
     while MapOf_Int_To_DummyInterface_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(MapOf_Int_To_DummyInterface_iterator_key(iterator_handle))] =
-            DummyInterfacemoveFromCType(MapOf_Int_To_DummyInterface_iterator_value(iterator_handle)) as DummyInterface
+            DummyInterface_moveFromCType(MapOf_Int_To_DummyInterface_iterator_value(iterator_handle)) as DummyInterface
         MapOf_Int_To_DummyInterface_iterator_increment(iterator_handle)
     }
     MapOf_Int_To_DummyInterface_iterator_release_handle(iterator_handle)

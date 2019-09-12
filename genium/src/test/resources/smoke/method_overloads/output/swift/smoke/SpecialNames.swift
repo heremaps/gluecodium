@@ -37,23 +37,23 @@ internal func getRef(_ ref: SpecialNames?, owning: Bool = true) -> RefHolder {
 extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames {
+internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
     return SpecialNames(cSpecialNames: smoke_SpecialNames_copy_handle(handle))
 }
-internal func SpecialNamesmoveFromCType(_ handle: _baseRef) -> SpecialNames {
+internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames {
     return SpecialNames(cSpecialNames: handle)
 }
-internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames? {
+internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {
         return nil
     }
-    return SpecialNamesmoveFromCType(handle) as SpecialNames
+    return SpecialNames_moveFromCType(handle) as SpecialNames
 }
-internal func SpecialNamesmoveFromCType(_ handle: _baseRef) -> SpecialNames? {
+internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {
         return nil
     }
-    return SpecialNamesmoveFromCType(handle) as SpecialNames
+    return SpecialNames_moveFromCType(handle) as SpecialNames
 }
 internal func copyToCType(_ swiftClass: SpecialNames) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -31,31 +31,31 @@ internal func getRef(_ ref: ObjcClass?, owning: Bool = true) -> RefHolder {
 extension ObjcClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass {
+internal func ObjcClass_copyFromCType(_ handle: _baseRef) -> ObjcClass {
     if let swift_pointer = smoke_ObjcClass_get_typed(smoke_ObjcClass_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcClass {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass {
+internal func ObjcClass_moveFromCType(_ handle: _baseRef) -> ObjcClass {
     if let swift_pointer = smoke_ObjcClass_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcClass {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass? {
+internal func ObjcClass_copyFromCType(_ handle: _baseRef) -> ObjcClass? {
     guard handle != 0 else {
         return nil
     }
-    return ObjcClassmoveFromCType(handle) as ObjcClass
+    return ObjcClass_moveFromCType(handle) as ObjcClass
 }
-internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass? {
+internal func ObjcClass_moveFromCType(_ handle: _baseRef) -> ObjcClass? {
     guard handle != 0 else {
         return nil
     }
-    return ObjcClassmoveFromCType(handle) as ObjcClass
+    return ObjcClass_moveFromCType(handle) as ObjcClass
 }
 internal func copyToCType(_ swiftClass: ObjcClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

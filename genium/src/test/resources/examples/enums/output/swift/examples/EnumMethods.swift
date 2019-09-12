@@ -29,23 +29,23 @@ internal func getRef(_ ref: EnumMethods?, owning: Bool = true) -> RefHolder {
 extension EnumMethods: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods {
+internal func EnumMethods_copyFromCType(_ handle: _baseRef) -> EnumMethods {
     return EnumMethods(cEnumMethods: examples_EnumMethods_copy_handle(handle))
 }
-internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods {
+internal func EnumMethods_moveFromCType(_ handle: _baseRef) -> EnumMethods {
     return EnumMethods(cEnumMethods: handle)
 }
-internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods? {
+internal func EnumMethods_copyFromCType(_ handle: _baseRef) -> EnumMethods? {
     guard handle != 0 else {
         return nil
     }
-    return EnumMethodsmoveFromCType(handle) as EnumMethods
+    return EnumMethods_moveFromCType(handle) as EnumMethods
 }
-internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods? {
+internal func EnumMethods_moveFromCType(_ handle: _baseRef) -> EnumMethods? {
     guard handle != 0 else {
         return nil
     }
-    return EnumMethodsmoveFromCType(handle) as EnumMethods
+    return EnumMethods_moveFromCType(handle) as EnumMethods
 }
 internal func copyToCType(_ swiftClass: EnumMethods) -> RefHolder {
     return getRef(swiftClass, owning: false)

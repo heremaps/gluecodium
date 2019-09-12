@@ -43,7 +43,7 @@ internal func getRef(_ ref: Interface?, owning: Bool = true) -> RefHolder {
 extension _Interface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func InterfacecopyFromCType(_ handle: _baseRef) -> Interface {
+internal func Interface_copyFromCType(_ handle: _baseRef) -> Interface {
     if let swift_pointer = package_Interface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Interface {
         return re_constructed
@@ -54,7 +54,7 @@ internal func InterfacecopyFromCType(_ handle: _baseRef) -> Interface {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InterfacemoveFromCType(_ handle: _baseRef) -> Interface {
+internal func Interface_moveFromCType(_ handle: _baseRef) -> Interface {
     if let swift_pointer = package_Interface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Interface {
         package_Interface_release_handle(handle)
@@ -66,17 +66,17 @@ internal func InterfacemoveFromCType(_ handle: _baseRef) -> Interface {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InterfacecopyFromCType(_ handle: _baseRef) -> Interface? {
+internal func Interface_copyFromCType(_ handle: _baseRef) -> Interface? {
     guard handle != 0 else {
         return nil
     }
-    return InterfacemoveFromCType(handle) as Interface
+    return Interface_moveFromCType(handle) as Interface
 }
-internal func InterfacemoveFromCType(_ handle: _baseRef) -> Interface? {
+internal func Interface_moveFromCType(_ handle: _baseRef) -> Interface? {
     guard handle != 0 else {
         return nil
     }
-    return InterfacemoveFromCType(handle) as Interface
+    return Interface_moveFromCType(handle) as Interface
 }
 internal func copyToCType(_ swiftClass: Interface) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -43,7 +43,7 @@ internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder 
 extension _PublicInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterface {
+internal func PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterface {
     if let swift_pointer = smoke_PublicInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
         return re_constructed
@@ -54,7 +54,7 @@ internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterfac
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterface {
+internal func PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterface {
     if let swift_pointer = smoke_PublicInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
         smoke_PublicInterface_release_handle(handle)
@@ -66,17 +66,17 @@ internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterfac
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterface? {
+internal func PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PublicInterfacemoveFromCType(handle) as PublicInterface
+    return PublicInterface_moveFromCType(handle) as PublicInterface
 }
-internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterface? {
+internal func PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PublicInterfacemoveFromCType(handle) as PublicInterface
+    return PublicInterface_moveFromCType(handle) as PublicInterface
 }
 internal func copyToCType(_ swiftClass: PublicInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

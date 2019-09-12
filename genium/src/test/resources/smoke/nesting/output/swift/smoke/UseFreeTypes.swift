@@ -35,23 +35,23 @@ internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {
 extension UseFreeTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func UseFreeTypescopyFromCType(_ handle: _baseRef) -> UseFreeTypes {
+internal func UseFreeTypes_copyFromCType(_ handle: _baseRef) -> UseFreeTypes {
     return UseFreeTypes(cUseFreeTypes: smoke_UseFreeTypes_copy_handle(handle))
 }
-internal func UseFreeTypesmoveFromCType(_ handle: _baseRef) -> UseFreeTypes {
+internal func UseFreeTypes_moveFromCType(_ handle: _baseRef) -> UseFreeTypes {
     return UseFreeTypes(cUseFreeTypes: handle)
 }
-internal func UseFreeTypescopyFromCType(_ handle: _baseRef) -> UseFreeTypes? {
+internal func UseFreeTypes_copyFromCType(_ handle: _baseRef) -> UseFreeTypes? {
     guard handle != 0 else {
         return nil
     }
-    return UseFreeTypesmoveFromCType(handle) as UseFreeTypes
+    return UseFreeTypes_moveFromCType(handle) as UseFreeTypes
 }
-internal func UseFreeTypesmoveFromCType(_ handle: _baseRef) -> UseFreeTypes? {
+internal func UseFreeTypes_moveFromCType(_ handle: _baseRef) -> UseFreeTypes? {
     guard handle != 0 else {
         return nil
     }
-    return UseFreeTypesmoveFromCType(handle) as UseFreeTypes
+    return UseFreeTypes_moveFromCType(handle) as UseFreeTypes
 }
 internal func copyToCType(_ swiftClass: UseFreeTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -58,31 +58,31 @@ internal func getRef(_ ref: Class?, owning: Bool = true) -> RefHolder {
 extension Class: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ClasscopyFromCType(_ handle: _baseRef) -> Class {
+internal func Class_copyFromCType(_ handle: _baseRef) -> Class {
     if let swift_pointer = package_Class_get_typed(package_Class_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Class {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ClassmoveFromCType(_ handle: _baseRef) -> Class {
+internal func Class_moveFromCType(_ handle: _baseRef) -> Class {
     if let swift_pointer = package_Class_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Class {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ClasscopyFromCType(_ handle: _baseRef) -> Class? {
+internal func Class_copyFromCType(_ handle: _baseRef) -> Class? {
     guard handle != 0 else {
         return nil
     }
-    return ClassmoveFromCType(handle) as Class
+    return Class_moveFromCType(handle) as Class
 }
-internal func ClassmoveFromCType(_ handle: _baseRef) -> Class? {
+internal func Class_moveFromCType(_ handle: _baseRef) -> Class? {
     guard handle != 0 else {
         return nil
     }
-    return ClassmoveFromCType(handle) as Class
+    return Class_moveFromCType(handle) as Class
 }
 internal func copyToCType(_ swiftClass: Class) -> RefHolder {
     return getRef(swiftClass, owning: false)

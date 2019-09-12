@@ -26,8 +26,8 @@ public class EquatableInterface {
         internal init(cHandle: _baseRef) {
             intField = moveFromCType(smoke_EquatableInterface_EquatableStruct_intField_get(cHandle))
             stringField = moveFromCType(smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle))
-            nestedEquatableInstance = EquatableInterfacemoveFromCType(smoke_EquatableInterface_EquatableStruct_nestedEquatableInstance_get(cHandle))
-            nestedPointerEquatableInstance = PointerEquatableInterfacemoveFromCType(smoke_EquatableInterface_EquatableStruct_nestedPointerEquatableInstance_get(cHandle))
+            nestedEquatableInstance = EquatableInterface_moveFromCType(smoke_EquatableInterface_EquatableStruct_nestedEquatableInstance_get(cHandle))
+            nestedPointerEquatableInstance = PointerEquatableInterface_moveFromCType(smoke_EquatableInterface_EquatableStruct_nestedPointerEquatableInstance_get(cHandle))
         }
     }
 }
@@ -51,23 +51,23 @@ extension EquatableInterface: Hashable {
         hasher.combine(smoke_EquatableInterface_hash(c_handle))
     }
 }
-internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface {
+internal func EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableInterface {
     return EquatableInterface(cEquatableInterface: smoke_EquatableInterface_copy_handle(handle))
 }
-internal func EquatableInterfacemoveFromCType(_ handle: _baseRef) -> EquatableInterface {
+internal func EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableInterface {
     return EquatableInterface(cEquatableInterface: handle)
 }
-internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface? {
+internal func EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EquatableInterfacemoveFromCType(handle) as EquatableInterface
+    return EquatableInterface_moveFromCType(handle) as EquatableInterface
 }
-internal func EquatableInterfacemoveFromCType(_ handle: _baseRef) -> EquatableInterface? {
+internal func EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EquatableInterfacemoveFromCType(handle) as EquatableInterface
+    return EquatableInterface_moveFromCType(handle) as EquatableInterface
 }
 internal func copyToCType(_ swiftClass: EquatableInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

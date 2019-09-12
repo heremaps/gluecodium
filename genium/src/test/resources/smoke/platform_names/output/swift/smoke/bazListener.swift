@@ -52,7 +52,7 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
 extension _bazListener: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func bazListenercopyFromCType(_ handle: _baseRef) -> bazListener {
+internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener {
     if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         return re_constructed
@@ -63,7 +63,7 @@ internal func bazListenercopyFromCType(_ handle: _baseRef) -> bazListener {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func bazListenermoveFromCType(_ handle: _baseRef) -> bazListener {
+internal func bazListener_moveFromCType(_ handle: _baseRef) -> bazListener {
     if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         smoke_PlatformNamesListener_release_handle(handle)
@@ -75,17 +75,17 @@ internal func bazListenermoveFromCType(_ handle: _baseRef) -> bazListener {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func bazListenercopyFromCType(_ handle: _baseRef) -> bazListener? {
+internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener? {
     guard handle != 0 else {
         return nil
     }
-    return bazListenermoveFromCType(handle) as bazListener
+    return bazListener_moveFromCType(handle) as bazListener
 }
-internal func bazListenermoveFromCType(_ handle: _baseRef) -> bazListener? {
+internal func bazListener_moveFromCType(_ handle: _baseRef) -> bazListener? {
     guard handle != 0 else {
         return nil
     }
-    return bazListenermoveFromCType(handle) as bazListener
+    return bazListener_moveFromCType(handle) as bazListener
 }
 internal func copyToCType(_ swiftClass: bazListener) -> RefHolder {
     return getRef(swiftClass, owning: false)

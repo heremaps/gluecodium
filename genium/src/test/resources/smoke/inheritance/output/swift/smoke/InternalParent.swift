@@ -30,31 +30,31 @@ internal func getRef(_ ref: InternalParent?, owning: Bool = true) -> RefHolder {
 extension InternalParent: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func InternalParentcopyFromCType(_ handle: _baseRef) -> InternalParent {
+internal func InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent {
     if let swift_pointer = smoke_InternalParent_get_typed(smoke_InternalParent_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalParent {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InternalParentmoveFromCType(_ handle: _baseRef) -> InternalParent {
+internal func InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent {
     if let swift_pointer = smoke_InternalParent_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalParent {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InternalParentcopyFromCType(_ handle: _baseRef) -> InternalParent? {
+internal func InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent? {
     guard handle != 0 else {
         return nil
     }
-    return InternalParentmoveFromCType(handle) as InternalParent
+    return InternalParent_moveFromCType(handle) as InternalParent
 }
-internal func InternalParentmoveFromCType(_ handle: _baseRef) -> InternalParent? {
+internal func InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent? {
     guard handle != 0 else {
         return nil
     }
-    return InternalParentmoveFromCType(handle) as InternalParent
+    return InternalParent_moveFromCType(handle) as InternalParent
 }
 internal func copyToCType(_ swiftClass: InternalParent) -> RefHolder {
     return getRef(swiftClass, owning: false)

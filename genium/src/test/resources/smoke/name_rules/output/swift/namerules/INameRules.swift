@@ -89,23 +89,23 @@ internal func getRef(_ ref: INameRules?, owning: Bool = true) -> RefHolder {
 extension INameRules: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func INameRulescopyFromCType(_ handle: _baseRef) -> INameRules {
+internal func INameRules_copyFromCType(_ handle: _baseRef) -> INameRules {
     return INameRules(cINameRules: namerules_NameRules_copy_handle(handle))
 }
-internal func INameRulesmoveFromCType(_ handle: _baseRef) -> INameRules {
+internal func INameRules_moveFromCType(_ handle: _baseRef) -> INameRules {
     return INameRules(cINameRules: handle)
 }
-internal func INameRulescopyFromCType(_ handle: _baseRef) -> INameRules? {
+internal func INameRules_copyFromCType(_ handle: _baseRef) -> INameRules? {
     guard handle != 0 else {
         return nil
     }
-    return INameRulesmoveFromCType(handle) as INameRules
+    return INameRules_moveFromCType(handle) as INameRules
 }
-internal func INameRulesmoveFromCType(_ handle: _baseRef) -> INameRules? {
+internal func INameRules_moveFromCType(_ handle: _baseRef) -> INameRules? {
     guard handle != 0 else {
         return nil
     }
-    return INameRulesmoveFromCType(handle) as INameRules
+    return INameRules_moveFromCType(handle) as INameRules
 }
 internal func copyToCType(_ swiftClass: INameRules) -> RefHolder {
     return getRef(swiftClass, owning: false)

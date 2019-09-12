@@ -52,7 +52,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
 extension _CalculatorListener: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener {
+internal func CalculatorListener_copyFromCType(_ handle: _baseRef) -> CalculatorListener {
     if let swift_pointer = examples_CalculatorListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
         return re_constructed
@@ -63,7 +63,7 @@ internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorL
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener {
+internal func CalculatorListener_moveFromCType(_ handle: _baseRef) -> CalculatorListener {
     if let swift_pointer = examples_CalculatorListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
         examples_CalculatorListener_release_handle(handle)
@@ -75,17 +75,17 @@ internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorL
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener? {
+internal func CalculatorListener_copyFromCType(_ handle: _baseRef) -> CalculatorListener? {
     guard handle != 0 else {
         return nil
     }
-    return CalculatorListenermoveFromCType(handle) as CalculatorListener
+    return CalculatorListener_moveFromCType(handle) as CalculatorListener
 }
-internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener? {
+internal func CalculatorListener_moveFromCType(_ handle: _baseRef) -> CalculatorListener? {
     guard handle != 0 else {
         return nil
     }
-    return CalculatorListenermoveFromCType(handle) as CalculatorListener
+    return CalculatorListener_moveFromCType(handle) as CalculatorListener
 }
 internal func copyToCType(_ swiftClass: CalculatorListener) -> RefHolder {
     return getRef(swiftClass, owning: false)

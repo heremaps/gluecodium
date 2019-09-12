@@ -88,23 +88,23 @@ internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
 extension PublicClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func PublicClasscopyFromCType(_ handle: _baseRef) -> PublicClass {
+internal func PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass {
     return PublicClass(cPublicClass: smoke_PublicClass_copy_handle(handle))
 }
-internal func PublicClassmoveFromCType(_ handle: _baseRef) -> PublicClass {
+internal func PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass {
     return PublicClass(cPublicClass: handle)
 }
-internal func PublicClasscopyFromCType(_ handle: _baseRef) -> PublicClass? {
+internal func PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass? {
     guard handle != 0 else {
         return nil
     }
-    return PublicClassmoveFromCType(handle) as PublicClass
+    return PublicClass_moveFromCType(handle) as PublicClass
 }
-internal func PublicClassmoveFromCType(_ handle: _baseRef) -> PublicClass? {
+internal func PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass? {
     guard handle != 0 else {
         return nil
     }
-    return PublicClassmoveFromCType(handle) as PublicClass
+    return PublicClass_moveFromCType(handle) as PublicClass
 }
 internal func copyToCType(_ swiftClass: PublicClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

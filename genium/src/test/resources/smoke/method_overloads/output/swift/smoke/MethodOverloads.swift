@@ -81,23 +81,23 @@ internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder 
 extension MethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverloads {
+internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads {
     return MethodOverloads(cMethodOverloads: smoke_MethodOverloads_copy_handle(handle))
 }
-internal func MethodOverloadsmoveFromCType(_ handle: _baseRef) -> MethodOverloads {
+internal func MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads {
     return MethodOverloads(cMethodOverloads: handle)
 }
-internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverloads? {
+internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads? {
     guard handle != 0 else {
         return nil
     }
-    return MethodOverloadsmoveFromCType(handle) as MethodOverloads
+    return MethodOverloads_moveFromCType(handle) as MethodOverloads
 }
-internal func MethodOverloadsmoveFromCType(_ handle: _baseRef) -> MethodOverloads? {
+internal func MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads? {
     guard handle != 0 else {
         return nil
     }
-    return MethodOverloadsmoveFromCType(handle) as MethodOverloads
+    return MethodOverloads_moveFromCType(handle) as MethodOverloads
 }
 internal func copyToCType(_ swiftClass: MethodOverloads) -> RefHolder {
     return getRef(swiftClass, owning: false)

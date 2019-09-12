@@ -52,7 +52,7 @@ internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolde
 extension _InheritanceParent: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func InheritanceParentcopyFromCType(_ handle: _baseRef) -> InheritanceParent {
+internal func InheritanceParent_copyFromCType(_ handle: _baseRef) -> InheritanceParent {
     if let swift_pointer = examples_InheritanceParent_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InheritanceParent {
         return re_constructed
@@ -63,7 +63,7 @@ internal func InheritanceParentcopyFromCType(_ handle: _baseRef) -> InheritanceP
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InheritanceParentmoveFromCType(_ handle: _baseRef) -> InheritanceParent {
+internal func InheritanceParent_moveFromCType(_ handle: _baseRef) -> InheritanceParent {
     if let swift_pointer = examples_InheritanceParent_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InheritanceParent {
         examples_InheritanceParent_release_handle(handle)
@@ -75,17 +75,17 @@ internal func InheritanceParentmoveFromCType(_ handle: _baseRef) -> InheritanceP
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InheritanceParentcopyFromCType(_ handle: _baseRef) -> InheritanceParent? {
+internal func InheritanceParent_copyFromCType(_ handle: _baseRef) -> InheritanceParent? {
     guard handle != 0 else {
         return nil
     }
-    return InheritanceParentmoveFromCType(handle) as InheritanceParent
+    return InheritanceParent_moveFromCType(handle) as InheritanceParent
 }
-internal func InheritanceParentmoveFromCType(_ handle: _baseRef) -> InheritanceParent? {
+internal func InheritanceParent_moveFromCType(_ handle: _baseRef) -> InheritanceParent? {
     guard handle != 0 else {
         return nil
     }
-    return InheritanceParentmoveFromCType(handle) as InheritanceParent
+    return InheritanceParent_moveFromCType(handle) as InheritanceParent
 }
 internal func copyToCType(_ swiftClass: InheritanceParent) -> RefHolder {
     return getRef(swiftClass, owning: false)

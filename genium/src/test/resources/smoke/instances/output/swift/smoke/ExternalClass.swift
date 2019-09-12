@@ -46,23 +46,23 @@ internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {
 extension ExternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ExternalClasscopyFromCType(_ handle: _baseRef) -> ExternalClass {
+internal func ExternalClass_copyFromCType(_ handle: _baseRef) -> ExternalClass {
     return ExternalClass(cExternalClass: smoke_ExternalClass_copy_handle(handle))
 }
-internal func ExternalClassmoveFromCType(_ handle: _baseRef) -> ExternalClass {
+internal func ExternalClass_moveFromCType(_ handle: _baseRef) -> ExternalClass {
     return ExternalClass(cExternalClass: handle)
 }
-internal func ExternalClasscopyFromCType(_ handle: _baseRef) -> ExternalClass? {
+internal func ExternalClass_copyFromCType(_ handle: _baseRef) -> ExternalClass? {
     guard handle != 0 else {
         return nil
     }
-    return ExternalClassmoveFromCType(handle) as ExternalClass
+    return ExternalClass_moveFromCType(handle) as ExternalClass
 }
-internal func ExternalClassmoveFromCType(_ handle: _baseRef) -> ExternalClass? {
+internal func ExternalClass_moveFromCType(_ handle: _baseRef) -> ExternalClass? {
     guard handle != 0 else {
         return nil
     }
-    return ExternalClassmoveFromCType(handle) as ExternalClass
+    return ExternalClass_moveFromCType(handle) as ExternalClass
 }
 internal func copyToCType(_ swiftClass: ExternalClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

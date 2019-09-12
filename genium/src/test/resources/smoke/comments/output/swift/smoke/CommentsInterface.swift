@@ -196,7 +196,7 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
 extension _CommentsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface {
+internal func CommentsInterface_copyFromCType(_ handle: _baseRef) -> CommentsInterface {
     if let swift_pointer = smoke_CommentsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsInterface {
         return re_constructed
@@ -207,7 +207,7 @@ internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInte
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface {
+internal func CommentsInterface_moveFromCType(_ handle: _baseRef) -> CommentsInterface {
     if let swift_pointer = smoke_CommentsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsInterface {
         smoke_CommentsInterface_release_handle(handle)
@@ -219,17 +219,17 @@ internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInte
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface? {
+internal func CommentsInterface_copyFromCType(_ handle: _baseRef) -> CommentsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return CommentsInterfacemoveFromCType(handle) as CommentsInterface
+    return CommentsInterface_moveFromCType(handle) as CommentsInterface
 }
-internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface? {
+internal func CommentsInterface_moveFromCType(_ handle: _baseRef) -> CommentsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return CommentsInterfacemoveFromCType(handle) as CommentsInterface
+    return CommentsInterface_moveFromCType(handle) as CommentsInterface
 }
 internal func copyToCType(_ swiftClass: CommentsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

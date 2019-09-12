@@ -61,7 +61,7 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
 extension _PropertiesInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func PropertiesInterfacecopyFromCType(_ handle: _baseRef) -> PropertiesInterface {
+internal func PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface {
     if let swift_pointer = smoke_PropertiesInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PropertiesInterface {
         return re_constructed
@@ -72,7 +72,7 @@ internal func PropertiesInterfacecopyFromCType(_ handle: _baseRef) -> Properties
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func PropertiesInterfacemoveFromCType(_ handle: _baseRef) -> PropertiesInterface {
+internal func PropertiesInterface_moveFromCType(_ handle: _baseRef) -> PropertiesInterface {
     if let swift_pointer = smoke_PropertiesInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PropertiesInterface {
         smoke_PropertiesInterface_release_handle(handle)
@@ -84,17 +84,17 @@ internal func PropertiesInterfacemoveFromCType(_ handle: _baseRef) -> Properties
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func PropertiesInterfacecopyFromCType(_ handle: _baseRef) -> PropertiesInterface? {
+internal func PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PropertiesInterfacemoveFromCType(handle) as PropertiesInterface
+    return PropertiesInterface_moveFromCType(handle) as PropertiesInterface
 }
-internal func PropertiesInterfacemoveFromCType(_ handle: _baseRef) -> PropertiesInterface? {
+internal func PropertiesInterface_moveFromCType(_ handle: _baseRef) -> PropertiesInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PropertiesInterfacemoveFromCType(handle) as PropertiesInterface
+    return PropertiesInterface_moveFromCType(handle) as PropertiesInterface
 }
 internal func copyToCType(_ swiftClass: PropertiesInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

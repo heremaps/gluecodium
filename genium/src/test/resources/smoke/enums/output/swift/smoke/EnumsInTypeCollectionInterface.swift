@@ -29,23 +29,23 @@ internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true
 extension EnumsInTypeCollectionInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
+internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
     return EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: smoke_EnumsInTypeCollectionInterface_copy_handle(handle))
 }
-internal func EnumsInTypeCollectionInterfacemoveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
+internal func EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
     return EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: handle)
 }
-internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
+internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EnumsInTypeCollectionInterfacemoveFromCType(handle) as EnumsInTypeCollectionInterface
+    return EnumsInTypeCollectionInterface_moveFromCType(handle) as EnumsInTypeCollectionInterface
 }
-internal func EnumsInTypeCollectionInterfacemoveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
+internal func EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EnumsInTypeCollectionInterfacemoveFromCType(handle) as EnumsInTypeCollectionInterface
+    return EnumsInTypeCollectionInterface_moveFromCType(handle) as EnumsInTypeCollectionInterface
 }
 internal func copyToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

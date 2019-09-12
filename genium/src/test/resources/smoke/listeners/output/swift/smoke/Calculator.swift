@@ -33,23 +33,23 @@ internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
 extension Calculator: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator {
+internal func Calculator_copyFromCType(_ handle: _baseRef) -> Calculator {
     return Calculator(cCalculator: smoke_Calculator_copy_handle(handle))
 }
-internal func CalculatormoveFromCType(_ handle: _baseRef) -> Calculator {
+internal func Calculator_moveFromCType(_ handle: _baseRef) -> Calculator {
     return Calculator(cCalculator: handle)
 }
-internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator? {
+internal func Calculator_copyFromCType(_ handle: _baseRef) -> Calculator? {
     guard handle != 0 else {
         return nil
     }
-    return CalculatormoveFromCType(handle) as Calculator
+    return Calculator_moveFromCType(handle) as Calculator
 }
-internal func CalculatormoveFromCType(_ handle: _baseRef) -> Calculator? {
+internal func Calculator_moveFromCType(_ handle: _baseRef) -> Calculator? {
     guard handle != 0 else {
         return nil
     }
-    return CalculatormoveFromCType(handle) as Calculator
+    return Calculator_moveFromCType(handle) as Calculator
 }
 internal func copyToCType(_ swiftClass: Calculator) -> RefHolder {
     return getRef(swiftClass, owning: false)

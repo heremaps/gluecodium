@@ -1,12 +1,11 @@
 //
 //
-
 import Foundation
 internal func copyFromCType(_ handle: _baseRef) -> [DummyClass] {
     var result: [DummyClass] = []
     let count = ArrayOf_DummyClass_count(handle)
     for idx in 0..<count {
-        result.append(DummyClasscopyFromCType(ArrayOf_DummyClass_get(handle, idx)))
+        result.append(DummyClass_copyFromCType(ArrayOf_DummyClass_get(handle, idx)))
     }
     return result
 }
@@ -58,7 +57,7 @@ internal func copyFromCType(_ handle: _baseRef) -> [DummyInterface] {
     var result: [DummyInterface] = []
     let count = ArrayOf_DummyInterface_count(handle)
     for idx in 0..<count {
-        result.append(DummyInterfacecopyFromCType(ArrayOf_DummyInterface_get(handle, idx)))
+        result.append(DummyInterface_copyFromCType(ArrayOf_DummyInterface_get(handle, idx)))
     }
     return result
 }

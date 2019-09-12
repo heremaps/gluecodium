@@ -34,23 +34,23 @@ internal func getRef(_ ref: Maps?, owning: Bool = true) -> RefHolder {
 extension Maps: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func MapscopyFromCType(_ handle: _baseRef) -> Maps {
+internal func Maps_copyFromCType(_ handle: _baseRef) -> Maps {
     return Maps(cMaps: examples_Maps_copy_handle(handle))
 }
-internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps {
+internal func Maps_moveFromCType(_ handle: _baseRef) -> Maps {
     return Maps(cMaps: handle)
 }
-internal func MapscopyFromCType(_ handle: _baseRef) -> Maps? {
+internal func Maps_copyFromCType(_ handle: _baseRef) -> Maps? {
     guard handle != 0 else {
         return nil
     }
-    return MapsmoveFromCType(handle) as Maps
+    return Maps_moveFromCType(handle) as Maps
 }
-internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps? {
+internal func Maps_moveFromCType(_ handle: _baseRef) -> Maps? {
     guard handle != 0 else {
         return nil
     }
-    return MapsmoveFromCType(handle) as Maps
+    return Maps_moveFromCType(handle) as Maps
 }
 internal func copyToCType(_ swiftClass: Maps) -> RefHolder {
     return getRef(swiftClass, owning: false)

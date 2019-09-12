@@ -25,23 +25,23 @@ internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {
 extension InternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass {
+internal func InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass {
     return InternalClass(cInternalClass: smoke_InternalClass_copy_handle(handle))
 }
-internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass {
+internal func InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass {
     return InternalClass(cInternalClass: handle)
 }
-internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass? {
+internal func InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass? {
     guard handle != 0 else {
         return nil
     }
-    return InternalClassmoveFromCType(handle) as InternalClass
+    return InternalClass_moveFromCType(handle) as InternalClass
 }
-internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass? {
+internal func InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass? {
     guard handle != 0 else {
         return nil
     }
-    return InternalClassmoveFromCType(handle) as InternalClass
+    return InternalClass_moveFromCType(handle) as InternalClass
 }
 internal func copyToCType(_ swiftClass: InternalClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

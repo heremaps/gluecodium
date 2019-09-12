@@ -24,7 +24,7 @@ public class NestedReferences {
     public func insideOut(struct1: NestedReferences.NestedReferences, struct2: NestedReferences.NestedReferences) -> NestedReferences {
         let c_struct1 = moveToCType(struct1)
         let c_struct2 = moveToCType(struct2)
-        return NestedReferencesmoveFromCType(smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref))
+        return NestedReferences_moveFromCType(smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref))
     }
 }
 internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder {
@@ -39,23 +39,23 @@ internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder
 extension NestedReferences: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func NestedReferencescopyFromCType(_ handle: _baseRef) -> NestedReferences {
+internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences {
     return NestedReferences(cNestedReferences: smoke_NestedReferences_copy_handle(handle))
 }
-internal func NestedReferencesmoveFromCType(_ handle: _baseRef) -> NestedReferences {
+internal func NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences {
     return NestedReferences(cNestedReferences: handle)
 }
-internal func NestedReferencescopyFromCType(_ handle: _baseRef) -> NestedReferences? {
+internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences? {
     guard handle != 0 else {
         return nil
     }
-    return NestedReferencesmoveFromCType(handle) as NestedReferences
+    return NestedReferences_moveFromCType(handle) as NestedReferences
 }
-internal func NestedReferencesmoveFromCType(_ handle: _baseRef) -> NestedReferences? {
+internal func NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences? {
     guard handle != 0 else {
         return nil
     }
-    return NestedReferencesmoveFromCType(handle) as NestedReferences
+    return NestedReferences_moveFromCType(handle) as NestedReferences
 }
 internal func copyToCType(_ swiftClass: NestedReferences) -> RefHolder {
     return getRef(swiftClass, owning: false)

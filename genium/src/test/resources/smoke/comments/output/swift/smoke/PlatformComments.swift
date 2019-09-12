@@ -53,23 +53,23 @@ internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder
 extension PlatformComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func PlatformCommentscopyFromCType(_ handle: _baseRef) -> PlatformComments {
+internal func PlatformComments_copyFromCType(_ handle: _baseRef) -> PlatformComments {
     return PlatformComments(cPlatformComments: smoke_PlatformComments_copy_handle(handle))
 }
-internal func PlatformCommentsmoveFromCType(_ handle: _baseRef) -> PlatformComments {
+internal func PlatformComments_moveFromCType(_ handle: _baseRef) -> PlatformComments {
     return PlatformComments(cPlatformComments: handle)
 }
-internal func PlatformCommentscopyFromCType(_ handle: _baseRef) -> PlatformComments? {
+internal func PlatformComments_copyFromCType(_ handle: _baseRef) -> PlatformComments? {
     guard handle != 0 else {
         return nil
     }
-    return PlatformCommentsmoveFromCType(handle) as PlatformComments
+    return PlatformComments_moveFromCType(handle) as PlatformComments
 }
-internal func PlatformCommentsmoveFromCType(_ handle: _baseRef) -> PlatformComments? {
+internal func PlatformComments_moveFromCType(_ handle: _baseRef) -> PlatformComments? {
     guard handle != 0 else {
         return nil
     }
-    return PlatformCommentsmoveFromCType(handle) as PlatformComments
+    return PlatformComments_moveFromCType(handle) as PlatformComments
 }
 internal func copyToCType(_ swiftClass: PlatformComments) -> RefHolder {
     return getRef(swiftClass, owning: false)

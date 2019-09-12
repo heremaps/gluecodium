@@ -56,7 +56,7 @@ extension {{name}}: Hashable {
 }
 {{/hasEquatableType}}
 
-internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}} {
+internal func {{mangledName}}copyFromCType(_ handle: _baseRef) -> {{name}} {
 {{#if isInterface}}
     if let swift_pointer = {{cInstance}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{name}} {
@@ -73,7 +73,7 @@ internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}} {
     return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: {{cInstance}}_copy_handle(handle))
 {{/unless}}
 }
-internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}} {
+internal func {{mangledName}}moveFromCType(_ handle: _baseRef) -> {{name}} {
 {{#if isInterface}}
     if let swift_pointer = {{cInstance}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{name}} {
@@ -92,17 +92,17 @@ internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}} {
 {{/unless}}
 }
 
-internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}}? {
+internal func {{mangledName}}copyFromCType(_ handle: _baseRef) -> {{name}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{name}}moveFromCType(handle) as {{name}}
+    return {{mangledName}}moveFromCType(handle) as {{name}}
 }
-internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}}? {
+internal func {{mangledName}}moveFromCType(_ handle: _baseRef) -> {{name}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{name}}moveFromCType(handle) as {{name}}
+    return {{mangledName}}moveFromCType(handle) as {{name}}
 }
 
 internal func copyToCType(_ swiftClass: {{name}}) -> RefHolder {

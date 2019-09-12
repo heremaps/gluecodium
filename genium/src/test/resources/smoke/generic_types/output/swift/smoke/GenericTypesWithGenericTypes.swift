@@ -53,23 +53,23 @@ internal func getRef(_ ref: GenericTypesWithGenericTypes?, owning: Bool = true) 
 extension GenericTypesWithGenericTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func GenericTypesWithGenericTypescopyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
+internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
     return GenericTypesWithGenericTypes(cGenericTypesWithGenericTypes: smoke_GenericTypesWithGenericTypes_copy_handle(handle))
 }
-internal func GenericTypesWithGenericTypesmoveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
+internal func GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
     return GenericTypesWithGenericTypes(cGenericTypesWithGenericTypes: handle)
 }
-internal func GenericTypesWithGenericTypescopyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
+internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
     guard handle != 0 else {
         return nil
     }
-    return GenericTypesWithGenericTypesmoveFromCType(handle) as GenericTypesWithGenericTypes
+    return GenericTypesWithGenericTypes_moveFromCType(handle) as GenericTypesWithGenericTypes
 }
-internal func GenericTypesWithGenericTypesmoveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
+internal func GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
     guard handle != 0 else {
         return nil
     }
-    return GenericTypesWithGenericTypesmoveFromCType(handle) as GenericTypesWithGenericTypes
+    return GenericTypesWithGenericTypes_moveFromCType(handle) as GenericTypesWithGenericTypes
 }
 internal func copyToCType(_ swiftClass: GenericTypesWithGenericTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)

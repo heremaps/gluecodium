@@ -51,7 +51,7 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
 extension _SimpleInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface {
+internal func SimpleInterface_copyFromCType(_ handle: _baseRef) -> SimpleInterface {
     if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
         return re_constructed
@@ -62,7 +62,7 @@ internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterfac
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface {
+internal func SimpleInterface_moveFromCType(_ handle: _baseRef) -> SimpleInterface {
     if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
         smoke_SimpleInterface_release_handle(handle)
@@ -74,17 +74,17 @@ internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterfac
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface? {
+internal func SimpleInterface_copyFromCType(_ handle: _baseRef) -> SimpleInterface? {
     guard handle != 0 else {
         return nil
     }
-    return SimpleInterfacemoveFromCType(handle) as SimpleInterface
+    return SimpleInterface_moveFromCType(handle) as SimpleInterface
 }
-internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface? {
+internal func SimpleInterface_moveFromCType(_ handle: _baseRef) -> SimpleInterface? {
     guard handle != 0 else {
         return nil
     }
-    return SimpleInterfacemoveFromCType(handle) as SimpleInterface
+    return SimpleInterface_moveFromCType(handle) as SimpleInterface
 }
 internal func copyToCType(_ swiftClass: SimpleInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

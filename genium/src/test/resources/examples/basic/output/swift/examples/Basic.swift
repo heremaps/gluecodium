@@ -29,23 +29,23 @@ internal func getRef(_ ref: Basic?, owning: Bool = true) -> RefHolder {
 extension Basic: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic {
+internal func Basic_copyFromCType(_ handle: _baseRef) -> Basic {
     return Basic(cBasic: examples_Basic_copy_handle(handle))
 }
-internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic {
+internal func Basic_moveFromCType(_ handle: _baseRef) -> Basic {
     return Basic(cBasic: handle)
 }
-internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic? {
+internal func Basic_copyFromCType(_ handle: _baseRef) -> Basic? {
     guard handle != 0 else {
         return nil
     }
-    return BasicmoveFromCType(handle) as Basic
+    return Basic_moveFromCType(handle) as Basic
 }
-internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic? {
+internal func Basic_moveFromCType(_ handle: _baseRef) -> Basic? {
     guard handle != 0 else {
         return nil
     }
-    return BasicmoveFromCType(handle) as Basic
+    return Basic_moveFromCType(handle) as Basic
 }
 internal func copyToCType(_ swiftClass: Basic) -> RefHolder {
     return getRef(swiftClass, owning: false)

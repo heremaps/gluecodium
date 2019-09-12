@@ -43,7 +43,7 @@ internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolde
 extension _InternalInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface {
+internal func InternalInterface_copyFromCType(_ handle: _baseRef) -> InternalInterface {
     if let swift_pointer = smoke_InternalInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
         return re_constructed
@@ -54,7 +54,7 @@ internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInte
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface {
+internal func InternalInterface_moveFromCType(_ handle: _baseRef) -> InternalInterface {
     if let swift_pointer = smoke_InternalInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
         smoke_InternalInterface_release_handle(handle)
@@ -66,17 +66,17 @@ internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInte
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface? {
+internal func InternalInterface_copyFromCType(_ handle: _baseRef) -> InternalInterface? {
     guard handle != 0 else {
         return nil
     }
-    return InternalInterfacemoveFromCType(handle) as InternalInterface
+    return InternalInterface_moveFromCType(handle) as InternalInterface
 }
-internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface? {
+internal func InternalInterface_moveFromCType(_ handle: _baseRef) -> InternalInterface? {
     guard handle != 0 else {
         return nil
     }
-    return InternalInterfacemoveFromCType(handle) as InternalInterface
+    return InternalInterface_moveFromCType(handle) as InternalInterface
 }
 internal func copyToCType(_ swiftClass: InternalInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

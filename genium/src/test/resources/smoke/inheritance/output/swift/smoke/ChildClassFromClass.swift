@@ -23,31 +23,31 @@ internal func getRef(_ ref: ChildClassFromClass?, owning: Bool = true) -> RefHol
         ? RefHolder(ref: handle_copy, release: smoke_ChildClassFromClass_release_handle)
         : RefHolder(handle_copy)
 }
-internal func ChildClassFromClasscopyFromCType(_ handle: _baseRef) -> ChildClassFromClass {
+internal func ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass {
     if let swift_pointer = smoke_ChildClassFromClass_get_typed(smoke_ChildClassFromClass_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromClass {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildClassFromClassmoveFromCType(_ handle: _baseRef) -> ChildClassFromClass {
+internal func ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass {
     if let swift_pointer = smoke_ChildClassFromClass_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromClass {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildClassFromClasscopyFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
+internal func ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
     guard handle != 0 else {
         return nil
     }
-    return ChildClassFromClassmoveFromCType(handle) as ChildClassFromClass
+    return ChildClassFromClass_moveFromCType(handle) as ChildClassFromClass
 }
-internal func ChildClassFromClassmoveFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
+internal func ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
     guard handle != 0 else {
         return nil
     }
-    return ChildClassFromClassmoveFromCType(handle) as ChildClassFromClass
+    return ChildClassFromClass_moveFromCType(handle) as ChildClassFromClass
 }
 internal func copyToCType(_ swiftClass: ChildClassFromClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

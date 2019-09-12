@@ -39,23 +39,23 @@ internal func getRef(_ ref: StructsWithConstantsInterface?, owning: Bool = true)
 extension StructsWithConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func StructsWithConstantsInterfacecopyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
+internal func StructsWithConstantsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
     return StructsWithConstantsInterface(cStructsWithConstantsInterface: smoke_StructsWithConstantsInterface_copy_handle(handle))
 }
-internal func StructsWithConstantsInterfacemoveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
+internal func StructsWithConstantsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
     return StructsWithConstantsInterface(cStructsWithConstantsInterface: handle)
 }
-internal func StructsWithConstantsInterfacecopyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface? {
+internal func StructsWithConstantsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return StructsWithConstantsInterfacemoveFromCType(handle) as StructsWithConstantsInterface
+    return StructsWithConstantsInterface_moveFromCType(handle) as StructsWithConstantsInterface
 }
-internal func StructsWithConstantsInterfacemoveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface? {
+internal func StructsWithConstantsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return StructsWithConstantsInterfacemoveFromCType(handle) as StructsWithConstantsInterface
+    return StructsWithConstantsInterface_moveFromCType(handle) as StructsWithConstantsInterface
 }
 internal func copyToCType(_ swiftClass: StructsWithConstantsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

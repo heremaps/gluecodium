@@ -23,7 +23,7 @@ internal class _ListenerWithProperties: ListenerWithProperties {
     }
     var packedMessage: CalculationResult {
         get {
-            return CalculationResultmoveFromCType(smoke_ListenerWithProperties_packedMessage_get(self.c_instance))
+            return CalculationResult_moveFromCType(smoke_ListenerWithProperties_packedMessage_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
@@ -122,7 +122,7 @@ internal func getRef(_ ref: ListenerWithProperties?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithProperties_packedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties
-        swift_class.packedMessage = CalculationResultmoveFromCType(newValue)
+        swift_class.packedMessage = CalculationResult_moveFromCType(newValue)
     }
     functions.smoke_ListenerWithProperties_structuredMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties
@@ -170,7 +170,7 @@ internal func getRef(_ ref: ListenerWithProperties?, owning: Bool = true) -> Ref
 extension _ListenerWithProperties: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ListenerWithPropertiescopyFromCType(_ handle: _baseRef) -> ListenerWithProperties {
+internal func ListenerWithProperties_copyFromCType(_ handle: _baseRef) -> ListenerWithProperties {
     if let swift_pointer = smoke_ListenerWithProperties_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithProperties {
         return re_constructed
@@ -181,7 +181,7 @@ internal func ListenerWithPropertiescopyFromCType(_ handle: _baseRef) -> Listene
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ListenerWithPropertiesmoveFromCType(_ handle: _baseRef) -> ListenerWithProperties {
+internal func ListenerWithProperties_moveFromCType(_ handle: _baseRef) -> ListenerWithProperties {
     if let swift_pointer = smoke_ListenerWithProperties_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithProperties {
         smoke_ListenerWithProperties_release_handle(handle)
@@ -193,17 +193,17 @@ internal func ListenerWithPropertiesmoveFromCType(_ handle: _baseRef) -> Listene
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ListenerWithPropertiescopyFromCType(_ handle: _baseRef) -> ListenerWithProperties? {
+internal func ListenerWithProperties_copyFromCType(_ handle: _baseRef) -> ListenerWithProperties? {
     guard handle != 0 else {
         return nil
     }
-    return ListenerWithPropertiesmoveFromCType(handle) as ListenerWithProperties
+    return ListenerWithProperties_moveFromCType(handle) as ListenerWithProperties
 }
-internal func ListenerWithPropertiesmoveFromCType(_ handle: _baseRef) -> ListenerWithProperties? {
+internal func ListenerWithProperties_moveFromCType(_ handle: _baseRef) -> ListenerWithProperties? {
     guard handle != 0 else {
         return nil
     }
-    return ListenerWithPropertiesmoveFromCType(handle) as ListenerWithProperties
+    return ListenerWithProperties_moveFromCType(handle) as ListenerWithProperties
 }
 internal func copyToCType(_ swiftClass: ListenerWithProperties) -> RefHolder {
     return getRef(swiftClass, owning: false)

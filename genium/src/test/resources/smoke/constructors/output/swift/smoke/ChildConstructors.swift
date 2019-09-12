@@ -35,31 +35,31 @@ internal func getRef(_ ref: ChildConstructors?, owning: Bool = true) -> RefHolde
         ? RefHolder(ref: handle_copy, release: smoke_ChildConstructors_release_handle)
         : RefHolder(handle_copy)
 }
-internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
+internal func ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstructors {
     if let swift_pointer = smoke_ChildConstructors_get_typed(smoke_ChildConstructors_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildConstructors {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors {
+internal func ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors {
     if let swift_pointer = smoke_ChildConstructors_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildConstructors {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors? {
+internal func ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstructors? {
     guard handle != 0 else {
         return nil
     }
-    return ChildConstructorsmoveFromCType(handle) as ChildConstructors
+    return ChildConstructors_moveFromCType(handle) as ChildConstructors
 }
-internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors? {
+internal func ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors? {
     guard handle != 0 else {
         return nil
     }
-    return ChildConstructorsmoveFromCType(handle) as ChildConstructors
+    return ChildConstructors_moveFromCType(handle) as ChildConstructors
 }
 internal func copyToCType(_ swiftClass: ChildConstructors) -> RefHolder {
     return getRef(swiftClass, owning: false)

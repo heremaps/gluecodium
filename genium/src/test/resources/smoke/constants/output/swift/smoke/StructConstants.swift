@@ -48,23 +48,23 @@ internal func getRef(_ ref: StructConstants?, owning: Bool = true) -> RefHolder 
 extension StructConstants: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func StructConstantscopyFromCType(_ handle: _baseRef) -> StructConstants {
+internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants {
     return StructConstants(cStructConstants: smoke_StructConstants_copy_handle(handle))
 }
-internal func StructConstantsmoveFromCType(_ handle: _baseRef) -> StructConstants {
+internal func StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants {
     return StructConstants(cStructConstants: handle)
 }
-internal func StructConstantscopyFromCType(_ handle: _baseRef) -> StructConstants? {
+internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants? {
     guard handle != 0 else {
         return nil
     }
-    return StructConstantsmoveFromCType(handle) as StructConstants
+    return StructConstants_moveFromCType(handle) as StructConstants
 }
-internal func StructConstantsmoveFromCType(_ handle: _baseRef) -> StructConstants? {
+internal func StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants? {
     guard handle != 0 else {
         return nil
     }
-    return StructConstantsmoveFromCType(handle) as StructConstants
+    return StructConstants_moveFromCType(handle) as StructConstants
 }
 internal func copyToCType(_ swiftClass: StructConstants) -> RefHolder {
     return getRef(swiftClass, owning: false)

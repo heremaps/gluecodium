@@ -87,7 +87,7 @@ public class Nullable {
     }
     public var instanceProperty: SomeInterface? {
         get {
-            return SomeInterfacemoveFromCType(smoke_Nullable_instanceProperty_get(self.c_instance))
+            return SomeInterface_moveFromCType(smoke_Nullable_instanceProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
@@ -147,7 +147,7 @@ public class Nullable {
             arrayField = moveFromCType(smoke_Nullable_NullableStruct_arrayField_get(cHandle))
             inlineArrayField = moveFromCType(smoke_Nullable_NullableStruct_inlineArrayField_get(cHandle))
             mapField = moveFromCType(smoke_Nullable_NullableStruct_mapField_get(cHandle))
-            instanceField = SomeInterfacemoveFromCType(smoke_Nullable_NullableStruct_instanceField_get(cHandle))
+            instanceField = SomeInterface_moveFromCType(smoke_Nullable_NullableStruct_instanceField_get(cHandle))
         }
     }
     public struct NullableIntsStruct {
@@ -218,7 +218,7 @@ public class Nullable {
     }
     public func methodWithInstance(input: SomeInterface?) -> SomeInterface? {
         let c_input = moveToCType(input)
-        return SomeInterfacemoveFromCType(smoke_Nullable_methodWithInstance(self.c_instance, c_input.ref))
+        return SomeInterface_moveFromCType(smoke_Nullable_methodWithInstance(self.c_instance, c_input.ref))
     }
 }
 internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
@@ -233,23 +233,23 @@ internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
 extension Nullable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func NullablecopyFromCType(_ handle: _baseRef) -> Nullable {
+internal func Nullable_copyFromCType(_ handle: _baseRef) -> Nullable {
     return Nullable(cNullable: smoke_Nullable_copy_handle(handle))
 }
-internal func NullablemoveFromCType(_ handle: _baseRef) -> Nullable {
+internal func Nullable_moveFromCType(_ handle: _baseRef) -> Nullable {
     return Nullable(cNullable: handle)
 }
-internal func NullablecopyFromCType(_ handle: _baseRef) -> Nullable? {
+internal func Nullable_copyFromCType(_ handle: _baseRef) -> Nullable? {
     guard handle != 0 else {
         return nil
     }
-    return NullablemoveFromCType(handle) as Nullable
+    return Nullable_moveFromCType(handle) as Nullable
 }
-internal func NullablemoveFromCType(_ handle: _baseRef) -> Nullable? {
+internal func Nullable_moveFromCType(_ handle: _baseRef) -> Nullable? {
     guard handle != 0 else {
         return nil
     }
-    return NullablemoveFromCType(handle) as Nullable
+    return Nullable_moveFromCType(handle) as Nullable
 }
 internal func copyToCType(_ swiftClass: Nullable) -> RefHolder {
     return getRef(swiftClass, owning: false)

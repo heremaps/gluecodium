@@ -44,7 +44,7 @@ internal func getRef(_ ref: ObjcInterface?, owning: Bool = true) -> RefHolder {
 extension _ObjcInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ObjcInterfacecopyFromCType(_ handle: _baseRef) -> ObjcInterface {
+internal func ObjcInterface_copyFromCType(_ handle: _baseRef) -> ObjcInterface {
     if let swift_pointer = smoke_ObjcInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
         return re_constructed
@@ -55,7 +55,7 @@ internal func ObjcInterfacecopyFromCType(_ handle: _baseRef) -> ObjcInterface {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ObjcInterfacemoveFromCType(_ handle: _baseRef) -> ObjcInterface {
+internal func ObjcInterface_moveFromCType(_ handle: _baseRef) -> ObjcInterface {
     if let swift_pointer = smoke_ObjcInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
         smoke_ObjcInterface_release_handle(handle)
@@ -67,17 +67,17 @@ internal func ObjcInterfacemoveFromCType(_ handle: _baseRef) -> ObjcInterface {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ObjcInterfacecopyFromCType(_ handle: _baseRef) -> ObjcInterface? {
+internal func ObjcInterface_copyFromCType(_ handle: _baseRef) -> ObjcInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ObjcInterfacemoveFromCType(handle) as ObjcInterface
+    return ObjcInterface_moveFromCType(handle) as ObjcInterface
 }
-internal func ObjcInterfacemoveFromCType(_ handle: _baseRef) -> ObjcInterface? {
+internal func ObjcInterface_moveFromCType(_ handle: _baseRef) -> ObjcInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ObjcInterfacemoveFromCType(handle) as ObjcInterface
+    return ObjcInterface_moveFromCType(handle) as ObjcInterface
 }
 internal func copyToCType(_ swiftClass: ObjcInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

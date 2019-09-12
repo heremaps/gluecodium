@@ -36,23 +36,23 @@ internal func getRef(_ ref: LongComments?, owning: Bool = true) -> RefHolder {
 extension LongComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func LongCommentscopyFromCType(_ handle: _baseRef) -> LongComments {
+internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
     return LongComments(cLongComments: smoke_LongComments_copy_handle(handle))
 }
-internal func LongCommentsmoveFromCType(_ handle: _baseRef) -> LongComments {
+internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
     return LongComments(cLongComments: handle)
 }
-internal func LongCommentscopyFromCType(_ handle: _baseRef) -> LongComments? {
+internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {
         return nil
     }
-    return LongCommentsmoveFromCType(handle) as LongComments
+    return LongComments_moveFromCType(handle) as LongComments
 }
-internal func LongCommentsmoveFromCType(_ handle: _baseRef) -> LongComments? {
+internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {
         return nil
     }
-    return LongCommentsmoveFromCType(handle) as LongComments
+    return LongComments_moveFromCType(handle) as LongComments
 }
 internal func copyToCType(_ swiftClass: LongComments) -> RefHolder {
     return getRef(swiftClass, owning: false)

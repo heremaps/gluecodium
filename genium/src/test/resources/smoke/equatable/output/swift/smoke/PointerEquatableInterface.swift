@@ -33,23 +33,23 @@ extension PointerEquatableInterface: Hashable {
         hasher.combine(smoke_PointerEquatableInterface_hash(c_handle))
     }
 }
-internal func PointerEquatableInterfacecopyFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
+internal func PointerEquatableInterface_copyFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
     return PointerEquatableInterface(cPointerEquatableInterface: smoke_PointerEquatableInterface_copy_handle(handle))
 }
-internal func PointerEquatableInterfacemoveFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
+internal func PointerEquatableInterface_moveFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
     return PointerEquatableInterface(cPointerEquatableInterface: handle)
 }
-internal func PointerEquatableInterfacecopyFromCType(_ handle: _baseRef) -> PointerEquatableInterface? {
+internal func PointerEquatableInterface_copyFromCType(_ handle: _baseRef) -> PointerEquatableInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PointerEquatableInterfacemoveFromCType(handle) as PointerEquatableInterface
+    return PointerEquatableInterface_moveFromCType(handle) as PointerEquatableInterface
 }
-internal func PointerEquatableInterfacemoveFromCType(_ handle: _baseRef) -> PointerEquatableInterface? {
+internal func PointerEquatableInterface_moveFromCType(_ handle: _baseRef) -> PointerEquatableInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PointerEquatableInterfacemoveFromCType(handle) as PointerEquatableInterface
+    return PointerEquatableInterface_moveFromCType(handle) as PointerEquatableInterface
 }
 internal func copyToCType(_ swiftClass: PointerEquatableInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

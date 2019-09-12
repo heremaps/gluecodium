@@ -41,7 +41,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
     }
     public func fetchDataInstance() -> CalculationResult {
-        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
+        return CalculationResult_moveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
     }
 }
 @_cdecl("_CBridgeInitsmoke_ListenersWithReturnValues")
@@ -100,7 +100,7 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
 extension _ListenersWithReturnValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+internal func ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
     if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
         return re_constructed
@@ -111,7 +111,7 @@ internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> List
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+internal func ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
     if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(handle)
@@ -123,17 +123,17 @@ internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> List
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
+internal func ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
     guard handle != 0 else {
         return nil
     }
-    return ListenersWithReturnValuesmoveFromCType(handle) as ListenersWithReturnValues
+    return ListenersWithReturnValues_moveFromCType(handle) as ListenersWithReturnValues
 }
-internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
+internal func ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
     guard handle != 0 else {
         return nil
     }
-    return ListenersWithReturnValuesmoveFromCType(handle) as ListenersWithReturnValues
+    return ListenersWithReturnValues_moveFromCType(handle) as ListenersWithReturnValues
 }
 internal func copyToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
     return getRef(swiftClass, owning: false)

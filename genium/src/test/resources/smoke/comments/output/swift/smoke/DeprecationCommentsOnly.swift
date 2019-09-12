@@ -85,7 +85,7 @@ internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> Re
 extension _DeprecationCommentsOnly: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func DeprecationCommentsOnlycopyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
+internal func DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationCommentsOnly {
         return re_constructed
@@ -96,7 +96,7 @@ internal func DeprecationCommentsOnlycopyFromCType(_ handle: _baseRef) -> Deprec
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func DeprecationCommentsOnlymoveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
+internal func DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationCommentsOnly {
         smoke_DeprecationCommentsOnly_release_handle(handle)
@@ -108,17 +108,17 @@ internal func DeprecationCommentsOnlymoveFromCType(_ handle: _baseRef) -> Deprec
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func DeprecationCommentsOnlycopyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
+internal func DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
     guard handle != 0 else {
         return nil
     }
-    return DeprecationCommentsOnlymoveFromCType(handle) as DeprecationCommentsOnly
+    return DeprecationCommentsOnly_moveFromCType(handle) as DeprecationCommentsOnly
 }
-internal func DeprecationCommentsOnlymoveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
+internal func DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
     guard handle != 0 else {
         return nil
     }
-    return DeprecationCommentsOnlymoveFromCType(handle) as DeprecationCommentsOnly
+    return DeprecationCommentsOnly_moveFromCType(handle) as DeprecationCommentsOnly
 }
 internal func copyToCType(_ swiftClass: DeprecationCommentsOnly) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 public struct StructWithInstances {
     public var classInstance: SimpleClass
@@ -10,18 +9,18 @@ public struct StructWithInstances {
         self.interfaceInstance = interfaceInstance
     }
     internal init(cHandle: _baseRef) {
-        classInstance = SimpleClassmoveFromCType(smoke_StructWithInstances_StructWithInstances_classInstance_get(cHandle))
-        interfaceInstance = SimpleInterfacemoveFromCType(smoke_StructWithInstances_StructWithInstances_interfaceInstance_get(cHandle))
+        classInstance = SimpleClass_moveFromCType(smoke_StructWithInstances_StructWithInstances_classInstance_get(cHandle))
+        interfaceInstance = SimpleInterface_moveFromCType(smoke_StructWithInstances_StructWithInstances_interfaceInstance_get(cHandle))
     }
     public func useSimpleClass(input: SimpleClass) -> SimpleClass {
         let c_self_handle = moveToCType(self)
         let c_input = moveToCType(input)
-        return SimpleClassmoveFromCType(smoke_StructWithInstances_StructWithInstances_useSimpleClass(c_self_handle.ref, c_input.ref))
+        return SimpleClass_moveFromCType(smoke_StructWithInstances_StructWithInstances_useSimpleClass(c_self_handle.ref, c_input.ref))
     }
     public func useSimpleInterface(input: SimpleInterface) -> SimpleInterface {
         let c_self_handle = moveToCType(self)
         let c_input = moveToCType(input)
-        return SimpleInterfacemoveFromCType(smoke_StructWithInstances_StructWithInstances_useSimpleInterface(c_self_handle.ref, c_input.ref))
+        return SimpleInterface_moveFromCType(smoke_StructWithInstances_StructWithInstances_useSimpleInterface(c_self_handle.ref, c_input.ref))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> StructWithInstances {

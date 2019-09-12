@@ -95,31 +95,31 @@ internal func getRef(_ ref: Constructors?, owning: Bool = true) -> RefHolder {
 extension Constructors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors {
+internal func Constructors_copyFromCType(_ handle: _baseRef) -> Constructors {
     if let swift_pointer = smoke_Constructors_get_typed(smoke_Constructors_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Constructors {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors {
+internal func Constructors_moveFromCType(_ handle: _baseRef) -> Constructors {
     if let swift_pointer = smoke_Constructors_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Constructors {
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors? {
+internal func Constructors_copyFromCType(_ handle: _baseRef) -> Constructors? {
     guard handle != 0 else {
         return nil
     }
-    return ConstructorsmoveFromCType(handle) as Constructors
+    return Constructors_moveFromCType(handle) as Constructors
 }
-internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors? {
+internal func Constructors_moveFromCType(_ handle: _baseRef) -> Constructors? {
     guard handle != 0 else {
         return nil
     }
-    return ConstructorsmoveFromCType(handle) as Constructors
+    return Constructors_moveFromCType(handle) as Constructors
 }
 internal func copyToCType(_ swiftClass: Constructors) -> RefHolder {
     return getRef(swiftClass, owning: false)

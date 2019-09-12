@@ -49,23 +49,23 @@ internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
 extension bazInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func bazInterfacecopyFromCType(_ handle: _baseRef) -> bazInterface {
+internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface {
     return bazInterface(cbazInterface: smoke_PlatformNamesInterface_copy_handle(handle))
 }
-internal func bazInterfacemoveFromCType(_ handle: _baseRef) -> bazInterface {
+internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface {
     return bazInterface(cbazInterface: handle)
 }
-internal func bazInterfacecopyFromCType(_ handle: _baseRef) -> bazInterface? {
+internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface? {
     guard handle != 0 else {
         return nil
     }
-    return bazInterfacemoveFromCType(handle) as bazInterface
+    return bazInterface_moveFromCType(handle) as bazInterface
 }
-internal func bazInterfacemoveFromCType(_ handle: _baseRef) -> bazInterface? {
+internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface? {
     guard handle != 0 else {
         return nil
     }
-    return bazInterfacemoveFromCType(handle) as bazInterface
+    return bazInterface_moveFromCType(handle) as bazInterface
 }
 internal func copyToCType(_ swiftClass: bazInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

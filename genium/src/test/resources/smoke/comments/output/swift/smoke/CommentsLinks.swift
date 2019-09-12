@@ -85,23 +85,23 @@ internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
 extension CommentsLinks: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func CommentsLinkscopyFromCType(_ handle: _baseRef) -> CommentsLinks {
+internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks {
     return CommentsLinks(cCommentsLinks: smoke_CommentsLinks_copy_handle(handle))
 }
-internal func CommentsLinksmoveFromCType(_ handle: _baseRef) -> CommentsLinks {
+internal func CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks {
     return CommentsLinks(cCommentsLinks: handle)
 }
-internal func CommentsLinkscopyFromCType(_ handle: _baseRef) -> CommentsLinks? {
+internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks? {
     guard handle != 0 else {
         return nil
     }
-    return CommentsLinksmoveFromCType(handle) as CommentsLinks
+    return CommentsLinks_moveFromCType(handle) as CommentsLinks
 }
-internal func CommentsLinksmoveFromCType(_ handle: _baseRef) -> CommentsLinks? {
+internal func CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks? {
     guard handle != 0 else {
         return nil
     }
-    return CommentsLinksmoveFromCType(handle) as CommentsLinks
+    return CommentsLinks_moveFromCType(handle) as CommentsLinks
 }
 internal func copyToCType(_ swiftClass: CommentsLinks) -> RefHolder {
     return getRef(swiftClass, owning: false)

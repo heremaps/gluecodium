@@ -28,23 +28,23 @@ internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {
 extension SimpleClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func SimpleClasscopyFromCType(_ handle: _baseRef) -> SimpleClass {
+internal func SimpleClass_copyFromCType(_ handle: _baseRef) -> SimpleClass {
     return SimpleClass(cSimpleClass: smoke_SimpleClass_copy_handle(handle))
 }
-internal func SimpleClassmoveFromCType(_ handle: _baseRef) -> SimpleClass {
+internal func SimpleClass_moveFromCType(_ handle: _baseRef) -> SimpleClass {
     return SimpleClass(cSimpleClass: handle)
 }
-internal func SimpleClasscopyFromCType(_ handle: _baseRef) -> SimpleClass? {
+internal func SimpleClass_copyFromCType(_ handle: _baseRef) -> SimpleClass? {
     guard handle != 0 else {
         return nil
     }
-    return SimpleClassmoveFromCType(handle) as SimpleClass
+    return SimpleClass_moveFromCType(handle) as SimpleClass
 }
-internal func SimpleClassmoveFromCType(_ handle: _baseRef) -> SimpleClass? {
+internal func SimpleClass_moveFromCType(_ handle: _baseRef) -> SimpleClass? {
     guard handle != 0 else {
         return nil
     }
-    return SimpleClassmoveFromCType(handle) as SimpleClass
+    return SimpleClass_moveFromCType(handle) as SimpleClass
 }
 internal func copyToCType(_ swiftClass: SimpleClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
