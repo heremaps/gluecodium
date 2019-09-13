@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.4.1
+- Release date: 2019-09-13
 - Bug fixes:
   + Added validation against ambiguous type references.
 
