@@ -30,11 +30,11 @@ public class bazInterface {
     }
     public func BazMethod(_ BazParameter: String) -> bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_PlatformNamesInterface_BazMethod(self.c_instance, c_BazParameter.ref))
+        return moveFromCType(smoke_bazInterface_BazMethod(self.c_instance, c_BazParameter.ref))
     }
     private static func make(_ makeParameter: String) -> _baseRef {
         let c_makeParameter = moveToCType(makeParameter)
-        return moveFromCType(smoke_PlatformNamesInterface_make(c_makeParameter.ref))
+        return moveFromCType(smoke_bazInterface_make(c_makeParameter.ref))
     }
 }
 internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {

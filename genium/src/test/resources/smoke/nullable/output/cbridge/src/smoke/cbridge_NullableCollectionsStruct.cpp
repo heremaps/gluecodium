@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 _baseRef
-smoke_NullableCollectionsStruct_NullableCollectionsStruct_create_handle( _baseRef dates, _baseRef structs )
+smoke_NullableCollectionsStruct_create_handle( _baseRef dates, _baseRef structs )
 {
     ::smoke::NullableCollectionsStruct* _struct = new ( std::nothrow ) ::smoke::NullableCollectionsStruct();
     _struct->dates = Conversion<std::vector<::genium::optional< ::std::chrono::system_clock::time_point >>>::toCpp( dates );
@@ -17,12 +17,12 @@ smoke_NullableCollectionsStruct_NullableCollectionsStruct_create_handle( _baseRe
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
-smoke_NullableCollectionsStruct_NullableCollectionsStruct_release_handle( _baseRef handle )
+smoke_NullableCollectionsStruct_release_handle( _baseRef handle )
 {
     delete get_pointer<::smoke::NullableCollectionsStruct>( handle );
 }
 _baseRef
-smoke_NullableCollectionsStruct_NullableCollectionsStruct_create_optional_handle(_baseRef dates, _baseRef structs)
+smoke_NullableCollectionsStruct_create_optional_handle(_baseRef dates, _baseRef structs)
 {
     auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::NullableCollectionsStruct>( ::smoke::NullableCollectionsStruct( ) );
     (*_struct)->dates = Conversion<std::vector<::genium::optional< ::std::chrono::system_clock::time_point >>>::toCpp( dates );
@@ -30,18 +30,18 @@ smoke_NullableCollectionsStruct_NullableCollectionsStruct_create_optional_handle
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
-smoke_NullableCollectionsStruct_NullableCollectionsStruct_unwrap_optional_handle( _baseRef handle )
+smoke_NullableCollectionsStruct_unwrap_optional_handle( _baseRef handle )
 {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::NullableCollectionsStruct>*>( handle ) );
 }
-void smoke_NullableCollectionsStruct_NullableCollectionsStruct_release_optional_handle(_baseRef handle) {
+void smoke_NullableCollectionsStruct_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::NullableCollectionsStruct>*>( handle );
 }
-_baseRef smoke_NullableCollectionsStruct_NullableCollectionsStruct_dates_get(_baseRef handle) {
+_baseRef smoke_NullableCollectionsStruct_dates_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::NullableCollectionsStruct>(handle);
 return Conversion<std::vector<::genium::optional< ::std::chrono::system_clock::time_point >>>::toBaseRef(struct_pointer->dates);
 }
-_baseRef smoke_NullableCollectionsStruct_NullableCollectionsStruct_structs_get(_baseRef handle) {
+_baseRef smoke_NullableCollectionsStruct_structs_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::NullableCollectionsStruct>(handle);
 return Conversion<std::unordered_map<int32_t, ::genium::optional< ::smoke::Nullable::SomeStruct >>>::toBaseRef(struct_pointer->structs);
 }
