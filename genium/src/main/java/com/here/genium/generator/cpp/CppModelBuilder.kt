@@ -89,6 +89,7 @@ class CppModelBuilder(
             CppInheritance(parentType, CppInheritance.Type.Public)
         })
 
+        val isExternal = limeContainer.attributes.have(CPP, EXTERNAL_TYPE)
         val isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
         val isInheritable = limeContainer is LimeInterface || limeContainer.visibility.isOpen
         val includes = mutableListOf<Include>()
@@ -98,6 +99,10 @@ class CppModelBuilder(
         if (isEquatable) {
             includes.add(CppLibraryIncludes.HASH)
         }
+        if (isExternal) {
+            includes += includeResolver.resolveIncludes(limeContainer)
+        }
+
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),

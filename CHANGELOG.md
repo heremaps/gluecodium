@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fix missing include for external classes.
+
 ## 5.4.1
 - Release date: 2019-09-13
 - Bug fixes:

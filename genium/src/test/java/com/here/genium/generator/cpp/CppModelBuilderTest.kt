@@ -353,6 +353,24 @@ class CppModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingClassTypeReadsExternalType() {
+        val limeElement = LimeClass(
+            EMPTY_PATH,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(CPP, EXTERNAL_TYPE)
+                .build()
+        )
+        val externalInclude = Include.createInternalInclude("foo.h")
+        every { includeResolver.resolveIncludes(limeElement) } returns listOf(externalInclude)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppClass::class.java)
+        assertTrue(result.isExternal)
+        assertContains(externalInclude, result.includes)
+    }
+
+    @Test
     fun finishBuildingStructTypeReadsExternalType() {
         val limeElement = LimeStruct(
             EMPTY_PATH,
