@@ -35,42 +35,42 @@ static_assert(
 static_assert(
     std::is_same<
         ::std::string,
-        typename std::result_of<decltype(&::smoke::Structs::ExternalStruct::get_some_string)(::smoke::Structs::ExternalStruct*)>::type
+        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_string())
     >::value,
     "Expected '::std::string' return type for '::smoke::Structs::ExternalStruct::get_some_string'."
 );
 static_assert(
     std::is_same<
         void,
-        typename std::result_of<decltype(&::smoke::Structs::ExternalStruct::set_some_string)(::smoke::Structs::ExternalStruct*, const ::std::string&)>::type
+        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->set_some_string(*((::std::string*)nullptr)))
     >::value,
     "Expected 'void' return type for '::smoke::Structs::ExternalStruct::set_some_string'."
 );
 static_assert(
     std::is_same<
         ::std::vector< int8_t >,
-        typename std::result_of<decltype(&::smoke::Structs::ExternalStruct::get_some_array)(::smoke::Structs::ExternalStruct*)>::type
+        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_array())
     >::value,
     "Expected '::std::vector< int8_t >' return type for '::smoke::Structs::ExternalStruct::get_some_array'."
 );
 static_assert(
     std::is_same<
         void,
-        typename std::result_of<decltype(&::smoke::Structs::ExternalStruct::set_some_array)(::smoke::Structs::ExternalStruct*, const ::std::vector< int8_t >&)>::type
+        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->set_some_array(*((::std::vector< int8_t >*)nullptr)))
     >::value,
     "Expected 'void' return type for '::smoke::Structs::ExternalStruct::set_some_array'."
 );
 static_assert(
     std::is_same<
         ::fire::SomeVeryExternalStruct,
-        typename std::result_of<decltype(&::smoke::Structs::ExternalStruct::get_some_struct)(::smoke::Structs::ExternalStruct*)>::type
+        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_struct())
     >::value,
     "Expected '::fire::SomeVeryExternalStruct' return type for '::smoke::Structs::ExternalStruct::get_some_struct'."
 );
 static_assert(
     std::is_same<
         void,
-        typename std::result_of<decltype(&::smoke::Structs::ExternalStruct::set_some_struct)(::smoke::Structs::ExternalStruct*, const ::fire::SomeVeryExternalStruct&)>::type
+        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->set_some_struct(*((::fire::SomeVeryExternalStruct*)nullptr)))
     >::value,
     "Expected 'void' return type for '::smoke::Structs::ExternalStruct::set_some_struct'."
 );

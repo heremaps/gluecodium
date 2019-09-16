@@ -3,6 +3,7 @@
 ## Unreleased
 - Bug fixes:
   + Fix missing include for external classes.
+  + Fix external type checks for method overloads.
 
 ## 5.4.1
 - Release date: 2019-09-13

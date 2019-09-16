@@ -21,9 +21,13 @@
 static_assert(
     std::is_same<
         {{returnType.name}},
-        typename std::result_of<decltype(&{{className}}::{{name}})({{!!
-}}{{#unless isStatic}}{{className}}*{{#if parameters}}, {{/if}}{{/unless}}{{!!
-}}{{joinPartial parameters "cpp/CppMethodParameterType" ", "}})>::type
+        decltype({{!!
+}}{{#if isStatic}}{{className}}::{{name}}({{/if}}{{!!
+}}{{#unless isStatic}}(({{className}}*)nullptr)->{{name}}({{/unless}}{{!!
+}}{{joinPartial parameters "nullparam" ", "}}))
     >::value,
     "Expected '{{returnType.name}}' return type for '{{className}}::{{name}}'."
 );
+{{+nullparam}}
+            *(({{type.name}}*)nullptr){{!!
+}}{{/nullparam}}

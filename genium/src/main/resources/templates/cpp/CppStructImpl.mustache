@@ -61,7 +61,7 @@ bool {{#parentName}}{{.}}::{{/parentName}}{{name}}::operator!=( const {{name}}& 
 static_assert(
     std::is_same<
         {{type.name}},
-        typename std::result_of<decltype(&{{structName}}::{{getterName}})({{structName}}*)>::type
+        decltype((({{structName}}*)nullptr)->{{getterName}}())
     >::value,
     "Expected '{{type.name}}' return type for '{{structName}}::{{getterName}}'."
 );
@@ -70,7 +70,7 @@ static_assert(
 static_assert(
     std::is_same<
         void,
-        typename std::result_of<decltype(&{{structName}}::{{setterName}})({{structName}}*, {{>cpp/CppMethodParameterType}})>::type
+        decltype((({{structName}}*)nullptr)->{{setterName}}(*(({{type.name}}*)nullptr)))
     >::value,
     "Expected 'void' return type for '{{structName}}::{{setterName}}'."
 );

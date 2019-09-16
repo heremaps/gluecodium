@@ -6,18 +6,20 @@
 #include "genium/Export.h"
 #include <cstdint>
 #include <string>
-#include <type_traits>
 namespace smoke {
 static_assert(
     std::is_same<
         ::std::string,
-        typename std::result_of<decltype(&::foo::BarClass::doStuff)(::foo::BarClass*, const int32_t)>::type
+        decltype(((::foo::BarClass*)nullptr)->doStuff(
+            *((int32_t*)nullptr)))
     >::value,
     "Expected '::std::string' return type for '::foo::BarClass::doStuff'."
-);static_assert(
+);
+static_assert(
     std::is_same<
         ::foo::BarEnum,
-        typename std::result_of<decltype(&::foo::BarClass::doStaticStuff)(const ::foo::BarEnum)>::type
+        decltype(::foo::BarClass::doStaticStuff(
+            *((::foo::BarEnum*)nullptr)))
     >::value,
     "Expected '::foo::BarEnum' return type for '::foo::BarClass::doStaticStuff'."
 );
