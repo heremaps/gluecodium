@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Classes and interfaces can now be defined nested within other classes or interfaces in LimeIDL.
+
 ## 5.4.3
 - Release date: 2019-09-17
 - Bug fixes:

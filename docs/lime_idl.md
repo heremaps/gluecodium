@@ -187,9 +187,10 @@ attribute name that follows.
 
 ### File-level declarations
 
-There are three kinds of file-level declarations: package, import or top-level element. All other
-declarations can only be placed as child elements to another element (most often some top-level
-element).
+There are three kinds of file-level declarations: package, import or element declaration. The
+following element types can be placed at the top level: `class`, `interface`, `types`, `struct`,
+`enum`, `exception`, `typealias`. All other declarations can only be placed as child elements to
+some other element.
 
 #### Package declaration
 
@@ -207,17 +208,19 @@ its simple name (e.g. `GenericResult`) instead of a full name within the scope o
 There can be any number of import declarations per file. If there are any, they all should come
 immediately after the package declaration.
 
-#### Top-level elements
+#### Container-type elements
 
 * Syntax: (**class** | **interface** | **types**) *ElementName*\[**:** *ParentName*\] **{**
 *child-elements-declarations...* **}**
 * Example: `class SomeImportantProcessor { ... }`
 * Example: `interface ProcessorDelegate: GenericDelegate { ... }`
-* Description: declares a top-level language element:
+* Description: declares a container-type language element:
   * **class** corresponds to a class declaration in the output languages.
   * **interface** corresponds to an interface (protocol) declaration in the output languages.
   * **types** declares a loose collection of elements, most of which become free-standing elements
   in the output languages.
+* Classes and interfaces can be free-standing elements at file level or can be placed in another
+class or interface. `types` declaration can be only placed at file level.
 
 #### Inheritance
 
