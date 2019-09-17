@@ -67,7 +67,7 @@ ExternalStruct::_set_aStruct( const even_more_external::AlienStructure& value )
     m_some_struct = value;
 }
 
-std::string
+const std::string&
 ClassWithOverloads::StructWithOverloads::overloadedMethod( )
 {
     return {};
@@ -84,7 +84,7 @@ ClassWithOverloads::StructWithOverloads::overloadedAccessors( int32_t value ) {
     m_someField = value;
 }
 
-int32_t
+const int32_t&
 ClassWithOverloads::StructWithOverloads::overloadedAccessors( ) const
 {
     return m_someField;

@@ -109,11 +109,11 @@ public:
 class ClassWithOverloads {
 public:
     struct StructWithOverloads {
-        virtual std::string overloadedMethod( );
-        virtual std::string overloadedMethod( const std::string& input );
+        const std::string& overloadedMethod( );
+        std::string overloadedMethod( const std::string& input );
 
         void overloadedAccessors( int32_t value );
-        int32_t overloadedAccessors( ) const;
+        const int32_t& overloadedAccessors( ) const;
     private:
         int32_t m_someField;
     };
@@ -121,7 +121,7 @@ public:
     virtual std::string oneOverloadNotExposed( ) = 0;
     virtual std::string oneOverloadNotExposed( const std::string& ) = 0;
 
-    virtual std::string allOverloadsExposed( const std::string& ) = 0;
+    virtual const std::string& allOverloadsExposed( const std::string& ) = 0;
     virtual std::string allOverloadsExposed( const std::vector<std::string>& ) = 0;
 };
 

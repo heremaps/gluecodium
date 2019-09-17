@@ -61,7 +61,7 @@ bool {{#parentName}}{{.}}::{{/parentName}}{{name}}::operator!=( const {{name}}& 
 static_assert(
     std::is_same<
         {{type.name}},
-        decltype((({{structName}}*)nullptr)->{{getterName}}())
+        std::remove_cv<std::remove_reference<decltype((({{structName}}*)nullptr)->{{getterName}}())>::type>::type
     >::value,
     "Expected '{{type.name}}' return type for '{{structName}}::{{getterName}}'."
 );

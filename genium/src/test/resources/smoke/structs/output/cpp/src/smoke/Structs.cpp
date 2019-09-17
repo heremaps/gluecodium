@@ -35,7 +35,7 @@ static_assert(
 static_assert(
     std::is_same<
         ::std::string,
-        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_string())
+        std::remove_cv<std::remove_reference<decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_string())>::type>::type
     >::value,
     "Expected '::std::string' return type for '::smoke::Structs::ExternalStruct::get_some_string'."
 );
@@ -49,7 +49,7 @@ static_assert(
 static_assert(
     std::is_same<
         ::std::vector< int8_t >,
-        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_array())
+        std::remove_cv<std::remove_reference<decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_array())>::type>::type
     >::value,
     "Expected '::std::vector< int8_t >' return type for '::smoke::Structs::ExternalStruct::get_some_array'."
 );
@@ -63,7 +63,7 @@ static_assert(
 static_assert(
     std::is_same<
         ::fire::SomeVeryExternalStruct,
-        decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_struct())
+        std::remove_cv<std::remove_reference<decltype(((::smoke::Structs::ExternalStruct*)nullptr)->get_some_struct())>::type>::type
     >::value,
     "Expected '::fire::SomeVeryExternalStruct' return type for '::smoke::Structs::ExternalStruct::get_some_struct'."
 );

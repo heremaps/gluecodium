@@ -21,10 +21,10 @@
 static_assert(
     std::is_same<
         {{returnType.name}},
-        decltype({{!!
+        std::remove_cv<std::remove_reference<decltype({{!!
 }}{{#if isStatic}}{{className}}::{{name}}({{/if}}{{!!
 }}{{#unless isStatic}}(({{className}}*)nullptr)->{{name}}({{/unless}}{{!!
-}}{{joinPartial parameters "nullparam" ", "}}))
+}}{{joinPartial parameters "nullparam" ", "}}))>::type>::type
     >::value,
     "Expected '{{returnType.name}}' return type for '{{className}}::{{name}}'."
 );

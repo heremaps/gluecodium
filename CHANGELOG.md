@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Allow `const&` return values for external C++ types.
+
 ## 5.4.2
 - Release date: 2019-09-17
 - Bug fixes:
