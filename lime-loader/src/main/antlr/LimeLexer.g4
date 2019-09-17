@@ -100,7 +100,6 @@ SetType: 'Set' ;
 
 BooleanLiteral: 'true' | 'false' ;
 NullLiteral: 'null' ;
-EmptyCollectionLiteral: '[]' ;
 NanLiteral: 'NaN' ;
 InfinityLiteral: 'Infinity' ;
 

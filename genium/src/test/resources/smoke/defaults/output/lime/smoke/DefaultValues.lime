@@ -1,5 +1,4 @@
 package smoke
-
 class DefaultValues {
     typealias LongTypedef = Long
     typealias BooleanTypedef = Boolean
@@ -8,7 +7,6 @@ class DefaultValues {
     typealias FloatArray = List<Float>
     typealias IdToStringMap = Map<UInt, String>
     typealias StringSet = Set<String>
-
     enum SomeEnum {
         FooValue,
         BarValue
@@ -18,7 +16,6 @@ class DefaultValues {
         One_Value,
         Another_Value
     }
-
     struct StructWithDefaults {
         intField: Int = 42
         uintField: UInt = 4294967295
@@ -46,11 +43,11 @@ class DefaultValues {
         doubleNegativeInfinityField: Double = -Infinity
     }
     struct StructWithEmptyDefaults {
-        intsField: List<Int> = {}
-        floatsField: FloatArray = {}
-        mapField: IdToStringMap = {}
+        intsField: List<Int> = []
+        floatsField: FloatArray = []
+        mapField: IdToStringMap = []
         structField: StructWithDefaults = {}
-        setTypeField: StringSet = {}
+        setTypeField: StringSet = []
     }
     struct StructWithTypedefDefaults {
         longField: LongTypedef = 42
@@ -58,7 +55,6 @@ class DefaultValues {
         stringField: StringTypedef = "\\Jonny \"Magic\" Smith\n"
         enumField: EnumTypedef = SomeEnum.BarValue
     }
-
     static fun processStructWithDefaults(
         input: StructWithDefaults
     ): StructWithDefaults

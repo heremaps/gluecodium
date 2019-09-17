@@ -89,4 +89,10 @@ Defaults::get_empty_defaults( )
     return {};
 }
 
+Defaults::StructWithInitializerDefaults
+Defaults::get_initializer_defaults( )
+{
+    return {};
+}
+
 }  // namespace test

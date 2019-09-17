@@ -87,7 +87,12 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
     }
 
     class InitializerList(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type) {
-        override fun toString() = "{" + values.joinToString(separator = ", ") + "}"
+        override fun toString(): String {
+            val limeType = LimeTypeHelper.getActualType(typeRef.type)
+            val prefix = if (limeType is LimeGenericType) "[" else "{"
+            val suffix = if (limeType is LimeGenericType) "]" else "}"
+            return values.joinToString(separator = ", ", prefix = prefix, postfix = suffix)
+        }
     }
 
     open val escapedValue

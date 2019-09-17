@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.model.java.JavaImport
+import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
@@ -47,7 +49,7 @@ class JavaValueMapper(
                             limeType.typeId == TypeId.INT64 -> "L"
                     else -> ""
                 }
-                JavaValue(limeValue.toString() + suffix, true)
+                JavaValue(limeValue.toString() + suffix, isCustom = true)
             }
             is LimeValue.Enumerator -> {
                 val limeEnumerator = limeValue.valueRef.enumerator
@@ -59,25 +61,30 @@ class JavaValueMapper(
                 if (parentContainer != null && parentContainer !is LimeTypesCollection) {
                     names = listOf(nameRules.getName(parentContainer)) + names
                 }
-                JavaValue(names.joinToString("."), true)
+                JavaValue(names.joinToString("."), isCustom = true)
             }
             is LimeValue.Special -> mapSpecialValue(limeValue)
-            is LimeValue.Null -> JavaValue("null", true)
-            is LimeValue.InitializerList -> {
-                val implementationType =
-                    if (javaType is JavaTemplateType) javaType.implementationType else javaType
-                val valuesString = limeValue.values.joinToString(
-                    separator = ", ",
-                    prefix = "(",
-                    postfix = ")"
-                ) { mapValue(it, typeMapper.mapType(it.typeRef)).name }
-                JavaValue(
-                    "new ${implementationType.name}$valuesString",
-                    true,
-                    implementationType.imports
-                )
-            }
+            is LimeValue.Null -> JavaValue("null", isCustom = true)
+            is LimeValue.InitializerList -> mapInitializerList(limeValue, javaType)
         }
+
+    private fun mapInitializerList(
+        limeValue: LimeValue.InitializerList,
+        javaType: JavaType
+    ): JavaValue {
+        val implementationType = (javaType as? JavaTemplateType)?.implementationType ?: javaType
+        val prefix = "new ${implementationType.name}"
+        val imports = implementationType.imports
+        val valuesString = limeValue.values.joinToString(", ") {
+            mapValue(it, typeMapper.mapType(it.typeRef)).name
+        }
+
+        return if (javaType is JavaTemplateType && valuesString.isNotEmpty()) {
+            JavaValue("$prefix(Arrays.asList($valuesString))", imports + ARRAYS_IMPORT, true)
+        } else {
+            JavaValue("$prefix($valuesString)", imports, true)
+        }
+    }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {
         val prefix = when {
@@ -89,10 +96,12 @@ class JavaValueMapper(
             LimeValue.Special.ValueId.INFINITY -> "POSITIVE_INFINITY"
             LimeValue.Special.ValueId.NEGATIVE_INFINITY -> "NEGATIVE_INFINITY"
         }
-        return JavaValue("$prefix.$value", true)
+        return JavaValue("$prefix.$value", isCustom = true)
     }
 
     companion object {
+        private val ARRAYS_IMPORT = JavaImport("Arrays", JavaPackage(listOf("java", "util")))
+
         fun inferNextEnumValue(previousEnumValue: JavaValue?) =
             previousEnumValue?.let {
                 JavaValue((Integer.parseInt(it.name) + 1).toString())

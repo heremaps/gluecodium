@@ -132,9 +132,13 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
 
-    override fun enterInitializerList(ctx: LimeParser.InitializerListContext?) {}
+    override fun enterStructInitializer(ctx: LimeParser.StructInitializerContext?) {}
 
-    override fun exitInitializerList(ctx: LimeParser.InitializerListContext?) {}
+    override fun exitStructInitializer(ctx: LimeParser.StructInitializerContext?) {}
+
+    override fun enterCollectionInitializer(ctx: LimeParser.CollectionInitializerContext?) {}
+
+    override fun exitCollectionInitializer(ctx: LimeParser.CollectionInitializerContext?) {}
 
     override fun enterSimpleId(ctx: LimeParser.SimpleIdContext) {}
 

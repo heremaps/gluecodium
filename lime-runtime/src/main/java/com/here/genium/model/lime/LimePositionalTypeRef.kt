@@ -23,7 +23,7 @@ package com.here.genium.model.lime
  * A delayed-resolution reference to a type, represented by the element's positional [index] in the
  * list of its siblings (i.e. type references from child elements of the parent type
  * [parentTypeRef]). The name is resolved into an actual type through the [referenceMap] on the
- * first call. The resolution logic is "lazy": if it succeed on the first call then the result is
+ * first call. The resolution logic is "lazy": if it succeeds on the first call then the result is
  * stored and the stored result is used on subsequent calls instead.
  */
 class LimePositionalTypeRef(
@@ -36,14 +36,11 @@ class LimePositionalTypeRef(
     override val elementFullName by lazy { type.path.toString() }
 
     override val type by lazy {
-        val limeType = parentTypeRef.type
-        if (index >= 0 && index < limeType.childTypes.size) {
-            limeType.childTypes[index].type
-        } else {
-            throw LimeModelLoaderException(
+        val limeType = LimeTypeHelper.getActualType(parentTypeRef.type)
+        limeType.childTypes.getOrNull(index)?.type
+            ?: throw LimeModelLoaderException(
                 "Type ${parentTypeRef.elementFullName}[$index] was not found"
             )
-        }
     }
 
     override fun asNullable() =

@@ -413,7 +413,12 @@ class SwiftModelBuilder(
             is LimeValue.InitializerList -> {
                 val initializer = when (LimeTypeHelper.getActualType(limeValue.typeRef.type)) {
                     is LimeMap -> "[:]"
-                    is LimeList, is LimeSet -> "[]"
+                    is LimeList, is LimeSet ->
+                        limeValue.values.joinToString(
+                            separator = ", ",
+                            prefix = "[",
+                            postfix = "]"
+                        ) { mapValue(it).name }
                     else -> {
                         val limeType = limeValue.typeRef.type as LimeStruct
                         val valuesString = limeValue.values

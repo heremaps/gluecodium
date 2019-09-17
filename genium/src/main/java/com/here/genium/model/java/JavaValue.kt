@@ -21,6 +21,6 @@ package com.here.genium.model.java
 
 class JavaValue(
     value: String,
-    val isCustom: Boolean = false,
-    imports: Set<JavaImport> = emptySet()
+    imports: Set<JavaImport> = emptySet(),
+    val isCustom: Boolean = false
 ) : JavaElementWithImports(value, imports)

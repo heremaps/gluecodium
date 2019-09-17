@@ -172,13 +172,13 @@ literalConstant
     : singleLineStringLiteral
     | multiLineStringLiteral
     | enumeratorRef
-    | initializerList
+    | structInitializer
+    | collectionInitializer
     | BooleanLiteral
     | ('+' | '-')? IntegerLiteral
     | ('+' | '-')? DoubleLiteral
     | ('+' | '-')? 'Infinity'
     | 'null'
-    | '[]'
     | 'NaN'
     ;
 
@@ -205,9 +205,13 @@ enumeratorRef
     : identifier NewLine*
     ;
 
-initializerList
+structInitializer
     : '{' NewLine* ((simpleId NewLine* '=' NewLine*)? literalConstant NewLine*
       (',' NewLine* (simpleId NewLine* '=' NewLine*)? literalConstant NewLine*)*)? '}' NewLine*
+    ;
+
+collectionInitializer
+    : '[' NewLine* (literalConstant NewLine* (',' NewLine* literalConstant NewLine*)*)? ']' NewLine*
     ;
 
 // Identifiers

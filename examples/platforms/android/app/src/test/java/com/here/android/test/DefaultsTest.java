@@ -26,6 +26,7 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.HashSet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -170,5 +171,25 @@ public final class DefaultsTest {
     assertTrue(result.mapField.isEmpty());
     assertEquals(new Defaults.StructWithDefaults(), result.structField);
     assertTrue(result.setTypeField.isEmpty());
+  }
+
+  @Test
+  public void checkJavaInitializerDefaults() {
+    Defaults.StructWithInitializerDefaults result = new Defaults.StructWithInitializerDefaults();
+
+    assertEquals(java.util.Arrays.asList(4, -2, 42), result.intsField);
+    assertEquals(java.util.Arrays.asList(3.14f, Float.NEGATIVE_INFINITY), result.floatsField);
+    assertEquals(Defaults.ExternalEnum.ONE_VALUE, result.structField.enumField);
+    assertEquals(new HashSet<String>(java.util.Arrays.asList("foo", "bar")), result.setTypeField);
+  }
+
+  @Test
+  public void checkCppInitializerDefaults() {
+    Defaults.StructWithInitializerDefaults result = Defaults.getInitializerDefaults();
+
+    assertEquals(java.util.Arrays.asList(4, -2, 42), result.intsField);
+    assertEquals(java.util.Arrays.asList(3.14f, Float.NEGATIVE_INFINITY), result.floatsField);
+    assertEquals(Defaults.ExternalEnum.ONE_VALUE, result.structField.enumField);
+    assertEquals(new HashSet<String>(java.util.Arrays.asList("foo", "bar")), result.setTypeField);
   }
 }

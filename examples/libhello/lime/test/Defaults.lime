@@ -72,6 +72,12 @@ class Defaults {
         stringField: StringTypedef = "\\Jonny \"Magic\" Smith\n"
         enumField: EnumTypedef = SomeEnum.BarValue
     }
+    struct StructWithInitializerDefaults {
+        intsField: List<Int> = [4, -2, 42]
+        floatsField: Defaults.FloatArray = [3.14, -Infinity]
+        structField: Defaults.StructWithExternalDefaults = {enumField = Defaults.ExternalEnum.One_Value}
+        setTypeField: Defaults.StringSet = ["foo", "bar"]
+    }
     enum SomeEnum {
         FooValue,
         BarValue
@@ -114,4 +120,5 @@ class Defaults {
     static fun createSpecial(): StructWithSpecialDefaults
     static fun getNullableDefaults(): NullableStructWithDefaults
     static fun getEmptyDefaults(): StructWithEmptyDefaults
+    static fun getInitializerDefaults(): StructWithInitializerDefaults
 }

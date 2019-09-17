@@ -45,11 +45,11 @@ class DefaultValues {
         doubleNegativeInfinityField: Double = -Infinity
     }
     struct StructWithEmptyDefaults {
-        intsField: List<Int> = {}
-        floatsField: FloatArray = {}
-        mapField: IdToStringMap = {}
+        intsField: List<Int> = []
+        floatsField: FloatArray = []
+        mapField: IdToStringMap = []
         structField: StructWithDefaults = {}
-        setTypeField: StringSet = {}
+        setTypeField: StringSet = []
     }
     struct StructWithTypedefDefaults {
         longField: LongTypedef = 42
@@ -108,4 +108,11 @@ types TypesWithDefaults {
         FooValue,
         BarValue
     }
+}
+
+struct StructWithInitializerDefaults {
+    intsField: List<Int> = [4, -2, 42]
+    floatsField: DefaultValues.FloatArray = [3.14, -Infinity]
+    structField: TypesWithDefaults.StructWithAnEnum = {config = AnEnum.AnEnum.DISABLED}
+    setTypeField: DefaultValues.StringSet = ["foo", "bar"]
 }

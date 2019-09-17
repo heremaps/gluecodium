@@ -591,8 +591,8 @@ internal class AntlrLimeModelBuilder(
                 )
                 return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
             }
-            ctx.initializerList() != null -> {
-                val values = ctx.initializerList().literalConstant()
+            ctx.structInitializer() != null -> {
+                val values = ctx.structInitializer().literalConstant()
                     .mapIndexed { idx: Int, childCtx: LimeParser.LiteralConstantContext ->
                         val fieldTypeRef =
                             LimePositionalTypeRef(limeTypeRef, idx, referenceResolver.referenceMap)
@@ -600,9 +600,15 @@ internal class AntlrLimeModelBuilder(
                     }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }
+            ctx.collectionInitializer() != null -> {
+                val values = ctx.collectionInitializer().literalConstant().map {
+                    val elementTypeRef =
+                        LimePositionalTypeRef(limeTypeRef, 0, referenceResolver.referenceMap)
+                    convertLiteralConstant(elementTypeRef, it)
+                }
+                return LimeValue.InitializerList(limeTypeRef, values)
+            }
             ctx.NullLiteral() != null -> return LimeValue.Null(limeTypeRef)
-            ctx.EmptyCollectionLiteral() != null ->
-                return LimeValue.InitializerList(limeTypeRef, emptyList())
             ctx.NanLiteral() != null -> return LimeValue.Special(limeTypeRef, ValueId.NAN)
             ctx.InfinityLiteral() != null -> return LimeValue.Special(
                 limeTypeRef,

@@ -1,0 +1,10 @@
+package smoke
+import smoke.DefaultValues.FloatArray
+import smoke.TypesWithDefaults.StructWithAnEnum
+import smoke.DefaultValues.StringSet
+struct StructWithInitializerDefaults {
+    intsField: List<Int> = [4, -2, 42]
+    floatsField: FloatArray = [3.14, -Infinity]
+    structField: StructWithAnEnum = {AnEnum.DISABLED}
+    setTypeField: StringSet = ["foo", "bar"]
+}

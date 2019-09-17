@@ -411,7 +411,7 @@ a limited set of escaped characters is currently supported: `\\`, `\"`, `\n`, `\
 * `Infinity`: positive infinity value for Float and Double types.
 * `-Infinity`: negative infinity value for Float and Double types.
 
-#### Initializer lists
+#### Struct initializer
 
 * Syntax: **{** \[*list-of-field-values*\] **}**
 * where *list-of-field-values* is a comma-separated list of values, each optionally preceded by a
@@ -420,8 +420,13 @@ field name: \[*FieldName* **=**\] *FieldValue*
 * Description: initializes a struct with the given values, the order of values corresponds to the
 order of declaration of struct's fields.
 
-Empty initializer list `{}` is also supported for collection types (list, set, map). Non-empty
-initializer lists for container types are currently not supported.
+#### Collection initializer
+
+* Syntax: **[** \[*list-of-values*\] **]**
+* where *list-of-values* is a comma-separated list of values
+* Example: `const ValidKeys: Set<String> = ["name", "address"]`
+* Description: initializes a list or a set with the given values. For maps only an empty initializer
+`[]` is supported.
 
 #### Enumerator reference
 

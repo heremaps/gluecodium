@@ -139,6 +139,24 @@ class DefaultsTests: XCTestCase {
       XCTAssertTrue(result.setTypeField.isEmpty)
     }
 
+    func testSwiftInitializerDefaults() {
+      let result = Defaults.StructWithInitializerDefaults()
+
+      XCTAssertEqual(result.intsField, [4, -2, 42])
+      XCTAssertEqual(result.floatsField, [3.14, -Float.infinity])
+      XCTAssertEqual(result.structField.enumField, Defaults.ExternalEnum.oneValue)
+      XCTAssertEqual(result.setTypeField, ["foo", "bar"])
+    }
+
+    func testCppInitializerDefaults() {
+      let result = Defaults.getInitializerDefaults()
+
+      XCTAssertEqual(result.intsField, [4, -2, 42])
+      XCTAssertEqual(result.floatsField, [3.14, -Float.infinity])
+      XCTAssertEqual(result.structField.enumField, Defaults.ExternalEnum.oneValue)
+      XCTAssertEqual(result.setTypeField, ["foo", "bar"])
+    }
+
     static var allTests = [
         ("testGetDefault", testGetDefault),
         ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
@@ -150,6 +168,8 @@ class DefaultsTests: XCTestCase {
         ("testSwiftNullableDefaults", testSwiftNullableDefaults),
         ("testCppNullableDefaults", testCppNullableDefaults),
         ("testSwiftEmptyDefaults", testSwiftEmptyDefaults),
-        ("testCppEmptyDefaults", testCppEmptyDefaults)
+        ("testCppEmptyDefaults", testCppEmptyDefaults),
+        ("testSwiftInitializerDefaults", testSwiftInitializerDefaults),
+        ("testCppInitializerDefaults", testCppInitializerDefaults)
     ]
 }
