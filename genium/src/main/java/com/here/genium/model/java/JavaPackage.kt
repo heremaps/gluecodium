@@ -19,21 +19,16 @@
 
 package com.here.genium.model.java
 
-import java.util.LinkedList
-
 data class JavaPackage(private val packageList: List<String>) {
     val packageNames = packageList.map { it.replace("_", "") }
 
-    fun flatten() = packageNames.joinToString(".")
+    override fun toString() = packageNames.joinToString(".")
 
-    fun createChildPackage(additionalPackages: List<String>?): JavaPackage {
-        val packages = LinkedList(packageNames)
-        if (additionalPackages != null) {
-            packages.addAll(additionalPackages)
-        }
+    @Suppress("unused")
+    fun toJniString() = packageNames.joinToString("/")
 
-        return JavaPackage(packages)
-    }
+    fun createChildPackage(additionalPackages: List<String>) =
+        JavaPackage(packageNames + additionalPackages)
 
     companion object {
         val DEFAULT_PACKAGE_NAMES = listOf("com", "example")

@@ -86,13 +86,12 @@ class JavaTypeMapper(
             is LimeMap -> mapMapType(limeType)
             is LimeStruct, is LimeEnumeration, is LimeException -> mapCustomType(limeType)
             is LimeContainerWithInheritance -> {
-                val packageNames =
-                    basePackage.createChildPackage(limeType.path.head).packageNames
+                val javaPackage = basePackage.createChildPackage(limeType.path.head)
                 val className = nameResolver.getClassNames(limeType).joinToString(".")
                 JavaCustomType(
                     fullName = className,
-                    packageNames = packageNames,
-                    imports = setOf(JavaImport(className, JavaPackage(packageNames))),
+                    packageNames = javaPackage.packageNames,
+                    imports = setOf(JavaImport(className, javaPackage)),
                     isInterface = true
                 )
             }
@@ -146,23 +145,25 @@ class JavaTypeMapper(
         limeContainer: LimeContainerWithInheritance,
         implClassName: String
     ): JavaType {
-        val packageNames = basePackage.createChildPackage(limeContainer.path.head).packageNames
+        val javaPackage = basePackage.createChildPackage(limeContainer.path.head)
         return JavaCustomType(
             fullName = implClassName,
-            packageNames = packageNames,
-            imports = setOf(JavaImport(implClassName, JavaPackage(packageNames)))
+            packageNames = javaPackage.packageNames,
+            imports = setOf(JavaImport(implClassName, javaPackage))
         )
     }
 
     fun mapCustomType(limeType: LimeType): JavaType {
         val classNames = nameResolver.getClassNames(limeType)
-        val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
+        val javaPackage = basePackage.createChildPackage(limeType.path.head)
 
-        val javaImport = JavaImport(classNames.first(), JavaPackage(packageNames))
+        val javaImport = JavaImport(classNames.first(), javaPackage)
         val typeName = classNames.joinToString(".")
         return when (limeType) {
-            is LimeEnumeration -> JavaEnumType(typeName, classNames, packageNames, javaImport)
-            else -> JavaCustomType(typeName, setOf(javaImport), classNames, packageNames)
+            is LimeEnumeration ->
+                JavaEnumType(typeName, classNames, javaPackage.packageNames, javaImport)
+            else ->
+                JavaCustomType(typeName, setOf(javaImport), classNames, javaPackage.packageNames)
         }
     }
 
@@ -170,9 +171,8 @@ class JavaTypeMapper(
         val limeException =
             LimeTypeHelper.getActualType(limeThrownType.typeRef.type) as LimeException
         val exceptionName = nameResolver.getName(limeException)
-        val parentContainer = limeReferenceMap[limeException.path.parent.toString()] as? LimeContainer
-        val javaPackage =
-            JavaPackage(basePackage.createChildPackage(limeException.path.head).packageNames)
+        val parentContainer =
+            limeReferenceMap[limeException.path.parent.toString()] as? LimeContainer
 
         val importClassName: String
         val classNames: List<String>
@@ -187,7 +187,7 @@ class JavaTypeMapper(
         return JavaExceptionType(
             classNames.joinToString("."),
             classNames,
-            JavaImport(importClassName, javaPackage)
+            JavaImport(importClassName, basePackage.createChildPackage(limeException.path.head))
         )
     }
 

@@ -53,7 +53,7 @@ public final class AndroidManifestTemplateTest {
 
     // Act
     String generated =
-        TemplateEngine.INSTANCE.render("android/AndroidManifest", javaPackage.flatten());
+        TemplateEngine.INSTANCE.render("android/AndroidManifest", javaPackage.toString());
 
     // Assert
     assertEquals(expected, generated);

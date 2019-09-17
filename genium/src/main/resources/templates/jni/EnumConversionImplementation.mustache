@@ -46,7 +46,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/
         : {{>common/InternalNamespace}}optional<{{cppEnumName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{join javaPackage.packageNames delimiter="/"}}/{{javaEnumName}}", {{cppEnumName}})
+REGISTER_JNI_CLASS_CACHE("{{javaPackage.toJniString}}/{{javaEnumName}}", {{cppEnumName}})
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
@@ -60,7 +60,7 @@ convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
             break;
 {{/enumerators}}
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{join javaPackage.packageNames delimiter="/"}}/{{javaEnumName}};");
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{javaPackage.toJniString}}/{{javaEnumName}};");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 
