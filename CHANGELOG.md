@@ -1,9 +1,10 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.4.2
+- Release date: 2019-09-17
 - Bug fixes:
-  + Fix missing include for external classes.
-  + Fix external type checks for method overloads.
+  + Fixed missing include for external classes in C++.
+  + Fixed external type checks for method overloads in C++.
 
 ## 5.4.1
 - Release date: 2019-09-13
