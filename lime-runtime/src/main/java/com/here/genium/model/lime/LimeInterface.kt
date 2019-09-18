@@ -33,6 +33,7 @@ class LimeInterface(
     exceptions: List<LimeException> = emptyList(),
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
+    lambdas: List<LimeLambda> = emptyList(),
     parent: LimeTypeRef? = null
 ) : LimeContainerWithInheritance(
     path = path,
@@ -48,5 +49,6 @@ class LimeInterface(
     exceptions = exceptions,
     classes = classes,
     interfaces = interfaces,
+    lambdas = lambdas,
     parent = parent
 )

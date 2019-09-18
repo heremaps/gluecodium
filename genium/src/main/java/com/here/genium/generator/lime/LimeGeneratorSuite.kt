@@ -29,6 +29,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeModel
@@ -71,21 +72,26 @@ class LimeGeneratorSuite : GeneratorSuite() {
             is LimeContainerWithInheritance -> (
                     limeElement.structs + limeElement.constants + limeElement.typeAliases +
                     limeElement.functions + limeElement.properties + limeElement.exceptions +
-                    limeElement.classes + limeElement.interfaces
-                ).flatMap { collectImports(limeElement.path, it) } +
-                    (limeElement.parent?.let { collectImports(context, it) } ?: emptyList())
-            is LimeTypesCollection ->
-                (limeElement.structs + limeElement.constants + limeElement.typeAliases +
-                    limeElement.exceptions).flatMap { collectImports(limeElement.path, it) }
-            is LimeStruct -> (limeElement.fields + limeElement.constants +
-                    limeElement.functions).flatMap { collectImports(limeElement.path, it) }
-            is LimeFunction -> limeElement.parameters.flatMap { collectImports(context, it) } +
-                    collectImports(context, limeElement.returnType) +
-                    (limeElement.thrownType?.let { collectImports(context, it.typeRef) } ?: emptyList())
+                    limeElement.classes + limeElement.interfaces + listOfNotNull(limeElement.parent)
+                ).flatMap { collectImports(limeElement.path, it) }
+            is LimeTypesCollection -> (
+                    limeElement.structs + limeElement.constants + limeElement.typeAliases +
+                    limeElement.exceptions
+                ).flatMap { collectImports(limeElement.path, it) }
+            is LimeStruct -> (
+                    limeElement.fields + limeElement.constants + limeElement.functions
+                ).flatMap { collectImports(limeElement.path, it) }
+            is LimeFunction -> (
+                    limeElement.parameters + limeElement.returnType +
+                    listOfNotNull(limeElement.thrownType?.typeRef)
+                ).flatMap { collectImports(context, it) }
             is LimeTypedElement -> collectImports(context, limeElement.typeRef)
             is LimeTypeAlias -> collectImports(context, limeElement.typeRef)
             is LimeReturnType -> collectImports(context, limeElement.typeRef)
             is LimeException -> collectImports(context, limeElement.errorEnum)
+            is LimeLambda -> (
+                    limeElement.parameters + limeElement.returnType
+                ).flatMap { collectImports(limeElement.path, it) }
             is LimeTypeRef -> {
                 val limeType = limeElement.type
                 val elementPath = limeType.path
@@ -95,8 +101,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
                     limeType is LimeMap -> collectImports(context, limeType.keyType) +
                             collectImports(context, limeType.valueType)
                     elementPath == LimePath.EMPTY_PATH -> emptyList()
-                    (context.allParents + context).contains(elementPath.parent) ->
-                        emptyList()
+                    (context.allParents + context).contains(elementPath.parent) -> emptyList()
                     else -> listOf(elementPath)
                 }
             }
@@ -112,6 +117,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
             is LimeEnumeration -> "lime/LimeEnumeration"
             is LimeTypeAlias -> "lime/LimeTypeAlias"
             is LimeException -> "lime/LimeException"
+            is LimeLambda -> "lime/LimeLambda"
             else -> throw GeniumExecutionException("Unsupported top-level element: " +
                     limeElement::class.java.name)
         }

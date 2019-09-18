@@ -35,6 +35,7 @@ NewLine  : '\n'
 
 // Separators and operators
 
+Arrow: '->' ;
 Assignment: '=' ;
 At: '@' ;
 Colon: ':' ;
@@ -64,6 +65,7 @@ Get: 'get' ;
 Import: 'import' ;
 Interface: 'interface' ;
 Internal: 'internal' ;
+Lambda: 'lambda' ;
 Open: 'open' ;
 Package: 'package' ;
 Property: 'property' ;
@@ -77,6 +79,7 @@ Types: 'types' ;
 
 // Predefined types
 
+VoidType: 'Void' ;
 BoolType: 'Boolean' ;
 FloatType: 'Float' ;
 DoubleType: 'Double' ;

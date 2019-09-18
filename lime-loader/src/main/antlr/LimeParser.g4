@@ -23,7 +23,7 @@ options { tokenVocab = LimeLexer; }
 
 limeFile
     : NewLine* packageHeader importHeader
-      (container | types | struct | enumeration | typealias | exception)+ EOF
+      (container | types | struct | enumeration | typealias | exception | lambda)+ EOF
     ;
 
 packageHeader
@@ -41,7 +41,7 @@ importStatement
 container
     : docComment* annotation* visibility? ('class' | 'interface') NewLine* simpleId NewLine*
       (':' NewLine* identifier NewLine*)? '{' NewLine* ((function | constructor | property |
-      struct | enumeration | constant | typealias | exception | container) NewLine*)* '}' NewLine+
+      struct | enumeration | constant | typealias | exception | lambda | container) NewLine*)* '}' NewLine+
     ;
 
 types
@@ -118,6 +118,14 @@ exception
       '(' NewLine* identifier NewLine* ')' NewLine+
     ;
 
+lambda
+    : docComment* annotation* visibility? 'lambda' NewLine* simpleId NewLine* '=' NewLine*
+      '(' NewLine* (typeRef NewLine* (',' NewLine* typeRef NewLine*)*)? ')' NewLine*
+      '->' NewLine* typeRef NewLine+
+    ;
+
+// Comments and annotations
+
 docComment
     : DelimitedCommentOpen DelimitedCommentText NewLine*
     | LineCommentOpen LineCommentText NewLine*
@@ -129,21 +137,21 @@ annotation
 
 annotationValue
     : simpleId NewLine* ('=' NewLine* stringLiteral NewLine*)?
-    | simpleId NewLine* '=' NewLine* '[' NewLine* stringLiteral (',' NewLine* stringLiteral)* NewLine* ']' NewLine*
+    | simpleId NewLine* '=' NewLine* '[' NewLine* stringLiteral NewLine* (',' NewLine* stringLiteral NewLine*)* ']' NewLine*
     | stringLiteral NewLine*
     ;
 
 // Type references
 
 typeRef
-    : (identifier | predefinedType | genericType) ('?')? NewLine*
+    : (identifier | predefinedType | genericType ) ('?')? NewLine*
     ;
 
 predefinedType
     : 'Byte'  | 'Short'  | 'Int'  | 'Long'  |
       'UByte'  | 'UShort'  | 'UInt'  | 'ULong' |
       'Boolean' | 'String' | 'Float' | 'Double' |
-      'Blob' | 'Date'
+      'Blob' | 'Date' | 'Void'
     ;
 
 genericType

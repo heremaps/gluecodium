@@ -20,12 +20,12 @@
 package com.here.genium.loader
 
 import com.here.genium.antlr.LimeParser
-import com.here.genium.model.lime.LimeList
+import com.here.genium.model.lime.LimeAmbiguousTypeRef
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeAmbiguousTypeRef
+import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeSet
@@ -61,10 +61,9 @@ internal class AntlrTypeMapper(
         isNullable = isOptional
     )
 
-    private fun mapPredefinedType(
-        predefinedType: LimeParser.PredefinedTypeContext
-    ): TypeId =
+    private fun mapPredefinedType(predefinedType: LimeParser.PredefinedTypeContext): TypeId =
         when {
+            predefinedType.VoidType() != null -> TypeId.VOID
             predefinedType.ByteType() != null -> TypeId.INT8
             predefinedType.ShortType() != null -> TypeId.INT16
             predefinedType.IntType() != null -> TypeId.INT32

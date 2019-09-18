@@ -1,0 +1,16 @@
+package smoke
+class Lambdas {
+    lambda Producer = () -> String
+    // Should confuse everyone thoroughly
+    lambda Confuser = (String) -> Producer
+    lambda Consumer = (String) -> Void
+    lambda Indexer = (String, Float) -> Int
+    fun deconfuse(
+        value: String,
+        confuser: Confuser
+    ): Producer
+    static fun fuse(
+        items: List<String>,
+        callback: Indexer
+    ): Map<Int, String>
+}

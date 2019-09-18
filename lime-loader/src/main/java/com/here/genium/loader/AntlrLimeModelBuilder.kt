@@ -39,6 +39,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
@@ -134,7 +135,8 @@ internal class AntlrLimeModelBuilder(
                 properties = getPreviousResults(LimeProperty::class.java),
                 exceptions = getPreviousResults(LimeException::class.java),
                 classes = getPreviousResults(LimeClass::class.java),
-                interfaces = getPreviousResults(LimeInterface::class.java)
+                interfaces = getPreviousResults(LimeInterface::class.java),
+                lambdas = getPreviousResults(LimeLambda::class.java)
             )
         } else {
             limeElement = LimeInterface(
@@ -151,7 +153,8 @@ internal class AntlrLimeModelBuilder(
                 properties = getPreviousResults(LimeProperty::class.java),
                 exceptions = getPreviousResults(LimeException::class.java),
                 classes = getPreviousResults(LimeClass::class.java),
-                interfaces = getPreviousResults(LimeInterface::class.java)
+                interfaces = getPreviousResults(LimeInterface::class.java),
+                lambdas = getPreviousResults(LimeLambda::class.java)
             )
         }
 
@@ -445,6 +448,23 @@ internal class AntlrLimeModelBuilder(
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = convertAnnotations(ctx.annotation()),
             errorEnum = typeMapper.mapExplicitTypeRef(currentPath, ctx.identifier())
+        )
+
+        storeResultAndPopStacks(limeElement)
+    }
+
+    override fun enterLambda(ctx: LimeParser.LambdaContext) {
+        pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
+    }
+
+    override fun exitLambda(ctx: LimeParser.LambdaContext) {
+        val limeElement = LimeLambda(
+            path = currentPath,
+            visibility = currentVisibility,
+            comment = parseStructuredComment(ctx.docComment(), ctx).description,
+            attributes = convertAnnotations(ctx.annotation()),
+            parameters = ctx.typeRef().dropLast(1).map { typeMapper.mapTypeRef(currentPath, it) },
+            returnType = typeMapper.mapTypeRef(currentPath, ctx.typeRef().last())
         )
 
         storeResultAndPopStacks(limeElement)
