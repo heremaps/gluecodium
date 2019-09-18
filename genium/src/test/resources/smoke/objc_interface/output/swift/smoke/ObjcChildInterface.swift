@@ -1,7 +1,7 @@
 //
 //
 import Foundation
-@objcMembers
+@objc
 public protocol ObjcChildInterface : ObjcInterface {
 }
 internal class _ObjcChildInterface: ObjcChildInterface {

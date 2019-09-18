@@ -19,13 +19,12 @@
   !
   !}}
 {{>swift/Comment}}{{!!
-}}{{#if isObjcInterface}}@objcMembers
-{{/if}}{{!!
-
 }}{{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
 {{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
 
 }}{{+ClassWithoutProtocol}}{{!!
+}}{{#if isObjcInterface}}@objcMembers
+{{/if}}{{!!
 }}{{visibility}} class {{name}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
 
 {{#typedefs}}
@@ -50,6 +49,8 @@
 {{/ClassWithoutProtocol}}{{!!
 
 }}{{+ClassWithProtocol}}{{!!
+}}{{#if isObjcInterface}}@objc
+{{/if}}{{!!
 }}{{visibility}} protocol {{name}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}

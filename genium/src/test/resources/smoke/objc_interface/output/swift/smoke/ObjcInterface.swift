@@ -1,7 +1,7 @@
 //
 //
 import Foundation
-@objcMembers
+@objc
 public protocol ObjcInterface : AnyObject {
 }
 internal class _ObjcInterface: ObjcInterface {
