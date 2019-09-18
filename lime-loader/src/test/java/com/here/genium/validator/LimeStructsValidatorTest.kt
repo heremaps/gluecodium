@@ -27,6 +27,7 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -39,7 +40,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class LimeEquatableStructsValidatorTest {
+class LimeStructsValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
@@ -47,10 +48,10 @@ class LimeEquatableStructsValidatorTest {
     private val equatableAttributes =
         LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
 
-    private val validator = LimeEquatableStructsValidator(mockk(relaxed = true))
+    private val validator = LimeStructsValidator(mockk(relaxed = true))
 
     @Test
-    fun validateWithBasicType() {
+    fun validateEquatableWithBasicType() {
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
@@ -59,7 +60,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithEnumType() {
+    fun validateEquatableWithEnumType() {
         val limeEnum = LimeEnumeration(EMPTY_PATH)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeEnum))
         allElements[""] =
@@ -69,7 +70,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithArrayType() {
+    fun validateEquatableWithArrayType() {
         val limeArray = LimeList(LimeBasicTypeRef.INT)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeArray))
         allElements[""] =
@@ -79,7 +80,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithEquatableStructType() {
+    fun validateEquatableWithEquatableStructType() {
         val otherStruct = LimeStruct(EMPTY_PATH, attributes = equatableAttributes)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(otherStruct))
         allElements[""] =
@@ -89,7 +90,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithNonEquatableStructType() {
+    fun validateEquatableWithNonEquatableStructType() {
         val otherStruct = LimeStruct(EMPTY_PATH)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(otherStruct))
         allElements[""] =
@@ -99,7 +100,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithNonEquatableContainerType() {
+    fun validateEquatableWithNonEquatableContainerType() {
         val limeContainer = LimeClass(EMPTY_PATH)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
@@ -109,7 +110,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithEquatableContainerType() {
+    fun validateEquatableWithEquatableContainerType() {
         val limeContainer = LimeClass(EMPTY_PATH, attributes = equatableAttributes)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
@@ -119,7 +120,7 @@ class LimeEquatableStructsValidatorTest {
     }
 
     @Test
-    fun validateWithPointerEquatableContainerType() {
+    fun validateEquatableWithPointerEquatableContainerType() {
         val limeContainer = LimeClass(
             EMPTY_PATH,
             attributes =
@@ -128,6 +129,54 @@ class LimeEquatableStructsValidatorTest {
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateEquatableWithNoFields() {
+        allElements[""] = LimeStruct(EMPTY_PATH, attributes = equatableAttributes)
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateConstructabilityWithNothing() {
+        allElements[""] = LimeStruct(EMPTY_PATH)
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateConstructabilityWithFields() {
+        val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateConstructabilityWithInstanceFunctions() {
+        val limeFunction = LimeFunction(EMPTY_PATH)
+        allElements[""] = LimeStruct(EMPTY_PATH, functions = listOf(limeFunction))
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateConstructabilityWithStaticFunctions() {
+        val limeFunction = LimeFunction(EMPTY_PATH, isStatic = true)
+        allElements[""] = LimeStruct(EMPTY_PATH, functions = listOf(limeFunction))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateConstructabilityWithInstanceFunctionsAndFields() {
+        val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
+        val limeFunction = LimeFunction(EMPTY_PATH)
+        allElements[""] =
+            LimeStruct(EMPTY_PATH, fields = listOf(limeField), functions = listOf(limeFunction))
 
         assertTrue(validator.validate(limeModel))
     }

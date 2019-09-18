@@ -10,6 +10,7 @@
 #include "com_example_smoke_Structs.h"
 #include "com_example_smoke_StructsWithConstantsInterface.h"
 #include "com_example_smoke_StructsWithMethodsInterface.h"
+#include "com_example_smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly.h"
 #include "com_example_smoke_StructsWithMethodsInterface_Vector3.h"
 #include "com_example_smoke_Vector.h"
 #include "fire/StructsQualifiedType.h"

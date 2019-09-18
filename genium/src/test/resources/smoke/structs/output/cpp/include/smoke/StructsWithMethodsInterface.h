@@ -25,5 +25,8 @@ public:
         static ::smoke::StructsWithMethodsInterface::Vector3 create( const ::std::string& input );
         static ::genium::Return< ::smoke::StructsWithMethodsInterface::Vector3, ::std::error_code > create( const ::smoke::StructsWithMethodsInterface::Vector3& other );
     };
+    struct _GENIUM_CPP_EXPORT StructWithStaticMethodsOnly {
+        static void do_stuff(  );
+    };
 };
 }

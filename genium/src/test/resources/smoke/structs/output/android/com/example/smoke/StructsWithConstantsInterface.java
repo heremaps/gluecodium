@@ -19,6 +19,9 @@ public final class StructsWithConstantsInterface extends NativeBase {
             this.type = type;
         }
     }
+    public final static class StructWithConstantsOnly {
+        public static final String DEFAULT_DESCRIPTION = "Foo";
+    }
     /**
      * For internal use only.
      * @exclude

@@ -103,9 +103,14 @@ class JniTemplates(
         jniContainers: List<JniContainer>,
         results: MutableList<GeneratedFile>
     ) {
-        val includes =
-            jniContainers.filter { it.structs.isNotEmpty() }.flatMap { it.includes }.toSet()
-        val structs = jniContainers.flatMap { it.structs }.distinctBy { it.cppFullyQualifiedName }
+        val includes = jniContainers
+            .filter { it.structs.any { struct -> struct.fields.isNotEmpty() } }
+            .flatMap { it.includes }
+            .toSet()
+        val structs = jniContainers
+            .flatMap { it.structs }
+            .filter { it.fields.isNotEmpty() }
+            .distinctBy { it.cppFullyQualifiedName }
         val mustacheData = mutableMapOf(
             INCLUDES_NAME to includes.sorted(),
             "structs" to structs.sortedBy { it.cppFullyQualifiedName },

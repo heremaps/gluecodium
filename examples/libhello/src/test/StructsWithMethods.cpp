@@ -98,4 +98,9 @@ StructsWithMethodsInterface::Vector3::create( const StructsWithMethodsInterface:
             ValidationErrorCode::VALIDATION_FAILED );
 }
 
+void
+StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff( )
+{
+}
+
 }  // namespace test

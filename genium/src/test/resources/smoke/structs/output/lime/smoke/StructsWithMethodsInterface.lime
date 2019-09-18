@@ -23,4 +23,7 @@ class StructsWithMethodsInterface {
             other: Vector3
         ) throws Validation
     }
+    struct StructWithStaticMethodsOnly {
+        static fun doStuff()
+    }
 }

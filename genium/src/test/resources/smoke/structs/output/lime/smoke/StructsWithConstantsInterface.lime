@@ -1,12 +1,13 @@
 package smoke
-
 import smoke.RouteUtils.RouteType
-
 class StructsWithConstantsInterface {
     struct MultiRoute {
         descriptions: List<String>
         type: RouteType
         const DEFAULT_DESCRIPTION: String = "Foo"
         const DEFAULT_TYPE: RouteType = RouteType.NONE
+    }
+    struct StructWithConstantsOnly {
+        const DEFAULT_DESCRIPTION: String = "Foo"
     }
 }

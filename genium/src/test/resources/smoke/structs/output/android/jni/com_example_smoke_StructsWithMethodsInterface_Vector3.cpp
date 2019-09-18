@@ -7,6 +7,7 @@
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
 #include "com_example_smoke_StructsWithMethodsInterface.h"
+#include "com_example_smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly.h"
 #include "com_example_smoke_StructsWithMethodsInterface_Vector3.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"

@@ -62,4 +62,8 @@ class StructsWithMethodsInterface {
         constructor create(input: String)
         constructor create(other: Vector3) throws ValidationUtils.Validation
     }
+
+    struct StructWithStaticMethodsOnly {
+        static fun doStuff()
+    }
 }

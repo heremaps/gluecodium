@@ -22,5 +22,8 @@ public:
         _GENIUM_CPP_EXPORT static const ::std::string DEFAULT_DESCRIPTION;
         _GENIUM_CPP_EXPORT static const ::smoke::RouteType DEFAULT_TYPE;
     };
+    struct _GENIUM_CPP_EXPORT StructWithConstantsOnly {
+        _GENIUM_CPP_EXPORT static const ::std::string DEFAULT_DESCRIPTION;
+    };
 };
 }

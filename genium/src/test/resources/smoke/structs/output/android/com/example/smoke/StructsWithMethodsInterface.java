@@ -28,6 +28,9 @@ public final class StructsWithMethodsInterface extends NativeBase {
         private static native StructsWithMethodsInterface.Vector3 create(@NonNull final String input);
         private static native StructsWithMethodsInterface.Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationException;
     }
+    public final static class StructWithStaticMethodsOnly {
+        public static native void doStuff();
+    }
     /**
      * For internal use only.
      * @exclude

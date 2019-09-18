@@ -26,7 +26,7 @@ import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.validator.LimeEnumeratorRefsValidator
-import com.here.genium.validator.LimeEquatableStructsValidator
+import com.here.genium.validator.LimeStructsValidator
 import com.here.genium.validator.LimeExternalTypesValidator
 import com.here.genium.validator.LimeGenericTypesValidator
 import com.here.genium.validator.LimeInheritanceValidator
@@ -118,7 +118,7 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         listOf<(LimeModel) -> Boolean>(
             { LimeTypeRefTargetValidator(limeLogger).validate(it) },
             { LimeGenericTypesValidator(limeLogger).validate(it) },
-            { LimeEquatableStructsValidator(limeLogger).validate(it) },
+            { LimeStructsValidator(limeLogger).validate(it) },
             { LimeSerializableStructsValidator(limeLogger).validate(it) },
             { LimeInheritanceValidator(limeLogger).validate(it) },
             { LimeFunctionsValidator(limeLogger).validate(it) }

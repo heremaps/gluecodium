@@ -44,4 +44,8 @@ class StructsWithConstantsInterface {
         const DEFAULT_DESCRIPTION: String = "Foo"
         const DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.NONE
     }
+
+    struct StructWithConstantsOnly {
+        const DEFAULT_DESCRIPTION: String = "Foo"
+    }
 }

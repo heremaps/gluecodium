@@ -26,6 +26,9 @@ public class StructsWithConstantsInterface {
             type = moveFromCType(smoke_StructsWithConstantsInterface_MultiRoute_type_get(cHandle))
         }
     }
+    public struct StructWithConstantsOnly {
+        public static let defaultDescription: String = "Foo"
+    }
 }
 internal func getRef(_ ref: StructsWithConstantsInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {

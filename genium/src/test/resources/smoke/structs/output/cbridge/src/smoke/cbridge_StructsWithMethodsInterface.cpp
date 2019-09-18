@@ -86,3 +86,7 @@ smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWit
         return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }
+void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff() {
+    return ::smoke::StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff()
+;
+}

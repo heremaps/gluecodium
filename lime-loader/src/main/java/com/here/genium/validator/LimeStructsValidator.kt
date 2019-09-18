@@ -24,29 +24,51 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeStruct
 
-// Validate equatable structs to ensure their fields have equatable types.
-internal class LimeEquatableStructsValidator(private val logger: LimeLogger) {
+/**
+ * Validates equatable structs to ensure their fields have equatable types. Validates structs with
+ * instance functions to ensure they have fields.
+ */
+internal class LimeStructsValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
-        val allElements = limeModel.referenceMap.values
-        val validationResults = allElements
-            .filterIsInstance<LimeStruct>()
-            .filter { it.attributes.have(LimeAttributeType.EQUATABLE) }
-            .map { validateStruct(it) }
+        val allStructs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
+        val validationResults = allStructs
+                .filter { it.attributes.have(LimeAttributeType.EQUATABLE) }
+                .map { validateEquatable(it) } +
+            allStructs.map { validateConstructability(it) }
 
         return !validationResults.contains(false)
     }
 
-    private fun validateStruct(limeStruct: LimeStruct): Boolean {
-        val nonEquatableFieldTypes = limeStruct.childTypes.map { it.type }
+    private fun validateEquatable(limeStruct: LimeStruct): Boolean {
+        val nonEquatableFieldTypes = limeStruct.childTypes.asSequence()
+            .map { it.type }
             .filterNot { it.attributes.have(LimeAttributeType.EQUATABLE) }
             .filterNot { it.attributes.have(LimeAttributeType.POINTER_EQUATABLE) }
 
         return when {
+            limeStruct.fields.isEmpty() -> {
+                logger.error(limeStruct, "an equatable struct should have at least one field")
+                false
+            }
             nonEquatableFieldTypes.any { it is LimeContainer } -> {
                 logger.error(
                     limeStruct,
                     "fields of non-equatable types are not supported for equatable structs"
+                )
+                false
+            }
+            else -> true
+        }
+    }
+
+    private fun validateConstructability(limeStruct: LimeStruct): Boolean {
+        val instanceFunctions = limeStruct.functions.filterNot { it.isStatic }
+        return when {
+            instanceFunctions.isNotEmpty() && limeStruct.fields.isEmpty() -> {
+                logger.error(
+                    limeStruct,
+                    "instance functions are not supported for structs without fields"
                 )
                 false
             }

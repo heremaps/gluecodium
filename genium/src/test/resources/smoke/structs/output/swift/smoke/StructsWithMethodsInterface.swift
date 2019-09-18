@@ -71,6 +71,11 @@ public class StructsWithMethodsInterface {
             }
         }
     }
+    public struct StructWithStaticMethodsOnly {
+        public static func doStuff() -> Void {
+            return moveFromCType(smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff())
+        }
+    }
 }
 internal func getRef(_ ref: StructsWithMethodsInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {

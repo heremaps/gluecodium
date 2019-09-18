@@ -18,4 +18,5 @@ StructsWithConstantsInterface::MultiRoute::MultiRoute( const ::std::vector< ::st
     : descriptions( descriptions ), type( type )
 {
 }
+const ::std::string StructsWithConstantsInterface::StructWithConstantsOnly::DEFAULT_DESCRIPTION = "Foo";
 }
