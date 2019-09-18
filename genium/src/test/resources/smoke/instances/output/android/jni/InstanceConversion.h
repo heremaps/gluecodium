@@ -1,3 +1,6 @@
+/*
+ *
+ */
 #pragma once
 #include <jni.h>
 #include "CppProxyBase.h"
