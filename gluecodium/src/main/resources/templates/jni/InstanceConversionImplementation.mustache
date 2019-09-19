@@ -50,21 +50,56 @@ JniReference<jclass>& get_cached_native_base_class()
 REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{fullJavaName}}", "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
 {{/if}}{{#unless hasTypeRepository}}
 REGISTER_JNI_CLASS_CACHE("{{fullJavaName}}", {{cppFullyQualifiedName}})
-{{/unless}}
+{{/unless}}{{!!
+
+}}{{#if isFunctionalInterface}}
+
+{{cppFullyQualifiedName}}
+convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{cppFullyQualifiedName}}*)
+{
+    {{cppFullyQualifiedName}} _nresult{};
+    auto& nativeBaseClass = get_cached_native_base_class();
+    if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get()))
+    {
+        if (_jobj != nullptr)
+        {
+            auto long_ptr = get_field_value(
+                _env,
+                _jobj,
+                "nativeHandle",
+                (int64_t*)nullptr);
+            _nresult = *reinterpret_cast<{{cppFullyQualifiedName}}*>(long_ptr);
+        }
+    }
+    else
+    {
+        createCppProxy(_env, _jobj, _nresult);
+    }
+    return _nresult;
+}
+{{/if}}
 
 JniReference<jobject>
+{{#if isFunctionalInterface}}
+convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput)
+{{/if}}{{#unless isFunctionalInterface}}
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput)
+{{/unless}}
 {
     if ( !_ninput )
     {
         return {};
     }
 
+{{#if isFunctionalInterface}}
+    JniReference<jobject> jResult;
+{{/if}}{{#unless isFunctionalInterface}}
     auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
     }
+{{/unless}}
 
 {{#if hasTypeRepository}}
     const auto& id = {{>common/InternalNamespace}}get_type_repository(static_cast< {{cppFullyQualifiedName}}* >(nullptr)).get_id(_ninput.get());
@@ -73,7 +108,11 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
     auto &javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
 {{/unless}}
     auto pInstanceSharedPointer =
+{{#unless isFunctionalInterface}}
         new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
+{{/unless}}{{#if isFunctionalInterface}}
+        new (::std::nothrow) {{cppFullyQualifiedName}}(_ninput);
+{{/if}}
     if ( pInstanceSharedPointer == nullptr )
     {
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );

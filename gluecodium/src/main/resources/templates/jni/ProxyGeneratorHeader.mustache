@@ -34,15 +34,14 @@ namespace jni
 {
 
 template<class T>
-inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {
-}
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {}
 
-{{#models}}
+{{#models}}{{#if isFunctionalInterface}}
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{cppFullyQualifiedName}}& result);
+{{/if}}{{#unless isFunctionalInterface}}
 template<>
-inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result) {
-    {{>common/InternalNamespace}}jni::CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{>common/InternalNamespace}}jni::{{mangledName}}_CppProxy>(env, obj, result);
-}
-{{/models}}
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result);
+{{/unless}}{{/models}}
 
 }
 {{#internalNamespace}}

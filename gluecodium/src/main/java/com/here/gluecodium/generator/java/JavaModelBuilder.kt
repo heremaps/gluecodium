@@ -55,6 +55,7 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
@@ -322,6 +323,48 @@ class JavaModelBuilder(
         closeContext()
     }
 
+    override fun finishBuilding(limeLambda: LimeLambda) {
+        val javaInterface = JavaInterface(
+            name = nameRules.getName(limeLambda),
+            classNames = nameResolver.getClassNames(limeLambda)
+        )
+        javaInterface.visibility = getVisibility(limeLambda)
+        javaInterface.javaPackage = rootPackage
+        javaInterface.comment = createComments(limeLambda)
+        javaInterface.annotations += functionalInterfaceAnnotation
+
+        val parameters = limeLambda.parameters.mapIndexed { index, parameter ->
+            JavaParameter(
+                nameRules.getName(parameter, index),
+                typeMapper.mapType(parameter.typeRef)
+            )
+        }
+        val applyMethod = JavaMethod(
+            name = "apply",
+            parameters = parameters,
+            returnType = typeMapper.mapType(limeLambda.returnType)
+        )
+        javaInterface.methods += applyMethod
+
+        val implClassName = nameRules.getImplementationClassName(limeLambda)
+        val implClass = JavaClass(
+            name = implClassName,
+            classNames = javaInterface.classNames.dropLast(1) + implClassName,
+            isImplClass = true,
+            extendedClass = nativeBase,
+            needsDisposer = true,
+            methods =
+                listOf(applyMethod.shallowCopy().also { it.qualifiers.add(MethodQualifier.NATIVE) })
+        )
+        implClass.visibility = JavaVisibility.PACKAGE
+        implClass.javaPackage = rootPackage
+        implClass.parentInterfaces += JavaCustomType(javaInterface.name, javaInterface.javaPackage)
+
+        storeNamedResult(limeLambda, javaInterface)
+        storeResult(implClass)
+        closeContext()
+    }
+
     override fun finishBuilding(limeValue: LimeValue) {
         storeResult(valueMapper.mapValue(limeValue, getPreviousResult(JavaType::class.java)))
         closeContext()
@@ -469,5 +512,6 @@ class JavaModelBuilder(
         const val PLATFORM_TAG = "Java"
 
         internal val deprecatedAnnotation = JavaCustomType("Deprecated")
+        internal val functionalInterfaceAnnotation = JavaCustomType("FunctionalInterface")
     }
 }

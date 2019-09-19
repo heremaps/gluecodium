@@ -1,0 +1,31 @@
+{{>java/CopyrightHeader}}
+
+#include "ProxyConversion.h"
+
+{{#internalNamespace}}
+namespace {{.}}
+{
+{{/internalNamespace}}
+namespace jni
+{
+
+{{#models}}{{#if isFunctionalInterface}}
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{cppFullyQualifiedName}}& result)
+{
+    std::shared_ptr<{{mangledName}}_CppProxy> _nproxy{};
+    CppProxyBase::createProxy<{{mangledName}}_CppProxy, {{mangledName}}_CppProxy>(env, obj, _nproxy);
+    result = std::bind(&{{mangledName}}_CppProxy::operator(), _nproxy{{!!
+            }}{{#methods.0.parameters}}, std::placeholders::_{{iter.index}}{{/methods.0.parameters}});
+}
+{{/if}}{{#unless isFunctionalInterface}}
+template<>
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result)
+{
+    CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{mangledName}}_CppProxy>(env, obj, result);
+}
+
+{{/unless}}{{/models}}
+}
+{{#internalNamespace}}
+}
+{{/internalNamespace}}

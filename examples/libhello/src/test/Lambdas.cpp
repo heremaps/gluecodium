@@ -33,9 +33,21 @@ Lambdas::get_concatenator(const std::string& delimiter)
 std::string
 Lambdas::concatenate(const std::string& string1,
                      const std::string& string2,
-                     const Lambdas::Concatenator& concatenate)
+                     const Lambdas::Concatenator& concatenator)
 {
-    return concatenate(string1, string2);
+    return concatenator(string1, string2);
+}
+
+Lambdas::Tricatenator
+Lambdas::compose_concatenators(const Lambdas::Concatenator& concatenator1,
+                               const Lambdas::Concatenator& concatenator2)
+{
+    return [concatenator1, concatenator2](
+        const std::string& string1,
+        const std::string& string2,
+        const std::string& string3) {
+            return concatenator2(concatenator1(string1, string2), string3);
+        };
 }
 
 }

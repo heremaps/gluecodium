@@ -37,7 +37,7 @@ namespace {{.}}
 namespace jni
 {
 
-class {{mangledName}}_CppProxy : public CppProxyBase, public {{cppFullyQualifiedName}} {
+class {{mangledName}}_CppProxy : public CppProxyBase{{#unless isFunctionalInterface}}, public {{cppFullyQualifiedName}}{{/unless}} {
 
 public:
 
@@ -47,7 +47,8 @@ public:
     {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
 {{/parentMethods}}
 {{#methods}}
-    {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
+    {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{!!
+}}{{#if isConst}} const{{/if}}{{#unless isFunctionalInterface}} override{{/unless}};
 {{/methods}}
 };
 

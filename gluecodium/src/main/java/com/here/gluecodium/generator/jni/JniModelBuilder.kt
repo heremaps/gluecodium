@@ -30,15 +30,18 @@ import com.here.gluecodium.model.cpp.CppClass
 import com.here.gluecodium.model.cpp.CppEnum
 import com.here.gluecodium.model.cpp.CppEnumItem
 import com.here.gluecodium.model.cpp.CppField
+import com.here.gluecodium.model.cpp.CppFunctionTypeRef
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppParameter
 import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.java.JavaClass
 import com.here.gluecodium.model.java.JavaCustomType
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
 import com.here.gluecodium.model.java.JavaField
+import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaParameter
 import com.here.gluecodium.model.java.JavaPrimitiveType
@@ -62,6 +65,7 @@ import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
@@ -280,6 +284,39 @@ class JniModelBuilder(
             storeResult(jniSetter)
         }
 
+        closeContext()
+    }
+
+    override fun finishBuilding(limeLambda: LimeLambda) {
+        val cppUsing = cppBuilder.getFinalResult(CppUsing::class.java)
+        val javaInterface = javaBuilder.getFinalResult(JavaInterface::class.java)
+        val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
+
+        val jniContainer = JniContainer(
+            javaPackages = javaInterface.javaPackage.packageNames,
+            cppNameSpaces = limeLambda.path.head,
+            javaNames = javaClass.classNames,
+            javaInterfaceName = javaInterface.name,
+            cppName = cppUsing.name,
+            cppFullyQualifiedName = cppUsing.fullyQualifiedName,
+            containerType = JniContainer.ContainerType.INTERFACE,
+            internalNamespace = internalNamespace,
+            isFunctionalInterface = true
+        )
+        jniContainer.includes += cppIncludeResolver.resolveIncludes(limeLambda)
+
+        val javaMethod = javaInterface.methods.first()
+        val cppFunctionRef = cppUsing.definition as CppFunctionTypeRef
+        jniContainer.methods += JniMethod(
+            javaMethodName = getMangledName(javaMethod.name),
+            cppMethodName = "operator()",
+            returnType = JniType(javaMethod.returnType, cppFunctionRef.returnType),
+            parameters = javaMethod.parameters.mapIndexed { index, it ->
+                JniParameter(it.name, JniType(it.type, cppFunctionRef.parameters[index]))
+            }.toMutableList()
+        )
+
+        storeResult(jniContainer)
         closeContext()
     }
 

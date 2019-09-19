@@ -263,6 +263,7 @@ class JniTemplates(
                 )
             )
         }
+        proxyIncludes += Include.createInternalInclude("JniReference.h")
 
         val mustacheData = mapOf(
             INCLUDES_NAME to proxyIncludes.sorted(),
@@ -275,6 +276,13 @@ class JniTemplates(
                 "jni/ProxyGeneratorHeader",
                 mustacheData,
                 jniNameRules.getHeaderFilePath(JniNameRules.JNI_PROXY_CONVERSION_NAME)
+            )
+        )
+        results.add(
+            generateFile(
+                "jni/ProxyGeneratorImplementation",
+                mustacheData,
+                jniNameRules.getImplementationFilePath(JniNameRules.JNI_PROXY_CONVERSION_NAME)
             )
         )
     }

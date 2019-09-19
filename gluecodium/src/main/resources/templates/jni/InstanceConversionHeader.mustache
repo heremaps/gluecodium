@@ -63,9 +63,12 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared
     return _nresult;
 }
 
-{{#models}}
+{{#models}}{{#if isFunctionalInterface}}
+{{cppFullyQualifiedName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{cppFullyQualifiedName}}* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}} & _ninput);
+{{/if}}{{#unless isFunctionalInterface}}
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput);
-{{/models}}
+{{/unless}}{{/models}}
 }
 {{#internalNamespace}}
 }

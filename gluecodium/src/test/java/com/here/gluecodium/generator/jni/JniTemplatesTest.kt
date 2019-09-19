@@ -138,7 +138,7 @@ class JniTemplatesTest {
 
     companion object {
         private const val MAIN_FILES_COUNT = 2
-        private const val MAIN_FILES_WITH_INSTANCES_COUNT = 11
+        private const val MAIN_FILES_WITH_INSTANCES_COUNT = 12
         private const val PROXY_HEADER_NAME = "classyCppProxy.h"
         private const val PROXY_IMPLEMENTATION_NAME = "classyCppProxy.cpp"
     }

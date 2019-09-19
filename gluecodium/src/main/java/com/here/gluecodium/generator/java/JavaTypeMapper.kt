@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.java.JavaArrayType
 import com.here.gluecodium.model.java.JavaCustomType
 import com.here.gluecodium.model.java.JavaEnumType
@@ -43,7 +42,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
@@ -84,7 +82,6 @@ class JavaTypeMapper(
             is LimeTypeAlias -> mapType(limeType.typeRef)
             is LimeList -> mapTemplateType(TemplateClass.LIST, limeType.elementType)
             is LimeMap -> mapMapType(limeType)
-            is LimeStruct, is LimeEnumeration, is LimeException -> mapCustomType(limeType)
             is LimeContainerWithInheritance -> {
                 val javaPackage = basePackage.createChildPackage(limeType.path.head)
                 val className = nameResolver.getClassNames(limeType).joinToString(".")
@@ -103,7 +100,7 @@ class JavaTypeMapper(
                 }
                 mapTemplateType(templateClass, elementType)
             }
-            else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
+            else -> mapCustomType(limeType)
         }
 
     fun mapParentType(limeElement: LimeNamedElement): JavaType? {

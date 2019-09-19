@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}{{container.cppFullyQualifiedName}}::{{/if}}{{!!
+{{#unless isFunctionalInterface}}{{#if isStatic}}{{container.cppFullyQualifiedName}}::{{/if}}{{!!
 }}{{#unless isStatic}}{{#instanceOf container "JniContainer"}}(*pInstanceSharedPointer)->{{/instanceOf}}{{!!
 }}{{#notInstanceOf container "JniContainer"}}_ninstance.{{/notInstanceOf}}{{/unless}}{{!!
-}}{{cppMethodName}}({{#parameters}}{{name}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});
+}}{{cppMethodName}}{{/unless}}{{#if isFunctionalInterface}}(*pInstanceSharedPointer){{/if}}{{!!
+}}({{#parameters}}{{name}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});

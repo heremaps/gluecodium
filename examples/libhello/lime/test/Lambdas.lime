@@ -19,7 +19,9 @@ package test
 
 class Lambdas {
     lambda Concatenator = (@Java("first") String, @Java("second") String) -> String
+    lambda Tricatenator = (String, String, String) -> String
 
     static fun getConcatenator(delimiter: String): Concatenator
     static fun concatenate(string1: String, string2: String, concatenator: Concatenator): String
+    static fun composeConcatenators(concatenator1: Concatenator, concatenator2: Concatenator): Tricatenator
 }
