@@ -19,10 +19,24 @@
 
 package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Include
+import com.here.genium.generator.cpp.CppLibraryIncludes
 
-abstract class CppElementWithIncludes(
-    name: String,
-    fullyQualifiedName: String,
-    open val includes: List<Include> = emptyList()
-) : CppElement(name, fullyQualifiedName)
+class CppFunctionTypeRef(
+    val parameters: List<CppTypeRef>,
+    val returnType: CppTypeRef
+) : CppComplexTypeRef("") {
+
+    override val name = run {
+        val parametersString = parameters.joinToString(", ") {
+            "const ${it.name}" + if (it.refersToValueType) "" else "&"
+        }
+        "::std::function<${returnType.name}($parametersString)>"
+    }
+
+    override val fullyQualifiedName = name
+
+    override val includes
+        get() = stream().flatMap { it.includes } + CppLibraryIncludes.FUNCTIONAL
+
+    override fun stream() = parameters + returnType
+}

@@ -24,6 +24,6 @@ class LimeLambda(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    val parameters: List<LimeTypeRef>,
-    val returnType: LimeTypeRef
+    val parameters: List<LimeTypeRef> = emptyList(),
+    val returnType: LimeTypeRef = LimeBasicTypeRef(LimeBasicType.TypeId.VOID)
 ) : LimeType(path, visibility, comment, attributes)

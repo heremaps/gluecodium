@@ -1,0 +1,31 @@
+// -------------------------------------------------------------------------------------------------
+//
+//
+// -------------------------------------------------------------------------------------------------
+#pragma once
+#include "genium/Export.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
+#include <cstdint>
+#include <functional>
+#include <string>
+#include <unordered_map>
+#include <vector>
+namespace smoke {
+class _GENIUM_CPP_EXPORT Lambdas {
+public:
+    Lambdas();
+    virtual ~Lambdas() = 0;
+public:
+    using Producer = ::std::function<::std::string()>;
+    /**
+     * Should confuse everyone thoroughly
+     */
+    using Confuser = ::std::function<::smoke::Lambdas::Producer(const ::std::string&)>;
+    using Consumer = ::std::function<void(const ::std::string&)>;
+    using Indexer = ::std::function<int32_t(const ::std::string&, const float)>;
+public:
+    virtual ::smoke::Lambdas::Producer deconfuse( const ::std::string& value, const ::smoke::Lambdas::Confuser& confuser ) = 0;
+    static ::std::unordered_map< int32_t, ::std::string > fuse( const ::std::vector< ::std::string >& items, const ::smoke::Lambdas::Indexer& callback );
+};
+}

@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.model.cpp.CppComplexTypeRef
+import com.here.genium.model.cpp.CppFunctionTypeRef
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass
@@ -33,6 +34,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainerWithInheritance
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
@@ -70,6 +72,12 @@ class CppTypeMapper(
         includes = includeResolver.resolveIncludes(limeContainer),
         needsForwardDeclaration = needsForwardDeclaration
     )
+
+    fun mapLambda(limeLambda: LimeLambda): CppTypeRef =
+        CppFunctionTypeRef(
+            limeLambda.parameters.map { mapType(it) },
+            mapType(limeLambda.returnType)
+        )
 
     private fun createOptionalType(cppTypeRef: CppTypeRef) =
         CppTemplateTypeRef(
@@ -144,6 +152,11 @@ class CppTypeMapper(
                 }
             }
             is LimeException -> STD_ERROR_CODE_TYPE
+            is LimeLambda -> CppTypeDefRef(
+                nameResolver.getFullyQualifiedName(limeType),
+                includeResolver.resolveIncludes(limeType),
+                mapLambda(limeType)
+            )
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
 

@@ -359,6 +359,12 @@ feature(Nesting cpp android swift SOURCES
     lime/test/NestedContainers.lime
 )
 
+feature(Lambdas cpp SOURCES
+    lime/test/Lambdas.lime
+
+    src/test/Lambdas.cpp
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

@@ -50,6 +50,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeList
 import com.here.genium.model.lime.LimeParameter
@@ -757,5 +758,17 @@ class CppModelBuilderTest {
         modelBuilder.finishBuilding(limeElement)
 
         assertEquals(cppTypeRef, modelBuilder.referenceMap["foo.bar"])
+    }
+
+    @Test
+    fun finishBuildingLambda() {
+        val limeElement = LimeLambda(EMPTY_PATH)
+        every { typeMapper.mapLambda(limeElement) } returns cppTypeRef
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppUsing::class.java)
+        assertEquals("Foo", result.name)
+        assertEquals(cppTypeRef, result.definition)
     }
 }

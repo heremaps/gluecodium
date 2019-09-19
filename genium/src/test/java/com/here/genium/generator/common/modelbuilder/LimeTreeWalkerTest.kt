@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -81,6 +82,7 @@ class LimeTreeWalkerTest {
     )
     private val limeNestedClass = LimeClass(EMPTY_PATH)
     private val limeNestedInterface = LimeInterface(EMPTY_PATH)
+    private val limeLambda = LimeLambda(EMPTY_PATH)
     private val limeContainer = LimeClass(
         path = EMPTY_PATH,
         functions = listOf(limeMethod),
@@ -90,7 +92,8 @@ class LimeTreeWalkerTest {
         constants = listOf(limeConstant),
         properties = listOf(limeProperty),
         classes = listOf(limeNestedClass),
-        interfaces = listOf(limeNestedInterface)
+        interfaces = listOf(limeNestedInterface),
+        lambdas = listOf(limeLambda)
     )
 
     @MockK private lateinit var modelBuilder: LimeBasedModelBuilder
@@ -278,5 +281,13 @@ class LimeTreeWalkerTest {
 
         verify { modelBuilder.startBuilding(limeNestedInterface) }
         verify { modelBuilder.finishBuilding(limeNestedInterface) }
+    }
+
+    @Test
+    fun walkLambda() {
+        treeWalker.walkTree(limeContainer)
+
+        verify { modelBuilder.startBuilding(limeLambda) }
+        verify { modelBuilder.finishBuilding(limeLambda) }
     }
 }

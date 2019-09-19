@@ -56,6 +56,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
@@ -406,6 +407,18 @@ class CppModelBuilder(
 
     override fun finishBuilding(limeException: LimeException) {
         referenceMap[limeException.fullName] = getPreviousResult(CppTypeRef::class.java)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeLambda: LimeLambda) {
+        val cppElement = CppUsing(
+            name = nameResolver.getName(limeLambda),
+            fullyQualifiedName = nameResolver.getFullyQualifiedName(limeLambda),
+            comment = createComments(limeLambda),
+            definition = typeMapper.mapLambda(limeLambda)
+        )
+
+        storeResult(cppElement)
         closeContext()
     }
 

@@ -27,6 +27,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
+import com.here.genium.model.lime.LimeLambda
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
@@ -55,4 +56,5 @@ interface LimeBasedModelBuilder {
     fun finishBuilding(limeConstant: LimeConstant)
     fun finishBuilding(limeValue: LimeValue)
     fun finishBuilding(limeException: LimeException)
+    fun finishBuilding(limeLambda: LimeLambda)
 }
