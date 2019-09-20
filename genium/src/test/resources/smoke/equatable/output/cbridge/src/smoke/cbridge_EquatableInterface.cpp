@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_EquatableInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
@@ -59,18 +58,18 @@ void smoke_EquatableInterface_EquatableStruct_release_optional_handle(_baseRef h
     delete reinterpret_cast<::genium::optional<::smoke::EquatableInterface::EquatableStruct>*>( handle );
 }
 int32_t smoke_EquatableInterface_EquatableStruct_intField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::EquatableInterface::EquatableStruct>(handle);
 return struct_pointer->int_field;
 }
 _baseRef smoke_EquatableInterface_EquatableStruct_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::EquatableInterface::EquatableStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
 }
 _baseRef smoke_EquatableInterface_EquatableStruct_nestedEquatableInstance_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::EquatableInterface::EquatableStruct>(handle);
 return Conversion<std::shared_ptr<::smoke::EquatableInterface>>::toBaseRef(struct_pointer->nested_equatable_instance);
 }
 _baseRef smoke_EquatableInterface_EquatableStruct_nestedPointerEquatableInstance_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::EquatableInterface::EquatableStruct>(handle);
 return Conversion<std::shared_ptr<::smoke::PointerEquatableInterface>>::toBaseRef(struct_pointer->nested_pointer_equatable_instance);
 }

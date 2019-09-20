@@ -37,11 +37,11 @@ void smoke_StructsWithMethods_Vector_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::Vector>*>( handle );
 }
 double smoke_StructsWithMethods_Vector_x_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Vector>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Vector>(handle);
 return struct_pointer->x;
 }
 double smoke_StructsWithMethods_Vector_y_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Vector>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Vector>(handle);
 return struct_pointer->y;
 }
 double smoke_StructsWithMethods_Vector_distanceTo(_baseRef _instance, _baseRef other) {

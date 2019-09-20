@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_Structs.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
@@ -53,11 +52,11 @@ void smoke_Structs_Point_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::Structs::Point>*>( handle );
 }
 double smoke_Structs_Point_x_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Point>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::Point>(handle);
 return struct_pointer->x;
 }
 double smoke_Structs_Point_y_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Point>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::Point>(handle);
 return struct_pointer->y;
 }
 _baseRef
@@ -90,11 +89,11 @@ void smoke_Structs_Line_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::Structs::Line>*>( handle );
 }
 _baseRef smoke_Structs_Line_a_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Line>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::Line>(handle);
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->a);
 }
 _baseRef smoke_Structs_Line_b_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Line>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::Line>(handle);
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->b);
 }
 _baseRef
@@ -151,59 +150,59 @@ void smoke_Structs_AllTypesStruct_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::Structs::AllTypesStruct>*>( handle );
 }
 int8_t smoke_Structs_AllTypesStruct_int8Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->int8_field;
 }
 uint8_t smoke_Structs_AllTypesStruct_uint8Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->uint8_field;
 }
 int16_t smoke_Structs_AllTypesStruct_int16Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->int16_field;
 }
 uint16_t smoke_Structs_AllTypesStruct_uint16Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->uint16_field;
 }
 int32_t smoke_Structs_AllTypesStruct_int32Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->int32_field;
 }
 uint32_t smoke_Structs_AllTypesStruct_uint32Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->uint32_field;
 }
 int64_t smoke_Structs_AllTypesStruct_int64Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->int64_field;
 }
 uint64_t smoke_Structs_AllTypesStruct_uint64Field_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->uint64_field;
 }
 float smoke_Structs_AllTypesStruct_floatField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->float_field;
 }
 double smoke_Structs_AllTypesStruct_doubleField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->double_field;
 }
 _baseRef smoke_Structs_AllTypesStruct_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
 }
 bool smoke_Structs_AllTypesStruct_booleanField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return struct_pointer->boolean_field;
 }
 _baseRef smoke_Structs_AllTypesStruct_bytesField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toBaseRef(struct_pointer->bytes_field);
 }
 _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::AllTypesStruct>(handle);
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->point_field);
 }
 _baseRef
@@ -240,19 +239,19 @@ void smoke_Structs_ExternalStruct_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::Structs::ExternalStruct>*>( handle );
 }
 _baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->stringField);
 }
 _baseRef smoke_Structs_ExternalStruct_externalStringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->get_some_string());
 }
 _baseRef smoke_Structs_ExternalStruct_externalArrayField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
 return Conversion<std::vector<int8_t>>::toBaseRef(struct_pointer->get_some_array());
 }
 _baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
 return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(struct_pointer->get_some_struct());
 }
 _baseRef
@@ -283,7 +282,7 @@ void smoke_Structs_AnotherExternalStruct_release_optional_handle(_baseRef handle
     delete reinterpret_cast<::genium::optional<::fire::SomeVeryExternalStruct>*>( handle );
 }
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::fire::SomeVeryExternalStruct>(handle);
+    auto struct_pointer = get_pointer<const ::fire::SomeVeryExternalStruct>(handle);
 return struct_pointer->intField;
 }
 _baseRef
@@ -314,7 +313,7 @@ void smoke_Structs_YetAnotherExternalStruct_release_optional_handle(_baseRef han
     delete reinterpret_cast<::genium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle );
 }
 _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::Yet_Another_External_Struct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string_Field);
 }
 _baseRef
@@ -345,7 +344,7 @@ void smoke_Structs_NestingImmutableStruct_release_optional_handle(_baseRef handl
     delete reinterpret_cast<::genium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle );
 }
 _baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::NestingImmutableStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::NestingImmutableStruct>(handle);
 return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(struct_pointer->struct_field);
 }
 _baseRef
@@ -376,7 +375,7 @@ void smoke_Structs_DoubleNestingImmutableStruct_release_optional_handle(_baseRef
     delete reinterpret_cast<::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle );
 }
 _baseRef smoke_Structs_DoubleNestingImmutableStruct_nestingStructField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::DoubleNestingImmutableStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::DoubleNestingImmutableStruct>(handle);
 return Conversion<::smoke::Structs::NestingImmutableStruct>::toBaseRef(struct_pointer->nesting_struct_field);
 }
 _baseRef
@@ -407,7 +406,7 @@ void smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(_baseRef h
     delete reinterpret_cast<::genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle );
 }
 _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::StructWithArrayOfImmutable>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::StructWithArrayOfImmutable>(handle);
 return Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toBaseRef(struct_pointer->array_field);
 }
 _baseRef
@@ -438,7 +437,7 @@ void smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle(_base
     delete reinterpret_cast<::genium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle );
 }
 _baseRef smoke_Structs_ImmutableStructWithCppAccessors_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ImmutableStructWithCppAccessors>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::ImmutableStructWithCppAccessors>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->get_string_field());
 }
 _baseRef
@@ -469,7 +468,7 @@ void smoke_Structs_MutableStructWithCppAccessors_release_optional_handle(_baseRe
     delete reinterpret_cast<::genium::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle );
 }
 _baseRef smoke_Structs_MutableStructWithCppAccessors_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::MutableStructWithCppAccessors>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Structs::MutableStructWithCppAccessors>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->get_string_field());
 }
 _baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {

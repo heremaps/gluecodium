@@ -36,11 +36,11 @@ void smoke_FreePoint_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::FreePoint>*>( handle );
 }
 double smoke_FreePoint_x_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::FreePoint>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::FreePoint>(handle);
 return struct_pointer->x;
 }
 double smoke_FreePoint_y_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::FreePoint>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::FreePoint>(handle);
 return struct_pointer->y;
 }
 _baseRef smoke_FreePoint_flip(_baseRef _instance) {

@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -64,7 +63,7 @@ void smoke_CalculatorListener_ResultStruct_release_optional_handle(_baseRef hand
     delete reinterpret_cast<::genium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle );
 }
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::CalculatorListener::ResultStruct>(handle);
 return struct_pointer->result;
 }
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {

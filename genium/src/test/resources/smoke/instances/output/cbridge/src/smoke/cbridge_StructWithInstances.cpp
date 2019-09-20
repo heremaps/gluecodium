@@ -38,11 +38,11 @@ void smoke_StructWithInstances_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::StructWithInstances>*>( handle );
 }
 _baseRef smoke_StructWithInstances_classInstance_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::StructWithInstances>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::StructWithInstances>(handle);
 return Conversion<std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(struct_pointer->class_instance);
 }
 _baseRef smoke_StructWithInstances_interfaceInstance_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::StructWithInstances>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::StructWithInstances>(handle);
 return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(struct_pointer->interface_instance);
 }
 _baseRef smoke_StructWithInstances_useSimpleClass(_baseRef _instance, _baseRef input) {

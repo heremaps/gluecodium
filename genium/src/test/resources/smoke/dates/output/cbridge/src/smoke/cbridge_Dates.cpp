@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/DateHandle.h"
 #include "cbridge/include/smoke/cbridge_Dates.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
@@ -47,7 +46,7 @@ void smoke_Dates_DateStruct_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::smoke::Dates::DateStruct>*>( handle );
 }
 double smoke_Dates_DateStruct_dateField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Dates::DateStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::Dates::DateStruct>(handle);
 return Conversion<std::chrono::system_clock::time_point>::toBaseRef(struct_pointer->date_field);
 }
 double smoke_Dates_dateMethod(_baseRef _instance, double input) {

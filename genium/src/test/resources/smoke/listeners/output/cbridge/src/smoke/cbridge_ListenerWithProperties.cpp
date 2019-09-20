@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_ListenerWithProperties.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -65,7 +64,7 @@ void smoke_ListenerWithProperties_ResultStruct_release_optional_handle(_baseRef 
     delete reinterpret_cast<::genium::optional<::smoke::ListenerWithProperties::ResultStruct>*>( handle );
 }
 double smoke_ListenerWithProperties_ResultStruct_result_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::ListenerWithProperties::ResultStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::ListenerWithProperties::ResultStruct>(handle);
 return struct_pointer->result;
 }
 _baseRef smoke_ListenerWithProperties_message_get(_baseRef _instance) {

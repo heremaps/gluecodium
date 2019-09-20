@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_ExternalClass.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
@@ -46,7 +45,7 @@ void smoke_ExternalClass_SomeStruct_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<::fire::Baz::some_Struct>*>( handle );
 }
 _baseRef smoke_ExternalClass_SomeStruct_someField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::fire::Baz::some_Struct>(handle);
+    auto struct_pointer = get_pointer<const ::fire::Baz::some_Struct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_ExternalClass_someMethod(_baseRef _instance, int8_t someParameter) {

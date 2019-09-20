@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/smoke/cbridge_ExternalInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -62,7 +61,7 @@ void smoke_ExternalInterface_SomeStruct_release_optional_handle(_baseRef handle)
     delete reinterpret_cast<::genium::optional<::smoke::ExternalInterface::some_Struct>*>( handle );
 }
 _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::ExternalInterface::some_Struct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::ExternalInterface::some_Struct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t someParameter) {

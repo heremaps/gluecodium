@@ -1,6 +1,5 @@
 //
 //
-
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
@@ -51,7 +50,7 @@ void smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_ba
     delete reinterpret_cast<::genium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle );
 }
 double smoke_GenericTypesWithCompoundTypes_BasicStruct_value_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::GenericTypesWithCompoundTypes::BasicStruct>(handle);
+    auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithCompoundTypes::BasicStruct>(handle);
 return struct_pointer->value;
 }
 _baseRef
@@ -82,7 +81,7 @@ void smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(
     delete reinterpret_cast<::genium::optional<::alien::FooStruct>*>( handle );
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_ExternalStruct_string_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::alien::FooStruct>(handle);
+    auto struct_pointer = get_pointer<const ::alien::FooStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string);
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithStructList(_baseRef _instance, _baseRef input) {
