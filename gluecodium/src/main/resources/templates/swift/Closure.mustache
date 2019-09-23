@@ -18,40 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-//
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-//
-
-import Foundation
-
-{{#classes}}
-{{>swift/ClassDefinition}}
-
-{{>swift/ClassConversion}}
-{{/classes}}{{!!
-
-}}{{#typeDefs}}
-{{>swift/Typedefs}}
-{{/typeDefs}}{{!!
-
-}}{{#closures}}
-{{>swift/Closure}}
-{{>swift/ClosureConversion}}
-{{/closures}}{{!!
-
-}}{{#allErrors}}
-extension {{type.publicName}} : Error {
-}
-{{/allErrors}}{{!!
-
-}}{{#enums}}
-{{>swift/Enum}}
-{{>swift/EnumConversion}}
-{{/enums}}{{!!
-
-}}
-{{#structs}}
-{{>swift/Struct}}
-{{>swift/StructConversion}}
-{{/structs}}
-
+{{>swift/Comment}}
+{{^isInterface}}{{visibility}} {{/isInterface}}typealias {{simpleName}} = {{!!
+}}({{#parameters}}{{#isEq category.toString "CLOSURE"}}{{#unless optional}}@escaping {{/unless}}{{/isEq}}{{!!
+}}{{publicName}}{{#if optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}

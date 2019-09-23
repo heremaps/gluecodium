@@ -32,13 +32,15 @@ import com.here.gluecodium.model.cbridge.CMap
 import com.here.gluecodium.model.cbridge.CSet
 import com.here.gluecodium.model.cbridge.CType
 import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppElementWithIncludes
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef
 import com.here.gluecodium.model.cpp.CppTypeRef
-import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
@@ -60,7 +62,7 @@ class CBridgeTypeMapper(
         CppTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
         CType(BASE_REF_NAME),
         CType.BYTE_ARRAY_REF,
-        listOf(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+        listOf(BASE_HANDLE_IMPL_INCLUDE)
     )
 
     fun mapType(limeType: LimeType, cppTypeRef: CppTypeRef): CppTypeInfo =
@@ -74,6 +76,7 @@ class CBridgeTypeMapper(
             is LimeList -> createArrayTypeInfo(limeType, cppTypeRef.actualType)
             is LimeMap -> createMapTypeInfo(limeType, cppTypeRef.actualType)
             is LimeSet -> createSetTypeInfo(limeType, cppTypeRef.actualType)
+            is LimeLambda -> createFunctionalTypeInfo(cppTypeRef)
             else -> CppTypeInfo(CType.VOID)
         }
 
@@ -154,10 +157,7 @@ class CBridgeTypeMapper(
         val result = CppMapTypeInfo(
             cppName,
             CType(BASE_REF_NAME),
-            listOf(
-                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-                CppLibraryIncludes.MAP
-            ),
+            listOf(BASE_HANDLE_IMPL_INCLUDE, CppLibraryIncludes.MAP),
             keyType,
             valueType
         )
@@ -190,10 +190,7 @@ class CBridgeTypeMapper(
         val result = CppSetTypeInfo(
             cppName,
             CType(BASE_REF_NAME),
-            listOf(
-                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-                CppLibraryIncludes.SET
-            ),
+            listOf(BASE_HANDLE_IMPL_INCLUDE, CppLibraryIncludes.SET),
             elementType
         )
 
@@ -216,10 +213,7 @@ class CBridgeTypeMapper(
             "std::vector<${elementType.name}>",
             CType(BASE_REF_NAME),
             CType(BASE_REF_NAME),
-            listOf(
-                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-                CppLibraryIncludes.VECTOR
-            ),
+            listOf(BASE_HANDLE_IMPL_INCLUDE, CppLibraryIncludes.VECTOR),
             elementType
         )
 
@@ -241,5 +235,13 @@ class CBridgeTypeMapper(
             CType(BASE_REF_NAME),
             baseTypeInfo.includes + cppTypeRef.includes + CppLibraryIncludes.OPTIONAL
         )
+
+        fun createFunctionalTypeInfo(cppElement: CppElementWithIncludes) =
+            CppTypeInfo(
+                cppElement.fullyQualifiedName,
+                CType(BASE_REF_NAME),
+                CType(BASE_REF_NAME),
+                cppElement.includes + BASE_HANDLE_IMPL_INCLUDE
+            )
     }
 }

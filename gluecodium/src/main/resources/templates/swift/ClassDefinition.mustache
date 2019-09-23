@@ -29,7 +29,10 @@
 
 {{#typedefs}}
 {{prefixPartial 'swift/Typedefs' '    '}}
-{{/typedefs}}{{#set className=simpleName}}{{#constructors}}
+{{/typedefs}}{{!!
+}}{{#closures}}
+{{prefixPartial "swift/Closure" "    "}}
+{{/closures}}{{#set className=simpleName}}{{#constructors}}
 {{prefixPartial "swift/MethodComment" "    "}}
     {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
         let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
@@ -53,7 +56,10 @@
 {{/if}}{{!!
 }}{{visibility}} protocol {{simpleName}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
-{{/typedefs}}
+{{/typedefs}}{{!!
+}}{{#closures}}
+{{prefixPartial "swift/Closure" "    "}}
+{{/closures}}
 {{#properties}}
 {{prefixPartial "swift/Comment" "    "}}
     {{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} { get {{#setter}}set {{/setter}}}

@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{name}}Proxy : public {{selfType.name}}::element_type, public CachedProxyBase<{{name}}Proxy> {
+class {{name}}Proxy :{{#unless isFunctionalInterface}} public {{selfType.name}}::element_type,{{/unless}} public CachedProxyBase<{{name}}Proxy> {
 public:
     {{name}}Proxy({{functionTableName}}&& functions)
      : mFunctions(std::move(functions))
@@ -31,7 +31,8 @@ public:
 
     {{#each inheritedFunctions functions}}
     {{#if selfParameter}}
-    {{cppReturnTypeName}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{#if isConst}} const{{/if}} override {
+    {{cppReturnTypeName}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{!!
+    }}{{#if isConst}} const{{/if}}{{#unless isFunctionalInterface}} override{{/unless}} {
         {{#if isReturningVoid}}{{#if error}}return static_cast<{{error.name}}>({{/if}}{{>swiftDelegateCall}}{{#if error}}){{/if}};{{/if}}{{!!
         }}{{#unless isReturningVoid}}
         {{#if error}}auto _result_with_error = {{>swiftDelegateCall}};
@@ -54,11 +55,14 @@ private:
 
 _baseRef {{name}}_create_proxy({{functionTableName}} functionTable) {
     auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new {{selfType}}(proxy)) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new {{selfType}}({{!!
+    }}{{#unless isFunctionalInterface}}proxy{{/unless}}{{!!
+    }}{{#if isFunctionalInterface}}std::bind(&{{name}}Proxy::operator(), proxy{{!!
+    }}{{#functions.0.parameters}}, std::placeholders::_{{iter.index}}{{/functions.0.parameters}}){{/if}})) : 0;
 }
 
 const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
-    return handle ? {{name}}Proxy::get_swift_object(get_pointer<{{selfType}}>(handle)->get()) : nullptr;
+    return handle ? {{name}}Proxy::get_swift_object(get_pointer<{{selfType}}>(handle){{#unless isFunctionalInterface}}->get(){{/unless}}) : nullptr;
 }
 
 {{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!

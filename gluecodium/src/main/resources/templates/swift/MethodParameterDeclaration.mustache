@@ -19,4 +19,5 @@
   !
   !}}
 {{#parameters}}{{#argumentLabel}}{{.}} {{/argumentLabel}}{{name}}: {{!!
-}}{{type.publicName}}{{#if type.optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}
+}}{{#isEq type.category.toString "CLOSURE"}}{{#unless type.optional}}@escaping {{/unless}}{{/isEq}}{{type.publicName}}{{!!
+}}{{#if type.optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}

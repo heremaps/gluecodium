@@ -70,6 +70,13 @@ checked_pointer_copy( const std::shared_ptr< T >& pointer )
     return !pointer ? nullptr : new std::shared_ptr< T >( pointer );
 }
 
+template<class R, class... Args>
+inline static std::function<R(Args...)>*
+checked_pointer_copy(const std::function<R(Args...)>& pointer)
+{
+    return !pointer ? nullptr : new std::function<R(Args...)>(pointer);
+}
+
 template < typename T >
 struct Conversion
 {

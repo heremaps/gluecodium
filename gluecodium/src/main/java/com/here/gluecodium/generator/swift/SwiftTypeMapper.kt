@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
@@ -39,6 +40,7 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.swift.SwiftArray
 import com.here.gluecodium.model.swift.SwiftDictionary
 import com.here.gluecodium.model.swift.SwiftEnum
+import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftSet
 import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.model.swift.SwiftType
@@ -73,6 +75,12 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeMap -> mapMapType(limeType)
             is LimeSet -> mapSetType(limeType)
             is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorEnum.type))
+            is LimeLambda ->
+                SwiftClosure(
+                    name = nameResolver.getFullName(limeType),
+                    parameters = limeType.parameters.map { mapType(it.typeRef.type) },
+                    returnType = mapType(limeType.returnType.type)
+                )
             else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
         }
     }

@@ -26,6 +26,7 @@ import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.swift.SwiftEnum
 import com.here.gluecodium.model.swift.SwiftError
 import com.here.gluecodium.model.swift.SwiftFile
+import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.model.swift.SwiftTypeDef
@@ -72,6 +73,7 @@ class SwiftGenerator(
                     is SwiftStruct -> result.structs += swiftElement
                     is SwiftEnum -> result.enums += swiftElement
                     is SwiftTypeDef -> result.typeDefs += swiftElement
+                    is SwiftClosure -> result.closures += swiftElement
                 }
                 result
             }

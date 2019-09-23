@@ -22,7 +22,7 @@ package com.here.gluecodium.model.swift
 open class SwiftType protected constructor(
     name: String,
     val cPrefix: String = "",
-    visibility: SwiftVisibility?,
+    visibility: SwiftVisibility? = null,
     val category: TypeCategory,
     val publicName: String = name,
     val optional: Boolean = false
@@ -49,7 +49,8 @@ open class SwiftType protected constructor(
         CLASS,
         ARRAY,
         DICTIONARY,
-        SET
+        SET,
+        CLOSURE
     }
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.

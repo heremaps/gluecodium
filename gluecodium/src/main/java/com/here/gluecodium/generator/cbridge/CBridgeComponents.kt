@@ -54,7 +54,9 @@ object CBridgeComponents {
         for (enumeration in cInterface.enums) {
             includes.addAll(enumeration.mappedType.includes)
         }
-        includes += cInterface.interfaces.flatMap { collectImplementationIncludes(it) }
+        includes += cInterface.interfaces.flatMap {
+            collectImplementationIncludes(it) + it.implementationIncludes
+        }
 
         return includes
     }

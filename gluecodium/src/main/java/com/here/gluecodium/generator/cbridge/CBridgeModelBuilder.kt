@@ -35,10 +35,12 @@ import com.here.gluecodium.model.cbridge.CStruct
 import com.here.gluecodium.model.cbridge.CType
 import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.cpp.CppField
+import com.here.gluecodium.model.cpp.CppFunctionTypeRef
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppParameter
 import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType
@@ -48,6 +50,7 @@ import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
@@ -291,6 +294,42 @@ class CBridgeModelBuilder(
             storeResult(setterFunction)
         }
 
+        closeContext()
+    }
+
+    override fun finishBuilding(limeLambda: LimeLambda) {
+        val cppUsing = cppBuilder.getFinalResult(CppUsing::class.java)
+        val cppFunction = cppUsing.definition as CppFunctionTypeRef
+        val parameters = limeLambda.parameters.mapIndexed { index, parameter ->
+            CParameter(
+                "p$index",
+                typeMapper.mapType(parameter.typeRef.type, cppFunction.parameters[index])
+            )
+        }
+        val selfType = CBridgeTypeMapper.createFunctionalTypeInfo(cppUsing)
+        val cFunction = CFunction(
+            shortName = "call",
+            nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeLambda),
+            returnType = typeMapper.mapType(limeLambda.returnType.type, cppFunction.returnType),
+            parameters = parameters,
+            selfParameter = CParameter("_instance", selfType),
+            delegateCallIncludes = cppIncludeResolver.resolveIncludes(limeLambda).toSet(),
+            functionName = "operator()",
+            cppReturnTypeName = cppFunction.returnType.fullyQualifiedName
+        )
+
+        val cElement = CInterface(
+            name = CBridgeNameRules.getInterfaceName(limeLambda),
+            selfType = selfType,
+            functionTableName = CBridgeNameRules.getFunctionTableName(limeLambda),
+            internalNamespace = internalNamespace,
+            functions = listOf(cFunction),
+            isFunctionalInterface = true
+        )
+        cElement.implementationIncludes +=
+            Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME)
+
+        storeResult(cElement)
         closeContext()
     }
 

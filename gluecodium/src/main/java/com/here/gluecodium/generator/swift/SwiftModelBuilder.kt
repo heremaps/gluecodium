@@ -38,6 +38,7 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
@@ -57,6 +58,7 @@ import com.here.gluecodium.model.swift.SwiftError
 import com.here.gluecodium.model.swift.SwiftThrownType
 import com.here.gluecodium.model.swift.SwiftField
 import com.here.gluecodium.model.swift.SwiftFile
+import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftParameter
@@ -181,6 +183,7 @@ class SwiftModelBuilder(
         swiftClass.properties.addAll(getPreviousResults(SwiftProperty::class.java))
         swiftClass.typedefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
         swiftClass.constants.addAll(getPreviousResults(SwiftConstant::class.java))
+        swiftClass.closures.addAll(getPreviousResults(SwiftClosure::class.java))
 
         swiftFile.classes.add(swiftClass)
     }
@@ -431,6 +434,21 @@ class SwiftModelBuilder(
                 SwiftValue(initializer)
             }
         }
+
+    override fun finishBuilding(limeLambda: LimeLambda) {
+        val swiftElement = SwiftClosure(
+            name = nameResolver.getFullName(limeLambda),
+            cPrefix = CBridgeNameRules.getTypeName(limeLambda),
+            visibility = getVisibility(limeLambda),
+            comment = createComments(limeLambda),
+            functionTableName = CBridgeNameRules.getFunctionTableName(limeLambda),
+            parameters = limeLambda.parameters.map { typeMapper.mapType(it.typeRef.type) },
+            returnType = typeMapper.mapType(limeLambda.returnType.type)
+        )
+
+        storeNamedResult(limeLambda, swiftElement)
+        closeContext()
+    }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
         storeResult(typeMapper.mapType(limeTypeRef.type))

@@ -24,7 +24,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
@@ -55,8 +55,8 @@ object CBridgeNameRules {
     fun getName(limeElement: LimeNamedElement) =
         getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name)
 
-    fun getFunctionTableName(limeInterface: LimeInterface) =
-        getInterfaceName(limeInterface) + "_FunctionTable"
+    fun getFunctionTableName(limeElement: LimeNamedElement) =
+        getInterfaceName(limeElement) + "_FunctionTable"
 
     fun getInterfaceName(limeElement: LimeNamedElement) =
         getNestedNames(limeElement).joinToString(UNDERSCORE)
@@ -84,6 +84,9 @@ object CBridgeNameRules {
 
     private fun getNestedNames(limeElement: LimeNamedElement) =
         limeElement.path.head + limeElement.path.tail.map { NameHelper.toUpperCamelCase(it) }
+
+    fun getNestedSpecifierString(limeLambda: LimeLambda) =
+        getNestedNames(limeLambda).joinToString(UNDERSCORE)
 
     fun getNestedSpecifierString(limeElement: LimeNamedElement) =
         getNestedNames(limeElement).dropLast(1).joinToString(UNDERSCORE)

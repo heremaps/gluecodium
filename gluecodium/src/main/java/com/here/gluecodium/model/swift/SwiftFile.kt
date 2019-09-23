@@ -24,6 +24,7 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val structs = mutableListOf<SwiftStruct>()
     val enums = mutableListOf<SwiftEnum>()
     val typeDefs = mutableListOf<SwiftTypeDef>()
+    val closures = mutableListOf<SwiftClosure>()
 
     val isEmpty
         get() = classes.isEmpty() &&

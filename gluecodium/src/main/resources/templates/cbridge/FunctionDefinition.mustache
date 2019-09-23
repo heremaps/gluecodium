@@ -51,7 +51,7 @@
 }}{{+callBaseApi}}{{!!
 }}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{!!
 }}{{#selfParameter}}get_pointer<{{selfParameter.mappedType.name}}>({{name}}){{!!
-}}{{^selfIsStruct}}->get(){{/selfIsStruct}}->{{functionName}}{{/selfParameter}}{{!!
+}}{{#unless selfIsStruct isFunctionalInterface logic="and"}}->get(){{/unless}}->{{functionName}}{{/selfParameter}}{{!!
 }}({{joinPartial parameters "delegateConversion" ", "}}){{!!
 }}{{/callBaseApi}}{{!!
 

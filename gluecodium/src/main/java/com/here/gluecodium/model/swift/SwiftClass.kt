@@ -44,6 +44,7 @@ class SwiftClass(
     val typedefs = mutableListOf<SwiftTypeDef>()
     val constants = mutableListOf<SwiftConstant>()
     val classes = mutableListOf<SwiftClass>()
+    val closures = mutableListOf<SwiftClosure>()
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
