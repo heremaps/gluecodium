@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.5.0
+- Release date: 2019-09-23
 - Features:
   + Classes and interfaces can now be defined nested within other classes or interfaces in LimeIDL.
   + Added support for initializing constants and fields of List<> and Set<> types.
