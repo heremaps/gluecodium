@@ -75,7 +75,7 @@ class CppTypeMapper(
 
     fun mapLambda(limeLambda: LimeLambda): CppTypeRef =
         CppFunctionTypeRef(
-            limeLambda.parameters.map { mapType(it) },
+            limeLambda.parameters.map { mapType(it.typeRef) },
             mapType(limeLambda.returnType)
         )
 

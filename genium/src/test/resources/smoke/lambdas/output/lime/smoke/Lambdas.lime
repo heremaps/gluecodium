@@ -4,7 +4,7 @@ class Lambdas {
     // Should confuse everyone thoroughly
     lambda Confuser = (String) -> Producer
     lambda Consumer = (String) -> Void
-    lambda Indexer = (String, Float) -> Int
+    lambda Indexer = (String, @Java("index") Float) -> Int
     fun deconfuse(
         value: String,
         confuser: Confuser

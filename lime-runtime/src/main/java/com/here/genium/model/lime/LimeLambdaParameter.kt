@@ -19,11 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimeLambda(
-    path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: LimeComment = LimeComment(),
-    attributes: LimeAttributes? = null,
-    val parameters: List<LimeLambdaParameter> = emptyList(),
-    val returnType: LimeTypeRef = LimeBasicTypeRef(LimeBasicType.TypeId.VOID)
-) : LimeType(path, visibility, comment, attributes)
+class LimeLambdaParameter(
+    val typeRef: LimeTypeRef,
+    val attributes: LimeAttributes? = null
+) : LimeElement

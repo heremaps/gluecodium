@@ -120,8 +120,12 @@ exception
 
 lambda
     : docComment* annotation* visibility? 'lambda' NewLine* simpleId NewLine* '=' NewLine*
-      '(' NewLine* (typeRef NewLine* (',' NewLine* typeRef NewLine*)*)? ')' NewLine*
+      '(' NewLine* (lambdaParameter (',' NewLine* lambdaParameter)*)? ')' NewLine*
       '->' NewLine* typeRef NewLine+
+    ;
+
+lambdaParameter
+    : annotation* typeRef NewLine*
     ;
 
 // Comments and annotations

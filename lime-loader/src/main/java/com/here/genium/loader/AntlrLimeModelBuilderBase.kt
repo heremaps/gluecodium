@@ -64,9 +64,13 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitSetter(ctx: LimeParser.SetterContext) {}
 
-    override fun enterDocComment(ctx: LimeParser.DocCommentContext?) {}
+    override fun enterLambdaParameter(ctx: LimeParser.LambdaParameterContext) {}
 
-    override fun exitDocComment(ctx: LimeParser.DocCommentContext?) {}
+    override fun exitLambdaParameter(ctx: LimeParser.LambdaParameterContext) {}
+
+    override fun enterDocComment(ctx: LimeParser.DocCommentContext) {}
+
+    override fun exitDocComment(ctx: LimeParser.DocCommentContext) {}
 
     override fun enterAnnotation(ctx: LimeParser.AnnotationContext) {}
 
@@ -132,13 +136,13 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
 
-    override fun enterStructInitializer(ctx: LimeParser.StructInitializerContext?) {}
+    override fun enterStructInitializer(ctx: LimeParser.StructInitializerContext) {}
 
-    override fun exitStructInitializer(ctx: LimeParser.StructInitializerContext?) {}
+    override fun exitStructInitializer(ctx: LimeParser.StructInitializerContext) {}
 
-    override fun enterCollectionInitializer(ctx: LimeParser.CollectionInitializerContext?) {}
+    override fun enterCollectionInitializer(ctx: LimeParser.CollectionInitializerContext) {}
 
-    override fun exitCollectionInitializer(ctx: LimeParser.CollectionInitializerContext?) {}
+    override fun exitCollectionInitializer(ctx: LimeParser.CollectionInitializerContext) {}
 
     override fun enterSimpleId(ctx: LimeParser.SimpleIdContext) {}
 

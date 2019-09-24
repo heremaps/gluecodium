@@ -40,6 +40,7 @@ import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeFunction
 import com.here.genium.model.lime.LimeInterface
 import com.here.genium.model.lime.LimeLambda
+import com.here.genium.model.lime.LimeLambdaParameter
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
@@ -458,13 +459,19 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitLambda(ctx: LimeParser.LambdaContext) {
+        val parameters = ctx.lambdaParameter().map {
+            LimeLambdaParameter(
+                typeMapper.mapTypeRef(currentPath, it.typeRef()),
+                convertAnnotations(it.annotation())
+            )
+        }
         val limeElement = LimeLambda(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = convertAnnotations(ctx.annotation()),
-            parameters = ctx.typeRef().dropLast(1).map { typeMapper.mapTypeRef(currentPath, it) },
-            returnType = typeMapper.mapTypeRef(currentPath, ctx.typeRef().last())
+            parameters = parameters,
+            returnType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         )
 
         storeResultAndPopStacks(limeElement)
