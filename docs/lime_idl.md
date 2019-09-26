@@ -282,6 +282,15 @@ struct Options {
 * Can be a free-standing element at file level or can be placed in: class, interface
 * Description: declares a type alias (typedef) in the parent type.
 
+#### Lambda
+
+* Syntax: **lambda** *LambdaName* **=** *AliasType* **=** __(__*parameter-list*__)__ **->** *ReturnType*
+* Example: `lambda TimestampCallback = (Date) -> Void`
+* Can be a free-standing element at file level or can be placed in: class, interface.
+* Description: declares a lambda type (a functional reference). Unlike the functions, specifying a
+return type for a lambda is required. For declaring lambdas with no return type, `Void` type should
+be used (like in the example above).
+
 ### Type references
 
 A type reference is a mention of a type anywhere, as opposed to a type declaration. A type reference

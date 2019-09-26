@@ -1,6 +1,10 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+- Features:
+  + Added support for lambda types in LimeIDL. Lambas are generated as std::function<> in C++, as
+    functional interfaces in Java, and as closures in Swift.
+
 - Breaking changes:
   + Renamed Genium to Gluecodium.
 
