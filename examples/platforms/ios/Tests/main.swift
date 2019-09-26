@@ -38,6 +38,7 @@ let allTests = [
     testCase(HelloWorldTests.allTests),
     testCase(InheritanceTests.allTests),
     testCase(InterfacesTests.allTests),
+    testCase(LambdasTests.allTests),
     testCase(ListenerRoundtripTests.allTests),
     testCase(ListenerWithAttributesTests.allTests),
     testCase(ListenerWithErrorsTests.allTests),

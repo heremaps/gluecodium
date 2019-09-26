@@ -2,6 +2,7 @@
 //
 #include "cbridge/include/smoke/cbridge_OuterClass.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
