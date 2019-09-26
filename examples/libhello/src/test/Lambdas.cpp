@@ -50,4 +50,48 @@ Lambdas::compose_concatenators(const Lambdas::Concatenator& concatenator1,
         };
 }
 
+std::string
+Lambdas::concatenate_list(const std::vector<std::string>& strings,
+                          const std::vector<Lambdas::Concatenator>& concatenators)
+{
+    std::string result = strings[0];
+    for (int i = 0; i < concatenators.size(); i++)
+    {
+        result = concatenators[i](result, strings[i+1]);
+    }
+    return result;
+}
+
+Lambdas::LambdaHolder
+Lambdas::get_concatenator_in_struct(const std::string& delimiter)
+{
+    return {[delimiter](const std::string& string1,
+                        const std::string& string2){ return string1 + delimiter + string2; }};
+}
+
+std::string
+Lambdas::concatenate_in_struct(const std::string& string1,
+                     const std::string& string2,
+                     const Lambdas::LambdaHolder& concatenator)
+{
+    return concatenator.concatenator(string1, string2);
+}
+
+namespace
+{
+Lambdas::Concatenator s_real_concatenator{};
+}
+
+Lambdas::Concatenator
+Lambdas::get_real_concatenator()
+{
+    return s_real_concatenator;
+}
+
+void
+Lambdas::set_real_concatenator(const Lambdas::Concatenator& value)
+{
+    s_real_concatenator = value;
+}
+
 }

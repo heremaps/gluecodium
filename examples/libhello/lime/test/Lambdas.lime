@@ -21,7 +21,18 @@ class Lambdas {
     lambda Concatenator = (@Java("first") String, @Java("second") String) -> String
     lambda Tricatenator = (String, String, String) -> String
 
+    struct LambdaHolder {
+        concatenator: Concatenator
+    }
+
     static fun getConcatenator(delimiter: String): Concatenator
     static fun concatenate(string1: String, string2: String, concatenator: Concatenator): String
     static fun composeConcatenators(concatenator1: Concatenator, concatenator2: Concatenator): Tricatenator
+    // Strings list should be at least one element longer than concatenators list.
+    static fun concatenateList(strings: List<String>, concatenators: List<Concatenator>): String
+
+    static fun getConcatenatorInStruct(delimiter: String): LambdaHolder
+    static fun concatenateInStruct(string1: String, string2: String, concatenator: LambdaHolder): String
+
+    static property realConcatenator: Concatenator
 }

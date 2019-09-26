@@ -93,4 +93,5 @@
 {{prefixPartial 'swift/Method' '    '}}
 {{/methods}}{{/set}}{{/if}}
 }
-{{+initParameter}}{{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}{{#if defaultValue}} = {{defaultValue}}{{/if}}{{/initParameter}}
+{{+initParameter}}{{name}}: {{#isEq type.category.toString "CLOSURE"}}{{#unless type.optional}}@escaping {{/unless}}{{/isEq}}{{!!
+}}{{type.publicName}}{{#type.optional}}?{{/type.optional}}{{#if defaultValue}} = {{defaultValue}}{{/if}}{{/initParameter}}

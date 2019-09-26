@@ -23,13 +23,13 @@ import hello
 
 class LambdasTests: XCTestCase {
 
-    func testCppLambdaInJava() {
+    func testCppLambdaInSwift() {
         let result = Lambdas.getConcatenator(delimiter: ">.<")("foo", "bar")
 
         XCTAssertEqual(result, "foo>.<bar")
     }
 
-    func testJavaLambdaInCpp() {
+    func testSwiftLambdaInCpp() {
         let delimiter = ">.<"
         let concatenator = { (str1: String, str2: String) in str1+delimiter+str2 }
         let result = Lambdas.concatenate(string1: "foo", string2: "bar", concatenator: concatenator)
@@ -46,9 +46,43 @@ class LambdasTests: XCTestCase {
         XCTAssertEqual(result, "foo>.<bar")
     }
 
+    func testConcatenateList() {
+        let concatenator = { (str1: String, str2: String) in str1+str2 }
+        let result = Lambdas.concatenateList(strings: ["foo", ">.<", "bar"],
+                                             concatenators: [concatenator, concatenator])
+
+        XCTAssertEqual(result, "foo>.<bar")
+    }
+
+    func testCppLambdaInSwiftInStruct() {
+        let result = Lambdas.getConcatenatorInStruct(delimiter: ">.<").concatenator("foo", "bar")
+
+        XCTAssertEqual(result, "foo>.<bar")
+    }
+
+    func testSwiftLambdaInCppInStruct() {
+        let delimiter = ">.<"
+        let concatenator = { (str1: String, str2: String) in str1+delimiter+str2 }
+        let holder = Lambdas.LambdaHolder(concatenator: concatenator)
+        let result = Lambdas.concatenateInStruct(string1: "foo", string2: "bar", concatenator: holder)
+
+        XCTAssertEqual(result, "foo>.<bar")
+    }
+
+    func testGetSetLambdaProperty() {
+        Lambdas.realConcatenator = Lambdas.getConcatenator(delimiter: ">.<")
+        let result = Lambdas.realConcatenator("foo", "bar")
+
+        XCTAssertEqual(result, "foo>.<bar")
+    }
+
     static var allTests = [
-        ("testCppLambdaInJava", testCppLambdaInJava),
-        ("testJavaLambdaInCpp", testJavaLambdaInCpp),
-        ("testCapturingRoundtrip", testCapturingRoundtrip)
+        ("testCppLambdaInSwift", testCppLambdaInSwift),
+        ("testSwiftLambdaInCpp", testSwiftLambdaInCpp),
+        ("testCapturingRoundtrip", testCapturingRoundtrip),
+        ("testConcatenateList", testConcatenateList),
+        ("testCppLambdaInSwiftInStruct", testCppLambdaInSwiftInStruct),
+        ("testSwiftLambdaInCppInStruct", testSwiftLambdaInCppInStruct),
+        ("testGetSetLambdaProperty", testGetSetLambdaProperty)
     ]
 }

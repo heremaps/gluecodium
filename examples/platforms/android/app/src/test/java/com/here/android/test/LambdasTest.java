@@ -19,11 +19,13 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
 import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -60,4 +62,39 @@ public class LambdasTest {
 
     assertEquals("foo>.<bar", result);
   }
+
+  @Test
+  public void callConcatenateList() {
+    List<String> strings = java.util.Arrays.asList("foo", ">.<", "bar");
+    Lambdas.Concatenator concatenator = (String s1, String s2)->s1+s2;
+    List<Lambdas.Concatenator> concatenators = java.util.Arrays.asList(concatenator, concatenator);
+    String result = Lambdas.concatenateList(strings, concatenators);
+
+    assertEquals("foo>.<bar", result);
+  }
+
+  @Test
+  public void callCppLambdaInStructInJava() {
+    String result = Lambdas.getConcatenatorInStruct(">.<").concatenator.apply("foo", "bar");
+
+    assertEquals("foo>.<bar", result);
+  }
+
+  @Test
+  public void callJavaLambdaInStructInCpp() {
+    String delimiter = ">.<";
+    Lambdas.LambdaHolder holder = new Lambdas.LambdaHolder((String s1, String s2)->s1+delimiter+s2);
+    String result = Lambdas.concatenateInStruct("foo", "bar", holder);
+
+    assertEquals("foo>.<bar", result);
+  }
+
+  @Test
+  public void setGetLambdaProperty() {
+    Lambdas.setRealConcatenator(Lambdas.getConcatenator(">.<"));
+    String result = Lambdas.getRealConcatenator().apply("foo", "bar");
+
+    assertEquals("foo>.<bar", result);
+  }
+
 }
