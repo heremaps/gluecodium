@@ -76,10 +76,15 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         referenceResolver: LimeReferenceResolver,
         elementNameToFileName: MutableMap<String, String>
     ): List<LimeNamedElement>? {
+        val errorListener = ThrowingErrorListener()
+
         val lexer = LimeLexer(CharStreams.fromFileName(fileName))
+        lexer.removeErrorListeners()
+        lexer.addErrorListener(errorListener)
+
         val parser = LimeParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
-        parser.addErrorListener(ThrowingErrorListener())
+        parser.addErrorListener(errorListener)
 
         val modelBuilder = AntlrLimeModelBuilder(referenceResolver)
         try {
