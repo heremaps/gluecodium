@@ -137,7 +137,7 @@ private:
 };
 _baseRef smoke_ListenersWithReturnValues_create_proxy(smoke_ListenersWithReturnValues_FunctionTable functionTable) {
     auto proxy = smoke_ListenersWithReturnValuesProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ListenersWithReturnValues>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ListenersWithReturnValues>(proxy)) : 0;
 }
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;

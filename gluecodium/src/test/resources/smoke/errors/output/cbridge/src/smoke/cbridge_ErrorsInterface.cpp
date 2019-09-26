@@ -75,7 +75,7 @@ private:
 };
 _baseRef smoke_ErrorsInterface_create_proxy(smoke_ErrorsInterface_FunctionTable functionTable) {
     auto proxy = smoke_ErrorsInterfaceProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ErrorsInterface>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ErrorsInterface>(proxy)) : 0;
 }
 const void* smoke_ErrorsInterface_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ErrorsInterfaceProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get()) : nullptr;

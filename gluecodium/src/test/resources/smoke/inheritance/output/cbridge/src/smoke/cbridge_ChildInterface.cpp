@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_ChildInterface.h"
 #include "cbridge/include/smoke/cbridge_ParentInterface.h"
@@ -65,7 +64,7 @@ private:
 };
 _baseRef smoke_ChildInterface_create_proxy(smoke_ChildInterface_FunctionTable functionTable) {
     auto proxy = smoke_ChildInterfaceProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ChildInterface>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ChildInterface>(proxy)) : 0;
 }
 const void* smoke_ChildInterface_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ChildInterfaceProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)->get()) : nullptr;

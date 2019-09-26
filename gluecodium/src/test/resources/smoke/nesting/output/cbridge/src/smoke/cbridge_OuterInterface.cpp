@@ -55,7 +55,7 @@ private:
 };
 _baseRef smoke_OuterInterface_create_proxy(smoke_OuterInterface_FunctionTable functionTable) {
     auto proxy = smoke_OuterInterfaceProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::OuterInterface>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::OuterInterface>(proxy)) : 0;
 }
 const void* smoke_OuterInterface_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_OuterInterfaceProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(handle)->get()) : nullptr;
@@ -117,7 +117,7 @@ private:
 };
 _baseRef smoke_OuterInterface_InnerInterface_create_proxy(smoke_OuterInterface_InnerInterface_FunctionTable functionTable) {
     auto proxy = smoke_OuterInterface_InnerInterfaceProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::OuterInterface::InnerInterface>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::OuterInterface::InnerInterface>(proxy)) : 0;
 }
 const void* smoke_OuterInterface_InnerInterface_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_OuterInterface_InnerInterfaceProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(handle)->get()) : nullptr;

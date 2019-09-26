@@ -116,7 +116,7 @@ private:
 };
 _baseRef smoke_CalculatorListener_create_proxy(smoke_CalculatorListener_FunctionTable functionTable) {
     auto proxy = smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculatorListener>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculatorListener>(proxy)) : 0;
 }
 const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get()) : nullptr;

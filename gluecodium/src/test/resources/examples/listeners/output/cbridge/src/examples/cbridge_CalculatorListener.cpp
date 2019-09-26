@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/examples/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -53,7 +52,7 @@ private:
 };
 _baseRef examples_CalculatorListener_create_proxy(examples_CalculatorListener_FunctionTable functionTable) {
     auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::examples::CalculatorListener>(std::move(proxy))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::examples::CalculatorListener>(proxy)) : 0;
 }
 const void* examples_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
     return handle ? examples_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle)->get()) : nullptr;
