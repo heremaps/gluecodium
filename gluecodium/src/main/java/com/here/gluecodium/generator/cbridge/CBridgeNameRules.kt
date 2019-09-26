@@ -94,12 +94,6 @@ object CBridgeNameRules {
     fun getTypeName(limeType: LimeType) =
         listOf(getNestedSpecifierString(limeType), getName(limeType)).joinToString(UNDERSCORE)
 
-    fun getBaseApiCall(category: CppTypeInfo.TypeCategory, baseAPIName: String) =
-        if (category === CppTypeInfo.TypeCategory.CLASS)
-            "std::shared_ptr<$baseAPIName>"
-        else
-            baseAPIName
-
     fun getPropertySetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_set"
 
     fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"

@@ -27,4 +27,4 @@ class CppSetTypeInfo (
     cType: CType,
     includes: List<Include>,
     val elementType: CppTypeInfo
-) : CppTypeInfo(name, cType, cType, TypeCategory.SET, includes)
+) : CppTypeInfo(name, cType, cType, includes)

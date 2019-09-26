@@ -28,4 +28,4 @@ class CppArrayTypeInfo (
     functionReturnType: CType,
     includes: List<Include>,
     val innerType: CppTypeInfo
-) : CppTypeInfo(name, cType, functionReturnType, TypeCategory.ARRAY, includes)
+) : CppTypeInfo(name, cType, functionReturnType, includes)

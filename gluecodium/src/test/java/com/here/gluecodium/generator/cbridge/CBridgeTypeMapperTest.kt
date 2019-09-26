@@ -150,14 +150,13 @@ class CBridgeTypeMapperTest {
         every { includeResolver.resolveInclude(limeElement) } returns barInclude
         every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(bazInclude)
 
-        val result = typeMapper.createCustomTypeInfo(limeElement, CppTypeInfo.TypeCategory.STRUCT)
+        val result = typeMapper.createCustomTypeInfo(limeElement)
 
         assertEquals("Foo", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
         assertEquals(barInclude, result.cType.includes.first())
         assertEquals(BASE_REF_NAME, result.functionReturnType.name)
         assertEquals(barInclude, result.functionReturnType.includes.first())
-        assertEquals(CppTypeInfo.TypeCategory.STRUCT, result.typeCategory)
         assertContains(barInclude, result.includes)
         assertContains(bazInclude, result.includes)
         assertContains(CBridgeTypeMapper.BASE_HANDLE_IMPL_INCLUDE, result.includes)

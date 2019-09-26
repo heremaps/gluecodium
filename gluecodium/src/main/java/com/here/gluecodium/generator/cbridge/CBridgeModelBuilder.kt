@@ -72,15 +72,13 @@ class CBridgeModelBuilder(
 
     override fun startBuilding(limeContainer: LimeContainerWithInheritance) {
         openContext()
-        val cppTypeInfo =
-            typeMapper.createCustomTypeInfo(limeContainer, CppTypeInfo.TypeCategory.CLASS)
+        val cppTypeInfo = typeMapper.createCustomTypeInfo(limeContainer, isClass = true)
         storeResult(cppTypeInfo)
     }
 
     override fun startBuilding(limeStruct: LimeStruct) {
         openContext()
-        val cppTypeInfo =
-            typeMapper.createCustomTypeInfo(limeStruct, CppTypeInfo.TypeCategory.STRUCT)
+        val cppTypeInfo = typeMapper.createCustomTypeInfo(limeStruct)
         storeResult(cppTypeInfo)
     }
 
@@ -147,7 +145,7 @@ class CBridgeModelBuilder(
             limeReferenceMap[limeMethod.path.parent.toString()] as LimeNamedElement
         val returnType = when {
             limeParent !is LimeStruct && limeMethod.isConstructor ->
-                typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
+                typeMapper.createCustomTypeInfo(limeParent, isClass = true)
             else -> {
                 val cppTypeInfo =
                     typeMapper.mapType(limeMethod.returnType.typeRef.type, cppMethod.returnType)

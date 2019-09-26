@@ -28,4 +28,4 @@ class CppMapTypeInfo(
     includes: List<Include>,
     val keyType: CppTypeInfo,
     val valueType: CppTypeInfo
-) : CppTypeInfo(name, cType, cType, TypeCategory.MAP, includes)
+) : CppTypeInfo(name, cType, cType, includes)

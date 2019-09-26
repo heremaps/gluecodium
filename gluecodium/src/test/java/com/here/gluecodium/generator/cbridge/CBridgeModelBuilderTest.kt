@@ -160,9 +160,7 @@ class CBridgeModelBuilderTest {
     @Test
     fun startBuildingContainer() {
         val limeElement = LimeInterface(EMPTY_PATH)
-        every {
-            typeMapper.createCustomTypeInfo(limeElement, CppTypeInfo.TypeCategory.CLASS)
-        } returns cppTypeInfo
+        every { typeMapper.createCustomTypeInfo(limeElement, isClass = true) } returns cppTypeInfo
 
         modelBuilder.startBuilding(limeElement)
 
@@ -172,9 +170,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun startBuildingStruct() {
-        every {
-            typeMapper.createCustomTypeInfo(limeStruct, CppTypeInfo.TypeCategory.STRUCT)
-        } returns cppTypeInfo
+        every { typeMapper.createCustomTypeInfo(limeStruct, isClass = false) } returns cppTypeInfo
 
         modelBuilder.startBuilding(limeStruct)
 
@@ -313,9 +309,7 @@ class CBridgeModelBuilderTest {
             isStatic = true
         )
         limeReferenceMap["foo"] = limeContainer
-        every {
-            typeMapper.createCustomTypeInfo(limeContainer, CppTypeInfo.TypeCategory.CLASS)
-        } returns cppTypeInfo
+        every { typeMapper.createCustomTypeInfo(limeContainer, isClass = true) } returns cppTypeInfo
 
         modelBuilder.finishBuilding(limeElement)
 

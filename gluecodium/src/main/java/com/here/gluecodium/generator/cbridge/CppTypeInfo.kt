@@ -28,29 +28,22 @@ open class CppTypeInfo(
     name: String,
     val cType: CType,
     val functionReturnType: CType,
-    var typeCategory: TypeCategory,
-    val includes: List<Include>
+    val includes: List<Include>,
+    var typeCategory: TypeCategory = TypeCategory.GENERAL
 ) : CElement(name) {
 
     enum class TypeCategory {
+        GENERAL,
         BUILTIN_SIMPLE,
-        BUILTIN_STRING,
-        BUILTIN_BYTEBUFFER,
-        BUILTIN_DATE,
-        STRUCT,
-        CLASS,
-        ENUM,
-        ARRAY,
-        MAP,
-        SET
+        ENUM
     }
 
     constructor(type: CType, typeCategory: TypeCategory = TypeCategory.BUILTIN_SIMPLE) : this(
         type.name,
         type,
         type,
-        typeCategory,
-        emptyList()
+        emptyList(),
+        typeCategory
     )
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
@@ -58,10 +51,10 @@ open class CppTypeInfo(
     fun getcType() = cType
 
     companion object {
-        val STRING = CppTypeInfo(name = "std::string",
+        val STRING = CppTypeInfo(
+            name = "std::string",
             cType = CType.STRING_REF,
             functionReturnType = CType.STRING_REF,
-            typeCategory = TypeCategory.BUILTIN_STRING,
             includes = listOf(
                 CppLibraryIncludes.STRING,
                 CppLibraryIncludes.NEW,
@@ -69,10 +62,10 @@ open class CppTypeInfo(
                 Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
             )
         )
-        val DATE = CppTypeInfo(name = "std::chrono::system_clock::time_point",
+        val DATE = CppTypeInfo(
+            name = "std::chrono::system_clock::time_point",
             cType = CType.DOUBLE,
             functionReturnType = CType.DOUBLE,
-            typeCategory = TypeCategory.BUILTIN_DATE,
             includes = listOf(
                 CppLibraryIncludes.CHRONO,
                 CppLibraryIncludes.NEW,

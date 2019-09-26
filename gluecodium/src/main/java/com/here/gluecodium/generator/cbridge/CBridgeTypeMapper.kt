@@ -60,7 +60,6 @@ class CBridgeTypeMapper(
         CppTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
         CType(BASE_REF_NAME),
         CType.BYTE_ARRAY_REF,
-        CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER,
         listOf(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
     )
 
@@ -69,9 +68,8 @@ class CBridgeTypeMapper(
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeAlias ->
                 mapType(LimeTypeHelper.getActualType(limeType), cppTypeRef.actualType)
-            is LimeContainerWithInheritance ->
-                createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.CLASS)
-            is LimeStruct -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.STRUCT)
+            is LimeContainerWithInheritance -> createCustomTypeInfo(limeType, isClass = true)
+            is LimeStruct -> createCustomTypeInfo(limeType)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
             is LimeList -> createArrayTypeInfo(limeType, cppTypeRef.actualType)
             is LimeMap -> createMapTypeInfo(limeType, cppTypeRef.actualType)
@@ -79,12 +77,10 @@ class CBridgeTypeMapper(
             else -> CppTypeInfo(CType.VOID)
         }
 
-    fun createCustomTypeInfo(
-        limeElement: LimeNamedElement,
-        category: CppTypeInfo.TypeCategory
-    ): CppTypeInfo {
+    fun createCustomTypeInfo(limeElement: LimeNamedElement, isClass: Boolean = false): CppTypeInfo {
+
         val baseApiName = cppNameResolver.getFullyQualifiedName(limeElement)
-        val baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName)
+        val baseApiCall = if (isClass) "std::shared_ptr<$baseApiName>" else baseApiName
 
         val publicInclude = includeResolver.resolveInclude(limeElement)
         val structCType = CType(BASE_REF_NAME, publicInclude)
@@ -93,7 +89,7 @@ class CBridgeTypeMapper(
             cppIncludeResolver.resolveIncludes(limeElement) + BASE_HANDLE_IMPL_INCLUDE +
             CppLibraryIncludes.MEMORY + CppLibraryIncludes.NEW
 
-        return CppTypeInfo(baseApiCall, structCType, structCType, category, includes)
+        return CppTypeInfo(baseApiCall, structCType, structCType, includes)
     }
 
     fun createEnumTypeInfo(limeType: LimeType, asErrorType: Boolean = false): CppTypeInfo {
@@ -108,8 +104,8 @@ class CBridgeTypeMapper(
             name = cppNameResolver.getFullyQualifiedName(limeType),
             cType = CType(typeName, publicInclude),
             functionReturnType = CType(typeName, functionReturnTypeIncludes),
-            typeCategory = CppTypeInfo.TypeCategory.ENUM,
-            includes = listOf(publicInclude) + baseApiIncludes
+            includes = listOf(publicInclude) + baseApiIncludes,
+            typeCategory = CppTypeInfo.TypeCategory.ENUM
         )
     }
 
@@ -243,7 +239,6 @@ class CBridgeTypeMapper(
             cppTypeRef.fullyQualifiedName,
             CType(BASE_REF_NAME),
             CType(BASE_REF_NAME),
-            CppTypeInfo.TypeCategory.CLASS,
             baseTypeInfo.includes + cppTypeRef.includes + CppLibraryIncludes.OPTIONAL
         )
     }
