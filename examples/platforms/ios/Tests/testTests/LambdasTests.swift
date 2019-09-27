@@ -69,6 +69,32 @@ class LambdasTests: XCTestCase {
         XCTAssertEqual(result, "foo>.<bar")
     }
 
+    func testNullableCppLambdaInSwift() {
+        let result = Lambdas.getConcatenatorOrNull(delimiter: ">.<")!("foo", "bar")
+
+        XCTAssertEqual(result, "foo>.<bar")
+    }
+
+    func testNullCppLambdaInSwift() {
+        let result = Lambdas.getConcatenatorOrNull(delimiter: nil)
+
+        XCTAssertNil(result)
+    }
+
+    func testNullableSwiftLambdaInCpp() {
+        let delimiter = ">.<"
+        let concatenator = { (str1: String, str2: String) in str1+delimiter+str2 }
+        let result = Lambdas.concatenateOrNot(string1: "foo", string2: "bar", concatenator: concatenator)
+
+        XCTAssertEqual(result, "foo>.<bar")
+    }
+
+    func testNullableSwiftLambdaInCppWithNil() {
+        let result = Lambdas.concatenateOrNot(string1: "foo", string2: "bar", concatenator: nil)
+
+        XCTAssertNil(result)
+    }
+
     func testGetSetLambdaProperty() {
         Lambdas.realConcatenator = Lambdas.getConcatenator(delimiter: ">.<")
         let result = Lambdas.realConcatenator("foo", "bar")
@@ -83,6 +109,10 @@ class LambdasTests: XCTestCase {
         ("testConcatenateList", testConcatenateList),
         ("testCppLambdaInSwiftInStruct", testCppLambdaInSwiftInStruct),
         ("testSwiftLambdaInCppInStruct", testSwiftLambdaInCppInStruct),
+        ("testNullableCppLambdaInSwift", testNullableCppLambdaInSwift),
+        ("testNullCppLambdaInSwift", testNullCppLambdaInSwift),
+        ("testNullableSwiftLambdaInCpp", testNullableSwiftLambdaInCpp),
+        ("testNullableSwiftLambdaInCppWithNil", testNullableSwiftLambdaInCppWithNil),
         ("testGetSetLambdaProperty", testGetSetLambdaProperty)
     ]
 }

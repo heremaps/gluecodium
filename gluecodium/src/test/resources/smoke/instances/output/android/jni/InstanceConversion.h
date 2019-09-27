@@ -23,7 +23,9 @@
 #include <memory>
 #include <new>
 #include "JniReference.h"
+#include "gluecodium/Optional.h"
 #include "ProxyConversion.h"
+#include <functional>
 namespace gluecodium
 {
 namespace jni
@@ -60,5 +62,19 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::sm
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class1> & _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class2> & _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::UseForward> & _ninput);
+template<class R, class... Args>
+optional<::std::function<R(Args...)>>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, optional<::std::function<R(Args...)>>*)
+{
+    return _jinput
+        ? convert_from_jni(_jenv, _jinput, (::std::function<R(Args...)>*)nullptr)
+        : optional<::std::function<R(Args...)>>{};
+}
+template<class R, class... Args>
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const optional<::std::function<R(Args...)>> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 }
 }

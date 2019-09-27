@@ -42,7 +42,7 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
     return moveFromCType(handle) as {{name}}
 }
 
-internal func copyToCType(_ swiftType: @escaping {{name}}) -> RefHolder {
+internal func createFunctionalTable(_ swiftType: @escaping {{name}}) -> {{functionTableName}} {
     class {{cPrefix}}_Holder {
         let closure: {{name}}
         init(_ closure: @escaping {{name}}) {
@@ -62,21 +62,32 @@ internal func copyToCType(_ swiftType: @escaping {{name}}) -> RefHolder {
         return {{returnType.className}}copyToCType(closure_holder.closure({{!!
         }}{{#parameters}}{{type.className}}moveFromCType(p{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/parameters}})).ref
     }
-    return RefHolder({{cPrefix}}_create_proxy(functions))
+
+    return functions
+}
+
+internal func copyToCType(_ swiftType: @escaping {{name}}) -> RefHolder {
+    let handle = {{cPrefix}}_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(handle)
 }
 internal func moveToCType(_ swiftType: @escaping {{name}}) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_handle)
+    let handle = {{cPrefix}}_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: {{cPrefix}}_release_handle)
 }
 
 internal func copyToCType(_ swiftType: {{name}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return copyToCType(swiftType)
+
+    let handle = {{cPrefix}}_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(handle)
 }
 internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return moveToCType(swiftType)
+
+    let handle = {{cPrefix}}_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: {{cPrefix}}_release_handle)
 }

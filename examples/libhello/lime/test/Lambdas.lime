@@ -34,5 +34,8 @@ class Lambdas {
     static fun getConcatenatorInStruct(delimiter: String): LambdaHolder
     static fun concatenateInStruct(string1: String, string2: String, concatenator: LambdaHolder): String
 
+    static fun getConcatenatorOrNull(delimiter: String?): Concatenator?
+    static fun concatenateOrNot(string1: String, string2: String, concatenator: Concatenator?): String?
+
     static property realConcatenator: Concatenator
 }

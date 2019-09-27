@@ -90,6 +90,35 @@ public class LambdasTest {
   }
 
   @Test
+  public void callNullableCppLambdaInJava() {
+    String result = Lambdas.getConcatenatorOrNull(">.<").apply("foo", "bar");
+
+    assertEquals("foo>.<bar", result);
+  }
+
+  @Test
+  public void getNullCppLambdaInJava() {
+    Lambdas.Concatenator result = Lambdas.getConcatenatorOrNull(null);
+
+    assertNull(result);
+  }
+
+  @Test
+  public void callNullableJavaLambdaInCpp() {
+    String delimiter = ">.<";
+    String result = Lambdas.concatenateOrNot("foo", "bar", (String s1, String s2)->s1+delimiter+s2);
+
+    assertEquals("foo>.<bar", result);
+  }
+
+  @Test
+  public void callNullableJavaLambdaInCppWithNull() {
+    String result = Lambdas.concatenateOrNot("foo", "bar", null);
+
+    assertNull(result);
+  }
+
+  @Test
   public void setGetLambdaProperty() {
     Lambdas.setRealConcatenator(Lambdas.getConcatenator(">.<"));
     String result = Lambdas.getRealConcatenator().apply("foo", "bar");

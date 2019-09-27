@@ -60,6 +60,10 @@ _baseRef smoke_Lambdas_Producer_create_proxy(smoke_Lambdas_Producer_FunctionTabl
     auto proxy = smoke_Lambdas_ProducerProxy::get_proxy(std::move(functionTable));
     return proxy ? reinterpret_cast<_baseRef>(new ::smoke::Lambdas::Producer(std::bind(&smoke_Lambdas_ProducerProxy::operator(), proxy))) : 0;
 }
+_baseRef smoke_Lambdas_Producer_create_optional_proxy(smoke_Lambdas_Producer_FunctionTable functionTable) {
+    auto proxy = smoke_Lambdas_ProducerProxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (std::nothrow) ::gluecodium::optional<::smoke::Lambdas::Producer>(std::bind(&smoke_Lambdas_ProducerProxy::operator(), proxy))) : 0;
+}
 const void* smoke_Lambdas_Producer_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_Lambdas_ProducerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Producer>(handle)) : nullptr;
 }
@@ -95,6 +99,10 @@ _baseRef smoke_Lambdas_Confuser_create_proxy(smoke_Lambdas_Confuser_FunctionTabl
     auto proxy = smoke_Lambdas_ConfuserProxy::get_proxy(std::move(functionTable));
     return proxy ? reinterpret_cast<_baseRef>(new ::smoke::Lambdas::Confuser(std::bind(&smoke_Lambdas_ConfuserProxy::operator(), proxy, std::placeholders::_1))) : 0;
 }
+_baseRef smoke_Lambdas_Confuser_create_optional_proxy(smoke_Lambdas_Confuser_FunctionTable functionTable) {
+    auto proxy = smoke_Lambdas_ConfuserProxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (std::nothrow) ::gluecodium::optional<::smoke::Lambdas::Confuser>(std::bind(&smoke_Lambdas_ConfuserProxy::operator(), proxy, std::placeholders::_1))) : 0;
+}
 const void* smoke_Lambdas_Confuser_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_Lambdas_ConfuserProxy::get_swift_object(get_pointer<::smoke::Lambdas::Confuser>(handle)) : nullptr;
 }
@@ -127,6 +135,10 @@ private:
 _baseRef smoke_Lambdas_Consumer_create_proxy(smoke_Lambdas_Consumer_FunctionTable functionTable) {
     auto proxy = smoke_Lambdas_ConsumerProxy::get_proxy(std::move(functionTable));
     return proxy ? reinterpret_cast<_baseRef>(new ::smoke::Lambdas::Consumer(std::bind(&smoke_Lambdas_ConsumerProxy::operator(), proxy, std::placeholders::_1))) : 0;
+}
+_baseRef smoke_Lambdas_Consumer_create_optional_proxy(smoke_Lambdas_Consumer_FunctionTable functionTable) {
+    auto proxy = smoke_Lambdas_ConsumerProxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (std::nothrow) ::gluecodium::optional<::smoke::Lambdas::Consumer>(std::bind(&smoke_Lambdas_ConsumerProxy::operator(), proxy, std::placeholders::_1))) : 0;
 }
 const void* smoke_Lambdas_Consumer_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_Lambdas_ConsumerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Consumer>(handle)) : nullptr;
@@ -162,6 +174,10 @@ private:
 _baseRef smoke_Lambdas_Indexer_create_proxy(smoke_Lambdas_Indexer_FunctionTable functionTable) {
     auto proxy = smoke_Lambdas_IndexerProxy::get_proxy(std::move(functionTable));
     return proxy ? reinterpret_cast<_baseRef>(new ::smoke::Lambdas::Indexer(std::bind(&smoke_Lambdas_IndexerProxy::operator(), proxy, std::placeholders::_1, std::placeholders::_2))) : 0;
+}
+_baseRef smoke_Lambdas_Indexer_create_optional_proxy(smoke_Lambdas_Indexer_FunctionTable functionTable) {
+    auto proxy = smoke_Lambdas_IndexerProxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (std::nothrow) ::gluecodium::optional<::smoke::Lambdas::Indexer>(std::bind(&smoke_Lambdas_IndexerProxy::operator(), proxy, std::placeholders::_1, std::placeholders::_2))) : 0;
 }
 const void* smoke_Lambdas_Indexer_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_Lambdas_IndexerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Indexer>(handle)) : nullptr;

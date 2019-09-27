@@ -27,6 +27,7 @@ class SwiftClosure(
     publicName: String = name,
     comment: Comments = Comments(),
     cPrefix: String = "",
+    optional: Boolean = false,
     val functionTableName: String = "",
     val parameters: List<SwiftType>,
     val returnType: SwiftType
@@ -35,7 +36,8 @@ class SwiftClosure(
     cPrefix = cPrefix,
     visibility = visibility,
     category = TypeCategory.CLOSURE,
-    publicName = publicName
+    publicName = publicName,
+    optional = optional
 ) {
     init {
         this.comment = comment
@@ -43,28 +45,30 @@ class SwiftClosure(
 
     override fun withAlias(aliasName: String) =
         SwiftClosure(
-            name,
-            visibility,
-            aliasName,
-            comment,
-            cPrefix,
-            functionTableName,
-            parameters,
-            returnType
+            name = name,
+            visibility = visibility,
+            publicName = aliasName,
+            comment = comment,
+            cPrefix = cPrefix,
+            optional = optional,
+            functionTableName = functionTableName,
+            parameters = parameters,
+            returnType = returnType
         )
 
     override fun withOptional(optional: Boolean) =
         when (optional) {
             this.optional -> this
             else -> SwiftClosure(
-                name,
-                visibility,
-                publicName,
-                comment,
-                cPrefix,
-                functionTableName,
-                parameters,
-                returnType
+                name = name,
+                visibility = visibility,
+                publicName = publicName,
+                comment = comment,
+                cPrefix = cPrefix,
+                optional = optional,
+                functionTableName = functionTableName,
+                parameters = parameters,
+                returnType = returnType
             )
         }
 }

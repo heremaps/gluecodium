@@ -49,6 +49,9 @@ _GLUECODIUM_C_EXPORT uint64_t {{name}}_hash(_baseRef handle);
 {{>cbridge/FunctionTable}}
 
 _GLUECODIUM_C_EXPORT _baseRef {{name}}_create_proxy({{functionTableName}} functionTable);
+{{#if isFunctionalInterface}}
+_GLUECODIUM_C_EXPORT _baseRef {{name}}_create_optional_proxy({{functionTableName}} functionTable);
+{{/if}}
 _GLUECODIUM_C_EXPORT const void* {{name}}_get_swift_object_from_cache(_baseRef handle);
 {{/isInterface}}
 {{#functions}}

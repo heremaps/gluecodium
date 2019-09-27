@@ -27,7 +27,9 @@
 {{>common/Include}}
 {{/includes}}
 #include "JniReference.h"
+#include "{{>common/InternalInclude}}Optional.h"
 #include "ProxyConversion.h"
+#include <functional>
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -69,6 +71,23 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedNam
 {{/if}}{{#unless isFunctionalInterface}}
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput);
 {{/unless}}{{/models}}
+
+template<class R, class... Args>
+optional<::std::function<R(Args...)>>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, optional<::std::function<R(Args...)>>*)
+{
+    return _jinput
+        ? convert_from_jni(_jenv, _jinput, (::std::function<R(Args...)>*)nullptr)
+        : optional<::std::function<R(Args...)>>{};
+}
+
+template<class R, class... Args>
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const optional<::std::function<R(Args...)>> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+
 }
 {{#internalNamespace}}
 }

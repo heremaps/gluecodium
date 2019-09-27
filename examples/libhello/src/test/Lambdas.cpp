@@ -77,6 +77,23 @@ Lambdas::concatenate_in_struct(const std::string& string1,
     return concatenator.concatenator(string1, string2);
 }
 
+lorem_ipsum::test::optional<Lambdas::Concatenator>
+Lambdas::get_concatenator_or_null(const lorem_ipsum::test::optional<std::string>& delimiter)
+{
+    if (!delimiter) return {};
+    return {[delimiter](const std::string& string1,
+                        const std::string& string2){ return string1 + *delimiter + string2; }};
+}
+
+lorem_ipsum::test::optional<std::string>
+Lambdas::concatenate_or_not(const std::string& string1,
+                            const std::string& string2,
+                            const lorem_ipsum::test::optional<Lambdas::Concatenator>& concatenator)
+{
+    if (!concatenator) return {};
+    return (*concatenator)(string1, string2);
+}
+
 namespace
 {
 Lambdas::Concatenator s_real_concatenator{};

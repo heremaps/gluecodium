@@ -20,6 +20,7 @@ typedef struct {
     _baseRef(*smoke_Lambdas_Producer_call)(void* swift_pointer);
 } smoke_Lambdas_Producer_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Producer_create_proxy(smoke_Lambdas_Producer_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Producer_create_optional_proxy(smoke_Lambdas_Producer_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_Lambdas_Producer_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Producer_call(_baseRef _instance);
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_Confuser_release_handle(_baseRef handle);
@@ -30,6 +31,7 @@ typedef struct {
     _baseRef(*smoke_Lambdas_Confuser_call)(void* swift_pointer, _baseRef p0);
 } smoke_Lambdas_Confuser_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Confuser_create_proxy(smoke_Lambdas_Confuser_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Confuser_create_optional_proxy(smoke_Lambdas_Confuser_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_Lambdas_Confuser_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Confuser_call(_baseRef _instance, _baseRef p0);
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_Consumer_release_handle(_baseRef handle);
@@ -40,6 +42,7 @@ typedef struct {
     void(*smoke_Lambdas_Consumer_call)(void* swift_pointer, _baseRef p0);
 } smoke_Lambdas_Consumer_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Consumer_create_proxy(smoke_Lambdas_Consumer_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Consumer_create_optional_proxy(smoke_Lambdas_Consumer_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_Lambdas_Consumer_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_Consumer_call(_baseRef _instance, _baseRef p0);
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_Indexer_release_handle(_baseRef handle);
@@ -50,6 +53,7 @@ typedef struct {
     int32_t(*smoke_Lambdas_Indexer_call)(void* swift_pointer, _baseRef p0, float p1);
 } smoke_Lambdas_Indexer_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Indexer_create_proxy(smoke_Lambdas_Indexer_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Indexer_create_optional_proxy(smoke_Lambdas_Indexer_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_Lambdas_Indexer_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT int32_t smoke_Lambdas_Indexer_call(_baseRef _instance, _baseRef p0, float p1);
 #ifdef __cplusplus
