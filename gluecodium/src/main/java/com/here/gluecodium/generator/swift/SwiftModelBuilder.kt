@@ -22,7 +22,6 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
@@ -35,14 +34,13 @@ import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
-import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
@@ -51,19 +49,19 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.swift.SwiftClass
+import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftConstant
 import com.here.gluecodium.model.swift.SwiftEnum
 import com.here.gluecodium.model.swift.SwiftEnumItem
 import com.here.gluecodium.model.swift.SwiftError
-import com.here.gluecodium.model.swift.SwiftThrownType
 import com.here.gluecodium.model.swift.SwiftField
 import com.here.gluecodium.model.swift.SwiftFile
-import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftParameter
 import com.here.gluecodium.model.swift.SwiftProperty
 import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.model.swift.SwiftThrownType
 import com.here.gluecodium.model.swift.SwiftType
 import com.here.gluecodium.model.swift.SwiftTypeDef
 import com.here.gluecodium.model.swift.SwiftValue
@@ -414,24 +412,28 @@ class SwiftModelBuilder(
             }
             is LimeValue.Null -> SwiftValue("nil")
             is LimeValue.InitializerList -> {
-                val initializer = when (LimeTypeHelper.getActualType(limeValue.typeRef.type)) {
-                    is LimeMap -> "[:]"
-                    is LimeList, is LimeSet ->
-                        limeValue.values.joinToString(
-                            separator = ", ",
-                            prefix = "[",
-                            postfix = "]"
-                        ) { mapValue(it).name }
-                    else -> {
-                        val limeType = limeValue.typeRef.type as LimeStruct
+                val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
+                val initializer = when {
+                    limeType is LimeStruct -> {
                         val valuesString = limeValue.values
                             .mapIndexed { i, value ->
                                 nameRules.getName(limeType.fields[i]) + ": " + mapValue(value).name
                             }.joinToString(separator = ", ", prefix = "(", postfix = ")")
                         nameResolver.getFullName(limeType) + valuesString
                     }
+                    limeType is LimeMap && limeValue.values.isEmpty() -> "[:]"
+                    else -> limeValue.values.joinToString(
+                        separator = ", ",
+                        prefix = "[",
+                        postfix = "]"
+                    ) { mapValue(it).name }
                 }
                 SwiftValue(initializer)
+            }
+            is LimeValue.KeyValuePair -> {
+                val keyString = mapValue(limeValue.key).name
+                val valueString = mapValue(limeValue.value).name
+                SwiftValue("$keyString: $valueString")
             }
         }
 

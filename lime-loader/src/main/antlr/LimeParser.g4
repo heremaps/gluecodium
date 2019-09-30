@@ -185,7 +185,8 @@ literalConstant
     | multiLineStringLiteral
     | enumeratorRef
     | structInitializer
-    | collectionInitializer
+    | listInitializer
+    | mapInitializer
     | BooleanLiteral
     | ('+' | '-')? IntegerLiteral
     | ('+' | '-')? DoubleLiteral
@@ -222,8 +223,16 @@ structInitializer
       (',' NewLine* (simpleId NewLine* '=' NewLine*)? literalConstant NewLine*)*)? '}' NewLine*
     ;
 
-collectionInitializer
+listInitializer
     : '[' NewLine* (literalConstant NewLine* (',' NewLine* literalConstant NewLine*)*)? ']' NewLine*
+    ;
+
+mapInitializer
+    : '[' NewLine* (keyValuePair NewLine* (',' NewLine* keyValuePair NewLine*)*)? ']' NewLine*
+    ;
+
+keyValuePair
+    : literalConstant NewLine* ':' NewLine* literalConstant
     ;
 
 // Identifiers

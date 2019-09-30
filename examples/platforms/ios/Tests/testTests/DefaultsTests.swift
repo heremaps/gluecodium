@@ -146,6 +146,7 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(result.floatsField, [3.14, -Float.infinity])
       XCTAssertEqual(result.structField.enumField, Defaults.ExternalEnum.oneValue)
       XCTAssertEqual(result.setTypeField, ["foo", "bar"])
+      XCTAssertEqual(result.mapField, [1: "foo", 42: "bar"])
     }
 
     func testCppInitializerDefaults() {
@@ -155,6 +156,7 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(result.floatsField, [3.14, -Float.infinity])
       XCTAssertEqual(result.structField.enumField, Defaults.ExternalEnum.oneValue)
       XCTAssertEqual(result.setTypeField, ["foo", "bar"])
+      XCTAssertEqual(result.mapField, [1: "foo", 42: "bar"])
     }
 
     static var allTests = [

@@ -24,7 +24,7 @@ import java.util.LinkedHashSet
 class JavaTemplateType private constructor(
     name: String,
     imports: Set<JavaImport>,
-    templateClass: TemplateClass,
+    val templateClass: TemplateClass,
     val templateParameters: List<JavaType>
 ) : JavaCustomType(name, imports, listOf(templateClass.interfaceName), templateClass.packageNames) {
 

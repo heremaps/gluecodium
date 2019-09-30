@@ -66,6 +66,16 @@ class JavaValueMapper(
             is LimeValue.Special -> mapSpecialValue(limeValue)
             is LimeValue.Null -> JavaValue("null", isCustom = true)
             is LimeValue.InitializerList -> mapInitializerList(limeValue, javaType)
+            is LimeValue.KeyValuePair -> {
+                val keyValue = mapValue(limeValue.key, typeMapper.mapType(limeValue.key.typeRef))
+                val valueValue =
+                    mapValue(limeValue.value, typeMapper.mapType(limeValue.value.typeRef))
+                JavaValue(
+                    "new AbstractMap.SimpleEntry<>(${keyValue.name}, ${valueValue.name})",
+                    keyValue.imports + valueValue.imports + ABSTRACT_MAP_IMPORT,
+                    isCustom = true
+                )
+            }
         }
 
     private fun mapInitializerList(
@@ -74,15 +84,22 @@ class JavaValueMapper(
     ): JavaValue {
         val implementationType = (javaType as? JavaTemplateType)?.implementationType ?: javaType
         val prefix = "new ${implementationType.name}"
-        val imports = implementationType.imports
-        val valuesString = limeValue.values.joinToString(", ") {
-            mapValue(it, typeMapper.mapType(it.typeRef)).name
-        }
+        val values = limeValue.values.map { mapValue(it, typeMapper.mapType(it.typeRef)) }
+        val valuesString = values.joinToString(", ") { it.name }
+        val imports = implementationType.imports + values.flatMap { it.imports }
 
-        return if (javaType is JavaTemplateType && valuesString.isNotEmpty()) {
-            JavaValue("$prefix(Arrays.asList($valuesString))", imports + ARRAYS_IMPORT, true)
-        } else {
-            JavaValue("$prefix($valuesString)", imports, true)
+        return when {
+            javaType !is JavaTemplateType || valuesString.isEmpty() ->
+                JavaValue("$prefix($valuesString)", imports, true)
+            javaType.templateClass == JavaTemplateType.TemplateClass.MAP ->
+                JavaValue(
+                    "$prefix(Stream.of($valuesString)" +
+                        ".collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))",
+                    imports + STREAM_IMPORT + COLLECTORS_IMPORT,
+                    isCustom = true
+                )
+            else ->
+                JavaValue("$prefix(Arrays.asList($valuesString))", imports + ARRAYS_IMPORT, true)
         }
     }
 
@@ -100,7 +117,13 @@ class JavaValueMapper(
     }
 
     companion object {
-        private val ARRAYS_IMPORT = JavaImport("Arrays", JavaPackage(listOf("java", "util")))
+        private val UTIL_PACKAGE = JavaPackage(listOf("java", "util"))
+        private val STREAM_PACKAGE = JavaPackage(listOf("java", "util", "stream"))
+
+        private val ARRAYS_IMPORT = JavaImport("Arrays", UTIL_PACKAGE)
+        private val ABSTRACT_MAP_IMPORT = JavaImport("AbstractMap", UTIL_PACKAGE)
+        private val STREAM_IMPORT = JavaImport("Stream", STREAM_PACKAGE)
+        private val COLLECTORS_IMPORT = JavaImport("Collectors", STREAM_PACKAGE)
 
         fun inferNextEnumValue(previousEnumValue: JavaValue?) =
             previousEnumValue?.let {

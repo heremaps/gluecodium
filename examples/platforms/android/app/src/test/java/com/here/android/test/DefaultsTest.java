@@ -26,7 +26,12 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -181,6 +186,14 @@ public final class DefaultsTest {
     assertEquals(java.util.Arrays.asList(3.14f, Float.NEGATIVE_INFINITY), result.floatsField);
     assertEquals(Defaults.ExternalEnum.ONE_VALUE, result.structField.enumField);
     assertEquals(new HashSet<String>(java.util.Arrays.asList("foo", "bar")), result.setTypeField);
+
+    AbstractMap.SimpleEntry<Long, String> entry1 = new AbstractMap.SimpleEntry<>(1L, "foo");
+    AbstractMap.SimpleEntry<Long, String> entry2 = new AbstractMap.SimpleEntry<>(42L, "bar");
+    Map<Long, String> exampleMap =
+        new HashMap<>(
+            Stream.of(entry1, entry2)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    assertEquals(exampleMap, result.mapField);
   }
 
   @Test
@@ -191,5 +204,13 @@ public final class DefaultsTest {
     assertEquals(java.util.Arrays.asList(3.14f, Float.NEGATIVE_INFINITY), result.floatsField);
     assertEquals(Defaults.ExternalEnum.ONE_VALUE, result.structField.enumField);
     assertEquals(new HashSet<String>(java.util.Arrays.asList("foo", "bar")), result.setTypeField);
+
+    AbstractMap.SimpleEntry<Long, String> entry1 = new AbstractMap.SimpleEntry<>(1L, "foo");
+    AbstractMap.SimpleEntry<Long, String> entry2 = new AbstractMap.SimpleEntry<>(42L, "bar");
+    Map<Long, String> exampleMap =
+        new HashMap<>(
+            Stream.of(entry1, entry2)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    assertEquals(exampleMap, result.mapField);
   }
 }

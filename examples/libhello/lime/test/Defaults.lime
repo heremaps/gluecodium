@@ -77,6 +77,7 @@ class Defaults {
         floatsField: Defaults.FloatArray = [3.14, -Infinity]
         structField: Defaults.StructWithExternalDefaults = {enumField = Defaults.ExternalEnum.One_Value}
         setTypeField: Defaults.StringSet = ["foo", "bar"]
+        mapField: Defaults.IdToStringMap = [1: "foo", 42: "bar"]
     }
     enum SomeEnum {
         FooValue,

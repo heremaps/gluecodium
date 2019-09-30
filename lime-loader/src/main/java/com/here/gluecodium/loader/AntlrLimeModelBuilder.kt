@@ -627,11 +627,24 @@ internal class AntlrLimeModelBuilder(
                     }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }
-            ctx.collectionInitializer() != null -> {
-                val values = ctx.collectionInitializer().literalConstant().map {
+            ctx.listInitializer() != null -> {
+                val values = ctx.listInitializer().literalConstant().map {
                     val elementTypeRef =
                         LimePositionalTypeRef(limeTypeRef, 0, referenceResolver.referenceMap)
                     convertLiteralConstant(elementTypeRef, it)
+                }
+                return LimeValue.InitializerList(limeTypeRef, values)
+            }
+            ctx.mapInitializer() != null -> {
+                val values = ctx.mapInitializer().keyValuePair().map {
+                    val keyTypeRef =
+                        LimePositionalTypeRef(limeTypeRef, 0, referenceResolver.referenceMap)
+                    val valueTypeRef =
+                        LimePositionalTypeRef(limeTypeRef, 1, referenceResolver.referenceMap)
+                    LimeValue.KeyValuePair(
+                        convertLiteralConstant(keyTypeRef, it.literalConstant().first()),
+                        convertLiteralConstant(valueTypeRef, it.literalConstant().last())
+                    )
                 }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }

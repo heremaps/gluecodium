@@ -4,6 +4,7 @@
 - Features:
   + Added support for lambda types in LimeIDL. Lambas are generated as std::function<> in C++, as
     functional interfaces in Java, and as closures in Swift.
+  + Added support for initializing constants and fields of Map<> type.
 - Bug fixes:
   + Allow Unicode white-space characters in LimeIDL.
 

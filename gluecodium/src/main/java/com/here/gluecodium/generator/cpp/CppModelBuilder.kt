@@ -453,6 +453,14 @@ class CppModelBuilder(
                 ) { mapValue(it).name }
                 CppValue(valuesString)
             }
+            is LimeValue.KeyValuePair -> {
+                val keyValue = mapValue(limeValue.key)
+                val valueValue = mapValue(limeValue.value)
+                CppValue(
+                    "{${keyValue.name}, ${valueValue.name}}",
+                    keyValue.includes + valueValue.includes
+                )
+            }
         }
     }
 

@@ -115,4 +115,5 @@ struct StructWithInitializerDefaults {
     floatsField: DefaultValues.FloatArray = [3.14, -Infinity]
     structField: TypesWithDefaults.StructWithAnEnum = {config = AnEnum.AnEnum.DISABLED}
     setTypeField: DefaultValues.StringSet = ["foo", "bar"]
+    mapField: DefaultValues.IdToStringMap = [1: "foo", 42: "bar"]
 }

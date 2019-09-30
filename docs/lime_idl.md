@@ -380,8 +380,15 @@ order of declaration of struct's fields.
 * Syntax: **[** \[*list-of-values*\] **]**
 * where *list-of-values* is a comma-separated list of values
 * Example: `const ValidKeys: Set<String> = ["name", "address"]`
-* Description: initializes a list or a set with the given values. For maps only an empty initializer
-`[]` is supported.
+* Description: initializes a list or a set with the given values. `[]` initializes an empty list or
+set.
+
+#### Map initializer
+
+* Syntax: **[** \[*list-of-pairs*\] **]**
+* where *list-of-pairs* is a comma-separated list of *key*__:__ *value* pairs
+* Example: `const FieldNames: Map<Int, String> = [1: "name", 42: "address"]`
+* Description: initializes a map with the given key-value pairs. `[]` initializes an empty map.
 
 #### Enumerator reference
 
@@ -511,7 +518,7 @@ constructor. Example:
 struct Options {
     flagOption: Boolean
     uintOption: UShort
-    additionalOptions: List<String> = {}
+    additionalOptions: List<String> = []
 }
 ```
 
