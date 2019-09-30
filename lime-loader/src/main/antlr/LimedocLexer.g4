@@ -19,10 +19,12 @@
 
 lexer grammar LimedocLexer;
 
-WhiteSpace  : ' ' | '\t'
+WhiteSpace
+    : [ \t\p{Zs}]
     ;
 
-NewLine  : '\n'
+NewLine
+    : '\n'
     | '\r'
     | '\r' '\n'
     ;

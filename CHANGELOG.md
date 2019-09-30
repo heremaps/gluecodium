@@ -4,6 +4,8 @@
 - Features:
   + Added support for lambda types in LimeIDL. Lambas are generated as std::function<> in C++, as
     functional interfaces in Java, and as closures in Swift.
+- Bug fixes:
+  + Allow Unicode white-space characters in LimeIDL.
 
 - Breaking changes:
   + Renamed Genium to Gluecodium.

@@ -24,11 +24,13 @@ LocalComment
       -> channel(HIDDEN)
     ;
 
-WhiteSpace  : [ \t]+
+WhiteSpace
+    : [ \t\p{Zs}]+
       -> skip
     ;
 
-NewLine  : '\n'
+NewLine
+    : '\n'
     | '\r'
     | '\r' '\n'
     ;
