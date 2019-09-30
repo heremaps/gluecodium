@@ -28,7 +28,7 @@ internal class ThrowingErrorListener(private val lineOffset: Int = 0) : BaseErro
     @Throws(ParseCancellationException::class)
     override fun syntaxError(
         recognizer: Recognizer<*, *>,
-        offendingSymbol: Any,
+        offendingSymbol: Any?,
         line: Int,
         charPositionInLine: Int,
         msg: String,
