@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.model.cbridge.CElement
-import com.here.genium.model.cbridge.CType
-import com.here.genium.model.common.Include
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.model.cbridge.CElement
+import com.here.gluecodium.model.cbridge.CType
+import com.here.gluecodium.model.common.Include
 
 open class CppTypeInfo(
     name: String,

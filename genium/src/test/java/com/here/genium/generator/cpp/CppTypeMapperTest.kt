@@ -17,28 +17,28 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppComplexTypeRef
-import com.here.genium.model.cpp.CppPrimitiveTypeRef
-import com.here.genium.model.cpp.CppTemplateTypeRef
-import com.here.genium.model.cpp.CppTypeDefRef
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppComplexTypeRef
+import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
+import com.here.gluecodium.model.cpp.CppTemplateTypeRef
+import com.here.gluecodium.model.cpp.CppTypeDefRef
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -247,7 +247,7 @@ class CppTypeMapperTest {
     }
 
     @Test
-    fun `genium hash in set is used for typedef to non-primitive type`() {
+    fun `gluecodium hash in set is used for typedef to non-primitive type`() {
         val limeElementType = LimeStruct(EMPTY_PATH)
         val limeElementTypeRef = LimeDirectTypeRef(limeElementType)
         val limeType = LimeSet(limeElementTypeRef)
@@ -288,7 +288,7 @@ class CppTypeMapperTest {
     }
 
     @Test
-    fun `genium hash is used in set for typedef to non-primitive type`() {
+    fun `gluecodium hash is used in set for typedef to non-primitive type`() {
         val limeKeyType = LimeStruct(EMPTY_PATH)
         val limeKeyTypeRef = LimeDirectTypeRef(limeKeyType)
         val limeType = LimeMap(limeKeyTypeRef, LimeBasicTypeRef.INT)

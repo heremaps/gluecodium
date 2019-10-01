@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.output
+package com.here.gluecodium.output
 
 import java.io.File
 import java.io.FileNotFoundException

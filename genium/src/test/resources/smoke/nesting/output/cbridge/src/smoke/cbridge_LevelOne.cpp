@@ -3,8 +3,8 @@
 #include "cbridge/include/smoke/cbridge_LevelOne.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/LevelOne.h"
 #include "smoke/OuterClass.h"
 #include "smoke/OuterInterface.h"
@@ -50,17 +50,17 @@ smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle( _baseRef handle )
 _baseRef
 smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_optional_handle(_baseRef stringField)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>( ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>( ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour( ) );
     (*_struct)->string_field = Conversion<std::string>::toCpp( stringField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_LevelOne_LevelTwo_LevelThree_LevelFour_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>( handle ) );
 }
 void smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>( handle );
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>(handle);

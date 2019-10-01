@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.test
+package com.here.gluecodium.test
 
-import com.here.genium.common.ModelBuilderContext
-import com.here.genium.common.ModelBuilderContextStack
+import com.here.gluecodium.common.ModelBuilderContext
+import com.here.gluecodium.common.ModelBuilderContextStack
 
 class MockContextStack<E> : ModelBuilderContextStack<E>() {
     override val currentContext = ModelBuilderContext<E>()

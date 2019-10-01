@@ -17,35 +17,35 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.android
+package com.here.gluecodium.platform.android
 
-import com.here.genium.Genium
-import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.generator.cpp.CppNameRules
-import com.here.genium.generator.java.JavaNameRules
-import com.here.genium.generator.java.JavaTemplates
-import com.here.genium.generator.jni.JavaModel
-import com.here.genium.generator.jni.JniGenerator
-import com.here.genium.generator.jni.JniNameRules
-import com.here.genium.generator.jni.JniTemplates
-import com.here.genium.model.common.Comments
-import com.here.genium.model.java.JavaClass
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaElement
-import com.here.genium.model.java.JavaMethod
-import com.here.genium.model.java.JavaPackage
-import com.here.genium.model.java.JavaTopLevelElement
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.java.JavaNameRules
+import com.here.gluecodium.generator.java.JavaTemplates
+import com.here.gluecodium.generator.jni.JavaModel
+import com.here.gluecodium.generator.jni.JniGenerator
+import com.here.gluecodium.generator.jni.JniNameRules
+import com.here.gluecodium.generator.jni.JniTemplates
+import com.here.gluecodium.model.common.Comments
+import com.here.gluecodium.model.java.JavaClass
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaElement
+import com.here.gluecodium.model.java.JavaMethod
+import com.here.gluecodium.model.java.JavaPackage
+import com.here.gluecodium.model.java.JavaTopLevelElement
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.platform.common.GeneratorSuite
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
  * bindings to BaseAPI layer for Java.
  */
 open class JavaGeneratorSuite protected constructor(
-    options: Genium.Options,
+    options: Gluecodium.Options,
     private val enableAndroidFeatures: Boolean
 ) : GeneratorSuite() {
 
@@ -62,7 +62,7 @@ open class JavaGeneratorSuite protected constructor(
 
     protected open val generatorName = GENERATOR_NAME
 
-    constructor(options: Genium.Options) : this(options, false)
+    constructor(options: Gluecodium.Options) : this(options, false)
 
     override fun getName() = "com.here.JavaGeneratorSuite"
 

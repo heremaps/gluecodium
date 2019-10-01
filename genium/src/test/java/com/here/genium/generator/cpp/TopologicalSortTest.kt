@@ -17,21 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppComplexTypeRef
-import com.here.genium.model.cpp.CppConstant
-import com.here.genium.model.cpp.CppElement
-import com.here.genium.model.cpp.CppEnum
-import com.here.genium.model.cpp.CppField
-import com.here.genium.model.cpp.CppMethod
-import com.here.genium.model.cpp.CppParameter
-import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.cpp.CppTypeDefRef
-import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.cpp.CppUsing
-import com.here.genium.model.cpp.CppValue
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppComplexTypeRef
+import com.here.gluecodium.model.cpp.CppConstant
+import com.here.gluecodium.model.cpp.CppElement
+import com.here.gluecodium.model.cpp.CppEnum
+import com.here.gluecodium.model.cpp.CppField
+import com.here.gluecodium.model.cpp.CppMethod
+import com.here.gluecodium.model.cpp.CppParameter
+import com.here.gluecodium.model.cpp.CppStruct
+import com.here.gluecodium.model.cpp.CppTypeDefRef
+import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.cpp.CppUsing
+import com.here.gluecodium.model.cpp.CppValue
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

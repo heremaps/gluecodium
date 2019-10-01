@@ -17,19 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.common.LimeTypeRefsVisitor
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
  * Validate set element types and map key types to ensure these are hashable types.

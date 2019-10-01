@@ -34,23 +34,23 @@ bool EquatableInterface::EquatableStruct::operator!=( const EquatableStruct& rhs
     return !( *this == rhs );
 }
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 EqualityHash< std::shared_ptr< ::smoke::EquatableInterface > >::operator( )( const std::shared_ptr< ::smoke::EquatableInterface >& t ) const
 {
     if ( !t ) {
         return 43;
     }
-    return 43 ^ ::genium::hash< ::smoke::EquatableInterface >( )( *t );
+    return 43 ^ ::gluecodium::hash< ::smoke::EquatableInterface >( )( *t );
 };
 std::size_t
 hash< ::smoke::EquatableInterface::EquatableStruct >::operator( )( const ::smoke::EquatableInterface::EquatableStruct& t ) const
 {
     size_t hash_value = 43;
-    hash_value = ( hash_value ^ ::genium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::int_field ) >( )( t.int_field ) ) << 1;
-hash_value = ( hash_value ^ ::genium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::string_field ) >( )( t.string_field ) ) << 1;
-hash_value = ( hash_value ^ ::genium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::nested_equatable_instance ) >( )( t.nested_equatable_instance ) ) << 1;
-hash_value = ( hash_value ^ ::genium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::nested_pointer_equatable_instance ) >( )( t.nested_pointer_equatable_instance ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::int_field ) >( )( t.int_field ) ) << 1;
+hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::string_field ) >( )( t.string_field ) ) << 1;
+hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::nested_equatable_instance ) >( )( t.nested_equatable_instance ) ) << 1;
+hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableInterface::EquatableStruct::nested_pointer_equatable_instance ) >( )( t.nested_pointer_equatable_instance ) ) << 1;
     return hash_value;
 }
 }

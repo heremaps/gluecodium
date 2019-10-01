@@ -3,20 +3,20 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <string>
 #include <vector>
 namespace smoke {
-class _GENIUM_CPP_EXPORT MethodOverloads {
+class _GLUECODIUM_CPP_EXPORT MethodOverloads {
 public:
     MethodOverloads();
     virtual ~MethodOverloads() = 0;
 public:
     using StringArray = ::std::vector< ::std::string >;
     using IntArray = ::std::vector< int8_t >;
-    struct _GENIUM_CPP_EXPORT Point {
+    struct _GLUECODIUM_CPP_EXPORT Point {
         double x;
         double y;
         Point( );

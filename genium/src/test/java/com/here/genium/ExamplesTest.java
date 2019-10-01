@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium;
+package com.here.gluecodium;
 
 import java.io.File;
 import java.util.Collection;

@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge
+package com.here.gluecodium.model.cbridge
 
-import com.here.genium.model.common.Include
+import com.here.gluecodium.model.common.Include
 
 abstract class CCollectionType(name: String) : CElement(name) {
     abstract val includes: List<Include>

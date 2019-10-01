@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.swift.SwiftType
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.swift.SwiftType
 
 class SwiftBuiltinOptionalsGenerator {
     fun generate(): List<GeneratedFile> {

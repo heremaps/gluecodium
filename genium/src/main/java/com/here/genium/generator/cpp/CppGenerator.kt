@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppConstant
-import com.here.genium.model.cpp.CppExternableElement
-import com.here.genium.model.cpp.CppFile
-import com.here.genium.model.cpp.CppUsing
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppConstant
+import com.here.gluecodium.model.cpp.CppExternableElement
+import com.here.gluecodium.model.cpp.CppFile
+import com.here.gluecodium.model.cpp.CppUsing
 import java.nio.file.Paths
 
 class CppGenerator(private val pathPrefix: String, private val internalNamespace: List<String>) {

@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeSignatureResolver
-import com.here.genium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.lime.LimeTypeHelper
 
 internal class LimeFunctionsValidator(private val logger: LimeLogger) {
 

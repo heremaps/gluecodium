@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni
+package com.here.gluecodium.model.jni
 
-import com.here.genium.model.java.JavaPackage
+import com.here.gluecodium.model.java.JavaPackage
 
 abstract class JniTopLevelElement(val javaPackage: JavaPackage) : JniElement {
     lateinit var owningContainer: JniContainer

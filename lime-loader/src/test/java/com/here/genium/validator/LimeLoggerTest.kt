@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

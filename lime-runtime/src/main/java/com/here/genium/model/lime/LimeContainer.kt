@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 /**
  * A common base class for elements that could contain various other elements inside.

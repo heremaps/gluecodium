@@ -28,4 +28,4 @@
  *
  * Redirection to file or console output.
  */
-package com.here.genium.output;
+package com.here.gluecodium.output;

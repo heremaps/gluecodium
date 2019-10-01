@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
+package com.here.gluecodium.common
 
 /** Context of each building step. Used to propagate data between parent- and child-steps. */
 class ModelBuilderContext<E> {

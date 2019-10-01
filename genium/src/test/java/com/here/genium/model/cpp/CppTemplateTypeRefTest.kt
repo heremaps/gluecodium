@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.model.common.Include
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.model.common.Include
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

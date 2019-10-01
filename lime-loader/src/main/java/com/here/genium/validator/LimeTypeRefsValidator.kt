@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.common.LimeTypeRefsVisitor
-import com.here.genium.model.lime.LimeGenericType
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeModelLoaderException
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 /* Validates all type references by trying to resolve each one and reporting any resulting
  * exceptions as validation failures.

@@ -17,29 +17,29 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.model.cbridge.CBridgeIncludeResolver
-import com.here.genium.model.cbridge.CType
-import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppPrimitiveTypeRef
-import com.here.genium.model.cpp.CppTemplateTypeRef
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.test.AssertHelpers.assertContains
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
+import com.here.gluecodium.model.cbridge.CType
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
+import com.here.gluecodium.model.cpp.CppTemplateTypeRef
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.test.AssertHelpers.assertContains
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

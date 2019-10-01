@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include <string>
 namespace smoke {
 /**
@@ -21,7 +21,7 @@ namespace smoke {
  *
  * ```Some example code;```
  */
-class _GENIUM_CPP_EXPORT MultiLineComments {
+class _GLUECODIUM_CPP_EXPORT MultiLineComments {
 public:
     MultiLineComments();
     virtual ~MultiLineComments() = 0;

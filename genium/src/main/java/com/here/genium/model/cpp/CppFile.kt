@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
-import com.here.genium.generator.cpp.TopologicalSort
-import com.here.genium.model.common.Include
+import com.here.gluecodium.generator.cpp.TopologicalSort
+import com.here.gluecodium.model.common.Include
 import java.util.TreeSet
 
 class CppFile(

@@ -17,6 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
 class JavaParameter(name: String, type: JavaType) : JavaTypedElement(name, type)

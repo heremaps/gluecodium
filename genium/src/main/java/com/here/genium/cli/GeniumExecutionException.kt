@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli
+package com.here.gluecodium.cli
 
-class GeniumExecutionException : RuntimeException {
+class GluecodiumExecutionException : RuntimeException {
     constructor(message: String) : super(message)
     constructor(message: String, cause: Throwable) : super(message, cause)
 }

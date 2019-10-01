@@ -1,5 +1,5 @@
-# Genium-related tools
-This directory contains additional tools related to Genium project.
+# Gluecodium-related tools
+This directory contains additional tools related to Gluecodium project.
 
 ## IntelliJ IDEA syntax highlighter for LimeIDL
 _What does it do_: highlights syntax for LimeIDL files when you open them in IntelliJ IDEA

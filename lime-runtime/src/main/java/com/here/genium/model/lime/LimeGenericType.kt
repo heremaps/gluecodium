@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 /**
  * A common base class for "generic" types, i.e. types that are parameterized by one or more other

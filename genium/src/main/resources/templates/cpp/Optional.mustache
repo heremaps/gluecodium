@@ -42,65 +42,65 @@
 #include "Hash.h"
 
 /*
- * This header is used to define the optional type used by Genium. If nothing else is defined
+ * This header is used to define the optional type used by Gluecodium. If nothing else is defined
  * it will use std::optional if available and fallback to a builtin optional implementation
- * otherwise. To use custom optional implementation, GENIUM_OPTIONAL_HEADER and GENIUM_OPTIONAL_TYPE
+ * otherwise. To use custom optional implementation, GLUECODIUM_OPTIONAL_HEADER and GLUECODIUM_OPTIONAL_TYPE
  * need to be defined. The optional will be used in the internal namespace.
  *
  * For exampe to use optional from experimental define the following macros
  *
- * #define GENIUM_OPTIONAL_HEADER <experimental/optional>
- * #define GENIUM_OPTIONAL_TYPE std::experimental::optional
- * #define GENIUM_OPTIONAL_HELPER_TYPES auto nullopt = std::experimental::nullopt; \
+ * #define GLUECODIUM_OPTIONAL_HEADER <experimental/optional>
+ * #define GLUECODIUM_OPTIONAL_TYPE std::experimental::optional
+ * #define GLUECODIUM_OPTIONAL_HELPER_TYPES auto nullopt = std::experimental::nullopt; \
  *                                      auto in_place = std::experimental::in_place;
  *
- * GENIUM_OPTIONAL_HELPER_TYPES is just a convenience macro to have these available in the same
- * namespace as the optional type. These are not necessary for Genium to use the optional type
+ * GLUECODIUM_OPTIONAL_HELPER_TYPES is just a convenience macro to have these available in the same
+ * namespace as the optional type. These are not necessary for Gluecodium to use the optional type
  * itself.
  */
 
-#if (defined(GENIUM_OPTIONAL_HEADER) && !defined(GENIUM_OPTIONAL_TYPE)) || \
-      (!defined(GENIUM_OPTIONAL_HEADER) && defined(GENIUM_OPTIONAL_TYPE))
-# error "Either both GENIUM_OPTIONAL_HEADER and GENIUM_OPTIONAL_TYPE or neither of them must be defined"
+#if (defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)) || \
+      (!defined(GLUECODIUM_OPTIONAL_HEADER) && defined(GLUECODIUM_OPTIONAL_TYPE))
+# error "Either both GLUECODIUM_OPTIONAL_HEADER and GLUECODIUM_OPTIONAL_TYPE or neither of them must be defined"
 #endif
 
-#if !defined(GENIUM_OPTIONAL_HEADER) && !defined(GENIUM_OPTIONAL_TYPE)
+#if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
 #ifdef __has_include
 # if defined(_MSC_VER)
 #   if _MSC_VER >= 1911 && _MSVC_LANG >= 201703
-#     define GENIUM_OPTIONAL_HEADER <optional>
-#     define GENIUM_OPTIONAL_TYPE std::optional
-#     define GENIUM_OPTIONAL_HELPER_TYPES auto nullopt = std::nullopt; \
+#     define GLUECODIUM_OPTIONAL_HEADER <optional>
+#     define GLUECODIUM_OPTIONAL_TYPE std::optional
+#     define GLUECODIUM_OPTIONAL_HELPER_TYPES auto nullopt = std::nullopt; \
                                           auto in_place = std::in_place; \
                                           auto bad_access = std::bad_optional_access;
 #  endif
 # elif __cplusplus > 201402L
 #   if __has_include(<optional>)
-#     define GENIUM_OPTIONAL_HEADER <optional>
-#     define GENIUM_OPTIONAL_TYPE std::optional
-#     define GENIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
+#     define GLUECODIUM_OPTIONAL_HEADER <optional>
+#     define GLUECODIUM_OPTIONAL_TYPE std::optional
+#     define GLUECODIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
                                           using std::in_place; \
                                           using std::bad_optional_access;
 #   endif
 # endif
 #endif // __has_include
-#endif // !defined(GENIUM_OPTIONAL_HEADER) && !defined(GENIUM_OPTIONAL_TYPE)
+#endif // !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
 
 
-#if !defined(GENIUM_OPTIONAL_HEADER) && !defined(GENIUM_OPTIONAL_TYPE)
-# define GENIUM_OPTIONAL_HEADER "OptionalImpl.h"
-# define GENIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
+#if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
+# define GLUECODIUM_OPTIONAL_HEADER "OptionalImpl.h"
+# define GLUECODIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
 #endif
 
-#include GENIUM_OPTIONAL_HEADER
+#include GLUECODIUM_OPTIONAL_HEADER
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 template<typename T>
-using optional = GENIUM_OPTIONAL_TYPE<T>;
-#ifdef GENIUM_OPTIONAL_HELPER_TYPES
-GENIUM_OPTIONAL_HELPER_TYPES
+using optional = GLUECODIUM_OPTIONAL_TYPE<T>;
+#ifdef GLUECODIUM_OPTIONAL_HELPER_TYPES
+GLUECODIUM_OPTIONAL_HELPER_TYPES
 #endif
 
 template <class ValueType>

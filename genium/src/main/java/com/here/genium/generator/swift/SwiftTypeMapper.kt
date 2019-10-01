@@ -17,31 +17,31 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.generator.cbridge.CBridgeNameResolver
-import com.here.genium.generator.cbridge.CBridgeNameRules
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.model.swift.SwiftArray
-import com.here.genium.model.swift.SwiftDictionary
-import com.here.genium.model.swift.SwiftEnum
-import com.here.genium.model.swift.SwiftSet
-import com.here.genium.model.swift.SwiftStruct
-import com.here.genium.model.swift.SwiftType
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.swift.SwiftArray
+import com.here.gluecodium.model.swift.SwiftDictionary
+import com.here.gluecodium.model.swift.SwiftEnum
+import com.here.gluecodium.model.swift.SwiftSet
+import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.model.swift.SwiftType
 
 class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
 
@@ -73,7 +73,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeMap -> mapMapType(limeType)
             is LimeSet -> mapSetType(limeType)
             is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorEnum.type))
-            else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
+            else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
         }
     }
 

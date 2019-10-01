@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
-import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 
 class CppFunctionTypeRef(
     val parameters: List<CppTypeRef>,

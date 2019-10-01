@@ -4,14 +4,14 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "examples/CalculatorListener.h"
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include <memory>
 namespace examples {
     class Calculator;
     class CalculatorListener;
 }
 namespace examples {
-class _GENIUM_CPP_EXPORT Calculator {
+class _GLUECODIUM_CPP_EXPORT Calculator {
 public:
     Calculator();
     virtual ~Calculator() = 0;

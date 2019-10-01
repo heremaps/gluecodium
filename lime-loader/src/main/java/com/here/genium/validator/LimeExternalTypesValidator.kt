@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
 
 /**
  * Validate each element with "@Cpp(ExternalName)", "@Cpp(ExternalGetter)" or "@Cpp(ExternalSetter)"

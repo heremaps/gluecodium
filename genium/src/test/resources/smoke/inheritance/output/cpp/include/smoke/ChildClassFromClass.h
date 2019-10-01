@@ -3,10 +3,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include "smoke/ParentClass.h"
 namespace smoke {
-class _GENIUM_CPP_EXPORT ChildClassFromClass: public ::smoke::ParentClass {
+class _GLUECODIUM_CPP_EXPORT ChildClassFromClass: public ::smoke::ParentClass {
 public:
     ChildClassFromClass();
     virtual ~ChildClassFromClass() = 0;

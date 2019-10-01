@@ -3,10 +3,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/UnorderedMapHash.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -15,7 +15,7 @@ namespace examples {
 /**
  * This is some very useful interface.
  */
-class _GENIUM_CPP_EXPORT Comments {
+class _GLUECODIUM_CPP_EXPORT Comments {
 public:
     Comments();
     virtual ~Comments() = 0;
@@ -48,7 +48,7 @@ public:
     /**
      * This is some very useful struct.
      */
-    struct _GENIUM_CPP_EXPORT SomeStruct {
+    struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * How useful this struct is
          */
@@ -59,7 +59,7 @@ public:
     /**
      * This is some very useful constant.
      */
-    _GENIUM_CPP_EXPORT static const ::examples::Comments::Usefulness VERY_USEFUL;
+    _GLUECODIUM_CPP_EXPORT static const ::examples::Comments::Usefulness VERY_USEFUL;
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.
@@ -79,9 +79,9 @@ public:
     virtual void set_some_property( const ::examples::Comments::Usefulness value ) = 0;
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::examples::Comments::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
 };
 }

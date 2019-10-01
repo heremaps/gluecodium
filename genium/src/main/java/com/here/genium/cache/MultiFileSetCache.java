@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
-import com.here.genium.cli.GeniumExecutionException;
-import com.here.genium.generator.common.GeneratedFile;
+import com.here.gluecodium.cli.GluecodiumExecutionException;
+import com.here.gluecodium.generator.common.GeneratedFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -90,7 +90,7 @@ class MultiFileSetCache {
     FileSetCache cache = singleSetCaches.get(fileSetName);
 
     if (cache == null) {
-      throw new GeniumExecutionException("No cache found of given name: " + fileSetName);
+      throw new GluecodiumExecutionException("No cache found of given name: " + fileSetName);
     }
     return cache.updateCache(files);
   }
@@ -130,7 +130,7 @@ class MultiFileSetCache {
           .map(source::resolve)
           .collect(Collectors.toList());
     } catch (IOException e) {
-      throw new GeniumExecutionException("Retrieval of non cached files failed", e);
+      throw new GluecodiumExecutionException("Retrieval of non cached files failed", e);
     }
   }
 

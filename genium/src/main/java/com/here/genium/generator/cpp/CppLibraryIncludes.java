@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp;
+package com.here.gluecodium.generator.cpp;
 
-import com.here.genium.model.common.Include;
+import com.here.gluecodium.model.common.Include;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;

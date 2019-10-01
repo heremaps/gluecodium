@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 /**
  * An object of this class represents a "path" in the LIME model tree from the root to some specific

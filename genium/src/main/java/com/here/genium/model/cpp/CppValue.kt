@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
-import com.here.genium.model.common.Include
+import com.here.gluecodium.model.common.Include
 
 class CppValue(value: String, includes: List<Include> = emptyList())
     : CppElementWithIncludes(value, value, includes)

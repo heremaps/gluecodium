@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 #
-# Upload Genium dependencies to HERE Artifactory.
+# Upload Gluecodium dependencies to HERE Artifactory.
 #
 
 function usage {

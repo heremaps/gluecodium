@@ -17,6 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift
+package com.here.gluecodium.model.swift
 
 class SwiftEnumItem(name: String, val value: SwiftValue?) : SwiftModelElement(name)

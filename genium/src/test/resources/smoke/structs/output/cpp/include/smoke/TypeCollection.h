@@ -3,27 +3,27 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
 namespace smoke {
-struct _GENIUM_CPP_EXPORT Point {
+struct _GLUECODIUM_CPP_EXPORT Point {
     double x;
     double y;
     Point( );
     Point( const double x, const double y );
 };
 using PointTypedef = ::smoke::Point;
-struct _GENIUM_CPP_EXPORT Line {
+struct _GLUECODIUM_CPP_EXPORT Line {
     ::smoke::Point a;
     ::smoke::Point b;
     Line( );
     Line( const ::smoke::Point& a, const ::smoke::Point& b );
 };
-struct _GENIUM_CPP_EXPORT AllTypesStruct {
+struct _GLUECODIUM_CPP_EXPORT AllTypesStruct {
     int8_t int8_field;
     uint8_t uint8_field;
     int16_t int16_field;

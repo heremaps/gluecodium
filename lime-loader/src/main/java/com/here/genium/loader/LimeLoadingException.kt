@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.gluecodium.loader
 
-import com.here.genium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.model.lime.LimeModelLoaderException
 
 internal class LimeLoadingException : LimeModelLoaderException {
     constructor(message: String) : super(message)

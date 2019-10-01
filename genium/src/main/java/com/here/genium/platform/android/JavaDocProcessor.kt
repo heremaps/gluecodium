@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.android
+package com.here.gluecodium.platform.android
 
-import com.here.genium.platform.common.CommentsProcessor
+import com.here.gluecodium.platform.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl

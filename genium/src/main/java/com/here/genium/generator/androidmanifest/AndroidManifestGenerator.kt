@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.androidmanifest
+package com.here.gluecodium.generator.androidmanifest
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import java.io.File
 
 class AndroidManifestGenerator(private val basePackages: List<String>) {

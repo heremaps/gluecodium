@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.output.FileRemove;
+import com.here.gluecodium.generator.common.GeneratedFile;
+import com.here.gluecodium.output.FileRemove;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;

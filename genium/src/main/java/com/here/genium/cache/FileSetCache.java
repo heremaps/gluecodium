@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
-import com.here.genium.cli.GeniumExecutionException;
-import com.here.genium.generator.common.GeneratedFile;
+import com.here.gluecodium.cli.GluecodiumExecutionException;
+import com.here.gluecodium.generator.common.GeneratedFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -66,9 +66,9 @@ class FileSetCache {
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
       return (HashMap<String, CacheEntry>) objectInputStream.readObject();
     } catch (IOException e) {
-      throw new GeniumExecutionException("Reading cache index from file system failed", e);
+      throw new GluecodiumExecutionException("Reading cache index from file system failed", e);
     } catch (ClassNotFoundException e) {
-      throw new GeniumExecutionException("Casting cache index contents failed", e);
+      throw new GluecodiumExecutionException("Casting cache index contents failed", e);
     }
   }
 
@@ -79,9 +79,9 @@ class FileSetCache {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
       objectOutputStream.writeObject(cacheEntries);
     } catch (FileNotFoundException e) {
-      throw new GeniumExecutionException("Opening the cache index file for writing failed", e);
+      throw new GluecodiumExecutionException("Opening the cache index file for writing failed", e);
     } catch (IOException e) {
-      throw new GeniumExecutionException("Writing stream header of cache index file failed", e);
+      throw new GluecodiumExecutionException("Writing stream header of cache index file failed", e);
     }
   }
 

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.test
+package com.here.gluecodium.test
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

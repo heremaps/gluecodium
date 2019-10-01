@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.androidmanifest.templates;
+package com.here.gluecodium.generator.androidmanifest.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.model.java.JavaPackage;
+import com.here.gluecodium.generator.common.templates.TemplateEngine;
+import com.here.gluecodium.model.java.JavaPackage;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;

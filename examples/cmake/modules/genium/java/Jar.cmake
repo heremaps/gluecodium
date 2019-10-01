@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_java_Jar)
+if(DEFINED includeguard_gluecodium_java_Jar)
   return()
 endif()
-set(includeguard_genium_java_Jar ON)
+set(includeguard_gluecodium_java_Jar ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -45,15 +45,15 @@ function(apigen_java_jar target)
   cmake_parse_arguments(apigen_java_jar "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
   get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_java_jar() depends on apigen_generate() configured with generator 'android'")
   endif()
 
-  # Genium invocations for different generators need different output directories
-  # as Genium currently wipes the directory upon start.
+  # Gluecodium invocations for different generators need different output directories
+  # as Gluecodium currently wipes the directory upon start.
   if(NOT apigen_java_jar_OUTPUT_DIR)
     set(apigen_java_jar_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
   endif()

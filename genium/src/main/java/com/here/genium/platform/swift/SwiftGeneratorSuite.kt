@@ -17,26 +17,26 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.swift
+package com.here.gluecodium.platform.swift
 
-import com.here.genium.Genium
-import com.here.genium.generator.cbridge.CBridgeGenerator
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppNameRules
-import com.here.genium.generator.swift.SwiftGenerator
-import com.here.genium.generator.swift.SwiftModel
-import com.here.genium.generator.swift.SwiftNameRules
-import com.here.genium.model.cbridge.CBridgeIncludeResolver
-import com.here.genium.model.common.Comments
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.swift.SwiftMethod
-import com.here.genium.model.swift.SwiftModelElement
-import com.here.genium.model.swift.SwiftStruct
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.cbridge.CBridgeGenerator
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.swift.SwiftGenerator
+import com.here.gluecodium.generator.swift.SwiftModel
+import com.here.gluecodium.generator.swift.SwiftNameRules
+import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
+import com.here.gluecodium.model.common.Comments
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.swift.SwiftMethod
+import com.here.gluecodium.model.swift.SwiftModelElement
+import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.platform.common.GeneratorSuite
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -44,7 +44,7 @@ import com.here.genium.platform.common.GeneratorSuite
  *
  * The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
  */
-class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
+class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = SwiftCommentsProcessor()

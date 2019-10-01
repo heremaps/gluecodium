@@ -16,9 +16,9 @@ typedef struct {
         double returned_value;
     };
 } smoke_UseFreeTypes_doStuff_result;
-_GENIUM_C_EXPORT void smoke_UseFreeTypes_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_UseFreeTypes_copy_handle(_baseRef handle);
-_GENIUM_C_EXPORT smoke_UseFreeTypes_doStuff_result smoke_UseFreeTypes_doStuff(_baseRef _instance, _baseRef point, smoke_FreeEnum mode);
+_GLUECODIUM_C_EXPORT void smoke_UseFreeTypes_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_UseFreeTypes_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT smoke_UseFreeTypes_doStuff_result smoke_UseFreeTypes_doStuff(_baseRef _instance, _baseRef point, smoke_FreeEnum mode);
 #ifdef __cplusplus
 }
 #endif

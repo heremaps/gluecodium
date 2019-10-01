@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 /**
  * This class provides several tools for analysis of method signatures. Since treatment of generic

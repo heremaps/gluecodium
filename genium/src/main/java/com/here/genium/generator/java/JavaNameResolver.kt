@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypesCollection
 
 class JavaNameResolver(
     private val nameRules: JavaNameRules,

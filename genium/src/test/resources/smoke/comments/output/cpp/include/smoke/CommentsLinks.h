@@ -3,8 +3,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Return.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Return.h"
 #include "smoke/Comments.h"
 #include <system_error>
 namespace smoke {
@@ -17,7 +17,7 @@ namespace smoke {
  *
  * [example]: http://example.com
  */
-class _GENIUM_CPP_EXPORT CommentsLinks {
+class _GLUECODIUM_CPP_EXPORT CommentsLinks {
 public:
     CommentsLinks();
     virtual ~CommentsLinks() = 0;
@@ -25,7 +25,7 @@ public:
     /**
      * Links also work in:
      */
-    struct _GENIUM_CPP_EXPORT RandomStruct {
+    struct _GLUECODIUM_CPP_EXPORT RandomStruct {
         /**
          * Some random field ::smoke::Comments::SomeStruct
          */
@@ -73,6 +73,6 @@ public:
      * \return Sometimes returns ::smoke::Comments::SomeEnum::USEFUL
      * \retval ::smoke::Comments::SomeEnum May or may not throw ::smoke::Comments::SomeEnum
      */
-    virtual ::genium::Return< ::smoke::Comments::SomeEnum, ::std::error_code > random_method( const ::smoke::Comments::SomeEnum input_parameter ) = 0;
+    virtual ::gluecodium::Return< ::smoke::Comments::SomeEnum, ::std::error_code > random_method( const ::smoke::Comments::SomeEnum input_parameter ) = 0;
 };
 }

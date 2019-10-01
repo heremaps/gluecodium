@@ -11,7 +11,7 @@ const float FLOAT_CONSTANT = 3.14f;
 const ::std::string STRING_CONSTANT = "Foo bar";
 const ::examples::StateEnum ENUM_CONSTANT = ::examples::StateEnum::ON;
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 hash< ::examples::StateEnum >::operator( )( const ::examples::StateEnum& t ) const
 {

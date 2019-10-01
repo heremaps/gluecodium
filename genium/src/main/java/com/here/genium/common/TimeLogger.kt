@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
+package com.here.gluecodium.common
 
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit

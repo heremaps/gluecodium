@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.swift;
+package com.here.gluecodium.platform.swift;
 
 import static org.junit.Assert.assertTrue;
 
-import com.here.genium.Genium;
-import com.here.genium.generator.cbridge.CBridgeGenerator;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.swift.SwiftGenerator;
-import com.here.genium.model.lime.LimeModel;
+import com.here.gluecodium.Gluecodium;
+import com.here.gluecodium.generator.cbridge.CBridgeGenerator;
+import com.here.gluecodium.generator.common.GeneratedFile;
+import com.here.gluecodium.generator.swift.SwiftGenerator;
+import com.here.gluecodium.model.lime.LimeModel;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
@@ -35,7 +35,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class SwiftGeneratorSuiteTest {
 
-  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(Genium.Companion.testOptions());
+  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(Gluecodium.Companion.testOptions());
 
   @Test
   public void generatedFilesContainStaticFiles() {

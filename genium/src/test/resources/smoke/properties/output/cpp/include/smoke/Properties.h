@@ -3,9 +3,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/PropertiesInterface.h"
 #include <cstdint>
 #include <memory>
@@ -15,7 +15,7 @@ namespace smoke {
     class PropertiesInterface;
 }
 namespace smoke {
-class _GENIUM_CPP_EXPORT Properties {
+class _GLUECODIUM_CPP_EXPORT Properties {
 public:
     Properties();
     virtual ~Properties() = 0;
@@ -24,7 +24,7 @@ public:
         ERROR_NONE,
         ERROR_FATAL = 999
     };
-    struct _GENIUM_CPP_EXPORT ExampleStruct {
+    struct _GLUECODIUM_CPP_EXPORT ExampleStruct {
         double value;
         ExampleStruct( );
         ExampleStruct( const double value );
@@ -58,9 +58,9 @@ public:
     static ::smoke::Properties::ExampleStruct get_static_readonly_property(  );
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::Properties::InternalErrorCode > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Properties::InternalErrorCode& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Properties::InternalErrorCode& t ) const;
 };
 }

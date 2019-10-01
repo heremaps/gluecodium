@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_Test)
+if(DEFINED includeguard_gluecodium_swift_Test)
   return()
 endif()
-set(includeguard_genium_swift_Test ON)
+set(includeguard_gluecodium_swift_Test ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -37,7 +37,7 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_swift_test target swift_target_flag module_name)
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_TEST_SHARED ${target} APIGEN_SWIFT_TESTS_SHARED)
   get_target_property(SWIFT_TEST_IOS ${target} APIGEN_SWIFT_TESTS_IOS)

@@ -4,8 +4,8 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/ErrorsInterface.h"
 #include <memory>
 #include <new>
@@ -29,7 +29,7 @@ struct smoke_ErrorsInterfaceRegisterInit {
 } s_smoke_ErrorsInterface_register_init;
 }
 void* smoke_ErrorsInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::ErrorsInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::ErrorsInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ErrorsInterface(handle);
 }
@@ -61,7 +61,7 @@ public:
         return static_cast<::smoke::ErrorsInterface::InternalError>(mFunctions.smoke_ErrorsInterface_methodWithErrors(mFunctions.swift_pointer));    }
     ::std::error_code method_with_external_errors() override {
         return static_cast<::smoke::ErrorsInterface::ExternalErrors>(mFunctions.smoke_ErrorsInterface_methodWithExternalErrors(mFunctions.swift_pointer));    }
-    ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value() override {
+    ::gluecodium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value() override {
         auto _result_with_error = mFunctions.smoke_ErrorsInterface_methodWithErrorsAndReturnValue(mFunctions.swift_pointer);
         if (!_result_with_error.has_value)
         {

@@ -17,33 +17,33 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.lime
+package com.here.gluecodium.generator.lime
 
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeContainerWithInheritance
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeLambda
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeReturnType
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypeRef
-import com.here.genium.model.lime.LimeTypedElement
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeReturnType
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.platform.common.GeneratorSuite
 
 class LimeGeneratorSuite : GeneratorSuite() {
 
@@ -118,7 +118,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
             is LimeTypeAlias -> "lime/LimeTypeAlias"
             is LimeException -> "lime/LimeException"
             is LimeLambda -> "lime/LimeLambda"
-            else -> throw GeniumExecutionException("Unsupported top-level element: " +
+            else -> throw GluecodiumExecutionException("Unsupported top-level element: " +
                     limeElement::class.java.name)
         }
 

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli
+package com.here.gluecodium.cli
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -66,7 +66,7 @@ class OptionReaderTest {
         val consoleOutput = String(bo.toByteArray())
 
         // Assert
-        assertTrue(consoleOutput.contains("Genium - Generate APIs from LimeIDL files"))
+        assertTrue(consoleOutput.contains("Gluecodium - Generate APIs from LimeIDL files"))
     }
 
     @Test

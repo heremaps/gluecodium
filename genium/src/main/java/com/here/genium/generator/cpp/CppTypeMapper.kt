@@ -17,32 +17,32 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.model.cpp.CppComplexTypeRef
-import com.here.genium.model.cpp.CppFunctionTypeRef
-import com.here.genium.model.cpp.CppPrimitiveTypeRef
-import com.here.genium.model.cpp.CppTemplateTypeRef
-import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass
-import com.here.genium.model.cpp.CppTypeDefRef
-import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainerWithInheritance
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeLambda
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.model.cpp.CppComplexTypeRef
+import com.here.gluecodium.model.cpp.CppFunctionTypeRef
+import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
+import com.here.gluecodium.model.cpp.CppTemplateTypeRef
+import com.here.gluecodium.model.cpp.CppTemplateTypeRef.TemplateClass
+import com.here.gluecodium.model.cpp.CppTypeDefRef
+import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 class CppTypeMapper(
     private val nameResolver: CppNameResolver,
@@ -157,7 +157,7 @@ class CppTypeMapper(
                 includeResolver.resolveIncludes(limeType),
                 mapLambda(limeType)
             )
-            else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
+            else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
         }
 
     private fun mapPredefined(limeBasicType: LimeBasicType) =

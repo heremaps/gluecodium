@@ -17,19 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeSignatureResolver
-import com.here.genium.model.swift.SwiftEnum
-import com.here.genium.model.swift.SwiftError
-import com.here.genium.model.swift.SwiftFile
-import com.here.genium.model.swift.SwiftModelElement
-import com.here.genium.model.swift.SwiftStruct
-import com.here.genium.model.swift.SwiftTypeDef
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.swift.SwiftEnum
+import com.here.gluecodium.model.swift.SwiftError
+import com.here.gluecodium.model.swift.SwiftFile
+import com.here.gluecodium.model.swift.SwiftModelElement
+import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.model.swift.SwiftTypeDef
+import com.here.gluecodium.platform.common.GeneratorSuite
 
 class SwiftGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,

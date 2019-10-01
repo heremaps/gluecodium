@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium;
+package com.here.gluecodium;
 
-import com.here.genium.Genium.Options;
+import com.here.gluecodium.Gluecodium.Options;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,9 +41,9 @@ public final class NamespaceSmokeTest extends AcceptanceTestBase {
   }
 
   @Override
-  protected Genium.Options getGeniumOptions() {
-    Options options = new Genium.Options();
-    options.setCppInternalNamespace(Genium.Companion.getDEFAULT_INTERNAL_NAMESPACE());
+  protected Gluecodium.Options getGluecodiumOptions() {
+    Options options = new Gluecodium.Options();
+    options.setCppInternalNamespace(Gluecodium.Companion.getDEFAULT_INTERNAL_NAMESPACE());
     options.setCppRootNamespace(Arrays.asList("root", "space"));
     options.setJavaInternalPackages(Arrays.asList("foo", "bar"));
     return options;

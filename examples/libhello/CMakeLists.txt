@@ -43,7 +43,7 @@ function(feature feature_name)
     set(lime_sources)
 
     foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
-        if(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL ${generator})
+        if(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL ${generator})
             message("Enabling feature ${feature_name} for ${generator}")
             foreach(source ${feature_SOURCES})
                 get_filename_component(extension "${source}" EXT)
@@ -381,11 +381,11 @@ set_target_properties(hello PROPERTIES
 target_include_directories(hello PRIVATE "src/test/")
 target_link_libraries(hello Threads::Threads)
 
-include(genium/Genium)
+include(gluecodium/Gluecodium)
 apigen_generate(TARGET hello
         LIME_SOURCES ${HELLO_LIME_SOURCES}
-        GENERATOR ${HELLO_APIGEN_GENIUM_GENERATOR}
-        VERSION ${HELLO_APIGEN_GENIUM_VERSION}
+        GENERATOR ${HELLO_APIGEN_GLUECODIUM_GENERATOR}
+        VERSION ${HELLO_APIGEN_GLUECODIUM_VERSION}
         JAVA_PACKAGE com.here.android
         JAVA_INTERNAL_PACKAGE lorem.ipsum
         JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
@@ -397,15 +397,15 @@ apigen_target_sources(hello)
 
 
 # Target platform specific rules to follow...
-if(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL cpp)
+if(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL cpp)
     # Only install the shared library for C++ users, others don't care...
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         INCLUDES DESTINATION hello)
-elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
+elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL android)
     # Android users want an Android Archive and it's pre-requirements...
-    include(genium/Android)
+    include(gluecodium/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
         set(ANDROID_NATIVE_API_LEVEL "28")
     endif()
@@ -418,9 +418,9 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
         REMOTE_DEPENDENCIES "com.android.support:support-annotations:28.0.0")
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
-elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
+elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL swift)
     # Swift users want a module...
-    include(genium/Swift)
+    include(gluecodium/Swift)
     if(HELLO_SWIFT_TESTS)
         set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS_SHARED ${HELLO_SWIFT_TESTS})
     endif()

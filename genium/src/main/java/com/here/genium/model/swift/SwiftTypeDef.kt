@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift
+package com.here.gluecodium.model.swift
 
 open class SwiftTypeDef(name: String, visibility: SwiftVisibility?, type: SwiftType) :
     SwiftTypedModelElement(name, visibility, type)

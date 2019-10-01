@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeContainerWithInheritance
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeStruct
 
 // Validate serializable structs to ensure their fields have serializable types.
 internal class LimeSerializableStructsValidator(private val logger: LimeLogger) {

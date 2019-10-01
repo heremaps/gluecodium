@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.gluecodium.loader
 
-import com.here.genium.antlr.LimeParser
-import com.here.genium.antlr.LimeParserListener
-import com.here.genium.common.ContextBasedModelBuilder
-import com.here.genium.common.ModelBuilderContextStack
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.antlr.LimeParser
+import com.here.gluecodium.antlr.LimeParserListener
+import com.here.gluecodium.common.ContextBasedModelBuilder
+import com.here.gluecodium.common.ModelBuilderContextStack
+import com.here.gluecodium.model.lime.LimeNamedElement
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.TerminalNode

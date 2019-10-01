@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException

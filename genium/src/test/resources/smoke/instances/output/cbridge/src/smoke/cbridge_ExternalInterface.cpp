@@ -5,8 +5,8 @@
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "foo/Bar.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include <memory>
 #include <new>
 #include <string>
@@ -29,7 +29,7 @@ struct smoke_ExternalInterfaceRegisterInit {
 } s_smoke_ExternalInterface_register_init;
 }
 void* smoke_ExternalInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::ExternalInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::ExternalInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ExternalInterface(handle);
 }
@@ -48,17 +48,17 @@ smoke_ExternalInterface_SomeStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_ExternalInterface_SomeStruct_create_optional_handle(_baseRef someField)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::ExternalInterface::some_Struct>( ::smoke::ExternalInterface::some_Struct( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::ExternalInterface::some_Struct>( ::smoke::ExternalInterface::some_Struct( ) );
     (*_struct)->some_Field = Conversion<std::string>::toCpp( someField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_ExternalInterface_SomeStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::ExternalInterface::some_Struct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::ExternalInterface::some_Struct>*>( handle ) );
 }
 void smoke_ExternalInterface_SomeStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::ExternalInterface::some_Struct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::ExternalInterface::some_Struct>*>( handle );
 }
 _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::ExternalInterface::some_Struct>(handle);

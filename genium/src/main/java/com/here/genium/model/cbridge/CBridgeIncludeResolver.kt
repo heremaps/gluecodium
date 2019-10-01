@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge
+package com.here.gluecodium.model.cbridge
 
-import com.here.genium.generator.cbridge.CBridgeNameRules
-import com.here.genium.model.common.Include
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 import java.util.HashMap
 

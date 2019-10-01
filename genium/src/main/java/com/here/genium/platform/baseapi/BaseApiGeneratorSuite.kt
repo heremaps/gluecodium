@@ -17,34 +17,34 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.baseapi
+package com.here.gluecodium.platform.baseapi
 
-import com.here.genium.Genium
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.generator.cpp.CppGenerator
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppNameRules
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.model.common.Comments
-import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppComplexTypeRef
-import com.here.genium.model.cpp.CppElement
-import com.here.genium.model.cpp.CppElementWithComment
-import com.here.genium.model.cpp.CppElementWithIncludes
-import com.here.genium.model.cpp.CppEnum
-import com.here.genium.model.cpp.CppFile
-import com.here.genium.model.cpp.CppForwardDeclarationGroup
-import com.here.genium.model.cpp.CppMethod
-import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.generator.cpp.CppGenerator
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppModelBuilder
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.cpp.CppTypeMapper
+import com.here.gluecodium.model.common.Comments
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppComplexTypeRef
+import com.here.gluecodium.model.cpp.CppElement
+import com.here.gluecodium.model.cpp.CppElementWithComment
+import com.here.gluecodium.model.cpp.CppElementWithIncludes
+import com.here.gluecodium.model.cpp.CppEnum
+import com.here.gluecodium.model.cpp.CppFile
+import com.here.gluecodium.model.cpp.CppForwardDeclarationGroup
+import com.here.gluecodium.model.cpp.CppMethod
+import com.here.gluecodium.model.cpp.CppStruct
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.platform.common.GeneratorSuite
 import java.io.File
 import java.nio.file.Paths
 
@@ -55,7 +55,7 @@ import java.nio.file.Paths
  * It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the C++ interfaces.
  */
-class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
+class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     private val internalNamespace = options.cppInternalNamespace ?: listOf("")
     private val rootNamespace = options.cppRootNamespace

@@ -1,15 +1,15 @@
 User guide
 ==========
 
-This guide's goal is to give you, as the user of Genium code generation tool, an overview
-which language features Genium offers and how to use them. It also gives you clues where
+This guide's goal is to give you, as the user of Gluecodium code generation tool, an overview
+which language features Gluecodium offers and how to use them. It also gives you clues where
 you need to add your own implementation to the generated code. For a complete syntax
 description of LimeIDL please refer to the [LimeIDL description](lime_idl.md).
 
 Overview
 --------
 
-Genium generates a C++ API with language bindings for Java and Swift. For C++ it will
+Gluecodium generates a C++ API with language bindings for Java and Swift. For C++ it will
 generate declarations only. These need to be implemented by you to provide application logic.
 Java and Swift bindings are completely generated and forward all calls to C++.
 
@@ -66,7 +66,7 @@ anymore and the proxy is released.
 **Note** Holding `std::shared_ptr` of the proxy object in C++ will extend the lifetime of the
 object in Java/Swift.
 
-**Note** Interfaces cannot have static methods since Genium cannot know in which language
+**Note** Interfaces cannot have static methods since Gluecodium cannot know in which language
 these should be implemented.
 
 Constructors
@@ -97,7 +97,7 @@ generated code for Interfaces the nullability is expressed as a documentation co
 **Note:** Java annotations are only generated if these are specified via command line parameter.
 
 **Note:** The C++ generated code will use `optional` to express nullability for non-Interface types.
-Which implementation is used depends on the compiler version: Genium uses `std::optional` if available,
+Which implementation is used depends on the compiler version: Gluecodium uses `std::optional` if available,
 but falls back to a custom implementation of it otherwise. This behavior can be overwritten with defines,
 see generated `Optional.h` header.
 

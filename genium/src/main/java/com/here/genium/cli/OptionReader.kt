@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli
+package com.here.gluecodium.cli
 
-import com.here.genium.Genium
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.platform.common.GeneratorSuite
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.Key
@@ -114,7 +114,7 @@ object OptionReader {
     }
 
     @Throws(OptionReaderException::class)
-    fun read(args: Array<String>): Genium.Options? {
+    fun read(args: Array<String>): Gluecodium.Options? {
         val cmd = try {
             DefaultParser().parse(this.options, args)
         } catch (e: ParseException) {
@@ -142,7 +142,7 @@ object OptionReader {
         fun getFlagValue(key: String) =
             cmd.hasOption(key) || optionsConfig?.getOrNull(Key(key, booleanType)) == true
 
-        val options = Genium.Options()
+        val options = Gluecodium.Options()
 
         options.inputDirs = getStringListValue("input") ?: emptyList()
         options.outputDir = getStringValue("output")
@@ -183,7 +183,7 @@ object OptionReader {
     }
 
     fun printUsage() {
-        val header = "Genium - Generate APIs from LimeIDL files\n\n"
+        val header = "Gluecodium - Generate APIs from LimeIDL files\n\n"
         val footer = "\nPlease report issues at /dev/null"
 
         HelpFormatter().printHelp("generate [input]", header, options, footer, true)

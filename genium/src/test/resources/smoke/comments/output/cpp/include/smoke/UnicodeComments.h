@@ -3,13 +3,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Return.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Return.h"
 #include "smoke/Comments.h"
 #include <string>
 #include <system_error>
 namespace smoke {
-class _GENIUM_CPP_EXPORT UnicodeComments {
+class _GLUECODIUM_CPP_EXPORT UnicodeComments {
 public:
     UnicodeComments();
     virtual ~UnicodeComments() = 0;
@@ -20,6 +20,6 @@ public:
      * \return товарищ
      * \retval ::smoke::Comments::SomeEnum ネコ
      */
-    virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
+    virtual ::gluecodium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
 };
 }

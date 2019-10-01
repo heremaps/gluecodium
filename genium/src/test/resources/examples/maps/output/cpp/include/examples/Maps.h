@@ -3,13 +3,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/UnorderedMapHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/UnorderedMapHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
 namespace examples {
-class _GENIUM_CPP_EXPORT Maps {
+class _GLUECODIUM_CPP_EXPORT Maps {
 public:
     Maps();
     virtual ~Maps() = 0;

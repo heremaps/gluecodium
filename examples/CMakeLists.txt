@@ -28,7 +28,7 @@ set(CMAKE_CXX_STANDARD ${HELLO_TEST_CPP_VERSION})
 
 option(HELLO_BUILD_CPP_APP "Build example C++ apps" OFF)
 option(HELLO_BUILD_IOS_APP "Build example iOS apps" OFF)
-set(HELLO_APIGEN_GENIUM_GENERATOR "cpp,android,swift" CACHE STRING "Genium generator(s) to use [defaults to: cpp,android,swift]")
+set(HELLO_APIGEN_GLUECODIUM_GENERATOR "cpp,android,swift" CACHE STRING "Gluecodium generator(s) to use [defaults to: cpp,android,swift]")
 
 # Ensure that symbols are properly exported.
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)

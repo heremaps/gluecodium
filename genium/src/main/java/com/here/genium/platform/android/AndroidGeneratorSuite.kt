@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.android
+package com.here.gluecodium.platform.android
 
-import com.here.genium.Genium
-import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
-import com.here.genium.generator.jni.JniGenerator
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
+import com.here.gluecodium.generator.jni.JniGenerator
 
 /**
  * Combines generators [AndroidManifestGenerator], [JniGenerator], and [JavaGeneratorSuite] to
  * generate Java code and bindings to BaseAPI layer for Android.
  */
-class AndroidGeneratorSuite(options: Genium.Options) : JavaGeneratorSuite(options, true) {
+class AndroidGeneratorSuite(options: Gluecodium.Options) : JavaGeneratorSuite(options, true) {
     override val generatorName = GENERATOR_NAME
 
     override fun getName() = "com.here.AndroidGeneratorSuite"

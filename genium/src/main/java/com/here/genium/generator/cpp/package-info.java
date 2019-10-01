@@ -31,4 +31,4 @@
  *
  * List of generated files
  */
-package com.here.genium.generator.cpp;
+package com.here.gluecodium.generator.cpp;

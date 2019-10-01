@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_android_AndroidArchive)
+if(DEFINED includeguard_gluecodium_android_AndroidArchive)
   return()
 endif()
-set(includeguard_genium_android_AndroidArchive ON)
+set(includeguard_gluecodium_android_AndroidArchive ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -60,8 +60,8 @@ function(apigen_android_archive)
   cmake_parse_arguments(apigen_android_archive
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${apigen_android_archive_TARGET} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${apigen_android_archive_TARGET} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_android_archive() depends on apigen_android_archiver() configured with generator 'android'")
@@ -152,7 +152,7 @@ function(apigen_android_archive)
     add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
       COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR} -C ${JAR_MERGE_DIR} .)
   else()
-    # Just copy the Genium-generated jar file as there are no others
+    # Just copy the Gluecodium-generated jar file as there are no others
     add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
       COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_JAVA_JAR} ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR})
   endif()

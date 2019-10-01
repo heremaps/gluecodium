@@ -49,12 +49,12 @@ function cmake_generator {
 }
 
 function publish_local {
-    GENIUM_DIRECTORY=${SCRIPT_DIR}/../../
+    GLUECODIUM_DIRECTORY=${SCRIPT_DIR}/../../
 
-    pushd "${GENIUM_DIRECTORY}"
+    pushd "${GLUECODIUM_DIRECTORY}"
     safe ./gradlew publishToMavenLocal
-    GENIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' genium/src/main/resources/version.properties)
+    GLUECODIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' gluecodium/src/main/resources/version.properties)
     popd
 
-    export GENIUM_VERSION
+    export GLUECODIUM_VERSION
 }

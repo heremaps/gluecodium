@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 interface LimeReferenceResolver {
     val referenceMap: Map<String, LimeElement>

@@ -17,6 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 class LimeModel(val referenceMap: Map<String, LimeElement>, val topElements: List<LimeNamedElement>)

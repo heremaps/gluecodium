@@ -3,10 +3,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include <string>
 namespace smoke {
-class _GENIUM_CPP_EXPORT SimpleClass {
+class _GLUECODIUM_CPP_EXPORT SimpleClass {
 public:
     SimpleClass();
     virtual ~SimpleClass() = 0;

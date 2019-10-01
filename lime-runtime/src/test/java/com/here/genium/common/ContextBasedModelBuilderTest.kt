@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
+package com.here.gluecodium.common
 
-import com.here.genium.test.AssertHelpers.assertContains
-import com.here.genium.test.MockContextStack
+import com.here.gluecodium.test.AssertHelpers.assertContains
+import com.here.gluecodium.test.MockContextStack
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

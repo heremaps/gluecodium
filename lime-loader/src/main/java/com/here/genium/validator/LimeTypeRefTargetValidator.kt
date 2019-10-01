@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.common.LimeTypeRefsVisitor
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypeRef
-import com.here.genium.model.lime.LimeTypesCollection
+import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypesCollection
 
 /**
  * Validate against:

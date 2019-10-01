@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 /**
  * An ambiguous reference to a type, represented by [relativePath]. The ambiguity is resolved

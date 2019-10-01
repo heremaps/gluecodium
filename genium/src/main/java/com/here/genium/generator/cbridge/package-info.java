@@ -28,4 +28,4 @@
  *
  * List of generated files
  */
-package com.here.genium.generator.cbridge;
+package com.here.gluecodium.generator.cbridge;

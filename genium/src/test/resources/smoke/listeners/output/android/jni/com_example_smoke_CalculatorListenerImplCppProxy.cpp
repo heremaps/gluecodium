@@ -7,7 +7,7 @@
 #include "EnumSetConversion.h"
 #include "InstanceConversion.h"
 #include "StructConversion.h"
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {

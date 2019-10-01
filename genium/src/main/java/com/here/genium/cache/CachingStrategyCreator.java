@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
-import com.here.genium.cli.GeniumExecutionException;
+import com.here.gluecodium.cli.GluecodiumExecutionException;
 import java.util.Set;
 
 public final class CachingStrategyCreator {
@@ -34,7 +34,7 @@ public final class CachingStrategyCreator {
     MultiFileSetCache cache;
     try {
       cache = new MultiFileSetCache(buildFolder, availableGenerators);
-    } catch (GeniumExecutionException e) {
+    } catch (GluecodiumExecutionException e) {
       eraseExistingFileCache(buildFolder, availableGenerators, e);
       cache = new MultiFileSetCache(buildFolder, availableGenerators);
     }
@@ -45,13 +45,13 @@ public final class CachingStrategyCreator {
   private static void eraseExistingFileCache(
       final String buildFolder,
       final Set<String> availableGenerators,
-      final GeniumExecutionException previousException) {
+      final GluecodiumExecutionException previousException) {
 
     CleanUpCachingStrategy cleanUpStrategy =
         new CleanUpCachingStrategy(buildFolder, availableGenerators);
     boolean cleanupResult = cleanUpStrategy.write(true);
     if (!cleanupResult) {
-      throw new GeniumExecutionException("Failed to erase corrupt file cache", previousException);
+      throw new GluecodiumExecutionException("Failed to erase corrupt file cache", previousException);
     }
   }
 }

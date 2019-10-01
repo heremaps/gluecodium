@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
     enum class TypeId(private val tag: String) {

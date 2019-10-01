@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
-import com.here.genium.common.StringHelper
+import com.here.gluecodium.common.StringHelper
 
 /**
  * Represents a constant value on the right-hand side of an assignment (used in constants, field

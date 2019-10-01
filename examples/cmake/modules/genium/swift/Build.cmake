@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_Build)
+if(DEFINED includeguard_gluecodium_swift_Build)
   return()
 endif()
-set(includeguard_genium_swift_Build ON)
+set(includeguard_gluecodium_swift_Build ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -49,7 +49,7 @@ function(apigen_swift_build target)
 
   cmake_parse_arguments(APIGEN_SWIFT_BUILD "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")

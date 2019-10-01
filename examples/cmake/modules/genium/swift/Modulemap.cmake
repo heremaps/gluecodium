@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_Modulemap)
+if(DEFINED includeguard_gluecodium_swift_Modulemap)
   return()
 endif()
-set(includeguard_genium_swift_Modulemap ON)
+set(includeguard_gluecodium_swift_Modulemap ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -47,8 +47,8 @@ function(apigen_swift_modulemap target)
 
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_MODULE_NAME ${target} APIGEN_SWIFT_MODULE_NAME)
 

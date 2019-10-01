@@ -17,35 +17,35 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
-import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.model.cbridge.CArray
-import com.here.genium.model.cbridge.CBridgeIncludeResolver
-import com.here.genium.model.cbridge.CCollectionType
-import com.here.genium.model.cbridge.CMap
-import com.here.genium.model.cbridge.CSet
-import com.here.genium.model.cbridge.CType
-import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppTemplateTypeRef
-import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainerWithInheritance
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeHelper
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppTypeMapper
+import com.here.gluecodium.model.cbridge.CArray
+import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
+import com.here.gluecodium.model.cbridge.CCollectionType
+import com.here.gluecodium.model.cbridge.CMap
+import com.here.gluecodium.model.cbridge.CSet
+import com.here.gluecodium.model.cbridge.CType
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.cpp.CppTemplateTypeRef
+import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 
 class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,

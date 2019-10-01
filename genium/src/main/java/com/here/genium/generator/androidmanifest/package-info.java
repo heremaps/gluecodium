@@ -18,4 +18,4 @@
  */
 
 /** Generate Android Manifest */
-package com.here.genium.generator.androidmanifest;
+package com.here.gluecodium.generator.androidmanifest;

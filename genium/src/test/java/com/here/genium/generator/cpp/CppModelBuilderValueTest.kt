@@ -17,18 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.model.cpp.CppElement
-import com.here.genium.model.cpp.CppPrimitiveTypeRef
-import com.here.genium.model.cpp.CppValue
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeLazyEnumeratorRef
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeValue
-import com.here.genium.test.AssertHelpers.assertContains
-import com.here.genium.test.MockContextStack
+import com.here.gluecodium.model.cpp.CppElement
+import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
+import com.here.gluecodium.model.cpp.CppValue
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeLazyEnumeratorRef
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.test.AssertHelpers.assertContains
+import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

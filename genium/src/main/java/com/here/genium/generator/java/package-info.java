@@ -28,4 +28,4 @@
  *
  * List of generated files
  */
-package com.here.genium.generator.java;
+package com.here.gluecodium.generator.java;

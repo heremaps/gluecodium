@@ -3,16 +3,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/UnorderedMapHash.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <functional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 namespace smoke {
-class _GENIUM_CPP_EXPORT Lambdas {
+class _GLUECODIUM_CPP_EXPORT Lambdas {
 public:
     Lambdas();
     virtual ~Lambdas() = 0;

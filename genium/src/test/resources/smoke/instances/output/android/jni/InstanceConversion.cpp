@@ -27,7 +27,7 @@ namespace
 {
 struct DummyNativeBaseType {};
 }
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {
@@ -44,7 +44,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -57,7 +57,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -69,12 +69,12 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
     }
-    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::ExternalInterface* >(nullptr)).get_id(_ninput.get());
+    const auto& id = ::gluecodium::get_type_repository(static_cast< ::smoke::ExternalInterface* >(nullptr)).get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<::smoke::ExternalInterface>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::ExternalInterface>( _ninput );
@@ -83,7 +83,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -95,7 +95,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _n
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -108,7 +108,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _n
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -120,12 +120,12 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInterface> 
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
     }
-    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::SimpleInterface* >(nullptr)).get_id(_ninput.get());
+    const auto& id = ::gluecodium::get_type_repository(static_cast< ::smoke::SimpleInterface* >(nullptr)).get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<::smoke::SimpleInterface>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInterface>( _ninput );
@@ -134,7 +134,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInterface> 
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -146,7 +146,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class1> 
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -159,7 +159,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class1> 
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -171,7 +171,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class2> 
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -184,7 +184,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::Class2> 
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -196,12 +196,12 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::UseForwa
     {
         return {};
     }
-    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
     }
-    const auto& id = ::genium::get_type_repository(static_cast< ::smoke::forward::UseForward* >(nullptr)).get_id(_ninput.get());
+    const auto& id = ::gluecodium::get_type_repository(static_cast< ::smoke::forward::UseForward* >(nullptr)).get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<::smoke::forward::UseForward>::get_java_class(id);
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<::smoke::forward::UseForward>( _ninput );
@@ -210,7 +210,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::forward::UseForwa
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = ::genium::jni::create_instance_object(
+    jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }

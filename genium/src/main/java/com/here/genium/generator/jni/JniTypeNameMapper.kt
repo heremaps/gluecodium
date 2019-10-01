@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni
+package com.here.gluecodium.generator.jni
 
-import com.here.genium.model.java.JavaArrayType
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaPrimitiveType.Type
-import com.here.genium.model.java.JavaReferenceType
-import com.here.genium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaArrayType
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaPrimitiveType.Type
+import com.here.gluecodium.model.java.JavaReferenceType
+import com.here.gluecodium.model.java.JavaType
 
 object JniTypeNameMapper {
     /**

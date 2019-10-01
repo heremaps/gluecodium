@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
 class CppInheritance(val parent: CppTypeRef, val visibility: Type) : CppElement("", "") {
     enum class Type(private val value: String) {

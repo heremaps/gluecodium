@@ -3,14 +3,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
 namespace smoke {
     class CalculatorListener;
 }
 namespace smoke {
-class _GENIUM_CPP_EXPORT Calculator {
+class _GLUECODIUM_CPP_EXPORT Calculator {
 public:
     Calculator();
     virtual ~Calculator() = 0;

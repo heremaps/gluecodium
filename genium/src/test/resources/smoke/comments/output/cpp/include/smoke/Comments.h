@@ -3,10 +3,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/Optional.h"
-#include "genium/Return.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/Return.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
@@ -14,7 +14,7 @@ namespace smoke {
 /**
  * This is some very useful interface.
  */
-class _GENIUM_CPP_EXPORT Comments {
+class _GLUECODIUM_CPP_EXPORT Comments {
 public:
     Comments();
     virtual ~Comments() = 0;
@@ -39,7 +39,7 @@ public:
     /**
      * This is some very useful struct.
      */
-    struct _GENIUM_CPP_EXPORT SomeStruct {
+    struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * How useful this struct is
          */
@@ -47,7 +47,7 @@ public:
         /**
          * Can be `null`
          */
-        ::genium::optional< ::std::string > nullable_field;
+        ::gluecodium::optional< ::std::string > nullable_field;
         /**
          * This is how easy it is to construct.
          */
@@ -57,12 +57,12 @@ public:
          * @param some_field How useful this struct is
          * @param nullable_field Can be `null`
          */
-        SomeStruct( const ::smoke::Comments::Usefulness some_field, const ::genium::optional< ::std::string >& nullable_field );
+        SomeStruct( const ::smoke::Comments::Usefulness some_field, const ::gluecodium::optional< ::std::string >& nullable_field );
     };
     /**
      * This is some very useful constant.
      */
-    _GENIUM_CPP_EXPORT static const ::smoke::Comments::Usefulness VERY_USEFUL;
+    _GLUECODIUM_CPP_EXPORT static const ::smoke::Comments::Usefulness VERY_USEFUL;
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.
@@ -70,7 +70,7 @@ public:
      * \return Usefulness of the input
      * \retval ::smoke::Comments::SomeEnum Sometimes it happens.
      */
-    virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
+    virtual ::gluecodium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
     /**
      * This is some very useful method that measures the usefulness of its input.
      * \param[in] input Very useful input parameter
@@ -138,16 +138,16 @@ public:
      */
     virtual void set_some_property( const ::smoke::Comments::Usefulness value ) = 0;
 };
-_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
 }
 namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::Comments::SomeEnum > : public std::true_type { };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::Comments::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
 };
 }

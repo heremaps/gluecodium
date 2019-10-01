@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.gluecodium.model.lime
 
 class LimeMap(val keyType: LimeTypeRef, val valueType: LimeTypeRef) : LimeGenericType() {
     override val name

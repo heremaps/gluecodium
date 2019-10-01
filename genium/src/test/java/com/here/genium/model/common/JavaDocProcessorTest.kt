@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.common
+package com.here.gluecodium.model.common
 
-import com.here.genium.platform.android.JavaDocProcessor
+import com.here.gluecodium.platform.android.JavaDocProcessor
 import org.junit.Assert.assertEquals
 
 import org.junit.Test

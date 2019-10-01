@@ -15,15 +15,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_Swift)
+if(DEFINED includeguard_gluecodium_Swift)
   return()
 endif()
-set(includeguard_genium_Swift ON)
+set(includeguard_gluecodium_Swift ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The Swift Genium module
+# The Swift Gluecodium module
 # ---------------------
 #
 # Includes modules needed for Swift builds (on Linux or macOS).

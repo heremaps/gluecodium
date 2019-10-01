@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
-import com.here.genium.cli.GeniumExecutionException
+import com.here.gluecodium.cli.GluecodiumExecutionException
 
 class JavaReferenceType(val type: Type) :
     JavaComplexType(type.value, type.imports, listOf(type.value), type.packageNames) {
@@ -64,7 +64,7 @@ class JavaReferenceType(val type: Type) :
                 JavaPrimitiveType.BYTE -> Type.BYTE
                 JavaPrimitiveType.SHORT -> Type.SHORT
                 JavaPrimitiveType.LONG -> Type.LONG
-                else -> throw GeniumExecutionException(
+                else -> throw GluecodiumExecutionException(
                     "Cannot box primitive type ${primitiveType.name}"
                 )
             }

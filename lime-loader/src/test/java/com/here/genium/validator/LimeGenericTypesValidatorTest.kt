@@ -17,25 +17,25 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test

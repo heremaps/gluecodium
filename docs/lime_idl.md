@@ -4,51 +4,51 @@ LimeIDL design proposal
 Overview
 --------
 
-This document proposes the design for the new input language for Genium: LimeIDL. The document
+This document proposes the design for the new input language for Gluecodium: LimeIDL. The document
 describes the following:
 * What is LimeIDL?
 * Why is it needed?
 * How to migrate from Franca to LimeIDL?
 
-When the stable version of Genium with full LimeIDL support is released, this document will be
+When the stable version of Gluecodium with full LimeIDL support is released, this document will be
 converted into LimeIDL documentation (probably by just removing the "why?" section and reducing
 other explanations while focusing on syntax description).
 
 ### What is LimeIDL?
 
-LimeIDL is the proposed new input language for Genium. The name is a stylized abbreviation. "LIME"
+LimeIDL is the proposed new input language for Gluecodium. The name is a stylized abbreviation. "LIME"
 stands for "Language-Independent ModEl", the internal language-independent syntax tree model that
 serves as an intermediate step between the input language (e.g. Franca IDL, LimeIDL) and the output
 language (e.g. C++, Java, Swift). "IDL" is an industry-standard abbreviation for "Interface
-Definition Language". This describes any Genium input language perfectly, as its input languages are
+Definition Language". This describes any Gluecodium input language perfectly, as its input languages are
 defining programming interfaces (as opposed to defining executable code, like output languages do).
 
 LimeIDL proposed syntax is inspired by (and somewhat just borrowed from) the modern programming
 languages like Kotlin and Swift. The initial version of the syntax has full feature parity with
-Franca input for Genium (but not with the "base" Franca IDL, as Genium uses only a subset of Franca
+Franca input for Gluecodium (but not with the "base" Franca IDL, as Gluecodium uses only a subset of Franca
 language, with some custom extensions). The design intent is to have an input language that is
 compact (i.e. not verbose) and is easy to read and write in. The intent is also for the language to
 be flexible enough to be extended in the future without losing these qualities.
 
 ### Why the new language?
 
-Let's put this straight: [Franca][franca]-based Genium input is clunky. There are two files per
+Let's put this straight: [Franca][franca]-based Gluecodium input is clunky. There are two files per
 interface definition (FIDL and FDEPL), which is a maintenance hassle. FIDL file syntax is verbose
 (like, Java-level verbose, as opposed to succinct Kotlin syntax, for example) and cannot be
 extended. FDEPL syntax is just a bunch of "name = value" properties that represent *everything* that
-Genium functionality needs but FIDL syntax fails to express.
+Gluecodium functionality needs but FIDL syntax fails to express.
 
 There're also numerous technical issues with Franca library:
 * it's not on any public Maven repository, so workarounds (clunky and slow) are needed to fetch it
-dynamically with Gradle for Genium execution.
-* it has outdated dependencies of its own that create compatibility issues for Genium.
+dynamically with Gradle for Gluecodium execution.
+* it has outdated dependencies of its own that create compatibility issues for Gluecodium.
 * despite Franca being an open-source project, it's almost impossible to contribute to it, as the
 project is semi-stale. There is a single person working on it and he's only working on Franca in few
 limited time windows throughout the year, completely ignoring it otherwise.
 
 There's also yet another reason that was not part of the initial intent, but was discovered in the
 prototype phase for the new language: Franca parser is slow. This is not a critical performance
-issue, as Genium itself is not a bottleneck for any project that uses it. Genium is relatively fast,
+issue, as Gluecodium itself is not a bottleneck for any project that uses it. Gluecodium is relatively fast,
 in comparison to other build tools it are normally used together with. Nevertheless, the prototyping
 revealed that Franca library is rather slow (probably due to being built upon [Xtext][xtext] and
 [Eclipse EMF][emf] libraries) and a prototype LimeIDL parser (built with modern [Antlr4][antlr]
@@ -56,28 +56,28 @@ parser generator) is surprisingly fast in comparison.
 
 ### How to migrate from Franca to LimeIDL?
 
-Genium version 4.9 provides a generator for the new LimeIDL which can be used to output LimeIDL
+Gluecodium version 4.9 provides a generator for the new LimeIDL which can be used to output LimeIDL
 generated from existing Franca definition files. The generated `*.lime` files should be manually
-checked and submitted to source control replacing `*.fidl` and `*.fdepl` files. Genium 5.0 will
-be able to use these files as input, so updating to Genium 5.0 should be done after conversion.
+checked and submitted to source control replacing `*.fidl` and `*.fdepl` files. Gluecodium 5.0 will
+be able to use these files as input, so updating to Gluecodium 5.0 should be done after conversion.
 
 #### Running the conversion
 
-For users of `external/genium-cmake` it is easiest to use the existing gradle files to perform
+For users of `external/gluecodium-cmake` it is easiest to use the existing gradle files to perform
 the migration:
 
 ```
-cd external/genium-cmake/upstream/modules/genium/genium/
+cd external/gluecodium-cmake/upstream/modules/gluecodium/gluecodium/
 ./gradlew -Pversion=4.9.1 run --args="-generators lime -output /tmp/generated -input /absolute/path/to/existing/franca/idl"
 ./gradlew -Pversion=5.2.0 run --args="-generators lime -output /tmp/generated -input /tmp/generated -copyright /path/to/your/copyright"
 ```
 
-This will fetch Genium 4.9 and generate the LimeIDL files in `/tmp/generated`. It also runs a newer
-release of Genium to improve the formatting and apply some simplification of the LimeIDL files.
+This will fetch Gluecodium 4.9 and generate the LimeIDL files in `/tmp/generated`. It also runs a newer
+release of Gluecodium to improve the formatting and apply some simplification of the LimeIDL files.
 Please note that the input path should point to a "complete" set of Franca files (i.e. no file in
 the input set should import a file from outside of the set).
 
-With checked out Genium repository on version 4.9 it would be
+With checked out Gluecodium repository on version 4.9 it would be
 
 ```
 ./generate -generators lime -output generated -input /full/path/to/existing/franca/idl"

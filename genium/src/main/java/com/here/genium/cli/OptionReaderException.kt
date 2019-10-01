@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli
+package com.here.gluecodium.cli
 
 class OptionReaderException : Exception {
     constructor(message: String) : super(message)

@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium
+package com.here.gluecodium
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.lime.LimeGeneratorSuite
-import com.here.genium.loader.getLoader
-import com.here.genium.model.lime.LimeModelLoader
-import com.here.genium.platform.android.AndroidGeneratorSuite
-import com.here.genium.platform.baseapi.BaseApiGeneratorSuite
-import com.here.genium.platform.swift.SwiftGeneratorSuite
-import com.here.genium.test.NiceErrorCollector
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.lime.LimeGeneratorSuite
+import com.here.gluecodium.loader.getLoader
+import com.here.gluecodium.model.lime.LimeModelLoader
+import com.here.gluecodium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite
+import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
+import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
 import io.mockk.spyk
 import org.junit.Assert.assertTrue
@@ -46,16 +46,16 @@ abstract class AcceptanceTestBase protected constructor(
     @Rule
     val errorCollector = NiceErrorCollector()
 
-    private lateinit var genium: Genium
+    private lateinit var gluecodium: Gluecodium
 
     private val results = mutableListOf<GeneratedFile>()
 
-    protected open fun getGeniumOptions() = Genium.testOptions()
+    protected open fun getGluecodiumOptions() = Gluecodium.testOptions()
 
     @Before
     fun setUp() {
-        genium = spyk(Genium(getGeniumOptions()))
-        every { genium.output(any(), any()) }.answers {
+        gluecodium = spyk(Gluecodium(getGluecodiumOptions()))
+        every { gluecodium.output(any(), any()) }.answers {
             @Suppress("UNCHECKED_CAST")
             results.addAll(it.invocation.args[1] as List<GeneratedFile>)
             true
@@ -74,7 +74,7 @@ abstract class AcceptanceTestBase protected constructor(
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
         val limeModel = LimeModelLoader.getLoader().loadModel(listOf(inputDirectory.toString()))
-        assertTrue(genium.executeGenerator(generatorName, limeModel, HashMap()))
+        assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 

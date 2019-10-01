@@ -30,9 +30,9 @@ extern "C" {
 #endif
 
 #define DECLARE_HANDLE_METHODS(T) \
-_GENIUM_C_EXPORT _baseRef T##_create_handle( T t ); \
-_GENIUM_C_EXPORT void T##_release_handle( _baseRef handle );\
-_GENIUM_C_EXPORT T T##_value_get( _baseRef handle );
+_GLUECODIUM_C_EXPORT _baseRef T##_create_handle( T t ); \
+_GLUECODIUM_C_EXPORT void T##_release_handle( _baseRef handle );\
+_GLUECODIUM_C_EXPORT T T##_value_get( _baseRef handle );
 
 DECLARE_HANDLE_METHODS(bool);
 DECLARE_HANDLE_METHODS(float);

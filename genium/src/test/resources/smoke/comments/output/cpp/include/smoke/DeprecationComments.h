@@ -3,9 +3,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
@@ -14,7 +14,7 @@ namespace smoke {
  * This is some very useful interface.
  * \deprecated Unfortunately, this interface is deprecated. Use ::smoke::Comments instead.
  */
-class _GENIUM_CPP_EXPORT DeprecationComments {
+class _GLUECODIUM_CPP_EXPORT DeprecationComments {
 public:
     DeprecationComments();
     virtual ~DeprecationComments() = 0;
@@ -40,7 +40,7 @@ public:
      * This is some very useful struct.
      * \deprecated Unfortunately, this struct is deprecated. Use ::smoke::Comments::SomeStruct instead.
      */
-    struct _GENIUM_CPP_EXPORT SomeStruct {
+    struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * How useful this struct is.
          * \deprecated Unfortunately, this field is deprecated.
@@ -54,7 +54,7 @@ public:
      * This is some very useful constant.
      * \deprecated Unfortunately, this constant is deprecated. Use ::smoke::Comments::VERY_USEFUL instead.
      */
-    _GENIUM_CPP_EXPORT static const ::smoke::DeprecationComments::Usefulness VERY_USEFUL;
+    _GLUECODIUM_CPP_EXPORT static const ::smoke::DeprecationComments::Usefulness VERY_USEFUL;
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.
@@ -79,19 +79,19 @@ public:
      */
     virtual void set_some_property( const ::smoke::DeprecationComments::Usefulness value ) = 0;
 };
-_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::DeprecationComments::SomeEnum value ) noexcept;
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::DeprecationComments::SomeEnum value ) noexcept;
 }
 namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::DeprecationComments::SomeEnum > : public std::true_type { };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::DeprecationComments::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationComments::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationComments::SomeEnum& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationComments*);
+namespace gluecodium {
+_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationComments*);
 }

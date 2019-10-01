@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_java_Compile)
+if(DEFINED includeguard_gluecodium_java_Compile)
   return()
 endif()
-set(includeguard_genium_java_Compile ON)
+set(includeguard_gluecodium_java_Compile ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -54,17 +54,17 @@ function(apigen_java_compile)
   cmake_parse_arguments(apigen_java_compile
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
   endif()
 
-  # Genium invocations for different generators need different output directories
-  # as Genium currently wipes the directory upon start.
+  # Gluecodium invocations for different generators need different output directories
+  # as Gluecodium currently wipes the directory upon start.
   set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_java_compile_TARGET}-${GENERATOR}-java-compile)
-  set(APIGEN_GENIUM_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
+  set(APIGEN_GLUECODIUM_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_java_compile_TARGET} PROPERTIES
@@ -82,14 +82,14 @@ function(apigen_java_compile)
 
   add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-    COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER}
+    COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
       -b=compileJava.gradle
-      -PsrcDir=${APIGEN_GENIUM_JAVA_SOURCE_DIR}
+      -PsrcDir=${APIGEN_GLUECODIUM_JAVA_SOURCE_DIR}
       -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
       -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
       -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
       -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
       compileJava
-    WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
+    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
     COMMENT "Compiling generated Java sources into class files...")
 endfunction()

@@ -28,7 +28,7 @@ StructWithAnEnum::StructWithAnEnum( const ::smoke::AnEnum config )
 {
 }
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 hash< ::smoke::SomeEnum >::operator( )( const ::smoke::SomeEnum& t ) const
 {

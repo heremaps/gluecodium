@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates
+package com.here.gluecodium.generator.common.templates
 
 import io.mockk.every
 import io.mockk.spyk

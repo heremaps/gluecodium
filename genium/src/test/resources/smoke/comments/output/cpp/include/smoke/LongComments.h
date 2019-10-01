@@ -3,13 +3,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include <string>
 namespace smoke {
 /**
  * This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
  */
-class _GENIUM_CPP_EXPORT LongComments {
+class _GLUECODIUM_CPP_EXPORT LongComments {
 public:
     LongComments();
     virtual ~LongComments() = 0;

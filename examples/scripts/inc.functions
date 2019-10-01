@@ -21,7 +21,7 @@
 # Collection of shared functions
 #
 
-GENIUM_PATH="$(cd ${SCRIPT_DIR}/../.. && pwd)"
+GLUECODIUM_PATH="$(cd ${SCRIPT_DIR}/../.. && pwd)"
 
 function die {
     echo -e "$@"
@@ -52,10 +52,10 @@ function cmake_generator {
 }
 
 function publish_local {
-    pushd "${GENIUM_PATH}"
+    pushd "${GLUECODIUM_PATH}"
     safe ./gradlew publishToMavenLocal
-    GENIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' genium/src/main/resources/version.properties)
+    GLUECODIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' gluecodium/src/main/resources/version.properties)
     popd
 
-    export GENIUM_VERSION
+    export GLUECODIUM_VERSION
 }

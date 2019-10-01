@@ -21,4 +21,4 @@
 # Utility to manually format code.
 #
 # C++ code with clang-format
-find genium/src/main/resources \( -name *.h -o -name *.cpp \) -exec clang-format -i {} \;
+find gluecodium/src/main/resources \( -name *.h -o -name *.cpp \) -exec clang-format -i {} \;

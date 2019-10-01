@@ -4,8 +4,8 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/ListenersWithReturnValues.h"
 #include <memory>
@@ -32,7 +32,7 @@ struct smoke_ListenersWithReturnValuesRegisterInit {
 } s_smoke_ListenersWithReturnValues_register_init;
 }
 void* smoke_ListenersWithReturnValues_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ListenersWithReturnValues(handle);
 }
@@ -51,17 +51,17 @@ smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(double result)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
     (*_struct)->result = result;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
 }
 void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
 }
 double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::ListenersWithReturnValues::ResultStruct>(handle);

@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.gluecodium.loader
 
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeReferenceResolver
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeReferenceResolver
 
 internal class AntlrLimeReferenceResolver : LimeReferenceResolver {
     private val referenceCache: MutableMap<String, LimeElement> =

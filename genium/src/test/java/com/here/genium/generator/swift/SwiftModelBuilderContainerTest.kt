@@ -17,35 +17,35 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.Genium
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeComment
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeSignatureResolver
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.model.lime.LimeVisibility
-import com.here.genium.model.swift.SwiftClass
-import com.here.genium.model.swift.SwiftConstant
-import com.here.genium.model.swift.SwiftEnum
-import com.here.genium.model.swift.SwiftFile
-import com.here.genium.model.swift.SwiftMethod
-import com.here.genium.model.swift.SwiftModelElement
-import com.here.genium.model.swift.SwiftProperty
-import com.here.genium.model.swift.SwiftStruct
-import com.here.genium.model.swift.SwiftType
-import com.here.genium.model.swift.SwiftTypeDef
-import com.here.genium.model.swift.SwiftValue
-import com.here.genium.model.swift.SwiftVisibility
-import com.here.genium.test.AssertHelpers.assertContains
-import com.here.genium.test.MockContextStack
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.lime.LimeVisibility
+import com.here.gluecodium.model.swift.SwiftClass
+import com.here.gluecodium.model.swift.SwiftConstant
+import com.here.gluecodium.model.swift.SwiftEnum
+import com.here.gluecodium.model.swift.SwiftFile
+import com.here.gluecodium.model.swift.SwiftMethod
+import com.here.gluecodium.model.swift.SwiftModelElement
+import com.here.gluecodium.model.swift.SwiftProperty
+import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.model.swift.SwiftType
+import com.here.gluecodium.model.swift.SwiftTypeDef
+import com.here.gluecodium.model.swift.SwiftValue
+import com.here.gluecodium.model.swift.SwiftVisibility
+import com.here.gluecodium.test.AssertHelpers.assertContains
+import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -86,7 +86,7 @@ class SwiftModelBuilderContainerTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().swiftNameRules)
+        val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().swiftNameRules)
         modelBuilder =
             SwiftModelBuilder(
                 limeReferenceMap = emptyMap(),

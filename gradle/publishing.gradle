@@ -1,9 +1,9 @@
 apply plugin: 'maven-publish'
 
 Properties properties = new Properties()
-properties.load(project.rootProject.file('genium/src/main/resources/version.properties').newDataInputStream())
+properties.load(project.rootProject.file('gluecodium/src/main/resources/version.properties').newDataInputStream())
 version = properties.getProperty('version')
-group = 'com.here.genium'
+group = 'com.here.gluecodium'
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
@@ -28,7 +28,7 @@ publishing.publications {
         pom {
             name = project.ext.longName
             description = 'Cross-language bindings generator'
-            url = 'https://github.com/heremaps/genium'
+            url = 'https://github.com/heremaps/gluecodium'
             licenses {
                 license {
                     name = 'The Apache License, Version 2.0'
@@ -36,9 +36,9 @@ publishing.publications {
                 }
             }
             scm {
-                connection = 'scm:git:git://github.com/heremaps/genium.git'
-                developerConnection = 'scm:git:ssh://github.com/heremaps/genium.git'
-                url = 'https://github.com/heremaps/genium'
+                connection = 'scm:git:git://github.com/heremaps/gluecodium.git'
+                developerConnection = 'scm:git:ssh://github.com/heremaps/gluecodium.git'
+                url = 'https://github.com/heremaps/gluecodium'
             }
         }
     }

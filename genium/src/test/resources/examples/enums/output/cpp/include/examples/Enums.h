@@ -3,8 +3,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
 #include <cstdint>
 namespace examples {
 enum class ShoeSizes {
@@ -14,9 +14,9 @@ enum class ShoeSizes {
     BIG = 46
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::examples::ShoeSizes > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::ShoeSizes& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::examples::ShoeSizes& t ) const;
 };
 }

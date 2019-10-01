@@ -16,7 +16,7 @@ namespace namerules {
     class NameRules;
 }
 namespace namerules {
-class _GENIUM_CPP_EXPORT NameRules {
+class _GLUECODIUM_CPP_EXPORT NameRules {
 public:
     NameRules();
     virtual ~NameRules() = 0;
@@ -26,7 +26,7 @@ public:
         FATAL
     };
     using StringArray = ::std::vector< ::std::string >;
-    struct _GENIUM_CPP_EXPORT ExampleStruct {
+    struct _GLUECODIUM_CPP_EXPORT ExampleStruct {
         double m_value;
         ::std::vector< int64_t > m_int_value;
         ExampleStruct( );
@@ -46,7 +46,7 @@ public:
     virtual ::namerules::NameRules::ExampleStruct retrieve_struct_property(  ) const = 0;
     virtual void STORE_STRUCT_PROPERTY_NOW( const ::namerules::NameRules::ExampleStruct& value ) = 0;
 };
-_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::namerules::NameRules::ExampleErrorCode value ) noexcept;
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::namerules::NameRules::ExampleErrorCode value ) noexcept;
 }
 namespace std
 {
@@ -56,6 +56,6 @@ struct is_error_code_enum< ::namerules::NameRules::ExampleErrorCode > : public s
 namespace  {
 template<>
 struct hash< ::namerules::NameRules::ExampleErrorCode > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::namerules::NameRules::ExampleErrorCode& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::namerules::NameRules::ExampleErrorCode& t ) const;
 };
 }

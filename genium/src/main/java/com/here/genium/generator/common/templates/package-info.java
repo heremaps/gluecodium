@@ -18,4 +18,4 @@
  */
 
 /** Template engine and its helper classes. */
-package com.here.genium.generator.common.templates;
+package com.here.gluecodium.generator.common.templates;

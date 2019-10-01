@@ -27,9 +27,9 @@
 extern "C" {
 #endif
 
-_GENIUM_C_EXPORT _baseRef chrono_time_point_create_optional_handle( double time_ns_epoch );
-_GENIUM_C_EXPORT void chrono_time_point_release_optional_handle( _baseRef handle );
-_GENIUM_C_EXPORT double chrono_time_point_unwrap_optional_handle( _baseRef handle );
+_GLUECODIUM_C_EXPORT _baseRef chrono_time_point_create_optional_handle( double time_ns_epoch );
+_GLUECODIUM_C_EXPORT void chrono_time_point_release_optional_handle( _baseRef handle );
+_GLUECODIUM_C_EXPORT double chrono_time_point_unwrap_optional_handle( _baseRef handle );
 
 #ifdef __cplusplus
 }

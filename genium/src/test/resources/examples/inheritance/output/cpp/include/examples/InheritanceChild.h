@@ -4,11 +4,11 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "examples/InheritanceParent.h"
-#include "genium/Export.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/TypeRepository.h"
 #include <cstdint>
 namespace examples {
-class _GENIUM_CPP_EXPORT InheritanceChild: public ::examples::InheritanceParent {
+class _GLUECODIUM_CPP_EXPORT InheritanceChild: public ::examples::InheritanceParent {
 public:
     InheritanceChild();
     virtual ~InheritanceChild() = 0;

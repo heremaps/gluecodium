@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates
+package com.here.gluecodium.generator.common.templates
 
 import org.slf4j.LoggerFactory
 import org.trimou.engine.MustacheTagInfo

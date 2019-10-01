@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift
+package com.here.gluecodium.model.swift
 
-import com.here.genium.model.common.Comments
-import com.here.genium.model.common.PseudoStreamable
+import com.here.gluecodium.model.common.Comments
+import com.here.gluecodium.model.common.PseudoStreamable
 import org.trimou.util.Strings
 
 abstract class SwiftModelElement(

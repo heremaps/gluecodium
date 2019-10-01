@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.util.HashMap
 
 class CppNameResolver(

@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.generator.common.NameRuleSet
-import com.here.genium.generator.common.NameRules
-import com.here.genium.model.lime.LimeAttributeType.JAVA
-import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeTypedElement
+import com.here.gluecodium.generator.common.NameRuleSet
+import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeTypedElement
 
 class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     override fun getName(limeElement: LimeElement) =

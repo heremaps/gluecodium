@@ -4,8 +4,8 @@
 #include "cbridge/include/smoke/cbridge_PointerEquatableInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/PointerEquatableInterface.h"
 #include <memory>
 #include <new>
@@ -21,5 +21,5 @@ bool smoke_PointerEquatableInterface_equal(_baseRef lhs, _baseRef rhs) {
     return *get_pointer<std::shared_ptr<::smoke::PointerEquatableInterface>>(lhs) == *get_pointer<std::shared_ptr<::smoke::PointerEquatableInterface>>(rhs);
 }
 uint64_t smoke_PointerEquatableInterface_hash(_baseRef handle) {
-    return ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInterface>>()(*get_pointer<std::shared_ptr<::smoke::PointerEquatableInterface>>(handle));
+    return ::gluecodium::hash<std::shared_ptr<::smoke::PointerEquatableInterface>>()(*get_pointer<std::shared_ptr<::smoke::PointerEquatableInterface>>(handle));
 }

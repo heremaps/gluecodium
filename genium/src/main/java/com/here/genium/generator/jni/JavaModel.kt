@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni
+package com.here.gluecodium.generator.jni
 
-import com.here.genium.model.java.JavaElement
-import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.jni.JniType
+import com.here.gluecodium.model.java.JavaElement
+import com.here.gluecodium.model.jni.JniContainer
+import com.here.gluecodium.model.jni.JniType
 
 class JavaModel(
     val referenceMap: Map<String, JavaElement> = emptyMap(),

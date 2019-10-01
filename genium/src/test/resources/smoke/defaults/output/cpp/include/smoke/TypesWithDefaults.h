@@ -4,8 +4,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "foo/Bar.h"
-#include "genium/Export.h"
-#include "genium/Hash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
 #include "smoke/AnEnum.h"
 #include <cstdint>
 #include <string>
@@ -14,7 +14,7 @@ enum class SomeEnum {
     FOO_VALUE,
     BAR_VALUE
 };
-struct _GENIUM_CPP_EXPORT StructWithDefaults {
+struct _GLUECODIUM_CPP_EXPORT StructWithDefaults {
     int32_t int_field = 42;
     uint32_t uint_field = 4294967295;
     float float_field = 3.14f;
@@ -25,7 +25,7 @@ struct _GENIUM_CPP_EXPORT StructWithDefaults {
     StructWithDefaults( );
     StructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field );
 };
-struct _GENIUM_CPP_EXPORT ImmutableStructWithDefaults {
+struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithDefaults {
     const int32_t int_field = 42;
     const uint32_t uint_field;
     const float float_field = 3.14f;
@@ -37,15 +37,15 @@ struct _GENIUM_CPP_EXPORT ImmutableStructWithDefaults {
     ImmutableStructWithDefaults( const uint32_t uint_field, const bool bool_field );
     ImmutableStructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
 };
-struct _GENIUM_CPP_EXPORT StructWithAnEnum {
+struct _GLUECODIUM_CPP_EXPORT StructWithAnEnum {
     ::smoke::AnEnum config = ::smoke::AnEnum::ENABLED;
     StructWithAnEnum( );
     StructWithAnEnum( const ::smoke::AnEnum config );
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 }

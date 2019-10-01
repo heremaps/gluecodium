@@ -4,9 +4,9 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "examples/Enums.h"
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 namespace examples {
-class _GENIUM_CPP_EXPORT EnumMethods {
+class _GLUECODIUM_CPP_EXPORT EnumMethods {
 public:
     EnumMethods();
     virtual ~EnumMethods() = 0;

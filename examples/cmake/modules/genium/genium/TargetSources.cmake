@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_TargetSources)
+if(DEFINED includeguard_gluecodium_TargetSources)
   return()
 endif()
-set(includeguard_genium_TargetSources ON)
+set(includeguard_gluecodium_TargetSources ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -40,9 +40,9 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_target_sources target)
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
-  get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GENIUM_GENERATOR_ADDITIONAL_SOURCES)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GLUECODIUM_GENERATOR_ADDITIONAL_SOURCES)
   if(NOT ADDITIONAL_SOURCES)
     set(ADDITIONAL_SOURCES "")
   endif()

@@ -17,20 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.model.swift.SwiftArray
-import com.here.genium.model.swift.SwiftEnum
-import com.here.genium.model.swift.SwiftStruct
-import com.here.genium.model.swift.SwiftType
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.swift.SwiftArray
+import com.here.gluecodium.model.swift.SwiftEnum
+import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.model.swift.SwiftType
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

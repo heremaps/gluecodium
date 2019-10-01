@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.swift.SwiftArray
-import com.here.genium.model.swift.SwiftDictionary
-import com.here.genium.model.swift.SwiftSet
-import com.here.genium.model.swift.SwiftType
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.swift.SwiftArray
+import com.here.gluecodium.model.swift.SwiftDictionary
+import com.here.gluecodium.model.swift.SwiftSet
+import com.here.gluecodium.model.swift.SwiftType
 import java.util.TreeMap
 
 class SwiftGenericsGenerator {

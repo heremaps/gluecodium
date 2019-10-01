@@ -28,4 +28,4 @@
  *
  * List of generated files
  */
-package com.here.genium.generator.jni;
+package com.here.gluecodium.generator.jni;

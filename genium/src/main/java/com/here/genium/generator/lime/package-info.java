@@ -9,4 +9,4 @@
  *
  * List of generated files
  */
-package com.here.genium.generator.lime;
+package com.here.gluecodium.generator.lime;

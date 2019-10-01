@@ -3,9 +3,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 namespace smoke {
-class _GENIUM_CPP_EXPORT SpecialNames {
+class _GLUECODIUM_CPP_EXPORT SpecialNames {
 public:
     SpecialNames();
     virtual ~SpecialNames() = 0;

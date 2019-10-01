@@ -27,20 +27,20 @@ Java_com_example_smoke_EquatableInterface_equals(JNIEnv* _jenv, jobject _jinstan
     if (_jinstance == nullptr || jrhs == nullptr) {
         return _jinstance == jrhs;
     }
-    auto& jclass = ::genium::jni::get_cached_native_base_class();
+    auto& jclass = ::gluecodium::jni::get_cached_native_base_class();
     if (!_jenv->IsInstanceOf(jrhs, jclass.get())) {
         return false;
     }
     auto lhs = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
-        ::genium::jni::get_field_value(
+        ::gluecodium::jni::get_field_value(
             _jenv,
-            ::genium::jni::make_non_releasing_ref(_jinstance),
+            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
     auto rhs = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
-        ::genium::jni::get_field_value(
+        ::gluecodium::jni::get_field_value(
             _jenv,
-            ::genium::jni::make_non_releasing_ref(jrhs),
+            ::gluecodium::jni::make_non_releasing_ref(jrhs),
             "nativeHandle",
             (int64_t*)nullptr));
     return **lhs == **rhs;
@@ -48,11 +48,11 @@ Java_com_example_smoke_EquatableInterface_equals(JNIEnv* _jenv, jobject _jinstan
 jint
 Java_com_example_smoke_EquatableInterface_hashCode(JNIEnv* _jenv, jobject _jinstance){
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
-        ::genium::jni::get_field_value(
+        ::gluecodium::jni::get_field_value(
             _jenv,
-            ::genium::jni::make_non_releasing_ref(_jinstance),
+            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    return ::genium::hash<std::shared_ptr<::smoke::EquatableInterface> >()(*pInstanceSharedPointer);
+    return ::gluecodium::hash<std::shared_ptr<::smoke::EquatableInterface> >()(*pInstanceSharedPointer);
 }
 }

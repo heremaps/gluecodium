@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.gluecodium.loader
 
-import com.here.genium.antlr.LimedocParser
-import com.here.genium.antlr.LimedocParserBaseListener
-import com.here.genium.model.lime.LimeComment
+import com.here.gluecodium.antlr.LimedocParser
+import com.here.gluecodium.antlr.LimedocParserBaseListener
+import com.here.gluecodium.model.lime.LimeComment
 
 internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
 

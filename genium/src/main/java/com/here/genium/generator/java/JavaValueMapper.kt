@@ -17,21 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.model.java.JavaImport
-import com.here.genium.model.java.JavaPackage
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaTemplateType
-import com.here.genium.model.java.JavaType
-import com.here.genium.model.java.JavaValue
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.model.lime.LimeValue
+import com.here.gluecodium.model.java.JavaImport
+import com.here.gluecodium.model.java.JavaPackage
+import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaTemplateType
+import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaValue
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.lime.LimeValue
 
 class JavaValueMapper(
     private val limeReferenceMap: Map<String, LimeElement>,

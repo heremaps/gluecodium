@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium
+package com.here.gluecodium
 
-import com.here.genium.cli.OptionReader
+import com.here.gluecodium.cli.OptionReader
 import junit.framework.TestCase.assertNotNull
 import java.io.File
 import org.junit.Test
@@ -39,7 +39,7 @@ class SmokeTest(
         runTest()
     }
 
-    override fun getGeniumOptions(): Genium.Options {
+    override fun getGluecodiumOptions(): Gluecodium.Options {
         val featureRoot = File(featureDirectory, FEATURE_INPUT_FOLDER)
         val commandLineOptions = File(featureRoot, "commandlineoptions.txt")
         if (commandLineOptions.exists()) {
@@ -52,7 +52,7 @@ class SmokeTest(
             return options!!
         }
 
-        return Genium.testOptions()
+        return Gluecodium.testOptions()
     }
 
     companion object {

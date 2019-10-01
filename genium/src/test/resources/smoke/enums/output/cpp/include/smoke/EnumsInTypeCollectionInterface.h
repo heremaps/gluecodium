@@ -3,10 +3,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include "smoke/EnumsInTypeCollection.h"
 namespace smoke {
-class _GENIUM_CPP_EXPORT EnumsInTypeCollectionInterface {
+class _GLUECODIUM_CPP_EXPORT EnumsInTypeCollectionInterface {
 public:
     EnumsInTypeCollectionInterface();
     virtual ~EnumsInTypeCollectionInterface() = 0;

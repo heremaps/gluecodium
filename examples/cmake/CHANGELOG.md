@@ -1,4 +1,4 @@
-# Genium CMake Release Notes
+# Gluecodium CMake Release Notes
 
 ## 1.2.0 - 2018-11-08
 - Swift:
@@ -8,7 +8,7 @@
 - Scripts:
   - Automatically add the release date when releasing a new version
 - Swift:
-  - Removed Jazzy documentation module, not related to Genium directly
+  - Removed Jazzy documentation module, not related to Gluecodium directly
 
 ## 1.1.2 - 2018-11-29
 - Swift:
@@ -22,7 +22,7 @@
 
 ## 1.1.0 - 2018-11-19
 - Internal re-organisation of the CMake modules
-- Genium:
+- Gluecodium:
   - Exposure of new command line parameters
 - Swift:
   - Swift version set for all targets

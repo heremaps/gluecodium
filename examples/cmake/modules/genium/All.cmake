@@ -15,21 +15,21 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_All)
+if(DEFINED includeguard_gluecodium_All)
   return()
 endif()
-set(includeguard_genium_All ON)
+set(includeguard_gluecodium_All ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The main Genium module
+# The main Gluecodium module
 # ----------------------
 #
-# Includes all other Genium modules for convenience.
+# Includes all other Gluecodium modules for convenience.
 
 # Generic modules
-include(${CMAKE_CURRENT_LIST_DIR}/Genium.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Gluecodium.cmake)
 
 # Android modules
 include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.common
+package com.here.gluecodium.model.common
 
 data class Include(
     val fileName: String,

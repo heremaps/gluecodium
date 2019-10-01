@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common
+package com.here.gluecodium.generator.common
 
-import com.here.genium.generator.common.NameRuleSet.Companion.ignore2
-import com.here.genium.generator.common.NameRuleSet.Companion.illegal
+import com.here.gluecodium.generator.common.NameRuleSet.Companion.ignore2
+import com.here.gluecodium.generator.common.NameRuleSet.Companion.illegal
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.Key
 import com.natpryce.konfig.enumType

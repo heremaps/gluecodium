@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_Compile)
+if(DEFINED includeguard_gluecodium_swift_Compile)
   return()
 endif()
-set(includeguard_genium_swift_Compile ON)
+set(includeguard_gluecodium_swift_Compile ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -52,9 +52,9 @@ include(${CMAKE_CURRENT_LIST_DIR}/Test.cmake)
 
 function(apigen_swift_compile target architecture)
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
-  get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GENIUM_GENERATOR_ADDITIONAL_SOURCES)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GLUECODIUM_GENERATOR_ADDITIONAL_SOURCES)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)

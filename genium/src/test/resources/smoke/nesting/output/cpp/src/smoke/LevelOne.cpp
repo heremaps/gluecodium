@@ -26,7 +26,7 @@ LevelOne::LevelTwo::LevelThree::LevelFour::LevelFour( const ::std::string& strin
 {
 }
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 hash< ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum >::operator( )( const ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum& t ) const
 {

@@ -13,7 +13,7 @@
 #include <new>
 #include "JniReference.h"
 #include "ProxyConversion.h"
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {

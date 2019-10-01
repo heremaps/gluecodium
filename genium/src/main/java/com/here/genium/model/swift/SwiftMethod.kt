@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift
+package com.here.gluecodium.model.swift
 
-import com.here.genium.generator.cbridge.CBridgeNameRules
-import com.here.genium.generator.common.NameHelper
-import com.here.genium.model.common.Comments
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules
+import com.here.gluecodium.generator.common.NameHelper
+import com.here.gluecodium.model.common.Comments
 
 class SwiftMethod(
     name: String,

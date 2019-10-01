@@ -17,34 +17,34 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
-import com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
-import com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.generator.swift.SwiftModelBuilder
-import com.here.genium.generator.swift.SwiftNameResolver
-import com.here.genium.generator.swift.SwiftNameRules
-import com.here.genium.generator.swift.SwiftTypeMapper
-import com.here.genium.model.cbridge.CBridgeIncludeResolver
-import com.here.genium.model.cbridge.CElement
-import com.here.genium.model.cbridge.CEnum
-import com.here.genium.model.cbridge.CInterface
-import com.here.genium.model.cbridge.CStruct
-import com.here.genium.model.common.Include
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeSignatureResolver
-import com.here.genium.model.swift.SwiftFile
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.SRC_DIR
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppModelBuilder
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppTypeMapper
+import com.here.gluecodium.generator.swift.SwiftModelBuilder
+import com.here.gluecodium.generator.swift.SwiftNameResolver
+import com.here.gluecodium.generator.swift.SwiftNameRules
+import com.here.gluecodium.generator.swift.SwiftTypeMapper
+import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
+import com.here.gluecodium.model.cbridge.CElement
+import com.here.gluecodium.model.cbridge.CEnum
+import com.here.gluecodium.model.cbridge.CInterface
+import com.here.gluecodium.model.cbridge.CStruct
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.swift.SwiftFile
+import com.here.gluecodium.platform.common.GeneratorSuite
 import java.nio.file.Paths
 
 class CBridgeGenerator(

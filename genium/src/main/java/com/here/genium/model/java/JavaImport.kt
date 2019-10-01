@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
 data class JavaImport(
     val className: String,

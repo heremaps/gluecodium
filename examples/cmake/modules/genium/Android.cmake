@@ -15,15 +15,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_Android)
+if(DEFINED includeguard_gluecodium_Android)
   return()
 endif()
-set(includeguard_genium_Android ON)
+set(includeguard_gluecodium_Android ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The Android Genium module
+# The Android Gluecodium module
 # -------------------------
 #
 # Includes modules needed for Android builds.

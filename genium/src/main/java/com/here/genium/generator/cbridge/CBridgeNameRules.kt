@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.generator.common.NameHelper
-import com.here.genium.model.lime.LimeAttributeType.SWIFT
-import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeSignatureResolver
-import com.here.genium.model.lime.LimeType
+import com.here.gluecodium.generator.common.NameHelper
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.lime.LimeType
 import java.nio.file.Paths
 
 object CBridgeNameRules {

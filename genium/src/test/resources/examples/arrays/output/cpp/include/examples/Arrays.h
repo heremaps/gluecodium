@@ -3,17 +3,17 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <vector>
 namespace examples {
-class _GENIUM_CPP_EXPORT Arrays {
+class _GLUECODIUM_CPP_EXPORT Arrays {
 public:
     Arrays();
     virtual ~Arrays() = 0;
 public:
-    struct _GENIUM_CPP_EXPORT SyncResult {
+    struct _GLUECODIUM_CPP_EXPORT SyncResult {
         uint64_t last_updated_time_stamp;
         uint32_t number_of_changes;
         SyncResult( );

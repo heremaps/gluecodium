@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.model.cpp.CppComplexTypeRef
-import com.here.genium.model.cpp.CppField
-import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.cpp.CppUsing
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.model.cpp.CppComplexTypeRef
+import com.here.gluecodium.model.cpp.CppField
+import com.here.gluecodium.model.cpp.CppStruct
+import com.here.gluecodium.model.cpp.CppUsing
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,7 +39,7 @@ class TopologicalSortCycleTest {
 
     @Before
     fun setUp() {
-        expectedException.expect(GeniumExecutionException::class.java)
+        expectedException.expect(GluecodiumExecutionException::class.java)
     }
 
     @Test

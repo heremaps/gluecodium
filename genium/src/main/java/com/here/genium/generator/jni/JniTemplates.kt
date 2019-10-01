@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni
+package com.here.gluecodium.generator.jni
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.model.common.Include
-import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.jni.JniContainer.ContainerType
-import com.here.genium.model.jni.JniElement
-import com.here.genium.model.jni.JniType
-import com.here.genium.platform.android.JavaGeneratorSuite
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.jni.JniContainer
+import com.here.gluecodium.model.jni.JniContainer.ContainerType
+import com.here.gluecodium.model.jni.JniElement
+import com.here.gluecodium.model.jni.JniType
+import com.here.gluecodium.platform.android.JavaGeneratorSuite
 
 class JniTemplates(
     private val basePackages: List<String>,

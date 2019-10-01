@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni
+package com.here.gluecodium.model.jni
 
-import com.here.genium.generator.jni.JniNameRules
-import com.here.genium.model.common.Include
+import com.here.gluecodium.generator.jni.JniNameRules
+import com.here.gluecodium.model.common.Include
 
 /**
  * JniContainer is a container for classes, fields and methods.

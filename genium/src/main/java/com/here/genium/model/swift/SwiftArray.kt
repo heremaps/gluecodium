@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift
+package com.here.gluecodium.model.swift
 
 class SwiftArray private constructor(
     val underlyingType: SwiftType,

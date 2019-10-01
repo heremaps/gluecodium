@@ -3,20 +3,20 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include <cstdint>
 namespace examples {
-class _GENIUM_CPP_EXPORT Structs {
+class _GLUECODIUM_CPP_EXPORT Structs {
 public:
     Structs();
     virtual ~Structs() = 0;
 public:
-    struct _GENIUM_CPP_EXPORT SyncResult {
+    struct _GLUECODIUM_CPP_EXPORT SyncResult {
         const uint64_t last_updated_time_stamp;
         const uint32_t number_of_changes;
         SyncResult( const uint64_t last_updated_time_stamp, const uint32_t number_of_changes );
     };
-    struct _GENIUM_CPP_EXPORT IdentifiableSyncResult {
+    struct _GLUECODIUM_CPP_EXPORT IdentifiableSyncResult {
         int32_t id;
         ::examples::Structs::SyncResult sync_result;
         IdentifiableSyncResult( const int32_t id, const ::examples::Structs::SyncResult& sync_result );

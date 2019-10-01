@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
 data class JavaPackage(private val packageList: List<String>) {
     val packageNames = packageList.map { it.replace("_", "") }

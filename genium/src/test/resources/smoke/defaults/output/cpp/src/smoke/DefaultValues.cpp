@@ -27,7 +27,7 @@ DefaultValues::StructWithDefaults::StructWithDefaults( const int32_t int_field, 
 DefaultValues::NullableStructWithDefaults::NullableStructWithDefaults( )
 {
 }
-DefaultValues::NullableStructWithDefaults::NullableStructWithDefaults( const ::genium::optional< int32_t >& int_field, const ::genium::optional< uint32_t >& uint_field, const ::genium::optional< float >& float_field, const ::genium::optional< bool >& bool_field, const ::genium::optional< ::std::string >& string_field, const ::genium::optional< ::smoke::DefaultValues::SomeEnum >& enum_field )
+DefaultValues::NullableStructWithDefaults::NullableStructWithDefaults( const ::gluecodium::optional< int32_t >& int_field, const ::gluecodium::optional< uint32_t >& uint_field, const ::gluecodium::optional< float >& float_field, const ::gluecodium::optional< bool >& bool_field, const ::gluecodium::optional< ::std::string >& string_field, const ::gluecodium::optional< ::smoke::DefaultValues::SomeEnum >& enum_field )
     : int_field( int_field ), uint_field( uint_field ), float_field( float_field ), bool_field( bool_field ), string_field( string_field ), enum_field( enum_field )
 {
 }
@@ -53,7 +53,7 @@ DefaultValues::StructWithTypedefDefaults::StructWithTypedefDefaults( const ::smo
 {
 }
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 hash< ::smoke::DefaultValues::SomeEnum >::operator( )( const ::smoke::DefaultValues::SomeEnum& t ) const
 {

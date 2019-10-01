@@ -17,24 +17,24 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.gluecodium.loader
 
-import com.here.genium.antlr.LimeLexer
-import com.here.genium.antlr.LimeParser
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeModelLoader
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeReferenceResolver
-import com.here.genium.validator.LimeEnumeratorRefsValidator
-import com.here.genium.validator.LimeStructsValidator
-import com.here.genium.validator.LimeExternalTypesValidator
-import com.here.genium.validator.LimeGenericTypesValidator
-import com.here.genium.validator.LimeInheritanceValidator
-import com.here.genium.validator.LimeLogger
-import com.here.genium.validator.LimeFunctionsValidator
-import com.here.genium.validator.LimeSerializableStructsValidator
-import com.here.genium.validator.LimeTypeRefsValidator
-import com.here.genium.validator.LimeTypeRefTargetValidator
+import com.here.gluecodium.antlr.LimeLexer
+import com.here.gluecodium.antlr.LimeParser
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeModelLoader
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeReferenceResolver
+import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
+import com.here.gluecodium.validator.LimeStructsValidator
+import com.here.gluecodium.validator.LimeExternalTypesValidator
+import com.here.gluecodium.validator.LimeGenericTypesValidator
+import com.here.gluecodium.validator.LimeInheritanceValidator
+import com.here.gluecodium.validator.LimeLogger
+import com.here.gluecodium.validator.LimeFunctionsValidator
+import com.here.gluecodium.validator.LimeSerializableStructsValidator
+import com.here.gluecodium.validator.LimeTypeRefsValidator
+import com.here.gluecodium.validator.LimeTypeRefTargetValidator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.misc.ParseCancellationException

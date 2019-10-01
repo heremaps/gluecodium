@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.gluecodium.generator.swift
 
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 
 class SwiftNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,

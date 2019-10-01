@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.generator.common.NameRules
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeSignatureResolver
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 class JavaSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,

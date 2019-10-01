@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.generator.common.NameRuleSet
-import com.here.genium.generator.common.NameRules
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.generator.common.NameRuleSet
+import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
+import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
 class CppNameRules(

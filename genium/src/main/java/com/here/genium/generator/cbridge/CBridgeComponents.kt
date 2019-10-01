@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.model.cbridge.CFunction
-import com.here.genium.model.cbridge.CInterface
-import com.here.genium.model.cbridge.CType
-import com.here.genium.model.common.Include
+import com.here.gluecodium.model.cbridge.CFunction
+import com.here.gluecodium.model.cbridge.CInterface
+import com.here.gluecodium.model.cbridge.CType
+import com.here.gluecodium.model.common.Include
 import java.nio.file.Paths
 
 object CBridgeComponents {

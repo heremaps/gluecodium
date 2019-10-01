@@ -17,20 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.gluecodium.loader
 
-import com.here.genium.antlr.LimeParser
-import com.here.genium.model.lime.LimeAmbiguousTypeRef
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.gluecodium.antlr.LimeParser
+import com.here.gluecodium.model.lime.LimeAmbiguousTypeRef
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class AntlrTypeMapper(
     private val imports: List<LimePath>,

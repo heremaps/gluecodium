@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.model.cpp.CppElement
-import com.here.genium.model.cpp.CppMethod
-import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.cpp.CppTemplateTypeRef
-import com.here.genium.model.cpp.CppTypeDefRef
-import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.cpp.CppTypedElement
-import com.here.genium.model.cpp.CppUsing
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.model.cpp.CppElement
+import com.here.gluecodium.model.cpp.CppMethod
+import com.here.gluecodium.model.cpp.CppStruct
+import com.here.gluecodium.model.cpp.CppTemplateTypeRef
+import com.here.gluecodium.model.cpp.CppTypeDefRef
+import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.cpp.CppTypedElement
+import com.here.gluecodium.model.cpp.CppUsing
 
 class TopologicalSort(private val elements: List<CppElement>) {
 
@@ -48,7 +48,7 @@ class TopologicalSort(private val elements: List<CppElement>) {
             val nextElement = elements.firstOrNull {
                 val dependencySet = dependencies[it.fullyQualifiedName]
                 dependencySet != null && dependencySet.isEmpty() && !sortedElements.contains(it)
-            } ?: throw GeniumExecutionException("Cycle detected in CPP elements dependencies.")
+            } ?: throw GluecodiumExecutionException("Cycle detected in CPP elements dependencies.")
 
             sortedElements.add(nextElement)
 

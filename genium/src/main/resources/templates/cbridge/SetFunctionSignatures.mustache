@@ -18,15 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-_GENIUM_C_EXPORT _baseRef {{name}}_create_handle();
-_GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT void {{name}}_insert(_baseRef handle, {{elementType.functionReturnType}} value);
-_GENIUM_C_EXPORT _baseRef {{name}}_iterator(_baseRef handle);
-_GENIUM_C_EXPORT void {{name}}_iterator_release_handle(_baseRef iterator_handle);
-_GENIUM_C_EXPORT bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
-_GENIUM_C_EXPORT void {{name}}_iterator_increment(_baseRef iterator_handle);
-_GENIUM_C_EXPORT {{elementType.functionReturnType}} {{name}}_iterator_get(_baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT _baseRef {{name}}_create_handle();
+_GLUECODIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void {{name}}_insert(_baseRef handle, {{elementType.functionReturnType}} value);
+_GLUECODIUM_C_EXPORT _baseRef {{name}}_iterator(_baseRef handle);
+_GLUECODIUM_C_EXPORT void {{name}}_iterator_release_handle(_baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT void {{name}}_iterator_increment(_baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT {{elementType.functionReturnType}} {{name}}_iterator_get(_baseRef iterator_handle);
 
-_GENIUM_C_EXPORT _baseRef {{name}}_create_optional_handle();
-_GENIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef {{name}}_unwrap_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef {{name}}_create_optional_handle();
+_GLUECODIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef {{name}}_unwrap_optional_handle(_baseRef handle);

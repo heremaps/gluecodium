@@ -25,4 +25,4 @@
 _INC_CONSTANTS_SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . "${_INC_CONSTANTS_SCRIPT_DIR}/inc.functions"
 
-GENIUM_VERSION_FILE="${_INC_CONSTANTS_SCRIPT_DIR}/../genium/src/main/resources/version.properties"
+GLUECODIUM_VERSION_FILE="${_INC_CONSTANTS_SCRIPT_DIR}/../gluecodium/src/main/resources/version.properties"

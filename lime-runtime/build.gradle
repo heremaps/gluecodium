@@ -30,5 +30,5 @@ javadoc.enabled = false
 
 apply from: "$rootDir/gradle/spotless.gradle"
 
-project.ext.longName = 'Genium LIME runtime'
+project.ext.longName = 'Gluecodium LIME runtime'
 apply from: "$rootDir/gradle/publishing.gradle"

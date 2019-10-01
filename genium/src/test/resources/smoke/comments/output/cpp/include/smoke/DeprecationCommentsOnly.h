@@ -3,16 +3,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 namespace smoke {
 /**
  * \deprecated Unfortunately, this interface is deprecated.
  */
-class _GENIUM_CPP_EXPORT DeprecationCommentsOnly {
+class _GLUECODIUM_CPP_EXPORT DeprecationCommentsOnly {
 public:
     DeprecationCommentsOnly();
     virtual ~DeprecationCommentsOnly() = 0;
@@ -30,7 +30,7 @@ public:
     /**
      * \deprecated Unfortunately, this struct is deprecated.
      */
-    struct _GENIUM_CPP_EXPORT SomeStruct {
+    struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * \deprecated Unfortunately, this field is deprecated.
          */
@@ -41,7 +41,7 @@ public:
     /**
      * \deprecated Unfortunately, this constant is deprecated.
      */
-    _GENIUM_CPP_EXPORT static const ::smoke::DeprecationCommentsOnly::Usefulness VERY_USEFUL;
+    _GLUECODIUM_CPP_EXPORT static const ::smoke::DeprecationCommentsOnly::Usefulness VERY_USEFUL;
 public:
     /**
      *
@@ -64,12 +64,12 @@ public:
     virtual void set_some_property( const ::smoke::DeprecationCommentsOnly::Usefulness value ) = 0;
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::DeprecationCommentsOnly::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationCommentsOnly::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationCommentsOnly::SomeEnum& t ) const;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationCommentsOnly*);
+namespace gluecodium {
+_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationCommentsOnly*);
 }

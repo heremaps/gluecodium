@@ -17,27 +17,27 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.Genium
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaReferenceType
-import com.here.genium.model.java.JavaTemplateType
-import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeLazyEnumeratorRef
-import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.model.lime.LimeValue
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaReferenceType
+import com.here.gluecodium.model.java.JavaTemplateType
+import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLazyEnumeratorRef
+import com.here.gluecodium.model.lime.LimeLazyTypeRef
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -53,7 +53,7 @@ class JavaValueMapperTest {
     private val javaType = object : JavaType("") {}
 
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().javaNameRules)
     @MockK private lateinit var typeMapper: JavaTypeMapper
 
     private lateinit var valueMapper: JavaValueMapper

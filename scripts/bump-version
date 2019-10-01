@@ -42,7 +42,7 @@ function is_newer_than() {
     return 1
 }
 
-OLD_VERSION=$(get_version "${GENIUM_VERSION_FILE}")
+OLD_VERSION=$(get_version "${GLUECODIUM_VERSION_FILE}")
 
 if [ $# -ne 1 ] ; then
     die "Usage: $0 MAJOR.MINOR.PATCH\n\n\tExample: $0 0.0.1\n\nCurrent version is ${OLD_VERSION}"
@@ -55,9 +55,9 @@ if ! is_newer_than "$OLD_VERSION" "$NEW_VERSION"; then
     die "Error: We are already at version $OLD_VERSION"
 fi
 
-sed -i -e "s|version = $OLD_VERSION|version = $NEW_VERSION|" "${GENIUM_VERSION_FILE}"
+sed -i -e "s|version = $OLD_VERSION|version = $NEW_VERSION|" "${GLUECODIUM_VERSION_FILE}"
 
 # Create a commit with appropriate git tag
 git commit \
-    "${GENIUM_VERSION_FILE}" \
+    "${GLUECODIUM_VERSION_FILE}" \
     -m "Release version $NEW_VERSION"

@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeNamedElement
 import java.util.logging.Logger
 
 internal class LimeLogger(

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates
+package com.here.gluecodium.generator.common.templates
 
 import org.trimou.engine.MustacheEngine
 import org.trimou.engine.MustacheEngineBuilder

@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge
+package com.here.gluecodium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppArrayTypeInfo
-import com.here.genium.generator.cbridge.CppTypeInfo
+import com.here.gluecodium.generator.cbridge.CppArrayTypeInfo
+import com.here.gluecodium.generator.cbridge.CppTypeInfo
 
 class CArray(name: String, typeInfo: CppArrayTypeInfo) : CCollectionType(name) {
 

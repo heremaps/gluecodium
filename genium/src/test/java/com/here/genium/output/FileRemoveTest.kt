@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.output
+package com.here.gluecodium.output
 
 import junit.framework.TestCase.assertTrue
 import org.mockito.Mockito.never

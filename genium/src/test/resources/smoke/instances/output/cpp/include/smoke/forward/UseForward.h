@@ -3,8 +3,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/SimpleClass.h"
 #include "smoke/SimpleInterface.h"
 #include "smoke/forward/Class1.h"
@@ -20,7 +20,7 @@ namespace forward {
 }
 namespace smoke {
 namespace forward {
-class _GENIUM_CPP_EXPORT UseForward {
+class _GLUECODIUM_CPP_EXPORT UseForward {
 public:
     UseForward();
     virtual ~UseForward() = 0;
@@ -36,6 +36,6 @@ public:
 };
 }
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::forward::UseForward*);
+namespace gluecodium {
+_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::forward::UseForward*);
 }

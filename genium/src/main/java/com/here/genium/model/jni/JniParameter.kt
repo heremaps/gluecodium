@@ -17,6 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni
+package com.here.gluecodium.model.jni
 
 class JniParameter(val name: String, val type: JniType) : JniElement

@@ -3,11 +3,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/TypeRepository.h"
 #include <cstdint>
 namespace examples {
-class _GENIUM_CPP_EXPORT Properties {
+class _GLUECODIUM_CPP_EXPORT Properties {
 public:
     Properties();
     virtual ~Properties() = 0;
@@ -17,6 +17,6 @@ public:
     virtual float get_readonly_property(  ) const = 0;
 };
 }
-namespace genium {
-_GENIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Properties*);
+namespace gluecodium {
+_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::examples::Properties*);
 }

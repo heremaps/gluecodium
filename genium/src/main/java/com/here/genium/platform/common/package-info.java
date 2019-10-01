@@ -18,4 +18,4 @@
  */
 
 /** Helpers used by platforms suites. */
-package com.here.genium.platform.common;
+package com.here.gluecodium.platform.common;

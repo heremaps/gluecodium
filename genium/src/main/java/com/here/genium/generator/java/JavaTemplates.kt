@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.java.JavaClass
-import com.here.genium.model.java.JavaElement
-import com.here.genium.model.java.JavaEnum
-import com.here.genium.model.java.JavaExceptionClass
-import com.here.genium.model.java.JavaInterface
-import com.here.genium.model.java.JavaTopLevelElement
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.java.JavaClass
+import com.here.gluecodium.model.java.JavaElement
+import com.here.gluecodium.model.java.JavaEnum
+import com.here.gluecodium.model.java.JavaExceptionClass
+import com.here.gluecodium.model.java.JavaInterface
+import com.here.gluecodium.model.java.JavaTopLevelElement
 
 class JavaTemplates(generatorName: String) {
 

@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
-import com.here.genium.model.java.JavaPrimitiveType.Type
+import com.here.gluecodium.model.java.JavaPrimitiveType.Type
 
 class JavaArrayType(val type: Type) : JavaType("${type.value}[]") {
     companion object {

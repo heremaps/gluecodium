@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.common
+package com.here.gluecodium.platform.common
 
 import com.vladsch.flexmark.ast.Code
 import com.vladsch.flexmark.ast.LinkRef

@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
-import com.here.genium.model.common.PseudoStreamable
+import com.here.gluecodium.model.common.PseudoStreamable
 
 abstract class CppElement(
     open val name: String,

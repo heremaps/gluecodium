@@ -3,11 +3,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Return.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Return.h"
 #include <system_error>
 namespace smoke {
-struct _GENIUM_CPP_EXPORT Vector {
+struct _GLUECODIUM_CPP_EXPORT Vector {
     double x;
     double y;
     Vector( );
@@ -16,6 +16,6 @@ struct _GENIUM_CPP_EXPORT Vector {
     ::smoke::Vector add( const ::smoke::Vector& other ) const;
     static bool validate( const double x, const double y );
     static ::smoke::Vector create( const double x, const double y );
-    static ::genium::Return< ::smoke::Vector, ::std::error_code > create( const ::smoke::Vector& other );
+    static ::gluecodium::Return< ::smoke::Vector, ::std::error_code > create( const ::smoke::Vector& other );
 };
 }

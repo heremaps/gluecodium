@@ -13,7 +13,7 @@ const double DOUBLE_CONSTANT = -3.14;
 const ::std::string STRING_CONSTANT = "Foo bar";
 const ::smoke::StateEnum ENUM_CONSTANT = ::smoke::StateEnum::ON;
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 hash< ::smoke::StateEnum >::operator( )( const ::smoke::StateEnum& t ) const
 {

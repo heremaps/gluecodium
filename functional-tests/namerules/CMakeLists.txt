@@ -31,11 +31,11 @@ add_library(namerules ${CPP_SOURCES} ${LIME_SOURCES})
 set_target_properties(namerules PROPERTIES
     POSITION_INDEPENDENT_CODE ON)
 
-include(genium/Genium)
+include(gluecodium/Gluecodium)
 apigen_generate(TARGET namerules
         LIME_SOURCES ${LIME_SOURCES}
-        GENERATOR ${GENIUM_GENERATOR}
-        VERSION ${GENIUM_VERSION}
+        GENERATOR ${GLUECODIUM_GENERATOR}
+        VERSION ${GLUECODIUM_VERSION}
         JAVA_PACKAGE com.here.namerules
         JAVA_INTERNAL_PACKAGE lorem.ipsum
         JAVA_NAMERULES input/namerules/java.properties
@@ -46,15 +46,15 @@ apigen_target_include_directories(namerules)
 apigen_target_sources(namerules)
 
 # Target platform specific rules to follow...
-if(GENIUM_GENERATOR STREQUAL cpp)
+if(GLUECODIUM_GENERATOR STREQUAL cpp)
     # Only install the shared library for C++ users, others don't care...
     install(TARGETS namerules EXPORT helloTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         INCLUDES DESTINATION namerules)
-elseif(GENIUM_GENERATOR STREQUAL android)
+elseif(GLUECODIUM_GENERATOR STREQUAL android)
     # Android users want an Android Archive and it's pre-requirements...
-    include(genium/Android)
+    include(gluecodium/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
         set(ANDROID_NATIVE_API_LEVEL "28")
     endif()
@@ -66,9 +66,9 @@ elseif(GENIUM_GENERATOR STREQUAL android)
         LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}")
     apigen_java_jar(namerules)
     apigen_android_archive(TARGET namerules)
-elseif(GENIUM_GENERATOR STREQUAL swift)
+elseif(GLUECODIUM_GENERATOR STREQUAL swift)
     # Swift users want a module...
-    include(genium/Swift)
+    include(gluecodium/Swift)
     set_target_properties(namerules PROPERTIES APIGEN_SWIFT_TESTS_SHARED "${CMAKE_CURRENT_SOURCE_DIR}/swift/")
 
     apigen_swift_build(namerules)

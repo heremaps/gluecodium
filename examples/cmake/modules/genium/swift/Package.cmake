@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_Package)
+if(DEFINED includeguard_gluecodium_swift_Package)
   return()
 endif()
-set(includeguard_genium_swift_Package ON)
+set(includeguard_gluecodium_swift_Package ON)
 
 cmake_minimum_required(VERSION 3.5)
 

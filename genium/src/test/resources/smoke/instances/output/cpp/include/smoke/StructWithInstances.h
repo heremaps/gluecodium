@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include "smoke/SimpleClass.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
@@ -12,7 +12,7 @@ namespace smoke {
     class SimpleInterface;
 }
 namespace smoke {
-struct _GENIUM_CPP_EXPORT StructWithInstances {
+struct _GLUECODIUM_CPP_EXPORT StructWithInstances {
     /// \warning @NotNull
     ::std::shared_ptr< ::smoke::SimpleClass > class_instance;
     /// \warning @NotNull

@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni
+package com.here.gluecodium.generator.jni
 
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.jni.JniContainer
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.jni.JniContainer
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.unmockkAll

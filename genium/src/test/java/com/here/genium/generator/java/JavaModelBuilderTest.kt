@@ -17,52 +17,52 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.Genium
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.java.JavaClass
-import com.here.genium.model.java.JavaConstant
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaElement
-import com.here.genium.model.java.JavaEnum
-import com.here.genium.model.java.JavaEnumItem
-import com.here.genium.model.java.JavaEnumType
-import com.here.genium.model.java.JavaExceptionClass
-import com.here.genium.model.java.JavaExceptionType
-import com.here.genium.model.java.JavaField
-import com.here.genium.model.java.JavaImport
-import com.here.genium.model.java.JavaMethod
-import com.here.genium.model.java.JavaPackage
-import com.here.genium.model.java.JavaParameter
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaTopLevelElement
-import com.here.genium.model.java.JavaType
-import com.here.genium.model.java.JavaValue
-import com.here.genium.model.java.JavaVisibility
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeComment
-import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeParameter
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeReturnType
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeValue
-import com.here.genium.model.lime.LimeVisibility
-import com.here.genium.test.AssertHelpers.assertContains
-import com.here.genium.test.MockContextStack
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.model.java.JavaClass
+import com.here.gluecodium.model.java.JavaConstant
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaElement
+import com.here.gluecodium.model.java.JavaEnum
+import com.here.gluecodium.model.java.JavaEnumItem
+import com.here.gluecodium.model.java.JavaEnumType
+import com.here.gluecodium.model.java.JavaExceptionClass
+import com.here.gluecodium.model.java.JavaExceptionType
+import com.here.gluecodium.model.java.JavaField
+import com.here.gluecodium.model.java.JavaImport
+import com.here.gluecodium.model.java.JavaMethod
+import com.here.gluecodium.model.java.JavaPackage
+import com.here.gluecodium.model.java.JavaParameter
+import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaTopLevelElement
+import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaValue
+import com.here.gluecodium.model.java.JavaVisibility
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeThrownType
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeVisibility
+import com.here.gluecodium.test.AssertHelpers.assertContains
+import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -94,7 +94,7 @@ class JavaModelBuilderTest {
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().javaNameRules)
     private val nameRules = JavaNameRules(nameRuleSet)
 
     private lateinit var modelBuilder: JavaModelBuilder

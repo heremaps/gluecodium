@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hello Genium!</string>
+    <string name="app_name">Hello Gluecodium!</string>
     <string name="fragment_base_title">Base</string>
     <string name="fragment_builtin_title">BuiltIn Types</string>
     <string name="fragment_attributes">Attributes</string>

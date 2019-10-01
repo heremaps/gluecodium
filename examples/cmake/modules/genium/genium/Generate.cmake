@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_Generate)
+if(DEFINED includeguard_gluecodium_Generate)
   return()
 endif()
-set(includeguard_genium_Generate ON)
+set(includeguard_gluecodium_Generate ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -41,7 +41,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 #   apigen_generate(target inputDir generator)
 #
-# This function invokes the Genium tool based on a set of of input *.lime
+# This function invokes the Gluecodium tool based on a set of of input *.lime
 # files with a specific target language generator.
 
 if(COMMAND find_host_package)
@@ -50,11 +50,11 @@ else()
   find_package(Java COMPONENTS Runtime REQUIRED)
 endif()
 
-set(APIGEN_GENIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(APIGEN_GLUECODIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
 if(WIN32)
-  set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew.bat)
+  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ./gradlew.bat)
 else()
-  set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew)
+  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ./gradlew)
 endif()
 
 function(apigen_generate)
@@ -91,32 +91,32 @@ function(apigen_generate)
     set(apigen_generate_VERSION +)
   endif()
 
-  message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Genium version '${apigen_generate_VERSION}'
+  message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Gluecodium version '${apigen_generate_VERSION}'
   Input: '${IDL_SOURCES}'")
 
-  # Genium invocations for different generators need different output directories
-  # as Genium currently wipes the directory upon start.
+  # Gluecodium invocations for different generators need different output directories
+  # as Gluecodium currently wipes the directory upon start.
   if(NOT apigen_generate_OUTPUT_DIR)
     set(apigen_generate_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
   endif()
-  set(GENIUM_OUTPUT_DIR ${apigen_generate_OUTPUT_DIR})
+  set(GLUECODIUM_OUTPUT_DIR ${apigen_generate_OUTPUT_DIR})
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_generate_TARGET} PROPERTIES
-    APIGEN_GENIUM_GENERATOR ${apigen_generate_GENERATOR}
-    APIGEN_GENIUM_GENERATOR_OUTPUT_DIR ${GENIUM_OUTPUT_DIR})
+    APIGEN_GLUECODIUM_GENERATOR ${apigen_generate_GENERATOR}
+    APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR ${GLUECODIUM_OUTPUT_DIR})
 
   if(NOT apigen_generate_GENERATOR MATCHES cpp)
     # This can be optimized. If a previous invocation of this function already
     # generated 'cpp', it should be re-used. At the moment this is not possible
-    # because Genium cleans it's output directory in the beginning
+    # because Gluecodium cleans it's output directory in the beginning
     set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
   endif()
 
 
-  # Build Genium tool command-line
-  set(APIGEN_GENIUM_ARGS "\
-    -output \"${GENIUM_OUTPUT_DIR}\"\
+  # Build Gluecodium tool command-line
+  set(APIGEN_GLUECODIUM_ARGS "\
+    -output \"${GLUECODIUM_OUTPUT_DIR}\"\
     -generators ${apigen_generate_GENERATOR}\
     ${validateParam}\
     ${mergeManifest}\
@@ -133,7 +133,7 @@ function(apigen_generate)
     if(NOT IS_ABSOLUTE ${input})
       set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
     endif()
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -input \"${input}\"")
+    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " -input \"${input}\"")
   endforeach()
   apigen_parse_option(--android-merge-manifest ANDROID_MERGE_MANIFEST)
   apigen_parse_option(-javapackage JAVA_PACKAGE)
@@ -147,9 +147,9 @@ function(apigen_generate)
   apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
 
   if(apigen_generate_CPP_EXPORT)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
+    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
   else()
-    set(apigen_generate_CPP_EXPORT _GENIUM_CPP)
+    set(apigen_generate_CPP_EXPORT _GLUECODIUM_CPP)
   endif()
   get_target_property(apigen_target_type ${apigen_generate_TARGET} TYPE)
   if (apigen_target_type STREQUAL SHARED_LIBRARY)
@@ -158,17 +158,17 @@ function(apigen_generate)
       PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
   endif()
 
-  message("Running `Genium ${APIGEN_GENIUM_ARGS}`")
+  message("Running `Gluecodium ${APIGEN_GLUECODIUM_ARGS}`")
 
-  if(DEFINED ENV{GENIUM_PATH})
-    message("Using local Genium from " $ENV{GENIUM_PATH})
-    set(BUILD_LOCAL_GENIUM "--include-build" "$ENV{GENIUM_PATH}")
+  if(DEFINED ENV{GLUECODIUM_PATH})
+    message("Using local Gluecodium from " $ENV{GLUECODIUM_PATH})
+    set(BUILD_LOCAL_GLUECODIUM "--include-build" "$ENV{GLUECODIUM_PATH}")
   endif()
 
   execute_process(
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${GENIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-    COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} ${BUILD_LOCAL_GENIUM} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GENIUM_ARGS}
-    WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
+    COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} ${BUILD_LOCAL_GLUECODIUM} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GLUECODIUM_ARGS}
+    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
     RESULT_VARIABLE GENERATE_RESULT)
   if(NOT "${GENERATE_RESULT}" STREQUAL "0")
     message(FATAL_ERROR "Failed to generate from given LimeIDL files.")
@@ -176,17 +176,17 @@ function(apigen_generate)
 
 endfunction()
 
-macro(apigen_parse_path_option GENIUM_OPTION CMAKE_OPTION)
+macro(apigen_parse_path_option GLUECODIUM_OPTION CMAKE_OPTION)
   if(apigen_generate_${CMAKE_OPTION})
     if(NOT IS_ABSOLUTE ${apigen_generate_${CMAKE_OPTION}})
       set(apigen_generate_${CMAKE_OPTION} "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${CMAKE_OPTION}}")
     endif()
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " ${GENIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
+    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " ${GLUECODIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
   endif()
 endmacro()
 
-macro(apigen_parse_option GENIUM_OPTION CMAKE_OPTION)
+macro(apigen_parse_option GLUECODIUM_OPTION CMAKE_OPTION)
   if(apigen_generate_${CMAKE_OPTION})
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " ${GENIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
+    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " ${GLUECODIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
   endif()
 endmacro()

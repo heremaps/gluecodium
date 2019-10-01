@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common
+package com.here.gluecodium.generator.common
 
 import com.natpryce.konfig.ConfigurationProperties
 import org.junit.Assert.assertEquals

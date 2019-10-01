@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include "smoke/fooTypes.h"
 #include <cstdint>
 #include <memory>
@@ -12,7 +12,7 @@ namespace smoke {
     class fooInterface;
 }
 namespace smoke {
-class _GENIUM_CPP_EXPORT fooInterface {
+class _GLUECODIUM_CPP_EXPORT fooInterface {
 public:
     fooInterface();
     virtual ~fooInterface() = 0;

@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium
+package com.here.gluecodium
 
-import com.here.genium.Genium.Options
-import com.here.genium.cache.CachingStrategy
-import com.here.genium.cache.CachingStrategyCreator
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeModelLoader
-import com.here.genium.output.ConsoleOutput
-import com.here.genium.output.FileOutput
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.Gluecodium.Options
+import com.here.gluecodium.cache.CachingStrategy
+import com.here.gluecodium.cache.CachingStrategyCreator
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeModelLoader
+import com.here.gluecodium.output.ConsoleOutput
+import com.here.gluecodium.output.FileOutput
+import com.here.gluecodium.platform.common.GeneratorSuite
 import io.mockk.spyk
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -62,7 +62,7 @@ import java.nio.file.Paths
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GeneratorSuite::class, CachingStrategyCreator::class)
-class GeniumTest {
+class GluecodiumTest {
     @Mock
     private lateinit var modelLoader: LimeModelLoader
     @Mock
@@ -103,7 +103,7 @@ class GeniumTest {
         )
 
         // Act, Assert
-        assertFalse(createGenium(options).execute())
+        assertFalse(createGluecodium(options).execute())
     }
 
     @Test
@@ -117,7 +117,7 @@ class GeniumTest {
         )
 
         // Act, assert
-        assertFalse(createGenium(options).execute())
+        assertFalse(createGluecodium(options).execute())
     }
 
     @Test
@@ -130,7 +130,7 @@ class GeniumTest {
         )
 
         // Act
-        createGenium(options).execute()
+        createGluecodium(options).execute()
 
         // Assert
         verify(generator, never()).generate(any())
@@ -147,7 +147,7 @@ class GeniumTest {
         )
 
         // Act
-        createGenium(options).execute()
+        createGluecodium(options).execute()
 
         // Verify
         Mockito.inOrder(cache).apply {
@@ -166,7 +166,7 @@ class GeniumTest {
         val options = Options(isDumpingToStdout = true)
 
         // Act
-        Genium(options).output("", listOf(generatedFile))
+        Gluecodium(options).output("", listOf(generatedFile))
         bo.flush()
         val consoleOutput = String(bo.toByteArray())
 
@@ -176,7 +176,7 @@ class GeniumTest {
 
     @Test
     @PrepareForTest(
-        Genium::class,
+        Gluecodium::class,
         FileOutput::class,
         GeneratorSuite::class,
         CachingStrategyCreator::class
@@ -191,13 +191,13 @@ class GeniumTest {
         PowerMockito.whenNew(File::class.java).withAnyArguments().thenReturn(mockFile)
 
         // Act, Assert
-        assertTrue(Genium(options).output("", GENERATED_FILES))
+        assertTrue(Gluecodium(options).output("", GENERATED_FILES))
         verify(mockFileOutput, times(1)).output(ArgumentMatchers.anyList())
         verify(cache).updateCache(any(), any())
     }
 
     @PrepareForTest(
-        Genium::class,
+        Gluecodium::class,
         GeneratorSuite::class,
         CachingStrategyCreator::class
     )
@@ -211,7 +211,7 @@ class GeniumTest {
         val options = Options(isDumpingToStdout = true)
 
         // Act, Assert
-        assertFalse(Genium(options).output("", GENERATED_FILES))
+        assertFalse(Gluecodium(options).output("", GENERATED_FILES))
     }
 
     @Test
@@ -224,7 +224,7 @@ class GeniumTest {
         val options = Options(outputDir = "")
 
         // Act, Assert
-        assertFalse(Genium(options).output("", GENERATED_FILES))
+        assertFalse(Gluecodium(options).output("", GENERATED_FILES))
     }
 
     @Test
@@ -238,7 +238,7 @@ class GeniumTest {
         val expectedMergedManifestPath = Paths.get(basePath, "ExpectedMergedAndroidManifest.xml")
 
         // Act
-        val result = Genium.mergeAndroidManifests(
+        val result = Gluecodium.mergeAndroidManifests(
             baseManifestPath, appendManifestPath, mergedManifestPath.toString()
         )
 
@@ -258,7 +258,7 @@ class GeniumTest {
         val mergedManifestPath = Paths.get(temporaryFolder.root.path, "MergedAndroidManifest.xml")
 
         // Act
-        val result = Genium.mergeAndroidManifests(
+        val result = Gluecodium.mergeAndroidManifests(
             baseManifestPath, appendManifestPath, mergedManifestPath.toString()
         )
 
@@ -276,13 +276,13 @@ class GeniumTest {
 
         // Act, assert
         assertFalse(
-            Genium.mergeAndroidManifests(
+            Gluecodium.mergeAndroidManifests(
                 baseManifestPath, appendManifestPath, mergedManifestPath.toString()
             )
         )
     }
 
-    private fun createGenium(options: Options) = spyk(Genium(options, modelLoader))
+    private fun createGluecodium(options: Options) = spyk(Gluecodium(options, modelLoader))
 
     companion object {
         private const val SHORT_NAME = "android"

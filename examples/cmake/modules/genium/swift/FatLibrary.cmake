@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_FatLibrary)
+if(DEFINED includeguard_gluecodium_swift_FatLibrary)
   return()
 endif()
-set(includeguard_genium_swift_FatLibrary ON)
+set(includeguard_gluecodium_swift_FatLibrary ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -41,8 +41,8 @@ function(apigen_swift_fat_library target)
     return()
   endif()
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_ARCH ${target} APIGEN_SWIFT_BUILD_ARCH)
 

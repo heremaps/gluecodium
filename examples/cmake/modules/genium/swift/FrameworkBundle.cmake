@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_FrameworkBundle)
+if(DEFINED includeguard_gluecodium_swift_FrameworkBundle)
   return()
 endif()
-set(includeguard_genium_swift_FrameworkBundle ON)
+set(includeguard_gluecodium_swift_FrameworkBundle ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -57,7 +57,7 @@ function(apigen_swift_framework_bundle)
   cmake_parse_arguments(apigen_swift_framework_bundle
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GENIUM_GENERATOR)
+  get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GLUECODIUM_GENERATOR)
   get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_RESOURCES_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_RESOURCES_DIR)
   get_target_property(SWIFT_FRAMEWORK_NAME ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_FRAMEWORK_NAME)

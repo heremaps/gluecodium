@@ -3,11 +3,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/ParentInterface.h"
 namespace smoke {
-class _GENIUM_CPP_EXPORT ChildInterface: public ::smoke::ParentInterface {
+class _GLUECODIUM_CPP_EXPORT ChildInterface: public ::smoke::ParentInterface {
 public:
     ChildInterface();
     virtual ~ChildInterface() = 0;

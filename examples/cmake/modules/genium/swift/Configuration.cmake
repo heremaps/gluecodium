@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_genium_swift_Configuration)
+if(DEFINED includeguard_gluecodium_swift_Configuration)
   return()
 endif()
-set(includeguard_genium_swift_Configuration ON)
+set(includeguard_gluecodium_swift_Configuration ON)
 
 if(CMAKE_GENERATOR STREQUAL "Xcode" AND NOT XCODE_VERSION VERSION_LESS 10.0)
   cmake_minimum_required(VERSION 3.12.1)
@@ -47,8 +47,8 @@ set(SWIFT_RESOURCES_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 function(apigen_swift_configuration target)
 
-  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
   get_target_property(SDK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SDK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
   get_target_property(MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
@@ -88,8 +88,8 @@ function(apigen_swift_configuration target)
     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${target})
   endif()
 
-  # Genium invocations for different generators need different output directories
-  # as Genium currently wipes the directory upon start.
+  # Gluecodium invocations for different generators need different output directories
+  # as Gluecodium currently wipes the directory upon start.
   set(SWIFT_BUILD_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-swift-build)
 
   # Attach properties to target for re-use in other modules

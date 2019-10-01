@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.Genium
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.lime.LimeAttributeType.CPP
-import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeTypesCollection
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,7 +38,7 @@ class CppIncludeResolverTest {
     private val limeRootPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().cppNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().cppNameRules)
     private val includeResolver =
         CppIncludeResolver(limeReferenceMap, CppNameRules(listOf("ro", "ot"), nameRuleSet))
 

@@ -17,23 +17,23 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeComment
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeModelLoaderException
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeReturnType
-import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeRef
-import com.here.genium.model.lime.LimeTypedElement
-import com.here.genium.model.lime.LimeVisibility
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeReturnType
+import com.here.gluecodium.model.lime.LimeThrownType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

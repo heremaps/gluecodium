@@ -28,4 +28,4 @@
  *
  * Generated code: Java public API, JNI bindings and Android manifest file.
  */
-package com.here.genium.platform.android;
+package com.here.gluecodium.platform.android;

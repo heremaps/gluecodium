@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
 abstract class JavaTypedElement(name: String, val type: JavaType) : JavaElement(name) {
     override fun stream() = super.stream() + type

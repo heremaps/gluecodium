@@ -14,5 +14,5 @@ By default Franca interfaces are generated as classes in Swift and abstract clas
 
 ## Interfaces with Swift implementation
 
-If the deployment property `IsInterface=true` is set, Genium generates a protocal in Swift which can be implemented in Swift and passed to C++. Genium generates the necessary proxy class. Holding a `shared_ptr` to the proxy on C++ side will extend the life of the Swift object.
+If the deployment property `IsInterface=true` is set, Gluecodium generates a protocal in Swift which can be implemented in Swift and passed to C++. Gluecodium generates the necessary proxy class. Holding a `shared_ptr` to the proxy on C++ side will extend the life of the Swift object.
 ![Listeners code overview](diagrams/SwiftProxy.svg)

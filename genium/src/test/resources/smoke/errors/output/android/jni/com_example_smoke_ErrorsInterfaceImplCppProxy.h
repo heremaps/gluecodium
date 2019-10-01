@@ -10,7 +10,7 @@
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
 #include "com_example_smoke_ErrorsInterfaceImpl.h"
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {
@@ -19,7 +19,7 @@ public:
     ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
     ::std::error_code method_with_errors(  ) override;
     ::std::error_code method_with_external_errors(  ) override;
-    ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value(  ) override;
+    ::gluecodium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value(  ) override;
 };
 }
 }

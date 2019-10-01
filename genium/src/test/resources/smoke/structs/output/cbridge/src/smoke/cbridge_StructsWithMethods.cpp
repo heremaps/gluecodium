@@ -2,7 +2,7 @@
 //
 #include "cbridge/include/smoke/cbridge_StructsWithMethods.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
-#include "genium/Optional.h"
+#include "gluecodium/Optional.h"
 #include "smoke/StructsWithMethods.h"
 #include "smoke/ValidationUtils.h"
 #include <memory>
@@ -23,7 +23,7 @@ smoke_StructsWithMethods_Vector_release_handle( _baseRef handle )
 _baseRef
 smoke_StructsWithMethods_Vector_create_optional_handle(double x, double y)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Vector>( ::smoke::Vector( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::Vector>( ::smoke::Vector( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     return reinterpret_cast<_baseRef>( _struct );
@@ -31,10 +31,10 @@ smoke_StructsWithMethods_Vector_create_optional_handle(double x, double y)
 _baseRef
 smoke_StructsWithMethods_Vector_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Vector>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Vector>*>( handle ) );
 }
 void smoke_StructsWithMethods_Vector_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::Vector>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Vector>*>( handle );
 }
 double smoke_StructsWithMethods_Vector_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Vector>(handle);

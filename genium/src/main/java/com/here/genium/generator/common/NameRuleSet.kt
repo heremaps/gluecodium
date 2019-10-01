@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common
+package com.here.gluecodium.generator.common
 
 class NameRuleSet(
     val getFieldName: (name: String) -> String,

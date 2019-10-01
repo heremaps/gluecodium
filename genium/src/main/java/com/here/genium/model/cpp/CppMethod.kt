@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.gluecodium.model.cpp
 
-import com.here.genium.model.common.Comments
+import com.here.gluecodium.model.common.Comments
 import java.util.EnumSet
 
 class CppMethod(

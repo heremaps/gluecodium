@@ -4,8 +4,8 @@
 #include "cbridge/include/root/space/smoke/cbridge_Basic.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "root/space/smoke/Basic.h"
 #include <memory>
 #include <new>

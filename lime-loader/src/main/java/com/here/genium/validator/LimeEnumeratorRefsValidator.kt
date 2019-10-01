@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.common.LimeValuesVisitor
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeModelLoaderException
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeValue
+import com.here.gluecodium.common.LimeValuesVisitor
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeValue
 
 /* Validates all enumerator references by trying to resolve each one and reporting any resulting
  * exceptions as validation failures.

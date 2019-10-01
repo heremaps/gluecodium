@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeContainerWithInheritance
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimePath
 
 /**
  * Validate inheritance relationships for classes and interfaces. Classes can inherit from open

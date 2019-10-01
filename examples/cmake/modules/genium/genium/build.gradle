@@ -27,10 +27,10 @@ repositories {
 apply plugin: 'application'
 
 dependencies {
-    runtime "com.here.genium:genium:$version"
+    runtime "com.here.gluecodium:gluecodium:$version"
 }
 
-mainClassName = 'com.here.genium.Genium'
+mainClassName = 'com.here.gluecodium.Gluecodium'
 
 class TimingsListener implements TaskExecutionListener, BuildListener {
     private long startTime

@@ -3,14 +3,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/Return.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/Return.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
 namespace smoke {
-class _GENIUM_CPP_EXPORT PlatformComments {
+class _GLUECODIUM_CPP_EXPORT PlatformComments {
 public:
     PlatformComments();
     virtual ~PlatformComments() = 0;
@@ -38,18 +38,18 @@ public:
      * \return Usefulness of the input
      * \retval ::smoke::PlatformComments::SomeEnum Sometimes it happens.
      */
-    virtual ::genium::Return< bool, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
+    virtual ::gluecodium::Return< bool, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
 };
-_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::PlatformComments::SomeEnum value ) noexcept;
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::PlatformComments::SomeEnum value ) noexcept;
 }
 namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::PlatformComments::SomeEnum > : public std::true_type { };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::PlatformComments::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::PlatformComments::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::PlatformComments::SomeEnum& t ) const;
 };
 }

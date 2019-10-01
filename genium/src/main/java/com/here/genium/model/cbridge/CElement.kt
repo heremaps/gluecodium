@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge
+package com.here.gluecodium.model.cbridge
 
 abstract class CElement(val name: String) {
 

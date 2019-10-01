@@ -4,8 +4,8 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/OuterInterface.h"
 #include <memory>
 #include <new>
@@ -29,7 +29,7 @@ struct smoke_OuterInterfaceRegisterInit {
 } s_smoke_OuterInterface_register_init;
 }
 void* smoke_OuterInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::OuterInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::OuterInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_OuterInterface(handle);
 }
@@ -91,7 +91,7 @@ struct smoke_OuterInterface_InnerInterfaceRegisterInit {
 } s_smoke_OuterInterface_InnerInterface_register_init;
 }
 void* smoke_OuterInterface_InnerInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::genium::get_type_repository(static_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_OuterInterface_InnerInterface(handle);
 }

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.common
+package com.here.gluecodium.model.common
 
 // TODO: APIGEN-1457 rename stream(), streamRecursive() and the class itself
 abstract class PseudoStreamable<T : PseudoStreamable<T>> {

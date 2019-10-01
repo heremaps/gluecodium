@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
+package com.here.gluecodium.common
 
-import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeValue
 
 abstract class LimeValuesVisitor<T> {
     protected fun traverseModel(limeModel: LimeModel): List<T> {

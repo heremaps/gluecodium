@@ -3,7 +3,7 @@
  */
 #include "EnumConversion.h"
 #include "JniClassCache.h"
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {
@@ -11,14 +11,14 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::SomeVeryExternalEnum* dummy)
 {
     return ::fire::SomeVeryExternalEnum(
-        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::genium::optional<::fire::SomeVeryExternalEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::fire::SomeVeryExternalEnum>* dummy)
+::gluecodium::optional<::fire::SomeVeryExternalEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::fire::SomeVeryExternalEnum>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::fire::SomeVeryExternalEnum>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalEnum*)nullptr))
-        : ::genium::optional<::fire::SomeVeryExternalEnum>{};
+        ? ::gluecodium::optional<::fire::SomeVeryExternalEnum>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalEnum*)nullptr))
+        : ::gluecodium::optional<::fire::SomeVeryExternalEnum>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$VeryExternalEnum", ::fire::SomeVeryExternalEnum)
 JniReference<jobject>
@@ -38,7 +38,7 @@ convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput)
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::SomeVeryExternalEnum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::fire::SomeVeryExternalEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -46,14 +46,14 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::SomeVeryExternalE
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::External_Enum* dummy)
 {
     return ::smoke::Enums::External_Enum(
-        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::genium::optional<::smoke::Enums::External_Enum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::External_Enum>* dummy)
+::gluecodium::optional<::smoke::Enums::External_Enum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Enums::External_Enum>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::Enums::External_Enum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::External_Enum*)nullptr))
-        : ::genium::optional<::smoke::Enums::External_Enum>{};
+        ? ::gluecodium::optional<::smoke::Enums::External_Enum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::External_Enum*)nullptr))
+        : ::gluecodium::optional<::smoke::Enums::External_Enum>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$ExternalEnum", ::smoke::Enums::External_Enum)
 JniReference<jobject>
@@ -73,7 +73,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput)
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::External_Enum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Enums::External_Enum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -81,14 +81,14 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::External_
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::InternalErrorCode* dummy)
 {
     return ::smoke::Enums::InternalErrorCode(
-        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::genium::optional<::smoke::Enums::InternalErrorCode>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::InternalErrorCode>* dummy)
+::gluecodium::optional<::smoke::Enums::InternalErrorCode>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Enums::InternalErrorCode>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::Enums::InternalErrorCode>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::InternalErrorCode*)nullptr))
-        : ::genium::optional<::smoke::Enums::InternalErrorCode>{};
+        ? ::gluecodium::optional<::smoke::Enums::InternalErrorCode>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::InternalErrorCode*)nullptr))
+        : ::gluecodium::optional<::smoke::Enums::InternalErrorCode>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$InternalErrorCode", ::smoke::Enums::InternalErrorCode)
 JniReference<jobject>
@@ -108,7 +108,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::InternalErrorCode _ninput)
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::InternalErrorCode> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Enums::InternalErrorCode> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -116,14 +116,14 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::InternalE
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum* dummy)
 {
     return ::smoke::Enums::SimpleEnum(
-        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::genium::optional<::smoke::Enums::SimpleEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::SimpleEnum>* dummy)
+::gluecodium::optional<::smoke::Enums::SimpleEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Enums::SimpleEnum>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::SimpleEnum*)nullptr))
-        : ::genium::optional<::smoke::Enums::SimpleEnum>{};
+        ? ::gluecodium::optional<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::SimpleEnum*)nullptr))
+        : ::gluecodium::optional<::smoke::Enums::SimpleEnum>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$SimpleEnum", ::smoke::Enums::SimpleEnum)
 JniReference<jobject>
@@ -143,7 +143,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput)
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::SimpleEnum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Enums::SimpleEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -151,14 +151,14 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Enums::SimpleEnu
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::TCEnum* dummy)
 {
     return ::smoke::TCEnum(
-        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::genium::optional<::smoke::TCEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::TCEnum>* dummy)
+::gluecodium::optional<::smoke::TCEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::TCEnum>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::TCEnum>(convert_from_jni(_jenv, _jinput, (::smoke::TCEnum*)nullptr))
-        : ::genium::optional<::smoke::TCEnum>{};
+        ? ::gluecodium::optional<::smoke::TCEnum>(convert_from_jni(_jenv, _jinput, (::smoke::TCEnum*)nullptr))
+        : ::gluecodium::optional<::smoke::TCEnum>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/TCEnum", ::smoke::TCEnum)
 JniReference<jobject>
@@ -178,7 +178,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::TCEnum _ninput)
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::TCEnum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::TCEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

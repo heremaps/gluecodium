@@ -3,17 +3,17 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/UnorderedMapHash.h"
-#include "genium/UnorderedSetHash.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/UnorderedSetHash.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 namespace smoke {
-class _GENIUM_CPP_EXPORT GenericTypesWithBasicTypes {
+class _GLUECODIUM_CPP_EXPORT GenericTypesWithBasicTypes {
 public:
     GenericTypesWithBasicTypes();
     virtual ~GenericTypesWithBasicTypes() = 0;
@@ -21,7 +21,7 @@ public:
     using BasicList = ::std::vector< ::std::string >;
     using BasicMap = ::std::unordered_map< ::std::string, ::std::string >;
     using BasicSet = ::std::unordered_set< ::std::string >;
-    struct _GENIUM_CPP_EXPORT StructWithGenerics {
+    struct _GLUECODIUM_CPP_EXPORT StructWithGenerics {
         ::std::vector< uint8_t > numbers_list;
         ::std::unordered_map< uint8_t, ::std::string > numbers_map;
         ::std::unordered_set< uint8_t > numbers_set;

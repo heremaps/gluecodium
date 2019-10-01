@@ -17,39 +17,39 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.model.java.JavaArrayType
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaEnumType
-import com.here.genium.model.java.JavaExceptionType
-import com.here.genium.model.java.JavaImport
-import com.here.genium.model.java.JavaPackage
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaReferenceType
-import com.here.genium.model.java.JavaTemplateType
-import com.here.genium.model.java.JavaTemplateType.TemplateClass
-import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeContainerWithInheritance
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypeRef
-import com.here.genium.model.lime.LimeTypesCollection
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.model.java.JavaArrayType
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaEnumType
+import com.here.gluecodium.model.java.JavaExceptionType
+import com.here.gluecodium.model.java.JavaImport
+import com.here.gluecodium.model.java.JavaPackage
+import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaReferenceType
+import com.here.gluecodium.model.java.JavaTemplateType
+import com.here.gluecodium.model.java.JavaTemplateType.TemplateClass
+import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeLazyTypeRef
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypesCollection
 
 class JavaTypeMapper(
     private val limeReferenceMap: Map<String, LimeElement>,
@@ -103,7 +103,7 @@ class JavaTypeMapper(
                 }
                 mapTemplateType(templateClass, elementType)
             }
-            else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
+            else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
         }
 
     fun mapParentType(limeElement: LimeNamedElement): JavaType? {

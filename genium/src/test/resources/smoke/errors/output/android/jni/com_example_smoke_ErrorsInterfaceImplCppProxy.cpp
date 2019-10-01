@@ -7,7 +7,7 @@
 #include "EnumSetConversion.h"
 #include "InstanceConversion.h"
 #include "StructConversion.h"
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {
@@ -60,7 +60,7 @@ ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniRe
         return ::std::error_code{};
     }
 }
-::genium::Return< ::std::string, ::std::error_code > ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_value(  ) {
+::gluecodium::Return< ::std::string, ::std::error_code > ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_value(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "methodWithErrorsAndReturnValue", "()Ljava/lang/String;", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
@@ -80,7 +80,7 @@ ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniRe
     }
     else
     {
-    return convert_from_jni( jniEnv, result, (::genium::Return< ::std::string, ::std::error_code >::value_type*)nullptr );
+    return convert_from_jni( jniEnv, result, (::gluecodium::Return< ::std::string, ::std::error_code >::value_type*)nullptr );
     }
 }
 }

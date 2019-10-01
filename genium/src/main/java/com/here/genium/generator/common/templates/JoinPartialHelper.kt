@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates
+package com.here.gluecodium.generator.common.templates
 
 import org.trimou.handlebars.BasicHelper
 import org.trimou.handlebars.Options

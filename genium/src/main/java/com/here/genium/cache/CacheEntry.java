@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
 import java.io.Serializable;
 
 final class CacheEntry implements Serializable {
 
-  // DO NOT CHANGE! Value obtained with "serialver" tool for Genium release v3.4.0
+  // DO NOT CHANGE! Value obtained with "serialver" tool for Gluecodium release v3.4.0
   private static final long serialVersionUID = 1149358075297866146L;
 
   public final byte[] cachedFileHashValue;

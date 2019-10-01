@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.test
+package com.here.gluecodium.test
 
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeNamedElement
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 

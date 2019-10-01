@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni
+package com.here.gluecodium.model.jni
 
-import com.here.genium.model.cpp.CppField
+import com.here.gluecodium.model.cpp.CppField
 
 class JniField(
     val javaName: String,

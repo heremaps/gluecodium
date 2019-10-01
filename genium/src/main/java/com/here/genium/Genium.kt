@@ -17,24 +17,24 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium
+package com.here.gluecodium
 
 import com.android.manifmerger.Merger
-import com.here.genium.cache.CachingStrategyCreator
-import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.cli.OptionReader
-import com.here.genium.cli.OptionReaderException
-import com.here.genium.common.TimeLogger
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.loader.getLoader
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeModelLoader
-import com.here.genium.model.lime.LimeModelLoaderException
-import com.here.genium.output.ConsoleOutput
-import com.here.genium.output.FileOutput
-import com.here.genium.platform.android.AndroidGeneratorSuite
-import com.here.genium.platform.common.GeneratorSuite
+import com.here.gluecodium.cache.CachingStrategyCreator
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.cli.OptionReader
+import com.here.gluecodium.cli.OptionReaderException
+import com.here.gluecodium.common.TimeLogger
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.loader.getLoader
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeModelLoader
+import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.output.ConsoleOutput
+import com.here.gluecodium.output.FileOutput
+import com.here.gluecodium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.platform.common.GeneratorSuite
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
@@ -48,7 +48,7 @@ import java.util.logging.LogManager
 import java.util.logging.Logger
 import kotlin.system.exitProcess
 
-class Genium(
+class Gluecodium(
     private val options: Options,
     private val modelLoader: LimeModelLoader = LimeModelLoader.getLoader()
 ) {
@@ -62,7 +62,7 @@ class Genium(
     init {
         try {
             LogManager.getLogManager().readConfiguration(
-                Genium::class.java.classLoader.getResourceAsStream("logging.properties")
+                Gluecodium::class.java.classLoader.getResourceAsStream("logging.properties")
             )
         } catch (e: IOException) {
             e.printStackTrace()
@@ -176,24 +176,24 @@ class Genium(
         var copyrightHeaderContents: String? = null,
         var cppInternalNamespace: List<String>? = null,
         var cppRootNamespace: List<String> = listOf(),
-        var cppExport: String = "_GENIUM_CPP",
+        var cppExport: String = "_GLUECODIUM_CPP",
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
-            Genium::class.java,
+            Gluecodium::class.java,
             "/namerules/cpp.properties"
         ),
         var javaNameRules: Configuration = ConfigurationProperties.fromResource(
-            Genium::class.java,
+            Gluecodium::class.java,
             "/namerules/java.properties"
         ),
         var swiftNameRules: Configuration = ConfigurationProperties.fromResource(
-            Genium::class.java,
+            Gluecodium::class.java,
             "/namerules/swift.properties"
         )
     )
 
     companion object {
-        private val LOGGER = Logger.getLogger(Genium::class.java.name)
-        val DEFAULT_INTERNAL_NAMESPACE = listOf("genium")
+        private val LOGGER = Logger.getLogger(Gluecodium::class.java.name)
+        val DEFAULT_INTERNAL_NAMESPACE = listOf("gluecodium")
         fun testOptions() = Options(
             cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE,
             javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
@@ -204,10 +204,10 @@ class Genium(
             val prop = Properties()
             try {
                 val stream =
-                    Genium::class.java.classLoader.getResourceAsStream("version.properties")
+                    Gluecodium::class.java.classLoader.getResourceAsStream("version.properties")
                 prop.load(stream)
             } catch (e: IOException) {
-                LOGGER.severe("Could not load Genium version value: " + e.message)
+                LOGGER.severe("Could not load Gluecodium version value: " + e.message)
             }
             return prop.getProperty("version", "0.0.1")
         }
@@ -272,11 +272,11 @@ class Genium(
         fun main(args: Array<String>) {
             try {
                 val options = OptionReader.read(args)
-                if (options == null || Genium(options).execute()) {
+                if (options == null || Gluecodium(options).execute()) {
                     exitProcess(0)
                 }
-            } catch (e: GeniumExecutionException) {
-                LOGGER.log(Level.SEVERE, "Running Genium failed!", e)
+            } catch (e: GluecodiumExecutionException) {
+                LOGGER.log(Level.SEVERE, "Running Gluecodium failed!", e)
             } catch (e: OptionReaderException) {
                 LOGGER.severe("Failed reading options: ${e.message}")
                 OptionReader.printUsage()

@@ -3,25 +3,25 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/TypeCollection.h"
 #include <string>
 #include <vector>
 namespace smoke {
-class _GENIUM_CPP_EXPORT TypeDefs {
+class _GLUECODIUM_CPP_EXPORT TypeDefs {
 public:
     TypeDefs();
     virtual ~TypeDefs() = 0;
 public:
     using PrimitiveTypeDef = double;
     using NestedIntTypeDef = ::smoke::TypeDefs::PrimitiveTypeDef;
-    struct _GENIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
+    struct _GLUECODIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
         ::smoke::TypeDefs::PrimitiveTypeDef field;
         StructHavingAliasFieldDefinedBelow( );
         StructHavingAliasFieldDefinedBelow( const ::smoke::TypeDefs::PrimitiveTypeDef field );
     };
-    struct _GENIUM_CPP_EXPORT TestStruct {
+    struct _GLUECODIUM_CPP_EXPORT TestStruct {
         ::std::string something;
         TestStruct( );
         TestStruct( const ::std::string& something );

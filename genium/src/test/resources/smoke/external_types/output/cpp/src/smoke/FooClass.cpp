@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "foo/Bar.h"
-#include "genium/Export.h"
+#include "gluecodium/Export.h"
 #include <cstdint>
 #include <string>
 namespace smoke {

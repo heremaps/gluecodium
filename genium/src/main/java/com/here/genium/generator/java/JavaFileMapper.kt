@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.model.java.JavaTopLevelElement
+import com.here.gluecodium.model.java.JavaTopLevelElement
 import java.io.File
 
 class JavaFileMapper (private val generatorName: String) {

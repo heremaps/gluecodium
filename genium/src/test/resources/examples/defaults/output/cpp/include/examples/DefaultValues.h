@@ -3,12 +3,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
 #include <cstdint>
 #include <string>
 namespace examples {
-class _GENIUM_CPP_EXPORT DefaultValues {
+class _GLUECODIUM_CPP_EXPORT DefaultValues {
 public:
     DefaultValues();
     virtual ~DefaultValues() = 0;
@@ -17,7 +17,7 @@ public:
         FOO_VALUE,
         BAR_VALUE
     };
-    struct _GENIUM_CPP_EXPORT StructWithDefaults {
+    struct _GLUECODIUM_CPP_EXPORT StructWithDefaults {
         int32_t int_field = 42;
         float float_field = 3.14f;
         bool bool_field = true;
@@ -28,9 +28,9 @@ public:
     };
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::examples::DefaultValues::SomeEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::examples::DefaultValues::SomeEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::examples::DefaultValues::SomeEnum& t ) const;
 };
 }

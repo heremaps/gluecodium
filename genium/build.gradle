@@ -55,11 +55,11 @@ dependencies {
 }
 
 apply plugin: 'application'
-mainClassName = 'com.here.genium.Genium'
+mainClassName = 'com.here.gluecodium.Gluecodium'
 
 jar {
     manifest {
-        attributes('Main-Class': 'com.here.genium.Genium',
+        attributes('Main-Class': 'com.here.gluecodium.Gluecodium',
                    'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
     }
 }
@@ -115,7 +115,7 @@ spotless {
     }
 }
 
-project.ext.longName = 'Genium command-line tool'
+project.ext.longName = 'Gluecodium command-line tool'
 apply from: "$rootDir/gradle/publishing.gradle"
 
 apply plugin: "com.lazan.dependency-export"

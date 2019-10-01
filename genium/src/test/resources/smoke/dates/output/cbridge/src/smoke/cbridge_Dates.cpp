@@ -4,8 +4,8 @@
 #include "cbridge/include/smoke/cbridge_Dates.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/Dates.h"
 #include <chrono>
 #include <memory>
@@ -33,17 +33,17 @@ smoke_Dates_DateStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Dates_DateStruct_create_optional_handle(double dateField)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Dates::DateStruct>( ::smoke::Dates::DateStruct( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::Dates::DateStruct>( ::smoke::Dates::DateStruct( ) );
     (*_struct)->date_field = Conversion<std::chrono::system_clock::time_point>::toCpp( dateField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Dates_DateStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Dates::DateStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Dates::DateStruct>*>( handle ) );
 }
 void smoke_Dates_DateStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::Dates::DateStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Dates::DateStruct>*>( handle );
 }
 double smoke_Dates_DateStruct_dateField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Dates::DateStruct>(handle);

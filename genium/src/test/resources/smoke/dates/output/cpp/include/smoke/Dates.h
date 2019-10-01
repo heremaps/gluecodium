@@ -3,15 +3,15 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/UnorderedMapHash.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
 #include <chrono>
 #include <string>
 #include <unordered_map>
 #include <vector>
 namespace smoke {
-class _GENIUM_CPP_EXPORT Dates {
+class _GLUECODIUM_CPP_EXPORT Dates {
 public:
     Dates();
     virtual ~Dates() = 0;
@@ -19,7 +19,7 @@ public:
     using DateTypeDef = ::std::chrono::system_clock::time_point;
     using DateArray = ::std::vector< ::std::chrono::system_clock::time_point >;
     using DateMap = ::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >;
-    struct _GENIUM_CPP_EXPORT DateStruct {
+    struct _GLUECODIUM_CPP_EXPORT DateStruct {
         ::std::chrono::system_clock::time_point date_field;
         DateStruct( );
         DateStruct( const ::std::chrono::system_clock::time_point& date_field );

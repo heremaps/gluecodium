@@ -3,8 +3,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Hash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
 #include <cstdint>
 namespace smoke {
 enum class TCEnum {
@@ -12,9 +12,9 @@ enum class TCEnum {
     SECOND
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::TCEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::TCEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::TCEnum& t ) const;
 };
 }

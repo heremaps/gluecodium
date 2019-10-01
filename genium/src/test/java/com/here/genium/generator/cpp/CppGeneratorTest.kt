@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp
+package com.here.gluecodium.generator.cpp
 
-import com.here.genium.model.common.Comments
-import com.here.genium.model.cpp.CppConstant
-import com.here.genium.model.cpp.CppEnum
-import com.here.genium.model.cpp.CppExternableElement
-import com.here.genium.model.cpp.CppFile
-import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.cpp.CppUsing
-import com.here.genium.model.cpp.CppValue
+import com.here.gluecodium.model.common.Comments
+import com.here.gluecodium.model.cpp.CppConstant
+import com.here.gluecodium.model.cpp.CppEnum
+import com.here.gluecodium.model.cpp.CppExternableElement
+import com.here.gluecodium.model.cpp.CppFile
+import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.cpp.CppUsing
+import com.here.gluecodium.model.cpp.CppValue
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito.mock

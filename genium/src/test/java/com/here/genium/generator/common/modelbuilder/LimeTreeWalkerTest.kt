@@ -17,26 +17,26 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder
+package com.here.gluecodium.generator.common.modelbuilder
 
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeLambda
-import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeParameter
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeLazyTypeRef
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

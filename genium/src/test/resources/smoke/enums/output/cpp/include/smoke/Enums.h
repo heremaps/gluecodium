@@ -4,14 +4,14 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "foo/Bar.h"
-#include "genium/Export.h"
-#include "genium/Hash.h"
-#include "genium/UnorderedMapHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Hash.h"
+#include "gluecodium/UnorderedMapHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
 namespace smoke {
-class _GENIUM_CPP_EXPORT Enums {
+class _GLUECODIUM_CPP_EXPORT Enums {
 public:
     Enums();
     virtual ~Enums() = 0;
@@ -24,8 +24,8 @@ public:
         ERROR_NONE,
         ERROR_FATAL = 999
     };
-    using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, ::genium::hash< ::smoke::Enums::SimpleEnum > >;
-    struct _GENIUM_CPP_EXPORT ErrorStruct {
+    using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, ::gluecodium::hash< ::smoke::Enums::SimpleEnum > >;
+    struct _GLUECODIUM_CPP_EXPORT ErrorStruct {
         ::smoke::Enums::InternalErrorCode type;
         ::std::string message;
         ErrorStruct( );
@@ -39,13 +39,13 @@ public:
     static void method_with_external_enum( const ::smoke::Enums::External_Enum input );
 };
 }
-namespace genium {
+namespace gluecodium {
 template<>
 struct hash< ::smoke::Enums::SimpleEnum > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::SimpleEnum& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::SimpleEnum& t ) const;
 };
 template<>
 struct hash< ::smoke::Enums::InternalErrorCode > {
-    _GENIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::InternalErrorCode& t ) const;
+    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::InternalErrorCode& t ) const;
 };
 }

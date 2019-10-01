@@ -24,10 +24,10 @@ Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance
     if (errorCode)
     {
         auto nEnumValue = static_cast<::smoke::Errors::InternalErrorCode>(errorCode.value());
-        auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
+        auto jEnumValue = ::gluecodium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalErrorCode;)V");
-        auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
     }
 }
@@ -39,10 +39,10 @@ Java_com_example_smoke_Errors_methodWithExternalErrors(JNIEnv* _jenv, jobject _j
     if (errorCode)
     {
         auto nEnumValue = static_cast<::fire::SomeEnum>(errorCode.value());
-        auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Errors$ExternalException");
+        auto jEnumValue = ::gluecodium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$ExternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$ExternalErrors;)V");
-        auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
     }
 }
@@ -54,15 +54,15 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
     if (!nativeCallResult.has_value())
     {
         auto nEnumValue = static_cast<::smoke::Errors::InternalErrorCode>(errorCode.value());
-        auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
+        auto jEnumValue = ::gluecodium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalErrorCode;)V");
-        auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return nullptr;
     }
     auto result = nativeCallResult.unsafe_value();
-    return ::genium::jni::convert_to_jni(_jenv, result).release();
+    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
 }
 void
 Java_com_example_smoke_Errors_methodWithAliasedError(JNIEnv* _jenv, jobject _jinstance)
@@ -72,10 +72,10 @@ Java_com_example_smoke_Errors_methodWithAliasedError(JNIEnv* _jenv, jobject _jin
     if (errorCode)
     {
         auto nEnumValue = static_cast<::smoke::Errors::InternalErrorCode>(errorCode.value());
-        auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
+        auto jEnumValue = ::gluecodium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalErrorCode;)V");
-        auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
     }
 }

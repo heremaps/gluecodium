@@ -3,8 +3,8 @@
 #include "cbridge/include/smoke/cbridge_StructsWithMethodsInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/StructsWithMethodsInterface.h"
 #include "smoke/ValidationUtils.h"
 #include <memory>
@@ -35,7 +35,7 @@ smoke_StructsWithMethodsInterface_Vector3_release_handle( _baseRef handle )
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, double y, double z)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>( ::smoke::StructsWithMethodsInterface::Vector3( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>( ::smoke::StructsWithMethodsInterface::Vector3( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     (*_struct)->z = z;
@@ -44,10 +44,10 @@ smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, doubl
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle ) );
 }
 void smoke_StructsWithMethodsInterface_Vector3_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle );
 }
 double smoke_StructsWithMethodsInterface_Vector3_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);

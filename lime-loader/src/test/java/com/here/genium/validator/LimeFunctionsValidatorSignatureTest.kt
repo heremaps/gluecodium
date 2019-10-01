@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator
+package com.here.gluecodium.validator
 
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.model.lime.LimeParameter
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test

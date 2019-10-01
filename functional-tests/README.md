@@ -1,7 +1,7 @@
-Functional tests for Genium
+Functional tests for Gluecodium
 ===========================
 
-The functional tests are separated by Genium settings. Genium provides various options which result
+The functional tests are separated by Gluecodium settings. Gluecodium provides various options which result
 in different generated code for the same input LIME definition files. In order to test these
 properly, different test binaries will be generated.
 

@@ -17,8 +17,8 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni
+package com.here.gluecodium.model.jni
 
-import com.here.genium.model.common.ModelElement
+import com.here.gluecodium.model.common.ModelElement
 
 interface JniElement : ModelElement

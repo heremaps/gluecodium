@@ -22,10 +22,10 @@
 
 // NOTE: Always export on Windows, since these symbols are intended to be loaded dynamically rather
 // than used directly.
-#ifndef _GENIUM_C_EXPORT
+#ifndef _GLUECODIUM_C_EXPORT
 #   if defined(_WIN32) || defined(__CYGWIN)
-#       define _GENIUM_C_EXPORT __declspec( dllexport )
+#       define _GLUECODIUM_C_EXPORT __declspec( dllexport )
 #   else
-#       define _GENIUM_C_EXPORT __attribute__( ( visibility( "default" ) ) )
+#       define _GLUECODIUM_C_EXPORT __attribute__( ( visibility( "default" ) ) )
 #   endif
 #endif

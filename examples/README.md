@@ -1,6 +1,6 @@
-# Genium Hello World project
+# Gluecodium Hello World project
 
-Serves as a working prototype used to showcase the Genium tool.
+Serves as a working prototype used to showcase the Gluecodium tool.
 The project is structured as follows:
 
     .
@@ -11,8 +11,8 @@ The project is structured as follows:
     │   ├── base_api        C++ example app
     │   └── ios             iOS example app
     ├── cmake
-    │   └── modules         [Genium CMake modules subtree](https://github.com/heremaps/genium-cmake)
-    ├── libhello            Example library that provides Genium-generated public API
+    │   └── modules         [Gluecodium CMake modules subtree](https://github.com/heremaps/gluecodium-cmake)
+    ├── libhello            Example library that provides Gluecodium-generated public API
     │   ├── lime            LimeIDL interface definitions for the public API
     │   └── src             Example library implementation
     └── scripts             Usefule scripts
@@ -26,7 +26,7 @@ The project is structured as follows:
 Invoke the following script to build the entire project for C++ users:
 
 ```bash
-./scripts/build-cpp --buildGenium
+./scripts/build-cpp --buildGluecodium
 ```
 
 Install artifacts end up in the dist/ folder and are ready for re-distribution.
@@ -40,13 +40,13 @@ brew install cmake
 brew install ninja
 ```
 
-Then build Genium, generate code and build the examples application using a script:
+Then build Gluecodium, generate code and build the examples application using a script:
 ```
-cd genium/examples/
+cd gluecodium/examples/
 ./scripts/build-ios-on-mac-app
 ```
 
-Open examples project `genium/examples/platforms/ios/hello_swift.xcodeproj` in Xcode and start the simulator.
+Open examples project `gluecodium/examples/platforms/ios/hello_swift.xcodeproj` in Xcode and start the simulator.
 
 ## Run Android example app
 
@@ -63,12 +63,12 @@ You might want to put these into your `.profile`.
 
 Build Android example application:
 ```
-cd genium/examples/
-./scripts/build-android --buildGenium
+cd gluecodium/examples/
+./scripts/build-android --buildGluecodium
 ```
 
 Once you run successfully the step above, it's possible to run the example Android app.
 
-In order to do so, the easiest way is to open the example Android app project with Android Studio: go to File→Open and use this path: `genium/examples/platforms/android`
+In order to do so, the easiest way is to open the example Android app project with Android Studio: go to File→Open and use this path: `gluecodium/examples/platforms/android`
 
 Once the project is loaded, launch 'app' from the toolbar in the upper right corner.

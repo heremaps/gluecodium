@@ -16,13 +16,13 @@ typedef struct {
         _baseRef returned_value;
     };
 } package_Class_fun_result;
-_GENIUM_C_EXPORT void package_Class_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef package_Class_copy_handle(_baseRef handle);
-_GENIUM_C_EXPORT void* package_Class_get_typed(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef package_Class_constructor();
-_GENIUM_C_EXPORT package_Class_fun_result package_Class_fun(_baseRef _instance, _baseRef double);
-_GENIUM_C_EXPORT package_Types_Enum package_Class_property_get(_baseRef _instance);
-_GENIUM_C_EXPORT void package_Class_property_set(_baseRef _instance, package_Types_Enum newValue);
+_GLUECODIUM_C_EXPORT void package_Class_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef package_Class_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void* package_Class_get_typed(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef package_Class_constructor();
+_GLUECODIUM_C_EXPORT package_Class_fun_result package_Class_fun(_baseRef _instance, _baseRef double);
+_GLUECODIUM_C_EXPORT package_Types_Enum package_Class_property_get(_baseRef _instance);
+_GLUECODIUM_C_EXPORT void package_Class_property_set(_baseRef _instance, package_Types_Enum newValue);
 #ifdef __cplusplus
 }
 #endif

@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
-import com.here.genium.cli.GeniumExecutionException;
+import com.here.gluecodium.cli.GluecodiumExecutionException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,7 +32,7 @@ final class HashValueCalculator {
       messageDigest.update(content.getBytes());
       return messageDigest.digest();
     } catch (NoSuchAlgorithmException e) {
-      throw new GeniumExecutionException("Hash value algorithm is not available", e);
+      throw new GluecodiumExecutionException("Hash value algorithm is not available", e);
     }
   }
 }

@@ -28,8 +28,8 @@ This means it needs to hold a strong reference to Swift object and therefore `st
 This is allowed for custom types [https://en.cppreference.com/w/cpp/language/extending_std].
 
 Each Base API interface which has IsInterface=true needs to have specialized `std::weak_ptr` implementation.
-If a type is marked with `IsInterface` in Genium there is a C++ abstract class and a Swift Protocol generated.
-The user of Genium can implement either of those and both should work in a similar way on C++ and Swift side.
+If a type is marked with `IsInterface` in Gluecodium there is a C++ abstract class and a Swift Protocol generated.
+The user of Gluecodium can implement either of those and both should work in a similar way on C++ and Swift side.
 This means a potential specialisation for `std::weak_ptr` must work with native C++ implementations and with C++ proxies of Swift implementations.
 To make this work the custom `std::weak_ptr` should have two exclusive members:
 ```C++

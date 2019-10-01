@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cache;
+package com.here.gluecodium.cache;
 
-import com.here.genium.generator.common.GeneratedFile;
+import com.here.gluecodium.generator.common.GeneratedFile;
 import java.util.List;
 
 public interface CachingStrategy {

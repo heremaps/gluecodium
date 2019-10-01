@@ -31,4 +31,4 @@
  *
  * List of generated C++ .h and .cpp files.
  */
-package com.here.genium.platform.baseapi;
+package com.here.gluecodium.platform.baseapi;

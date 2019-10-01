@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge
+package com.here.gluecodium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo
-import com.here.genium.model.common.Include
+import com.here.gluecodium.generator.cbridge.CppTypeInfo
+import com.here.gluecodium.model.common.Include
 import java.util.TreeSet
 
 /** Collection of related methods and structs forming an interface (like a C header file)  */

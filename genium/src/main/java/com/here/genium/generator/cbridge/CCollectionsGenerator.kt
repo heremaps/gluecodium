@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge
+package com.here.gluecodium.generator.cbridge
 
-import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.model.cbridge.CArray
-import com.here.genium.model.cbridge.CCollectionType
-import com.here.genium.model.cbridge.CMap
-import com.here.genium.model.cbridge.CSet
-import com.here.genium.model.cbridge.CType
-import com.here.genium.model.common.Include
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.model.cbridge.CArray
+import com.here.gluecodium.model.cbridge.CCollectionType
+import com.here.gluecodium.model.cbridge.CMap
+import com.here.gluecodium.model.cbridge.CSet
+import com.here.gluecodium.model.cbridge.CType
+import com.here.gluecodium.model.common.Include
 import java.nio.file.Paths
 import java.util.TreeMap
 import java.util.TreeSet

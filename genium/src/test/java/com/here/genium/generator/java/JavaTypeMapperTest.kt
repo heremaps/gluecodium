@@ -17,35 +17,35 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java
+package com.here.gluecodium.generator.java
 
-import com.here.genium.Genium
-import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaEnumType
-import com.here.genium.model.java.JavaPackage
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaReferenceType
-import com.here.genium.model.java.JavaTemplateType
-import com.here.genium.model.java.JavaType
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicTypeRef
-import com.here.genium.model.lime.LimeClass
-import com.here.genium.model.lime.LimeDirectTypeRef
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeInterface
-import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeList
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeSet
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeTypeAlias
-import com.here.genium.model.lime.LimeTypesCollection
-import com.here.genium.test.AssertHelpers.assertContains
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.common.nameRuleSetFromConfig
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaEnumType
+import com.here.gluecodium.model.java.JavaPackage
+import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaReferenceType
+import com.here.gluecodium.model.java.JavaTemplateType
+import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLazyTypeRef
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -59,7 +59,7 @@ class JavaTypeMapperTest {
 
     private val nonNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().javaNameRules)
     private val nameResolver = JavaNameResolver(JavaNameRules(nameRuleSet), limeReferenceMap)
 
     private val typeMapper = JavaTypeMapper(

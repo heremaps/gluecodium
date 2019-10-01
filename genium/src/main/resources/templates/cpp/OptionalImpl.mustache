@@ -105,9 +105,9 @@ struct IsNothrowSwappable
 
 // In C++11 constexpr also applies const, so we need not to make non-const members constexpr
 # if (defined __cplusplus) && (__cplusplus <= 201103L)
-#   define GENIUM_OPTIONAL_CONSTEXPR
+#   define GLUECODIUM_OPTIONAL_CONSTEXPR
 # else
-#   define GENIUM_OPTIONAL_CONSTEXPR constexpr
+#   define GLUECODIUM_OPTIONAL_CONSTEXPR constexpr
 # endif
 
 class bad_optional_access : public std::logic_error
@@ -468,7 +468,7 @@ public:
         return std::addressof(this->m_value);
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type* operator->()
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type* operator->()
     {
         return std::addressof(this->m_value);
     }
@@ -483,12 +483,12 @@ public:
         return std::move(this->m_value);
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type& operator*() &
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type& operator*() &
     {
         return this->m_value;
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type&& operator*() &&
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type&& operator*() &&
     {
         return std::move(this->m_value);
     }
@@ -503,7 +503,7 @@ public:
         return has_value();
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type const&
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type const&
     value() const&
     {
         if (!has_value())
@@ -513,7 +513,7 @@ public:
         return **this;
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type&
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type&
     value() &
     {
         if (!has_value())
@@ -523,7 +523,7 @@ public:
         return **this;
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type const&&
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type const&&
     value() const&&
     {
         if (!has_value())
@@ -533,7 +533,7 @@ public:
         return std::move(this->m_value);
     }
 
-    GENIUM_OPTIONAL_CONSTEXPR value_type&&
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type&&
     value() &&
     {
         if (!has_value())
@@ -558,7 +558,7 @@ public:
     }
 
     template <class ReturnType>
-    GENIUM_OPTIONAL_CONSTEXPR value_type
+    GLUECODIUM_OPTIONAL_CONSTEXPR value_type
     value_or(ReturnType&& return_value) &&
     {
         static_assert(

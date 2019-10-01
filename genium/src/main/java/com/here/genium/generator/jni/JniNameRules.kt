@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni
+package com.here.gluecodium.generator.jni
 
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.jni.JniStruct
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.jni.JniContainer
+import com.here.gluecodium.model.jni.JniStruct
 import java.io.File
 
 class JniNameRules(generatorName: String) {

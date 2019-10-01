@@ -3,14 +3,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
 namespace examples {
-class _GENIUM_CPP_EXPORT BuiltinTypes {
+class _GLUECODIUM_CPP_EXPORT BuiltinTypes {
 public:
     BuiltinTypes();
     virtual ~BuiltinTypes() = 0;

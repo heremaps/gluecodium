@@ -3,8 +3,8 @@
 #include "cbridge/include/smoke/cbridge_EquatableInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/EquatableInterface.h"
 #include "smoke/PointerEquatableInterface.h"
 #include <memory>
@@ -22,7 +22,7 @@ bool smoke_EquatableInterface_equal(_baseRef lhs, _baseRef rhs) {
     return **get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(lhs) == **get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(rhs);
 }
 uint64_t smoke_EquatableInterface_hash(_baseRef handle) {
-    return ::genium::hash<std::shared_ptr<::smoke::EquatableInterface>::element_type>()(**get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle));
+    return ::gluecodium::hash<std::shared_ptr<::smoke::EquatableInterface>::element_type>()(**get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle));
 }
 _baseRef
 smoke_EquatableInterface_EquatableStruct_create_handle( int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance )
@@ -42,7 +42,7 @@ smoke_EquatableInterface_EquatableStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_EquatableInterface_EquatableStruct_create_optional_handle(int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::EquatableInterface::EquatableStruct>( ::smoke::EquatableInterface::EquatableStruct( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::EquatableInterface::EquatableStruct>( ::smoke::EquatableInterface::EquatableStruct( ) );
     (*_struct)->int_field = intField;
     (*_struct)->string_field = Conversion<std::string>::toCpp( stringField );
     (*_struct)->nested_equatable_instance = Conversion<std::shared_ptr<::smoke::EquatableInterface>>::toCpp( nestedEquatableInstance );
@@ -52,10 +52,10 @@ smoke_EquatableInterface_EquatableStruct_create_optional_handle(int32_t intField
 _baseRef
 smoke_EquatableInterface_EquatableStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::EquatableInterface::EquatableStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::EquatableInterface::EquatableStruct>*>( handle ) );
 }
 void smoke_EquatableInterface_EquatableStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::EquatableInterface::EquatableStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::EquatableInterface::EquatableStruct>*>( handle );
 }
 int32_t smoke_EquatableInterface_EquatableStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::EquatableInterface::EquatableStruct>(handle);

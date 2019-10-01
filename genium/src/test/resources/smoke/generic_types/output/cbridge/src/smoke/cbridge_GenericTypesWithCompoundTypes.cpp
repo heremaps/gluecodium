@@ -5,8 +5,8 @@
 #include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "genium/Optional.h"
-#include "genium/TypeRepository.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
 #include <memory>
 #include <new>
@@ -37,17 +37,17 @@ smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle( _baseRef handle 
 _baseRef
 smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle(double value)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( ::smoke::GenericTypesWithCompoundTypes::BasicStruct( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( ::smoke::GenericTypesWithCompoundTypes::BasicStruct( ) );
     (*_struct)->value = value;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle ) );
 }
 void smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle );
 }
 double smoke_GenericTypesWithCompoundTypes_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithCompoundTypes::BasicStruct>(handle);
@@ -68,17 +68,17 @@ smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle( _baseRef hand
 _baseRef
 smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle(_baseRef string)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::alien::FooStruct>( ::alien::FooStruct( ) );
+    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::alien::FooStruct>( ::alien::FooStruct( ) );
     (*_struct)->string = Conversion<std::string>::toCpp( string );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::alien::FooStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::alien::FooStruct>*>( handle ) );
 }
 void smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::alien::FooStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::alien::FooStruct>*>( handle );
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_ExternalStruct_string_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::alien::FooStruct>(handle);
@@ -97,7 +97,7 @@ _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumList(_baseRef _instan
 ;
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_map<::alien::FooEnum, bool, genium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_map_key(Conversion<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)))
+    return Conversion<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_map_key(Conversion<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)))
 ;
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(_baseRef _instance, _baseRef input) {
@@ -105,7 +105,7 @@ _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(_baseRef _in
 ;
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_set<::alien::FooEnum, genium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_set(Conversion<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, genium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)))
+    return Conversion<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_set(Conversion<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)))
 ;
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(_baseRef _instance, _baseRef input) {

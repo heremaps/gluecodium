@@ -10,7 +10,7 @@
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
 #include "com_example_smoke_ChildInterfaceImpl.h"
-namespace genium
+namespace gluecodium
 {
 namespace jni
 {

@@ -17,20 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common
+package com.here.gluecodium.generator.common
 
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeConstant
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeFunction
-import com.here.genium.model.lime.LimeParameter
-import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeHelper
-import com.here.genium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypedElement
 
 open class NameRules(val ruleSet: NameRuleSet) {
     open fun getName(limeElement: LimeElement) =

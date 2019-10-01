@@ -17,32 +17,32 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni
+package com.here.gluecodium.generator.jni
 
-import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppNameRules
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.generator.java.JavaModelBuilder
-import com.here.genium.generator.java.JavaNameResolver
-import com.here.genium.generator.java.JavaNameRules
-import com.here.genium.generator.java.JavaSignatureResolver
-import com.here.genium.generator.java.JavaTypeMapper
-import com.here.genium.generator.java.JavaValueMapper
-import com.here.genium.model.common.Include
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaImport
-import com.here.genium.model.java.JavaPackage
-import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.jni.JniElement
-import com.here.genium.model.jni.JniEnum
-import com.here.genium.model.jni.JniStruct
-import com.here.genium.model.jni.JniTopLevelElement
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeNamedElement
+import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppModelBuilder
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.cpp.CppTypeMapper
+import com.here.gluecodium.generator.java.JavaModelBuilder
+import com.here.gluecodium.generator.java.JavaNameResolver
+import com.here.gluecodium.generator.java.JavaNameRules
+import com.here.gluecodium.generator.java.JavaSignatureResolver
+import com.here.gluecodium.generator.java.JavaTypeMapper
+import com.here.gluecodium.generator.java.JavaValueMapper
+import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaImport
+import com.here.gluecodium.model.java.JavaPackage
+import com.here.gluecodium.model.jni.JniContainer
+import com.here.gluecodium.model.jni.JniElement
+import com.here.gluecodium.model.jni.JniEnum
+import com.here.gluecodium.model.jni.JniStruct
+import com.here.gluecodium.model.jni.JniTopLevelElement
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeNamedElement
 
 class JniGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,

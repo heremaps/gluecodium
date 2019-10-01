@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java
+package com.here.gluecodium.model.java
 
 class JavaEnumItem(name: String, val value: JavaValue? = null) : JavaElement(name) {
     override fun stream() = listOfNotNull(value)

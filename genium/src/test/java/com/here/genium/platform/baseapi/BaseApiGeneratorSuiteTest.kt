@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.baseapi
+package com.here.gluecodium.platform.baseapi
 
-import com.here.genium.Genium
-import com.here.genium.model.lime.LimeModel
-import com.here.genium.test.AssertHelpers.assertContains
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -38,7 +38,7 @@ class BaseApiGeneratorSuiteTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        baseApiGeneratorSuite = BaseApiGeneratorSuite(Genium.testOptions())
+        baseApiGeneratorSuite = BaseApiGeneratorSuite(Gluecodium.testOptions())
     }
 
     @Test
@@ -54,10 +54,10 @@ class BaseApiGeneratorSuiteTest {
         )
 
         val generatedFileNames = generatedFiles.map { it.targetFile.toString() }
-        assertContains( "cpp/include/genium/Return.h", generatedFileNames)
-        assertContains( "cpp/include/genium/Export.h", generatedFileNames)
-        assertContains( "cpp/include/genium/Optional.h", generatedFileNames)
-        assertContains( "cpp/include/genium/OptionalImpl.h", generatedFileNames)
-        assertContains( "cpp/include/genium/Export.h", generatedFileNames)
+        assertContains( "cpp/include/gluecodium/Return.h", generatedFileNames)
+        assertContains( "cpp/include/gluecodium/Export.h", generatedFileNames)
+        assertContains( "cpp/include/gluecodium/Optional.h", generatedFileNames)
+        assertContains( "cpp/include/gluecodium/OptionalImpl.h", generatedFileNames)
+        assertContains( "cpp/include/gluecodium/Export.h", generatedFileNames)
     }
 }

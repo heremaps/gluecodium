@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
+package com.here.gluecodium.common
 
 abstract class ContextBasedModelBuilder<E>(private val contextStack: ModelBuilderContextStack<E>) {
     private var resultContext: ModelBuilderContext<E>? = null

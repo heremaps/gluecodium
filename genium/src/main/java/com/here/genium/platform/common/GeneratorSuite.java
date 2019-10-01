@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.common;
+package com.here.gluecodium.platform.common;
 
-import com.here.genium.Genium;
-import com.here.genium.cli.GeniumExecutionException;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.lime.LimeGeneratorSuite;
-import com.here.genium.model.lime.LimeModel;
-import com.here.genium.platform.android.AndroidGeneratorSuite;
-import com.here.genium.platform.android.JavaGeneratorSuite;
-import com.here.genium.platform.baseapi.BaseApiGeneratorSuite;
-import com.here.genium.platform.swift.SwiftGeneratorSuite;
+import com.here.gluecodium.Gluecodium;
+import com.here.gluecodium.cli.GluecodiumExecutionException;
+import com.here.gluecodium.generator.common.GeneratedFile;
+import com.here.gluecodium.generator.lime.LimeGeneratorSuite;
+import com.here.gluecodium.model.lime.LimeModel;
+import com.here.gluecodium.platform.android.AndroidGeneratorSuite;
+import com.here.gluecodium.platform.android.JavaGeneratorSuite;
+import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite;
+import com.here.gluecodium.platform.swift.SwiftGeneratorSuite;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +51,7 @@ public abstract class GeneratorSuite {
 
   /** Creates a new instance of a generator suite by its short identifier */
   public static GeneratorSuite instantiateByShortName(
-      final String shortName, final Genium.Options options) {
+      final String shortName, final Gluecodium.Options options) {
 
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:
@@ -89,10 +89,10 @@ public abstract class GeneratorSuite {
         return new GeneratedFile(
             content, targetDir.isEmpty() ? fileName : targetDir + File.separator + fileName);
       } catch (IOException e) {
-        throw new GeniumExecutionException("Copying resource file failed with error:", e);
+        throw new GluecodiumExecutionException("Copying resource file failed with error:", e);
       }
     }
 
-    throw new GeniumExecutionException(String.format("Failed loading resource %s.", fileName));
+    throw new GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName));
   }
 }

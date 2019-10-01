@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
+package com.here.gluecodium.common
 
 object StringHelper {
     fun escapeString(value: String) = value.replace("\\", "\\\\").replace("\"", "\\\"")

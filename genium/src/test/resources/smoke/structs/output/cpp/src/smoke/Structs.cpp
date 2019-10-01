@@ -107,7 +107,7 @@ Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( const ::s
 {
 }
 }
-namespace genium {
+namespace gluecodium {
 std::size_t
 hash< ::smoke::Structs::FooBar >::operator( )( const ::smoke::Structs::FooBar& t ) const
 {

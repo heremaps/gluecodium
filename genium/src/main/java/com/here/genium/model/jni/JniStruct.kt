@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni
+package com.here.gluecodium.model.jni
 
-import com.here.genium.generator.jni.JniNameRules
-import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.java.JavaPackage
+import com.here.gluecodium.generator.jni.JniNameRules
+import com.here.gluecodium.model.cpp.CppStruct
+import com.here.gluecodium.model.java.JavaPackage
 
 class JniStruct(
     val javaStructName: String,
