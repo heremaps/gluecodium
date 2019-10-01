@@ -23,7 +23,7 @@
 namespace {
 class NameRulesImpl: public namerules::nameRules {
 public:
-    ::lorem_ipsum::test::Return< double, ::std::error_code > someMethod( const ::namerules::nameRules::exampleStruct& some_argument ) {
+    ::lorem_ipsum::test::Return< double, ::std::error_code > someMethod( const ::namerules::nameRules::exampleStruct& some_argument ) override {
         return std::error_code( exampleError::FATAL_ENTRY );
     }
 
