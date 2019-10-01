@@ -1,4 +1,8 @@
-# Genium project Release Notes
+# Gluecodium project Release Notes
+
+## Unreleased
+- Breaking changes:
+  + Renamed Genium to Gluecodium.
 
 ## 5.5.0
 - Release date: 2019-09-23
