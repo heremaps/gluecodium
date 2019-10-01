@@ -51,7 +51,8 @@ public final class CachingStrategyCreator {
         new CleanUpCachingStrategy(buildFolder, availableGenerators);
     boolean cleanupResult = cleanUpStrategy.write(true);
     if (!cleanupResult) {
-      throw new GluecodiumExecutionException("Failed to erase corrupt file cache", previousException);
+      throw new GluecodiumExecutionException(
+          "Failed to erase corrupt file cache", previousException);
     }
   }
 }

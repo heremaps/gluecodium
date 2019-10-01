@@ -22,11 +22,11 @@
  *
  * <h1>Overview</h1>
  *
- * Generators use {@link com.here.gluecodium.loader.ModelBuilder ModelBuilders} to generate a language
- * specific model. The {@code ModelBuilder} itself is a visitor for the language independent LIME
- * model which is traversed by the {@link
- * com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker}. Intermediate and final results are
- * stored in {@link com.here.gluecodium.common.ModelBuilderContext}.
+ * Generators use {@link com.here.gluecodium.loader.ModelBuilder ModelBuilders} to generate a
+ * language specific model. The {@code ModelBuilder} itself is a visitor for the language
+ * independent LIME model which is traversed by the {@link
+ * com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker}. Intermediate and final results
+ * are stored in {@link com.here.gluecodium.common.ModelBuilderContext}.
  *
  * <h1>Rationale</h1>
  *
@@ -39,8 +39,8 @@
  * simplify finding the correspondances between the current element in the bridging generator and
  * the associated C++, Java or Swift model the language independent LIME model is traversed only
  * once for each generator suite and the generators can access the {@link
- * com.here.gluecodium.common.ModelBuilderContext} from other generators that are run in parallel. This
- * way bridging generators can access the results of the other generators to determine the types and
- * names etc. for the conversion.
+ * com.here.gluecodium.common.ModelBuilderContext} from other generators that are run in parallel.
+ * This way bridging generators can access the results of the other generators to determine the
+ * types and names etc. for the conversion.
  */
 package com.here.gluecodium.generator.common.modelbuilder;

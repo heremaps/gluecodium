@@ -35,7 +35,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class SwiftGeneratorSuiteTest {
 
-  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(Gluecodium.Companion.testOptions());
+  private final SwiftGeneratorSuite suite =
+      new SwiftGeneratorSuite(Gluecodium.Companion.testOptions());
 
   @Test
   public void generatedFilesContainStaticFiles() {
