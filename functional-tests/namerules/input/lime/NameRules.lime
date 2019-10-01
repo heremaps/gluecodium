@@ -44,12 +44,12 @@ class NameRules {
         intValues: List<Long>
     }
 
-    enum ExampleError {
+    enum ExampleErrorCode {
         None,
         Fatal
     }
 
-    exception ExampleErrorException(ExampleError)
+    exception Example(ExampleErrorCode)
 
     property intAttribute: UInt { get set }
     property booleanAttribute: Boolean { get set }
@@ -57,5 +57,5 @@ class NameRules {
 
     constructor create()
 
-    fun someMethod(someArgument: ExampleStruct): Double throws ExampleErrorException
+    fun someMethod(someArgument: ExampleStruct): Double throws Example
 }

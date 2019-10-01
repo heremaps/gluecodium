@@ -19,7 +19,6 @@ cmake_minimum_required(VERSION 3.6)
 # TODO APIGEN-1645: move cmake modules to a more appropriate place
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../examples/cmake/modules/")
 
-set(GLUECODIUM_GENERATOR "cpp,android,swift" CACHE STRING "Gluecodium generator(s) to use [defaults to: cpp,android,swift]")
 set(GLUECODIUM_VERSION "+" CACHE STRING "Gluecodium version to use [defaults to: +]")
 
 enable_testing()

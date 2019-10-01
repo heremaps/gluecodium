@@ -38,7 +38,7 @@ class NameRulesTests: XCTestCase {
         do {
             let _ = try someClass.someMethod(someArgument: someStruct)
             XCTFail("No exception was thrown")
-        } catch INameRules.IExampleError.fatal {
+        } catch INameRules.IExampleErrorCode.fatal {
         } catch {
             XCTFail("Wrong exception was thrown")
         }
