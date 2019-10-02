@@ -26,6 +26,12 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
+for V in ${BUILD_VARIANTS}; do
+    for A in ${ARCHS}; do
+        unset SWIFT_RESPONSE_FILE_PATH_${V}_${A}
+    done
+done
+
 if [ "$1" == "--publish" ]; then
     publish_local
     shift
@@ -69,7 +75,7 @@ function build {
     safe cmake --build "${build_dir}" --target install
 }
 
-BUILD_DIR_SIMULATOR="${CWD}/${BUILD_DIR}/simulator"
+BUILD_DIR_SIMULATOR="${SCRIPT_DIR}/../${BUILD_DIR}/simulator"
 
 build "${BUILD_DIR_SIMULATOR}" SIMULATOR64
 
