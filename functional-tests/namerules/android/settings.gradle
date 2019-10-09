@@ -1,1 +1,2 @@
+rootProject.name = "gluecodium-functional-namerules-test"
 include ':app'
