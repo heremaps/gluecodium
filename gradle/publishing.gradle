@@ -36,8 +36,8 @@ publishing.publications {
                 }
             }
             scm {
-                connection = 'scm:git:git://github.com/heremaps/gluecodium.git'
-                developerConnection = 'scm:git:ssh://github.com/heremaps/gluecodium.git'
+                connection = 'scm:git:https://github.com/heremaps/gluecodium.git'
+                developerConnection = 'scm:git:git@github.com:heremaps/gluecodium.git'
                 url = 'https://github.com/heremaps/gluecodium'
             }
         }
