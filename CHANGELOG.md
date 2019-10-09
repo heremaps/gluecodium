@@ -1,8 +1,9 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 5.6.0
+- Release date: 2019-10-09
 - Features:
-  + Added support for lambda types in LimeIDL. Lambas are generated as std::function<> in C++, as
+  + Added support for lambda types in LimeIDL. Lambdas are generated as std::function<> in C++, as
     functional interfaces in Java, and as closures in Swift.
   + Added support for initializing constants and fields of Map<> type.
 - Bug fixes:
