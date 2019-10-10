@@ -43,6 +43,7 @@ public class CommentsLinks {
     /// * property setter: `Comments.isSomeProperty`
     /// * property getter: `Comments.isSomeProperty`
     /// * method: `Comments.someMethodWithAllComments(...)`
+    /// * parameter: `CommentsLinks.randomMethod(...).inputParameter`
     /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
     /// * top level struct: `TypeCollectionStruct`
     /// * top level struct field: `TypeCollectionStruct.field`
@@ -56,10 +57,6 @@ public class CommentsLinks {
     ///
     /// Not working for Swift:
     /// * named comment: []`Comments.veryUseful`
-    ///
-    /// Not working:
-    /// * input parameter: `CommentsLinks.randomMethod(...).inputParameter`
-    /// * output parameter: [outputParameter]
     /// - Parameter inputParameter: Sometimes takes `Comments.SomeEnum.useful`
     /// - Returns: Sometimes returns `Comments.SomeEnum.useful`
     /// - Throws: `Comments.SomethingWrongError` May or may not throw `Comments.SomethingWrongError`

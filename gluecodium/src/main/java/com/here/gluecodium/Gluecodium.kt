@@ -120,7 +120,13 @@ class Gluecodium(
         }
         LOGGER.fine("Instantiated generator " + generator.name)
 
-        val outputFiles = generator.generate(limeModel)
+        val outputFiles = try {
+                generator.generate(limeModel)
+            } catch (e: LimeModelLoaderException) {
+                LOGGER.severe(e.message)
+                return false
+            }
+
         val outputSuccessful = output(generatorName, outputFiles)
         val processedWithoutCollisions =
             checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)

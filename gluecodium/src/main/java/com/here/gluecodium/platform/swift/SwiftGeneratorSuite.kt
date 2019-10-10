@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.swift
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -37,6 +38,7 @@ import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.platform.common.GeneratorSuite
+import java.util.logging.Logger
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -85,9 +87,10 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             swiftModel.referenceMap.mapValues { elementToSwiftName[it.value] ?: "" }
         val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         swiftModel.containers.flatMap { it.streamRecursive() }
             .filterIsInstance<SwiftModelElement>()
-            .forEach { processElementComments(it, elementToLimeName, limeToSwiftName) }
+            .forEach { processElementComments(it, elementToLimeName, limeToSwiftName, limeLogger) }
 
         val result = swiftModel.containers.filter { !it.isEmpty }.map {
             GeneratedFile(
@@ -107,29 +110,36 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private fun processElementComments(
         element: SwiftModelElement,
         elementToLimeName: Map<SwiftModelElement, String>,
-        limeToSwiftName: Map<String, String>
+        limeToSwiftName: Map<String, String>,
+        limeLogger: LimeLogger
     ) {
         val limeName = elementToLimeName[element] ?: return
+
         val documentation = element.comment.documentation?.let {
-            commentsProcessor.process(limeName, it, limeToSwiftName)
+            commentsProcessor.process(limeName, it, limeToSwiftName, limeLogger)
         }
         val deprecationMessage = element.comment.deprecated?.let {
-            commentsProcessor.process(limeName, it, limeToSwiftName)
+            commentsProcessor.process(limeName, it, limeToSwiftName, limeLogger)
         }
         element.comment = Comments(documentation, deprecationMessage)
 
         if (element is SwiftMethod) {
             element.returnComment = element.returnComment?.let {
-                commentsProcessor.process(limeName, it, limeToSwiftName)
+                commentsProcessor.process(limeName, it, limeToSwiftName, limeLogger)
             }
             element.error?.let {
-                it.comment = commentsProcessor.process(limeName, it.comment, limeToSwiftName)
+                it.comment = commentsProcessor.process(
+                    limeName,
+                    it.comment,
+                    limeToSwiftName,
+                    limeLogger
+                )
             }
         }
 
         if (element is SwiftStruct) {
             element.generatedConstructorComment = element.generatedConstructorComment?.let {
-                commentsProcessor.process(limeName, it, limeToSwiftName)
+                commentsProcessor.process(limeName, it, limeToSwiftName, limeLogger)
             }
         }
     }
@@ -137,6 +147,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     override fun getName() = "com.here.SwiftGenerator"
 
     companion object {
+        private val logger = Logger.getLogger(SwiftGeneratorSuite::class.java.name)
         const val GENERATOR_NAME = "swift"
     }
 }

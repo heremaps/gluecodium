@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+- Features:
+  + Added validation against broken documentation references.
+
 ## 5.6.0
 - Release date: 2019-10-09
 - Features:

@@ -29,6 +29,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.util.logging.Level
 import java.util.logging.Logger
 
 @RunWith(JUnit4::class)
@@ -52,7 +53,7 @@ class LimeLoggerTest {
 
         limeLogger.error(limeElement, "it happened")
 
-        verify { javaLogger.severe("File FooFile.lime, element mo.del.foo: it happened") }
+        verify { javaLogger.log(Level.SEVERE, "File FooFile.lime, element mo.del.foo: it happened") }
     }
 
     @Test
@@ -61,6 +62,24 @@ class LimeLoggerTest {
 
         limeLogger.error(limeElement, "it happened")
 
-        verify { javaLogger.severe("File FooFile.lime, element mo.del.foo.bar: it happened") }
+        verify { javaLogger.log(Level.SEVERE, "File FooFile.lime, element mo.del.foo.bar: it happened") }
+    }
+
+    @Test
+    fun logWarningForContainer() {
+        val limeElement = LimeClass(LimePath(listOf("mo", "del"), listOf("foo")))
+
+        limeLogger.warning(limeElement, "it happened")
+
+        verify { javaLogger.log(Level.WARNING, "File FooFile.lime, element mo.del.foo: it happened") }
+    }
+
+    @Test
+    fun logWarningForChildElement() {
+        val limeElement = LimeStruct(LimePath(listOf("mo", "del"), listOf("foo", "bar")))
+
+        limeLogger.warning(limeElement, "it happened")
+
+        verify { javaLogger.log(Level.WARNING, "File FooFile.lime, element mo.del.foo.bar: it happened") }
     }
 }

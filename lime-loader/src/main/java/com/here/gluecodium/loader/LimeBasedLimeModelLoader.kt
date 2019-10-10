@@ -56,8 +56,11 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             throw LimeLoadingException("Syntax errors found, see log for details.")
         }
 
-        val limeModel =
-            LimeModel(referenceResolver.referenceMap, loadedElements.filterNotNull().flatten())
+        val limeModel = LimeModel(
+            referenceResolver.referenceMap,
+            loadedElements.filterNotNull().flatten(),
+            elementNameToFileName
+        )
 
         val limeLogger = LimeLogger(logger, elementNameToFileName)
         val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)

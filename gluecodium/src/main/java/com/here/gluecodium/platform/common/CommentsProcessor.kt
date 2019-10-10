@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.platform.common
 
+import com.here.gluecodium.common.LimeLogger
 import com.vladsch.flexmark.ast.Code
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.parser.Parser
@@ -29,15 +30,16 @@ import com.vladsch.flexmark.util.options.DataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
- * Parse Markdown comments and process links
+ * Parse Markdown comments and process links.
  */
-abstract class CommentsProcessor protected constructor(private val renderer: IRender) {
+abstract class CommentsProcessor(private val renderer: IRender) {
     private val parser = Parser.builder(DataSet()).build()
 
     fun process(
         limeFullName: String,
         comment: String,
-        limeToLanguage: Map<String, String>
+        limeToLanguage: Map<String, String>,
+        logger: LimeLogger
     ): String {
         val document = parser.parse(comment.trim())
         val path = limeFullName.split(".")
@@ -45,13 +47,14 @@ abstract class CommentsProcessor protected constructor(private val renderer: IRe
         val linkRefHandler = VisitHandler(LinkRef::class.java) {
             val reference = it.reference.toString()
             for (i in path.size downTo 0) {
-                val child = (path.take(i) + reference).joinToString(separator = ".")
+                val child = (path.take(i) + reference).joinToString(".")
                 val element = limeToLanguage[child]
                 if (element != null) {
                     processLink(it, element)
-                    break
+                    return@VisitHandler
                 }
             }
+            logger.warning(limeFullName, "Failed to resolve documentation reference [$reference]")
         }
         val codeBlockHandler = VisitHandler(Code::class.java) {
             if (it.text.toString() == standardNullReference) {

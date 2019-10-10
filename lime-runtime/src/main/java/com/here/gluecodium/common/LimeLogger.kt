@@ -19,16 +19,49 @@
 
 package com.here.gluecodium.common
 
+import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.model.lime.LimeNamedElement
+import java.util.logging.Level
 import java.util.logging.Logger
 
 class LimeLogger(
     private val logger: Logger,
     private val elementNameToFileName: Map<String, String>
 ) {
-    fun error(limeElement: LimeNamedElement, message: String) {
+    fun error(limeElement: LimeNamedElement, message: String) =
+        log(Level.SEVERE, getFileName(limeElement), limeElement.fullName, message)
+
+    fun error(elementName: String, message: String) =
+        log(Level.SEVERE, getFileName(elementName), elementName, message)
+
+    fun warning(limeElement: LimeNamedElement, message: String) =
+        log(Level.WARNING, getFileName(limeElement), limeElement.fullName, message)
+
+    fun warning(elementName: String, message: String) =
+        log(Level.WARNING, getFileName(elementName), elementName, message)
+
+    private fun log(
+        logLevel: Level,
+        fileName: String,
+        elementName: String,
+        message: String
+    ) {
+        logger.log(logLevel, "File $fileName, element $elementName: $message")
+    }
+
+    private fun getFileName(limeElement: LimeNamedElement): String {
         val containerKey = (limeElement.path.head + limeElement.path.container).joinToString(".")
-        val fileName = elementNameToFileName[containerKey]
-        logger.severe("File $fileName, element ${limeElement.fullName}: $message")
+        return elementNameToFileName[containerKey]
+            ?: throw LimeModelLoaderException(
+                "Failed to resolve file name for ${limeElement.fullName} element"
+            )
+    }
+
+    private fun getFileName(elementName: String): String {
+        val pathComponents = elementName.split(".")
+        for (i in pathComponents.size downTo 1) {
+            return elementNameToFileName[pathComponents.take(i).joinToString(".")] ?: continue
+        }
+        throw LimeModelLoaderException("Failed to resolve file name for $elementName element")
     }
 }

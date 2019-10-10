@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.baseapi
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -47,6 +48,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.io.File
 import java.nio.file.Paths
+import java.util.logging.Logger
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
@@ -97,12 +99,12 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             )
         }
         val cppToLimeName = cppReferenceMap.entries.associate { it.value to it.key }
-
         val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
 
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
             .filterIsInstance<CppElementWithComment>()
-            .forEach { processElementComments(it, cppToLimeName, limeToCppName) }
+            .forEach { processElementComments(it, cppToLimeName, limeToCppName, limeLogger) }
 
         val helperModel = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
         return cppModel.flatMap { generator.generateCode(it) } +
@@ -156,34 +158,37 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private fun processElementComments(
         element: CppElementWithComment,
         cppToLimeName: Map<CppElement, String>,
-        limeToCppName: Map<String, String>
+        limeToCppName: Map<String, String>,
+        limeLogger: LimeLogger
     ) {
         val limeName = cppToLimeName[element] ?: return
+
         val documentation = element.comment.documentation?.let {
-            commentsProcessor.process(limeName, it, limeToCppName)
+            commentsProcessor.process(limeName, it, limeToCppName, limeLogger)
         }
         val deprecationMessage = element.comment.deprecated?.let {
-            commentsProcessor.process(limeName, it, limeToCppName)
+            commentsProcessor.process(limeName, it, limeToCppName, limeLogger)
         }
         element.comment = Comments(documentation, deprecationMessage)
 
         if (element is CppMethod) {
             element.returnComment = element.returnComment?.let {
-                commentsProcessor.process(limeName, it, limeToCppName)
+                commentsProcessor.process(limeName, it, limeToCppName, limeLogger)
             }
             element.errorComment = element.errorComment?.let {
-                commentsProcessor.process(limeName, it, limeToCppName)
+                commentsProcessor.process(limeName, it, limeToCppName, limeLogger)
             }
         }
 
         if (element is CppStruct) {
             element.constructorComment = element.constructorComment?.let {
-                commentsProcessor.process(limeName, it, limeToCppName)
+                commentsProcessor.process(limeName, it, limeToCppName, limeLogger)
             }
         }
     }
 
     companion object {
+        private val logger = Logger.getLogger(BaseApiGeneratorSuite::class.java.name)
         const val GENERATOR_NAME = "cpp"
 
         internal val ADDITIONAL_HEADERS = listOf(

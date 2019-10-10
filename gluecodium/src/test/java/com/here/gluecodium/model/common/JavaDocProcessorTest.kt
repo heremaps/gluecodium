@@ -19,15 +19,19 @@
 
 package com.here.gluecodium.model.common
 
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.platform.android.JavaDocProcessor
 import org.junit.Assert.assertEquals
 
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.util.logging.Logger
 
 @RunWith(JUnit4::class)
 class JavaDocProcessorTest {
+    private val limeLogger =
+        LimeLogger(Logger.getLogger(JavaDocProcessorTest::class.java.name), emptyMap())
     private val commentsProcessor = JavaDocProcessor()
 
     @Test
@@ -36,7 +40,8 @@ class JavaDocProcessorTest {
         val limeName = "RandomClass"
         val limeToJava = mapOf("this.is.a.link" to "javaName")
 
-        val processedComment = commentsProcessor.process(limeName, comment, limeToJava)
+        val processedComment =
+            commentsProcessor.process(limeName, comment, limeToJava, limeLogger)
 
         assertEquals("<p>hello {@link javaName} world</p>", processedComment)
     }
@@ -47,7 +52,8 @@ class JavaDocProcessorTest {
         val limeName = "this.is.a.class"
         val limeToJava = mapOf("this.is.a.reference.to.other" to "javaName")
 
-        val processedComment = commentsProcessor.process(limeName, comment, limeToJava)
+        val processedComment =
+            commentsProcessor.process(limeName, comment, limeToJava, limeLogger)
 
         assertEquals("<p>{@link javaName}</p>", processedComment)
     }
@@ -58,7 +64,8 @@ class JavaDocProcessorTest {
         val limeName = "package.my"
         val limeToJava = mapOf("package.my.child" to "javaName")
 
-        val processedComment = commentsProcessor.process(limeName, comment, limeToJava)
+        val processedComment =
+            commentsProcessor.process(limeName, comment, limeToJava, limeLogger)
 
         assertEquals("<p>{@link javaName}</p>", processedComment)
     }
@@ -67,7 +74,7 @@ class JavaDocProcessorTest {
     fun javaDocWithoutLink() {
         val comment = "Hello\nWorld!\n\n"
 
-        val processedComment = commentsProcessor.process("", comment, emptyMap())
+        val processedComment = commentsProcessor.process("", comment, emptyMap(), limeLogger)
 
         assertEquals("<p>Hello\nWorld!</p>", processedComment)
     }

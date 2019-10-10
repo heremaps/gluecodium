@@ -19,4 +19,8 @@
 
 package com.here.gluecodium.model.lime
 
-class LimeModel(val referenceMap: Map<String, LimeElement>, val topElements: List<LimeNamedElement>)
+class LimeModel(
+    val referenceMap: Map<String, LimeElement>,
+    val topElements: List<LimeNamedElement>,
+    val fileNameMap: Map<String, String> = emptyMap()
+)

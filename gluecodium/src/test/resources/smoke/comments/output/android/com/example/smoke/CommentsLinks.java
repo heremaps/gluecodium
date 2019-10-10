@@ -53,6 +53,7 @@ public final class CommentsLinks extends NativeBase {
      * <li>property setter: {@link com.example.smoke.Comments#setSomeProperty}</li>
      * <li>property getter: {@link com.example.smoke.Comments#isSomeProperty}</li>
      * <li>method: {@link com.example.smoke.Comments#someMethodWithAllComments}</li>
+     * <li>parameter: {@link com.example.smoke.CommentsLinks#randomMethod#inputParameter}</li>
      * <li>top level constant: {@link com.example.smoke.CommentsTypeCollection#TYPE_COLLECTION_CONSTANT}</li>
      * <li>top level struct: {@link com.example.smoke.TypeCollectionStruct}</li>
      * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
@@ -68,11 +69,6 @@ public final class CommentsLinks extends NativeBase {
      * <p>Not working for Swift:</p>
      * <ul>
      * <li>named comment: {@link com.example.smoke.Comments#VERY_USEFUL}</li>
-     * </ul>
-     * <p>Not working:</p>
-     * <ul>
-     * <li>input parameter: {@link com.example.smoke.CommentsLinks#randomMethod#inputParameter}</li>
-     * <li>output parameter: [outputParameter]</li>
      * </ul>
      * @param inputParameter <p>Sometimes takes {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
      * @return <p>Sometimes returns {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>

@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.android
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -39,6 +40,7 @@ import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaTopLevelElement
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.platform.common.GeneratorSuite
+import java.util.logging.Logger
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
@@ -90,7 +92,7 @@ open class JavaGeneratorSuite protected constructor(
                 model.merge(jniGenerator.generateModel(rootElement))
             }
 
-        processCommentLinks(combinedModel.javaElements, combinedModel.referenceMap)
+        processCommentLinks(combinedModel.javaElements, combinedModel.referenceMap, limeModel)
 
         val javaTemplates = JavaTemplates(generatorName)
         val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements).toMutableList()
@@ -125,7 +127,8 @@ open class JavaGeneratorSuite protected constructor(
 
     private fun processCommentLinks(
         javaModel: List<JavaElement>,
-        referenceMap: Map<String, JavaElement>
+        referenceMap: Map<String, JavaElement>,
+        limeModel: LimeModel
     ) {
         val elementToJavaName = mutableMapOf<JavaElement, String>()
 
@@ -134,10 +137,11 @@ open class JavaGeneratorSuite protected constructor(
         val limeToJavaName = referenceMap.mapValues { elementToJavaName[it.value] ?: "" }
         val elementToLimeName = referenceMap.entries.associate { it.value to it.key }
 
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         javaModel
             .flatMap { it.streamRecursive().toList() }
             .filterIsInstance<JavaElement>()
-            .forEach { processElementsComments(it, elementToLimeName, limeToJavaName) }
+            .forEach { processElementsComments(it, elementToLimeName, limeToJavaName, limeLogger) }
     }
 
     private fun resolveFullName(
@@ -161,34 +165,37 @@ open class JavaGeneratorSuite protected constructor(
     private fun processElementsComments(
         element: JavaElement,
         elementToLimeName: Map<JavaElement, String>,
-        limeToJavaName: Map<String, String>
+        limeToJavaName: Map<String, String>,
+        limeLogger: LimeLogger
     ) {
         val limeName = elementToLimeName[element] ?: return
+
         val documentation = element.comment.documentation?.let {
-            commentsProcessor.process(limeName, it, limeToJavaName)
+            commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
         }
         val deprecationMessage = element.comment.deprecated?.let {
-            commentsProcessor.process(limeName, it, limeToJavaName)
+            commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
         }
         element.comment = Comments(documentation, deprecationMessage)
 
         if (element is JavaMethod) {
             element.returnComment = element.returnComment?.let {
-                commentsProcessor.process(limeName, it, limeToJavaName)
+                commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
             }
             element.throwsComment = element.throwsComment?.let {
-                commentsProcessor.process(limeName, it, limeToJavaName)
+                commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
             }
         }
 
         if (element is JavaClass) {
             element.generatedConstructorComment = element.generatedConstructorComment?.let {
-                commentsProcessor.process(limeName, it, limeToJavaName)
+                commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
             }
         }
     }
 
     companion object {
+        private val logger = Logger.getLogger(JavaGeneratorSuite::class.java.name)
         const val GENERATOR_NAME = "java"
 
         private const val ARRAY_CONVERSION_UTILS = "ArrayConversionUtils"

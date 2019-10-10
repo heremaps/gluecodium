@@ -497,6 +497,12 @@ internal class AntlrLimeModelBuilder(
         visibilityStack.pop()
     }
 
+    private fun storeResultAndPopStacks(limeFunction: LimeFunction) {
+        val ambigousKey = limeFunction.path.withSuffix("").toString()
+        referenceResolver.registerElement(ambigousKey, limeFunction)
+        storeResultAndPopStacks(limeFunction as LimeNamedElement)
+    }
+
     private fun convertVisibility(
         ctx: LimeParser.VisibilityContext?,
         parentVisibility: LimeVisibility?

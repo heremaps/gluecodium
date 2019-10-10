@@ -52,6 +52,7 @@ public:
      * * property setter: ::smoke::Comments::set_some_property
      * * property getter: ::smoke::Comments::is_some_property
      * * method: ::smoke::Comments::some_method_with_all_comments
+     * * parameter: input_parameter
      * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
      * * top level struct: ::smoke::TypeCollectionStruct
      * * top level struct field: ::smoke::TypeCollectionStruct::field
@@ -65,10 +66,6 @@ public:
      *
      * Not working for Swift:
      * * named comment: [Alternative name for the link, stripped for Swift]::smoke::Comments::VERY_USEFUL
-     *
-     * Not working:
-     * * input parameter: input_parameter
-     * * output parameter: [outputParameter]
      * \param[in] input_parameter Sometimes takes ::smoke::Comments::SomeEnum::USEFUL
      * \return Sometimes returns ::smoke::Comments::SomeEnum::USEFUL
      * \retval ::smoke::Comments::SomeEnum May or may not throw ::smoke::Comments::SomeEnum
