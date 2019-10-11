@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.validator
+package com.here.gluecodium.common
 
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimePath

@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.validator
 
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER

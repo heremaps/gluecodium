@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.validator
+package com.here.gluecodium.common
 
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.util.logging.Logger
 
-internal class LimeLogger(
+class LimeLogger(
     private val logger: Logger,
     private val elementNameToFileName: Map<String, String>
 ) {

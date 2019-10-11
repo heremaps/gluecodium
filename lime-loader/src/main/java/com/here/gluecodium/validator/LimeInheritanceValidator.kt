@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.validator
 
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeInterface

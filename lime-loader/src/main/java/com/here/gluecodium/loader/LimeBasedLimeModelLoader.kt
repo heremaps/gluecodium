@@ -30,7 +30,7 @@ import com.here.gluecodium.validator.LimeStructsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
-import com.here.gluecodium.validator.LimeLogger
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.validator.LimeFunctionsValidator
 import com.here.gluecodium.validator.LimeSerializableStructsValidator
 import com.here.gluecodium.validator.LimeTypeRefsValidator
