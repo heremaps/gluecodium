@@ -33,6 +33,8 @@ types Serialization {
         arrayField: List<String>
         structArrayField: NestedStructArray
         mapField: ErrorCodeToMessageMap
+        setField: Set<String>
+        enumSetField: Set<SomeEnum>
         enumField: SomeEnum
     }
 

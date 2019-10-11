@@ -3,6 +3,7 @@
 ## Unreleased
 - Features:
   + Added validation against broken documentation references.
+  + Set type fields are now supported in @Serializable structs.
 
 ## 5.6.0
 - Release date: 2019-10-09

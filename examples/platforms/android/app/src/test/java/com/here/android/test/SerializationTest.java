@@ -20,6 +20,7 @@ package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
 import android.os.Parcel;
@@ -69,6 +70,8 @@ public final class SerializationTest {
             .setArrayField(stringList)
             .setStructArrayField(structList)
             .setMapField(errorMap)
+            .setSetField(new java.util.HashSet<>(java.util.Arrays.asList("foo", "bar")))
+            .setEnumSetField(java.util.EnumSet.of(FooEnum.BAR))
             .setEnumField(FooEnum.BAR)
             .build();
 
@@ -107,6 +110,11 @@ public final class SerializationTest {
     assertEquals(serializableStruct.mapField.size(), resultStruct.mapField.size());
     assertEquals(serializableStruct.mapField.get(0), resultStruct.mapField.get(0));
     assertEquals(serializableStruct.mapField.get(1), resultStruct.mapField.get(1));
+    assertEquals(serializableStruct.setField.size(), resultStruct.setField.size());
+    assertTrue(resultStruct.setField.contains("foo"));
+    assertTrue(resultStruct.setField.contains("bar"));
+    assertEquals(serializableStruct.enumSetField.size(), resultStruct.enumSetField.size());
+    assertTrue(resultStruct.enumSetField.contains(FooEnum.BAR));
     assertEquals(serializableStruct.enumField, resultStruct.enumField);
   }
 }
