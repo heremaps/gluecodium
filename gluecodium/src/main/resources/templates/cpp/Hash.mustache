@@ -25,6 +25,7 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <type_traits>
 
 {{#internalNamespace}}
 namespace {{.}} {
@@ -59,7 +60,16 @@ struct EqualityEqualTo
     }
 };
 
-template<class T, class HasEqualityHash = void>
+template <class T>
+struct EnumHash
+{
+    std::size_t operator()(const T& t) const
+    {
+        return static_cast<std::size_t>(t);
+    }
+};
+
+template<class T, class SfinaePlaceholder = void>
 struct SelectHash {
     using type = std::hash<T>;
 };
@@ -70,10 +80,15 @@ struct SelectHash<T, typename std::enable_if<std::is_constructible<EqualityHash<
     using type = EqualityHash<T>;
 };
 
+template<class T>
+struct SelectHash<T, typename std::enable_if<std::is_enum<T>::value>::type>
+{
+    using type = EnumHash<T>;
+};
+
 /*
- * Generic hash functional, it uses EqualityHash for types for which it was defined
- * and falls back to std::hash otherwise. Types for which hash is defined specialize
- * this template.
+ * Generic hash functional, it uses EqualityHash or EnumHash if possible and falls back to
+ * std::hash otherwise. Types for which hash is defined specialize this template.
  */
 template<class T>
 struct hash

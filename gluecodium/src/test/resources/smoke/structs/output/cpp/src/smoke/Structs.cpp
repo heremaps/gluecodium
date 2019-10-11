@@ -107,10 +107,3 @@ Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( const ::s
 {
 }
 }
-namespace gluecodium {
-std::size_t
-hash< ::smoke::Structs::FooBar >::operator( )( const ::smoke::Structs::FooBar& t ) const
-{
-    return static_cast< std::size_t >( t );
-}
-}

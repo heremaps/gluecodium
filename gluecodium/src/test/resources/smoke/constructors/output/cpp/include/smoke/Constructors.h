@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/Return.h"
 #include "gluecodium/TypeRepository.h"
 #include "gluecodium/VectorHash.h"
@@ -65,12 +64,6 @@ namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::Constructors::ErrorEnum > : public std::true_type { };
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::Constructors::ErrorEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Constructors::ErrorEnum& t ) const;
-};
 }
 namespace gluecodium {
 _GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Constructors*);

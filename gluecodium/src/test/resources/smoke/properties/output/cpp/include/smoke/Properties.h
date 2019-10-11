@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/PropertiesInterface.h"
 #include <cstdint>
@@ -56,11 +55,5 @@ public:
     static ::std::string get_static_property(  );
     static void set_static_property( const ::std::string& value );
     static ::smoke::Properties::ExampleStruct get_static_readonly_property(  );
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::Properties::InternalErrorCode > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Properties::InternalErrorCode& t ) const;
 };
 }

@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "Export.h"
-#include "Hash.h"
 #include "Return.h"
 #include "VectorHash.h"
 #include <cstdint>
@@ -52,10 +51,4 @@ namespace std
 {
 template <>
 struct is_error_code_enum< ::namerules::NameRules::ExampleErrorCode > : public std::true_type { };
-}
-namespace  {
-template<>
-struct hash< ::namerules::NameRules::ExampleErrorCode > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::namerules::NameRules::ExampleErrorCode& t ) const;
-};
 }

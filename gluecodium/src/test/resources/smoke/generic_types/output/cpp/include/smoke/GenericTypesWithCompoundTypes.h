@@ -48,9 +48,3 @@ public:
     virtual ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_map( const ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
 };
 }
-namespace gluecodium {
-template<>
-struct hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::GenericTypesWithCompoundTypes::SomeEnum& t ) const;
-};
-}

@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include <cstdint>
 #include <system_error>
 namespace smoke {
@@ -18,10 +17,4 @@ namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::FreeEnum > : public std::true_type { };
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::FreeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::FreeEnum& t ) const;
-};
 }

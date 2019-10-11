@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
@@ -90,11 +89,5 @@ public:
     virtual void set_map_property( const ::gluecodium::optional< ::smoke::Nullable::SomeMap >& value ) = 0;
     virtual ::std::shared_ptr< ::smoke::SomeInterface > get_instance_property(  ) const = 0;
     virtual void set_instance_property( const ::std::shared_ptr< ::smoke::SomeInterface >& value ) = 0;
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::Nullable::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Nullable::SomeEnum& t ) const;
 };
 }

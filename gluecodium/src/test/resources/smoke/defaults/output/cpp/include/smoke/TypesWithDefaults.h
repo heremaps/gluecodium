@@ -5,7 +5,6 @@
 #pragma once
 #include "foo/Bar.h"
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "smoke/AnEnum.h"
 #include <cstdint>
 #include <string>
@@ -41,11 +40,5 @@ struct _GLUECODIUM_CPP_EXPORT StructWithAnEnum {
     ::smoke::AnEnum config = ::smoke::AnEnum::ENABLED;
     StructWithAnEnum( );
     StructWithAnEnum( const ::smoke::AnEnum config );
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 }

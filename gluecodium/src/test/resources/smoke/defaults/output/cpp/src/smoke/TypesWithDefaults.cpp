@@ -3,7 +3,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/TypesWithDefaults.h"
-
 namespace smoke {
 StructWithDefaults::StructWithDefaults( )
 {
@@ -26,12 +25,5 @@ StructWithAnEnum::StructWithAnEnum( )
 StructWithAnEnum::StructWithAnEnum( const ::smoke::AnEnum config )
     : config( config )
 {
-}
-}
-namespace gluecodium {
-std::size_t
-hash< ::smoke::SomeEnum >::operator( )( const ::smoke::SomeEnum& t ) const
-{
-    return static_cast< std::size_t >( t );
 }
 }

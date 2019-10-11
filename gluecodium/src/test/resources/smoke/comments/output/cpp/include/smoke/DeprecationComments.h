@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <string>
@@ -85,12 +84,6 @@ namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::DeprecationComments::SomeEnum > : public std::true_type { };
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::DeprecationComments::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationComments::SomeEnum& t ) const;
-};
 }
 namespace gluecodium {
 _GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationComments*);

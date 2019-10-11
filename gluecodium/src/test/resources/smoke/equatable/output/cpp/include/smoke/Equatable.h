@@ -59,10 +59,6 @@ struct _GLUECODIUM_CPP_EXPORT EquatableNullableStruct {
 }
 namespace gluecodium {
 template<>
-struct hash< ::smoke::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
-};
-template<>
 struct hash< ::smoke::EquatableStruct > {
     _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::EquatableStruct& t ) const;
 };

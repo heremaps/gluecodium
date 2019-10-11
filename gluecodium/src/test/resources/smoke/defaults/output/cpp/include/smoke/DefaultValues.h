@@ -5,7 +5,6 @@
 #pragma once
 #include "foo/Bar.h"
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
@@ -84,11 +83,5 @@ public:
     };
 public:
     static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::DefaultValues::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DefaultValues::SomeEnum& t ) const;
 };
 }

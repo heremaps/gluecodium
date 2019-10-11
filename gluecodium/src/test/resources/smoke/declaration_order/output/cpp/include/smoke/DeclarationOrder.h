@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include <cstdint>
@@ -32,11 +31,5 @@ struct _GLUECODIUM_CPP_EXPORT MainStruct {
     ::smoke::SomeEnum enum_field;
     MainStruct( );
     MainStruct( const ::smoke::NestedStruct& struct_field, const ::smoke::SomeTypeDef type_def_field, const ::smoke::NestedStructArray& struct_array_field, const ::smoke::ErrorCodeToMessageMap& map_field, const ::smoke::SomeEnum enum_field );
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 }

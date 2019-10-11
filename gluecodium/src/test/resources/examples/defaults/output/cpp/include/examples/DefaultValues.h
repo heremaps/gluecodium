@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include <cstdint>
 #include <string>
 namespace examples {
@@ -26,11 +25,5 @@ public:
         StructWithDefaults( );
         StructWithDefaults( const int32_t int_field, const float float_field, const bool bool_field, const ::std::string& string_field, const ::examples::DefaultValues::SomeEnum enum_field );
     };
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::examples::DefaultValues::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::examples::DefaultValues::SomeEnum& t ) const;
 };
 }

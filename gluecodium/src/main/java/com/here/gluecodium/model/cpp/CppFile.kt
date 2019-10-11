@@ -47,7 +47,7 @@ class CppFile(
     val equatables: List<CppElement>
         get() = members.flatMap { it.streamRecursive() }
             .filterIsInstance<CppExternableElement>()
-            .filter { !it.isExternal && (it is CppEnum || it is CppClass && it.isEquatable || it is CppStruct && it.isEquatable) }
+            .filter { !it.isExternal && (it is CppClass && it.isEquatable || it is CppStruct && it.isEquatable) }
 
     @Suppress("unused")
     val hasExternalTypes

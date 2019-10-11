@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include <cstdint>
@@ -77,11 +76,5 @@ public:
      * \param[in] value Some very useful property.
      */
     virtual void set_some_property( const ::examples::Comments::Usefulness value ) = 0;
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::examples::Comments::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
 };
 }

@@ -51,10 +51,3 @@ make_error_code( ::smoke::Errors::InternalErrorCode value ) noexcept
     return std::error_code( static_cast<int>( value ), category );
 }
 }
-namespace gluecodium {
-std::size_t
-hash< ::smoke::Errors::InternalErrorCode >::operator( )( const ::smoke::Errors::InternalErrorCode& t ) const
-{
-    return static_cast< std::size_t >( t );
-}
-}

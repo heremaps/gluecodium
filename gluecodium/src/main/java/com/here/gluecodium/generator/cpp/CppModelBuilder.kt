@@ -353,7 +353,7 @@ class CppModelBuilder(
                 (limeReferenceMap[limeEnumeration.path.parent.toString()] as? LimeNamedElement)
                     ?.attributes?.have(CPP, EXTERNAL_TYPE) ?: false
         val isExternal = parentIsExternal || limeEnumeration.attributes.have(CPP, EXTERNAL_TYPE)
-        val includes = mutableListOf(CppLibraryIncludes.HASH)
+        val includes = mutableListOf<Include>()
         if (isExternal) {
             includes += includeResolver.resolveIncludes(limeEnumeration)
         }

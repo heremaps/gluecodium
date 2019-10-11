@@ -133,12 +133,11 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val enums = collectEnums(finalResults)
         if (enums.isNotEmpty()) {
-            includes.add(CppLibraryIncludes.HASH)
             includes.add(CppLibraryIncludes.INT_TYPES)
         }
         val errorEnums = enums
             .filter { allErrorEnums.contains(it.fullyQualifiedName) }
-            .sortedBy(CppEnum::fullyQualifiedName)
+            .sortedBy { it.fullyQualifiedName }
         if (errorEnums.isNotEmpty()) {
             includes.add(CppLibraryIncludes.SYSTEM_ERROR)
         }

@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "smoke/OuterClass.h"
 #include "smoke/OuterInterface.h"
 #include <cstdint>
@@ -45,11 +44,5 @@ public:
             virtual ::std::shared_ptr< ::smoke::OuterInterface::InnerClass > foo( const ::std::shared_ptr< ::smoke::OuterClass::InnerInterface >& input ) = 0;
         };
     };
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum& t ) const;
 };
 }

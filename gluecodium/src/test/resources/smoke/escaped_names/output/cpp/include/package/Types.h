@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <system_error>
@@ -26,10 +25,4 @@ namespace std
 {
 template <>
 struct is_error_code_enum< ::package::Enum > : public std::true_type { };
-}
-namespace gluecodium {
-template<>
-struct hash< ::package::Enum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::package::Enum& t ) const;
-};
 }

@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <string>
@@ -62,12 +61,6 @@ public:
      * \param[in] value
      */
     virtual void set_some_property( const ::smoke::DeprecationCommentsOnly::Usefulness value ) = 0;
-};
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::DeprecationCommentsOnly::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::DeprecationCommentsOnly::SomeEnum& t ) const;
 };
 }
 namespace gluecodium {

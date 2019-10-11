@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/Hash.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
@@ -144,10 +143,4 @@ namespace std
 {
 template <>
 struct is_error_code_enum< ::smoke::Comments::SomeEnum > : public std::true_type { };
-}
-namespace gluecodium {
-template<>
-struct hash< ::smoke::Comments::SomeEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
-};
 }

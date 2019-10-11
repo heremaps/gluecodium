@@ -39,13 +39,3 @@ public:
     static void method_with_external_enum( const ::smoke::Enums::External_Enum input );
 };
 }
-namespace gluecodium {
-template<>
-struct hash< ::smoke::Enums::SimpleEnum > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::SimpleEnum& t ) const;
-};
-template<>
-struct hash< ::smoke::Enums::InternalErrorCode > {
-    _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::Enums::InternalErrorCode& t ) const;
-};
-}

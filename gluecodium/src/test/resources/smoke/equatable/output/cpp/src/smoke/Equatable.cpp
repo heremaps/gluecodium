@@ -3,7 +3,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Equatable.h"
-
 namespace smoke {
 EquatableStruct::EquatableStruct( )
     : bool_field{ }, int_field{ }, long_field{ }, float_field{ }, double_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
@@ -90,11 +89,6 @@ bool NestedEquatableStruct::operator!=( const NestedEquatableStruct& rhs ) const
 }
 }
 namespace gluecodium {
-std::size_t
-hash< ::smoke::SomeEnum >::operator( )( const ::smoke::SomeEnum& t ) const
-{
-    return static_cast< std::size_t >( t );
-}
 std::size_t
 hash< ::smoke::EquatableStruct >::operator( )( const ::smoke::EquatableStruct& t ) const
 {
