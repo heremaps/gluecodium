@@ -45,23 +45,33 @@ class JniTemplates(
 
         if (jniContainer.containerType !== ContainerType.TYPE_COLLECTION) {
             results += generateFilesForElement(
-                JniNameRules.getJniClassFileName(jniContainer),
-                jniContainer
+                jniContainer,
+                jniContainer,
+                JniNameRules.getJniClassFileName(jniContainer)
             )
         }
-        results += jniContainer.structs.filter { it.methods.isNotEmpty() }.flatMap {
-                generateFilesForElement(JniNameRules.getJniStructFileName(jniContainer, it), it)
-            }
+        results += jniContainer.structs
+            .filter { it.methods.isNotEmpty() }
+            .flatMap { generateFilesForElement(
+                it,
+                jniContainer,
+                JniNameRules.getJniStructFileName(jniContainer, it)
+            ) }
 
         return results
     }
 
     private fun generateFilesForElement(
-        fileName: String,
-        jniElement: JniElement
+        jniElement: JniElement,
+        jniContainer: JniContainer,
+        fileName: String
     ): List<GeneratedFile> {
         val containerData =
-            mapOf(CONTAINER_NAME to jniElement, INTERNAL_NAMESPACE_NAME to internalNamespace)
+            mapOf(
+                CONTAINER_NAME to jniElement,
+                INCLUDES_NAME to jniContainer.includes,
+                INTERNAL_NAMESPACE_NAME to internalNamespace
+            )
 
         return listOf(
             generateFile("jni/Header", containerData, jniNameRules.getHeaderFilePath(fileName)),

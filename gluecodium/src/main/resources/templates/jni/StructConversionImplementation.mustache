@@ -67,7 +67,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/
         : {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{join javaPackages delimiter="/"}}/{{javaName}}", {{cppFullyQualifiedName}})
+REGISTER_JNI_CLASS_CACHE("{{join javaPackage.packageNames delimiter="/"}}/{{javaName}}", {{cppFullyQualifiedName}})
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput)

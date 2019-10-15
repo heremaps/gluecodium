@@ -62,9 +62,9 @@ class JniNameRules(generatorName: String) {
             (javaType.packageNames + javaType.classNames.joinToString("$")).joinToString("/")
 
         fun getJniClassFileName(jniContainer: JniContainer) =
-            (jniContainer.javaPackages + jniContainer.javaNames).joinToString("_")
+            (jniContainer.javaPackage.packageNames + jniContainer.javaNames).joinToString("_")
 
         fun getJniStructFileName(jniContainer: JniContainer, jniStruct: JniStruct) =
-            (jniContainer.javaPackages + jniStruct.javaName.replace("$", "_")).joinToString("_")
+            (jniContainer.javaPackage.packageNames + jniStruct.javaName.replace("$", "_")).joinToString("_")
     }
 }

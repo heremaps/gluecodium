@@ -244,7 +244,7 @@ class JniModelBuilderTest {
         assertEquals("cPpClass", jniContainer.cppName)
         assertEquals("jAvaClazz", jniContainer.javaNames.first())
         assertEquals(listOf("foo", "bar"), jniContainer.cppNameSpaces)
-        assertEquals(listOf("my", "java", "test"), jniContainer.javaPackages)
+        assertEquals(listOf("my", "java", "test"), jniContainer.javaPackage.packageNames)
         assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
     }
 

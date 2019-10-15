@@ -38,6 +38,8 @@ import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.jni.JniContainer
 import com.here.gluecodium.model.jni.JniElement
+import com.here.gluecodium.model.jni.JniEnum
+import com.here.gluecodium.model.jni.JniStruct
 import com.here.gluecodium.model.jni.JniTopLevelElement
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -138,7 +140,7 @@ class JniGenerator(
         includeResolver: CppIncludeResolver
     ): JniContainer {
         val jniContainer = JniContainer(
-            javaPackages = jniElement.javaPackage.packageNames,
+            javaPackage = jniElement.javaPackage,
             cppNameSpaces = cppFullyQualifiedName.split("::").dropLast(1),
             containerType = JniContainer.ContainerType.TYPE_COLLECTION,
             internalNamespace = internalNamespace
@@ -146,7 +148,10 @@ class JniGenerator(
         (jniToLimeMap[jniElement] as? LimeNamedElement)?.let {
             jniContainer.includes += includeResolver.resolveIncludes(it)
         }
-        jniContainer.add(jniElement)
+        when (jniElement) {
+            is JniStruct -> jniContainer.structs += jniElement
+            is JniEnum -> jniContainer.enums += jniElement
+        }
         return jniContainer
     }
 

@@ -20,7 +20,7 @@
   !}}
 {{>java/CopyrightHeader}}
 
-{{#container}}{{#includes}}
+{{#includes}}
 {{>common/Include}}
 {{/includes}}
 #include "ArrayConversionUtils.h"
@@ -33,7 +33,7 @@
 
 extern "C" {
 
-{{#methods}}
+{{#container}}{{#methods}}
 {{returnType.name}}
 {{>jni/FunctionSignature}}
 
@@ -65,7 +65,7 @@ extern "C" {
 {{/methods}}
 {{#instanceOf container "JniContainer"}}
 JNIEXPORT void JNICALL
-Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
+Java_{{join javaPackage.packageNames delimiter="_"}}_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
 {{#unless isFunctionalInterface}}    delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);{{/unless}}
 {{#if isFunctionalInterface}}    delete reinterpret_cast<{{cppFullyQualifiedName}}*>(_jpointerRef);{{/if}}

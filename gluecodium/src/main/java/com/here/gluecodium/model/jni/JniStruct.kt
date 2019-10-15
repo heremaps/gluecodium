@@ -30,13 +30,6 @@ class JniStruct(
     val methods: List<JniMethod> = emptyList(),
     val hasImmutableFields: Boolean = false
 ) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
-
-    val includes
-        get() = owningContainer.includes
-
-    val javaPackages
-        get() = owningContainer.javaPackages
-
     @Suppress("unused")
     val mangledName
         get() = JniNameRules.getMangledName(javaName)

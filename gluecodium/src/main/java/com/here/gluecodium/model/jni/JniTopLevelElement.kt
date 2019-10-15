@@ -25,6 +25,4 @@ abstract class JniTopLevelElement(
     val javaName: String,
     val cppFullyQualifiedName: String,
     val javaPackage: JavaPackage
-) : JniElement {
-    lateinit var owningContainer: JniContainer
-}
+) : JniElement

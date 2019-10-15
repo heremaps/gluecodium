@@ -18,4 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-Java_{{join container.javaPackages delimiter="_"}}_{{container.mangledName}}_{{javaMethodName}}{{#if isOverloaded}}__{{#parameters}}{{type.mangledSignature}}{{/parameters}}{{/if}}(JNIEnv* _jenv, jobject _jinstance
+Java_{{join javaPackage.packageNames delimiter="_"}}_{{mangledName}}_{{javaMethodName}}{{#if isOverloaded}}__{{#parameters}}{{type.mangledSignature}}{{/parameters}}{{/if}}(JNIEnv* _jenv, jobject _jinstance

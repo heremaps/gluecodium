@@ -21,6 +21,7 @@ package com.here.gluecodium.model.jni
 
 import com.here.gluecodium.generator.jni.JniNameRules
 import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.java.JavaPackage
 
 /**
  * JniContainer is a container for classes, fields and methods.
@@ -30,7 +31,7 @@ import com.here.gluecodium.model.common.Include
  * interface or the name of the package in case of type collection.
  */
 class JniContainer(
-    val javaPackages: List<String> = emptyList(),
+    val javaPackage: JavaPackage = JavaPackage(emptyList()),
     val cppNameSpaces: List<String> = emptyList(),
     val javaNames: List<String> = emptyList(),
     val javaInterfaceName: String? = null,
@@ -52,7 +53,7 @@ class JniContainer(
     val hasNativeEquatable =
         containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
     @Suppress("unused")
-    val fullJavaName = (javaPackages + javaNames.joinToString("$")).joinToString("/")
+    val fullJavaName = (javaPackage.packageNames + javaNames.joinToString("$")).joinToString("/")
     @Suppress("unused")
     val mangledName = JniNameRules.getMangledName(javaNames.joinToString("$"))
 
@@ -60,13 +61,5 @@ class JniContainer(
         TYPE_COLLECTION,
         INTERFACE,
         CLASS
-    }
-
-    fun add(jniElement: JniTopLevelElement) {
-        jniElement.owningContainer = this
-        when (jniElement) {
-            is JniStruct -> structs.add(jniElement)
-            is JniEnum -> enums.add(jniElement)
-        }
     }
 }

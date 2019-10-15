@@ -43,6 +43,7 @@ import com.here.gluecodium.model.java.JavaEnumItem
 import com.here.gluecodium.model.java.JavaField
 import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
+import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
 import com.here.gluecodium.model.java.JavaPrimitiveType
 import com.here.gluecodium.model.java.JavaTopLevelElement
@@ -107,7 +108,7 @@ class JniModelBuilder(
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
 
         val jniContainer = JniContainer(
-            javaPackages = javaTopLevelElement.javaPackage.packageNames,
+            javaPackage = javaTopLevelElement.javaPackage,
             cppNameSpaces = limeContainer.path.head,
             javaNames = javaClass.classNames,
             javaInterfaceName = javaTopLevelElement.name,
@@ -130,8 +131,8 @@ class JniModelBuilder(
         }
 
         jniContainer.methods += getPreviousResults(JniMethod::class.java)
-        getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
-        getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
+        jniContainer.structs += getPreviousResults(JniStruct::class.java)
+        jniContainer.enums += getPreviousResults(JniEnum::class.java)
 
         val types = listOf(limeContainer) + limeContainer.structs + limeContainer.enumerations +
                 limeContainer.typeAliases
@@ -144,18 +145,17 @@ class JniModelBuilder(
     }
 
     override fun finishBuilding(limeTypes: LimeTypesCollection) {
-        val jniTopLevelElement = getPreviousResultOrNull(JniTopLevelElement::class.java)
-        val packageNames = jniTopLevelElement?.javaPackage?.packageNames ?: emptyList()
+        val childElement = getPreviousResultOrNull(JniTopLevelElement::class.java)
 
         val cppNameSpace = limeTypes.path.head
         val jniContainer = JniContainer(
-            javaPackages = packageNames,
+            javaPackage = childElement?.javaPackage ?: JavaPackage(emptyList()),
             cppNameSpaces = cppNameSpace,
             containerType = JniContainer.ContainerType.TYPE_COLLECTION,
             internalNamespace = internalNamespace
         )
-        getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
-        getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
+        jniContainer.structs += getPreviousResults(JniStruct::class.java)
+        jniContainer.enums += getPreviousResults(JniEnum::class.java)
 
         val types = limeTypes.structs + limeTypes.enumerations + limeTypes.typeAliases
         jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
@@ -294,7 +294,7 @@ class JniModelBuilder(
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
 
         val jniContainer = JniContainer(
-            javaPackages = javaInterface.javaPackage.packageNames,
+            javaPackage = javaInterface.javaPackage,
             cppNameSpaces = limeLambda.path.head,
             javaNames = javaClass.classNames,
             javaInterfaceName = javaInterface.name,
