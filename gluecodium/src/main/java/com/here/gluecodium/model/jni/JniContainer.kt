@@ -62,13 +62,11 @@ class JniContainer(
         CLASS
     }
 
-    fun add(struct: JniStruct) {
-        struct.owningContainer = this
-        structs.add(struct)
-    }
-
-    fun add(enumeration: JniEnum) {
-        enumeration.owningContainer = this
-        enums.add(enumeration)
+    fun add(jniElement: JniTopLevelElement) {
+        jniElement.owningContainer = this
+        when (jniElement) {
+            is JniStruct -> structs.add(jniElement)
+            is JniEnum -> enums.add(jniElement)
+        }
     }
 }

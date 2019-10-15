@@ -155,7 +155,7 @@ class JniTemplates(
             jniContainers.filter { it.enums.isNotEmpty() }.flatMap { it.includes }.toSet()
         val mustacheData = mutableMapOf(
             INCLUDES_NAME to includes.sorted(),
-            "enums" to jniContainers.flatMap { it.enums }.sortedBy { it.cppEnumName },
+            "enums" to jniContainers.flatMap { it.enums }.sortedBy { it.cppFullyQualifiedName },
             INTERNAL_NAMESPACE_NAME to internalNamespace
         )
 

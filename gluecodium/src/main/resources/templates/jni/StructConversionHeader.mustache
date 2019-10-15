@@ -36,10 +36,10 @@ namespace {{.}}
 namespace jni
 {
 {{#structs}}
-{{cppStruct.fullyQualifiedName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy);
-{{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}> _ninput);
+{{cppFullyQualifiedName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}* dummy);
+{{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> _ninput);
 {{/structs}}
 }
 {{#internalNamespace}}

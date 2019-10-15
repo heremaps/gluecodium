@@ -33,10 +33,10 @@ namespace {{.}}
 namespace jni
 {
 {{#structs}}
-{{cppStruct.fullyQualifiedName}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy)
+{{cppFullyQualifiedName}}
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}* dummy)
 {
-    {{#unless cppStruct.hasImmutableFields}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
+    {{#unless hasImmutableFields}}{{cppFullyQualifiedName}} _nout{};{{/unless}}
 {{#fields}}{{#if javaCustomType}}
     {{cppField.type.name}} n_{{cppField.name}} = convert_from_jni(
         _jenv,
@@ -53,26 +53,26 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruc
         "{{javaName}}",
         ({{cppField.type.name}}*)nullptr );
 {{/unless}}
-    {{#unless cppStruct.hasImmutableFields}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
+    {{#unless hasImmutableFields}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}
-    {{#if cppStruct.hasImmutableFields}}return {{cppStruct.fullyQualifiedName}}({{#fields}}std::move(n_{{cppField.name}}){{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
-    }}{{#unless cppStruct.hasImmutableFields}}return _nout;{{/unless}}
+    {{#if hasImmutableFields}}return {{cppFullyQualifiedName}}({{#fields}}std::move(n_{{cppField.name}}){{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
+    }}{{#unless hasImmutableFields}}return _nout;{{/unless}}
 }
 
-{{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}>* dummy)
+{{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>* dummy)
 {
     return _jinput
-        ? {{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppStruct.fullyQualifiedName}}*)nullptr))
-        : {{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}>{};
+        ? {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppFullyQualifiedName}}*)nullptr))
+        : {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{join javaPackages delimiter="/"}}/{{javaStructName}}", {{cppStruct.fullyQualifiedName}})
+REGISTER_JNI_CLASS_CACHE("{{join javaPackages delimiter="/"}}/{{javaName}}", {{cppFullyQualifiedName}})
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput)
 {
-    auto& javaClass = CachedJavaClass<{{cppStruct.fullyQualifiedName}}>::java_class;
+    auto& javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
     auto _jresult = {{>common/InternalNamespace}}jni::alloc_object(_jenv, javaClass);
 {{#fields}}{{#if javaCustomType}}
     auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
@@ -86,7 +86,7 @@ convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppStruct.fullyQualifiedName}}> _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

@@ -21,6 +21,10 @@ package com.here.gluecodium.model.jni
 
 import com.here.gluecodium.model.java.JavaPackage
 
-abstract class JniTopLevelElement(val javaPackage: JavaPackage) : JniElement {
+abstract class JniTopLevelElement(
+    val javaName: String,
+    val cppFullyQualifiedName: String,
+    val javaPackage: JavaPackage
+) : JniElement {
     lateinit var owningContainer: JniContainer
 }

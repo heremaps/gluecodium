@@ -201,11 +201,12 @@ class JniModelBuilder(
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
         val jniStruct = JniStruct(
-            javaStructName = javaClass.classNames.joinToString("$"),
+            javaName = javaClass.classNames.joinToString("$"),
+            cppFullyQualifiedName = cppStruct.fullyQualifiedName,
             javaPackage = javaClass.javaPackage,
-            cppStruct = cppStruct,
             fields = getPreviousResults(JniField::class.java),
-            methods = getPreviousResults(JniMethod::class.java)
+            methods = getPreviousResults(JniMethod::class.java),
+            hasImmutableFields = cppStruct.hasImmutableFields
         )
 
         storeNamedResult(limeStruct, jniStruct)
@@ -233,8 +234,8 @@ class JniModelBuilder(
         val javaEnum = javaBuilder.getFinalResult(JavaEnum::class.java)
         val cppEnum = cppBuilder.getFinalResult(CppEnum::class.java)
         val jniEnum = JniEnum(
-            javaEnumName = javaEnum.classNames.joinToString("$"),
-            cppEnumName = cppEnum.fullyQualifiedName,
+            javaName = javaEnum.classNames.joinToString("$"),
+            cppFullyQualifiedName = cppEnum.fullyQualifiedName,
             javaPackage = javaEnum.javaPackage,
             enumerators = getPreviousResults(JniEnumerator::class.java)
         )

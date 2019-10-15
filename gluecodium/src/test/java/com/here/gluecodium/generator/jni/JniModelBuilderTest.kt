@@ -192,7 +192,7 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingTypeCollectionReadsStructs() {
         val limeElement = LimeTypesCollection(EMPTY_PATH)
-        val jniStruct = JniStruct(javaClass.name, javaClass.javaPackage, cppStruct, emptyList())
+        val jniStruct = JniStruct(javaClass.name, "cPpClass", javaClass.javaPackage)
         contextStack.injectResult(jniStruct)
 
         modelBuilder.finishBuilding(limeElement)
@@ -216,7 +216,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsEnums() {
-        val jniEnum = JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName")
+        val jniEnum = JniEnum("MyJavaEnumName", "MyCppEnumName", JavaPackage.DEFAULT)
         contextStack.injectResult(jniEnum)
 
         modelBuilder.finishBuilding(limeTypeCollection)
@@ -301,7 +301,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsEnums() {
-        val jniEnum = JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName")
+        val jniEnum = JniEnum("MyJavaEnumName", "MyCppEnumName", JavaPackage.DEFAULT)
         contextStack.injectResult(jniEnum)
 
         modelBuilder.finishBuilding(limeInterface)
@@ -477,9 +477,10 @@ class JniModelBuilderTest {
         modelBuilder.finishBuilding(limeStruct)
 
         val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
-        assertEquals(javaClass.name, jniStruct.javaStructName)
+        assertEquals(javaClass.name, jniStruct.javaName)
         assertEquals(javaClass.javaPackage, jniStruct.javaPackage)
-        assertEquals(cppStruct, jniStruct.cppStruct)
+        assertEquals(cppStruct.fullyQualifiedName, jniStruct.cppFullyQualifiedName)
+        assertEquals(cppStruct.hasImmutableFields, jniStruct.hasImmutableFields)
     }
 
     @Test
@@ -542,8 +543,8 @@ class JniModelBuilderTest {
         modelBuilder.finishBuilding(limeEnum)
 
         val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
-        assertEquals(javaEnum.name, jniEnum.javaEnumName)
-        assertEquals(cppEnum.fullyQualifiedName, jniEnum.cppEnumName)
+        assertEquals(javaEnum.name, jniEnum.javaName)
+        assertEquals(cppEnum.fullyQualifiedName, jniEnum.cppFullyQualifiedName)
     }
 
     @Test

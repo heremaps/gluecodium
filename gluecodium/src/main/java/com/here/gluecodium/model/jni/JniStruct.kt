@@ -20,16 +20,16 @@
 package com.here.gluecodium.model.jni
 
 import com.here.gluecodium.generator.jni.JniNameRules
-import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.java.JavaPackage
 
 class JniStruct(
-    val javaStructName: String,
+    javaName: String,
+    cppFullyQualifiedName: String,
     javaPackage: JavaPackage,
-    val cppStruct: CppStruct,
     val fields: List<JniField> = emptyList(),
-    val methods: List<JniMethod> = emptyList()
-) : JniTopLevelElement(javaPackage) {
+    val methods: List<JniMethod> = emptyList(),
+    val hasImmutableFields: Boolean = false
+) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
 
     val includes
         get() = owningContainer.includes
@@ -38,8 +38,6 @@ class JniStruct(
         get() = owningContainer.javaPackages
 
     @Suppress("unused")
-    val mangledName: String
-        get() = JniNameRules.getMangledName(javaStructName)
-
-    val cppFullyQualifiedName = cppStruct.fullyQualifiedName
+    val mangledName
+        get() = JniNameRules.getMangledName(javaName)
 }

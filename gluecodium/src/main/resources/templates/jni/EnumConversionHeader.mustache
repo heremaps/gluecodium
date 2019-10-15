@@ -36,10 +36,10 @@ namespace {{.}}
 namespace jni
 {
 {{#enums}}
-{{cppEnumName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy);
-{{>common/InternalNamespace}}optional<{{cppEnumName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppEnumName}}>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppEnumName}}> _ninput);
+{{cppFullyQualifiedName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}* dummy);
+{{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}} _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> _ninput);
 {{/enums}}
 }
 {{#internalNamespace}}

@@ -22,8 +22,8 @@ package com.here.gluecodium.model.jni
 import com.here.gluecodium.model.java.JavaPackage
 
 class JniEnum(
+    javaName: String,
+    cppFullyQualifiedName: String,
     javaPackage: JavaPackage,
-    val javaEnumName: String,
-    val cppEnumName: String,
     val enumerators: List<JniEnumerator> = emptyList()
-) : JniTopLevelElement(javaPackage)
+) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage)

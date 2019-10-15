@@ -33,41 +33,41 @@ namespace {{.}}
 namespace jni
 {
 {{#enums}}
-{{cppEnumName}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy)
+{{cppFullyQualifiedName}}
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}* dummy)
 {
-    return {{cppEnumName}}(
+    return {{cppFullyQualifiedName}}(
         {{>common/InternalNamespace}}jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 
-{{>common/InternalNamespace}}optional<{{cppEnumName}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppEnumName}}>* dummy)
+{{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>* dummy)
 {
     return _jinput
-        ? {{>common/InternalNamespace}}optional<{{cppEnumName}}>(convert_from_jni(_jenv, _jinput, ({{cppEnumName}}*)nullptr))
-        : {{>common/InternalNamespace}}optional<{{cppEnumName}}>{};
+        ? {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppFullyQualifiedName}}*)nullptr))
+        : {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{javaPackage.toJniString}}/{{javaEnumName}}", {{cppEnumName}})
+REGISTER_JNI_CLASS_CACHE("{{javaPackage.toJniString}}/{{javaName}}", {{cppFullyQualifiedName}})
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}} _ninput)
 {
-    auto& javaClass = CachedJavaClass<{{cppEnumName}}>::java_class;
+    auto& javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
     const char* enumeratorName = nullptr;
     switch(_ninput) {
 {{#enumerators}}
-        case({{cppEnumName}}::{{cppName}}):
+        case({{cppFullyQualifiedName}}::{{cppName}}):
             enumeratorName = "{{javaName}}";
             break;
 {{/enumerators}}
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{javaPackage.toJniString}}/{{javaEnumName}};");
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{javaPackage.toJniString}}/{{javaName}};");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppEnumName}}> _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
