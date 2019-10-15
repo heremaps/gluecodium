@@ -21,7 +21,6 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppModelBuilder
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -32,7 +31,6 @@ import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.generator.java.JavaTypeMapper
 import com.here.gluecodium.generator.java.JavaValueMapper
-import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.java.JavaCustomType
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaPackage
@@ -48,7 +46,6 @@ class JniGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
     private val internalPackageList: List<String>,
-    private val additionalIncludes: List<String>,
     private val enableAndroidFeatures: Boolean,
     private val internalNamespace: List<String>,
     rootNamespace: List<String>,
@@ -106,14 +103,8 @@ class JniGenerator(
         val jniResults = jniBuilder.finalResults.mapNotNull {
             wrapInContainer(it, jniToLimeMap, includeResolver)
         }
-        jniResults.forEach { it.includes.addAll(getIncludes(it)) }
 
-        return JavaModel(
-            javaBuilder.referenceMap,
-            javaBuilder.finalResults,
-            jniResults,
-            jniBuilder.setsCollector.values.toSet()
-        )
+        return JavaModel(javaBuilder.referenceMap, javaBuilder.finalResults, jniResults)
     }
 
     private fun wrapInContainer(
@@ -153,24 +144,6 @@ class JniGenerator(
             is JniEnum -> jniContainer.enums += jniElement
         }
         return jniContainer
-    }
-
-    private fun getIncludes(jniContainer: JniContainer): List<Include> {
-        val includes = mutableListOf<String>()
-        if (jniContainer.containerType != JniContainer.ContainerType.TYPE_COLLECTION) {
-            includes +=
-                JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
-        }
-        includes += jniContainer.structs
-            .filterNot { it.methods.isEmpty() }
-            .map {
-                JniNameRules.getHeaderFileName(JniNameRules.getJniStructFileName(jniContainer, it))
-            }
-        includes += additionalIncludes
-
-        val includeSet = includes.map { Include.createInternalInclude(it) }.toSet()
-        CppLibraryIncludes.filterIncludes(includeSet, internalNamespace)
-        return includeSet.sorted()
     }
 
     companion object {

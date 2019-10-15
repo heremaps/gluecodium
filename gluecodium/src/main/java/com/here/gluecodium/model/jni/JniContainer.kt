@@ -34,7 +34,7 @@ class JniContainer(
     val javaPackage: JavaPackage = JavaPackage(emptyList()),
     val cppNameSpaces: List<String> = emptyList(),
     val javaNames: List<String> = emptyList(),
-    val javaInterfaceName: String? = null,
+    val javaInterfaceNames: List<String> = emptyList(),
     val cppName: String? = null,
     val cppFullyQualifiedName: String? = null,
     val containerType: ContainerType = ContainerType.TYPE_COLLECTION,

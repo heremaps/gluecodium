@@ -70,10 +70,7 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
@@ -100,8 +97,6 @@ class JniModelBuilder(
     private val buildTransientModel: (LimeNamedElement) -> List<JniContainer>
 ) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
 
-    val setsCollector = mutableMapOf<String, JniType>()
-
     override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
         val cppClass = cppBuilder.getFinalResult(CppClass::class.java)
         val javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement::class.java)
@@ -111,7 +106,7 @@ class JniModelBuilder(
             javaPackage = javaTopLevelElement.javaPackage,
             cppNameSpaces = limeContainer.path.head,
             javaNames = javaClass.classNames,
-            javaInterfaceName = javaTopLevelElement.name,
+            javaInterfaceNames = javaTopLevelElement.classNames,
             cppName = cppClass.name,
             cppFullyQualifiedName = cppClass.fullyQualifiedName,
             containerType = when (limeContainer) {
@@ -172,10 +167,14 @@ class JniModelBuilder(
             JniException(JniNameRules.getFullClassName(it), getPreviousResult(JniType::class.java))
         }
 
+        val conversionIncludes = JniIncludeResolver.getConversionIncludes(
+            limeMethod.returnType.typeRef,
+            javaMethod.returnType
+        )
         val jniMethod = JniMethod(
             javaMethodName = getMangledName(javaMethod.name),
             cppMethodName = cppMethod.name,
-            returnType = JniType(javaMethod.returnType, cppMethod.returnType),
+            returnType = JniType(javaMethod.returnType, cppMethod.returnType, conversionIncludes),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = javaSignatureResolver.isOverloaded(limeMethod),
@@ -191,7 +190,11 @@ class JniModelBuilder(
     override fun finishBuilding(limeParameter: LimeParameter) {
         val javaParameter = javaBuilder.getFinalResult(JavaParameter::class.java)
         val cppParameter = cppBuilder.getFinalResult(CppParameter::class.java)
-        val jniType = JniType(javaParameter.type, cppParameter.type)
+        val jniType = JniType(
+            javaParameter.type,
+            cppParameter.type,
+            JniIncludeResolver.getConversionIncludes(limeParameter.typeRef, javaParameter.type)
+        )
 
         storeResult(JniParameter(javaParameter.name, jniType))
         closeContext()
@@ -218,6 +221,7 @@ class JniModelBuilder(
         val cppField = cppBuilder.getFinalResult(CppField::class.java)
 
         val jniField = JniField(
+            type = getPreviousResult(JniType::class.java),
             javaName = javaField.name,
             javaCustomType =
                 (javaField.type as? JavaCustomType)?.let { JniNameRules.getFullClassName(it) },
@@ -257,17 +261,22 @@ class JniModelBuilder(
 
         val javaGetter = javaMethods.first()
         val cppGetter = cppMethods.first()
-        val jniType = JniType(javaGetter.returnType, cppGetter.returnType)
+        val getterTypeRef = limeProperty.getter.returnType.typeRef
         storeResult(
             JniMethod(
                 javaMethodName = getMangledName(javaGetter.name),
                 cppMethodName = cppGetter.name,
-                returnType = jniType,
+                returnType = JniType(
+                    javaGetter.returnType,
+                    cppGetter.returnType,
+                    JniIncludeResolver.getConversionIncludes(getterTypeRef, javaGetter.returnType)
+                ),
                 isConst = true,
                 isStatic = limeProperty.isStatic
             )
         )
-        if (limeProperty.setter != null) {
+        val limeSetter = limeProperty.setter
+        if (limeSetter != null) {
             val javaSetter = javaMethods.last()
             val cppSetter = cppMethods.last()
             val jniSetter = JniMethod(
@@ -279,7 +288,12 @@ class JniModelBuilder(
 
             val javaParameter = javaSetter.parameters.first()
             val cppParameter = cppSetter.parameters.first()
-            val parameterType = JniType(javaParameter.type, cppParameter.type)
+            val setterTypeRef = limeSetter.parameters.first().typeRef
+            val parameterType = JniType(
+                javaParameter.type,
+                cppParameter.type,
+                JniIncludeResolver.getConversionIncludes(setterTypeRef, javaParameter.type)
+            )
             jniSetter.parameters.add(JniParameter(javaParameter.name, parameterType))
 
             storeResult(jniSetter)
@@ -297,7 +311,7 @@ class JniModelBuilder(
             javaPackage = javaInterface.javaPackage,
             cppNameSpaces = limeLambda.path.head,
             javaNames = javaClass.classNames,
-            javaInterfaceName = javaInterface.name,
+            javaInterfaceNames = javaInterface.classNames,
             cppName = cppUsing.name,
             cppFullyQualifiedName = cppUsing.fullyQualifiedName,
             containerType = JniContainer.ContainerType.INTERFACE,
@@ -308,12 +322,23 @@ class JniModelBuilder(
 
         val javaMethod = javaInterface.methods.first()
         val cppFunctionRef = cppUsing.definition as CppFunctionTypeRef
+        val limeReturnType = limeLambda.returnType
         jniContainer.methods += JniMethod(
             javaMethodName = getMangledName(javaMethod.name),
             cppMethodName = "operator()",
-            returnType = JniType(javaMethod.returnType, cppFunctionRef.returnType),
+            returnType = JniType(
+                javaMethod.returnType,
+                cppFunctionRef.returnType,
+                JniIncludeResolver.getConversionIncludes(limeReturnType, javaMethod.returnType)
+            ),
             parameters = javaMethod.parameters.mapIndexed { index, it ->
-                JniParameter(it.name, JniType(it.type, cppFunctionRef.parameters[index]))
+                val limeTypeRef = limeLambda.parameters[index].typeRef
+                val jniType = JniType(
+                    it.type,
+                    cppFunctionRef.parameters[index],
+                    JniIncludeResolver.getConversionIncludes(limeTypeRef, it.type)
+                )
+                JniParameter(it.name, jniType)
             }.toMutableList()
         )
 
@@ -322,22 +347,12 @@ class JniModelBuilder(
     }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
-        val jniType = JniType(
-            javaBuilder.getFinalResult(JavaType::class.java),
-            cppBuilder.getFinalResult(CppTypeRef::class.java)
-        )
+        val javaType = javaBuilder.getFinalResult(JavaType::class.java)
+        val cppType = cppBuilder.getFinalResult(CppTypeRef::class.java)
+        val conversionIncludes = JniIncludeResolver.getConversionIncludes(limeTypeRef, javaType)
+        val jniType = JniType(javaType, cppType, conversionIncludes)
 
         storeResult(jniType)
-        closeContext()
-    }
-
-    override fun finishBuilding(limeTypeDef: LimeTypeAlias) {
-        val actualType = LimeTypeHelper.getActualType(limeTypeDef)
-        if (actualType is LimeSet && actualType.elementType.type is LimeEnumeration) {
-            setsCollector[actualType.elementType.elementFullName] =
-                getPreviousResult(JniType::class.java)
-        }
-
         closeContext()
     }
 }

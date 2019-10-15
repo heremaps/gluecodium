@@ -84,11 +84,13 @@ class JavaTypeMapper(
             is LimeMap -> mapMapType(limeType)
             is LimeContainerWithInheritance -> {
                 val javaPackage = basePackage.createChildPackage(limeType.path.head)
-                val className = nameResolver.getClassNames(limeType).joinToString(".")
+                val classNames = nameResolver.getClassNames(limeType)
+                val fullName = classNames.joinToString(".")
                 JavaCustomType(
-                    fullName = className,
+                    fullName = fullName,
+                    classNames = classNames,
                     packageNames = javaPackage.packageNames,
-                    imports = setOf(JavaImport(className, javaPackage)),
+                    imports = setOf(JavaImport(fullName, javaPackage)),
                     isInterface = true
                 )
             }

@@ -22,6 +22,7 @@ package com.here.gluecodium.model.jni
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.jni.JniNameRules
 import com.here.gluecodium.generator.jni.JniTypeNameMapper
+import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.cpp.CppComplexTypeRef
 import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef
@@ -33,7 +34,11 @@ import com.here.gluecodium.model.java.JavaPrimitiveType
 import com.here.gluecodium.model.java.JavaTemplateType
 import com.here.gluecodium.model.java.JavaType
 
-class JniType(javaType: JavaType, cppType: CppTypeRef) : JniElement {
+class JniType(
+    javaType: JavaType,
+    cppType: CppTypeRef,
+    val conversionIncludes: List<Include> = emptyList()
+) : JniElement {
 
     val name = JniTypeNameMapper.map(javaType)
     val cppName = cppType.name

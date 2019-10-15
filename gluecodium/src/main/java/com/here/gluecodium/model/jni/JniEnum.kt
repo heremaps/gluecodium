@@ -26,4 +26,9 @@ class JniEnum(
     cppFullyQualifiedName: String,
     javaPackage: JavaPackage,
     val enumerators: List<JniEnumerator> = emptyList()
-) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage)
+) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
+    @Suppress("unused")
+    val jniTypeSignature
+        get() = (javaPackage.packageNames + javaName)
+            .joinToString(separator = "/", prefix = "L", postfix = ";")
+}

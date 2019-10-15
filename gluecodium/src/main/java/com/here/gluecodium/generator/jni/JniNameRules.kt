@@ -21,7 +21,7 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.model.java.JavaCustomType
 import com.here.gluecodium.model.jni.JniContainer
-import com.here.gluecodium.model.jni.JniStruct
+import com.here.gluecodium.model.jni.JniTopLevelElement
 import java.io.File
 
 class JniNameRules(generatorName: String) {
@@ -30,21 +30,15 @@ class JniNameRules(generatorName: String) {
 
     fun getHeaderFilePath(fileName: String) = jniPathPrefix + getHeaderFileName(fileName)
 
-    fun getImplementationFilePath(fileName: String) =
-        jniPathPrefix + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX
+    fun getImplementationFilePath(fileName: String) = "$jniPathPrefix$fileName.cpp"
 
     companion object {
-        private const val JNI_HEADER_FILE_SUFFIX = ".h"
-        private const val JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp"
-        const val JNI_ENUM_CONVERSION_NAME = "EnumConversion"
-        const val JNI_STRUCT_CONVERSION_NAME = "StructConversion"
-        const val JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion"
-        const val JNI_PROXY_CONVERSION_NAME = "ProxyConversion"
+        const val JNI_HEADER_FILE_SUFFIX = ".h"
         const val JNI_CPP_PROXY_SUFFIX = "CppProxy"
+        // Conversion suffix has a double underscore "__" to avoid name collisions.
+        private const val JNI_CONVERSION_SUFFIX = "__Conversion"
 
-        fun getHeaderFileName(fileName: String): String {
-            return fileName + JNI_HEADER_FILE_SUFFIX
-        }
+        fun getHeaderFileName(fileName: String) = fileName + JNI_HEADER_FILE_SUFFIX
 
         /**
          * JNI name mangling. See
@@ -64,7 +58,16 @@ class JniNameRules(generatorName: String) {
         fun getJniClassFileName(jniContainer: JniContainer) =
             (jniContainer.javaPackage.packageNames + jniContainer.javaNames).joinToString("_")
 
-        fun getJniStructFileName(jniContainer: JniContainer, jniStruct: JniStruct) =
-            (jniContainer.javaPackage.packageNames + jniStruct.javaName.replace("$", "_")).joinToString("_")
+        fun getJniStructFileName(jniElement: JniTopLevelElement) =
+            (jniElement.javaPackage.packageNames + jniElement.javaName.replace("$", "_")).joinToString("_")
+
+        fun getConversionFileName(jniElement: JniTopLevelElement) =
+            getConversionFileName(jniElement.javaPackage.packageNames, jniElement.javaName.split("$"))
+
+        fun getConversionFileName(jniContainer: JniContainer) =
+            getConversionFileName(jniContainer.javaPackage.packageNames, jniContainer.javaInterfaceNames)
+
+        fun getConversionFileName(packageNames: List<String>, classNames: List<String>) =
+            (packageNames + classNames).joinToString("_") + JNI_CONVERSION_SUFFIX
     }
 }

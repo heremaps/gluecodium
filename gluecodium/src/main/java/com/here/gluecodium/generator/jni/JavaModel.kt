@@ -21,15 +21,15 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.jni.JniContainer
-import com.here.gluecodium.model.jni.JniType
 
 class JavaModel(
     val referenceMap: Map<String, JavaElement> = emptyMap(),
     val javaElements: List<JavaElement> = emptyList(),
-    val jniContainers: List<JniContainer> = emptyList(),
-    val jniEnumSets: Set<JniType> = emptySet()
+    val jniContainers: List<JniContainer> = emptyList()
 ) {
-    fun merge(other: JavaModel) =
-        JavaModel(referenceMap + other.referenceMap, javaElements + other.javaElements,
-            jniContainers + other.jniContainers, jniEnumSets + other.jniEnumSets)
+    fun merge(other: JavaModel) = JavaModel(
+        referenceMap + other.referenceMap,
+        javaElements + other.javaElements,
+        jniContainers + other.jniContainers
+    )
 }

@@ -22,6 +22,7 @@ package com.here.gluecodium.model.jni
 import com.here.gluecodium.model.cpp.CppField
 
 class JniField(
+    val type: JniType,
     val javaName: String,
     val javaCustomType: String?,
     val cppField: CppField,

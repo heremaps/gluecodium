@@ -61,7 +61,6 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
-import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeField
@@ -72,9 +71,7 @@ import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.test.AssertHelpers.assertContains
 import com.here.gluecodium.test.MockContextStack
@@ -147,11 +144,13 @@ class JniModelBuilderTest {
     private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeEnum = LimeEnumeration(EMPTY_PATH)
+    private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
+    private val limeSetter = LimeFunction(EMPTY_PATH, parameters = listOf(limeParameter))
     private val limeProperty = LimeProperty(
         EMPTY_PATH,
         typeRef = limeTypeRef,
         getter = LimeFunction(EMPTY_PATH),
-        setter = LimeFunction(EMPTY_PATH)
+        setter = limeSetter
     )
 
     private val contextStack = MockContextStack<JniElement>()
@@ -257,7 +256,7 @@ class JniModelBuilderTest {
         modelBuilder.finishBuilding(limeInterface)
 
         val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertEquals("javaFAce", jniContainer.javaInterfaceName)
+        assertEquals("javaFAce", jniContainer.javaInterfaceNames.first())
     }
 
     @Test
@@ -462,7 +461,6 @@ class JniModelBuilderTest {
         val cppParameter = CppParameter("absolute", CppComplexTypeRef("foobar"))
         every { javaBuilder.getFinalResult(JavaParameter::class.java) } returns javaParameter
         every { cppBuilder.getFinalResult(CppParameter::class.java) } returns cppParameter
-        val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeTypeRef)
 
         modelBuilder.finishBuilding(limeParameter)
 
@@ -485,7 +483,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingStructReadsFields() {
-        val jniField = JniField("javaName", null, cppField)
+        val jniField = JniField(jniType, "javaName", null, cppField)
         contextStack.injectResult(jniField)
 
         modelBuilder.finishBuilding(limeStruct)
@@ -508,6 +506,7 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingFieldReadsJavaCppFields() {
         val limeElement = LimeField(EMPTY_PATH, typeRef = limeTypeRef)
+        contextStack.injectResult(jniType)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -529,6 +528,7 @@ class JniModelBuilderTest {
             setterName = "setFoo"
         )
         every { cppBuilder.getFinalResult(CppField::class.java) } returns cppFieldWithAccessors
+        contextStack.injectResult(jniType)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -630,7 +630,7 @@ class JniModelBuilderTest {
             EMPTY_PATH,
             typeRef = limeTypeRef,
             getter = LimeFunction(EMPTY_PATH),
-            setter = LimeFunction(EMPTY_PATH),
+            setter = limeSetter,
             isStatic = true
         )
 
@@ -640,40 +640,6 @@ class JniModelBuilderTest {
         assertEquals(2, methods.size)
         assertTrue(methods.first().isStatic)
         assertTrue(methods.last().isStatic)
-    }
-
-    @Test
-    fun finishBuildingTypeDef() {
-        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
-        contextStack.injectResult(jniType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        assertTrue(modelBuilder.setsCollector.isEmpty())
-    }
-
-    @Test
-    fun finishBuildingSetTypeDef() {
-        val setType = LimeSet(LimeBasicTypeRef.FLOAT)
-        val setTypeDef = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
-        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
-        contextStack.injectResult(jniType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        assertTrue(modelBuilder.setsCollector.isEmpty())
-    }
-
-    @Test
-    fun finishBuildingEnumSetTypeDef() {
-        val setType = LimeSet(LimeDirectTypeRef(limeEnum))
-        val setTypeDef = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
-        val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
-        contextStack.injectResult(jniType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        assertContains(jniType, modelBuilder.setsCollector.values)
     }
 
     companion object {
