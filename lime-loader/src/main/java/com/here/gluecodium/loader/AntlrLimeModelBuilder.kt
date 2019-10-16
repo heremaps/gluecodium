@@ -65,8 +65,9 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker
 import java.util.LinkedList
 
 internal class AntlrLimeModelBuilder(
-    private val referenceResolver: LimeReferenceResolver
-) : AntlrLimeModelBuilderBase(ModelBuilderContextStack()) {
+    private val referenceResolver: LimeReferenceResolver,
+    contextStack: ModelBuilderContextStack<LimeNamedElement> = ModelBuilderContextStack()
+) : AntlrLimeModelBuilderBase(contextStack) {
 
     private val pathStack = LinkedList<LimePath>()
     private val visibilityStack = LinkedList<LimeVisibility>()
@@ -291,14 +292,14 @@ internal class AntlrLimeModelBuilder(
                 path = getterPath,
                 comment = getComment("get", emptyList(), ctx),
                 visibility = propertyVisibility,
-                parameters =
-                    listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
+                returnType = LimeReturnType(propertyType)
             )
             setter = LimeFunction(
                 path = currentPath.child("set"),
                 comment = getComment("set", emptyList(), ctx),
                 visibility = propertyVisibility,
-                returnType = LimeReturnType(propertyType)
+                parameters =
+                listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
             )
         } else {
             getter = LimeFunction(
@@ -306,8 +307,7 @@ internal class AntlrLimeModelBuilder(
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
                 comment = getComment("get", getterContext.docComment(), getterContext),
                 attributes = convertAnnotations(getterContext.annotation()),
-                parameters =
-                    listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
+                returnType = LimeReturnType(propertyType)
             )
             setter = ctx.setter()?.let {
                 LimeFunction(
@@ -315,7 +315,8 @@ internal class AntlrLimeModelBuilder(
                     visibility = convertVisibility(it.visibility(), propertyVisibility),
                     comment = getComment("set", it.docComment(), it),
                     attributes = convertAnnotations(it.annotation()),
-                    returnType = LimeReturnType(propertyType)
+                    parameters =
+                        listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
                 )
             }
         }
