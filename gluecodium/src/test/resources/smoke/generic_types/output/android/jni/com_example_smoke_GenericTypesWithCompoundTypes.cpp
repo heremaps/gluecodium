@@ -1,21 +1,16 @@
 /*
  *
-
  */
-#include "alien/FooEnum.h"
-#include "alien/FooStruct.h"
-#include "smoke/GenericTypesWithCompoundTypes.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
+#include "com_example_smoke_DummyClass__Conversion.h"
+#include "com_example_smoke_DummyInterface__Conversion.h"
 #include "com_example_smoke_GenericTypesWithCompoundTypes.h"
+#include "com_example_smoke_GenericTypesWithCompoundTypes_BasicStruct__Conversion.h"
+#include "com_example_smoke_GenericTypesWithCompoundTypes_ExternalEnum__Conversion.h"
+#include "com_example_smoke_GenericTypesWithCompoundTypes_ExternalStruct__Conversion.h"
+#include "com_example_smoke_GenericTypesWithCompoundTypes_SomeEnum__Conversion.h"
+#include "com_example_smoke_GenericTypesWithCompoundTypes__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jobject

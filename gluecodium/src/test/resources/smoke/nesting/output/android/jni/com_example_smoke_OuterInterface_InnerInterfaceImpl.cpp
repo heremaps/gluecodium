@@ -1,18 +1,10 @@
 /*
  *
  */
-#include "smoke/OuterInterface.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_smoke_OuterInterface_InnerInterfaceImpl.h"
+#include "com_example_smoke_OuterInterface_InnerInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jstring

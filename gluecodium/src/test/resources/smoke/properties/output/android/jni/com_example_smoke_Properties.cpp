@@ -1,18 +1,13 @@
 /*
  *
  */
-#include "smoke/Properties.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_smoke_Properties.h"
+#include "com_example_smoke_PropertiesInterface__Conversion.h"
+#include "com_example_smoke_Properties_ExampleStruct__Conversion.h"
+#include "com_example_smoke_Properties_InternalErrorCode__Conversion.h"
+#include "com_example_smoke_Properties__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jlong

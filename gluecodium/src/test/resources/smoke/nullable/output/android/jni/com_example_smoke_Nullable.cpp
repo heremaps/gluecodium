@@ -1,19 +1,13 @@
 /*
  *
-
  */
-#include "smoke/Nullable.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_smoke_Nullable.h"
+#include "com_example_smoke_Nullable_SomeEnum__Conversion.h"
+#include "com_example_smoke_Nullable_SomeStruct__Conversion.h"
+#include "com_example_smoke_Nullable__Conversion.h"
+#include "com_example_smoke_SomeInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jstring

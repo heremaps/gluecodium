@@ -1,18 +1,11 @@
 /*
  *
  */
-#include "smoke/Lambdas.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_smoke_Lambdas_ConfuserImpl.h"
+#include "com_example_smoke_Lambdas_Confuser__Conversion.h"
+#include "com_example_smoke_Lambdas_Producer__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jobject

@@ -1,12 +1,10 @@
 /*
  *
  */
+#include "com_example_smoke_barListener__Conversion.h"
 #include "com_example_smoke_barListenerImplCppProxy.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
+#include "FieldAccessMethods.h"
 namespace gluecodium
 {
 namespace jni

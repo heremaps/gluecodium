@@ -2,14 +2,9 @@
  *
  */
 #pragma once
-#include <jni.h>
-#include "JniReference.h"
 #include "smoke/ChildInterface.h"
 #include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
-#include "com_example_smoke_ChildInterfaceImpl.h"
+#include "JniReference.h"
 namespace gluecodium
 {
 namespace jni

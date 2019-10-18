@@ -1,18 +1,12 @@
 /*
  *
  */
-#include "namerules/NameRules.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_namerules_NAME_RULES_DROID.h"
+#include "com_example_namerules_NAME_RULES_DROID_EXAMPLE_ERROR_CODE_DROID__Conversion.h"
+#include "com_example_namerules_NAME_RULES_DROID_EXAMPLE_STRUCT_DROID__Conversion.h"
+#include "com_example_namerules_NAME_RULES_DROID__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jlong

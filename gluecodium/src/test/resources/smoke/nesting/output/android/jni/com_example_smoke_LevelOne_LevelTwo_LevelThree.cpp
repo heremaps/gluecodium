@@ -1,19 +1,13 @@
 /*
  *
  */
-#include "smoke/LevelOne.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_smoke_LevelOne_LevelTwo_LevelThree.h"
-#include "com_example_smoke_LevelOne_LevelTwo_LevelThree_LevelFour.h"
+#include "com_example_smoke_LevelOne_LevelTwo_LevelThree_LevelFour__Conversion.h"
+#include "com_example_smoke_LevelOne_LevelTwo_LevelThree__Conversion.h"
+#include "com_example_smoke_OuterClass_InnerInterface__Conversion.h"
+#include "com_example_smoke_OuterInterface_InnerClass__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jobject

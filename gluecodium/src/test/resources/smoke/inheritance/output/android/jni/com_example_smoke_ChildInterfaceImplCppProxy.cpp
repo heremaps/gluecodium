@@ -1,12 +1,10 @@
 /*
  *
  */
+#include "com_example_smoke_ChildInterface__Conversion.h"
 #include "com_example_smoke_ChildInterfaceImplCppProxy.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
+#include "FieldAccessMethods.h"
 namespace gluecodium
 {
 namespace jni

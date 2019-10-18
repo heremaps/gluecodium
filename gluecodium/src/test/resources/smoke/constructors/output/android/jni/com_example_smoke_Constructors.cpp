@@ -1,18 +1,11 @@
 /*
  *
  */
-#include "smoke/Constructors.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
 #include "com_example_smoke_Constructors.h"
+#include "com_example_smoke_Constructors_ErrorEnum__Conversion.h"
+#include "com_example_smoke_Constructors__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jlong

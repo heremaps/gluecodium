@@ -1,19 +1,12 @@
 /*
  *
-
  */
-#include "smoke/StructWithInstances.h"
-#include "CppProxyBase.h"
-#include "FieldAccessMethods.h"
-#include "JniBase.h"
-#include "JniCppConversionUtils.h"
+#include "com_example_smoke_SimpleClass__Conversion.h"
+#include "com_example_smoke_SimpleInterface__Conversion.h"
 #include "com_example_smoke_StructWithInstances.h"
+#include "com_example_smoke_StructWithInstances__Conversion.h"
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
-#include "ProxyConversion.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 extern "C" {
 jobject
