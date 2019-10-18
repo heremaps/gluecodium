@@ -102,7 +102,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
+        cppModel.flatMap { it.members }.flatMap { it.allElementsRecursive.toList() }
             .filterIsInstance<CppElementWithComment>()
             .forEach { processElementComments(it, cppToLimeName, limeToCppName, limeLogger) }
 
@@ -203,7 +203,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
 
         private fun flattenCppModel(members: List<CppElement>) =
-            members.flatMap { it.streamRecursive() }
+            members.flatMap { it.allElementsRecursive }
 
         private fun collectIncludes(members: List<CppElement>) =
             flattenCppModel(members)

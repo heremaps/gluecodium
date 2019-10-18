@@ -24,7 +24,9 @@ class CppParameter(
     type: CppTypeRef,
     val isNotNull: Boolean = false
 ) : CppTypedElement(name, type = type) {
-    override fun stream() = listOf(type)
+
+    override val childElements
+        get() = listOf(type)
 
     fun hasComment() = isNotNull || !comment.isEmpty
 }

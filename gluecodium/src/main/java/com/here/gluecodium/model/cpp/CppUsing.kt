@@ -28,5 +28,6 @@ class CppUsing(
     val definition: CppTypeRef
 ) : CppElementWithComment(name, fullyQualifiedName, comment = comment) {
 
-    override fun stream() = listOf(definition)
+    override val childElements
+        get() = listOf(definition)
 }

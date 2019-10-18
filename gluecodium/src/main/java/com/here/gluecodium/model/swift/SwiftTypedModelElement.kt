@@ -24,5 +24,7 @@ abstract class SwiftTypedModelElement(
     visibility: SwiftVisibility?,
     val type: SwiftType
 ) : SwiftModelElement(name, visibility) {
-    override fun stream() = super.stream() + type
+
+    override val childElements
+        get() = listOf<SwiftModelElement>(type)
 }

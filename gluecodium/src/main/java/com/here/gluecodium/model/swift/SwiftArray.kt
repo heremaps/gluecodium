@@ -54,7 +54,8 @@ class SwiftArray private constructor(
     fun withoutAlias() =
         SwiftArray(underlyingType, visibility, getImplName(underlyingType), optional, cPrefix)
 
-    override fun stream() = super.stream() + underlyingType
+    override val childElements
+        get() = listOf(underlyingType)
 
     companion object {
         private fun getImplName(underlyingType: SwiftType) = "[${underlyingType.publicName}]"

@@ -24,5 +24,7 @@ class JavaEnum(
     classNames: List<String> = listOf(name),
     val items: List<JavaEnumItem> = emptyList()
 ) : JavaTopLevelElement(name, classNames) {
-    override fun stream() = super.stream() + items
+
+    override val childElements
+        get() = super.childElements + items
 }

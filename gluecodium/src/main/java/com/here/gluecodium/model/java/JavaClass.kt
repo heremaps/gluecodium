@@ -69,19 +69,20 @@ class JavaClass(
     val constructors
         get() = methods.filter { it.isConstructor }
 
-    override fun stream(): List<JavaElement> {
-        val extendedClassStream = extendedClass?.stream() ?: emptyList()
-        val implClassStream =
-            when {
-                isParcelable || needsBuilder ->
-                    fields
-                        .map { it.type }
-                        .filterIsInstance<JavaTemplateType>()
-                        .map { it.implementationType }
-                else -> emptyList()
-            }
-        return super.stream() + fields + extendedClassStream + implClassStream
-    }
+    override val childElements: List<JavaElement>
+        get() {
+            val extendedClassElements = extendedClass?.childElements ?: emptyList()
+            val implClasses =
+                when {
+                    isParcelable || needsBuilder ->
+                        fields
+                            .map { it.type }
+                            .filterIsInstance<JavaTemplateType>()
+                            .map { it.implementationType }
+                    else -> emptyList()
+                }
+            return super.childElements + fields + extendedClassElements + implClasses
+        }
 
     override val imports
         get() =

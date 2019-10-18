@@ -20,7 +20,9 @@
 package com.here.gluecodium.model.java
 
 abstract class JavaTypedElement(name: String, val type: JavaType) : JavaElement(name) {
-    override fun stream() = super.stream() + type
+
+    override val childElements
+        get() = super.childElements + type
 
     @Suppress("unused")
     val allAnnotations

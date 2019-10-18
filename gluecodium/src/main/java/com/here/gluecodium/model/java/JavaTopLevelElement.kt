@@ -35,7 +35,7 @@ abstract class JavaTopLevelElement(name: String, val classNames: List<String>) :
 
     open val imports: Set<JavaImport>
         get() {
-            val imports = streamRecursive()
+            val imports = allElementsRecursive
                 .filterIsInstance<JavaElementWithImports>()
                 .flatMap { it.imports }
                 .toMutableList()
@@ -57,6 +57,7 @@ abstract class JavaTopLevelElement(name: String, val classNames: List<String>) :
         override fun toString() = value
     }
 
-    override fun stream() =
-        listOf(methods, constants, parentInterfaces, enums, innerClasses, exceptions).flatten()
+    override val childElements
+        get() = super.childElements + methods + constants + parentInterfaces + enums +
+                innerClasses + exceptions
 }

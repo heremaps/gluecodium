@@ -19,8 +19,6 @@
 
 package com.here.gluecodium.model.java
 
-import java.util.EnumSet
-
 class JavaPrimitiveType private constructor(val type: Type) : JavaType(type.value) {
 
     enum class Type(val value: String) {
@@ -36,8 +34,6 @@ class JavaPrimitiveType private constructor(val type: Type) : JavaType(type.valu
     }
 
     companion object {
-        val TYPES = EnumSet.allOf(Type::class.java)
-
         val VOID = JavaPrimitiveType(Type.VOID)
         val BYTE = JavaPrimitiveType(Type.BYTE)
         val SHORT = JavaPrimitiveType(Type.SHORT)

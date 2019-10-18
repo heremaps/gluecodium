@@ -25,5 +25,7 @@ class CppEnumItem(
     val value: CppValue?,
     @Suppress("unused") val inferredValue: CppValue
 ) : CppElementWithComment(name, fullyQualifiedName) {
-    override fun stream() = listOfNotNull(value)
+
+    override val childElements
+        get() = listOfNotNull(value)
 }

@@ -19,9 +19,9 @@
 
 package com.here.gluecodium.model.cpp
 
-import com.here.gluecodium.model.common.PseudoStreamable
+import com.here.gluecodium.model.common.Hierarchical
 
 abstract class CppElement(
     open val name: String,
     open val fullyQualifiedName: String
-) : PseudoStreamable<CppElement>()
+) : Hierarchical<CppElement>

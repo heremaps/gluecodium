@@ -20,5 +20,6 @@
 package com.here.gluecodium.model.java
 
 class JavaEnumItem(name: String, val value: JavaValue? = null) : JavaElement(name) {
-    override fun stream() = listOfNotNull(value)
+    override val childElements
+        get() = super.childElements + listOfNotNull(value)
 }

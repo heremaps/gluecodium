@@ -58,8 +58,8 @@ class SwiftClass(
     val constructors
         get() = methods.filter { it.isConstructor }
 
-    override fun stream() =
-        super.stream() + properties + methods + structs + enums + typedefs + constants
+    override val childElements
+        get() = properties + methods + structs + enums + typedefs + constants
 
     override val simpleName: String
         get() = nestedNames.last()

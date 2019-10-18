@@ -87,7 +87,7 @@ class TopologicalSort(private val elements: List<CppElement>) {
                 dependencies
             }
             is CppStruct ->
-                cppElement.stream().flatMap { getElementDependencies(it) }.toMutableSet()
+                cppElement.childElements.flatMap { getElementDependencies(it) }.toMutableSet()
             is CppUsing -> getTypeDependencies(cppElement.definition)
             is CppMethod -> (cppElement.parameters.map { it.type } + cppElement.returnType)
                 .flatMapTo(mutableSetOf()) { getTypeDependencies(it) }

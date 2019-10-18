@@ -29,7 +29,8 @@ class SwiftDictionary(
     override fun withAlias(aliasName: String) =
         SwiftDictionary(keyType, valueType, cPrefix, aliasName)
 
-    override fun stream() = super.stream() + keyType + valueType
+    override val childElements
+        get() = listOf(keyType, valueType)
 
     companion object {
         private fun composePublicName(keyType: SwiftType, valueType: SwiftType) =

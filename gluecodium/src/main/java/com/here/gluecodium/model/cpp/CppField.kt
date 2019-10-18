@@ -33,7 +33,8 @@ class CppField(
     val setterName: String? = null
 ) : CppTypedElement(name, fullyQualifiedName, type) {
 
-    override fun stream() = listOfNotNull(type, initializer)
+    override val childElements
+        get() = listOfNotNull(type, initializer)
 
     @Suppress("unused")
     fun hasComment() = !comment.isEmpty || isNotNull

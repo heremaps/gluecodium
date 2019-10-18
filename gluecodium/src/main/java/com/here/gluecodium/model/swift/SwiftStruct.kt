@@ -97,5 +97,6 @@ class SwiftStruct(
         return swiftStruct
     }
 
-    override fun stream() = super.stream() + fields + constants
+    override val childElements
+        get() = fields + constants
 }

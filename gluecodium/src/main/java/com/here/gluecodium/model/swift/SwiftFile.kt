@@ -38,7 +38,8 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
      */
     @Suppress("Unused")
     val allErrors
-        get() = streamRecursive().filterIsInstance<SwiftError>()
+        get() = allElementsRecursive.filterIsInstance<SwiftError>()
 
-    override fun stream() = super.stream() + classes + structs + enums + typeDefs
+    override val childElements
+        get() = classes + structs + enums + typeDefs
 }

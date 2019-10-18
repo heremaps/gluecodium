@@ -40,5 +40,6 @@ class CppClass(
     val sortedMembers
         get() = TopologicalSort(members).sort()
 
-    override fun stream() = methods + members + inheritances
+    override val childElements
+        get() = methods + members + inheritances
 }

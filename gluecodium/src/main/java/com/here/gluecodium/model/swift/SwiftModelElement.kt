@@ -20,13 +20,13 @@
 package com.here.gluecodium.model.swift
 
 import com.here.gluecodium.model.common.Comments
-import com.here.gluecodium.model.common.PseudoStreamable
+import com.here.gluecodium.model.common.Hierarchical
 import org.trimou.util.Strings
 
 abstract class SwiftModelElement(
     val name: String,
     visibility: SwiftVisibility? = null
-) : PseudoStreamable<SwiftModelElement>() {
+) : Hierarchical<SwiftModelElement> {
     val visibility = visibility ?: SwiftVisibility.PUBLIC
     var comment = Comments()
 
@@ -37,6 +37,4 @@ abstract class SwiftModelElement(
         }
 
     override fun toString() = name
-
-    override fun stream() = emptyList<SwiftModelElement>()
 }

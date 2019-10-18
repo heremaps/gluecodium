@@ -19,11 +19,10 @@
 
 package com.here.gluecodium.model.common
 
-// TODO: APIGEN-1457 rename stream(), streamRecursive() and the class itself
-abstract class PseudoStreamable<T : PseudoStreamable<T>> {
+interface Hierarchical<T : Hierarchical<T>> {
+    val childElements: List<T>
+        get() = emptyList()
 
-    open fun stream(): List<T> = emptyList()
-
-    fun streamRecursive(): List<PseudoStreamable<T>> =
-        listOf(this) + stream().flatMap { it.streamRecursive() }
+    val allElementsRecursive: List<Hierarchical<T>>
+        get() = listOf(this) + childElements.flatMap { it.allElementsRecursive }
 }

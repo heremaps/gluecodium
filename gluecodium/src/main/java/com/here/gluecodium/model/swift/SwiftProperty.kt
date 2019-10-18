@@ -28,5 +28,6 @@ class SwiftProperty(
     val isStatic: Boolean
 ) : SwiftTypedModelElement(propertyName, visibility, type) {
 
-    override fun stream() = super.stream() + listOfNotNull(getter, setter)
+    override val childElements
+        get() = super.childElements + listOfNotNull(getter, setter)
 }

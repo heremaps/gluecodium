@@ -25,5 +25,6 @@ class JavaField(
     val initial: JavaValue
 ) : JavaTypedElement(name, type) {
 
-    override fun stream() = super.stream() + listOf(initial)
+    override val childElements
+        get() = super.childElements + listOf(initial)
 }

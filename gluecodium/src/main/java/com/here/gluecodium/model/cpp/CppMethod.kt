@@ -63,7 +63,8 @@ class CppMethod(
     @Suppress("unused")
     val isReturningVoid = returnType == CppPrimitiveTypeRef.VOID
 
-    override fun stream() = listOf(returnType) + parameters
+    override val childElements
+        get() = listOf(returnType) + parameters
 
     fun copy(specifiers: Set<Specifier>? = null, qualifiers: Set<Qualifier>? = null) =
         CppMethod(

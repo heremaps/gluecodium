@@ -55,5 +55,6 @@ class SwiftMethod(
         cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE
     )
 
-    override fun stream() = super.stream() + parameters + returnType
+    override val childElements
+        get() = parameters + returnType
 }

@@ -26,5 +26,6 @@ class SwiftConstant(
     val value: SwiftValue
 ) : SwiftTypedModelElement(name, visibility, type) {
 
-    override fun stream() = super.stream() + value
+    override val childElements
+        get() = super.childElements + value
 }

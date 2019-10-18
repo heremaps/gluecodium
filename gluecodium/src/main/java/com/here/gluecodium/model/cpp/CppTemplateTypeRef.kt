@@ -48,7 +48,7 @@ class CppTemplateTypeRef(
         HASH(null, "hash", listOf(CppLibraryIncludes.HASH))
     }
 
-    override fun stream() = templateParameters
+    override val childElements get() = templateParameters
 
     companion object {
         private fun composeTemplateName(

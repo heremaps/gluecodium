@@ -45,7 +45,7 @@ class CppFile(
 
     @Suppress("unused")
     val equatables: List<CppElement>
-        get() = members.flatMap { it.streamRecursive() }
+        get() = members.flatMap { it.allElementsRecursive }
             .filterIsInstance<CppExternableElement>()
             .filter { !it.isExternal && (it is CppClass && it.isEquatable || it is CppStruct && it.isEquatable) }
 
@@ -55,6 +55,6 @@ class CppFile(
 
     @Suppress("unused")
     val typeRegisteredClasses
-        get() = members.flatMap { it.streamRecursive() }.filterIsInstance<CppClass>()
+        get() = members.flatMap { it.allElementsRecursive }.filterIsInstance<CppClass>()
             .filter { !it.isExternal && it.isInheritable && it.inheritances.isEmpty() }
 }

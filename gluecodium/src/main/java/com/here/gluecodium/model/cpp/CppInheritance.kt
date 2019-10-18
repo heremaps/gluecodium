@@ -28,5 +28,6 @@ class CppInheritance(val parent: CppTypeRef, val visibility: Type) : CppElement(
         override fun toString() = value
     }
 
-    override fun stream() = listOf(parent)
+    override val childElements
+        get() = listOf(parent)
 }

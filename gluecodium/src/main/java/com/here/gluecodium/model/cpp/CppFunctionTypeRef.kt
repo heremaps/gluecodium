@@ -36,7 +36,7 @@ class CppFunctionTypeRef(
     override val fullyQualifiedName = name
 
     override val includes
-        get() = stream().flatMap { it.includes } + CppLibraryIncludes.FUNCTIONAL
+        get() = childElements.flatMap { it.includes } + CppLibraryIncludes.FUNCTIONAL
 
-    override fun stream() = parameters + returnType
+    override val childElements get() = parameters + returnType
 }

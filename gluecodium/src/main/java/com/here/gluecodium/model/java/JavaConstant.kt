@@ -22,5 +22,6 @@ package com.here.gluecodium.model.java
 class JavaConstant(name: String, type: JavaType, val value: JavaValue) :
     JavaTypedElement(name, type) {
 
-    override fun stream() = super.stream() + value
+    override val childElements
+        get() = super.childElements + value
 }

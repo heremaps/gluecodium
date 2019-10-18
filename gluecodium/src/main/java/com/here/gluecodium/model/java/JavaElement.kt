@@ -20,16 +20,16 @@
 package com.here.gluecodium.model.java
 
 import com.here.gluecodium.model.common.Comments
-import com.here.gluecodium.model.common.ModelElement
-import com.here.gluecodium.model.common.PseudoStreamable
+import com.here.gluecodium.model.common.Hierarchical
 import java.util.LinkedHashSet
 
-abstract class JavaElement(val name: String) : PseudoStreamable<JavaElement>(), ModelElement {
+abstract class JavaElement(val name: String) : Hierarchical<JavaElement> {
     var comment = Comments()
     var visibility = JavaVisibility.PACKAGE
     val annotations: MutableSet<JavaType> = LinkedHashSet()
 
     override fun toString() = name
 
-    override fun stream(): List<JavaElement> = annotations.toList()
+    override val childElements
+        get() = annotations.toList<JavaElement>()
 }

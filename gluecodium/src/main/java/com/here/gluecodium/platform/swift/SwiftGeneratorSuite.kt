@@ -77,7 +77,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             }
             val fullName = if (name.isEmpty()) elementName else "$name.$elementName"
 
-            element.stream().forEach { resolveFullName(it, fullName) }
+            element.childElements.forEach { resolveFullName(it, fullName) }
 
             elementToSwiftName[element] = fullName
         }
@@ -88,7 +88,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        swiftModel.containers.flatMap { it.streamRecursive() }
+        swiftModel.containers.flatMap { it.allElementsRecursive }
             .filterIsInstance<SwiftModelElement>()
             .forEach { processElementComments(it, elementToLimeName, limeToSwiftName, limeLogger) }
 

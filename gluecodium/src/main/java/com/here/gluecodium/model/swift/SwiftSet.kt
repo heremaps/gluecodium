@@ -43,7 +43,8 @@ class SwiftSet(
             else -> this
         }
 
-    override fun stream() = super.stream() + elementType
+    override val childElements
+        get() = listOf(elementType)
 
     companion object {
         private fun getImplName(underlyingType: SwiftType) =

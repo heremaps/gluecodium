@@ -29,5 +29,6 @@ class SwiftEnum(
     category = TypeCategory.ENUM,
     publicName = name
 ) {
-    override fun stream() = super.stream() + items
+    override val childElements
+        get() = items
 }

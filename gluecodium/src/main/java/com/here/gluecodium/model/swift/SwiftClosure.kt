@@ -43,6 +43,9 @@ class SwiftClosure(
         this.comment = comment
     }
 
+    override val childElements
+        get() = parameters + returnType
+
     override fun withAlias(aliasName: String) =
         SwiftClosure(
             name = name,

@@ -139,7 +139,7 @@ open class JavaGeneratorSuite protected constructor(
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         javaModel
-            .flatMap { it.streamRecursive().toList() }
+            .flatMap { it.allElementsRecursive.toList() }
             .filterIsInstance<JavaElement>()
             .forEach { processElementsComments(it, elementToLimeName, limeToJavaName, limeLogger) }
     }
@@ -159,7 +159,7 @@ open class JavaGeneratorSuite protected constructor(
         }
 
         elementToJavaName[element] = fullName
-        element.stream().forEach { resolveFullName(it, fullName, elementToJavaName) }
+        element.childElements.forEach { resolveFullName(it, fullName, elementToJavaName) }
     }
 
     private fun processElementsComments(

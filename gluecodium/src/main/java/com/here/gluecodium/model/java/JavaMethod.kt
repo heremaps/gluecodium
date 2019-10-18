@@ -63,7 +63,8 @@ class JavaMethod(
         override fun toString() = value
     }
 
-    override fun stream() = listOfNotNull(returnType, exception) + parameters + super.stream()
+    override val childElements
+        get() = listOfNotNull(returnType, exception) + parameters + super.childElements
 
     fun shallowCopy() = JavaMethod(
         name = name,

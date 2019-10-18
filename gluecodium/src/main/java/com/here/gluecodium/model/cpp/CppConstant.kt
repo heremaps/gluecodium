@@ -26,5 +26,6 @@ class CppConstant(
     val value: CppValue
 ) : CppTypedElement(name, fullyQualifiedName, type) {
 
-    override fun stream() = listOf(type, value)
+    override val childElements
+        get() = listOf(type, value)
 }

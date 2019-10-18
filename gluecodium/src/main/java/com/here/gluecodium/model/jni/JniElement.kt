@@ -19,6 +19,4 @@
 
 package com.here.gluecodium.model.jni
 
-import com.here.gluecodium.model.common.ModelElement
-
-interface JniElement : ModelElement
+interface JniElement
