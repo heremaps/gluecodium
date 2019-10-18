@@ -55,7 +55,7 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     override fun exitDescriptionContent(ctx: LimedocParser.DescriptionContentContext) {
         contentCollector += when {
             ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> "" to ctx.text
+            else -> "" to unescapeText(ctx.text)
         }
     }
 
@@ -69,12 +69,15 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     override fun exitBlockTagContent(ctx: LimedocParser.BlockTagContentContext) {
         contentCollector += when {
             ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> "" to ctx.text
+            else -> "" to unescapeText(ctx.text)
         }
     }
 
     // Private functions
 
     private fun convertInlineTag(inlineTag: LimedocParser.InlineTagContext) =
-        inlineTag.tagName().text to inlineTag.inlineTagContent().joinToString("") { it.text }
+        inlineTag.tagName().text to inlineTag.inlineTagContent().joinToString("") { unescapeText(it.text) }
+
+    private fun unescapeText(text: String) =
+        text.replace("""\\(@|\{|\}|\\)""".toRegex()) { it.groupValues[1] }
 }

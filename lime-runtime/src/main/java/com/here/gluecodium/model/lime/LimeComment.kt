@@ -39,8 +39,11 @@ class LimeComment(private val taggedSections: List<Pair<String, String>> = empty
 
     override fun toString() = taggedSections.joinToString("") {
         when (it.first) {
-            "" -> it.second
-            else -> "{@${it.first} ${it.second}}"
+            "" -> escapeText(it.second)
+            else -> "{@${it.first} ${escapeText(it.second)}}"
         }
     }.trim()
+
+    private fun escapeText(text: String) =
+        text.replace("""@|\{|\}|\\""".toRegex()) { "\\${it.value}" }
 }

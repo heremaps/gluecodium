@@ -32,8 +32,8 @@ public:
      */
     virtual void do_magic(  ) = 0;
     /**
-     * This is some very useful method that measures the usefulness of its input.
-     * \param[in] input Very useful input ::smoke::PlatformComments parameter
+     * This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
+     * \param[in] input Very useful input ::smoke::PlatformComments parameter that \esc@pe{s}
      * \return Usefulness of the input
      * \retval ::smoke::PlatformComments::SomeEnum Sometimes it happens.
      */
@@ -46,3 +46,4 @@ namespace std
 template <>
 struct is_error_code_enum< ::smoke::PlatformComments::SomeEnum > : public std::true_type { };
 }
+

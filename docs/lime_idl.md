@@ -537,6 +537,12 @@ The resulting documentation will look like this, per language:
 * *Java*: `Process something, maybe. Returns a result and throws if something goes wrong.`
 * *Swift*: `Process something. Returns a result and throws if something goes wrong but not on iOS.`
 
+#### Special characters in documentation comments
+
+Special characters `@`, `{`, `}`, and `\` can be used in documentation comments only if they are
+"escaped" with an additional backslash (i.e. `\@`, `\{`, `\}`, and `\\` respectively).
+
+[franca]: http://franca.github.io/franca/
 [xtext]: https://www.eclipse.org/Xtext/
 [emf]: https://www.eclipse.org/modeling/emf/
 [antlr]: https://www.antlr.org/

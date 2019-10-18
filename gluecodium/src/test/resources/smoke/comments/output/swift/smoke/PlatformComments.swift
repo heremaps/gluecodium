@@ -27,10 +27,10 @@ public class PlatformComments {
     public func doMagic() -> Void {
         return moveFromCType(smoke_PlatformComments_doMagic(self.c_instance))
     }
-    /// This is some very useful method that measures the usefulness of its input.
-    /// - Parameter input: Very useful parameter
+    /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
+    /// - Parameter input: Very useful parameter that \esc@pe{s}
     /// - Returns: Usefulness of the input
-    /// - Throws: `PlatformComments.SomethingWrongError` Sometimes it happens but not on iOS `PlatformComments.SomethingWrongError`.
+    /// - Throws: `PlatformComments.SomethingWrongError` Sometimes it happens but not on iOS `PlatformComments.SomethingWrongError` \esc@pe{s} .
     public func someMethodWithAllComments(input: String) throws -> Bool {
         let c_input = moveToCType(input)
         let RESULT = smoke_PlatformComments_someMethodWithAllComments(self.c_instance, c_input.ref)

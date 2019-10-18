@@ -4,6 +4,8 @@
 - Features:
   + Added validation against broken documentation references.
   + Set type fields are now supported in @Serializable structs.
+  + Characters '@', '{', '}', and '\' can now be used in documentation comments, by being "escaped"
+    with an additional backslash (i.e. '\@', '\{', '\}', and '\\' respectively).
 
 ## 5.6.0
 - Release date: 2019-10-09

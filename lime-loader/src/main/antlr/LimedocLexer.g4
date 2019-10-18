@@ -41,13 +41,15 @@ Identifier
     ;
 
 TextContent
-    : ~([\n\r\t @{}a-zA-Z] | '[' | ']')+
+    : ~([\n\r\t\\ @{}a-zA-Z] | '[' | ']')+
     ;
 
 LSquare : '[' ;
 RSquare : ']' ;
 LCurl : '{' ;
 RCurl : '}' ;
+
+EscapedChar: '\\' ('@' | '{' | '}' | '\\') ;
 
 fragment Letter
     : [a-zA-Z]
