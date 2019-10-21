@@ -10,8 +10,6 @@
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
-#include "smoke/DummyClass.h"
-#include "smoke/DummyInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>

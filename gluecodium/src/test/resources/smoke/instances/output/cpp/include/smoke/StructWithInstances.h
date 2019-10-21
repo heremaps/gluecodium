@@ -4,8 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "smoke/SimpleClass.h"
-#include "smoke/SimpleInterface.h"
 #include <memory>
 namespace smoke {
     class SimpleClass;

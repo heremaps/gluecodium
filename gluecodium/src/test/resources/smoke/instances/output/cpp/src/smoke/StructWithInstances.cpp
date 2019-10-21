@@ -2,6 +2,8 @@
 //
 //
 // -------------------------------------------------------------------------------------------------
+#include "smoke/SimpleClass.h"
+#include "smoke/SimpleInterface.h"
 #include "smoke/StructWithInstances.h"
 
 namespace smoke {

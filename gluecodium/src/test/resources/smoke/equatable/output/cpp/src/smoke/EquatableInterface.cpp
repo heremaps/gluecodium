@@ -3,6 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/EquatableInterface.h"
+#include "smoke/PointerEquatableInterface.h"
 namespace smoke {
 EquatableInterface::EquatableInterface() {
 }

@@ -3,7 +3,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "examples/CalculatorListener.h"
 #include "gluecodium/Export.h"
 #include <memory>
 namespace examples {

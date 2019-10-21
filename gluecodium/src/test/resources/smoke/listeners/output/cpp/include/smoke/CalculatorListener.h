@@ -7,7 +7,6 @@
 #include "gluecodium/TypeRepository.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
-#include "smoke/CalculationResult.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

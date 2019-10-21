@@ -5,7 +5,6 @@
 #pragma once
 #include "gluecodium/Export.h"
 #include "gluecodium/VectorHash.h"
-#include "smoke/PropertiesInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>

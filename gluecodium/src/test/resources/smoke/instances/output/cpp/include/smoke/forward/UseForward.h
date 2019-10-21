@@ -5,10 +5,6 @@
 #pragma once
 #include "gluecodium/Export.h"
 #include "gluecodium/TypeRepository.h"
-#include "smoke/SimpleClass.h"
-#include "smoke/SimpleInterface.h"
-#include "smoke/forward/Class1.h"
-#include "smoke/forward/Class2.h"
 #include <memory>
 namespace smoke {
     class SimpleClass;

@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "smoke/CalculatorListener.h"
 #include <memory>
 namespace smoke {
     class CalculatorListener;

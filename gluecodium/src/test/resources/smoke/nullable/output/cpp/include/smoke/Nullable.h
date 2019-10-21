@@ -7,7 +7,6 @@
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
-#include "smoke/SomeInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>
