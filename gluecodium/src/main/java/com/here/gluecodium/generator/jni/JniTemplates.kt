@@ -110,7 +110,6 @@ class JniTemplates(
         val structs = jniContainers
             .flatMap { it.structs }
             .filter { it.fields.isNotEmpty() }
-            .distinctBy { it.cppFullyQualifiedName }
         val mustacheData = mutableMapOf(
             INCLUDES_NAME to includes.sorted(),
             "structs" to structs.sortedBy { it.cppFullyQualifiedName },
@@ -154,10 +153,9 @@ class JniTemplates(
     ) {
         val includes =
             jniContainers.filter { it.enums.isNotEmpty() }.flatMap { it.includes }.toSet()
-        val enums = jniContainers.flatMap { it.enums }.distinctBy { it.cppEnumName }
         val mustacheData = mutableMapOf(
             INCLUDES_NAME to includes.sorted(),
-            "enums" to enums.sortedBy { it.cppEnumName },
+            "enums" to jniContainers.flatMap { it.enums }.sortedBy { it.cppEnumName },
             INTERNAL_NAMESPACE_NAME to internalNamespace
         )
 
@@ -189,9 +187,7 @@ class JniTemplates(
         results: MutableList<GeneratedFile>
     ) {
         val instanceContainers =
-            jniContainers
-                .filter { it.containerType != ContainerType.TYPE_COLLECTION }
-                .distinctBy { it.cppFullyQualifiedName }
+            jniContainers.filter { it.containerType != ContainerType.TYPE_COLLECTION }
 
         val instanceIncludes = (setOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW) +
             instanceContainers.flatMap { it.includes }).sorted().toMutableList()

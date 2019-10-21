@@ -438,7 +438,8 @@ deprecated, takes a string literal value as a deprecation message.
   __\[__*HeaderPath* \[**,** *HeaderPath*\]*__\]__.
   * **ExternalName** **=** **"**_FullyQualifiedName_**"**: marks a type that is already marked with
   `ExternalType` to have a distinct fully-qualified name in C++ generated code (i.e. to have a name
-  that is not derived automatically from the element's name given in the declaration).
+  that is not derived automatically from the element's name given in the declaration). Please note
+  that only one-to-one correspondence between IDL types and "external" C++ types is supported.
   * **ExternalGetter** **=** **"**_FunctionName_**"**,
   **ExternalSetter** **=** **"**_FunctionName_**"**: marks a field in a struct type that is already
   marked with `ExternalType` to have be accessed through given getter/setter functions instead of
