@@ -29,7 +29,7 @@ class CppTemplateTypeRef(
     namespace: String? = templateClass.namespace
 ) : CppComplexTypeRef(
     composeTemplateName(namespace, templateClass, parameters),
-    parameters.flatMap { it.includes } + templateClass.includes
+    templateClass.includes
 ) {
     val templateParameters: List<CppTypeRef> = parameters.toList()
 

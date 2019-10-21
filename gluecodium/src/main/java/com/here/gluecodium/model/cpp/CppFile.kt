@@ -25,16 +25,17 @@ import java.util.TreeSet
 
 class CppFile(
     val filename: String,
-    val namespace: List<String>,
-    val members: List<CppElement>,
-    includes: List<Include>,
-    @Suppress("unused") val forwardDeclarations: List<CppForwardDeclarationGroup>,
-    @Suppress("unused") val errorEnums: List<CppEnum>,
+    val namespace: List<String> = emptyList(),
+    val members: List<CppElement> = emptyList(),
+    includes: List<Include> = emptyList(),
+    implementationIncludes: List<Include> = emptyList(),
+    @Suppress("unused") val forwardDeclarations: List<CppForwardDeclarationGroup> = emptyList(),
+    @Suppress("unused") val errorEnums: List<CppEnum> = emptyList(),
     @Suppress("unused") var exportName: String? = null,
     var internalNamespace: List<String>? = null
 ) {
-
     val includes = TreeSet(includes)
+    val implementationIncludes = TreeSet(implementationIncludes)
 
     @Suppress("unused")
     val sortedMembers: List<CppElement>

@@ -36,7 +36,7 @@ class CppGeneratorTest {
 
     @Test
     fun emptyFileWillBeSkipped() {
-        val model = CppFile("", listOf(), listOf(), listOf(), listOf(), listOf())
+        val model = CppFile("")
         val generatedFiles = generator.generateCode(model)
         assertEquals(0, generatedFiles.size)
     }
@@ -45,7 +45,7 @@ class CppGeneratorTest {
     fun fileWithTypedefWillBeGenerated() {
         val typeRef = mock(CppTypeRef::class.java)
         val using = CppUsing("", "", Comments(), typeRef)
-        val model = CppFile("", listOf(), listOf(using), listOf(), listOf(), listOf())
+        val model = CppFile(filename = "", members = listOf(using))
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
@@ -53,7 +53,7 @@ class CppGeneratorTest {
     @Test
     fun fileWithErrorWillBeGenerated() {
         val error = CppEnum("", "", emptyList(), false, listOf())
-        val model = CppFile("", listOf(), listOf(), listOf(), listOf(), listOf(error))
+        val model = CppFile(filename = "", errorEnums = listOf(error))
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
@@ -63,7 +63,7 @@ class CppGeneratorTest {
         val typeRef = mock(CppTypeRef::class.java)
         val value = CppValue("")
         val constant = CppConstant("", "", typeRef, value)
-        val model = CppFile("", listOf(), listOf(constant), listOf(), listOf(), listOf())
+        val model = CppFile(filename = "", members = listOf(constant))
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
@@ -71,7 +71,7 @@ class CppGeneratorTest {
     @Test
     fun fileWithInternalExternableElementWillBeGenerated() {
         val externable = object : CppExternableElement("", "", emptyList(), Comments(), false) {}
-        val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
+        val model = CppFile(filename = "", members = listOf(externable))
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
@@ -79,7 +79,7 @@ class CppGeneratorTest {
     @Test
     fun onlyImplementationFilForExternalElementWillBeGenerated() {
         val externable = object : CppExternableElement("", "", emptyList(), Comments(), true) {}
-        val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
+        val model = CppFile(filename = "", members = listOf(externable))
         val generatedFiles = generator.generateCode(model)
         assertEquals(1, generatedFiles.size)
         assertEquals("cpp", generatedFiles.first().targetFile.extension)

@@ -39,6 +39,7 @@ public final class CppLibraryIncludes {
   public static final Include CHRONO = Include.Companion.createSystemInclude("chrono");
   public static final Include SET = Include.Companion.createSystemInclude("unordered_set");
   public static final Include FUNCTIONAL = Include.Companion.createSystemInclude("functional");
+  public static final Include TYPE_TRAITS = Include.Companion.createSystemInclude("type_traits");
 
   // Custom
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");

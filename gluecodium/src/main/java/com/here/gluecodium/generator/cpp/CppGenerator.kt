@@ -34,8 +34,7 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
 
         val hasConstants = cppModel.members.any { it is CppConstant }
         val hasTypedefs = cppModel.members.any { it is CppUsing }
-        val externableElements =
-            cppModel.members.filterIsInstance<CppExternableElement>()
+        val externableElements = cppModel.members.filterIsInstance<CppExternableElement>()
         val hasErrorEnums = cppModel.errorEnums.isNotEmpty()
 
         val needsHeader =
@@ -45,33 +44,37 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
             return emptyList()
         }
 
-        val relativeFilePath = cppModel.filename
-        // Filter out self-includes
-        val includes = cppModel.includes
-        includes.removeIf { it.fileName == relativeFilePath + HEADER_FILE_SUFFIX }
-        CppLibraryIncludes.filterIncludes(includes, internalNamespace)
-
         val result = mutableListOf<GeneratedFile>()
-
         if (needsHeader) {
             val absoluteHeaderPath = Paths.get(
                 pathPrefix,
                 PACKAGE_NAME_SPECIFIER_INCLUDE,
-                relativeFilePath
+                cppModel.filename
             ).toString() + HEADER_FILE_SUFFIX
+
+            // Filter out self-includes
+            cppModel.includes.removeIf { it.fileName == cppModel.filename + HEADER_FILE_SUFFIX }
+            CppLibraryIncludes.filterIncludes(cppModel.includes, internalNamespace)
 
             val headerContent = TemplateEngine.render("cpp/CppHeader", cppModel)
             result.add(GeneratedFile(headerContent, absoluteHeaderPath))
 
-            cppModel.includes.clear()
-            cppModel.includes.add(Include.createInternalInclude(relativeFilePath + HEADER_FILE_SUFFIX))
+            cppModel.implementationIncludes +=
+                Include.createInternalInclude(cppModel.filename + HEADER_FILE_SUFFIX)
         }
         if (needsImplementation) {
             val absoluteImplPath = Paths.get(
                 pathPrefix,
                 PACKAGE_NAME_SPECIFIER_SRC,
-                relativeFilePath
+                cppModel.filename
             ).toString() + IMPLEMENTATION_FILE_SUFFIX
+
+            val externalElements = externableElements.filter { it.isExternal }
+            if (externalElements.isNotEmpty()) {
+                cppModel.implementationIncludes += CppLibraryIncludes.TYPE_TRAITS
+                cppModel.implementationIncludes += externalElements.flatMap { it.includes }
+            }
+            CppLibraryIncludes.filterIncludes(cppModel.implementationIncludes, internalNamespace)
 
             val implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel)
             result.add(GeneratedFile(implementationContent, absoluteImplPath))

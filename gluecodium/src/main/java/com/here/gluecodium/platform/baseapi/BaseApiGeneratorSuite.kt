@@ -124,14 +124,21 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val finalResults = cppModelBuilder.finalResults
         mapping.putAll(cppModelBuilder.referenceMap)
 
-        val includes = collectIncludes(finalResults).toMutableList()
+        val elementsWithIncludes =
+            flattenCppModel(finalResults).filterIsInstance<CppElementWithIncludes>()
+        val implIncludesFilter: (CppElement) -> Boolean =
+            { it is CppComplexTypeRef && it.needsForwardDeclaration }
+
+        val includes =
+            elementsWithIncludes.filterNot(implIncludesFilter).flatMap { it.includes }.toMutableList()
         val exportPath = Paths.get(
             internalNamespace.joinToString(File.separator),
             "Export" + CppGenerator.HEADER_FILE_SUFFIX
         ).toString()
         includes.add(Include.createInternalInclude(exportPath))
 
-        val enums = collectEnums(finalResults)
+        val enums =
+            flattenCppModel(finalResults).filterIsInstance<CppEnum>().filterNot { it.isExternal }
         if (enums.isNotEmpty()) {
             includes.add(CppLibraryIncludes.INT_TYPES)
         }
@@ -142,11 +149,15 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             includes.add(CppLibraryIncludes.SYSTEM_ERROR)
         }
 
+        val implementationIncludes =
+            elementsWithIncludes.filter(implIncludesFilter).flatMap { it.includes }
+
         return CppFile(
             filename = filename,
             namespace = rootNamespace + limeModel.path.head,
             members = finalResults,
             includes = includes,
+            implementationIncludes = implementationIncludes,
             forwardDeclarations = collectForwardDeclarations(finalResults),
             errorEnums = errorEnums,
             exportName = exportName,
@@ -204,14 +215,6 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         private fun flattenCppModel(members: List<CppElement>) =
             members.flatMap { it.allElementsRecursive }
-
-        private fun collectIncludes(members: List<CppElement>) =
-            flattenCppModel(members)
-                .filterIsInstance<CppElementWithIncludes>()
-                .flatMap(CppElementWithIncludes::includes)
-
-        private fun collectEnums(members: List<CppElement>) =
-            flattenCppModel(members).filterIsInstance<CppEnum>().filterNot { it.isExternal }
 
         private fun collectForwardDeclarations(
             members: List<CppElement>
