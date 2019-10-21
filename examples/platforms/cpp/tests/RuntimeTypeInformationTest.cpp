@@ -20,6 +20,8 @@
 
 #include "test/InheritanceTestHelper.h"
 #include "test/ChildClass.h"
+#include "test/ChildInterface.h"
+#include "test/ConcreteGrandChild.h"
 #include <gmock/gmock.h>
 
 namespace test

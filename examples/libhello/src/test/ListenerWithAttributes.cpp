@@ -19,6 +19,9 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "ListenerWithAttributes.h"
+#include "test/ListenerWithAttributes.h"
+#include "test/MessageBox.h"
+#include "test/MessagePackage.h"
 
 namespace
 {

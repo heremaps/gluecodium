@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Comments.h"
+#include "test/CommentsInstantiable.h"
 
 namespace test
 {

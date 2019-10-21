@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/DummyLogger.h"
+#include "test/StringListener.h"
 
 #include <algorithm>
 #include <memory>

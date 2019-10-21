@@ -18,7 +18,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/EquatableClass.h"
 #include "test/Maps.h"
+#include "test/PointerEquatableClass.h"
+#include "test/SimpleInterfaceOne.h"
 
 #include <algorithm>
 #include <cstdint>

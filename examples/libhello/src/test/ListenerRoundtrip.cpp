@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Nlp.h"
+#include "test/RouteProvider.h"
 #include "test/RouteStorage.h"
 
 namespace test {

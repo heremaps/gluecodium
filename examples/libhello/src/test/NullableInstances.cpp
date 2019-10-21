@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "NullablePayloadImpl.h"
+#include "test/NullableInstanceListener.h"
 #include "test/NullableStatic.h"
 
 namespace test

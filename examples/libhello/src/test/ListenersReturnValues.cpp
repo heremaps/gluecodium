@@ -19,6 +19,8 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "ListenersReturnValues.h"
+#include "test/ListenerWithReturn.h"
+#include "test/MessagePackage.h"
 #include <memory>
 
 namespace test

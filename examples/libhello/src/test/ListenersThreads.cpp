@@ -18,7 +18,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/ThreadedListener.h"
 #include "test/ThreadedNotifier.h"
+#include "test/UnloadedClass.h"
 
 #include <memory>
 #include <string>

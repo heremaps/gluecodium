@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "ListenerWithErrors.h"
+#include "test/ListenerWithErrors.h"
 #include <memory>
 
 namespace test

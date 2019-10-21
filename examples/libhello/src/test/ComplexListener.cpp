@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "ComplexListener.h"
+#include "test/ComplexListener.h"
 #include "test/ComplexListenerFactory.h"
 #include <cmath>
 

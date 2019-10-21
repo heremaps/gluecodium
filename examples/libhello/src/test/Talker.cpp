@@ -18,9 +18,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/Talker.h"
 #include "another/AdditionalErrors.h"
 #include "another/TypeCollectionWithEnums.h"
+#include "test/ChildListener.h"
+#include "test/ParentListener.h"
+#include "test/Talker.h"
 
 namespace test
 {

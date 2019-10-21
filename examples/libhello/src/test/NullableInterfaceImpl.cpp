@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "NullableInterfaceImpl.h"
+#include "test/NullableListener.h"
 
 namespace test
 {

@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/ParentListener.h"
 #include "test/Teacher.h"
 
 namespace test

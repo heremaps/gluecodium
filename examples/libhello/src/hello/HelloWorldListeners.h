@@ -21,6 +21,7 @@
 #pragma once
 
 #include "hello/Calculator.h"
+#include "hello/CalculatorListener.h"
 
 #include <mutex>
 #include <vector>
