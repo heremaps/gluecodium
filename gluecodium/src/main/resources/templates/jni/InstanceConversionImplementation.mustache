@@ -23,13 +23,10 @@
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
-#include "ArrayConversionUtils.h"
+#include "CppProxyBase.h"
+#include "FieldAccessMethods.h"
 #include "JniClassCache.h"
-
-namespace
-{
-struct DummyNativeBaseType {};
-}
+#include <new>
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -38,26 +35,32 @@ namespace {{.}}
 namespace jni
 {
 
-REGISTER_JNI_CLASS_CACHE("{{join internalPackages delimiter="/"}}/NativeBase", DummyNativeBaseType)
-
-JniReference<jclass>& get_cached_native_base_class()
-{
-    return CachedJavaClass<DummyNativeBaseType>::java_class;
-}
-
-{{#models}}
+{{#model}}
 {{#if hasTypeRepository}}
 REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{fullJavaName}}", "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
 {{/if}}{{#unless hasTypeRepository}}
 REGISTER_JNI_CLASS_CACHE("{{fullJavaName}}", {{cppFullyQualifiedName}})
-{{/unless}}{{!!
+{{/unless}}
 
-}}{{#if isFunctionalInterface}}
-
-{{cppFullyQualifiedName}}
-convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{cppFullyQualifiedName}}*)
+{{#isEq containerType.toString "INTERFACE"}}{{#if isFunctionalInterface}}
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{cppFullyQualifiedName}}& result)
 {
-    {{cppFullyQualifiedName}} _nresult{};
+    std::shared_ptr<{{mangledName}}_CppProxy> _nproxy{};
+    CppProxyBase::createProxy<{{mangledName}}_CppProxy, {{mangledName}}_CppProxy>(env, obj, _nproxy);
+    result = std::bind(&{{mangledName}}_CppProxy::operator(), _nproxy{{!!
+            }}{{#methods.0.parameters}}, std::placeholders::_{{iter.index}}{{/methods.0.parameters}});
+}
+{{/if}}{{#unless isFunctionalInterface}}
+template<>
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result)
+{
+    CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{mangledName}}_CppProxy>(env, obj, result);
+}
+{{/unless}}{{/isEq}}
+
+{{>cppTypeName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
+{
+    {{>cppTypeName}} _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();
     if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get()))
     {
@@ -68,7 +71,7 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{cppFullyQua
                 _jobj,
                 "nativeHandle",
                 (int64_t*)nullptr);
-            _nresult = *reinterpret_cast<{{cppFullyQualifiedName}}*>(long_ptr);
+            _nresult = *reinterpret_cast<{{>cppTypeName}}*>(long_ptr);
         }
     }
     else
@@ -77,14 +80,9 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{cppFullyQua
     }
     return _nresult;
 }
-{{/if}}
 
 JniReference<jobject>
-{{#if isFunctionalInterface}}
-convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput)
-{{/if}}{{#unless isFunctionalInterface}}
-convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput)
-{{/unless}}
+convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
 {
     if ( !_ninput )
     {
@@ -107,12 +105,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
 {{/if}}{{#unless hasTypeRepository}}
     auto &javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
 {{/unless}}
-    auto pInstanceSharedPointer =
-{{#unless isFunctionalInterface}}
-        new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
-{{/unless}}{{#if isFunctionalInterface}}
-        new (::std::nothrow) {{cppFullyQualifiedName}}(_ninput);
-{{/if}}
+    auto pInstanceSharedPointer = new (::std::nothrow) {{>cppTypeName}}(_ninput);
     if ( pInstanceSharedPointer == nullptr )
     {
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
@@ -124,8 +117,11 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
     return jResult;
 }
 
-{{/models}}
+{{/model}}
 }
 {{#internalNamespace}}
 }
-{{/internalNamespace}}
+{{/internalNamespace}}{{!!
+
+}}{{+cppTypeName}}{{#if isFunctionalInterface}}{{cppFullyQualifiedName}}{{/if}}{{!!
+}}{{#unless isFunctionalInterface}}std::shared_ptr<{{cppFullyQualifiedName}}>{{/unless}}{{/cppTypeName}}

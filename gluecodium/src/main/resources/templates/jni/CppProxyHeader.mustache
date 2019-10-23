@@ -22,13 +22,11 @@
 
 #pragma once
 
-#include <jni.h>
-
-#include "JniReference.h"
-
 {{#container}}{{#includes}}
 {{>common/Include}}
 {{/includes}}
+#include "CppProxyBase.h"
+#include "JniReference.h"
 
 {{#internalNamespace}}
 namespace {{.}}

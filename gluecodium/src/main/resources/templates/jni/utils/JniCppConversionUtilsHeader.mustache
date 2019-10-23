@@ -47,6 +47,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -107,6 +108,29 @@ JniReference<jbyteArray> convert_to_jni(
 JniReference<jobject> convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue );
 JniReference<jobject> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>& nvalue );
+
+// -------------------- optional<std::function<>> conversion functions -----------------------------
+
+template<class R, class... Args>
+optional<std::function<R(Args...)>>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, optional<std::function<R(Args...)>>*)
+{
+    return _jinput
+        ? convert_from_jni(_jenv, _jinput, (std::function<R(Args...)>*)nullptr)
+        : optional<std::function<R(Args...)>>{};
+}
+
+template<class R, class... Args>
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const optional<std::function<R(Args...)>> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+
+// -------------------- createCppProxy() default implementation ------------------------------------
+
+template<class T>
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {}
 
 }
 {{#internalNamespace}}

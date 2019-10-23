@@ -91,6 +91,18 @@ CachedJavaClassBase::do_init(JNIEnv* env)
     }
 }
 
+namespace
+{
+struct DummyNativeBaseType {};
+}
+
+REGISTER_JNI_CLASS_CACHE("{{join internalPackages delimiter="/"}}/NativeBase", DummyNativeBaseType)
+
+JniReference<jclass>& get_cached_native_base_class()
+{
+    return CachedJavaClass<DummyNativeBaseType>::java_class;
+}
+
 }
 {{#internalNamespace}}
 }

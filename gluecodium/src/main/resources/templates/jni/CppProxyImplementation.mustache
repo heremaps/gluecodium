@@ -20,12 +20,11 @@
   !}}
 {{>java/CopyrightHeader}}
 
-{{#headerInclude}}{{>common/Include}}{{/headerInclude}}
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
 #include "ArrayConversionUtils.h"
-#include "EnumConversion.h"
-#include "EnumSetConversion.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
+#include "FieldAccessMethods.h"
 
 {{#internalNamespace}}
 namespace {{.}}

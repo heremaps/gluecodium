@@ -29,7 +29,6 @@ import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaTemplates
 import com.here.gluecodium.generator.jni.JavaModel
 import com.here.gluecodium.generator.jni.JniGenerator
-import com.here.gluecodium.generator.jni.JniNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.java.JavaClass
@@ -77,7 +76,6 @@ open class JavaGeneratorSuite protected constructor(
             limeReferenceMap = limeModel.referenceMap,
             basePackages = javaPackageList,
             internalPackageList = internalPackage,
-            additionalIncludes = UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
             enableAndroidFeatures = enableAndroidFeatures,
             internalNamespace = internalNamespace,
             rootNamespace = rootNamespace,
@@ -200,7 +198,7 @@ open class JavaGeneratorSuite protected constructor(
 
         private const val ARRAY_CONVERSION_UTILS = "ArrayConversionUtils"
         private const val CPP_PROXY_BASE = "CppProxyBase"
-        const val FIELD_ACCESS_UTILS = "FieldAccessMethods"
+        private const val FIELD_ACCESS_UTILS = "FieldAccessMethods"
         private const val BOXING_CONVERSION_UTILS = "BoxingConversionUtils"
         private const val JNI_BASE = "JniBase"
         private const val JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils"
@@ -220,8 +218,6 @@ open class JavaGeneratorSuite protected constructor(
         private val UTILS_FILES_HEADER_ONLY = listOf(
             JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD, ARRAY_CONVERSION_UTILS
         )
-        private val UTILS_HEADER_INCLUDES =
-            listOf(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS)
 
         private const val NATIVE_BASE_JAVA = "NativeBase.java"
 
