@@ -31,6 +31,6 @@
 \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment.documentation "    " skipFirstLine=true}}{{/parameters}}{{!!
 }}{{#unless isReturningVoid}}
 \return {{#if isNotNull}}@NotNull {{/if}}{{prefix returnComment "    " skipFirstLine=true}}{{/unless}}{{!!
-}}{{#if errorEnumName}}
-\retval {{errorEnumName}} {{errorComment}}{{/if}}{{!!
+}}{{#if errorType}}
+\retval {{errorType.name}} {{errorComment}}{{/if}}{{!!
 }}{{/combinedComment}}

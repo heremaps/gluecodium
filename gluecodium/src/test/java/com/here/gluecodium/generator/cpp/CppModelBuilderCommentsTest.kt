@@ -41,6 +41,7 @@ import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -49,10 +50,12 @@ import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -127,13 +130,16 @@ class CppModelBuilderCommentsTest {
 
     @Test
     fun finishBuildingMethodReadsErrorEnumName() {
-        contextStack.injectResult(CppComplexTypeRef("::foo::bar"))
-        val limeElement = LimeFunction(EMPTY_PATH)
+        val limeErrorTypeRef = LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH))
+        val limeException = LimeException(EMPTY_PATH, errorType = limeErrorTypeRef)
+        val limeElement =
+            LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
+        every { typeMapper.mapType(limeErrorTypeRef) } returns CppComplexTypeRef("::foo::bar")
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppMethod = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals("::foo::bar", cppMethod.errorEnumName)
+        assertEquals("::foo::bar", cppMethod.errorType?.name)
     }
 
     @Test

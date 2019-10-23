@@ -241,32 +241,9 @@ class CppModelBuilderTest {
     fun finishBuildingMethodReadsReturnType() {
         val limeReturnType = LimeReturnType(LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeFunction(EMPTY_PATH, returnType = limeReturnType)
-        every { typeMapper.mapType(any()) } returns cppTypeRef
+        every { typeMapper.mapReturnType(any(), any()) } returns cppTypeRef
 
         modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals(cppTypeRef, result.returnType)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsErrorType() {
-        contextStack.injectResult(cppTypeRef)
-        every { typeMapper.mapType(any()) } returns CppPrimitiveTypeRef.VOID
-
-        modelBuilder.finishBuilding(limeMethod)
-
-        val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals(CppTypeMapper.STD_ERROR_CODE_TYPE, result.returnType)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsReturnAndErrorTypes() {
-        val cppErrorType = CppComplexTypeRef("")
-        contextStack.injectResult(cppErrorType)
-        every { typeMapper.getReturnWrapperType(any(), any()) } returns cppTypeRef
-
-        modelBuilder.finishBuilding(limeMethod)
 
         val result = modelBuilder.getFinalResult(CppMethod::class.java)
         assertEquals(cppTypeRef, result.returnType)

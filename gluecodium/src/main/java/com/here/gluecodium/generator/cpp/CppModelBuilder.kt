@@ -32,7 +32,6 @@ import com.here.gluecodium.model.cpp.CppField
 import com.here.gluecodium.model.cpp.CppInheritance
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppParameter
-import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
 import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTypeRef
 import com.here.gluecodium.model.cpp.CppUsing
@@ -147,25 +146,14 @@ class CppModelBuilder(
 
         val isNullable = limeMethod.returnType.typeRef.isNullable
         val isInstance = limeMethod.returnType.typeRef.type is LimeContainerWithInheritance
-        val cppReturnType = typeMapper.mapType(limeMethod.returnType.typeRef)
-        val errorEnum = getPreviousResultOrNull(CppTypeRef::class.java)
-        val returnType = when {
-            errorEnum != null && cppReturnType != CppPrimitiveTypeRef.VOID ->
-                typeMapper.getReturnWrapperType(
-                    cppReturnType,
-                    CppTypeMapper.STD_ERROR_CODE_TYPE
-                )
-            errorEnum != null -> CppTypeMapper.STD_ERROR_CODE_TYPE
-            else -> cppReturnType
-        }
 
         val cppMethod = CppMethod(
             name = nameResolver.getName(limeMethod),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeMethod),
             comment = createComments(limeMethod),
-            returnType = returnType,
+            returnType = typeMapper.mapReturnType(limeMethod.returnType, limeMethod.exception),
             returnComment = limeMethod.returnType.comment.getFor(PLATFORM_TAG),
-            errorEnumName = errorEnum?.fullyQualifiedName,
+            errorType = limeMethod.exception?.errorType?.let { typeMapper.mapType(it) },
             errorComment = limeMethod.thrownType?.comment?.getFor(PLATFORM_TAG),
             isNotNull = isInstance && !isNullable,
             parameters = getPreviousResults(CppParameter::class.java),

@@ -37,6 +37,7 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -49,7 +50,7 @@ class CppTypeMapper(
     private val includeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) {
-    fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
+    private fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
         CppTemplateTypeRef(
             TemplateClass.RETURN,
             outArgType,
@@ -78,6 +79,18 @@ class CppTypeMapper(
             limeLambda.parameters.map { mapType(it.typeRef) },
             mapType(limeLambda.returnType)
         )
+
+    fun mapReturnType(returnType: LimeReturnType, exceptionType: LimeException?): CppTypeRef {
+        val cppReturnType = mapType(returnType.typeRef)
+        val errorTypeIsEnum =
+            exceptionType?.errorType?.type?.let { LimeTypeHelper.getActualType(it) } is LimeEnumeration
+        return when {
+            exceptionType == null -> cppReturnType
+            errorTypeIsEnum && cppReturnType == CppPrimitiveTypeRef.VOID -> STD_ERROR_CODE_TYPE
+            errorTypeIsEnum -> getReturnWrapperType(cppReturnType, STD_ERROR_CODE_TYPE)
+            else -> getReturnWrapperType(cppReturnType, mapType(exceptionType.errorType))
+        }
+    }
 
     private fun createOptionalType(cppTypeRef: CppTypeRef) =
         CppTemplateTypeRef(
@@ -151,7 +164,6 @@ class CppTypeMapper(
                     CppTemplateTypeRef(TemplateClass.SET, elementType, hashType)
                 }
             }
-            is LimeException -> STD_ERROR_CODE_TYPE
             is LimeLambda -> CppTypeDefRef(
                 nameResolver.getFullyQualifiedName(limeType),
                 includeResolver.resolveIncludes(limeType),

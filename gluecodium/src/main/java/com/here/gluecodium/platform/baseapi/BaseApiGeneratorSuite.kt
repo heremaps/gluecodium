@@ -42,6 +42,7 @@ import com.here.gluecodium.model.cpp.CppFile
 import com.here.gluecodium.model.cpp.CppForwardDeclarationGroup
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppStruct
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -81,8 +82,10 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
 
         val allErrorEnums = limeReferenceMap.values
+            .asSequence()
             .filterIsInstance<LimeException>()
             .map { it.errorType.type }
+            .filterIsInstance<LimeEnumeration>()
             .map { nameResolver.getFullyQualifiedName(it) }
             .toSet()
 
