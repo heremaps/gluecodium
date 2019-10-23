@@ -124,14 +124,6 @@ class LimeTreeWalkerTest {
     }
 
     @Test
-    fun walkMethodWalksErrorType() {
-        treeWalker.walkTree(limeContainer)
-
-        verify { modelBuilder.startBuilding(limeErrorTypeRef) }
-        verify { modelBuilder.finishBuilding(limeErrorTypeRef) }
-    }
-
-    @Test
     fun walkParameter() {
         treeWalker.walkTree(limeContainer)
 

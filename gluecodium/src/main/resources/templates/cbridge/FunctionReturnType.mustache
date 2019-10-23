@@ -18,8 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if error}}{{!!
-    }}{{#if isReturningVoid}}{{error.functionReturnType}}{{/if}}{{!!
-    }}{{#unless isReturningVoid}}{{name}}_result{{/unless}}{{!!
-}}{{/if}}{{!!
+{{#if error}}{{name}}_result{{/if}}{{!!
 }}{{#unless error}}{{returnType.functionReturnType}}{{/unless}}

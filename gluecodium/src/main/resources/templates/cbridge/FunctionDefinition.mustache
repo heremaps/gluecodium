@@ -24,14 +24,29 @@
 
 {{+FunctionBody}}{{!!
 }}{{#if error}}{{!!
-}}{{#if isReturningVoid}}    return {{>callBaseApi}}.value();{{/if}}{{!!
-}}{{#unless isReturningVoid}}    auto&& RESULT = {{>callBaseApi}};
+}}{{#if errorTypeIsEnum}}{{#if isReturningVoid}}
+    auto&& ERROR_VALUE = {{>callBaseApi}}.value();
+    return {ERROR_VALUE == 0, static_cast< {{error.functionReturnType}} >(ERROR_VALUE)};
+{{/if}}{{#unless isReturningVoid}}
+    auto&& RESULT = {{>callBaseApi}};
     if (RESULT.has_value()) {
         return {true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>ReturnConversion}}{{/set}}};
     } else {
-        return {false, .error_code = static_cast< {{error.functionReturnType}} >(RESULT.error().value())};
-    }{{!!
-}}{{/unless}}{{!!
+        return {false, .error_value = static_cast< {{error.functionReturnType}} >(RESULT.error().value())};
+    }
+{{/unless}}{{/if}}{{!!
+}}{{#unless errorTypeIsEnum}}
+    auto&& RESULT = {{>callBaseApi}};
+    if (RESULT.has_value()) {
+{{#if isReturningVoid}}
+        return {true, 0};
+{{/if}}{{#unless isReturningVoid}}
+        return {true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>ReturnConversion}}{{/set}}};
+{{/unless}}
+    } else {
+        return {false, .error_value = {{#set delegateToCall="call_error" returnType=error}}{{>ReturnConversion}}{{/set}}};
+    }
+{{/unless}}{{!!
 }}{{/if}}{{!!
 }}{{#unless error}}    return {{#set delegateToCall="callBaseApi"}}{{>ReturnConversion}}{{/set}};{{/unless}}
 {{/FunctionBody}}{{!!
@@ -46,6 +61,8 @@
 
 
 }}{{+unsafe_value}}RESULT.unsafe_value(){{/unsafe_value}}{{!!
+
+}}{{+call_error}}RESULT.error(){{/call_error}}{{!!
 
 
 }}{{+callBaseApi}}{{!!

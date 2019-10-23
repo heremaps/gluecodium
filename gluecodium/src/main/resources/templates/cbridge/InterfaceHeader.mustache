@@ -20,15 +20,15 @@
   !}}
 {{#enums}}{{>cbridge/Enumeration}}{{/enums}}
 
-{{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
-{{/unless}}{{/if}}{{/functions}}
+{{#functions}}{{#if error}}{{>cbridge/ThrowingFunctionReturnType}}
+{{/if}}{{/functions}}
 
 {{#structs}}
 {{>cbridge/StructFunctionDeclarations}}
 {{#if methods}}
 
-{{#methods}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
-{{/unless}}{{/if}}{{/methods}}
+{{#methods}}{{#if error}}{{>cbridge/ThrowingFunctionReturnType}}
+{{/if}}{{/methods}}
 
 {{#methods}}
 _GLUECODIUM_C_EXPORT {{>cbridge/FunctionSignature}};

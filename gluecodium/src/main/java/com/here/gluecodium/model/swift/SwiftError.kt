@@ -22,5 +22,5 @@ package com.here.gluecodium.model.swift
 class SwiftError(
     name: String,
     visibility: SwiftVisibility,
-    enumType: SwiftEnum
-) : SwiftTypeDef(name, visibility, enumType)
+    errorType: SwiftType
+) : SwiftTypeDef(name, visibility, errorType)

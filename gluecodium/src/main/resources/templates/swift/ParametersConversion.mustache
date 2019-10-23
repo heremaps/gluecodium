@@ -22,35 +22,13 @@
 {{#parameters}}
 let c_{{name}} = moveToCType({{name}})
 {{/parameters}}
-{{#if error}}{{!!
-    }}{{#if isReturningVoid}}{{!!
-        }}{{>WrapError}}{{!!
-    }}{{/if}}{{!!
-    }}{{#unless isReturningVoid}}{{!!
-        }}{{>WrapErrorOrValue}}{{!!
-    }}{{/unless}}{{!!
-}}{{/if}}{{!!
-}}{{#unless error}}{{!!
-    }}{{#set delegateToCall="swift/DelegateCall"}}{{>returnValueConversion}}{{/set}}{{!!
-}}{{/unless}}{{!!
-
-}}{{+WrapError}}let ERROR_CODE = {{>swift/DelegateCall}}
-if (ERROR_CODE != 0) {
-    throw {{error}}(rawValue: ERROR_CODE)!
-}
-{{/WrapError}}{{!!
-
-
-}}{{+WrapErrorOrValue}}let RESULT = {{>swift/DelegateCall}}
-if (RESULT.has_value) {
-{{#set delegateToCall="swift/ReturnedValue"}}{{prefixPartial 'returnValueConversion' '    '}}{{/set}}
-} else {
-    throw {{error}}(rawValue: RESULT.error_code)!
-}
-{{/WrapErrorOrValue}}{{!!
-
-
-}}{{+returnValueConversion}}{{!!
-    }}return {{returnType.className}}moveFromCType({{include delegateToCall}}){{!!
-}}{{/returnValueConversion}}
-
+{{#if error}}
+let RESULT = {{>swift/DelegateCall}}
+if (!RESULT.has_value) {
+    throw {{error.className}}moveFromCType(RESULT.error_value) as {{error.name}}
+}{{#unless isReturningVoid}} else {
+    return {{returnType.className}}moveFromCType(RESULT.returned_value)
+}{{/unless}}
+{{/if}}{{#unless error}}
+return {{returnType.className}}moveFromCType({{>swift/DelegateCall}})
+{{/unless}}

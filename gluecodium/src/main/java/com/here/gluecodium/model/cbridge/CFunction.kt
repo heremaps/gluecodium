@@ -34,8 +34,9 @@ class CFunction(
     val delegateCallIncludes: Set<Include> = setOf(),
     val functionName: String? = null,
     val cppReturnTypeName: String? = null,
-    val isConst: Boolean = false,
-    val error: CppTypeInfo? = null
+    @Suppress("unused") val isConst: Boolean = false,
+    val error: CppTypeInfo? = null,
+    @Suppress("unused") val errorTypeIsEnum: Boolean = false
 ) : CElement(
     NameHelper.joinNames(
         nestedSpecifier,

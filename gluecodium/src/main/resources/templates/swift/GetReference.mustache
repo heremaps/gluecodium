@@ -56,15 +56,15 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
         {{#if error}}do { {{#if isReturningVoid}}
             try {{include delegateToCall}}
-            return 0
+            return {{cBaseName}}_result(has_value: true, error_value: 0)
         } catch let error as {{error}} {
-            return error.rawValue{{/if}}{{!!
+            return {{cBaseName}}_result(has_value: false, error_value: copyToCType(error).ref){{/if}}{{!!
         }}{{#unless isReturningVoid}}
             let call_result = try {{include delegateToCall}}
             {{#set delegateToCall="callResult" returnPrefix="let result_handle ="}}{{>swiftReturn}}{{/set}}
             return {{cBaseName}}_result(has_value: true, .init(returned_value: result_handle))
         } catch let error as {{error}} {
-            return {{cBaseName}}_result(has_value: false, .init(error_code: error.rawValue)){{/unless}}
+            return {{cBaseName}}_result(has_value: false, .init(error_value: copyToCType(error).ref)){{/unless}}
         } catch {
             fatalError("Unexpected error: \(error)")
         }{{/if}}{{!!

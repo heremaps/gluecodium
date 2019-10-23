@@ -185,18 +185,4 @@ class CBridgeTypeMapperTest {
         assertContains(barInclude, result.includes)
         assertContains(bazInclude, result.includes)
     }
-
-    @Test
-    fun createEnumTypeInfoAsErrorType() {
-        val limeElement = LimeEnumeration(LimePath(emptyList(), listOf("foobar", "barbaz")))
-        val barInclude = Include.createInternalInclude("Bar")
-        val bazInclude = Include.createInternalInclude("Baz")
-        every { cppNameResolver.getFullyQualifiedName(limeElement) } returns "nonsense"
-        every { includeResolver.resolveInclude(limeElement) } returns barInclude
-        every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(bazInclude)
-
-        val result = typeMapper.createEnumTypeInfo(limeElement, true)
-
-        assertContains(CType.BOOL_INCLUDE, result.functionReturnType.includes)
-    }
 }

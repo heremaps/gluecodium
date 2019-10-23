@@ -73,7 +73,6 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     }
 
     private fun walkChildNodes(limeMethod: LimeFunction) {
-        walk(limeMethod.exception?.errorType)
         walkCollection(limeMethod.parameters)
     }
 

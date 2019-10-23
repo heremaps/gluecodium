@@ -349,7 +349,9 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val enumTypeInfo = CppTypeInfo(CType.UINT32)
         contextStack.injectParentCurrentResult(cppTypeInfo)
-        every { typeMapper.createEnumTypeInfo(any(), true) } returns enumTypeInfo
+        val cppMethodWithError = CppMethod("nonsenseName", errorType = cppTypeRef)
+        every { typeMapper.mapType(any(), cppTypeRef) } returns enumTypeInfo
+        every { cppModelBuilder.getFinalResult(CppMethod::class.java) } returns cppMethodWithError
 
         modelBuilder.finishBuilding(limeElement)
 

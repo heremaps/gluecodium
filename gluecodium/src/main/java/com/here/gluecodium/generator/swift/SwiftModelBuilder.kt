@@ -206,8 +206,8 @@ class SwiftModelBuilder(
 
         val error = limeMethod.thrownType?.let {
             val exception = LimeTypeHelper.getActualType(it.typeRef.type) as LimeException
-            val swiftEnumName = nameResolver.getFullName(exception)
-            SwiftThrownType(swiftEnumName, it.comment.getFor(PLATFORM_TAG))
+            val swiftErrorTypeName = nameResolver.getFullName(exception)
+            SwiftThrownType(swiftErrorTypeName, it.comment.getFor(PLATFORM_TAG))
         }
 
         val cShortName = CBridgeNameRules.getShortMethodName(
@@ -311,7 +311,7 @@ class SwiftModelBuilder(
         val error = SwiftError(
             nameRules.getName(limeException),
             getVisibility(limeException),
-            getPreviousResult(SwiftEnum::class.java)
+            getPreviousResult(SwiftType::class.java)
         )
         error.comment = createComments(limeException)
 

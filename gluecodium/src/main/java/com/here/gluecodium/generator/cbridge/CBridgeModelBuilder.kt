@@ -55,6 +55,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.swift.SwiftField
@@ -152,24 +153,27 @@ class CBridgeModelBuilder(
             else -> typeMapper.mapType(limeMethod.returnType.typeRef, cppMethod.returnType)
         }
 
-        var errorType: CppTypeInfo? = null
-        val limeErrorType = limeMethod.exception?.errorType
-        if (limeErrorType != null) {
-            errorType = typeMapper.createEnumTypeInfo(limeErrorType.type, asErrorType = true)
-        }
+        val limeErrorTypeRef = limeMethod.exception?.errorType
+        val cppErrorType = cppMethod.errorType
+        val errorType = if (limeErrorTypeRef != null && cppErrorType != null) {
+            typeMapper.mapType(limeErrorTypeRef, cppErrorType)
+        } else null
 
+        val errorTypeIsEnum =
+            limeErrorTypeRef?.type?.let { LimeTypeHelper.getActualType(it) } is LimeEnumeration
         val result = CFunction(
-            swiftMethod.cShortName,
-            swiftMethod.cNestedSpecifier,
-            returnType,
-            getPreviousResults(CParameter::class.java),
-            parameterSelf,
-            cppMethod.fullyQualifiedName,
-            cppIncludeResolver.resolveIncludes(limeMethod).toSet(),
-            cppMethod.name,
-            cppMethod.returnType.fullyQualifiedName,
-            limeMethod.attributes.have(CPP, LimeAttributeValueType.CONST),
-            errorType
+            shortName = swiftMethod.cShortName,
+            nestedSpecifier = swiftMethod.cNestedSpecifier,
+            returnType = returnType,
+            parameters = getPreviousResults(CParameter::class.java),
+            selfParameter = parameterSelf,
+            delegateCall = cppMethod.fullyQualifiedName,
+            delegateCallIncludes = cppIncludeResolver.resolveIncludes(limeMethod).toSet(),
+            functionName = cppMethod.name,
+            cppReturnTypeName = cppMethod.returnType.fullyQualifiedName,
+            isConst = limeMethod.attributes.have(CPP, LimeAttributeValueType.CONST),
+            error = errorType,
+            errorTypeIsEnum = errorTypeIsEnum
         )
 
         storeResult(result)

@@ -33,18 +33,18 @@ public:
     {{#if selfParameter}}
     {{cppReturnTypeName}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{!!
     }}{{#if isConst}} const{{/if}}{{#unless isFunctionalInterface}} override{{/unless}} {
-        {{#if isReturningVoid}}{{#if error}}return static_cast<{{error.name}}>({{/if}}{{>swiftDelegateCall}}{{#if error}}){{/if}};{{/if}}{{!!
-        }}{{#unless isReturningVoid}}
-        {{#if error}}auto _result_with_error = {{>swiftDelegateCall}};
+        {{#if error}}
+        auto _result_with_error = {{>swiftDelegateCall}};
         if (!_result_with_error.has_value)
         {
-            return std::error_code{static_cast<{{error.name}}>(_result_with_error.error_code)};
+            return {{>errorConversion}}
         }
-        auto _call_result = _result_with_error.returned_value;
-        {{/if}}{{!!
-        }}{{#unless error}}auto _call_result = {{>swiftDelegateCall}};{{/unless}}
-        {{>returnConversion}}
+        {{#if isReturningVoid}}return {};{{/if}}{{!!
+        }}{{#unless isReturningVoid}}auto _call_result = _result_with_error.returned_value;{{/unless}}
+        {{/if}}{{#unless error}}
+        {{#unless isReturningVoid}}auto _call_result = {{/unless}}{{>swiftDelegateCall}};
         {{/unless}}
+        {{#unless isReturningVoid}}{{>returnConversion}}{{/unless}}
     }
     {{/if}}
     {{/each}}
@@ -78,16 +78,22 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
     }}{{#case "BUILTIN_SIMPLE"}}{{mappedType}}{{/case}}{{!!
     }}{{#case "ENUM"}}const {{mappedType}}{{/case}}{{!!
     }}{{#default}}const {{mappedType}}&{{/default}}{{!!
-}}{{/switch}} {{name}}{{/baseApiParameter}}
-{{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
+}}{{/switch}} {{name}}{{/baseApiParameter}}{{!!
+}}{{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<uint32_t>({{name}}){{/case}}{{!!
     }}{{#default}}Conversion<{{mappedType}}>::toBaseRef({{name}}){{/default}}{{!!
-}}{{/switch}}{{/swiftParameter}}
-{{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
+}}{{/switch}}{{/swiftParameter}}{{!!
+}}{{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}return _call_result;{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{returnType}}>(_call_result);{{/case}}{{!!
     }}{{#default}}return Conversion<{{returnType}}>::toCppReturn(_call_result);{{/default}}{{!!
 }}{{/switch}}
-{{/returnConversion}}
-{{+swiftDelegateCall}}mFunctions.{{name}}(mFunctions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}
+{{/returnConversion}}{{!!
+}}{{+errorConversion}}{{#switch error.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}_result_with_error.error_value;{{/case}}{{!!
+    }}{{#case "ENUM"}}std::error_code{static_cast<{{error}}>(_result_with_error.error_value)};{{/case}}{{!!
+    }}{{#default}}Conversion<{{error}}>::toCppReturn(_result_with_error.error_value);{{/default}}{{!!
+}}{{/switch}}
+{{/errorConversion}}{{!!
+}}{{+swiftDelegateCall}}mFunctions.{{name}}(mFunctions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}

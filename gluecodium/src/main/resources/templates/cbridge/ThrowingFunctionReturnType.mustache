@@ -20,9 +20,14 @@
   !}}
 typedef struct {
     bool has_value;
+{{#if isReturningVoid}}
+    {{error.functionReturnType}} error_value;
+{{/if}}{{#unless isReturningVoid}}
     union {
-        {{error.functionReturnType}} error_code;
+        {{error.functionReturnType}} error_value;
         {{returnType.functionReturnType}} returned_value;
     };
+{{/unless}}
+
 } {{name}}_result;
 

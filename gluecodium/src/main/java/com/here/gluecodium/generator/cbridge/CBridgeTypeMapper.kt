@@ -104,18 +104,15 @@ class CBridgeTypeMapper(
         return CppTypeInfo(baseApiCall, structCType, structCType, includes)
     }
 
-    fun createEnumTypeInfo(limeType: LimeType, asErrorType: Boolean = false): CppTypeInfo {
+    fun createEnumTypeInfo(limeType: LimeType): CppTypeInfo {
         val publicInclude = includeResolver.resolveInclude(limeType)
         val baseApiIncludes = cppIncludeResolver.resolveIncludes(limeType)
-
         val typeName = CBridgeNameRules.getTypeName(limeType)
-        val functionReturnTypeIncludes = listOf(publicInclude) +
-            if (asErrorType) listOf(CType.BOOL_INCLUDE) else emptyList()
 
         return CppTypeInfo(
             name = cppNameResolver.getFullyQualifiedName(limeType),
             cType = CType(typeName, publicInclude),
-            functionReturnType = CType(typeName, functionReturnTypeIncludes),
+            functionReturnType = CType(typeName, listOf(publicInclude)),
             includes = listOf(publicInclude) + baseApiIncludes,
             typeCategory = CppTypeInfo.TypeCategory.ENUM
         )
