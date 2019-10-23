@@ -74,7 +74,7 @@ class LimeTreeWalkerTest {
     )
     private val limeStruct = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
     private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeParameterTypeRef)
-    private val limeException = LimeException(EMPTY_PATH, errorEnum = limeErrorTypeRef)
+    private val limeException = LimeException(EMPTY_PATH, errorType = limeErrorTypeRef)
     private val limeMethod = LimeFunction(
         path = EMPTY_PATH,
         thrownType = LimeThrownType(LimeDirectTypeRef(limeException)),

@@ -345,7 +345,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsErrorType() {
-        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.FLOAT)
+        val limeException = LimeException(EMPTY_PATH, errorType = LimeBasicTypeRef.FLOAT)
         val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val enumTypeInfo = CppTypeInfo(CType.UINT32)
         contextStack.injectParentCurrentResult(cppTypeInfo)

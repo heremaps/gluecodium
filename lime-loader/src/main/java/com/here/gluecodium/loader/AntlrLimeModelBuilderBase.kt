@@ -84,6 +84,10 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitTypeRef(ctx: LimeParser.TypeRefContext) {}
 
+    override fun enterSimpleTypeRef(ctx: LimeParser.SimpleTypeRefContext) {}
+
+    override fun exitSimpleTypeRef(ctx: LimeParser.SimpleTypeRefContext) {}
+
     override fun enterPredefinedType(ctx: LimeParser.PredefinedTypeContext) {}
 
     override fun exitPredefinedType(ctx: LimeParser.PredefinedTypeContext) {}

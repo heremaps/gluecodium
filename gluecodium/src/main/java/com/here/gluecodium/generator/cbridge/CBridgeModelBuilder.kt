@@ -153,7 +153,7 @@ class CBridgeModelBuilder(
         }
 
         var errorType: CppTypeInfo? = null
-        val limeErrorType = limeMethod.exception?.errorEnum
+        val limeErrorType = limeMethod.exception?.errorType
         if (limeErrorType != null) {
             errorType = typeMapper.createEnumTypeInfo(limeErrorType.type, asErrorType = true)
         }

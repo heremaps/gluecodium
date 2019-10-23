@@ -82,7 +82,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val allErrorEnums = limeReferenceMap.values
             .filterIsInstance<LimeException>()
-            .map { it.errorEnum.type }
+            .map { it.errorType.type }
             .map { nameResolver.getFullyQualifiedName(it) }
             .toSet()
 

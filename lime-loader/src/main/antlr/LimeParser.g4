@@ -115,7 +115,7 @@ typealias
 
 exception
     : docComment* annotation* visibility? 'exception' NewLine* simpleId NewLine*
-      '(' NewLine* identifier NewLine* ')' NewLine+
+      '(' NewLine* simpleTypeRef NewLine* ')' NewLine+
     ;
 
 lambda
@@ -148,7 +148,11 @@ annotationValue
 // Type references
 
 typeRef
-    : (identifier | predefinedType | genericType ) ('?')? NewLine*
+    : simpleTypeRef ('?')? NewLine*
+    ;
+
+simpleTypeRef
+    : identifier | predefinedType | genericType
     ;
 
 predefinedType

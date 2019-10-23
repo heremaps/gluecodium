@@ -241,7 +241,7 @@ class JavaModelBuilder(
     override fun finishBuilding(limeException: LimeException) {
         val javaException = JavaExceptionClass(
             nameRules.getName(limeException),
-            typeMapper.mapCustomType(limeException.errorEnum.type) as JavaEnumType
+            typeMapper.mapCustomType(limeException.errorType.type) as JavaEnumType
         )
         javaException.visibility = getVisibility(limeException)
         javaException.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)

@@ -21,7 +21,6 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeTypeRefsVisitor
-import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
@@ -50,10 +49,6 @@ internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
                     "refers to `types` container ${referredType.fullName} " +
                             "which cannot be used as a type itself."
                 )
-                false
-            }
-            parentElement is LimeException && referredType !is LimeEnumeration -> {
-                logger.error(parentElement, "refers to a non-enumeration type.")
                 false
             }
             referredType is LimeException &&

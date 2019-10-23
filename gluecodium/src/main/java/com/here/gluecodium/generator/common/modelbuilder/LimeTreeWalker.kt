@@ -73,7 +73,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     }
 
     private fun walkChildNodes(limeMethod: LimeFunction) {
-        walk(limeMethod.exception?.errorEnum)
+        walk(limeMethod.exception?.errorType)
         walkCollection(limeMethod.parameters)
     }
 
@@ -112,7 +112,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     }
 
     private fun walkChildNodes(limeException: LimeException) {
-        walk(limeException.errorEnum)
+        walk(limeException.errorType)
     }
 
     companion object {

@@ -30,7 +30,6 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
-import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class AntlrTypeMapper(
     private val imports: List<LimePath>,
@@ -38,21 +37,25 @@ internal class AntlrTypeMapper(
     private val identifierConverter: (LimeParser.SimpleIdContext) -> String
 ) {
 
-    fun mapTypeRef(currentPath: LimePath, typeRef: LimeParser.TypeRefContext): LimeTypeRef {
-        val isOptional = typeRef.Quest() != null
-        return when {
-            typeRef.predefinedType() != null ->
-                LimeBasicTypeRef(mapPredefinedType(typeRef.predefinedType()), isOptional)
-            typeRef.genericType() != null ->
-                LimeDirectTypeRef(mapGenericType(currentPath, typeRef.genericType()), isOptional)
-            else -> mapExplicitTypeRef(currentPath, typeRef.identifier(), isOptional)
-        }
+    fun mapTypeRef(currentPath: LimePath, typeRef: LimeParser.TypeRefContext) =
+        mapSimpleTypeRef(currentPath, typeRef.simpleTypeRef(), typeRef.Quest() != null)
+
+    fun mapSimpleTypeRef(
+        currentPath: LimePath,
+        typeRef: LimeParser.SimpleTypeRefContext,
+        isOptional: Boolean = false
+    ) = when {
+        typeRef.predefinedType() != null ->
+            LimeBasicTypeRef(mapPredefinedType(typeRef.predefinedType()), isOptional)
+        typeRef.genericType() != null ->
+            LimeDirectTypeRef(mapGenericType(currentPath, typeRef.genericType()), isOptional)
+        else -> mapExplicitTypeRef(currentPath, typeRef.identifier(), isOptional)
     }
 
-    fun mapExplicitTypeRef(
+    private fun mapExplicitTypeRef(
         currentPath: LimePath,
         identifierContext: LimeParser.IdentifierContext,
-        isOptional: Boolean = false
+        isOptional: Boolean
     ) = LimeAmbiguousTypeRef(
         relativePath = identifierContext.simpleId().map { identifierConverter(it) },
         parentPaths = listOf(currentPath) + currentPath.allParents,

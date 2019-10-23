@@ -23,7 +23,6 @@ import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -65,40 +64,8 @@ class LimeTypeRefTargetValidatorTest {
     }
 
     @Test
-    fun validateExceptionWithEnum() {
-        val limeEnumeration = LimeEnumeration(EMPTY_PATH)
-        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnumeration))
-
-        assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateExceptionWithInvalidType() {
-        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateExceptionWithAliasedEnum() {
-        val limeEnumeration = LimeEnumeration(EMPTY_PATH)
-        val limeTypeAlias = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeEnumeration))
-        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeTypeAlias))
-
-        assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateExceptionWithAliasedInvalidType() {
-        val limeTypeAlias = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
-        allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeTypeAlias))
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
     fun validateExceptionTypeInThrowsClause() {
-        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+        val limeException = LimeException(EMPTY_PATH, errorType = LimeBasicTypeRef.INT)
         allElements[""] =
             LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
 
@@ -107,7 +74,7 @@ class LimeTypeRefTargetValidatorTest {
 
     @Test
     fun validateExceptionTypeInReturnType() {
-        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+        val limeException = LimeException(EMPTY_PATH, errorType = LimeBasicTypeRef.INT)
         allElements[""] =
             LimeFunction(EMPTY_PATH, returnType = LimeReturnType(LimeDirectTypeRef(limeException)))
 
@@ -116,7 +83,7 @@ class LimeTypeRefTargetValidatorTest {
 
     @Test
     fun validateExceptionTypeInTypeAlias() {
-        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+        val limeException = LimeException(EMPTY_PATH, errorType = LimeBasicTypeRef.INT)
         allElements[""] = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeException))
 
         assertFalse(validator.validate(limeModel))

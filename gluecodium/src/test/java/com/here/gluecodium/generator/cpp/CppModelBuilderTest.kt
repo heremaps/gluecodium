@@ -751,7 +751,7 @@ class CppModelBuilderTest {
     fun finishBuildingException() {
         val limeElement = LimeException(
             LimePath(emptyList(), listOf("foo", "bar")),
-            errorEnum = LimeBasicTypeRef.DOUBLE
+            errorType = LimeBasicTypeRef.DOUBLE
         )
         contextStack.injectResult(cppTypeRef)
 

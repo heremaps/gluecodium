@@ -169,7 +169,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingExceptionReadsErrorType() {
         val limeException =
-            LimeException(LimePath(emptyList(), listOf("bar")), errorEnum = LimeBasicTypeRef.FLOAT)
+            LimeException(LimePath(emptyList(), listOf("bar")), errorType = LimeBasicTypeRef.FLOAT)
         val swiftEnum = SwiftEnum("EnumName")
         contextStack.injectResult(swiftEnum)
 

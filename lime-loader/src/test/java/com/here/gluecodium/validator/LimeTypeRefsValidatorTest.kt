@@ -101,7 +101,7 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
             }),
             arrayOf<(LimeTypeRef) -> LimeElement>({ LimeClass(EMPTY_PATH, parent = it) }),
             arrayOf<(LimeTypeRef) -> LimeElement>({ LimeTypeAlias(EMPTY_PATH, typeRef = it) }),
-            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeException(EMPTY_PATH, errorEnum = it) })
+            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeException(EMPTY_PATH, errorType = it) })
         )
     }
 }

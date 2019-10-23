@@ -452,7 +452,7 @@ internal class AntlrLimeModelBuilder(
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = convertAnnotations(ctx.annotation()),
-            errorEnum = typeMapper.mapExplicitTypeRef(currentPath, ctx.identifier())
+            errorType = typeMapper.mapSimpleTypeRef(currentPath, ctx.simpleTypeRef())
         )
 
         storeResultAndPopStacks(limeElement)
@@ -502,8 +502,8 @@ internal class AntlrLimeModelBuilder(
     }
 
     private fun storeResultAndPopStacks(limeFunction: LimeFunction) {
-        val ambigousKey = limeFunction.path.withSuffix("").toString()
-        referenceResolver.registerElement(ambigousKey, limeFunction)
+        val ambiguousKey = limeFunction.path.withSuffix("").toString()
+        referenceResolver.registerElement(ambiguousKey, limeFunction)
         storeResultAndPopStacks(limeFunction as LimeNamedElement)
     }
 

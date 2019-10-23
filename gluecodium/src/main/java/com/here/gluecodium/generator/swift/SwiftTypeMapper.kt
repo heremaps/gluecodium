@@ -78,7 +78,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeList -> mapArrayType(limeType)
             is LimeMap -> mapMapType(limeType)
             is LimeSet -> mapSetType(limeType)
-            is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorEnum.type))
+            is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorType.type))
             is LimeLambda ->
                 SwiftClosure(
                     name = nameResolver.getFullName(limeType),

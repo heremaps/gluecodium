@@ -24,5 +24,5 @@ class LimeException(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    val errorEnum: LimeTypeRef
+    val errorType: LimeTypeRef
 ) : LimeType(path, visibility, comment, attributes)

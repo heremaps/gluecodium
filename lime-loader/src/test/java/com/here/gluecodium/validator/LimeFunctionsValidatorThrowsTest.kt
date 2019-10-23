@@ -53,7 +53,7 @@ class LimeFunctionsValidatorThrowsTest {
     @Test
     fun validateWithExceptionType() {
         val limeException =
-            LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)))
+            LimeException(EMPTY_PATH, errorType = LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)))
         allElements[""] =
             LimeFunction(barPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
 
@@ -63,7 +63,7 @@ class LimeFunctionsValidatorThrowsTest {
     @Test
     fun validateWithAliasedExceptionType() {
         val limeException =
-            LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)))
+            LimeException(EMPTY_PATH, errorType = LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)))
         val limeTypeAlias = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeException))
         allElements[""] =
             LimeFunction(barPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeTypeAlias)))

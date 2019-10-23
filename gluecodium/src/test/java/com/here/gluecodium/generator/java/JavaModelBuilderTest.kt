@@ -170,7 +170,7 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsErrorType() {
         val limeErrorType = object : LimeType(fooPath) {}
-        val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeErrorType))
+        val limeException = LimeException(fooPath, errorType = LimeDirectTypeRef(limeErrorType))
         val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val javaExceptionType =
             JavaExceptionType("", emptyList(), JavaImport("", JavaPackage.DEFAULT))
@@ -551,7 +551,7 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingExceptionCreatesJavaException() {
         val limeEnumeration = LimeEnumeration(LimePath.EMPTY_PATH)
-        val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeEnumeration))
+        val limeException = LimeException(fooPath, errorType = LimeDirectTypeRef(limeEnumeration))
         val javaEnumTypeRef = JavaEnumType(
             "",
             emptyList(),
@@ -574,7 +574,7 @@ class JavaModelBuilderTest {
         val limeException = LimeException(
             fooPath,
             visibility = LimeVisibility.INTERNAL,
-            errorEnum = LimeDirectTypeRef(limeEnumeration)
+            errorType = LimeDirectTypeRef(limeEnumeration)
         )
         val javaEnumTypeRef = JavaEnumType(
             "",

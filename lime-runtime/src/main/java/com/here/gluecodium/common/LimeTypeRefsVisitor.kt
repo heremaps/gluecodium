@@ -37,7 +37,7 @@ abstract class LimeTypeRefsVisitor<T> {
             } +
             allElements.filterIsInstance<LimeContainerWithInheritance>().map { visitTypeRef(it, it.parent) } +
             allElements.filterIsInstance<LimeTypeAlias>().map { visitTypeRef(it, it.typeRef) } +
-            allElements.filterIsInstance<LimeException>().map { visitTypeRef(it, it.errorEnum) }
+            allElements.filterIsInstance<LimeException>().map { visitTypeRef(it, it.errorType) }
     }
 
     abstract fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): T
