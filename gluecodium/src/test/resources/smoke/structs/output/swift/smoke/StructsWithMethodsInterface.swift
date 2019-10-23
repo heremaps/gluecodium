@@ -64,10 +64,10 @@ public class StructsWithMethodsInterface {
         private static func create(other: StructsWithMethodsInterface.Vector3) throws -> _baseRef {
             let c_other = moveToCType(other)
             let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_Vector3(c_other.ref)
-            if (RESULT.has_value) {
-                return moveFromCType(RESULT.returned_value)
+            if (!RESULT.has_value) {
+                throw moveFromCType(RESULT.error_value) as ValidationError
             } else {
-                throw ValidationError(rawValue: RESULT.error_code)!
+                return moveFromCType(RESULT.returned_value)
             }
         }
     }

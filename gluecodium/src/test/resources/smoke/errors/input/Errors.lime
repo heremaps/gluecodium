@@ -17,6 +17,14 @@
 
 package smoke
 
+struct Payload {
+    errorCode: Int
+    message: String
+}
+
+exception WithString(String)
+exception WithPayload(Payload)
+
 class Errors {
     enum InternalErrorCode {
         ERROR_NONE,
@@ -32,6 +40,8 @@ class Errors {
     static fun methodWithErrors() throws Internal
     static fun methodWithExternalErrors() throws External
     static fun methodWithErrorsAndReturnValue(): String throws Internal
+    static fun methodWithPayloadError() throws WithPayload
+    static fun methodWithPayloadErrorAndReturnValue(): String throws WithPayload
 
     exception Internal(InternalErrorCode)
     exception External(ExternalErrors)
@@ -51,6 +61,8 @@ interface ErrorsInterface {
     fun methodWithErrors() throws Internal
     fun methodWithExternalErrors() throws External
     fun methodWithErrorsAndReturnValue(): String throws Internal
+    static fun methodWithPayloadError() throws WithPayload
+    static fun methodWithPayloadErrorAndReturnValue(): String throws WithPayload
 
     exception Internal(InternalError)
     exception External(ExternalErrors)

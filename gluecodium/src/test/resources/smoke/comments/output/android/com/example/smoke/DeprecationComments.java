@@ -38,7 +38,7 @@ public interface DeprecationComments {
      */
     public final static class SomethingWrongException extends Exception {
         public SomethingWrongException(final DeprecationComments.SomeEnum error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final DeprecationComments.SomeEnum error;

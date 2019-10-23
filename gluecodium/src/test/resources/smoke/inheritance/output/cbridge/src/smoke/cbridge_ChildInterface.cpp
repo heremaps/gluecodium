@@ -49,15 +49,18 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void root_method() override {
-        mFunctions.smoke_ParentInterface_rootMethod(mFunctions.swift_pointer);    }
+        mFunctions.smoke_ParentInterface_rootMethod(mFunctions.swift_pointer);
+    }
     ::std::string get_root_property() const override {
         auto _call_result = mFunctions.smoke_ParentInterface_rootProperty_get(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);
     }
     void set_root_property(const std::string& newValue) override {
-        mFunctions.smoke_ParentInterface_rootProperty_set(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(newValue));    }
+        mFunctions.smoke_ParentInterface_rootProperty_set(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(newValue));
+    }
     void child_method() override {
-        mFunctions.smoke_ChildInterface_childMethod(mFunctions.swift_pointer);    }
+        mFunctions.smoke_ChildInterface_childMethod(mFunctions.swift_pointer);
+    }
 private:
     smoke_ChildInterface_FunctionTable mFunctions;
 };

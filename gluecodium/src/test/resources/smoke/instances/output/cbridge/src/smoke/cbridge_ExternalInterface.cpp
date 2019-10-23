@@ -80,7 +80,8 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void some_Method(int8_t someParameter) override {
-        mFunctions.smoke_ExternalInterface_someMethod(mFunctions.swift_pointer, someParameter);    }
+        mFunctions.smoke_ExternalInterface_someMethod(mFunctions.swift_pointer, someParameter);
+    }
     ::std::string get_Me() const override {
         auto _call_result = mFunctions.smoke_ExternalInterface_someProperty_get(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);

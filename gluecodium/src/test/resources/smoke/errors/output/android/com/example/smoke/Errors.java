@@ -24,14 +24,14 @@ public final class Errors extends NativeBase {
     }
     public final static class InternalException extends Exception {
         public InternalException(final Errors.InternalErrorCode error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final Errors.InternalErrorCode error;
     }
     public final static class ExternalException extends Exception {
         public ExternalException(final Errors.ExternalErrors error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final Errors.ExternalErrors error;
@@ -53,4 +53,7 @@ public final class Errors extends NativeBase {
     public static native void methodWithExternalErrors() throws Errors.ExternalException;
     @NonNull
     public static native String methodWithErrorsAndReturnValue() throws Errors.InternalException;
+    public static native void methodWithPayloadError() throws WithPayloadException;
+    @NonNull
+    public static native String methodWithPayloadErrorAndReturnValue() throws WithPayloadException;
 }

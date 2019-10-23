@@ -15,7 +15,7 @@ public final class NAME_RULES_DROID extends NativeBase {
     }
     public final static class example_x extends Exception {
         public example_x(final NAME_RULES_DROID.EXAMPLE_ERROR_CODE_DROID error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final NAME_RULES_DROID.EXAMPLE_ERROR_CODE_DROID error;

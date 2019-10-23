@@ -62,7 +62,7 @@ namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _i
     if (RESULT.has_value()) {
         return {true, .returned_value = RESULT.unsafe_value()};
     } else {
-        return {false, .error_code = static_cast< namerules_NameRules_ExampleErrorCode >(RESULT.error().value())};
+        return {false, .error_value = static_cast< namerules_NameRules_ExampleErrorCode >(RESULT.error().value())};
     }
 }
 uint32_t namerules_NameRules_intProperty_get(_baseRef _instance) {

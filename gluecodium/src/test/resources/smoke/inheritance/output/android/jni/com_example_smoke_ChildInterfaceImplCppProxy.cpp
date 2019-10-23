@@ -1,8 +1,8 @@
 /*
  *
  */
-#include "com_example_smoke_ChildInterface__Conversion.h"
 #include "com_example_smoke_ChildInterfaceImplCppProxy.h"
+#include "com_example_smoke_ChildInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
 namespace gluecodium

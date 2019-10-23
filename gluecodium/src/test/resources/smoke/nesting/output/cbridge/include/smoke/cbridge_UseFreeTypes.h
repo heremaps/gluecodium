@@ -12,7 +12,7 @@ extern "C" {
 typedef struct {
     bool has_value;
     union {
-        smoke_FreeEnum error_code;
+        smoke_FreeEnum error_value;
         double returned_value;
     };
 } smoke_UseFreeTypes_doStuff_result;

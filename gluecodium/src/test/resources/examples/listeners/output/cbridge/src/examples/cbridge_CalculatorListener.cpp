@@ -45,7 +45,8 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void on_calculation_result(double calculationResult) override {
-        mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);    }
+        mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
+    }
 private:
     examples_CalculatorListener_FunctionTable mFunctions;
 };

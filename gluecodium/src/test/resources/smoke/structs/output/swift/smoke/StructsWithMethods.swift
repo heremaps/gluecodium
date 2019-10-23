@@ -49,10 +49,10 @@ public struct Vector {
     private static func create(other: Vector) throws -> _baseRef {
         let c_other = moveToCType(other)
         let RESULT = smoke_StructsWithMethods_Vector_create_Vector(c_other.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as ValidationError
         } else {
-            throw ValidationError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

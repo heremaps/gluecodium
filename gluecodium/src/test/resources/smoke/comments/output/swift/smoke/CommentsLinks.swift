@@ -63,10 +63,10 @@ public class CommentsLinks {
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
         let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_CommentsLinks_randomMethod(self.c_instance, c_inputParameter.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
-            throw Comments.SomethingWrongError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

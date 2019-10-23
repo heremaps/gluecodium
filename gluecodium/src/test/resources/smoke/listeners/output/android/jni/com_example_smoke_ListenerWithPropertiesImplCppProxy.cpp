@@ -2,13 +2,10 @@
  *
  */
 #include "com_example_smoke_CalculationResult__Conversion.h"
-#include "com_example_smoke_CalculationResult__Conversion.h"
-#include "com_example_smoke_ListenerWithProperties_ResultStruct__Conversion.h"
-#include "com_example_smoke_ListenerWithProperties_ResultStruct__Conversion.h"
-#include "com_example_smoke_ListenerWithProperties_ResultEnum__Conversion.h"
-#include "com_example_smoke_ListenerWithProperties_ResultEnum__Conversion.h"
-#include "com_example_smoke_ListenerWithProperties__Conversion.h"
 #include "com_example_smoke_ListenerWithPropertiesImplCppProxy.h"
+#include "com_example_smoke_ListenerWithProperties_ResultEnum__Conversion.h"
+#include "com_example_smoke_ListenerWithProperties_ResultStruct__Conversion.h"
+#include "com_example_smoke_ListenerWithProperties__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
 namespace gluecodium

@@ -6,6 +6,8 @@ public protocol ErrorsInterface : AnyObject {
     func methodWithErrors() throws -> Void
     func methodWithExternalErrors() throws -> Void
     func methodWithErrorsAndReturnValue() throws -> String
+    static func methodWithPayloadError() throws -> Void
+    static func methodWithPayloadErrorAndReturnValue() throws -> String
 }
 internal class _ErrorsInterface: ErrorsInterface {
     let c_instance : _baseRef
@@ -19,23 +21,37 @@ internal class _ErrorsInterface: ErrorsInterface {
         smoke_ErrorsInterface_release_handle(c_instance)
     }
     public func methodWithErrors() throws -> Void {
-        let ERROR_CODE = smoke_ErrorsInterface_methodWithErrors(self.c_instance)
-        if (ERROR_CODE != 0) {
-            throw InternalError(rawValue: ERROR_CODE)!
+        let RESULT = smoke_ErrorsInterface_methodWithErrors(self.c_instance)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as InternalError
         }
     }
     public func methodWithExternalErrors() throws -> Void {
-        let ERROR_CODE = smoke_ErrorsInterface_methodWithExternalErrors(self.c_instance)
-        if (ERROR_CODE != 0) {
-            throw ExternalError(rawValue: ERROR_CODE)!
+        let RESULT = smoke_ErrorsInterface_methodWithExternalErrors(self.c_instance)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as ExternalError
         }
     }
     public func methodWithErrorsAndReturnValue() throws -> String {
         let RESULT = smoke_ErrorsInterface_methodWithErrorsAndReturnValue(self.c_instance)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as InternalError
         } else {
-            throw InternalError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
+        }
+    }
+    public static func methodWithPayloadError() throws -> Void {
+        let RESULT = smoke_ErrorsInterface_methodWithPayloadError()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as WithPayloadError
+        }
+    }
+    public static func methodWithPayloadErrorAndReturnValue() throws -> String {
+        let RESULT = smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as WithPayloadError
+        } else {
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }
@@ -65,9 +81,9 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ErrorsInterface
         do {
             try swift_class.methodWithErrors()
-            return 0
+            return smoke_ErrorsInterface_methodWithErrors_result(has_value: true, error_value: 0)
         } catch let error as InternalError {
-            return error.rawValue
+            return smoke_ErrorsInterface_methodWithErrors_result(has_value: false, error_value: copyToCType(error).ref)
         } catch {
             fatalError("Unexpected error: \(error)")
         }
@@ -76,9 +92,9 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ErrorsInterface
         do {
             try swift_class.methodWithExternalErrors()
-            return 0
+            return smoke_ErrorsInterface_methodWithExternalErrors_result(has_value: true, error_value: 0)
         } catch let error as ExternalError {
-            return error.rawValue
+            return smoke_ErrorsInterface_methodWithExternalErrors_result(has_value: false, error_value: copyToCType(error).ref)
         } catch {
             fatalError("Unexpected error: \(error)")
         }
@@ -90,7 +106,30 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
             let result_handle = copyToCType(call_result).ref
             return smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result(has_value: true, .init(returned_value: result_handle))
         } catch let error as InternalError {
-            return smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result(has_value: false, .init(error_code: error.rawValue))
+            return smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result(has_value: false, .init(error_value: copyToCType(error).ref))
+        } catch {
+            fatalError("Unexpected error: \(error)")
+        }
+    }
+    functions.smoke_ErrorsInterface_methodWithPayloadError = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ErrorsInterface
+        do {
+            try swift_class.methodWithPayloadError()
+            return smoke_ErrorsInterface_methodWithPayloadError_result(has_value: true, error_value: 0)
+        } catch let error as WithPayloadError {
+            return smoke_ErrorsInterface_methodWithPayloadError_result(has_value: false, error_value: copyToCType(error).ref)
+        } catch {
+            fatalError("Unexpected error: \(error)")
+        }
+    }
+    functions.smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ErrorsInterface
+        do {
+            let call_result = try swift_class.methodWithPayloadErrorAndReturnValue()
+            let result_handle = copyToCType(call_result).ref
+            return smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result(has_value: true, .init(returned_value: result_handle))
+        } catch let error as WithPayloadError {
+            return smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result(has_value: false, .init(error_value: copyToCType(error).ref))
         } catch {
             fatalError("Unexpected error: \(error)")
         }

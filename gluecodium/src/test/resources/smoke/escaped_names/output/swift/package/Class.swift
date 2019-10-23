@@ -34,10 +34,10 @@ public class Class: Interface {
     public func fun(double: List) throws -> Struct {
         let c_double = moveToCType(double)
         let RESULT = package_Class_fun(self.c_instance, c_double.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as ExceptionError
         } else {
-            throw ExceptionError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

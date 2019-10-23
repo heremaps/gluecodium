@@ -18,7 +18,7 @@ public final class PlatformComments extends NativeBase {
      */
     public final static class SomethingWrongException extends Exception {
         public SomethingWrongException(final PlatformComments.SomeEnum error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final PlatformComments.SomeEnum error;

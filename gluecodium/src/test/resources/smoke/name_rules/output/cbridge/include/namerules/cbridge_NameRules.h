@@ -12,7 +12,7 @@ typedef uint32_t namerules_NameRules_ExampleErrorCode;
 typedef struct {
     bool has_value;
     union {
-        namerules_NameRules_ExampleErrorCode error_code;
+        namerules_NameRules_ExampleErrorCode error_value;
         double returned_value;
     };
 } namerules_NameRules_someMethod_result;

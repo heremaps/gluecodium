@@ -47,7 +47,7 @@ smoke_Constructors_create_String_result smoke_Constructors_create_String(_baseRe
     if (RESULT.has_value()) {
         return {true, .returned_value = Conversion<std::shared_ptr<::smoke::Constructors>>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_code = static_cast< smoke_Constructors_ErrorEnum >(RESULT.error().value())};
+        return {false, .error_value = static_cast< smoke_Constructors_ErrorEnum >(RESULT.error().value())};
     }
 }
 _baseRef smoke_Constructors_create__3Double_4(_baseRef input) {

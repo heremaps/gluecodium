@@ -15,4 +15,6 @@ class Errors {
     static fun methodWithErrors() throws Internal
     static fun methodWithExternalErrors() throws External
     static fun methodWithErrorsAndReturnValue(): String throws Internal
+    static fun methodWithPayloadError() throws WithPayload
+    static fun methodWithPayloadErrorAndReturnValue(): String throws WithPayload
 }

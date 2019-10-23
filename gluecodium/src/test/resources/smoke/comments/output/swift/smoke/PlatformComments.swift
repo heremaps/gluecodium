@@ -33,10 +33,10 @@ public class PlatformComments {
     public func someMethodWithAllComments(input: String) throws -> Bool {
         let c_input = moveToCType(input)
         let RESULT = smoke_PlatformComments_someMethodWithAllComments(self.c_instance, c_input.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as PlatformComments.SomethingWrongError
         } else {
-            throw PlatformComments.SomethingWrongError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

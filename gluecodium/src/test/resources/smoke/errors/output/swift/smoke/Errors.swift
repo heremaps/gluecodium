@@ -24,23 +24,37 @@ public class Errors {
         case bust
     }
     public static func methodWithErrors() throws -> Void {
-        let ERROR_CODE = smoke_Errors_methodWithErrors()
-        if (ERROR_CODE != 0) {
-            throw Errors.InternalError(rawValue: ERROR_CODE)!
+        let RESULT = smoke_Errors_methodWithErrors()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Errors.InternalError
         }
     }
     public static func methodWithExternalErrors() throws -> Void {
-        let ERROR_CODE = smoke_Errors_methodWithExternalErrors()
-        if (ERROR_CODE != 0) {
-            throw Errors.ExternalError(rawValue: ERROR_CODE)!
+        let RESULT = smoke_Errors_methodWithExternalErrors()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Errors.ExternalError
         }
     }
     public static func methodWithErrorsAndReturnValue() throws -> String {
         let RESULT = smoke_Errors_methodWithErrorsAndReturnValue()
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Errors.InternalError
         } else {
-            throw Errors.InternalError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
+        }
+    }
+    public static func methodWithPayloadError() throws -> Void {
+        let RESULT = smoke_Errors_methodWithPayloadError()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as WithPayloadError
+        }
+    }
+    public static func methodWithPayloadErrorAndReturnValue() throws -> String {
+        let RESULT = smoke_Errors_methodWithPayloadErrorAndReturnValue()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as WithPayloadError
+        } else {
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

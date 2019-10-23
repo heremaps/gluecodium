@@ -123,7 +123,8 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void operator()(const std::string& p0) {
-        mFunctions.smoke_Lambdas_Consumer_call(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(p0));    }
+        mFunctions.smoke_Lambdas_Consumer_call(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(p0));
+    }
 private:
     smoke_Lambdas_Consumer_FunctionTable mFunctions;
 };

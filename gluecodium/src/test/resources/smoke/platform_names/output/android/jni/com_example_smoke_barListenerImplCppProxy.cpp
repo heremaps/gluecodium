@@ -1,8 +1,8 @@
 /*
  *
  */
-#include "com_example_smoke_barListener__Conversion.h"
 #include "com_example_smoke_barListenerImplCppProxy.h"
+#include "com_example_smoke_barListener__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
 namespace gluecodium

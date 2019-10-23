@@ -16,10 +16,10 @@ public class UseFreeTypes {
         let c_point = moveToCType(point)
         let c_mode = moveToCType(mode)
         let RESULT = smoke_UseFreeTypes_doStuff(self.c_instance, c_point.ref, c_mode.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as FreeError
         } else {
-            throw FreeError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

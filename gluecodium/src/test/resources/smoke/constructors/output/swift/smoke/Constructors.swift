@@ -67,10 +67,10 @@ public class Constructors {
     private static func create(input: String) throws -> _baseRef {
         let c_input = moveToCType(input)
         let RESULT = smoke_Constructors_create_String(c_input.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Constructors.ConstructorExplodedError
         } else {
-            throw Constructors.ConstructorExplodedError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
     private static func create(input: [Double]) -> _baseRef {

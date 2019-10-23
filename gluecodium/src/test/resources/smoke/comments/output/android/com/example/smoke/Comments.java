@@ -35,7 +35,7 @@ public final class Comments extends NativeBase {
      */
     public final static class SomethingWrongException extends Exception {
         public SomethingWrongException(final Comments.SomeEnum error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final Comments.SomeEnum error;

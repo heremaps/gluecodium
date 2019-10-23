@@ -16,7 +16,7 @@ public final class Errors extends NativeBase {
     }
     public final static class FailException extends Exception {
         public FailException(final Errors.InternalErrorCode error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final Errors.InternalErrorCode error;

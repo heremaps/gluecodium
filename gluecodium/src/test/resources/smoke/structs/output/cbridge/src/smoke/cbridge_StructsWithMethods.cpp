@@ -61,6 +61,6 @@ smoke_StructsWithMethods_Vector_create_Vector_result smoke_StructsWithMethods_Ve
     if (RESULT.has_value()) {
         return {true, .returned_value = Conversion<::smoke::Vector>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
+        return {false, .error_value = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }

@@ -78,7 +78,7 @@ smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWit
     if (RESULT.has_value()) {
         return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
+        return {false, .error_value = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }
 void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff() {

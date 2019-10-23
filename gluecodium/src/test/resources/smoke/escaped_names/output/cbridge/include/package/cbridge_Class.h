@@ -1,6 +1,5 @@
 //
 //
-
 #pragma once
 #ifdef __cplusplus
 extern "C" {
@@ -12,7 +11,7 @@ extern "C" {
 typedef struct {
     bool has_value;
     union {
-        package_Types_Enum error_code;
+        package_Types_Enum error_value;
         _baseRef returned_value;
     };
 } package_Class_fun_result;

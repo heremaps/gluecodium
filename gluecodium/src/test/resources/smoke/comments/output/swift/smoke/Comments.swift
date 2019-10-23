@@ -62,10 +62,10 @@ public class Comments {
     public func someMethodWithAllComments(input: String) throws -> Comments.Usefulness {
         let c_input = moveToCType(input)
         let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_input.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
-            throw Comments.SomethingWrongError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
     /// This is some very useful method that measures the usefulness of its input.

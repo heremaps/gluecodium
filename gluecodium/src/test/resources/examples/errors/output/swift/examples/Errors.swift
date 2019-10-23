@@ -19,17 +19,17 @@ public class Errors {
         case exploded
     }
     public static func startSomethingOrFail() throws -> Void {
-        let ERROR_CODE = examples_Errors_startSomethingOrFail()
-        if (ERROR_CODE != 0) {
-            throw Errors.FailError(rawValue: ERROR_CODE)!
+        let RESULT = examples_Errors_startSomethingOrFail()
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Errors.FailError
         }
     }
     public static func getSomethingOrFail() throws -> String {
         let RESULT = examples_Errors_getSomethingOrFail()
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Errors.FailError
         } else {
-            throw Errors.FailError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

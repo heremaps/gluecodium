@@ -94,17 +94,23 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void on_calculation_result(double calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);    }
+        mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
+    }
     void on_calculation_result_const(double calculationResult) const override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);
+    }
     void on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, Conversion<::smoke::CalculatorListener::ResultStruct>::toBaseRef(calculationResult));    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, Conversion<::smoke::CalculatorListener::ResultStruct>::toBaseRef(calculationResult));
+    }
     void on_calculation_result_array(const std::vector<double>& calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, Conversion<std::vector<double>>::toBaseRef(calculationResult));    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, Conversion<std::vector<double>>::toBaseRef(calculationResult));
+    }
     void on_calculation_result_map(const std::unordered_map<std::string, double>& calculationResults) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, Conversion<std::unordered_map<std::string, double>>::toBaseRef(calculationResults));    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, Conversion<std::unordered_map<std::string, double>>::toBaseRef(calculationResults));
+    }
     void on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(calculationResult));    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(calculationResult));
+    }
 private:
     smoke_CalculatorListener_FunctionTable mFunctions;
 };

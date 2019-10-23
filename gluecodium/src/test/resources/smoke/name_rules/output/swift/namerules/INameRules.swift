@@ -70,10 +70,10 @@ public class INameRules {
     public func someMethod(someArgument: INameRules.IExampleStruct) throws -> Double {
         let c_someArgument = moveToCType(someArgument)
         let RESULT = namerules_NameRules_someMethod(self.c_instance, c_someArgument.ref)
-        if (RESULT.has_value) {
-            return moveFromCType(RESULT.returned_value)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as INameRules.ExampleError
         } else {
-            throw INameRules.ExampleError(rawValue: RESULT.error_code)!
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }

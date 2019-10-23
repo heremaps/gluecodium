@@ -58,11 +58,11 @@ Java_com_example_smoke_Vector_create__Lcom_example_smoke_Vector_2(JNIEnv* _jenv,
     auto errorCode = nativeCallResult.error();
     if (!nativeCallResult.has_value())
     {
-        auto nEnumValue = static_cast<::smoke::ValidationErrorCode>(errorCode.value());
-        auto jEnumValue = ::gluecodium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto nErrorValue = static_cast<::smoke::ValidationErrorCode>(errorCode.value());
+        auto jErrorValue = ::gluecodium::jni::convert_to_jni(_jenv, nErrorValue);
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/ValidationException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/ValidationErrorCode;)V");
-        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return nullptr;
     }

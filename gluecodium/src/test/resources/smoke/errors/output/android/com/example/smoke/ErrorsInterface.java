@@ -23,14 +23,14 @@ public interface ErrorsInterface {
     }
     public final static class InternalException extends Exception {
         public InternalException(final ErrorsInterface.InternalError error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final ErrorsInterface.InternalError error;
     }
     public final static class ExternalException extends Exception {
         public ExternalException(final ErrorsInterface.ExternalErrors error) {
-            super(Integer.toString(error.value));
+            super(error.toString());
             this.error = error;
         }
         public final ErrorsInterface.ExternalErrors error;
@@ -39,4 +39,7 @@ public interface ErrorsInterface {
     void methodWithExternalErrors() throws ErrorsInterface.ExternalException;
     @NonNull
     String methodWithErrorsAndReturnValue() throws ErrorsInterface.InternalException;
+    static void methodWithPayloadError() throws WithPayloadException;
+    @NonNull
+    static String methodWithPayloadErrorAndReturnValue() throws WithPayloadException;
 }
