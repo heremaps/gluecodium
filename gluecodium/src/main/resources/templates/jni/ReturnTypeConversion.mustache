@@ -20,14 +20,20 @@
   !}}
     {{#exception}}
     auto nativeCallResult = {{>jni/CppMethodCall}}
+{{#if cppTypeIsErrorCode}}
     auto errorCode = nativeCallResult{{#unless returnType.isJavaVoid}}.error(){{/unless}};
     if ({{#unless returnType.isJavaVoid}}!nativeCallResult.has_value(){{/unless}}{{#if returnType.isJavaVoid}}errorCode{{/if}})
     {
-        auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode.value());
-        auto jEnumValue = {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, nEnumValue);
+        auto nErrorValue = static_cast<{{errorType.cppFullyQualifiedName}}>(errorCode.value());
+        auto jErrorValue = {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, nErrorValue);
+{{/if}}{{#unless cppTypeIsErrorCode}}
+    if (!nativeCallResult.has_value())
+    {
+        auto jErrorValue = {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, nativeCallResult.error());
+{{/unless}}
         auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "{{javaClassName}}");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{jniEnum.jniTypeSignature}})V");
-        auto exception = {{>common/InternalNamespace}}jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{errorType.jniTypeSignature}})V");
+        auto exception = {{>common/InternalNamespace}}jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));{{#unless returnType.isJavaVoid}}
         return {{#if returnsOpaqueHandle}}0{{/if}}{{#unless returnsOpaqueHandle}}{{!!
         }}{{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.unsafe_value(){{/unless}}{{/unless}};{{/unless}}

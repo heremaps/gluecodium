@@ -28,7 +28,6 @@ import com.here.gluecodium.model.java.JavaCustomType
 import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
-import com.here.gluecodium.model.java.JavaEnumType
 import com.here.gluecodium.model.java.JavaExceptionClass
 import com.here.gluecodium.model.java.JavaField
 import com.here.gluecodium.model.java.JavaInterface
@@ -241,11 +240,12 @@ class JavaModelBuilder(
     override fun finishBuilding(limeException: LimeException) {
         val javaException = JavaExceptionClass(
             nameRules.getName(limeException),
-            typeMapper.mapCustomType(limeException.errorType.type) as JavaEnumType
+            typeMapper.mapType(limeException.errorType)
         )
         javaException.visibility = getVisibility(limeException)
         javaException.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaException.comment = createComments(limeException)
+        javaException.javaPackage = rootPackage
 
         storeNamedResult(limeException, javaException)
         closeContext()

@@ -21,10 +21,10 @@
 {{>java/DocComment}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}{{!!
 }}{{#if static}}static {{/if}}class {{name}} extends Exception {
-    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}(final {{enumTypeRef.name}} error) {
-        super(Integer.toString(error.value));
+    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}(final {{errorTypeRef.name}} error) {
+        super(error.toString());
         this.error = error;
     }
 
-    {{#if visibility.toString}}{{visibility}} {{/if}}final {{enumTypeRef.name}} error;
+    {{#if visibility.toString}}{{visibility}} {{/if}}final {{errorTypeRef.name}} error;
 }

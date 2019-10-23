@@ -76,7 +76,7 @@ internal object JniIncludeResolver {
 
     private fun collectMethodTypes(jniMethod: JniMethod): List<JniType> {
         return jniMethod.parameters.map { it.type } + jniMethod.returnType +
-            listOfNotNull(jniMethod.exception?.jniEnum)
+            listOfNotNull(jniMethod.exception?.errorType)
     }
 
     fun createConversionSelfInclude(jniElement: JniTopLevelElement) =

@@ -28,7 +28,7 @@ class JavaMethod(
     visibility: JavaVisibility = JavaVisibility.PUBLIC,
     val returnType: JavaType = JavaPrimitiveType.VOID,
     var returnComment: String? = null,
-    val exception: JavaCustomType? = null,
+    val exception: JavaExceptionType? = null,
     var throwsComment: String? = null,
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,

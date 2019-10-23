@@ -19,4 +19,8 @@
 
 package com.here.gluecodium.model.jni
 
-class JniException(val javaClassName: String, val jniEnum: JniType? = null) : JniElement
+class JniException(
+    val javaClassName: String,
+    val errorType: JniType,
+    val cppTypeIsErrorCode: Boolean
+) : JniElement

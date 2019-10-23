@@ -21,6 +21,7 @@ package com.here.gluecodium.model.java
 
 class JavaExceptionType(
     fullName: String,
+    anImport: JavaImport,
     classNames: List<String>,
-    anImport: JavaImport
+    val errorType: JavaType
 ) : JavaCustomType(fullName, setOf(anImport), classNames, anImport.javaPackage.packageNames)

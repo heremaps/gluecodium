@@ -173,7 +173,7 @@ class JavaModelBuilderTest {
         val limeException = LimeException(fooPath, errorType = LimeDirectTypeRef(limeErrorType))
         val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val javaExceptionType =
-            JavaExceptionType("", emptyList(), JavaImport("", JavaPackage.DEFAULT))
+            JavaExceptionType("", JavaImport("", JavaPackage.DEFAULT), emptyList(), javaType)
         every { typeMapper.mapExceptionType(any()) } returns javaExceptionType
 
         modelBuilder.finishBuilding(limeElement)
@@ -550,21 +550,21 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingExceptionCreatesJavaException() {
-        val limeEnumeration = LimeEnumeration(LimePath.EMPTY_PATH)
-        val limeException = LimeException(fooPath, errorType = LimeDirectTypeRef(limeEnumeration))
+        val limeEnumRef = LimeDirectTypeRef(LimeEnumeration(LimePath.EMPTY_PATH))
+        val limeException = LimeException(fooPath, errorType = limeEnumRef)
         val javaEnumTypeRef = JavaEnumType(
             "",
             emptyList(),
             emptyList(),
             JavaImport("", JavaPackage.DEFAULT)
         )
-        every { typeMapper.mapCustomType(limeEnumeration) } returns javaEnumTypeRef
+        every { typeMapper.mapType(limeEnumRef) } returns javaEnumTypeRef
 
         modelBuilder.finishBuilding(limeException)
 
         val result = modelBuilder.getFinalResult(JavaExceptionClass::class.java)
         assertEquals("FooException", result.name)
-        assertEquals(javaEnumTypeRef, result.enumTypeRef)
+        assertEquals(javaEnumTypeRef, result.errorTypeRef)
         assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
     }
 

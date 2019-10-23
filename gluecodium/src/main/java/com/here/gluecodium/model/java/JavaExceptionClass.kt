@@ -21,9 +21,5 @@ package com.here.gluecodium.model.java
 
 class JavaExceptionClass(
     exceptionName: String,
-    val enumTypeRef: JavaEnumType
-) : JavaTopLevelElement(exceptionName, listOf(exceptionName)) {
-    init {
-        super.javaPackage = JavaPackage(enumTypeRef.packageNames)
-    }
-}
+    val errorTypeRef: JavaType
+) : JavaTopLevelElement(exceptionName, listOf(exceptionName))

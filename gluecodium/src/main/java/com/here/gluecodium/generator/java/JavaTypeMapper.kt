@@ -185,8 +185,9 @@ class JavaTypeMapper(
 
         return JavaExceptionType(
             classNames.joinToString("."),
+            JavaImport(importClassName, basePackage.createChildPackage(limeException.path.head)),
             classNames,
-            JavaImport(importClassName, basePackage.createChildPackage(limeException.path.head))
+            mapType(limeException.errorType)
         )
     }
 

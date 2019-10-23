@@ -65,41 +65,47 @@ namespace jni
     {{#unless returnType.isJavaVoid}}auto result = {{/unless}}callJavaMethod<{{returnType.name}}>( "{{javaMethodName}}", {{!!
     }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
     }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{#if exception}}
+{{#exception}}
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = get_object_field_value(
+        auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
             "error",
-            "{{exception.jniEnum.jniTypeSignature}}" );
-        auto nEnumValue = convert_from_jni(
+            "{{errorType.jniTypeSignature}}" );
+        auto nErrorValue = convert_from_jni(
             jniEnv,
-            jEnumValue,
-            ({{exception.jniEnum.cppFullyQualifiedName}}*)nullptr );
+            jErrorValue,
+            ({{errorType.cppFullyQualifiedName}}*)nullptr );
 
         jniEnv->ExceptionClear( );
-        return ::std::error_code{nEnumValue};
+{{#if cppTypeIsErrorCode}}
+        return ::std::error_code{nErrorValue};
+{{/if}}{{#unless cppTypeIsErrorCode}}
+        return {{errorType.cppFullyQualifiedName}}{nErrorValue};
+{{/unless}}
     }
     else
     {
-{{/if}}{{!!
-}}{{#unless exception}}
+{{/exception}}{{!!
+}}{{^exception}}
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
         jniEnv->FatalError( "Unhandled exception" );
     }
-{{/unless}}{{!!
+{{/exception}}{{!!
 }}{{#unless returnType.isJavaVoid}}
     return {{#if returnType.isComplex}}convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
     }}{{#unless returnType.isComplex}}result{{/unless}};
 {{/unless}}
-{{#if exception}}{{#if returnType.isJavaVoid}}
+{{#exception}}{{#if returnType.isJavaVoid}}{{#if cppTypeIsErrorCode}}
         return ::std::error_code{};
-{{/if}}
+{{/if}}{{#unless exception.cppTypeIsErrorCode}}
+        return {true};
+{{/unless}}{{/if}}
     }
-{{/if}}
+{{/exception}}
 }
 {{/proxyMethod}}

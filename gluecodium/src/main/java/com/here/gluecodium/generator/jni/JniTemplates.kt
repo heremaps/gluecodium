@@ -215,9 +215,9 @@ class JniTemplates(
             "jni/CppProxyHeader", mustacheData, jniNameRules.getHeaderFilePath(fileName)
         )
 
-        mustacheData[INCLUDES_NAME] =
-            JniIncludeResolver.collectImplementationIncludes(jniContainer) +
-                    Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName))
+        val conversionIncludes = JniIncludeResolver.collectImplementationIncludes(jniContainer) +
+                Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName))
+        mustacheData[INCLUDES_NAME] = conversionIncludes.distinct().sorted()
 
         val implFile = generateFile(
             "jni/CppProxyImplementation",

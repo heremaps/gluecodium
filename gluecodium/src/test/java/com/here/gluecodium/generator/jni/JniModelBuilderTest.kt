@@ -39,7 +39,9 @@ import com.here.gluecodium.model.java.JavaClass
 import com.here.gluecodium.model.java.JavaCustomType
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
+import com.here.gluecodium.model.java.JavaExceptionType
 import com.here.gluecodium.model.java.JavaField
+import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
@@ -61,8 +63,10 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -72,6 +76,7 @@ import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.test.AssertHelpers.assertContains
 import com.here.gluecodium.test.MockContextStack
@@ -420,39 +425,28 @@ class JniModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingMethodReadsExceptionName() {
-        contextStack.injectResult(jniType)
-        val javaThrowingMethod = JavaMethod(
-            name = "fancyMEthoD_integer",
-            visibility = JavaVisibility.PUBLIC,
-            returnType = JavaPrimitiveType.INT,
-            exception = JavaCustomType("FooException", JavaPackage.DEFAULT),
-            parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
+    fun finishBuildingMethodReadsException() {
+        val limeException = LimeException(EMPTY_PATH, errorType = LimeBasicTypeRef.INT)
+        val limeElement =
+            LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
+        val javaExceptionType = JavaExceptionType(
+            "",
+            JavaImport("", JavaPackage.DEFAULT),
+            listOf("FooException"),
+            javaCustomType
         )
+        val javaThrowingMethod =
+            JavaMethod(name = "fancyMEthoD_integer", exception = javaExceptionType)
+        val cppMethodWithError = CppMethod(name = "cPpWork3R_iNt", errorType = cppCustomType)
         every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaThrowingMethod
+        every { cppBuilder.getFinalResult(CppMethod::class.java) } returns cppMethodWithError
 
-        modelBuilder.finishBuilding(limeMethod)
+        modelBuilder.finishBuilding(limeElement)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
         assertEquals("com/example/FooException", jniMethod.exception?.javaClassName)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsExceptionEnum() {
-        contextStack.injectResult(jniType)
-        val javaThrowingMethod = JavaMethod(
-            name = "fancyMEthoD_integer",
-            visibility = JavaVisibility.PUBLIC,
-            returnType = JavaPrimitiveType.INT,
-            exception = JavaCustomType("FooException", JavaPackage.DEFAULT),
-            parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
-        )
-        every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaThrowingMethod
-
-        modelBuilder.finishBuilding(limeMethod)
-
-        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertEquals(jniType, jniMethod.exception?.jniEnum)
+        assertEquals(javaCustomType.name, jniMethod.exception?.errorType?.javaName)
+        assertEquals(cppCustomType.name, jniMethod.exception?.errorType?.cppName)
     }
 
     @Test
