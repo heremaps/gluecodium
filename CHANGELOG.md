@@ -6,6 +6,11 @@
   + Set type fields are now supported in @Serializable structs.
   + Characters '@', '{', '}', and '\' can now be used in documentation comments, by being "escaped"
     with an additional backslash (i.e. '\@', '\{', '\}', and '\\' respectively).
+- Bug fixes:
+  + Fixed a compilation issue with nested types and circular includes in C++.
+- Breaking changes:
+  + Some types used in C++ signatures are now only forward-declared and are not #included anymore.
+    They now have to be explicitly #included when used in manually written C++ code.
 
 ## 5.6.0
 - Release date: 2019-10-09
