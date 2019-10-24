@@ -44,6 +44,5 @@ double smoke_FreePoint_y_get(_baseRef handle) {
 return struct_pointer->y;
 }
 _baseRef smoke_FreePoint_flip(_baseRef _instance) {
-    return Conversion<::smoke::FreePoint>::toBaseRef(get_pointer<::smoke::FreePoint>(_instance)->flip())
-;
+    return Conversion<::smoke::FreePoint>::toBaseRef(get_pointer<::smoke::FreePoint>(_instance)->flip());
 }

@@ -19,8 +19,7 @@ _baseRef smoke_OuterClass_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_OuterClass_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 void smoke_OuterClass_InnerClass_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(handle);
@@ -31,8 +30,7 @@ _baseRef smoke_OuterClass_InnerClass_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_OuterClass_InnerClass_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 void smoke_OuterClass_InnerInterface_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(handle);
@@ -58,8 +56,7 @@ void* smoke_OuterClass_InnerInterface_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitsmoke_OuterClass_InnerInterface(handle);
 }
 _baseRef smoke_OuterClass_InnerInterface_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 class smoke_OuterClass_InnerInterfaceProxy : public std::shared_ptr<::smoke::OuterClass::InnerInterface>::element_type, public CachedProxyBase<smoke_OuterClass_InnerInterfaceProxy> {
 public:

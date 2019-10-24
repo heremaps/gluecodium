@@ -46,10 +46,8 @@ _baseRef smoke_StructWithInstances_interfaceInstance_get(_baseRef handle) {
 return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(struct_pointer->interface_instance);
 }
 _baseRef smoke_StructWithInstances_useSimpleClass(_baseRef _instance, _baseRef input) {
-    return Conversion<std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(get_pointer<::smoke::StructWithInstances>(_instance)->use_simple_class(Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(input)))
-;
+    return Conversion<std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(get_pointer<::smoke::StructWithInstances>(_instance)->use_simple_class(Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(input)));
 }
 _baseRef smoke_StructWithInstances_useSimpleInterface(_baseRef _instance, _baseRef input) {
-    return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(get_pointer<::smoke::StructWithInstances>(_instance)->use_simple_interface(Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(input)))
-;
+    return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(get_pointer<::smoke::StructWithInstances>(_instance)->use_simple_interface(Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(input)));
 }

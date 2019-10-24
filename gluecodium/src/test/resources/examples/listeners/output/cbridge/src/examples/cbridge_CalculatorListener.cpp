@@ -33,8 +33,7 @@ void* examples_CalculatorListener_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitexamples_CalculatorListener(handle);
 }
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
-    return get_pointer<std::shared_ptr<::examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult)
-;
+    return get_pointer<std::shared_ptr<::examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
 }
 class examples_CalculatorListenerProxy : public std::shared_ptr<::examples::CalculatorListener>::element_type, public CachedProxyBase<examples_CalculatorListenerProxy> {
 public:

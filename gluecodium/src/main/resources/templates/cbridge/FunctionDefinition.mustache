@@ -41,8 +41,8 @@
     }}{{#case "BUILTIN_SIMPLE"}}{{include delegateToCall}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{returnType.functionReturnType}}>({{include delegateToCall}}){{/case}}{{!!
     }}{{#default}}Conversion<{{returnType}}>::toBaseRef({{include delegateToCall}}){{/default}}{{!!
-}}{{/switch}}
-{{/ReturnConversion}}{{!!
+}}{{/switch}}{{!!
+}}{{/ReturnConversion}}{{!!
 
 
 }}{{+unsafe_value}}RESULT.unsafe_value(){{/unsafe_value}}{{!!

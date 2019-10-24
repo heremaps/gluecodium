@@ -34,8 +34,7 @@ void* smoke_OuterInterface_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitsmoke_OuterInterface(handle);
 }
 _baseRef smoke_OuterInterface_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 class smoke_OuterInterfaceProxy : public std::shared_ptr<::smoke::OuterInterface>::element_type, public CachedProxyBase<smoke_OuterInterfaceProxy> {
 public:
@@ -69,8 +68,7 @@ _baseRef smoke_OuterInterface_InnerClass_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_OuterInterface_InnerClass_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 void smoke_OuterInterface_InnerInterface_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(handle);
@@ -96,8 +94,7 @@ void* smoke_OuterInterface_InnerInterface_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitsmoke_OuterInterface_InnerInterface(handle);
 }
 _baseRef smoke_OuterInterface_InnerInterface_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 class smoke_OuterInterface_InnerInterfaceProxy : public std::shared_ptr<::smoke::OuterInterface::InnerInterface>::element_type, public CachedProxyBase<smoke_OuterInterface_InnerInterfaceProxy> {
 public:

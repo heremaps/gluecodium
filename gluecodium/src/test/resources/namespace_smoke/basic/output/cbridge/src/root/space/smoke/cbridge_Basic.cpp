@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/root/space/smoke/cbridge_Basic.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
@@ -19,6 +18,5 @@ _baseRef smoke_Basic_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_Basic_basicMethod(_baseRef inputString) {
-    return Conversion<std::string>::toBaseRef(::root::space::smoke::Basic::basic_method(Conversion<std::string>::toCpp(inputString)))
-;
+    return Conversion<std::string>::toBaseRef(::root::space::smoke::Basic::basic_method(Conversion<std::string>::toCpp(inputString)));
 }

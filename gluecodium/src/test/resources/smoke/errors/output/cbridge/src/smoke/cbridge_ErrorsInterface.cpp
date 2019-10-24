@@ -42,8 +42,7 @@ smoke_ErrorsInterface_ExternalErrors smoke_ErrorsInterface_methodWithExternalErr
 smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result smoke_ErrorsInterface_methodWithErrorsAndReturnValue(_baseRef _instance) {
     auto&& RESULT = get_pointer<std::shared_ptr<::smoke::ErrorsInterface>>(_instance)->get()->method_with_errors_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<std::string>::toBaseRef(RESULT.unsafe_value())
-};
+        return {true, .returned_value = Conversion<std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
         return {false, .error_code = static_cast< smoke_ErrorsInterface_InternalError >(RESULT.error().value())};
     }

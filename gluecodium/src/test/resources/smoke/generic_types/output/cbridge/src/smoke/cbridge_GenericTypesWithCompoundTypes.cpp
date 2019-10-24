@@ -85,34 +85,26 @@ _baseRef smoke_GenericTypesWithCompoundTypes_ExternalStruct_string_get(_baseRef 
 return Conversion<std::string>::toBaseRef(struct_pointer->string);
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithStructList(_baseRef _instance, _baseRef input) {
-    return Conversion<std::vector<::alien::FooStruct>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_struct_list(Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(input)))
-;
+    return Conversion<std::vector<::alien::FooStruct>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_struct_list(Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithStructMap(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_map<std::string, ::alien::FooStruct>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_struct_map(Conversion<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(input)))
-;
+    return Conversion<std::unordered_map<std::string, ::alien::FooStruct>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_struct_map(Conversion<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumList(_baseRef _instance, _baseRef input) {
-    return Conversion<std::vector<::alien::FooEnum>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_list(Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(input)))
-;
+    return Conversion<std::vector<::alien::FooEnum>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_list(Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_map_key(Conversion<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)))
-;
+    return Conversion<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_map_key(Conversion<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_map<int32_t, ::alien::FooEnum>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_map_value(Conversion<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(input)))
-;
+    return Conversion<std::unordered_map<int32_t, ::alien::FooEnum>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_map_value(Conversion<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_set(Conversion<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)))
-;
+    return Conversion<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_enum_set(Conversion<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(_baseRef _instance, _baseRef input) {
-    return Conversion<std::vector<std::shared_ptr<::smoke::DummyInterface>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_instances_list(Conversion<std::vector<std::shared_ptr<::smoke::DummyClass>>>::toCpp(input)))
-;
+    return Conversion<std::vector<std::shared_ptr<::smoke::DummyInterface>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_instances_list(Conversion<std::vector<std::shared_ptr<::smoke::DummyClass>>>::toCpp(input)));
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(_baseRef _instance, _baseRef input) {
-    return Conversion<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_instances_map(Conversion<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>>::toCpp(input)))
-;
+    return Conversion<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_instances_map(Conversion<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>>::toCpp(input)));
 }

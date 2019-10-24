@@ -1,6 +1,5 @@
 //
 //
-
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_ChildClassFromInterface.h"
 #include "cbridge/include/smoke/cbridge_ParentInterface.h"
@@ -37,6 +36,5 @@ void* smoke_ChildClassFromInterface_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ChildClassFromInterface(handle);
 }
 void smoke_ChildClassFromInterface_childClassMethod(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(_instance)->get()->child_class_method()
-;
+    return get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(_instance)->get()->child_class_method();
 }

@@ -62,31 +62,25 @@ double smoke_StructsWithMethodsInterface_Vector3_z_get(_baseRef handle) {
 return struct_pointer->z;
 }
 double smoke_StructsWithMethodsInterface_Vector3_distanceTo(_baseRef _instance, _baseRef other) {
-    return get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->distance_to(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other))
-;
+    return get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->distance_to(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
 }
 _baseRef smoke_StructsWithMethodsInterface_Vector3_add(_baseRef _instance, _baseRef other) {
-    return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->add(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other)))
-;
+    return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->add(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other)));
 }
 bool smoke_StructsWithMethodsInterface_Vector3_validate(double x, double y, double z) {
-    return ::smoke::StructsWithMethodsInterface::Vector3::validate(x, y, z)
-;
+    return ::smoke::StructsWithMethodsInterface::Vector3::validate(x, y, z);
 }
 _baseRef smoke_StructsWithMethodsInterface_Vector3_create_String(_baseRef input) {
-    return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<std::string>::toCpp(input)))
-;
+    return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<std::string>::toCpp(input)));
 }
 smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWithMethodsInterface_Vector3_create_Vector3(_baseRef other) {
     auto&& RESULT = ::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())
-};
+        return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())};
     } else {
         return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }
 void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff() {
-    return ::smoke::StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff()
-;
+    return ::smoke::StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff();
 }

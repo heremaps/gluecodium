@@ -65,12 +65,10 @@ _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {
 return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t someParameter) {
-    return get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(someParameter)
-;
+    return get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(someParameter);
 }
 _baseRef smoke_ExternalInterface_someProperty_get(_baseRef _instance) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->get_Me())
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->get_Me());
 }
 class smoke_ExternalInterfaceProxy : public std::shared_ptr<::smoke::ExternalInterface>::element_type, public CachedProxyBase<smoke_ExternalInterfaceProxy> {
 public:

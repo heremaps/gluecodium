@@ -34,8 +34,7 @@ void* smoke_SimpleInterface_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitsmoke_SimpleInterface(handle);
 }
 _baseRef smoke_SimpleInterface_getStringValue(_baseRef _instance) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(_instance)->get()->get_string_value())
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(_instance)->get()->get_string_value());
 }
 class smoke_SimpleInterfaceProxy : public std::shared_ptr<::smoke::SimpleInterface>::element_type, public CachedProxyBase<smoke_SimpleInterfaceProxy> {
 public:

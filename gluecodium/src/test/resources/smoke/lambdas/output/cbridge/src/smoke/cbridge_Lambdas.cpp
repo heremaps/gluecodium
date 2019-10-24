@@ -21,12 +21,10 @@ _baseRef smoke_Lambdas_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_Lambdas_deconfuse(_baseRef _instance, _baseRef value, _baseRef confuser) {
-    return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Lambdas>>(_instance)->get()->deconfuse(Conversion<std::string>::toCpp(value), Conversion<::smoke::Lambdas::Confuser>::toCpp(confuser)))
-;
+    return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Lambdas>>(_instance)->get()->deconfuse(Conversion<std::string>::toCpp(value), Conversion<::smoke::Lambdas::Confuser>::toCpp(confuser)));
 }
 _baseRef smoke_Lambdas_fuse(_baseRef items, _baseRef callback) {
-    return Conversion<std::unordered_map<int32_t, std::string>>::toBaseRef(::smoke::Lambdas::fuse(Conversion<std::vector<std::string>>::toCpp(items), Conversion<::smoke::Lambdas::Indexer>::toCpp(callback)))
-;
+    return Conversion<std::unordered_map<int32_t, std::string>>::toBaseRef(::smoke::Lambdas::fuse(Conversion<std::vector<std::string>>::toCpp(items), Conversion<::smoke::Lambdas::Indexer>::toCpp(callback)));
 }
 void smoke_Lambdas_Producer_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::Lambdas::Producer>(handle);
@@ -37,8 +35,7 @@ _baseRef smoke_Lambdas_Producer_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_Lambdas_Producer_call(_baseRef _instance) {
-    return Conversion<std::string>::toBaseRef(get_pointer<::smoke::Lambdas::Producer>(_instance)->operator()())
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<::smoke::Lambdas::Producer>(_instance)->operator()());
 }
 class smoke_Lambdas_ProducerProxy : public CachedProxyBase<smoke_Lambdas_ProducerProxy> {
 public:
@@ -76,8 +73,7 @@ _baseRef smoke_Lambdas_Confuser_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_Lambdas_Confuser_call(_baseRef _instance, _baseRef p0) {
-    return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<::smoke::Lambdas::Confuser>(_instance)->operator()(Conversion<std::string>::toCpp(p0)))
-;
+    return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<::smoke::Lambdas::Confuser>(_instance)->operator()(Conversion<std::string>::toCpp(p0)));
 }
 class smoke_Lambdas_ConfuserProxy : public CachedProxyBase<smoke_Lambdas_ConfuserProxy> {
 public:
@@ -115,8 +111,7 @@ _baseRef smoke_Lambdas_Consumer_copy_handle(_baseRef handle) {
         : 0;
 }
 void smoke_Lambdas_Consumer_call(_baseRef _instance, _baseRef p0) {
-    return get_pointer<::smoke::Lambdas::Consumer>(_instance)->operator()(Conversion<std::string>::toCpp(p0))
-;
+    return get_pointer<::smoke::Lambdas::Consumer>(_instance)->operator()(Conversion<std::string>::toCpp(p0));
 }
 class smoke_Lambdas_ConsumerProxy : public CachedProxyBase<smoke_Lambdas_ConsumerProxy> {
 public:
@@ -152,8 +147,7 @@ _baseRef smoke_Lambdas_Indexer_copy_handle(_baseRef handle) {
         : 0;
 }
 int32_t smoke_Lambdas_Indexer_call(_baseRef _instance, _baseRef p0, float p1) {
-    return get_pointer<::smoke::Lambdas::Indexer>(_instance)->operator()(Conversion<std::string>::toCpp(p0), p1)
-;
+    return get_pointer<::smoke::Lambdas::Indexer>(_instance)->operator()(Conversion<std::string>::toCpp(p0), p1);
 }
 class smoke_Lambdas_IndexerProxy : public CachedProxyBase<smoke_Lambdas_IndexerProxy> {
 public:
@@ -191,8 +185,7 @@ _baseRef smoke_Lambdas_NullableConfuser_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_Lambdas_NullableConfuser_call(_baseRef _instance, _baseRef p0) {
-    return Conversion<::gluecodium::optional< ::smoke::Lambdas::Producer >>::toBaseRef(get_pointer<::smoke::Lambdas::NullableConfuser>(_instance)->operator()(Conversion<::gluecodium::optional< ::std::string >>::toCpp(p0)))
-;
+    return Conversion<::gluecodium::optional< ::smoke::Lambdas::Producer >>::toBaseRef(get_pointer<::smoke::Lambdas::NullableConfuser>(_instance)->operator()(Conversion<::gluecodium::optional< ::std::string >>::toCpp(p0)));
 }
 class smoke_Lambdas_NullableConfuserProxy : public CachedProxyBase<smoke_Lambdas_NullableConfuserProxy> {
 public:

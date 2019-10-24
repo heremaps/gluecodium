@@ -37,8 +37,7 @@ void* smoke_ChildInterface_get_typed(_baseRef handle) {
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ChildInterface(handle);
 }
 void smoke_ChildInterface_childMethod(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::smoke::ChildInterface>>(_instance)->get()->child_method()
-;
+    return get_pointer<std::shared_ptr<::smoke::ChildInterface>>(_instance)->get()->child_method();
 }
 class smoke_ChildInterfaceProxy : public std::shared_ptr<::smoke::ChildInterface>::element_type, public CachedProxyBase<smoke_ChildInterfaceProxy> {
 public:

@@ -472,30 +472,23 @@ _baseRef smoke_Structs_MutableStructWithCppAccessors_stringField_get(_baseRef ha
 return Conversion<std::string>::toBaseRef(struct_pointer->get_string_field());
 }
 _baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {
-    return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::swap_point_coordinates(Conversion<::smoke::Structs::Point>::toCpp(input)))
-;
+    return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::swap_point_coordinates(Conversion<::smoke::Structs::Point>::toCpp(input)));
 }
 _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input) {
-    return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)))
-;
+    return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)));
 }
 _baseRef smoke_Structs_getExternalStruct() {
-    return Conversion<::smoke::Structs::ExternalStruct>::toBaseRef(::smoke::Structs::get_external_struct())
-;
+    return Conversion<::smoke::Structs::ExternalStruct>::toBaseRef(::smoke::Structs::get_external_struct());
 }
 _baseRef smoke_Structs_getAnotherExternalStruct() {
-    return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(::smoke::Structs::get_another_external_struct())
-;
+    return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(::smoke::Structs::get_another_external_struct());
 }
 _baseRef smoke_Structs_getYetAnotherExternalStruct() {
-    return Conversion<::smoke::Structs::Yet_Another_External_Struct>::toBaseRef(::smoke::Structs::get_yet_another_external_struct())
-;
+    return Conversion<::smoke::Structs::Yet_Another_External_Struct>::toBaseRef(::smoke::Structs::get_yet_another_external_struct());
 }
 _baseRef smoke_Structs_createPoint(double x, double y) {
-    return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y))
-;
+    return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y));
 }
 _baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
-    return Conversion<::smoke::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::AllTypesStruct>::toCpp(input)))
-;
+    return Conversion<::smoke::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::AllTypesStruct>::toCpp(input)));
 }

@@ -67,10 +67,8 @@ _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_stringField_get(_baseRef h
 return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory() {
-    return Conversion<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toBaseRef(::smoke::LevelOne::LevelTwo::LevelThree::LevelFour::foo_factory())
-;
+    return Conversion<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toBaseRef(::smoke::LevelOne::LevelTwo::LevelThree::LevelFour::foo_factory());
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<std::shared_ptr<::smoke::OuterInterface::InnerClass>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(_instance)->get()->foo(Conversion<std::shared_ptr<::smoke::OuterClass::InnerInterface>>::toCpp(input)))
-;
+    return Conversion<std::shared_ptr<::smoke::OuterInterface::InnerClass>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(_instance)->get()->foo(Conversion<std::shared_ptr<::smoke::OuterClass::InnerInterface>>::toCpp(input)));
 }

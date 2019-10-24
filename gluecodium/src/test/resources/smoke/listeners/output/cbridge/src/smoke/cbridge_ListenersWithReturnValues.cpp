@@ -68,32 +68,25 @@ double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) 
 return struct_pointer->result;
 }
 double smoke_ListenersWithReturnValues_fetchDataDouble(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_double()
-;
+    return get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_double();
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataString(_baseRef _instance) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_string())
-;
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_string());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataStruct(_baseRef _instance) {
-    return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_struct())
-;
+    return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_struct());
 }
 smoke_ListenersWithReturnValues_ResultEnum smoke_ListenersWithReturnValues_fetchDataEnum(_baseRef _instance) {
-    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_enum())
-;
+    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_enum());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataArray(_baseRef _instance) {
-    return Conversion<std::vector<double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_array())
-;
+    return Conversion<std::vector<double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_array());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataMap(_baseRef _instance) {
-    return Conversion<std::unordered_map<std::string, double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map())
-;
+    return Conversion<std::unordered_map<std::string, double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataInstance(_baseRef _instance) {
-    return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_instance())
-;
+    return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_instance());
 }
 class smoke_ListenersWithReturnValuesProxy : public std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
 public:
