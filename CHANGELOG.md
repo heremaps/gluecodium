@@ -1,11 +1,15 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 5.7.0
+- Release date: 2019-10-25
 - Features:
   + Added validation against broken documentation references.
   + Set type fields are now supported in @Serializable structs.
   + Characters '@', '{', '}', and '\' can now be used in documentation comments, by being "escaped"
     with an additional backslash (i.e. '\@', '\{', '\}', and '\\' respectively).
+- Improvements:
+  + Updated JNI generated code to use smaller header files. This would improve re-build times of
+    the generated Java/JNI code in case of small incremental changes to IDL files.
 - Bug fixes:
   + Fixed a compilation issue with nested types and circular includes in C++.
   + Fixed compilation issues with lambdas in Swift.
