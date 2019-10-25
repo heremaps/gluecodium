@@ -48,6 +48,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,
@@ -65,7 +66,15 @@ class CBridgeTypeMapper(
         listOf(BASE_HANDLE_IMPL_INCLUDE)
     )
 
-    fun mapType(limeType: LimeType, cppTypeRef: CppTypeRef): CppTypeInfo =
+    fun mapType(limeTypeRef: LimeTypeRef, cppTypeRef: CppTypeRef): CppTypeInfo {
+        val typeInfo = mapType(limeTypeRef.type, cppTypeRef)
+        return when {
+            limeTypeRef.isNullable -> createNullableTypeInfo(typeInfo, cppTypeRef)
+            else -> typeInfo
+        }
+    }
+
+    private fun mapType(limeType: LimeType, cppTypeRef: CppTypeRef): CppTypeInfo =
         when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeAlias ->

@@ -111,4 +111,25 @@ Lambdas::set_real_concatenator(const Lambdas::Concatenator& value)
     s_real_concatenator = value;
 }
 
+Lambdas::NullableConfuser
+Lambdas::get_nullable_confuser()
+{
+    return [](const lorem_ipsum::test::optional<std::string>& value) ->
+        lorem_ipsum::test::optional<StandaloneProducer>
+        {
+            if (value) {
+                return { [value] { return *value; } };
+            } else {
+                return {};
+            }
+        };
+}
+
+lorem_ipsum::test::optional<StandaloneProducer>
+Lambdas::apply_nullable_confuser(const Lambdas::NullableConfuser& confuser,
+                                 const lorem_ipsum::test::optional<std::string>& value)
+{
+    return confuser(value);
+}
+
 }

@@ -73,7 +73,7 @@ class CBridgeTypeMapperTest {
     fun mapTypeTypeDef() {
         val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
 
-        val result = typeMapper.mapType(limeElement, cppTypeRef)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTypeRef)
 
         assertEquals(CType.FLOAT, result.cType)
     }
@@ -83,7 +83,7 @@ class CBridgeTypeMapperTest {
         val limeMap = LimeMap(LimeBasicTypeRef(TypeId.STRING), LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
 
-        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
         assertEquals("std::unordered_map<std::string, double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
@@ -103,7 +103,7 @@ class CBridgeTypeMapperTest {
         every { cppNameResolver.getFullyQualifiedName(limeEnum) } returns "Baz"
         every { cppNameResolver.getFullyQualifiedName(limeElement) } returns ""
 
-        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
         assertEquals(2, result.includes.size)
         assertEquals("Baz", (result as CppMapTypeInfo).keyType.name)
@@ -115,7 +115,7 @@ class CBridgeTypeMapperTest {
         val limeSet = LimeSet(LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeSet))
 
-        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
         assertEquals("std::unordered_set<double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
@@ -130,7 +130,7 @@ class CBridgeTypeMapperTest {
     fun mapTypeArray() {
         val limeElement = LimeList(LimeBasicTypeRef.FLOAT)
 
-        val result = typeMapper.mapType(limeElement, cppTemplateTypeRef)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
         assertEquals("std::vector<float>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)

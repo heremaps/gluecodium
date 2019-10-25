@@ -55,6 +55,18 @@ public final class Lambdas extends NativeBase {
         private static native void disposeNativeHandle(long nativeHandle);
         public native int apply(final String p0, final float index);
     }
+    static class NullableConfuserImpl extends NativeBase implements NullableConfuser {
+        protected NullableConfuserImpl(final long nativeHandle) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+        private static native void disposeNativeHandle(long nativeHandle);
+        public native Lambdas.Producer apply(final String p0);
+    }
     @FunctionalInterface
     public interface Producer {
         String apply();
@@ -73,6 +85,10 @@ public final class Lambdas extends NativeBase {
     @FunctionalInterface
     public interface Indexer {
         int apply(final String p0, final float index);
+    }
+    @FunctionalInterface
+    public interface NullableConfuser {
+        Lambdas.Producer apply(final String p0);
     }
     /**
      * For internal use only.

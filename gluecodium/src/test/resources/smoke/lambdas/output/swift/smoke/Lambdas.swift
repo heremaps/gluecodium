@@ -7,6 +7,7 @@ public class Lambdas {
     public typealias Confuser = (String) -> Lambdas.Producer
     public typealias Consumer = (String) -> Void
     public typealias Indexer = (String, Float) -> Int32
+    public typealias NullableConfuser = (String?) -> Lambdas.Producer?
     let c_instance : _baseRef
     init(cLambdas: _baseRef) {
         guard cLambdas != 0 else {
@@ -321,4 +322,67 @@ internal func moveToCType(_ swiftType: Lambdas.Indexer?) -> RefHolder {
     }
     let handle = smoke_Lambdas_Indexer_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_Lambdas_Indexer_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Lambdas.NullableConfuser {
+    return moveFromCType(smoke_Lambdas_NullableConfuser_copy_handle(handle))
+}
+internal func moveFromCType(_ handle: _baseRef) -> Lambdas.NullableConfuser {
+    let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_NullableConfuser_release_handle)
+    return { (p0: String?) -> Lambdas.Producer? in
+        return moveFromCType(smoke_Lambdas_NullableConfuser_call(refHolder.ref, moveToCType(p0).ref))
+    }
+}
+internal func copyFromCType(_ handle: _baseRef) -> Lambdas.NullableConfuser? {
+    guard handle != 0 else {
+        return nil
+    }
+    return copyFromCType(handle) as Lambdas.NullableConfuser
+}
+internal func moveFromCType(_ handle: _baseRef) -> Lambdas.NullableConfuser? {
+    guard handle != 0 else {
+        return nil
+    }
+    return moveFromCType(handle) as Lambdas.NullableConfuser
+}
+internal func createFunctionalTable(_ swiftType: @escaping Lambdas.NullableConfuser) -> smoke_Lambdas_NullableConfuser_FunctionTable {
+    class smoke_Lambdas_NullableConfuser_Holder {
+        let closure: Lambdas.NullableConfuser
+        init(_ closure: @escaping Lambdas.NullableConfuser) {
+            self.closure = closure
+        }
+    }
+    var functions = smoke_Lambdas_NullableConfuser_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(smoke_Lambdas_NullableConfuser_Holder(swiftType)).toOpaque()
+    functions.release = { swift_closure_pointer in
+        if let swift_closure = swift_closure_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_closure).release()
+        }
+    }
+    functions.smoke_Lambdas_NullableConfuser_call = { swift_closure_pointer, p0 in
+        let closure_holder = Unmanaged<AnyObject>.fromOpaque(swift_closure_pointer!).takeUnretainedValue() as! smoke_Lambdas_NullableConfuser_Holder
+        return copyToCType(closure_holder.closure(moveFromCType(p0))).ref
+    }
+    return functions
+}
+internal func copyToCType(_ swiftType: @escaping Lambdas.NullableConfuser) -> RefHolder {
+    let handle = smoke_Lambdas_NullableConfuser_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftType: @escaping Lambdas.NullableConfuser) -> RefHolder {
+    let handle = smoke_Lambdas_NullableConfuser_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: smoke_Lambdas_NullableConfuser_release_handle)
+}
+internal func copyToCType(_ swiftType: Lambdas.NullableConfuser?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let handle = smoke_Lambdas_NullableConfuser_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftType: Lambdas.NullableConfuser?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let handle = smoke_Lambdas_NullableConfuser_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: smoke_Lambdas_NullableConfuser_release_handle)
 }

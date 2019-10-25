@@ -23,7 +23,8 @@ internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
 }
 internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     let refHolder = RefHolder(ref: handle, release: {{cPrefix}}_release_handle)
-    return { ({{#parameters}}p{{iter.position}}: {{publicName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) -> {{returnType.publicName}} in
+    return { ({{#parameters}}p{{iter.position}}: {{publicName}}{{#if optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
+    }} -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}} in
         return {{returnType.className}}moveFromCType({{cPrefix}}_call(refHolder.ref{{!!
         }}{{#parameters}}, moveToCType(p{{iter.position}}).ref{{/parameters}}))
     }

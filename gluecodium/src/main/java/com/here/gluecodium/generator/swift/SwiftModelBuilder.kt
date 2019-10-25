@@ -189,10 +189,7 @@ class SwiftModelBuilder(
     override fun finishBuilding(limeMethod: LimeFunction) {
         val returnType = when {
             limeMethod.isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME)
-            else -> {
-                val isNullable = limeMethod.returnType.typeRef.isNullable
-                typeMapper.mapType(limeMethod.returnType.typeRef.type).withOptional(isNullable)
-            }
+            else -> typeMapper.mapType(limeMethod.returnType.typeRef)
         }
 
         val error = limeMethod.thrownType?.let {
@@ -228,12 +225,9 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeParameter: LimeParameter) {
-        val swiftType = getPreviousResult(SwiftType::class.java)
-            .withOptional(limeParameter.typeRef.isNullable)
-
         val swiftParameter = SwiftParameter(
             nameRules.getName(limeParameter),
-            swiftType,
+            getPreviousResult(SwiftType::class.java),
             limeParameter.attributes.get(SWIFT, LimeAttributeValueType.LABEL)
         )
         swiftParameter.comment = createComments(limeParameter)
@@ -262,7 +256,6 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeField: LimeField) {
         val isNullable = limeField.typeRef.isNullable
-        val swiftType = getPreviousResult(SwiftType::class.java).withOptional(isNullable)
 
         val swiftValue = getPreviousResultOrNull(SwiftValue::class.java)
             ?: if (isNullable) SwiftValue("nil") else null
@@ -270,7 +263,7 @@ class SwiftModelBuilder(
         val swiftField = SwiftField(
             nameRules.getName(limeField),
             getVisibility(limeField),
-            swiftType,
+            getPreviousResult(SwiftType::class.java),
             swiftValue
         )
         swiftField.comment = createComments(limeField)
@@ -342,7 +335,6 @@ class SwiftModelBuilder(
     override fun finishBuilding(limeProperty: LimeProperty) {
         val propertyVisibility = getVisibility(limeProperty)
         val swiftType = getPreviousResult(SwiftType::class.java)
-            .withOptional(limeProperty.typeRef.isNullable)
 
         val nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeProperty)
         val getterMethod = SwiftMethod(
@@ -444,8 +436,8 @@ class SwiftModelBuilder(
             visibility = getVisibility(limeLambda),
             comment = createComments(limeLambda),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeLambda),
-            parameters = limeLambda.parameters.map { typeMapper.mapType(it.typeRef.type) },
-            returnType = typeMapper.mapType(limeLambda.returnType.type)
+            parameters = limeLambda.parameters.map { typeMapper.mapType(it.typeRef) },
+            returnType = typeMapper.mapType(limeLambda.returnType)
         )
 
         storeNamedResult(limeLambda, swiftElement)
@@ -453,7 +445,7 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
-        storeResult(typeMapper.mapType(limeTypeRef.type))
+        storeResult(typeMapper.mapType(limeTypeRef))
         closeContext()
     }
 

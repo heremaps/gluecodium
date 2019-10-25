@@ -149,15 +149,7 @@ class CBridgeModelBuilder(
         val returnType = when {
             limeParent !is LimeStruct && limeMethod.isConstructor ->
                 typeMapper.createCustomTypeInfo(limeParent, isClass = true)
-            else -> {
-                val cppTypeInfo =
-                    typeMapper.mapType(limeMethod.returnType.typeRef.type, cppMethod.returnType)
-                if (limeMethod.returnType.typeRef.isNullable) {
-                    CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppMethod.returnType)
-                } else {
-                    cppTypeInfo
-                }
-            }
+            else -> typeMapper.mapType(limeMethod.returnType.typeRef, cppMethod.returnType)
         }
 
         var errorType: CppTypeInfo? = null
@@ -303,14 +295,14 @@ class CBridgeModelBuilder(
         val parameters = limeLambda.parameters.mapIndexed { index, parameter ->
             CParameter(
                 "p$index",
-                typeMapper.mapType(parameter.typeRef.type, cppFunction.parameters[index])
+                typeMapper.mapType(parameter.typeRef, cppFunction.parameters[index])
             )
         }
         val selfType = CBridgeTypeMapper.createFunctionalTypeInfo(cppUsing)
         val cFunction = CFunction(
             shortName = "call",
             nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeLambda),
-            returnType = typeMapper.mapType(limeLambda.returnType.type, cppFunction.returnType),
+            returnType = typeMapper.mapType(limeLambda.returnType, cppFunction.returnType),
             parameters = parameters,
             selfParameter = CParameter("_instance", selfType),
             delegateCallIncludes = cppIncludeResolver.resolveIncludes(limeLambda).toSet(),
@@ -335,7 +327,7 @@ class CBridgeModelBuilder(
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
         val cppType = cppBuilder.getFinalResult(CppTypeRef::class.java)
-        val cppTypeInfo = typeMapper.mapType(limeTypeRef.type, cppType)
+        val cppTypeInfo = typeMapper.mapType(limeTypeRef, cppType)
 
         storeResult(cppTypeInfo)
         closeContext()

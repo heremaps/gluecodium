@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeList
@@ -60,7 +61,7 @@ class SwiftTypeMapperTest {
     fun mapTypeStruct() {
         val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertTrue(result is SwiftStruct)
         assertEquals("nonsense", result.name)
@@ -68,10 +69,20 @@ class SwiftTypeMapperTest {
     }
 
     @Test
+    fun mapNullableStruct() {
+        val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
+        val limeTypeRef = LimeDirectTypeRef(limeElement, isNullable = true)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result.optional)
+    }
+
+    @Test
     fun mapTypeEnumeration() {
         val limeElement = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertTrue(result is SwiftEnum)
         assertEquals("nonsense", result.name)
@@ -84,7 +95,7 @@ class SwiftTypeMapperTest {
             typeRef = LimeBasicTypeRef.FLOAT
         )
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertEquals("nonsense", result.publicName)
     }
@@ -93,7 +104,7 @@ class SwiftTypeMapperTest {
     fun mapTypeContainer() {
         val limeElement = LimeTypesCollection(LimePath(emptyList(), listOf("foo", "bar")))
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertTrue(result is SwiftStruct)
         assertEquals("nonsense", result.name)
@@ -104,7 +115,7 @@ class SwiftTypeMapperTest {
     fun mapTypeContainerInterface() {
         val limeElement = LimeInterface(LimePath(emptyList(), listOf("foo", "bar")))
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertTrue(result is SwiftStruct)
         assertEquals("nonsense", result.name)
@@ -116,7 +127,7 @@ class SwiftTypeMapperTest {
     fun mapTypeArray() {
         val limeElement = LimeList(LimeBasicTypeRef.FLOAT)
 
-        val result = typeMapper.mapType(limeElement)
+        val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertTrue(result is SwiftArray)
         assertEquals("ArrayOf_Float", result.cPrefix)

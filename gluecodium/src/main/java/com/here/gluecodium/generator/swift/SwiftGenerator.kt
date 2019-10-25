@@ -24,7 +24,6 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.swift.SwiftEnum
-import com.here.gluecodium.model.swift.SwiftError
 import com.here.gluecodium.model.swift.SwiftFile
 import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftModelElement
@@ -64,21 +63,17 @@ class SwiftGenerator(
         )
     }
 
-    private fun wrapInFile(swiftElement: SwiftModelElement, limeElement: LimeNamedElement) =
-        when (swiftElement) {
+    private fun wrapInFile(swiftElement: SwiftModelElement, limeElement: LimeNamedElement): SwiftFile? {
+        val fileName = nameRules.getImplementationFileName(limeElement)
+        return when (swiftElement) {
             is SwiftFile -> swiftElement
-            is SwiftStruct, is SwiftEnum, is SwiftTypeDef, is SwiftError -> {
-                val result = SwiftFile(nameRules.getImplementationFileName(limeElement))
-                when (swiftElement) {
-                    is SwiftStruct -> result.structs += swiftElement
-                    is SwiftEnum -> result.enums += swiftElement
-                    is SwiftTypeDef -> result.typeDefs += swiftElement
-                    is SwiftClosure -> result.closures += swiftElement
-                }
-                result
-            }
+            is SwiftStruct -> SwiftFile(fileName).also { it.structs += swiftElement }
+            is SwiftEnum -> SwiftFile(fileName).also { it.enums += swiftElement }
+            is SwiftTypeDef -> SwiftFile(fileName).also { it.typeDefs += swiftElement }
+            is SwiftClosure -> SwiftFile(fileName).also { it.closures += swiftElement }
             else -> null
         }
+    }
 
     companion object {
         val STATIC_FILES = listOf(

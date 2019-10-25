@@ -36,6 +36,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.swift.SwiftArray
 import com.here.gluecodium.model.swift.SwiftDictionary
@@ -50,7 +51,10 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
     private val genericsCollector = mutableMapOf<String, SwiftType>()
     val generics: Map<String, SwiftType> = genericsCollector
 
-    fun mapType(limeType: LimeType): SwiftType {
+    fun mapType(limeTypeRef: LimeTypeRef) =
+        mapType(limeTypeRef.type).withOptional(limeTypeRef.isNullable)
+
+    private fun mapType(limeType: LimeType): SwiftType {
         return when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeStruct -> SwiftStruct(

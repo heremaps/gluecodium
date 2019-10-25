@@ -5,6 +5,7 @@ class Lambdas {
     lambda Confuser = (String) -> Producer
     lambda Consumer = (String) -> Void
     lambda Indexer = (String, @Java("index") Float) -> Int
+    lambda NullableConfuser = (String?) -> Producer?
     fun deconfuse(
         value: String,
         confuser: Confuser

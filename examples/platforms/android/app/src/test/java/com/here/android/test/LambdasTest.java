@@ -126,4 +126,33 @@ public class LambdasTest {
     assertEquals("foo>.<bar", result);
   }
 
+  @Test
+  public void callCppNullableLambdaInJavaWithValue() {
+    StandaloneProducer result = Lambdas.getNullableConfuser().apply("foo");
+
+    assertEquals("foo", result.apply());
+  }
+
+  @Test
+  public void callCppNullableLambdaInJavaWithNull() {
+    StandaloneProducer result = Lambdas.getNullableConfuser().apply(null);
+
+    assertNull(result);
+  }
+
+  @Test
+  public void callJavaNullableLambdaInCppWithValue() {
+    Lambdas.NullableConfuser confuser = (String s1) -> s1 != null ? () -> s1 : null;
+    StandaloneProducer result = Lambdas.applyNullableConfuser(confuser, "foo");
+
+    assertEquals("foo", result.apply());
+  }
+
+  @Test
+  public void callJavaNullableLambdaInCppWithNull() {
+    Lambdas.NullableConfuser confuser = (String s1) -> s1 != null ? () -> s1 : null;
+    StandaloneProducer result = Lambdas.applyNullableConfuser(confuser, null);
+
+    assertNull(result);
+  }
 }

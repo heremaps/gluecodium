@@ -92,7 +92,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .filterIsInstance<SwiftModelElement>()
             .forEach { processElementComments(it, elementToLimeName, limeToSwiftName, limeLogger) }
 
-        val result = swiftModel.containers.filter { !it.isEmpty }.map {
+        val result = swiftModel.containers.filter { it.childElements.isNotEmpty() }.map {
             GeneratedFile(
                 TemplateEngine.render("swift/File", it),
                 it.fileName

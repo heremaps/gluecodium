@@ -8,6 +8,7 @@
     with an additional backslash (i.e. '\@', '\{', '\}', and '\\' respectively).
 - Bug fixes:
   + Fixed a compilation issue with nested types and circular includes in C++.
+  + Fixed compilation issues with lambdas in Swift.
 - Breaking changes:
   + Some types used in C++ signatures are now only forward-declared and are not #included anymore.
     They now have to be explicitly #included when used in manually written C++ code.

@@ -54,7 +54,6 @@ import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypesCollection
@@ -342,19 +341,6 @@ class CBridgeModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(CFunction::class.java)
         assertNull(result.selfParameter)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsNullable() {
-        val limeReturnType = LimeReturnType(LimeBasicTypeRef.DOUBLE.asNullable())
-        val limeElement = LimeFunction(fooPath, returnType = limeReturnType)
-        contextStack.injectParentCurrentResult(cppTypeInfo)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(CFunction::class.java)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, result.returnType.cType.name)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, result.returnType.functionReturnType.name)
     }
 
     @Test

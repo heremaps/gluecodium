@@ -102,6 +102,32 @@ class LambdasTests: XCTestCase {
         XCTAssertEqual(result, "foo>.<bar")
     }
 
+    func testCppNullableLambdaInSwiftWithValue() {
+        let result = Lambdas.getNullableConfuser()("foo")
+
+        XCTAssertEqual(result!(), "foo")
+    }
+
+    func testCppNullableLambdaInSwiftWithNil() {
+        let result = Lambdas.getNullableConfuser()(nil)
+
+        XCTAssertNil(result)
+    }
+
+    func testSwiftNullableLambdaInCppWithValue() {
+        let confuser = { (str1: String?) in str1 != nil ? { str1! } : nil }
+        let result = Lambdas.applyNullableConfuser(confuser: confuser, value: "foo")
+
+        XCTAssertEqual(result!(), "foo")
+    }
+
+    func testSwiftNullableLambdaInCppWithNil() {
+        let confuser = { (str1: String?) in str1 != nil ? { str1! } : nil }
+        let result = Lambdas.applyNullableConfuser(confuser: confuser, value: nil)
+
+        XCTAssertNil(result)
+    }
+
     static var allTests = [
         ("testCppLambdaInSwift", testCppLambdaInSwift),
         ("testSwiftLambdaInCpp", testSwiftLambdaInCpp),
@@ -113,6 +139,10 @@ class LambdasTests: XCTestCase {
         ("testNullCppLambdaInSwift", testNullCppLambdaInSwift),
         ("testNullableSwiftLambdaInCpp", testNullableSwiftLambdaInCpp),
         ("testNullableSwiftLambdaInCppWithNil", testNullableSwiftLambdaInCppWithNil),
-        ("testGetSetLambdaProperty", testGetSetLambdaProperty)
+        ("testGetSetLambdaProperty", testGetSetLambdaProperty),
+        ("testCppNullableLambdaInSwiftWithValue", testCppNullableLambdaInSwiftWithValue),
+        ("testCppNullableLambdaInSwiftWithNil", testCppNullableLambdaInSwiftWithNil),
+        ("testSwiftNullableLambdaInCppWithValue", testSwiftNullableLambdaInCppWithValue),
+        ("testSwiftNullableLambdaInCppWithNil", testSwiftNullableLambdaInCppWithNil)
     ]
 }

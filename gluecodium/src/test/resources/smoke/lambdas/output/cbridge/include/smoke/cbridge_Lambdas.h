@@ -56,6 +56,17 @@ _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Indexer_create_proxy(smoke_Lambdas_I
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_Indexer_create_optional_proxy(smoke_Lambdas_Indexer_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_Lambdas_Indexer_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT int32_t smoke_Lambdas_Indexer_call(_baseRef _instance, _baseRef p0, float p1);
+_GLUECODIUM_C_EXPORT void smoke_Lambdas_NullableConfuser_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_NullableConfuser_copy_handle(_baseRef handle);
+typedef struct {
+    void* swift_pointer;
+    void(*release)(void* swift_pointer);
+    _baseRef(*smoke_Lambdas_NullableConfuser_call)(void* swift_pointer, _baseRef p0);
+} smoke_Lambdas_NullableConfuser_FunctionTable;
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_NullableConfuser_create_proxy(smoke_Lambdas_NullableConfuser_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_NullableConfuser_create_optional_proxy(smoke_Lambdas_NullableConfuser_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT const void* smoke_Lambdas_NullableConfuser_get_swift_object_from_cache(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_NullableConfuser_call(_baseRef _instance, _baseRef p0);
 #ifdef __cplusplus
 }
 #endif

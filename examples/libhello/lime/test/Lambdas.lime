@@ -20,6 +20,7 @@ package test
 class Lambdas {
     lambda Concatenator = (@Java("first") String, @Java("second") String) -> String
     lambda Tricatenator = (String, String, String) -> String
+    lambda NullableConfuser = (String?) -> StandaloneProducer?
 
     struct LambdaHolder {
         concatenator: Concatenator
@@ -38,4 +39,9 @@ class Lambdas {
     static fun concatenateOrNot(string1: String, string2: String, concatenator: Concatenator?): String?
 
     static property realConcatenator: Concatenator
+
+    static fun getNullableConfuser(): NullableConfuser
+    static fun applyNullableConfuser(confuser: NullableConfuser, value: String?): StandaloneProducer?
 }
+
+lambda StandaloneProducer = () -> String

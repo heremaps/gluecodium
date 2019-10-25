@@ -26,12 +26,6 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val typeDefs = mutableListOf<SwiftTypeDef>()
     val closures = mutableListOf<SwiftClosure>()
 
-    val isEmpty
-        get() = classes.isEmpty() &&
-                structs.isEmpty() &&
-                enums.isEmpty() &&
-                typeDefs.isEmpty()
-
     /**
      * SwiftErrors are implemented as extension on the enum. Extensions need to be declared
      * at file level, so collect all nested errors here.
@@ -41,5 +35,5 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
         get() = allElementsRecursive.filterIsInstance<SwiftError>()
 
     override val childElements
-        get() = classes + structs + enums + typeDefs
+        get() = classes + structs + enums + typeDefs + closures
 }

@@ -182,3 +182,42 @@ _baseRef smoke_Lambdas_Indexer_create_optional_proxy(smoke_Lambdas_Indexer_Funct
 const void* smoke_Lambdas_Indexer_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_Lambdas_IndexerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Indexer>(handle)) : nullptr;
 }
+void smoke_Lambdas_NullableConfuser_release_handle(_baseRef handle) {
+    delete get_pointer<::smoke::Lambdas::NullableConfuser>(handle);
+}
+_baseRef smoke_Lambdas_NullableConfuser_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::smoke::Lambdas::NullableConfuser>(handle)))
+        : 0;
+}
+_baseRef smoke_Lambdas_NullableConfuser_call(_baseRef _instance, _baseRef p0) {
+    return Conversion<::gluecodium::optional< ::smoke::Lambdas::Producer >>::toBaseRef(get_pointer<::smoke::Lambdas::NullableConfuser>(_instance)->operator()(Conversion<::gluecodium::optional< ::std::string >>::toCpp(p0)))
+;
+}
+class smoke_Lambdas_NullableConfuserProxy : public CachedProxyBase<smoke_Lambdas_NullableConfuserProxy> {
+public:
+    smoke_Lambdas_NullableConfuserProxy(smoke_Lambdas_NullableConfuser_FunctionTable&& functions)
+     : mFunctions(std::move(functions))
+    {
+    }
+    virtual ~smoke_Lambdas_NullableConfuserProxy() {
+        mFunctions.release(mFunctions.swift_pointer);
+    }
+    ::gluecodium::optional< ::smoke::Lambdas::Producer > operator()(const ::gluecodium::optional< ::std::string >& p0) {
+        auto _call_result = mFunctions.smoke_Lambdas_NullableConfuser_call(mFunctions.swift_pointer, Conversion<::gluecodium::optional< ::std::string >>::toBaseRef(p0));
+        return Conversion<::gluecodium::optional< ::smoke::Lambdas::Producer >>::toCppReturn(_call_result);
+    }
+private:
+    smoke_Lambdas_NullableConfuser_FunctionTable mFunctions;
+};
+_baseRef smoke_Lambdas_NullableConfuser_create_proxy(smoke_Lambdas_NullableConfuser_FunctionTable functionTable) {
+    auto proxy = smoke_Lambdas_NullableConfuserProxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new ::smoke::Lambdas::NullableConfuser(std::bind(&smoke_Lambdas_NullableConfuserProxy::operator(), proxy, std::placeholders::_1))) : 0;
+}
+_baseRef smoke_Lambdas_NullableConfuser_create_optional_proxy(smoke_Lambdas_NullableConfuser_FunctionTable functionTable) {
+    auto proxy = smoke_Lambdas_NullableConfuserProxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (std::nothrow) ::gluecodium::optional<::smoke::Lambdas::NullableConfuser>(std::bind(&smoke_Lambdas_NullableConfuserProxy::operator(), proxy, std::placeholders::_1))) : 0;
+}
+const void* smoke_Lambdas_NullableConfuser_get_swift_object_from_cache(_baseRef handle) {
+    return handle ? smoke_Lambdas_NullableConfuserProxy::get_swift_object(get_pointer<::smoke::Lambdas::NullableConfuser>(handle)) : nullptr;
+}

@@ -121,16 +121,15 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingMethod() {
-        val limeType = object : LimeType(EMPTY_PATH) {}
-        val limeReturnType =
-            LimeReturnType(LimeDirectTypeRef(limeType), LimeComment("returnComment"))
+        val limeTypeRef = LimeDirectTypeRef(object : LimeType(EMPTY_PATH) {})
+        val limeReturnType = LimeReturnType(limeTypeRef, LimeComment("returnComment"))
         val limeElement = LimeFunction(
             fooPath.child("buzz"),
             comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             returnType = limeReturnType
         )
-        every { typeMapper.mapType(limeType) } returns swiftType
+        every { typeMapper.mapType(limeTypeRef) } returns swiftType
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -165,19 +164,6 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftMethod::class.java)
         assertTrue(result.isOverriding)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsNullableReturnType() {
-        val limeType = object : LimeType(EMPTY_PATH) {}
-        val limeReturnType = LimeReturnType(LimeDirectTypeRef(limeType, isNullable = true))
-        val limeElement = LimeFunction(fooPath, returnType = limeReturnType)
-        every { typeMapper.mapType(limeType) } returns swiftType
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftMethod::class.java)
-        assertTrue(result.returnType.optional)
     }
 
     @Test
@@ -238,17 +224,6 @@ class SwiftModelBuilderTest {
         assertEquals("foo", result.name)
         assertEquals("some comment", result.comment.documentation)
         assertEquals(swiftType, result.type)
-    }
-
-    @Test
-    fun finishBuildingParameterReadsNullable() {
-        val limeElement = LimeParameter(fooPath, typeRef = LimeBasicTypeRef.FLOAT.asNullable())
-        contextStack.injectResult(swiftType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftParameter::class.java)
-        assertTrue(result.type.optional)
     }
 
     @Test
@@ -376,18 +351,6 @@ class SwiftModelBuilderTest {
         assertEquals("some comment", result.comment.documentation)
         assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.type)
-    }
-
-    @Test
-    fun finishBuildingFieldReadsNullable() {
-        val limeElement = LimeField(fooPath, typeRef = LimeBasicTypeRef.FLOAT.asNullable())
-        contextStack.injectResult(swiftType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftField::class.java)
-        assertTrue(result.type.optional)
-        assertEquals("nil", result.defaultValue?.name)
     }
 
     @Test
@@ -710,23 +673,6 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
         assertNull(result.setter)
-    }
-
-    @Test
-    fun finishBuildingPropertyReadsNullable() {
-        val limeElement = LimeProperty(
-            fooPath,
-            typeRef = LimeBasicTypeRef.FLOAT.asNullable(),
-            getter = LimeFunction(EMPTY_PATH),
-            setter = LimeFunction(EMPTY_PATH)
-        )
-        contextStack.injectResult(swiftType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
-        assertTrue(result.getter.returnType.optional)
-        assertEquals(true, result.setter?.parameters?.first()?.type?.optional)
     }
 
     @Test
