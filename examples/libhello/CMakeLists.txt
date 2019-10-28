@@ -210,13 +210,6 @@ feature(ListenersWithReturnValues cpp android swift SOURCES
     lime/test/ListenerInternal.lime
 )
 
-feature(ListenersWithErrorTypes cpp android swift SOURCES
-    src/test/ListenerWithErrors.cpp
-    src/test/ListenerWithErrors.h
-
-    lime/test/ListenerWithErrors.lime
-)
-
 feature(GenericTypes cpp android swift SOURCES
     src/hello/HelloWorldArrays.cpp
     src/hello/HelloWorldMaps.cpp
@@ -238,10 +231,13 @@ feature(GenericTypes cpp android swift SOURCES
 feature(Errors cpp android swift SOURCES
     src/hello/HelloWorldErrors.cpp
     src/test/Errors.cpp
+    src/test/ErrorsInInterface.cpp
+    src/test/ErrorsInInterface.h
 
     lime/hello/HelloWorldErrors.lime
     lime/test/Errors.lime
     lime/test/Errors2.lime
+    lime/test/ErrorsInInterface.lime
 )
 
 feature(Defaults cpp android swift SOURCES

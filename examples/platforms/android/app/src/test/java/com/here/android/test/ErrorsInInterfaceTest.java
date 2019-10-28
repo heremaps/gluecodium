@@ -40,11 +40,11 @@ import org.robolectric.annotation.Config;
   application = RobolectricApplication.class,
   constants = BuildConfig.class
 )
-public class ListenerWithErrorsTest {
+public class ErrorsInInterfaceTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  static class TestListener implements ListenerWithErrors {
+  static class TestListener implements ErrorsInInterface {
 
     private String data = "Doesn't work";
 
@@ -57,9 +57,19 @@ public class ListenerWithErrorsTest {
     public void setMessage(String value) throws ExternalException {
       data = value;
     }
+
+    @Override
+    public String getMessageWithPayload() throws WithPayloadException {
+      return data;
+    }
+
+    @Override
+    public void setMessageWithPayload(String value) throws WithPayloadException {
+      data = value;
+    }
   }
 
-  static class ThrowingListener implements ListenerWithErrors {
+  static class ThrowingListener implements ErrorsInInterface {
 
     @Override
     public String getMessage() throws ExternalException {
@@ -70,11 +80,21 @@ public class ListenerWithErrorsTest {
     public void setMessage(String value) throws ExternalException {
       throw new ExternalException(ExternalErrorCode.FAILED);
     }
+
+    @Override
+    public String getMessageWithPayload() throws WithPayloadException {
+      throw new WithPayloadException(new Payload(42, "foo"));
+    }
+
+    @Override
+    public void setMessageWithPayload(String value) throws WithPayloadException {
+      throw new WithPayloadException(new Payload(42, "foo"));
+    }
   }
 
   @Test
   public void stringRoundTripWorks() throws ExternalException {
-    ListenerWithErrors listener = new TestListener();
+    ErrorsInInterface listener = new TestListener();
 
     ErrorMessenger messenger = new ErrorMessenger();
     messenger.setMessage(listener, "Works");
@@ -99,5 +119,23 @@ public class ListenerWithErrorsTest {
         FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
 
     new ErrorMessenger().setMessage(new ThrowingListener(), "Foo");
+  }
+
+  @Test
+  public void getMessageWithPayloadErrorRethrown() throws WithPayloadException {
+    expectedException.expect(WithPayloadException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo")));
+
+    new ErrorMessenger().getMessageWithPayload(new ThrowingListener());
+  }
+
+  @Test
+  public void setMessageWithPayloadErrorRethrown() throws WithPayloadException {
+    expectedException.expect(WithPayloadException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo")));
+
+    new ErrorMessenger().setMessageWithPayload(new ThrowingListener(), "Foo");
   }
 }

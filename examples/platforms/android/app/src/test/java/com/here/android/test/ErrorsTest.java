@@ -142,4 +142,34 @@ public class ErrorsTest {
 
     assertEquals("::test::Errors::InternalErrorCode::CRASHED", result);
   }
+
+  @Test
+  public void methodWithPayloadError_throws() throws WithPayloadException {
+    expectedException.expect(WithPayloadException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo error")));
+
+    Errors.methodWithPayloadError(true);
+  }
+
+  @Test
+  public void methodWithPayloadError_doesNotThrow() throws WithPayloadException {
+    Errors.methodWithPayloadError(false);
+  }
+
+  @Test
+  public void methodWithPayloadErrorAndValue_throws() throws WithPayloadException {
+    expectedException.expect(WithPayloadException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo error")));
+
+    Errors.methodWithPayloadErrorAndReturnValue(true);
+  }
+
+  @Test
+  public void methodWithPayloadErrorAndValue_doesNotThrow() throws WithPayloadException {
+    String result = Errors.methodWithPayloadErrorAndReturnValue(false);
+
+    assertEquals("bar value", result);
+  }
 }

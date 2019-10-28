@@ -125,4 +125,31 @@ Errors::get_error_category_message( const Errors::InternalErrorCode value )
     auto error_code = std::error_code{value};
     return error_code.category( ).message( error_code.value( ) );
 }
+
+lorem_ipsum::test::Return<void, Payload>
+Errors::method_with_payload_error(const bool error_flag)
+{
+    if (error_flag)
+    {
+        return Payload{42, "foo error"};
+    }
+    else
+    {
+        return {true};
+    }
+}
+
+lorem_ipsum::test::Return<std::string, Payload>
+Errors::method_with_payload_error_and_return_value(const bool error_flag)
+{
+    if (error_flag)
+    {
+        return Payload{42, "foo error"};
+    }
+    else
+    {
+        return std::string("bar value");
+    }
+}
+
 }  // namespace test

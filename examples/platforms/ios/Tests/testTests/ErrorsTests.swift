@@ -79,6 +79,27 @@ class ErrorsTests: XCTestCase {
       XCTAssertEqual(result, "::test::Errors::InternalErrorCode::CRASHED")
     }
 
+    func testMethodWithPayloadErrorThrows() {
+      XCTAssertThrowsError(try Errors.methodWithPayloadError(errorFlag: true)) { error in
+        XCTAssertEqual(error as? WithPayloadError, WithPayloadError(errorCode: 42, message: "foo error"))
+      }
+    }
+
+    func testMethodWithPayloadErrorFinishes() {
+      XCTAssertNoThrow(try Errors.methodWithPayloadError(errorFlag: false))
+    }
+
+    func testMethodWithPayloadErrorAndValueThrows() {
+      XCTAssertThrowsError(try Errors.methodWithPayloadErrorAndReturnValue(errorFlag: true)) { error in
+        XCTAssertEqual(error as? WithPayloadError, WithPayloadError(errorCode: 42, message: "foo error"))
+      }
+    }
+
+    func testMethodWithPayloadErrorAndValueFinishes() {
+      let result = try? Errors.methodWithPayloadErrorAndReturnValue(errorFlag: false)
+      XCTAssertEqual(result, "bar value")
+    }
+
     static var allTests = [
         ("testMethodWithErrorThrows", testMethodWithErrorThrows),
         ("testMethodWithErrorFinishes", testMethodWithErrorFinishes),
@@ -90,6 +111,10 @@ class ErrorsTests: XCTestCase {
         ("testMethodWithGoodAndBadFinishes", testMethodWithGoodAndBadFinishes),
         ("testMethodWithExternalErrorThrows", testMethodWithExternalErrorThrows),
         ("testMethodWithExternalErrorFinishes", testMethodWithExternalErrorFinishes),
-        ("testGetErrorCategoryMessage", testGetErrorCategoryMessage)
+        ("testGetErrorCategoryMessage", testGetErrorCategoryMessage),
+        ("testMethodWithPayloadErrorThrows", testMethodWithPayloadErrorThrows),
+        ("testMethodWithPayloadErrorFinishes", testMethodWithPayloadErrorFinishes),
+        ("testMethodWithPayloadErrorAndValueThrows", testMethodWithPayloadErrorAndValueThrows),
+        ("testMethodWithPayloadErrorAndValueFinishes", testMethodWithPayloadErrorAndValueFinishes)
     ]
 }

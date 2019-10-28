@@ -47,7 +47,7 @@ public class HelloWorldErrorsTest {
   public void helloWorldMethodWithError_throwsCrashed()
       throws HelloWorldErrors.InternalException {
     expectedException.expect(HelloWorldErrors.InternalException.class);
-    expectedException.expectMessage(Integer.toString(InternalErrorCode.CRASHED.value));
+    expectedException.expectMessage(InternalErrorCode.CRASHED.toString());
     expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrorCode.CRASHED));
 
     HelloWorldErrors.helloWorldMethodWithError(true);
@@ -63,7 +63,7 @@ public class HelloWorldErrorsTest {
   public void helloWorldMethodWithErrorAndString_throwsCrashed()
       throws HelloWorldErrors.InternalException {
     expectedException.expect(HelloWorldErrors.InternalException.class);
-    expectedException.expectMessage(Integer.toString(InternalErrorCode.CRASHED.value));
+    expectedException.expectMessage(InternalErrorCode.CRASHED.toString());
     expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrorCode.CRASHED));
 
     HelloWorldErrors.helloWorldMethodWithErrorAndString(true);

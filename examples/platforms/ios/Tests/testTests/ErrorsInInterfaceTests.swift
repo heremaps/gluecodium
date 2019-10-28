@@ -21,9 +21,9 @@
 import XCTest
 import hello
 
-class ListenerWithErrorsTests: XCTestCase {
+class ErrorsInInterfaceTests: XCTestCase {
 
-      class TestListener: ListenerWithErrors {
+      class TestListener: ErrorsInInterface {
           private var data: String = "Doesn't work"
 
           public func getMessage() throws -> String {
@@ -33,15 +33,31 @@ class ListenerWithErrorsTests: XCTestCase {
           public func setMessage(message: String) throws {
               data = message
           }
+
+          public func getMessageWithPayload() throws -> String {
+              return data
+          }
+
+          public func setMessageWithPayload(message: String) throws {
+              data = message
+          }
       }
 
-      class ThrowingListener: ListenerWithErrors {
+      class ThrowingListener: ErrorsInInterface {
           public func getMessage() throws -> String {
               throw AdditionalErrors.ExternalError.failed
           }
 
           public func setMessage(message: String) throws {
               throw AdditionalErrors.ExternalError.failed
+          }
+
+          public func getMessageWithPayload() throws -> String {
+              throw WithPayloadError(errorCode: 42, message: "foo")
+          }
+
+          public func setMessageWithPayload(message: String) throws {
+              throw WithPayloadError(errorCode: 42, message: "foo")
           }
       }
 
@@ -73,9 +89,29 @@ class ListenerWithErrorsTests: XCTestCase {
         }
     }
 
+    func testGetMessageWithPayloadErrorRethrown() {
+        let messenger = ErrorMessenger()
+        let listener = ThrowingListener()
+
+        XCTAssertThrowsError(try messenger.getMessageWithPayload(listener: listener)) { error in
+            XCTAssertEqual(error as? WithPayloadError, WithPayloadError(errorCode: 42, message: "foo"))
+        }
+    }
+
+    func testSetMessageWithPayloadErrorRethrown() {
+        let messenger = ErrorMessenger()
+        let listener = ThrowingListener()
+
+        XCTAssertThrowsError(try messenger.setMessageWithPayload(listener: listener, message: "Foo")) { error in
+            XCTAssertEqual(error as? WithPayloadError, WithPayloadError(errorCode: 42, message: "foo"))
+        }
+    }
+
     static var allTests = [
         ("testStringRoundTrip", testStringRoundTrip),
         ("testGetMessageErrorRethrown", testGetMessageErrorRethrown),
-        ("testSetMessageErrorRethrown", testSetMessageErrorRethrown)
+        ("testSetMessageErrorRethrown", testSetMessageErrorRethrown),
+        ("testGetMessageWithPayloadErrorRethrown", testGetMessageWithPayloadErrorRethrown),
+        ("testSetMessageWithPayloadErrorRethrown", testSetMessageWithPayloadErrorRethrown)
     ]
 }

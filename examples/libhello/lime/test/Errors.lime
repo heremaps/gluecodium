@@ -21,6 +21,14 @@ import another.TypeCollectionWithEnums.Explosive
 import another.TypeCollectionWithEnums.SomeEnum
 import another.TypeCollectionWithEnums.YetAnother
 
+@Equatable
+struct Payload {
+    errorCode: Int
+    message: String
+}
+
+exception WithPayload(Payload)
+
 class Errors {
     @Immutable
     struct NonDefaultConstructor {
@@ -38,6 +46,7 @@ class Errors {
         NONE,
         BOOM
     }
+
     // Example static method with an error enum that raises "CRASHED" error if errorFlag is true
     static fun methodWithError(
         errorFlag: Boolean
@@ -68,6 +77,10 @@ class Errors {
     static fun methodWithErrorAndNonDefaultStruct(
         errorFlag: Boolean
     ): NonDefaultConstructor throws Internal
+
+    static fun methodWithPayloadError(errorFlag: Boolean) throws WithPayload
+    static fun methodWithPayloadErrorAndReturnValue(errorFlag: Boolean): String throws WithPayload
+
     exception Internal(InternalErrorCode)
     exception External(ExternalErrorCode)
 }

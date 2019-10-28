@@ -19,21 +19,20 @@ package test
 
 import another.AdditionalErrors.External
 
-interface ListenerWithErrors {
+interface ErrorsInInterface {
     fun getMessage(): String throws External
-    fun setMessage(
-        message: String
-    ) throws External
+    fun setMessage(message: String) throws External
+
+    fun getMessageWithPayload(): String throws WithPayload
+    fun setMessageWithPayload(message: String) throws WithPayload
 }
 
 class ErrorMessenger {
-    fun getMessage(
-        listener: ListenerWithErrors
-    ): String throws External
-    fun setMessage(
-        listener: ListenerWithErrors,
-
-        message: String
-    ) throws External
     constructor create()
+
+    fun getMessage(listener: ErrorsInInterface): String throws External
+    fun setMessage(listener: ErrorsInInterface, message: String) throws External
+
+    fun getMessageWithPayload(listener: ErrorsInInterface): String throws WithPayload
+    fun setMessageWithPayload(listener: ErrorsInInterface, message: String) throws WithPayload
 }

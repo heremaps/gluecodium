@@ -28,9 +28,13 @@ class ErrorMessengerImpl : public ErrorMessenger
 {
 public:
     virtual ::lorem_ipsum::test::Return< ::std::string, ::std::error_code > get_message(
-        const std::shared_ptr< ListenerWithErrors >& listener ) override;
-    virtual ::std::error_code set_message( const std::shared_ptr< ListenerWithErrors >& listener,
+        const std::shared_ptr< ErrorsInInterface >& listener ) override;
+    virtual ::std::error_code set_message( const std::shared_ptr< ErrorsInInterface >& listener,
                                            const std::string& message ) override;
+    virtual ::lorem_ipsum::test::Return< ::std::string, Payload >
+        get_message_with_payload(const std::shared_ptr< ErrorsInInterface >& listener ) override;
+    virtual ::lorem_ipsum::test::Return< void, Payload > set_message_with_payload(
+        const std::shared_ptr< ErrorsInInterface >& listener, const std::string& message ) override;
 };
 
 }  // namespace test

@@ -18,29 +18,42 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "ListenerWithErrors.h"
-#include "test/ListenerWithErrors.h"
+#include "ErrorsInInterface.h"
+#include "test/ErrorsInInterface.h"
 #include <memory>
 
 namespace test
 {
+std::shared_ptr< ErrorMessenger >
+ErrorMessenger::create( )
+{
+    return std::make_shared< ErrorMessengerImpl >( );
+}
+
 ::lorem_ipsum::test::Return< ::std::string, ::std::error_code >
-ErrorMessengerImpl::get_message( const std::shared_ptr< ListenerWithErrors >& listener )
+ErrorMessengerImpl::get_message( const std::shared_ptr< ErrorsInInterface >& listener )
 {
     return listener->get_message( );
 }
 
 ::std::error_code
-ErrorMessengerImpl::set_message( const std::shared_ptr< ListenerWithErrors >& listener,
+ErrorMessengerImpl::set_message( const std::shared_ptr< ErrorsInInterface >& listener,
                                  const std::string& message )
 {
     return listener->set_message( message );
 }
 
-std::shared_ptr< ErrorMessenger >
-ErrorMessenger::create( )
+::lorem_ipsum::test::Return< ::std::string, Payload >
+ErrorMessengerImpl::get_message_with_payload( const std::shared_ptr< ErrorsInInterface >& listener )
 {
-    return std::make_shared< ErrorMessengerImpl >( );
+    return listener->get_message_with_payload( );
+}
+
+::lorem_ipsum::test::Return< void, Payload >
+ErrorMessengerImpl::set_message_with_payload( const std::shared_ptr< ErrorsInInterface >& listener,
+                                              const std::string& message )
+{
+    return listener->set_message_with_payload( message );
 }
 
 }  // namespace test
