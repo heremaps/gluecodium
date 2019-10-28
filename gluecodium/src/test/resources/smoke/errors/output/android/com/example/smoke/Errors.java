@@ -53,5 +53,4 @@ public final class Errors extends NativeBase {
     public static native void methodWithExternalErrors() throws Errors.ExternalException;
     @NonNull
     public static native String methodWithErrorsAndReturnValue() throws Errors.InternalException;
-    public static native void methodWithAliasedError() throws Errors.InternalException;
 }

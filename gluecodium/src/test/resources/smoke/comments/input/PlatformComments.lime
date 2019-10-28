@@ -18,13 +18,11 @@
 package smoke
 
 class PlatformComments {
+    // {@Cpp An error code when something goes wrong.}
     enum SomeEnum {
         Useless,
         Useful
     }
-
-    // {@Cpp An error code when something goes wrong.}
-    typealias BOOM = SomethingWrong
 
     // An {@Java exception}{@Swift error} when something goes wrong.
     exception SomethingWrong(SomeEnum)
@@ -39,5 +37,5 @@ class PlatformComments {
     // @param[input] Very useful {@Cpp input [PlatformComments] }parameter that \\esc\@pe\{s\}
     // @return {@Cpp Usefulness}{@Java Uselessness [SomeEnum]}{@Swift Usefulness} of the input
     // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong] \\esc\@pe\{s\} }.
-    fun someMethodWithAllComments(input: String): Boolean throws BOOM
+    fun someMethodWithAllComments(input: String): Boolean throws SomethingWrong
 }

@@ -265,7 +265,9 @@ struct Options {
 * Example: `exception SomethingWrongException(ErrorCodeEnum)`
 * Can be a free-standing element at file level or can be placed in: class, interface, types
 * Description: declares an exception (error) type in the parent type:
-  * an exception can have a error-code enum associated with it (optionally).
+  * an exception has a error-code enum associated with it.
+  * an exception type cannot be used as a regular type, it can only be used in a `throws` clause of
+    a function (see `Function` and `Constructor` above).
 
 #### Constant
 

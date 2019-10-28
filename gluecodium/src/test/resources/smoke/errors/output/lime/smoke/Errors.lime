@@ -1,6 +1,5 @@
 package smoke
 class Errors {
-    typealias BOOM = Internal
     enum InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL
@@ -16,5 +15,4 @@ class Errors {
     static fun methodWithErrors() throws Internal
     static fun methodWithExternalErrors() throws External
     static fun methodWithErrorsAndReturnValue(): String throws Internal
-    static fun methodWithAliasedError() throws BOOM
 }

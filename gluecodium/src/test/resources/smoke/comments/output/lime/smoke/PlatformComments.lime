@@ -1,7 +1,6 @@
 package smoke
 class PlatformComments {
     // {@Cpp An error code when something goes wrong.}
-    typealias BOOM = SomethingWrong
     enum SomeEnum {
         Useless,
         Useful
@@ -18,5 +17,5 @@ class PlatformComments {
     // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong] \\esc\@pe\{s\} }.
     fun someMethodWithAllComments(
         input: String
-    ): Boolean throws BOOM
+    ): Boolean throws SomethingWrong
 }

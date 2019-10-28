@@ -23,6 +23,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeTypeHelper
@@ -33,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
  * Validate against:
  * * Referring to type collections directly.
  * * Referring to non-enum types from exception types.
+ * * Referring to exception types from anywhere but the `throws` clause.
  */
 internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
     LimeTypeRefsVisitor<Boolean>() {
@@ -52,6 +54,16 @@ internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
             }
             parentElement is LimeException && referredType !is LimeEnumeration -> {
                 logger.error(parentElement, "refers to a non-enumeration type.")
+                false
+            }
+            referredType is LimeException &&
+                (parentElement !is LimeFunction ||
+                    parentElement.thrownType?.typeRef?.type !== referredType) -> {
+                logger.error(
+                    parentElement,
+                    "refers to an exception type ${referredType.fullName} " +
+                            "which cannot be used outside of a `throws` clause."
+                )
                 false
             }
             else -> true

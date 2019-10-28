@@ -14,14 +14,13 @@ public:
     PlatformComments();
     virtual ~PlatformComments() = 0;
 public:
+    /**
+     * An error code when something goes wrong.
+     */
     enum class SomeEnum {
         USELESS,
         USEFUL
     };
-    /**
-     * An error code when something goes wrong.
-     */
-    using Boom = ::std::error_code;
 public:
     /**
      * This is some very useless method that does nothing.
@@ -46,4 +45,3 @@ namespace std
 template <>
 struct is_error_code_enum< ::smoke::PlatformComments::SomeEnum > : public std::true_type { };
 }
-

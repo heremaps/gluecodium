@@ -26,8 +26,11 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeReturnType
+import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import io.mockk.mockk
@@ -89,6 +92,32 @@ class LimeTypeRefTargetValidatorTest {
     fun validateExceptionWithAliasedInvalidType() {
         val limeTypeAlias = LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
         allElements[""] = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeTypeAlias))
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionTypeInThrowsClause() {
+        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+        allElements[""] =
+            LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionTypeInReturnType() {
+        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+        allElements[""] =
+            LimeFunction(EMPTY_PATH, returnType = LimeReturnType(LimeDirectTypeRef(limeException)))
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateExceptionTypeInTypeAlias() {
+        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.INT)
+        allElements[""] = LimeTypeAlias(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeException))
 
         assertFalse(validator.validate(limeModel))
     }

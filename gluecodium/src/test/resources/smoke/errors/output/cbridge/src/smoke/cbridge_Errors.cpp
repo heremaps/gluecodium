@@ -32,6 +32,3 @@ smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrors
         return {false, .error_code = static_cast< smoke_Errors_InternalErrorCode >(RESULT.error().value())};
     }
 }
-smoke_Errors_InternalErrorCode smoke_Errors_methodWithAliasedError() {
-    return ::smoke::Errors::method_with_aliased_error().value();
-}

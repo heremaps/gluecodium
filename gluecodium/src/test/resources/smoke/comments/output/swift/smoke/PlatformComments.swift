@@ -2,7 +2,6 @@
 //
 import Foundation
 public class PlatformComments {
-    public typealias Boom = PlatformComments.SomeEnum
     /// An error when something goes wrong.
     public typealias SomethingWrongError = PlatformComments.SomeEnum
     let c_instance : _baseRef
