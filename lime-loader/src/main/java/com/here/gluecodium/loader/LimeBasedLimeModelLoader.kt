@@ -31,7 +31,9 @@ import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.validator.LimeFunctionsValidator
+import com.here.gluecodium.validator.LimeImportsValidator
 import com.here.gluecodium.validator.LimeSerializableStructsValidator
 import com.here.gluecodium.validator.LimeTypeRefsValidator
 import com.here.gluecodium.validator.LimeTypeRefTargetValidator
@@ -48,9 +50,10 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
     override fun loadModel(fileNames: List<String>): LimeModel {
         val referenceResolver = AntlrLimeReferenceResolver()
         val elementNameToFileName = mutableMapOf<String, String>()
+        val fileNameToImports = mutableMapOf<String, List<LimePath>>()
         val loadedElements = fileNames
             .flatMap { listFilesRecursively(it) }
-            .map { loadFile(it, referenceResolver, elementNameToFileName) }
+            .map { loadFile(it, referenceResolver, elementNameToFileName, fileNameToImports) }
 
         if (loadedElements.any { it == null }) {
             throw LimeLoadingException("Syntax errors found, see log for details.")
@@ -63,7 +66,9 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         )
 
         val limeLogger = LimeLogger(logger, elementNameToFileName)
-        val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)
+        val typeRefsValidationResult =
+            LimeImportsValidator(limeLogger).validate(limeModel, fileNameToImports) &&
+            LimeTypeRefsValidator(limeLogger).validate(limeModel)
         val validators = getIndependentValidators(limeLogger) +
             if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
         val validationResults = validators.map { it.invoke(limeModel) }
@@ -77,7 +82,8 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
     private fun loadFile(
         fileName: String,
         referenceResolver: LimeReferenceResolver,
-        elementNameToFileName: MutableMap<String, String>
+        elementNameToFileName: MutableMap<String, String>,
+        fileNameToImports: MutableMap<String, List<LimePath>>
     ): List<LimeNamedElement>? {
         val errorListener = ThrowingErrorListener()
 
@@ -99,6 +105,7 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
 
         val results = modelBuilder.finalResults
         results.forEach { elementNameToFileName[it.fullName] = fileName }
+        fileNameToImports[fileName] = modelBuilder.collectedImports
 
         return results
     }

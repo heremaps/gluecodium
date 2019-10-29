@@ -31,8 +31,8 @@ class LimeLogger(
     fun error(limeElement: LimeNamedElement, message: String) =
         log(Level.SEVERE, getFileName(limeElement), limeElement.fullName, message)
 
-    fun error(elementName: String, message: String) =
-        log(Level.SEVERE, getFileName(elementName), elementName, message)
+    fun error(fileName: String, message: String) =
+        log(Level.SEVERE, fileName, null, message)
 
     fun warning(limeElement: LimeNamedElement, message: String) =
         log(Level.WARNING, getFileName(limeElement), limeElement.fullName, message)
@@ -43,10 +43,11 @@ class LimeLogger(
     private fun log(
         logLevel: Level,
         fileName: String,
-        elementName: String,
+        elementName: String?,
         message: String
     ) {
-        logger.log(logLevel, "File $fileName, element $elementName: $message")
+        val elementInfix = elementName?.let { ", element $it" } ?: ""
+        logger.log(logLevel, "File $fileName$elementInfix: $message")
     }
 
     private fun getFileName(limeElement: LimeNamedElement): String {

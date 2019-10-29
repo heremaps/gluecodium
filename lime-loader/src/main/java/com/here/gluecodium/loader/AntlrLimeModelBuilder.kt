@@ -82,6 +82,9 @@ internal class AntlrLimeModelBuilder(
     private val currentVisibility
         get() = visibilityStack.peek()
 
+    public val collectedImports: List<LimePath>
+        get() = imports
+
     // Overrides
 
     override fun exitLimeFile(ctx: LimeParser.LimeFileContext) {

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+- Features:
+  + Added validation against broken import statements in LimeIDL.
+
 ## 5.7.0
 - Release date: 2019-10-25
 - Features:
