@@ -61,7 +61,7 @@ class SomeImportantProcessor {
         additionalOptions: List<String> = {}
     }
 
-    exception SomethingWrongException
+    exception SomethingWrongException(String)
 }
 
 interface ProcessorDelegate: com.example.utils.GenericDelegate {
@@ -261,11 +261,11 @@ struct Options {
 
 #### Exception
 
-* Syntax: **exception** *ExceptionName*\[__(__*EnumName*__)__\]
-* Example: `exception SomethingWrongException(ErrorCodeEnum)`
+* Syntax: **exception** *ExceptionName*\[__(__*ErrorTypeName*__)__\]
+* Example: `exception SomethingWrongException(ErrorType)`
 * Can be a free-standing element at file level or can be placed in: class, interface, types
 * Description: declares an exception (error) type in the parent type:
-  * an exception has a error-code enum associated with it.
+  * an exception has an error-value type associated with it.
   * an exception type cannot be used as a regular type, it can only be used in a `throws` clause of
     a function (see `Function` and `Constructor` above).
 

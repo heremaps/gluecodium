@@ -139,3 +139,35 @@ or otherwise results in linking errors.
 
 Classes marked like this are equal comparable by comparing the instances raw pointer in C++.
 Interfaces marked as `@PointerEquatable` also support hashing.
+
+Exception types
+---------------
+
+Exception types defined in the IDL correspond to different types or concepts in the generated code,
+depending on the target language.
+
+### C++
+
+C++ generated code does not use C++ exceptions concept, mostly to support projects that decide to
+disable those for their C++ code. Instead, for functions that have an error type declared, both
+return type and error type are wrapped into a custom union-like class `Return<Value, Error>`. This
+is done even if the return type is `void`.
+
+There is, however, a slightly different behavior is the error type is an enumeration (for historical
+reasons):
+* the enumeration type is replaced with `std::error_code` whenever it is used as an error type.
+* conversion functions are generated to support implicit conversion from the enum type to `std::error_code`.
+* if return type is `void`, `Return<Value, Error>` is replaced by just `std::error_code`.
+
+### Java
+
+LimeIDL exception types are represented as Java exceptions in Java generated code. The generated
+exception class has a field `error` that carries the value of the error type. There are no
+additional conventions, the generated exceptions behave like regular Java exceptions.
+
+### Swift
+
+LimeIDL exception types are represented throwable types in Swift generated code. This is
+accomplished by generating a Swift `extension` for the error type that adds compliance to `Error`
+protocol. Moreover, a type alias with the error name pointing to the real error type is generated,
+but this is for convenience only and does not affect the functionality in any way.

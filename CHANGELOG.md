@@ -4,6 +4,7 @@
 - Features:
   + Added validation against broken import statements in LimeIDL.
   + Added support for `@Swift(Extension)` attribute for type collections (`types`) in LimeIDL.
+  + Any type can now be used as an error value type in an IDL exception declaration.
 
 ## 5.7.0
 - Release date: 2019-10-25
