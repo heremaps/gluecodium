@@ -50,7 +50,8 @@ open class SwiftType protected constructor(
         ARRAY,
         DICTIONARY,
         SET,
-        CLOSURE
+        CLOSURE,
+        EXTENSION
     }
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.

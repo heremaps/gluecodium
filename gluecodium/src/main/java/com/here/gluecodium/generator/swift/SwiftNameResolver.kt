@@ -19,6 +19,8 @@
 
 package com.here.gluecodium.generator.swift
 
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTENSION
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
@@ -36,7 +38,8 @@ class SwiftNameResolver(
 
         val name = nameRules.getName(limeType)
         return when {
-            parentContainer is LimeClass -> getNestedNames(parentContainer) + name
+            parentContainer?.attributes?.have(SWIFT, EXTENSION) == true ||
+                    parentContainer is LimeClass -> getNestedNames(parentContainer) + name
             parentContainer is LimeInterface && limeType is LimeTypeAlias ->
                 getNestedNames(parentContainer) + name
             else -> listOf(name)

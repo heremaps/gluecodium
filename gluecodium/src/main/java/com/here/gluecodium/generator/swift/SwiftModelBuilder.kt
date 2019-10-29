@@ -54,6 +54,7 @@ import com.here.gluecodium.model.swift.SwiftConstant
 import com.here.gluecodium.model.swift.SwiftEnum
 import com.here.gluecodium.model.swift.SwiftEnumItem
 import com.here.gluecodium.model.swift.SwiftError
+import com.here.gluecodium.model.swift.SwiftExtension
 import com.here.gluecodium.model.swift.SwiftField
 import com.here.gluecodium.model.swift.SwiftFile
 import com.here.gluecodium.model.swift.SwiftMethod
@@ -88,18 +89,29 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeTypes: LimeTypesCollection) {
         val file = SwiftFile(nameRules.getImplementationFileName(limeTypes))
-        file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
-        file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
-        file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
-
-        val constants = getPreviousResults(SwiftConstant::class.java)
-        if (constants.isNotEmpty()) {
-            val swiftStruct = SwiftStruct(
+        if (limeTypes.attributes.have(SWIFT, LimeAttributeValueType.EXTENSION)) {
+            file.extensions += SwiftExtension(
                 name = nameRules.getName(limeTypes),
                 visibility = getVisibility(limeTypes),
-                constants = constants
+                structs = getPreviousResults(SwiftStruct::class.java),
+                enums = getPreviousResults(SwiftEnum::class.java),
+                typeAliases = getPreviousResults(SwiftTypeDef::class.java),
+                constants = getPreviousResults(SwiftConstant::class.java)
             )
-            file.structs.add(swiftStruct)
+        } else {
+            file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
+            file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+            file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
+
+            val constants = getPreviousResults(SwiftConstant::class.java)
+            if (constants.isNotEmpty()) {
+                val swiftStruct = SwiftStruct(
+                    name = nameRules.getName(limeTypes),
+                    visibility = getVisibility(limeTypes),
+                    constants = constants
+                )
+                file.structs.add(swiftStruct)
+            }
         }
 
         storeResult(file)

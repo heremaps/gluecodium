@@ -118,6 +118,29 @@ class SwiftModelBuilderContainerTest {
     }
 
     @Test
+    fun finishBuildingTypeCollectionReadsExtensionAttribute() {
+        val limeElement = LimeTypesCollection(
+            fooPath,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.EXTENSION)
+                .build()
+        )
+        contextStack.injectResult(swiftStruct)
+        contextStack.injectResult(swiftEnum)
+        contextStack.injectResult(swiftTypeDef)
+        contextStack.injectResult(swiftConstant)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftFile::class.java)
+        val swiftExtension = result.extensions.first()
+        assertContains(swiftStruct, swiftExtension.structs)
+        assertContains(swiftEnum, swiftExtension.enums)
+        assertContains(swiftTypeDef, swiftExtension.typeAliases)
+        assertContains(swiftConstant, swiftExtension.constants)
+    }
+
+    @Test
     fun finishBuildingTypeCollectionReadsConstants() {
         val limeElement = LimeTypesCollection(fooPath)
         contextStack.injectResult(swiftConstant)

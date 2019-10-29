@@ -425,6 +425,10 @@ deprecated, takes a string literal value as a deprecation message.
   * **Label** **=** **"**_LabelName_**"**: marks a function parameter to have a distinct argument
   label in Swift.
   * **ObjC**: marks a class as Objective-C compatible in Swift.
+  * **Extension**: marks a type collection (`types`) to be generated as Swift extension. The primary
+  use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).
+  Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
+  clashes on other platforms.
 * **@Cpp**: marks an element with C++-specific properties:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
   This is the default property for this attribute.

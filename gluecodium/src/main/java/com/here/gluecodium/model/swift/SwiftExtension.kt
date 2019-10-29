@@ -19,22 +19,15 @@
 
 package com.here.gluecodium.model.swift
 
-class SwiftFile(val fileName: String) : SwiftModelElement("") {
-    val classes = mutableListOf<SwiftClass>()
-    val structs = mutableListOf<SwiftStruct>()
-    val enums = mutableListOf<SwiftEnum>()
-    val typeDefs = mutableListOf<SwiftTypeDef>()
-    val closures = mutableListOf<SwiftClosure>()
-    val extensions = mutableListOf<SwiftExtension>()
-
-    /**
-     * SwiftErrors are implemented as extension on the enum. Extensions need to be declared
-     * at file level, so collect all nested errors here.
-     */
-    @Suppress("Unused")
-    val allErrors
-        get() = allElementsRecursive.filterIsInstance<SwiftError>()
+class SwiftExtension(
+    name: String,
+    visibility: SwiftVisibility? = null,
+    val structs: List<SwiftStruct> = emptyList(),
+    val enums: List<SwiftEnum> = emptyList(),
+    val typeAliases: List<SwiftTypeDef> = emptyList(),
+    val constants: List<SwiftConstant> = emptyList()
+) : SwiftType(name = name, visibility = visibility, category = TypeCategory.EXTENSION) {
 
     override val childElements
-        get() = classes + structs + enums + typeDefs + closures + extensions
+        get() = structs + enums + typeAliases + constants
 }

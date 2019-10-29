@@ -561,15 +561,16 @@ internal class AntlrLimeModelBuilder(
                 ?: throw LimeLoadingException("Annotation type $attributeType does not support values")
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME
+            "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Builder" -> LimeAttributeValueType.BUILDER
             "Const" -> LimeAttributeValueType.CONST
+            "Extension" -> LimeAttributeValueType.EXTENSION
             "Label" -> LimeAttributeValueType.LABEL
             "ObjC" -> LimeAttributeValueType.OBJC
             "ExternalType" -> LimeAttributeValueType.EXTERNAL_TYPE
             "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
             "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER
             "ExternalSetter" -> LimeAttributeValueType.EXTERNAL_SETTER
-            "Accessors" -> LimeAttributeValueType.ACCESSORS
             else -> throw LimeLoadingException("Unsupported annotation value: '$id'")
         }
     }

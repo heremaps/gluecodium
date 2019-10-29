@@ -21,6 +21,8 @@ package com.here.gluecodium.model.cbridge
 
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
@@ -51,8 +53,11 @@ class CBridgeIncludeResolver(
         subfolder: String,
         suffix: String
     ): String {
+        val isSwiftExtension =
+            limeElement.attributes.have(LimeAttributeType.SWIFT, LimeAttributeValueType.EXTENSION)
+        val infix = if (isSwiftExtension) "__extension" else ""
         val fileName =
-            CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(limeElement) + suffix
+            CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(limeElement) + infix + suffix
         return (listOf(CBridgeNameRules.CBRIDGE_PUBLIC, subfolder) + rootNamespace +
                 limeElement.path.head + fileName).joinToString(File.separator)
     }

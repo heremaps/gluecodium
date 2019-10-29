@@ -18,42 +18,28 @@
   ! License-Filename: LICENSE
   !
   !}}
-//
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-//
+extension {{name}} {
+{{#constants}}
+{{prefixPartial "swift/Constant" "    "}}
+{{/constants}}
 
-import Foundation
+{{#typeAliases}}
+{{prefixPartial "swift/Typedefs" "    "}}
+{{/typeAliases}}
 
-{{#classes}}
-{{>swift/ClassDefinition}}
+{{#enums}}
+{{prefixPartial "swift/Enum" "    "}}
+{{/enums}}
 
-{{>swift/ClassConversion}}
-{{/classes}}{{!!
-
-}}{{#typeDefs}}
-{{>swift/Typedefs}}
-{{/typeDefs}}{{!!
-
-}}{{#closures}}
-{{>swift/Closure}}
-{{>swift/ClosureConversion}}
-{{/closures}}{{!!
-
-}}{{#allErrors}}
-extension {{type.publicName}} : Error {
+{{#structs}}
+{{prefixPartial "swift/Struct" "    "}}
+{{/structs}}
 }
-{{/allErrors}}{{!!
 
-}}{{#enums}}
-{{>swift/Enum}}
+{{#enums}}
 {{>swift/EnumConversion}}
-{{/enums}}{{!!
+{{/enums}}
 
-}}{{#structs}}
-{{>swift/Struct}}
+{{#structs}}
 {{>swift/StructConversion}}
-{{/structs}}{{!!
-
-}}{{#extensions}}
-{{>swift/Extension}}
-{{/extensions}}
+{{/structs}}

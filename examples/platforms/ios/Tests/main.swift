@@ -33,6 +33,7 @@ let allTests = [
     testCase(EquatableNullableTests.allTests),
     testCase(EquatableTests.allTests),
     testCase(ErrorsTests.allTests),
+    testCase(ExtensionsTests.allTests),
     testCase(ExternalTypesTests.allTests),
     testCase(HelloWorldInstancesTests.allTests),
     testCase(HelloWorldTests.allTests),

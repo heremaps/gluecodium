@@ -21,16 +21,17 @@ package com.here.gluecodium.model.lime
 
 enum class LimeAttributeValueType(private val tag: String) {
     NAME("Name"),
+    ACCESSORS("Accessors"),
     BUILDER("Builder"),
     CONST("Const"),
+    EXTENSION("Extension"),
     LABEL("Label"),
     OBJC("ObjC"),
     MESSAGE("Message"),
     EXTERNAL_TYPE("ExternalType"),
     EXTERNAL_NAME("ExternalName"),
     EXTERNAL_GETTER("ExternalGetter"),
-    EXTERNAL_SETTER("ExternalSetter"),
-    ACCESSORS("Accessors");
+    EXTERNAL_SETTER("ExternalSetter");
 
     override fun toString() = tag
 }

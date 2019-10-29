@@ -365,8 +365,12 @@ feature(Lambdas cpp android swift SOURCES
     src/test/Lambdas.cpp
 )
 
+feature(Extensions cpp android swift SOURCES
+    lime/test/Extensions.lime
+)
+
 if(APPLE)
-    #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
+    # This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES
         lime/test/ObjcInterface.lime
     )
