@@ -24,7 +24,7 @@ import com.here.gluecodium.generator.common.modelbuilder.AbstractLimeBasedModelB
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.java.JavaClass
 import com.here.gluecodium.model.java.JavaConstant
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
@@ -35,9 +35,9 @@ import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaMethod.MethodQualifier
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
-import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
 import com.here.gluecodium.model.java.JavaTopLevelElement
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.java.JavaValue
 import com.here.gluecodium.model.java.JavaVisibility
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -73,7 +73,7 @@ class JavaModelBuilder(
     private val nameRules: JavaNameRules,
     private val nameResolver: JavaNameResolver
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
-    private val nativeBase: JavaType = typeMapper.nativeBase
+    private val nativeBase: JavaTypeRef = typeMapper.nativeBase
 
     override fun finishBuilding(limeContainer: LimeContainerWithInheritance) {
         when (limeContainer) {
@@ -106,8 +106,8 @@ class JavaModelBuilder(
     override fun finishBuilding(limeMethod: LimeFunction) {
         val returnType = when {
             limeMethod.isConstructor -> {
-                val parentType = typeMapper.mapParentType(limeMethod) as JavaCustomType
-                if (parentType.isInterface) JavaPrimitiveType.LONG else parentType
+                val parentType = typeMapper.mapParentType(limeMethod) as JavaCustomTypeRef
+                if (parentType.isInterface) JavaPrimitiveTypeRef.LONG else parentType
             }
             else -> {
                 val cppType = typeMapper.mapType(limeMethod.returnType.typeRef)
@@ -140,7 +140,7 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeParameter: LimeParameter) {
         val javaType = typeMapper.applyNullability(
-            getPreviousResult(JavaType::class.java),
+            getPreviousResult(JavaTypeRef::class.java),
             limeParameter.typeRef.isNullable
         )
         val javaParameter =
@@ -154,7 +154,7 @@ class JavaModelBuilder(
     override fun finishBuilding(limeConstant: LimeConstant) {
         val javaConstant = JavaConstant(
             nameRules.getName(limeConstant),
-            getPreviousResult(JavaType::class.java),
+            getPreviousResult(JavaTypeRef::class.java),
             getPreviousResult(JavaValue::class.java)
         )
         javaConstant.visibility = getVisibility(limeConstant)
@@ -202,7 +202,7 @@ class JavaModelBuilder(
     override fun finishBuilding(limeField: LimeField) {
         val fieldName = nameRules.getName(limeField)
         val javaType = typeMapper.applyNullability(
-            getPreviousResult(JavaType::class.java),
+            getPreviousResult(JavaTypeRef::class.java),
             limeField.typeRef.isNullable
         )
 
@@ -271,7 +271,7 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeProperty: LimeProperty) {
         val javaType = typeMapper.applyNullability(
-            getPreviousResult(JavaType::class.java),
+            getPreviousResult(JavaTypeRef::class.java),
             limeProperty.typeRef.isNullable
         )
         val qualifiers = when {
@@ -310,7 +310,7 @@ class JavaModelBuilder(
                 name = nameRules.getSetterName(limeProperty),
                 comment = setterComments,
                 visibility = getVisibility(limeSetter),
-                returnType = JavaPrimitiveType.VOID,
+                returnType = JavaPrimitiveTypeRef.VOID,
                 parameters = listOf(setterParameter),
                 qualifiers = qualifiers
             )
@@ -358,7 +358,7 @@ class JavaModelBuilder(
         )
         implClass.visibility = JavaVisibility.PACKAGE
         implClass.javaPackage = rootPackage
-        implClass.parentInterfaces += JavaCustomType(javaInterface.name, javaInterface.javaPackage)
+        implClass.parentInterfaces += JavaCustomTypeRef(javaInterface.name, javaInterface.javaPackage)
 
         storeNamedResult(limeLambda, javaInterface)
         storeResult(implClass)
@@ -366,7 +366,7 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeValue: LimeValue) {
-        storeResult(valueMapper.mapValue(limeValue, getPreviousResult(JavaType::class.java)))
+        storeResult(valueMapper.mapValue(limeValue, getPreviousResult(JavaTypeRef::class.java)))
         closeContext()
     }
 
@@ -396,7 +396,7 @@ class JavaModelBuilder(
     private fun createJavaImplementationClass(
         limeContainer: LimeContainerWithInheritance,
         javaInterface: JavaInterface,
-        extendedClass: JavaType
+        extendedClass: JavaTypeRef
     ): JavaClass {
 
         val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
@@ -417,7 +417,7 @@ class JavaModelBuilder(
         javaClass.visibility = JavaVisibility.PACKAGE
         javaClass.javaPackage = rootPackage
 
-        val interfaceTypeReference = JavaCustomType(javaInterface.name, javaInterface.javaPackage)
+        val interfaceTypeReference = JavaCustomTypeRef(javaInterface.name, javaInterface.javaPackage)
         javaClass.parentInterfaces.add(interfaceTypeReference)
 
         return javaClass
@@ -511,7 +511,7 @@ class JavaModelBuilder(
     companion object {
         const val PLATFORM_TAG = "Java"
 
-        internal val deprecatedAnnotation = JavaCustomType("Deprecated")
-        internal val functionalInterfaceAnnotation = JavaCustomType("FunctionalInterface")
+        internal val deprecatedAnnotation = JavaCustomTypeRef("Deprecated")
+        internal val functionalInterfaceAnnotation = JavaCustomTypeRef("FunctionalInterface")
     }
 }

@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.model.java
 
-class JavaConstant(name: String, type: JavaType, val value: JavaValue) :
+class JavaConstant(name: String, type: JavaTypeRef, val value: JavaValue) :
     JavaTypedElement(name, type) {
 
     override val childElements

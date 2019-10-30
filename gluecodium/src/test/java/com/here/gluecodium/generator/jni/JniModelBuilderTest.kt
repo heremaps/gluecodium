@@ -36,17 +36,17 @@ import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
 import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppValue
 import com.here.gluecodium.model.java.JavaClass
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
-import com.here.gluecodium.model.java.JavaExceptionType
+import com.here.gluecodium.model.java.JavaExceptionTypeRef
 import com.here.gluecodium.model.java.JavaField
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
-import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
 import com.here.gluecodium.model.java.JavaTopLevelElement
 import com.here.gluecodium.model.java.JavaValue
 import com.here.gluecodium.model.java.JavaVisibility
@@ -103,8 +103,8 @@ class JniModelBuilderTest {
     private val mangledMethodName = "fancyMEthoD_1integer"
     private val javaMethod = JavaMethod(
         name = javaMethodName,
-        returnType = JavaPrimitiveType.INT,
-        parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
+        returnType = JavaPrimitiveTypeRef.INT,
+        parameters = listOf(JavaParameter("theParam", JavaPrimitiveTypeRef.INT))
     )
     private val cppMethod = CppMethod(
         name = "cPpWork3R_iNt",
@@ -117,20 +117,20 @@ class JniModelBuilderTest {
     private val cppClass = CppClass("cPpClass", "::cPpClass")
     private val javaEnum = JavaEnum("jAvaClazz")
     private val cppEnum = CppEnum("cPpClass", "::cPpClass", emptyList(), false, emptyList())
-    private val javaCustomType = JavaCustomType("jAvaClazz")
+    private val javaCustomType = JavaCustomTypeRef("jAvaClazz")
     private val javaField = JavaField("theParam", javaCustomType, JavaValue(""))
     private val cppCustomType = CppComplexTypeRef("cPpClass")
     private val cppField = CppField("cPpClass", "neSTed::cPpClass", cppCustomType)
     private val jniParameter = JniParameter("theParam", JniType.VOID)
     private val javaGetter =
-        JavaMethod("getFoo", Comments(), JavaVisibility.PUBLIC, JavaCustomType("FooType"))
+        JavaMethod("getFoo", Comments(), JavaVisibility.PUBLIC, JavaCustomTypeRef("FooType"))
     private val cppGetter =
         CppMethod("shootFoot", "shootFoot", Comments(), CppPrimitiveTypeRef.INT32)
     private val javaSetter = JavaMethod(
         name = "setFoo",
         visibility = JavaVisibility.PUBLIC,
-        returnType = JavaPrimitiveType.VOID,
-        parameters = listOf(JavaParameter("value", JavaPrimitiveType.INT))
+        returnType = JavaPrimitiveTypeRef.VOID,
+        parameters = listOf(JavaParameter("value", JavaPrimitiveTypeRef.INT))
     )
     private val cppSetter = CppMethod(
         name = "shootBothFeet",
@@ -387,7 +387,7 @@ class JniModelBuilderTest {
     fun finishBuildingMethodReadsConstructor() {
         contextStack.injectResult(jniParameter)
         val javaConstructor =
-            JavaMethod("", isConstructor = true, returnType = JavaPrimitiveType.LONG)
+            JavaMethod("", isConstructor = true, returnType = JavaPrimitiveTypeRef.LONG)
         every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaConstructor
 
         modelBuilder.finishBuilding(limeMethod)
@@ -429,7 +429,7 @@ class JniModelBuilderTest {
         val limeException = LimeException(EMPTY_PATH, errorType = LimeBasicTypeRef.INT)
         val limeElement =
             LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
-        val javaExceptionType = JavaExceptionType(
+        val javaExceptionType = JavaExceptionTypeRef(
             "",
             JavaImport("", JavaPackage.DEFAULT),
             listOf("FooException"),

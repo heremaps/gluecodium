@@ -23,21 +23,21 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.model.java.JavaClass
 import com.here.gluecodium.model.java.JavaConstant
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
-import com.here.gluecodium.model.java.JavaEnumType
+import com.here.gluecodium.model.java.JavaEnumTypeRef
 import com.here.gluecodium.model.java.JavaExceptionClass
-import com.here.gluecodium.model.java.JavaExceptionType
+import com.here.gluecodium.model.java.JavaExceptionTypeRef
 import com.here.gluecodium.model.java.JavaField
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
-import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
 import com.here.gluecodium.model.java.JavaTopLevelElement
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.java.JavaValue
 import com.here.gluecodium.model.java.JavaVisibility
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -79,8 +79,8 @@ class JavaModelBuilderTest {
     @MockK private lateinit var typeMapper: JavaTypeMapper
     @MockK private lateinit var valueMapper: JavaValueMapper
 
-    private val javaType = object : JavaType("") {}
-    private val anotherJavaType = object : JavaType("Nonsense") {}
+    private val javaType = object : JavaTypeRef("") {}
+    private val anotherJavaType = object : JavaTypeRef("Nonsense") {}
     private val javaValue = JavaValue("")
 
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))
@@ -173,7 +173,7 @@ class JavaModelBuilderTest {
         val limeException = LimeException(fooPath, errorType = LimeDirectTypeRef(limeErrorType))
         val limeElement = LimeFunction(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val javaExceptionType =
-            JavaExceptionType("", JavaImport("", JavaPackage.DEFAULT), emptyList(), javaType)
+            JavaExceptionTypeRef("", JavaImport("", JavaPackage.DEFAULT), emptyList(), javaType)
         every { typeMapper.mapExceptionType(any()) } returns javaExceptionType
 
         modelBuilder.finishBuilding(limeElement)
@@ -199,20 +199,20 @@ class JavaModelBuilderTest {
         val limeElement = LimeFunction(fooPath, isConstructor = true, isStatic = true)
         every {
             typeMapper.mapParentType(limeElement)
-        } returns JavaCustomType("", isInterface = true)
+        } returns JavaCustomTypeRef("", isInterface = true)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaMethod::class.java)
         assertTrue(result.isConstructor)
         assertContains(JavaMethod.MethodQualifier.STATIC, result.qualifiers)
-        assertEquals(JavaPrimitiveType.LONG, result.returnType)
+        assertEquals(JavaPrimitiveTypeRef.LONG, result.returnType)
     }
 
     @Test
     fun finishBuildingMethodReadsStructConstructor() {
         val limeElement = LimeFunction(fooPath, isConstructor = true, isStatic = true)
-        val parentType = JavaCustomType("")
+        val parentType = JavaCustomTypeRef("")
         every { typeMapper.mapParentType(limeElement) } returns parentType
 
         modelBuilder.finishBuilding(limeElement)
@@ -263,7 +263,7 @@ class JavaModelBuilderTest {
 
         modelBuilder.finishBuilding(limeTypeRef)
 
-        val result = modelBuilder.getFinalResult(JavaType::class.java)
+        val result = modelBuilder.getFinalResult(JavaTypeRef::class.java)
         assertEquals(javaType, result)
     }
 
@@ -366,7 +366,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingStructReadsCosntants() {
-        val javaConstant = JavaConstant("bar", JavaPrimitiveType.BOOL, JavaValue(""))
+        val javaConstant = JavaConstant("bar", JavaPrimitiveTypeRef.BOOL, JavaValue(""))
         contextStack.injectResult(javaConstant)
         val limeElement = LimeStruct(fooPath)
 
@@ -552,7 +552,7 @@ class JavaModelBuilderTest {
     fun finishBuildingExceptionCreatesJavaException() {
         val limeEnumRef = LimeDirectTypeRef(LimeEnumeration(LimePath.EMPTY_PATH))
         val limeException = LimeException(fooPath, errorType = limeEnumRef)
-        val javaEnumTypeRef = JavaEnumType(
+        val javaEnumTypeRef = JavaEnumTypeRef(
             "",
             emptyList(),
             emptyList(),
@@ -576,7 +576,7 @@ class JavaModelBuilderTest {
             visibility = LimeVisibility.INTERNAL,
             errorType = LimeDirectTypeRef(limeEnumeration)
         )
-        val javaEnumTypeRef = JavaEnumType(
+        val javaEnumTypeRef = JavaEnumTypeRef(
             "",
             emptyList(),
             emptyList(),

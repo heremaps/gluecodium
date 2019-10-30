@@ -19,9 +19,9 @@
 
 package com.here.gluecodium.model.java
 
-class JavaExceptionType(
-    fullName: String,
-    anImport: JavaImport,
-    classNames: List<String>,
-    val errorType: JavaType
-) : JavaCustomType(fullName, setOf(anImport), classNames, anImport.javaPackage.packageNames)
+abstract class JavaComplexTypeRef protected constructor(
+    name: String,
+    imports: Set<JavaImport>,
+    val classNames: List<String>,
+    val packageNames: List<String>
+) : JavaTypeRef(name, imports)

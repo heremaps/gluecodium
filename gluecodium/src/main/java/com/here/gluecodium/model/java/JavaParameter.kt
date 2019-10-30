@@ -19,4 +19,4 @@
 
 package com.here.gluecodium.model.java
 
-class JavaParameter(name: String, type: JavaType) : JavaTypedElement(name, type)
+class JavaParameter(name: String, type: JavaTypeRef) : JavaTypedElement(name, type)

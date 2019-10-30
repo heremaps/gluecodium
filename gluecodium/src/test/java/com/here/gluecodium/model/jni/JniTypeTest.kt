@@ -20,18 +20,18 @@
 package com.here.gluecodium.model.jni
 
 import com.here.gluecodium.model.cpp.CppComplexTypeRef
-import com.here.gluecodium.model.java.JavaArrayType
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaReferenceType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaArrayTypeRef
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaReferenceTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSignature: String?) {
+class JniTypeTest(private val javaType: JavaTypeRef, private val expectedJniTypeSignature: String?) {
     @Test
     fun createJniSignatureTest() {
         val result = JniType(javaType, CppComplexTypeRef("dummy"))
@@ -43,43 +43,43 @@ class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSig
         @JvmStatic
         @Parameterized.Parameters
         fun testData() = listOf(
-            arrayOf(JavaPrimitiveType.VOID, "V"),
-            arrayOf(JavaPrimitiveType.INT, "I"),
-            arrayOf(JavaPrimitiveType.DOUBLE, "D"),
-            arrayOf(JavaPrimitiveType.FLOAT, "F"),
-            arrayOf(JavaPrimitiveType.LONG, "J"),
-            arrayOf(JavaPrimitiveType.BOOL, "Z"),
-            arrayOf(JavaPrimitiveType.BYTE, "B"),
-            arrayOf(JavaPrimitiveType.SHORT, "S"),
-            arrayOf(JavaPrimitiveType.CHAR, "C"),
-            arrayOf(JavaArrayType.BOOL_ARRAY, "[Z"),
-            arrayOf(JavaArrayType.BYTE_ARRAY, "[B"),
-            arrayOf(JavaArrayType.CHAR_ARRAY, "[C"),
-            arrayOf(JavaArrayType.DOUBLE_ARRAY, "[D"),
-            arrayOf(JavaArrayType.FLOAT_ARRAY, "[F"),
-            arrayOf(JavaArrayType.INT_ARRAY, "[I"),
-            arrayOf(JavaArrayType.LONG_ARRAY, "[J"),
-            arrayOf(JavaArrayType.SHORT_ARRAY, "[S"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.BOOL), "Ljava/lang/Boolean;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.BYTE), "Ljava/lang/Byte;"),
+            arrayOf(JavaPrimitiveTypeRef.VOID, "V"),
+            arrayOf(JavaPrimitiveTypeRef.INT, "I"),
+            arrayOf(JavaPrimitiveTypeRef.DOUBLE, "D"),
+            arrayOf(JavaPrimitiveTypeRef.FLOAT, "F"),
+            arrayOf(JavaPrimitiveTypeRef.LONG, "J"),
+            arrayOf(JavaPrimitiveTypeRef.BOOL, "Z"),
+            arrayOf(JavaPrimitiveTypeRef.BYTE, "B"),
+            arrayOf(JavaPrimitiveTypeRef.SHORT, "S"),
+            arrayOf(JavaPrimitiveTypeRef.CHAR, "C"),
+            arrayOf(JavaArrayTypeRef.BOOL_ARRAY, "[Z"),
+            arrayOf(JavaArrayTypeRef.BYTE_ARRAY, "[B"),
+            arrayOf(JavaArrayTypeRef.CHAR_ARRAY, "[C"),
+            arrayOf(JavaArrayTypeRef.DOUBLE_ARRAY, "[D"),
+            arrayOf(JavaArrayTypeRef.FLOAT_ARRAY, "[F"),
+            arrayOf(JavaArrayTypeRef.INT_ARRAY, "[I"),
+            arrayOf(JavaArrayTypeRef.LONG_ARRAY, "[J"),
+            arrayOf(JavaArrayTypeRef.SHORT_ARRAY, "[S"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.BOOL), "Ljava/lang/Boolean;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.BYTE), "Ljava/lang/Byte;"),
             arrayOf(
-                JavaReferenceType(JavaReferenceType.Type.CHAR),
+                JavaReferenceTypeRef(JavaReferenceTypeRef.Type.CHAR),
                 "Ljava/lang/Character;"
             ),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.CLASS), "Ljava/lang/Class;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.DOUBLE), "Ljava/lang/Double;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.FLOAT), "Ljava/lang/Float;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.INT), "Ljava/lang/Integer;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.LONG), "Ljava/lang/Long;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.OBJECT), "Ljava/lang/Object;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.SHORT), "Ljava/lang/Short;"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.STRING), "Ljava/lang/String;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.CLASS), "Ljava/lang/Class;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.DOUBLE), "Ljava/lang/Double;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.FLOAT), "Ljava/lang/Float;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.INT), "Ljava/lang/Integer;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.LONG), "Ljava/lang/Long;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.OBJECT), "Ljava/lang/Object;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.SHORT), "Ljava/lang/Short;"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.STRING), "Ljava/lang/String;"),
             arrayOf(
-                JavaReferenceType(JavaReferenceType.Type.THROWABLE),
+                JavaReferenceTypeRef(JavaReferenceTypeRef.Type.THROWABLE),
                 "Ljava/lang/Throwable;"
             ),
             arrayOf(
-                JavaCustomType(
+                JavaCustomTypeRef(
                     "myNonNestedType",
                     emptySet(),
                     listOf("nonNestedClass"),
@@ -87,7 +87,7 @@ class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSig
                 "Lnested/package/nonNestedClass;"
             ),
             arrayOf(
-                JavaCustomType(
+                JavaCustomTypeRef(
                     "myNestedType",
                     emptySet(),
                     listOf("outerClass", "innerClass"),

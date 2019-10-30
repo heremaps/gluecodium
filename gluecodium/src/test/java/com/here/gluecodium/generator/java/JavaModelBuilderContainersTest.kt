@@ -25,15 +25,15 @@ import com.here.gluecodium.model.java.JavaClass
 import com.here.gluecodium.model.java.JavaConstant
 import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.java.JavaEnum
-import com.here.gluecodium.model.java.JavaEnumType
+import com.here.gluecodium.model.java.JavaEnumTypeRef
 import com.here.gluecodium.model.java.JavaExceptionClass
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
-import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
 import com.here.gluecodium.model.java.JavaTopLevelElement
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.java.JavaValue
 import com.here.gluecodium.model.java.JavaVisibility
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -65,10 +65,10 @@ class JavaModelBuilderContainersTest {
     @MockK private lateinit var typeMapper: JavaTypeMapper
     @MockK private lateinit var valueMapper: JavaValueMapper
 
-    private val javaConstant = JavaConstant("", JavaPrimitiveType.VOID, JavaValue(""))
+    private val javaConstant = JavaConstant("", JavaPrimitiveTypeRef.VOID, JavaValue(""))
     private val javaEnum = JavaEnum("")
     private val javaEnumTypeRef =
-        JavaEnumType("", emptyList(), emptyList(), JavaImport("", JavaPackage.DEFAULT))
+        JavaEnumTypeRef("", emptyList(), emptyList(), JavaImport("", JavaPackage.DEFAULT))
     private val javaException = JavaExceptionClass("", javaEnumTypeRef)
     private val javaMethod = JavaMethod("")
 
@@ -138,7 +138,7 @@ class JavaModelBuilderContainersTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsVisibility() {
-        contextStack.injectResult(JavaConstant("", JavaPrimitiveType.VOID, JavaValue("")))
+        contextStack.injectResult(JavaConstant("", JavaPrimitiveTypeRef.VOID, JavaValue("")))
         val limeElement = LimeTypesCollection(
             LimePath(emptyList(), listOf("foo")),
             visibility = LimeVisibility.INTERNAL
@@ -253,7 +253,7 @@ class JavaModelBuilderContainersTest {
             LimePath(emptyList(), listOf("foo")),
             parent = LimeDirectTypeRef(parentContainer)
         )
-        val javaType = object : JavaType("") {}
+        val javaType = object : JavaTypeRef("") {}
         every { typeMapper.mapInheritanceParent(parentContainer, any()) } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
@@ -381,7 +381,7 @@ class JavaModelBuilderContainersTest {
             LimePath(emptyList(), listOf("foo")),
             parent = LimeDirectTypeRef(parentContainer)
         )
-        val javaType = object : JavaType("") {}
+        val javaType = object : JavaTypeRef("") {}
         every { typeMapper.mapInheritanceParent(parentContainer, "BarImpl") } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
@@ -398,7 +398,7 @@ class JavaModelBuilderContainersTest {
             LimePath(emptyList(), listOf("foo")),
             parent = LimeDirectTypeRef(parentContainer)
         )
-        val javaType = object : JavaType("") {}
+        val javaType = object : JavaTypeRef("") {}
         every { typeMapper.mapInheritanceParent(parentContainer, "Bar") } returns javaType
 
         modelBuilder.finishBuilding(limeElement)

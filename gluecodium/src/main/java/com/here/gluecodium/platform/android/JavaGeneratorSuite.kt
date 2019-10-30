@@ -32,7 +32,7 @@ import com.here.gluecodium.generator.jni.JniGenerator
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.java.JavaClass
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
@@ -222,6 +222,6 @@ open class JavaGeneratorSuite protected constructor(
         private const val NATIVE_BASE_JAVA = "NativeBase.java"
 
         private fun annotationFromOption(option: Pair<String, List<String>>?) =
-            option?.let { JavaCustomType(option.first, JavaPackage(option.second)) }
+            option?.let { JavaCustomTypeRef(option.first, JavaPackage(option.second)) }
     }
 }

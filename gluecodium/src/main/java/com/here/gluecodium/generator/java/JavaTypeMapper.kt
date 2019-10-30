@@ -19,17 +19,17 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.model.java.JavaArrayType
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaEnumType
-import com.here.gluecodium.model.java.JavaExceptionType
+import com.here.gluecodium.model.java.JavaArrayTypeRef
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaEnumTypeRef
+import com.here.gluecodium.model.java.JavaExceptionTypeRef
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaPackage
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaReferenceType
-import com.here.gluecodium.model.java.JavaTemplateType
-import com.here.gluecodium.model.java.JavaTemplateType.TemplateClass
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaReferenceTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef.TemplateClass
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainer
@@ -53,30 +53,30 @@ class JavaTypeMapper(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val basePackage: JavaPackage,
     internalPackage: JavaPackage,
-    val serializationBase: JavaType?,
-    private val nonNullAnnotation: JavaType?,
-    private val nullableAnnotation: JavaType?,
+    val serializationBase: JavaTypeRef?,
+    private val nonNullAnnotation: JavaTypeRef?,
+    private val nullableAnnotation: JavaTypeRef?,
     private val nameResolver: JavaNameResolver
 ) {
-    val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, internalPackage)
+    val nativeBase: JavaTypeRef = JavaCustomTypeRef(NATIVE_BASE_NAME, internalPackage)
 
-    fun applyNullability(javaType: JavaType, isNullable: Boolean): JavaType {
+    fun applyNullability(javaType: JavaTypeRef, isNullable: Boolean): JavaTypeRef {
         var resultType = javaType
         if (isNullable) {
-            if (javaType is JavaPrimitiveType) {
-                resultType = JavaReferenceType.boxPrimitiveType(javaType)
+            if (javaType is JavaPrimitiveTypeRef) {
+                resultType = JavaReferenceTypeRef.boxPrimitiveType(javaType)
             }
             if (nullableAnnotation != null) {
                 resultType.annotations.add(nullableAnnotation)
             }
-        } else if (nonNullAnnotation != null && javaType !is JavaPrimitiveType) {
+        } else if (nonNullAnnotation != null && javaType !is JavaPrimitiveTypeRef) {
             resultType.annotations.add(nonNullAnnotation)
         }
 
         return resultType
     }
 
-    fun mapType(limeTypeRef: LimeTypeRef): JavaType =
+    fun mapType(limeTypeRef: LimeTypeRef): JavaTypeRef =
         when (val limeType = limeTypeRef.type) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeAlias -> mapType(limeType.typeRef)
@@ -86,7 +86,7 @@ class JavaTypeMapper(
                 val javaPackage = basePackage.createChildPackage(limeType.path.head)
                 val classNames = nameResolver.getClassNames(limeType)
                 val fullName = classNames.joinToString(".")
-                JavaCustomType(
+                JavaCustomTypeRef(
                     fullName = fullName,
                     classNames = classNames,
                     packageNames = javaPackage.packageNames,
@@ -105,7 +105,7 @@ class JavaTypeMapper(
             else -> mapCustomType(limeType)
         }
 
-    fun mapParentType(limeElement: LimeNamedElement): JavaType? {
+    fun mapParentType(limeElement: LimeNamedElement): JavaTypeRef? {
         val parentKey = limeElement.path.parent.toString()
         return when {
             limeReferenceMap.containsKey(parentKey) ->
@@ -114,45 +114,45 @@ class JavaTypeMapper(
         }
     }
 
-    private fun mapMapType(limeMap: LimeMap): JavaType {
+    private fun mapMapType(limeMap: LimeMap): JavaTypeRef {
         var keyType = mapType(limeMap.keyType)
         var valueType = mapType(limeMap.valueType)
 
-        if (keyType is JavaPrimitiveType) {
-            keyType = JavaReferenceType.boxPrimitiveType(keyType)
+        if (keyType is JavaPrimitiveTypeRef) {
+            keyType = JavaReferenceTypeRef.boxPrimitiveType(keyType)
         }
-        if (valueType is JavaPrimitiveType) {
-            valueType = JavaReferenceType.boxPrimitiveType(valueType)
+        if (valueType is JavaPrimitiveTypeRef) {
+            valueType = JavaReferenceTypeRef.boxPrimitiveType(valueType)
         }
 
-        return JavaTemplateType.create(TemplateClass.MAP, keyType, valueType)
+        return JavaTemplateTypeRef.create(TemplateClass.MAP, keyType, valueType)
     }
 
     private fun mapTemplateType(
         templateClass: TemplateClass,
         limeTypeRef: LimeTypeRef
-    ): JavaTemplateType {
+    ): JavaTemplateTypeRef {
         val objectElementType =
             when (val elementType = mapType(limeTypeRef)) {
-                is JavaPrimitiveType -> JavaReferenceType.boxPrimitiveType(elementType)
+                is JavaPrimitiveTypeRef -> JavaReferenceTypeRef.boxPrimitiveType(elementType)
                 else -> elementType
             }
-        return JavaTemplateType.create(templateClass, objectElementType)
+        return JavaTemplateTypeRef.create(templateClass, objectElementType)
     }
 
     fun mapInheritanceParent(
         limeContainer: LimeContainerWithInheritance,
         implClassName: String
-    ): JavaType {
+    ): JavaTypeRef {
         val javaPackage = basePackage.createChildPackage(limeContainer.path.head)
-        return JavaCustomType(
+        return JavaCustomTypeRef(
             fullName = implClassName,
             packageNames = javaPackage.packageNames,
             imports = setOf(JavaImport(implClassName, javaPackage))
         )
     }
 
-    fun mapCustomType(limeType: LimeType): JavaType {
+    fun mapCustomType(limeType: LimeType): JavaTypeRef {
         val classNames = nameResolver.getClassNames(limeType)
         val javaPackage = basePackage.createChildPackage(limeType.path.head)
 
@@ -160,13 +160,13 @@ class JavaTypeMapper(
         val typeName = classNames.joinToString(".")
         return when (limeType) {
             is LimeEnumeration ->
-                JavaEnumType(typeName, classNames, javaPackage.packageNames, javaImport)
+                JavaEnumTypeRef(typeName, classNames, javaPackage.packageNames, javaImport)
             else ->
-                JavaCustomType(typeName, setOf(javaImport), classNames, javaPackage.packageNames)
+                JavaCustomTypeRef(typeName, setOf(javaImport), classNames, javaPackage.packageNames)
         }
     }
 
-    fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionType {
+    fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionTypeRef {
         val limeException =
             LimeTypeHelper.getActualType(limeThrownType.typeRef.type) as LimeException
         val exceptionName = nameResolver.getName(limeException)
@@ -183,7 +183,7 @@ class JavaTypeMapper(
             classNames = listOf(importClassName, exceptionName)
         }
 
-        return JavaExceptionType(
+        return JavaExceptionTypeRef(
             classNames.joinToString("."),
             JavaImport(importClassName, basePackage.createChildPackage(limeException.path.head)),
             classNames,
@@ -193,17 +193,17 @@ class JavaTypeMapper(
 
     private fun mapBasicType(limeBasicType: LimeBasicType) =
         when (limeBasicType.typeId) {
-            TypeId.BOOLEAN -> JavaPrimitiveType.BOOL
-            TypeId.FLOAT -> JavaPrimitiveType.FLOAT
-            TypeId.DOUBLE -> JavaPrimitiveType.DOUBLE
-            TypeId.INT8 -> JavaPrimitiveType.BYTE
-            TypeId.INT16, TypeId.UINT8 -> JavaPrimitiveType.SHORT
-            TypeId.INT32, TypeId.UINT16 -> JavaPrimitiveType.INT
-            TypeId.INT64, TypeId.UINT32, TypeId.UINT64 -> JavaPrimitiveType.LONG
-            TypeId.STRING -> JavaReferenceType(JavaReferenceType.Type.STRING)
-            TypeId.BLOB -> JavaArrayType(JavaPrimitiveType.Type.BYTE)
-            TypeId.DATE -> JavaReferenceType(JavaReferenceType.Type.DATE)
-            TypeId.VOID -> JavaPrimitiveType.VOID
+            TypeId.BOOLEAN -> JavaPrimitiveTypeRef.BOOL
+            TypeId.FLOAT -> JavaPrimitiveTypeRef.FLOAT
+            TypeId.DOUBLE -> JavaPrimitiveTypeRef.DOUBLE
+            TypeId.INT8 -> JavaPrimitiveTypeRef.BYTE
+            TypeId.INT16, TypeId.UINT8 -> JavaPrimitiveTypeRef.SHORT
+            TypeId.INT32, TypeId.UINT16 -> JavaPrimitiveTypeRef.INT
+            TypeId.INT64, TypeId.UINT32, TypeId.UINT64 -> JavaPrimitiveTypeRef.LONG
+            TypeId.STRING -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.STRING)
+            TypeId.BLOB -> JavaArrayTypeRef(JavaPrimitiveTypeRef.Type.BYTE)
+            TypeId.DATE -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.DATE)
+            TypeId.VOID -> JavaPrimitiveTypeRef.VOID
         }
 
     companion object {

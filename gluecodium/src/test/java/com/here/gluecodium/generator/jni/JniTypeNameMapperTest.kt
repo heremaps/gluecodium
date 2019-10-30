@@ -19,11 +19,11 @@
 
 package com.here.gluecodium.generator.jni
 
-import com.here.gluecodium.model.java.JavaArrayType
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaReferenceType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaArrayTypeRef
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaReferenceTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +31,7 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class JniTypeNameMapperTest(
-    private val javaType: JavaType,
+    private val javaType: JavaTypeRef,
     private val expectedJniTypeName: String
 ) {
     @Test
@@ -47,36 +47,36 @@ class JniTypeNameMapperTest(
         @JvmStatic
         @Parameterized.Parameters
         fun testData(): Collection<Array<Any>> = listOf(
-            arrayOf(JavaPrimitiveType.VOID, "void"),
-            arrayOf(JavaPrimitiveType.INT, "jint"),
-            arrayOf(JavaPrimitiveType.DOUBLE, "jdouble"),
-            arrayOf(JavaPrimitiveType.FLOAT, "jfloat"),
-            arrayOf(JavaPrimitiveType.LONG, "jlong"),
-            arrayOf(JavaPrimitiveType.BOOL, "jboolean"),
-            arrayOf(JavaPrimitiveType.BYTE, "jbyte"),
-            arrayOf(JavaPrimitiveType.SHORT, "jshort"),
-            arrayOf(JavaPrimitiveType.CHAR, "jchar"),
-            arrayOf(JavaArrayType.BOOL_ARRAY, "jbooleanArray"),
-            arrayOf(JavaArrayType.BYTE_ARRAY, "jbyteArray"),
-            arrayOf(JavaArrayType.CHAR_ARRAY, "jcharArray"),
-            arrayOf(JavaArrayType.DOUBLE_ARRAY, "jdoubleArray"),
-            arrayOf(JavaArrayType.FLOAT_ARRAY, "jfloatArray"),
-            arrayOf(JavaArrayType.INT_ARRAY, "jintArray"),
-            arrayOf(JavaArrayType.LONG_ARRAY, "jlongArray"),
-            arrayOf(JavaArrayType.SHORT_ARRAY, "jshortArray"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.BOOL), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.BYTE), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.CHAR), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.CLASS), "jclass"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.DOUBLE), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.FLOAT), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.INT), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.LONG), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.OBJECT), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.SHORT), "jobject"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.STRING), "jstring"),
-            arrayOf(JavaReferenceType(JavaReferenceType.Type.THROWABLE), "jthrowable"),
-            arrayOf(JavaCustomType("MyFancyType"), "jobject")
+            arrayOf(JavaPrimitiveTypeRef.VOID, "void"),
+            arrayOf(JavaPrimitiveTypeRef.INT, "jint"),
+            arrayOf(JavaPrimitiveTypeRef.DOUBLE, "jdouble"),
+            arrayOf(JavaPrimitiveTypeRef.FLOAT, "jfloat"),
+            arrayOf(JavaPrimitiveTypeRef.LONG, "jlong"),
+            arrayOf(JavaPrimitiveTypeRef.BOOL, "jboolean"),
+            arrayOf(JavaPrimitiveTypeRef.BYTE, "jbyte"),
+            arrayOf(JavaPrimitiveTypeRef.SHORT, "jshort"),
+            arrayOf(JavaPrimitiveTypeRef.CHAR, "jchar"),
+            arrayOf(JavaArrayTypeRef.BOOL_ARRAY, "jbooleanArray"),
+            arrayOf(JavaArrayTypeRef.BYTE_ARRAY, "jbyteArray"),
+            arrayOf(JavaArrayTypeRef.CHAR_ARRAY, "jcharArray"),
+            arrayOf(JavaArrayTypeRef.DOUBLE_ARRAY, "jdoubleArray"),
+            arrayOf(JavaArrayTypeRef.FLOAT_ARRAY, "jfloatArray"),
+            arrayOf(JavaArrayTypeRef.INT_ARRAY, "jintArray"),
+            arrayOf(JavaArrayTypeRef.LONG_ARRAY, "jlongArray"),
+            arrayOf(JavaArrayTypeRef.SHORT_ARRAY, "jshortArray"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.BOOL), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.BYTE), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.CHAR), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.CLASS), "jclass"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.DOUBLE), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.FLOAT), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.INT), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.LONG), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.OBJECT), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.SHORT), "jobject"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.STRING), "jstring"),
+            arrayOf(JavaReferenceTypeRef(JavaReferenceTypeRef.Type.THROWABLE), "jthrowable"),
+            arrayOf(JavaCustomTypeRef("MyFancyType"), "jobject")
         )
     }
 }

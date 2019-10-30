@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.model.java
 
-abstract class JavaTypedElement(name: String, val type: JavaType) : JavaElement(name) {
+abstract class JavaTypedElement(name: String, val type: JavaTypeRef) : JavaElement(name) {
 
     override val childElements
         get() = super.childElements + type

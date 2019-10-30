@@ -19,7 +19,17 @@
 
 package com.here.gluecodium.model.java
 
-abstract class JavaType(
-    name: String,
-    imports: Set<JavaImport> = emptySet()
-) : JavaElementWithImports(name, imports)
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef.Type
+
+class JavaArrayTypeRef(val type: Type) : JavaTypeRef("${type.value}[]") {
+    companion object {
+        val BYTE_ARRAY = JavaArrayTypeRef(Type.BYTE)
+        val SHORT_ARRAY = JavaArrayTypeRef(Type.SHORT)
+        val INT_ARRAY = JavaArrayTypeRef(Type.INT)
+        val LONG_ARRAY = JavaArrayTypeRef(Type.LONG)
+        val FLOAT_ARRAY = JavaArrayTypeRef(Type.FLOAT)
+        val DOUBLE_ARRAY = JavaArrayTypeRef(Type.DOUBLE)
+        val BOOL_ARRAY = JavaArrayTypeRef(Type.BOOL)
+        val CHAR_ARRAY = JavaArrayTypeRef(Type.CHAR)
+    }
+}

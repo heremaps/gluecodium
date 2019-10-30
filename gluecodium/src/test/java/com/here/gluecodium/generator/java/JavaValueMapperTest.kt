@@ -21,11 +21,11 @@ package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaReferenceType
-import com.here.gluecodium.model.java.JavaTemplateType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaReferenceTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeElement
@@ -50,7 +50,7 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class JavaValueMapperTest {
-    private val javaType = object : JavaType("") {}
+    private val javaType = object : JavaTypeRef("") {}
 
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().javaNameRules)
@@ -127,7 +127,7 @@ class JavaValueMapperTest {
     fun mapEmptyListValue() {
         val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
         val javaTemplateType =
-            JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaType)
+            JavaTemplateTypeRef.create(JavaTemplateTypeRef.TemplateClass.LIST, javaType)
 
         val result = valueMapper.mapValue(limeValue, javaTemplateType)
 
@@ -139,7 +139,7 @@ class JavaValueMapperTest {
     fun mapEmptyMapValue() {
         val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
         val javaTemplateType =
-            JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, javaType, javaType)
+            JavaTemplateTypeRef.create(JavaTemplateTypeRef.TemplateClass.MAP, javaType, javaType)
 
         val result = valueMapper.mapValue(limeValue, javaTemplateType)
 
@@ -150,7 +150,7 @@ class JavaValueMapperTest {
     @Test
     fun mapEmptyStructValue() {
         val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
-        val javaCustomType = JavaCustomType("Foo")
+        val javaCustomType = JavaCustomTypeRef("Foo")
 
         val result = valueMapper.mapValue(limeValue, javaCustomType)
 
@@ -166,7 +166,7 @@ class JavaValueMapperTest {
         )
         val limeTypeRef = LimeLazyTypeRef("foo", limeReferenceMap)
         val limeValue = LimeValue.Literal(limeTypeRef, "1")
-        val javaType = JavaPrimitiveType.LONG
+        val javaType = JavaPrimitiveTypeRef.LONG
 
         val result = valueMapper.mapValue(limeValue, javaType)
 
@@ -177,7 +177,7 @@ class JavaValueMapperTest {
     fun mapEmptySetValue() {
         val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
         val javaTemplateType =
-            JavaTemplateType.create(JavaTemplateType.TemplateClass.SET, javaType)
+            JavaTemplateTypeRef.create(JavaTemplateTypeRef.TemplateClass.SET, javaType)
 
         val result = valueMapper.mapValue(limeValue, javaTemplateType)
 
@@ -194,10 +194,10 @@ class JavaValueMapperTest {
                 LimeValue.InitializerList(LimeBasicTypeRef.FLOAT, emptyList())
             )
         )
-        val javaCustomType = JavaCustomType("Foo")
+        val javaCustomType = JavaCustomTypeRef("Foo")
         every { typeMapper.mapType(any()) }.returnsMany(
-            JavaPrimitiveType.DOUBLE,
-            JavaReferenceType.boxPrimitiveType(JavaPrimitiveType.FLOAT)
+            JavaPrimitiveTypeRef.DOUBLE,
+            JavaReferenceTypeRef.boxPrimitiveType(JavaPrimitiveTypeRef.FLOAT)
         )
 
         val result = valueMapper.mapValue(limeElement, javaCustomType)

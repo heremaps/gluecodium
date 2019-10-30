@@ -19,9 +19,9 @@
 
 package com.here.gluecodium.model.java
 
-abstract class JavaComplexType protected constructor(
-    name: String,
-    imports: Set<JavaImport>,
-    val classNames: List<String>,
-    val packageNames: List<String>
-) : JavaType(name, imports)
+class JavaEnumTypeRef(
+    fullName: String,
+    classNames: List<String>,
+    packageNames: List<String>,
+    anImport: JavaImport
+) : JavaCustomTypeRef(fullName, setOf(anImport), classNames, packageNames)

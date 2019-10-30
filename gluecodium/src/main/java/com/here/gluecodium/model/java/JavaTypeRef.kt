@@ -19,17 +19,7 @@
 
 package com.here.gluecodium.model.java
 
-open class JavaCustomType(
-    fullName: String,
-    imports: Set<JavaImport> = emptySet(),
-    classNames: List<String> = listOf(fullName),
-    packageNames: List<String> = emptyList(),
-    val isInterface: Boolean = false
-) : JavaComplexType(fullName, imports, classNames, packageNames) {
-
-    constructor(fullName: String, javaPackage: JavaPackage) : this(
-        fullName = fullName,
-        packageNames = javaPackage.packageNames,
-        imports = setOf(JavaImport(fullName, javaPackage))
-    )
-}
+abstract class JavaTypeRef(
+    name: String,
+    imports: Set<JavaImport> = emptySet()
+) : JavaElementWithImports(name, imports)

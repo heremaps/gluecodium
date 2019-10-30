@@ -37,7 +37,7 @@ import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTypeRef
 import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.java.JavaClass
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
 import com.here.gluecodium.model.java.JavaField
@@ -45,9 +45,9 @@ import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
-import com.here.gluecodium.model.java.JavaPrimitiveType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
 import com.here.gluecodium.model.java.JavaTopLevelElement
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.jni.JniContainer
 import com.here.gluecodium.model.jni.JniElement
 import com.here.gluecodium.model.jni.JniEnum
@@ -192,7 +192,7 @@ class JniModelBuilder(
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = javaSignatureResolver.isOverloaded(limeMethod),
-            returnsOpaqueHandle = javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveType.LONG,
+            returnsOpaqueHandle = javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveTypeRef.LONG,
             exception = jniException
         )
         jniMethod.parameters.addAll(getPreviousResults(JniParameter::class.java))
@@ -238,7 +238,7 @@ class JniModelBuilder(
             type = getPreviousResult(JniType::class.java),
             javaName = javaField.name,
             javaCustomType =
-                (javaField.type as? JavaCustomType)?.let { JniNameRules.getFullClassName(it) },
+                (javaField.type as? JavaCustomTypeRef)?.let { JniNameRules.getFullClassName(it) },
             cppField = cppField,
             cppGetterName = cppField.getterName,
             cppSetterName = cppField.setterName
@@ -361,7 +361,7 @@ class JniModelBuilder(
     }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
-        val javaType = javaBuilder.getFinalResult(JavaType::class.java)
+        val javaType = javaBuilder.getFinalResult(JavaTypeRef::class.java)
         val cppType = cppBuilder.getFinalResult(CppTypeRef::class.java)
         val conversionIncludes = JniIncludeResolver.getConversionIncludes(limeTypeRef, javaType)
         val jniType = JniType(javaType, cppType, conversionIncludes)

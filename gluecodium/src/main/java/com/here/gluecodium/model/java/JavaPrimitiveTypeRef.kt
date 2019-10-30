@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.model.java
 
-class JavaPrimitiveType private constructor(val type: Type) : JavaType(type.value) {
+class JavaPrimitiveTypeRef private constructor(val type: Type) : JavaTypeRef(type.value) {
 
     enum class Type(val value: String) {
         VOID("void"),
@@ -34,14 +34,14 @@ class JavaPrimitiveType private constructor(val type: Type) : JavaType(type.valu
     }
 
     companion object {
-        val VOID = JavaPrimitiveType(Type.VOID)
-        val BYTE = JavaPrimitiveType(Type.BYTE)
-        val SHORT = JavaPrimitiveType(Type.SHORT)
-        val INT = JavaPrimitiveType(Type.INT)
-        val LONG = JavaPrimitiveType(Type.LONG)
-        val FLOAT = JavaPrimitiveType(Type.FLOAT)
-        val DOUBLE = JavaPrimitiveType(Type.DOUBLE)
-        val BOOL = JavaPrimitiveType(Type.BOOL)
-        val CHAR = JavaPrimitiveType(Type.CHAR)
+        val VOID = JavaPrimitiveTypeRef(Type.VOID)
+        val BYTE = JavaPrimitiveTypeRef(Type.BYTE)
+        val SHORT = JavaPrimitiveTypeRef(Type.SHORT)
+        val INT = JavaPrimitiveTypeRef(Type.INT)
+        val LONG = JavaPrimitiveTypeRef(Type.LONG)
+        val FLOAT = JavaPrimitiveTypeRef(Type.FLOAT)
+        val DOUBLE = JavaPrimitiveTypeRef(Type.DOUBLE)
+        val BOOL = JavaPrimitiveTypeRef(Type.BOOL)
+        val CHAR = JavaPrimitiveTypeRef(Type.CHAR)
     }
 }

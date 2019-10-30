@@ -22,7 +22,7 @@ package com.here.gluecodium.model.java
 class JavaClass(
     name: String,
     classNames: List<String> = listOf(name),
-    val extendedClass: JavaType? = null,
+    val extendedClass: JavaTypeRef? = null,
     val fields: List<JavaField> = emptyList(),
     methods: List<JavaMethod> = emptyList(),
     constants: List<JavaConstant> = emptyList(),
@@ -77,7 +77,7 @@ class JavaClass(
                     isParcelable || needsBuilder ->
                         fields
                             .map { it.type }
-                            .filterIsInstance<JavaTemplateType>()
+                            .filterIsInstance<JavaTemplateTypeRef>()
                             .map { it.implementationType }
                     else -> emptyList()
                 }

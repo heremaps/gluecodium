@@ -28,14 +28,14 @@ import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef
 import com.here.gluecodium.model.cpp.CppTypeDefRef
 import com.here.gluecodium.model.cpp.CppTypeRef
-import com.here.gluecodium.model.java.JavaArrayType
-import com.here.gluecodium.model.java.JavaComplexType
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaTemplateType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaArrayTypeRef
+import com.here.gluecodium.model.java.JavaComplexTypeRef
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 
 class JniType(
-    javaType: JavaType,
+    javaType: JavaTypeRef,
     cppType: CppTypeRef,
     val conversionIncludes: List<Include> = emptyList()
 ) : JniElement {
@@ -47,13 +47,13 @@ class JniType(
     val cppFullyQualifiedName = getCppFullyQualifiedName(cppType)
 
     @Suppress("unused")
-    val isJavaArray = javaType is JavaArrayType
+    val isJavaArray = javaType is JavaArrayTypeRef
     @Suppress("unused")
-    val isComplex = javaType !is JavaPrimitiveType
+    val isComplex = javaType !is JavaPrimitiveTypeRef
     @Suppress("unused")
     val refersToValueType = cppType.refersToValueType
     @Suppress( "unused")
-    val isJavaVoid = javaType === JavaPrimitiveType.VOID
+    val isJavaVoid = javaType === JavaPrimitiveTypeRef.VOID
 
     val elementType = inferElementType(javaType, cppType)
 
@@ -62,44 +62,44 @@ class JniType(
         get() = JniNameRules.getMangledName(jniTypeSignature)
 
     companion object {
-        val VOID = JniType(JavaPrimitiveType.VOID, CppPrimitiveTypeRef.VOID)
+        val VOID = JniType(JavaPrimitiveTypeRef.VOID, CppPrimitiveTypeRef.VOID)
 
-        private fun createJniSignature(type: JavaType) =
+        private fun createJniSignature(type: JavaTypeRef) =
             when (type) {
-                is JavaPrimitiveType -> createJniSignature(type)
-                is JavaArrayType -> createJniSignature(type)
-                is JavaComplexType -> createJniSignature(type)
+                is JavaPrimitiveTypeRef -> createJniSignature(type)
+                is JavaArrayTypeRef -> createJniSignature(type)
+                is JavaComplexTypeRef -> createJniSignature(type)
                 else -> throw GluecodiumExecutionException("invalid java type: $type")
             }
 
-        private fun createJniSignature(primitiveType: JavaPrimitiveType) =
+        private fun createJniSignature(primitiveType: JavaPrimitiveTypeRef) =
             when (primitiveType.type) {
-                JavaPrimitiveType.Type.INT -> "I"
-                JavaPrimitiveType.Type.BOOL -> "Z"
-                JavaPrimitiveType.Type.BYTE -> "B"
-                JavaPrimitiveType.Type.CHAR -> "C"
-                JavaPrimitiveType.Type.LONG -> "J"
-                JavaPrimitiveType.Type.VOID -> "V"
-                JavaPrimitiveType.Type.FLOAT -> "F"
-                JavaPrimitiveType.Type.SHORT -> "S"
-                JavaPrimitiveType.Type.DOUBLE -> "D"
+                JavaPrimitiveTypeRef.Type.INT -> "I"
+                JavaPrimitiveTypeRef.Type.BOOL -> "Z"
+                JavaPrimitiveTypeRef.Type.BYTE -> "B"
+                JavaPrimitiveTypeRef.Type.CHAR -> "C"
+                JavaPrimitiveTypeRef.Type.LONG -> "J"
+                JavaPrimitiveTypeRef.Type.VOID -> "V"
+                JavaPrimitiveTypeRef.Type.FLOAT -> "F"
+                JavaPrimitiveTypeRef.Type.SHORT -> "S"
+                JavaPrimitiveTypeRef.Type.DOUBLE -> "D"
             }
 
-        private fun createJniSignature(arrayType: JavaArrayType) =
+        private fun createJniSignature(arrayType: JavaArrayTypeRef) =
             when (arrayType.type) {
-                JavaPrimitiveType.Type.INT -> "[I"
-                JavaPrimitiveType.Type.BOOL -> "[Z"
-                JavaPrimitiveType.Type.BYTE -> "[B"
-                JavaPrimitiveType.Type.CHAR -> "[C"
-                JavaPrimitiveType.Type.LONG -> "[J"
-                JavaPrimitiveType.Type.FLOAT -> "[F"
-                JavaPrimitiveType.Type.SHORT -> "[S"
-                JavaPrimitiveType.Type.DOUBLE -> "[D"
+                JavaPrimitiveTypeRef.Type.INT -> "[I"
+                JavaPrimitiveTypeRef.Type.BOOL -> "[Z"
+                JavaPrimitiveTypeRef.Type.BYTE -> "[B"
+                JavaPrimitiveTypeRef.Type.CHAR -> "[C"
+                JavaPrimitiveTypeRef.Type.LONG -> "[J"
+                JavaPrimitiveTypeRef.Type.FLOAT -> "[F"
+                JavaPrimitiveTypeRef.Type.SHORT -> "[S"
+                JavaPrimitiveTypeRef.Type.DOUBLE -> "[D"
                 else -> throw GluecodiumExecutionException("invalid java primitive type: " +
                         arrayType.type)
             }
 
-        private fun createJniSignature(complexType: JavaComplexType): String {
+        private fun createJniSignature(complexType: JavaComplexTypeRef): String {
             val packageNames = complexType.packageNames.joinToString("/")
             val classNames = complexType.classNames.joinToString("$")
             return "L$packageNames/$classNames;"
@@ -108,8 +108,8 @@ class JniType(
         private fun getCppFullyQualifiedName(cppTypeRef: CppTypeRef) =
             (cppTypeRef as? CppComplexTypeRef)?.fullyQualifiedName
 
-        private fun inferElementType(javaType: JavaType, cppType: CppTypeRef): JniType? {
-            if (javaType !is JavaTemplateType) {
+        private fun inferElementType(javaType: JavaTypeRef, cppType: CppTypeRef): JniType? {
+            if (javaType !is JavaTemplateTypeRef) {
                 return null
             }
             var actualCppType = cppType

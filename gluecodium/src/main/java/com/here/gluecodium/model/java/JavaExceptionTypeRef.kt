@@ -19,9 +19,9 @@
 
 package com.here.gluecodium.model.java
 
-class JavaEnumType(
+class JavaExceptionTypeRef(
     fullName: String,
+    anImport: JavaImport,
     classNames: List<String>,
-    packageNames: List<String>,
-    anImport: JavaImport
-) : JavaCustomType(fullName, setOf(anImport), classNames, packageNames)
+    val errorType: JavaTypeRef
+) : JavaCustomTypeRef(fullName, setOf(anImport), classNames, anImport.javaPackage.packageNames)

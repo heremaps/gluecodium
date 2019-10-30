@@ -31,7 +31,7 @@ import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.generator.java.JavaTypeMapper
 import com.here.gluecodium.generator.java.JavaValueMapper
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.jni.JniContainer
@@ -49,8 +49,8 @@ class JniGenerator(
     private val enableAndroidFeatures: Boolean,
     private val internalNamespace: List<String>,
     rootNamespace: List<String>,
-    private val nonNullAnnotation: JavaCustomType?,
-    private val nullableAnnotation: JavaCustomType?,
+    private val nonNullAnnotation: JavaCustomTypeRef?,
+    private val nullableAnnotation: JavaCustomTypeRef?,
     private val cppNameRules: CppNameRules,
     private val javaNameRules: JavaNameRules
 ) {
@@ -148,7 +148,7 @@ class JniGenerator(
 
     companion object {
         private val ANDROID_OS_PACKAGE = JavaPackage(listOf("android", "os"))
-        private val PARCELABLE = JavaCustomType(
+        private val PARCELABLE = JavaCustomTypeRef(
             fullName = "Parcelable",
             packageNames = ANDROID_OS_PACKAGE.packageNames,
             imports = LinkedHashSet(listOf(

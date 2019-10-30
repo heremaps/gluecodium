@@ -21,12 +21,12 @@ package com.here.gluecodium.model.java
 
 import java.util.LinkedHashSet
 
-class JavaTemplateType private constructor(
+class JavaTemplateTypeRef private constructor(
     name: String,
     imports: Set<JavaImport>,
     val templateClass: TemplateClass,
-    val templateParameters: List<JavaType>
-) : JavaCustomType(name, imports, listOf(templateClass.interfaceName), templateClass.packageNames) {
+    val templateParameters: List<JavaTypeRef>
+) : JavaCustomTypeRef(name, imports, listOf(templateClass.interfaceName), templateClass.packageNames) {
 
     val implementationType = templateClass.implementationType
 
@@ -40,7 +40,7 @@ class JavaTemplateType private constructor(
         SET("Set", JAVA_UTIL, "HashSet"),
         ENUM_SET("Set", JAVA_UTIL, "EnumSet");
 
-        val implementationType = JavaCustomType(
+        val implementationType = JavaCustomTypeRef(
             fullName = "$implementationTypeName<>",
             packageNames = javaPackage.packageNames,
             imports = setOf(JavaImport(implementationTypeName, javaPackage))
@@ -52,14 +52,14 @@ class JavaTemplateType private constructor(
     companion object {
         val JAVA_UTIL = JavaPackage(listOf("java", "util"))
 
-        fun create(templateClass: TemplateClass, vararg parameters: JavaType): JavaTemplateType {
+        fun create(templateClass: TemplateClass, vararg parameters: JavaTypeRef): JavaTemplateTypeRef {
             val templateParameters = parameters.toList()
             val templateParametersString = templateParameters.joinToString(", ") { it.name }
             val name = "${templateClass.interfaceName}<$templateParametersString>"
             val imports = listOf(templateClass.javaImport) +
                 templateParameters.flatMap { it.imports.toList() }
 
-            return JavaTemplateType(name, LinkedHashSet(imports), templateClass, templateParameters)
+            return JavaTemplateTypeRef(name, LinkedHashSet(imports), templateClass, templateParameters)
         }
     }
 }

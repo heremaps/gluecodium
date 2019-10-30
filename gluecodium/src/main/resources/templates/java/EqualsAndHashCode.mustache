@@ -37,18 +37,18 @@ public int hashCode() {
 }{{!!
 
 }}{{+fieldEq}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
+    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
         }}{{#switch type.name}}{{!!
         }}{{#case "float"}}Float.compare(this.{{name}}, other.{{name}}) == 0{{/case}}{{!!
         }}{{#case "double"}}Double.compare(this.{{name}}, other.{{name}}) == 0{{/case}}{{!!
         }}{{#default}}this.{{name}} == other.{{name}}{{/default}}{{!!
         }}{{/switch}}{{!!
     }}{{/instanceOf}}{{!!
-    }}{{#notInstanceOf type "JavaPrimitiveType"}}java.util.Objects.equals(this.{{name}}, other.{{name}}){{/notInstanceOf}}{{!!
+    }}{{#notInstanceOf type "JavaPrimitiveTypeRef"}}java.util.Objects.equals(this.{{name}}, other.{{name}}){{/notInstanceOf}}{{!!
 }}{{/fieldEq}}{{!!
 
 }}{{+fieldHash}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
+    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
         }}{{#switch type.name}}{{!!
         }}{{#case "boolean"}}(this.{{name}} ? 79 : 97){{/case}}{{!!
         }}{{#case "long"}}(int) (this.{{name}} ^ (this.{{name}} >>> 32)){{/case}}{{!!
@@ -57,5 +57,5 @@ public int hashCode() {
         }}{{#default}}this.{{name}}{{/default}}{{!!
         }}{{/switch}}{{!!
     }}{{/instanceOf}}{{!!
-    }}{{#notInstanceOf type "JavaPrimitiveType"}}(this.{{name}} != null ? this.{{name}}.hashCode() : 0){{/notInstanceOf}}{{!!
+    }}{{#notInstanceOf type "JavaPrimitiveTypeRef"}}(this.{{name}} != null ? this.{{name}}.hashCode() : 0){{/notInstanceOf}}{{!!
 }}{{/fieldHash}}

@@ -26,7 +26,7 @@ import java.util.LinkedHashSet
 abstract class JavaElement(val name: String) : Hierarchical<JavaElement> {
     var comment = Comments()
     var visibility = JavaVisibility.PACKAGE
-    val annotations: MutableSet<JavaType> = LinkedHashSet()
+    val annotations: MutableSet<JavaTypeRef> = LinkedHashSet()
 
     override fun toString() = name
 

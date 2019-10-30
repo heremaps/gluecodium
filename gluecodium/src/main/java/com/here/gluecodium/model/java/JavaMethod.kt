@@ -26,15 +26,15 @@ class JavaMethod(
     name: String,
     comment: Comments = Comments(),
     visibility: JavaVisibility = JavaVisibility.PUBLIC,
-    val returnType: JavaType = JavaPrimitiveType.VOID,
+    val returnType: JavaTypeRef = JavaPrimitiveTypeRef.VOID,
     var returnComment: String? = null,
-    val exception: JavaExceptionType? = null,
+    val exception: JavaExceptionTypeRef? = null,
     var throwsComment: String? = null,
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,
     val isGetter: Boolean = false,
     qualifiers: Set<MethodQualifier> = EnumSet.noneOf(MethodQualifier::class.java),
-    annotations: Set<JavaType> = emptySet()
+    annotations: Set<JavaTypeRef> = emptySet()
 ) : JavaElement(name) {
 
     val qualifiers: MutableSet<MethodQualifier> = LinkedHashSet(qualifiers)
@@ -50,7 +50,7 @@ class JavaMethod(
         get() = returnType.annotations + annotations
 
     @Suppress("unused")
-    val isReturningVoid = returnType == JavaPrimitiveType.VOID
+    val isReturningVoid = returnType == JavaPrimitiveTypeRef.VOID
 
     @Suppress("unused")
     val hasComment: Boolean

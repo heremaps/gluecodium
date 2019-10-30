@@ -21,8 +21,8 @@ package com.here.gluecodium.model.java
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 
-class JavaReferenceType(val type: Type) :
-    JavaComplexType(type.value, type.imports, listOf(type.value), type.packageNames) {
+class JavaReferenceTypeRef(val type: Type) :
+    JavaComplexTypeRef(type.value, type.imports, listOf(type.value), type.packageNames) {
 
     enum class Type(
         val value: String,
@@ -54,21 +54,21 @@ class JavaReferenceType(val type: Type) :
          * @param primitiveType a primitive type
          * @return custom type wrapper of the primitive type
          */
-        fun boxPrimitiveType(primitiveType: JavaPrimitiveType): JavaReferenceType {
+        fun boxPrimitiveType(primitiveType: JavaPrimitiveTypeRef): JavaReferenceTypeRef {
             val boxedType = when (primitiveType) {
-                JavaPrimitiveType.BOOL -> Type.BOOL
-                JavaPrimitiveType.CHAR -> Type.CHAR
-                JavaPrimitiveType.INT -> Type.INT
-                JavaPrimitiveType.FLOAT -> Type.FLOAT
-                JavaPrimitiveType.DOUBLE -> Type.DOUBLE
-                JavaPrimitiveType.BYTE -> Type.BYTE
-                JavaPrimitiveType.SHORT -> Type.SHORT
-                JavaPrimitiveType.LONG -> Type.LONG
+                JavaPrimitiveTypeRef.BOOL -> Type.BOOL
+                JavaPrimitiveTypeRef.CHAR -> Type.CHAR
+                JavaPrimitiveTypeRef.INT -> Type.INT
+                JavaPrimitiveTypeRef.FLOAT -> Type.FLOAT
+                JavaPrimitiveTypeRef.DOUBLE -> Type.DOUBLE
+                JavaPrimitiveTypeRef.BYTE -> Type.BYTE
+                JavaPrimitiveTypeRef.SHORT -> Type.SHORT
+                JavaPrimitiveTypeRef.LONG -> Type.LONG
                 else -> throw GluecodiumExecutionException(
                     "Cannot box primitive type ${primitiveType.name}"
                 )
             }
-            return JavaReferenceType(boxedType)
+            return JavaReferenceTypeRef(boxedType)
         }
     }
 }

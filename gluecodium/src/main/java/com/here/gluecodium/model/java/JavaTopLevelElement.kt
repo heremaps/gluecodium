@@ -23,7 +23,7 @@ abstract class JavaTopLevelElement(name: String, val classNames: List<String>) :
 
     var javaPackage = JavaPackage.DEFAULT
     val methods: MutableSet<JavaMethod> = mutableSetOf()
-    val parentInterfaces: MutableSet<JavaType> = mutableSetOf()
+    val parentInterfaces: MutableSet<JavaTypeRef> = mutableSetOf()
 
     val constants: MutableSet<JavaConstant> = mutableSetOf()
     val enums: MutableSet<JavaEnum> = mutableSetOf()

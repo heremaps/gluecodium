@@ -21,5 +21,5 @@ package com.here.gluecodium.model.java
 
 class JavaExceptionClass(
     exceptionName: String,
-    val errorTypeRef: JavaType
+    val errorTypeRef: JavaTypeRef
 ) : JavaTopLevelElement(exceptionName, listOf(exceptionName))

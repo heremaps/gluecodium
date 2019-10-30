@@ -19,12 +19,12 @@
 
 package com.here.gluecodium.generator.jni
 
-import com.here.gluecodium.model.java.JavaArrayType
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaPrimitiveType.Type
-import com.here.gluecodium.model.java.JavaReferenceType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaArrayTypeRef
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef.Type
+import com.here.gluecodium.model.java.JavaReferenceTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 
 object JniTypeNameMapper {
     /**
@@ -35,12 +35,12 @@ object JniTypeNameMapper {
      * @param javaType Java type to convert
      * @return Equivalent JNI type name
      */
-    fun map(javaType: JavaType) =
+    fun map(javaType: JavaTypeRef) =
         when (javaType) {
-            is JavaCustomType -> "jobject"
-            is JavaReferenceType -> mapReferenceType(javaType)
-            is JavaArrayType -> mapArrayType(javaType)
-            is JavaPrimitiveType -> mapPrimitiveType(javaType.type)
+            is JavaCustomTypeRef -> "jobject"
+            is JavaReferenceTypeRef -> mapReferenceType(javaType)
+            is JavaArrayTypeRef -> mapArrayType(javaType)
+            is JavaPrimitiveTypeRef -> mapPrimitiveType(javaType.type)
             else -> throw IllegalArgumentException(
                 "Mapping from Java type to jni type name is not possible: ${javaType.name}"
             )
@@ -52,15 +52,15 @@ object JniTypeNameMapper {
             else -> "j${primitiveType.value}"
         }
 
-    private fun mapReferenceType(refType: JavaReferenceType) =
+    private fun mapReferenceType(refType: JavaReferenceTypeRef) =
         when (refType.type) {
-            JavaReferenceType.Type.CLASS -> "jclass"
-            JavaReferenceType.Type.STRING -> "jstring"
-            JavaReferenceType.Type.THROWABLE -> "jthrowable"
+            JavaReferenceTypeRef.Type.CLASS -> "jclass"
+            JavaReferenceTypeRef.Type.STRING -> "jstring"
+            JavaReferenceTypeRef.Type.THROWABLE -> "jthrowable"
             else -> "jobject"
         }
 
-    private fun mapArrayType(refType: JavaArrayType) =
+    private fun mapArrayType(refType: JavaArrayTypeRef) =
         when (refType.type) {
             Type.VOID -> throw IllegalArgumentException(
                 "Mapping from 'void' array to a JNI type name is not possible: ${refType.name}"

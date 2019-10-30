@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.jni
 
-import com.here.gluecodium.model.java.JavaCustomType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.jni.JniContainer
 import com.here.gluecodium.model.jni.JniTopLevelElement
 import java.io.File
@@ -52,7 +52,7 @@ class JniNameRules(generatorName: String) {
                 .replace("/", "_")
         }
 
-        fun getFullClassName(javaType: JavaCustomType) =
+        fun getFullClassName(javaType: JavaCustomTypeRef) =
             (javaType.packageNames + javaType.classNames.joinToString("$")).joinToString("/")
 
         fun getJniClassFileName(jniContainer: JniContainer) =

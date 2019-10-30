@@ -37,8 +37,8 @@ public void writeToParcel(final Parcel out_parcel, final int flags) {
 }{{!!
 
 }}{{+parcelRead}}{{!!
-    }}{{#instanceOf type "JavaArrayType"}}this.{{name}} = in_parcel.create{{capitalize type.type.value}}Array();{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaTemplateType"}}{{#isNotEq type.templateClass.interfaceName "Set"}}this.{{name}} = new {{type.implementationType}}();
+    }}{{#instanceOf type "JavaArrayTypeRef"}}this.{{name}} = in_parcel.create{{capitalize type.type.value}}Array();{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaTemplateTypeRef"}}{{#isNotEq type.templateClass.interfaceName "Set"}}this.{{name}} = new {{type.implementationType}}();
 {{!!}}in_parcel.read{{capitalize type.classNames.0}}(this.{{name}}, Thread.currentThread().getContextClassLoader());{{/isNotEq}}{{!!
 }}{{#isEq type.templateClass.interfaceName "Set"}}java.util.ArrayList<{{type.templateParameters.0.name}}> __{{name}} = new java.util.ArrayList<>();
 in_parcel.readList(__{{name}}, Thread.currentThread().getContextClassLoader());
@@ -46,30 +46,30 @@ in_parcel.readList(__{{name}}, Thread.currentThread().getContextClassLoader());
 }}{{#isNotEq type.implementationType.name "EnumSet<>"}}this.{{name}} = new {{type.implementationType}}(__{{name}});{{/isNotEq}}
 {{/isEq}}{{/instanceOf}}{{!!
 
-    }}{{#instanceOf type "JavaCustomType"}}this.{{name}} = in_parcel.readParcelable(Thread.currentThread().getContextClassLoader());{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaEnumType"}}this.{{name}} = {{type.name}}.values()[in_parcel.readInt()];{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
+    }}{{#instanceOf type "JavaCustomTypeRef"}}this.{{name}} = in_parcel.readParcelable(Thread.currentThread().getContextClassLoader());{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaEnumTypeRef"}}this.{{name}} = {{type.name}}.values()[in_parcel.readInt()];{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
         }}{{#switch type.name}}{{!!
         }}{{#case "boolean"}}this.{{name}} = in_parcel.readByte() != 0;{{/case}}{{!!
         }}{{#case "short"}}this.{{name}} = (short)in_parcel.readInt();{{/case}}{{!!
         }}{{#default}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/default}}{{!!
         }}{{/switch}}{{!!
     }}{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaReferenceType"}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaReferenceTypeRef"}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/instanceOf}}{{!!
 }}{{/parcelRead}}{{!!
 
 }}{{+parcelWriteSuffix}}{{!!
-    }}{{#instanceOf type "JavaArrayType"}}{{capitalize type.type.value}}Array({{name}}){{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaTemplateType"}}{{#isNotEq type.templateClass.interfaceName "Set"}}{{capitalize type.classNames.0}}({{name}}){{/isNotEq}}{{!!
+    }}{{#instanceOf type "JavaArrayTypeRef"}}{{capitalize type.type.value}}Array({{name}}){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaTemplateTypeRef"}}{{#isNotEq type.templateClass.interfaceName "Set"}}{{capitalize type.classNames.0}}({{name}}){{/isNotEq}}{{!!
     }}{{#isEq type.templateClass.interfaceName "Set"}}List(java.util.Arrays.asList({{name}}.toArray())){{/isEq}}{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaCustomType"}}Parcelable({{name}}, 0){{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaEnumType"}}Int({{name}}.ordinal()){{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveType"}}{{!!
+    }}{{#instanceOf type "JavaCustomTypeRef"}}Parcelable({{name}}, 0){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaEnumTypeRef"}}Int({{name}}.ordinal()){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
         }}{{#switch type.name}}{{!!
         }}{{#case "boolean"}}Byte((byte)({{name}} ? 1 : 0)){{/case}}{{!!
         }}{{#case "short"}}Int({{name}}){{/case}}{{!!
         }}{{#default}}{{capitalize type.name}}({{name}}){{/default}}{{!!
         }}{{/switch}}{{!!
     }}{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaReferenceType"}}{{capitalize type.name}}({{name}}){{/instanceOf}}{{!!
+    }}{{#instanceOf type "JavaReferenceTypeRef"}}{{capitalize type.name}}({{name}}){{/instanceOf}}{{!!
 }}{{/parcelWriteSuffix}}

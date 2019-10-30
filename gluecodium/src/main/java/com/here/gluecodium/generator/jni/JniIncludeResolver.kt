@@ -20,9 +20,9 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaTemplateType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.jni.JniContainer
 import com.here.gluecodium.model.jni.JniMethod
 import com.here.gluecodium.model.jni.JniStruct
@@ -42,24 +42,24 @@ internal object JniIncludeResolver {
 
     fun getConversionIncludes(
         limeTypeRef: LimeTypeRef,
-        javaType: JavaType
+        javaType: JavaTypeRef
     ): List<Include> =
         when (val limeType = LimeTypeHelper.getActualType(limeTypeRef.type)) {
             is LimeStruct, is LimeEnumeration, is LimeContainerWithInheritance, is LimeLambda -> {
-                listOfNotNull((javaType as? JavaCustomType)?.let {
+                listOfNotNull((javaType as? JavaCustomTypeRef)?.let {
                     createConversionInclude(it.packageNames, it.classNames)
                 })
             }
             is LimeList -> {
-                val templateType = javaType as JavaTemplateType
+                val templateType = javaType as JavaTemplateTypeRef
                 getConversionIncludes(limeType.elementType, templateType.templateParameters.first())
             }
             is LimeSet -> {
-                val templateType = javaType as JavaTemplateType
+                val templateType = javaType as JavaTemplateTypeRef
                 getConversionIncludes(limeType.elementType, templateType.templateParameters.first())
             }
             is LimeMap -> {
-                val templateType = javaType as JavaTemplateType
+                val templateType = javaType as JavaTemplateTypeRef
                 getConversionIncludes(limeType.keyType, templateType.templateParameters.first()) +
                     getConversionIncludes(limeType.valueType, templateType.templateParameters.last())
             }

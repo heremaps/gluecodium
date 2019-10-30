@@ -19,17 +19,17 @@
 
 package com.here.gluecodium.model.java
 
-import com.here.gluecodium.model.java.JavaPrimitiveType.Type
+open class JavaCustomTypeRef(
+    fullName: String,
+    imports: Set<JavaImport> = emptySet(),
+    classNames: List<String> = listOf(fullName),
+    packageNames: List<String> = emptyList(),
+    val isInterface: Boolean = false
+) : JavaComplexTypeRef(fullName, imports, classNames, packageNames) {
 
-class JavaArrayType(val type: Type) : JavaType("${type.value}[]") {
-    companion object {
-        val BYTE_ARRAY = JavaArrayType(Type.BYTE)
-        val SHORT_ARRAY = JavaArrayType(Type.SHORT)
-        val INT_ARRAY = JavaArrayType(Type.INT)
-        val LONG_ARRAY = JavaArrayType(Type.LONG)
-        val FLOAT_ARRAY = JavaArrayType(Type.FLOAT)
-        val DOUBLE_ARRAY = JavaArrayType(Type.DOUBLE)
-        val BOOL_ARRAY = JavaArrayType(Type.BOOL)
-        val CHAR_ARRAY = JavaArrayType(Type.CHAR)
-    }
+    constructor(fullName: String, javaPackage: JavaPackage) : this(
+        fullName = fullName,
+        packageNames = javaPackage.packageNames,
+        imports = setOf(JavaImport(fullName, javaPackage))
+    )
 }

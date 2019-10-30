@@ -21,7 +21,7 @@ package com.here.gluecodium.model.java
 
 class JavaField(
     name: String,
-    type: JavaType,
+    type: JavaTypeRef,
     val initial: JavaValue
 ) : JavaTypedElement(name, type) {
 

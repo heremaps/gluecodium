@@ -21,9 +21,9 @@ package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.model.java.JavaImport
 import com.here.gluecodium.model.java.JavaPackage
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaTemplateType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.java.JavaValue
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -38,7 +38,7 @@ class JavaValueMapper(
     private val nameRules: JavaNameRules,
     private val typeMapper: JavaTypeMapper
 ) {
-    fun mapValue(limeValue: LimeValue, javaType: JavaType): JavaValue =
+    fun mapValue(limeValue: LimeValue, javaType: JavaTypeRef): JavaValue =
         when (limeValue) {
             is LimeValue.Literal -> {
                 val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
@@ -80,18 +80,18 @@ class JavaValueMapper(
 
     private fun mapInitializerList(
         limeValue: LimeValue.InitializerList,
-        javaType: JavaType
+        javaType: JavaTypeRef
     ): JavaValue {
-        val implementationType = (javaType as? JavaTemplateType)?.implementationType ?: javaType
+        val implementationType = (javaType as? JavaTemplateTypeRef)?.implementationType ?: javaType
         val prefix = "new ${implementationType.name}"
         val values = limeValue.values.map { mapValue(it, typeMapper.mapType(it.typeRef)) }
         val valuesString = values.joinToString(", ") { it.name }
         val imports = implementationType.imports + values.flatMap { it.imports }
 
         return when {
-            javaType !is JavaTemplateType || valuesString.isEmpty() ->
+            javaType !is JavaTemplateTypeRef || valuesString.isEmpty() ->
                 JavaValue("$prefix($valuesString)", imports, true)
-            javaType.templateClass == JavaTemplateType.TemplateClass.MAP ->
+            javaType.templateClass == JavaTemplateTypeRef.TemplateClass.MAP ->
                 JavaValue(
                     "$prefix(Stream.of($valuesString)" +
                         ".collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))",
@@ -130,26 +130,26 @@ class JavaValueMapper(
                 JavaValue((Integer.parseInt(it.name) + 1).toString())
             } ?: JavaValue("0")
 
-        fun mapNullValue(javaType: JavaType) = JavaValue("(${javaType.name})null")
+        fun mapNullValue(javaType: JavaTypeRef) = JavaValue("(${javaType.name})null")
 
-        fun mapDefaultValue(javaType: JavaType) =
+        fun mapDefaultValue(javaType: JavaTypeRef) =
             when (javaType) {
-                JavaPrimitiveType.BOOL -> JavaValue("false")
-                is JavaPrimitiveType -> JavaValue(decorateLiteralValue(javaType, "0"))
+                JavaPrimitiveTypeRef.BOOL -> JavaValue("false")
+                is JavaPrimitiveTypeRef -> JavaValue(decorateLiteralValue(javaType, "0"))
                 else -> mapNullValue(javaType)
             }
 
-        private fun decorateLiteralValue(javaType: JavaPrimitiveType, value: String): String {
+        private fun decorateLiteralValue(javaType: JavaPrimitiveTypeRef, value: String): String {
             val literal = StringBuilder()
 
             when (javaType) {
-                JavaPrimitiveType.BYTE -> literal.append("(byte)")
-                JavaPrimitiveType.SHORT -> literal.append("(short)")
+                JavaPrimitiveTypeRef.BYTE -> literal.append("(byte)")
+                JavaPrimitiveTypeRef.SHORT -> literal.append("(short)")
             }
             literal.append(value)
             when (javaType) {
-                JavaPrimitiveType.FLOAT -> literal.append('f')
-                JavaPrimitiveType.LONG -> literal.append('L')
+                JavaPrimitiveTypeRef.FLOAT -> literal.append('f')
+                JavaPrimitiveTypeRef.LONG -> literal.append('L')
             }
 
             return literal.toString()

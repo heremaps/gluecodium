@@ -21,13 +21,13 @@ package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
-import com.here.gluecodium.model.java.JavaCustomType
-import com.here.gluecodium.model.java.JavaEnumType
+import com.here.gluecodium.model.java.JavaCustomTypeRef
+import com.here.gluecodium.model.java.JavaEnumTypeRef
 import com.here.gluecodium.model.java.JavaPackage
-import com.here.gluecodium.model.java.JavaPrimitiveType
-import com.here.gluecodium.model.java.JavaReferenceType
-import com.here.gluecodium.model.java.JavaTemplateType
-import com.here.gluecodium.model.java.JavaType
+import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
+import com.here.gluecodium.model.java.JavaReferenceTypeRef
+import com.here.gluecodium.model.java.JavaTemplateTypeRef
+import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
@@ -57,8 +57,8 @@ class JavaTypeMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val limeTypeRef = LimeLazyTypeRef("foo", limeReferenceMap)
 
-    private val nonNullAnnotation = object : JavaType("Foo") {}
-    private val nullableAnnotation = object : JavaType("Bar") {}
+    private val nonNullAnnotation = object : JavaTypeRef("Foo") {}
+    private val nullableAnnotation = object : JavaTypeRef("Bar") {}
     private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().javaNameRules)
     private val nameResolver = JavaNameResolver(JavaNameRules(nameRuleSet), limeReferenceMap)
 
@@ -74,7 +74,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapNullabilityAnnotationsNone() {
-        val javaType = object : JavaType("") {}
+        val javaType = object : JavaTypeRef("") {}
 
         val result = typeMapper.applyNullability(javaType, false)
 
@@ -83,7 +83,7 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapNullabilityAnnotationsNullable() {
-        val javaType = object : JavaType("") {}
+        val javaType = object : JavaTypeRef("") {}
 
         val result = typeMapper.applyNullability(javaType, true)
 
@@ -93,12 +93,12 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapNullabilityAnnotationsPrimitiveNullable() {
-        val javaType = JavaPrimitiveType.BOOL
+        val javaType = JavaPrimitiveTypeRef.BOOL
 
         val result = typeMapper.applyNullability(javaType, true)
 
-        assertTrue(result is JavaReferenceType)
-        assertEquals(JavaReferenceType.Type.BOOL, (result as JavaReferenceType).type)
+        assertTrue(result is JavaReferenceTypeRef)
+        assertEquals(JavaReferenceTypeRef.Type.BOOL, (result as JavaReferenceTypeRef).type)
         assertContains(nullableAnnotation, result.annotations)
     }
 
@@ -113,17 +113,17 @@ class JavaTypeMapperTest {
             nullableAnnotation = null,
             nameResolver = nameResolver
         )
-        val javaType = JavaPrimitiveType.BOOL
+        val javaType = JavaPrimitiveTypeRef.BOOL
 
         val result = typeMapper.applyNullability(javaType, true)
 
-        assertTrue(result is JavaReferenceType)
-        assertEquals(JavaReferenceType.Type.BOOL, (result as JavaReferenceType).type)
+        assertTrue(result is JavaReferenceTypeRef)
+        assertEquals(JavaReferenceTypeRef.Type.BOOL, (result as JavaReferenceTypeRef).type)
     }
 
     @Test
     fun mapNullabilityAnnotationsNotNull() {
-        val javaType = JavaCustomType("", JavaPackage.DEFAULT)
+        val javaType = JavaCustomTypeRef("", JavaPackage.DEFAULT)
 
         val result = typeMapper.applyNullability(javaType, false)
 
@@ -137,7 +137,7 @@ class JavaTypeMapperTest {
 
         val result = typeMapper.mapType(limeTypeRef)
 
-        assertEquals(JavaPrimitiveType.FLOAT, result)
+        assertEquals(JavaPrimitiveTypeRef.FLOAT, result)
     }
 
     @Test
@@ -166,7 +166,7 @@ class JavaTypeMapperTest {
         val result = typeMapper.mapType(limeTypeRef)
 
         assertEquals("Set<Float>", result.name)
-        assertEquals("HashSet<>", (result as JavaTemplateType).implementationType.name)
+        assertEquals("HashSet<>", (result as JavaTemplateTypeRef).implementationType.name)
     }
 
     @Test
@@ -178,7 +178,7 @@ class JavaTypeMapperTest {
         val result = typeMapper.mapType(limeTypeRef)
 
         assertEquals("Set<Baz>", result.name)
-        assertEquals("EnumSet<>", (result as JavaTemplateType).implementationType.name)
+        assertEquals("EnumSet<>", (result as JavaTemplateTypeRef).implementationType.name)
     }
 
     @Test
@@ -187,9 +187,9 @@ class JavaTypeMapperTest {
 
         val result = typeMapper.mapType(limeTypeRef)
 
-        assertTrue(result is JavaCustomType)
+        assertTrue(result is JavaCustomTypeRef)
         assertEquals("Baz", result.name)
-        assertEquals(listOf("com", "example", "bar"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("com", "example", "bar"), (result as JavaCustomTypeRef).packageNames)
         assertEquals("Baz", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "bar"),
@@ -204,9 +204,9 @@ class JavaTypeMapperTest {
 
         val result = typeMapper.mapInheritanceParent(limeType, "Foo")
 
-        assertTrue(result is JavaCustomType)
+        assertTrue(result is JavaCustomTypeRef)
         assertEquals("Foo", result.name)
-        assertEquals(listOf("com", "example", "bar"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("com", "example", "bar"), (result as JavaCustomTypeRef).packageNames)
         assertEquals("Foo", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "bar"),
@@ -221,9 +221,9 @@ class JavaTypeMapperTest {
 
         val result = typeMapper.mapCustomType(limeType)
 
-        assertTrue(result is JavaCustomType)
+        assertTrue(result is JavaCustomTypeRef)
         assertEquals("Bar", result.name)
-        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomTypeRef).packageNames)
         assertEquals("Bar", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
@@ -238,7 +238,7 @@ class JavaTypeMapperTest {
 
         val result = typeMapper.mapCustomType(limeType)
 
-        assertTrue(result is JavaEnumType)
+        assertTrue(result is JavaEnumTypeRef)
     }
 
     @Test
@@ -248,9 +248,9 @@ class JavaTypeMapperTest {
 
         val result = typeMapper.mapCustomType(limeType)
 
-        assertTrue(result is JavaCustomType)
+        assertTrue(result is JavaCustomTypeRef)
         assertEquals("Foo.Bar", result.name)
-        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomTypeRef).packageNames)
         assertEquals("Foo", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
@@ -270,7 +270,7 @@ class JavaTypeMapperTest {
         val result = typeMapper.mapExceptionType(limeType)
 
         assertEquals("BarException", result.name)
-        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomTypeRef).packageNames)
         assertEquals("BarException", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
@@ -290,7 +290,7 @@ class JavaTypeMapperTest {
         val result = typeMapper.mapExceptionType(limeType)
 
         assertEquals("Nonsense.BarException", result.name)
-        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("com", "example", "baz"), (result as JavaCustomTypeRef).packageNames)
         assertEquals("Nonsense", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
@@ -303,7 +303,7 @@ class JavaTypeMapperTest {
         val result = typeMapper.nativeBase
 
         assertEquals("NativeBase", result.name)
-        assertEquals(listOf("foo", "bar", "baz"), (result as JavaCustomType).packageNames)
+        assertEquals(listOf("foo", "bar", "baz"), (result as JavaCustomTypeRef).packageNames)
         assertEquals(
             listOf("foo", "bar", "baz"),
             result.imports.first().javaPackage.packageNames
