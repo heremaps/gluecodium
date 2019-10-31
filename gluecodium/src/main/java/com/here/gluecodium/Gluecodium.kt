@@ -72,6 +72,10 @@ class Gluecodium(
     fun execute(): Boolean {
         LOGGER.info("Version: $version")
 
+        if (options.inputDirs.isEmpty()) {
+            throw OptionReaderException("input option required")
+        }
+
         val times = TimeLogger(LOGGER, TimeUnit.MILLISECONDS, Level.INFO)
         times.start()
         val limeModel: LimeModel
@@ -166,7 +170,7 @@ class Gluecodium(
         return saveToDirectory(options.outputDir, filesToBeWritten)
     }
 
-    class Options(
+    data class Options(
         var inputDirs: List<String> = listOf(),
         var outputDir: String? = null,
         var javaPackages: List<String> = listOf(),

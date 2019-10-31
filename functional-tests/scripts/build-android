@@ -53,14 +53,11 @@ done
 
 # Constants
 GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
-HOST_ARCH=host-$(uname -m)
 CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
 -DANDROID_NATIVE_API_LEVEL=28 \
 -DBUILD_SHARED_LIBS=ON \
 -DCMAKE_SYSTEM_VERSION=21 \
 -DCMAKE_VERBOSE_MAKEFILE=ON \
--DGLUECODIUM_GENERATOR=android \
--DGLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
 -G Ninja
 EOF
 )
@@ -73,30 +70,38 @@ if [ -z "$NDK_CMAKE_BINARY" ]; then
     NDK_CMAKE_BINARY=cmake
 fi
 
-# Do cross-compilation build for generating a proper Android Archive
-build_dir=${PWD}/build-android
-[ -d ${build_dir} ] || mkdir -p ${build_dir}
+set -x
+app_folder=${PWD}/namerules/android
+lib_cmake_dir=${app_folder}/lib/build/cmake
+app_libs_folder=${app_folder}/app/libs
 
-pushd ${build_dir}
+# Assemble AAR archive (includes Gluecodium invocation)
+pushd ${app_folder}
+./gradlew :lib:assembleRelease
+popd
+
+# Compile host shared lib file with CMake directly
+[ -d ${lib_cmake_dir} ] || mkdir -p ${lib_cmake_dir}
+pushd ${lib_cmake_dir}
 
 set -o pipefail
 safe $NDK_CMAKE_BINARY \
     ${CMAKE_DEFAULT_PARAMETERS} \
     ${CMAKE_BUILD_TYPE} \
-    -DCMAKE_INSTALL_PREFIX=${install_dir} \
-    .. | tee "cmake_output.log"
+    -DGLUECODIUM_GENERATED_DIR=${app_folder}/lib/build/generated-src/gluecodium \
+    ../.. | tee "cmake_output.log"
 
 popd
 
 safe $NDK_CMAKE_BINARY \
-    --build ${build_dir} \
+    --build ${lib_cmake_dir}
 
-set -x
-app_folder=${PWD}/namerules/android
-app_libs_folder=${app_folder}/app/libs/
+# Shuffle AAR and shared lib around
 [ -d ${app_libs_folder} ] || mkdir -p ${app_libs_folder}
-find ${build_dir} \( -name \*.so -o -name \*.dylib -o -name \*.aar \) -exec cp \{\} ${app_libs_folder} \;
+find ${lib_build_dir} \( -name \*.aar \) -exec cp \{\} ${app_libs_folder} \;
+find ${lib_cmake_dir} \( -name \*.so -o -name \*.dylib \) -exec cp \{\} ${app_libs_folder} \;
 
+# Build the app and run the tests
 pushd ${app_folder}
-./gradlew build
+./gradlew :app:test
 popd

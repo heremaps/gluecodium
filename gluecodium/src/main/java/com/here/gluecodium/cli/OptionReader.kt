@@ -162,22 +162,13 @@ object OptionReader {
         options.cppInternalNamespace = getStringValue("intnamespace")?.split(".")
         getStringValue("cppexport")?.let { options.cppExport = it }
 
-        getStringValue("cppnamerules")?.let {
-            options.cppNameRules = readConfigFile(it) overriding options.cppNameRules
-        }
-        getStringValue("javanamerules")?.let {
-            options.javaNameRules = readConfigFile(it) overriding options.javaNameRules
-        }
-        getStringValue("swiftnamerules")?.let {
-            options.swiftNameRules = readConfigFile(it) overriding options.swiftNameRules
-        }
+        options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
+        options.javaNameRules =
+            readConfigFile(getStringValue("javanamerules"), options.javaNameRules)
+        options.swiftNameRules =
+            readConfigFile(getStringValue("swiftnamerules"), options.swiftNameRules)
 
         options.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
-
-        // Validation
-        if (options.inputDirs.isEmpty()) {
-            throw OptionReaderException("input option required")
-        }
 
         return options
     }
@@ -199,6 +190,10 @@ object OptionReader {
         return ConfigurationProperties.fromFile(nameRulesFile)
     }
 
-    private fun parseAnnotation(argument: String?) =
+    @Throws(OptionReaderException::class)
+    fun readConfigFile(configFilePath: String?, defaultConfig: Configuration) =
+        configFilePath?.let { readConfigFile(it) overriding defaultConfig } ?: defaultConfig
+
+    fun parseAnnotation(argument: String?) =
         argument?.split('.')?.let { Pair(it.last(), it.dropLast(1)) }
 }

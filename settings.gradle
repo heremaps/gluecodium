@@ -1,3 +1,4 @@
 include ':lime-runtime'
 include ':lime-loader'
 include ':gluecodium'
+include ':gluecodium-gradle'

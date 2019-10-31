@@ -1,0 +1,45 @@
+ext.gluecodiumOutputDir = "$buildDir/generated-src/gluecodium"
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DGLUECODIUM_GENERATED_DIR=$gluecodiumOutputDir"
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            //noinspection GroovyAssignabilityCheck
+            path file("CMakeLists.txt")
+        }
+    }
+}
+
+apply plugin: 'gluecodium.gradle'
+
+gluecodium {
+    source = fileTree("${rootDir}/../input/lime")
+    outputDirectory = file(gluecodiumOutputDir)
+
+    javaPackage = "com.here.namerules"
+    javaInternalPackage = "lorem.ipsum"
+    javaNameRules = file("${rootDir}/../input/namerules/java.properties")
+    cppInternalNamespace = "lorem_ipsum.test"
+    cppNameRules = file("${rootDir}/../input/namerules/cpp.properties")
+}

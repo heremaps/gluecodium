@@ -1,0 +1,29 @@
+plugins {
+    id 'java-gradle-plugin'
+}
+
+repositories {
+    google()
+}
+
+dependencies {
+    compile project(":gluecodium")
+
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50'
+    compile 'com.android.tools.build:gradle:3.5.1'
+}
+
+gradlePlugin {
+    //noinspection GroovyAssignabilityCheck
+    plugins {
+        simplePlugin {
+            id = 'gluecodium.gradle'
+            implementationClass = 'com.here.gluecodium.gradle.GluecodiumPlugin'
+        }
+    }
+}
+
+apply from: "$rootDir/gradle/spotless.gradle"
+
+project.ext.longName = 'Gluecodium Gradle plugin'
+apply from: "$rootDir/gradle/publishing.gradle"
