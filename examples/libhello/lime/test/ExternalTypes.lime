@@ -85,3 +85,11 @@ class ClassWithOverloads {
     fun allOverloadsExposed(input: String): String
     fun allOverloadsExposed(inputList: List<String>): String
 }
+
+@Cpp(
+    ExternalType = "external/StandaloneExternalType.h",
+    ExternalName = "::external::StandaloneExternalType"
+)
+class StandaloneExternalType {
+    fun foo()
+}
