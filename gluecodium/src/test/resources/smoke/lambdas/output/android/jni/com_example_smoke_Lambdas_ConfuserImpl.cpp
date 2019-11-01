@@ -9,7 +9,7 @@
 #include "JniReference.h"
 extern "C" {
 jobject
-Java_com_example_smoke_Lambdas_00024ConfuserImpl_apply(JNIEnv* _jenv, jobject _jinstance, jstring jp0)
+Java_com_example_smoke_Lambdas_00024ConfuserImpl_confuse(JNIEnv* _jenv, jobject _jinstance, jstring jp0)
 {
     ::std::string p0 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jp0),

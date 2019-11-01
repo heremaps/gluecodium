@@ -421,6 +421,8 @@ deprecated, takes a string literal value as a deprecation message.
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
   This is the default property for this attribute.
   * **Builder**: marks a struct type to have a "builder" pattern generated in Java.
+  * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
+  name in the generated functional interface in Java (instead of a default name).
 * **@Swift**: marks an element with Swift-specific properties:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Swift.
   This is the default property for this attribute.

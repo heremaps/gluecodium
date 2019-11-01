@@ -2,6 +2,7 @@ package smoke
 class Lambdas {
     lambda Producer = () -> String
     // Should confuse everyone thoroughly
+    @Java(FunctionName = "confuse")
     lambda Confuser = (String) -> Producer
     lambda Consumer = (String) -> Void
     lambda Indexer = (String, @Java("index") Float) -> Int

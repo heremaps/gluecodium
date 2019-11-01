@@ -82,7 +82,7 @@ internal class AntlrLimeModelBuilder(
     private val currentVisibility
         get() = visibilityStack.peek()
 
-    public val collectedImports: List<LimePath>
+    val collectedImports: List<LimePath>
         get() = imports
 
     // Overrides
@@ -565,6 +565,7 @@ internal class AntlrLimeModelBuilder(
             "Builder" -> LimeAttributeValueType.BUILDER
             "Const" -> LimeAttributeValueType.CONST
             "Extension" -> LimeAttributeValueType.EXTENSION
+            "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL
             "ObjC" -> LimeAttributeValueType.OBJC
             "ExternalType" -> LimeAttributeValueType.EXTERNAL_TYPE

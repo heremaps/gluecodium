@@ -29,7 +29,7 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
-        public native Lambdas.Producer apply(final String p0);
+        public native Lambdas.Producer confuse(final String p0);
     }
     static class ConsumerImpl extends NativeBase implements Consumer {
         protected ConsumerImpl(final long nativeHandle) {
@@ -76,7 +76,7 @@ public final class Lambdas extends NativeBase {
      */
     @FunctionalInterface
     public interface Confuser {
-        Lambdas.Producer apply(final String p0);
+        Lambdas.Producer confuse(final String p0);
     }
     @FunctionalInterface
     public interface Consumer {

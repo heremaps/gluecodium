@@ -44,6 +44,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
+import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
@@ -339,8 +340,11 @@ class JavaModelBuilder(
                 typeMapper.mapType(parameter.typeRef)
             )
         }
+        val methodName = limeLambda.attributes.get(JAVA, FUNCTION_NAME)?.let {
+            nameRules.ruleSet.getMethodName(it)
+        } ?: "apply"
         val applyMethod = JavaMethod(
-            name = "apply",
+            name = methodName,
             parameters = parameters,
             returnType = typeMapper.mapType(limeLambda.returnType)
         )

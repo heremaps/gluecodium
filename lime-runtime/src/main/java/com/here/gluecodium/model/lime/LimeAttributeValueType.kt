@@ -25,6 +25,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     BUILDER("Builder"),
     CONST("Const"),
     EXTENSION("Extension"),
+    FUNCTION_NAME("FunctionName"),
     LABEL("Label"),
     OBJC("ObjC"),
     MESSAGE("Message"),

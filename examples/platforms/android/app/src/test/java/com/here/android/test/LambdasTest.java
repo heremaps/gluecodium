@@ -128,14 +128,14 @@ public class LambdasTest {
 
   @Test
   public void callCppNullableLambdaInJavaWithValue() {
-    StandaloneProducer result = Lambdas.getNullableConfuser().apply("foo");
+    StandaloneProducer result = Lambdas.getNullableConfuser().confuse("foo");
 
     assertEquals("foo", result.apply());
   }
 
   @Test
   public void callCppNullableLambdaInJavaWithNull() {
-    StandaloneProducer result = Lambdas.getNullableConfuser().apply(null);
+    StandaloneProducer result = Lambdas.getNullableConfuser().confuse(null);
 
     assertNull(result);
   }

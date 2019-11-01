@@ -20,6 +20,7 @@ package test
 class Lambdas {
     lambda Concatenator = (@Java("first") String, @Java("second") String) -> String
     lambda Tricatenator = (String, String, String) -> String
+    @Java(FunctionName = "confuse")
     lambda NullableConfuser = (String?) -> StandaloneProducer?
 
     struct LambdaHolder {
