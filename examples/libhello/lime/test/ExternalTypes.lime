@@ -62,6 +62,16 @@ types ExternalTypes {
     }
 }
 
+types ExternalTypesWithoutTypeTraits {
+    @Cpp(
+        ExternalType = "include/ExternalTypesWithoutTypeTraits.h",
+        ExternalName = "::external::IntStruct"
+    )
+    struct IntStruct {
+        int_field: Int
+    }
+}
+
 @Cpp(ExternalType = "include/ExternalTypes.h")
 class ClassWithOverloads {
     struct StructWithOverloads {
