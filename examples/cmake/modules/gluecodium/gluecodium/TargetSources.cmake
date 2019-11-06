@@ -71,6 +71,28 @@ function(apigen_target_sources target)
     file(GLOB_RECURSE CBRIDGE_SOURCES ${OUTPUT_DIR}/cbridge/*.cpp)
     file(GLOB_RECURSE CBRIDGE_HEADERS ${OUTPUT_DIR}/cbridge/*.h)
     file(GLOB_RECURSE SWIFT_SOURCES ${OUTPUT_DIR}/swift/*.swift)
+
+    # If headers are added, CMake will
+    # generate a PBXHeaderBuildPhase for these. If a header in that list matches the
+    # name of the framework (case insensitive) then XCode will assume it is an
+    # umbrella header and create the modulemap accordingly. This breaks the resulting
+    # framework.
+    get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
+    if(NOT SWIFT_FRAMEWORK_NAME)
+      set(SWIFT_FRAMEWORK_NAME "${target}")
+    endif()
+    string(TOUPPER "${SWIFT_FRAMEWORK_NAME}" UPPER_FRAMEWORK_NAME)
+    foreach(GENERATED_HEADER ${CBRIDGE_HEADERS} ${GENERATED_CPP_HEADERS})
+      get_filename_component(BASENAME "${GENERATED_HEADER}" NAME_WE)
+      string(TOUPPER "${BASENAME}" UPPER_BASENAME)
+      if("${UPPER_BASENAME}" STREQUAL "${UPPER_FRAMEWORK_NAME}")
+        message(FATAL_ERROR "Generated header "
+                "'${GENERATED_HEADER}' "
+                "must not have the same name as the framework since XCode Generator would "
+                "add it as framework header.")
+      endif()
+    endforeach()
+
     target_sources(${target} PRIVATE
       ${CBRIDGE_SOURCES}
       ${CBRIDGE_HEADERS}

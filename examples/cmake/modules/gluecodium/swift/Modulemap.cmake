@@ -43,7 +43,7 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_swift_modulemap target)
 
-  set (multiArgs HEADERS)
+  set(multiArgs HEADERS)
 
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 

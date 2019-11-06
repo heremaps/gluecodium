@@ -36,10 +36,13 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_java_compile(TARGET target
 #        LOCAL_DEPENDENCIES jar_name
 #        LOCAL_DEPENDENCIES_DIRS dir_path
+#        LOCAL_JARS jar_name
 #        REMOTE_DEPENDENCIES package_name )
 #
-# LOCAL_DEPENDENCIES specifies name(s) of the local JAR file(s) to include as dependencies.
-# LOCAL_DEPENDENCIES_DIRS specifies paths(s) of the local directories where to look for those JARs.
+# LOCAL_DEPENDENCIES specifies name(s) of the local package(s) to include as dependencies.
+# LOCAL_DEPENDENCIES_DIRS specifies paths(s) of the local directories where to look for those
+# packages.
+# LOCAL_JARS specifies the path(s) of local JAR file(s) to include as dependencies
 # REMOTE_DEPENDENCIES specifies name(s) of the Gradle packages to include as dependencies through
 # the regular dependency resolution process (i.e. fetching them from the remote repository unless
 # an up-to-date version is present in the local Gradle cache).
@@ -50,7 +53,7 @@ find_package(Java COMPONENTS Development REQUIRED)
 function(apigen_java_compile)
   set(options)
   set(oneValueArgs TARGET)
-  set(multiValueArgs LOCAL_DEPENDENCIES LOCAL_DEPENDENCIES_DIRS REMOTE_DEPENDENCIES)
+  set(multiValueArgs LOCAL_DEPENDENCIES LOCAL_DEPENDENCIES_DIRS LOCAL_JARS REMOTE_DEPENDENCIES)
   cmake_parse_arguments(apigen_java_compile
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -76,6 +79,9 @@ function(apigen_java_compile)
   foreach(local_dependencies_dirs ${apigen_java_compile_LOCAL_DEPENDENCIES_DIRS})
     list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${local_dependencies_dirs}")
   endforeach()
+  foreach(local_jars ${apigen_java_compile_LOCAL_JARS})
+    list(APPEND APIGEN_JAVA_LOCAL_JARS "${local_jars}")
+  endforeach()
   foreach(remote_dependencies ${apigen_java_compile_REMOTE_DEPENDENCIES})
     list(APPEND APIGEN_JAVA_REMOTE_DEPENDENCIES "${remote_dependencies}")
   endforeach()
@@ -88,6 +94,7 @@ function(apigen_java_compile)
       -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
       -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
       -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
+      -PlocalJars=${APIGEN_JAVA_LOCAL_JARS}
       -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
       compileJava
     WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}

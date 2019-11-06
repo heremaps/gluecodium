@@ -25,36 +25,55 @@ cmake_minimum_required(VERSION 3.5)
 #.rst:
 # GetLinkLibraries
 # -------------------
-# Return a list of all direct and implicit libraries needed for linking.
+# Return a list of all direct and transitive libraries needed for linking static libraries.
 #
 # Usage:
 #   get_link_libraries(
 #     target
-#     output_list
+#     output_link_arguments
 #     )
 #
 # target
 #   Name of the target (e.g., hello).
 #
-# output_list
-#   A variable to which the return list will be written to.
+# output_link_arguments
+#   A variable to which the swiftc linking arguments will be written to. It's supposed to
+#   be passed to swiftc directly, i.e. `swiftc ${output_link_arguments} ...`
 #
 
-function(get_link_libraries TARGET OUTPUT_LIST)
-    # Todo: Properly detect all interface only libraries and ignore them for linking
-    if(${TARGET} STREQUAL "DebugUtils")
-        return()
+function(get_link_libraries target output_link_arguments)
+    set(visited)
+    set(linked -Xlinker --start-group)
+    get_link_line_recurse(${target})
+    list(APPEND linked -Xlinker --end-group)
+    set(${output_link_arguments} ${linked} PARENT_SCOPE)
+endfunction()
+
+function(get_link_line_recurse target)
+  if(target IN_LIST visited)
+    return()
+  endif()
+  list(APPEND visited "${target}")
+  if(TARGET ${target})
+    get_target_property(TARGET_TYPE ${target} TYPE)
+    if(TARGET_TYPE STREQUAL "STATIC_LIBRARY" OR TARGET_TYPE STREQUAL "SHARED_LIBRARY")
+      list(APPEND linked -Xlinker "$<TARGET_LINKER_FILE:${target}>")
+      get_target_property(linked_libs ${target} LINK_LIBRARIES)
+      if(linked_libs)
+        foreach(lib ${linked_libs})
+          get_link_line_recurse(${lib})
+        endforeach()
+      endif()
     endif()
-    list(APPEND VISITED_TARGETS ${TARGET})
-    get_target_property(LIBS ${TARGET} INTERFACE_LINK_LIBRARIES)
-    foreach(LIB ${LIBS})
-        if(TARGET ${LIB})
-            list(FIND VISITED_TARGETS ${LIB} VISITED)
-            if(${VISITED} EQUAL -1)
-                get_link_libraries(${LIB} LINK_LIB_FILES)
-            endif()
-        endif()
-    endforeach()
-    set(VISITED_TARGETS ${VISITED_TARGETS} PARENT_SCOPE)
-    set(${OUTPUT_LIST} ${VISITED_TARGETS} PARENT_SCOPE)
+    if(TARGET_TYPE STREQUAL "STATIC_LIBRARY" OR TARGET_TYPE STREQUAL "SHARED_LIBRARY" OR TARGET_TYPE STREQUAL "INTERFACE_LIBRARY")
+      get_target_property(linked_libs ${target} INTERFACE_LINK_LIBRARIES)
+      if(linked_libs)
+        foreach(lib ${linked_libs})
+          get_link_line_recurse(${lib})
+        endforeach()
+      endif()
+    endif()
+  endif()
+  set(visited "${visited}" PARENT_SCOPE)
+  set(linked "${linked}" PARENT_SCOPE)
 endfunction()

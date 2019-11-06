@@ -61,4 +61,11 @@ dependencies {
             }
         }
     }
+    if (project.hasProperty('localJars')) {
+        project.localJars.split(';').each {
+            if (it) {
+                compile files(it)
+            }
+        }
+    }
 }

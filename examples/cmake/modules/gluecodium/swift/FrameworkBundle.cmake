@@ -43,16 +43,20 @@ include(${CMAKE_CURRENT_LIST_DIR}/FrameworkInfoPlist.cmake)
 #     apigen_swift_framework_bundle(TARGET target
 #       [ASSET <asset-source-1> <asset-destination-1>]
 #       [ASSET <asset-source-2> <asset-destination-2>]
-#       [ASSETS asset1 asset2 ... assetN])
+#       [ASSETS asset1 asset2 ... assetN]
+#       [BUNDLE_PATH <path-to-bundle>])
 #
 # The ``ASSETS`` option recursively includes a folder structure using the last source path component
 # as the parent of the final asset hierarcy. For example, if you pass ``ASSETS my/folder/fonts``, files
 # will end up under ``assets/fonts`` in the resulting Android Archive. Use the ``ASSET`` option if more
 # specific control is needed. For example, if you pass ``ASSET my/folder/fonts magicfonts``, files
 # will resuide under ``assets/magicfonts`` in the resulting Android Archive.
+#
+# ``BUNDLE_PATH`` is an optional variable to specify where the bundle will be created. If it's not defined
+# default path will be set.
 
 function(apigen_swift_framework_bundle)
-  set(oneValueArgs TARGET)
+  set(oneValueArgs TARGET BUNDLE_PATH)
   set(multiValueArgs ASSET ASSETS)
   cmake_parse_arguments(apigen_swift_framework_bundle
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -66,7 +70,10 @@ function(apigen_swift_framework_bundle)
     message(FATAL_ERROR "apigen_swift_framework_bundle() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  set(SWIFT_ASSETS_DIRECTORY "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/../${SWIFT_FRAMEWORK_NAME}.framework/assets.bundle/Resources/")
+  set(SWIFT_ASSETS_DIRECTORY ${apigen_swift_framework_bundle_BUNDLE_PATH})
+  if(NOT SWIFT_ASSETS_DIRECTORY)
+    set(SWIFT_ASSETS_DIRECTORY "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/../${SWIFT_FRAMEWORK_NAME}.framework/assets.bundle/Resources/")
+  endif()
   add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${SWIFT_ASSETS_DIRECTORY})
 
@@ -79,7 +86,7 @@ function(apigen_swift_framework_bundle)
     get_filename_component(FOLDER_NAME ${FOLDER} NAME)
     add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
       COMMAND sh -c
-        "(cd ${FOLDER_PARENT} && find ${FOLDER_NAME} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${SWIFT_ASSETS_DIRECTORY}; tar xvf -))"
+        "(cd \"${FOLDER_PARENT}\" && find ${FOLDER_NAME} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${SWIFT_ASSETS_DIRECTORY}; tar xvf -))"
       VERBATIM)
   endforeach()
 
@@ -96,7 +103,7 @@ function(apigen_swift_framework_bundle)
       get_filename_component(asset_name ${asset_key} NAME)
       add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
         COMMAND sh -c
-          "mkdir -p ${asset_target} ; (cd ${asset_parent} && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${asset_target}; tar xvf -))"
+          "mkdir -p \"${asset_target}\" ; (cd \"${asset_parent}\" && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd \"${asset_target}\"; tar xvf -))"
         VERBATIM
         COMMENT "Copying asset '${asset_key}' to '${asset_target}'")
     endforeach()

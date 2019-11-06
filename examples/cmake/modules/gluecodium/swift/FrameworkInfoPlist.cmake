@@ -44,15 +44,19 @@ function(apigen_swift_framework_info_plist target)
   get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
   get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
   get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
+  get_target_property(MACOSX_FRAMEWORK_IDENTIFIER ${target} APIGEN_SWIFT_FRAMEWORK_IDENTIFIER)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_framework_info_plist() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
+  if(NOT MACOSX_FRAMEWORK_IDENTIFIER)
+    #TODO APIGEN-347 don't use HERE-specific deafult
+    set(MACOSX_FRAMEWORK_IDENTIFIER com.here.ivi.${SWIFT_FRAMEWORK_NAME})
+  endif()
+
   set(MACOSX_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
   set(MACOSX_FRAMEWORK_ICON_FILE)
-  #TODO APIGEN-347 make this configurable
-  set(MACOSX_FRAMEWORK_IDENTIFIER com.here.ivi.${SWIFT_FRAMEWORK_NAME})
   set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${SWIFT_FRAMEWORK_VERSION})
   set(MACOSX_FRAMEWORK_BUNDLE_VERSION_SHORT ${SWIFT_FRAMEWORK_VERSION_SHORT})
   set(MACOSX_FRAMEWORK_MINIMUM_OS_VERSION ${SWIFT_FRAMEWORK_MINIMUM_OS_VERSION})

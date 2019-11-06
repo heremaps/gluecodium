@@ -52,6 +52,9 @@ include(${CMAKE_CURRENT_LIST_DIR}/Test.cmake)
 
 function(apigen_swift_compile target architecture)
 
+  set(multiArgs FRAMEWORKS FRAMEWORK_DIRS)
+  cmake_parse_arguments(APIGEN_SWIFT_COMPILE "" "" "${multiArgs}" ${ARGN})
+
   get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
   get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
   get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GLUECODIUM_GENERATOR_ADDITIONAL_SOURCES)
@@ -67,11 +70,6 @@ function(apigen_swift_compile target architecture)
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_compile() depends on apigen_generate() configured with generator 'swift'")
   endif()
-
-  message("CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
-  message("CMAKE_PREFIX_PATH ${CMAKE_SYSTEM_PREFIX_PATH}")
-  message("CMAKE_PROGRAM_PATH ${CMAKE_SYSTEM_PROGRAM_PATH}")
-  message("CMAKE_APPBUNDLE_PATH ${CMAKE_SYSTEM_APPBUNDLE_PATH}")
 
   if(APPLE)
     if(XCODE_IOS_PLATFORM)
@@ -121,26 +119,40 @@ function(apigen_swift_compile target architecture)
     set(CMAKE_Swift_COMPILER ${SWIFTC})
     enable_language(Swift)
     set(SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR}")
+    foreach(FRAMEWORK ${APIGEN_SWIFT_COMPILE_FRAMEWORKS})
+      set(SWIFT_FLAGS "${SWIFT_FLAGS} -framework ${FRAMEWORK}")
+    endforeach()
+    foreach(FRAMEWORK_DIR ${APIGEN_SWIFT_COMPILE_FRAMEWORK_DIRS})
+      set(SWIFT_FLAGS "${SWIFT_FLAGS} -F${FRAMEWORK_DIR}")
+    endforeach()
     set(SWIFT_DEBUG_FLAG "-D DEBUG")
     set_target_properties(${target} PROPERTIES
       FRAMEWORK TRUE
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "${SWIFT_FLAGS}"
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS[variant=Debug] "${SWIFT_FLAGS} ${SWIFT_DEBUG_FLAG}"
       XCODE_ATTRIBUTE_OTHER_LDFLAGS "-lc++"
-      XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL[variant=Debug] "-Onone"
-      XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
-      XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
-      XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT[variant=Debug] "dwarf"
       XCODE_ATTRIBUTE_PRODUCT_NAME ${SWIFT_FRAMEWORK_NAME}
       )
     install(TARGETS ${target} FRAMEWORK DESTINATION .)
   else()
-    set(MODULE_NAME ${MODULE_NAME}swift)
+    # The custom Swift compile step needs to collect link libraries manually for static targets.
+    if(NOT TARGET_TYPE STREQUAL "STATIC_LIBRARY")
+      message(FATAL_ERROR "Building Swift on linux requires a \"STATIC_LIBRARY\" target which will be embedded the dynamic framework.")
+    endif()
+    # Rename the C++ lib so we can reuse the name for the final library. The name should also indicate that it's not a usable library.
+    set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_NAME lib${MODULE_NAME}_intermediate.a)
+
+    get_link_libraries(${target} swift_link_libraries)
+
+    get_target_property(additional_swift_flags ${target} APIGEN_SWIFT_FLAGS)
+    if(additional_swift_flags)
+      list(APPEND swift_target_flag ${additional_swift_flags})
+    endif()
+
     set(BUILD_ARGUMENTS
       -I${OUTPUT_DIR}
       -import-underlying-module
-      -L\$<TARGET_FILE_DIR:${target}>
-      -l${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>
+      ${swift_link_libraries}
       ${swift_target_flag}
       -emit-module
       -emit-library

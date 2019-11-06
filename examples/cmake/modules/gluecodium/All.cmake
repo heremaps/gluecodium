@@ -36,3 +36,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)
 
 # iOS modules
 include(${CMAKE_CURRENT_LIST_DIR}/Swift.cmake)
+
+# Packaging functions
+include(${CMAKE_CURRENT_LIST_DIR}/Packaging.cmake)

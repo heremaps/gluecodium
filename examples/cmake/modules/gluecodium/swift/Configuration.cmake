@@ -80,9 +80,9 @@ function(apigen_swift_configuration target)
   endif()
 
   if(CMAKE_GENERATOR STREQUAL "Xcode")
-     # Only Xcode generator supports generating Frameworks at the moment
-     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
-     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${SWIFT_FRAMEWORK_NAME})
+    # Only Xcode generator supports generating Frameworks at the moment
+    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
+    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${SWIFT_FRAMEWORK_NAME})
   else()
     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${target})
     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${target})

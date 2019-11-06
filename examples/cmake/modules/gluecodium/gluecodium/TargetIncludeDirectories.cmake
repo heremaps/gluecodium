@@ -35,13 +35,22 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_target_include_directories(target)
+#     apigen_target_include_directories(target [ALWAYS_EXPOSE_CPP])
+#
+# The ALWAYS_EXPOSE_CPP argument may be used to expose the C++ headers in all situations. This can
+# be useful when multiple Gluecodium-generated libraries depend on each-other.
 #
 
 function(apigen_target_include_directories target)
 
   get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
   get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+
+  if(ARGV1 STREQUAL ALWAYS_EXPOSE_CPP)
+    set(CPP_VISIBILITY PUBLIC)
+  else()
+    set(CPP_VISIBILITY PRIVATE)
+  endif()
 
   if(${GENERATOR} STREQUAL cpp)
 
@@ -55,7 +64,7 @@ function(apigen_target_include_directories target)
     # Android library targets need the cpp and JNI headers to compile
     # but should not expose those to the public.
     target_include_directories(${target}
-      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+      ${CPP_VISIBILITY} $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
       PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>) # JNI headers and sources
 
     # Check if we are doing a host build (no cross compilation)
@@ -70,7 +79,7 @@ function(apigen_target_include_directories target)
     # Swift targets need the cpp and c_bridge headers to compile
     # but should not expose those to the public.
     target_include_directories(${target}
-      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+      ${CPP_VISIBILITY} $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
       # There are file name conflicts between cbridge and cbridge_internal so the top folder
       # needs to be added to have cbridge/cbridge_internal as part of the include path
       PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>)

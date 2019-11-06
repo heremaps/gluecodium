@@ -52,9 +52,9 @@ endif()
 
 set(APIGEN_GLUECODIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
 if(WIN32)
-  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ./gradlew.bat)
+  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew.bat)
 else()
-  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ./gradlew)
+  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew)
 endif()
 
 function(apigen_generate)
@@ -152,7 +152,7 @@ function(apigen_generate)
     set(apigen_generate_CPP_EXPORT _GLUECODIUM_CPP)
   endif()
   get_target_property(apigen_target_type ${apigen_generate_TARGET} TYPE)
-  if (apigen_target_type STREQUAL SHARED_LIBRARY)
+  if(apigen_target_type STREQUAL SHARED_LIBRARY)
     target_compile_definitions(${apigen_generate_TARGET}
       PUBLIC ${apigen_generate_CPP_EXPORT}_SHARED
       PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
@@ -169,9 +169,11 @@ function(apigen_generate)
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
     COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} ${BUILD_LOCAL_GLUECODIUM} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GLUECODIUM_ARGS}
     WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
-    RESULT_VARIABLE GENERATE_RESULT)
+    RESULT_VARIABLE GENERATE_RESULT
+    OUTPUT_VARIABLE GENERATE_OUTPUT
+    ERROR_VARIABLE GENERATE_OUTPUT)
   if(NOT "${GENERATE_RESULT}" STREQUAL "0")
-    message(FATAL_ERROR "Failed to generate from given LimeIDL files.")
+    message(FATAL_ERROR "Failed to generate from given LimeIDL files:\n${GENERATE_OUTPUT}")
   endif()
 
 endfunction()

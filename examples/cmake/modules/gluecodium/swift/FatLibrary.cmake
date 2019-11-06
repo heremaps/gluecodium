@@ -37,7 +37,7 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_swift_fat_library target)
 
-  if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  if(NOT APPLE)
     return()
   endif()
 

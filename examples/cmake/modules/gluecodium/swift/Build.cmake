@@ -38,16 +38,20 @@ include(${CMAKE_CURRENT_LIST_DIR}/Configuration.cmake)
 # The general form of the command is::
 #
 #     apigen_swift_build(target
-#       MODULEMAP_HEADERS file_list)
+#       MODULEMAP_HEADERS file_list
+#       FRAMEWORKS framework_list
+#       FRAMEWORK_DIRS directory_list)
 #
 # MODULEMAP_HEADERS specifies additional file list to put into generated modulemap file
+# FRAMEWORKS specifies a list of frameworks to link to.
+# FRAMEWORK_DIRS specifies a list of directories to look for the frameworks in FRAMEWORKS.
 #
 
 function(apigen_swift_build target)
 
-  set (multiArgs MODULEMAP_HEADERS)
+  set(multiArgs MODULEMAP_HEADERS FRAMEWORKS FRAMEWORK_DIRS)
 
-  cmake_parse_arguments(APIGEN_SWIFT_BUILD "" "${singleArgs}" "${multiArgs}" ${ARGN})
+  cmake_parse_arguments(APIGEN_SWIFT_BUILD "" "" "${multiArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
 
@@ -58,17 +62,25 @@ function(apigen_swift_build target)
   apigen_swift_configuration(${target})
   apigen_swift_modulemap(${target} HEADERS ${APIGEN_SWIFT_BUILD_MODULEMAP_HEADERS})
 
+  set(additional_args)
+  if(APIGEN_SWIFT_BUILD_FRAMEWORKS)
+    list(APPEND additional_args FRAMEWORKS ${APIGEN_SWIFT_BUILD_FRAMEWORKS})
+  endif()
+  if(APIGEN_SWIFT_BUILD_FRAMEWORK_DIRS)
+    list(APPEND additional_args FRAMEWORK_DIRS ${APIGEN_SWIFT_BUILD_FRAMEWORK_DIRS})
+  endif()
+
   if(CMAKE_CROSSCOMPILING)
     foreach(TARGET_ARCH IN LISTS CMAKE_OSX_ARCHITECTURES)
       message(STATUS "[Swift] COMPILING ${target} ${TARGET_ARCH}")
-      apigen_swift_compile(${target} "${TARGET_ARCH}")
+      apigen_swift_compile(${target} "${TARGET_ARCH}" ${additional_args})
     endforeach()
 
     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH "${CMAKE_OSX_ARCHITECTURES}")
     message(STATUS "[Swift] FAT ${target} ${CMAKE_OSX_ARCHITECTURES}")
   else()
     message(STATUS "[Swift] COMPILING ${target} ${CMAKE_SYSTEM_PROCESSOR}")
-    apigen_swift_compile(${target} ${CMAKE_SYSTEM_PROCESSOR})
+    apigen_swift_compile(${target} ${CMAKE_SYSTEM_PROCESSOR} ${additional_args})
     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
   endif()
 

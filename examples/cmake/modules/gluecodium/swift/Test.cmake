@@ -52,7 +52,7 @@ function(apigen_swift_test target swift_target_flag module_name)
 
   file(GLOB_RECURSE SOURCES_SHARED ${SWIFT_TEST_SHARED}/*.swift)
 
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  if(APPLE)
     find_package(XCTest REQUIRED)
     if(SWIFT_TEST_IOS)
       file(GLOB_RECURSE SOURCES_IOS ${SWIFT_TEST_IOS}/*.swift)
@@ -99,8 +99,17 @@ function(create_xctest_bundle target tests_name sources)
   set(TEST_TARGET "${tests_name}${target}")
   message(STATUS "Test target : ${TEST_TARGET}")
   xctest_add_bundle(${TEST_TARGET} ${target} ${sources})
+  set(XCODE_LD_RUNPATHS "$<TARGET_LINKER_FILE_DIR:${target}>/../")
+  if(CMAKE_CROSSCOMPILING)
+    set(XCODE_LD_RUNPATHS "${XCODE_LD_RUNPATHS} \
+      @loader_path/Frameworks/")
+  else()
+    set(XCODE_LD_RUNPATHS "${XCODE_LD_RUNPATHS} \
+      @loader_path/../Frameworks/ \
+      $<TARGET_LINKER_FILE_DIR:resource-locator>")
+  endif()
   set_target_properties(${TEST_TARGET} PROPERTIES
-    XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Frameworks"
+    XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "${XCODE_LD_RUNPATHS}"
     XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
     XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
     XCODE_ATTRIBUTE_ENABLE_TESTABILITY[variant=Debug] "YES"

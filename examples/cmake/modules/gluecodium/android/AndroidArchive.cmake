@@ -94,7 +94,7 @@ function(apigen_android_archive)
     get_filename_component(asset_name ${asset} NAME)
     add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
       COMMAND sh -c
-        "(cd ${asset_parent} && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets; tar xvf -))"
+        "(cd \"${asset_parent}\" && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cfh - | (cd ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets; tar xf -))"
       VERBATIM)
   endforeach()
 
@@ -112,7 +112,7 @@ function(apigen_android_archive)
       get_filename_component(asset_name ${asset_key} NAME)
       add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
         COMMAND sh -c
-          "(cd ${asset_parent} && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${asset_target}; tar xvf -))"
+          "(cd \"${asset_parent}\" && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cfh - | (cd \"${asset_target}\"; tar xf -))"
         VERBATIM
         COMMENT "Copying asset '${asset_key}' to '${asset_target}'")
     endforeach()
@@ -123,7 +123,7 @@ function(apigen_android_archive)
     get_filename_component(resource_name ${resource} NAME)
     add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
       COMMAND sh -c
-        "(cd ${resource_parent} && find ${resource_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/res; tar xvf -))"
+        "(cd \"${resource_parent}\" && find ${resource_name} -exec test -e {} \; -print0 | xargs -0 tar cfh - | (cd ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/res; tar xf -))"
       VERBATIM)
   endforeach()
 
@@ -144,7 +144,7 @@ function(apigen_android_archive)
 
     foreach(jar ${APIGEN_JAVA_JAR} ${apigen_android_archive_ADD_JAR})
       add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
-        COMMAND ${Java_JAR_EXECUTABLE} -xvf ${jar}
+        COMMAND ${Java_JAR_EXECUTABLE} -xf ${jar}
         WORKING_DIRECTORY ${JAR_MERGE_DIR}
         COMMENT "Extracting '${jar}' into '${JAR_MERGE_DIR}'...")
     endforeach()
