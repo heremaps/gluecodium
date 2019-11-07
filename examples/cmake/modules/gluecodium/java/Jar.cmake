@@ -45,7 +45,7 @@ function(apigen_java_jar target)
   cmake_parse_arguments(apigen_java_jar "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
   get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")

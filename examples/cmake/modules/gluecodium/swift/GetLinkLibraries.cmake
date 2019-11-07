@@ -38,42 +38,60 @@ cmake_minimum_required(VERSION 3.5)
 #
 # output_link_arguments
 #   A variable to which the swiftc linking arguments will be written to. It's supposed to
-#   be passed to swiftc directly, i.e. `swiftc ${output_link_arguments} ...`
+#   be passed to swiftc directly, i.e. `COMMAND swiftc "${output_link_arguments}" ... COMMAND_EXPAND_LISTS`
 #
+# Note:
+#   make sure to always quote "${output_link_arguments}" and use COMMAND_EXPAND_LISTS in custom commands.
 
-function(get_link_libraries target output_link_arguments)
+function(get_swiftc_arguments target output_link_arguments)
     set(visited)
+    set(included)
     set(linked -Xlinker --start-group)
-    get_link_line_recurse(${target})
+    get_swiftc_arguments_recurse(${target})
     list(APPEND linked -Xlinker --end-group)
-    set(${output_link_arguments} ${linked} PARENT_SCOPE)
+    set(${output_link_arguments} ${included} ${linked} PARENT_SCOPE)
 endfunction()
 
-function(get_link_line_recurse target)
+function(get_swiftc_arguments_recurse target)
   if(target IN_LIST visited)
     return()
   endif()
   list(APPEND visited "${target}")
-  if(TARGET ${target})
+  if(NOT TARGET ${target})
+    if(target MATCHES ".*\\\$<LINK_ONLY:.*")
+      # Do nothing, CMake propagates this to INTERFACE_LINK_LIBRARIES even for PRIVATE
+      # dependencies, but it's only allowed in link targets.
+    elseif(target MATCHES ".*-[lL].*")
+      # Only append -l and -L flags (optionally in generator expressions) since swiftc might not
+      # understand other flags
+      list(APPEND linked "${target}")
+    endif()
+  else()
     get_target_property(TARGET_TYPE ${target} TYPE)
     if(TARGET_TYPE STREQUAL "STATIC_LIBRARY" OR TARGET_TYPE STREQUAL "SHARED_LIBRARY")
-      list(APPEND linked -Xlinker "$<TARGET_LINKER_FILE:${target}>")
-      get_target_property(linked_libs ${target} LINK_LIBRARIES)
-      if(linked_libs)
-        foreach(lib ${linked_libs})
-          get_link_line_recurse(${lib})
-        endforeach()
+      list(APPEND linked "-l$<TARGET_LINKER_FILE:${target}>")
+      if(TARGET_TYPE STREQUAL "STATIC_LIBRARY")
+        get_target_property(linked_libs ${target} LINK_LIBRARIES)
+        if(linked_libs)
+          foreach(lib ${linked_libs})
+            get_swiftc_arguments_recurse(${lib})
+          endforeach()
+        endif()
       endif()
     endif()
     if(TARGET_TYPE STREQUAL "STATIC_LIBRARY" OR TARGET_TYPE STREQUAL "SHARED_LIBRARY" OR TARGET_TYPE STREQUAL "INTERFACE_LIBRARY")
+      set(include_dirs "$<BUILD_INTERFACE:$<TARGET_PROPERTY:${target},INTERFACE_INCLUDE_DIRECTORIES>>")
+      list(APPEND included "$<$<BOOL:${include_dirs}>:-I$<JOIN:${include_dirs},;-I>>")
+
       get_target_property(linked_libs ${target} INTERFACE_LINK_LIBRARIES)
       if(linked_libs)
         foreach(lib ${linked_libs})
-          get_link_line_recurse(${lib})
+          get_swiftc_arguments_recurse(${lib})
         endforeach()
       endif()
     endif()
   endif()
   set(visited "${visited}" PARENT_SCOPE)
   set(linked "${linked}" PARENT_SCOPE)
+  set(included "${included}" PARENT_SCOPE)
 endfunction()

@@ -35,10 +35,13 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_swift_framework_info_plist(target)
 #
 
+# Used to find the .plist.in file when the function is called
+set(APIGEN_CMAKE_MODULE_SWIFT_DIR ${CMAKE_CURRENT_LIST_DIR})
+
 function(apigen_swift_framework_info_plist target)
 
-  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
+  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
   get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
@@ -61,9 +64,10 @@ function(apigen_swift_framework_info_plist target)
   set(MACOSX_FRAMEWORK_BUNDLE_VERSION_SHORT ${SWIFT_FRAMEWORK_VERSION_SHORT})
   set(MACOSX_FRAMEWORK_MINIMUM_OS_VERSION ${SWIFT_FRAMEWORK_MINIMUM_OS_VERSION})
 
+  # TODO: APIGEN-1760 Check if we still need our own Info.plist file and cannot use CMake's generated one
   # using CMakes builtin Info.plist generation does not work properly, work around this by removing
   # and replacing the generated one
-  configure_file(${SWIFT_RESOURCES_DIR}/MacOSXFrameworkInfo.plist.in ${SWIFT_OUTPUT_DIR}/Info.plist.${target})
+  configure_file(${APIGEN_CMAKE_MODULE_SWIFT_DIR}/MacOSXFrameworkInfo.plist.in ${SWIFT_OUTPUT_DIR}/Info.plist.${target})
   add_custom_command(TARGET ${target} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
     COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"

@@ -35,50 +35,51 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_swift_test(target)
 #
 
-function(apigen_swift_test target swift_target_flag module_name)
+function(apigen_swift_test target)
+  set(options)
+  set(oneValueArgs TEST_EXECUTABLE_NAME)
+  set(multiValueArgs SOURCES)
+  cmake_parse_arguments(apigen_swift_test "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_TEST_SHARED ${target} APIGEN_SWIFT_TESTS_SHARED)
-  get_target_property(SWIFT_TEST_IOS ${target} APIGEN_SWIFT_TESTS_IOS)
-
-  if(NOT SWIFT_TEST_SHARED)
-    return()
+  if(apigen_swift_test_TEST_EXECUTABLE_NAME)
+    set(test_target ${apigen_swift_test_TEST_EXECUTABLE_NAME})
+  else()
+    set(test_target "test${target}")
   endif()
 
-  if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_test() depends on apigen_generate() configured with generator 'swift'")
-  endif()
-
-  file(GLOB_RECURSE SOURCES_SHARED ${SWIFT_TEST_SHARED}/*.swift)
+  set(sources)
+  foreach(source ${apigen_swift_test_SOURCES})
+    if(IS_ABSOLUTE "${source}")
+      list(APPEND sources "${source}")
+    else()
+      list(APPEND sources "${CMAKE_CURRENT_SOURCE_DIR}/${source}")
+    endif()
+  endforeach()
 
   if(APPLE)
     find_package(XCTest REQUIRED)
-    if(SWIFT_TEST_IOS)
-      file(GLOB_RECURSE SOURCES_IOS ${SWIFT_TEST_IOS}/*.swift)
-      create_xctest_bundle(${target} "xctest_ios_" "${SOURCES_IOS}")
-    endif()
+    create_xctest_bundle(${target} "xctest_" "${sources}")
 
-    create_xctest_bundle(${target} "xctest_" "${SOURCES_SHARED}")
-
-    add_executable(test${target} ${SOURCES_SHARED})
-    target_link_libraries(test${target} ${target})
+    add_executable(${test_target} ${sources})
+    target_link_libraries(${test_target} ${target})
+    target_link_directories(${test_target} PRIVATE "$<TARGET_BUNDLE_DIR:${target}>/")
     set_target_properties(test${target} PROPERTIES
       # Add the path for XCTest
       XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DIR)/Developer/Library/Frameworks/"
       XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DIR)/Developer/Library/Frameworks/"
-      XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone"
-      )
+      XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone")
 
-    install(TARGETS test${target} DESTINATION .)
+    install(TARGETS ${test_target} DESTINATION .)
   else()
+    get_swiftc_arguments(${target} swift_link_libraries)
+
     set(BUILD_ARGUMENTS
-      ${swift_target_flag}
       -emit-executable
-      -o "test${target}"
-      -L${SWIFT_OUTPUT_DIR}
-      -I${SWIFT_OUTPUT_DIR}
-      -l${module_name}
+      -o ${test_target}
+      -L$<TARGET_FILE_DIR:${target}>
+      -I$<TARGET_FILE_DIR:${target}>
+      -l${target}
+      "${swift_link_libraries}"
       -enable-testing
       -Xlinker -rpath -Xlinker "'$$ORIGIN'")
 
@@ -87,11 +88,12 @@ function(apigen_swift_test target swift_target_flag module_name)
       set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
     endif()
 
-    add_custom_target(test${target} ALL DEPENDS ${target}
-      COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES_SHARED}
-      WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
+    add_custom_target(${test_target} ALL DEPENDS ${target}
+      COMMAND swiftc "${BUILD_ARGUMENTS}" ${sources}
+      WORKING_DIRECTORY $<TARGET_FILE_DIR:${target}>
+      COMMAND_EXPAND_LISTS)
 
-    install(PROGRAMS "${SWIFT_OUTPUT_DIR}/test${target}" DESTINATION .)
+    install(PROGRAMS "$<TARGET_FILE_DIR:${target}>/${test_target}" DESTINATION .)
   endif()
 endfunction()
 
@@ -99,7 +101,7 @@ function(create_xctest_bundle target tests_name sources)
   set(TEST_TARGET "${tests_name}${target}")
   message(STATUS "Test target : ${TEST_TARGET}")
   xctest_add_bundle(${TEST_TARGET} ${target} ${sources})
-  set(XCODE_LD_RUNPATHS "$<TARGET_LINKER_FILE_DIR:${target}>/../")
+  set(XCODE_LD_RUNPATHS "$<TARGET_BUNDLE_DIR:${target}>/")
   if(CMAKE_CROSSCOMPILING)
     set(XCODE_LD_RUNPATHS "${XCODE_LD_RUNPATHS} \
       @loader_path/Frameworks/")

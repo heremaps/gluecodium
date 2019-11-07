@@ -69,8 +69,10 @@ elseif(GLUECODIUM_GENERATOR STREQUAL android)
 elseif(GLUECODIUM_GENERATOR STREQUAL swift)
     # Swift users want a module...
     include(gluecodium/Swift)
-    set_target_properties(namerules PROPERTIES APIGEN_SWIFT_TESTS_SHARED "${CMAKE_CURRENT_SOURCE_DIR}/swift/")
 
     apigen_swift_build(namerules)
     apigen_swift_framework_info_plist(namerules)
+
+    file(GLOB_RECURSE test_sources "${CMAKE_CURRENT_SOURCE_DIR}/swift/*.swift")
+    apigen_swift_test(namerules SOURCES ${test_sources})
 endif()

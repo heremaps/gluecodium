@@ -53,7 +53,7 @@ function(apigen_swift_build target)
 
   cmake_parse_arguments(APIGEN_SWIFT_BUILD "" "" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")

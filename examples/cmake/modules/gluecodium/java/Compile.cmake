@@ -57,8 +57,8 @@ function(apigen_java_compile)
   cmake_parse_arguments(apigen_java_compile
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_GLUECODIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_GENERATOR)
+  get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_GENERATOR_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")

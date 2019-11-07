@@ -43,6 +43,14 @@ cmake_minimum_required(VERSION 3.5)
 #
 # This function invokes the Gluecodium tool based on a set of of input *.lime
 # files with a specific target language generator.
+#
+# Following properties will be set for given `target`:
+#  * APIGEN_GENERATOR The generator passed.
+#  * APIGEN_GENERATOR_OUTPUT_DIR The main output dir, generators will
+#        create subdirectories for generated sources.
+# * APIGEN_BUILD_OUTPUT_DIR Build artifacts created by custom build steps
+#        will end up in this directory.
+#
 
 if(COMMAND find_host_package)
   find_host_package(JAVA COMPONENTS Runtime REQUIRED)
@@ -71,7 +79,8 @@ function(apigen_generate)
       CPP_EXPORT
       CPP_NAMERULES
       SWIFT_NAMERULES
-      OUTPUT_DIR)
+      OUTPUT_DIR
+      BUILD_OUTPUT_BUILD)
   set(multiValueArgs LIME_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -91,27 +100,24 @@ function(apigen_generate)
   message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Gluecodium version '${apigen_generate_VERSION}'
   Input: '${apigen_generate_LIME_SOURCES}'")
 
-  # Gluecodium invocations for different generators need different output directories
-  # as Gluecodium currently wipes the directory upon start.
+  if(NOT apigen_generate_BUILD_OUTPUT_DIR)
+    set(apigen_generate_BUILD_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${apigen_generate_TARGET}/build")
+  endif()
   if(NOT apigen_generate_OUTPUT_DIR)
-    set(apigen_generate_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
+    set(apigen_generate_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${apigen_generate_TARGET}/${apigen_generate_GENERATOR}")
   endif()
   set(GLUECODIUM_OUTPUT_DIR ${apigen_generate_OUTPUT_DIR})
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_generate_TARGET} PROPERTIES
-    APIGEN_GLUECODIUM_GENERATOR ${apigen_generate_GENERATOR}
-    APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR ${GLUECODIUM_OUTPUT_DIR})
+    APIGEN_GENERATOR "${apigen_generate_GENERATOR}"
+    APIGEN_GENERATOR_OUTPUT_DIR "${GLUECODIUM_OUTPUT_DIR}"
+    APIGEN_BUILD_OUTPUT_DIR "${apigen_generate_BUILD_OUTPUT_DIR}")
 
   if(NOT apigen_generate_GENERATOR MATCHES cpp)
-    # This can be optimized. If a previous invocation of this function already
-    # generated 'cpp', it should be re-used. At the moment this is not possible
-    # because Gluecodium cleans it's output directory in the beginning
     set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
   endif()
 
-
-  # Build Gluecodium tool command-line
   set(APIGEN_GLUECODIUM_ARGS "\
     -output \"${GLUECODIUM_OUTPUT_DIR}\"\
     -generators ${apigen_generate_GENERATOR}\

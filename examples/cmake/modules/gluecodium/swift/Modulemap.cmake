@@ -47,9 +47,9 @@ function(apigen_swift_modulemap target)
 
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_MODULE_NAME ${target} APIGEN_SWIFT_MODULE_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
@@ -68,27 +68,22 @@ function(apigen_swift_modulemap target)
     endforeach()
   endif()
 
+  # TODO: APIGEN-1700 this should come from apigen_target_sources
   file(GLOB_RECURSE cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
 
   foreach(header IN LISTS cbridge_headers)
     set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n    header \"${header}\"")
   endforeach()
-
   set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
 
-  file(WRITE "${OUTPUT_DIR}/module.modulemap.generated" "${CBRIDGE_MODULE_MAP}")
-  file(WRITE ${MODULEMAP_FRAMEWORK_PATH} "module ${SWIFT_MODULE_NAME} {\n}\n")
-  file(WRITE ${SWIFT_OUTPUT_DIR}/module.modulemap "module ${SWIFT_MODULE_NAME} {\n}")
-
+  file(WRITE "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${CBRIDGE_MODULE_MAP}")
   # Clean up the modulemap after building to avoid double definition conflicts with the generated
   # framework - this is caused by using internally the same name as the final Xcode project
   # and Xcode will follow those caches
   add_custom_command(TARGET "${target}" PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "${OUTPUT_DIR}/module.modulemap.generated" "${OUTPUT_DIR}/module.modulemap")
+    COMMAND ${CMAKE_COMMAND} -E copy "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${SWIFT_OUTPUT_DIR}/module.modulemap")
   if(APPLE)
     add_custom_command(TARGET "${target}" POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E remove "${OUTPUT_DIR}/module.modulemap")
+      COMMAND ${CMAKE_COMMAND} -E remove "${SWIFT_OUTPUT_DIR}/module.modulemap")
   endif()
-
-
 endfunction()

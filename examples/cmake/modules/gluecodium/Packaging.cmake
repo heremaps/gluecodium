@@ -119,7 +119,7 @@ function(apigen_create_package)
     here_message(FATAL_ERROR "No NAME argument passed to apigen_create_package().")
   endif()
 
-  get_target_property(generator ${ARG_TARGET} APIGEN_GLUECODIUM_GENERATOR)
+  get_target_property(generator ${ARG_TARGET} APIGEN_GENERATOR)
   apigen_packaging_find_shared_library_dependencies(all_dependencies dependencies
     TARGET ${ARG_TARGET} EXCLUDE_TARGETS ${ARG_EXCLUDE_TARGETS})
 
@@ -151,7 +151,7 @@ function(apigen_create_package)
 
     set(local_jars)
     foreach(dep ${ARG_DEPENDS})
-      get_target_property(output_dir ${dep} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+      get_target_property(output_dir ${dep} APIGEN_GENERATOR_OUTPUT_DIR)
       list(APPEND local_jars ${output_dir}/../android-java-jar/${dep}.jar)
     endforeach()
 
@@ -171,7 +171,7 @@ function(apigen_create_package)
 
     # NOTE: These steps must be last.
     if(ARG_EXTRA_SOURCE_DIR)
-      get_target_property(generated_output_dir ${ARG_TARGET} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+      get_target_property(generated_output_dir ${ARG_TARGET} APIGEN_GENERATOR_OUTPUT_DIR)
       add_custom_command(TARGET ${ARG_TARGET} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${ARG_EXTRA_SOURCE_DIR}
           ${generated_output_dir}/android/)
@@ -205,8 +205,7 @@ function(apigen_create_package)
 
     if(ARG_EXTRA_SOURCE_DIR)
       file(GLOB_RECURSE extra_sources ${ARG_EXTRA_SOURCE_DIR}/*.swift)
-      set_target_properties(${ARG_TARGET} PROPERTIES
-        APIGEN_GLUECODIUM_GENERATOR_ADDITIONAL_SOURCES "${extra_sources}")
+      target_sources(${ARG_TARGET} "${extra_sources}")
     endif()
 
     # Fixup dependency paths so the loader can find the proper libraries.

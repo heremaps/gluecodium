@@ -41,14 +41,11 @@ endif()
 #     apigen_swift_configuration(target)
 #
 
-#TODO: find_package(Swift REQUIRED)
-set(SWIFT_RESOURCES_DIR ${CMAKE_CURRENT_LIST_DIR})
-
-
 function(apigen_swift_configuration target)
 
-  get_target_property(GENERATOR ${target} APIGEN_GLUECODIUM_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_GLUECODIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GENERATOR_OUTPUT_DIR)
+  get_target_property(OUTPUT_BUILD_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SDK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SDK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
   get_target_property(MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
@@ -90,11 +87,7 @@ function(apigen_swift_configuration target)
 
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
-  set(SWIFT_BUILD_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-swift-build)
-
-  # Attach properties to target for re-use in other modules
-  set_target_properties(${target} PROPERTIES APIGEN_SWIFT_BUILD_OUTPUT_DIR ${SWIFT_BUILD_OUTPUT_DIR})
-  set_target_properties(${target} PROPERTIES APIGEN_SWIFT_RESOURCES_DIR ${SWIFT_RESOURCES_DIR})
+  set(SWIFT_BUILD_OUTPUT_DIR ${OUTPUT_DIR}/build)
 
   message(STATUS "[Swift] Framework version ${FRAMEWORK_VERSION} will be generated in path ${SWIFT_BUILD_OUTPUT_DIR}")
 

@@ -61,9 +61,8 @@ function(apigen_swift_framework_bundle)
   cmake_parse_arguments(apigen_swift_framework_bundle
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GLUECODIUM_GENERATOR)
-  get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_RESOURCES_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_RESOURCES_DIR)
+  get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GENERATOR)
+  get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_FRAMEWORK_NAME ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")

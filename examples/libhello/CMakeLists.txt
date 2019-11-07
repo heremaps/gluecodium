@@ -379,7 +379,7 @@ set_target_properties(hello PROPERTIES
         SOVERSION ${HELLO_VERSION_MAJOR}
         VERSION ${HELLO_VERSION})
 target_include_directories(hello PRIVATE "src/test/")
-target_link_libraries(hello Threads::Threads)
+target_link_libraries(hello PRIVATE Threads::Threads)
 
 include(gluecodium/Gluecodium)
 apigen_generate(TARGET hello
@@ -422,10 +422,11 @@ elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL android)
 elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL swift)
     # Swift users want a module...
     include(gluecodium/Swift)
-    if(HELLO_SWIFT_TESTS)
-        set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS_SHARED ${HELLO_SWIFT_TESTS})
-    endif()
 
     apigen_swift_build(hello)
     apigen_swift_framework_info_plist(hello)
+    if(HELLO_SWIFT_TESTS)
+        file(GLOB_RECURSE SWIFT_TEST_SOURCES CONFIGURE_DEPENDS ${HELLO_SWIFT_TESTS}/*.swift)
+        apigen_swift_test(hello SOURCES ${SWIFT_TEST_SOURCES})
+    endif()
 endif()
