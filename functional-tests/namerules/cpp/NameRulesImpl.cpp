@@ -18,12 +18,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <namerules/nameRules.h>
+#include <namerules/customNameRules.h>
 
 namespace {
-class NameRulesImpl: public namerules::nameRules {
+class NameRulesImpl: public namerules::customNameRules {
 public:
-    ::lorem_ipsum::test::Return< double, ::std::error_code > someMethod( const ::namerules::nameRules::exampleStruct& some_argument ) override {
+    ::lorem_ipsum::test::Return< double, ::std::error_code > someMethod( const ::namerules::customNameRules::exampleStruct& some_argument ) override {
         return std::error_code( exampleErrorCode::FATAL_ENTRY );
     }
 
@@ -43,11 +43,11 @@ public:
         m_boolean = value;
     }
 
-    ::namerules::nameRules::exampleStruct retrieve_struct_attribute(  ) const override {
+    ::namerules::customNameRules::exampleStruct retrieve_struct_attribute(  ) const override {
         return m_struct;
     }
 
-    void STORE_STRUCT_ATTRIBUTE_NOW( const ::namerules::nameRules::exampleStruct& value ) override {
+    void STORE_STRUCT_ATTRIBUTE_NOW( const ::namerules::customNameRules::exampleStruct& value ) override {
         m_struct = value;
     }
 
@@ -60,8 +60,8 @@ private:
 
 namespace namerules {
 
-std::shared_ptr<nameRules>
-nameRules::create() {
+std::shared_ptr<customNameRules>
+customNameRules::create() {
     return std::make_shared<NameRulesImpl>();
 }
 
