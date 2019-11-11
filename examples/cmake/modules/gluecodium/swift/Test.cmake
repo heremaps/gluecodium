@@ -105,8 +105,7 @@ function(create_xctest_bundle target tests_name sources)
       @loader_path/Frameworks/")
   else()
     set(XCODE_LD_RUNPATHS "${XCODE_LD_RUNPATHS} \
-      @loader_path/../Frameworks/ \
-      $<TARGET_LINKER_FILE_DIR:resource-locator>")
+      @loader_path/../Frameworks/")
   endif()
   set_target_properties(${TEST_TARGET} PROPERTIES
     XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "${XCODE_LD_RUNPATHS}"
