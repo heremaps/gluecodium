@@ -28,6 +28,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
@@ -37,6 +38,9 @@ import java.io.File
 @NonNullApi
 @CacheableTask
 open class GluecodiumTask : SourceTask() {
+    @Internal
+    lateinit var javaGenerator: String
+
     @OutputDirectory
     val outputDirectory: Property<File> = project.objects.property(File::class.java)
 
@@ -89,7 +93,7 @@ open class GluecodiumTask : SourceTask() {
         val options = Gluecodium.Options()
         options.inputDirs = source.files.map { it.absolutePath }
         options.outputDir = outputDirectory.get().absolutePath
-        options.generators = setOf("android", "cpp")
+        options.generators = setOf(javaGenerator, "cpp")
 
         copyrightHeaderFile.orNull?.let { options.copyrightHeaderContents = it.readText() }
         javaPackage.orNull?.let { options.javaPackages = it.split(".") }

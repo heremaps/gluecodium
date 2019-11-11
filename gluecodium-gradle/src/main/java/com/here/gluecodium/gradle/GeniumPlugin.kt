@@ -24,42 +24,71 @@ package com.here.gluecodium.gradle
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.api.TestedVariant
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.internal.tasks.DefaultSourceSet
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginConvention
 import java.io.File
 import javax.inject.Inject
 
 class GluecodiumPlugin @Inject constructor(private val objectFactory: ObjectFactory) : Plugin<Project> {
 
     override fun apply(project: Project) {
-        if (!project.pluginManager.hasPlugin("com.android.base")) {
-            throw GradleException(
-                "No Android plugin found. Gluecodium plugin requires an Android plugin to be applied."
-            )
-        }
-
-        val androidExtension = project.extensions.getByName("android") as BaseExtension
-        createGluecodiumTask(project, androidExtension.sourceSets)
-        project.afterEvaluate { injectGluecodiumTask(androidExtension) }
-    }
-
-    private fun createGluecodiumTask(project: Project, sourceSets: Collection<AndroidSourceSet>) {
         val gluecodiumExtension =
             project.extensions.create(GLUECODIUM_EXTENSION_NAME, GluecodiumExtension::class.java)
 
-        project.tasks.register(GLUECODIUM_TASK_NAME, GluecodiumTask::class.java) {
-            it.description = "Processes Gluecodium IDL files"
-            propagateExtensionProperties(it, gluecodiumExtension)
+        val javaGenerator: String
+        if (project.pluginManager.hasPlugin("com.android.base")) {
+            javaGenerator = "android"
+            applyAndroid(project, gluecodiumExtension)
+        } else {
+            javaGenerator = "java"
+            applyJava(project, gluecodiumExtension)
         }
 
+        project.tasks.register(GLUECODIUM_TASK_NAME, GluecodiumTask::class.java) {
+            it.description = "Processes Gluecodium IDL files"
+            it.javaGenerator = javaGenerator
+            propagateExtensionProperties(it, gluecodiumExtension)
+        }
+    }
+
+    private fun applyAndroid(project: Project, gluecodiumExtension: GluecodiumExtension) {
+        val androidExtension = project.extensions.getByName("android") as BaseExtension
+
+        val sourceSets = androidExtension.sourceSets
         sourceSets.forEach { it.java.srcDir(gluecodiumExtension.outputDirectory) }
-        val defaultSources =
-            sourceSets.map { "${project.rootDir}/src/${it.name}/$GLUECODIUM_DIR_NAME" }
+        setDefaultGluecodiumSources(project, gluecodiumExtension, sourceSets.map { it.name })
+
+        project.afterEvaluate { injectGluecodiumTask(androidExtension) }
+    }
+
+    private fun applyJava(project: Project, gluecodiumExtension: GluecodiumExtension) {
+        project.pluginManager.apply(JavaPlugin::class.java)
+
+        val sourceSets = project.convention.getPlugin(JavaPluginConvention::class.java)
+            .sourceSets
+            .filterIsInstance<DefaultSourceSet>()
+        sourceSets.forEach { it.java.srcDir(gluecodiumExtension.outputDirectory) }
+        setDefaultGluecodiumSources(project, gluecodiumExtension, sourceSets.map { it.name })
+
+        sourceSets.forEach { sourceSet ->
+            project.tasks.named(sourceSet.compileJavaTaskName) { compileTask ->
+                compileTask.dependsOn(GLUECODIUM_TASK_NAME)
+            }
+        }
+    }
+
+    private fun setDefaultGluecodiumSources(
+        project: Project,
+        gluecodiumExtension: GluecodiumExtension,
+        sourceSetNames: List<String>
+    ) {
+        val defaultSources = sourceSetNames.map { "${project.rootDir}/src/$it/$GLUECODIUM_DIR_NAME" }
         gluecodiumExtension.source.convention(project.files(defaultSources).asFileTree)
         gluecodiumExtension.outputDirectory.convention(
             File("${project.buildDir}/generated-src/$GLUECODIUM_DIR_NAME")
