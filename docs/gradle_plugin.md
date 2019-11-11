@@ -20,7 +20,7 @@ To use the Gluecodium Gradle plugin, include the following in your build script:
 ```groovy
 buildscript {
     dependencies {
-        classpath "com.here.gluecodium:gluecodium-gradle:5.7.0"
+        classpath "com.here.gluecodium:gluecodium-gradle:5.8.0"
     }
 }
 

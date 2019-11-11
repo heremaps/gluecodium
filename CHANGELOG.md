@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 5.8.0
+- Release date: 2019-11-11
 - Features:
   + Added validation against broken import statements in LimeIDL.
   + Added support for `@Swift(Extension)` attribute for type collections (`types`) in LimeIDL.
