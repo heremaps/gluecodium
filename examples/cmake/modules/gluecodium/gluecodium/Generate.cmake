@@ -72,12 +72,9 @@ function(apigen_generate)
       CPP_NAMERULES
       SWIFT_NAMERULES
       OUTPUT_DIR)
-  set(multiValueArgs FRANCA_SOURCES LIME_SOURCES)
+  set(multiValueArgs LIME_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
-
-  set(IDL_SOURCES)
-  list(APPEND IDL_SOURCES ${apigen_generate_LIME_SOURCES} ${apigen_generate_FRANCA_SOURCES})
 
   set(operationVerb "Generate")
   set(validateParam "")
@@ -92,7 +89,7 @@ function(apigen_generate)
   endif()
 
   message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Gluecodium version '${apigen_generate_VERSION}'
-  Input: '${IDL_SOURCES}'")
+  Input: '${apigen_generate_LIME_SOURCES}'")
 
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
@@ -121,7 +118,7 @@ function(apigen_generate)
     ${validateParam}\
     ${mergeManifest}\
     --enable-caching --time-logging")
-  foreach(input ${IDL_SOURCES})
+  foreach(input ${apigen_generate_LIME_SOURCES})
     # Attach sources to target for IDEs to display them properly in their projects
     file(GLOB_RECURSE inputLimeSources ${input}/*.lime)
     if(inputLimeSources)
