@@ -58,7 +58,7 @@ else()
 endif()
 
 function(apigen_generate)
-  set(options VALIDATE_ONLY)
+  set(options VALIDATE_ONLY VERBOSE)
   set(oneValueArgs TARGET GENERATOR VERSION
       ANDROID_MERGE_MANIFEST
       JAVA_PACKAGE
@@ -174,6 +174,8 @@ function(apigen_generate)
     ERROR_VARIABLE GENERATE_OUTPUT)
   if(NOT "${GENERATE_RESULT}" STREQUAL "0")
     message(FATAL_ERROR "Failed to generate from given LimeIDL files:\n${GENERATE_OUTPUT}")
+  elseif(apigen_generate_VERBOSE)
+    message(STATUS ${GENERATE_OUTPUT})
   endif()
 
 endfunction()

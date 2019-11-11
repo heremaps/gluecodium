@@ -391,7 +391,8 @@ apigen_generate(TARGET hello
         JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
         JAVA_NULLABLE_ANNOTATION android.support.annotation.Nullable
         CPP_INTERNAL_NAMESPACE lorem_ipsum.test
-        COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT")
+        COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
+        VERBOSE)
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
 
