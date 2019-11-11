@@ -6,6 +6,7 @@
   + Added support for `@Swift(Extension)` attribute for type collections (`types`) in LimeIDL.
   + Any type can now be used as an error value type in an IDL exception declaration.
   + Added support for `@Java(FunctionName)` attribute for lambdas in LimeIDL.
+  + Added Gluecodium Gradle plugin.
 
 ## 5.7.0
 - Release date: 2019-10-25
