@@ -90,6 +90,7 @@ open class GluecodiumTask : SourceTask() {
 
     @TaskAction
     fun generate() {
+        logOptions()
         GluecodiumRunner().run(createGluecodiumOptions())
     }
 
@@ -114,5 +115,34 @@ open class GluecodiumTask : SourceTask() {
             OptionReader.readConfigFile(cppNameRules.orNull?.absolutePath, options.cppNameRules)
 
         return options
+    }
+
+    private fun logOptions() {
+        logger.debug(GLUECODIUM_OPTIONS_FORMAT, "javaGenerator", javaGenerator)
+        logger.debug(GLUECODIUM_OPTIONS_FORMAT, "source", source.files.map { it.absolutePath })
+        logProperty("outputDirectory", outputDirectory)
+
+        logProperty("copyrightHeaderFile", copyrightHeaderFile)
+        logProperty("javaPackage", javaPackage)
+        logProperty("javaInternalPackage", javaInternalPackage)
+        logProperty("javaNameRules", javaNameRules, DEFAULT_VALUE_STRING)
+        logProperty("javaNonNullAnnotation", javaNonNullAnnotation)
+        logProperty("javaNullableAnnotation", javaNullableAnnotation)
+        logProperty("androidMergeManifest", androidMergeManifest)
+        logProperty("cppNamespace", cppNamespace)
+        logProperty("cppInternalNamespace", cppInternalNamespace)
+        logProperty("cppExportMacroName", cppExportMacroName,
+            DEFAULT_VALUE_STRING + " " + Gluecodium.DEFAULT_CPP_EXPORT_MACRO_NAME
+        )
+        logProperty("cppNameRules", cppNameRules, DEFAULT_VALUE_STRING)
+    }
+
+    private fun logProperty(optionName: String, property: Property<*>, defaultValue: String = "") {
+        logger.debug(GLUECODIUM_OPTIONS_FORMAT, optionName, property.orNull ?: defaultValue)
+    }
+
+    companion object {
+        private const val GLUECODIUM_OPTIONS_FORMAT = "Gluecodium.Options.{} = {}"
+        private const val DEFAULT_VALUE_STRING = "(default)"
     }
 }
