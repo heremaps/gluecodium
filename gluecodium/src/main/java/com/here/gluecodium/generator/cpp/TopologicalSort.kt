@@ -39,8 +39,10 @@ class TopologicalSort(private val elements: List<CppElement>) {
      * to structs so the most-basic structs are defined first to avoid compilation errors on C++.
      */
     fun sort(): List<CppElement> {
-        val dependencies =
-            elements.associateBy({ it.fullyQualifiedName }, { getElementDependencies(it) })
+        val dependencies = elements.associateBy(
+            { it.fullyQualifiedName },
+            { getElementDependencies(it).toMutableSet() }
+        )
 
         val sortedElements = mutableListOf<CppElement>()
         while (sortedElements.size < elements.size) {
@@ -62,38 +64,22 @@ class TopologicalSort(private val elements: List<CppElement>) {
         return sortedElements
     }
 
-    private fun getTypeDependencies(typeRef: CppTypeRef): MutableSet<String> {
-        val dependencies = when (typeRef) {
-            is CppTemplateTypeRef ->
-                typeRef.templateParameters.flatMapTo(mutableSetOf()) { getTypeDependencies(it) }
-            is CppTypeDefRef -> getTypeDependencies(typeRef.actualType)
-            else -> mutableSetOf()
-        }
+    private fun getTypeDependencies(typeRef: CppTypeRef): List<String> =
+        when (typeRef) {
+            is CppTemplateTypeRef -> typeRef.templateParameters
+            is CppTypeDefRef -> listOf(typeRef.actualType)
+            else -> emptyList()
+        }.flatMap { getTypeDependencies(it) } +
+            listOfNotNull(typeRef.name.takeIf { fullyQualifiedNames.contains(it) })
 
-        if (fullyQualifiedNames.contains(typeRef.name)) {
-            dependencies.add(typeRef.name)
-        }
-
-        return dependencies
-    }
-
-    private fun getElementDependencies(cppElement: CppElement): MutableSet<String> {
-        val result = when (cppElement) {
-            is CppTypedElement -> {
-                val dependencies = getTypeDependencies(cppElement.type)
-                if (fullyQualifiedNames.contains(cppElement.type.name)) {
-                    dependencies.add(cppElement.type.name)
-                }
-                dependencies
-            }
-            is CppStruct ->
-                cppElement.childElements.flatMap { getElementDependencies(it) }.toMutableSet()
+    private fun getElementDependencies(cppElement: CppElement): Set<String> =
+        when (cppElement) {
+            is CppTypedElement -> getTypeDependencies(cppElement.type) +
+                listOfNotNull(cppElement.type.name.takeIf { fullyQualifiedNames.contains(it) })
+            is CppStruct -> cppElement.childElements.flatMap { getElementDependencies(it) }
             is CppUsing -> getTypeDependencies(cppElement.definition)
             is CppMethod -> (cppElement.parameters.map { it.type } + cppElement.returnType)
-                .flatMapTo(mutableSetOf()) { getTypeDependencies(it) }
-            else -> mutableSetOf()
-        }
-        result.remove(cppElement.fullyQualifiedName)
-        return result
-    }
+                .flatMap { getTypeDependencies(it) }
+            else -> emptyList()
+        }.toSet() - cppElement.fullyQualifiedName
 }
