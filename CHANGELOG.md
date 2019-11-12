@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Gluecodium Gradle plugin now properly stops the build when Gluecodium code generation fails.
+
 ## 5.8.0
 - Release date: 2019-11-11
 - Features:

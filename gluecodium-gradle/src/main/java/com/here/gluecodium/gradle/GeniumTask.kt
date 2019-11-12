@@ -89,7 +89,11 @@ open class GluecodiumTask : SourceTask() {
     val cppNameRules: Property<File> = project.objects.property(File::class.java)
 
     @TaskAction
-    fun execute() {
+    fun generate() {
+        GluecodiumRunner().run(createGluecodiumOptions())
+    }
+
+    private fun createGluecodiumOptions(): Gluecodium.Options {
         val options = Gluecodium.Options()
         options.inputDirs = source.files.map { it.absolutePath }
         options.outputDir = outputDirectory.get().absolutePath
@@ -109,6 +113,6 @@ open class GluecodiumTask : SourceTask() {
         options.cppNameRules =
             OptionReader.readConfigFile(cppNameRules.orNull?.absolutePath, options.cppNameRules)
 
-        Gluecodium(options).execute()
+        return options
     }
 }
