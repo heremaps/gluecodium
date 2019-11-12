@@ -31,3 +31,11 @@ class Lambdas {
 }
 
 lambda StandaloneProducer = () -> String
+
+class LambdasDeclarationOrder {
+    lambda SomeCallback = (SomeStruct) -> Void
+
+    struct SomeStruct {
+        someField: String
+    }
+}

@@ -25,6 +25,7 @@ import com.here.gluecodium.model.cpp.CppConstant
 import com.here.gluecodium.model.cpp.CppElement
 import com.here.gluecodium.model.cpp.CppEnum
 import com.here.gluecodium.model.cpp.CppField
+import com.here.gluecodium.model.cpp.CppFunctionTypeRef
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppParameter
 import com.here.gluecodium.model.cpp.CppStruct
@@ -176,6 +177,14 @@ class TopologicalSortTest(
                         createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_C)),
                         createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(0, 1)
+                ), arrayOf(
+                    "usingFunctionTypeRefDependingOnStruct", listOf(
+                        createUsing(
+                            TYPE_DEF_NAME,
+                            CppFunctionTypeRef(emptyList(), CppComplexTypeRef(FIRST_STRUCT_NAME))
+                        ),
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                    ), listOf(1, 0)
                 ), arrayOf(
                     "structDependingOnDefinition",
                     listOf(

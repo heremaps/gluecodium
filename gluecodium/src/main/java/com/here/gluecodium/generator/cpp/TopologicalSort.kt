@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.cpp.CppElement
+import com.here.gluecodium.model.cpp.CppFunctionTypeRef
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef
@@ -68,6 +69,7 @@ class TopologicalSort(private val elements: List<CppElement>) {
         when (typeRef) {
             is CppTemplateTypeRef -> typeRef.templateParameters
             is CppTypeDefRef -> listOf(typeRef.actualType)
+            is CppFunctionTypeRef -> typeRef.parameters + typeRef.returnType
             else -> emptyList()
         }.flatMap { getTypeDependencies(it) } +
             listOfNotNull(typeRef.name.takeIf { fullyQualifiedNames.contains(it) })

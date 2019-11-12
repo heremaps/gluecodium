@@ -3,6 +3,8 @@
 ## Unreleased
 - Bug fixes:
   + Gluecodium Gradle plugin now properly stops the build when Gluecodium code generation fails.
+  + Fixed C++ compilation issue where type declarations were not ordered correctly if an
+    std::function<> typedef (lambda) was one of the types.
 
 ## 5.8.0
 - Release date: 2019-11-11
