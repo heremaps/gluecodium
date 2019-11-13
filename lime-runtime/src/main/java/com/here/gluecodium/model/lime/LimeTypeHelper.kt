@@ -42,6 +42,18 @@ object LimeTypeHelper {
             else -> limeType
         }
 
+    fun getAllTypes(limeType: LimeType): List<LimeType> {
+        val nestedContainerTypes = (limeType as? LimeContainer)?.let {
+            it.structs + it.enumerations + it.exceptions + it.typeAliases
+        } ?: emptyList()
+        val nestedClassInterfaceTypes = (limeType as? LimeContainerWithInheritance)?.let {
+            it.classes + it.interfaces + it.lambdas
+        } ?: emptyList()
+
+        return listOf(limeType) +
+            (nestedContainerTypes + nestedClassInterfaceTypes).flatMap { getAllTypes(it) }
+    }
+
     /**
      * Backtick-escape the given identifier if at least one of the following is true:
      * * identifier exactly matches a LimeIDL keyword

@@ -46,6 +46,8 @@ import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.io.File
 import java.nio.file.Paths
@@ -81,7 +83,9 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             limeReferenceMap = limeReferenceMap
         )
 
-        val allErrorEnums = limeReferenceMap.values
+        val allErrorEnums = limeModel.topElements
+            .filterIsInstance<LimeType>()
+            .flatMap { LimeTypeHelper.getAllTypes(it) }
             .asSequence()
             .filterIsInstance<LimeException>()
             .map { it.errorType.type }
