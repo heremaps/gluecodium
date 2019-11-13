@@ -1,8 +1,25 @@
 excludes:
+  paths:
+  - pattern: "examples/cmake/modules/gluecodium/gluecodium/build.gradle"
+    reason: "TEST_TOOL_OF"
+    comment: "The project 'examples/cmake/modules/gluecodium/gluecodium/build.gradle'\
+      \ is a wrapper used for examples which tries to pull gluecodium from maven or\
+      \ mavenLocal. Since it's not published yet, the scan is not able to fetch and\
+      \ scan it."
   scopes:
   - name: "test.*"
     reason: "TEST_TOOL_OF"
-    comment: "These are dependencies used for testing. They are not distributed in the context of this project."
+    comment: "These are dependencies used for testing. They are not distributed in\
+      \ the context of this project."
   - name: ".*Test.*"
     reason: "TEST_TOOL_OF"
-    comment: "These are dependencies used for testing. They are not distributed in the context of this project."
+    comment: "These are dependencies used for testing. They are not distributed in\
+      \ the context of this project."
+  - name: "lintClassPath"
+    reason: "BUILD_TOOL_OF"
+    comment: "These are dependencies used for testing. They are not distributed the\
+      \ context of this project."
+  - name: "debugAndroidTestCompileClasspath"
+    reason: "BUILD_TOOL_OF"
+    comment: "These are dependencies used for testing. They are not distributed the\
+      \ context of this project."
