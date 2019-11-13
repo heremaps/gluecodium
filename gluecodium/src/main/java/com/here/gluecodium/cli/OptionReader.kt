@@ -41,6 +41,7 @@ object OptionReader {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output destination")
         addOption("options", true, "Options file to load options from")
+        addOption("auxinput", true, "Auxiliary IDL sources that are loaded but not generated from")
         addOption("javapackage", true, "Java package name")
         addOption(
             "javanonnullannotation",
@@ -146,6 +147,7 @@ object OptionReader {
 
         options.idlSources = getStringListValue("input") ?: emptyList()
         options.outputDir = getStringValue("output")
+        options.auxiliaryIdlSources = getStringListValue("auxinput") ?: emptyList()
         options.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
         options.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))

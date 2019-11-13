@@ -24,13 +24,17 @@ package com.here.gluecodium.gradle
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.OptionReader
 import org.gradle.api.NonNullApi
+import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -46,7 +50,13 @@ open class GluecodiumTask : SourceTask() {
 
     @Optional
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val copyrightHeaderFile: Property<File> = project.objects.property(File::class.java)
+
+    @Optional
+    @InputFiles
+    @PathSensitive(PathSensitivity.ABSOLUTE)
+    val auxiliarySource: Property<FileTree> = project.objects.property(FileTree::class.java)
 
     @Optional
     @Input
@@ -58,6 +68,7 @@ open class GluecodiumTask : SourceTask() {
 
     @Optional
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val javaNameRules: Property<File> = project.objects.property(File::class.java)
 
     @Optional
@@ -70,6 +81,7 @@ open class GluecodiumTask : SourceTask() {
 
     @Optional
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val androidMergeManifest: Property<File> = project.objects.property(File::class.java)
 
     @Optional
@@ -86,6 +98,7 @@ open class GluecodiumTask : SourceTask() {
 
     @Optional
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val cppNameRules: Property<File> = project.objects.property(File::class.java)
 
     @TaskAction
@@ -100,6 +113,9 @@ open class GluecodiumTask : SourceTask() {
         options.outputDir = outputDirectory.get().absolutePath
         options.generators = setOf(javaGenerator, "cpp")
 
+        auxiliarySource.orNull?.let {
+            options.auxiliaryIdlSources = it.files.map { file -> file.absolutePath }
+        }
         copyrightHeaderFile.orNull?.let { options.copyrightHeaderContents = it.readText() }
         javaPackage.orNull?.let { options.javaPackages = it.split(".") }
         javaInternalPackage.orNull?.let { options.javaInternalPackages = it.split(".") }

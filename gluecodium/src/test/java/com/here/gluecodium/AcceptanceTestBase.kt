@@ -73,7 +73,7 @@ abstract class AcceptanceTestBase protected constructor(
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
-        val limeModel = LimeModelLoader.getLoader().loadModel(listOf(inputDirectory.toString()))
+        val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), emptyList())
         assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
@@ -108,6 +108,8 @@ abstract class AcceptanceTestBase protected constructor(
             LimeGeneratorSuite.GENERATOR_NAME
         )
         private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
+
+        private val LOADER = LimeModelLoader.getLoader()
 
         init {
             GENERATOR_DIRECTORIES[BaseApiGeneratorSuite.GENERATOR_NAME] =

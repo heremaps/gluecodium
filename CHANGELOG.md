@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+- Features:
+  + Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
+    not generated from.
+
 ## 5.8.1
 - Release date: 2019-11-13
 - Bug fixes:

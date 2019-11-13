@@ -80,7 +80,7 @@ class Gluecodium(
         times.start()
         val limeModel: LimeModel
         try {
-            limeModel = modelLoader.loadModel(options.idlSources)
+            limeModel = modelLoader.loadModel(options.idlSources, options.auxiliaryIdlSources)
             times.addLogEntry("model loading")
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
@@ -173,6 +173,7 @@ class Gluecodium(
     data class Options(
         var idlSources: List<String> = emptyList(),
         var outputDir: String? = null,
+        var auxiliaryIdlSources: List<String> = emptyList(),
         var javaPackages: List<String> = listOf(),
         var javaInternalPackages: List<String> = listOf(),
         var javaNullableAnnotation: Pair<String, List<String>>? = null,

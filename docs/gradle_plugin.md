@@ -34,6 +34,7 @@ gluecodium {
     source = fileTree("${rootDir}/sample/gluecodium/lime")
     outputDirectory = file("$buildDir/generated-src/gluecodium")
 
+    auxiliarySource = fileTree("${rootDir}/sample/aux/gluecodium/lime")
     copyrightHeaderFile = file("${rootDir}/sample/gluecodium/copyright.in")
     javaPackage = 'com.example.sample'
     javaInternalPackage = 'com.example.sample.internal'

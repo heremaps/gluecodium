@@ -90,7 +90,7 @@ class GluecodiumTest {
         `when`(generator.name).thenReturn("")
         `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(generator)
 
-        `when`(modelLoader.loadModel(anyList())).thenReturn(LimeModel(emptyMap(), emptyList()))
+        `when`(modelLoader.loadModel(anyList(), anyList())).thenReturn(LimeModel(emptyMap(), emptyList()))
     }
 
     @Test

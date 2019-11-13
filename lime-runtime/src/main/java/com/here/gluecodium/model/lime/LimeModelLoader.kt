@@ -25,7 +25,7 @@ package com.here.gluecodium.model.lime
  * rest of the binary to absolute minimum.
  */
 interface LimeModelLoader {
-    fun loadModel(fileNames: List<String>): LimeModel
+    fun loadModel(idlSources: List<String>, auxiliaryIdlSources: List<String>): LimeModel
 
     // Injection point for static "getLoader()" extensions.
     companion object

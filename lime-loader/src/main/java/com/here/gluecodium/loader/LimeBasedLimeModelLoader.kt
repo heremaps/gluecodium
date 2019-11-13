@@ -44,16 +44,21 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker
 import java.io.File
 import java.util.logging.Logger
 
-internal object LimeBasedLimeModelLoader : LimeModelLoader {
+internal class LimeBasedLimeModelLoader : LimeModelLoader {
     private val logger = Logger.getLogger(LimeBasedLimeModelLoader::class.java.name)
 
-    override fun loadModel(fileNames: List<String>): LimeModel {
+    override fun loadModel(idlSources: List<String>, auxiliaryIdlSources: List<String>): LimeModel {
+        val resolvedIdlSources = idlSources.flatMap { listFilesRecursively(it) }.toSet()
+        val resolvedAuxSources = auxiliaryIdlSources.flatMap { listFilesRecursively(it) }.toSet()
+
         val referenceResolver = AntlrLimeReferenceResolver()
         val elementNameToFileName = mutableMapOf<String, String>()
         val fileNameToImports = mutableMapOf<String, List<LimePath>>()
-        val loadedElements = fileNames
-            .flatMap { listFilesRecursively(it) }
-            .map { loadFile(it, referenceResolver, elementNameToFileName, fileNameToImports) }
+        val loadedElements = (resolvedIdlSources + resolvedAuxSources)
+            .map { fileName ->
+                loadFile(fileName, referenceResolver, fileNameToImports)
+                    ?.onEach { elementNameToFileName[it.fullName] = fileName }
+            }
 
         if (loadedElements.any { it == null }) {
             throw LimeLoadingException("Syntax errors found, see log for details.")
@@ -64,8 +69,16 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             loadedElements.filterNotNull().flatten(),
             elementNameToFileName
         )
+        validateModel(limeModel, fileNameToImports)
 
-        val limeLogger = LimeLogger(logger, elementNameToFileName)
+        return filterModel(limeModel, resolvedAuxSources - resolvedIdlSources)
+    }
+
+    private fun validateModel(
+        limeModel: LimeModel,
+        fileNameToImports: Map<String, List<LimePath>>
+    ) {
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         val typeRefsValidationResult =
             LimeImportsValidator(limeLogger).validate(limeModel, fileNameToImports) &&
             LimeTypeRefsValidator(limeLogger).validate(limeModel)
@@ -75,14 +88,19 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         if (!typeRefsValidationResult || validationResults.contains(false)) {
             throw LimeLoadingException("Validation errors found, see log for details.")
         }
-
-        return limeModel
     }
+
+    private fun filterModel(fullModel: LimeModel, excludedIdlFiles: Set<String>) =
+        LimeModel(
+            fullModel.referenceMap,
+            fullModel.topElements
+                .filterNot { excludedIdlFiles.contains(fullModel.fileNameMap[it.fullName]) },
+            fullModel.fileNameMap
+        )
 
     private fun loadFile(
         fileName: String,
         referenceResolver: LimeReferenceResolver,
-        elementNameToFileName: MutableMap<String, String>,
         fileNameToImports: MutableMap<String, List<LimePath>>
     ): List<LimeNamedElement>? {
         val errorListener = ThrowingErrorListener()
@@ -96,18 +114,14 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         parser.addErrorListener(errorListener)
 
         val modelBuilder = AntlrLimeModelBuilder(referenceResolver)
-        try {
+        return try {
             ParseTreeWalker.DEFAULT.walk(modelBuilder, parser.limeFile())
+            fileNameToImports[fileName] = modelBuilder.collectedImports
+            modelBuilder.finalResults
         } catch (e: ParseCancellationException) {
             logger.severe("File $fileName, ${e.message}")
-            return null
+            null
         }
-
-        val results = modelBuilder.finalResults
-        results.forEach { elementNameToFileName[it.fullName] = fileName }
-        fileNameToImports[fileName] = modelBuilder.collectedImports
-
-        return results
     }
 
     private fun listFilesRecursively(filePath: String): List<String> {
@@ -119,12 +133,12 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             }
         val file = File(normalizedPath)
         return when {
-            file.isFile && file.name.endsWith(".lime") -> listOf(file.absolutePath)
             file.isDirectory ->
                 file.listFiles()
                     ?.toList()
                     ?.flatMap { listFilesRecursively(it.absolutePath) }
                     ?: emptyList()
+            file.name.endsWith(".lime") -> listOf(file.absolutePath)
             else -> emptyList()
         }
     }
@@ -146,4 +160,4 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         )
 }
 
-fun LimeModelLoader.Companion.getLoader(): LimeModelLoader = LimeBasedLimeModelLoader
+fun LimeModelLoader.Companion.getLoader(): LimeModelLoader = LimeBasedLimeModelLoader()
