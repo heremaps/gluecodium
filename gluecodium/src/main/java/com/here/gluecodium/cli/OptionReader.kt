@@ -144,7 +144,7 @@ object OptionReader {
 
         val options = Gluecodium.Options()
 
-        options.inputDirs = getStringListValue("input") ?: emptyList()
+        options.idlSources = getStringListValue("input") ?: emptyList()
         options.outputDir = getStringValue("output")
         options.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))

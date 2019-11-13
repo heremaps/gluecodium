@@ -76,9 +76,9 @@ class OptionReaderTest {
         val options = OptionReader.read(arrayOf("-input", TEST_INPUT_SINGLE_FOLDER[0]))
 
         // Assert
-        assertNotNull(options!!.inputDirs)
-        assertEquals(1, options.inputDirs.size)
-        assertEquals(TEST_INPUT_SINGLE_FOLDER[0], options.inputDirs[0])
+        assertNotNull(options!!.idlSources)
+        assertEquals(1, options.idlSources.size)
+        assertEquals(TEST_INPUT_SINGLE_FOLDER[0], options.idlSources[0])
     }
 
     @Test
@@ -90,10 +90,10 @@ class OptionReaderTest {
         )
 
         // Assert
-        assertNotNull(options!!.inputDirs)
-        assertEquals(2, options.inputDirs.size)
-        assertEquals(TEST_INPUT_TWO_FOLDERS[0], options.inputDirs[0])
-        assertEquals(TEST_INPUT_TWO_FOLDERS[1], options.inputDirs[1])
+        assertNotNull(options!!.idlSources)
+        assertEquals(2, options.idlSources.size)
+        assertEquals(TEST_INPUT_TWO_FOLDERS[0], options.idlSources[0])
+        assertEquals(TEST_INPUT_TWO_FOLDERS[1], options.idlSources[1])
     }
 
     @Test

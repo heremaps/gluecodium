@@ -72,7 +72,7 @@ class Gluecodium(
     fun execute(): Boolean {
         LOGGER.info("Version: $version")
 
-        if (options.inputDirs.isEmpty()) {
+        if (options.idlSources.isEmpty()) {
             throw OptionReaderException("input option required")
         }
 
@@ -80,7 +80,7 @@ class Gluecodium(
         times.start()
         val limeModel: LimeModel
         try {
-            limeModel = modelLoader.loadModel(options.inputDirs)
+            limeModel = modelLoader.loadModel(options.idlSources)
             times.addLogEntry("model loading")
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
@@ -171,7 +171,7 @@ class Gluecodium(
     }
 
     data class Options(
-        var inputDirs: List<String> = listOf(),
+        var idlSources: List<String> = emptyList(),
         var outputDir: String? = null,
         var javaPackages: List<String> = listOf(),
         var javaInternalPackages: List<String> = listOf(),

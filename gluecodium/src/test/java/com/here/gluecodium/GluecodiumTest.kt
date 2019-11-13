@@ -98,7 +98,7 @@ class GluecodiumTest {
         // Arrange
         `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(null)
         val options = Options(
-            inputDirs = listOf(""),
+            idlSources = listOf(""),
             generators = setOf("invalidGenerator")
         )
 
@@ -111,7 +111,7 @@ class GluecodiumTest {
         // Arrange
         `when`(generator.generate(any())).thenReturn(listOf(FILE, FILE, FILE))
         val options = Options(
-            inputDirs = listOf(""),
+            idlSources = listOf(""),
             generators = setOf(SHORT_NAME),
             isValidatingOnly = false
         )
@@ -124,7 +124,7 @@ class GluecodiumTest {
     fun executeValidateOnly() {
         // Arrange
         val options = Options(
-            inputDirs = listOf(""),
+            idlSources = listOf(""),
             generators = setOf(SHORT_NAME),
             isValidatingOnly = true
         )
@@ -140,7 +140,7 @@ class GluecodiumTest {
     fun useCachingInExecute() {
         // Arrange
         val options = Options(
-            inputDirs = listOf(""),
+            idlSources = listOf(""),
             outputDir = temporaryFolder.root.path,
             generators = setOf(SHORT_NAME),
             isEnableCaching = true

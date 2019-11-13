@@ -96,7 +96,7 @@ open class GluecodiumTask : SourceTask() {
 
     private fun createGluecodiumOptions(): Gluecodium.Options {
         val options = Gluecodium.Options()
-        options.inputDirs = source.files.map { it.absolutePath }
+        options.idlSources = source.files.map { it.absolutePath }
         options.outputDir = outputDirectory.get().absolutePath
         options.generators = setOf(javaGenerator, "cpp")
 
