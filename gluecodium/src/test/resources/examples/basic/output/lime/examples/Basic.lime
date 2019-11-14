@@ -1,7 +1,0 @@
-package examples
-
-class Basic {
-    static fun basicMethod(
-        inputString: String
-    ): String
-}

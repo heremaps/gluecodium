@@ -1,7 +1,0 @@
-package examples
-
-interface InheritanceParent {
-    fun parentMethod(
-        input: String
-    ): String
-}

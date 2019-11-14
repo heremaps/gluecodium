@@ -1,7 +1,0 @@
-package examples
-
-interface InheritanceChild : InheritanceParent {
-    fun childMethod(
-        input: UByte
-    ): Short
-}

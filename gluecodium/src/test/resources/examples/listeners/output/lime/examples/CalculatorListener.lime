@@ -1,7 +1,0 @@
-package examples
-
-interface CalculatorListener {
-    fun onCalculationResult(
-        calculationResult: Double
-    )
-}
