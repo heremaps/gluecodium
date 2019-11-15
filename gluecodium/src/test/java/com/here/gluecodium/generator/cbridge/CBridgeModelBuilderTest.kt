@@ -65,10 +65,8 @@ import com.here.gluecodium.model.swift.SwiftType
 import com.here.gluecodium.test.AssertHelpers.assertContains
 import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.After
@@ -97,6 +95,7 @@ class CBridgeModelBuilderTest {
     private val limeStruct = LimeStruct(fooPath)
 
     private val fooInclude = Include.createInternalInclude("")
+    private val barInclude = Include.createInternalInclude("bar")
     private val cppTypeInfo = CppTypeInfo(CType.DOUBLE)
     private val cppArrayTypeInfo =
         CppArrayTypeInfo("", CType.DOUBLE, CType.DOUBLE, emptyList(), cppTypeInfo)
@@ -135,11 +134,11 @@ class CBridgeModelBuilderTest {
             buildTransientModel = { transientModel }
         )
 
-        every { CppLibraryIncludes.filterIncludes(any(), any()) } just Runs
         every { cppModelBuilder.getFinalResult(CppMethod::class.java) } returns cppMethod
         every { swiftModelBuilder.getFinalResult(SwiftMethod::class.java) } returns swiftMethod
         every { cppModelBuilder.getFinalResult(CppField::class.java) } returns cppField
         every { swiftModelBuilder.getFinalResult(SwiftField::class.java) } returns swiftField
+        every { cppIncludeResolver.typeRepositoryInclude } returns barInclude
     }
 
     @After
@@ -384,17 +383,18 @@ class CBridgeModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE.asNullable()
         )
         val cppParameter = CppParameter("", type = CppPrimitiveTypeRef.VOID)
-        contextStack.injectResult(cppTypeInfo)
+        val barTypeInfo = CppTypeInfo(CType("bar"))
+        every { typeMapper.createNullableTypeInfo(any(), any()) } returns barTypeInfo
         every { cppModelBuilder.getFinalResult(CppParameter::class.java) } returns cppParameter
         every {
             swiftModelBuilder.getFinalResult(SwiftParameter::class.java)
         } returns SwiftParameter("Bar", SwiftType.VOID)
+        contextStack.injectResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CParameter::class.java)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, result.mappedType.cType.name)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, result.mappedType.functionReturnType.name)
+        assertEquals(barTypeInfo, result.mappedType)
     }
 
     @Test
@@ -470,13 +470,14 @@ class CBridgeModelBuilderTest {
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE.asNullable()
         )
+        val barTypeInfo = CppTypeInfo(CType("bar"))
+        every { typeMapper.createNullableTypeInfo(any(), any()) } returns barTypeInfo
         contextStack.injectResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CField::class.java)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, result.type.cType.name)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, result.type.functionReturnType.name)
+        assertEquals(barTypeInfo, result.type)
     }
 
     @Test
@@ -623,8 +624,10 @@ class CBridgeModelBuilderTest {
         )
         val swiftProperty =
             SwiftProperty("", null, SwiftType.VOID, SwiftMethod(""), SwiftMethod(""), false)
+        val barTypeInfo = CppTypeInfo(CType("bar"))
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
+        every { typeMapper.createNullableTypeInfo(any(), any()) } returns barTypeInfo
         contextStack.injectParentCurrentResult(cppTypeInfo)
         contextStack.injectResult(cppArrayTypeInfo)
 
@@ -632,19 +635,8 @@ class CBridgeModelBuilderTest {
 
         val results = modelBuilder.finalResults.filterIsInstance<CFunction>()
         assertEquals(2, results.size)
-        assertEquals(CBridgeNameRules.BASE_REF_NAME, results.first().returnType.cType.name)
-        assertEquals(
-            CBridgeNameRules.BASE_REF_NAME,
-            results.first().returnType.functionReturnType.name
-        )
-        assertEquals(
-            CBridgeNameRules.BASE_REF_NAME,
-            results.last().parameters.first().mappedType.cType.name
-        )
-        assertEquals(
-            CBridgeNameRules.BASE_REF_NAME,
-            results.last().parameters.first().mappedType.functionReturnType.name
-        )
+        assertEquals(barTypeInfo, results.first().returnType)
+        assertEquals(barTypeInfo, results.last().parameters.first().mappedType)
     }
 
     @Test

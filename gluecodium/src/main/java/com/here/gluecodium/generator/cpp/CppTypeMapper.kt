@@ -50,8 +50,17 @@ class CppTypeMapper(
     private val includeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) {
+    private val basicStringCharType =
+        createTemplateTypeRef(TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR)
+    private val stringType =
+        CppTypeDefRef("::std::string", basicStringCharType.includes, basicStringCharType)
+    private val blobArrayType =
+        createTemplateTypeRef(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
+    private val blobPointerType =
+        createTemplateTypeRef(TemplateClass.SHARED_POINTER, blobArrayType)
+
     private fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
-        CppTemplateTypeRef(
+        createTemplateTypeRef(
             TemplateClass.RETURN,
             outArgType,
             errorType,
@@ -93,7 +102,7 @@ class CppTypeMapper(
     }
 
     private fun createOptionalType(cppTypeRef: CppTypeRef) =
-        CppTemplateTypeRef(
+        createTemplateTypeRef(
             TemplateClass.OPTIONAL,
             cppTypeRef,
             namespace = CppNameRules.joinFullyQualifiedName(internalNamespace)
@@ -117,22 +126,22 @@ class CppTypeMapper(
                 refersToValueType = true
             )
             is LimeList ->
-                CppTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
+                createTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
             is LimeMap -> {
                 val keyType = mapType(limeType.keyType)
                 if (hasStdHash(limeType.keyType)) {
-                    CppTemplateTypeRef(
+                    createTemplateTypeRef(
                         TemplateClass.MAP,
                         keyType,
                         mapType(limeType.valueType)
                     )
                 } else {
-                    val hashType = CppTemplateTypeRef(
+                    val hashType = createTemplateTypeRef(
                         TemplateClass.HASH,
                         keyType,
                         namespace = internalNamespace.joinToString("::")
                     )
-                    CppTemplateTypeRef(
+                    createTemplateTypeRef(
                         TemplateClass.MAP,
                         keyType,
                         mapType(limeType.valueType),
@@ -149,19 +158,19 @@ class CppTypeMapper(
                     // classes are considered here.
                     needsForwardDeclaration = isTopLevel && !isExternal
                 )
-                CppTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
+                createTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
             }
             is LimeSet -> {
                 val elementType = mapType(limeType.elementType)
                 if (hasStdHash(limeType.elementType)) {
-                    CppTemplateTypeRef(TemplateClass.SET, elementType)
+                    createTemplateTypeRef(TemplateClass.SET, elementType)
                 } else {
-                    val hashType = CppTemplateTypeRef(
+                    val hashType = createTemplateTypeRef(
                         TemplateClass.HASH,
                         elementType,
                         namespace = internalNamespace.joinToString("::")
                     )
-                    CppTemplateTypeRef(TemplateClass.SET, elementType, hashType)
+                    createTemplateTypeRef(TemplateClass.SET, elementType, hashType)
                 }
             }
             is LimeLambda -> CppTypeDefRef(
@@ -186,22 +195,43 @@ class CppTypeMapper(
             TypeId.BOOLEAN -> CppPrimitiveTypeRef.BOOL
             TypeId.FLOAT -> CppPrimitiveTypeRef.FLOAT
             TypeId.DOUBLE -> CppPrimitiveTypeRef.DOUBLE
-            TypeId.STRING -> STRING_TYPE
-            TypeId.BLOB -> BYTE_BUFFER_POINTER_TYPE
+            TypeId.STRING -> stringType
+            TypeId.BLOB -> blobPointerType
             TypeId.DATE -> DATE_TYPE
         }
+
+    private fun createTemplateTypeRef(
+        templateClass: TemplateClass,
+        vararg parameters: CppTypeRef,
+        namespace: String? = templateClass.namespace
+    ): CppTemplateTypeRef {
+        val includes = when (templateClass) {
+            TemplateClass.SHARED_POINTER -> listOf(CppLibraryIncludes.MEMORY)
+            TemplateClass.MAP -> listOf(
+                CppLibraryIncludes.MAP,
+                includeResolver.createInternalNamespaceInclude("UnorderedMapHash.h")
+            )
+            TemplateClass.VECTOR -> listOf(
+                CppLibraryIncludes.VECTOR,
+                includeResolver.createInternalNamespaceInclude("VectorHash.h")
+            )
+            TemplateClass.BASIC_STRING -> listOf(CppLibraryIncludes.STRING)
+            TemplateClass.RETURN ->
+                listOf(includeResolver.createInternalNamespaceInclude("Return.h"))
+            TemplateClass.OPTIONAL ->
+                listOf(includeResolver.createInternalNamespaceInclude("Optional.h"))
+            TemplateClass.SET -> listOf(
+                CppLibraryIncludes.SET,
+                includeResolver.createInternalNamespaceInclude("UnorderedSetHash.h")
+            )
+            TemplateClass.HASH -> listOf(includeResolver.hashInclude)
+        }
+        return CppTemplateTypeRef(templateClass, includes, *parameters, namespace = namespace)
+    }
 
     companion object {
         val STD_ERROR_CODE_TYPE: CppTypeRef =
             CppComplexTypeRef("::std::error_code", listOf(CppLibraryIncludes.SYSTEM_ERROR))
-        private val BASIC_STRING_CHAR_TYPE =
-            CppTemplateTypeRef(TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR)
-        internal val STRING_TYPE =
-            CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE.includes, BASIC_STRING_CHAR_TYPE)
-        private val BYTE_BUFFER_ARRAY_TYPE =
-            CppTemplateTypeRef(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
-        val BYTE_BUFFER_POINTER_TYPE =
-            CppTemplateTypeRef(TemplateClass.SHARED_POINTER, BYTE_BUFFER_ARRAY_TYPE)
         private val DATE_TYPE =
             CppComplexTypeRef(
                 "::std::chrono::system_clock::time_point",

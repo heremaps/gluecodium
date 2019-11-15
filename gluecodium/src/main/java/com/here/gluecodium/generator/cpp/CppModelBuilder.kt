@@ -94,10 +94,10 @@ class CppModelBuilder(
         val isInheritable = limeContainer is LimeInterface || limeContainer.visibility.isOpen
         val includes = mutableListOf<Include>()
         if (isInheritable) {
-            includes.add(CppLibraryIncludes.TYPE_REPOSITORY)
+            includes.add(includeResolver.typeRepositoryInclude)
         }
         if (isEquatable) {
-            includes.add(CppLibraryIncludes.HASH)
+            includes.add(includeResolver.hashInclude)
         }
         if (isExternal) {
             includes += includeResolver.resolveIncludes(limeContainer)
@@ -188,7 +188,7 @@ class CppModelBuilder(
         val isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE)
         val includes = mutableListOf<Include>()
         if (isEquatable) {
-            includes += listOf(CppLibraryIncludes.HASH)
+            includes += listOf(includeResolver.hashInclude)
         }
         if (isExternal) {
             includes += includeResolver.resolveIncludes(limeStruct)
@@ -431,7 +431,7 @@ class CppModelBuilder(
             }
             is LimeValue.Null -> {
                 val cppType = getPreviousResult(CppTypeRef::class.java)
-                CppValue("${cppType.name}()", listOf(CppLibraryIncludes.OPTIONAL))
+                CppValue("${cppType.name}()", listOf(includeResolver.optionalInclude))
             }
             is LimeValue.InitializerList -> {
                 val valuesString = limeValue.values.joinToString(

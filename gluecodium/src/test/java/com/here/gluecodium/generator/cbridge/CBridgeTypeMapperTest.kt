@@ -57,7 +57,7 @@ class CBridgeTypeMapperTest {
 
     private val cppTypeRef = CppPrimitiveTypeRef.VOID
     private val cppTemplateTypeRef =
-        CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.MAP, cppTypeRef, cppTypeRef)
+        CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.MAP, emptyList(), cppTypeRef, cppTypeRef)
 
     private lateinit var typeMapper: CBridgeTypeMapper
 
@@ -146,9 +146,11 @@ class CBridgeTypeMapperTest {
         val limeElement = object : LimeNamedElement(EMPTY_PATH) {}
         val barInclude = Include.createInternalInclude("Bar")
         val bazInclude = Include.createInternalInclude("Baz")
+        val fizzInclude = Include.createInternalInclude("Fizz")
         every { cppNameResolver.getFullyQualifiedName(limeElement) } returns "Foo"
         every { includeResolver.resolveInclude(limeElement) } returns barInclude
         every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(bazInclude)
+        every { cppIncludeResolver.optionalInclude } returns fizzInclude
 
         val result = typeMapper.createCustomTypeInfo(limeElement)
 
@@ -160,7 +162,7 @@ class CBridgeTypeMapperTest {
         assertContains(barInclude, result.includes)
         assertContains(bazInclude, result.includes)
         assertContains(CBridgeTypeMapper.BASE_HANDLE_IMPL_INCLUDE, result.includes)
-        assertContains(CppLibraryIncludes.OPTIONAL, result.includes)
+        assertContains(fizzInclude, result.includes)
         assertContains(CppLibraryIncludes.MEMORY, result.includes)
         assertContains(CppLibraryIncludes.NEW, result.includes)
     }

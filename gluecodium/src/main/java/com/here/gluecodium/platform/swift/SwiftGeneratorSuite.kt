@@ -58,7 +58,8 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = limeReferenceMap,
-            cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules),
+            cppIncludeResolver =
+                CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace),
             includeResolver = CBridgeIncludeResolver(rootNamespace, limeReferenceMap),
             cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules),
             internalNamespace = internalNamespace,

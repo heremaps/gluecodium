@@ -22,7 +22,6 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppModelBuilder
 import com.here.gluecodium.generator.swift.SwiftModelBuilder
 import com.here.gluecodium.model.cbridge.CElement
@@ -117,7 +116,7 @@ class CBridgeModelBuilder(
                 Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME)
             )
         }
-        cInterface.implementationIncludes.add(CppLibraryIncludes.TYPE_REPOSITORY)
+        cInterface.implementationIncludes.add(cppIncludeResolver.typeRepositoryInclude)
         cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeNameRules.TYPE_INIT_REPOSITORY))
 
         storeResult(cInterface)
@@ -184,7 +183,7 @@ class CBridgeModelBuilder(
         var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
         if (limeParameter.typeRef.isNullable) {
             val cppParameter = cppBuilder.getFinalResult(CppParameter::class.java)
-            cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppParameter.type)
+            cppTypeInfo = typeMapper.createNullableTypeInfo(cppTypeInfo, cppParameter.type)
         }
         val swiftParameter = swiftBuilder.getFinalResult(SwiftParameter::class.java)
         val result = CParameter(swiftParameter.name, cppTypeInfo)
@@ -214,7 +213,7 @@ class CBridgeModelBuilder(
 
         var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
         if (limeField.typeRef.isNullable) {
-            cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppField.type)
+            cppTypeInfo = typeMapper.createNullableTypeInfo(cppTypeInfo, cppField.type)
         }
 
         val cField = CField(
@@ -252,7 +251,7 @@ class CBridgeModelBuilder(
         val cppGetterMethod = cppMethods.first()
         var attributeTypeInfo = getPreviousResult(CppTypeInfo::class.java)
         if (limeProperty.typeRef.isNullable) {
-            attributeTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(
+            attributeTypeInfo = typeMapper.createNullableTypeInfo(
                 attributeTypeInfo,
                 cppGetterMethod.returnType
             )

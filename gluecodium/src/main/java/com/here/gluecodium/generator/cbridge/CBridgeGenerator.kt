@@ -26,7 +26,6 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppModelBuilder
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppTypeMapper
@@ -196,7 +195,6 @@ class CBridgeGenerator(
             CBridgeComponents.collectImplementationIncludes(cInterface)
         )
         cInterface.implementationIncludes.add(includeResolver.resolveInclude(limeElement))
-        CppLibraryIncludes.filterIncludes(cInterface.implementationIncludes, internalNamespace)
         cInterface.privateHeaderIncludes.addAll(
             CBridgeComponents.collectPrivateHeaderIncludes(cInterface)
         )

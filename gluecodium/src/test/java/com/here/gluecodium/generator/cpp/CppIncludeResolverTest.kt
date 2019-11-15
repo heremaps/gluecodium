@@ -39,8 +39,11 @@ class CppIncludeResolverTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
     private val nameRuleSet = nameRuleSetFromConfig(Gluecodium.testOptions().cppNameRules)
-    private val includeResolver =
-        CppIncludeResolver(limeReferenceMap, CppNameRules(listOf("ro", "ot"), nameRuleSet))
+    private val includeResolver = CppIncludeResolver(
+        limeReferenceMap,
+        CppNameRules(listOf("ro", "ot"), nameRuleSet),
+        emptyList()
+    )
 
     @Test
     fun resolveRegularInclude() {

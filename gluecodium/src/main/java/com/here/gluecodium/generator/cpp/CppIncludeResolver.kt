@@ -24,12 +24,21 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
+import java.io.File
 
 class CppIncludeResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: CppNameRules
+    private val nameRules: CppNameRules,
+    private val internalNamespace: List<String>
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
+
+    val optionalInclude = createInternalNamespaceInclude("Optional.h")
+    val hashInclude = createInternalNamespaceInclude("Hash.h")
+    val typeRepositoryInclude = createInternalNamespaceInclude("TypeRepository.h")
+
+    fun createInternalNamespaceInclude(fileName: String) =
+        Include.createInternalInclude((internalNamespace + fileName).joinToString(File.separator))
 
     fun resolveIncludes(limeNamedElement: LimeNamedElement): List<Include> =
         resolvedIncludes.getOrPut(limeNamedElement.fullName) {

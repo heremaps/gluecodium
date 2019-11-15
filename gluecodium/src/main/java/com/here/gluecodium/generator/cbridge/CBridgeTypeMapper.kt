@@ -60,7 +60,7 @@ class CBridgeTypeMapper(
     val generics: Map<String, CCollectionType> = genericsCollector
 
     private val byteBufferTypeInfo = CppTypeInfo(
-        CppTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
+        "::std::shared_ptr< ::std::vector< uint8_t > >",
         CType(BASE_REF_NAME),
         CType.BYTE_ARRAY_REF,
         listOf(BASE_HANDLE_IMPL_INCLUDE)
@@ -97,7 +97,7 @@ class CBridgeTypeMapper(
         val publicInclude = includeResolver.resolveInclude(limeElement)
         val structCType = CType(BASE_REF_NAME, publicInclude)
 
-        val includes = listOf(publicInclude, CppLibraryIncludes.OPTIONAL) +
+        val includes = listOf(publicInclude, cppIncludeResolver.optionalInclude) +
             cppIncludeResolver.resolveIncludes(limeElement) + BASE_HANDLE_IMPL_INCLUDE +
             CppLibraryIncludes.MEMORY + CppLibraryIncludes.NEW
 
@@ -229,18 +229,18 @@ class CBridgeTypeMapper(
         return result
     }
 
+    fun createNullableTypeInfo(
+        baseTypeInfo: CppTypeInfo,
+        cppTypeRef: CppTypeRef
+    ) = CppTypeInfo(
+        cppTypeRef.fullyQualifiedName,
+        CType(BASE_REF_NAME),
+        CType(BASE_REF_NAME),
+        baseTypeInfo.includes + cppTypeRef.includes + cppIncludeResolver.optionalInclude
+    )
+
     companion object {
         val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(BASE_HANDLE_IMPL_FILE)
-
-        fun createNullableTypeInfo(
-            baseTypeInfo: CppTypeInfo,
-            cppTypeRef: CppTypeRef
-        ) = CppTypeInfo(
-            cppTypeRef.fullyQualifiedName,
-            CType(BASE_REF_NAME),
-            CType(BASE_REF_NAME),
-            baseTypeInfo.includes + cppTypeRef.includes + CppLibraryIncludes.OPTIONAL
-        )
 
         fun createFunctionalTypeInfo(cppElement: CppElementWithIncludes) =
             CppTypeInfo(

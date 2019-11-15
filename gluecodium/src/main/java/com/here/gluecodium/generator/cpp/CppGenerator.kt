@@ -54,7 +54,6 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
 
             // Filter out self-includes
             cppModel.includes.removeIf { it.fileName == cppModel.filename + HEADER_FILE_SUFFIX }
-            CppLibraryIncludes.filterIncludes(cppModel.includes, internalNamespace)
 
             val headerContent = TemplateEngine.render("cpp/CppHeader", cppModel)
             result.add(GeneratedFile(headerContent, absoluteHeaderPath))
@@ -74,7 +73,6 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
                 cppModel.implementationIncludes += CppLibraryIncludes.TYPE_TRAITS
                 cppModel.implementationIncludes += externalElements.flatMap { it.includes }
             }
-            CppLibraryIncludes.filterIncludes(cppModel.implementationIncludes, internalNamespace)
 
             val implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel)
             result.add(GeneratedFile(implementationContent, absoluteImplPath))

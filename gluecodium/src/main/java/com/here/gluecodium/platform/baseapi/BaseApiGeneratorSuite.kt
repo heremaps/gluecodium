@@ -62,7 +62,7 @@ import java.util.logging.Logger
  */
 class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
-    private val internalNamespace = options.cppInternalNamespace ?: listOf("")
+    private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
     private val commentsProcessor = DoxygenCommentsProcessor()
@@ -72,8 +72,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
-        val includeResolver =
-            CppIncludeResolver(limeReferenceMap, nameRules)
+        val includeResolver = CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
         val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
         val typeMapper = CppTypeMapper(nameResolver, includeResolver, internalNamespace)
         val cppModelBuilder = CppModelBuilder(

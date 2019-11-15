@@ -19,33 +19,32 @@
 
 package com.here.gluecodium.model.cpp
 
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.common.Include
 
 class CppTemplateTypeRef(
     val templateClass: TemplateClass,
+    includes: List<Include>,
     vararg parameters: CppTypeRef,
     namespace: String? = templateClass.namespace
 ) : CppComplexTypeRef(
     composeTemplateName(namespace, templateClass, parameters),
-    templateClass.includes
+    includes
 ) {
     val templateParameters: List<CppTypeRef> = parameters.toList()
 
     enum class TemplateClass(
         val namespace: String?,
-        val templateName: String,
-        val includes: List<Include>
+        val templateName: String
     ) {
-        SHARED_POINTER("std", "shared_ptr", listOf(CppLibraryIncludes.MEMORY)),
-        MAP("std", "unordered_map", listOf(CppLibraryIncludes.MAP, CppLibraryIncludes.MAP_HASH)),
-        VECTOR("std", "vector", listOf(CppLibraryIncludes.VECTOR, CppLibraryIncludes.VECTOR_HASH)),
-        BASIC_STRING("std", "basic_string", listOf(CppLibraryIncludes.STRING)),
-        RETURN(null, "Return", listOf(CppLibraryIncludes.RETURN)),
-        OPTIONAL(null, "optional", listOf(CppLibraryIncludes.OPTIONAL)),
-        SET("std", "unordered_set", listOf(CppLibraryIncludes.SET, CppLibraryIncludes.SET_HASH)),
-        HASH(null, "hash", listOf(CppLibraryIncludes.HASH))
+        SHARED_POINTER("std", "shared_ptr"),
+        MAP("std", "unordered_map"),
+        VECTOR("std", "vector"),
+        BASIC_STRING("std", "basic_string"),
+        RETURN(null, "Return"),
+        OPTIONAL(null, "optional"),
+        SET("std", "unordered_set"),
+        HASH(null, "hash")
     }
 
     override val childElements get() = templateParameters

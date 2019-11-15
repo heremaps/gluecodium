@@ -21,7 +21,6 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.model.cbridge.CArray
 import com.here.gluecodium.model.cbridge.CCollectionType
 import com.here.gluecodium.model.cbridge.CMap
@@ -59,7 +58,6 @@ class CCollectionsGenerator(private val internalNamespace: List<String>) {
 
         val implementationIncludes = TreeSet(sortedTypes.flatMap { it.includes })
         implementationIncludes.add(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER))
-        CppLibraryIncludes.filterIncludes(implementationIncludes, internalNamespace)
 
         val implementationData =
             mapOf(
