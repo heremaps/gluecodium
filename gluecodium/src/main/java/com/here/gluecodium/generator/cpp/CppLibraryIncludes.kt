@@ -17,21 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.generator.cpp;
+package com.here.gluecodium.generator.cpp
 
-import com.here.gluecodium.model.common.Include;
+import com.here.gluecodium.model.common.Include
 
-public final class CppLibraryIncludes {
-  public static final Include INT_TYPES = Include.Companion.createSystemInclude("cstdint");
-  public static final Include MAP = Include.Companion.createSystemInclude("unordered_map");
-  public static final Include MEMORY = Include.Companion.createSystemInclude("memory");
-  public static final Include STRING = Include.Companion.createSystemInclude("string");
-  public static final Include VECTOR = Include.Companion.createSystemInclude("vector");
-  public static final Include NEW = Include.Companion.createSystemInclude("new");
-  public static final Include SYSTEM_ERROR = Include.Companion.createSystemInclude("system_error");
-  public static final Include LIMITS = Include.Companion.createSystemInclude("limits");
-  public static final Include CHRONO = Include.Companion.createSystemInclude("chrono");
-  public static final Include SET = Include.Companion.createSystemInclude("unordered_set");
-  public static final Include FUNCTIONAL = Include.Companion.createSystemInclude("functional");
-  public static final Include TYPE_TRAITS = Include.Companion.createSystemInclude("type_traits");
+object CppLibraryIncludes {
+    val INT_TYPES = Include.createSystemInclude("cstdint")
+    val MAP = Include.createSystemInclude("unordered_map")
+    val MEMORY = Include.createSystemInclude("memory")
+    val STRING = Include.createSystemInclude("string")
+    val VECTOR = Include.createSystemInclude("vector")
+    val NEW = Include.createSystemInclude("new")
+    val SYSTEM_ERROR = Include.createSystemInclude("system_error")
+    val LIMITS = Include.createSystemInclude("limits")
+    val CHRONO = Include.createSystemInclude("chrono")
+    val SET = Include.createSystemInclude("unordered_set")
+    val FUNCTIONAL = Include.createSystemInclude("functional")
+    val TYPE_TRAITS = Include.createSystemInclude("type_traits")
 }
