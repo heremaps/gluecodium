@@ -19,32 +19,28 @@
 
 package com.here.gluecodium.output
 
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkStatic
+import io.mockk.verify
 import junit.framework.TestCase.assertTrue
-import org.mockito.Mockito.never
-import org.mockito.Mockito.`when`
-import org.powermock.api.mockito.PowerMockito.verifyStatic
-
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.util.Arrays
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 
-@RunWith(PowerMockRunner::class)
-// FileRemove needs to be prepared for test in order to make mocking of Files.class work
-// see: https://github.com/powermock/powermock/wiki/Mock-System
-@PrepareForTest(FileRemove::class)
+@RunWith(JUnit4::class)
 class FileRemoveTest {
     @JvmField
     @Rule
@@ -55,8 +51,10 @@ class FileRemoveTest {
 
     @Before
     fun setUp() {
-        PowerMockito.mockStatic(Files::class.java)
         MockitoAnnotations.initMocks(this)
+        mockkStatic(Files::class)
+
+        every { Files.delete(any()) } just Runs
     }
 
     @Test
@@ -96,11 +94,11 @@ class FileRemoveTest {
         val regularFile = Paths.get(ROOT_DIR, "fileOne")
         val foreignFile = Paths.get(ROOT_DIR + "x", "fileThree")
         val nonRegularFile = Paths.get(ROOT_DIR, "nonRegular")
-        val filesToRemove = Arrays.asList(regularFile, foreignFile, nonRegularFile)
+        val filesToRemove = listOf(regularFile, foreignFile, nonRegularFile)
 
-        PowerMockito.`when`(Files.isRegularFile(regularFile)).thenReturn(true)
-        PowerMockito.`when`(Files.isRegularFile(foreignFile)).thenReturn(true)
-        PowerMockito.`when`(Files.isRegularFile(nonRegularFile)).thenReturn(false)
+        every { Files.isRegularFile(regularFile) } returns true
+        every { Files.isRegularFile(foreignFile) } returns true
+        every { Files.isRegularFile(nonRegularFile) } returns false
 
         val remover = FileRemove(rootFile)
 
@@ -110,19 +108,9 @@ class FileRemoveTest {
         // Assert
         assertTrue(success)
 
-        verifyStatic()
-        Files.isRegularFile(regularFile)
-        verifyStatic()
-        Files.delete(regularFile)
-
-        PowerMockito.verifyStatic()
-        Files.isRegularFile(foreignFile)
-        verifyStatic(never())
-        Files.delete(foreignFile)
-        verifyStatic()
-        Files.isRegularFile(nonRegularFile)
-        verifyStatic(never())
-        Files.delete(nonRegularFile)
+        verify { Files.delete(regularFile) }
+        verify(exactly = 0) { Files.delete(foreignFile) }
+        verify(exactly = 0) { Files.delete(nonRegularFile) }
     }
 
     companion object {

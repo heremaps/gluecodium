@@ -27,6 +27,9 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.platform.common.GeneratorSuite
+import io.mockk.every
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
 import io.mockk.spyk
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -37,28 +40,20 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
-import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(GeneratorSuite::class, CachingStrategyCreator::class)
+@RunWith(JUnit4::class)
 class GluecodiumTest {
     @Mock
     private lateinit var modelLoader: LimeModelLoader
@@ -67,25 +62,26 @@ class GluecodiumTest {
     @Mock
     private lateinit var cache: CachingStrategy
 
+    @JvmField
     @Rule
     val expectedException: ExpectedException = ExpectedException.none()
+    @JvmField
     @Rule
     val temporaryFolder = TemporaryFolder()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(GeneratorSuite::class.java, CachingStrategyCreator::class.java)
+        mockkStatic(GeneratorSuite::class, CachingStrategyCreator::class)
+        mockkConstructor(FileOutput::class)
 
-        `when`(
-            CachingStrategyCreator.initializeCaching(anyBoolean(), any(), any())
-        ).thenReturn(cache)
+        every { CachingStrategyCreator.initializeCaching(any(), any(), any()) } returns cache
         `when`(cache.updateCache(any(), any())).thenReturn(emptyList())
         `when`(cache.write(true)).thenReturn(true)
         `when`(cache.write(false)).thenReturn(false)
 
         `when`(generator.name).thenReturn("")
-        `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(generator)
+        every { GeneratorSuite.instantiateByShortName(any(), any()) } returns generator
 
         `when`(modelLoader.loadModel(anyList(), anyList())).thenReturn(LimeModel(emptyMap(), emptyList()))
     }
@@ -93,7 +89,7 @@ class GluecodiumTest {
     @Test
     fun failedInstantiationOfGenerator() {
         // Arrange
-        `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(null)
+        every { GeneratorSuite.instantiateByShortName(any(), any()) } returns null
         val options = Options(
             idlSources = listOf(""),
             generators = setOf("invalidGenerator")
@@ -154,38 +150,26 @@ class GluecodiumTest {
     }
 
     @Test
-    @PrepareForTest(
-        Gluecodium::class,
-        FileOutput::class,
-        GeneratorSuite::class,
-        CachingStrategyCreator::class
-    )
     @Throws(Exception::class)
     fun ableToOutputFile() {
-        // Arrange
-        val mockFileOutput = mock(FileOutput::class.java)
-        PowerMockito.whenNew(FileOutput::class.java).withAnyArguments().thenReturn(mockFileOutput)
         val options = Options(outputDir = OUTPUT_DIR)
-        val mockFile = mock(File::class.java)
-        PowerMockito.whenNew(File::class.java).withAnyArguments().thenReturn(mockFile)
 
-        // Act, Assert
-        assertTrue(Gluecodium(options).output("", GENERATED_FILES))
-        verify(mockFileOutput, times(1)).output(ArgumentMatchers.anyList())
+        val result = Gluecodium(options).output("", GENERATED_FILES)
+
+        assertTrue(result)
+        every { anyConstructed<FileOutput>().output(any<List<GeneratedFile>>()) }
         verify(cache).updateCache(any(), any())
     }
 
     @Test
-    @Throws(Exception::class)
+    @Throws(IOException::class)
     fun failWhenUnableToOpenOutputDirectory() {
-        // Arrange
-        val mockFileOutput = mock(FileOutput::class.java)
-        PowerMockito.whenNew(FileOutput::class.java).withAnyArguments().thenReturn(mockFileOutput)
-        Mockito.doThrow(IOException()).`when`(mockFileOutput).output(GENERATED_FILES)
+        every { anyConstructed<FileOutput>().output(GENERATED_FILES) } throws IOException()
         val options = Options(outputDir = "")
 
-        // Act, Assert
-        assertFalse(Gluecodium(options).output("", GENERATED_FILES))
+        val result = Gluecodium(options).output("", GENERATED_FILES)
+
+        assertFalse(result)
     }
 
     @Test
@@ -249,7 +233,6 @@ class GluecodiumTest {
         private const val SHORT_NAME = "android"
         private const val FILE_NAME = "fileName"
         private const val OUTPUT_DIR = "someDir"
-        private const val CONTENT = "someContent"
         private val FILE = GeneratedFile("", FILE_NAME)
         private val GENERATED_FILES = listOf(FILE)
     }
