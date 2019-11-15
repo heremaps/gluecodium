@@ -53,6 +53,10 @@ class JavaTemplates(generatorName: String) {
 
     companion object {
         fun generateNativeBase(fileName: String, packageList: List<String>) =
-            GeneratedFile(TemplateEngine.render("java/NativeBase", packageList), fileName)
+            GeneratedFile(
+                TemplateEngine.render("java/NativeBase", packageList),
+                fileName,
+                GeneratedFile.SourceSet.COMMON
+            )
     }
 }

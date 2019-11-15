@@ -98,6 +98,7 @@ class GluecodiumPlugin @Inject constructor(private val objectFactory: ObjectFact
     private fun propagateExtensionProperties(task: GluecodiumTask, gluecodiumExtension: GluecodiumExtension) {
         task.source(gluecodiumExtension.source)
         task.outputDirectory.set(gluecodiumExtension.outputDirectory)
+        task.commonOutputDirectory.set(gluecodiumExtension.commonOutputDirectory)
         task.auxiliarySource.set(gluecodiumExtension.auxiliarySource)
         task.copyrightHeaderFile.set(gluecodiumExtension.copyrightHeaderFile)
         task.javaPackage.set(gluecodiumExtension.javaPackage)

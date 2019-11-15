@@ -137,6 +137,7 @@ class GluecodiumTest {
         val options = Options(
             idlSources = listOf(""),
             outputDir = temporaryFolder.root.path,
+            commonOutputDir = temporaryFolder.root.path,
             generators = setOf(SHORT_NAME),
             isEnableCaching = true
         )
@@ -154,7 +155,7 @@ class GluecodiumTest {
     @Test
     @Throws(Exception::class)
     fun ableToOutputFile() {
-        val options = Options(outputDir = OUTPUT_DIR)
+        val options = Options(outputDir = OUTPUT_DIR, commonOutputDir = OUTPUT_DIR)
 
         val result = Gluecodium(options).output("", GENERATED_FILES)
 

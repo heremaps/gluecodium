@@ -20,7 +20,7 @@
 package com.here.gluecodium
 
 import com.android.manifmerger.Merger
-import com.here.gluecodium.cache.CachingStrategyCreator
+import com.here.gluecodium.cache.SplitSourceSetCache
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.cli.OptionReaderException
@@ -52,10 +52,10 @@ class Gluecodium(
     private val modelLoader: LimeModelLoader = LimeModelLoader.getLoader()
 ) {
     private val version = loadVersion()
-    private val cacheStrategy = CachingStrategyCreator.initializeCaching(
-        options.isEnableCaching,
+    internal val cache = SplitSourceSetCache(
         options.outputDir,
-        GeneratorSuite.generatorShortNames()
+        options.commonOutputDir,
+        options.isEnableCaching
     )
 
     init {
@@ -100,7 +100,7 @@ class Gluecodium(
             }
         } finally {
             // cache has to be updated in any case
-            executionSucceeded = cacheStrategy.write(executionSucceeded)
+            executionSucceeded = cache.write(executionSucceeded)
 
             times.addLogEntry("code generation (including file output)")
         }
@@ -124,11 +124,11 @@ class Gluecodium(
         LOGGER.fine("Instantiated generator " + generator.name)
 
         val outputFiles = try {
-                generator.generate(limeModel)
-            } catch (e: LimeModelLoaderException) {
-                LOGGER.severe(e.message)
-                return false
-            }
+            generator.generate(limeModel)
+        } catch (e: LimeModelLoaderException) {
+            LOGGER.severe(e.message)
+            return false
+        }
 
         val outputSuccessful = output(generatorName, outputFiles)
         val processedWithoutCollisions =
@@ -160,14 +160,21 @@ class Gluecodium(
     }
 
     internal fun output(generatorName: String, files: List<GeneratedFile>): Boolean {
-        val filesToBeWritten = cacheStrategy.updateCache(generatorName, files) ?: emptyList()
-        return saveToDirectory(options.outputDir, filesToBeWritten)
+        val filesToBeWritten = cache.updateCache(generatorName, files)
+        val mainFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.MAIN }
+        val commonFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.COMMON }
+
+        return saveToDirectory(
+            options.outputDir,
+            mainFiles
+        ) && saveToDirectory(options.commonOutputDir, commonFiles)
     }
 
     data class Options(
         var idlSources: List<String> = emptyList(),
-        var outputDir: String = "",
         var auxiliaryIdlSources: List<String> = emptyList(),
+        var outputDir: String = "",
+        var commonOutputDir: String = "",
         var javaPackages: List<String> = listOf(),
         var javaInternalPackages: List<String> = listOf(),
         var javaNullableAnnotation: Pair<String, List<String>>? = null,
@@ -262,14 +269,12 @@ class Gluecodium(
             false
         }
 
-        private fun saveToDirectory(outputDir: String?, files: List<GeneratedFile>): Boolean {
-            if (outputDir != null) {
-                try {
-                    FileOutput(File(outputDir)).output(files)
-                } catch (ignored: IOException) {
-                    LOGGER.severe("Cannot open output directory '$outputDir' for writing")
-                    return false
-                }
+        private fun saveToDirectory(outputDir: String, files: List<GeneratedFile>): Boolean {
+            try {
+                FileOutput(File(outputDir)).output(files)
+            } catch (ignored: IOException) {
+                LOGGER.severe("Cannot open output directory '$outputDir' for writing")
+                return false
             }
             return true
         }

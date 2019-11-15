@@ -39,7 +39,8 @@ import java.nio.file.Paths
 object OptionReader {
     private val options: Options = Options().run {
         addOption("input", true, "The path or the file to use for generation")
-        addOption("output", true, "Generated files output destination")
+        addOption("output", true, "Generated files output directory")
+        addOption("commonoutput", "common-output-dir", true, "Common generated files output directory, defaults to be the same as output")
         addOption("options", true, "Options file to load options from")
         addOption("auxinput", true, "Auxiliary IDL sources that are loaded but not generated from")
         addOption("javapackage", true, "Java package name")
@@ -146,6 +147,7 @@ object OptionReader {
 
         options.idlSources = getStringListValue("input") ?: emptyList()
         options.outputDir = getStringValue("output") ?: ""
+        options.commonOutputDir = getStringValue("commonoutput") ?: options.outputDir
         options.auxiliaryIdlSources = getStringListValue("auxinput") ?: emptyList()
         options.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))

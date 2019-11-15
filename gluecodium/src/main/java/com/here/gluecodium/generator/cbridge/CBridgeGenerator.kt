@@ -212,17 +212,17 @@ class CBridgeGenerator(
 
     companion object {
         val STATIC_FILES = listOf(
-            GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_FILE, ""),
-            GeneratorSuite.copyTarget(CBridgeNameRules.STRING_HANDLE_FILE, ""),
-            GeneratorSuite.copyTarget(CBridgeNameRules.DATE_HANDLE_FILE, ""),
-            GeneratorSuite.copyTarget(CBridgeNameRules.EXPORT_FILE, ""),
-            GeneratorSuite.copyTarget(
+            GeneratorSuite.copyCommonFile(CBridgeNameRules.BASE_HANDLE_FILE, ""),
+            GeneratorSuite.copyCommonFile(CBridgeNameRules.STRING_HANDLE_FILE, ""),
+            GeneratorSuite.copyCommonFile(CBridgeNameRules.DATE_HANDLE_FILE, ""),
+            GeneratorSuite.copyCommonFile(CBridgeNameRules.EXPORT_FILE, ""),
+            GeneratorSuite.copyCommonFile(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""
             ),
-            GeneratorSuite.copyTarget(
+            GeneratorSuite.copyCommonFile(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""
             ),
-            GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, "")
+            GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, "")
         )
 
         private fun generateHeaderContent(model: CInterface) =

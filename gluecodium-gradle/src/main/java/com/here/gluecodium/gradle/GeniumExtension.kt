@@ -32,6 +32,7 @@ import java.io.File
 open class GluecodiumExtension(objects: ObjectFactory) {
     val source: Property<FileTree> = objects.property(FileTree::class.java)
     val outputDirectory: Property<File> = objects.property(File::class.java)
+    val commonOutputDirectory: Property<File> = objects.property(File::class.java)
     val auxiliarySource: Property<FileTree> = objects.property(FileTree::class.java)
 
     val copyrightHeaderFile: Property<File> = objects.property(File::class.java)

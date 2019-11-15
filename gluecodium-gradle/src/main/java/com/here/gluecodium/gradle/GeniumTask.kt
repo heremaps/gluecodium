@@ -49,6 +49,10 @@ open class GluecodiumTask : SourceTask() {
     val outputDirectory: Property<File> = project.objects.property(File::class.java)
 
     @Optional
+    @OutputDirectory
+    val commonOutputDirectory: Property<File> = project.objects.property(File::class.java)
+
+    @Optional
     @InputFile
     @PathSensitive(PathSensitivity.ABSOLUTE)
     val copyrightHeaderFile: Property<File> = project.objects.property(File::class.java)
@@ -111,6 +115,7 @@ open class GluecodiumTask : SourceTask() {
         val options = Gluecodium.Options()
         options.idlSources = source.files.map { it.absolutePath }
         options.outputDir = outputDirectory.get().absolutePath
+        options.commonOutputDir = commonOutputDirectory.getOrElse(outputDirectory.get()).absolutePath
         options.generators = setOf(javaGenerator, "cpp")
 
         auxiliarySource.orNull?.let {

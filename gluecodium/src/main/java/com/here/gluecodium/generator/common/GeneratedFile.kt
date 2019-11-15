@@ -23,7 +23,12 @@ import java.io.File
 
 data class GeneratedFile(
     val content: String,
-    private val targetFilename: String
+    private val targetFilename: String,
+    val sourceSet: SourceSet = SourceSet.MAIN
 ) {
+    enum class SourceSet {
+        COMMON,
+        MAIN
+    }
     val targetFile: File = File(targetFilename)
 }

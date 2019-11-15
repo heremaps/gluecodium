@@ -64,21 +64,22 @@ abstract class GeneratorSuite {
 
         /** @return all available generators */
         fun generatorShortNames() = setOf(
-            AndroidGeneratorSuite.GENERATOR_NAME,
-            JavaGeneratorSuite.GENERATOR_NAME,
-            BaseApiGeneratorSuite.GENERATOR_NAME,
-            SwiftGeneratorSuite.GENERATOR_NAME,
-            LimeGeneratorSuite.GENERATOR_NAME
+                AndroidGeneratorSuite.GENERATOR_NAME,
+                JavaGeneratorSuite.GENERATOR_NAME,
+                BaseApiGeneratorSuite.GENERATOR_NAME,
+                SwiftGeneratorSuite.GENERATOR_NAME,
+                LimeGeneratorSuite.GENERATOR_NAME
         )
 
-        fun copyTarget(fileName: String, targetDir: String): GeneratedFile {
+        fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {
             val stream = GeneratorSuite::class.java.classLoader.getResourceAsStream(fileName)
-                ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
+                    ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
 
             return try {
                 GeneratedFile(
-                    IOUtils.toString(stream, Charset.defaultCharset()),
-                    if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName
+                        IOUtils.toString(stream, Charset.defaultCharset()),
+                        if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName,
+                        GeneratedFile.SourceSet.COMMON
                 )
             } catch (e: IOException) {
                 throw GluecodiumExecutionException("Copying resource file failed with error:", e)

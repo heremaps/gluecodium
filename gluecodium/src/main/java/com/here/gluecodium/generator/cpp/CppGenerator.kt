@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.cpp.CppConstant
@@ -89,7 +90,7 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
             internalNamespace.joinToString("/"),
             fileName
         ).toString() + IMPLEMENTATION_FILE_SUFFIX
-        return GeneratedFile(content, resultFileName)
+        return GeneratedFile(content, resultFileName, COMMON)
     }
 
     fun generateHelperHeader(headerName: String, extraInfo: Any): GeneratedFile {
@@ -100,7 +101,7 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
             internalNamespace.joinToString("/"),
             headerName
         ).toString() + HEADER_FILE_SUFFIX
-        return GeneratedFile(content, resultFileName)
+        return GeneratedFile(content, resultFileName, COMMON)
     }
 
     companion object {

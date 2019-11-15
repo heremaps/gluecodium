@@ -77,9 +77,9 @@ class SwiftGenerator(
 
     companion object {
         val STATIC_FILES = listOf(
-            GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
-            GeneratorSuite.copyTarget("swift/BuiltinConversions.swift", ""),
-            GeneratorSuite.copyTarget("swift/NativeBase.swift", "")
+            GeneratorSuite.copyCommonFile("swift/RefHolder.swift", ""),
+            GeneratorSuite.copyCommonFile("swift/BuiltinConversions.swift", ""),
+            GeneratorSuite.copyCommonFile("swift/NativeBase.swift", "")
         )
     }
 }
