@@ -23,7 +23,7 @@ import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.model.common.Include
 import java.nio.file.Paths
 
-open class CType @JvmOverloads constructor(
+open class CType(
     name: String,
     val includes: List<Include> = emptyList(),
     val isConst: Boolean = false
