@@ -28,7 +28,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class BaseApiGeneratorSuiteTest {
@@ -37,7 +36,6 @@ class BaseApiGeneratorSuiteTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
         baseApiGeneratorSuite = BaseApiGeneratorSuite(Gluecodium.testOptions())
     }
 

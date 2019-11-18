@@ -30,8 +30,7 @@ import java.nio.file.Paths
 import java.util.logging.Logger
 
 /** Write the generated files to disk. */
-// TODO(APIGEN-1431): Remove 'open' with Mockk mocking library
-open class FileOutput @Throws(IOException::class)
+class FileOutput @Throws(IOException::class)
 constructor(private val rootPath: File) {
     init {
         if (!rootPath.exists() && !rootPath.mkdir()) {
@@ -39,9 +38,8 @@ constructor(private val rootPath: File) {
         }
     }
 
-    // TODO(APIGEN-1431): Remove 'open' with Mockk mocking library
     @Throws(IOException::class)
-    open fun output(files: List<GeneratedFile>) = files.forEach { output(it) }
+    fun output(files: List<GeneratedFile>) = files.forEach { output(it) }
 
     @Throws(IOException::class)
     fun output(file: GeneratedFile) {

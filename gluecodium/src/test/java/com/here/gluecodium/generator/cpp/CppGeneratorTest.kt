@@ -29,8 +29,10 @@ import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.cpp.CppValue
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.Mockito.mock
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class CppGeneratorTest {
     private val generator: CppGenerator = CppGenerator("", listOf())
 
@@ -43,7 +45,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithTypedefWillBeGenerated() {
-        val typeRef = mock(CppTypeRef::class.java)
+        val typeRef = object : CppTypeRef("", emptyList()) {}
         val using = CppUsing("", "", Comments(), typeRef)
         val model = CppFile(filename = "", members = listOf(using))
         val generatedFiles = generator.generateCode(model)
@@ -60,7 +62,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithConstantWillBeGenerated() {
-        val typeRef = mock(CppTypeRef::class.java)
+        val typeRef = object : CppTypeRef("", emptyList()) {}
         val value = CppValue("")
         val constant = CppConstant("", "", typeRef, value)
         val model = CppFile(filename = "", members = listOf(constant))

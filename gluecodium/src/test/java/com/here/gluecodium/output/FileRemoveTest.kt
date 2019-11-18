@@ -19,8 +19,10 @@
 
 package com.here.gluecodium.output
 
+import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.verify
@@ -31,9 +33,6 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -46,12 +45,11 @@ class FileRemoveTest {
     @Rule
     var exception: ExpectedException = ExpectedException.none()
 
-    @Mock
-    private lateinit var rootFile: File
+    @MockK private lateinit var rootFile: File
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
         mockkStatic(Files::class)
 
         every { Files.delete(any()) } just Runs
@@ -61,8 +59,8 @@ class FileRemoveTest {
     @Throws(FileNotFoundException::class)
     fun removeFilesNonExisting() {
         // Arrange
-        `when`(rootFile.exists()).thenReturn(false)
-        `when`(rootFile.isDirectory).thenReturn(true)
+        every { rootFile.exists() } returns false
+        every { rootFile.isDirectory } returns true
 
         exception.expect(FileNotFoundException::class.java)
 
@@ -74,8 +72,8 @@ class FileRemoveTest {
     @Throws(FileNotFoundException::class)
     fun removeFilesNoDirectory() {
         // Arrange
-        `when`(rootFile.exists()).thenReturn(true)
-        `when`(rootFile.isDirectory).thenReturn(false)
+        every { rootFile.exists() } returns true
+        every { rootFile.isDirectory } returns false
 
         exception.expect(FileNotFoundException::class.java)
 
@@ -87,9 +85,9 @@ class FileRemoveTest {
     @Throws(IOException::class)
     fun removeFilesSuccess() {
         // Arrange
-        `when`(rootFile.exists()).thenReturn(true)
-        `when`(rootFile.isDirectory).thenReturn(true)
-        `when`(rootFile.canonicalPath).thenReturn(ROOT_DIR)
+        every { rootFile.exists() } returns true
+        every { rootFile.isDirectory } returns true
+        every { rootFile.canonicalPath } returns ROOT_DIR
 
         val regularFile = Paths.get(ROOT_DIR, "fileOne")
         val foreignFile = Paths.get(ROOT_DIR + "x", "fileThree")

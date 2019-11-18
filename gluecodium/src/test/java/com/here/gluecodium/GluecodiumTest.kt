@@ -27,10 +27,14 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.platform.common.GeneratorSuite
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.spyk
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -41,26 +45,15 @@ import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyList
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.never
-import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 
 @RunWith(JUnit4::class)
 class GluecodiumTest {
-    @Mock
-    private lateinit var modelLoader: LimeModelLoader
-    @Mock
-    private lateinit var generator: GeneratorSuite
-    @Mock
-    private lateinit var cache: CachingStrategy
+    @MockK private lateinit var modelLoader: LimeModelLoader
+    @MockK private lateinit var generator: GeneratorSuite
+    @MockK private lateinit var cache: CachingStrategy
 
     @JvmField
     @Rule
@@ -71,19 +64,19 @@ class GluecodiumTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
         mockkStatic(GeneratorSuite::class, CachingStrategyCreator::class)
         mockkConstructor(FileOutput::class)
 
         every { CachingStrategyCreator.initializeCaching(any(), any(), any()) } returns cache
-        `when`(cache.updateCache(any(), any())).thenReturn(emptyList())
-        `when`(cache.write(true)).thenReturn(true)
-        `when`(cache.write(false)).thenReturn(false)
+        every { cache.updateCache(any(), any()) } returns emptyList()
+        every { cache.write(true) } returns true
+        every { cache.write(false) } returns false
 
-        `when`(generator.name).thenReturn("")
+        every { generator.name } returns ""
         every { GeneratorSuite.instantiateByShortName(any(), any()) } returns generator
 
-        `when`(modelLoader.loadModel(anyList(), anyList())).thenReturn(LimeModel(emptyMap(), emptyList()))
+        every { modelLoader.loadModel(any(), any()) } returns LimeModel(emptyMap(), emptyList())
     }
 
     @Test
@@ -102,7 +95,7 @@ class GluecodiumTest {
     @Test
     fun fileNameCollisionsResolved() {
         // Arrange
-        `when`(generator.generate(any())).thenReturn(listOf(FILE, FILE, FILE))
+        every { generator.generate(any()) } returns listOf(FILE, FILE, FILE)
         val options = Options(
             idlSources = listOf(""),
             generators = setOf(SHORT_NAME),
@@ -126,7 +119,7 @@ class GluecodiumTest {
         createGluecodium(options).execute()
 
         // Assert
-        verify(generator, never()).generate(any())
+        verify(exactly = 0) { generator.generate(any()) }
     }
 
     @Test
@@ -143,9 +136,9 @@ class GluecodiumTest {
         createGluecodium(options).execute()
 
         // Verify
-        Mockito.inOrder(cache).apply {
-            verify(cache).updateCache(any(), any())
-            verify(cache).write(true)
+        verifyOrder {
+            cache.updateCache(any(), any())
+            cache.write(true)
         }
     }
 
@@ -158,7 +151,7 @@ class GluecodiumTest {
 
         assertTrue(result)
         every { anyConstructed<FileOutput>().output(any<List<GeneratedFile>>()) }
-        verify(cache).updateCache(any(), any())
+        verify { cache.updateCache(any(), any()) }
     }
 
     @Test

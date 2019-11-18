@@ -26,12 +26,10 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.util.logging.Logger
 
-// TODO(APIGEN-1431): Remove 'open' and change to non-nullable type with other mocking library:
-open class FileRemove(private val rootDir: File?) {
+class FileRemove(private val rootDir: File?) {
     @Throws(FileNotFoundException::class)
 
-    // TODO(APIGEN-1431): Remove 'open' and change to non-nullable type with other mocking library:
-    open fun removeFiles(absolutePaths: List<Path>?): Boolean {
+    fun removeFiles(absolutePaths: List<Path>?): Boolean {
         if (rootDir?.exists() == false || rootDir?.isDirectory == false) {
             throw FileNotFoundException(
                 "Accessing root directory '" + rootDir.path + "' failed"

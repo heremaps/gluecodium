@@ -47,7 +47,6 @@ dependencies {
     testCompile 'io.mockk:mockk-dsl-jvm:1.9.3'
     testCompile 'io.mockk:mockk:1.9.3'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.9.0'
 }
 
 apply plugin: 'application'
