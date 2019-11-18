@@ -200,7 +200,7 @@ class Gluecodium(
         val DEFAULT_INTERNAL_NAMESPACE = listOf("gluecodium")
         const val DEFAULT_CPP_EXPORT_MACRO_NAME = "_GLUECODIUM_CPP"
 
-        fun testOptions() = Options(
+        internal fun testOptions() = Options(
             cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE,
             javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
             javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))

@@ -17,38 +17,33 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.swift;
+package com.here.gluecodium.platform.swift
 
-import static org.junit.Assert.assertTrue;
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.generator.cbridge.CBridgeGenerator
+import com.here.gluecodium.generator.swift.SwiftGenerator
+import com.here.gluecodium.model.lime.LimeModel
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-import com.here.gluecodium.Gluecodium;
-import com.here.gluecodium.generator.cbridge.CBridgeGenerator;
-import com.here.gluecodium.generator.common.GeneratedFile;
-import com.here.gluecodium.generator.swift.SwiftGenerator;
-import com.here.gluecodium.model.lime.LimeModel;
-import java.util.Collections;
-import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+@RunWith(JUnit4::class)
+class SwiftGeneratorSuiteTest {
 
-@RunWith(JUnit4.class)
-public final class SwiftGeneratorSuiteTest {
+    private val suite = SwiftGeneratorSuite(Gluecodium.testOptions())
 
-  private final SwiftGeneratorSuite suite =
-      new SwiftGeneratorSuite(Gluecodium.Companion.testOptions());
+    @Test
+    fun generatedFilesContainStaticFiles() {
+        val generatedFiles = suite.generate(LimeModel(emptyMap(), emptyList(), emptyMap()))
 
-  @Test
-  public void generatedFilesContainStaticFiles() {
-    List<GeneratedFile> generatedFiles =
-        suite.generate(
-            new LimeModel(Collections.emptyMap(), Collections.emptyList(), Collections.emptyMap()));
-
-    assertTrue(
-        generatedFiles + " must contain all " + SwiftGenerator.Companion.getSTATIC_FILES(),
-        generatedFiles.containsAll(SwiftGenerator.Companion.getSTATIC_FILES()));
-    assertTrue(
-        generatedFiles + " must contain all " + CBridgeGenerator.Companion.getSTATIC_FILES(),
-        generatedFiles.containsAll(CBridgeGenerator.Companion.getSTATIC_FILES()));
-  }
+        assertTrue(
+            generatedFiles.toString() + " must contain all " + SwiftGenerator.STATIC_FILES,
+            generatedFiles.containsAll(SwiftGenerator.STATIC_FILES)
+        )
+        assertTrue(
+            generatedFiles.toString() + " must contain all " + CBridgeGenerator.STATIC_FILES,
+            generatedFiles.containsAll(CBridgeGenerator.STATIC_FILES)
+        )
+    }
 }

@@ -17,45 +17,37 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.generator.androidmanifest.templates;
+package com.here.gluecodium.generator.androidmanifest.templates
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert.assertEquals
 
-import com.here.gluecodium.generator.common.templates.TemplateEngine;
-import com.here.gluecodium.model.java.JavaPackage;
-import java.util.Arrays;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.model.java.JavaPackage
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-@RunWith(JUnit4.class)
-public final class AndroidManifestTemplateTest {
-  private static final String TEST_COPYRIGHT_HEADER;
+@RunWith(JUnit4::class)
+class AndroidManifestTemplateTest {
 
-  static {
-    TEST_COPYRIGHT_HEADER = TemplateEngine.INSTANCE.render("xml/CopyrightHeader", null);
-  }
+    @Test
+    fun generate() {
+        // Arrange
+        val javaPackage = JavaPackage(listOf("com", "example", "android"))
+        val expected = TemplateEngine.render("xml/CopyrightHeader", null) +
+                "\n" +
+                "<manifest\n" +
+                "    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                "    package=\"com.example.android\">\n" +
+                "\n" +
+                "    <uses-permission android:name=\"android.permission.INTERNET\"/>\n" +
+                "\n" +
+                "</manifest>"
 
-  @Test
-  public void generate() {
-    // Arrange
-    JavaPackage javaPackage = new JavaPackage(Arrays.asList("com", "example", "android"));
-    String expected =
-        TEST_COPYRIGHT_HEADER
-            + "\n"
-            + "<manifest\n"
-            + "    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n"
-            + "    package=\"com.example.android\">\n"
-            + "\n"
-            + "    <uses-permission android:name=\"android.permission.INTERNET\"/>\n"
-            + "\n"
-            + "</manifest>";
+        // Act
+        val generated = TemplateEngine.render("android/AndroidManifest", javaPackage.toString())
 
-    // Act
-    String generated =
-        TemplateEngine.INSTANCE.render("android/AndroidManifest", javaPackage.toString());
-
-    // Assert
-    assertEquals(expected, generated);
-  }
+        // Assert
+        assertEquals(expected, generated)
+    }
 }

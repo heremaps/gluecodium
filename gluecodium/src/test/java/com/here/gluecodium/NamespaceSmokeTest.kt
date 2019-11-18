@@ -17,45 +17,39 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium;
+package com.here.gluecodium
 
-import com.here.gluecodium.Gluecodium.Options;
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
+import java.io.File
 
-@RunWith(Parameterized.class)
-public final class NamespaceSmokeTest extends AcceptanceTestBase {
+@RunWith(Parameterized::class)
+class NamespaceSmokeTest(
+    featureDirectory: File,
+    generatorName: String,
+    @Suppress("UNUSED_PARAMETER") featureName: String
+) : AcceptanceTestBase(featureDirectory, generatorName) {
 
-  private static final String RESOURCE_PREFIX = "namespace_smoke";
+    override fun getGluecodiumOptions() = Gluecodium.Options(
+        cppInternalNamespace = Gluecodium.DEFAULT_INTERNAL_NAMESPACE,
+        cppRootNamespace = listOf("root", "space"),
+        javaInternalPackages = listOf("foo", "bar")
+    )
 
-  public NamespaceSmokeTest(
-      final File featureDirectory,
-      final String generatorName,
-      @SuppressWarnings("unused") final String featureName) {
-    super(featureDirectory, generatorName);
-  }
+    @Test
+    fun smokeTest() {
+        runTest()
+    }
 
-  @Override
-  protected Gluecodium.Options getGluecodiumOptions() {
-    Options options = new Gluecodium.Options();
-    options.setCppInternalNamespace(Gluecodium.Companion.getDEFAULT_INTERNAL_NAMESPACE());
-    options.setCppRootNamespace(Arrays.asList("root", "space"));
-    options.setJavaInternalPackages(Arrays.asList("foo", "bar"));
-    return options;
-  }
+    companion object {
+        private const val RESOURCE_PREFIX = "namespace_smoke"
 
-  @Parameters(name = "{2}, {1}")
-  public static Collection<Object[]> data() {
-    return Companion.getData(RESOURCE_PREFIX);
-  }
-
-  @Test
-  public void smokeTest() {
-    runTest();
-  }
+        @JvmStatic
+        @Parameters(name = "{2}, {1}")
+        fun data(): Collection<Array<Any>> {
+            return getData(RESOURCE_PREFIX)
+        }
+    }
 }
