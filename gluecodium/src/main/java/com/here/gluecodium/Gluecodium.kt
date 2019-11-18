@@ -31,7 +31,6 @@ import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
-import com.here.gluecodium.output.ConsoleOutput
 import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import com.here.gluecodium.platform.common.GeneratorSuite
@@ -161,24 +160,18 @@ class Gluecodium(
     }
 
     internal fun output(generatorName: String, files: List<GeneratedFile>): Boolean {
-        // handle output options
-        if (options.isDumpingToStdout) {
-            val co = ConsoleOutput()
-            co.output(files)
-        }
         val filesToBeWritten = cacheStrategy.updateCache(generatorName, files) ?: emptyList()
         return saveToDirectory(options.outputDir, filesToBeWritten)
     }
 
     data class Options(
         var idlSources: List<String> = emptyList(),
-        var outputDir: String? = null,
+        var outputDir: String = "",
         var auxiliaryIdlSources: List<String> = emptyList(),
         var javaPackages: List<String> = listOf(),
         var javaInternalPackages: List<String> = listOf(),
         var javaNullableAnnotation: Pair<String, List<String>>? = null,
         var javaNonNullAnnotation: Pair<String, List<String>>? = null,
-        var isDumpingToStdout: Boolean = false,
         var isValidatingOnly: Boolean = false,
         var generators: Set<String> = setOf(),
         var isEnableCaching: Boolean = false,

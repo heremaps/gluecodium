@@ -25,7 +25,6 @@ import com.here.gluecodium.cache.CachingStrategyCreator
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
-import com.here.gluecodium.output.ConsoleOutput
 import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.platform.common.GeneratorSuite
 import io.mockk.spyk
@@ -53,10 +52,8 @@ import org.mockito.MockitoAnnotations
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.io.PrintStream
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -157,24 +154,6 @@ class GluecodiumTest {
     }
 
     @Test
-    @Throws(IOException::class)
-    fun ableToOutputConsole() {
-        // Arrange
-        val generatedFile = GeneratedFile(CONTENT, FILE_NAME)
-        val bo = ByteArrayOutputStream()
-        System.setOut(PrintStream(bo))
-        val options = Options(isDumpingToStdout = true)
-
-        // Act
-        Gluecodium(options).output("", listOf(generatedFile))
-        bo.flush()
-        val consoleOutput = String(bo.toByteArray())
-
-        // Assert
-        assertTrue(consoleOutput.contains("Generated fileName") && consoleOutput.contains(CONTENT))
-    }
-
-    @Test
     @PrepareForTest(
         Gluecodium::class,
         FileOutput::class,
@@ -194,24 +173,6 @@ class GluecodiumTest {
         assertTrue(Gluecodium(options).output("", GENERATED_FILES))
         verify(mockFileOutput, times(1)).output(ArgumentMatchers.anyList())
         verify(cache).updateCache(any(), any())
-    }
-
-    @PrepareForTest(
-        Gluecodium::class,
-        GeneratorSuite::class,
-        CachingStrategyCreator::class
-    )
-    @Throws(Exception::class)
-    fun failWhenUnableToOpenConsoleForOutput() {
-        // Arrange
-        val mockConsoleOutput = mock(ConsoleOutput::class.java)
-        PowerMockito.whenNew(ConsoleOutput::class.java).withNoArguments()
-            .thenReturn(mockConsoleOutput)
-        Mockito.doThrow(IOException()).`when`(mockConsoleOutput).output(ArgumentMatchers.anyList())
-        val options = Options(isDumpingToStdout = true)
-
-        // Act, Assert
-        assertFalse(Gluecodium(options).output("", GENERATED_FILES))
     }
 
     @Test

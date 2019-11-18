@@ -65,7 +65,6 @@ object OptionReader {
             true,
             "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml"
         )
-        addOption("stdout", false, "Echo generated files to stdout")
         addOption("help", false, "Shows this help and exits.")
         addOption(
             "validate",
@@ -146,7 +145,7 @@ object OptionReader {
         val options = Gluecodium.Options()
 
         options.idlSources = getStringListValue("input") ?: emptyList()
-        options.outputDir = getStringValue("output")
+        options.outputDir = getStringValue("output") ?: ""
         options.auxiliaryIdlSources = getStringListValue("auxinput") ?: emptyList()
         options.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
@@ -156,7 +155,6 @@ object OptionReader {
         options.generators = getStringListValue("generators")?.toSet() ?: GeneratorSuite.generatorShortNames()
 
         options.isValidatingOnly = getFlagValue("validate")
-        options.isDumpingToStdout = getFlagValue("stdout")
         options.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
         options.isLoggingTimes = getFlagValue("time")
 
