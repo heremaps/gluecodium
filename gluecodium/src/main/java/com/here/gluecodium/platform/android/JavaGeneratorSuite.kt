@@ -65,7 +65,7 @@ open class JavaGeneratorSuite protected constructor(
 
     constructor(options: Gluecodium.Options) : this(options, false)
 
-    override fun getName() = "com.here.JavaGeneratorSuite"
+    override val name = "com.here.JavaGeneratorSuite"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val javaPackageList =

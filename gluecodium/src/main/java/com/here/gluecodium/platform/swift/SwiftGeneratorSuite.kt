@@ -145,7 +145,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         }
     }
 
-    override fun getName() = "com.here.SwiftGenerator"
+    override val name = "com.here.SwiftGenerator"
 
     companion object {
         private val logger = Logger.getLogger(SwiftGeneratorSuite::class.java.name)

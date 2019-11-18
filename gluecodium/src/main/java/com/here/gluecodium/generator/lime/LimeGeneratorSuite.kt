@@ -125,7 +125,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
     private fun escapeImport(import: LimePath) =
         (import.head + import.tail).joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
 
-    override fun getName() = "com.here.LimeGenerator"
+    override val name = "com.here.LimeGenerator"
 
     companion object {
         const val GENERATOR_NAME = "lime"

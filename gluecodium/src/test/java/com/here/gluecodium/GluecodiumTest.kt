@@ -31,6 +31,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkConstructor
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.spyk
 import io.mockk.verify
@@ -65,7 +66,8 @@ class GluecodiumTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(GeneratorSuite::class, CachingStrategyCreator::class)
+        mockkObject(GeneratorSuite.Companion)
+        mockkStatic(CachingStrategyCreator::class)
         mockkConstructor(FileOutput::class)
 
         every { CachingStrategyCreator.initializeCaching(any(), any(), any()) } returns cache

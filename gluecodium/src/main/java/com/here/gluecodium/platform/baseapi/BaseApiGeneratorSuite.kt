@@ -68,7 +68,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val commentsProcessor = DoxygenCommentsProcessor()
     private val nameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
 
-    override fun getName() = "com.here.BaseApiGenerator"
+    override val name = "com.here.BaseApiGenerator"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap

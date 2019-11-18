@@ -17,82 +17,72 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.common;
+package com.here.gluecodium.platform.common
 
-import com.here.gluecodium.Gluecodium;
-import com.here.gluecodium.cli.GluecodiumExecutionException;
-import com.here.gluecodium.generator.common.GeneratedFile;
-import com.here.gluecodium.generator.lime.LimeGeneratorSuite;
-import com.here.gluecodium.model.lime.LimeModel;
-import com.here.gluecodium.platform.android.AndroidGeneratorSuite;
-import com.here.gluecodium.platform.android.JavaGeneratorSuite;
-import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite;
-import com.here.gluecodium.platform.swift.SwiftGeneratorSuite;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.*;
-import org.apache.commons.io.IOUtils;
+import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.lime.LimeGeneratorSuite
+import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.platform.android.JavaGeneratorSuite
+import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite
+import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
+import org.apache.commons.io.IOUtils
+import java.io.File
+import java.io.IOException
+import java.nio.charset.Charset
 
-/** The base interface for all the generators. */
-public abstract class GeneratorSuite {
+/** The base interface for all the generators.  */
+abstract class GeneratorSuite {
 
-  /** @return the human readable name of this generator */
-  public abstract String getName();
+    /** @return the human readable name of this generator */
+    abstract val name: String
 
-  /**
-   * Triggers the generation. The model is assumed to be valid.
-   *
-   * @param limeModel LIME model
-   * @return a list of generated files with their relative destination paths
-   */
-  public abstract List<GeneratedFile> generate(LimeModel limeModel);
+    /**
+     * Triggers the generation. The model is assumed to be valid.
+     *
+     * @param limeModel LIME model
+     * @return a list of generated files with their relative destination paths
+     */
+    abstract fun generate(limeModel: LimeModel): List<GeneratedFile>
 
-  /** Creates a new instance of a generator suite by its short identifier */
-  public static GeneratorSuite instantiateByShortName(
-      final String shortName, final Gluecodium.Options options) {
+    companion object {
+        /** Creates a new instance of a generator suite by its short identifier  */
+        fun instantiateByShortName(shortName: String, options: Gluecodium.Options): GeneratorSuite? {
 
-    switch (shortName) {
-      case AndroidGeneratorSuite.GENERATOR_NAME:
-        return new AndroidGeneratorSuite(options);
-      case JavaGeneratorSuite.GENERATOR_NAME:
-        return new JavaGeneratorSuite(options);
-      case BaseApiGeneratorSuite.GENERATOR_NAME:
-        return new BaseApiGeneratorSuite(options);
-      case SwiftGeneratorSuite.GENERATOR_NAME:
-        return new SwiftGeneratorSuite(options);
-      case LimeGeneratorSuite.GENERATOR_NAME:
-        return new LimeGeneratorSuite();
-    }
+            when (shortName) {
+                AndroidGeneratorSuite.GENERATOR_NAME -> return AndroidGeneratorSuite(options)
+                JavaGeneratorSuite.GENERATOR_NAME -> return JavaGeneratorSuite(options)
+                BaseApiGeneratorSuite.GENERATOR_NAME -> return BaseApiGeneratorSuite(options)
+                SwiftGeneratorSuite.GENERATOR_NAME -> return SwiftGeneratorSuite(options)
+                LimeGeneratorSuite.GENERATOR_NAME -> return LimeGeneratorSuite()
+            }
 
-    return null;
-  }
+            return null
+        }
 
-  /** @return all available generators */
-  public static Set<String> generatorShortNames() {
-    return new HashSet<>(
-        Arrays.asList(
+        /** @return all available generators */
+        fun generatorShortNames() = setOf(
             AndroidGeneratorSuite.GENERATOR_NAME,
             JavaGeneratorSuite.GENERATOR_NAME,
             BaseApiGeneratorSuite.GENERATOR_NAME,
             SwiftGeneratorSuite.GENERATOR_NAME,
-            LimeGeneratorSuite.GENERATOR_NAME));
-  }
+            LimeGeneratorSuite.GENERATOR_NAME
+        )
 
-  public static GeneratedFile copyTarget(String fileName, String targetDir) {
-    InputStream stream = GeneratorSuite.class.getClassLoader().getResourceAsStream(fileName);
+        fun copyTarget(fileName: String, targetDir: String): GeneratedFile {
+            val stream = GeneratorSuite::class.java.classLoader.getResourceAsStream(fileName)
+                ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
 
-    if (stream != null) {
-      try {
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
-        return new GeneratedFile(
-            content, targetDir.isEmpty() ? fileName : targetDir + File.separator + fileName);
-      } catch (IOException e) {
-        throw new GluecodiumExecutionException("Copying resource file failed with error:", e);
-      }
+            return try {
+                GeneratedFile(
+                    IOUtils.toString(stream, Charset.defaultCharset()),
+                    if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName
+                )
+            } catch (e: IOException) {
+                throw GluecodiumExecutionException("Copying resource file failed with error:", e)
+            }
+        }
     }
-
-    throw new GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName));
-  }
 }
