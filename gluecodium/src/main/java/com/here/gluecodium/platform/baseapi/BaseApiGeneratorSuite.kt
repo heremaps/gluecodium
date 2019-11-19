@@ -213,6 +213,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "Optional",
             "OptionalImpl",
             "Return",
+            "TimePointHash",
             "TypeRepository",
             "UnorderedMapHash",
             "UnorderedSetHash",

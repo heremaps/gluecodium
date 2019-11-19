@@ -18,6 +18,7 @@
 package test
 
 class Dates {
+    @Equatable
     struct DateStruct {
         dateField: Date
     }

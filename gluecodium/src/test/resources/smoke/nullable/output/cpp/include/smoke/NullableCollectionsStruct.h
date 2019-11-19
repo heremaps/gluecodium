@@ -5,6 +5,7 @@
 #pragma once
 #include "gluecodium/Export.h"
 #include "gluecodium/Optional.h"
+#include "gluecodium/TimePointHash.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Nullable.h"

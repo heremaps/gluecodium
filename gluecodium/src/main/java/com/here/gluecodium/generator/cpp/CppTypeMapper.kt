@@ -58,6 +58,13 @@ class CppTypeMapper(
         createTemplateTypeRef(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
     private val blobPointerType =
         createTemplateTypeRef(TemplateClass.SHARED_POINTER, blobArrayType)
+    private val dateType = CppComplexTypeRef(
+        "::std::chrono::system_clock::time_point",
+        listOf(
+            CppLibraryIncludes.CHRONO,
+            includeResolver.createInternalNamespaceInclude("TimePointHash.h")
+        )
+    )
 
     private fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
         createTemplateTypeRef(
@@ -197,7 +204,7 @@ class CppTypeMapper(
             TypeId.DOUBLE -> CppPrimitiveTypeRef.DOUBLE
             TypeId.STRING -> stringType
             TypeId.BLOB -> blobPointerType
-            TypeId.DATE -> DATE_TYPE
+            TypeId.DATE -> dateType
         }
 
     private fun createTemplateTypeRef(
@@ -232,11 +239,6 @@ class CppTypeMapper(
     companion object {
         val STD_ERROR_CODE_TYPE: CppTypeRef =
             CppComplexTypeRef("::std::error_code", listOf(CppLibraryIncludes.SYSTEM_ERROR))
-        private val DATE_TYPE =
-            CppComplexTypeRef(
-                "::std::chrono::system_clock::time_point",
-                listOf(CppLibraryIncludes.CHRONO)
-            )
 
         fun hasStdHash(limeType: LimeTypeRef): Boolean {
             val actualType =
