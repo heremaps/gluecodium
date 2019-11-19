@@ -6,20 +6,19 @@ excludes:
       \ is a wrapper used for examples which tries to pull gluecodium from maven or\
       \ mavenLocal. Since it's not published yet, the scan is not able to fetch and\
       \ scan it."
+  - pattern: "examples/platforms/android/build.gradle"
+    reason: "TEST_TOOL_OF"
+    comment: "Example used to demonstrate and test features of generated code."
+  - pattern: "functional-tests/namerules/android/build.gradle"
+    reason: "TEST_TOOL_OF"
+    comment: "Functional tests, they are not distributed the context of this project."
+
   scopes:
-  - name: "test.*"
+  - name: "test.*|.*Test.*|jacoco.*|lintClassPath"
     reason: "TEST_TOOL_OF"
     comment: "These are dependencies used for testing. They are not distributed in\
       \ the context of this project."
-  - name: ".*Test.*"
-    reason: "TEST_TOOL_OF"
-    comment: "These are dependencies used for testing. They are not distributed in\
-      \ the context of this project."
-  - name: "lintClassPath"
+  - name: "compile|.*[cC]ompile.*Classpath|debug.*"
     reason: "BUILD_TOOL_OF"
-    comment: "These are dependencies used for testing. They are not distributed the\
-      \ context of this project."
-  - name: "debugAndroidTestCompileClasspath"
-    reason: "BUILD_TOOL_OF"
-    comment: "These are dependencies used for testing. They are not distributed the\
+    comment: "These are dependencies used for building. They are not distributed the\
       \ context of this project."
