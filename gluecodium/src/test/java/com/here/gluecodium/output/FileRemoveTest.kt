@@ -25,8 +25,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import io.mockk.verify
 import junit.framework.TestCase.assertTrue
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,6 +55,11 @@ class FileRemoveTest {
         mockkStatic(Files::class)
 
         every { Files.delete(any()) } just Runs
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

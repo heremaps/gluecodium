@@ -34,8 +34,10 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.spyk
+import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -79,6 +81,11 @@ class GluecodiumTest {
         every { GeneratorSuite.instantiateByShortName(any(), any()) } returns generator
 
         every { modelLoader.loadModel(any(), any()) } returns LimeModel(emptyMap(), emptyList())
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

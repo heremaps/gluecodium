@@ -20,7 +20,6 @@
 package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppModelBuilder
 import com.here.gluecodium.generator.swift.SwiftModelBuilder
 import com.here.gluecodium.model.cbridge.CElement
@@ -67,7 +66,6 @@ import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -121,7 +119,6 @@ class CBridgeModelBuilderTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(CppLibraryIncludes::class)
 
         modelBuilder = CBridgeModelBuilder(
             contextStack = contextStack,
