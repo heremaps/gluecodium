@@ -4,6 +4,12 @@
 - Features:
   + Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
+
+## 5.8.2
+- Release date: 2019-11-21
+- Bug fixes:
+  + Fixed C++ compilation issue for `@Equatable` structs with `Date` type fields.
+  + Fixed Java compilation issue for interfaces with same name in different packages.
 - Breaking changes:
   + Removed "stdout" command line option.
 
