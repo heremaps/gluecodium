@@ -64,7 +64,7 @@ EOF
 
 # Use CMake binary shipped with NDK if available
 if [ -d "$ANDROID_HOME/cmake" ]; then
-    NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake)
+    NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake | head -n1)
 fi
 if [ -z "$NDK_CMAKE_BINARY" ]; then
     NDK_CMAKE_BINARY=cmake
