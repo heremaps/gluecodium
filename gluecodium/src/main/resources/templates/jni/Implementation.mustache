@@ -61,7 +61,7 @@ extern "C" {
 {{/methods}}
 {{#instanceOf container "JniContainer"}}
 JNIEXPORT void JNICALL
-Java_{{join javaPackage.packageNames delimiter="_"}}_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
+Java_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
 {{#unless isFunctionalInterface}}    delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);{{/unless}}
 {{#if isFunctionalInterface}}    delete reinterpret_cast<{{cppFullyQualifiedName}}*>(_jpointerRef);{{/if}}

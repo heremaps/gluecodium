@@ -14,9 +14,9 @@ namespace jni
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$IndexerImpl", ::smoke::Lambdas::Indexer)
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::smoke::Lambdas::Indexer& result)
 {
-    std::shared_ptr<Lambdas_00024IndexerImpl_CppProxy> _nproxy{};
-    CppProxyBase::createProxy<Lambdas_00024IndexerImpl_CppProxy, Lambdas_00024IndexerImpl_CppProxy>(env, obj, _nproxy);
-    result = std::bind(&Lambdas_00024IndexerImpl_CppProxy::operator(), _nproxy, std::placeholders::_1, std::placeholders::_2);
+    std::shared_ptr<com_example_smoke_Lambdas_00024IndexerImpl_CppProxy> _nproxy{};
+    CppProxyBase::createProxy<com_example_smoke_Lambdas_00024IndexerImpl_CppProxy, com_example_smoke_Lambdas_00024IndexerImpl_CppProxy>(env, obj, _nproxy);
+    result = std::bind(&com_example_smoke_Lambdas_00024IndexerImpl_CppProxy::operator(), _nproxy, std::placeholders::_1, std::placeholders::_2);
 }
 ::smoke::Lambdas::Indexer convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::Lambdas::Indexer*)
 {

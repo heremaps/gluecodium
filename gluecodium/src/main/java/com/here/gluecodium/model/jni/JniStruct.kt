@@ -32,5 +32,5 @@ class JniStruct(
 ) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
     @Suppress("unused")
     val mangledName
-        get() = JniNameRules.getMangledName(javaName)
+        get() = JniNameRules.getMangledName((javaPackage.packageNames + javaName).joinToString("/"))
 }

@@ -15,7 +15,7 @@ REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ListenersWithReturnValue
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::ListenersWithReturnValues>& result)
 {
-    CppProxyBase::createProxy<::smoke::ListenersWithReturnValues, ListenersWithReturnValuesImpl_CppProxy>(env, obj, result);
+    CppProxyBase::createProxy<::smoke::ListenersWithReturnValues, com_example_smoke_ListenersWithReturnValuesImpl_CppProxy>(env, obj, result);
 }
 std::shared_ptr<::smoke::ListenersWithReturnValues> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ListenersWithReturnValues>*)
 {

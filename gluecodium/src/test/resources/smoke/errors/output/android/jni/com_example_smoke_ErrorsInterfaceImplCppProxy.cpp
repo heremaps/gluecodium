@@ -12,10 +12,11 @@ namespace gluecodium
 {
 namespace jni
 {
-ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+com_example_smoke_ErrorsInterfaceImpl_CppProxy::com_example_smoke_ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
     : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
 }
-::std::error_code ErrorsInterfaceImpl_CppProxy::method_with_errors(  ) {
+::std::error_code
+com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "methodWithErrors", "()V", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
@@ -38,7 +39,8 @@ ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniRe
         return ::std::error_code{};
     }
 }
-::std::error_code ErrorsInterfaceImpl_CppProxy::method_with_external_errors(  ) {
+::std::error_code
+com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_external_errors(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "methodWithExternalErrors", "()V", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
@@ -61,7 +63,8 @@ ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniRe
         return ::std::error_code{};
     }
 }
-::gluecodium::Return< ::std::string, ::std::error_code > ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_value(  ) {
+::gluecodium::Return< ::std::string, ::std::error_code >
+com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_value(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "methodWithErrorsAndReturnValue", "()Ljava/lang/String;", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
@@ -84,7 +87,8 @@ ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniRe
     return convert_from_jni( jniEnv, result, (::gluecodium::Return< ::std::string, ::std::error_code >::value_type*)nullptr );
     }
 }
-::gluecodium::Return< void, ::smoke::Payload > ErrorsInterfaceImpl_CppProxy::method_with_payload_error(  ) {
+::gluecodium::Return< void, ::smoke::Payload >
+com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "methodWithPayloadError", "()V", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
@@ -107,7 +111,8 @@ ErrorsInterfaceImpl_CppProxy::ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniRe
         return {true};
     }
 }
-::gluecodium::Return< ::std::string, ::smoke::Payload > ErrorsInterfaceImpl_CppProxy::method_with_payload_error_and_return_value(  ) {
+::gluecodium::Return< ::std::string, ::smoke::Payload >
+com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error_and_return_value(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "methodWithPayloadErrorAndReturnValue", "()Ljava/lang/String;", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));

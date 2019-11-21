@@ -52,7 +52,8 @@ namespace jni
 {{/internalNamespace}}{{!!
 
 }}{{+proxyMethod}}
-{{returnType.cppName}} {{mangledName}}_CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
+{{returnType.cppName}}
+{{mangledName}}_CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#if type.isComplex}}

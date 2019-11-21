@@ -14,9 +14,9 @@ namespace jni
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$ConfuserImpl", ::smoke::Lambdas::Confuser)
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::smoke::Lambdas::Confuser& result)
 {
-    std::shared_ptr<Lambdas_00024ConfuserImpl_CppProxy> _nproxy{};
-    CppProxyBase::createProxy<Lambdas_00024ConfuserImpl_CppProxy, Lambdas_00024ConfuserImpl_CppProxy>(env, obj, _nproxy);
-    result = std::bind(&Lambdas_00024ConfuserImpl_CppProxy::operator(), _nproxy, std::placeholders::_1);
+    std::shared_ptr<com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy> _nproxy{};
+    CppProxyBase::createProxy<com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy, com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy>(env, obj, _nproxy);
+    result = std::bind(&com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy::operator(), _nproxy, std::placeholders::_1);
 }
 ::smoke::Lambdas::Confuser convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::Lambdas::Confuser*)
 {

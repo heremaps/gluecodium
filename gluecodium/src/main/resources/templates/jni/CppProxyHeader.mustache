@@ -36,9 +36,7 @@ namespace jni
 {
 
 class {{mangledName}}_CppProxy : public CppProxyBase{{#unless isFunctionalInterface}}, public {{cppFullyQualifiedName}}{{/unless}} {
-
 public:
-
     {{mangledName}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
 
 {{#parentMethods}}

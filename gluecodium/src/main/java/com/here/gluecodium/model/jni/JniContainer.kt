@@ -55,7 +55,7 @@ class JniContainer(
     @Suppress("unused")
     val fullJavaName = (javaPackage.packageNames + javaNames.joinToString("$")).joinToString("/")
     @Suppress("unused")
-    val mangledName = JniNameRules.getMangledName(javaNames.joinToString("$"))
+    val mangledName = JniNameRules.getMangledName(fullJavaName)
 
     enum class ContainerType {
         TYPE_COLLECTION,

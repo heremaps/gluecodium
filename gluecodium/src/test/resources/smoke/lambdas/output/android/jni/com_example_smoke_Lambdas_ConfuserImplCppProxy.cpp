@@ -10,10 +10,11 @@ namespace gluecodium
 {
 namespace jni
 {
-Lambdas_00024ConfuserImpl_CppProxy::Lambdas_00024ConfuserImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy::com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
     : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
 }
-::smoke::Lambdas::Producer Lambdas_00024ConfuserImpl_CppProxy::operator()( const ::std::string& np0 ) {
+::smoke::Lambdas::Producer
+com_example_smoke_Lambdas_00024ConfuserImpl_CppProxy::operator()( const ::std::string& np0 ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jp0 = convert_to_jni( jniEnv, np0 );
     auto result = callJavaMethod<jobject>( "confuse", "(Ljava/lang/String;)Lcom/example/smoke/Lambdas$Producer;", jniEnv , jp0);

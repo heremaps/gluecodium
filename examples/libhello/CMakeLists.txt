@@ -190,6 +190,7 @@ feature(Listeners cpp android swift SOURCES
     lime/test/StringListeners.lime
     lime/test/ListenerRoundtrip.lime
     lime/test/ListenerWithMaps.lime
+    lime/test/ListenerNameClash.lime
 )
 
 feature(ComplexListeners cpp android swift SOURCES
