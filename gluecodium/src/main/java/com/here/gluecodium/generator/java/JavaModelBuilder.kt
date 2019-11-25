@@ -499,7 +499,7 @@ class JavaModelBuilder(
 
     private fun getVisibility(limeElement: LimeNamedElement) =
         when {
-            limeElement.visibility.isInteral -> JavaVisibility.PACKAGE
+            limeElement.visibility.isInternal -> JavaVisibility.PACKAGE
             else -> JavaVisibility.PUBLIC
         }
 

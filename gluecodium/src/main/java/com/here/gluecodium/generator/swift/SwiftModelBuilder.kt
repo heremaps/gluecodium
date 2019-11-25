@@ -463,7 +463,7 @@ class SwiftModelBuilder(
 
     private fun getVisibility(limeElement: LimeNamedElement) =
         when {
-            limeElement.visibility.isInteral -> SwiftVisibility.INTERNAL
+            limeElement.visibility.isInternal -> SwiftVisibility.INTERNAL
             else -> SwiftVisibility.PUBLIC
         }
 
