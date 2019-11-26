@@ -52,7 +52,7 @@ These are all supported name types in the name config file are:
 | `property`    | Property name (only Swift)
 | `setter`      | Setter name for an property (only Java, C++)
 | `getter`      | Getter name for an property (only Java, C++)
-| `error`       | Exception name for error enum (only Java)
+| `error`       | Exception/Error name (only Java, Swift)
 
 If one of the properties is not set in the custom rules, the default is applied.
 
