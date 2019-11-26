@@ -4,6 +4,9 @@
 - Features:
   + Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
+
+## 5.8.3
+- Release date: 2019-11-26
 - Bug fixes:
   + Fixed C++ compilation issue for `@Equatable` structs with `@Cpp(Accessors)` attribute.
 
