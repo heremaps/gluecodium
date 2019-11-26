@@ -70,3 +70,9 @@ class EquatableInterface {
 @PointerEquatable
 class PointerEquatableInterface {
 }
+
+@Equatable
+@Cpp(Accessors)
+struct EquatableStructWithAccessors {
+    fooField: String
+}

@@ -153,3 +153,9 @@ class PointerEquatableInterface {
         other: OptionalEquatableStruct
     ): Boolean
 }
+
+@Equatable
+@Cpp(Accessors)
+struct EquatableStructWithAccessors {
+    fooField: String
+}

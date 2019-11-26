@@ -22,7 +22,13 @@ std::size_t
 hash< {{fullyQualifiedName}} >::operator( )( const {{fullyQualifiedName}}& t ) const
 {
     size_t hash_value = 43;
+{{#if hasAccessors}}
+    {{#set structName=fullyQualifiedName}}{{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype{{!!
+    }}( ( ( const {{structName}}* )nullptr )->{{getterName}}( ) ) >( )( t.{{getterName}}( ) ) ) << 1;
+    {{/fields}}{{/set}}
+{{/if}}{{#unless hasAccessors}}
     {{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype( {{fullyQualifiedName}} ) >( )( t.{{name}} ) ) << 1;
     {{/fields}}
+{{/unless}}
     return hash_value;
 }
