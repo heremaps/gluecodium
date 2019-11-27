@@ -1,0 +1,115 @@
+#!/bin/bash
+#
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
+USAGE=$(cat <<EOF
+$0 [options]
+    --publish             Build and publish Gluecodium locally and use it for code generation
+    --buildGluecodium         Build and use local Gluecodium version
+    --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local gluecodium (default: ${GLUECODIUM_PATH})
+    --debug               Build with debug symbols
+    --valgrind            Run with valgrind
+    --junit               Generate junit xml test report
+    --help                Print this message
+EOF
+)
+
+BUILD_LOCAL_GLUECODIUM=false
+CMAKE_EXTRA_PARAMETERS=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --publish)
+            publish_local
+            shift
+            ;;
+        --buildGluecodium)
+            BUILD_LOCAL_GLUECODIUM=true
+            shift
+            ;;
+        --gluecodiumPath)
+            BUILD_LOCAL_GLUECODIUM=true
+            GLUECODIUM_PATH="$2"
+            shift 2
+            ;;
+        --debug)
+            CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --valgrind)
+            USE_VALGRIND=true
+            shift
+            ;;
+        --junit)
+            TEST_REPORTS=true
+            shift
+            ;;
+        --help|*)
+            echo "$USAGE"
+            exit 0
+            ;;
+    esac
+done
+
+if [ $BUILD_LOCAL_GLUECODIUM ]; then
+    export GLUECODIUM_PATH
+fi
+
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
+BUILD_DIR=${PWD}/build-dart
+INSTALL_DIR=${PWD}/dist/dart
+
+[ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
+[ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
+
+# Chose platform-native CMake generator
+if [ "$(cmake_generator)" ] ; then
+CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
+    -G $(cmake_generator)"
+fi
+
+CWD=${PWD}
+pushd "${BUILD_DIR}"
+
+tmppipe=$(mktemp -u)
+mkfifo -m 600 "$tmppipe"
+trap 'rm -rf "$tmppipe"' EXIT HUP INT TERM
+tee cmake_output.log < "$tmppipe" &
+safe cmake \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_C_COMPILER="$(which clang)" \
+    -DCMAKE_CXX_COMPILER="$(which clang++)" \
+    -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
+    -DCMAKE_VERBOSE_MAKEFILE=ON \
+    -DHELLO_APIGEN_GLUECODIUM_GENERATOR=dart \
+    -DHELLO_APIGEN_GLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
+    -DHELLO_BUILD_DART_TESTS=ON \
+    ${CMAKE_EXTRA_PARAMETERS} \
+    .. > "$tmppipe"
+popd
+
+safe cmake \
+    --build "${BUILD_DIR}" \
+    --target install
+
+LIBRARY_PATH="${INSTALL_DIR}/lib"
+TEST_EXECUTABLE="./bin/test_dart"
+
+if [ "$USE_VALGRIND" = true ]; then
+    REPORT_ARGS=""
+    if [ "$TEST_REPORTS" = true ] ; then
+        REPORT_ARGS="--xml=yes --xml-file=dart_valgrind_report.xml"
+    fi
+    TEST_EXECUTABLE="valgrind \
+        --leak-check=full \
+        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+        --gen-suppressions=all \
+        $REPORT_ARGS \
+        $TEST_EXECUTABLE"
+fi
+
+pushd "${INSTALL_DIR}"
+    LD_LIBRARY_PATH=$LIBRARY_PATH exec $TEST_EXECUTABLE
+popd

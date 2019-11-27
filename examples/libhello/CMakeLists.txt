@@ -62,11 +62,12 @@ function(feature feature_name)
     set(HELLO_LIME_SOURCES "${HELLO_LIME_SOURCES};${lime_sources}" PARENT_SCOPE)
 endfunction()
 
-feature(Strings cpp android swift SOURCES
+feature(Strings cpp android swift dart SOURCES
     src/hello/HelloWorld.cpp
     src/test/StaticStringMethods.cpp
 
     lime/hello/HelloWorld.lime
+    lime/test/StaticStringMethods.lime
 )
 
 feature(MethodOverloading cpp android swift SOURCES
@@ -88,7 +89,6 @@ feature(BuiltinTypes cpp android swift SOURCES
     lime/test/StaticByteArrayMethods.lime
     lime/test/StaticFloatDoubleMethods.lime
     lime/test/StaticIntMethods.lime
-    lime/test/StaticStringMethods.lime
 )
 
 feature(Instances cpp android swift SOURCES
@@ -374,6 +374,7 @@ if(APPLE)
 endif()
 
 add_library(hello ${HELLO_SOURCES} ${HELLO_LIME_SOURCES})
+
 source_group("LimeIDL files" FILES ${HELLO_LIME_SOURCES})
 set_target_properties(hello PROPERTIES
         POSITION_INDEPENDENT_CODE ON
@@ -394,6 +395,7 @@ apigen_generate(TARGET hello
         JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
         JAVA_NULLABLE_ANNOTATION android.support.annotation.Nullable
         CPP_INTERNAL_NAMESPACE lorem_ipsum.test
+        LIBRARY_NAME "hello"
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
         VERBOSE)
 apigen_target_include_directories(hello)
@@ -402,7 +404,7 @@ apigen_target_sources(hello)
 
 # Target platform specific rules to follow...
 if(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL cpp)
-    # Only install the shared library for C++ users, others don't care...
+    # Install the shared library for C++
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
@@ -432,4 +434,10 @@ elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL swift)
         file(GLOB_RECURSE SWIFT_TEST_SOURCES CONFIGURE_DEPENDS ${HELLO_SWIFT_TESTS}/*.swift)
         apigen_swift_test(hello SOURCES ${SWIFT_TEST_SOURCES})
     endif()
+elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL dart)
+    # Install the shared library for Dart
+    install(TARGETS hello EXPORT helloTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        INCLUDES DESTINATION hello)
 endif()

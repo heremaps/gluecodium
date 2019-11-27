@@ -88,7 +88,8 @@ function(apigen_generate)
       SWIFT_NAMERULES
       OUTPUT_DIR
       COMMON_OUTPUT_DIR
-      BUILD_OUTPUT_DIR)
+      BUILD_OUTPUT_DIR
+      LIBRARY_NAME)
   set(multiValueArgs LIME_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -162,6 +163,7 @@ function(apigen_generate)
   apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
   apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
   apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
+  apigen_parse_option(-libraryname LIBRARY_NAME)
 
   if(apigen_generate_CPP_EXPORT)
     string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")

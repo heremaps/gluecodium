@@ -109,6 +109,15 @@ function(apigen_target_sources target)
     source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
     source_group("Swift Source Files" FILES ${ADDITIONAL_SOURCES})
     target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
+
+  elseif(${GENERATOR} MATCHES dart)
+
+    file(GLOB_RECURSE FFI_SOURCES ${OUTPUT_DIR}/dart/ffi/*.cpp)
+    target_sources(${target} PRIVATE
+      ${GENERATED_CPP_SOURCES}
+      ${GENERATED_CPP_HEADERS}
+      ${FFI_SOURCES})
+
   else()
     message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")
   endif()

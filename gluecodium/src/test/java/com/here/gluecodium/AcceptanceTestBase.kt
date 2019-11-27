@@ -20,6 +20,7 @@
 package com.here.gluecodium
 
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModelLoader
@@ -105,7 +106,8 @@ abstract class AcceptanceTestBase protected constructor(
             BaseApiGeneratorSuite.GENERATOR_NAME,
             AndroidGeneratorSuite.GENERATOR_NAME,
             SwiftGeneratorSuite.GENERATOR_NAME,
-            LimeGeneratorSuite.GENERATOR_NAME
+            LimeGeneratorSuite.GENERATOR_NAME,
+            DartGeneratorSuite.GENERATOR_NAME
         )
         private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
 
@@ -120,6 +122,8 @@ abstract class AcceptanceTestBase protected constructor(
                     listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
             GENERATOR_DIRECTORIES[LimeGeneratorSuite.GENERATOR_NAME] =
                     listOf(LimeGeneratorSuite.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[DartGeneratorSuite.GENERATOR_NAME] =
+                listOf(DartGeneratorSuite.GENERATOR_NAME)
         }
 
         @JvmStatic

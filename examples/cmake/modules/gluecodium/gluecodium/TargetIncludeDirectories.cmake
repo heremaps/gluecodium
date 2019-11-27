@@ -90,6 +90,15 @@ function(apigen_target_include_directories target)
       # needs to be added to have cbridge/cbridge_internal as part of the include path
       PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>
       PRIVATE $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
+
+  elseif(${GENERATOR} MATCHES dart)
+
+    # Dart library targets need C++ and FFI headers to compile
+    # but should not expose those to the public.
+    target_include_directories(${target}
+      ${CPP_VISIBILITY} $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+      PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/dart/ffi>) # FFI headers and sources
+
   else()
     message(FATAL_ERROR "apigen_target_include_directories() cannot match the generator '${GENERATOR}'")
   endif()
