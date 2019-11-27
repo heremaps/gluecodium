@@ -142,7 +142,7 @@ public class LambdasTest {
 
   @Test
   public void callJavaNullableLambdaInCppWithValue() {
-    Lambdas.NullableConfuser confuser = (String s1) -> s1 != null ? () -> s1 : null;
+    Lambdas.NullableConfounder confuser = (String s1) -> s1 != null ? () -> s1 : null;
     StandaloneProducer result = Lambdas.applyNullableConfuser(confuser, "foo");
 
     assertEquals("foo", result.apply());
@@ -150,7 +150,7 @@ public class LambdasTest {
 
   @Test
   public void callJavaNullableLambdaInCppWithNull() {
-    Lambdas.NullableConfuser confuser = (String s1) -> s1 != null ? () -> s1 : null;
+    Lambdas.NullableConfounder confuser = (String s1) -> s1 != null ? () -> s1 : null;
     StandaloneProducer result = Lambdas.applyNullableConfuser(confuser, null);
 
     assertNull(result);

@@ -444,7 +444,7 @@ class SwiftModelBuilder(
     override fun finishBuilding(limeLambda: LimeLambda) {
         val swiftElement = SwiftClosure(
             name = nameResolver.getFullName(limeLambda),
-            cPrefix = CBridgeNameRules.getTypeName(limeLambda),
+            cPrefix = CBridgeNameRules.getInterfaceName(limeLambda),
             visibility = getVisibility(limeLambda),
             comment = createComments(limeLambda),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeLambda),

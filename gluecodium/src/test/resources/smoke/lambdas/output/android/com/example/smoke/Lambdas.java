@@ -19,8 +19,8 @@ public final class Lambdas extends NativeBase {
         private static native void disposeNativeHandle(long nativeHandle);
         public native String apply();
     }
-    static class ConfuserImpl extends NativeBase implements Confuser {
-        protected ConfuserImpl(final long nativeHandle) {
+    static class ConfounderImpl extends NativeBase implements Confounder {
+        protected ConfounderImpl(final long nativeHandle) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -75,7 +75,7 @@ public final class Lambdas extends NativeBase {
      * Should confuse everyone thoroughly
      */
     @FunctionalInterface
-    public interface Confuser {
+    public interface Confounder {
         Lambdas.Producer confuse(final String p0);
     }
     @FunctionalInterface
@@ -104,7 +104,7 @@ public final class Lambdas extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public native Lambdas.Producer deconfuse(@NonNull final String value, @NonNull final Lambdas.Confuser confuser);
+    public native Lambdas.Producer deconfuse(@NonNull final String value, @NonNull final Lambdas.Confounder confuser);
     @NonNull
     public static native Map<Integer, String> fuse(@NonNull final List<String> items, @NonNull final Lambdas.Indexer callback);
 }
