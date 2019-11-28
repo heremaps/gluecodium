@@ -26,19 +26,19 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish             Build and publish Genium locally and use it for code generation
-    --buildGenium         Build and use local Genium version
-    --geniumPath [PATH]   Implies --buildGenium, path to local genium (default: ${GENIUM_PATH})
-    --debug               Build with debug symbols
-    --docs                Generate Javadoc of SDK
-    --jemalloc            Run tests with jemalloc
-    --hostOnly            Only build host architecture
-    --help                Print this message
+    --publish                 Build and publish Gluecodium locally and use it for code generation
+    --buildGluecodium         Build and use local Gluecodium version
+    --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local gluecodium (default: ${GLUECODIUM_PATH})
+    --debug                   Build with debug symbols
+    --docs                    Generate Javadoc of SDK
+    --jemalloc                Run tests with jemalloc
+    --hostOnly                Only build host architecture
+    --help                    Print this message
 EOF
 )
 
 CMAKE_BUILD_TYPE=
-BUILD_LOCAL_GENIUM=false
+BUILD_LOCAL_GLUECODIUM=false
 GENERATE_DOCS=false
 HOST_ONLY=false
 while [[ $# -gt 0 ]]; do
@@ -47,13 +47,13 @@ while [[ $# -gt 0 ]]; do
             publish_local
             shift
             ;;
-        --buildGenium)
-            BUILD_LOCAL_GENIUM=true
+        --buildGluecodium)
+            BUILD_LOCAL_GLUECODIUM=true
             shift
             ;;
-        --geniumPath)
-            BUILD_LOCAL_GENIUM=true
-            GENIUM_PATH="$2"
+        --gluecodiumPath)
+            BUILD_LOCAL_GLUECODIUM=true
+            GLUECODIUM_PATH="$2"
             shift 2
             ;;
         --jemalloc)
@@ -79,8 +79,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [ $BUILD_LOCAL_GENIUM ]; then
-    export GENIUM_PATH
+if [ $BUILD_LOCAL_GLUECODIUM ]; then
+    export GLUECODIUM_PATH
 fi
 
 # Sanity checks
@@ -94,15 +94,15 @@ if [ "$USE_JEMALLOC" = true ]; then
 fi
 
 # Constants
-GENIUM_VERSION="${GENIUM_VERSION:-+}"
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 HOST_ARCH=host-$(uname -m)
 CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
 -DANDROID_NATIVE_API_LEVEL=28 \
 -DBUILD_SHARED_LIBS=ON \
 -DCMAKE_SYSTEM_VERSION=21 \
 -DCMAKE_VERBOSE_MAKEFILE=ON \
--DHELLO_APIGEN_GENIUM_GENERATOR=android \
--DHELLO_APIGEN_GENIUM_VERSION=${GENIUM_VERSION} \
+-DHELLO_APIGEN_GLUECODIUM_GENERATOR=android \
+-DHELLO_APIGEN_GLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
 -G Ninja
 EOF
 )

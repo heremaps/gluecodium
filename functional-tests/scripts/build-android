@@ -19,7 +19,7 @@
 
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish    Build and publish Genium locally and use it for code generation
+    --publish    Build and publish Gluecodium locally and use it for code generation
     --debug      Build with debug symbols
     --help       Print this message
 EOF
@@ -52,15 +52,15 @@ done
 [ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio"
 
 # Constants
-GENIUM_VERSION="${GENIUM_VERSION:-+}"
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 HOST_ARCH=host-$(uname -m)
 CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
 -DANDROID_NATIVE_API_LEVEL=28 \
 -DBUILD_SHARED_LIBS=ON \
 -DCMAKE_SYSTEM_VERSION=21 \
 -DCMAKE_VERBOSE_MAKEFILE=ON \
--DGENIUM_GENERATOR=android \
--DGENIUM_VERSION=${GENIUM_VERSION} \
+-DGLUECODIUM_GENERATOR=android \
+-DGLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
 -G Ninja
 EOF
 )

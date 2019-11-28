@@ -31,7 +31,7 @@ if [ "$1" == "--publish" ]; then
     shift
 fi
 
-GENIUM_VERSION="${GENIUM_VERSION:-+}"
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 BUILD_DIR=build-ios
 INSTALL_DIR=dist
 if [ -n "${1}" ]; then
@@ -59,8 +59,8 @@ function build {
             -DIOS_PLATFORM="${target}" \
             -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
-            -DHELLO_APIGEN_GENIUM_GENERATOR=swift \
-            -DHELLO_APIGEN_GENIUM_VERSION=${GENIUM_VERSION} \
+            -DHELLO_APIGEN_GLUECODIUM_GENERATOR=swift \
+            -DHELLO_APIGEN_GLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
             -DHELLO_BUILD_IOS_APP=ON \
             ${CMAKE_EXTRA_PARAMETERS} \
             "${SCRIPT_DIR}/.."

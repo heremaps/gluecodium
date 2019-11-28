@@ -22,17 +22,17 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish             Build and publish Genium locally and use it for code generation
-    --buildGenium         Build and use local Genium version
-    --geniumPath [PATH]   Implies --buildGenium, path to local genium (default: ${GENIUM_PATH})
-    --debug               Build with debug symbols
-    --valgrind            Run with valgrind
-    --junit               Generate junit xml test report (requires ocunit2junit)
-    --help                Print this message
+    --publish                 Build and publish Gluecodium locally and use it for code generation
+    --buildGluecodium         Build and use local Gluecodium version
+    --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local Gluecodium (default: ${GLUECODIUM_PATH})
+    --debug                   Build with debug symbols
+    --valgrind                Run with valgrind
+    --junit                   Generate junit xml test report (requires ocunit2junit)
+    --help                    Print this message
 EOF
 )
 
-BUILD_LOCAL_GENIUM=false
+BUILD_LOCAL_GLUECODIUM=false
 CMAKE_EXTRA_PARAMETERS=
 
 while [[ $# -gt 0 ]]; do
@@ -41,13 +41,13 @@ while [[ $# -gt 0 ]]; do
             publish_local
             shift
             ;;
-        --buildGenium)
-            BUILD_LOCAL_GENIUM=true
+        --buildGluecodium)
+            BUILD_LOCAL_GLUECODIUM=true
             shift
             ;;
-        --geniumPath)
-            BUILD_LOCAL_GENIUM=true
-            GENIUM_PATH="$2"
+        --gluecodiumPath)
+            BUILD_LOCAL_GLUECODIUM=true
+            GLUECODIUM_PATH="$2"
             shift 2
             ;;
         --debug)
@@ -69,11 +69,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [ $BUILD_LOCAL_GENIUM ]; then
-    export GENIUM_PATH
+if [ $BUILD_LOCAL_GLUECODIUM ]; then
+    export GLUECODIUM_PATH
 fi
 
-GENIUM_VERSION="${GENIUM_VERSION:-+}"
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-swift
 INSTALL_DIR=${PWD}/dist/swift
 
@@ -98,8 +98,8 @@ safe cmake \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DHELLO_APIGEN_GENIUM_GENERATOR=swift \
-    -DHELLO_APIGEN_GENIUM_VERSION="${GENIUM_VERSION}" \
+    -DHELLO_APIGEN_GLUECODIUM_GENERATOR=swift \
+    -DHELLO_APIGEN_GLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
     -DHELLO_SWIFT_TESTS="${CWD}/platforms/ios/Tests" \
     ${CMAKE_EXTRA_PARAMETERS} \
     .. > "$tmppipe"

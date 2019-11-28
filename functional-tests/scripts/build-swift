@@ -19,7 +19,7 @@
 
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish    Build and publish Genium locally and use it for code generation
+    --publish    Build and publish Gluecodium locally and use it for code generation
     --debug      Build with debug symbols
     --valgrind   Run with valgrind
     --junit      Generate junit xml test report (requires ocunit2junit)
@@ -58,7 +58,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-GENIUM_VERSION="${GENIUM_VERSION:-+}"
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-swift
 INSTALL_DIR=${PWD}/dist/swift
 
@@ -83,8 +83,8 @@ safe cmake \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DGENIUM_GENERATOR=swift \
-    -DGENIUM_VERSION="${GENIUM_VERSION}" \
+    -DGLUECODIUM_GENERATOR=swift \
+    -DGLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
     -DHELLO_SWIFT_TESTS="${CWD}/platforms/ios/Tests" \
     ${CMAKE_EXTRA_PARAMETERS} \
     .. > "$tmppipe"
