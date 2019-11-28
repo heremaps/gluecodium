@@ -5,6 +5,11 @@
   + Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
 
+## 5.8.4
+- Release date: 2019-11-28
+- Bug fixes:
+  + Fixed Swift compilation issue for lambdas with `@Swift(Name)`.
+
 ## 5.8.3
 - Release date: 2019-11-26
 - Bug fixes:
