@@ -24,10 +24,10 @@ the entire project:
 ```
 
 To run the Gluecodium tool and generate some output based on the current set of
-HelloWorld project's \*.fidl files:
+HelloWorld project's \*.lime files:
 
 ```bash
-./generate -input ${PWD}/examples/libhello/fidl -output ${PWD}/generated -nostdout
+./generate -input ${PWD}/examples/libhello/lime -output ${PWD}/generated -nostdout
 ```
 If the paths are not absolute, they will be interpreted relative to the gluecodium source directory.
 
