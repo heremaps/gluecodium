@@ -4,6 +4,6 @@ Make sure to add **all the information needed to understand the bug** so that so
 
 - [ ] Provide a **minimal .fidl/fdepl content needed for reproducing**.
 - [ ] Privide **minimal C++ implmentation** if appropriate.
-- [ ] What's the **version** of Genium you're using?
+- [ ] What's the **version** of Gluecodium you're using?
 - [ ] Is it a **Swift, Java, Kotlin** bug?
 - [ ] Does this occur on iOS, Android, Linux or OSX?

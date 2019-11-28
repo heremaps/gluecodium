@@ -8,7 +8,7 @@ branches:
 notifications:
   email:
     recipients:
-      - genium@here.com
+      - gluecodium-team@here.com
     on_success: never # default: change
     on_failure: always # default: always
 before_cache:
