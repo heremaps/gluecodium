@@ -31,15 +31,14 @@
 }}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{!!
 }}{{resolveName visibility}}{{resolveName}}({{>parameterList}}) {
   final _{{resolveName}}_ffi = __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{resolveName "Ffi"}}');
-  {{!! TODO: APIGEN-1773: use String<->Pointer<Void> conversion functions below }}
 {{#parameters}}
-  final _{{resolveName}}_handle = __lib.std_string_create_handle(Utf8.toUtf8({{resolveName}}));
+  final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>conversion}}{{/set}}({{resolveName}});
 {{/parameters}}
   final _result_handle = _{{resolveName}}_ffi({{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-  final _result = Utf8.fromUtf8(__lib.std_string_get_value(_result_handle));
-  __lib.std_string_release_handle(_result_handle);
+  {{#returnType}}final _result = {{#set call="fromFfi"}}{{>conversion}}{{/set}}(_result_handle);
+  {{#set call="releaseFfiHandle"}}{{>conversion}}{{/set}}(_result_handle);{{/returnType}}
 {{#parameters}}
-  __lib.std_string_release_handle(_{{resolveName}}_handle);
+  {{#set call="releaseFfiHandle"}}{{>conversion}}{{/set}}(_{{resolveName}}_handle);
 {{/parameters}}
   return _result;
 }{{/unless}}{{!!
@@ -50,4 +49,14 @@
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
 
 }}{{+ffiDart}}{{resolveName returnType.typeRef "FfiDartTypes"}} Function({{!!
-}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}
+}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}{{!!
+
+}}{{+conversion}}{{#typeRef.type}}{{!!
+}}{{#instanceOf this "LimeBasicType"}}{{!!
+}}{{#isEq typeId.toString "String"}}__lib.String_{{call}}{{/isEq}}{{!!
+}}{{#isEq typeId.toString "Blob"}}__lib.List_{{call}}<int>{{/isEq}}{{!!
+}}{{#isEq typeId.toString "Date"}}__lib.DateTime_{{call}}{{/isEq}}{{!!
+}}{{/instanceOf}}{{#notInstanceOf this "LimeBasicType"}}{{!!
+}}__lib.{{#path.head}}{{.}}_{{/path.head}}{{resolveName}}_{{call}}{{!!
+}}{{/notInstanceOf}}{{!!
+}}{{/typeRef.type}}{{/conversion}}

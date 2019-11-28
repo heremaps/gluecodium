@@ -23,8 +23,9 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
-import '{{#model.path.head}}../{{/model.path.head}}_library_init.dart' as __lib;
-import '{{#model.path.head}}../{{/model.path.head}}_string_handle.dart' as __lib;
+{{#imports}}
+import 'package:{{libraryName}}/src/{{filePath}}.dart'{{#asAlias}} as {{.}}{{/asAlias}};
+{{/imports}}
 
 {{#model}}
 {{include contentTemplate}}

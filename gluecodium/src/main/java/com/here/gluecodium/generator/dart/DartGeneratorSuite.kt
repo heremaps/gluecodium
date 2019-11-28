@@ -66,12 +66,13 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "" to ffiNameResolver,
             "C++" to FfiCppNameResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         )
+        val importResolver = DartImportResolver(nameRules)
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val pathsCollector = mutableListOf<String>()
 
         return limeModel.topElements.flatMap {
-            listOfNotNull(generateDart(it, dartResolvers, pathsCollector)) +
+            listOfNotNull(generateDart(it, dartResolvers, importResolver, pathsCollector)) +
                     generateFfi(it, ffiResolvers, includeResolver)
         } + generateDartCommonFiles(pathsCollector) + generateFfiCommonFiles()
     }
@@ -79,19 +80,30 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private fun generateDart(
         rootElement: LimeNamedElement,
         nameResolvers: Map<String, NameResolver>,
+        importResolver: DartImportResolver,
         pathsCollector: MutableList<String>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
-        val content = TemplateEngine.render(
-            "dart/DartFile",
-            mapOf("model" to rootElement, "contentTemplate" to contentTemplateName),
-            nameResolvers
-        )
+
+        val functions = collectFunctions(rootElement)
+        val imports = importResolver.resolveImports(rootElement) + LIBRARY_INIT +
+            functions.flatMap { collectTypeRefs(it) }.flatMap { importResolver.resolveImports(it) }
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
-        val fileName = nameRules.getName(rootElement)
-        val relativePath = "$SRC_DIR_SUFFIX/$packagePath/$fileName.dart"
+        val filePath = "$packagePath/${nameRules.getName(rootElement)}"
+        val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
         pathsCollector += relativePath
+
+        val content = TemplateEngine.render(
+            "dart/DartFile",
+            mapOf(
+                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
+                "model" to rootElement,
+                "contentTemplate" to contentTemplateName,
+                "libraryName" to libraryName
+            ),
+            nameResolvers
+        )
 
         return GeneratedFile(content, "$LIB_DIR/$relativePath")
     }
@@ -147,8 +159,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart"
             ),
             GeneratedFile(
-                TemplateEngine.render("dart/DartStringHandle", templateData),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/_string_handle.dart"
+                TemplateEngine.render("dart/DartStringConversion", templateData),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/String__conversion.dart"
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartPubspec", templateData),
@@ -186,10 +198,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                     limeElement::class.java.name)
         }
 
-    private fun collectFunctions(limeType: LimeType): List<LimeFunction> =
-        when (limeType) {
+    private fun collectFunctions(limeElement: LimeNamedElement): List<LimeFunction> =
+        when (limeElement) {
             is LimeContainer ->
-                limeType.functions + limeType.structs.flatMap { collectFunctions(it) }
+                limeElement.functions + limeElement.structs.flatMap { collectFunctions(it) }
             else -> emptyList()
         }
 
@@ -207,5 +219,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         private const val SRC_DIR_SUFFIX = "src"
         private const val FFI_DIR = "$ROOT_DIR/ffi"
         private const val OPAQUE_HANDLE_TYPE = "void*"
+
+        private val LIBRARY_INIT = DartImport("_library_init", "__lib")
     }
 }
