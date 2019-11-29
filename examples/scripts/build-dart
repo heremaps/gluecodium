@@ -106,6 +106,7 @@ if [ "$USE_VALGRIND" = true ]; then
         --leak-check=full \
         --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
         --gen-suppressions=all \
+        --soname-synonyms=somalloc=*tcmalloc* \
         $REPORT_ARGS \
         $TEST_EXECUTABLE"
 fi
