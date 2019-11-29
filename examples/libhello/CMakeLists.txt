@@ -80,17 +80,20 @@ feature(MethodOverloading cpp android swift SOURCES
     lime/test/MethodOverloads.lime
 )
 
-feature(BuiltinTypes cpp android swift SOURCES
+feature(Blob cpp android swift SOURCES
     src/hello/HelloWorldBuiltinTypes.cpp
-    src/test/StaticBooleanMethods.cpp
     src/test/StaticByteArrayMethods.cpp
-    src/test/StaticFloatDoubleMethods.cpp
-    src/test/StaticIntMethods.cpp
-    src/test/StaticTypedef.cpp
 
     lime/hello/HelloWorldBuiltinTypes.lime
-    lime/test/StaticBooleanMethods.lime
     lime/test/StaticByteArrayMethods.lime
+)
+
+feature(BuiltinTypes cpp android swift dart SOURCES
+    src/test/StaticBooleanMethods.cpp
+    src/test/StaticFloatDoubleMethods.cpp
+    src/test/StaticIntMethods.cpp
+
+    lime/test/StaticBooleanMethods.lime
     lime/test/StaticFloatDoubleMethods.lime
     lime/test/StaticIntMethods.lime
 )
@@ -144,6 +147,7 @@ feature(StructsImmutable cpp android swift SOURCES
 
 feature(TypeDefs cpp android swift SOURCES
     src/hello/HelloWorldTypedefs.cpp
+    src/test/StaticTypedef.cpp
 
     lime/hello/HelloWorldTypedefs.lime
     lime/test/StaticTypedef.lime

@@ -159,6 +159,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart"
             ),
             GeneratedFile(
+                TemplateEngine.render("dart/DartBooleanConversion", templateData),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/Boolean__conversion.dart"
+            ),
+            GeneratedFile(
                 TemplateEngine.render("dart/DartStringConversion", templateData),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/String__conversion.dart"
             ),

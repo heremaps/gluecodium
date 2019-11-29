@@ -44,6 +44,7 @@ internal class DartImportResolver(private val nameRules: NameRules) {
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
         when (limeType.typeId) {
+            LimeBasicType.TypeId.BOOLEAN -> listOf(createConversionImport("Boolean"))
             LimeBasicType.TypeId.STRING -> listOf(createConversionImport("String"))
             LimeBasicType.TypeId.BLOB -> listOf(createConversionImport("List"))
             LimeBasicType.TypeId.DATE -> listOf(createConversionImport("DateTime"))

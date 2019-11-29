@@ -19,9 +19,15 @@
 // -------------------------------------------------------------------------------------------------
 
 import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
+import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
+import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
+import "test/StaticIntMethods_test.dart" as StaticIntMethodsTests;
 
 final _allTests = [
-  StaticStringMethodsTests.main
+  StaticStringMethodsTests.main,
+  StaticBooleanMethodsTests.main,
+  StaticFloatDoubleMethodsTests.main,
+  StaticIntMethodsTests.main
 ];
 
 void main() {
