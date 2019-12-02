@@ -36,7 +36,9 @@ object LimeTypeHelper {
             else -> limeType
         }
 
-    fun getAllTypes(limeType: LimeType): List<LimeType> {
+    fun getAllTypes(limeElement: LimeNamedElement): List<LimeType> {
+        val limeType = limeElement as? LimeType ?: return emptyList()
+
         val nestedContainerTypes = (limeType as? LimeContainer)?.let {
             it.structs + it.enumerations + it.exceptions + it.typeAliases
         } ?: emptyList()

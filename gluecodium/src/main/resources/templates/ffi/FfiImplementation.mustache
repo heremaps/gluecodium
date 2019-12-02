@@ -26,6 +26,7 @@
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
+#include <new>
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,6 +43,30 @@ extern "C" {
 {{/structs}}
 {{/model}}
 
+{{#structs}}
+  FfiOpaqueHandle
+{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}({{#if fields}}
+{{joinPartial fields "ffiFieldToCpp" ",
+"}}
+        {{/if}}));
+}
+
+void
+{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
+}
+
+{{#set parent=this}}{{#fields}}
+{{resolveName typeRef}}
+{{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle) {
+    return {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(
+        reinterpret_cast<{{resolveName parent "C++"}}*>(handle)->{{resolveName "C++"}}
+    );
+}
+{{/fields}}{{/set}}
+{{/structs}}
+
 #ifdef __cplusplus
 }
 #endif{{!!
@@ -50,15 +75,22 @@ extern "C" {
 {{resolveName returnType.typeRef}}
 {{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
-    return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
-        {{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
-        }}{{#unless isStatic}}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self)->{{/unless}}{{!!
+    {{#isNotEq returnType.typeRef.type.name "Void"}}return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
+{{/isNotEq}}{{!!
+}}        {{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
+        }}{{#unless isStatic}}{{>selfReferenceConversion}}.{{/unless}}{{!!
         }}{{resolveName "C++"}}({{#if parameters}}
 {{joinPartial parameters "ffiParameter" ",
 "}}
-        {{/if}})
-    );
+        {{/if}}){{#isNotEq returnType.typeRef.type.name "Void"}}
+    ){{/isNotEq}};
 }
 {{/ffiFunction}}{{!!
 
-}}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}
+}}{{+selfReferenceConversion}}{{#instanceOf parent "LimeStruct"}}{{!!
+}}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{#notInstanceOf parent "LimeStruct"}}{{!!
+}}(*{{>ffi/FfiInternal}}::Conversion<std::shared_ptr<{{resolveName parent "C++"}}>>::toCpp(_self)){{/notInstanceOf}}{{/selfReferenceConversion}}{{!!
+
+}}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
+
+}}{{+ffiFieldToCpp}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}

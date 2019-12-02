@@ -26,7 +26,7 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiNameResolver(
@@ -39,8 +39,9 @@ internal class FfiNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
-            is LimeParameter -> getMangledName(element)
-            is LimeNamedElement -> getMangledFullName(element)
+            is LimeFunction -> getMangledFullName(element)
+            is LimeType -> getMangledFullName(element.actualType)
+            is LimeNamedElement -> getMangledName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }

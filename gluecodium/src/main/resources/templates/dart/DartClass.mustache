@@ -22,5 +22,23 @@
 class {{resolveName visibility}}{{resolveName}} {{!!
 }}{{#if parent}}{{#isEq type parent.type.type}}extends{{/isEq}}{{!!
 }}{{#isNoEq type parent.type.type}}implements{{/isNoEq}} {{resolveName parent}} {{/if}}{
-{{>dart/DartContainerContents}}
+{{#constants}}
+{{prefixPartial "dart/DartConstant" "  "}}
+{{/constants}}
+{{#set parent=this}}{{#functions}}
+{{prefixPartial "dart/DartFunction" "  "}}
+{{/functions}}{{/set}}
+{{#properties}}
+{{prefixPartial "dart/DartProperty" "  "}}
+{{/properties}}
 }
+
+{{#enumerations}}
+{{>dart/DartEnumeration}}
+{{/enumerations}}
+{{#exceptions}}
+{{>dart/DartException}}
+{{/exceptions}}
+{{#structs}}
+{{>dart/DartStruct}}
+{{/structs}}

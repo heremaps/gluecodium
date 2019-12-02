@@ -22,9 +22,12 @@ package com.here.gluecodium.generator.ffi
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -45,6 +48,7 @@ internal class FfiCppNameResolver(
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
             is LimeType -> getTypeName(element)
+            is LimeField -> getFieldName(element)
             is LimeNamedElement -> nameRules.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -83,18 +87,14 @@ internal class FfiCppNameResolver(
             TypeId.FLOAT -> "float"
             TypeId.DOUBLE -> "double"
             TypeId.STRING -> "std::string"
-            TypeId.BLOB -> "std::shared_ptr<std::vector<uint8_t>"
+            TypeId.BLOB -> "std::shared_ptr<std::vector<uint8_t>>"
             TypeId.DATE -> "std::chrono::system_clock::time_point"
         }
 
     private fun getFullyQualifiedName(limeElement: LimeNamedElement): String {
         val prefix = when {
             limeElement.path.hasParent -> {
-                val parentElement =
-                    limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
-                    ?: throw GluecodiumExecutionException(
-                        "Failed to resolve parent for element ${limeElement.fullName}"
-                    )
+                val parentElement = getParentElement(limeElement)
                 when (parentElement) {
                     is LimeTypesCollection -> ""
                     else -> getFullyQualifiedName(parentElement)
@@ -107,4 +107,17 @@ internal class FfiCppNameResolver(
 
         return "$prefix::$elementName"
     }
+
+    private fun getFieldName(limeField: LimeField) =
+        when {
+            getParentElement(limeField).attributes.have(CPP, ACCESSORS) ->
+                nameRules.getGetterName(limeField) + "()"
+            else -> nameRules.getName(limeField)
+        }
+
+    private fun getParentElement(limeElement: LimeNamedElement) =
+        (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
+                ?: throw GluecodiumExecutionException(
+                    "Failed to resolve parent for element ${limeElement.fullName}"
+                ))
 }

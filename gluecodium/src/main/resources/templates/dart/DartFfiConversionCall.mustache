@@ -18,16 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "/// "}}
-{{/unless}}
-class {{resolveName visibility}}{{resolveName}} {
-{{#fields}}{{prefixPartial "dart/DartField" "  "}}
-{{/fields}}
-{{#if fields}}  {{resolveName}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{/if}}
-{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}
-{{#set parent=this}}{{#functions}}
-{{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{/set}}
-}
+{{#typeRef.type.actualType}}{{!!
+}}{{#instanceOf this "LimeBasicType"}}{{!!
+}}{{#isEq typeId.toString "Boolean"}}__lib.Boolean_{{call}}{{/isEq}}{{!!
+}}{{#isEq typeId.toString "String"}}__lib.String_{{call}}{{/isEq}}{{!!
+}}{{#isEq typeId.toString "Date"}}__lib.DateTime_{{call}}{{/isEq}}{{!!
+}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeBasicType"}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}{{#notInstanceOf this "LimeList"}}{{#notInstanceOf this "LimeSet"}}{{!!
+}}__lib.{{#path.head}}{{.}}_{{/path.head}}{{resolveName}}_{{call}}{{!!
+}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{/typeRef.type.actualType}}

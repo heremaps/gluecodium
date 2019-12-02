@@ -18,16 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "/// "}}
-{{/unless}}
-class {{resolveName visibility}}{{resolveName}} {
-{{#fields}}{{prefixPartial "dart/DartField" "  "}}
-{{/fields}}
-{{#if fields}}  {{resolveName}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{/if}}
-{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}
-{{#set parent=this}}{{#functions}}
-{{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{/set}}
-}
+{{!! TODO: APIGEN-1778: implement }}

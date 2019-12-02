@@ -41,6 +41,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.platform.common.GeneratorSuite
 
@@ -66,14 +67,22 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "" to ffiNameResolver,
             "C++" to FfiCppNameResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         )
-        val importResolver = DartImportResolver(nameRules)
+        val importResolver = DartImportResolver(nameRules, dartNameResolver)
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val pathsCollector = mutableListOf<String>()
 
+        val structs = limeModel.topElements
+            .filterIsInstance<LimeType>()
+            .flatMap { LimeTypeHelper.getAllTypes(it) }
+            .filterIsInstance<LimeStruct>()
+            .distinct()
+
         return limeModel.topElements.flatMap {
             listOfNotNull(generateDart(it, dartResolvers, importResolver, pathsCollector)) +
                     generateFfi(it, ffiResolvers, includeResolver)
+        } + structs.flatMap {
+            generateDartStructConversion(it, dartResolvers, dartNameResolver, importResolver)
         } + generateDartCommonFiles(pathsCollector) + generateFfiCommonFiles()
     }
 
@@ -116,30 +125,24 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val limeType = rootElement as? LimeType ?: return emptyList()
 
         val functions = collectFunctions(limeType).sortedBy { it.fullName }
-        if (functions.isEmpty()) {
-            return emptyList()
-        }
+        val types = LimeTypeHelper.getAllTypes(limeType)
+        val structs = types.filterIsInstance<LimeStruct>()
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
         val includes = includeResolver.resolveIncludes(limeType) +
-            functions.flatMap { collectTypeRefs(it) }.flatMap { includeResolver.resolveIncludes(it) }
+            functions.flatMap { collectTypeRefs(it) }.flatMap { includeResolver.resolveIncludes(it) } +
+            structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) }
 
-        val headerContent = TemplateEngine.render(
-            "ffi/FfiHeader",
-            mapOf("model" to rootElement, "internalNamespace" to internalNamespace),
-            nameResolvers
+        val data = mapOf(
+            "model" to rootElement,
+            "structs" to structs,
+            "internalNamespace" to internalNamespace,
+            "headerName" to fileName,
+            "includes" to includes.distinct().sorted()
         )
-        val implContent = TemplateEngine.render(
-            "ffi/FfiImplementation",
-            mapOf(
-                "model" to rootElement,
-                "internalNamespace" to internalNamespace,
-                "headerName" to fileName,
-                "includes" to includes.distinct().sorted()
-            ),
-            nameResolvers
-        )
+        val headerContent = TemplateEngine.render("ffi/FfiHeader", data, nameResolvers)
+        val implContent = TemplateEngine.render("ffi/FfiImplementation", data, nameResolvers)
 
         return listOf(
             GeneratedFile(headerContent, "$FFI_DIR/$fileName.h"),
@@ -189,9 +192,35 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         ) }
     }
 
+    private fun generateDartStructConversion(
+        limeStruct: LimeStruct,
+        nameResolvers: Map<String, NameResolver>,
+        dartNameResolver: DartNameResolver,
+        importResolver: DartImportResolver
+    ): List<GeneratedFile> {
+        val imports = importResolver.resolveImports(limeStruct) + LIBRARY_INIT +
+            limeStruct.fields.map { it.typeRef }.flatMap { importResolver.resolveImports(it) }
+
+        val packagePath = limeStruct.path.head.joinToString(separator = "/")
+        val filePath = "$packagePath/${dartNameResolver.resolveName(limeStruct)}"
+        val relativePath = "$SRC_DIR_SUFFIX/${filePath}__conversion.dart"
+
+        val content = TemplateEngine.render(
+            "dart/DartStructConversion",
+            mapOf(
+                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
+                "model" to limeStruct,
+                "libraryName" to libraryName
+            ),
+            nameResolvers
+        )
+
+        return listOf(GeneratedFile(content, "$LIB_DIR/$relativePath"))
+    }
+
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeTypesCollection -> "dart/DartTypes"
+            is LimeTypesCollection -> null // "dart/DartTypes" // TODO: APIGEN-1778
             is LimeClass -> "dart/DartClass"
             is LimeInterface -> "dart/DartInterface"
             is LimeStruct -> "dart/DartStruct"

@@ -22,22 +22,35 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal class DartImportResolver(private val nameRules: NameRules) {
+internal class DartImportResolver(
+    private val nameRules: NameRules,
+    private val nameResolver: DartNameResolver
+) {
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
             is LimeBasicType -> resolveBasicTypeImports(limeElement)
             is LimeTypeRef -> resolveImports(limeElement.type)
-            is LimeNamedElement -> {
-                val filePath =
-                    (limeElement.path.head + nameRules.getName(limeElement)).joinToString("/")
+            is LimeStruct -> {
+                val filePath = limeElement.path.head.joinToString("/")
+                val fileName = nameRules.ruleSet.getTypeName(limeElement.path.container)
+                val conversionFileName = nameResolver.resolveName(limeElement)
                 listOf(
-                    DartImport(filePath)
-                    //, createConversionImport(filePath) // TODO: APIGEN-1777: struct conversion
+                    DartImport("$filePath/$fileName"),
+                    createConversionImport("$filePath/$conversionFileName")
                 )
+            }
+            is LimeGenericType -> emptyList() // TODO: APIGEN-1782
+            is LimeNamedElement -> {
+                val filePath = limeElement.path.head.joinToString("/")
+                val fileName = nameRules.ruleSet.getTypeName(limeElement.path.container)
+                nameRules.getName(limeElement)
+                listOf(DartImport("$filePath/$fileName"))
             }
             else -> emptyList()
         }
