@@ -35,6 +35,7 @@ endif()
 
 configure_file("pubspec.yaml.in" "${CMAKE_CURRENT_BINARY_DIR}/pubspec.yaml")
 configure_file("main.dart" "${CMAKE_CURRENT_BINARY_DIR}/main.dart" COPYONLY)
+configure_file("test_suite.dart" "${CMAKE_CURRENT_BINARY_DIR}/test_suite.dart" COPYONLY)
 file(GLOB_RECURSE testFiles "test/*_test.dart")
 foreach(testFile ${testFiles})
     get_filename_component(testFileName ${testFile} NAME)

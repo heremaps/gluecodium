@@ -18,12 +18,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
+import "package:test/test.dart" as _test_lib;
 
-final _allTests = [
-  StaticStringMethodsTests.main
-];
+class TestSuite {
+  String _name;
 
-void main() {
-  _allTests.forEach((testCase) => testCase());
+  TestSuite(this._name);
+
+  void test (String description, dynamic body()) {
+    _test_lib.test("$_name: $description", body);
+  }
 }

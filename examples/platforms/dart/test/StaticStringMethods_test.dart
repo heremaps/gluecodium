@@ -20,16 +20,19 @@
 
 import "package:test/test.dart";
 import "package:hello/hello.dart";
+import "../test_suite.dart";
+
+final _testSuite = TestSuite("StaticStringMethods");
 
 void main() {
-  test("Return input string", () {
+  _testSuite.test("Return input string", () {
     final inputString = "Foo";
 
     final result = StaticStringMethods.returnInputString(inputString);
 
     expect(result, equals(inputString));
   });
-  test("Concatenate strings", () {
+  _testSuite.test("Concatenate strings", () {
     final inputString1 = "Hello";
     final inputString2 = "World";
 
@@ -37,12 +40,12 @@ void main() {
 
     expect(result, equals(inputString1 + inputString2));
   });
-  test("Return 'hello' string", () {
+  _testSuite.test("Return 'hello' string", () {
     final result = StaticStringMethods.returnHelloString();
 
     expect(result, equals("hello"));
   });
-  test("Return empty string", () {
+  _testSuite.test("Return empty string", () {
     final result = StaticStringMethods.returnEmpty();
 
     expect(result, equals(""));
