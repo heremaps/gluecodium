@@ -94,16 +94,18 @@ function(apigen_java_compile)
 
   get_target_property(GENERATOR ${apigen_java_compile_TARGET} APIGEN_GENERATOR)
   get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_OUTPUT_DIR)
-  get_target_property(APIGEN_JAVA_SOURCE_DIR ${apigen_java_compile_TARGET} ANDROID_JAVA_SOURCE_DIR)
+  get_target_property(COMMON_OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_COMMON_OUTPUT_DIR)
+  get_target_property(BUILD_OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_BUILD_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
   endif()
 
+  set(_java_source_dirs "${OUTPUT_DIR}/android" "${COMMON_OUTPUT_DIR}/android")
+
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
-  set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_java_compile_TARGET}-${GENERATOR}-java-compile)
-  set_target_properties(${target} PROPERTIES APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
+  set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${BUILD_OUTPUT_DIR}/android/java)
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_java_compile_TARGET} PROPERTIES
@@ -138,16 +140,16 @@ function(apigen_java_compile)
     list(APPEND APIGEN_JAVA_REMOTE_DEPENDENCIES "${remote_dependencies}")
   endforeach()
 
-  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_SOURCE_DIR "${APIGEN_JAVA_SOURCE_DIR}")
+  string(REPLACE ";" "$<SEMICOLON>" _java_source_dirs "${_java_source_dirs}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES "${APIGEN_JAVA_LOCAL_DEPENDENCIES}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_REMOTE_DEPENDENCIES "${APIGEN_JAVA_REMOTE_DEPENDENCIES}")
 
   add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
     COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
       -b=compileJava.gradle
-      -PsrcDirs=${APIGEN_JAVA_SOURCE_DIR}
+      -PsrcDirs=${_java_source_dirs}
       -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
       -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
       -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}

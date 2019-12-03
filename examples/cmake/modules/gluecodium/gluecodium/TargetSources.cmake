@@ -40,86 +40,17 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_target_sources target)
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
   get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
-  get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GLUECODIUM_GENERATOR_ADDITIONAL_SOURCES)
-  if(NOT ADDITIONAL_SOURCES)
-    set(ADDITIONAL_SOURCES "")
+  get_target_property(BUILD_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
+
+  set(_source_sets MAIN)
+  if(COMMON_OUTPUT_DIR)
+    list(APPEND _source_sets COMMON)
   endif()
-  file(GLOB_RECURSE GENERATED_CPP_SOURCES ${OUTPUT_DIR}/cpp/*.cpp)
-  file(GLOB_RECURSE GENERATED_CPP_HEADERS ${OUTPUT_DIR}/cpp/*.h)
-  source_group("Generated BaseApi\\Header Files" FILES ${GENERATED_CPP_HEADERS})
-  source_group("Generated BaseApi\\Source Files" FILES ${GENERATED_CPP_SOURCES})
-
-  if(${GENERATOR} STREQUAL cpp)
-
-    target_sources(${target} PRIVATE
-      ${GENERATED_CPP_SOURCES}
-      ${GENERATED_CPP_HEADERS})
-
-
-  elseif(${GENERATOR} MATCHES android)
-
-    file(GLOB_RECURSE JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
-    file(GLOB_RECURSE JNI_COMMON_SOURCES ${COMMON_OUTPUT_DIR}/android/jni/*.cpp)
-    target_sources(${target} PRIVATE
-      ${GENERATED_CPP_SOURCES}
-      ${GENERATED_CPP_HEADERS}
-      ${JNI_SOURCES}
-      ${JNI_COMMON_SOURCES})
-    set_property(TARGET ${target} APPEND PROPERTY ANDROID_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
-    set_property(TARGET ${target} APPEND PROPERTY ANDROID_JAVA_SOURCE_DIR ${COMMON_OUTPUT_DIR}/android)
-
-  elseif(${GENERATOR} MATCHES swift)
-
-    file(GLOB_RECURSE CBRIDGE_SOURCES ${OUTPUT_DIR}/cbridge/*.cpp)
-    file(GLOB_RECURSE CBRIDGE_HEADERS ${OUTPUT_DIR}/cbridge/*.h)
-    file(GLOB_RECURSE SWIFT_SOURCES ${OUTPUT_DIR}/swift/*.swift)
-
-    # If headers are added, CMake will
-    # generate a PBXHeaderBuildPhase for these. If a header in that list matches the
-    # name of the framework (case insensitive) then XCode will assume it is an
-    # umbrella header and create the modulemap accordingly. This breaks the resulting
-    # framework.
-    get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
-    if(NOT SWIFT_FRAMEWORK_NAME)
-      set(SWIFT_FRAMEWORK_NAME "${target}")
-    endif()
-    string(TOUPPER "${SWIFT_FRAMEWORK_NAME}" UPPER_FRAMEWORK_NAME)
-    foreach(GENERATED_HEADER ${CBRIDGE_HEADERS} ${GENERATED_CPP_HEADERS})
-      get_filename_component(BASENAME "${GENERATED_HEADER}" NAME_WE)
-      string(TOUPPER "${BASENAME}" UPPER_BASENAME)
-      if("${UPPER_BASENAME}" STREQUAL "${UPPER_FRAMEWORK_NAME}")
-        message(FATAL_ERROR "Generated header "
-                "'${GENERATED_HEADER}' "
-                "must not have the same name as the framework since XCode Generator would "
-                "add it as framework header.")
-      endif()
-    endforeach()
-
-    target_sources(${target} PRIVATE
-      ${CBRIDGE_SOURCES}
-      ${CBRIDGE_HEADERS}
-      ${GENERATED_CPP_SOURCES}
-      ${GENERATED_CPP_HEADERS}
-      ${SWIFT_SOURCES}
-      ${ADDITIONAL_SOURCES})
-    source_group("Generated cBridge\\Header Files" FILES ${CBRIDGE_HEADERS})
-    source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
-    source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
-    source_group("Swift Source Files" FILES ${ADDITIONAL_SOURCES})
-    target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
-
-  elseif(${GENERATOR} MATCHES dart)
-
-    file(GLOB_RECURSE FFI_SOURCES ${OUTPUT_DIR}/dart/ffi/*.cpp)
-    target_sources(${target} PRIVATE
-      ${GENERATED_CPP_SOURCES}
-      ${GENERATED_CPP_HEADERS}
-      ${FFI_SOURCES})
-
-  else()
-    message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")
-  endif()
-
+  apigen_list_generated_sources(_generated_files
+    ${_source_sets}
+    GENERATOR "${GENERATOR}"
+    BUILD_OUTPUT_DIR "${BUILD_OUTPUT_DIR}")
+  source_group("Generated Source Files" FILES ${_generated_files})
+  target_sources(${target} PRIVATE ${_generated_files})
 endfunction()

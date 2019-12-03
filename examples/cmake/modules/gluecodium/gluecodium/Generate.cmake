@@ -72,6 +72,8 @@ else()
   set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew)
 endif()
 
+include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
+
 function(apigen_generate)
   set(options VALIDATE_ONLY VERBOSE)
   set(oneValueArgs TARGET GENERATOR VERSION
@@ -90,9 +92,18 @@ function(apigen_generate)
       COMMON_OUTPUT_DIR
       BUILD_OUTPUT_DIR
       LIBRARY_NAME)
-  set(multiValueArgs LIME_SOURCES)
+  set(multiValueArgs LIME_SOURCES FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
+  list(APPEND apigen_generate_LIME_SOURCES ${apigen_generate_FRANCA_SOURCES})
+
+  _apigen_set_option(GENERATOR)
+  _apigen_set_option(TARGET)
+  _apigen_set_option_or_default(VERBOSE OFF)
+  _apigen_set_option_or_default(BUILD_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/build")
+  _apigen_set_option_or_default(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/${APIGEN_GENERATOR}")
+  _apigen_set_option_or_default(COMMON_OUTPUT_DIR "")
+  _apigen_set_option_or_default(VERSION +)
 
   set(operationVerb "Generate")
   set(validateParam "")
@@ -101,39 +112,23 @@ function(apigen_generate)
     set(validateParam "-validateOnly")
   endif()
 
-  # If version is not specified explicitly, use latest-greatest
-  if(NOT apigen_generate_VERSION)
-    set(apigen_generate_VERSION +)
-  endif()
-
-  message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Gluecodium version '${apigen_generate_VERSION}'
+  message(STATUS "${operationVerb} '${APIGEN_TARGET}' with '${APIGEN_GENERATOR}' generator using Gluecodium version '${APIGEN_VERSION}'
   Input: '${apigen_generate_LIME_SOURCES}'")
 
-  if(NOT apigen_generate_BUILD_OUTPUT_DIR)
-    set(apigen_generate_BUILD_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${apigen_generate_TARGET}/build")
-  endif()
-  if(NOT apigen_generate_OUTPUT_DIR)
-    set(apigen_generate_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${apigen_generate_TARGET}/${apigen_generate_GENERATOR}")
-  endif()
-  set(GLUECODIUM_OUTPUT_DIR ${apigen_generate_OUTPUT_DIR})
-  set(GLUECODIUM_COMMON_OUTPUT_DIR "${GLUECODIUM_OUTPUT_DIR}")
-  if(apigen_generate_COMMON_OUTPUT_DIR)
-    set(GLUECODIUM_COMMON_OUTPUT_DIR "${apigen_generate_COMMON_OUTPUT_DIR}")
-  endif()
 
   # Attach properties to target for re-use in other modules
-  set_target_properties(${apigen_generate_TARGET} PROPERTIES
-    APIGEN_GENERATOR "${apigen_generate_GENERATOR}"
-    APIGEN_OUTPUT_DIR "${GLUECODIUM_OUTPUT_DIR}"
-    APIGEN_COMMON_OUTPUT_DIR "${GLUECODIUM_COMMON_OUTPUT_DIR}"
-    APIGEN_BUILD_OUTPUT_DIR "${apigen_generate_BUILD_OUTPUT_DIR}")
+  set_target_properties(${APIGEN_TARGET} PROPERTIES
+    APIGEN_GENERATOR "${APIGEN_GENERATOR}"
+    APIGEN_OUTPUT_DIR "${APIGEN_OUTPUT_DIR}"
+    APIGEN_COMMON_OUTPUT_DIR "${APIGEN_COMMON_OUTPUT_DIR}"
+    APIGEN_BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
   if(NOT apigen_generate_GENERATOR MATCHES cpp)
     set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
   endif()
 
   set(APIGEN_GLUECODIUM_ARGS "\
-    -output \"${GLUECODIUM_OUTPUT_DIR}\"\
+    -output \"${APIGEN_OUTPUT_DIR}\"\
     -generators ${apigen_generate_GENERATOR}\
     ${validateParam}\
     ${mergeManifest}\
@@ -142,76 +137,101 @@ function(apigen_generate)
     # Attach sources to target for IDEs to display them properly in their projects
     file(GLOB_RECURSE inputLimeSources ${input}/*.lime)
     if(inputLimeSources)
-      target_sources(${apigen_generate_TARGET} PRIVATE ${inputLimeSources})
-      # Trigger a re-configure if there are any changes to the LimeIDL sources.
-      set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputLimeSources})
+      target_sources(${APIGEN_TARGET} PRIVATE ${inputLimeSources})
     endif()
 
     if(NOT IS_ABSOLUTE ${input})
       set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
     endif()
-    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " -input \"${input}\"")
+    string(APPEND APIGEN_GLUECODIUM_ARGS " -input \"${input}\"")
   endforeach()
-  apigen_parse_option(--android-merge-manifest ANDROID_MERGE_MANIFEST)
-  apigen_parse_option(-javapackage JAVA_PACKAGE)
-  apigen_parse_option(--java-internal-package JAVA_INTERNAL_PACKAGE)
-  apigen_parse_option(-javanonnullannotation JAVA_NONNULL_ANNOTATION)
-  apigen_parse_option(-javanullableannotation JAVA_NULLABLE_ANNOTATION)
-  apigen_parse_path_option(--copyright-header COPYRIGHT_HEADER)
-  apigen_parse_option(--cpp-internal-namespace CPP_INTERNAL_NAMESPACE)
-  apigen_parse_path_option(-cppnamerules CPP_NAMERULES)
-  apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
-  apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
-  apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
-  apigen_parse_option(-libraryname LIBRARY_NAME)
+  _apigen_parse_option(--android-merge-manifest ANDROID_MERGE_MANIFEST)
+  _apigen_parse_option(-javapackage JAVA_PACKAGE)
+  _apigen_parse_option(--java-internal-package JAVA_INTERNAL_PACKAGE)
+  _apigen_parse_option(-javanonnullannotation JAVA_NONNULL_ANNOTATION)
+  _apigen_parse_option(-javanullableannotation JAVA_NULLABLE_ANNOTATION)
+  _apigen_parse_path_option(--copyright-header COPYRIGHT_HEADER)
+  _apigen_parse_option(--cpp-internal-namespace CPP_INTERNAL_NAMESPACE)
+  _apigen_parse_path_option(-cppnamerules CPP_NAMERULES)
+  _apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
+  _apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
+  _apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
+  _apigen_parse_option(-libraryname LIBRARY_NAME)
+  _apigen_parse_option(-cppexport CPP_EXPORT)
 
-  if(apigen_generate_CPP_EXPORT)
-    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
-  else()
+  if(NOT apigen_generate_CPP_EXPORT)
     set(apigen_generate_CPP_EXPORT _GLUECODIUM_CPP)
   endif()
-  get_target_property(apigen_target_type ${apigen_generate_TARGET} TYPE)
+  get_target_property(apigen_target_type ${APIGEN_TARGET} TYPE)
   if(apigen_target_type STREQUAL SHARED_LIBRARY)
-    target_compile_definitions(${apigen_generate_TARGET}
+    target_compile_definitions(${APIGEN_TARGET}
       PUBLIC ${apigen_generate_CPP_EXPORT}_SHARED
       PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
   endif()
 
-  message("Running `Gluecodium ${APIGEN_GLUECODIUM_ARGS}`")
+  message("Configured `Gluecodium" ${APIGEN_GLUECODIUM_ARGS})
 
-  if(DEFINED ENV{GLUECODIUM_PATH})
-    message("Using local Gluecodium from " $ENV{GLUECODIUM_PATH})
-    set(BUILD_LOCAL_GLUECODIUM "--include-build" "$ENV{GLUECODIUM_PATH}")
+  set(_source_sets MAIN)
+  if(APIGEN_COMMON_OUTPUT_DIR)
+    list(APPEND _source_sets COMMON)
   endif()
+  apigen_list_generated_sources(_generated_files
+    ${_source_sets}
+    GENERATOR ${APIGEN_GENERATOR}
+    BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_COMMON_OUTPUT_DIR}
-    COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} ${BUILD_LOCAL_GLUECODIUM} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GLUECODIUM_ARGS}
-    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
-    RESULT_VARIABLE GENERATE_RESULT
-    OUTPUT_VARIABLE GENERATE_OUTPUT
-    ERROR_VARIABLE GENERATE_OUTPUT)
-  if(NOT "${GENERATE_RESULT}" STREQUAL "0")
-    message(FATAL_ERROR "Failed to generate from given LimeIDL files:\n${GENERATE_OUTPUT}")
-  elseif(apigen_generate_VERBOSE)
-    message(STATUS ${GENERATE_OUTPUT})
-  endif()
-  file(WRITE "${apigen_generate_BUILD_OUTPUT_DIR}/gluecodium.log" "${GENERATE_OUTPUT}")
-
+  add_custom_command(OUTPUT ${_generated_files}
+    COMMAND ${GLUECODIUM_TIME} ${CMAKE_COMMAND}
+        -DAPIGEN_GLUECODIUM_GRADLE_WRAPPER=${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
+        -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
+        -DAPIGEN_GLUECODIUM_ARGS=${APIGEN_GLUECODIUM_ARGS}
+        -DAPIGEN_GLUECODIUM_VERSION=${apigen_generate_VERSION}
+        -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
+        -DAPIGEN_GENERATOR=${APIGEN_GENERATOR}
+        -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
+        -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
+        -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
+        -DAPIGEN_VERBOSE=${APIGEN_VERBOSE}
+        -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
+        VERBATIM
+    DEPENDS
+      "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
+      ${apigen_generate_LIME_SOURCES})
 endfunction()
 
-macro(apigen_parse_path_option GLUECODIUM_OPTION CMAKE_OPTION)
+macro(_apigen_parse_path_option GLUECODIUM_OPTION CMAKE_OPTION)
   if(apigen_generate_${CMAKE_OPTION})
     if(NOT IS_ABSOLUTE ${apigen_generate_${CMAKE_OPTION}})
       set(apigen_generate_${CMAKE_OPTION} "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${CMAKE_OPTION}}")
     endif()
-    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " ${GLUECODIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
+    string(APPEND APIGEN_GLUECODIUM_ARGS " ${GLUECODIUM_OPTION} \"${apigen_generate_${CMAKE_OPTION}}\"")
   endif()
 endmacro()
 
-macro(apigen_parse_option GLUECODIUM_OPTION CMAKE_OPTION)
+macro(_apigen_parse_option GLUECODIUM_OPTION CMAKE_OPTION)
   if(apigen_generate_${CMAKE_OPTION})
-    string(CONCAT APIGEN_GLUECODIUM_ARGS ${APIGEN_GLUECODIUM_ARGS} " ${GLUECODIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
+    string(APPEND APIGEN_GLUECODIUM_ARGS " ${GLUECODIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
   endif()
+endmacro()
+
+macro(_apigen_set_option_or_default _option _default)
+  if(apigen_generate_${_option})
+    set(APIGEN_${_option} "${apigen_generate_${_option}}")
+  else()
+    set(APIGEN_${_option} "${_default}")
+  endif()
+  list(APPEND APIGEN_COMMAND_OPTIONS -DAPIGEN_${_option}=${APIGEN_${option}})
+endmacro()
+
+macro(_apigen_set_option _option)
+  if(apigen_generate_${_option})
+    set(APIGEN_${_option} "${apigen_generate_${_option}}")
+  else()
+    message(FATAL_ERROR "Mandatory option ${_option} was not set")
+  endif()
+endmacro()
+
+macro(_pass_option _option)
+  string(REPLACE ";" "$<SEMICOLON>" _escaped_option "${${_option}}")
+  list(APPEND APIGEN_COMMAND_OPTIONS -DAPIGEN_${_option}=${_escaped_option}})
 endmacro()

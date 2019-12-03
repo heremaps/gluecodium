@@ -48,7 +48,7 @@ function(apigen_swift_modulemap target)
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
+  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_MODULE_NAME ${target} APIGEN_SWIFT_MODULE_NAME)
 
@@ -59,24 +59,19 @@ function(apigen_swift_modulemap target)
   set(MODULEMAP_FRAMEWORK_PATH "${SWIFT_OUTPUT_DIR}/${SWIFT_MODULE_NAME}.framework/Modules/module.modulemap")
 
   # Module map generation
-  ## Top level:
-  set(CBRIDGE_MODULE_MAP "module ${SWIFT_MODULE_NAME} {\n")
-
+  set(_cbridge_modulemap "module ${SWIFT_MODULE_NAME} {\n")
   if(APIGEN_SWIFT_MODULEMAP_HEADERS)
     foreach(header IN LISTS APIGEN_SWIFT_MODULEMAP_HEADERS)
-      set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n  header \"${header}\"")
+      string(APPEND _cbridge_modulemap "  header \"${header}\"\n")
     endforeach()
   endif()
+  string(APPEND _cbridge_modulemap "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_main}\"\n")
+  if(COMMON_OUTPUT_DIR)
+    string(APPEND _cbridge_modulemap "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_common}\"\n")
+  endif()
+  string(APPEND _cbridge_modulemap "\}\n")
+  file(WRITE "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${_cbridge_modulemap}")
 
-  # TODO: APIGEN-1700 this should come from apigen_target_sources
-  file(GLOB_RECURSE cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
-
-  foreach(header IN LISTS cbridge_headers)
-    set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n    header \"${header}\"")
-  endforeach()
-  set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
-
-  file(WRITE "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${CBRIDGE_MODULE_MAP}")
   # Clean up the modulemap after building to avoid double definition conflicts with the generated
   # framework - this is caused by using internally the same name as the final Xcode project
   # and Xcode will follow those caches

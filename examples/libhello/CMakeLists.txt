@@ -402,8 +402,6 @@ apigen_generate(TARGET hello
         LIME_SOURCES ${HELLO_LIME_SOURCES}
         GENERATOR ${HELLO_APIGEN_GLUECODIUM_GENERATOR}
         VERSION ${HELLO_APIGEN_GLUECODIUM_VERSION}
-        OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/hello/main"
-        COMMON_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/hello/common"
         JAVA_PACKAGE com.here.android
         JAVA_INTERNAL_PACKAGE lorem.ipsum
         JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
