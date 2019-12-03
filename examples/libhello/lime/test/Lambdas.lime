@@ -55,3 +55,9 @@ class LambdasDeclarationOrder {
         someField: String
     }
 }
+
+interface LambdasInterface {
+    lambda TakeScreenshotCallback = (Blob?) -> Void
+
+    fun take_screenshot(callback: TakeScreenshotCallback)
+}

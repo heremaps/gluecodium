@@ -4,6 +4,8 @@
 ### Features:
   * Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
+### Bug fixes:
+  * Fixed Swift compilation issue for lambdas nested inside interfaces.
 
 ## 5.8.4
 Release date: 2019-11-28
