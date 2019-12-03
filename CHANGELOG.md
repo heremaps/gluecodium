@@ -5,6 +5,9 @@
   * Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
 
+### Bug fixes:
+  * Added missing nullability annotations for lambdas in Java.
+
 ## 5.8.5
 Release date: 2019-12-03
 ### Bug fixes:

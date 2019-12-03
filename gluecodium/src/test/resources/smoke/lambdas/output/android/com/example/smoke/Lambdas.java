@@ -3,6 +3,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
+        @NonNull
         public native String apply();
     }
     static class ConfounderImpl extends NativeBase implements Confounder {
@@ -29,7 +31,8 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
-        public native Lambdas.Producer confuse(final String p0);
+        @NonNull
+        public native Lambdas.Producer confuse(@NonNull final String p0);
     }
     static class ConsumerImpl extends NativeBase implements Consumer {
         protected ConsumerImpl(final long nativeHandle) {
@@ -41,7 +44,7 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
-        public native void apply(final String p0);
+        public native void apply(@NonNull final String p0);
     }
     static class IndexerImpl extends NativeBase implements Indexer {
         protected IndexerImpl(final long nativeHandle) {
@@ -53,7 +56,7 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
-        public native int apply(final String p0, final float index);
+        public native int apply(@NonNull final String p0, final float index);
     }
     static class NullableConfuserImpl extends NativeBase implements NullableConfuser {
         protected NullableConfuserImpl(final long nativeHandle) {
@@ -65,10 +68,12 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
-        public native Lambdas.Producer apply(final String p0);
+        @Nullable
+        public native Lambdas.Producer apply(@Nullable final String p0);
     }
     @FunctionalInterface
     public interface Producer {
+        @NonNull
         String apply();
     }
     /**
@@ -76,19 +81,21 @@ public final class Lambdas extends NativeBase {
      */
     @FunctionalInterface
     public interface Confounder {
-        Lambdas.Producer confuse(final String p0);
+        @NonNull
+        Lambdas.Producer confuse(@NonNull final String p0);
     }
     @FunctionalInterface
     public interface Consumer {
-        void apply(final String p0);
+        void apply(@NonNull final String p0);
     }
     @FunctionalInterface
     public interface Indexer {
-        int apply(final String p0, final float index);
+        int apply(@NonNull final String p0, final float index);
     }
     @FunctionalInterface
     public interface NullableConfuser {
-        Lambdas.Producer apply(final String p0);
+        @Nullable
+        Lambdas.Producer apply(@Nullable final String p0);
     }
     /**
      * For internal use only.

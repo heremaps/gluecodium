@@ -337,7 +337,10 @@ class JavaModelBuilder(
         val parameters = limeLambda.parameters.mapIndexed { index, parameter ->
             JavaParameter(
                 nameRules.getName(parameter, index),
-                typeMapper.mapType(parameter.typeRef)
+                typeMapper.applyNullability(
+                    typeMapper.mapType(parameter.typeRef),
+                    parameter.typeRef.isNullable
+                )
             )
         }
         val methodName = limeLambda.attributes.get(JAVA, FUNCTION_NAME)?.let {
@@ -346,7 +349,10 @@ class JavaModelBuilder(
         val applyMethod = JavaMethod(
             name = methodName,
             parameters = parameters,
-            returnType = typeMapper.mapType(limeLambda.returnType)
+            returnType = typeMapper.applyNullability(
+                typeMapper.mapType(limeLambda.returnType),
+                limeLambda.returnType.isNullable
+            )
         )
         javaInterface.methods += applyMethod
 
