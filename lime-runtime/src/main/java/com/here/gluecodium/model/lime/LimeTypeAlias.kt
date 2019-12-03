@@ -25,8 +25,7 @@ package com.here.gluecodium.model.lime
  * information and can be done solely based on information contained in this class.
  * * handling the type alias as if it actually were the type it points to (this is necessary, for
  * example, for various type conversion routines). This needs additional information obtainable
- * through resolving the [typeRef]. A recommended way to do this is to use
- * [LimeTypeHelper.getActualType].
+ * through resolving the [typeRef]. A recommended way to do this is to use [actualType].
  */
 class LimeTypeAlias(
     path: LimePath,
@@ -34,4 +33,7 @@ class LimeTypeAlias(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val typeRef: LimeTypeRef
-) : LimeType(path, visibility, comment, attributes)
+) : LimeType(path, visibility, comment, attributes) {
+    override val actualType
+        get() = typeRef.type.actualType
+}

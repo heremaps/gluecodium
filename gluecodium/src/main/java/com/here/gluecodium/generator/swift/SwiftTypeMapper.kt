@@ -35,7 +35,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.swift.SwiftArray
@@ -107,7 +106,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             mapType(limeType.elementType.type),
             CBridgeNameResolver.getCollectionName(limeType)
         )
-        val actualType = LimeTypeHelper.getActualType(limeType) as LimeList
+        val actualType = limeType.actualType as LimeList
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
         genericsCollector.putIfAbsent(elementTypeKey, result.withoutAlias())
 
@@ -120,7 +119,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             mapType(limeType.valueType.type),
             CBridgeNameResolver.getCollectionName(limeType)
         )
-        val actualType = LimeTypeHelper.getActualType(limeType) as LimeMap
+        val actualType = limeType.actualType as LimeMap
         val keyTypeKey = getActualTypeKey(actualType.keyType.type)
         val valueTypeKey = getActualTypeKey(actualType.valueType.type)
         genericsCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", result)
@@ -133,7 +132,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             mapType(limeType.elementType.type),
             CBridgeNameResolver.getCollectionName(limeType)
         )
-        val actualType = LimeTypeHelper.getActualType(limeType) as LimeSet
+        val actualType = limeType.actualType as LimeSet
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
         genericsCollector.putIfAbsent("$elementTypeKey:", result)
 

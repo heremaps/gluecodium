@@ -42,7 +42,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 class CppTypeMapper(
@@ -99,7 +98,7 @@ class CppTypeMapper(
     fun mapReturnType(returnType: LimeReturnType, exceptionType: LimeException?): CppTypeRef {
         val cppReturnType = mapType(returnType.typeRef)
         val errorTypeIsEnum =
-            exceptionType?.errorType?.type?.let { LimeTypeHelper.getActualType(it) } is LimeEnumeration
+            exceptionType?.errorType?.type?.let { it.actualType } is LimeEnumeration
         return when {
             exceptionType == null -> cppReturnType
             errorTypeIsEnum && cppReturnType == CppPrimitiveTypeRef.VOID -> STD_ERROR_CODE_TYPE
@@ -242,7 +241,7 @@ class CppTypeMapper(
 
         fun hasStdHash(limeType: LimeTypeRef): Boolean {
             val actualType =
-                LimeTypeHelper.getActualType(limeType.type) as? LimeBasicType ?: return false
+                limeType.type.actualType as? LimeBasicType ?: return false
             return actualType.typeId != TypeId.BLOB && actualType.typeId != TypeId.DATE
         }
     }

@@ -32,7 +32,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
      */
     class Literal(type: LimeTypeRef, val value: String) : LimeValue(type) {
         override fun toString(): String {
-            val limeType = LimeTypeHelper.getActualType(typeRef.type)
+            val limeType = typeRef.type.actualType
             return when {
                 limeType is LimeBasicType && limeType.typeId == LimeBasicType.TypeId.STRING ->
                     StringHelper.escapeStringLiteral(value)
@@ -88,7 +88,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
 
     class InitializerList(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type) {
         override fun toString(): String {
-            val limeType = LimeTypeHelper.getActualType(typeRef.type)
+            val limeType = typeRef.type.actualType
             val prefix = if (limeType is LimeGenericType) "[" else "{"
             val suffix = if (limeType is LimeGenericType) "]" else "}"
             return values.joinToString(separator = ", ", prefix = prefix, postfix = suffix)

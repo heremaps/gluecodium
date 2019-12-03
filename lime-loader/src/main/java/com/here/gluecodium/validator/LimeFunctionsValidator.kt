@@ -24,7 +24,6 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeSignatureResolver
-import com.here.gluecodium.model.lime.LimeTypeHelper
 
 internal class LimeFunctionsValidator(private val logger: LimeLogger) {
 
@@ -42,7 +41,7 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger) {
         signatureResolver: LimeSignatureResolver
     ): Boolean {
         val thrownType =
-            limeFunction.thrownType?.typeRef?.type?.let { LimeTypeHelper.getActualType(it) }
+            limeFunction.thrownType?.typeRef?.type?.let { it.actualType }
         return when {
             limeFunction.isConstructor &&
                     signatureResolver.hasConstructorSignatureClash(limeFunction) -> {

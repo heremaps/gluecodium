@@ -45,7 +45,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
@@ -168,7 +167,7 @@ class JavaTypeMapper(
 
     fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionTypeRef {
         val limeException =
-            LimeTypeHelper.getActualType(limeThrownType.typeRef.type) as LimeException
+            limeThrownType.typeRef.type.actualType as LimeException
         val exceptionName = nameResolver.getName(limeException)
         val parentContainer =
             limeReferenceMap[limeException.path.parent.toString()] as? LimeContainer

@@ -20,12 +20,6 @@
 package com.here.gluecodium.model.lime
 
 object LimeTypeHelper {
-    fun getActualType(limeType: LimeType): LimeType =
-        when (limeType) {
-            is LimeTypeAlias -> getActualType(limeType.typeRef.type)
-            else -> limeType
-        }
-
     fun getAllFieldTypes(limeType: LimeType): List<LimeType> {
         val leafType = getLeafType(limeType)
         return listOf(leafType) + when (leafType) {

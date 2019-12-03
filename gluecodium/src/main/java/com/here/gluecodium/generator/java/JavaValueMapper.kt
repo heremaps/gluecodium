@@ -29,7 +29,6 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 
@@ -41,7 +40,7 @@ class JavaValueMapper(
     fun mapValue(limeValue: LimeValue, javaType: JavaTypeRef): JavaValue =
         when (limeValue) {
             is LimeValue.Literal -> {
-                val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
+                val limeType = limeValue.typeRef.type.actualType
                 val suffix = when {
                     limeType !is LimeBasicType -> ""
                     limeType.typeId == TypeId.FLOAT -> "f"
@@ -53,7 +52,7 @@ class JavaValueMapper(
             }
             is LimeValue.Enumerator -> {
                 val limeEnumerator = limeValue.valueRef.enumerator
-                val limeEnumeration = LimeTypeHelper.getActualType(limeValue.typeRef.type)
+                val limeEnumeration = limeValue.typeRef.type.actualType
                 var names = listOf(nameRules.getName(limeEnumeration)) +
                         nameRules.getName(limeEnumerator)
                 val parentContainer =

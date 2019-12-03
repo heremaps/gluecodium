@@ -47,7 +47,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 class CBridgeTypeMapper(
@@ -78,7 +77,7 @@ class CBridgeTypeMapper(
         when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeAlias ->
-                mapType(LimeTypeHelper.getActualType(limeType), cppTypeRef.actualType)
+                mapType(limeType.actualType, cppTypeRef.actualType)
             is LimeContainerWithInheritance -> createCustomTypeInfo(limeType, isClass = true)
             is LimeStruct -> createCustomTypeInfo(limeType)
             is LimeEnumeration -> createEnumTypeInfo(limeType)

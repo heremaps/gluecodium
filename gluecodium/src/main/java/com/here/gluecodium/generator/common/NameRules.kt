@@ -29,7 +29,6 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeType
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypedElement
 
 open class NameRules(val ruleSet: NameRuleSet) {
@@ -47,14 +46,14 @@ open class NameRules(val ruleSet: NameRuleSet) {
         }
 
     open fun getPropertyName(limeProperty: LimeProperty): String {
-        val type = LimeTypeHelper.getActualType(limeProperty.typeRef.type)
+        val type = limeProperty.typeRef.type.actualType
         return ruleSet.getPropertyName(
             limeProperty.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
         )
     }
 
     open fun getGetterName(limeElement: LimeTypedElement): String {
-        val type = LimeTypeHelper.getActualType(limeElement.typeRef.type)
+        val type = limeElement.typeRef.type.actualType
         return ruleSet.getGetterName(
             limeElement.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
         )

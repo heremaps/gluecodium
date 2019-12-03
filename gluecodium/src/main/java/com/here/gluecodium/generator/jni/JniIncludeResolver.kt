@@ -35,7 +35,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal object JniIncludeResolver {
@@ -44,7 +43,7 @@ internal object JniIncludeResolver {
         limeTypeRef: LimeTypeRef,
         javaType: JavaTypeRef
     ): List<Include> =
-        when (val limeType = LimeTypeHelper.getActualType(limeTypeRef.type)) {
+        when (val limeType = limeTypeRef.type.actualType) {
             is LimeStruct, is LimeEnumeration, is LimeContainerWithInheritance, is LimeLambda -> {
                 listOfNotNull((javaType as? JavaCustomTypeRef)?.let {
                     createConversionInclude(it.packageNames, it.classNames)

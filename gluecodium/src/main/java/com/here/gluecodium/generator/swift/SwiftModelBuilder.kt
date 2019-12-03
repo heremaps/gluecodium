@@ -44,7 +44,6 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
@@ -205,7 +204,7 @@ class SwiftModelBuilder(
         }
 
         val error = limeMethod.thrownType?.let {
-            val exception = LimeTypeHelper.getActualType(it.typeRef.type) as LimeException
+            val exception = it.typeRef.type.actualType as LimeException
             val swiftErrorTypeName = nameResolver.getFullName(exception)
             SwiftThrownType(swiftErrorTypeName, it.comment.getFor(PLATFORM_TAG))
         }
@@ -416,7 +415,7 @@ class SwiftModelBuilder(
             }
             is LimeValue.Null -> SwiftValue("nil")
             is LimeValue.InitializerList -> {
-                val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
+                val limeType = limeValue.typeRef.type.actualType
                 val initializer = when {
                     limeType is LimeStruct -> {
                         val valuesString = limeValue.values

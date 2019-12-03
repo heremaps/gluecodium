@@ -71,7 +71,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
@@ -168,7 +167,7 @@ class JniModelBuilder(
         val jniException = if (limeErrorTypeRef != null) {
             val javaExceptionType = javaMethod.exception!!
             val limeErrorTypeIsEnum =
-                limeErrorTypeRef.type.let { LimeTypeHelper.getActualType(it) } is LimeEnumeration
+                limeErrorTypeRef.type.let { it.actualType } is LimeEnumeration
             val conversionIncludes = JniIncludeResolver.getConversionIncludes(
                 limeErrorTypeRef,
                 javaExceptionType.errorType

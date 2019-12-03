@@ -25,7 +25,6 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
@@ -41,7 +40,7 @@ internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
     override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
-        val referredType = limeTypeRef?.type?.let { LimeTypeHelper.getActualType(it) }
+        val referredType = limeTypeRef?.type?.let { it.actualType }
         return when {
             referredType is LimeTypesCollection -> {
                 logger.error(
