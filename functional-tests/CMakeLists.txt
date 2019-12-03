@@ -17,6 +17,12 @@
 
 cmake_minimum_required(VERSION 3.6)
 project(functional-tests)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(APPLE)
+    enable_language(Swift)
+endif()
 # TODO APIGEN-1645: move cmake modules to a more appropriate place
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../examples/cmake/modules/")
 

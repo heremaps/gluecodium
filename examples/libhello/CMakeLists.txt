@@ -21,6 +21,10 @@ cmake_minimum_required(VERSION 3.6)
 # It aims to serve as a blueprint for real-world libraries such as libguidance or librouting.
 project(hello)
 
+if(APPLE)
+    enable_language(Swift)
+endif()
+
 set(HELLO_VERSION_MAJOR 0)
 set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
