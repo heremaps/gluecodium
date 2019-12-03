@@ -10,7 +10,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/LevelOne$LevelTwo$LevelThree", ::smoke::LevelOne::LevelTwo::LevelThree)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/LevelOne$LevelTwo$LevelThree", com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree, ::smoke::LevelOne::LevelTwo::LevelThree)
 std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>*)
 {
     std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree> _nresult{};

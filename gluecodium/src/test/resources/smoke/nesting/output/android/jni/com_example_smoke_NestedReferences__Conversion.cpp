@@ -10,7 +10,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/NestedReferences", ::smoke::NestedReferences)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/NestedReferences", com_example_smoke_NestedReferences, ::smoke::NestedReferences)
 std::shared_ptr<::smoke::NestedReferences> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::NestedReferences>*)
 {
     std::shared_ptr<::smoke::NestedReferences> _nresult{};

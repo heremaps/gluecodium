@@ -75,17 +75,14 @@ private:
 template<class ... CppTypes>
 JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
 
-#define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y) x ## y
-#define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(x, y) REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y)
-
-#define REGISTER_JNI_CLASS_CACHE(name, ...) \
+#define REGISTER_JNI_CLASS_CACHE(name, register_name, ...) \
   namespace { \
-  CachedJavaClass<__VA_ARGS__> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name); \
+  CachedJavaClass<__VA_ARGS__> register_name(name); \
   }
 
-#define REGISTER_JNI_CLASS_CACHE_INHERITANCE(name, cpp_name, ...) \
+#define REGISTER_JNI_CLASS_CACHE_INHERITANCE(name, register_name, cpp_name, ...) \
   namespace { \
-  CachedJavaClass<__VA_ARGS__> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name, cpp_name); \
+  CachedJavaClass<__VA_ARGS__> register_name(name, cpp_name); \
   }
 
 JniReference<jclass>& get_cached_native_base_class();

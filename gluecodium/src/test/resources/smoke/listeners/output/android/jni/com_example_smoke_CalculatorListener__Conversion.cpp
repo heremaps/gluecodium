@@ -11,7 +11,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/CalculatorListenerImpl", "smoke_CalculatorListener", ::smoke::CalculatorListener)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/CalculatorListenerImpl", com_example_smoke_CalculatorListenerImpl, "smoke_CalculatorListener", ::smoke::CalculatorListener)
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::CalculatorListener>& result)
 {

@@ -19,10 +19,14 @@
 
 package com.here.gluecodium.model.jni
 
+import com.here.gluecodium.generator.jni.JniNameRules
 import com.here.gluecodium.model.java.JavaPackage
 
 abstract class JniTopLevelElement(
     val javaName: String,
     val cppFullyQualifiedName: String,
     val javaPackage: JavaPackage
-) : JniElement
+) : JniElement {
+    val fullJavaName = (javaPackage.packageNames + javaName).joinToString("/")
+    open val mangledName = JniNameRules.getMangledName(fullJavaName)
+}

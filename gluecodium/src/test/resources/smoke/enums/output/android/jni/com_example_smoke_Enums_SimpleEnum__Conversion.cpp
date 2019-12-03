@@ -22,7 +22,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodi
         ? ::gluecodium::optional<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::SimpleEnum*)nullptr))
         : ::gluecodium::optional<::smoke::Enums::SimpleEnum>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$SimpleEnum", ::smoke::Enums::SimpleEnum)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$SimpleEnum", com_example_smoke_Enums_00024SimpleEnum, ::smoke::Enums::SimpleEnum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput)
 {

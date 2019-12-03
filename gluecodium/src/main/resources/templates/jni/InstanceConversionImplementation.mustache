@@ -37,9 +37,9 @@ namespace jni
 
 {{#model}}
 {{#if hasTypeRepository}}
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{fullJavaName}}", "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{fullJavaName}}", {{mangledName}}, "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
 {{/if}}{{#unless hasTypeRepository}}
-REGISTER_JNI_CLASS_CACHE("{{fullJavaName}}", {{cppFullyQualifiedName}})
+REGISTER_JNI_CLASS_CACHE("{{fullJavaName}}", {{mangledName}}, {{cppFullyQualifiedName}})
 {{/unless}}
 
 {{#isEq containerType.toString "INTERFACE"}}{{#if isFunctionalInterface}}

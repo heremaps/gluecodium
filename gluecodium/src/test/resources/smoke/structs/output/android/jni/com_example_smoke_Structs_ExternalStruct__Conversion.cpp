@@ -45,7 +45,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodi
         ? ::gluecodium::optional<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ExternalStruct*)nullptr))
         : ::gluecodium::optional<::smoke::Structs::ExternalStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ExternalStruct", ::smoke::Structs::ExternalStruct)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ExternalStruct", com_example_smoke_Structs_00024ExternalStruct, ::smoke::Structs::ExternalStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
 {

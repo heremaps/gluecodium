@@ -11,7 +11,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleInterfaceImpl", "smoke_SimpleInterface", ::smoke::SimpleInterface)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleInterfaceImpl", com_example_smoke_SimpleInterfaceImpl, "smoke_SimpleInterface", ::smoke::SimpleInterface)
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::SimpleInterface>& result)
 {

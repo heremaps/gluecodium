@@ -11,7 +11,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$ConfounderImpl", ::smoke::Lambdas::Confuser)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$ConfounderImpl", com_example_smoke_Lambdas_00024ConfounderImpl, ::smoke::Lambdas::Confuser)
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::smoke::Lambdas::Confuser& result)
 {
     std::shared_ptr<com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy> _nproxy{};

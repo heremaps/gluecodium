@@ -96,7 +96,7 @@ namespace
 struct DummyNativeBaseType {};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{join internalPackages delimiter="/"}}/NativeBase", DummyNativeBaseType)
+REGISTER_JNI_CLASS_CACHE("{{join internalPackages delimiter="/"}}/NativeBase", {{join internalPackages delimiter="_"}}_DummyNativeBaseType, DummyNativeBaseType)
 
 JniReference<jclass>& get_cached_native_base_class()
 {

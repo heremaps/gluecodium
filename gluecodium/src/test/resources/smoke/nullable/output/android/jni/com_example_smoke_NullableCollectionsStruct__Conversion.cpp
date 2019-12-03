@@ -33,7 +33,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodi
         ? ::gluecodium::optional<::smoke::NullableCollectionsStruct>(convert_from_jni(_jenv, _jinput, (::smoke::NullableCollectionsStruct*)nullptr))
         : ::gluecodium::optional<::smoke::NullableCollectionsStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/NullableCollectionsStruct", ::smoke::NullableCollectionsStruct)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/NullableCollectionsStruct", com_example_smoke_NullableCollectionsStruct, ::smoke::NullableCollectionsStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::NullableCollectionsStruct& _ninput)
 {

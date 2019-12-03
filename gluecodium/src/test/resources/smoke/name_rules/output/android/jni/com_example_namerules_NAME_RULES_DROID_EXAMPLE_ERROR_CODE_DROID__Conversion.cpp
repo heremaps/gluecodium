@@ -20,7 +20,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional
         ? ::optional<::namerules::NameRules::ExampleErrorCode>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleErrorCode*)nullptr))
         : ::optional<::namerules::NameRules::ExampleErrorCode>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/namerules/NAME_RULES_DROID$EXAMPLE_ERROR_CODE_DROID", ::namerules::NameRules::ExampleErrorCode)
+REGISTER_JNI_CLASS_CACHE("com/example/namerules/NAME_RULES_DROID$EXAMPLE_ERROR_CODE_DROID", com_example_namerules_NAME_1RULES_1DROID_00024EXAMPLE_1ERROR_1CODE_1DROID, ::namerules::NameRules::ExampleErrorCode)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::namerules::NameRules::ExampleErrorCode _ninput)
 {

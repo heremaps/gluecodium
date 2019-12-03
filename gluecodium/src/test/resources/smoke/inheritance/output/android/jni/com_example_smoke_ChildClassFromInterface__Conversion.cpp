@@ -10,7 +10,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ChildClassFromInterface", "smoke_ChildClassFromInterface", ::smoke::ChildClassFromInterface)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ChildClassFromInterface", com_example_smoke_ChildClassFromInterface, "smoke_ChildClassFromInterface", ::smoke::ChildClassFromInterface)
 std::shared_ptr<::smoke::ChildClassFromInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ChildClassFromInterface>*)
 {
     std::shared_ptr<::smoke::ChildClassFromInterface> _nresult{};

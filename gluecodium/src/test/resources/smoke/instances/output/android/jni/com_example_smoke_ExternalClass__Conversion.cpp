@@ -10,7 +10,7 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass", ::fire::Baz)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass", com_example_smoke_ExternalClass, ::fire::Baz)
 std::shared_ptr<::fire::Baz> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::fire::Baz>*)
 {
     std::shared_ptr<::fire::Baz> _nresult{};

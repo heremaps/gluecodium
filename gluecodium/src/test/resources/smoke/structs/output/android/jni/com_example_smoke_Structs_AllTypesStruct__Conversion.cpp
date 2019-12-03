@@ -91,7 +91,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodi
         ? ::gluecodium::optional<::smoke::Structs::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::AllTypesStruct*)nullptr))
         : ::gluecodium::optional<::smoke::Structs::AllTypesStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$AllTypesStruct", ::smoke::Structs::AllTypesStruct)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$AllTypesStruct", com_example_smoke_Structs_00024AllTypesStruct, ::smoke::Structs::AllTypesStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
 {

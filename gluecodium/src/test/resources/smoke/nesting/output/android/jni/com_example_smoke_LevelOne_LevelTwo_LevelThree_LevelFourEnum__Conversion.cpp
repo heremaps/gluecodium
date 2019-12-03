@@ -22,7 +22,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodi
         ? ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>(convert_from_jni(_jenv, _jinput, (::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum*)nullptr))
         : ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/LevelOne$LevelTwo$LevelThree$LevelFourEnum", ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/LevelOne$LevelTwo$LevelThree$LevelFourEnum", com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree_00024LevelFourEnum, ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum _ninput)
 {

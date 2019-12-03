@@ -31,6 +31,6 @@ class JniStruct(
     val hasImmutableFields: Boolean = false
 ) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
     @Suppress("unused")
-    val mangledName
+    override val mangledName
         get() = JniNameRules.getMangledName((javaPackage.packageNames + javaName).joinToString("/"))
 }

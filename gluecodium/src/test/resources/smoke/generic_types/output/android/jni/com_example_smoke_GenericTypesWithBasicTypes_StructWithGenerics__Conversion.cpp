@@ -37,7 +37,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodi
         ? ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(convert_from_jni(_jenv, _jinput, (::smoke::GenericTypesWithBasicTypes::StructWithGenerics*)nullptr))
         : ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/GenericTypesWithBasicTypes$StructWithGenerics", ::smoke::GenericTypesWithBasicTypes::StructWithGenerics)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/GenericTypesWithBasicTypes$StructWithGenerics", com_example_smoke_GenericTypesWithBasicTypes_00024StructWithGenerics, ::smoke::GenericTypesWithBasicTypes::StructWithGenerics)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::GenericTypesWithBasicTypes::StructWithGenerics& _ninput)
 {

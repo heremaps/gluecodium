@@ -19,8 +19,12 @@
 
 package com.here.gluecodium.model.jni
 
+import com.here.gluecodium.generator.jni.JniNameRules
+
 class JniException(
     val javaClassName: String,
     val errorType: JniType,
     val cppTypeIsErrorCode: Boolean
-) : JniElement
+) : JniElement {
+    val mangledName = JniNameRules.getMangledName(javaClassName)
+}
