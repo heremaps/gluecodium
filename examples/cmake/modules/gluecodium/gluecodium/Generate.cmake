@@ -197,6 +197,7 @@ function(apigen_generate)
   elseif(apigen_generate_VERBOSE)
     message(STATUS ${GENERATE_OUTPUT})
   endif()
+  file(WRITE "${apigen_generate_BUILD_OUTPUT_DIR}/gluecodium.log" "${GENERATE_OUTPUT}")
 
 endfunction()
 
