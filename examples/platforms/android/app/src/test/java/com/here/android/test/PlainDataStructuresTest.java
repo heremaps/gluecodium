@@ -200,8 +200,8 @@ public final class PlainDataStructuresTest {
 
   @Test
   public void allTypesImmutableStructBuilder() {
-    PlainDataStructures.AllTypesImmutableStruct allTypesStruct =
-        new PlainDataStructures.AllTypesImmutableStruct(
+    PlainDataStructuresImmutable.AllTypesImmutableStruct allTypesStruct =
+        new PlainDataStructuresImmutable.AllTypesImmutableStruct(
             (byte)3,
             (short)4,
             (short)5,
@@ -215,12 +215,12 @@ public final class PlainDataStructuresTest {
             "test string",
             true,
             "hello".getBytes(),
-            PlainDataStructures.createPoint(11.0, 12.0));
+            new PlainDataStructuresImmutable.Point(11.0, 12.0));
 
-    PlainDataStructures.AllTypesImmutableStruct.Builder builder =
-        new PlainDataStructures.AllTypesImmutableStruct.Builder();
+    PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder builder =
+        new PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder();
 
-    PlainDataStructures.AllTypesImmutableStruct result = builder
+    PlainDataStructuresImmutable.AllTypesImmutableStruct result = builder
         .setInt8Field((byte)3)
         .setUint8Field((short)4)
         .setInt16Field((short)5)
@@ -234,7 +234,7 @@ public final class PlainDataStructuresTest {
         .setStringField("test string")
         .setBooleanField(true)
         .setBytesField("hello".getBytes())
-        .setPointField(PlainDataStructures.createPoint(11.0, 12.0))
+        .setPointField(new PlainDataStructuresImmutable.Point(11.0, 12.0))
         .build();
 
     assertEquals(allTypesStruct.booleanField, result.booleanField);

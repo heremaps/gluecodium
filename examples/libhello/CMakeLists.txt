@@ -136,6 +136,12 @@ feature(Structs cpp android swift SOURCES
     lime/test/TypeCollection.lime
 )
 
+feature(StructsImmutable cpp android swift SOURCES
+    src/test/PlainDataStructuresImmutable.cpp
+
+    lime/test/PlainDataStructuresImmutable.lime
+)
+
 feature(TypeDefs cpp android swift SOURCES
     src/hello/HelloWorldTypedefs.cpp
 

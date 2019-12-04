@@ -56,48 +56,10 @@ class PlainDataStructures {
         bytesField: Blob
         pointField: Point
     }
-    // Immutable struct type containing all builtin and a custom data type
-    @Immutable
-    @Java(Builder)
-    struct AllTypesImmutableStruct {
-        int8Field: Byte
-        uint8Field: UByte
-        int16Field: Short
-        uint16Field: UShort
-        int32Field: Int
-        uint32Field: UInt
-        int64Field: Long
-        uint64Field: ULong
-        floatField: Float
-        doubleField: Double
-        stringField: String
-        booleanField: Boolean
-        bytesField: Blob
-        pointField: Point
-    }
-    struct NestingImmutableStruct {
-        structField: AllTypesImmutableStruct
-    }
-    struct DoubleNestingImmutableStruct {
-        nestingStructField: NestingImmutableStruct
-    }
-    struct StructWithArrayOfImmutable {
-        arrayField: ArrayOfImmutable
-    }
-    @Cpp(Accessors)
-    @Immutable
-    struct ImmutableStructWithCppAccessors {
-        stringField: String
-    }
     @Cpp(Accessors)
     struct MutableStructWithCppAccessors {
         stringField: String
     }
-    typealias ArrayOfImmutable = List<AllTypesImmutableStruct>
-    typealias MapToImmutableStruct = Map<Int, AllTypesImmutableStruct>
-    static fun MapOfImmutablesRoundTrip(
-        input: MapToImmutableStruct
-    ): MapToImmutableStruct
     // Static method to create a point
     static fun createPoint(
         x: Double,

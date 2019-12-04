@@ -22,13 +22,6 @@
 
 namespace test
 {
-PlainDataStructures::MapToImmutableStruct
-PlainDataStructures::map_of_immutables_round_trip(
-    const PlainDataStructures::MapToImmutableStruct& input )
-{
-    return input;
-}
-
 PlainDataStructures::Point
 PlainDataStructures::create_point( const double x, const double y )
 {

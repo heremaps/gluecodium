@@ -19,29 +19,13 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/PlainDataStructuresImmutable.h"
-#include <gmock/gmock.h>
 
 namespace test
 {
-using namespace ::testing;
-
-TEST( ImmutableStructsTest, struct_with_accessors_is_copy_constructable )
+PlainDataStructuresImmutable::MapToImmutableStruct
+PlainDataStructuresImmutable::map_of_immutables_round_trip(
+    const PlainDataStructuresImmutable::MapToImmutableStruct& input )
 {
-    test::PlainDataStructuresImmutable::ImmutableStructWithCppAccessors some_struct{"foo"};
-    test::PlainDataStructuresImmutable::ImmutableStructWithCppAccessors another_struct(some_struct);
-
-    EXPECT_EQ(another_struct.get_string_field(), "foo");
-    EXPECT_NE(&another_struct, &some_struct);
+    return input;
 }
-
-TEST( ImmutableStructsTest, struct_with_accessors_is_copy_assignable )
-{
-    test::PlainDataStructuresImmutable::ImmutableStructWithCppAccessors some_struct{"foo"};
-    test::PlainDataStructuresImmutable::ImmutableStructWithCppAccessors another_struct{""};
-    another_struct = some_struct;
-
-    EXPECT_EQ(another_struct.get_string_field(), "foo");
-    EXPECT_NE(&another_struct, &some_struct);
-}
-
-}  // test
+}  // namespace test
