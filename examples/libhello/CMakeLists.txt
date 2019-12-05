@@ -132,13 +132,17 @@ feature(InstanceInStruct cpp android swift SOURCES
     lime/test/StructWithInstance.lime
 )
 
-feature(Structs cpp android swift SOURCES
+feature(Structs cpp android swift dart SOURCES
     src/hello/HelloWorldPlainDataStructures.cpp
-    src/test/PlainDataStructuresFromTypeCollection.cpp
     src/test/PlainDataStructures.cpp
 
     lime/hello/HelloWorldPlainDataStructures.lime
     lime/test/PlainDataStructures.lime
+)
+
+feature(StructsInTypes cpp android swift SOURCES
+    src/test/PlainDataStructuresFromTypeCollection.cpp
+
     lime/test/PlainDataStructuresFromTypeCollection.lime
     lime/test/TypeCollection.lime
 )

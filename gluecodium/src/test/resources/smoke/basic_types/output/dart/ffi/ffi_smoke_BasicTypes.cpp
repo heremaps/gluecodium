@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <new>
 #ifdef __cplusplus
 extern "C" {
 #endif

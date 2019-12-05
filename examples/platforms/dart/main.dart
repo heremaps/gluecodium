@@ -18,16 +18,18 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
+import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
 import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
 import "test/StaticIntMethods_test.dart" as StaticIntMethodsTests;
+import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
 
 final _allTests = [
-  StaticStringMethodsTests.main,
+  PlainDataStructuresTests.main,
   StaticBooleanMethodsTests.main,
   StaticFloatDoubleMethodsTests.main,
-  StaticIntMethodsTests.main
+  StaticIntMethodsTests.main,
+  StaticStringMethodsTests.main
 ];
 
 void main() {
