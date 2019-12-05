@@ -59,7 +59,6 @@ class PlainDataStructuresTests: XCTestCase {
             doubleField: 0,
             stringField: "",
             booleanField: false,
-            bytesField: Data(),
             pointField: PlainDataStructures.Point(x: 0, y: 0))
         let result = PlainDataStructures.returnAllTypesStruct(input: allTypes)
         XCTAssertEqual(result.int8Field, 0)
@@ -74,7 +73,6 @@ class PlainDataStructuresTests: XCTestCase {
         XCTAssertEqual(result.doubleField, 0)
         XCTAssertEqual(result.stringField, "")
         XCTAssertEqual(result.booleanField, false)
-        XCTAssertEqual(result.bytesField, Data())
         XCTAssertEqual(result.pointField.x, 0)
         XCTAssertEqual(result.pointField.y, 0)
     }
@@ -93,7 +91,6 @@ class PlainDataStructuresTests: XCTestCase {
             doubleField: 9,
             stringField: "10",
             booleanField: true,
-            bytesField: Data([12]),
             pointField: PlainDataStructures.Point(x: 13, y: 14))
         let result = PlainDataStructures.returnAllTypesStruct(input: allTypes)
         XCTAssertEqual(result.int8Field, 0)
@@ -108,7 +105,6 @@ class PlainDataStructuresTests: XCTestCase {
         XCTAssertEqual(result.doubleField, 9)
         XCTAssertEqual(result.stringField, "10")
         XCTAssertEqual(result.booleanField, true)
-        XCTAssertEqual(result.bytesField, Data([12]))
         XCTAssertEqual(result.pointField.x, 13)
         XCTAssertEqual(result.pointField.y, 14)
     }

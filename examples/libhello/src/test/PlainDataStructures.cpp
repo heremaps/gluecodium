@@ -88,8 +88,6 @@ PlainDataStructures::modify_all_types_struct( const PlainDataStructures::AllType
     output.double_field = input.double_field + 1.0;
     output.string_field = "Hello " + input.string_field;
     output.boolean_field = !input.boolean_field;
-    output.bytes_field = std::make_shared< std::vector< uint8_t > >( input.bytes_field->rbegin( ),
-                                                                     input.bytes_field->rend( ) );
     output.point_field = PlainDataStructures::swap_point_coordinates( input.point_field );
     return output;
 }

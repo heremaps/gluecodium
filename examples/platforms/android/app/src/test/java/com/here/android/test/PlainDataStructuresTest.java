@@ -110,8 +110,7 @@ public final class PlainDataStructuresTest {
   @Test
   public void allTypesZeroesRoundTrip() {
     PlainDataStructures.AllTypesStruct allTypesStruct =
-        new PlainDataStructures.AllTypesStruct(
-            new byte[0], PlainDataStructures.createPoint(0.0, 0.0));
+        new PlainDataStructures.AllTypesStruct(PlainDataStructures.createPoint(0.0, 0.0));
     allTypesStruct.booleanField = false;
     allTypesStruct.doubleField = 0.0;
     allTypesStruct.floatField = 0.0f;
@@ -130,7 +129,6 @@ public final class PlainDataStructuresTest {
 
     assertNotNull(result);
     assertEquals(false, result.booleanField);
-    assertTrue(Arrays.equals(new byte[0], result.bytesField));
     assertEquals(0.0, result.doubleField);
     assertEquals(0.0f, result.floatField);
     assertEquals(0, result.int8Field);
@@ -149,8 +147,7 @@ public final class PlainDataStructuresTest {
   @Test
   public void modifyAllBuiltInAndCustomTypesDataStructure() {
     PlainDataStructures.AllTypesStruct allTypesStruct =
-        new PlainDataStructures.AllTypesStruct(
-            "hello".getBytes(), PlainDataStructures.createPoint(11.0, 12.0));
+        new PlainDataStructures.AllTypesStruct(PlainDataStructures.createPoint(11.0, 12.0));
     allTypesStruct.booleanField = true;
     allTypesStruct.doubleField = 1.0;
     allTypesStruct.floatField = 2.0f;
@@ -169,7 +166,6 @@ public final class PlainDataStructuresTest {
 
     assertNotNull(result);
     assertEquals(false, result.booleanField);
-    assertTrue(Arrays.equals("olleh".getBytes(), result.bytesField));
     assertEquals(allTypesStruct.doubleField + 1.0, result.doubleField);
     assertEquals(allTypesStruct.floatField + 1.0f, result.floatField);
     assertEquals(allTypesStruct.int8Field + 1, result.int8Field);
@@ -190,8 +186,7 @@ public final class PlainDataStructuresTest {
     expectedException.expect(NullPointerException.class);
 
     PlainDataStructures.AllTypesStruct allTypesStruct =
-        new PlainDataStructures.AllTypesStruct(
-            new byte[0], PlainDataStructures.createPoint(11.0, 12.0));
+        new PlainDataStructures.AllTypesStruct(PlainDataStructures.createPoint(11.0, 12.0));
     allTypesStruct.stringField = null;
 
     PlainDataStructures.AllTypesStruct result =

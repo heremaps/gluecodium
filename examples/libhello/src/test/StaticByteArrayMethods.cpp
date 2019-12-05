@@ -57,4 +57,11 @@ StaticByteArrayMethods::is_byte_buffer_null(
     return input_buffer == nullptr;
 }
 
+StaticByteArrayMethods::StructWithBlob
+StaticByteArrayMethods::reverse_blob_in_struct(
+    const StaticByteArrayMethods::StructWithBlob& input )
+{
+    return { std::make_shared<std::vector<uint8_t>>( input.blob->rbegin( ), input.blob->rend( ) ) };
+}
+
 }  // namespace test

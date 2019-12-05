@@ -40,8 +40,24 @@ class StaticByteArrayMethodsTests: XCTestCase {
             expected)
     }
 
+    func testReverseBlobInStruct() {
+        let input = StaticByteArrayMethods.StructWithBlob(blob: "InputBytes".data(using: .ascii)!)
+        XCTAssertEqual(
+            StaticByteArrayMethods.reverseBlobInStruct(input: input).blob,
+            "setyBtupnI".data(using: .ascii)!)
+    }
+
+    func testReverseEmptyBlobInStruct() {
+        let input = StaticByteArrayMethods.StructWithBlob(blob: Data())
+        XCTAssertEqual(
+            StaticByteArrayMethods.reverseBlobInStruct(input: input).blob,
+            input.blob)
+    }
+
     static var allTests = [
         ("testPassByteBuffer", testPassByteBuffer),
-        ("testPassTwoByteBuffers", testPassTwoByteBuffers)
+        ("testPassTwoByteBuffers", testPassTwoByteBuffers),
+        ("testReverseBlobInStruct", testReverseBlobInStruct),
+        ("testReverseEmptyBlobInStruct", testReverseEmptyBlobInStruct)
     ]
 }

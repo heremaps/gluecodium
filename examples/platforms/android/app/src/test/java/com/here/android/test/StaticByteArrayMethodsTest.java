@@ -102,4 +102,27 @@ public final class StaticByteArrayMethodsTest {
 
     boolean result = StaticByteArrayMethods.isByteBufferNull(null);
   }
+
+  @Test
+  public void reverseBlobInStruct_smallBlob() {
+    StaticByteArrayMethods.StructWithBlob input =
+        new StaticByteArrayMethods.StructWithBlob("InputBytes".getBytes());
+
+    StaticByteArrayMethods.StructWithBlob result =
+        StaticByteArrayMethods.reverseBlobInStruct(input);
+
+    assertEquals("setyBtupnI", new String(result.blob));
+  }
+
+  @Test
+  public void reverseBlobInStruct_emptyBlob() {
+    StaticByteArrayMethods.StructWithBlob input =
+        new StaticByteArrayMethods.StructWithBlob(new byte[0]);
+
+    StaticByteArrayMethods.StructWithBlob result =
+        StaticByteArrayMethods.reverseBlobInStruct(input);
+
+    assertTrue(Arrays.equals(input.blob, result.blob));
+  }
+
 }

@@ -40,4 +40,9 @@ class StaticByteArrayMethods {
     static fun isByteBufferNull(
         input: Blob
     ): Boolean
+
+    struct StructWithBlob {
+        blob: Blob
+    }
+    static fun reverseBlobInStruct(input: StructWithBlob): StructWithBlob
 }

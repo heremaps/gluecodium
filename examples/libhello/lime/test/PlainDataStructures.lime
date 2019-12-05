@@ -53,7 +53,6 @@ class PlainDataStructures {
         doubleField: Double = 0.0
         stringField: String = ""
         booleanField: Boolean = false
-        bytesField: Blob
         pointField: Point
     }
     @Cpp(Accessors)
