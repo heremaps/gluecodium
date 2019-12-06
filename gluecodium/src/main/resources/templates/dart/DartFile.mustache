@@ -20,12 +20,14 @@
   !}}
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
-
 {{#imports}}
 import 'package:{{libraryName}}/src/{{filePath}}.dart'{{#asAlias}} as {{.}}{{/asAlias}};
 {{/imports}}
+
+import 'dart:ffi';
+import 'package:ffi/ffi.dart';
+
+import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
 
 {{#model}}
 {{include contentTemplate}}

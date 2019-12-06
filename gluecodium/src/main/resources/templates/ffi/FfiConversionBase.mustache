@@ -23,6 +23,7 @@
 #pragma once
 
 #include "OpaqueHandle.h"
+#include <memory>
 #include <new>
 #include <type_traits>
 
@@ -63,9 +64,27 @@ struct Conversion<T, typename std::enable_if<std::is_class<T>::value>::type> {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) T(std::forward<T>(t)));
     }
 
-    static T&
+    static T
     toCpp(FfiOpaqueHandle ref) {
         return *reinterpret_cast<T*>(ref);
+    }
+};
+
+template<class T>
+struct Conversion<std::shared_ptr<T>, typename std::enable_if<std::is_class<std::shared_ptr<T>>::value>::type> {
+    static FfiOpaqueHandle
+    toFfi(const std::shared_ptr<T>& ptr) {
+        return ptr ? reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::shared_ptr<T>(ptr)) : 0;
+    }
+
+    static FfiOpaqueHandle
+    toFfi(std::shared_ptr<T>&& ptr) {
+        return ptr ? reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::shared_ptr<T>(std::forward<std::shared_ptr<T>>(ptr))) : 0;
+    }
+
+    static std::shared_ptr<T>
+    toCpp(FfiOpaqueHandle ref) {
+        return ref ? *reinterpret_cast<std::shared_ptr<T>*>(ref) : std::shared_ptr<T>{};
     }
 };
 

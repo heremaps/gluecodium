@@ -20,12 +20,9 @@
   !}}
 {{#typeRef.type.actualType}}{{!!
 }}{{#instanceOf this "LimeBasicType"}}{{!!
-}}{{#isEq typeId.toString "Boolean"}}__lib.Boolean_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "String"}}__lib.String_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "Date"}}__lib.DateTime_{{call}}{{/isEq}}{{!!
+}}{{#isEq typeId.toString "Boolean"}}Boolean_{{call}}{{/isEq}}{{!!
+}}{{#isEq typeId.toString "String"}}String_{{call}}{{/isEq}}{{!!
+}}{{#isEq typeId.toString "Date"}}DateTime_{{call}}{{/isEq}}{{!!
 }}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeBasicType"}}{{!!
-}}{{#notInstanceOf this "LimeMap"}}{{#notInstanceOf this "LimeList"}}{{#notInstanceOf this "LimeSet"}}{{!!
-}}__lib.{{#path.head}}{{.}}_{{/path.head}}{{resolveName}}_{{call}}{{!!
-}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{#notInstanceOf this "LimeBasicType"}}{{resolveName "mangled"}}_{{call}}{{/notInstanceOf}}{{!!
 }}{{/typeRef.type.actualType}}

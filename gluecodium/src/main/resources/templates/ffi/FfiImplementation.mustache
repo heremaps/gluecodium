@@ -26,6 +26,7 @@
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
+#include <memory>
 #include <new>
 
 #ifdef __cplusplus
@@ -42,6 +43,13 @@ extern "C" {
 {{/functions}}{{/set}}
 {{/structs}}
 {{/model}}
+
+{{#classes}}
+void
+{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
+}
+{{/classes}}
 
 {{#structs}}
   FfiOpaqueHandle

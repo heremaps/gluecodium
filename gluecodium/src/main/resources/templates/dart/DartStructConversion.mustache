@@ -45,7 +45,7 @@ final _get_field_{{resolveName}} = __lib.nativeLibrary.lookupFunction<
   >('{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
 {{/fields}}{{/set}}
 
-Pointer<Void> {{>dartFullName}}_toFfi({{resolveName}} value) {
+Pointer<Void> {{resolveName "mangled"}}_toFfi({{resolveName}} value) {
 {{#fields}}
   final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName}});
 {{/fields}}
@@ -56,7 +56,7 @@ Pointer<Void> {{>dartFullName}}_toFfi({{resolveName}} value) {
   return _result;
 }
 
-{{resolveName}} {{>dartFullName}}_fromFfi(Pointer<Void> handle) {
+{{resolveName}} {{resolveName "mangled"}}_fromFfi(Pointer<Void> handle) {
 {{#set parent=this}}{{#fields}}
   final _{{resolveName}}_handle = _get_field_{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
@@ -69,7 +69,5 @@ Pointer<Void> {{>dartFullName}}_toFfi({{resolveName}} value) {
   return _result;
 }
 
-void {{>dartFullName}}_releaseFfiHandle(Pointer<Void> handle) => _release_handle(handle);
-{{/model}}{{!!
-
-}}{{+dartFullName}}{{#path.head}}{{.}}_{{/path.head}}{{resolveName}}{{/dartFullName}}
+void {{resolveName "mangled"}}_releaseFfiHandle(Pointer<Void> handle) => _release_handle(handle);
+{{/model}}
