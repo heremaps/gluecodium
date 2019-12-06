@@ -47,7 +47,7 @@ import java.util.logging.Logger
  * The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
  */
 class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
-    private val internalNamespace = options.cppInternalNamespace ?: emptyList()
+    private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = SwiftCommentsProcessor()
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))

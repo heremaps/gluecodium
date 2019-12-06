@@ -52,7 +52,7 @@ open class JavaGeneratorSuite protected constructor(
 
     private val rootPackage = options.javaPackages
     private val internalPackage = options.javaInternalPackages
-    private val internalNamespace = options.cppInternalNamespace ?: listOf()
+    private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = JavaDocProcessor()
     private val cppNameRules =

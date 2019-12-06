@@ -62,7 +62,7 @@ import java.util.logging.Logger
  */
 class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
-    private val internalNamespace = options.cppInternalNamespace ?: emptyList()
+    private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
     private val commentsProcessor = DoxygenCommentsProcessor()
