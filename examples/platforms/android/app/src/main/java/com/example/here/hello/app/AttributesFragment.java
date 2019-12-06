@@ -35,7 +35,6 @@ import android.widget.TextView;
 import com.example.here.hello.R;
 import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldAttributes;
-import com.here.android.hello.HelloWorldFactory;
 import java.util.Locale;
 
 public final class AttributesFragment extends Fragment {
@@ -51,7 +50,7 @@ public final class AttributesFragment extends Fragment {
   private Spinner spinner;
   private TextView description;
   private String[] descriptionsText;
-  private final HelloWorldAttributes helloWorldAttributes = HelloWorldFactory.createAttributes();
+  private final HelloWorldAttributes helloWorldAttributes = HelloWorldAttributes.createAttributes();
 
   private static final String EXAMPLE_STRUCT =
       "ExampleStruct {%n" + "    public double value = %f%n" + "}";

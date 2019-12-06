@@ -39,7 +39,7 @@ import org.robolectric.annotation.Config;
 )
 public class HelloWorldAttributesTest {
 
-  private final HelloWorldAttributes attributes = HelloWorldFactory.createAttributes();
+  private final HelloWorldAttributes attributes = HelloWorldAttributes.createAttributes();
 
   @Test
   public void setGetBuiltInTypeAttribute() {

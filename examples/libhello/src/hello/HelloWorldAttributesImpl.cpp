@@ -68,4 +68,10 @@ HelloWorldAttributesImpl::set_array_attribute(
     m_array = value;
 }
 
+::std::shared_ptr< HelloWorldAttributes >
+HelloWorldAttributes::create_attributes( )
+{
+    return ::std::make_shared< HelloWorldAttributesImpl >( );
+}
+
 }  // namespace hello

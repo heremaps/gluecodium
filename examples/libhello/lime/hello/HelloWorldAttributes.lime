@@ -27,4 +27,7 @@ class HelloWorldAttributes {
     property readonlyAttribute: Float { get }
     property structAttribute: ExampleStruct
     property arrayAttribute: StringArray
+
+    // Creates an instance of HelloWorldAttributes interface
+    static fun createAttributes(): /* Reference to created instance */ HelloWorldAttributes
 }

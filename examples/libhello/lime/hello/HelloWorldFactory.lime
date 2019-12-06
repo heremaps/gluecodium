@@ -25,6 +25,4 @@ class HelloWorldFactory {
     static fun createNested(
         simpleInstanceRef: SimpleInstantiable
     ): /* Reference to created instance */ NestedInstantiable
-    // Creates an instance of HelloWorldAttributes interface
-    static fun createAttributes(): /* Reference to created instance */ HelloWorldAttributes
 }

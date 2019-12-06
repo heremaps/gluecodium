@@ -47,7 +47,7 @@ class AttributesViewController: UIViewController, UIPickerViewDataSource, UIPick
     ]
     var indexSelected = 0
     var inputFieldInitialHeight: CGFloat = 0
-    var testClass: HelloWorldAttributes = HelloWorldFactory.createAttributes()
+    var testClass: HelloWorldAttributes = HelloWorldAttributes.createAttributes()
 
     override func viewDidLoad() {
         inputFieldInitialHeight = textFieldHeight.constant
