@@ -24,8 +24,12 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class DartImportResolver(
@@ -35,21 +39,29 @@ internal class DartImportResolver(
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
-            is LimeBasicType -> resolveBasicTypeImports(limeElement)
-            is LimeTypeRef -> resolveImports(limeElement.type)
-            is LimeGenericType -> emptyList() // TODO: APIGEN-1782
-            is LimeNamedElement -> {
-                val filePath = limeElement.path.head.joinToString("/")
-                val fileName = nameRules.ruleSet.getTypeName(limeElement.path.container)
-                val conversionImport =
-                    if (limeElement is LimeStruct || limeElement is LimeEnumeration) {
-                        val conversionFileName = nameResolver.resolveName(limeElement)
-                        createConversionImport("$filePath/$conversionFileName")
-                    } else null
-                listOfNotNull(DartImport("$filePath/$fileName"), conversionImport)
-            }
+            is LimeTypeRef -> resolveTypeImports(limeElement.type)
+            is LimeType -> resolveTypeImports(limeElement)
+            is LimeNamedElement -> resolveImports(limeElement)
             else -> emptyList()
         }
+
+    private fun resolveTypeImports(limeType: LimeType) =
+        when (val actualType = limeType.actualType) {
+            is LimeBasicType -> resolveBasicTypeImports(actualType)
+            is LimeGenericType -> resolveGenericTypeImports(actualType)
+            else -> resolveImports(limeType)
+        }
+
+    private fun resolveImports(limeElement: LimeNamedElement): List<DartImport> {
+        val filePath = limeElement.path.head.joinToString("/")
+        val fileName = nameRules.ruleSet.getTypeName(limeElement.path.container)
+        val conversionImport =
+            if (limeElement is LimeStruct || limeElement is LimeEnumeration) {
+                val conversionFileName = nameResolver.resolveName(limeElement)
+                createConversionImport("$filePath/$conversionFileName")
+            } else null
+        return listOfNotNull(DartImport("$filePath/$fileName"), conversionImport)
+    }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
         when (limeType.typeId) {
@@ -60,9 +72,16 @@ internal class DartImportResolver(
             else -> emptyList()
         }
 
+    private fun resolveGenericTypeImports(limeType: LimeGenericType) =
+        when (limeType) {
+            is LimeList -> resolveImports(limeType.elementType)
+            is LimeSet -> resolveImports(limeType.elementType)
+            is LimeMap -> resolveImports(limeType.keyType) + resolveImports(limeType.valueType)
+            else -> emptyList()
+        } + createConversionImport("GenericTypes")
+
     companion object {
-        private const val CONVERSION_SUFFIX = "__conversion"
         private fun createConversionImport(filePath: String) =
-            DartImport(filePath + CONVERSION_SUFFIX)
+            DartImport(filePath + "__conversion")
     }
 }

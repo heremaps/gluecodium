@@ -26,7 +26,11 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
@@ -35,21 +39,20 @@ internal class FfiNameResolver(
     private val nameRules: NameRules
 ) : NameResolver {
 
-    private val signatureResolver = FfiSignatureResolver(limeReferenceMap, nameRules)
+    private val signatureResolver = FfiSignatureResolver(limeReferenceMap, this)
 
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
             is LimeFunction -> getMangledFullName(element)
-            is LimeEnumeration -> "uint32_t"
-            is LimeType -> getMangledFullName(element.actualType)
-            is LimeNamedElement -> getMangledName(element)
+            is LimeType -> getTypeName(element)
+            is LimeNamedElement -> nameRules.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
-        val limeType = limeTypeRef.type
+        val limeType = limeTypeRef.type.actualType
         return when {
             limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
             limeType is LimeBasicType -> getBasicTypeRefName(limeType)
@@ -57,6 +60,14 @@ internal class FfiNameResolver(
             else -> OPAQUE_HANDLE_TYPE
         }
     }
+
+    private fun getTypeName(limeType: LimeType): String =
+        when (val actualType = limeType.actualType) {
+            is LimeList -> getListName(actualType.elementType)
+            is LimeSet -> getSetName(actualType.elementType)
+            is LimeMap -> getMapName(actualType.keyType, actualType.valueType)
+            else -> getMangledFullName(actualType)
+        }
 
     private fun getBasicTypeRefName(limeType: LimeBasicType) =
         when (limeType.typeId) {
@@ -75,8 +86,12 @@ internal class FfiNameResolver(
             else -> OPAQUE_HANDLE_TYPE
         }
 
-    private fun getMangledName(limeElement: LimeNamedElement) =
-        mangleIdentifier(nameRules.getName(limeElement))
+    private fun getListName(elementType: LimeTypeRef) = "ListOf_${getTypeName(elementType.type)}"
+
+    private fun getSetName(elementType: LimeTypeRef) = "SetOf_${getTypeName(elementType.type)}"
+
+    private fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
+        "MapOf_${getTypeName(keyType.type)}_to_${getTypeName(valueType.type)}"
 
     private fun getMangledFullName(limeElement: LimeNamedElement): String {
         val prefix = when {
@@ -88,23 +103,41 @@ internal class FfiNameResolver(
                     )
                 getMangledFullName(parentElement)
             }
+            limeElement.path.head.isEmpty() -> null
             else -> limeElement.path.head.joinToString("_")
         }
 
-        val mangledName = getMangledName(limeElement)
-        val fullName = "${prefix}_$mangledName"
+        val mangledName = mangleName(nameRules.getName(limeElement))
+        val fullName = listOfNotNull(prefix, mangledName).joinToString("_")
 
         return when (limeElement) {
             is LimeFunction -> {
                 val mangledSignature = signatureResolver.getSignature(limeElement)
-                    .joinToString("_") { mangleIdentifier(it) }
+                    .joinToString("_") { mangleName(it) }
                 if (mangledSignature.isEmpty()) fullName else "${fullName}__$mangledSignature"
             }
             else -> fullName
         }
     }
 
-    private fun mangleIdentifier(name: String) = name.replace("_", "_1")
+    private fun mangleName(name: String) =
+        name.replace(" ", "").replace("_", "_1").replace("<", "Of_").replace(",", "_").replace(">", "")
+
+    private class FfiSignatureResolver(
+        limeReferenceMap: Map<String, LimeElement>,
+        private val nameResolver: FfiNameResolver
+    ) : LimeSignatureResolver(limeReferenceMap) {
+
+        override fun getFunctionName(limeFunction: LimeFunction) =
+            nameResolver.nameRules.getName(limeFunction)
+
+        override fun getArrayName(elementType: LimeTypeRef) = nameResolver.getListName(elementType)
+
+        override fun getSetName(elementType: LimeTypeRef) = nameResolver.getSetName(elementType)
+
+        override fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
+            nameResolver.getMapName(keyType, valueType)
+    }
 
     companion object {
         private const val OPAQUE_HANDLE_TYPE = "FfiOpaqueHandle"

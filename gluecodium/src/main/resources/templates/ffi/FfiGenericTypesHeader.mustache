@@ -1,0 +1,58 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>ffi/FfiCopyrightHeader}}
+
+#pragma once
+
+#include "Export.h"
+#include "OpaqueHandle.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{#genericTypes}}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_handle();
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
+{{#instanceOf this "LimeMap"}}
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_put(FfiOpaqueHandle handle, {{resolveName keyType}} key, {{resolveName valueType}} value);
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_insert(FfiOpaqueHandle handle, {{resolveName elementType}} value);
+{{/notInstanceOf}}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_iterator(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_iterator_release_handle(FfiOpaqueHandle iterator_handle);
+_GLUECODIUM_FFI_EXPORT bool {{resolveName}}_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle);
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_iterator_increment(FfiOpaqueHandle iterator_handle);
+{{#instanceOf this "LimeMap"}}
+_GLUECODIUM_FFI_EXPORT {{resolveName keyType}} {{resolveName}}_iterator_get_key(FfiOpaqueHandle iterator_handle);
+_GLUECODIUM_FFI_EXPORT {{resolveName valueType}} {{resolveName}}_iterator_get_value(FfiOpaqueHandle iterator_handle);
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+_GLUECODIUM_FFI_EXPORT {{resolveName elementType}} {{resolveName}}_iterator_get(FfiOpaqueHandle iterator_handle);
+{{/notInstanceOf}}
+
+
+{{/genericTypes}}
+
+#ifdef __cplusplus
+}
+#endif

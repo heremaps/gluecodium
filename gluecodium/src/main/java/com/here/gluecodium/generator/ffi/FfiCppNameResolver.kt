@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.ffi
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -29,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -48,8 +50,8 @@ internal class FfiCppNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
-            is LimeType -> getTypeName(element.actualType)
             is LimeField -> getFieldName(element)
+            is LimeType -> getTypeName(element.actualType)
             is LimeNamedElement -> nameRules.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -68,13 +70,7 @@ internal class FfiCppNameResolver(
     private fun getTypeName(limeType: LimeType): String =
         when (limeType) {
             is LimeBasicType -> getBasicTypeName(limeType)
-            is LimeList -> "std::vector<${getTypeRefName(limeType.elementType)}>"
-            is LimeSet -> "std::unordered_set<${getTypeRefName(limeType.elementType)}>"
-            is LimeMap -> {
-                val keyTypeName = getTypeRefName(limeType.keyType)
-                val valueTypeName = getTypeRefName(limeType.valueType)
-                "std::unordered_map<$keyTypeName, $valueTypeName>"
-            }
+            is LimeGenericType -> getGenericTypeName(limeType)
             else -> getFullyQualifiedName(limeType)
         }
 
@@ -121,4 +117,36 @@ internal class FfiCppNameResolver(
                 ?: throw GluecodiumExecutionException(
                     "Failed to resolve parent for element ${limeElement.fullName}"
                 ))
+
+    private fun getGenericTypeName(limeType: LimeGenericType): String {
+        val templateName: String
+        val templateParameters: List<String>
+        when (limeType) {
+            is LimeList -> {
+                templateName = "vector"
+                templateParameters = listOf(resolveName(limeType.elementType))
+            }
+            is LimeSet -> {
+                templateName = "unordered_set"
+                val typeName = resolveName(limeType.elementType)
+                templateParameters = when {
+                    CppLibraryIncludes.hasStdHash(limeType.elementType) -> listOf(typeName)
+                    else -> listOf(typeName, "$internalNamespace::hash<$typeName>")
+                }
+            }
+            is LimeMap -> {
+                templateName = "unordered_map"
+                val keyTypeName = resolveName(limeType.keyType)
+                val valueTypeName = resolveName(limeType.valueType)
+                templateParameters = when {
+                    CppLibraryIncludes.hasStdHash(limeType.keyType) -> listOf(keyTypeName, valueTypeName)
+                    else -> listOf(keyTypeName, valueTypeName, "$internalNamespace::hash<$keyTypeName>")
+                }
+            }
+            else ->
+                throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
+        }
+
+        return "std::$templateName<${templateParameters.joinToString(", ")}>"
+    }
 }
