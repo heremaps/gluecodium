@@ -106,7 +106,7 @@ class CBridgeGenerator(
             "cbridge/$template",
             mapOf("internalNamespace" to internalNamespace)
         )
-        return GeneratedFile(content, path)
+        return GeneratedFile(content, path, GeneratedFile.SourceSet.COMMON)
     }
 
     private fun buildCBridgeModel(rootElement: LimeNamedElement): List<CInterface> {
