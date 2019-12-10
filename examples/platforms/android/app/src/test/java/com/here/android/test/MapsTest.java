@@ -242,8 +242,8 @@ public class MapsTest {
   @Test
   public void methodWithMapOfInstances() {
     Map<String, SimpleInterfaceOne> inputMap = new HashMap<>();
-    inputMap.put("One", InstancesFactory.createSimpleInterfaceOne());
-    inputMap.put("Two", InstancesFactory.createSimpleInterfaceOne());
+    inputMap.put("One", InterfacesFactory.createSimpleInterfaceOne());
+    inputMap.put("Two", InterfacesFactory.createSimpleInterfaceOne());
     inputMap.get("One").setStringValue("Hello");
     inputMap.get("Two").setStringValue("Hello");
 

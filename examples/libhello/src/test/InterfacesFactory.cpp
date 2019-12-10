@@ -18,34 +18,34 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/InstancesFactory.h"
-#include "Instances.h"
+#include "test/InterfacesFactory.h"
+#include "Interfaces.h"
 #include <memory>
 
 namespace test
 {
-::std::shared_ptr< SimpleInstantiableOne >
-InstancesFactory::create_simple_instantiable_one( )
+::std::shared_ptr< SimpleInterfaceOne >
+InterfacesFactory::create_simple_interface_one( )
 {
-    return ::std::make_shared< SimpleInstanceOne >( );
+    return ::std::make_shared< SimpleInterfaceOneImpl >( );
 }
 
-::std::shared_ptr< SimpleInstantiableTwo >
-InstancesFactory::create_simple_instantiable_two( )
+::std::shared_ptr< SimpleInterfaceTwo >
+InterfacesFactory::create_simple_interface_two( )
 {
-    return ::std::make_shared< SimpleInstanceTwo >( );
+    return ::std::make_shared< SimpleInterfaceTwoImpl >( );
 }
 
-::std::shared_ptr< NestedInstantiableOne >
-InstancesFactory::create_nested_instantiable_one( )
+::std::shared_ptr< NestedInterfaceOne >
+InterfacesFactory::create_nested_interface_one( )
 {
-    return ::std::make_shared< NestedInstanceOne >( );
+    return ::std::make_shared< NestedInterfaceOneImpl >( );
 }
 
-::std::shared_ptr< NestedInstantiableTwo >
-InstancesFactory::create_nested_instantiable_two( )
+::std::shared_ptr< NestedInterfaceTwo >
+InterfacesFactory::create_nested_interface_two( )
 {
-    return ::std::make_shared< NestedInstanceTwo >( );
+    return ::std::make_shared< NestedInterfaceTwoImpl >( );
 }
 
 }  // namespace test

@@ -98,7 +98,7 @@ feature(BuiltinTypes cpp android swift dart SOURCES
     lime/test/StaticIntMethods.lime
 )
 
-feature(Instances cpp android swift SOURCES
+feature(Classes cpp android swift SOURCES
     src/hello/HelloWorldInstances.h
     src/hello/HelloWorldProfileManager.h
     src/hello/HelloWorldFactory.cpp
@@ -108,8 +108,6 @@ feature(Instances cpp android swift SOURCES
     src/hello/HelloWorldProfileManagerFactory.cpp
     src/test/Instances.h
     src/test/Instances.cpp
-    src/test/Interfaces.h
-    src/test/Interfaces.cpp
     src/test/InstancesFactory.cpp
 
     lime/hello/HelloWorldInstances.lime
@@ -118,8 +116,14 @@ feature(Instances cpp android swift SOURCES
     lime/hello/HelloWorldFactory.lime
     lime/hello/HelloWorldStaticLogger.lime
     lime/test/Instances.lime
+)
+
+feature(Interfaces cpp android swift SOURCES
+    src/test/Interfaces.h
+    src/test/Interfaces.cpp
+    src/test/InterfacesFactory.cpp
+
     lime/test/Interfaces.lime
-    lime/test/InstancesFactory.lime
 )
 
 feature(InstanceInStruct cpp android swift SOURCES

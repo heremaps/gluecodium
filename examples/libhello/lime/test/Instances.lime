@@ -55,3 +55,14 @@ class NestedInstantiableTwo {
     )
     fun getSelfInstantiable(): NestedInstantiableTwo
 }
+
+class InstancesFactory {
+    // Creates an instance of SimpleInstantiableOne interface
+    static fun createSimpleInstantiableOne(): /* Reference to created instance */ SimpleInstantiableOne
+    // Creates an instance of SimpleInstantiableTwo interface
+    static fun createSimpleInstantiableTwo(): /* Reference to created instance */ SimpleInstantiableTwo
+    // Creates an instance of NestedInstantiableOne interface
+    static fun createNestedInstantiableOne(): /* Reference to created instance */ NestedInstantiableOne
+    // Creates an instance of NestedInstantiableTwo interface
+    static fun createNestedInstantiableTwo(): /* Reference to created instance */ NestedInstantiableTwo
+}

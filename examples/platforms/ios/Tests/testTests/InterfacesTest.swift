@@ -24,7 +24,7 @@ import hello
 class InterfacesTests: XCTestCase {
 
     func testInterfaceInstanceMethod() {
-        let simple = InstancesFactory.createSimpleInterfaceOne()
+        let simple = InterfacesFactory.createSimpleInterfaceOne()
         simple.setStringValue(stringValue: "HelloSimple")
 
         let stringReturned = simple.getStringValue()
@@ -33,11 +33,11 @@ class InterfacesTests: XCTestCase {
     }
 
     func testInterfaceGetInterfaceMethod() {
-        let simpleOne = InstancesFactory.createSimpleInterfaceOne()
+        let simpleOne = InterfacesFactory.createSimpleInterfaceOne()
         simpleOne.setStringValue(stringValue: "Hello")
-        let simpleTwo = InstancesFactory.createSimpleInterfaceOne()
+        let simpleTwo = InterfacesFactory.createSimpleInterfaceOne()
         simpleTwo.setStringValue(stringValue: "World")
-        let complex = InstancesFactory.createNestedInterfaceOne()
+        let complex = InterfacesFactory.createNestedInterfaceOne()
         complex.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo)
 
         let result = complex.getInterfaceOne()
@@ -47,11 +47,11 @@ class InterfacesTests: XCTestCase {
     }
 
     func testSetSameTypeInterfaces() {
-        let simpleOne = InstancesFactory.createSimpleInterfaceOne()
+        let simpleOne = InterfacesFactory.createSimpleInterfaceOne()
         simpleOne.setStringValue(stringValue: "Hello")
-        let simpleTwo = InstancesFactory.createSimpleInterfaceOne()
+        let simpleTwo = InterfacesFactory.createSimpleInterfaceOne()
         simpleTwo.setStringValue(stringValue: "World")
-        let complex = InstancesFactory.createNestedInterfaceOne()
+        let complex = InterfacesFactory.createNestedInterfaceOne()
 
         complex.setSameTypeInterfaces(interfaceOne: simpleOne, interfaceTwo: simpleTwo)
 
@@ -60,9 +60,9 @@ class InterfacesTests: XCTestCase {
     }
 
     func testSetSameTypeInterfaces_identicalInterface() {
-        let simple = InstancesFactory.createSimpleInterfaceOne()
+        let simple = InterfacesFactory.createSimpleInterfaceOne()
         simple.setStringValue(stringValue: "Hello")
-        let complex = InstancesFactory.createNestedInterfaceOne()
+        let complex = InterfacesFactory.createNestedInterfaceOne()
 
         complex.setSameTypeInterfaces(interfaceOne: simple, interfaceTwo: simple)
 
@@ -71,11 +71,11 @@ class InterfacesTests: XCTestCase {
     }
 
     func testGetNestedInterface() {
-        let simpleOne = InstancesFactory.createSimpleInterfaceOne()
-        let otherSimpleOne = InstancesFactory.createSimpleInterfaceOne()
-        let simpleTwo = InstancesFactory.createSimpleInterfaceTwo()
-        let complexOne = InstancesFactory.createNestedInterfaceOne()
-        let complexTwo = InstancesFactory.createNestedInterfaceTwo()
+        let simpleOne = InterfacesFactory.createSimpleInterfaceOne()
+        let otherSimpleOne = InterfacesFactory.createSimpleInterfaceOne()
+        let simpleTwo = InterfacesFactory.createSimpleInterfaceTwo()
+        let complexOne = InterfacesFactory.createNestedInterfaceOne()
+        let complexTwo = InterfacesFactory.createNestedInterfaceTwo()
         simpleOne.setStringValue(stringValue: "Hello")
         otherSimpleOne.setStringValue(stringValue: "World")
         simpleTwo.setStringValue(stringValue: "Foo")
@@ -90,11 +90,11 @@ class InterfacesTests: XCTestCase {
     }
 
     func testSetMultipleTypeInterface() {
-        let simpleOne = InstancesFactory.createSimpleInterfaceOne()
-        let otherSimpleOne = InstancesFactory.createSimpleInterfaceOne()
-        let simpleTwo = InstancesFactory.createSimpleInterfaceTwo()
-        let complexOne = InstancesFactory.createNestedInterfaceOne()
-        let complexTwo = InstancesFactory.createNestedInterfaceTwo()
+        let simpleOne = InterfacesFactory.createSimpleInterfaceOne()
+        let otherSimpleOne = InterfacesFactory.createSimpleInterfaceOne()
+        let simpleTwo = InterfacesFactory.createSimpleInterfaceTwo()
+        let complexOne = InterfacesFactory.createNestedInterfaceOne()
+        let complexTwo = InterfacesFactory.createNestedInterfaceTwo()
         simpleOne.setStringValue(stringValue: "Hello")
         otherSimpleOne.setStringValue(stringValue: "World")
         simpleTwo.setStringValue(stringValue: "Foo")

@@ -44,9 +44,9 @@ public class InterfacesTest {
 
   @Test
   public void setSameTypeInterfaces() {
-    SimpleInterfaceOne instanceOne = InstancesFactory.createSimpleInterfaceOne();
-    SimpleInterfaceOne instanceTwo = InstancesFactory.createSimpleInterfaceOne();
-    NestedInterfaceOne nestedInterfaceOne = InstancesFactory.createNestedInterfaceOne();
+    SimpleInterfaceOne instanceOne = InterfacesFactory.createSimpleInterfaceOne();
+    SimpleInterfaceOne instanceTwo = InterfacesFactory.createSimpleInterfaceOne();
+    NestedInterfaceOne nestedInterfaceOne = InterfacesFactory.createNestedInterfaceOne();
     instanceOne.setStringValue(INSTANCE_ONE_STRING);
     instanceTwo.setStringValue(INSTANCE_TWO_STRING);
 
@@ -60,8 +60,8 @@ public class InterfacesTest {
 
   @Test
   public void setSameTypeInterfaces_identicalInterface() {
-    SimpleInterfaceOne instanceOne = InstancesFactory.createSimpleInterfaceOne();
-    NestedInterfaceOne nestedInterfaceOne = InstancesFactory.createNestedInterfaceOne();
+    SimpleInterfaceOne instanceOne = InterfacesFactory.createSimpleInterfaceOne();
+    NestedInterfaceOne nestedInterfaceOne = InterfacesFactory.createNestedInterfaceOne();
     instanceOne.setStringValue(INSTANCE_ONE_STRING);
 
     nestedInterfaceOne.setSameTypeInterfaces(instanceOne, instanceOne);
@@ -74,7 +74,7 @@ public class InterfacesTest {
 
   @Test
   public void setSameTypeInterfaces_getNullInterface() {
-    NestedInterfaceOne nestedInterfaceOne = InstancesFactory.createNestedInterfaceOne();
+    NestedInterfaceOne nestedInterfaceOne = InterfacesFactory.createNestedInterfaceOne();
 
     assertNull(nestedInterfaceOne.getInterfaceOne());
     assertNull(nestedInterfaceOne.getInterfaceTwo());
@@ -82,7 +82,7 @@ public class InterfacesTest {
 
   @Test
   public void setSameTypeInterfaces_setNullInterface() {
-    NestedInterfaceOne nestedInterfaceOne = InstancesFactory.createNestedInterfaceOne();
+    NestedInterfaceOne nestedInterfaceOne = InterfacesFactory.createNestedInterfaceOne();
 
     nestedInterfaceOne.setSameTypeInterfaces(null, null);
 
@@ -92,11 +92,11 @@ public class InterfacesTest {
 
   @Test
   public void setMultipleTypeInterface() {
-    SimpleInterfaceOne simpleInterfaceOne = InstancesFactory.createSimpleInterfaceOne();
-    SimpleInterfaceOne otherInterfaceOne = InstancesFactory.createSimpleInterfaceOne();
-    SimpleInterfaceTwo simpleInterfaceTwo = InstancesFactory.createSimpleInterfaceTwo();
-    NestedInterfaceOne nested = InstancesFactory.createNestedInterfaceOne();
-    NestedInterfaceTwo nestedInterfaceTwo = InstancesFactory.createNestedInterfaceTwo();
+    SimpleInterfaceOne simpleInterfaceOne = InterfacesFactory.createSimpleInterfaceOne();
+    SimpleInterfaceOne otherInterfaceOne = InterfacesFactory.createSimpleInterfaceOne();
+    SimpleInterfaceTwo simpleInterfaceTwo = InterfacesFactory.createSimpleInterfaceTwo();
+    NestedInterfaceOne nested = InterfacesFactory.createNestedInterfaceOne();
+    NestedInterfaceTwo nestedInterfaceTwo = InterfacesFactory.createNestedInterfaceTwo();
     simpleInterfaceOne.setStringValue(INSTANCE_ONE_STRING);
     simpleInterfaceTwo.setStringValue(INSTANCE_TWO_STRING);
     otherInterfaceOne.setStringValue(INSTANCE_OTHER_STRING);
@@ -113,8 +113,8 @@ public class InterfacesTest {
 
   @Test
   public void setSelfInterface() {
-    NestedInterfaceTwo nestedInstance = InstancesFactory.createNestedInterfaceTwo();
-    SimpleInterfaceOne simpleInterfaceOne = InstancesFactory.createSimpleInterfaceOne();
+    NestedInterfaceTwo nestedInstance = InterfacesFactory.createNestedInterfaceTwo();
+    SimpleInterfaceOne simpleInterfaceOne = InterfacesFactory.createSimpleInterfaceOne();
     simpleInterfaceOne.setStringValue(INSTANCE_ONE_STRING);
     nestedInstance.setMultipleTypeInterfaces(simpleInterfaceOne, null, null);
 
@@ -126,7 +126,7 @@ public class InterfacesTest {
 
   @Test
   public void setSelfInterfaceNull() {
-    NestedInterfaceTwo nestedInstance = InstancesFactory.createNestedInterfaceTwo();
+    NestedInterfaceTwo nestedInstance = InterfacesFactory.createNestedInterfaceTwo();
 
     nestedInstance.setSelfInterface(null);
 

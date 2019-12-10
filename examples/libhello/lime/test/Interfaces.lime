@@ -90,3 +90,10 @@ class VeryExternalInterface {
         set
     }
 }
+
+class InterfacesFactory {
+    static fun createSimpleInterfaceOne(): SimpleInterfaceOne
+    static fun createSimpleInterfaceTwo(): SimpleInterfaceTwo
+    static fun createNestedInterfaceOne(): NestedInterfaceOne
+    static fun createNestedInterfaceTwo(): NestedInterfaceTwo
+}
