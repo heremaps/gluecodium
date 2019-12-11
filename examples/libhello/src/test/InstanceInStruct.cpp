@@ -20,12 +20,15 @@
 
 #include "test/InstanceInStruct.h"
 #include <memory>
+#include <string>
 
 namespace test
 {
 class InstanceInStructImpl : public InstanceInStruct
 {
 public:
+    InstanceInStructImpl() : InstanceInStructImpl("") {}
+    InstanceInStructImpl(const std::string& value) : m_value(value) {}
     ~InstanceInStructImpl( ) = default;
 
     virtual void
@@ -53,7 +56,7 @@ InstanceInStruct::create( )
 InstanceInStruct::SelfHolder
 InstanceInStruct::create_in_struct( )
 {
-    return {std::make_shared< InstanceInStructImpl >( )};
+    return {std::make_shared< InstanceInStructImpl >( "foo" )};
 }
 
 InstanceInStruct::SelfHolder
@@ -65,7 +68,7 @@ InstanceInStruct::create_null_in_struct( )
 InstanceInStruct::NotNullSelfHolder
 InstanceInStruct::create_in_not_null_struct( )
 {
-    return {std::make_shared< InstanceInStructImpl >( )};
+    return {std::make_shared< InstanceInStructImpl >( "foo" )};
 }
 
 InstanceInStruct::NotNullSelfHolder

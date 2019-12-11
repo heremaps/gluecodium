@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <memory>
 #include <new>
 #ifdef __cplusplus
 extern "C" {
@@ -103,6 +104,10 @@ smoke_BasicTypes_ulongFunction__ULong(uint64_t input) {
             gluecodium::ffi::Conversion<uint64_t>::toCpp(input)
         )
     );
+}
+void
+smoke_BasicTypes_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::shared_ptr<smoke::BasicTypes>*>(handle);
 }
 #ifdef __cplusplus
 }

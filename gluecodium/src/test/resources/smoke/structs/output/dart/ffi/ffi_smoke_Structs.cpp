@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <memory>
 #include <new>
 #ifdef __cplusplus
 extern "C" {
@@ -64,6 +65,10 @@ smoke_Structs_modifyAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input) {
             gluecodium::ffi::Conversion<::AllTypesStruct>::toCpp(input)
         )
     );
+}
+void
+smoke_Structs_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::shared_ptr<smoke::Structs>*>(handle);
 }
   FfiOpaqueHandle
 smoke_Structs_Point_create_handle(double x, double y) {
@@ -322,7 +327,7 @@ smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField(FfiOpaqu
   FfiOpaqueHandle
 smoke_Structs_StructWithArrayOfImmutable_create_handle(FfiOpaqueHandle arrayField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::StructWithArrayOfImmutable(
-            gluecodium::ffi::Conversion<smoke::Structs::ArrayOfImmutable>::toCpp(arrayField)
+            gluecodium::ffi::Conversion<std::vector<smoke::Structs::AllTypesStruct>>::toCpp(arrayField)
         ));
 }
 void
@@ -331,7 +336,7 @@ smoke_Structs_StructWithArrayOfImmutable_release_handle(FfiOpaqueHandle handle) 
 }
 FfiOpaqueHandle
 smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField(FfiOpaqueHandle handle) {
-    return gluecodium::ffi::Conversion<smoke::Structs::ArrayOfImmutable>::toFfi(
+    return gluecodium::ffi::Conversion<std::vector<smoke::Structs::AllTypesStruct>>::toFfi(
         reinterpret_cast<smoke::Structs::StructWithArrayOfImmutable*>(handle)->array_field
     );
 }
