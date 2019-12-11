@@ -118,7 +118,7 @@ feature(Classes cpp android swift dart SOURCES
     lime/test/Instances.lime
 )
 
-feature(Interfaces cpp android swift SOURCES
+feature(Interfaces cpp android swift dart SOURCES
     src/test/Interfaces.h
     src/test/Interfaces.cpp
     src/test/InterfacesFactory.cpp

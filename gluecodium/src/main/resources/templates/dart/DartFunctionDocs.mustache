@@ -18,9 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isConstructor}}{{resolveName visibility}}{{resolveName parent}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}{{!!
-}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{!!
-}}{{resolveName visibility}}{{resolveName}}{{/unless}}({{>parameterList}}){{!!
-
-}}{{+parameterList}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/parameterList}}
+{{#unless comment.isEmpty}}{{prefix comment "/// "}}
+{{/unless}}{{!!
+}}{{#parameters}}{{#unless comment.isEmpty}}/// @param[{{name}}] {{prefix comment "/// " skipFirstLine=true}}
+{{/unless}}{{/parameters}}{{!!
+}}{{#unless returnType.comment.isEmpty}}/// @return {{prefix returnType.comment "/// " skipFirstLine=true}}
+{{/unless}}{{!!
+}}{{#if thrownType}}{{#unless thrownType.comment.isEmpty}}/// @throws {{prefix thrownType.comment "/// " skipFirstLine=true}}
+{{/unless}}{{/if}}

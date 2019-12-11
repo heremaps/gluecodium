@@ -50,7 +50,7 @@ spotless {
     format 'dart', {
         target project.fileTree(project.rootDir) {
             include '**/*.dart'
-            exclude '**/build', '**/test/resources'
+            exclude '**/build*', '**/test/resources'
         }
         licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'), '(///|import|library|export).*'
     }

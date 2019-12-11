@@ -32,6 +32,7 @@ import com.here.gluecodium.generator.ffi.FfiCppNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
@@ -133,7 +134,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val functions = collectFunctions(limeType).sortedBy { it.fullName }
         val types = LimeTypeHelper.getAllTypes(limeType)
-        val classes = types.filterIsInstance<LimeClass>()
+        val classes = types.filterIsInstance<LimeContainerWithInheritance>()
         val structs = types.filterIsInstance<LimeStruct>()
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")

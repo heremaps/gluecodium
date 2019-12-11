@@ -20,13 +20,13 @@
   !}}
 {{>dart/DartDocumentation}}
 abstract class {{resolveName visibility}}{{resolveName}} {{!!
-}}{{#if parent}}{{#isEq type parent.type.type}}extends{{/isEq}}{{!!
-}}{{#isNoEq type parent.type.type}}implements{{/isNoEq}} {{resolveName parent}} {{/if}}{
+}}{{#if parent}}implements {{resolveName parent}} {{/if}}{
 {{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}
 {{#set parent=this}}{{#functions}}
-{{prefixPartial "dart/DartFunctionSignature" "  "}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{prefixPartial "dart/DartFunctionSignature" "  "}};
 {{/functions}}{{/set}}
 {{#properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
@@ -42,3 +42,33 @@ abstract class {{resolveName visibility}}{{resolveName}} {{!!
 {{#structs}}
 {{>dart/DartStruct}}
 {{/structs}}
+
+// "Private" section, not exported.
+
+final __release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_release_handle');
+
+class {{resolveName}}__Impl implements {{resolveName}}{
+  final Pointer<Void> _handle;
+  {{resolveName}}__Impl._(this._handle);
+
+  void release() => __release_handle(_handle);
+
+{{#set parent=this}}{{#functions}}
+  @override
+{{prefixPartial "dart/DartFunction" "  "}}
+{{/functions}}{{/set}}
+{{#properties}}
+{{prefixPartial "dart/DartProperty" "  "}}
+{{/properties}}
+}
+
+Pointer<Void> {{resolveName "mangled"}}_toFfi({{resolveName}}__Impl value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+
+{{resolveName}} {{resolveName "mangled"}}_fromFfi(Pointer<Void> handle) =>
+  handle.address != 0 ? {{resolveName}}__Impl._(handle) : null;
+
+void {{resolveName "mangled"}}_releaseFfiHandle(Pointer<Void> handle) {}

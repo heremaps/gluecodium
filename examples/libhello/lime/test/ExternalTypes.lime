@@ -93,3 +93,39 @@ class ClassWithOverloads {
 class StandaloneExternalType {
     fun foo()
 }
+
+@Cpp(ExternalType = "include/ExternalTypes.h")
+class external_Interface {
+    struct some_Struct {
+        some_Field: String
+    }
+    enum some_Enum {
+        some_Value
+    }
+    fun some_Method(
+        some_Parameter: Byte
+    )
+    property some_Attribute: String {
+        @Cpp(ExternalName = "get_Me")
+        get
+    }
+}
+
+@Cpp(ExternalType = "include/ExternalTypes.h", ExternalName = "::external::fOo_iTnerface")
+class VeryExternalInterface {
+    struct some_Struct {
+        some_Field: String
+    }
+    enum some_Enum {
+        some_Value
+    }
+    fun some_Method(
+        some_Parameter: Byte
+    )
+    property some_Attribute: String {
+        @Cpp(ExternalName = "get_Me")
+        get
+        @Cpp(ExternalName = "set_Me")
+        set
+    }
+}

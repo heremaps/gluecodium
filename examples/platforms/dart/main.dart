@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import "test/Classes_test.dart" as ClassesTests;
+import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
 import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
@@ -27,6 +28,7 @@ import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
 
 final _allTests = [
   ClassesTests.main,
+  InterfacesTests.main,
   PlainDataStructuresTests.main,
   StaticBooleanMethodsTests.main,
   StaticFloatDoubleMethodsTests.main,

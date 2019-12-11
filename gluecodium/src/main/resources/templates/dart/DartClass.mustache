@@ -36,6 +36,7 @@ class {{resolveName visibility}}{{resolveName}} {{!!
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}
 {{#set parent=this}}{{#functions}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
 {{#properties}}
