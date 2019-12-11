@@ -1,3 +1,3 @@
 - Please format your code first: `./scripts/format-code`
 - Please describe *what* you're trying to achieve and *why*
-- [Sign your commits with GPG](https://help.github.com/articles/managing-commit-signature-verification/)
+- Please sign each commit `git commit -s ...` [Developer Certificate of Origin](https://developercertificate.org/).
