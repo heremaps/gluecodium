@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -21,4 +20,6 @@ public final class SimpleClass extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
     public native String getStringValue();
+    @NonNull
+    public native SimpleClass useSimpleClass(@NonNull final SimpleClass input);
 }

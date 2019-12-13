@@ -15,6 +15,10 @@ public class SimpleClass {
     public func getStringValue() -> String {
         return moveFromCType(smoke_SimpleClass_getStringValue(self.c_instance))
     }
+    public func useSimpleClass(input: SimpleClass) -> SimpleClass {
+        let c_input = moveToCType(input)
+        return SimpleClass_moveFromCType(smoke_SimpleClass_useSimpleClass(self.c_instance, c_input.ref))
+    }
 }
 internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {

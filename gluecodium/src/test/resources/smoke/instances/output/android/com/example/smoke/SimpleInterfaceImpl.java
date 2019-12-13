@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -17,4 +16,6 @@ class SimpleInterfaceImpl extends NativeBase implements SimpleInterface {
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
     public native String getStringValue();
+    @NonNull
+    public native SimpleInterface useSimpleInterface(@NonNull final SimpleInterface input);
 }

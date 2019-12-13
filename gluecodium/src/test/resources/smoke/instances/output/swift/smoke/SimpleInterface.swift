@@ -3,6 +3,7 @@
 import Foundation
 public protocol SimpleInterface : AnyObject {
     func getStringValue() -> String
+    func useSimpleInterface(input: SimpleInterface) -> SimpleInterface
 }
 internal class _SimpleInterface: SimpleInterface {
     let c_instance : _baseRef
@@ -17,6 +18,10 @@ internal class _SimpleInterface: SimpleInterface {
     }
     public func getStringValue() -> String {
         return moveFromCType(smoke_SimpleInterface_getStringValue(self.c_instance))
+    }
+    public func useSimpleInterface(input: SimpleInterface) -> SimpleInterface {
+        let c_input = moveToCType(input)
+        return SimpleInterface_moveFromCType(smoke_SimpleInterface_useSimpleInterface(self.c_instance, c_input.ref))
     }
 }
 @_cdecl("_CBridgeInitsmoke_SimpleInterface")
@@ -44,6 +49,10 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
     functions.smoke_SimpleInterface_getStringValue = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
         return copyToCType(swift_class.getStringValue()).ref
+    }
+    functions.smoke_SimpleInterface_useSimpleInterface = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
+        return copyToCType(swift_class.useSimpleInterface(input: SimpleInterface_moveFromCType(input))).ref
     }
     let proxy = smoke_SimpleInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_SimpleInterface_release_handle) : RefHolder(proxy)

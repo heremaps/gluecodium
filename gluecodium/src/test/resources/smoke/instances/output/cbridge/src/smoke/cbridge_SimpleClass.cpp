@@ -20,3 +20,6 @@ _baseRef smoke_SimpleClass_copy_handle(_baseRef handle) {
 _baseRef smoke_SimpleClass_getStringValue(_baseRef _instance) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleClass>>(_instance)->get()->get_string_value());
 }
+_baseRef smoke_SimpleClass_useSimpleClass(_baseRef _instance, _baseRef input) {
+    return Conversion<std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleClass>>(_instance)->get()->use_simple_class(Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(input)));
+}

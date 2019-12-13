@@ -36,6 +36,9 @@ void* smoke_SimpleInterface_get_typed(_baseRef handle) {
 _baseRef smoke_SimpleInterface_getStringValue(_baseRef _instance) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(_instance)->get()->get_string_value());
 }
+_baseRef smoke_SimpleInterface_useSimpleInterface(_baseRef _instance, _baseRef input) {
+    return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::SimpleInterface>>(_instance)->get()->use_simple_interface(Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(input)));
+}
 class smoke_SimpleInterfaceProxy : public std::shared_ptr<::smoke::SimpleInterface>::element_type, public CachedProxyBase<smoke_SimpleInterfaceProxy> {
 public:
     smoke_SimpleInterfaceProxy(smoke_SimpleInterface_FunctionTable&& functions)
@@ -48,6 +51,10 @@ public:
     ::std::string get_string_value() override {
         auto _call_result = mFunctions.smoke_SimpleInterface_getStringValue(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);
+    }
+    ::std::shared_ptr< ::smoke::SimpleInterface > use_simple_interface(const std::shared_ptr<::smoke::SimpleInterface>& input) override {
+        auto _call_result = mFunctions.smoke_SimpleInterface_useSimpleInterface(mFunctions.swift_pointer, Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(input));
+        return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCppReturn(_call_result);
     }
 private:
     smoke_SimpleInterface_FunctionTable mFunctions;
