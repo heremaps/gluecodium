@@ -207,3 +207,18 @@ class ArrayNameClash {
         cakes: List<CakeArray>
     ): List<StringArray>
 }
+
+// Name clash in array conversion functions for nested types
+class NameDispenser {
+    struct Holder {
+        name: String
+    }
+    static fun randomNames(): List<Holder>
+}
+
+class CountDispenser {
+    struct Holder {
+        count: Byte
+    }
+    static fun countCharacters(input: List<NameDispenser.Holder>): List<Holder>
+}

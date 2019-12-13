@@ -35,6 +35,6 @@ object CBridgeNameResolver {
             "MapOf_${keyTypeName}_To_$valueTypeName"
         }
         is LimeSet -> "SetOf_${getCollectionName(limeType.elementType.type)}"
-        else -> CBridgeNameRules.getName(limeType)
+        else -> CBridgeNameRules.getTypeName(limeType)
     }
 }

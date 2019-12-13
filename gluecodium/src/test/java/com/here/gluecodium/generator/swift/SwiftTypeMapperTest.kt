@@ -130,7 +130,7 @@ class SwiftTypeMapperTest {
         val result = typeMapper.mapType(LimeDirectTypeRef(limeElement))
 
         assertTrue(result is SwiftArray)
-        assertEquals("ArrayOf_Float", result.cPrefix)
+        assertEquals("ArrayOf__Float", result.cPrefix)
         assertEquals(SwiftType.FLOAT, (result as SwiftArray).underlyingType)
     }
 }

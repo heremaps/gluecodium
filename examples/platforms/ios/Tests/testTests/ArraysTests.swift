@@ -286,6 +286,18 @@ class ArraysTests: XCTestCase {
         }
     }
 
+    func testNestedStructNameClash() {
+        let names = NameDispenser.randomNames()
+        let counts = CountDispenser.countCharacters(input: names)
+
+        XCTAssertEqual(names.count, 3)
+        XCTAssertEqual(counts.count, 3)
+
+        for i in 0...2 {
+            XCTAssertEqual(names[i].name.count, Int(counts[i].count))
+        }
+    }
+
     static var allTests = [
         ("testArrayString", testArrayString),
         ("testArrayInt8", testArrayInt8),
@@ -312,6 +324,7 @@ class ArraysTests: XCTestCase {
         ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct),
         ("testArrayOfMaps", testArrayOfMaps),
         ("testArrayOfArrayMaps", testArrayOfArrayMaps),
-        ("testArrayNameClash", testArrayNameClash)
+        ("testArrayNameClash", testArrayNameClash),
+        ("testNestedStructNameClash", testNestedStructNameClash)
     ]
 }

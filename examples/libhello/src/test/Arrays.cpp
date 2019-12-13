@@ -18,8 +18,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/Arrays.h"
 #include "test/ArrayNameClash.h"
+#include "test/Arrays.h"
+#include "test/CountDispenser.h"
+#include "test/NameDispenser.h"
+#include <algorithm>
 #include <cstdint>
 #include <sstream>
 #include <string>
@@ -214,6 +217,19 @@ std::vector< ArrayNameClash::StringArray >
 ArrayNameClash::double_speak( const std::vector< ArrayNameClash::CakeArray >& input )
 {
     return std::vector< ArrayNameClash::StringArray >{input.size( ), {true}};
+}
+
+std::vector<CountDispenser::Holder> CountDispenser::count_characters(const std::vector<NameDispenser::Holder>& input) {
+    std::vector<CountDispenser::Holder> counts(input.size());
+    std::transform(input.begin(), input.end(), counts.begin(), [](const NameDispenser::Holder& holder){
+        return CountDispenser::Holder{static_cast<int8_t>(holder.name.size())};
+    });
+    return counts;
+
+}
+
+std::vector<NameDispenser::Holder> NameDispenser::random_names() {
+    return {Holder{"Hello World"}, Holder{"Borg"}, Holder{"Nemo"}};
 }
 
 }  // namespace test
