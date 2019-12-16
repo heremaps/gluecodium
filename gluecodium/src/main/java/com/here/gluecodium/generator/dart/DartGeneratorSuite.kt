@@ -230,7 +230,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeTypesCollection -> null // "dart/DartTypes" // TODO: APIGEN-1778
+            is LimeTypesCollection -> "dart/DartTypes"
             is LimeClass -> "dart/DartClass"
             is LimeInterface -> "dart/DartInterface"
             is LimeStruct -> "dart/DartStruct"

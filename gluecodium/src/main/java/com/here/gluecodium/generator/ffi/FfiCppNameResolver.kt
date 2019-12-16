@@ -98,17 +98,12 @@ internal class FfiCppNameResolver(
         }
 
     private fun getFullyQualifiedName(limeElement: LimeNamedElement): String {
-        val prefix = when {
-            limeElement.path.hasParent -> {
-                val parentElement = getParentElement(limeElement)
-                when (parentElement) {
-                    is LimeTypesCollection -> ""
-                    else -> getFullyQualifiedName(parentElement)
-                }
-            }
-            else -> limeElement.path.head.joinToString("::")
+        val parentType = if (limeElement.path.hasParent) getParentElement(limeElement) else null
+        val prefix = when (parentType) {
+            null -> limeElement.path.head.joinToString("::")
+            is LimeTypesCollection -> limeElement.path.head.joinToString("::")
+            else -> getFullyQualifiedName(parentType)
         }
-
         val elementName = nameRules.getName(limeElement)
 
         return "$prefix::$elementName"

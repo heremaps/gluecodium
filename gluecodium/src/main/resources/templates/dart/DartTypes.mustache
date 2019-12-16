@@ -18,4 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{!! TODO: APIGEN-1778: implement }}
+{{#enumerations}}
+{{>dart/DartEnumeration}}
+{{/enumerations}}
+{{#exceptions}}
+{{dart/DartException}}
+{{/exceptions}}
+{{#structs}}
+{{>dart/DartStruct}}
+{{/structs}}
+{{#constants}}
+{{prefixPartial "dart/DartConstant" "    "}}
+{{/constants}}

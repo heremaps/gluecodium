@@ -140,7 +140,7 @@ feature(Structs cpp android swift dart SOURCES
     lime/test/PlainDataStructures.lime
 )
 
-feature(StructsInTypes cpp android swift SOURCES
+feature(StructsInTypes cpp android swift dart SOURCES
     src/test/PlainDataStructuresFromTypeCollection.cpp
 
     lime/test/PlainDataStructuresFromTypeCollection.lime

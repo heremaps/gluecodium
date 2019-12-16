@@ -51,7 +51,7 @@ smoke_Structs_getYetAnotherExternalStruct() {
 }
 FfiOpaqueHandle
 smoke_Structs_createPoint__Double_Double(double x, double y) {
-    return gluecodium::ffi::Conversion<::Point>::toFfi(
+    return gluecodium::ffi::Conversion<smoke::Point>::toFfi(
         smoke::Structs::create_point(
             gluecodium::ffi::Conversion<double>::toCpp(x),
             gluecodium::ffi::Conversion<double>::toCpp(y)
@@ -60,9 +60,9 @@ smoke_Structs_createPoint__Double_Double(double x, double y) {
 }
 FfiOpaqueHandle
 smoke_Structs_modifyAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input) {
-    return gluecodium::ffi::Conversion<::AllTypesStruct>::toFfi(
+    return gluecodium::ffi::Conversion<smoke::AllTypesStruct>::toFfi(
         smoke::Structs::modify_all_types_struct(
-            gluecodium::ffi::Conversion<::AllTypesStruct>::toCpp(input)
+            gluecodium::ffi::Conversion<smoke::AllTypesStruct>::toCpp(input)
         )
     );
 }
