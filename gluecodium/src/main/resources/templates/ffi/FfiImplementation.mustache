@@ -52,7 +52,7 @@ void
 {{/classes}}
 
 {{#structs}}
-  FfiOpaqueHandle
+FfiOpaqueHandle
 {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}({{#if fields}}
 {{joinPartial fields "ffiFieldToCpp" ",

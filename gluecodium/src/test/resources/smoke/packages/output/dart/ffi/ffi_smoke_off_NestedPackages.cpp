@@ -20,7 +20,7 @@ void
 smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<smoke::off::NestedPackages>*>(handle);
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_off_NestedPackages_SomeStruct_create_handle(FfiOpaqueHandle someField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::off::NestedPackages::SomeStruct(
             gluecodium::ffi::Conversion<std::string>::toCpp(someField)

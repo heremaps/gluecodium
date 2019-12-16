@@ -74,11 +74,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val pathsCollector = mutableListOf<DartExport>()
 
-        val structs = limeModel.topElements
+        val allTypes = limeModel.topElements
             .filterIsInstance<LimeType>()
             .flatMap { LimeTypeHelper.getAllTypes(it) }
-            .filterIsInstance<LimeStruct>()
-            .distinct()
+        val structs = allTypes.filterIsInstance<LimeStruct>().distinct()
+        val enums = allTypes.filterIsInstance<LimeEnumeration>().distinct()
 
         return limeModel.topElements.flatMap {
             listOfNotNull(
@@ -86,6 +86,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             ) + generateFfi(it, ffiResolvers, includeResolver)
         } + structs.flatMap {
             generateDartStructConversion(it, dartResolvers, dartNameResolver, importResolver)
+        } + enums.flatMap {
+            generateDartEnumConversion(it, dartResolvers, dartNameResolver, importResolver)
         } + generateDartCommonFiles(pathsCollector) + generateFfiCommonFiles()
     }
 
@@ -220,6 +222,31 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             mapOf(
                 "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
                 "model" to limeStruct,
+                "libraryName" to libraryName
+            ),
+            nameResolvers
+        )
+
+        return listOf(GeneratedFile(content, "$LIB_DIR/$relativePath"))
+    }
+
+    private fun generateDartEnumConversion(
+        limeEnum: LimeEnumeration,
+        nameResolvers: Map<String, NameResolver>,
+        dartNameResolver: DartNameResolver,
+        importResolver: DartImportResolver
+    ): List<GeneratedFile> {
+        val imports = importResolver.resolveImports(limeEnum)
+
+        val packagePath = limeEnum.path.head.joinToString(separator = "/")
+        val filePath = "$packagePath/${dartNameResolver.resolveName(limeEnum)}"
+        val relativePath = "$SRC_DIR_SUFFIX/${filePath}__conversion.dart"
+
+        val content = TemplateEngine.render(
+            "dart/DartEnumConversion",
+            mapOf(
+                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
+                "model" to limeEnum,
                 "libraryName" to libraryName
             ),
             nameResolvers

@@ -70,7 +70,7 @@ void
 smoke_Structs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<smoke::Structs>*>(handle);
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_Point_create_handle(double x, double y) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::Point(
             gluecodium::ffi::Conversion<double>::toCpp(x),
@@ -93,7 +93,7 @@ smoke_Structs_Point_get_field_y(FfiOpaqueHandle handle) {
         reinterpret_cast<smoke::Structs::Point*>(handle)->y
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_Line_create_handle(FfiOpaqueHandle a, FfiOpaqueHandle b) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::Line(
             gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(a),
@@ -116,7 +116,7 @@ smoke_Structs_Line_get_field_b(FfiOpaqueHandle handle) {
         reinterpret_cast<smoke::Structs::Line*>(handle)->b
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, FfiOpaqueHandle stringField, bool booleanField, FfiOpaqueHandle bytesField, FfiOpaqueHandle pointField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::AllTypesStruct(
             gluecodium::ffi::Conversion<int8_t>::toCpp(int8Field),
@@ -223,7 +223,7 @@ smoke_Structs_AllTypesStruct_get_field_pointField(FfiOpaqueHandle handle) {
         reinterpret_cast<smoke::Structs::AllTypesStruct*>(handle)->point_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_ExternalStruct_create_handle(FfiOpaqueHandle stringField, FfiOpaqueHandle externalStringField, FfiOpaqueHandle externalArrayField, FfiOpaqueHandle externalStructField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::ExternalStruct(
             gluecodium::ffi::Conversion<std::string>::toCpp(stringField),
@@ -260,7 +260,7 @@ smoke_Structs_ExternalStruct_get_field_externalStructField(FfiOpaqueHandle handl
         reinterpret_cast<smoke::Structs::ExternalStruct*>(handle)->external_struct_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_AnotherExternalStruct_create_handle(int8_t intField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::AnotherExternalStruct(
             gluecodium::ffi::Conversion<int8_t>::toCpp(intField)
@@ -276,7 +276,7 @@ smoke_Structs_AnotherExternalStruct_get_field_intField(FfiOpaqueHandle handle) {
         reinterpret_cast<smoke::Structs::AnotherExternalStruct*>(handle)->int_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_YetAnotherExternalStruct_create_handle(FfiOpaqueHandle stringField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::YetAnotherExternalStruct(
             gluecodium::ffi::Conversion<std::string>::toCpp(stringField)
@@ -292,7 +292,7 @@ smoke_Structs_YetAnotherExternalStruct_get_field_stringField(FfiOpaqueHandle han
         reinterpret_cast<smoke::Structs::YetAnotherExternalStruct*>(handle)->string_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_NestingImmutableStruct_create_handle(FfiOpaqueHandle structField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::NestingImmutableStruct(
             gluecodium::ffi::Conversion<smoke::Structs::AllTypesStruct>::toCpp(structField)
@@ -308,7 +308,7 @@ smoke_Structs_NestingImmutableStruct_get_field_structField(FfiOpaqueHandle handl
         reinterpret_cast<smoke::Structs::NestingImmutableStruct*>(handle)->struct_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_DoubleNestingImmutableStruct_create_handle(FfiOpaqueHandle nestingStructField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::DoubleNestingImmutableStruct(
             gluecodium::ffi::Conversion<smoke::Structs::NestingImmutableStruct>::toCpp(nestingStructField)
@@ -324,7 +324,7 @@ smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField(FfiOpaqu
         reinterpret_cast<smoke::Structs::DoubleNestingImmutableStruct*>(handle)->nesting_struct_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_StructWithArrayOfImmutable_create_handle(FfiOpaqueHandle arrayField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::StructWithArrayOfImmutable(
             gluecodium::ffi::Conversion<std::vector<smoke::Structs::AllTypesStruct>>::toCpp(arrayField)
@@ -340,7 +340,7 @@ smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField(FfiOpaqueHandle ha
         reinterpret_cast<smoke::Structs::StructWithArrayOfImmutable*>(handle)->array_field
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_ImmutableStructWithCppAccessors_create_handle(FfiOpaqueHandle stringField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::ImmutableStructWithCppAccessors(
             gluecodium::ffi::Conversion<std::string>::toCpp(stringField)
@@ -356,7 +356,7 @@ smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField(FfiOpaqueHan
         reinterpret_cast<smoke::Structs::ImmutableStructWithCppAccessors*>(handle)->get_string_field()
     );
 }
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_Structs_MutableStructWithCppAccessors_create_handle(FfiOpaqueHandle stringField) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::MutableStructWithCppAccessors(
             gluecodium::ffi::Conversion<std::string>::toCpp(stringField)

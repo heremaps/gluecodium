@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import "test/Classes_test.dart" as ClassesTests;
+import "test/Enums_test.dart" as EnumsTests;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
@@ -29,6 +30,7 @@ import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
 
 final _allTests = [
   ClassesTests.main,
+  EnumsTests.main,
   InterfacesTests.main,
   PlainDataStructuresTests.main,
   PlainDataStructuresTypeCollectionTests.main,

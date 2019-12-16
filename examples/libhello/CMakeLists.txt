@@ -161,7 +161,7 @@ feature(TypeDefs cpp android swift SOURCES
     lime/test/StaticTypedef.lime
 )
 
-feature(Enums cpp android swift SOURCES
+feature(Enums cpp android swift dart SOURCES
     src/hello/HelloWorldEnums.cpp
     src/test/Enums.cpp
     src/test/EnumsTypeCollection.cpp

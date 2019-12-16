@@ -88,6 +88,24 @@ struct Conversion<std::shared_ptr<T>, typename std::enable_if<std::is_class<std:
     }
 };
 
+template<class T>
+struct Conversion<T, typename std::enable_if<std::is_enum<T>::value>::type> {
+    static uint32_t
+    toFfi(const T& t) {
+        return static_cast<uint32_t>(t);
+    }
+
+    static uint32_t
+    toFfi(T&& t) {
+        return static_cast<uint32_t>(t);
+    }
+
+    static T
+    toCpp(uint32_t ref) {
+        return static_cast<T>(ref);
+    }
+};
+
 }
 {{#internalNamespace}}
 }

@@ -83,6 +83,10 @@ Pointer<Void> smoke_Structs_toFfi(Structs value) =>
 Structs smoke_Structs_fromFfi(Pointer<Void> handle) =>
   handle.address != 0 ? Structs._(handle) : null;
 void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) {}
+enum Structs_FooBar {
+    foo,
+    bar
+}
 class Structs_Point {
   double x;
   double y;

@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiDartTypeNameResolver : NameResolver {
@@ -38,6 +39,7 @@ internal class FfiDartTypeNameResolver : NameResolver {
         return when {
             limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
             limeType is LimeBasicType -> getBasicTypeRefName(limeType)
+            limeType is LimeEnumeration -> "int"
             else -> OPAQUE_HANDLE_TYPE
         }
     }

@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  FfiOpaqueHandle
+FfiOpaqueHandle
 smoke_StructWithClass_create_handle(FfiOpaqueHandle classInstance) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::StructWithClass(
             gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleClass>>::toCpp(classInstance)
