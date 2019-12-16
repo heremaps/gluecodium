@@ -5,6 +5,8 @@
   * Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
 
+## 5.8.7
+Release date: 2019-12-16
 ### Bug fixes:
   * Fixed possible name clashes for array types in Swift.
 
