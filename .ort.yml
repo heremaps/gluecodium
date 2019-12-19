@@ -9,7 +9,7 @@ excludes:
   - pattern: "examples/platforms/android/build.gradle"
     reason: "TEST_TOOL_OF"
     comment: "Example used to demonstrate and test features of generated code."
-  - pattern: "functional-tests/namerules/android/build.gradle"
+  - pattern: "functional-tests/*/build.gradle"
     reason: "TEST_TOOL_OF"
     comment: "Functional tests, they are not distributed the context of this project."
 
