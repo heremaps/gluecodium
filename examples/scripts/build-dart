@@ -10,8 +10,7 @@ $0 [options]
     --buildGluecodium         Build and use local Gluecodium version
     --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local gluecodium (default: ${GLUECODIUM_PATH})
     --debug               Build with debug symbols
-    --valgrind            Run with valgrind
-    --junit               Generate junit xml test report
+    --asan                Run with AddressSanitizer
     --help                Print this message
 EOF
 )
@@ -38,12 +37,9 @@ while [[ $# -gt 0 ]]; do
             CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
             shift
             ;;
-        --valgrind)
-            USE_VALGRIND=true
-            shift
-            ;;
-        --junit)
-            TEST_REPORTS=true
+        --asan)
+            USE_ASAN=true
+            CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} -DHELLO_BUILD_DART_WITH_ASAN=ON"
             shift
             ;;
         --help|*)
@@ -70,6 +66,7 @@ CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
     -G $(cmake_generator)"
 fi
 
+set -x
 CWD=${PWD}
 pushd "${BUILD_DIR}"
 
@@ -97,20 +94,10 @@ safe cmake \
 LIBRARY_PATH="${INSTALL_DIR}/lib"
 TEST_EXECUTABLE="./bin/test_dart"
 
-if [ "$USE_VALGRIND" = true ]; then
-    REPORT_ARGS=""
-    if [ "$TEST_REPORTS" = true ] ; then
-        REPORT_ARGS="--xml=yes --xml-file=dart_valgrind_report.xml"
-    fi
-    TEST_EXECUTABLE="valgrind \
-        --leak-check=full \
-        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
-        --gen-suppressions=all \
-        --soname-synonyms=somalloc=*tcmalloc* \
-        $REPORT_ARGS \
-        $TEST_EXECUTABLE"
-fi
-
 pushd "${INSTALL_DIR}"
+if [ "$USE_ASAN" = true ]; then
+    LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libasan.so.4" LD_LIBRARY_PATH=$LIBRARY_PATH exec $TEST_EXECUTABLE
+else
     LD_LIBRARY_PATH=$LIBRARY_PATH exec $TEST_EXECUTABLE
+fi
 popd

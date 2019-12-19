@@ -128,4 +128,4 @@ jobs:
       before_script:
         - cd examples
       script:
-        - ./scripts/build-dart --buildGluecodium
+        - ./scripts/build-dart --buildGluecodium --asan

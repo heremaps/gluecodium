@@ -38,7 +38,12 @@ final _get_value = __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>)
   >('std_string_get_value');
 
-Pointer<Void> String_toFfi(String value) => _create_handle(Utf8.toUtf8(value));
+Pointer<Void> String_toFfi(String value) {
+   final cValue = Utf8.toUtf8(value);
+   final result = _create_handle(cValue);
+   free(cValue);
+   return result;
+}
 
 String String_fromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_get_value(handle));
 
