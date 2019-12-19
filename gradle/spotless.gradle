@@ -41,4 +41,17 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
+    format 'mustache', {
+        target project.fileTree(project.rootDir) {
+            include '**/*.mustache'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_mustache.license'), /(?!\{\{!!$|  !).*/
+    }
+    format 'dart', {
+        target project.fileTree(project.rootDir) {
+            include '**/*.dart'
+            exclude '**/build', '**/test/resources'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'), '(///|import|library|export).*'
+    }
 }
