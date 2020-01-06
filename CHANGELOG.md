@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.0.0
+Release date: 2020-01-06
 ### Features:
   * Added "auxiliary sources" option to support IDL sources that are loaded into the model but are
     not generated from.
@@ -85,8 +86,8 @@ Release date: 2019-10-09
 ### Bug fixes:
   * Allow Unicode white-space characters in LimeIDL.
 
-- Breaking changes:
-  + Renamed Genium to Gluecodium.
+### Breaking changes:
+  * Renamed Genium to Gluecodium.
 
 ## 5.5.0
 Release date: 2019-09-23
