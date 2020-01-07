@@ -21,6 +21,8 @@ jobs:
   include:
     - stage: compile
       language: java
+      jdk:
+        - openjdk8
       install: skip
       before_script:
         - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
