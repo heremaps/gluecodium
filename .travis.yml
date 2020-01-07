@@ -1,4 +1,4 @@
-dist: trusty
+dist: bionic
 sudo: false
 branches:
   except:
@@ -29,7 +29,6 @@ jobs:
 
     - stage: test
       language: cpp
-      compiler: clang
       addons:
         apt:
           packages:
