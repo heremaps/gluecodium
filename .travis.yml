@@ -18,6 +18,13 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-script:
-  - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
-  - ./gradlew build
+jobs:
+  include:
+    - stage: compile
+      script:
+        - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
+        - ./gradlew build
+    - stage: test
+      script:
+        - cd examples
+        - ./scripts/build-android --hostOnly
