@@ -1,6 +1,4 @@
-language: java
-jdk:
-  - openjdk8
+dist: bionic
 sudo: false
 branches:
   except:
@@ -21,18 +19,35 @@ cache:
 jobs:
   include:
     - stage: compile
-      script:
+      language: java
+      before_script:
         - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
+      script:
         - ./gradlew build
+
     - stage: test
       language: c++
+      addons:
+        apt:
+          packages:
+            - ninja-build      
       before_script:
         - cd examples      
       script:
-        - ./scripts/build-cpp --valgrind        
+        - ./scripts/build-cpp --valgrind
+
     - stage: test
       language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - tools # intentional duplication
+          - build-tools-28.0.3
+          - android-28
+      before_install:
+        - echo y | sdkmanager "ndk-bundle"          
       before_script:
-        - cd examples      
+        - cd examples
       script:
         - ./scripts/build-android --hostOnly
