@@ -1,4 +1,4 @@
-dist: bionic
+dist: trusty
 sudo: false
 branches:
   except:
@@ -16,10 +16,12 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
 jobs:
   include:
     - stage: compile
       language: java
+      install: skip
       before_script:
         - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
       script:
@@ -34,7 +36,8 @@ jobs:
       before_script:
         - cd examples      
       script:
-        - ./scripts/build-cpp --valgrind
+        # TODO: valgrind
+        - ./scripts/build-cpp
 
     - stage: test
       language: android
