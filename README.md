@@ -72,6 +72,6 @@ inconsistent cache).
 
 ## License
 
-Copyright (C) 2016-2019 HERE Europe B.V.
+Copyright (C) 2016-2020 HERE Europe B.V.
 
 See the [LICENSE](./LICENSE) file in the root of this project for license details.
