@@ -25,6 +25,14 @@ jobs:
         - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
         - ./gradlew build
     - stage: test
+      language: c++
+      before_script:
+        - cd examples      
       script:
-        - cd examples
+        - ./scripts/build-cpp --valgrind        
+    - stage: test
+      language: android
+      before_script:
+        - cd examples      
+      script:
         - ./scripts/build-android --hostOnly
