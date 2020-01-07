@@ -69,7 +69,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [ $BUILD_LOCAL_GLUECODIUM ]; then
+if $BUILD_LOCAL_GLUECODIUM; then
     export GLUECODIUM_PATH
 fi
 
