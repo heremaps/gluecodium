@@ -87,7 +87,7 @@ jobs:
       before_install:
         - export PATH=${HOME}/cmake-install:${HOME}/cmake-install/bin:${PATH}
       install:
-        - sudo apt-get remove -y cmake
+        - which cmake
         - cmake --version
         - CMAKE_VERSION=3.15.5
         - wget -nv https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
@@ -117,7 +117,7 @@ jobs:
         - export PATH=${PATH}:${HOME}/depot_tools:${HOME}/dart-sdk/sdk/out/ReleaseX64/dart-sdk/bin
       install:
         - git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-        - ls
+        - pwd
         - mkdir dart-sdk
         - cd dart-sdk
         - fetch dart
