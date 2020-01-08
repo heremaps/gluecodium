@@ -1,4 +1,4 @@
-dist: xenial
+dist: bionic
 branches:
   except:
     - gh-pages
@@ -21,6 +21,7 @@ jobs:
     - stage: compile
       name: "Build and unit tests"
       language: java
+      jdk: openjdk8
       install: skip
       script:
         - ./gradlew build        
@@ -29,7 +30,6 @@ jobs:
     - stage: test
       name: "C++ functional tests"
       language: cpp
-      compiler: clang
       addons:
         apt:  
           packages:
@@ -38,10 +38,11 @@ jobs:
       before_script:
         - cd examples      
       script:
-        - ./scripts/build-cpp --valgrind --cpp 14
+        - ./scripts/build-cpp --valgrind
 
     - stage: test
       name: "Android functional tests"
+      dist: xenial
       language: java
       jdk: openjdk8
       addons:
