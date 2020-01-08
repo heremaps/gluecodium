@@ -23,18 +23,18 @@ jobs:
       language: java
       install: skip
       script:
-        - ./gradlew build        
+        - ./gradlew build
 
     - stage: test
       name: "C++ functional tests"
       language: cpp
       addons:
-        apt:  
+        apt:
           packages:
-            - ninja-build          
-            - valgrind         
+            - ninja-build
+            - valgrind
       before_script:
-        - cd examples      
+        - cd examples
       script:
         - ./scripts/build-cpp --valgrind
 
@@ -62,7 +62,7 @@ jobs:
       install:
         - ANDROID_API_LEVEL=android-28
         - ANDROID_BUILD_TOOLS_VERSION=28.0.3
-        - ANDROID_CMAKE_VERSION=3.10.2.4988404      
+        - ANDROID_CMAKE_VERSION=3.10.2.4988404
         - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
         - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
         - mkdir -p ~/.android
@@ -82,12 +82,13 @@ jobs:
       addons:
         apt:
           packages:
-            - ninja-build          
+            - ninja-build
             - valgrind
       before_install:
         - export PATH=$PATH:/opt/cmake/bin
       install:
         - CMAKE_VERSION=3.15.5
+        - sudo apt-get remove cmake
         - wget -nv https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
         - sudo tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -C /opt
         - sudo mv /opt/cmake-${CMAKE_VERSION}-Linux-x86_64 /opt/cmake
@@ -100,6 +101,31 @@ jobs:
         - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
         - sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       before_script:
-        - cd examples      
+        - cd examples
       script:
-        - ./scripts/build-swift --valgrind     
+        - ./scripts/build-swift --valgrind
+        
+    - stage: test
+      name: "Dart functional tests"
+      language: cpp
+      addons:
+        apt:
+          packages:
+            - ninja-build
+      before_install:
+        - export PATH=$PATH:~/dart-sdk/sdk/out/ReleaseX64/dart-sdk/bin
+      install:
+        - PATH=$PATH:~/depot_tools      
+        - git clone --quiet https://chromium.googlesource.com/chromium/tools/depot_tools.git
+        - mkdir dart-sdk
+        - cd dart-sdk
+        - fetch dart
+        - cd sdk
+        - ./tools/generate_buildfiles.py
+        - sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
+        - ./tools/build.py --mode release --arch x64 create_sdk
+      before_script:
+        - cd examples
+      # TODO: add ASAN
+      script:
+        - ./scripts/build-dart
