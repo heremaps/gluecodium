@@ -25,7 +25,6 @@ jobs:
       script:
         - ./gradlew build        
 
-    # TODO: don't build the main binary again
     - stage: test
       name: "C++ functional tests"
       language: cpp
@@ -39,6 +38,7 @@ jobs:
       script:
         - ./scripts/build-cpp --valgrind
 
+    # TODO: don't build the main binary again
     - stage: test
       name: "Android functional tests"
       dist: xenial
@@ -51,7 +51,6 @@ jobs:
           packages:
             - g++-7
             - ninja-build
-        
       before_install:
         - export ANDROID_HOME=~/android-sdk-linux
         - export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
@@ -66,7 +65,6 @@ jobs:
         - ANDROID_CMAKE_VERSION=3.10.2.4988404      
         - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
         - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
-        - rm android-sdk-tools.zip
         - mkdir -p ~/.android
         - touch ~/.android/repositories.cfg
         - yes | sdkmanager --licenses
@@ -87,6 +85,10 @@ jobs:
             - ninja-build          
             - valgrind
       install:
+        - CMAKE_VERSION 3.15.5
+        - wget -nv https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+        - sudo tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -C /opt
+        - sudo mv /opt/cmake-${CMAKE_VERSION}-Linux-x86_64 /opt/cmake
         - SWIFT_BRANCH=swift-5.1.3-release
         - SWIFT_VERSION=swift-5.1.3-RELEASE
         - SWIFT_PLATFORM=ubuntu16.04
@@ -94,7 +96,6 @@ jobs:
         - SWIFT_URL=https://swift.org/builds/${SWIFT_BRANCH}/$(echo "${SWIFT_PLATFORM}" | tr -d .)/${SWIFT_VERSION}/${SWIFT_ARCHIVE_NAME}.tar.gz
         - wget -nv ${SWIFT_URL}
         - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
-        - rm -rf ${SWIFT_ARCHIVE_NAME}*
         - sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       before_script:
         - cd examples      
