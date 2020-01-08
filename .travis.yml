@@ -1,4 +1,4 @@
-dist: bionic
+dist: xenial
 branches:
   except:
     - gh-pages
@@ -73,6 +73,7 @@ jobs:
         
     - stage: test
       name: "Swift functional tests"
+      sudo: true
       language: cpp
       addons:
         apt:
