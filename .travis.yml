@@ -29,21 +29,15 @@ jobs:
     - stage: test
       name: "C++ functional tests"
       language: cpp
-      compiler: clang
       addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-6.0        
+        apt:  
           packages:
             - ninja-build          
-            - valgrind
-            - clang-6.0
-      env:
-        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang-6.0"            
+            - valgrind         
       before_script:
         - cd examples      
       script:
-        - ./scripts/build-cpp --valgrind
+        - ./scripts/build-cpp --valgrind --cpp 14
 
     - stage: test
       name: "Android functional tests"
