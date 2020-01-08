@@ -46,8 +46,13 @@ jobs:
       jdk: openjdk8
       addons:
         apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-            - ninja-build          
+            - g++-7
+            - ninja-build
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"            
       before_install:
         - export ANDROID_HOME=~/android-sdk-linux
         - export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
