@@ -1,5 +1,4 @@
 dist: bionic
-sudo: false
 branches:
   except:
     - gh-pages
@@ -23,8 +22,6 @@ jobs:
       name: "Build and unit tests"
       language: java
       install: skip
-      before_script:
-        - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
       script:
         - ./gradlew build        
 
@@ -45,6 +42,7 @@ jobs:
     - stage: test
       name: "Android functional tests"
       language: java
+      jdk: openjdk8
       addons:
         apt:
           packages:
