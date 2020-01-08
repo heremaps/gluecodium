@@ -32,9 +32,14 @@ jobs:
       compiler: clang
       addons:
         apt:
+          sources:
+            - llvm-toolchain-trusty-6.0        
           packages:
             - ninja-build          
             - valgrind
+            - clang-6.0
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang-6.0"            
       before_script:
         - cd examples      
       script:
@@ -89,7 +94,7 @@ jobs:
         - wget -nv ${SWIFT_URL}
         - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
         - rm -rf ${SWIFT_ARCHIVE_NAME}*
-        - chmod -R o+r /usr/lib/swift/CoreFoundation
+        - sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       before_script:
         - cd examples      
       script:
