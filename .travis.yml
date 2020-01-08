@@ -58,8 +58,8 @@ jobs:
         - export SDK_ROOT=${ANDROID_HOME}
         - export NDK_ROOT=${ANDROID_NDK_HOME}
         - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
-        - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 60
-        - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60
+        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 60
+        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60
       install:
         - ANDROID_API_LEVEL=android-28
         - ANDROID_BUILD_TOOLS_VERSION=28.0.3
