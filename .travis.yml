@@ -21,7 +21,6 @@ jobs:
     - stage: compile
       name: "Build and unit tests"
       language: java
-      jdk: openjdk8
       install: skip
       script:
         - ./gradlew build        
