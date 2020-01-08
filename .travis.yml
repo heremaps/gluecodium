@@ -29,6 +29,7 @@ jobs:
     - stage: test
       name: "C++ functional tests"
       language: cpp
+      compiler: clang
       addons:
         apt:
           packages:
@@ -73,7 +74,6 @@ jobs:
         
     - stage: test
       name: "Swift functional tests"
-      sudo: true
       language: cpp
       addons:
         apt:
@@ -83,11 +83,11 @@ jobs:
       install:
         - SWIFT_BRANCH=swift-5.1.3-release
         - SWIFT_VERSION=swift-5.1.3-RELEASE
-        - SWIFT_PLATFORM=ubuntu18.04
+        - SWIFT_PLATFORM=ubuntu16.04
         - SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}
         - SWIFT_URL=https://swift.org/builds/${SWIFT_BRANCH}/$(echo "${SWIFT_PLATFORM}" | tr -d .)/${SWIFT_VERSION}/${SWIFT_ARCHIVE_NAME}.tar.gz
         - wget -nv ${SWIFT_URL}
-        - tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
+        - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
         - rm -rf ${SWIFT_ARCHIVE_NAME}*
         - chmod -R o+r /usr/lib/swift/CoreFoundation
       before_script:
