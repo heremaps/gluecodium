@@ -105,6 +105,7 @@ jobs:
       script:
         - ./scripts/build-swift --valgrind
         
+    # TODO: don't build the main binary again    
     - stage: test
       name: "Dart functional tests"
       language: cpp
@@ -118,7 +119,6 @@ jobs:
       before_install:
         - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart-sdk/sdk/out/ReleaseX64/dart-sdk/bin
       install:
-        - ls "$TRAVIS_BUILD_DIR/dart-sdk"
         - |
           if ! [ command -v dart ]; then
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -133,6 +133,5 @@ jobs:
           fi
       before_script:
         - cd examples
-      # TODO: add ASAN
       script:
         - ./scripts/build-dart
