@@ -15,7 +15,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+    - $HOME/.android/build-cache/
 jobs:
   include:
     - stage: compile
@@ -75,7 +75,8 @@ jobs:
         - cd examples
       script:
         - ./scripts/build-android --hostOnly
-        
+
+    # TODO: don't build the main binary again    
     - stage: test
       name: "Swift functional tests"
       language: cpp
@@ -87,8 +88,6 @@ jobs:
       before_install:
         - export PATH=${PWD}/cmake-install:${PWD}/cmake-install/bin:${PATH}
       install:
-        - which cmake
-        - echo $PATH
         - CMAKE_VERSION=3.15.5
         - wget -nv https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
         - tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz > /dev/null
@@ -113,19 +112,26 @@ jobs:
         apt:
           packages:
             - ninja-build
+      cache:
+        directories:
+        - $TRAVIS_BUILD_DIR/dart-sdk/
       before_install:
         - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart-sdk/sdk/out/ReleaseX64/dart-sdk/bin
       install:
-        - git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-        - pwd
-        - mkdir dart-sdk
-        - cd dart-sdk
-        - fetch dart
-        - cd sdk
-        - ./tools/generate_buildfiles.py
-        - sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
-        - ./tools/build.py --mode release --arch x64 create_sdk
+        - |
+          if [ ! -d "$TRAVIS_BUILD_DIR/dart-sdk" ]; then
+            git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+            mkdir dart-sdk
+            cd dart-sdk
+            fetch dart
+            cd sdk
+            ./tools/generate_buildfiles.py
+            sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
+            ./tools/build.py --mode release --arch x64 create_sdk
+            cd ../..
+          fi
       before_script:
+        - pwd
         - cd examples
       # TODO: add ASAN
       script:
