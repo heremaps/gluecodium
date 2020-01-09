@@ -119,7 +119,7 @@ jobs:
       before_install:
         - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart_sdk/bin
       install:
-        - ls dart_sdk
+        - ls dart_sdk/bin
         - |
           if ! [ command -v dart ]; then
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
