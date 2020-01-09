@@ -115,9 +115,9 @@ jobs:
             - ninja-build
       cache:
         directories:
-        - $TRAVIS_BUILD_DIR/dart-sdk/
+        - $TRAVIS_BUILD_DIR/dart_sdk/
       before_install:
-        - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart-sdk/sdk/out/ReleaseX64/dart-sdk/bin
+        - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart_sdk/bin
       install:
         - |
           if ! [ command -v dart ]; then
@@ -129,6 +129,7 @@ jobs:
             ./tools/generate_buildfiles.py
             sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
             ./tools/build.py --mode release --arch x64 create_sdk
+            mv ./out/ReleaseX64/dart-sdk ../../dart_sdk
             cd ../..
           fi
       before_script:
