@@ -31,9 +31,8 @@ jobs:
           packages:
             - ninja-build
             - valgrind
-      before_script:
-        - cd examples
       script:
+        - cd examples
         - ./scripts/build-cpp --valgrind --buildGluecodium
 
     - name: "Android functional tests"
@@ -67,10 +66,11 @@ jobs:
         - yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
         - yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
         - yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
-      before_script:
-        - cd examples
       script:
+        - cd examples
         - ./scripts/build-android --hostOnly --buildGluecodium
+        - cd ../functional-tests
+        - ./scripts/build-android --publish
 
     - name: "Swift functional tests"
       language: cpp
@@ -94,13 +94,13 @@ jobs:
         - wget -nv ${SWIFT_URL}
         - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
         - sudo chmod -R o+r /usr/lib/swift/CoreFoundation
-      before_script:
-        - cd examples
       script:
+        - cd examples
         - ./scripts/build-swift --valgrind --buildGluecodium
+        - cd ../functional-tests
+        - ./scripts/build-swift --valgrind --publish
 
-    - stage: test
-      name: "Dart functional tests"
+    - name: "Dart functional tests"
       language: cpp
       addons:
         apt:
@@ -125,7 +125,6 @@ jobs:
             mv ./out/ReleaseX64/dart-sdk/* ../../dart_sdk
             cd ../..
           fi
-      before_script:
-        - cd examples
       script:
+        - cd examples
         - ./scripts/build-dart --buildGluecodium
