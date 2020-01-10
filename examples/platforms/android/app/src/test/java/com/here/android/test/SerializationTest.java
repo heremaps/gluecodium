@@ -24,7 +24,6 @@ import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
 import android.os.Parcel;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Arrays;
@@ -38,10 +37,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class SerializationTest {
 
   @Test

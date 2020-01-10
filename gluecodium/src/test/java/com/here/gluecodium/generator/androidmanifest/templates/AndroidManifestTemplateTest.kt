@@ -19,10 +19,9 @@
 
 package com.here.gluecodium.generator.androidmanifest.templates
 
-import org.junit.Assert.assertEquals
-
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.java.JavaPackage
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

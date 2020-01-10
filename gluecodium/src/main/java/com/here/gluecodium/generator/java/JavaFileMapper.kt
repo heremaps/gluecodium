@@ -22,7 +22,7 @@ package com.here.gluecodium.generator.java
 import com.here.gluecodium.model.java.JavaTopLevelElement
 import java.io.File
 
-class JavaFileMapper (private val generatorName: String) {
+class JavaFileMapper(private val generatorName: String) {
     fun getFileName(javaElement: JavaTopLevelElement) =
         (generatorName +
                 File.separator +

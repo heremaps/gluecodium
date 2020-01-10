@@ -21,7 +21,6 @@ package com.here.android.test;
 import static org.junit.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.hello.HelloWorldStaticLogger;
@@ -62,10 +61,9 @@ class TestForecastListener implements ForecastListener {
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class ListenerWithMapsTest {
 
   private static final ForecastProvider PROVIDER = ForecastFactory.createProvider();

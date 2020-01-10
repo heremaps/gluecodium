@@ -20,11 +20,9 @@ package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.hello.HelloWorldBuiltinTypes;
@@ -38,10 +36,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class PlainDataStructuresTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -197,9 +194,9 @@ public final class PlainDataStructuresTest {
   public void allTypesImmutableStructBuilder() {
     PlainDataStructuresImmutable.AllTypesImmutableStruct allTypesStruct =
         new PlainDataStructuresImmutable.AllTypesImmutableStruct(
-            (byte)3,
-            (short)4,
-            (short)5,
+            (byte) 3,
+            (short) 4,
+            (short) 5,
             6,
             7,
             8L,
@@ -215,22 +212,23 @@ public final class PlainDataStructuresTest {
     PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder builder =
         new PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder();
 
-    PlainDataStructuresImmutable.AllTypesImmutableStruct result = builder
-        .setInt8Field((byte)3)
-        .setUint8Field((short)4)
-        .setInt16Field((short)5)
-        .setUint16Field(6)
-        .setInt32Field(7)
-        .setUint32Field(8L)
-        .setInt64Field(9L)
-        .setUint64Field(10L)
-        .setFloatField(2.0f)
-        .setDoubleField(1.0)
-        .setStringField("test string")
-        .setBooleanField(true)
-        .setBytesField("hello".getBytes())
-        .setPointField(new PlainDataStructuresImmutable.Point(11.0, 12.0))
-        .build();
+    PlainDataStructuresImmutable.AllTypesImmutableStruct result =
+        builder
+            .setInt8Field((byte) 3)
+            .setUint8Field((short) 4)
+            .setInt16Field((short) 5)
+            .setUint16Field(6)
+            .setInt32Field(7)
+            .setUint32Field(8L)
+            .setInt64Field(9L)
+            .setUint64Field(10L)
+            .setFloatField(2.0f)
+            .setDoubleField(1.0)
+            .setStringField("test string")
+            .setBooleanField(true)
+            .setBytesField("hello".getBytes())
+            .setPointField(new PlainDataStructuresImmutable.Point(11.0, 12.0))
+            .build();
 
     assertEquals(allTypesStruct.booleanField, result.booleanField);
     assertTrue(Arrays.equals(allTypesStruct.bytesField, result.bytesField));

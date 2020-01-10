@@ -52,10 +52,10 @@ class BaseApiGeneratorSuiteTest {
         )
 
         val generatedFileNames = generatedFiles.map { it.targetFile.toString() }
-        assertContains( "cpp/include/gluecodium/Return.h", generatedFileNames)
-        assertContains( "cpp/include/gluecodium/Export.h", generatedFileNames)
-        assertContains( "cpp/include/gluecodium/Optional.h", generatedFileNames)
-        assertContains( "cpp/include/gluecodium/OptionalImpl.h", generatedFileNames)
-        assertContains( "cpp/include/gluecodium/Export.h", generatedFileNames)
+        assertContains("cpp/include/gluecodium/Return.h", generatedFileNames)
+        assertContains("cpp/include/gluecodium/Export.h", generatedFileNames)
+        assertContains("cpp/include/gluecodium/Optional.h", generatedFileNames)
+        assertContains("cpp/include/gluecodium/OptionalImpl.h", generatedFileNames)
+        assertContains("cpp/include/gluecodium/Export.h", generatedFileNames)
     }
 }

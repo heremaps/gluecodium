@@ -95,8 +95,8 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
         }
     }
 
-    class KeyValuePair(val key: LimeValue, val value: LimeValue)
-        : LimeValue(LimeBasicTypeRef(LimeBasicType.TypeId.VOID)) {
+    class KeyValuePair(val key: LimeValue, val value: LimeValue) :
+        LimeValue(LimeBasicTypeRef(LimeBasicType.TypeId.VOID)) {
         override fun toString() = "$key: $value"
     }
 

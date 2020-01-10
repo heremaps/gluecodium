@@ -23,12 +23,12 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
     }
 }
 
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.15.0'
+    id 'com.diffplug.gradle.spotless' version '3.27.0'
 }
 
 allprojects {

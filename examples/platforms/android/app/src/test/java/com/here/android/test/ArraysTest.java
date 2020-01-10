@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collections;
@@ -38,10 +37,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ArraysTest {
   private static final String STRING_LIST_ITEM_1 = "Item1";
   private static final String STRING_LIST_ITEM_2 = "Item2";
@@ -264,7 +262,7 @@ public class ArraysTest {
   public void reverseMapsArray() {
     Map<Short, String> map0 = Collections.emptyMap();
     Map<Short, String> map1 = new HashMap<>();
-    map1.put((short)42, STRING_LIST_ITEM_1);
+    map1.put((short) 42, STRING_LIST_ITEM_1);
 
     List<Map<Short, String>> input = java.util.Arrays.asList(map0, map1);
 
@@ -279,7 +277,7 @@ public class ArraysTest {
   public void reverseArrayMapsArray() {
     Map<Short, List<String>> map0 = Collections.emptyMap();
     Map<Short, List<String>> map1 = new HashMap<>();
-    map1.put((short)42, Collections.singletonList(STRING_LIST_ITEM_1));
+    map1.put((short) 42, Collections.singletonList(STRING_LIST_ITEM_1));
 
     List<Map<Short, List<String>>> input = java.util.Arrays.asList(map0, map1);
 

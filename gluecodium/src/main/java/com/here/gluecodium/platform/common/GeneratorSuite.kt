@@ -29,10 +29,10 @@ import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite
 import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
-import org.apache.commons.io.IOUtils
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
+import org.apache.commons.io.IOUtils
 
 /** The base interface for all the generators.  */
 abstract class GeneratorSuite {

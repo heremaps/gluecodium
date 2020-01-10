@@ -35,8 +35,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 /**
  * Validate set element types and map key types to ensure these are hashable types.
  */
-internal class LimeGenericTypesValidator(private val logger: LimeLogger)
-    : LimeTypeRefsVisitor<Boolean>() {
+internal class LimeGenericTypesValidator(private val logger: LimeLogger) :
+    LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 

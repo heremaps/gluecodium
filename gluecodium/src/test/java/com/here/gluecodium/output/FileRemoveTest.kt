@@ -27,6 +27,11 @@ import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 import junit.framework.TestCase.assertTrue
 import org.junit.After
 import org.junit.Before
@@ -35,11 +40,6 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Paths
 
 @RunWith(JUnit4::class)
 class FileRemoveTest {

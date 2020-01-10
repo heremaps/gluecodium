@@ -25,12 +25,12 @@ import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import java.util.logging.Level
+import java.util.logging.Logger
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.util.logging.Level
-import java.util.logging.Logger
 
 @RunWith(JUnit4::class)
 class LimeLoggerTest {

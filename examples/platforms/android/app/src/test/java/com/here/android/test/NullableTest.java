@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collections;
@@ -37,10 +36,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class NullableTest {
 
   private final NullableInterface nullableInterface = new NullableInterface();
@@ -135,7 +133,7 @@ public class NullableTest {
     struct.inlineArrayField = new LinkedList<>(Collections.singletonList("Baz"));
     struct.mapField = new HashMap<>();
     struct.mapField.put(7L, "Wee");
-    struct.blobField = new byte[]{(byte)42};
+    struct.blobField = new byte[] {(byte) 42};
 
     NullableInterface.NullableStruct result = nullableInterface.methodWithNullableStruct(struct);
 
@@ -148,7 +146,7 @@ public class NullableTest {
     assertEquals(struct.inlineArrayField, result.inlineArrayField);
     assertEquals(struct.mapField, result.mapField);
     assertEquals(1, result.blobField.length);
-    assertEquals((byte)42, result.blobField[0]);
+    assertEquals((byte) 42, result.blobField[0]);
   }
 
   @Test
@@ -169,8 +167,8 @@ public class NullableTest {
   public void nullableIntsNullStructRoundTrip() {
     NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
 
-    NullableInterface.NullableIntsStruct result
-        = nullableInterface.methodWithNullableIntsStruct(struct);
+    NullableInterface.NullableIntsStruct result =
+        nullableInterface.methodWithNullableIntsStruct(struct);
 
     assertNull(result.int8Field);
     assertNull(result.int16Field);
@@ -185,17 +183,17 @@ public class NullableTest {
   @Test
   public void nullableIntsZeroStructRoundTrip() {
     NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
-    struct.int8Field = (byte)0;
-    struct.int16Field = (short)0;
+    struct.int8Field = (byte) 0;
+    struct.int16Field = (short) 0;
     struct.int32Field = 0;
     struct.int64Field = 0L;
-    struct.uint8Field = (short)0;
+    struct.uint8Field = (short) 0;
     struct.uint16Field = 0;
     struct.uint32Field = 0L;
     struct.uint64Field = 0L;
 
-    NullableInterface.NullableIntsStruct result
-        = nullableInterface.methodWithNullableIntsStruct(struct);
+    NullableInterface.NullableIntsStruct result =
+        nullableInterface.methodWithNullableIntsStruct(struct);
 
     assertEquals(struct.int8Field, result.int8Field);
     assertEquals(struct.int16Field, result.int16Field);
@@ -210,17 +208,17 @@ public class NullableTest {
   @Test
   public void nullableIntsFilledStructRoundTrip() {
     NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
-    struct.int8Field = (byte)42;
-    struct.int16Field = (short)-71;
+    struct.int8Field = (byte) 42;
+    struct.int16Field = (short) -71;
     struct.int32Field = -1337;
     struct.int64Field = -3735928559L;
-    struct.uint8Field = (short)71;
+    struct.uint8Field = (short) 71;
     struct.uint16Field = 1337;
     struct.uint32Field = 2735718543L;
     struct.uint64Field = 3735928559L;
 
-    NullableInterface.NullableIntsStruct result
-        = nullableInterface.methodWithNullableIntsStruct(struct);
+    NullableInterface.NullableIntsStruct result =
+        nullableInterface.methodWithNullableIntsStruct(struct);
 
     assertEquals(struct.int8Field, result.int8Field);
     assertEquals(struct.int16Field, result.int16Field);

@@ -28,13 +28,13 @@ import com.natpryce.konfig.booleanType
 import com.natpryce.konfig.listType
 import com.natpryce.konfig.overriding
 import com.natpryce.konfig.stringType
+import java.io.File
+import java.nio.file.Paths
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Option
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
-import java.io.File
-import java.nio.file.Paths
 
 object OptionReader {
     private val options: Options = Options().run {

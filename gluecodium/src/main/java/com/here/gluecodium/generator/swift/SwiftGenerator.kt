@@ -23,9 +23,9 @@ import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSignatureResolver
+import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftEnum
 import com.here.gluecodium.model.swift.SwiftFile
-import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.model.swift.SwiftTypeDef

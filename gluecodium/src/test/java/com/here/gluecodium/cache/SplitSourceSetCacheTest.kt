@@ -114,7 +114,7 @@ class SplitSourceSetCacheTest {
         val returnedUpdatedFiles = cache.updateCache("Test", generatedFiles)
 
         assertEquals(returnedUpdatedFiles.toSet(), generatedFiles.toSet())
-        verifyAll { mainCache.updateCache("Test", generatedFiles ) }
+        verifyAll { mainCache.updateCache("Test", generatedFiles) }
     }
 
     @Test
