@@ -67,10 +67,12 @@ jobs:
         - yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
         - yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
       script:
-        - cd examples
+        - pushd examples
         - ./scripts/build-android --hostOnly --buildGluecodium
-        - cd ../functional-tests
+        - popd
+        - pushd functional-tests
         - ./scripts/build-android --publish
+        - popd
 
     - name: "Swift functional tests"
       language: cpp
@@ -95,10 +97,12 @@ jobs:
         - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
         - sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       script:
-        - cd examples
+        - pushd examples
         - ./scripts/build-swift --valgrind --buildGluecodium
-        - cd ../functional-tests
+        - popd
+        - pushd functional-tests
         - ./scripts/build-swift --valgrind --publish
+        - popd
 
     - stage: test
       name: "Dart functional tests"
