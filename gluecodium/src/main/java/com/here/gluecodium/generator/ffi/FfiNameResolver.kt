@@ -24,6 +24,7 @@ import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeType
@@ -40,6 +41,7 @@ internal class FfiNameResolver(
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
             is LimeFunction -> getMangledFullName(element)
+            is LimeEnumeration -> "uint32_t"
             is LimeType -> getMangledFullName(element.actualType)
             is LimeNamedElement -> getMangledName(element)
             else ->
@@ -51,6 +53,7 @@ internal class FfiNameResolver(
         return when {
             limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
             limeType is LimeBasicType -> getBasicTypeRefName(limeType)
+            limeType is LimeEnumeration -> "uint32_t"
             else -> OPAQUE_HANDLE_TYPE
         }
     }

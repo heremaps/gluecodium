@@ -18,20 +18,39 @@
   ! License-Filename: LICENSE
   !
   !}}
+final __release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_release_handle');
+
 {{>dart/DartDocumentation}}
 class {{resolveName visibility}}{{resolveName}} {{!!
 }}{{#if parent}}{{#isEq type parent.type.type}}extends{{/isEq}}{{!!
 }}{{#isNoEq type parent.type.type}}implements{{/isNoEq}} {{resolveName parent}} {{/if}}{
+  final Pointer<Void> _handle;
+  {{resolveName}}._(this._handle);
+
+  void release() => __release_handle(_handle);
+
 {{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}
 {{#set parent=this}}{{#functions}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
 {{#properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/properties}}
 }
+
+Pointer<Void> {{resolveName "mangled"}}_toFfi({{resolveName}} value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+
+{{resolveName}} {{resolveName "mangled"}}_fromFfi(Pointer<Void> handle) =>
+  handle.address != 0 ? {{resolveName}}._(handle) : null;
+
+void {{resolveName "mangled"}}_releaseFfiHandle(Pointer<Void> handle) {}
 
 {{#enumerations}}
 {{>dart/DartEnumeration}}

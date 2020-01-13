@@ -41,6 +41,10 @@ extern "C" {
 {{/structs}}
 {{/model}}
 
+{{#classes}}
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
+{{/classes}}
+
 {{#structs}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 _GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);

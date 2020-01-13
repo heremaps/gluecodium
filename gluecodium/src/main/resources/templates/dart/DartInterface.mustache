@@ -1,0 +1,74 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>dart/DartDocumentation}}
+abstract class {{resolveName visibility}}{{resolveName}} {{!!
+}}{{#if parent}}implements {{resolveName parent}} {{/if}}{
+{{#constants}}
+{{prefixPartial "dart/DartConstant" "  "}}
+{{/constants}}
+{{#set parent=this}}{{#functions}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{prefixPartial "dart/DartFunctionSignature" "  "}};
+{{/functions}}{{/set}}
+{{#properties}}
+{{prefixPartial "dart/DartProperty" "  "}}
+{{/properties}}
+}
+
+{{#enumerations}}
+{{>dart/DartEnumeration}}
+{{/enumerations}}
+{{#exceptions}}
+{{>dart/DartException}}
+{{/exceptions}}
+{{#structs}}
+{{>dart/DartStruct}}
+{{/structs}}
+
+// "Private" section, not exported.
+
+final __release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_release_handle');
+
+class {{resolveName}}__Impl implements {{resolveName}}{
+  final Pointer<Void> _handle;
+  {{resolveName}}__Impl._(this._handle);
+
+  void release() => __release_handle(_handle);
+
+{{#set parent=this}}{{#functions}}
+  @override
+{{prefixPartial "dart/DartFunction" "  "}}
+{{/functions}}{{/set}}
+{{#properties}}
+{{prefixPartial "dart/DartProperty" "  "}}
+{{/properties}}
+}
+
+Pointer<Void> {{resolveName "mangled"}}_toFfi({{resolveName}}__Impl value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+
+{{resolveName}} {{resolveName "mangled"}}_fromFfi(Pointer<Void> handle) =>
+  handle.address != 0 ? {{resolveName}}__Impl._(handle) : null;
+
+void {{resolveName "mangled"}}_releaseFfiHandle(Pointer<Void> handle) {}

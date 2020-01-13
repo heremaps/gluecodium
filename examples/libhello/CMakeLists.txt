@@ -98,7 +98,7 @@ feature(BuiltinTypes cpp android swift dart SOURCES
     lime/test/StaticIntMethods.lime
 )
 
-feature(Classes cpp android swift SOURCES
+feature(Classes cpp android swift dart SOURCES
     src/hello/HelloWorldInstances.h
     src/hello/HelloWorldProfileManager.h
     src/hello/HelloWorldFactory.cpp
@@ -118,7 +118,7 @@ feature(Classes cpp android swift SOURCES
     lime/test/Instances.lime
 )
 
-feature(Interfaces cpp android swift SOURCES
+feature(Interfaces cpp android swift dart SOURCES
     src/test/Interfaces.h
     src/test/Interfaces.cpp
     src/test/InterfacesFactory.cpp
@@ -126,7 +126,7 @@ feature(Interfaces cpp android swift SOURCES
     lime/test/Interfaces.lime
 )
 
-feature(InstanceInStruct cpp android swift SOURCES
+feature(InstanceInStruct cpp android swift dart SOURCES
     src/test/InstanceInStruct.cpp
 
     lime/test/StructWithInstance.lime
@@ -140,7 +140,7 @@ feature(Structs cpp android swift dart SOURCES
     lime/test/PlainDataStructures.lime
 )
 
-feature(StructsInTypes cpp android swift SOURCES
+feature(StructsInTypes cpp android swift dart SOURCES
     src/test/PlainDataStructuresFromTypeCollection.cpp
 
     lime/test/PlainDataStructuresFromTypeCollection.lime
@@ -161,7 +161,7 @@ feature(TypeDefs cpp android swift SOURCES
     lime/test/StaticTypedef.lime
 )
 
-feature(Enums cpp android swift SOURCES
+feature(Enums cpp android swift dart SOURCES
     src/hello/HelloWorldEnums.cpp
     src/test/Enums.cpp
     src/test/EnumsTypeCollection.cpp

@@ -33,6 +33,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
 
@@ -49,9 +50,7 @@ internal class DartNameResolver(
             is LimeGenericType -> resolveGenericType(element)
             is LimeTypeRef -> resolveName(element.type)
             is LimeTypeAlias -> resolveName(element.typeRef)
-            is LimeType ->
-                (element.path.tail.dropLast(1).map { nameRules.ruleSet.getTypeName(it) } +
-                        nameRules.getName(element)).joinToString("_")
+            is LimeType -> resolveType(element)
             is LimeNamedElement -> nameRules.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -80,10 +79,7 @@ internal class DartNameResolver(
             is LimeValue.Literal -> limeValue.toString()
             is LimeValue.Enumerator -> {
                 val enumerator = limeValue.valueRef.enumerator
-                val enumeration = limeReferenceMap[enumerator.path.parent.toString()]
-                    ?: throw GluecodiumExecutionException(
-                        "Failed to resolve enumeration for enumerator ${enumerator.fullName}"
-                    )
+                val enumeration = getParentElement(enumerator)
                 "${resolveName(enumeration)}.${resolveName(enumerator)}"
             }
             is LimeValue.Special -> TODO()
@@ -102,4 +98,20 @@ internal class DartNameResolver(
                 "Unsupported element type ${limeType.javaClass.name}"
             )
         }
+
+    private fun resolveType(limeType: LimeType): String {
+        val typeName = nameRules.getName(limeType)
+        val parentType = if (limeType.path.hasParent) getParentElement(limeType) else null
+        return when (parentType) {
+            null -> listOf(typeName)
+            is LimeTypesCollection -> listOf(typeName)
+            else -> listOf(resolveName(parentType), typeName)
+        }.joinToString("_")
+    }
+
+    private fun getParentElement(limeElement: LimeNamedElement) =
+        (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
+                ?: throw GluecodiumExecutionException(
+                    "Failed to resolve parent for element ${limeElement.fullName}"
+                ))
 }

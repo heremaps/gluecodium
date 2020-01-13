@@ -32,6 +32,7 @@ import com.here.gluecodium.generator.ffi.FfiCppNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
@@ -59,6 +60,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
+            "mangled" to DartMangledNameResolver(dartNameResolver),
             "Ffi" to ffiNameResolver,
             "FfiApiTypes" to FfiApiTypeNameResolver(),
             "FfiDartTypes" to FfiDartTypeNameResolver()
@@ -70,27 +72,31 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val importResolver = DartImportResolver(nameRules, dartNameResolver)
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
-        val pathsCollector = mutableListOf<String>()
+        val pathsCollector = mutableListOf<DartExport>()
 
-        val structs = limeModel.topElements
+        val allTypes = limeModel.topElements
             .filterIsInstance<LimeType>()
             .flatMap { LimeTypeHelper.getAllTypes(it) }
-            .filterIsInstance<LimeStruct>()
-            .distinct()
+        val structs = allTypes.filterIsInstance<LimeStruct>().distinct()
+        val enums = allTypes.filterIsInstance<LimeEnumeration>().distinct()
 
         return limeModel.topElements.flatMap {
-            listOfNotNull(generateDart(it, dartResolvers, importResolver, pathsCollector)) +
-                    generateFfi(it, ffiResolvers, includeResolver)
+            listOfNotNull(
+                generateDart(it, dartResolvers, dartNameResolver, importResolver, pathsCollector)
+            ) + generateFfi(it, ffiResolvers, includeResolver)
         } + structs.flatMap {
             generateDartStructConversion(it, dartResolvers, dartNameResolver, importResolver)
+        } + enums.flatMap {
+            generateDartEnumConversion(it, dartResolvers, dartNameResolver, importResolver)
         } + generateDartCommonFiles(pathsCollector) + generateFfiCommonFiles()
     }
 
     private fun generateDart(
         rootElement: LimeNamedElement,
         nameResolvers: Map<String, NameResolver>,
+        dartNameResolver: DartNameResolver,
         importResolver: DartImportResolver,
-        pathsCollector: MutableList<String>
+        pathsCollector: MutableList<DartExport>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
@@ -101,7 +107,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val packagePath = rootElement.path.head.joinToString(separator = "/")
         val filePath = "$packagePath/${nameRules.getName(rootElement)}"
         val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
-        pathsCollector += relativePath
+
+        val allSymbols = LimeTypeHelper.getAllTypes(rootElement)
+            .filterNot { it is LimeTypeAlias }
+            .map { dartNameResolver.resolveName(it) }
+        pathsCollector += DartExport(relativePath, allSymbols)
 
         val content = TemplateEngine.render(
             "dart/DartFile",
@@ -126,6 +136,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val functions = collectFunctions(limeType).sortedBy { it.fullName }
         val types = LimeTypeHelper.getAllTypes(limeType)
+        val classes = types.filterIsInstance<LimeContainerWithInheritance>()
         val structs = types.filterIsInstance<LimeStruct>()
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
@@ -136,6 +147,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val data = mapOf(
             "model" to rootElement,
+            "classes" to classes,
             "structs" to structs,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,
@@ -150,7 +162,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
     }
 
-    private fun generateDartCommonFiles(relativePaths: List<String>): List<GeneratedFile> {
+    private fun generateDartCommonFiles(relativePaths: List<DartExport>): List<GeneratedFile> {
         val templateData = mapOf("libraryName" to libraryName, "files" to relativePaths)
         return listOf(
             GeneratedFile(
@@ -218,9 +230,34 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         return listOf(GeneratedFile(content, "$LIB_DIR/$relativePath"))
     }
 
+    private fun generateDartEnumConversion(
+        limeEnum: LimeEnumeration,
+        nameResolvers: Map<String, NameResolver>,
+        dartNameResolver: DartNameResolver,
+        importResolver: DartImportResolver
+    ): List<GeneratedFile> {
+        val imports = importResolver.resolveImports(limeEnum)
+
+        val packagePath = limeEnum.path.head.joinToString(separator = "/")
+        val filePath = "$packagePath/${dartNameResolver.resolveName(limeEnum)}"
+        val relativePath = "$SRC_DIR_SUFFIX/${filePath}__conversion.dart"
+
+        val content = TemplateEngine.render(
+            "dart/DartEnumConversion",
+            mapOf(
+                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
+                "model" to limeEnum,
+                "libraryName" to libraryName
+            ),
+            nameResolvers
+        )
+
+        return listOf(GeneratedFile(content, "$LIB_DIR/$relativePath"))
+    }
+
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeTypesCollection -> null // "dart/DartTypes" // TODO: APIGEN-1778
+            is LimeTypesCollection -> "dart/DartTypes"
             is LimeClass -> "dart/DartClass"
             is LimeInterface -> "dart/DartInterface"
             is LimeStruct -> "dart/DartStruct"
