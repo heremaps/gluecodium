@@ -1,7 +1,4 @@
-language: java
-jdk:
-  - openjdk8
-sudo: false
+dist: bionic
 branches:
   except:
     - gh-pages
@@ -16,8 +13,119 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-script:
-  - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
-  - ./gradlew build
+    - $HOME/.gradle/caches
+    - $HOME/.gradle/wrapper
+    - $HOME/.android/build-cache
+jobs:
+  include:
+    - name: "Build and unit tests"
+      language: java
+      install: skip
+      script:
+        - ./gradlew build
+
+    - name: "C++ functional tests"
+      language: cpp
+      addons:
+        apt:
+          packages:
+            - ninja-build
+            - valgrind
+      before_script:
+        - cd examples
+      script:
+        - ./scripts/build-cpp --valgrind --buildGluecodium
+
+    - name: "Android functional tests"
+      dist: xenial
+      language: java
+      jdk: openjdk8
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - ninja-build
+      before_install:
+        - export ANDROID_HOME=${HOME}/android-sdk-linux
+        - export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
+        - export SDK_ROOT=${ANDROID_HOME}
+        - export NDK_ROOT=${ANDROID_NDK_HOME}
+        - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 60
+        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60
+      install:
+        - ANDROID_API_LEVEL=android-28
+        - ANDROID_BUILD_TOOLS_VERSION=28.0.3
+        - ANDROID_CMAKE_VERSION=3.10.2.4988404
+        - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
+        - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+        - mkdir -p ~/.android
+        - touch ~/.android/repositories.cfg
+        - yes | sdkmanager --licenses
+        - yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
+        - yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
+        - yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
+      before_script:
+        - cd examples
+      script:
+        - ./scripts/build-android --hostOnly --buildGluecodium
+
+    - name: "Swift functional tests"
+      language: cpp
+      addons:
+        apt:
+          packages:
+            - ninja-build
+            - valgrind
+      before_install:
+        - export PATH=${PWD}/cmake-install:${PWD}/cmake-install/bin:${PATH}
+      install:
+        - SWIFT_BRANCH=swift-5.1.3-release
+        - SWIFT_VERSION=swift-5.1.3-RELEASE
+        - SWIFT_PLATFORM=ubuntu16.04
+        - SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}
+        - SWIFT_URL=https://swift.org/builds/${SWIFT_BRANCH}/$(echo "${SWIFT_PLATFORM}" | tr -d .)/${SWIFT_VERSION}/${SWIFT_ARCHIVE_NAME}.tar.gz    
+        - CMAKE_VERSION=3.15.5
+        - wget -nv https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+        - tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz > /dev/null
+        - mv cmake-${CMAKE_VERSION}-Linux-x86_64 cmake-install
+        - wget -nv ${SWIFT_URL}
+        - sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
+        - sudo chmod -R o+r /usr/lib/swift/CoreFoundation
+      before_script:
+        - cd examples
+      script:
+        - ./scripts/build-swift --valgrind --buildGluecodium
+
+    - stage: test
+      name: "Dart functional tests"
+      language: cpp
+      addons:
+        apt:
+          packages:
+            - ninja-build
+      cache:
+        directories:
+        - $TRAVIS_BUILD_DIR/dart_sdk
+      before_install:
+        - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart_sdk/bin
+      install:
+        - |
+          if [ ! -d "./dart_sdk/bin" ]; then
+            git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+            mkdir dart-sdk
+            cd dart-sdk
+            fetch dart
+            cd sdk
+            ./tools/generate_buildfiles.py
+            sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
+            ./tools/build.py --mode release --arch x64 create_sdk
+            mv ./out/ReleaseX64/dart-sdk/* ../../dart_sdk
+            cd ../..
+          fi
+      before_script:
+        - cd examples
+      script:
+        - ./scripts/build-dart --buildGluecodium
