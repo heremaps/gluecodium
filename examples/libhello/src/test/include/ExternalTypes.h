@@ -125,10 +125,6 @@ public:
     virtual std::string allOverloadsExposed( const std::vector<std::string>& ) = 0;
 };
 
-}  // namespace external
-
-namespace test
-{
 class external_Interface
 {
 public:

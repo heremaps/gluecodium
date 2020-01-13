@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
@@ -36,21 +37,16 @@ internal class DartImportResolver(
         when (limeElement) {
             is LimeBasicType -> resolveBasicTypeImports(limeElement)
             is LimeTypeRef -> resolveImports(limeElement.type)
-            is LimeStruct -> {
-                val filePath = limeElement.path.head.joinToString("/")
-                val fileName = nameRules.ruleSet.getTypeName(limeElement.path.container)
-                val conversionFileName = nameResolver.resolveName(limeElement)
-                listOf(
-                    DartImport("$filePath/$fileName"),
-                    createConversionImport("$filePath/$conversionFileName")
-                )
-            }
             is LimeGenericType -> emptyList() // TODO: APIGEN-1782
             is LimeNamedElement -> {
                 val filePath = limeElement.path.head.joinToString("/")
                 val fileName = nameRules.ruleSet.getTypeName(limeElement.path.container)
-                nameRules.getName(limeElement)
-                listOf(DartImport("$filePath/$fileName"))
+                val conversionImport =
+                    if (limeElement is LimeStruct || limeElement is LimeEnumeration) {
+                        val conversionFileName = nameResolver.resolveName(limeElement)
+                        createConversionImport("$filePath/$conversionFileName")
+                    } else null
+                listOfNotNull(DartImport("$filePath/$fileName"), conversionImport)
             }
             else -> emptyList()
         }
@@ -65,7 +61,8 @@ internal class DartImportResolver(
         }
 
     companion object {
+        private const val CONVERSION_SUFFIX = "__conversion"
         private fun createConversionImport(filePath: String) =
-            DartImport(filePath + "__conversion", "__lib")
+            DartImport(filePath + CONVERSION_SUFFIX)
     }
 }

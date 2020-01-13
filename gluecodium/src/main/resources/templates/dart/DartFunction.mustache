@@ -18,35 +18,26 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "/// "}}
-{{/unless}}{{!!
-}}{{#parameters}}{{#unless comment.isEmpty}}/// @param[{{name}}] {{prefix comment "/// " skipFirstLine=true}}
-{{/unless}}{{/parameters}}{{!!
-}}{{#unless returnType.comment.isEmpty}}/// @return {{prefix returnType.comment "/// " skipFirstLine=true}}
-{{/unless}}{{!!
-}}{{#if thrownType}}{{#unless thrownType.comment.isEmpty}}/// @throws {{prefix thrownType.comment "/// " skipFirstLine=true}}
-{{/unless}}{{/if}}
-{{#if isConstructor}}{{resolveName visibility}}{{resolveName parent}}({{>parameterList}});{{/if}}{{!!
-}}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}{{!!
-}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{!!
-}}{{resolveName visibility}}{{resolveName}}({{>parameterList}}) {
+{{>dart/DartFunctionSignature}} {
   final _{{resolveName}}_ffi = __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{resolveName "Ffi"}}');
 {{#parameters}}
   final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}
-  final __result_handle = _{{resolveName}}_ffi({{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+  final __result_handle = _{{resolveName}}_ffi({{!!
+  }}{{#unless isStatic}}_handle{{#if parameters}}, {{/if}}{{/unless}}{{!!
+  }}{{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
   {{#returnType}}final _result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);{{/returnType}}
 {{#parameters}}
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
 {{/parameters}}
   return _result;
-}{{/unless}}{{!!
-
-}}{{+parameterList}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/parameterList}}{{!!
+}{{!!
 
 }}{{+ffiApi}}{{resolveName returnType.typeRef "FfiApiTypes"}} Function({{!!
+}}{{#unless isStatic}}Pointer<Void>{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
 
 }}{{+ffiDart}}{{resolveName returnType.typeRef "FfiDartTypes"}} Function({{!!
+}}{{#unless isStatic}}Pointer<Void>{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}

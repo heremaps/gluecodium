@@ -26,6 +26,7 @@
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
+#include <memory>
 #include <new>
 
 #ifdef __cplusplus
@@ -43,8 +44,15 @@ extern "C" {
 {{/structs}}
 {{/model}}
 
+{{#classes}}
+void
+{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
+}
+{{/classes}}
+
 {{#structs}}
-  FfiOpaqueHandle
+FfiOpaqueHandle
 {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}({{#if fields}}
 {{joinPartial fields "ffiFieldToCpp" ",

@@ -26,6 +26,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeList
@@ -47,7 +48,7 @@ internal class FfiCppNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
-            is LimeType -> getTypeName(element)
+            is LimeType -> getTypeName(element.actualType)
             is LimeField -> getFieldName(element)
             is LimeNamedElement -> nameRules.getName(element)
             else ->
@@ -55,8 +56,13 @@ internal class FfiCppNameResolver(
         }
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
-        val typeName = getTypeName(limeTypeRef.type)
-        return if (limeTypeRef.isNullable) "$internalNamespace::optional<$typeName>" else typeName
+        val limeType = limeTypeRef.type.actualType
+        val typeName = getTypeName(limeType)
+        return when {
+            limeType is LimeContainerWithInheritance -> "std::shared_ptr<$typeName>"
+            limeTypeRef.isNullable -> "$internalNamespace::optional<$typeName>"
+            else -> typeName
+        }
     }
 
     private fun getTypeName(limeType: LimeType): String =
@@ -92,17 +98,12 @@ internal class FfiCppNameResolver(
         }
 
     private fun getFullyQualifiedName(limeElement: LimeNamedElement): String {
-        val prefix = when {
-            limeElement.path.hasParent -> {
-                val parentElement = getParentElement(limeElement)
-                when (parentElement) {
-                    is LimeTypesCollection -> ""
-                    else -> getFullyQualifiedName(parentElement)
-                }
-            }
-            else -> limeElement.path.head.joinToString("::")
+        val parentType = if (limeElement.path.hasParent) getParentElement(limeElement) else null
+        val prefix = when (parentType) {
+            null -> limeElement.path.head.joinToString("::")
+            is LimeTypesCollection -> limeElement.path.head.joinToString("::")
+            else -> getFullyQualifiedName(parentType)
         }
-
         val elementName = nameRules.getName(limeElement)
 
         return "$prefix::$elementName"

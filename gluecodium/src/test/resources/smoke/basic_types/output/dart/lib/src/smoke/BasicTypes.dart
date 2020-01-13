@@ -1,25 +1,33 @@
+import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/String__conversion.dart';
+import 'package:library/src/_library_init.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:library/src/Boolean__conversion.dart' as __lib;
-import 'package:library/src/String__conversion.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
+final __release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_BasicTypes_release_handle');
 class BasicTypes {
+  final Pointer<Void> _handle;
+  BasicTypes._(this._handle);
+  void release() => __release_handle(_handle);
   static String stringFunction(String input) {
     final _stringFunction_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_BasicTypes_stringFunction__String');
-    final _input_handle = __lib.String_toFfi(input);
+    final _input_handle = String_toFfi(input);
     final __result_handle = _stringFunction_ffi(_input_handle);
-    final _result = __lib.String_fromFfi(__result_handle);
-    __lib.String_releaseFfiHandle(__result_handle);
-    __lib.String_releaseFfiHandle(_input_handle);
+    final _result = String_fromFfi(__result_handle);
+    String_releaseFfiHandle(__result_handle);
+    String_releaseFfiHandle(_input_handle);
     return _result;
   }
   static bool boolFunction(bool input) {
     final _boolFunction_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Uint8), int Function(int)>('smoke_BasicTypes_boolFunction__Boolean');
-    final _input_handle = __lib.Boolean_toFfi(input);
+    final _input_handle = Boolean_toFfi(input);
     final __result_handle = _boolFunction_ffi(_input_handle);
-    final _result = __lib.Boolean_fromFfi(__result_handle);
-    __lib.Boolean_releaseFfiHandle(__result_handle);
-    __lib.Boolean_releaseFfiHandle(_input_handle);
+    final _result = Boolean_fromFfi(__result_handle);
+    Boolean_releaseFfiHandle(__result_handle);
+    Boolean_releaseFfiHandle(_input_handle);
     return _result;
   }
   static double floatFunction(double input) {
@@ -113,3 +121,8 @@ class BasicTypes {
     return _result;
   }
 }
+Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) =>
+  handle.address != 0 ? BasicTypes._(handle) : null;
+void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) {}

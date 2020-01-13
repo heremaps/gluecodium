@@ -97,8 +97,7 @@ public class PlainDataStructuresTypeCollectionTest {
   @Test
   public void modifyAllBuiltInAndCustomTypesDataStructure() {
     AllTypesStruct allTypesStruct =
-        new AllTypesStruct(
-            "hello".getBytes(), PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0));
+        new AllTypesStruct(PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0));
     allTypesStruct.booleanField = true;
     allTypesStruct.doubleField = 1.0;
     allTypesStruct.floatField = 2.0f;
@@ -117,7 +116,6 @@ public class PlainDataStructuresTypeCollectionTest {
 
     assertNotNull(result);
     assertEquals(false, result.booleanField);
-    assertTrue(Arrays.equals("olleh".getBytes(), result.bytesField));
     assertEquals(allTypesStruct.doubleField + 1.0, result.doubleField);
     assertEquals(allTypesStruct.floatField + 1.0f, result.floatField);
     assertEquals(allTypesStruct.int8Field + 1, result.int8Field);
