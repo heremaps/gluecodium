@@ -126,7 +126,8 @@ class JniTemplates(
         jniContainer.structs.flatMap {
             val mustacheData = mutableMapOf(
                 "struct" to it,
-                INCLUDES_NAME to jniContainer.includes.sorted(),
+                INCLUDES_NAME to jniContainer.includes.sorted() +
+                        JniIncludeResolver.collectConversionImplementationIncludes(it),
                 INTERNAL_NAMESPACE_NAME to internalNamespace
             )
 
@@ -138,7 +139,8 @@ class JniTemplates(
             )
 
             mustacheData[INCLUDES_NAME] =
-                JniIncludeResolver.collectConversionImplementationIncludes(it)
+                JniIncludeResolver.collectConversionImplementationIncludes(it) +
+                        JniIncludeResolver.createConversionSelfInclude(it)
             val implFile = generateFile(
                 "jni/StructConversionImplementation",
                 mustacheData,
