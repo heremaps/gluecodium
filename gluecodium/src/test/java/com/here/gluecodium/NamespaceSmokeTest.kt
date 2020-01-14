@@ -19,11 +19,11 @@
 
 package com.here.gluecodium
 
+import java.io.File
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
-import java.io.File
 
 @RunWith(Parameterized::class)
 class NamespaceSmokeTest(

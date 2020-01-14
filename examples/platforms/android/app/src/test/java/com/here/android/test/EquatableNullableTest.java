@@ -24,7 +24,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.*;
@@ -35,10 +34,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class EquatableNullableTest {
 
   private final EquatableNullableStruct mainStruct = createEquatableNullableStruct();
@@ -141,8 +139,8 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructEqualsCppWithNulls() {
-    assertTrue(EquatableInterface.areEqual(
-      new EquatableNullableStruct(), new EquatableNullableStruct()));
+    assertTrue(
+        EquatableInterface.areEqual(new EquatableNullableStruct(), new EquatableNullableStruct()));
   }
 
   @Test

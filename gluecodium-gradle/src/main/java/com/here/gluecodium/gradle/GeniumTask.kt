@@ -23,6 +23,7 @@ package com.here.gluecodium.gradle
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.OptionReader
+import java.io.File
 import org.gradle.api.NonNullApi
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
@@ -37,7 +38,6 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 
 @NonNullApi
 @CacheableTask

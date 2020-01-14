@@ -21,7 +21,6 @@ package com.here.android.test;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collections;
@@ -34,10 +33,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ListenerWithAttributesTest {
 
   static class TestListener implements ListenerWithAttributes {
@@ -109,12 +107,12 @@ public class ListenerWithAttributesTest {
 
     @Override
     public Map<Byte, String> getMappedMessage() {
-      return Collections.singletonMap((byte)0, data);
+      return Collections.singletonMap((byte) 0, data);
     }
 
     @Override
     public void setMappedMessage(Map<Byte, String> value) {
-      data = value.get((byte)0);
+      data = value.get((byte) 0);
     }
 
     @Override

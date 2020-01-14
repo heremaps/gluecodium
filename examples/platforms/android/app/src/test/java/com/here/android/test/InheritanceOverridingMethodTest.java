@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertEquals;
 import static org.robolectric.ParameterizedRobolectricTestRunner.Parameters;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collection;
@@ -86,10 +85,9 @@ class AnotherChildInterfaceJavaImpl implements AnotherChildInterface {
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class InheritanceOverridingMethodTest {
 
   enum InstanceType {

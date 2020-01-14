@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 
 import android.os.Build;
 import android.support.annotation.NonNull;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -32,10 +31,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class HelloWorldPlainDataStructuresTest {
   @Test
   public void methodWithNonNestedType_nonNestedPlainDataStructure() {

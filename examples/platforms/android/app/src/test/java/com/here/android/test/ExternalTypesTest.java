@@ -22,12 +22,11 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
+import com.here.android.RobolectricApplication;
 import com.here.android.external.AnotherExternalStruct;
 import com.here.android.external.ExternalEnum;
 import com.here.android.external.ExternalStruct;
-import com.here.android.RobolectricApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -35,10 +34,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class ExternalTypesTest {
 
   @Test

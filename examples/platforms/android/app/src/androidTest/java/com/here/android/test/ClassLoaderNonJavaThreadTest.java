@@ -18,45 +18,38 @@
  */
 package com.here.android.test;
 
-import android.support.annotation.NonNull;
-
-import com.here.android.hello.HelloWorld;
-
-import org.junit.Test;
-
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
-/**
- * These tests need to be run on the device since they will always pass on emulator.
- */
+import org.junit.Test;
+
+/** These tests need to be run on the device since they will always pass on emulator. */
 public class ClassLoaderNonJavaThreadTest {
-    class ClassLoaderListener implements ThreadedListener {
+  class ClassLoaderListener implements ThreadedListener {
 
-        @Override
-        public long onEvent(String message) {
-            assertNull(Thread.currentThread().getContextClassLoader());
-            return Thread.currentThread().getId();
-        }
-
-        @Override
-        public void unloaded(UnloadedClass unloaded) {
-            assertNotNull(unloaded);
-            assertEquals(1, unloaded.increment((short)0));
-        }
+    @Override
+    public long onEvent(String message) {
+      assertNull(Thread.currentThread().getContextClassLoader());
+      return Thread.currentThread().getId();
     }
 
-    @Test
-    public void testMultipleRoundTripsWithClassLoading() {
-        ThreadedNotifier notifier = new ThreadedNotifier();
-
-        ClassLoaderListener listener = new ClassLoaderListener();
-
-        long response = notifier.notify(listener, "foo");
-
-        assertFalse(Thread.currentThread().getId() == response);
+    @Override
+    public void unloaded(UnloadedClass unloaded) {
+      assertNotNull(unloaded);
+      assertEquals(1, unloaded.increment((short) 0));
     }
+  }
+
+  @Test
+  public void testMultipleRoundTripsWithClassLoading() {
+    ThreadedNotifier notifier = new ThreadedNotifier();
+
+    ClassLoaderListener listener = new ClassLoaderListener();
+
+    long response = notifier.notify(listener, "foo");
+
+    assertFalse(Thread.currentThread().getId() == response);
+  }
 }
-

@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Rule;
@@ -35,10 +34,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class StructsWithMethodsTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -166,8 +164,7 @@ public class StructsWithMethodsTest {
 
   @Test
   public void vector3CopyConstructorDoesNotThrow() throws ValidationException {
-    StructsWithMethodsInterface.Vector3 vector =
-        new StructsWithMethodsInterface.Vector3(1, 2, 3);
+    StructsWithMethodsInterface.Vector3 vector = new StructsWithMethodsInterface.Vector3(1, 2, 3);
 
     new StructsWithMethodsInterface.Vector3(vector);
   }
