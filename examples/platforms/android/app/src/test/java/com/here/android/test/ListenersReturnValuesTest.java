@@ -21,7 +21,6 @@ package com.here.android.test;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collections;
@@ -34,10 +33,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ListenersReturnValuesTest {
 
   static class TestMessagePackage implements MessagePackage {
@@ -80,7 +78,7 @@ public class ListenersReturnValuesTest {
 
     @Override
     public Map<Byte, String> getMappedMessage() {
-      return Collections.singletonMap((byte)0, "Works");
+      return Collections.singletonMap((byte) 0, "Works");
     }
 
     @Override

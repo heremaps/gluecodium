@@ -57,12 +57,12 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 import com.here.gluecodium.model.lime.LimeVisibility
+import java.util.LinkedList
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.antlr.v4.runtime.tree.ParseTreeWalker
-import java.util.LinkedList
 
 internal class AntlrLimeModelBuilder(
     private val referenceResolver: LimeReferenceResolver,

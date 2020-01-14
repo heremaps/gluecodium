@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.ArrayList;
@@ -34,10 +33,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ArraysByteBufferTest {
 
   @Test
@@ -72,12 +70,12 @@ public class ArraysByteBufferTest {
 
   @Test
   public void methodWithImplicitArray_reversesArray() {
-    List<Short> uintList = java.util.Arrays.asList((short)1, (short)2, (short)3);
+    List<Short> uintList = java.util.Arrays.asList((short) 1, (short) 2, (short) 3);
 
     List<Short> resultList = ArraysByteBuffer.methodWithImplicitArray(uintList);
 
     assertNotNull(resultList);
-    assertEquals(java.util.Arrays.asList((short)3, (short)2, (short)1), resultList);
+    assertEquals(java.util.Arrays.asList((short) 3, (short) 2, (short) 1), resultList);
   }
 
   @Test
@@ -92,12 +90,12 @@ public class ArraysByteBufferTest {
 
   @Test
   public void methodWithExplicitArray_reversesArray() {
-    List<Short> uintList = java.util.Arrays.asList((short)1, (short)2, (short)3);
+    List<Short> uintList = java.util.Arrays.asList((short) 1, (short) 2, (short) 3);
 
     List<Short> resultList = ArraysByteBuffer.methodWithExplicitArray(uintList);
 
     assertNotNull(resultList);
-    assertEquals(java.util.Arrays.asList((short)3, (short)2, (short)1), resultList);
+    assertEquals(java.util.Arrays.asList((short) 3, (short) 2, (short) 1), resultList);
   }
 
   @Test
@@ -140,13 +138,13 @@ public class ArraysByteBufferTest {
   public void methodWithImplicitArrayInStruct_reversesArray() {
     ArraysByteBuffer.StructWithImplicitArray struct =
         new ArraysByteBuffer.StructWithImplicitArray(
-            java.util.Arrays.asList((short)1, (short)2, (short)3));
+            java.util.Arrays.asList((short) 1, (short) 2, (short) 3));
 
     ArraysByteBuffer.StructWithImplicitArray resultStruct =
         ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
 
     assertNotNull(resultStruct);
-    assertEquals(java.util.Arrays.asList((short)3, (short)2, (short)1), resultStruct.image);
+    assertEquals(java.util.Arrays.asList((short) 3, (short) 2, (short) 1), resultStruct.image);
   }
 
   @Test
@@ -165,12 +163,12 @@ public class ArraysByteBufferTest {
   public void methodWithExplicitArrayInStruct_reversesArray() {
     ArraysByteBuffer.StructWithExplicitArray struct =
         new ArraysByteBuffer.StructWithExplicitArray(
-            java.util.Arrays.asList((short)1, (short)2, (short)3));
+            java.util.Arrays.asList((short) 1, (short) 2, (short) 3));
 
     ArraysByteBuffer.StructWithExplicitArray resultStruct =
         ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
 
     assertNotNull(resultStruct);
-    assertEquals(java.util.Arrays.asList((short)3, (short)2, (short)1), resultStruct.image);
+    assertEquals(java.util.Arrays.asList((short) 3, (short) 2, (short) 1), resultStruct.image);
   }
 }

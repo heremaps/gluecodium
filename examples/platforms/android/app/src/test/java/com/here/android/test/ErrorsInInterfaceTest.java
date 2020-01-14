@@ -21,7 +21,6 @@ package com.here.android.test;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.another.AdditionalErrors.ExternalErrorCode;
@@ -36,10 +35,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ErrorsInInterfaceTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -106,8 +104,7 @@ public class ErrorsInInterfaceTest {
   @Test
   public void getMessageErrorRethrown() throws ExternalException {
     expectedException.expect(ExternalException.class);
-    expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
 
     new ErrorMessenger().getMessage(new ThrowingListener());
   }
@@ -115,8 +112,7 @@ public class ErrorsInInterfaceTest {
   @Test
   public void setMessageErrorRethrown() throws ExternalException {
     expectedException.expect(ExternalException.class);
-    expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExternalErrorCode.FAILED));
 
     new ErrorMessenger().setMessage(new ThrowingListener(), "Foo");
   }
@@ -124,8 +120,7 @@ public class ErrorsInInterfaceTest {
   @Test
   public void getMessageWithPayloadErrorRethrown() throws WithPayloadException {
     expectedException.expect(WithPayloadException.class);
-    expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo")));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo")));
 
     new ErrorMessenger().getMessageWithPayload(new ThrowingListener());
   }
@@ -133,8 +128,7 @@ public class ErrorsInInterfaceTest {
   @Test
   public void setMessageWithPayloadErrorRethrown() throws WithPayloadException {
     expectedException.expect(WithPayloadException.class);
-    expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo")));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo")));
 
     new ErrorMessenger().setMessageWithPayload(new ThrowingListener(), "Foo");
   }

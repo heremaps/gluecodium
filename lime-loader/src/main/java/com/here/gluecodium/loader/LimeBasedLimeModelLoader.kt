@@ -21,28 +21,28 @@ package com.here.gluecodium.loader
 
 import com.here.gluecodium.antlr.LimeLexer
 import com.here.gluecodium.antlr.LimeParser
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReferenceResolver
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
-import com.here.gluecodium.validator.LimeStructsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
-import com.here.gluecodium.validator.LimeGenericTypesValidator
-import com.here.gluecodium.validator.LimeInheritanceValidator
-import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.validator.LimeFunctionsValidator
+import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeImportsValidator
+import com.here.gluecodium.validator.LimeInheritanceValidator
 import com.here.gluecodium.validator.LimeSerializableStructsValidator
-import com.here.gluecodium.validator.LimeTypeRefsValidator
+import com.here.gluecodium.validator.LimeStructsValidator
 import com.here.gluecodium.validator.LimeTypeRefTargetValidator
+import com.here.gluecodium.validator.LimeTypeRefsValidator
+import java.io.File
+import java.util.logging.Logger
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.antlr.v4.runtime.tree.ParseTreeWalker
-import java.io.File
-import java.util.logging.Logger
 
 internal class LimeBasedLimeModelLoader : LimeModelLoader {
     private val logger = Logger.getLogger(LimeBasedLimeModelLoader::class.java.name)

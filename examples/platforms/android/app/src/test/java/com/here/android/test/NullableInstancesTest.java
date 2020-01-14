@@ -18,12 +18,11 @@
  */
 package com.here.android.test;
 
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -33,10 +32,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class NullableInstancesTest {
 
   private static class NullableInstanceListenerImpl implements NullableInstanceListener {
@@ -75,30 +73,28 @@ public class NullableInstancesTest {
 
   @Test
   public void bottomUpNullRoundTrip() {
-    boolean result
-        = NullableStatic.nullableBottomUpNullRoundTrip(new NullableInstanceListenerImpl());
+    boolean result =
+        NullableStatic.nullableBottomUpNullRoundTrip(new NullableInstanceListenerImpl());
     assertTrue(result);
   }
 
   @Test
   public void bottomUpRoundTrip() {
-    boolean result
-        = NullableStatic.nullableBottomUpRoundTrip(new NullableInstanceListenerImpl());
+    boolean result = NullableStatic.nullableBottomUpRoundTrip(new NullableInstanceListenerImpl());
     assertTrue(result);
   }
 
   @Test
   public void bottomUpAttributeNullRoundTrip() {
-    boolean result
-        = NullableStatic.nullableBottomUpAttributeNullRoundTrip(new NullableInstanceListenerImpl());
+    boolean result =
+        NullableStatic.nullableBottomUpAttributeNullRoundTrip(new NullableInstanceListenerImpl());
     assertTrue(result);
   }
 
   @Test
   public void bottomUpAttributeRoundTrip() {
-    boolean result
-        = NullableStatic.nullableBottomUpAttributeRoundTrip(new NullableInstanceListenerImpl());
+    boolean result =
+        NullableStatic.nullableBottomUpAttributeRoundTrip(new NullableInstanceListenerImpl());
     assertTrue(result);
   }
-
 }

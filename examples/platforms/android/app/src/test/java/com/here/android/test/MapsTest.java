@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.*;
@@ -33,10 +32,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class MapsTest {
 
   private static final String LOWERCASE_VALUE_1 = "lowercase";
@@ -95,18 +93,18 @@ public class MapsTest {
   public void methodWithMapToArray_multipleItems() {
     Map<Short, List<String>> arrayMap = new HashMap<>();
 
-    arrayMap.put((short)11, Collections.singletonList(LOWERCASE_VALUE_1));
-    arrayMap.put((short)42, java.util.Arrays.asList(LOWERCASE_VALUE_2, LOWERCASE_VALUE_3));
-    arrayMap.put((short)199, Collections.emptyList());
+    arrayMap.put((short) 11, Collections.singletonList(LOWERCASE_VALUE_1));
+    arrayMap.put((short) 42, java.util.Arrays.asList(LOWERCASE_VALUE_2, LOWERCASE_VALUE_3));
+    arrayMap.put((short) 199, Collections.emptyList());
 
     Map<Short, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
 
     assertNotNull(resultsMap);
     assertEquals(3, resultsMap.size());
-    assertEquals(Collections.singletonList(UPPERCASE_VALUE_1), resultsMap.get((short)11));
+    assertEquals(Collections.singletonList(UPPERCASE_VALUE_1), resultsMap.get((short) 11));
     assertEquals(
-        java.util.Arrays.asList(UPPERCASE_VALUE_2, UPPERCASE_VALUE_3), resultsMap.get((short)42));
-    assertEquals(Collections.emptyList(), resultsMap.get((short)199));
+        java.util.Arrays.asList(UPPERCASE_VALUE_2, UPPERCASE_VALUE_3), resultsMap.get((short) 42));
+    assertEquals(Collections.emptyList(), resultsMap.get((short) 199));
   }
 
   @Test
@@ -124,22 +122,22 @@ public class MapsTest {
     Map<Short, Maps.SomeStruct> byteStructMap = new HashMap<>();
     Maps.SomeStruct someStruct1 = new Maps.SomeStruct();
     someStruct1.value = LOWERCASE_VALUE_1;
-    byteStructMap.put((short)11, someStruct1);
+    byteStructMap.put((short) 11, someStruct1);
     Maps.SomeStruct someStruct2 = new Maps.SomeStruct();
     someStruct2.value = LOWERCASE_VALUE_2;
-    byteStructMap.put((short)42, someStruct2);
+    byteStructMap.put((short) 42, someStruct2);
     Maps.SomeStruct someStruct3 = new Maps.SomeStruct();
     someStruct3.value = LOWERCASE_VALUE_3;
-    byteStructMap.put((short)199, someStruct3);
+    byteStructMap.put((short) 199, someStruct3);
 
     Map<Short, Maps.SomeStruct> resultsMap = Maps.methodWithMapToStruct(byteStructMap);
 
     assertNotNull(resultsMap);
     assertEquals(3, resultsMap.size());
     // method returns string values in uppercase, inside structs
-    assertEquals(UPPERCASE_VALUE_1, resultsMap.get((short)11).value);
-    assertEquals(UPPERCASE_VALUE_2, resultsMap.get((short)42).value);
-    assertEquals(UPPERCASE_VALUE_3, resultsMap.get((short)199).value);
+    assertEquals(UPPERCASE_VALUE_1, resultsMap.get((short) 11).value);
+    assertEquals(UPPERCASE_VALUE_2, resultsMap.get((short) 42).value);
+    assertEquals(UPPERCASE_VALUE_3, resultsMap.get((short) 199).value);
   }
 
   @Test
@@ -157,30 +155,30 @@ public class MapsTest {
     Map<Short, Maps.SomeStruct> byteStructMap = new HashMap<>();
     Maps.SomeStruct someStruct1 = new Maps.SomeStruct();
     someStruct1.value = LOWERCASE_VALUE_1;
-    byteStructMap.put((short)11, someStruct1);
+    byteStructMap.put((short) 11, someStruct1);
     Maps.SomeStruct someStruct2 = new Maps.SomeStruct();
     someStruct2.value = LOWERCASE_VALUE_2;
-    byteStructMap.put((short)42, someStruct2);
+    byteStructMap.put((short) 42, someStruct2);
     Maps.SomeStruct someStruct3 = new Maps.SomeStruct();
     someStruct3.value = LOWERCASE_VALUE_3;
-    byteStructMap.put((short)199, someStruct3);
+    byteStructMap.put((short) 199, someStruct3);
 
     Map<Short, Map<Short, Maps.SomeStruct>> byteMapMap = new HashMap<>();
-    byteMapMap.put((short)7, byteStructMap);
-    byteMapMap.put((short)93, new HashMap<>());
+    byteMapMap.put((short) 7, byteStructMap);
+    byteMapMap.put((short) 93, new HashMap<>());
 
     Map<Short, Map<Short, Maps.SomeStruct>> resultsMap = Maps.methodWithNestedMap(byteMapMap);
 
     assertNotNull(resultsMap);
     assertEquals(2, resultsMap.size());
-    assertEquals(0, resultsMap.get((short)93).size());
+    assertEquals(0, resultsMap.get((short) 93).size());
 
-    Map<Short, Maps.SomeStruct> resultSubMap = resultsMap.get((short)7);
+    Map<Short, Maps.SomeStruct> resultSubMap = resultsMap.get((short) 7);
     assertEquals(3, resultSubMap.size());
     // method returns string values in uppercase, inside structs
-    assertEquals(UPPERCASE_VALUE_1, resultSubMap.get((short)11).value);
-    assertEquals(UPPERCASE_VALUE_2, resultSubMap.get((short)42).value);
-    assertEquals(UPPERCASE_VALUE_3, resultSubMap.get((short)199).value);
+    assertEquals(UPPERCASE_VALUE_1, resultSubMap.get((short) 11).value);
+    assertEquals(UPPERCASE_VALUE_2, resultSubMap.get((short) 42).value);
+    assertEquals(UPPERCASE_VALUE_3, resultSubMap.get((short) 199).value);
   }
 
   @Test
@@ -278,6 +276,7 @@ public class MapsTest {
 
     assertEquals(input, result);
   }
+
   @Test
   public void pointerEquatableClassToStringMapRoundTrip() {
     Map<PointerEquatableClass, String> input = new HashMap<>();

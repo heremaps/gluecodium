@@ -19,6 +19,9 @@
 
 package com.here.gluecodium.cli
 
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.PrintStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -29,9 +32,6 @@ import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.PrintStream
 
 @RunWith(JUnit4::class)
 class OptionReaderTest {

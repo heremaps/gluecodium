@@ -69,7 +69,7 @@ class SwiftClass(
 
     val implName
         get() = when {
-            isInterface -> (nestedNames.dropLast(1) + "_$simpleName" ).joinToString(".")
+            isInterface -> (nestedNames.dropLast(1) + "_$simpleName").joinToString(".")
             else -> name
         }
 }
