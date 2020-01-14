@@ -30,14 +30,14 @@ import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
 import io.mockk.spyk
+import java.io.File
+import java.net.URISyntaxException
+import java.util.HashMap
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Assume.assumeFalse
 import org.junit.Before
 import org.junit.Rule
-import java.io.File
-import java.net.URISyntaxException
-import java.util.HashMap
 
 abstract class AcceptanceTestBase protected constructor(
     private val featureDirectory: File,

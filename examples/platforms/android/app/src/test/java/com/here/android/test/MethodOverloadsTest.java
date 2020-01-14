@@ -22,10 +22,9 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
-import com.here.android.matchers.FieldMatcher;
 import com.here.android.RobolectricApplication;
+import com.here.android.matchers.FieldMatcher;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Rule;
@@ -37,10 +36,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class MethodOverloadsTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();

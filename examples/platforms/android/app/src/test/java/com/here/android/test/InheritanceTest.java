@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.List;
@@ -54,10 +53,9 @@ class TestGrandChildListener extends TestChildListener {}
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class InheritanceTest {
 
   @Test
@@ -177,7 +175,8 @@ public class InheritanceTest {
   // test C++ diamond inheritance
   @Test
   public void testCreateConjoinedChildrenAsAnotherChildInterface() {
-    AnotherChildInterface childInterface = InheritanceTestHelper.createConjoinedChildrenAsAnotherChildInterface();
+    AnotherChildInterface childInterface =
+        InheritanceTestHelper.createConjoinedChildrenAsAnotherChildInterface();
 
     assertTrue(childInterface instanceof AnotherConcreteChild);
     assertFalse(childInterface instanceof ConcreteChild);
@@ -186,7 +185,8 @@ public class InheritanceTest {
   // test C++ multiple unrelated inheritance
   @Test
   public void testCreateDisjoinedChildrenAsParentInterface() {
-    ParentInterface childInterface = InheritanceTestHelper.createDisjoinedChildrenAsParentInterface();
+    ParentInterface childInterface =
+        InheritanceTestHelper.createDisjoinedChildrenAsParentInterface();
 
     assertTrue(childInterface instanceof ChildClass);
   }
@@ -196,7 +196,7 @@ public class InheritanceTest {
   public void testCreateDisjoinedChildrenAsRootInterface() {
     RootInterface childInterface = InheritanceTestHelper.createDisjoinedChildrenAsRootInterface();
 
-    assertTrue(childInterface instanceof  ConcreteChild);
+    assertTrue(childInterface instanceof ConcreteChild);
   }
 
   @Test

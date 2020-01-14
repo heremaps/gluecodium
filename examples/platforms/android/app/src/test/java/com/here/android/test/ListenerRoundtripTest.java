@@ -19,7 +19,6 @@
 package com.here.android.test;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -29,18 +28,16 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ListenerRoundtripTest {
 
-  static class RouteImpl implements Route {
-  }
+  static class RouteImpl implements Route {}
 
   static class RouteProviderImpl implements RouteProvider {
     public void setRoute(final Route route) {
-      RouteImpl impl = (RouteImpl)route;
+      RouteImpl impl = (RouteImpl) route;
     }
   }
 

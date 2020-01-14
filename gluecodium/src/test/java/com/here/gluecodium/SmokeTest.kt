@@ -20,8 +20,8 @@
 package com.here.gluecodium
 
 import com.here.gluecodium.cli.OptionReader
-import junit.framework.TestCase.assertNotNull
 import java.io.File
+import junit.framework.TestCase.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized

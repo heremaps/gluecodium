@@ -21,7 +21,6 @@ package com.here.android.hello;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Before;
@@ -33,10 +32,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class CppProxyTest {
   private static final Calculator.Position START_POSITION = new Calculator.Position();
   private static final Calculator.Position END_POSITION = new Calculator.Position();
@@ -139,7 +137,7 @@ public final class CppProxyTest {
   }
 
   @Test
-  public void removeAllRegisteredListenersAtDifferentThread( ) throws InterruptedException {
+  public void removeAllRegisteredListenersAtDifferentThread() throws InterruptedException {
     Thread registerThread = new Thread(() -> notifier.registerListener(JAVA_LISTENER));
 
     registerThread.start();

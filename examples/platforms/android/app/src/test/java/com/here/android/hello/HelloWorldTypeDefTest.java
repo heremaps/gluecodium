@@ -21,7 +21,6 @@ package com.here.android.hello;
 import static org.junit.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Rule;
@@ -33,10 +32,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class HelloWorldTypeDefTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();

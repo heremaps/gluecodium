@@ -21,7 +21,6 @@ package com.here.android.test;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.another.*;
@@ -35,10 +34,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ErrorsTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -67,14 +65,12 @@ public class ErrorsTest {
   }
 
   @Test
-  public void otherMethodWithError_doesNotThrow()
-      throws OtherErrors.InternalException {
+  public void otherMethodWithError_doesNotThrow() throws OtherErrors.InternalException {
     OtherErrors.methodWithError(false);
   }
 
   @Test
-  public void methodWithErrorAndString_throws()
-      throws AdditionalErrors.ExternalException {
+  public void methodWithErrorAndString_throws() throws AdditionalErrors.ExternalException {
     expectedException.expect(AdditionalErrors.ExternalException.class);
     expectedException.expect(
         FieldMatcher.hasFieldWithValue("error", AdditionalErrors.ExternalErrorCode.FAILED));
@@ -83,8 +79,7 @@ public class ErrorsTest {
   }
 
   @Test
-  public void methodWithErrorAndString_doesNotThrow()
-      throws AdditionalErrors.ExternalException {
+  public void methodWithErrorAndString_doesNotThrow() throws AdditionalErrors.ExternalException {
     String result = Errors.methodWithErrorAndString(false);
 
     assertEquals("SUCCEEDED", result);
@@ -146,8 +141,7 @@ public class ErrorsTest {
   @Test
   public void methodWithPayloadError_throws() throws WithPayloadException {
     expectedException.expect(WithPayloadException.class);
-    expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo error")));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo error")));
 
     Errors.methodWithPayloadError(true);
   }
@@ -160,8 +154,7 @@ public class ErrorsTest {
   @Test
   public void methodWithPayloadErrorAndValue_throws() throws WithPayloadException {
     expectedException.expect(WithPayloadException.class);
-    expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo error")));
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", new Payload(42, "foo error")));
 
     Errors.methodWithPayloadErrorAndReturnValue(true);
   }

@@ -21,5 +21,5 @@ package com.here.gluecodium.model.cpp
 
 import com.here.gluecodium.model.common.Include
 
-class CppValue(value: String, includes: List<Include> = emptyList())
-    : CppElementWithIncludes(value, value, includes)
+class CppValue(value: String, includes: List<Include> = emptyList()) :
+    CppElementWithIncludes(value, value, includes)

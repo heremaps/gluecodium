@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Arrays;
@@ -36,10 +35,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class StaticByteArrayMethodsTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
@@ -124,5 +122,4 @@ public final class StaticByteArrayMethodsTest {
 
     assertTrue(Arrays.equals(input.blob, result.blob));
   }
-
 }

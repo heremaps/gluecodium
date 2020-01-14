@@ -27,7 +27,7 @@ package com.here.gluecodium.model.lime
  */
 class LimeComment(private val taggedSections: List<Pair<String, String>> = emptyList()) {
 
-    constructor(comment: String): this(listOf("" to comment))
+    constructor(comment: String) : this(listOf("" to comment))
 
     fun isEmpty() = taggedSections.all { it.second.isEmpty() }
 

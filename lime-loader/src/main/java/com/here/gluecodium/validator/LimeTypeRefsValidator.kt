@@ -30,8 +30,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 /* Validates all type references by trying to resolve each one and reporting any resulting
  * exceptions as validation failures.
  */
-internal class LimeTypeRefsValidator(private val logger: LimeLogger)
-    : LimeTypeRefsVisitor<Boolean>() {
+internal class LimeTypeRefsValidator(private val logger: LimeLogger) :
+    LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 

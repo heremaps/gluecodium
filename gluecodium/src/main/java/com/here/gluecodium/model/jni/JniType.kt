@@ -52,7 +52,7 @@ class JniType(
     val isComplex = javaType !is JavaPrimitiveTypeRef
     @Suppress("unused")
     val refersToValueType = cppType.refersToValueType
-    @Suppress( "unused")
+    @Suppress("unused")
     val isJavaVoid = javaType === JavaPrimitiveTypeRef.VOID
 
     val elementType = inferElementType(javaType, cppType)

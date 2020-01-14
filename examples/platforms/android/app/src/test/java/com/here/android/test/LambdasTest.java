@@ -22,7 +22,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.List;
@@ -33,10 +32,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class LambdasTest {
 
   @Test
@@ -49,14 +47,15 @@ public class LambdasTest {
   @Test
   public void callJavaLambdaInCpp() {
     String delimiter = ">.<";
-    String result = Lambdas.concatenate("foo", "bar", (String s1, String s2)->s1+delimiter+s2);
+    String result =
+        Lambdas.concatenate("foo", "bar", (String s1, String s2) -> s1 + delimiter + s2);
 
     assertEquals("foo>.<bar", result);
   }
 
   @Test
   public void capturingRoundtrip() {
-    Lambdas.Concatenator concatenator = (String s1, String s2)->s1+s2;
+    Lambdas.Concatenator concatenator = (String s1, String s2) -> s1 + s2;
     Lambdas.Tricatenator tricatenator = Lambdas.composeConcatenators(concatenator, concatenator);
     String result = tricatenator.apply("foo", ">.<", "bar");
 
@@ -66,7 +65,7 @@ public class LambdasTest {
   @Test
   public void callConcatenateList() {
     List<String> strings = java.util.Arrays.asList("foo", ">.<", "bar");
-    Lambdas.Concatenator concatenator = (String s1, String s2)->s1+s2;
+    Lambdas.Concatenator concatenator = (String s1, String s2) -> s1 + s2;
     List<Lambdas.Concatenator> concatenators = java.util.Arrays.asList(concatenator, concatenator);
     String result = Lambdas.concatenateList(strings, concatenators);
 
@@ -83,7 +82,8 @@ public class LambdasTest {
   @Test
   public void callJavaLambdaInStructInCpp() {
     String delimiter = ">.<";
-    Lambdas.LambdaHolder holder = new Lambdas.LambdaHolder((String s1, String s2)->s1+delimiter+s2);
+    Lambdas.LambdaHolder holder =
+        new Lambdas.LambdaHolder((String s1, String s2) -> s1 + delimiter + s2);
     String result = Lambdas.concatenateInStruct("foo", "bar", holder);
 
     assertEquals("foo>.<bar", result);
@@ -106,7 +106,8 @@ public class LambdasTest {
   @Test
   public void callNullableJavaLambdaInCpp() {
     String delimiter = ">.<";
-    String result = Lambdas.concatenateOrNot("foo", "bar", (String s1, String s2)->s1+delimiter+s2);
+    String result =
+        Lambdas.concatenateOrNot("foo", "bar", (String s1, String s2) -> s1 + delimiter + s2);
 
     assertEquals("foo>.<bar", result);
   }

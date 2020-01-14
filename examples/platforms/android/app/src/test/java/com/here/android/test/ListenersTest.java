@@ -19,7 +19,6 @@
 package com.here.android.test;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -29,26 +28,25 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class ListenersTest {
 
   static class MessageListener implements StringListener {
     @Override
-    public void onMessage(String message) { }
+    public void onMessage(String message) {}
 
     @Override
-    public void onConstMessage(String message) { }
+    public void onConstMessage(String message) {}
 
     @Override
-    public void onStructMessage(StringStruct message) { }
+    public void onStructMessage(StringStruct message) {}
   }
 
   @Test
   public void stringListenerDoesNotCrash() {
-    DummyLogger.relayMessage(new MessageListener(),  "Hi!");
+    DummyLogger.relayMessage(new MessageListener(), "Hi!");
   }
 
   @Test

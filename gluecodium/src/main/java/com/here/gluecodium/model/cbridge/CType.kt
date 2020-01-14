@@ -29,7 +29,7 @@ open class CType(
     val isConst: Boolean = false
 ) : CElement(name) {
 
-    constructor(name: String, include: Include): this(name, listOf(include))
+    constructor(name: String, include: Include) : this(name, listOf(include))
 
     override fun toString() = if (isConst) "$CONST_SPECIFIER $name" else name
 

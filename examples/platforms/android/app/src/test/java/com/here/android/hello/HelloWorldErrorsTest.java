@@ -21,7 +21,6 @@ package com.here.android.hello;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.hello.HelloWorldErrors.InternalErrorCode;
@@ -35,17 +34,15 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public class HelloWorldErrorsTest {
 
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
   @Test
-  public void helloWorldMethodWithError_throwsCrashed()
-      throws HelloWorldErrors.InternalException {
+  public void helloWorldMethodWithError_throwsCrashed() throws HelloWorldErrors.InternalException {
     expectedException.expect(HelloWorldErrors.InternalException.class);
     expectedException.expectMessage(InternalErrorCode.CRASHED.toString());
     expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrorCode.CRASHED));
@@ -54,8 +51,7 @@ public class HelloWorldErrorsTest {
   }
 
   @Test
-  public void helloWorldMethodWithError_doesNotThrow()
-      throws HelloWorldErrors.InternalException {
+  public void helloWorldMethodWithError_doesNotThrow() throws HelloWorldErrors.InternalException {
     HelloWorldErrors.helloWorldMethodWithError(false);
   }
 

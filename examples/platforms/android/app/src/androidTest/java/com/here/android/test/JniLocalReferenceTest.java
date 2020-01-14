@@ -18,20 +18,15 @@
  */
 package com.here.android.test;
 
-import com.here.android.hello.HelloWorld;
-import com.here.android.hello.HelloWorldBuiltinTypes;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
-import java.util.Collections;
-import java.util.List;
-
 import static junit.framework.Assert.assertEquals;
 
-/**
- * These tests need to be run on the device since they will always pass on emulator.
- */
+import com.here.android.hello.HelloWorld;
+import com.here.android.hello.HelloWorldBuiltinTypes;
+import java.util.Collections;
+import java.util.List;
+import org.junit.Test;
+
+/** These tests need to be run on the device since they will always pass on emulator. */
 public final class JniLocalReferenceTest {
   // JNI local reference limit is 512, take double that +1 to be sure
   private static final int LOOP_COUNT = 1025;
@@ -45,10 +40,10 @@ public final class JniLocalReferenceTest {
 
   @Test
   public void int8Array() {
-      List<Byte> input = Collections.nCopies(LOOP_COUNT, (byte) 7);
-      List<Byte> result = Arrays.reverseInt8Array(input);
-      assertEquals(input.size(), result.size());
-    }
+    List<Byte> input = Collections.nCopies(LOOP_COUNT, (byte) 7);
+    List<Byte> result = Arrays.reverseInt8Array(input);
+    assertEquals(input.size(), result.size());
+  }
 
   @Test
   public void uint16Array() {
@@ -165,7 +160,7 @@ public final class JniLocalReferenceTest {
   @Test
   public void builtinUint32() {
     for (int i = LOOP_COUNT; i > 0; --i) {
-      HelloWorldBuiltinTypes.methodWithUint32( 1l);
+      HelloWorldBuiltinTypes.methodWithUint32(1l);
     }
   }
 
@@ -234,4 +229,3 @@ public final class JniLocalReferenceTest {
     }
   }
 }
-

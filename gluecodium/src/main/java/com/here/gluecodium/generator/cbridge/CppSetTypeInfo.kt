@@ -22,7 +22,7 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.model.cbridge.CType
 import com.here.gluecodium.model.common.Include
 
-class CppSetTypeInfo (
+class CppSetTypeInfo(
     name: String,
     cType: CType,
     includes: List<Include>,

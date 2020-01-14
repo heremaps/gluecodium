@@ -22,7 +22,7 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.model.cbridge.CType
 import com.here.gluecodium.model.common.Include
 
-class CppArrayTypeInfo (
+class CppArrayTypeInfo(
     name: String,
     cType: CType,
     functionReturnType: CType,

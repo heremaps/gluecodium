@@ -19,11 +19,10 @@
 
 package com.here.gluecodium.generator.common
 
-import org.apache.commons.text.WordUtils.capitalizeFully
-
 import com.google.common.base.CaseFormat
 import com.google.common.base.CharMatcher
 import com.google.common.base.Strings
+import org.apache.commons.text.WordUtils.capitalizeFully
 
 @Suppress("UnstableApiUsage")
 object NameHelper {

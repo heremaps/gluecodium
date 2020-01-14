@@ -55,8 +55,7 @@ class MultiFileSetCache {
 
     this.rootDirectory = rootDirectory;
     singleSetCaches =
-        availableFileSets
-            .stream()
+        availableFileSets.stream()
             .collect(
                 Collectors.toMap(
                     name -> name,
@@ -135,9 +134,7 @@ class MultiFileSetCache {
   }
 
   private Predicate<Path> filterOutCachedFiles() {
-    return singleSetCaches
-        .values()
-        .stream()
+    return singleSetCaches.values().stream()
         .map(FileSetCache::filterOutCachedFiles)
         .reduce(Predicate::and)
         .orElse(p -> false);
@@ -145,9 +142,7 @@ class MultiFileSetCache {
 
   private Predicate<Path> filterOutCacheIndexFiles() {
     return path ->
-        singleSetCaches
-            .keySet()
-            .stream()
+        singleSetCaches.keySet().stream()
             .noneMatch(name -> path.equals(new File(createRelativeCacheIndexFile(name)).toPath()));
   }
 
@@ -160,8 +155,7 @@ class MultiFileSetCache {
    */
   public static List<Path> retrieveExistingCacheFiles(
       final String rootDirectory, final Set<String> availableFileSets) {
-    return availableFileSets
-        .stream()
+    return availableFileSets.stream()
         .map(name -> createCacheIndexFile(rootDirectory, name).toPath())
         .filter(Files::isRegularFile)
         .collect(Collectors.toList());

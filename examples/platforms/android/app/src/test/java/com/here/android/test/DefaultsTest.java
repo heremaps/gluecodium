@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.AbstractMap;
@@ -39,10 +38,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class DefaultsTest {
 
   private static final Defaults.StructWithDefaults STRUCT_WITH_DEFAULTS =
@@ -61,20 +59,20 @@ public final class DefaultsTest {
   @Test
   public void checkJavaDefaults() {
 
-    //act
+    // act
     Defaults.StructWithDefaults myStruct = new Defaults.StructWithDefaults();
 
-    //assert
+    // assert
     assertTrue(checkIfStructEqualsDefault(myStruct));
   }
 
   @Test
   public void checkCppDefaults() {
 
-    //act
+    // act
     Defaults.StructWithDefaults myStruct = Defaults.getDefault();
 
-    //assert
+    // assert
     assertTrue(checkIfStructEqualsDefault(myStruct));
   }
 
@@ -95,8 +93,8 @@ public final class DefaultsTest {
   public void checkJavaDefaultsImmutable() {
     long uintValue = 77L;
     boolean boolValue = true;
-    Defaults.ImmutableStructWithDefaults myStruct
-        = new Defaults.ImmutableStructWithDefaults(uintValue, boolValue);
+    Defaults.ImmutableStructWithDefaults myStruct =
+        new Defaults.ImmutableStructWithDefaults(uintValue, boolValue);
 
     assertEquals(42, myStruct.intField);
     assertEquals(uintValue, myStruct.uintField);

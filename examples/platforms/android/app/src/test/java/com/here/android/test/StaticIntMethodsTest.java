@@ -21,7 +21,6 @@ package com.here.android.test;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -31,10 +30,9 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(
-  sdk = Build.VERSION_CODES.M,
-  application = RobolectricApplication.class,
-  constants = BuildConfig.class
-)
+    sdk = Build.VERSION_CODES.M,
+    application = RobolectricApplication.class,
+    constants = BuildConfig.class)
 public final class StaticIntMethodsTest {
   @Test
   public void returnNextNumberInt8() {
@@ -82,7 +80,7 @@ public final class StaticIntMethodsTest {
     // Arrange
     short firstNumber = 160;
     short secondNumber = 80;
-    short expected = (short)(firstNumber + secondNumber);
+    short expected = (short) (firstNumber + secondNumber);
 
     // Act
     short actual = StaticIntMethods.sumTwoNumbersUint8(firstNumber, secondNumber);
