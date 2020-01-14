@@ -108,22 +108,36 @@ jobs:
             - ninja-build
       cache:
         directories:
-        - $TRAVIS_BUILD_DIR/dart_sdk
+        - $HOME/dart_sdk
       before_install:
-        - export PATH=${PATH}:${PWD}/depot_tools:${PWD}/dart_sdk/bin
+        - export DART_BIN=${HOME}/dart_sdk/bin
+        - export DART_LIB=${HOME}/dart_sdk/lib
+        - export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
       install:
         - |
-          if [ ! -d "./dart_sdk/bin" ]; then
+          if [ ! -d "${HOME}/dart_sdk/bin" ]; then
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
             mkdir dart-sdk
-            cd dart-sdk
+            pushd dart-sdk
             fetch dart
-            cd sdk
+            pushd sdk
             ./tools/generate_buildfiles.py
             sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
             ./tools/build.py --mode release --arch x64 create_sdk
-            mv ./out/ReleaseX64/dart-sdk/* ../../dart_sdk
-            cd ../..
+            mkdir -p ${DART_BIN}
+            pushd out/ReleaseX64/dart-sdk
+            pushd bin
+            mv dart dart2native dartaotruntime pub utils ${DART_BIN}
+            popd
+            pushd bin/snapshots
+            mkdir -p ${DART_BIN}/snapshots
+            mv dart2native.dart.snapshot gen_kernel.dart.snapshot pub.dart.snapshot ${DART_BIN}/snapshots
+            popd
+            mkdir -p ${DART_LIB}
+            mv lib/_internal ${DART_LIB}
+            popd
+            popd
+            popd
           fi
       before_script:
         - cd examples
