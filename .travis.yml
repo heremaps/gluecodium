@@ -132,4 +132,4 @@ jobs:
           fi
       script:
         - cd examples
-        - ./scripts/build-dart --buildGluecodium
+        - ./scripts/build-dart --buildGluecodium --asan

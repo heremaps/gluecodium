@@ -38,6 +38,12 @@ void main() {
 
     expect(result1.getStringValue(), equals("one"));
     expect(result2.getStringValue(), equals("two"));
+
+    input1.release();
+    input2.release();
+    nested.release();
+    result1.release();
+    result2.release();
   });
   _testSuite.test("Set same type interfaces, identical interfaces", () {
     final input = InterfacesFactory.createSimpleInterfaceOne();
@@ -50,6 +56,11 @@ void main() {
 
     expect(result1.getStringValue(), equals("one"));
     expect(result2.getStringValue(), equals("one"));
+
+    input.release();
+    nested.release();
+    result1.release();
+    result2.release();
   });
   _testSuite.test("Get null interfaces", () {
     final nested = InterfacesFactory.createNestedInterfaceOne();
@@ -59,6 +70,8 @@ void main() {
 
     expect(result1, isNull);
     expect(result2, isNull);
+
+    nested.release();
   });
   _testSuite.test("Set null interfaces", () {
     final nested = InterfacesFactory.createNestedInterfaceOne();
@@ -69,6 +82,8 @@ void main() {
 
     expect(result1, isNull);
     expect(result2, isNull);
+
+    nested.release();
   });
   _testSuite.test("Set multiple type interfaces", () {
     final simpleOne1 = InterfacesFactory.createSimpleInterfaceOne();
@@ -84,13 +99,27 @@ void main() {
     nestedTwo.setMultipleTypeInterfaces(simpleOne1, simpleTwo, nestedOne);
     final result1 = nestedTwo.getInterfaceOne();
     final result2 = nestedTwo.getInterfaceTwo();
-    final result3 = nestedTwo.getNestedInterface().getInterfaceOne();
-    final result4 = nestedTwo.getNestedInterface().getInterfaceTwo();
+    final result3 = nestedTwo.getNestedInterface();
+    final result4 = result3.getInterfaceOne();
+    final result5 = nestedTwo.getNestedInterface();
+    final result6 = result5.getInterfaceTwo();
 
     expect(result1.getStringValue(), equals("one"));
     expect(result2.getStringValue(), equals("two"));
-    expect(result3.getStringValue(), equals("one"));
-    expect(result4.getStringValue(), equals("other"));
+    expect(result4.getStringValue(), equals("one"));
+    expect(result6.getStringValue(), equals("other"));
+
+    simpleOne1.release();
+    simpleOne2.release();
+    simpleTwo.release();
+    nestedOne.release();
+    nestedTwo.release();
+    result1.release();
+    result2.release();
+    result3.release();
+    result4.release();
+    result5.release();
+    result6.release();
   });
   _testSuite.test("Set self interface", () {
     final nested = InterfacesFactory.createNestedInterfaceTwo();
@@ -99,9 +128,16 @@ void main() {
     nested.setMultipleTypeInterfaces(simpleOne, null, null);
 
     nested.setSelfInterface(nested);
-    final result = nested.getSelfInterface();
+    final result1 = nested.getSelfInterface();
+    final result2 = result1.getInterfaceOne();
 
-    expect(result.getInterfaceOne().getStringValue(), equals("one"));
+    expect(result2.getStringValue(), equals("one"));
+
+    nested.setSelfInterface(null);
+    nested.release();
+    simpleOne.release();
+    result1.release();
+    result2.release();
   });
   _testSuite.test("Set self interface null", () {
     final nested = InterfacesFactory.createNestedInterfaceTwo();
@@ -109,5 +145,7 @@ void main() {
     nested.setSelfInterface(null);
 
     expect(nested.getSelfInterface(), isNull);
+
+    nested.release();
   });
 }

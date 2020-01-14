@@ -460,4 +460,9 @@ elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL dart)
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         INCLUDES DESTINATION hello)
+
+    if(HELLO_BUILD_DART_WITH_ASAN)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=leak")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address -fsanitize=leak")
+    endif()
 endif()

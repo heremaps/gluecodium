@@ -21,6 +21,8 @@
 {{>dart/DartDocumentation}}
 abstract class {{resolveName visibility}}{{resolveName}} {{!!
 }}{{#if parent}}implements {{resolveName parent}} {{/if}}{
+  void release();
+
 {{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}
