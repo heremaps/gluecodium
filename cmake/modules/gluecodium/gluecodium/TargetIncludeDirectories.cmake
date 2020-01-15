@@ -35,50 +35,60 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_target_include_directories(target [ALWAYS_EXPOSE_CPP])
-#
-# The ALWAYS_EXPOSE_CPP argument may be used to expose the C++ headers in all situations. This can
-# be useful when multiple Gluecodium-generated libraries depend on each-other.
+#     apigen_target_include_directories(target [MAIN] [COMMON])
+#        <target>    Target for which source was generated via `apigen_generate`
+#        MAIN        Add the include path to the MAIN generated source set, i.e.
+#                    code generated for the input Lime files.
+#        COMMON      Add the include path to the common generated source set.
+#     If neither MAIN nor COMMON are specified, both are added. Specifying a
+#     source set requires a separate common output directory to be set for
+#     `apigen_generate`.
 #
 
 function(apigen_target_include_directories target)
+  set(options MAIN COMMON)
+  cmake_parse_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES "${options}" "" "" ${ARGN})
+  if(NOT APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN AND NOT APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON)
+    set(APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN TRUE)
+    set(APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON TRUE)
+  endif()
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
-  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
 
-  # Everyone needs C++ includes
-  target_include_directories(${target}
-    PUBLIC
-      $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
-      $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>)
-
-  if(GENERATOR MATCHES android)
-    # Android library targets need the cpp and JNI headers to compile
+  if(APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN)
+    get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
     target_include_directories(${target}
       PUBLIC
-        $<BUILD_INTERFACE:${OUTPUT_DIR}/android/jni>
-        $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/android/jni>)
+        $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+        $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
+    if(${GENERATOR} MATCHES android)
+      target_include_directories(${target}
+        PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/android/jni>)
+    elseif(GENERATOR MATCHES dart)
+      target_include_directories(${target}
+        PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/dart/ffi>)
+    endif()
+  endif()
+
+  if(APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON)
+    get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
+    target_include_directories(${target}
+      PUBLIC
+        $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>
+        $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
+    if(${GENERATOR} MATCHES android)
+      target_include_directories(${target}
+        PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/android/jni>)
+    endif()
+  endif()
+
+  if(${GENERATOR} MATCHES android)
     # Check if we are doing a host build (no cross compilation)
     if(NOT(${CMAKE_SYSTEM_NAME} STREQUAL "Android"))
       find_package(JNI REQUIRED)
       target_include_directories(${target}
         PRIVATE $<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>)
     endif()
-
-  elseif(GENERATOR MATCHES swift)
-    # Swift targets need the cpp and c_bridge headers to compile
-    target_include_directories(${target}
-      PUBLIC
-        $<BUILD_INTERFACE:${OUTPUT_DIR}>
-        $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
-
-  elseif(GENERATOR MATCHES dart)
-    # Dart library targets need C++ and FFI headers to compile
-    target_include_directories(${target}
-      PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/dart/ffi>)
-
   endif()
-
 endfunction()

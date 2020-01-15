@@ -1,8 +1,9 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
-### Features:
+### Features
   * Allow renaming JNI_OnLoad via define.
+  * Enable CMake modules for use of Gluecodium in multiple targets.
 
 ## 6.0.1
 Release date: 2020-01-16
