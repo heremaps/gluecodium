@@ -35,7 +35,7 @@ internal class FfiDartTypeNameResolver : NameResolver {
         }
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
-        val limeType = limeTypeRef.type
+        val limeType = limeTypeRef.type.actualType
         return when {
             limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
             limeType is LimeBasicType -> getBasicTypeRefName(limeType)

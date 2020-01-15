@@ -1,0 +1,133 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
+
+{{#imports}}
+import 'package:{{libraryName}}/src/{{filePath}}.dart'{{#asAlias}} as {{.}}{{/asAlias}};
+{{/imports}}
+
+import 'dart:ffi';
+import 'package:ffi/ffi.dart';
+
+import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
+
+{{#genericTypes}}
+final _{{resolveName "Ffi"}}_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(),
+    Pointer<Void> Function()
+  >('{{resolveName "Ffi"}}_create_handle');
+final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_release_handle');
+{{#instanceOf this "LimeMap"}}
+final _{{resolveName "Ffi"}}_put = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, {{resolveName keyType "FfiApiTypes"}}, {{resolveName valueType "FfiApiTypes"}}),
+    void Function(Pointer<Void>, {{resolveName keyType "FfiDartTypes"}}, {{resolveName valueType "FfiDartTypes"}})
+  >('{{resolveName "Ffi"}}_put');
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+final _{{resolveName "Ffi"}}_insert = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, {{resolveName elementType "FfiApiTypes"}}),
+    void Function(Pointer<Void>, {{resolveName elementType "FfiDartTypes"}})
+  >('{{resolveName "Ffi"}}_insert');
+{{/notInstanceOf}}
+final _{{resolveName "Ffi"}}_iterator = __lib.nativeLibrary.lookupFunction<
+  Pointer<Void> Function(Pointer<Void>),
+  Pointer<Void> Function(Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator');
+final _{{resolveName "Ffi"}}_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+  Void Function(Pointer<Void>),
+  void Function(Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator_release_handle');
+final _{{resolveName "Ffi"}}_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+  Int8 Function(Pointer<Void>, Pointer<Void>),
+  int Function(Pointer<Void>, Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator_is_valid');
+final _{{resolveName "Ffi"}}_iterator_increment = __lib.nativeLibrary.lookupFunction<
+  Void Function(Pointer<Void>),
+  void Function(Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator_increment');
+{{#instanceOf this "LimeMap"}}
+final _{{resolveName "Ffi"}}_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+  {{resolveName keyType "FfiApiTypes"}} Function(Pointer<Void>),
+  {{resolveName keyType "FfiDartTypes"}} Function(Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator_get_key');
+final _{{resolveName "Ffi"}}_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+  {{resolveName valueType "FfiApiTypes"}} Function(Pointer<Void>),
+  {{resolveName valueType "FfiDartTypes"}} Function(Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator_get_value');
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+final _{{resolveName "Ffi"}}_iterator_get = __lib.nativeLibrary.lookupFunction<
+  {{resolveName elementType "FfiApiTypes"}} Function(Pointer<Void>),
+  {{resolveName elementType "FfiDartTypes"}} Function(Pointer<Void>)
+>('{{resolveName "Ffi"}}_iterator_get');
+{{/notInstanceOf}}
+
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+  final _result = _{{resolveName "Ffi"}}_create_handle({{#fields}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{#instanceOf this "LimeMap"}}
+  for (final entry in value.entries) {
+    final _key_handle = {{#set typeRef=keyType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(entry.key);
+    final _value_handle = {{#set typeRef=valueType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(entry.value);
+    _{{resolveName "Ffi"}}_put(_result, _key_handle, _value_handle);
+    {{#set typeRef=keyType call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_key_handle);
+    {{#set typeRef=valueType call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value_handle);
+  }
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+  for (final element in value) {
+    final _element_handle = {{#set typeRef=elementType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(element);
+    _{{resolveName "Ffi"}}_insert(_result, _element_handle);
+    {{#set typeRef=elementType call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_element_handle);
+  }
+{{/notInstanceOf}}
+  return _result;
+}
+
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+  final result = {{resolveName}}();
+  final _iterator_handle = _{{resolveName "Ffi"}}_iterator(handle);
+  while (_{{resolveName "Ffi"}}_iterator_is_valid(handle, _iterator_handle) != 0) {
+{{#instanceOf this "LimeMap"}}
+    final _key_handle = _{{resolveName "Ffi"}}_iterator_get_key(_iterator_handle);
+    final _value_handle = _{{resolveName "Ffi"}}_iterator_get_value(_iterator_handle);
+    result[{{#set typeRef=keyType call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_key_handle)] =
+      {{#set typeRef=valueType call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value_handle);
+    {{#set typeRef=keyType call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_key_handle);
+    {{#set typeRef=valueType call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value_handle);
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+    final _element_handle = _{{resolveName "Ffi"}}_iterator_get(_iterator_handle);
+    result.add({{#set typeRef=elementType call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_element_handle));
+    {{#set typeRef=elementType call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_element_handle);
+{{/notInstanceOf}}
+    _{{resolveName "Ffi"}}_iterator_increment(_iterator_handle);
+  }
+  _{{resolveName "Ffi"}}_iterator_release_handle(_iterator_handle);
+  return result;
+}
+
+void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveName "Ffi"}}_release_handle(handle);
+
+
+{{/genericTypes}}

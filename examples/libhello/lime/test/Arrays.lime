@@ -17,8 +17,6 @@
 
 package test
 
-import external.ExternalTypes.ExternalStruct
-import external.ExternalTypes.ExternalEnum
 class Arrays {
     struct BasicStruct {
         value: Double = 0.0
@@ -54,13 +52,11 @@ class Arrays {
     typealias DoubleArray = List<Double>
     typealias FancyArray = List<FancyStruct>
     typealias StructArray = List<BasicStruct>
-    typealias ExternalStructArray = List<ExternalStruct>
     typealias NestedPrimitiveArray = List<DoubleArray>
     typealias NestedStructArray = List<StructArray>
     typealias InstancesArray = List<SimpleInstantiableOne>
     typealias ArrayEnumArray = List<ArrayEnum>
     typealias SomeOtherEnumArray = List<SomeOtherEnum>
-    typealias ExternalEnumArray = List<ExternalEnum>
     typealias ProfileId = String
     typealias ProfileIdList = List<ProfileId>
     typealias ArrayOfMaps = List<NumberToIdMap>

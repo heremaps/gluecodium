@@ -135,7 +135,7 @@ class CppTypeMapper(
                 createTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
             is LimeMap -> {
                 val keyType = mapType(limeType.keyType)
-                if (hasStdHash(limeType.keyType)) {
+                if (CppLibraryIncludes.hasStdHash(limeType.keyType)) {
                     createTemplateTypeRef(
                         TemplateClass.MAP,
                         keyType,
@@ -168,7 +168,7 @@ class CppTypeMapper(
             }
             is LimeSet -> {
                 val elementType = mapType(limeType.elementType)
-                if (hasStdHash(limeType.elementType)) {
+                if (CppLibraryIncludes.hasStdHash(limeType.elementType)) {
                     createTemplateTypeRef(TemplateClass.SET, elementType)
                 } else {
                     val hashType = createTemplateTypeRef(
@@ -238,11 +238,5 @@ class CppTypeMapper(
     companion object {
         val STD_ERROR_CODE_TYPE: CppTypeRef =
             CppComplexTypeRef("::std::error_code", listOf(CppLibraryIncludes.SYSTEM_ERROR))
-
-        fun hasStdHash(limeType: LimeTypeRef): Boolean {
-            val actualType =
-                limeType.type.actualType as? LimeBasicType ?: return false
-            return actualType.typeId != TypeId.BLOB && actualType.typeId != TypeId.DATE
-        }
     }
 }
