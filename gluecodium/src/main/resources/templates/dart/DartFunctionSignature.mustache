@@ -18,9 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isConstructor}}{{resolveName visibility}}{{resolveName parent}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}{{!!
-}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{!!
-}}{{resolveName visibility}}{{resolveName}}{{/unless}}({{>parameterList}}){{!!
+{{#if isStatic}}static {{/if}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{!!
+}}{{resolveName visibility}}{{resolveName}}({{>parameterList}}){{!!
 
 }}{{+parameterList}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/parameterList}}

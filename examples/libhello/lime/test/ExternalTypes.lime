@@ -60,6 +60,8 @@ types ExternalTypes {
         FOO,
         BAR
     }
+    typealias ExternalStructArray = List<ExternalStruct>
+    typealias ExternalEnumArray = List<ExternalEnum>
 }
 
 types ExternalTypesWithoutTypeTraits {

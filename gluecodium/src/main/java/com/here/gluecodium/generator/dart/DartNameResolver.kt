@@ -84,7 +84,7 @@ internal class DartNameResolver(
             }
             is LimeValue.Special -> TODO()
             is LimeValue.Null -> TODO()
-            is LimeValue.InitializerList -> TODO()
+            is LimeValue.InitializerList -> if (limeValue.typeRef.type is LimeList) "[]" else "{}"
             is LimeValue.KeyValuePair -> TODO()
         }
 

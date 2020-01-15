@@ -1,5 +1,4 @@
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/_library_init.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;

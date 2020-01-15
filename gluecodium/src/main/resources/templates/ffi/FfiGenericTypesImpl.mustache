@@ -1,0 +1,119 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>ffi/FfiCopyrightHeader}}
+
+#include "{{headerName}}.h"
+
+#include "ConversionBase.h"
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
+#include <memory>
+#include <new>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{#genericTypes}}
+FfiOpaqueHandle
+{{resolveName}}_create_handle() {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}());
+}
+
+void
+{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
+}
+
+{{#instanceOf this "LimeMap"}}
+void
+{{resolveName}}_put(FfiOpaqueHandle handle, {{resolveName keyType}} key, {{resolveName valueType}} value) {
+    reinterpret_cast<{{resolveName "C++"}}*>(handle)->emplace(
+        {{>ffi/FfiInternal}}::Conversion<{{resolveName keyType "C++"}}>::toCpp(key),
+        {{>ffi/FfiInternal}}::Conversion<{{resolveName valueType "C++"}}>::toCpp(value)
+    );
+}
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+void
+{{resolveName}}_insert(FfiOpaqueHandle handle, {{resolveName elementType}} value) {
+    reinterpret_cast<{{resolveName "C++"}}*>(handle)->{{!!
+    }}{{#instanceOf this "LimeList"}}push_back{{/instanceOf}}{{!!
+    }}{{#notInstanceOf this "LimeList"}}insert{{/notInstanceOf}}(
+        {{>ffi/FfiInternal}}::Conversion<{{resolveName elementType "C++"}}>::toCpp(value)
+    );
+}
+{{/notInstanceOf}}
+
+FfiOpaqueHandle
+{{resolveName}}_iterator(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}::iterator(
+        reinterpret_cast<{{resolveName "C++"}}*>(handle)->begin()
+    ));
+}
+
+void
+{{resolveName}}_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
+    delete reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle);
+}
+
+bool
+{{resolveName}}_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
+    return *reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle) !=
+        reinterpret_cast<{{resolveName "C++"}}*>(handle)->end();
+}
+
+void
+{{resolveName}}_iterator_increment(FfiOpaqueHandle iterator_handle) {
+    ++*reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle);
+}
+
+{{#instanceOf this "LimeMap"}}
+{{resolveName keyType}}
+{{resolveName}}_iterator_get_key(FfiOpaqueHandle iterator_handle) {
+    return {{>ffi/FfiInternal}}::Conversion<{{resolveName keyType "C++"}}>::toFfi(
+        (*reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle))->first
+    );
+}
+
+{{resolveName valueType}}
+{{resolveName}}_iterator_get_value(FfiOpaqueHandle iterator_handle) {
+    return {{>ffi/FfiInternal}}::Conversion<{{resolveName valueType "C++"}}>::toFfi(
+        (*reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle))->second
+    );
+}
+{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeMap"}}
+{{resolveName elementType}}
+{{resolveName}}_iterator_get(FfiOpaqueHandle iterator_handle) {
+    return {{>ffi/FfiInternal}}::Conversion<{{resolveName elementType "C++"}}>::toFfi(
+        **reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle)
+    );
+}
+{{/notInstanceOf}}
+
+
+{{/genericTypes}}
+
+#ifdef __cplusplus
+}
+#endif

@@ -24,7 +24,6 @@ import com.here.gluecodium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameResolver
-import com.here.gluecodium.generator.cpp.CppTypeMapper
 import com.here.gluecodium.model.cbridge.CArray
 import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
 import com.here.gluecodium.model.cbridge.CCollectionType
@@ -150,7 +149,7 @@ class CBridgeTypeMapper(
             valueType = createNullableTypeInfo(valueType, cppValueType)
         }
 
-        val hasStdHash = CppTypeMapper.hasStdHash(limeType.keyType)
+        val hasStdHash = CppLibraryIncludes.hasStdHash(limeType.keyType)
         val keyTypeName = keyType.name
         val valueTypeName = valueType.name
         val cppName = if (hasStdHash) {
@@ -185,7 +184,7 @@ class CBridgeTypeMapper(
         }
 
         val keyTypeName = elementType.name
-        val hasStdHash = CppTypeMapper.hasStdHash(limeType.elementType)
+        val hasStdHash = CppLibraryIncludes.hasStdHash(limeType.elementType)
         val cppName = if (hasStdHash) {
             "std::unordered_set<$keyTypeName>"
         } else {
