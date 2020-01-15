@@ -29,9 +29,9 @@ class SimpleInterface__Impl implements SimpleInterface{
     final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
     final _input_handle = smoke_SimpleInterface_toFfi(input);
     final __result_handle = _useSimpleInterface_ffi(_handle, _input_handle);
+    smoke_SimpleInterface_releaseFfiHandle(_input_handle);
     final _result = smoke_SimpleInterface_fromFfi(__result_handle);
     smoke_SimpleInterface_releaseFfiHandle(__result_handle);
-    smoke_SimpleInterface_releaseFfiHandle(_input_handle);
     return _result;
   }
 }

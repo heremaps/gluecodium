@@ -26,12 +26,13 @@
   final __result_handle = _{{resolveName}}_ffi({{!!
   }}{{#unless isStatic}}_handle{{#if parameters}}, {{/if}}{{/unless}}{{!!
   }}{{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-  {{#returnType}}final _result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);{{/returnType}}
 {{#parameters}}
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
 {{/parameters}}
-  return _result;
+  {{#if isConstructor}}return __result_handle;{{/if}}{{#unless isConstructor}}{{!!
+  }}{{#returnType}}final _result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);{{/returnType}}
+  return _result;{{/unless}}
 }{{!!
 
 }}{{+ffiApi}}{{resolveName returnType.typeRef "FfiApiTypes"}} Function({{!!
