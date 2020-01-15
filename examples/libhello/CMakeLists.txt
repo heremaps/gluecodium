@@ -192,14 +192,6 @@ feature(JavaBuilder android SOURCES
     lime/test/JavaBuilder.lime
 )
 
-#TODO: enable for android and swift (APIGEN-509, APIGEN-508)
-feature(ComplexAttributes cpp SOURCES
-    src/hello/HelloWorldAttributesComplexImpl.h
-    src/hello/HelloWorldAttributesComplexImpl.cpp
-
-    lime/hello/HelloWorldAttributesComplex.lime
-)
-
 feature(Listeners cpp android swift SOURCES
     src/hello/HelloWorldListeners.h
     src/hello/HelloWorldListeners.cpp
