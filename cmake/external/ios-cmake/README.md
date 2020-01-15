@@ -12,7 +12,7 @@ Tested with the following combinations:
 * XCode 9.4.x, iOS SDK 11.4
 * XCode 10.0.x, iOS SDK 12.0
 
-# Example usage 
+# Example usage
 **NOTE: The below commands will build for 64-bit simulator only. Change the `-DIOS_PLATFORM` to the applicable value if targeting another platform.**
 
 ```bash

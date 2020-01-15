@@ -23,8 +23,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(APPLE)
     enable_language(Swift)
 endif()
-# TODO APIGEN-1645: move cmake modules to a more appropriate place
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../examples/cmake/modules/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
 
 set(GLUECODIUM_VERSION "+" CACHE STRING "Gluecodium version to use [defaults to: +]")
 

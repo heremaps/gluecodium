@@ -10,8 +10,6 @@ The project is structured as follows:
     │   │   └── test        Functional tests for generated Android library
     │   ├── base_api        C++ example app
     │   └── ios             iOS example app
-    ├── cmake
-    │   └── modules         [Gluecodium CMake modules subtree](https://github.com/heremaps/gluecodium-cmake)
     ├── libhello            Example library that provides Gluecodium-generated public API
     │   ├── lime            LimeIDL interface definitions for the public API
     │   └── src             Example library implementation

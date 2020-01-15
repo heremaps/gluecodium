@@ -18,7 +18,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(hello_world)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
 
 # Allow testing with different C++ standard versions
 if(NOT DEFINED HELLO_TEST_CPP_VERSION)
