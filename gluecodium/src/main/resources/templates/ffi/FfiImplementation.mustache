@@ -36,7 +36,13 @@ extern "C" {
 {{#model}}
 {{#set parent=this}}{{#functions}}
 {{>ffiFunction}}
-{{/functions}}{{/set}}
+{{/functions}}
+{{#properties}}{{#getter}}
+{{>ffiFunction}}
+{{/getter}}{{#setter}}
+{{>ffiFunction}}
+{{/setter}}
+{{/properties}}{{/set}}
 {{#structs}}
 {{#set parent=this}}{{#functions}}
 {{>ffiFunction}}

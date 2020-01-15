@@ -30,9 +30,9 @@ abstract class {{resolveName visibility}}{{resolveName}} {{!!
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunctionSignature" "  "}};
 {{/functions}}{{/set}}
-{{#properties}}
+{{#set skipBody=true}}{{#properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/properties}}
+{{/properties}}{{/set}}
 }
 
 {{#enumerations}}

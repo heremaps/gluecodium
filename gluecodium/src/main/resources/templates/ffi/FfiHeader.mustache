@@ -31,13 +31,19 @@ extern "C" {
 #endif
 
 {{#model}}
-{{#set parent=this}}{{#functions}}
+{{#functions}}
 {{>ffiFunctionSignature}}
-{{/functions}}{{/set}}
+{{/functions}}
+{{#properties}}{{#getter}}
+{{>ffiFunctionSignature}}
+{{/getter}}{{#setter}}
+{{>ffiFunctionSignature}}
+{{/setter}}
+{{/properties}}
 {{#structs}}
-{{#set parent=this}}{{#functions}}
+{{#functions}}
 {{>ffiFunctionSignature}}
-{{/functions}}{{/set}}
+{{/functions}}
 {{/structs}}
 {{/model}}
 

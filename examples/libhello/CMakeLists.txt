@@ -173,7 +173,7 @@ feature(Enums cpp android swift dart SOURCES
     lime/test/EnumsTypeCollection.lime
 )
 
-feature(Attributes cpp android swift SOURCES
+feature(Properties cpp android swift dart SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
     src/test/AttributesInterfaceImpl.h

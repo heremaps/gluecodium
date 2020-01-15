@@ -18,27 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>dart/DartFunctionSignature}} {
-  final _{{resolveName}}_ffi = __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{resolveName "Ffi"}}');
-{{#parameters}}
-  final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
-{{/parameters}}
-  final __result_handle = _{{resolveName}}_ffi({{!!
-  }}{{#unless isStatic}}_handle{{#if parameters}}, {{/if}}{{/unless}}{{!!
-  }}{{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{#parameters}}
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
-{{/parameters}}
-  {{#if isConstructor}}return __result_handle;{{/if}}{{#unless isConstructor}}{{!!
-  }}{{#returnType}}final _result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);{{/returnType}}
-  return _result;{{/unless}}
-}{{!!
-
-}}{{+ffiApi}}{{resolveName returnType.typeRef "FfiApiTypes"}} Function({{!!
-}}{{#unless isStatic}}Pointer<Void>{{#if parameters}}, {{/if}}{{/unless}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
-
-}}{{+ffiDart}}{{resolveName returnType.typeRef "FfiDartTypes"}} Function({{!!
-}}{{#unless isStatic}}Pointer<Void>{{#if parameters}}, {{/if}}{{/unless}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}
+{{>dart/DartFunctionSignature}}{{>dart/DartFunctionBody}}
