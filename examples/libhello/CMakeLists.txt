@@ -423,6 +423,14 @@ if(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL cpp)
         INCLUDES DESTINATION hello)
 elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL android)
     # Android users want an Android Archive and it's pre-requirements...
+
+    # Optional step:
+    # Use custom JNI_OnLoad method instead of generated one, so redefine generated one
+    # Add this always public in case multiple modules share the same generated common code
+    target_compile_definitions(hello PUBLIC GLUECODIUM_JNI_ONLOAD=JNI_OnLoad_hello)
+    # And then add our own
+    target_sources(hello PRIVATE src/android/CustomJniOnLoad.cpp)
+
     include(gluecodium/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
         set(ANDROID_NATIVE_API_LEVEL "28")

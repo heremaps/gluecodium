@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Allow renaming JNI_OnLoad via define.
+
 ## 6.0.1
 Release date: 2020-01-16
 ### Bug fixes:
