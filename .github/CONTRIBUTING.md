@@ -7,16 +7,13 @@
 
 ## Signing each Commit
 
-Please sign off each commit of a pull request
-[Developer Certificate of Origin](https://developercertificate.org/).
-Any Pull Request with commits that are not signed off will be reject by the
-[DCO check](https://probot.github.io/apps/dco/).
+Please sign off each commit of a pull request. There are two ways to do it:
 
-A DCO is lightweight way for a contributor to confirm that they wrote or otherwise have the right
-to submit code or documentation to a project. Simply add `Signed-off-by` as shown in the example below
-to indicate that you agree with the DCO.
+Automatically: Use `-s` (or `--signoff`) flag of `git commit` command, see example below:
 
-An example signed commit message:
+`$ git commit -s -m 'README.md: Fix minor spelling mistake'`
+
+Manually add `Signed-off-by:`, as shown in the example below:
 
 ```
     README.md: Fix minor spelling mistake
@@ -24,6 +21,6 @@ An example signed commit message:
     Signed-off-by: John Doe <john.doe@example.com>
 ```
 
-Git has the `-s` flag that can sign a commit for you, see example below:
-
-`$ git commit -s -m 'README.md: Fix minor spelling mistake'`
+Any Pull Request with commits that are not signed off will be rejected by the automatic
+[DCO check](https://probot.github.io/apps/dco/). A DCO is lightweight way for a contributor to
+confirm that they wrote or otherwise have the right to submit code or documentation to a project.
