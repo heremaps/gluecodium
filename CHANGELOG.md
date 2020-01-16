@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Swift compilation issue for constructor comments of structs with multiline field comments.
+
 ## 6.0.0
 Release date: 2020-01-06
 ### Features:
