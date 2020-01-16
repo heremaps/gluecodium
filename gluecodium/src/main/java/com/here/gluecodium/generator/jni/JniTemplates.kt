@@ -177,9 +177,12 @@ class JniTemplates(
         }
 
     private fun generateInstanceConversionFiles(jniContainer: JniContainer): List<GeneratedFile> {
+        val conversionSelfInclude = JniIncludeResolver.createConversionSelfInclude(jniContainer)
+        val conversionIncludes = JniIncludeResolver.collectImplementationIncludes(jniContainer)
+            .toSet().minus(conversionSelfInclude).sorted()
         val mustacheData = mutableMapOf(
             "model" to jniContainer,
-            INCLUDES_NAME to jniContainer.includes.sorted(),
+            INCLUDES_NAME to jniContainer.includes.sorted() + conversionIncludes,
             "basePackages" to basePackages,
             INTERNAL_PACKAGES_NAME to basePackages + internalPackages,
             INTERNAL_NAMESPACE_NAME to internalNamespace
@@ -192,7 +195,7 @@ class JniTemplates(
             jniNameRules.getHeaderFilePath(fileName)
         )
 
-        val includes = mutableListOf(JniIncludeResolver.createConversionSelfInclude(jniContainer))
+        val includes = mutableListOf(conversionSelfInclude)
         if (jniContainer.containerType == ContainerType.INTERFACE) {
             val proxyFileName =
                 JniNameRules.getJniClassFileName(jniContainer) + JniNameRules.JNI_CPP_PROXY_SUFFIX
