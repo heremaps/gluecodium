@@ -60,7 +60,10 @@ internal object JniIncludeResolver {
             is LimeMap -> {
                 val templateType = javaType as JavaTemplateTypeRef
                 getConversionIncludes(limeType.keyType, templateType.templateParameters.first()) +
-                    getConversionIncludes(limeType.valueType, templateType.templateParameters.last())
+                        getConversionIncludes(
+                            limeType.valueType,
+                            templateType.templateParameters.last()
+                        )
             }
             else -> emptyList()
         }
@@ -75,7 +78,7 @@ internal object JniIncludeResolver {
 
     private fun collectMethodTypes(jniMethod: JniMethod): List<JniType> {
         return jniMethod.parameters.map { it.type } + jniMethod.returnType +
-            listOfNotNull(jniMethod.exception?.errorType)
+                listOfNotNull(jniMethod.exception?.errorType)
     }
 
     fun createConversionSelfInclude(jniElement: JniTopLevelElement) =
@@ -102,6 +105,5 @@ internal object JniIncludeResolver {
     }
 
     fun collectConversionImplementationIncludes(jniStruct: JniStruct) =
-        jniStruct.fields.map { it.type }.flatMap { it.conversionIncludes } +
-                createConversionSelfInclude(jniStruct)
+        jniStruct.fields.map { it.type }.flatMap { it.conversionIncludes }
 }
