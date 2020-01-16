@@ -132,7 +132,7 @@ function(apigen_generate)
     -generators ${apigen_generate_GENERATOR}\
     ${validateParam}\
     ${mergeManifest}\
-    --enable-caching --time-logging")
+    --enable-caching")
   foreach(input ${apigen_generate_LIME_SOURCES})
     # Attach sources to target for IDEs to display them properly in their projects
     file(GLOB_RECURSE inputLimeSources ${input}/*.lime)
@@ -181,7 +181,7 @@ function(apigen_generate)
     BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
   add_custom_command(OUTPUT ${_generated_files}
-    COMMAND ${GLUECODIUM_TIME} ${CMAKE_COMMAND}
+    COMMAND ${CMAKE_COMMAND}
         -DAPIGEN_GLUECODIUM_GRADLE_WRAPPER=${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
         -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
         -DAPIGEN_GLUECODIUM_ARGS=${APIGEN_GLUECODIUM_ARGS}

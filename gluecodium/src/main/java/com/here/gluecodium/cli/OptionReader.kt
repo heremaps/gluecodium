@@ -90,12 +90,6 @@ object OptionReader {
             args = Option.UNLIMITED_VALUES
         })
         addOption(
-            "time",
-            "time-logging",
-            false,
-            "Enables logging of elapsed time at INFO level. Time for input model loading step and for code generation step is logged separately."
-        )
-        addOption(
             "copyright",
             "copyright-header",
             true,
@@ -160,7 +154,6 @@ object OptionReader {
 
         options.isValidatingOnly = getFlagValue("validate")
         options.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
-        options.isLoggingTimes = getFlagValue("time")
 
         options.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
         options.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()

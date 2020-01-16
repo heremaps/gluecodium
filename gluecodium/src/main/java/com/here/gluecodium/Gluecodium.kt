@@ -24,7 +24,6 @@ import com.here.gluecodium.cache.SplitSourceSetCache
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.cli.OptionReaderException
-import com.here.gluecodium.common.TimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.loader.getLoader
@@ -41,7 +40,6 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.nio.file.Paths
 import java.util.Properties
-import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 import java.util.logging.LogManager
 import java.util.logging.Logger
@@ -75,12 +73,9 @@ class Gluecodium(
             throw OptionReaderException("input option required")
         }
 
-        val times = TimeLogger(LOGGER, TimeUnit.MILLISECONDS, Level.INFO)
-        times.start()
         val limeModel: LimeModel
         try {
             limeModel = modelLoader.loadModel(options.idlSources, options.auxiliaryIdlSources)
-            times.addLogEntry("model loading")
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
             return false
@@ -101,11 +96,6 @@ class Gluecodium(
         } finally {
             // cache has to be updated in any case
             executionSucceeded = cache.write(executionSucceeded)
-
-            times.addLogEntry("code generation (including file output)")
-        }
-        if (options.isLoggingTimes) {
-            times.log()
         }
         return executionSucceeded
     }
@@ -183,7 +173,6 @@ class Gluecodium(
         var generators: Set<String> = setOf(),
         var isEnableCaching: Boolean = false,
         var androidMergeManifestPath: String? = null,
-        var isLoggingTimes: Boolean = false,
         var copyrightHeaderContents: String? = null,
         var cppInternalNamespace: List<String> = emptyList(),
         var cppRootNamespace: List<String> = listOf(),
