@@ -41,6 +41,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * How useful this struct is
+         * remains to be seen
          */
         ::smoke::Comments::Usefulness some_field;
         /**
@@ -54,6 +55,7 @@ public:
         /**
          * This is how easy it is to construct.
          * @param some_field How useful this struct is
+         * remains to be seen
          * @param nullable_field Can be `null`
          */
         SomeStruct( const ::smoke::Comments::Usefulness some_field, const ::gluecodium::optional< ::std::string >& nullable_field );
