@@ -35,7 +35,11 @@ class {{resolveName visibility}}{{resolveName}} {{!!
 {{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}
-{{#set parent=this}}{{#functions}}
+{{#set parent=this}}{{#constructors}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{prefixPartial "dartConstructor" "  "}}
+{{/constructors}}
+{{#functions}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
@@ -60,4 +64,9 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) {}
 {{/exceptions}}
 {{#structs}}
 {{>dart/DartStruct}}
-{{/structs}}
+{{/structs}}{{!!
+
+}}{{+dartConstructor}}{{resolveName visibility}}{{resolveName parent}}({{!!
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
+}}this._(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
+{{/dartConstructor}}

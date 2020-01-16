@@ -18,7 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}static {{/if}}{{#if isConstructor}}Pointer<Void> {{/if}}{{!!
-}}{{#unless isConstructor}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{/unless}}{{!!
-}}{{#if isConstructor}}_{{/if}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
-}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+{{!! TODO: #85 implement }}

@@ -35,6 +35,14 @@ SimpleInstanceOne::get_string_value( )
     return m_value;
 }
 
+std::shared_ptr< SimpleInstantiableOne >
+SimpleInstantiableOne::create( const std::string& value )
+{
+    auto result = std::make_shared< SimpleInstanceOne >( );
+    result->set_string_value( value );
+    return result;
+}
+
 void
 SimpleInstanceTwo::set_string_value( const std::string& string_value )
 {
@@ -45,6 +53,14 @@ std::string
 SimpleInstanceTwo::get_string_value( )
 {
     return m_value;
+}
+
+std::shared_ptr< SimpleInstantiableTwo >
+SimpleInstantiableTwo::create( const std::string& value )
+{
+    auto result = std::make_shared< SimpleInstanceTwo >( );
+    result->set_string_value( value );
+    return result;
 }
 
 void
@@ -66,6 +82,12 @@ std::shared_ptr< SimpleInstantiableOne >
 NestedInstanceOne::get_instance_two( )
 {
     return m_instance_two;
+}
+
+std::shared_ptr< NestedInstantiableOne >
+NestedInstantiableOne::create( )
+{
+    return std::make_shared< NestedInstanceOne >( );
 }
 
 void
@@ -107,6 +129,16 @@ std::shared_ptr< NestedInstantiableOne >
 NestedInstanceTwo::get_nested_instantiable( )
 {
     return m_nested_instance;
+}
+
+std::shared_ptr< NestedInstantiableTwo >
+NestedInstantiableTwo::proliferate( const std::shared_ptr< SimpleInstantiableOne >& value1,
+                                    const std::shared_ptr< SimpleInstantiableTwo >& value2,
+                                    const std::shared_ptr< NestedInstantiableOne >& value3 )
+{
+    auto result = std::make_shared< NestedInstanceTwo >( );
+    result->set_multiple_type_instances( value1, value2, value3 );
+    return result;
 }
 
 }  // namespace test

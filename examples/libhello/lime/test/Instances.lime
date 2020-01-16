@@ -19,6 +19,7 @@ package test
 
 // Example interface which demonstrates the usage of instances for HelloWorld use case
 class SimpleInstantiableOne {
+    constructor create(value: String)
     fun setStringValue(
         stringValue: String
     )
@@ -26,6 +27,7 @@ class SimpleInstantiableOne {
 }
 
 class SimpleInstantiableTwo {
+    constructor create(value: String)
     fun setStringValue(
         stringValue: String
     )
@@ -33,6 +35,7 @@ class SimpleInstantiableTwo {
 }
 
 class NestedInstantiableOne {
+    constructor create()
     fun setSameTypeInstances(
         instanceOne: SimpleInstantiableOne,
         instanceTwo: SimpleInstantiableOne
@@ -42,6 +45,11 @@ class NestedInstantiableOne {
 }
 
 class NestedInstantiableTwo {
+    constructor proliferate(
+        value1: SimpleInstantiableOne,
+        value2: SimpleInstantiableTwo,
+        value3: NestedInstantiableOne
+    )
     fun setMultipleTypeInstances(
         instanceOne: SimpleInstantiableOne,
         instanceTwo: SimpleInstantiableTwo,

@@ -26,11 +26,9 @@ final _testSuite = TestSuite("Classes");
 
 void main() {
   _testSuite.test("Set same type instances", () {
-    final input1 = InstancesFactory.createSimpleInstantiableOne();
-    input1.setStringValue("one");
-    final input2 = InstancesFactory.createSimpleInstantiableOne();
-    input2.setStringValue("two");
-    final nested = InstancesFactory.createNestedInstantiableOne();
+    final input1 = SimpleInstantiableOne("one");
+    final input2 = SimpleInstantiableOne("two");
+    final nested = NestedInstantiableOne();
 
     nested.setSameTypeInstances(input1, input2);
     final result1 = nested.getInstanceOne();
@@ -46,9 +44,8 @@ void main() {
     result2.release();
   });
   _testSuite.test("Set same type instances, identical instances", () {
-    final input = InstancesFactory.createSimpleInstantiableOne();
-    input.setStringValue("one");
-    final nested = InstancesFactory.createNestedInstantiableOne();
+    final input = SimpleInstantiableOne("one");
+    final nested = NestedInstantiableOne();
 
     nested.setSameTypeInstances(input, input);
     final result1 = nested.getInstanceOne();
@@ -63,7 +60,7 @@ void main() {
     result2.release();
   });
   _testSuite.test("Get null instances", () {
-    final nested = InstancesFactory.createNestedInstantiableOne();
+    final nested = NestedInstantiableOne();
 
     final result1 = nested.getInstanceOne();
     final result2 = nested.getInstanceTwo();
@@ -74,7 +71,7 @@ void main() {
     nested.release();
   });
   _testSuite.test("Set null instances", () {
-    final nested = InstancesFactory.createNestedInstantiableOne();
+    final nested = NestedInstantiableOne();
 
     nested.setSameTypeInstances(null, null);
     final result1 = nested.getInstanceOne();
@@ -86,17 +83,13 @@ void main() {
     nested.release();
   });
   _testSuite.test("Set multiple type instances", () {
-    final simpleOne1 = InstancesFactory.createSimpleInstantiableOne();
-    final simpleOne2 = InstancesFactory.createSimpleInstantiableOne();
-    final simpleTwo = InstancesFactory.createSimpleInstantiableTwo();
-    final nestedOne = InstancesFactory.createNestedInstantiableOne();
-    final nestedTwo = InstancesFactory.createNestedInstantiableTwo();
-    simpleOne1.setStringValue("one");
-    simpleTwo.setStringValue("two");
-    simpleOne2.setStringValue("other");
+    final simpleOne1 = SimpleInstantiableOne("one");
+    final simpleOne2 = SimpleInstantiableOne("other");
+    final simpleTwo = SimpleInstantiableTwo("two");
+    final nestedOne = NestedInstantiableOne();
+    final nestedTwo = NestedInstantiableTwo(simpleOne1, simpleTwo, nestedOne);
 
     nestedOne.setSameTypeInstances(simpleOne1, simpleOne2);
-    nestedTwo.setMultipleTypeInstances(simpleOne1, simpleTwo, nestedOne);
     final result1 = nestedTwo.getInstantiableOne();
     final result2 = nestedTwo.getInstantiableTwo();
     final result3 = nestedTwo.getNestedInstantiable();
@@ -123,8 +116,7 @@ void main() {
   });
   _testSuite.test("Set self instance", () {
     final nested = InstancesFactory.createNestedInstantiableTwo();
-    final simpleOne = InstancesFactory.createSimpleInstantiableOne();
-    simpleOne.setStringValue("one");
+    final simpleOne = SimpleInstantiableOne("one");
     nested.setMultipleTypeInstances(simpleOne, null, null);
 
     nested.setSelfInstantiable(nested);
