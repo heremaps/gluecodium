@@ -16,6 +16,7 @@ class comments {
     // @constructor This is how easy it is to construct.
     struct SomeStruct {
         // How useful this struct is
+        // remains to be seen
         someField: Usefulness
         // Can be `null`
         nullableField: String?

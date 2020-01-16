@@ -6,6 +6,7 @@
 #include "foo/Bazz.h"
 #include "non/Sense.h"
 #include "smoke/Structs.h"
+#include "com_example_smoke_Structs_AnotherExternalStruct__Conversion.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
 namespace gluecodium
