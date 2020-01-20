@@ -38,9 +38,10 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_target_sources(<target> (MAIN) (COMMON))
 #        <target>    Target for which source was generated via `apigen_generate`
 #        MAIN        Add the MAIN generated source set, i.e. code generated for
-#                    the input Lime files.
+#                    the input Lime IDL files.
 #        COMMON      Add the common generated source set which is independent of
-#                    input lime files and can be shared between different targets
+#                    input Lime IDL files and can be shared between different
+#                    targets
 #     If neither MAIN nor COMMON are specified, both are added. Specifying a
 #     source set requires a separate common output directory to be set for
 #     `apigen_generate`.
