@@ -68,7 +68,7 @@ initialize_thread_data_key( )
 // non-static declaration" - error) nor adding to anonymous namespace (prevents method from being
 // called) is allowed.
 jint
-JNI_OnLoad( JavaVM* vm, void* )
+GLUECODIUM_JNI_ONLOAD( JavaVM* vm, void* )
 {
     JNIEnv* env = nullptr;
     if ( vm->GetEnv( (void**)&env, JNI_VERSION_1_6 ) != JNI_OK )
