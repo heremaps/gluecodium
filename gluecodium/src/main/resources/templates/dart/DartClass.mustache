@@ -32,9 +32,9 @@ class {{resolveName visibility}}{{resolveName}} {{!!
 
   void release() => __release_handle(_handle);
 
-{{#constants}}
+{{#set isInClass=true}}{{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}
+{{/constants}}{{/set}}
 {{#set parent=this}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dartConstructor" "  "}}

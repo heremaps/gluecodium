@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -74,7 +75,7 @@ internal class DartNameResolver(
             TypeId.DATE -> "DateTime"
         }
 
-    private fun resolveValue(limeValue: LimeValue) =
+    private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> limeValue.toString()
             is LimeValue.Enumerator -> {
@@ -82,10 +83,41 @@ internal class DartNameResolver(
                 val enumeration = getParentElement(enumerator)
                 "${resolveName(enumeration)}.${resolveName(enumerator)}"
             }
-            is LimeValue.Special -> TODO()
-            is LimeValue.Null -> TODO()
-            is LimeValue.InitializerList -> if (limeValue.typeRef.type is LimeList) "[]" else "{}"
-            is LimeValue.KeyValuePair -> TODO()
+            is LimeValue.Special -> {
+                val specialName = when (limeValue.value) {
+                    LimeValue.Special.ValueId.NAN -> "nan"
+                    LimeValue.Special.ValueId.INFINITY -> "infinity"
+                    LimeValue.Special.ValueId.NEGATIVE_INFINITY -> "negativeInfinity"
+                }
+                "double.$specialName"
+            }
+            is LimeValue.Null -> "null"
+            is LimeValue.InitializerList -> {
+                val actualType = limeValue.typeRef.type.actualType
+                val prefix: String
+                val postfix: String
+                when (actualType) {
+                    is LimeStruct -> {
+                        prefix = "${resolveName(actualType)}("
+                        postfix = ")"
+                    }
+                    is LimeList -> {
+                        prefix = "["
+                        postfix = "]"
+                    }
+                    else -> {
+                        prefix = "{"
+                        postfix = "}"
+                    }
+                }
+                limeValue.values.joinToString(
+                    prefix = prefix,
+                    postfix = postfix,
+                    separator = ", "
+                ) { resolveValue(it) }
+            }
+            is LimeValue.KeyValuePair ->
+                "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
         }
 
     private fun resolveGenericType(limeType: LimeGenericType) =

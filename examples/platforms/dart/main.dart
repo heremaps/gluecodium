@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import "test/Classes_test.dart" as ClassesTests;
+import "test/Constants_test.dart" as ConstantsTests;
 import "test/Enums_test.dart" as EnumsTests;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/Lists_test.dart" as ListsTests;
@@ -34,6 +35,7 @@ import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
 
 final _allTests = [
   ClassesTests.main,
+  ConstantsTests.main,
   EnumsTests.main,
   InterfacesTests.main,
   ListsTests.main,

@@ -304,7 +304,7 @@ feature(UnderscorePackage cpp android swift SOURCES
     lime/test/UseUnderscorePackage.lime
 )
 
-feature(Constants cpp android swift SOURCES
+feature(Constants cpp android swift dart SOURCES
     src/test/Constants.cpp
 
     lime/test/Constants.lime
