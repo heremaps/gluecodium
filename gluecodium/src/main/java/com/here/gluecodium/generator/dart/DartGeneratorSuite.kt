@@ -122,9 +122,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val filePath = "$packagePath/${nameRules.getName(rootElement)}"
         val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
 
-        val allSymbols = LimeTypeHelper.getAllTypes(rootElement)
-            .filterNot { it is LimeTypeAlias }
-            .map { dartNameResolver.resolveName(it) }
+        val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
+        val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
+        val allSymbols = (allTypes + freeConstants).map { dartNameResolver.resolveName(it) }
         pathsCollector += DartExport(relativePath, allSymbols)
 
         val content = TemplateEngine.render(

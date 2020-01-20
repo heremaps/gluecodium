@@ -23,9 +23,9 @@ abstract class {{resolveName visibility}}{{resolveName}} {{!!
 }}{{#if parent}}implements {{resolveName parent}} {{/if}}{
   void release();
 
-{{#constants}}
+{{#set isInClass=true}}{{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}
+{{/constants}}{{/set}}
 {{#set parent=this}}{{#functions}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunctionSignature" "  "}};

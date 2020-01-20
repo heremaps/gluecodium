@@ -28,6 +28,13 @@ types Constants {
     const doubleConstant: Double = -3.14
     const stringConstant: String = "Foo bar"
     const enumConstant: StateEnum = StateEnum.ON
+
+    const floatNan: Float = NaN
+    const floatInfinity: Float = Infinity
+    const floatNegativeInfinity: Float = -Infinity
+    const doubleNan: Double = NaN
+    const doubleInfinity: Double = Infinity
+    const doubleNegativeInfinity: Double = -Infinity
 }
 
 class ConstantsInterface {
