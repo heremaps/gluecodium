@@ -113,8 +113,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
         val functions = collectFunctions(rootElement)
+        val properties = (rootElement as? LimeContainerWithInheritance)?.properties ?: emptyList()
         val imports = importResolver.resolveImports(rootElement) +
-            functions.flatMap { collectTypeRefs(it) }.flatMap { importResolver.resolveImports(it) }
+            functions.flatMap { collectTypeRefs(it) }.flatMap { importResolver.resolveImports(it) } +
+            properties.flatMap { importResolver.resolveImports(it.typeRef) }
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
         val filePath = "$packagePath/${nameRules.getName(rootElement)}"

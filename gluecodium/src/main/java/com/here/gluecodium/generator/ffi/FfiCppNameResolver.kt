@@ -30,10 +30,12 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -52,6 +54,7 @@ internal class FfiCppNameResolver(
             is LimeTypeRef -> getTypeRefName(element)
             is LimeField -> getFieldName(element)
             is LimeType -> getTypeName(element.actualType)
+            is LimeFunction -> getFunctionName(element)
             is LimeNamedElement -> nameRules.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -111,6 +114,17 @@ internal class FfiCppNameResolver(
                 nameRules.getGetterName(limeField) + "()"
             else -> nameRules.getName(limeField)
         }
+
+    private fun getFunctionName(limeFunction: LimeFunction): String {
+        val limeProperty = getParentElement(limeFunction) as? LimeProperty
+        return when {
+            limeProperty == null -> nameRules.getName(limeFunction)
+            limeFunction === limeProperty.getter -> nameRules.getGetterName(limeProperty)
+            limeFunction === limeProperty.setter -> nameRules.getSetterName(limeProperty)
+            else ->
+                throw GluecodiumExecutionException("Invalid property accessor ${limeFunction.path}")
+        }
+    }
 
     private fun getParentElement(limeElement: LimeNamedElement) =
         (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement

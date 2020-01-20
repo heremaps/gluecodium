@@ -285,6 +285,7 @@ internal class AntlrLimeModelBuilder(
     override fun exitProperty(ctx: LimeParser.PropertyContext) {
         val propertyType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         val propertyVisibility = currentVisibility
+        val propertyIsStatic = ctx.Static() != null
 
         val getter: LimeFunction
         val setter: LimeFunction?
@@ -295,14 +296,16 @@ internal class AntlrLimeModelBuilder(
                 path = getterPath,
                 comment = getComment("get", emptyList(), ctx),
                 visibility = propertyVisibility,
-                returnType = LimeReturnType(propertyType)
+                returnType = LimeReturnType(propertyType),
+                isStatic = propertyIsStatic
             )
             setter = LimeFunction(
                 path = currentPath.child("set"),
                 comment = getComment("set", emptyList(), ctx),
                 visibility = propertyVisibility,
                 parameters =
-                listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
+                    listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType)),
+                isStatic = propertyIsStatic
             )
         } else {
             getter = LimeFunction(
@@ -310,7 +313,8 @@ internal class AntlrLimeModelBuilder(
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
                 comment = getComment("get", getterContext.docComment(), getterContext),
                 attributes = convertAnnotations(getterContext.annotation()),
-                returnType = LimeReturnType(propertyType)
+                returnType = LimeReturnType(propertyType),
+                isStatic = propertyIsStatic
             )
             setter = ctx.setter()?.let {
                 LimeFunction(
@@ -319,7 +323,8 @@ internal class AntlrLimeModelBuilder(
                     comment = getComment("set", it.docComment(), it),
                     attributes = convertAnnotations(it.annotation()),
                     parameters =
-                        listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
+                        listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType)),
+                    isStatic = propertyIsStatic
                 )
             }
         }
@@ -332,7 +337,7 @@ internal class AntlrLimeModelBuilder(
             typeRef = propertyType,
             getter = getter,
             setter = setter,
-            isStatic = ctx.Static() != null
+            isStatic = propertyIsStatic
         )
 
         storeResultAndPopStacks(limeElement)

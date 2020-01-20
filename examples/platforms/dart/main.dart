@@ -25,6 +25,7 @@ import "test/Lists_test.dart" as ListsTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
+import "test/Properties_test.dart" as PropertiesTests;
 import "test/Sets_test.dart" as SetsTests;
 import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
 import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
@@ -39,6 +40,7 @@ final _allTests = [
   MapsTests.main,
   PlainDataStructuresTests.main,
   PlainDataStructuresTypeCollectionTests.main,
+  PropertiesTests.main,
   SetsTests.main,
   StaticBooleanMethodsTests.main,
   StaticFloatDoubleMethodsTests.main,
