@@ -1,5 +1,4 @@
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/smoke/Enums_ErrorStruct__conversion.dart';
 import 'package:library/src/smoke/Enums_ExternalEnum__conversion.dart';
 import 'package:library/src/smoke/Enums_InternalErrorCode__conversion.dart';
 import 'package:library/src/smoke/Enums_SimpleEnum__conversion.dart';
@@ -88,3 +87,41 @@ class Enums_ErrorStruct {
   String message;
   Enums_ErrorStruct(this.type, this.message);
 }
+// Enums_ErrorStruct "private" section, not exported.
+final _smoke_Enums_ErrorStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32, Pointer<Void>),
+    Pointer<Void> Function(int, Pointer<Void>)
+  >('smoke_Enums_ErrorStruct_create_handle');
+final _smoke_Enums_ErrorStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Enums_ErrorStruct_release_handle');
+final _smoke_Enums_ErrorStruct_get_field_type = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Enums_ErrorStruct_get_field_type');
+final _smoke_Enums_ErrorStruct_get_field_message = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Enums_ErrorStruct_get_field_message');
+Pointer<Void> smoke_Enums_ErrorStruct_toFfi(Enums_ErrorStruct value) {
+  final _type_handle = smoke_Enums_InternalErrorCode_toFfi(value.type);
+  final _message_handle = String_toFfi(value.message);
+  final _result = _smoke_Enums_ErrorStruct_create_handle(_type_handle, _message_handle);
+  smoke_Enums_InternalErrorCode_releaseFfiHandle(_type_handle);
+  String_releaseFfiHandle(_message_handle);
+  return _result;
+}
+Enums_ErrorStruct smoke_Enums_ErrorStruct_fromFfi(Pointer<Void> handle) {
+  final _type_handle = _smoke_Enums_ErrorStruct_get_field_type(handle);
+  final _message_handle = _smoke_Enums_ErrorStruct_get_field_message(handle);
+  final _result = Enums_ErrorStruct(
+    smoke_Enums_InternalErrorCode_fromFfi(_type_handle),
+    String_fromFfi(_message_handle)
+  );
+  smoke_Enums_InternalErrorCode_releaseFfiHandle(_type_handle);
+  String_releaseFfiHandle(_message_handle);
+  return _result;
+}
+void smoke_Enums_ErrorStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Enums_ErrorStruct_release_handle(handle);
+// End of Enums_ErrorStruct "private" section.

@@ -2,7 +2,6 @@ import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/Errors_ExternalErrors__conversion.dart';
 import 'package:library/src/smoke/Errors_InternalErrorCode__conversion.dart';
 import 'package:library/src/smoke/Payload.dart';
-import 'package:library/src/smoke/Payload__conversion.dart';
 import 'package:library/src/smoke/WithPayloadException.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';

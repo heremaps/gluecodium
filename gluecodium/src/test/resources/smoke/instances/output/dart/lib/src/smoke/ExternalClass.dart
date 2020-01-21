@@ -39,3 +39,32 @@ class ExternalClass_SomeStruct {
   String someField;
   ExternalClass_SomeStruct(this.someField);
 }
+// ExternalClass_SomeStruct "private" section, not exported.
+final _smoke_ExternalClass_SomeStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeStruct_create_handle');
+final _smoke_ExternalClass_SomeStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeStruct_release_handle');
+final _smoke_ExternalClass_SomeStruct_get_field_someField = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeStruct_get_field_someField');
+Pointer<Void> smoke_ExternalClass_SomeStruct_toFfi(ExternalClass_SomeStruct value) {
+  final _someField_handle = String_toFfi(value.someField);
+  final _result = _smoke_ExternalClass_SomeStruct_create_handle(_someField_handle);
+  String_releaseFfiHandle(_someField_handle);
+  return _result;
+}
+ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi(Pointer<Void> handle) {
+  final _someField_handle = _smoke_ExternalClass_SomeStruct_get_field_someField(handle);
+  final _result = ExternalClass_SomeStruct(
+    String_fromFfi(_someField_handle)
+  );
+  String_releaseFfiHandle(_someField_handle);
+  return _result;
+}
+void smoke_ExternalClass_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalClass_SomeStruct_release_handle(handle);
+// End of ExternalClass_SomeStruct "private" section.

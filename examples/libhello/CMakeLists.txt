@@ -337,7 +337,7 @@ feature(Dates cpp android swift SOURCES
     lime/test/Dates.lime
 )
 
-feature(StructsWithCompanion cpp android swift SOURCES
+feature(StructsWithCompanion cpp android swift dart SOURCES
     src/test/StructsWithMethods.cpp
     src/test/StructsWithConstants.cpp
 

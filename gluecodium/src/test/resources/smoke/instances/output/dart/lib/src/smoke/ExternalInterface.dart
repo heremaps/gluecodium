@@ -14,7 +14,36 @@ class ExternalInterface_SomeStruct {
   String someField;
   ExternalInterface_SomeStruct(this.someField);
 }
-// "Private" section, not exported.
+// ExternalInterface_SomeStruct "private" section, not exported.
+final _smoke_ExternalInterface_SomeStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeStruct_create_handle');
+final _smoke_ExternalInterface_SomeStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeStruct_release_handle');
+final _smoke_ExternalInterface_SomeStruct_get_field_someField = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeStruct_get_field_someField');
+Pointer<Void> smoke_ExternalInterface_SomeStruct_toFfi(ExternalInterface_SomeStruct value) {
+  final _someField_handle = String_toFfi(value.someField);
+  final _result = _smoke_ExternalInterface_SomeStruct_create_handle(_someField_handle);
+  String_releaseFfiHandle(_someField_handle);
+  return _result;
+}
+ExternalInterface_SomeStruct smoke_ExternalInterface_SomeStruct_fromFfi(Pointer<Void> handle) {
+  final _someField_handle = _smoke_ExternalInterface_SomeStruct_get_field_someField(handle);
+  final _result = ExternalInterface_SomeStruct(
+    String_fromFfi(_someField_handle)
+  );
+  String_releaseFfiHandle(_someField_handle);
+  return _result;
+}
+void smoke_ExternalInterface_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalInterface_SomeStruct_release_handle(handle);
+// End of ExternalInterface_SomeStruct "private" section.
+// ExternalInterface "private" section, not exported.
 final __release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -46,3 +75,4 @@ Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface__Impl value) =>
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) =>
   handle.address != 0 ? ExternalInterface__Impl._(handle) : null;
 void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) {}
+// End of ExternalInterface "private" section.

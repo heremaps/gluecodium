@@ -1,4 +1,3 @@
-import 'package:library/src/smoke/PropertiesInterface_ExampleStruct__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -11,7 +10,36 @@ class PropertiesInterface_ExampleStruct {
   double value;
   PropertiesInterface_ExampleStruct(this.value);
 }
-// "Private" section, not exported.
+// PropertiesInterface_ExampleStruct "private" section, not exported.
+final _smoke_PropertiesInterface_ExampleStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Double),
+    Pointer<Void> Function(double)
+  >('smoke_PropertiesInterface_ExampleStruct_create_handle');
+final _smoke_PropertiesInterface_ExampleStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_PropertiesInterface_ExampleStruct_release_handle');
+final _smoke_PropertiesInterface_ExampleStruct_get_field_value = __lib.nativeLibrary.lookupFunction<
+    Double Function(Pointer<Void>),
+    double Function(Pointer<Void>)
+  >('smoke_PropertiesInterface_ExampleStruct_get_field_value');
+Pointer<Void> smoke_PropertiesInterface_ExampleStruct_toFfi(PropertiesInterface_ExampleStruct value) {
+  final _value_handle = (value.value);
+  final _result = _smoke_PropertiesInterface_ExampleStruct_create_handle(_value_handle);
+  (_value_handle);
+  return _result;
+}
+PropertiesInterface_ExampleStruct smoke_PropertiesInterface_ExampleStruct_fromFfi(Pointer<Void> handle) {
+  final _value_handle = _smoke_PropertiesInterface_ExampleStruct_get_field_value(handle);
+  final _result = PropertiesInterface_ExampleStruct(
+    (_value_handle)
+  );
+  (_value_handle);
+  return _result;
+}
+void smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PropertiesInterface_ExampleStruct_release_handle(handle);
+// End of PropertiesInterface_ExampleStruct "private" section.
+// PropertiesInterface "private" section, not exported.
 final __release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -42,3 +70,4 @@ Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) =
 PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) =>
   handle.address != 0 ? PropertiesInterface__Impl._(handle) : null;
 void smoke_PropertiesInterface_releaseFfiHandle(Pointer<Void> handle) {}
+// End of PropertiesInterface "private" section.
