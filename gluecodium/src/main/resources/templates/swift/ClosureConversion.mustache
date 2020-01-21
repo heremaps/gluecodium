@@ -61,7 +61,7 @@ internal func createFunctionalTable(_ swiftType: @escaping {{name}}) -> {{functi
     functions.{{cPrefix}}_call = { swift_closure_pointer{{#parameters}}, p{{iter.position}}{{/parameters}} in
         let closure_holder = Unmanaged<AnyObject>.fromOpaque(swift_closure_pointer!).takeUnretainedValue() as! {{cPrefix}}_Holder
         return {{returnType.className}}copyToCType(closure_holder.closure({{!!
-        }}{{#parameters}}{{type.className}}moveFromCType(p{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/parameters}})).ref
+        }}{{#parameters}}{{className}}moveFromCType(p{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/parameters}})).ref
     }
 
     return functions
