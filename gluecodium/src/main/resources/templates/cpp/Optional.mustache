@@ -43,11 +43,11 @@
 
 /*
  * This header is used to define the optional type used by Gluecodium. If nothing else is defined
- * it will use std::optional if available and fallback to a builtin optional implementation
+ * it will use std::optional if available and fallback to a built-in optional implementation
  * otherwise. To use custom optional implementation, GLUECODIUM_OPTIONAL_HEADER and GLUECODIUM_OPTIONAL_TYPE
  * need to be defined. The optional will be used in the internal namespace.
  *
- * For exampe to use optional from experimental define the following macros
+ * For example, to use optional from experimental define the following macros
  *
  * #define GLUECODIUM_OPTIONAL_HEADER <experimental/optional>
  * #define GLUECODIUM_OPTIONAL_TYPE std::experimental::optional
@@ -65,32 +65,17 @@
 #endif
 
 #if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
-#ifdef __has_include
-# if defined(_MSC_VER)
-#   if _MSC_VER >= 1911 && _MSVC_LANG >= 201703
-#     define GLUECODIUM_OPTIONAL_HEADER <optional>
-#     define GLUECODIUM_OPTIONAL_TYPE std::optional
-#     define GLUECODIUM_OPTIONAL_HELPER_TYPES auto nullopt = std::nullopt; \
-                                          auto in_place = std::in_place; \
-                                          auto bad_access = std::bad_optional_access;
+#  if (defined(_MSC_VER) && _MSC_VER >= 1911 && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L
+#    define GLUECODIUM_OPTIONAL_HEADER <optional>
+#    define GLUECODIUM_OPTIONAL_TYPE std::optional
+#    define GLUECODIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
+                                             using std::in_place; \
+                                             using std::bad_optional_access;
+#  else
+#    define GLUECODIUM_OPTIONAL_HEADER "OptionalImpl.h"
+#    define GLUECODIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
 #  endif
-# elif __cplusplus > 201402L
-#   if __has_include(<optional>)
-#     define GLUECODIUM_OPTIONAL_HEADER <optional>
-#     define GLUECODIUM_OPTIONAL_TYPE std::optional
-#     define GLUECODIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
-                                          using std::in_place; \
-                                          using std::bad_optional_access;
-#   endif
-# endif
-#endif // __has_include
 #endif // !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
-
-
-#if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
-# define GLUECODIUM_OPTIONAL_HEADER "OptionalImpl.h"
-# define GLUECODIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
-#endif
 
 #include GLUECODIUM_OPTIONAL_HEADER
 
