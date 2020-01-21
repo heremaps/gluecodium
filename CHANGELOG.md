@@ -1,11 +1,13 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.1.0
+Release date: 2020-01-21
 ### Features
   * Allow renaming JNI_OnLoad via define.
   * Enable CMake modules for use of Gluecodium in multiple targets.
 ### Bug fixes:
   * Fixed Swift compilation issue for lambdas with parameters of class or interface types.
+  * Fixed compilation issue for Optional.h header on Windows.
 
 ## 6.0.1
 Release date: 2020-01-16
