@@ -3,6 +3,9 @@
 ## Unreleased
 ### Features:
   * Allow renaming JNI_OnLoad via define.
+
+## 6.0.2
+Release date: 2020-01-21
 ### Bug fixes:
   * Fixed Swift compilation issue for lambdas with parameters of class or interface types.
 
