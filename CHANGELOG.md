@@ -1,8 +1,9 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
-### Features:
+### Features
   * Allow renaming JNI_OnLoad via define.
+  * Enable CMake modules for use of Gluecodium in multiple targets.
 ### Bug fixes:
   * Fixed Swift compilation issue for lambdas with parameters of class or interface types.
 

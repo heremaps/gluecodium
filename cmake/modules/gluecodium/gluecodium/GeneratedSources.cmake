@@ -37,6 +37,7 @@ function(apigen_list_generated_sources _sources_list_output)
   cmake_parse_arguments(apigen_list_generated_sources "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
 
+  set(APIGEN_SUPPORTED_GENERATORS cpp android swift dart)
   if(NOT apigen_list_generated_sources_GENERATOR IN_LIST APIGEN_SUPPORTED_GENERATORS)
     message(FATAL_ERROR "Generator ${apigen_list_generated_sources_GENERATOR} is not in list of supported generators: ${APIGEN_SUPPORTED_GENERATORS}")
   endif()

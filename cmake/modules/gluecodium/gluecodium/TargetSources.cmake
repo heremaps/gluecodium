@@ -35,18 +35,40 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_target_sources(target)
+#     apigen_target_sources(<target> (MAIN) (COMMON))
+#        <target>    Target for which source was generated via `apigen_generate`
+#        MAIN        Add the MAIN generated source set, i.e. code generated for
+#                    the input Lime IDL files.
+#        COMMON      Add the common generated source set which is independent of
+#                    input Lime IDL files and can be shared between different
+#                    targets
+#     If neither MAIN nor COMMON are specified, both are added. Specifying a
+#     source set requires a separate common output directory to be set for
+#     `apigen_generate`.
 #
 
 function(apigen_target_sources target)
+  set(options MAIN COMMON)
+  cmake_parse_arguments(apigen_target_sources "${options}" "" "" ${ARGN})
+
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
   get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
   get_target_property(BUILD_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
 
-  set(_source_sets MAIN)
-  if(COMMON_OUTPUT_DIR)
+  unset(_source_sets)
+  if(NOT apigen_target_sources_MAIN AND NOT apigen_target_sources_COMMON)
+    set(_source_sets MAIN)
+    if(COMMON_OUTPUT_DIR)
+      list(APPEND _source_sets COMMON)
+    endif()
+  endif()
+  if(apigen_target_sources_MAIN)
+    list(APPEND _source_sets MAIN)
+  endif()
+  if(apigen_target_sources_COMMON)
     list(APPEND _source_sets COMMON)
   endif()
+
   apigen_list_generated_sources(_generated_files
     ${_source_sets}
     GENERATOR "${GENERATOR}"

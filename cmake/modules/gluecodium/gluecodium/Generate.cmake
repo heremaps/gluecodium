@@ -192,6 +192,8 @@ function(apigen_generate)
         -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
         -DAPIGEN_VERBOSE=${APIGEN_VERBOSE}
+	# Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
+        -DAPIGEN_AUX_FILES=$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>;$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
         VERBATIM
     DEPENDS
