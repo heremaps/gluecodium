@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/ArraysByteBuffer.h"
+#include "another/TypeCollectionWithEnums.h"
 
 namespace test
 {
@@ -66,6 +67,21 @@ ArraysByteBuffer::method_with_explicit_array_in_struct(
     ArraysByteBuffer::StructWithExplicitArray result;
     result.image = {input.image.rbegin( ), input.image.rend( )};
     return result;
+}
+
+
+lorem_ipsum::test::Return< std::shared_ptr< std::vector< uint8_t > >, std::error_code >
+ArraysByteBuffer::method_that_explodes( const bool error_flag )
+{
+    if ( error_flag )
+    {
+        return std::error_code( another::ExplosiveErrorCode::EXPLODED );
+    }
+    else
+    {
+        return std::make_shared< std::vector< uint8_t > >(
+            std::vector< uint8_t >{0x00, 0x01, 0x02} );
+    }
 }
 
 }  // namespace test

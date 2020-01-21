@@ -243,7 +243,7 @@ feature(GenericTypes cpp android swift dart SOURCES
     lime/test/NestedGenericTypes.lime
 )
 
-feature(Errors cpp android swift SOURCES
+feature(Errors cpp android swift dart SOURCES
     src/hello/HelloWorldErrors.cpp
     src/test/Errors.cpp
     src/test/ErrorsInInterface.cpp

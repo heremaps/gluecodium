@@ -106,21 +106,71 @@ void
 {{/fields}}{{/set}}
 {{/ffiStructReleaseAndGetters}}{{!!
 
-}}{{+ffiFunction}}
+}}{{+ffiFunction}}{{#if thrownType}}
+void
+{{resolveName}}_return_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<{{>ffiErrorReturnType}}*>(handle);
+}
+
+{{#isNotEq returnType.typeRef.type.name "Void"}}{{resolveName returnType.typeRef}}
+{{resolveName}}_return_get_result(FfiOpaqueHandle handle) {
+    return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
+        reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->unsafe_value()
+    );
+}
+{{/isNotEq}}
+
+{{resolveName exception.errorType}}
+{{resolveName}}_return_get_error(FfiOpaqueHandle handle) {
+    return {{>ffi/FfiInternal}}::Conversion<{{resolveName exception.errorType "C++"}}>::toFfi(
+        reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->error()
+    );
+}
+
+bool
+{{resolveName}}_return_has_error(FfiOpaqueHandle handle) {
+    return !reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->has_value();
+}
+
+FfiOpaqueHandle
+{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
+    auto&& _cpp_call_result = {{>ffiCallCppFunction}};
+{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
+}}{{#isEq returnType.typeRef.type.name "Void"}}
+    if (_cpp_call_result.value() == 0) {
+        return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(true));
+    }
+    auto _error_code = _cpp_call_result;
+{{/isEq}}{{#isNotEq returnType.typeRef.type.name "Void"}}
+    if (_cpp_call_result.has_value()) {
+        return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(
+            std::forward<{{resolveName returnType.typeRef "C++"}}>(_cpp_call_result.unsafe_value())
+        ));
+    }
+    auto _error_code = _cpp_call_result.error();
+{{/isNotEq}}
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(
+        static_cast<{{resolveName exception.errorType "C++"}}>(_error_code.value())
+    ));
+{{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(
+        std::forward<{{>ffiErrorReturnType}}>(_cpp_call_result)
+    ));
+{{/notInstanceOf}}
+}
+{{/if}}{{!!
+
+}}{{#unless thrownType}}
 {{resolveName returnType.typeRef}}
 {{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{#isNotEq returnType.typeRef.type.name "Void"}}return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
 {{/isNotEq}}{{!!
-}}        {{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
-        }}{{#unless isStatic}}{{>selfReferenceConversion}}.{{/unless}}{{!!
-        }}{{resolveName "C++"}}({{#if parameters}}
-{{joinPartial parameters "ffiParameter" ",
-"}}
-        {{/if}}){{#isNotEq returnType.typeRef.type.name "Void"}}
+}}{{>ffiCallCppFunction}}{{#isNotEq returnType.typeRef.type.name "Void"}}
     ){{/isNotEq}};
 }
-{{/ffiFunction}}{{!!
+{{/unless}}{{/ffiFunction}}{{!!
 
 }}{{+selfReferenceConversion}}{{#instanceOf parent "LimeStruct"}}{{!!
 }}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{#notInstanceOf parent "LimeStruct"}}{{!!
@@ -128,4 +178,16 @@ void
 
 }}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 
-}}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}
+}}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}{{!!
+
+}}{{+ffiCallCppFunction}}{{!!
+}}        {{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
+        }}{{#unless isStatic}}{{>selfReferenceConversion}}.{{/unless}}{{!!
+        }}{{resolveName "C++"}}({{#if parameters}}
+{{joinPartial parameters "ffiParameter" ",
+"}}
+        {{/if}}){{!!
+}}{{/ffiCallCppFunction}}{{!!
+
+}}{{+ffiErrorReturnType}}{{#internalNamespace}}{{.}}::{{/internalNamespace}}Return<{{!!
+}}{{resolveName returnType.typeRef "C++"}}, {{resolveName exception.errorType "C++"}}>{{/ffiErrorReturnType}}

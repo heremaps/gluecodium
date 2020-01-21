@@ -32,17 +32,17 @@ extern "C" {
 
 {{#model}}
 {{#functions}}
-{{>ffiFunctionSignature}}
+{{>ffiFunctionDeclaration}}
 {{/functions}}
 {{#properties}}{{#getter}}
-{{>ffiFunctionSignature}}
+{{>ffiFunctionDeclaration}}
 {{/getter}}{{#setter}}
-{{>ffiFunctionSignature}}
+{{>ffiFunctionDeclaration}}
 {{/setter}}
 {{/properties}}
 {{#structs}}
 {{#functions}}
-{{>ffiFunctionSignature}}
+{{>ffiFunctionDeclaration}}
 {{/functions}}
 {{/structs}}
 {{/model}}
@@ -63,8 +63,15 @@ _GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{resolveName parent}}_get_field_
 }
 #endif{{!!
 
-}}{{+ffiFunctionSignature}}
-_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{resolveName}}({{!!
+}}{{+ffiFunctionDeclaration}}
+{{#if thrownType}}
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
+_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{resolveName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
+_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{resolveName}}_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool {{resolveName}}_return_has_error(FfiOpaqueHandle handle);
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle{{/if}}{{!!
+}}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{resolveName}}({{!!
 }}{{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{/ffiFunctionSignature}}
+{{/ffiFunctionDeclaration}}

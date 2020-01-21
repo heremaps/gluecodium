@@ -17,6 +17,8 @@
 
 package test
 
+import another.TypeCollectionWithEnums.Explosive
+
 class ArraysByteBuffer {
     struct StructWithByteBuffer {
         image: Blob
@@ -56,4 +58,9 @@ class ArraysByteBuffer {
     static fun methodWithExplicitArrayInStruct(
         input: StructWithExplicitArray
     ): StructWithExplicitArray
+    // Example static method with an error enum which returns an array with bytes [x00, x01, x02]
+    // or raises "EXPLODED" error if errorFlag is true
+    static fun methodThatExplodes(
+        errorFlag: Boolean
+    ): /* Output buffer */ Blob throws Explosive
 }

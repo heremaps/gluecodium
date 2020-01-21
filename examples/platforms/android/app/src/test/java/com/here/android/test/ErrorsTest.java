@@ -90,12 +90,12 @@ public class ErrorsTest {
     expectedException.expect(ExplosiveException.class);
     expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExplosiveErrorCode.EXPLODED));
 
-    Errors.methodThatExplodes(true);
+    ArraysByteBuffer.methodThatExplodes(true);
   }
 
   @Test
   public void methodThatExplodes_doesNotThrow() throws ExplosiveException {
-    byte[] result = Errors.methodThatExplodes(false);
+    byte[] result = ArraysByteBuffer.methodThatExplodes(false);
 
     assertEquals(0, result[0]);
     assertEquals(1, result[1]);

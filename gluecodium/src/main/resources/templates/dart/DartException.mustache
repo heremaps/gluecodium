@@ -18,4 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{!! TODO: #85 implement }}
+{{>dart/DartDocumentation}}
+class {{resolveName visibility}}{{resolveName}} implements Exception {
+  final {{resolveName errorType}} error;
+  {{resolveName}}(this.error);
+}

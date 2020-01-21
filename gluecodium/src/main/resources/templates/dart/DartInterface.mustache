@@ -52,7 +52,11 @@ final __release_handle = __lib.nativeLibrary.lookupFunction<
     void Function(Pointer<Void>)
   >('{{resolveName "Ffi"}}_release_handle');
 
-class {{resolveName}}__Impl implements {{resolveName}}{
+{{#functions}}
+{{>dart/DartFunctionException}}
+
+{{/functions}}{{!!
+}}class {{resolveName}}__Impl implements {{resolveName}}{
   final Pointer<Void> _handle;
   {{resolveName}}__Impl._(this._handle);
 

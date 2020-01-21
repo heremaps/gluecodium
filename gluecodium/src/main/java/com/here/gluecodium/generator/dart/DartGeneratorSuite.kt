@@ -82,7 +82,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 internalNamespace
             )
         )
-        val importResolver = DartImportResolver(nameRules, dartNameResolver)
+        val importResolver = DartImportResolver(limeModel.referenceMap, dartNameResolver)
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val pathsCollector = mutableListOf<DartExport>()
@@ -122,9 +122,12 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val functions = collectFunctions(rootElement)
         val properties = (rootElement as? LimeContainerWithInheritance)?.properties ?: emptyList()
+        val exceptions = collectExceptions(rootElement)
         val imports = importResolver.resolveImports(rootElement) +
             functions.flatMap { collectTypeRefs(it) }.flatMap { importResolver.resolveImports(it) } +
-            properties.flatMap { importResolver.resolveImports(it.typeRef) }
+            functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
+            properties.flatMap { importResolver.resolveImports(it.typeRef) } +
+            exceptions.flatMap { importResolver.resolveImports(it.errorType) }
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
         val filePath = "$packagePath/${nameRules.getName(rootElement)}"
@@ -154,7 +157,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         nameResolvers: Map<String, NameResolver>,
         includeResolver: FfiCppIncludeResolver
     ): List<GeneratedFile> {
-        val limeType = rootElement as? LimeType ?: return emptyList()
+        val limeType = rootElement as? LimeType
+        if (limeType == null || limeType is LimeException) return emptyList()
 
         val functions = collectFunctions(limeType).sortedBy { it.fullName }
         val types = LimeTypeHelper.getAllTypes(limeType)
@@ -249,7 +253,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val content = TemplateEngine.render(
             "dart/DartStructConversion",
             mapOf(
-                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
+                "imports" to imports.distinct().sorted(),
                 "model" to limeStruct,
                 "libraryName" to libraryName
             ),
@@ -344,6 +348,13 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         when (limeElement) {
             is LimeContainer ->
                 limeElement.functions + limeElement.structs.flatMap { collectFunctions(it) }
+            else -> emptyList()
+        }
+
+    private fun collectExceptions(limeElement: LimeNamedElement): List<LimeException> =
+        when (limeElement) {
+            is LimeContainer -> limeElement.exceptions
+            is LimeException -> listOf(limeElement)
             else -> emptyList()
         }
 

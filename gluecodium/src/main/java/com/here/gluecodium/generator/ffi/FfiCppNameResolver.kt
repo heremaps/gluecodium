@@ -31,6 +31,8 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -56,6 +58,7 @@ internal class FfiCppNameResolver(
         when (element) {
             is LimeTypeRef -> getTypeRefName(element)
             is LimeField -> getFieldName(element)
+            is LimeException -> getExceptionTypeName(element)
             is LimeType -> getTypeName(element.actualType)
             is LimeFunction -> getFunctionName(element)
             is LimeNamedElement -> cppNameResolver.getName(element)
@@ -79,7 +82,7 @@ internal class FfiCppNameResolver(
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
-        val typeName = getTypeName(limeType)
+        val typeName = resolveName(limeType)
         return when {
             limeType is LimeContainerWithInheritance -> "std::shared_ptr<$typeName>"
             limeTypeRef.isNullable -> "$internalNamespace::optional<$typeName>"
@@ -92,6 +95,12 @@ internal class FfiCppNameResolver(
             is LimeBasicType -> getBasicTypeName(limeType)
             is LimeGenericType -> getGenericTypeName(limeType)
             else -> cppNameResolver.getFullyQualifiedName(limeType)
+        }
+
+    private fun getExceptionTypeName(limeException: LimeException) =
+        when (val errorType = limeException.errorType.type.actualType) {
+            is LimeEnumeration -> "std::error_code"
+            else -> getTypeName(errorType)
         }
 
     private fun getBasicTypeName(limeType: LimeBasicType) =

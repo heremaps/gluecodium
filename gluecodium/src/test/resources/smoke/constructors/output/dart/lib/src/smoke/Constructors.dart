@@ -8,6 +8,22 @@ final __release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Constructors_release_handle');
+final _createFromString_return_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Constructors_create__String_return_release_handle');
+final _createFromString_return_get_result = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Constructors_create__String_return_get_result');
+final _createFromString_return_get_error = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Constructors_create__String_return_get_error');
+final _createFromString_return_has_error = __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Constructors_create__String_return_has_error');
 class Constructors {
   final Pointer<Void> _handle;
   Constructors._(this._handle);
@@ -41,8 +57,17 @@ class Constructors {
   static Pointer<Void> _createFromString(String input) {
     final _createFromString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__String');
     final _input_handle = String_toFfi(input);
-    final __result_handle = _createFromString_ffi(_input_handle);
+    final __call_result_handle = _createFromString_ffi(_input_handle);
     String_releaseFfiHandle(_input_handle);
+    if (_createFromString_return_has_error(__call_result_handle) != 0) {
+        final __error_handle = _createFromString_return_get_error(__call_result_handle);
+        _createFromString_return_release_handle(__call_result_handle);
+        final _error_value = smoke_Constructors_ErrorEnum_fromFfi(__error_handle);
+        smoke_Constructors_ErrorEnum_releaseFfiHandle(__error_handle);
+        throw Constructors_ConstructorExplodedException(_error_value);
+    }
+    final __result_handle = _createFromString_return_get_result(__call_result_handle);
+    _createFromString_return_release_handle(__call_result_handle);
     return __result_handle;
   }
   static Pointer<Void> _createFromList(List<double> input) {
@@ -61,4 +86,8 @@ void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) {}
 enum Constructors_ErrorEnum {
     none,
     crashed
+}
+class Constructors_ConstructorExplodedException implements Exception {
+  final Constructors_ErrorEnum error;
+  Constructors_ConstructorExplodedException(this.error);
 }
