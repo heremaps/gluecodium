@@ -83,9 +83,9 @@ function(apigen_target_include_directories target)
     endif()
   endif()
 
-  if(NOT CMAKE_CROSSCOMPILING)
+  if(${GENERATOR} MATCHES android)
     # If we're not crosscompiling, we need to manually add JNI includes.
-    if(NOT(${CMAKE_SYSTEM_NAME} STREQUAL "Android"))
+    if(NOT CMAKE_CROSSCOMPILING)
       find_package(JNI REQUIRED)
       target_include_directories(${target}
         PRIVATE $<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>)
