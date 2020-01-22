@@ -48,12 +48,12 @@ class MethodOverloads {
         input3: String,
         input4: Point
     ): Boolean
-    @Dart("isBooleanStringArray")
+    @Dart("isBooleanStringList")
     @Java("isBooleanStringArrayOverload")
     static fun isBoolean(
         input: StringArray
     ): Boolean
-    @Dart("isBooleanIntArray")
+    @Dart("isBooleanIntList")
     @Java("isBooleanIntArrayOverload")
     static fun isBoolean(
         input: IntArray
