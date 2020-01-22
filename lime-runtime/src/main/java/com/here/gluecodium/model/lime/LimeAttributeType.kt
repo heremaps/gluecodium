@@ -26,6 +26,7 @@ enum class LimeAttributeType(
     CPP("Cpp", LimeAttributeValueType.NAME),
     JAVA("Java", LimeAttributeValueType.NAME),
     SWIFT("Swift", LimeAttributeValueType.NAME),
+    DART("Dart", LimeAttributeValueType.NAME),
     DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
     EQUATABLE("Equatable"),
     IMMUTABLE("Immutable"),

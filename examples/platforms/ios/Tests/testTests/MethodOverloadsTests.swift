@@ -39,12 +39,12 @@ class MethodOverloadsTests: XCTestCase {
     }
 
     func testConstructorDoesNotThrow() {
-        XCTAssertNoThrow(try ConstructorOverloads(input: 0.0))
+        XCTAssertNoThrow(try ThrowingConstructor(input: 0.0))
     }
 
     func testConstructorThrows() {
-      XCTAssertThrowsError(try ConstructorOverloads(input: 1.0)) { error in
-        XCTAssertEqual(error as? ConstructorOverloads.ErrorEnum, ConstructorOverloads.ErrorEnum.crashed)
+      XCTAssertThrowsError(try ThrowingConstructor(input: 1.0)) { error in
+        XCTAssertEqual(error as? ThrowingConstructor.ErrorEnum, ThrowingConstructor.ErrorEnum.crashed)
       }
     }
 

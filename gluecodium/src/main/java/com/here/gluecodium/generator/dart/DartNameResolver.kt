@@ -22,6 +22,8 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
@@ -52,7 +54,7 @@ internal class DartNameResolver(
             is LimeTypeRef -> resolveName(element.type)
             is LimeTypeAlias -> resolveName(element.typeRef)
             is LimeType -> resolveType(element)
-            is LimeNamedElement -> nameRules.getName(element)
+            is LimeNamedElement -> getPlatformName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
@@ -132,7 +134,7 @@ internal class DartNameResolver(
         }
 
     private fun resolveType(limeType: LimeType): String {
-        val typeName = nameRules.getName(limeType)
+        val typeName = getPlatformName(limeType)
         val parentType = if (limeType.path.hasParent) getParentElement(limeType) else null
         return when (parentType) {
             null -> listOf(typeName)
@@ -140,6 +142,10 @@ internal class DartNameResolver(
             else -> listOf(resolveName(parentType), typeName)
         }.joinToString("_")
     }
+
+    private fun getPlatformName(element: LimeNamedElement) =
+        element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
+            ?: nameRules.getName(element)
 
     private fun getParentElement(limeElement: LimeNamedElement) =
         (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement

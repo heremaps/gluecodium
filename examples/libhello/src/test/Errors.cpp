@@ -24,6 +24,7 @@
 #include "another/TypeCollectionWithEnums.h"
 #include "include/ExternalTypes.h"
 #include "test/OtherErrors.h"
+#include "test/ThrowingConstructor.h"
 
 namespace test
 {
@@ -150,6 +151,21 @@ Errors::method_with_payload_error_and_return_value(const bool error_flag)
     {
         return std::string("bar value");
     }
+}
+
+class ThrowingConstructorImpl : public ThrowingConstructor
+{
+public:
+    virtual ~ThrowingConstructorImpl( ) = default;
+};
+
+lorem_ipsum::test::Return< std::shared_ptr< ThrowingConstructor >, std::error_code >
+ThrowingConstructor::create( double input )
+{
+    return input == 0 ? lorem_ipsum::test::Return< std::shared_ptr< ThrowingConstructor >,
+                                                   std::error_code >(
+                            std::make_shared< ThrowingConstructorImpl >( ) )
+                      : std::error_code( ThrowingConstructor::ErrorEnum::CRASHED );
 }
 
 }  // namespace test

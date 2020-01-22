@@ -1,26 +1,27 @@
 package smoke
-
 class MethodOverloads {
     typealias StringArray = List<String>
     typealias IntArray = List<Byte>
-
     struct Point {
         x: Double
         y: Double
     }
-
     fun isBoolean(
         input: Boolean
     ): Boolean
+    @Dart("isBooleanByte")
     fun isBoolean(
         input: Byte
     ): Boolean
+    @Dart("isBooleanString")
     fun isBoolean(
         input: String
     ): Boolean
+    @Dart("isBooleanPoint")
     fun isBoolean(
         input: Point
     ): Boolean
+    @Dart("isBooleanMulti")
     fun isBoolean(
         input1: Boolean,
         input2: Byte,
@@ -28,18 +29,23 @@ class MethodOverloads {
         input4: Point
     ): Boolean
     @Java("isBooleanStringArrayOverload")
+    @Dart("isBooleanStringArray")
     fun isBoolean(
         input: StringArray
     ): Boolean
     @Java("isBooleanIntArrayOverload")
+    @Dart("isBooleanIntArray")
     fun isBoolean(
         input: IntArray
     ): Boolean
     @Cpp(Const)
+    @Dart("isBooleanConst")
     fun isBoolean(): Boolean
+    @Dart("isFloatString")
     fun isFloat(
         input: String
     ): Boolean
+    @Dart("isFloatList")
     fun isFloat(
         input: IntArray
     ): Boolean

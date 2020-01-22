@@ -74,7 +74,7 @@ feature(Strings cpp android swift dart SOURCES
     lime/test/StaticStringMethods.lime
 )
 
-feature(MethodOverloading cpp android swift SOURCES
+feature(MethodOverloading cpp android swift dart SOURCES
     src/test/MethodOverloads.cpp
 
     lime/test/MethodOverloads.lime

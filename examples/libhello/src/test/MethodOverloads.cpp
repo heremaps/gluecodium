@@ -18,7 +18,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/ChildConstructorOverloads.h"
 #include "test/ConstructorOverloads.h"
 #include "test/MethodOverloads.h"
 
@@ -111,40 +110,10 @@ ConstructorOverloads::create( const std::string& string_input, bool boolean_inpu
     return std::make_shared< ConstructorOverloadsImpl >( );
 }
 
-lorem_ipsum::test::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >
-ConstructorOverloads::create( double input )
-{
-    return input == 0 ? lorem_ipsum::test::Return< std::shared_ptr< ConstructorOverloads >,
-                                                   std::error_code >(
-                            std::make_shared< ConstructorOverloadsImpl >( ) )
-                      : std::error_code( ConstructorOverloads::ErrorEnum::CRASHED );
-}
-
 std::shared_ptr< ConstructorOverloads >
 ConstructorOverloads::create( const std::vector< double >& input )
 {
     return std::make_shared< ConstructorOverloadsImpl >( );
-}
-
-class ChildConstructorOverloadsImpl : public ChildConstructorOverloads
-{
-public:
-    virtual ~ChildConstructorOverloadsImpl( ) = default;
-};
-
-std::shared_ptr< ChildConstructorOverloads >
-ChildConstructorOverloads::create( )
-{
-    return std::make_shared< ChildConstructorOverloadsImpl >( );
-}
-
-lorem_ipsum::test::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >
-ChildConstructorOverloads::create( double input )
-{
-    return input == 0 ? lorem_ipsum::test::Return< std::shared_ptr< ChildConstructorOverloads >,
-                                                   std::error_code >(
-                            std::make_shared< ChildConstructorOverloadsImpl >( ) )
-                      : std::error_code( ConstructorOverloads::ErrorEnum::CRASHED );
 }
 
 }  // namespace test

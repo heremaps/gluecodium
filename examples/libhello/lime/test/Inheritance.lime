@@ -105,3 +105,12 @@ class InheritanceTestHelper {
 
     static fun createFamilyList(): List<RootInterface>
 }
+
+class ChildConstructorOverloads : ConstructorOverloads {
+    @Java("createNoParametersChild")
+    constructor create()
+    @Java("createWithErrorChild")
+    constructor create(
+        input: Double
+    ) throws ThrowingConstructor.Some
+}

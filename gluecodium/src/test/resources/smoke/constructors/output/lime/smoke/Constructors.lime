@@ -6,16 +6,20 @@ open class Constructors {
     }
     exception ConstructorExploded(ErrorEnum)
     constructor create()
+    @Dart("createFromOther")
     constructor create(
         other: Constructors
     )
+    @Dart("createFromMulti")
     constructor create(
         foo: String,
         bar: ULong
     )
+    @Dart("createFromString")
     constructor create(
         input: String
     ) throws ConstructorExploded
+    @Dart("createFromList")
     constructor create(
         input: List<Double>
     )
