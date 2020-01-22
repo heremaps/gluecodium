@@ -21,10 +21,12 @@ package com.here.gluecodium.generator.ffi
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
-import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -39,14 +41,15 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class FfiCppNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: NameRules,
+    nameRules: CppNameRules,
+    rootNamespace: List<String>,
     internalNamespace: List<String>
 ) : NameResolver {
 
+    private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
     private val internalNamespace = internalNamespace.joinToString("::")
 
     override fun resolveName(element: Any): String =
@@ -55,7 +58,21 @@ internal class FfiCppNameResolver(
             is LimeField -> getFieldName(element)
             is LimeType -> getTypeName(element.actualType)
             is LimeFunction -> getFunctionName(element)
-            is LimeNamedElement -> nameRules.getName(element)
+            is LimeNamedElement -> cppNameResolver.getName(element)
+            else ->
+                throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
+        }
+
+    override fun resolveGetterName(element: Any) =
+        when (element) {
+            is LimeField -> cppNameResolver.getGetterName(element)
+            else ->
+                throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
+        }
+
+    override fun resolveSetterName(element: Any) =
+        when (element) {
+            is LimeField -> cppNameResolver.getSetterName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
@@ -74,7 +91,7 @@ internal class FfiCppNameResolver(
         when (limeType) {
             is LimeBasicType -> getBasicTypeName(limeType)
             is LimeGenericType -> getGenericTypeName(limeType)
-            else -> getFullyQualifiedName(limeType)
+            else -> cppNameResolver.getFullyQualifiedName(limeType)
         }
 
     private fun getBasicTypeName(limeType: LimeBasicType) =
@@ -96,31 +113,22 @@ internal class FfiCppNameResolver(
             TypeId.DATE -> "std::chrono::system_clock::time_point"
         }
 
-    private fun getFullyQualifiedName(limeElement: LimeNamedElement): String {
-        val parentType = if (limeElement.path.hasParent) getParentElement(limeElement) else null
-        val prefix = when (parentType) {
-            null -> limeElement.path.head.joinToString("::")
-            is LimeTypesCollection -> limeElement.path.head.joinToString("::")
-            else -> getFullyQualifiedName(parentType)
-        }
-        val elementName = nameRules.getName(limeElement)
-
-        return "$prefix::$elementName"
-    }
-
     private fun getFieldName(limeField: LimeField) =
+        // TODO: simplify
         when {
             getParentElement(limeField).attributes.have(CPP, ACCESSORS) ->
-                nameRules.getGetterName(limeField) + "()"
-            else -> nameRules.getName(limeField)
+                cppNameResolver.getGetterName(limeField) + "()"
+            limeField.attributes.have(CPP, EXTERNAL_GETTER) ->
+                limeField.attributes.get(CPP, EXTERNAL_GETTER) + "()"
+            else -> cppNameResolver.getName(limeField)
         }
 
     private fun getFunctionName(limeFunction: LimeFunction): String {
         val limeProperty = getParentElement(limeFunction) as? LimeProperty
         return when {
-            limeProperty == null -> nameRules.getName(limeFunction)
-            limeFunction === limeProperty.getter -> nameRules.getGetterName(limeProperty)
-            limeFunction === limeProperty.setter -> nameRules.getSetterName(limeProperty)
+            limeProperty == null -> cppNameResolver.getName(limeFunction)
+            limeFunction === limeProperty.getter -> cppNameResolver.getGetterName(limeProperty)
+            limeFunction === limeProperty.setter -> cppNameResolver.getSetterName(limeProperty)
             else ->
                 throw GluecodiumExecutionException("Invalid property accessor ${limeFunction.path}")
         }

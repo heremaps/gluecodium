@@ -12,7 +12,7 @@ extern "C" {
 FfiOpaqueHandle
 smoke_BasicTypes_stringFunction__String(FfiOpaqueHandle input) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        smoke::BasicTypes::string_function(
+        ::smoke::BasicTypes::string_function(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
         )
     );
@@ -20,7 +20,7 @@ smoke_BasicTypes_stringFunction__String(FfiOpaqueHandle input) {
 bool
 smoke_BasicTypes_boolFunction__Boolean(bool input) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
-        smoke::BasicTypes::bool_function(
+        ::smoke::BasicTypes::bool_function(
             gluecodium::ffi::Conversion<bool>::toCpp(input)
         )
     );
@@ -28,7 +28,7 @@ smoke_BasicTypes_boolFunction__Boolean(bool input) {
 float
 smoke_BasicTypes_floatFunction__Float(float input) {
     return gluecodium::ffi::Conversion<float>::toFfi(
-        smoke::BasicTypes::float_function(
+        ::smoke::BasicTypes::float_function(
             gluecodium::ffi::Conversion<float>::toCpp(input)
         )
     );
@@ -36,7 +36,7 @@ smoke_BasicTypes_floatFunction__Float(float input) {
 double
 smoke_BasicTypes_doubleFunction__Double(double input) {
     return gluecodium::ffi::Conversion<double>::toFfi(
-        smoke::BasicTypes::double_function(
+        ::smoke::BasicTypes::double_function(
             gluecodium::ffi::Conversion<double>::toCpp(input)
         )
     );
@@ -44,7 +44,7 @@ smoke_BasicTypes_doubleFunction__Double(double input) {
 int8_t
 smoke_BasicTypes_byteFunction__Byte(int8_t input) {
     return gluecodium::ffi::Conversion<int8_t>::toFfi(
-        smoke::BasicTypes::byte_function(
+        ::smoke::BasicTypes::byte_function(
             gluecodium::ffi::Conversion<int8_t>::toCpp(input)
         )
     );
@@ -52,7 +52,7 @@ smoke_BasicTypes_byteFunction__Byte(int8_t input) {
 int16_t
 smoke_BasicTypes_shortFunction__Short(int16_t input) {
     return gluecodium::ffi::Conversion<int16_t>::toFfi(
-        smoke::BasicTypes::short_function(
+        ::smoke::BasicTypes::short_function(
             gluecodium::ffi::Conversion<int16_t>::toCpp(input)
         )
     );
@@ -60,7 +60,7 @@ smoke_BasicTypes_shortFunction__Short(int16_t input) {
 int32_t
 smoke_BasicTypes_intFunction__Int(int32_t input) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
-        smoke::BasicTypes::int_function(
+        ::smoke::BasicTypes::int_function(
             gluecodium::ffi::Conversion<int32_t>::toCpp(input)
         )
     );
@@ -68,7 +68,7 @@ smoke_BasicTypes_intFunction__Int(int32_t input) {
 int64_t
 smoke_BasicTypes_longFunction__Long(int64_t input) {
     return gluecodium::ffi::Conversion<int64_t>::toFfi(
-        smoke::BasicTypes::long_function(
+        ::smoke::BasicTypes::long_function(
             gluecodium::ffi::Conversion<int64_t>::toCpp(input)
         )
     );
@@ -76,7 +76,7 @@ smoke_BasicTypes_longFunction__Long(int64_t input) {
 uint8_t
 smoke_BasicTypes_ubyteFunction__UByte(uint8_t input) {
     return gluecodium::ffi::Conversion<uint8_t>::toFfi(
-        smoke::BasicTypes::ubyte_function(
+        ::smoke::BasicTypes::ubyte_function(
             gluecodium::ffi::Conversion<uint8_t>::toCpp(input)
         )
     );
@@ -84,7 +84,7 @@ smoke_BasicTypes_ubyteFunction__UByte(uint8_t input) {
 uint16_t
 smoke_BasicTypes_ushortFunction__UShort(uint16_t input) {
     return gluecodium::ffi::Conversion<uint16_t>::toFfi(
-        smoke::BasicTypes::ushort_function(
+        ::smoke::BasicTypes::ushort_function(
             gluecodium::ffi::Conversion<uint16_t>::toCpp(input)
         )
     );
@@ -92,7 +92,7 @@ smoke_BasicTypes_ushortFunction__UShort(uint16_t input) {
 uint32_t
 smoke_BasicTypes_uintFunction__UInt(uint32_t input) {
     return gluecodium::ffi::Conversion<uint32_t>::toFfi(
-        smoke::BasicTypes::uint_function(
+        ::smoke::BasicTypes::uint_function(
             gluecodium::ffi::Conversion<uint32_t>::toCpp(input)
         )
     );
@@ -100,14 +100,14 @@ smoke_BasicTypes_uintFunction__UInt(uint32_t input) {
 uint64_t
 smoke_BasicTypes_ulongFunction__ULong(uint64_t input) {
     return gluecodium::ffi::Conversion<uint64_t>::toFfi(
-        smoke::BasicTypes::ulong_function(
+        ::smoke::BasicTypes::ulong_function(
             gluecodium::ffi::Conversion<uint64_t>::toCpp(input)
         )
     );
 }
 void
 smoke_BasicTypes_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<smoke::BasicTypes>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle);
 }
 #ifdef __cplusplus
 }

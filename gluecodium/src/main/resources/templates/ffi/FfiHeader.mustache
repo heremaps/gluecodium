@@ -51,13 +51,13 @@ extern "C" {
 _GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{/classes}}
 
-{{#structs}}
+{{#each nonExternalStructs externalStructs}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 _GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#set parent=this}}{{#fields}}
 _GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle);
 {{/fields}}{{/set}}
-{{/structs}}
+{{/each}}
 
 #ifdef __cplusplus
 }

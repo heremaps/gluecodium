@@ -21,4 +21,6 @@ package com.here.gluecodium.generator.common
 
 interface NameResolver {
     fun resolveName(element: Any): String
+    fun resolveGetterName(element: Any): String { throw IllegalArgumentException() }
+    fun resolveSetterName(element: Any): String { throw IllegalArgumentException() }
 }

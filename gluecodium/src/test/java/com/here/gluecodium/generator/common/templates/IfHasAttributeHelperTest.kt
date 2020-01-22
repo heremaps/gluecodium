@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.common.templates
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
@@ -29,11 +30,11 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.junit.runners.Parameterized
 import org.trimou.handlebars.Options
 
-@RunWith(JUnit4::class)
-class IfHasAttributeHelperTest {
+@RunWith(Parameterized::class)
+class IfHasAttributeHelperTest(equality: Boolean) {
     private val parameters = mutableListOf<Any>()
     private val options = spyk<Options>()
     private val limeElement = object : LimeNamedElement(LimePath.EMPTY_PATH) {}
@@ -41,8 +42,16 @@ class IfHasAttributeHelperTest {
         LimePath.EMPTY_PATH,
         attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
     ) {}
+    private val limeElementWithAttributeValueType = object : LimeNamedElement(
+        LimePath.EMPTY_PATH,
+        attributes = LimeAttributes.Builder()
+            .addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.NAME)
+            .build()
+    ) {}
 
-    private val helper = IfHasAttributeHelper()
+    private val helper = IfHasAttributeHelper(equality)
+    private val withAttributeExpected = if (equality) 1 else 0
+    private val noAttributeExpected = if (equality) 0 else 1
 
     @Before
     fun setUp() {
@@ -84,7 +93,7 @@ class IfHasAttributeHelperTest {
 
         helper.execute(options)
 
-        verify(exactly = 0) { options.fn() }
+        verify(exactly = noAttributeExpected) { options.fn() }
     }
 
     @Test
@@ -94,12 +103,12 @@ class IfHasAttributeHelperTest {
 
         helper.execute(options)
 
-        verify(exactly = 1) { options.fn() }
+        verify(exactly = withAttributeExpected) { options.fn() }
     }
 
     @Test
     fun executeTwoParametersInvalidElement() {
-        parameters.add("")
+        parameters.add(2)
         parameters.add("equatable")
 
         helper.execute(options)
@@ -114,7 +123,7 @@ class IfHasAttributeHelperTest {
 
         helper.execute(options)
 
-        verify(exactly = 0) { options.fn() }
+        verify(exactly = noAttributeExpected) { options.fn() }
     }
 
     @Test
@@ -124,6 +133,56 @@ class IfHasAttributeHelperTest {
 
         helper.execute(options)
 
-        verify(exactly = 1) { options.fn() }
+        verify(exactly = withAttributeExpected) { options.fn() }
+    }
+
+    @Test
+    fun executeTwoParametersValueTypeNoAttribute() {
+        every { options.peek() } returns limeElementWithAttribute
+        parameters.add("cpp")
+        parameters.add("name")
+
+        helper.execute(options)
+
+        verify(exactly = noAttributeExpected) { options.fn() }
+    }
+
+    @Test
+    fun executeTwoParametersValueTypeWithAttribute() {
+        every { options.peek() } returns limeElementWithAttributeValueType
+        parameters.add("cpp")
+        parameters.add("name")
+
+        helper.execute(options)
+
+        verify(exactly = withAttributeExpected) { options.fn() }
+    }
+
+    @Test
+    fun executeThreeParametersNoAttribute() {
+        parameters.add(limeElementWithAttribute)
+        parameters.add("cpp")
+        parameters.add("name")
+
+        helper.execute(options)
+
+        verify(exactly = noAttributeExpected) { options.fn() }
+    }
+
+    @Test
+    fun executeThreeParametersWithAttribute() {
+        parameters.add(limeElementWithAttributeValueType)
+        parameters.add("cpp")
+        parameters.add("name")
+
+        helper.execute(options)
+
+        verify(exactly = withAttributeExpected) { options.fn() }
+    }
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters
+        fun testData(): Collection<Array<Any>> = listOf(arrayOf<Any>(false), arrayOf<Any>(true))
     }
 }

@@ -20,7 +20,9 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeElement
@@ -58,9 +60,11 @@ class CppNameResolver(
             ?: limeProperty.setter?.attributes?.get(CPP, NAME)
             ?: nameRules.getSetterName(limeProperty)
 
-    fun getGetterName(limeField: LimeField) = nameRules.getGetterName(limeField)
+    fun getGetterName(limeField: LimeField) =
+        limeField.attributes.get(CPP, EXTERNAL_GETTER) ?: nameRules.getGetterName(limeField)
 
-    fun getSetterName(limeField: LimeField) = nameRules.getSetterName(limeField)
+    fun getSetterName(limeField: LimeField) =
+        limeField.attributes.get(CPP, EXTERNAL_SETTER) ?: nameRules.getSetterName(limeField)
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
         getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)

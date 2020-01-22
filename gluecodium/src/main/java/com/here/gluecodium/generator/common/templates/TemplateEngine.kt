@@ -48,7 +48,8 @@ object TemplateEngine {
             .registerHelper("default", SwitchHelper.DefaultHelper())
             .registerHelper("setJoin", SetJoinHelper())
             .registerHelper("resolveName", nameResolverHelper)
-            .registerHelper("ifHasAttribute", IfHasAttributeHelper())
+            .registerHelper("ifHasAttribute", IfHasAttributeHelper(true))
+            .registerHelper("unlessHasAttribute", IfHasAttributeHelper(false))
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()

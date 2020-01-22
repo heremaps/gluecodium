@@ -21,6 +21,7 @@
 import "test/Classes_test.dart" as ClassesTests;
 import "test/Constants_test.dart" as ConstantsTests;
 import "test/Enums_test.dart" as EnumsTests;
+import "test/ExternalTypes_test.dart" as ExternalTypes;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/Lists_test.dart" as ListsTests;
 import "test/Maps_test.dart" as MapsTests;
@@ -38,6 +39,7 @@ final _allTests = [
   ClassesTests.main,
   ConstantsTests.main,
   EnumsTests.main,
+  ExternalTypes.main,
   InterfacesTests.main,
   ListsTests.main,
   MapsTests.main,

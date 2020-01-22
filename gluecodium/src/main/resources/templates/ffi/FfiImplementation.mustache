@@ -57,15 +57,39 @@ void
 }
 {{/classes}}
 
-{{#structs}}
+{{#nonExternalStructs}}
 FfiOpaqueHandle
 {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}({{#if fields}}
-{{joinPartial fields "ffiFieldToCpp" ",
-"}}
-        {{/if}}));
+    auto _result = new (std::nothrow) {{resolveName "C++"}}({{joinPartial fields "ffiFieldToCpp" ", "}});
+    return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 
+{{>ffiStructReleaseAndGetters}}
+{{/nonExternalStructs}}
+{{#externalStructs}}
+FfiOpaqueHandle
+{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    auto _result = new (std::nothrow) {{resolveName "C++"}}();
+{{#set parent=this}}{{#fields}}
+{{#ifHasAttribute parent "cpp" "Accessors"}}
+    _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
+{{/ifHasAttribute}}{{#unlessHasAttribute parent "cpp" "Accessors"}}{{#ifHasAttribute "cpp" "ExternalSetter"}}
+    _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
+{{/ifHasAttribute}}{{#unlessHasAttribute "cpp" "ExternalSetter"}}
+    _result->{{resolveName "C++"}} = {{>ffiFieldToCpp}};
+{{/unlessHasAttribute}}{{/unlessHasAttribute}}
+{{/fields}}{{/set}}
+    return reinterpret_cast<FfiOpaqueHandle>(_result);
+}
+
+{{>ffiStructReleaseAndGetters}}
+{{/externalStructs}}
+
+#ifdef __cplusplus
+}
+#endif{{!!
+
+}}{{+ffiStructReleaseAndGetters}}
 void
 {{resolveName}}_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
@@ -78,12 +102,9 @@ void
         reinterpret_cast<{{resolveName parent "C++"}}*>(handle)->{{resolveName "C++"}}
     );
 }
-{{/fields}}{{/set}}
-{{/structs}}
 
-#ifdef __cplusplus
-}
-#endif{{!!
+{{/fields}}{{/set}}
+{{/ffiStructReleaseAndGetters}}{{!!
 
 }}{{+ffiFunction}}
 {{resolveName returnType.typeRef}}
@@ -107,4 +128,4 @@ void
 
 }}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 
-}}{{+ffiFieldToCpp}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}
+}}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}

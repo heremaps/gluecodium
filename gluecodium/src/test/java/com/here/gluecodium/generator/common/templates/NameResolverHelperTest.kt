@@ -121,4 +121,51 @@ class NameResolverHelperTest {
 
         verify(exactly = 0) { options.append(any()) }
     }
+
+    @Test
+    fun executeThreeParametersInvalidSubKey() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("foo")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) =
+                if (element === genericElement) "baz" else "fizz"
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 1) { options.append("baz") }
+    }
+
+    @Test
+    fun executeThreeParametersGetterSubKey() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("getter")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) = throw IllegalArgumentException()
+            override fun resolveGetterName(element: Any) =
+                if (element === genericElement) "baz" else "fizz"
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 1) { options.append("baz") }
+    }
+
+    @Test
+    fun executeThreeParametersSetterSubKey() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("setter")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) = throw IllegalArgumentException()
+            override fun resolveSetterName(element: Any) =
+                if (element === genericElement) "baz" else "fizz"
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 1) { options.append("baz") }
+    }
 }

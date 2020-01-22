@@ -294,236 +294,236 @@ ListOf_UByte_iterator_get(FfiOpaqueHandle iterator_handle) {
 }
 FfiOpaqueHandle
 ListOf_smoke_DummyClass_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyClass>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::DummyClass>>());
 }
 void
 ListOf_smoke_DummyClass_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle);
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>*>(handle);
 }
 void
 ListOf_smoke_DummyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
-    reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle)->push_back(
-        gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toCpp(value)
+    reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyClass>>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_DummyClass_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyClass>>::iterator(
-        reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::DummyClass>>::iterator(
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>*>(handle)->begin()
     ));
 }
 void
 ListOf_smoke_DummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle);
 }
 bool
 ListOf_smoke_DummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle)->end();
+    return *reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>*>(handle)->end();
 }
 void
 ListOf_smoke_DummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle);
 }
 FfiOpaqueHandle
 ListOf_smoke_DummyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toFfi(
-        **reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyClass>>::toFfi(
+        **reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_DummyInterface_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyInterface>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::DummyInterface>>());
 }
 void
 ListOf_smoke_DummyInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle);
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>*>(handle);
 }
 void
 ListOf_smoke_DummyInterface_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
-    reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle)->push_back(
-        gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toCpp(value)
+    reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyInterface>>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_DummyInterface_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator(
-        reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::DummyInterface>>::iterator(
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>*>(handle)->begin()
     ));
 }
 void
 ListOf_smoke_DummyInterface_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
 bool
 ListOf_smoke_DummyInterface_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle)->end();
+    return *reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>*>(handle)->end();
 }
 void
 ListOf_smoke_DummyInterface_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
 FfiOpaqueHandle
 ListOf_smoke_DummyInterface_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toFfi(
-        **reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyInterface>>::toFfi(
+        **reinterpret_cast<std::vector<std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>());
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle);
+    delete reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle);
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
-    reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->push_back(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)
+    reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator(
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator(
+        reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->begin()
     ));
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
 bool
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->end();
+    return *reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->end();
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toFfi(
-        **reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toFfi(
+        **reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::alien::FooEnum>());
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle);
+    delete reinterpret_cast<std::vector<::alien::FooEnum>*>(handle);
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
-    reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle)->push_back(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toCpp(value)
+    reinterpret_cast<std::vector<::alien::FooEnum>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<::alien::FooEnum>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator(
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::alien::FooEnum>::iterator(
+        reinterpret_cast<std::vector<::alien::FooEnum>*>(handle)->begin()
     ));
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::vector<::alien::FooEnum>::iterator*>(iterator_handle);
 }
 bool
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle)->end();
+    return *reinterpret_cast<std::vector<::alien::FooEnum>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<::alien::FooEnum>*>(handle)->end();
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::vector<::alien::FooEnum>::iterator*>(iterator_handle);
 }
 uint32_t
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toFfi(
-        **reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<::alien::FooEnum>::toFfi(
+        **reinterpret_cast<std::vector<::alien::FooEnum>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::alien::FooStruct>());
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle);
+    delete reinterpret_cast<std::vector<::alien::FooStruct>*>(handle);
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
-    reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle)->push_back(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::toCpp(value)
+    reinterpret_cast<std::vector<::alien::FooStruct>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<::alien::FooStruct>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator(
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::alien::FooStruct>::iterator(
+        reinterpret_cast<std::vector<::alien::FooStruct>*>(handle)->begin()
     ));
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::vector<::alien::FooStruct>::iterator*>(iterator_handle);
 }
 bool
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle)->end();
+    return *reinterpret_cast<std::vector<::alien::FooStruct>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<::alien::FooStruct>*>(handle)->end();
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::vector<::alien::FooStruct>::iterator*>(iterator_handle);
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::toFfi(
-        **reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<::alien::FooStruct>::toFfi(
+        **reinterpret_cast<std::vector<::alien::FooStruct>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>());
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle);
+    delete reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle);
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
-    reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->push_back(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
+    reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator(
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator(
+        reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->begin()
     ));
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
 bool
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->end();
+    return *reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->end();
 }
 void
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
 uint32_t
 ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
-        **reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
+        **reinterpret_cast<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
@@ -758,186 +758,186 @@ MapOf_Int_to_SetOf_Int_iterator_get_value(FfiOpaqueHandle iterator_handle) {
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_DummyClass_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>());
 }
 void
 MapOf_Int_to_smoke_DummyClass_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>*>(handle);
 }
 void
 MapOf_Int_to_smoke_DummyClass_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
-    reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle)->emplace(
+    reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>*>(handle)->emplace(
         gluecodium::ffi::Conversion<int32_t>::toCpp(key),
-        gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toCpp(value)
+        gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyClass>>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_DummyClass_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator(
-        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>::iterator(
+        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>*>(handle)->begin()
     ));
 }
 void
 MapOf_Int_to_smoke_DummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle);
 }
 bool
 MapOf_Int_to_smoke_DummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>*>(handle)->end();
 }
 void
 MapOf_Int_to_smoke_DummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle);
 }
 int32_t
 MapOf_Int_to_smoke_DummyClass_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle))->first
+        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle))->first
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_DummyClass_iterator_get_value(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle))->second
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyClass>>::toFfi(
+        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyClass>>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_DummyInterface_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>());
 }
 void
 MapOf_Int_to_smoke_DummyInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>*>(handle);
 }
 void
 MapOf_Int_to_smoke_DummyInterface_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
-    reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle)->emplace(
+    reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>*>(handle)->emplace(
         gluecodium::ffi::Conversion<int32_t>::toCpp(key),
-        gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toCpp(value)
+        gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyInterface>>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_DummyInterface_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator(
-        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>::iterator(
+        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>*>(handle)->begin()
     ));
 }
 void
 MapOf_Int_to_smoke_DummyInterface_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
 bool
 MapOf_Int_to_smoke_DummyInterface_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>*>(handle)->end();
 }
 void
 MapOf_Int_to_smoke_DummyInterface_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
 int32_t
 MapOf_Int_to_smoke_DummyInterface_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle))->first
+        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle))->first
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_DummyInterface_iterator_get_value(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle))->second
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::DummyInterface>>::toFfi(
+        (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<::smoke::DummyInterface>>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, ::alien::FooEnum>());
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>*>(handle);
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put(FfiOpaqueHandle handle, int32_t key, uint32_t value) {
-    reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle)->emplace(
+    reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>*>(handle)->emplace(
         gluecodium::ffi::Conversion<int32_t>::toCpp(key),
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toCpp(value)
+        gluecodium::ffi::Conversion<::alien::FooEnum>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator(
-        reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, ::alien::FooEnum>::iterator(
+        reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>*>(handle)->begin()
     ));
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>::iterator*>(iterator_handle);
 }
 bool
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>*>(handle)->end();
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>::iterator*>(iterator_handle);
 }
 int32_t
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle))->first
+        (*reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>::iterator*>(iterator_handle))->first
     );
 }
 uint32_t
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::ExternalEnum>::iterator*>(iterator_handle))->second
+    return gluecodium::ffi::Conversion<::alien::FooEnum>::toFfi(
+        (*reinterpret_cast<std::unordered_map<int32_t, ::alien::FooEnum>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>());
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle);
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(FfiOpaqueHandle handle, int32_t key, uint32_t value) {
-    reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->emplace(
+    reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->emplace(
         gluecodium::ffi::Conversion<int32_t>::toCpp(key),
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
+        gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator(
-        reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator(
+        reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->begin()
     ));
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
 bool
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->end();
 }
 void
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
 int32_t
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle))->first
+        (*reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle))->first
     );
 }
 uint32_t
 MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
-        (*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle))->second
+    return gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
+        (*reinterpret_cast<std::unordered_map<int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
@@ -1126,94 +1126,94 @@ MapOf_String_to_String_iterator_get_value(FfiOpaqueHandle iterator_handle) {
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>());
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle);
+    delete reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle);
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, FfiOpaqueHandle value) {
-    reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->emplace(
+    reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->emplace(
         gluecodium::ffi::Conversion<std::string>::toCpp(key),
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)
+        gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator(
-        reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator(
+        reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->begin()
     ));
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
 bool
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->end();
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle))->first
+        (*reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle))->first
     );
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toFfi(
-        (*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle))->second
+    return gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toFfi(
+        (*reinterpret_cast<std::unordered_map<std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, ::alien::FooStruct>());
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle);
+    delete reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>*>(handle);
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, FfiOpaqueHandle value) {
-    reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle)->emplace(
+    reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>*>(handle)->emplace(
         gluecodium::ffi::Conversion<std::string>::toCpp(key),
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::toCpp(value)
+        gluecodium::ffi::Conversion<::alien::FooStruct>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator(
-        reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, ::alien::FooStruct>::iterator(
+        reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>*>(handle)->begin()
     ));
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>::iterator*>(iterator_handle);
 }
 bool
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>*>(handle)->end();
 }
 void
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>::iterator*>(iterator_handle);
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle))->first
+        (*reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>::iterator*>(iterator_handle))->first
     );
 }
 FfiOpaqueHandle
 MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalStruct>::toFfi(
-        (*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::ExternalStruct>::iterator*>(iterator_handle))->second
+    return gluecodium::ffi::Conversion<::alien::FooStruct>::toFfi(
+        (*reinterpret_cast<std::unordered_map<std::string, ::alien::FooStruct>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
@@ -1264,94 +1264,94 @@ MapOf_UByte_to_String_iterator_get_value(FfiOpaqueHandle iterator_handle) {
 }
 FfiOpaqueHandle
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>());
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle);
+    delete reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>*>(handle);
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_put(FfiOpaqueHandle handle, uint32_t key, bool value) {
-    reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle)->emplace(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toCpp(key),
+    reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>*>(handle)->emplace(
+        gluecodium::ffi::Conversion<::alien::FooEnum>::toCpp(key),
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator(
-        reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>::iterator(
+        reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>*>(handle)->begin()
     ));
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle);
 }
 bool
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>*>(handle)->end();
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle);
 }
 uint32_t
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toFfi(
-        (*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle))->first
+    return gluecodium::ffi::Conversion<::alien::FooEnum>::toFfi(
+        (*reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle))->first
     );
 }
 bool
 MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
-        (*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::ExternalEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle))->second
+        (*reinterpret_cast<std::unordered_map<::alien::FooEnum, bool, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>());
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
+    delete reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put(FfiOpaqueHandle handle, uint32_t key, bool value) {
-    reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->emplace(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(key),
+    reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->emplace(
+        gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(key),
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator(
-        reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator(
+        reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->begin()
     ));
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
 bool
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->end();
 }
 void
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
 uint32_t
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
-        (*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle))->first
+    return gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
+        (*reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle))->first
     );
 }
 bool
 MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
-        (*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle))->second
+        (*reinterpret_cast<std::unordered_map<::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle))->second
     );
 }
 FfiOpaqueHandle
@@ -1629,80 +1629,80 @@ SetOf_UByte_iterator_get(FfiOpaqueHandle iterator_handle) {
 }
 FfiOpaqueHandle
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>());
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle);
+    delete reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>*>(handle);
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
-    reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle)->insert(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toCpp(value)
+    reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>*>(handle)->insert(
+        gluecodium::ffi::Conversion<::alien::FooEnum>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator(
-        reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>::iterator(
+        reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>*>(handle)->begin()
     ));
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle);
 }
 bool
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>*>(handle)->end();
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle);
 }
 uint32_t
 SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::ExternalEnum>::toFfi(
-        **reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::ExternalEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::ExternalEnum>>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<::alien::FooEnum>::toFfi(
+        **reinterpret_cast<std::unordered_set<::alien::FooEnum, gluecodium::hash<::alien::FooEnum>>::iterator*>(iterator_handle)
     );
 }
 FfiOpaqueHandle
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>());
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
+    delete reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
-    reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->insert(
-        gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
+    reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->insert(
+        gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
     );
 }
 FfiOpaqueHandle
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator(
-        reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->begin()
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator(
+        reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->begin()
     ));
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
+    delete reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
 bool
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle) !=
-        reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->end();
+    return *reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->end();
 }
 void
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
+    ++*reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
 uint32_t
 SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
-        **reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle)
+    return gluecodium::ffi::Conversion<::smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
+        **reinterpret_cast<std::unordered_set<::smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle)
     );
 }
 #ifdef __cplusplus
