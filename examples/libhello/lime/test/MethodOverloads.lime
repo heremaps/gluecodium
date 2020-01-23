@@ -29,33 +29,41 @@ class MethodOverloads {
     static fun isBoolean(
         input: Boolean
     ): Boolean
+    @Dart("isBooleanByte")
     static fun isBoolean(
         input: Byte
     ): Boolean
+    @Dart("isBooleanString")
     static fun isBoolean(
         input: String
     ): Boolean
+    @Dart("isBooleanPoint")
     static fun isBoolean(
         input: Point
     ): Boolean
+    @Dart("isBooleanMulti")
     static fun isBoolean(
         input1: Boolean,
         input2: Byte,
         input3: String,
         input4: Point
     ): Boolean
+    @Dart("isBooleanStringList")
     @Java("isBooleanStringArrayOverload")
     static fun isBoolean(
         input: StringArray
     ): Boolean
+    @Dart("isBooleanIntList")
     @Java("isBooleanIntArrayOverload")
     static fun isBoolean(
         input: IntArray
     ): Boolean
+    @Dart("isBooleanStringSet")
     @Java("isBooleanStringSetOverload")
     static fun isBoolean(
         input: StringSet
     ): Boolean
+    @Dart("isBooleanIntSet")
     @Java("isBooleanIntSetOverload")
     static fun isBoolean(
         input: IntSet
@@ -64,40 +72,28 @@ class MethodOverloads {
 
 interface SpecialNames {
     fun create()
+    @Dart("reallyRelease")
     fun release()
     fun createProxy()
 }
 
 open class ConstructorOverloads {
-    enum ErrorEnum {
-        NONE,
-        CRASHED
-    }
     constructor create()
+    @Dart("createFromString")
     constructor create(
         input: String
     )
+    @Dart("createFromBoolean")
     constructor create(
         input: Boolean
     )
+    @Dart("createFromMulti")
     constructor create(
         stringInput: String,
         booleanInput: Boolean
     )
-    constructor create(
-        input: Double
-    ) throws Some
+    @Dart("createFromList")
     constructor create(
         input: List<Double>
     )
-    exception Some(ErrorEnum)
-}
-
-class ChildConstructorOverloads : ConstructorOverloads {
-    @Java("createNoParametersChild")
-    constructor create()
-    @Java("createWithErrorChild")
-    constructor create(
-        input: Double
-    ) throws ConstructorOverloads.Some
 }

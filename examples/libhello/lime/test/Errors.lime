@@ -96,3 +96,14 @@ class OtherErrors {
     ) throws Internal
     exception Internal(InternalErrorCode)
 }
+
+class ThrowingConstructor {
+    enum ErrorEnum {
+        NONE,
+        CRASHED
+    }
+    constructor create(
+        input: Double
+    ) throws Some
+    exception Some(ErrorEnum)
+}

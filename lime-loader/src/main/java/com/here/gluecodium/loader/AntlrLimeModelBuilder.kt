@@ -547,6 +547,7 @@ internal class AntlrLimeModelBuilder(
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
         when (val id = ctx.simpleId().text) {
             "Cpp" -> LimeAttributeType.CPP
+            "Dart" -> LimeAttributeType.DART
             "Deprecated" -> LimeAttributeType.DEPRECATED
             "Equatable" -> LimeAttributeType.EQUATABLE
             "Immutable" -> LimeAttributeType.IMMUTABLE

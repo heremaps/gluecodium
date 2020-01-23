@@ -27,27 +27,37 @@ class MethodOverloads {
     typealias IntArray = List<Byte>
 
     fun isBoolean(input: Boolean): Boolean
+    @Dart("isBooleanByte")
     fun isBoolean(input: Byte): Boolean
+    @Dart("isBooleanString")
     fun isBoolean(input: String): Boolean
+    @Dart("isBooleanPoint")
     fun isBoolean(input: Point): Boolean
+    @Dart("isBooleanMulti")
     fun isBoolean(
         input1: Boolean,
         input2: Byte,
         input3: String,
         input4: Point
     ): Boolean
+    @Dart("isBooleanStringArray")
     @Java(Name = "isBooleanStringArrayOverload")
     fun isBoolean(input: StringArray): Boolean
+    @Dart("isBooleanIntArray")
     @Java(Name = "isBooleanIntArrayOverload")
     fun isBoolean(input: IntArray): Boolean
+    @Dart("isBooleanConst")
     @Cpp(Const)
     fun isBoolean(): Boolean
+    @Dart("isFloatString")
     fun isFloat(input: String): Boolean
+    @Dart("isFloatList")
     fun isFloat(input: IntArray): Boolean
 }
 
 class SpecialNames {
     fun create()
+    @Dart("reallyRelease")
     fun release()
     fun createProxy()
     fun _upperCase()

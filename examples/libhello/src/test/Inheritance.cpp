@@ -21,11 +21,13 @@
 #include "test/AnotherChildInterface.h"
 #include "test/AnotherConcreteChild.h"
 #include "test/AnotherConcreteGrandChild.h"
+#include "test/ChildConstructorOverloads.h"
 #include "test/ChildInterface.h"
 #include "test/ConcreteChild.h"
 #include "test/ConcreteGrandChild.h"
-#include "test/RootInterface.h"
 #include "test/InheritanceTestHelper.h"
+#include "test/RootInterface.h"
+#include "test/ThrowingConstructor.h"
 #include "ChildClassImpl.h"
 
 #include <memory>
@@ -299,5 +301,25 @@ InheritanceTestHelper::create_family_list( )
     };
 }
 
+class ChildConstructorOverloadsImpl : public ChildConstructorOverloads
+{
+public:
+    virtual ~ChildConstructorOverloadsImpl( ) = default;
+};
+
+std::shared_ptr< ChildConstructorOverloads >
+ChildConstructorOverloads::create( )
+{
+    return std::make_shared< ChildConstructorOverloadsImpl >( );
+}
+
+lorem_ipsum::test::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >
+ChildConstructorOverloads::create( double input )
+{
+    return input == 0 ? lorem_ipsum::test::Return< std::shared_ptr< ChildConstructorOverloads >,
+                                                   std::error_code >(
+                            std::make_shared< ChildConstructorOverloadsImpl >( ) )
+                      : std::error_code( ThrowingConstructor::ErrorEnum::CRASHED );
+}
 
 }  // namespace test

@@ -1,7 +1,7 @@
 package smoke
-
 class SpecialNames {
     fun create()
+    @Dart("reallyRelease")
     fun release()
     fun createProxy()
     fun _upperCase()

@@ -12,43 +12,43 @@ class Constructors {
   final Pointer<Void> _handle;
   Constructors._(this._handle);
   void release() => __release_handle(_handle);
-  Constructors() : this._(_create());
-  Constructors(Constructors other) : this._(_create(other));
-  Constructors(String foo, int bar) : this._(_create(foo, bar));
-  Constructors(String input) : this._(_create(input));
-  Constructors(List<double> input) : this._(_create(input));
+  Constructors.create() : this._(_create());
+  Constructors.createFromOther(Constructors other) : this._(_createFromOther(other));
+  Constructors.createFromMulti(String foo, int bar) : this._(_createFromMulti(foo, bar));
+  Constructors.createFromString(String input) : this._(_createFromString(input));
+  Constructors.createFromList(List<double> input) : this._(_createFromList(input));
   static Pointer<Void> _create() {
     final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Constructors_create');
     final __result_handle = _create_ffi();
     return __result_handle;
   }
-  static Pointer<Void> _create(Constructors other) {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__Constructors');
+  static Pointer<Void> _createFromOther(Constructors other) {
+    final _createFromOther_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__Constructors');
     final _other_handle = smoke_Constructors_toFfi(other);
-    final __result_handle = _create_ffi(_other_handle);
+    final __result_handle = _createFromOther_ffi(_other_handle);
     smoke_Constructors_releaseFfiHandle(_other_handle);
     return __result_handle;
   }
-  static Pointer<Void> _create(String foo, int bar) {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Uint64), Pointer<Void> Function(Pointer<Void>, int)>('smoke_Constructors_create__String_ULong');
+  static Pointer<Void> _createFromMulti(String foo, int bar) {
+    final _createFromMulti_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Uint64), Pointer<Void> Function(Pointer<Void>, int)>('smoke_Constructors_create__String_ULong');
     final _foo_handle = String_toFfi(foo);
     final _bar_handle = (bar);
-    final __result_handle = _create_ffi(_foo_handle, _bar_handle);
+    final __result_handle = _createFromMulti_ffi(_foo_handle, _bar_handle);
     String_releaseFfiHandle(_foo_handle);
     (_bar_handle);
     return __result_handle;
   }
-  static Pointer<Void> _create(String input) {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__String');
+  static Pointer<Void> _createFromString(String input) {
+    final _createFromString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__String');
     final _input_handle = String_toFfi(input);
-    final __result_handle = _create_ffi(_input_handle);
+    final __result_handle = _createFromString_ffi(_input_handle);
     String_releaseFfiHandle(_input_handle);
     return __result_handle;
   }
-  static Pointer<Void> _create(List<double> input) {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__ListOf_1Double');
+  static Pointer<Void> _createFromList(List<double> input) {
+    final _createFromList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__ListOf_1Double');
     final _input_handle = ListOf_Double_toFfi(input);
-    final __result_handle = _create_ffi(_input_handle);
+    final __result_handle = _createFromList_ffi(_input_handle);
     ListOf_Double_releaseFfiHandle(_input_handle);
     return __result_handle;
   }
