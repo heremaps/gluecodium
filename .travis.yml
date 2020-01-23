@@ -6,6 +6,7 @@ notifications:
   email:
     recipients:
       - gluecodium_team@here.com
+    if: branch = master
     on_success: never # default: change
     on_failure: always # default: always
 before_cache:
