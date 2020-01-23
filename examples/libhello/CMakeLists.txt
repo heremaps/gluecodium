@@ -149,7 +149,7 @@ feature(StructsInTypes cpp android swift dart SOURCES
     lime/test/TypeCollection.lime
 )
 
-feature(StructsImmutable cpp android swift SOURCES
+feature(StructsImmutable cpp android swift dart SOURCES
     src/test/PlainDataStructuresImmutable.cpp
 
     lime/test/PlainDataStructuresImmutable.lime

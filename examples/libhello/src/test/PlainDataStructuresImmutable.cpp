@@ -22,9 +22,30 @@
 
 namespace test
 {
+PlainDataStructuresImmutable::AllTypesImmutableStruct
+PlainDataStructuresImmutable::immutable_struct_round_trip(
+    const PlainDataStructuresImmutable::AllTypesImmutableStruct& input )
+{
+    return input;
+}
+
+PlainDataStructuresImmutable::NestingImmutableStruct
+PlainDataStructuresImmutable::nesting_immutable_struct_round_trip(
+    const PlainDataStructuresImmutable::NestingImmutableStruct& input )
+{
+    return input;
+}
+
+PlainDataStructuresImmutable::ImmutableStructWithCppAccessors
+PlainDataStructuresImmutable::immutable_struct_with_accessors_round_trip(
+    const PlainDataStructuresImmutable::ImmutableStructWithCppAccessors& input )
+{
+    return input;
+}
+
 PlainDataStructuresImmutable::MapToImmutableStruct
 PlainDataStructuresImmutable::map_of_immutables_round_trip(
-    const PlainDataStructuresImmutable::MapToImmutableStruct& input )
+    const PlainDataStructuresImmutable::MapToImmutableStruct& input)
 {
     return input;
 }

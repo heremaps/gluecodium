@@ -97,20 +97,20 @@ class Structs_Line {
   Structs_Line(this.a, this.b);
 }
 class Structs_AllTypesStruct {
-  int int8Field;
-  int uint8Field;
-  int int16Field;
-  int uint16Field;
-  int int32Field;
-  int uint32Field;
-  int int64Field;
-  int uint64Field;
-  double floatField;
-  double doubleField;
-  String stringField;
-  bool booleanField;
-  List<int> bytesField;
-  Structs_Point pointField;
+  final int int8Field;
+  final int uint8Field;
+  final int int16Field;
+  final int uint16Field;
+  final int int32Field;
+  final int uint32Field;
+  final int int64Field;
+  final int uint64Field;
+  final double floatField;
+  final double doubleField;
+  final String stringField;
+  final bool booleanField;
+  final List<int> bytesField;
+  final Structs_Point pointField;
   Structs_AllTypesStruct(this.int8Field, this.uint8Field, this.int16Field, this.uint16Field, this.int32Field, this.uint32Field, this.int64Field, this.uint64Field, this.floatField, this.doubleField, this.stringField, this.booleanField, this.bytesField, this.pointField);
 }
 class Structs_ExternalStruct {
@@ -141,7 +141,7 @@ class Structs_StructWithArrayOfImmutable {
   Structs_StructWithArrayOfImmutable(this.arrayField);
 }
 class Structs_ImmutableStructWithCppAccessors {
-  String stringField;
+  final String stringField;
   Structs_ImmutableStructWithCppAccessors(this.stringField);
 }
 class Structs_MutableStructWithCppAccessors {

@@ -21,8 +21,8 @@
 {{#unless comment.isEmpty}}{{prefix comment "/// "}}
 {{/unless}}
 class {{resolveName visibility}}{{resolveName}} {
-{{#fields}}{{prefixPartial "dart/DartField" "  "}}
-{{/fields}}
+{{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
+{{/fields}}{{/set}}
 {{#if fields}}  {{resolveName}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}
 {{#constants}}{{prefixPartial "dart/DartConstant" "  "}}

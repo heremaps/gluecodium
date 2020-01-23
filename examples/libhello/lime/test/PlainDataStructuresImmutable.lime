@@ -38,7 +38,6 @@ class PlainDataStructuresImmutable {
         doubleField: Double
         stringField: String
         booleanField: Boolean
-        bytesField: Blob
         pointField: Point
     }
     struct NestingImmutableStruct {
@@ -57,7 +56,13 @@ class PlainDataStructuresImmutable {
     }
     typealias ArrayOfImmutable = List<AllTypesImmutableStruct>
     typealias MapToImmutableStruct = Map<Int, AllTypesImmutableStruct>
-    static fun MapOfImmutablesRoundTrip(
-        input: MapToImmutableStruct
-    ): MapToImmutableStruct
+
+    static fun immutableStructRoundTrip(input: AllTypesImmutableStruct): AllTypesImmutableStruct
+    static fun nestingImmutableStructRoundTrip(
+        input: NestingImmutableStruct
+    ): NestingImmutableStruct
+    static fun immutableStructWithAccessorsRoundTrip(
+        input: ImmutableStructWithCppAccessors
+    ): ImmutableStructWithCppAccessors
+    static fun mapOfImmutablesRoundTrip(input: MapToImmutableStruct): MapToImmutableStruct
 }

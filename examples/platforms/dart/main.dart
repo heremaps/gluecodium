@@ -27,6 +27,7 @@ import "test/Lists_test.dart" as ListsTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/MethodOverloads_test.dart" as MethodOverloads;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
+import "test/PlainDataStructuresImmutable_test.dart" as PlainDataStructuresImmutableTests;
 import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
 import "test/Properties_test.dart" as PropertiesTests;
 import "test/Sets_test.dart" as SetsTests;
@@ -45,6 +46,7 @@ final _allTests = [
   MapsTests.main,
   MethodOverloads.main,
   PlainDataStructuresTests.main,
+  PlainDataStructuresImmutableTests.main,
   PlainDataStructuresTypeCollectionTests.main,
   PropertiesTests.main,
   SetsTests.main,
