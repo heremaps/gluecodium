@@ -27,11 +27,15 @@ import org.trimou.handlebars.Options
  * Resolve the platform name for the given element through one of the name resolvers (looked up by a
  * key). If element is not specified, `this` is taken as an element. If resolver key is not
  * specified, a default resolver is used (one with empty key "").<br/>
+ * If both element and key are specified explicitly, a sub-key can also be specified. Current
+ * supported sub-keys are "getter" and "setter".
  * Usage: {{resolveName \[element\] \["resolverKey"\]}}...{{/map}}<br/>
+ * Usage: {{resolveName element "resolverKey" "subKey"}}...{{/map}}<br/>
  * Example: {{resolveName}}<br/>
  * Example: {{resolveName visibility}}<br/>
  * Example: {{resolveName "C++"}}<br/>
- * Example: {{resolveName returnType.typeRef "C++"}}
+ * Example: {{resolveName returnType.typeRef "C++"}}<br/>
+ * Example: {{resolveName field "C++" "getter"}}
  */
 internal class NameResolverHelper : BasicHelper() {
     val nameResolvers = mutableMapOf<String, NameResolver>()
@@ -39,6 +43,7 @@ internal class NameResolverHelper : BasicHelper() {
     override fun execute(options: Options) {
         val element: Any
         val key: String
+        var subKey: String? = null
         when (options.parameters.size) {
             0 -> {
                 element = options.peek()
@@ -57,10 +62,17 @@ internal class NameResolverHelper : BasicHelper() {
             else -> {
                 element = options.parameters.first()
                 key = options.parameters[1] as? String ?: ""
+                subKey = options.parameters.getOrNull(2)?.toString()
             }
         }
 
-        nameResolvers[key]?.let { options.append(it.resolveName(element)) }
+        val resolver = nameResolvers[key] ?: return
+        val name = when (subKey?.toLowerCase()) {
+            "getter" -> resolver.resolveGetterName(element)
+            "setter" -> resolver.resolveSetterName(element)
+            else -> resolver.resolveName(element)
+        }
+        options.append(name)
     }
 
     override fun numberOfRequiredParameters() = 0

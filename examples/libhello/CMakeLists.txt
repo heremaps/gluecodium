@@ -288,7 +288,7 @@ feature(CircularDependencies cpp android swift SOURCES
     lime/test/Circular.lime
 )
 
-feature(ExternalTypes cpp android swift SOURCES
+feature(ExternalTypes cpp android swift dart SOURCES
     src/test/include/ExternalTypes.h
     src/test/src/ExternalTypes.cpp
     src/test/UseExternalTypes.cpp

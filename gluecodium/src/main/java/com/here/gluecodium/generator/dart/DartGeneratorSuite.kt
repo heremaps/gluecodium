@@ -31,6 +31,8 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.ffi.FfiCppIncludeResolver
 import com.here.gluecodium.generator.ffi.FfiCppNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -58,6 +60,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val nameRules = NameRules(nameRuleSetFromConfig(options.dartNameRules))
     private val cppNameRules =
         CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+    private val rootNamespace = options.cppRootNamespace
     private val internalNamespace = options.cppInternalNamespace
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
@@ -72,7 +75,12 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
         val ffiResolvers = mapOf(
             "" to ffiNameResolver,
-            "C++" to FfiCppNameResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
+            "C++" to FfiCppNameResolver(
+                limeModel.referenceMap,
+                cppNameRules,
+                rootNamespace,
+                internalNamespace
+            )
         )
         val importResolver = DartImportResolver(nameRules, dartNameResolver)
         val includeResolver =
@@ -151,18 +159,25 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val functions = collectFunctions(limeType).sortedBy { it.fullName }
         val types = LimeTypeHelper.getAllTypes(limeType)
         val classes = types.filterIsInstance<LimeContainerWithInheritance>()
+
         val structs = types.filterIsInstance<LimeStruct>()
+        val externalTypes = types.filter { it.attributes.have(CPP, EXTERNAL_TYPE) }
+        val externalStructs = externalTypes.filterIsInstance<LimeStruct>() +
+            externalTypes.filterIsInstance<LimeContainer>().flatMap { it.structs }
+        val nonExternalStructs = structs - externalStructs
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
         val includes = includeResolver.resolveIncludes(limeType) +
             functions.flatMap { collectTypeRefs(it) }.flatMap { includeResolver.resolveIncludes(it) } +
+            structs.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) }
 
         val data = mapOf(
             "model" to rootElement,
             "classes" to classes,
-            "structs" to structs,
+            "externalStructs" to externalStructs,
+            "nonExternalStructs" to nonExternalStructs,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,
             "includes" to includes.distinct().sorted()

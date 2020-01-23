@@ -73,9 +73,7 @@ class StructsWithMethodsInterface {
         ): Boolean
         constructor create(
             x: Double,
-
             y: Double,
-
             z: Double
         )
         constructor create(
@@ -88,3 +86,15 @@ class StructsWithMethodsInterface {
     }
 }
 
+@Cpp(
+    ExternalType = "include/ExternalTypes.h",
+    ExternalName = "external::ClassWithOverloads::StructWithOverloads"
+)
+struct StructWithOverloads {
+    fun overloadedMethod(): String
+    @Dart("overloadedMethodString")
+    fun overloadedMethod(input: String): String
+
+    @Cpp(ExternalGetter = "overloadedAccessors", ExternalSetter = "overloadedAccessors")
+    overloadedAccessors: Int
+}

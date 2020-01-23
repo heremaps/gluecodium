@@ -20,36 +20,60 @@
 package com.here.gluecodium.generator.common.templates
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeNamedElement
 import org.trimou.handlebars.BasicSectionHelper
 import org.trimou.handlebars.Options
 
 /**
- * Check the presence of the given attribute on the given LIME element and execute the section if it
- * is there. If LIME element is omitted, `this` is taken instead.<br/>
- * Usage: {{#ifHasAttribute \[limeElement\] "attributeName"}}...{{/ifHasAttribute}}<br/>
+ * ifHasAttribute: Check the presence of the attribute with given type and given value type (if present) on the
+ * given LIME element and execute the section if it is there. If LIME element is omitted, `this` is
+ * taken instead.<br/>
+ * Usage: {{#ifHasAttribute \[limeElement\] "attributeType" \["attributeValueType"\]}}...{{/ifHasAttribute}}<br/>
  * Example: {{#ifHasAttribute "equatable"}}...{{/ifHasAttribute}}<br/>
  * Example: {{#ifHasAttribute type "equatable"}}...{{/ifHasAttribute}}
+ * Example: {{#ifHasAttribute type "cpp" "accessors"}}...{{/ifHasAttribute}}
+ * unlessHasAttribute: same as above, except the the section is executed only if the attribute is
+ * not there
  */
-internal class IfHasAttributeHelper : BasicSectionHelper() {
+internal class IfHasAttributeHelper(private val equality: Boolean) : BasicSectionHelper() {
     override fun execute(options: Options) {
-        val limeElement = when {
-            options.parameters.size > 1 -> options.parameters.first()
-            else -> options.peek()
-        } as? LimeNamedElement ?: return
-        val attributeName = when {
-            options.parameters.size > 1 -> options.parameters[1]
-            else -> options.parameters.firstOrNull()
-        }?.toString() ?: return
+        val limeElement: LimeNamedElement
+        val attributeTypeName: String
+        val attributeValueTypeName: String?
+        when (val firstParameter = options.parameters.firstOrNull()) {
+            is String -> {
+                limeElement = options.peek() as? LimeNamedElement ?: return
+                attributeTypeName = firstParameter
+                attributeValueTypeName = options.parameters.getOrNull(1)?.toString()
+            }
+            else -> {
+                limeElement = firstParameter as? LimeNamedElement ?: return
+                attributeTypeName = options.parameters.getOrNull(1)?.toString() ?: return
+                attributeValueTypeName = options.parameters.getOrNull(2)?.toString()
+            }
+        }
 
-        val attribute = resolveAttributeType(attributeName) ?: return
-        if (limeElement.attributes.have(attribute)) {
-            options.fn()
+        val attributeType = resolveAttributeType(attributeTypeName) ?: return
+        if (attributeValueTypeName == null) {
+            if (limeElement.attributes.have(attributeType) == equality) {
+                options.fn()
+            }
+        } else {
+            val attributeValueType = resolveAttributeValueType(attributeValueTypeName) ?: return
+            if (limeElement.attributes.have(attributeType, attributeValueType) == equality) {
+                options.fn()
+            }
         }
     }
 
-    private fun resolveAttributeType(attributeName: String) =
+    private fun resolveAttributeType(attributeTypeName: String) =
         LimeAttributeType.values().firstOrNull {
-            attributeName.compareTo(it.toString(), ignoreCase = true) == 0
+            attributeTypeName.compareTo(it.toString(), ignoreCase = true) == 0
+        }
+
+    private fun resolveAttributeValueType(attributeValueTypeName: String) =
+        LimeAttributeValueType.values().firstOrNull {
+            attributeValueTypeName.compareTo(it.toString(), ignoreCase = true) == 0
         }
 }

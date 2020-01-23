@@ -11,20 +11,20 @@ extern "C" {
 FfiOpaqueHandle
 smoke_SimpleInterface_getStringValue(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleInterface>>::toCpp(_self)).get_string_value()
+        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(_self)).get_string_value()
     );
 }
 FfiOpaqueHandle
 smoke_SimpleInterface_useSimpleInterface__SimpleInterface(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleInterface>>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleInterface>>::toCpp(_self)).use_simple_interface(
-            gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleInterface>>::toCpp(input)
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toFfi(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(_self)).use_simple_interface(
+            gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(input)
         )
     );
 }
 void
 smoke_SimpleInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<smoke::SimpleInterface>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<::smoke::SimpleInterface>*>(handle);
 }
 #ifdef __cplusplus
 }

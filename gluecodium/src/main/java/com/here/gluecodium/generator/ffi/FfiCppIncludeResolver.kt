@@ -34,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class FfiCppIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -46,6 +47,7 @@ internal class FfiCppIncludeResolver(
     fun resolveIncludes(limeElement: LimeElement): List<Include> =
         when (limeElement) {
             is LimeTypeRef -> getTypeRefIncludes(limeElement)
+            is LimeTypesCollection -> emptyList()
             is LimeType -> getTypeIncludes(limeElement.actualType)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
