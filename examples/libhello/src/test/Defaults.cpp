@@ -77,12 +77,6 @@ Defaults::create_special( )
     return {};
 }
 
-Defaults::NullableStructWithDefaults
-Defaults::get_nullable_defaults( )
-{
-    return {};
-}
-
 Defaults::StructWithEmptyDefaults
 Defaults::get_empty_defaults( )
 {

@@ -19,7 +19,6 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
@@ -128,30 +127,6 @@ public final class DefaultsTest {
     assertTrue(Double.isInfinite(special.doubleInfinityField));
     assertTrue(Double.isInfinite(special.doubleNegativeInfinityField));
     assertTrue(special.doubleNegativeInfinityField < 0);
-  }
-
-  @Test
-  public void checkJavaNullableDefaults() {
-    Defaults.NullableStructWithDefaults result = new Defaults.NullableStructWithDefaults();
-
-    assertNull(result.intField);
-    assertNull(result.uintField);
-    assertNull(result.floatField);
-    assertNull(result.boolField);
-    assertNull(result.stringField);
-    assertNull(result.enumField);
-  }
-
-  @Test
-  public void checkCppNullableDefaults() {
-    Defaults.NullableStructWithDefaults result = Defaults.getNullableDefaults();
-
-    assertNull(result.intField);
-    assertNull(result.uintField);
-    assertNull(result.floatField);
-    assertNull(result.boolField);
-    assertNull(result.stringField);
-    assertNull(result.enumField);
   }
 
   @Test

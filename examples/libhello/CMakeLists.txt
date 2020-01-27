@@ -255,7 +255,7 @@ feature(Errors cpp android swift dart SOURCES
     lime/test/ErrorsInInterface.lime
 )
 
-feature(Defaults cpp android swift SOURCES
+feature(Defaults cpp android swift dart SOURCES
     src/hello/HelloWorldDefaults.cpp
     src/test/Defaults.cpp
 

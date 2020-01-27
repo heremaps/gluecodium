@@ -43,6 +43,12 @@ class NullableInterface {
         uint32Field: UInt? = null
         uint64Field: ULong? = null
     }
+    struct StructWithSingleNullableField {
+        nullableField: Int? = null
+    }
+    struct StructWithNestedNullableDefault {
+        otherStructField: StructWithSingleNullableField = {}
+    }
     enum SomeEnum {
         OFF,
         ON

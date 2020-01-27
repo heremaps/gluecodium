@@ -30,7 +30,11 @@ class {{resolveName visibility}}{{resolveName}} {
 {{#if fields}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{/if}}{{/if}}
+{{/if}}{{#unless constructors}}{{#if initializedFields}}
+  {{resolveName}}.withDefaults({{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
+    : {{#fields}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+{{/if}}{{/unless}}{{/if}}
 {{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}{{/set}}
 {{#set parent=this isStruct=true}}{{#constructors}}

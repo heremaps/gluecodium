@@ -27,14 +27,6 @@ class Defaults {
         stringField: String = "some string"
         enumField: SomeEnum = SomeEnum.BarValue
     }
-    struct NullableStructWithDefaults {
-        intField: Int? = null
-        uintField: UInt? = null
-        floatField: Float? = null
-        boolField: Boolean? = null
-        stringField: String? = null
-        enumField: SomeEnum? = null
-    }
     struct StructWithExternalDefaults {
         enumField: ExternalEnum = ExternalEnum.Another_Value
     }
@@ -55,15 +47,11 @@ class Defaults {
         doubleInfinityField: Double = Infinity
         doubleNegativeInfinityField: Double = -Infinity
     }
-    struct StructWithSingleNullableField {
-        nullableField: Int? = null
-    }
     struct StructWithEmptyDefaults {
         intsField: List<Int> = {}
         floatsField: FloatArray = {}
         mapField: IdToStringMap = {}
         structField: StructWithDefaults = {}
-        otherStructField: StructWithSingleNullableField = {}
         setTypeField: StringSet = {}
     }
     struct StructWithTypedefDefaults {
@@ -106,20 +94,23 @@ class Defaults {
     ): Boolean
     // Get a default-initialized ImmutableStructWithDefaults object.
     static fun getImmutableDefault(): ImmutableStructWithDefaults
+    @Dart("floatIsNan")
     static fun isNan(
         value: Float
     ): Boolean
+    @Dart("doubleIsNan")
     static fun isNan(
         value: Double
     ): Boolean
+    @Dart("floatIsInfinity")
     static fun isInfinity(
         value: Float
     ): Boolean
+    @Dart("doubleIsInfinity")
     static fun isInfinity(
         value: Double
     ): Boolean
     static fun createSpecial(): StructWithSpecialDefaults
-    static fun getNullableDefaults(): NullableStructWithDefaults
     static fun getEmptyDefaults(): StructWithEmptyDefaults
     static fun getInitializerDefaults(): StructWithInitializerDefaults
 }
