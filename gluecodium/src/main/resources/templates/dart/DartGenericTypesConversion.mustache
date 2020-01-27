@@ -51,40 +51,40 @@ final _{{resolveName "Ffi"}}_insert = __lib.nativeLibrary.lookupFunction<
   >('{{resolveName "Ffi"}}_insert');
 {{/notInstanceOf}}
 final _{{resolveName "Ffi"}}_iterator = __lib.nativeLibrary.lookupFunction<
-  Pointer<Void> Function(Pointer<Void>),
-  Pointer<Void> Function(Pointer<Void>)
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator');
 final _{{resolveName "Ffi"}}_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
-  Void Function(Pointer<Void>),
-  void Function(Pointer<Void>)
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator_release_handle');
 final _{{resolveName "Ffi"}}_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
-  Int8 Function(Pointer<Void>, Pointer<Void>),
-  int Function(Pointer<Void>, Pointer<Void>)
+    Int8 Function(Pointer<Void>, Pointer<Void>),
+    int Function(Pointer<Void>, Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator_is_valid');
 final _{{resolveName "Ffi"}}_iterator_increment = __lib.nativeLibrary.lookupFunction<
-  Void Function(Pointer<Void>),
-  void Function(Pointer<Void>)
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator_increment');
 {{#instanceOf this "LimeMap"}}
 final _{{resolveName "Ffi"}}_iterator_get_key = __lib.nativeLibrary.lookupFunction<
-  {{resolveName keyType "FfiApiTypes"}} Function(Pointer<Void>),
-  {{resolveName keyType "FfiDartTypes"}} Function(Pointer<Void>)
+    {{resolveName keyType "FfiApiTypes"}} Function(Pointer<Void>),
+    {{resolveName keyType "FfiDartTypes"}} Function(Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator_get_key');
 final _{{resolveName "Ffi"}}_iterator_get_value = __lib.nativeLibrary.lookupFunction<
-  {{resolveName valueType "FfiApiTypes"}} Function(Pointer<Void>),
-  {{resolveName valueType "FfiDartTypes"}} Function(Pointer<Void>)
+    {{resolveName valueType "FfiApiTypes"}} Function(Pointer<Void>),
+    {{resolveName valueType "FfiDartTypes"}} Function(Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator_get_value');
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
 final _{{resolveName "Ffi"}}_iterator_get = __lib.nativeLibrary.lookupFunction<
-  {{resolveName elementType "FfiApiTypes"}} Function(Pointer<Void>),
-  {{resolveName elementType "FfiDartTypes"}} Function(Pointer<Void>)
+    {{resolveName elementType "FfiApiTypes"}} Function(Pointer<Void>),
+    {{resolveName elementType "FfiDartTypes"}} Function(Pointer<Void>)
 >('{{resolveName "Ffi"}}_iterator_get');
 {{/notInstanceOf}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
-  final _result = _{{resolveName "Ffi"}}_create_handle({{#fields}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
+  final _result = _{{resolveName "Ffi"}}_create_handle();
 {{#instanceOf this "LimeMap"}}
   for (final entry in value.entries) {
     final _key_handle = {{#set typeRef=keyType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(entry.key);

@@ -1,6 +1,6 @@
+import 'package:library/src/Blob__conversion.dart';
 import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/List__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/TypeCollection.dart';
 import 'dart:ffi';
@@ -264,7 +264,7 @@ Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
   final _doubleField_handle = (value.doubleField);
   final _stringField_handle = String_toFfi(value.stringField);
   final _booleanField_handle = Boolean_toFfi(value.booleanField);
-  final _bytesField_handle = (value.bytesField);
+  final _bytesField_handle = Blob_toFfi(value.bytesField);
   final _pointField_handle = smoke_Structs_Point_toFfi(value.pointField);
   final _result = _smoke_Structs_AllTypesStruct_create_handle(_int8Field_handle, _uint8Field_handle, _int16Field_handle, _uint16Field_handle, _int32Field_handle, _uint32Field_handle, _int64Field_handle, _uint64Field_handle, _floatField_handle, _doubleField_handle, _stringField_handle, _booleanField_handle, _bytesField_handle, _pointField_handle);
   (_int8Field_handle);
@@ -279,7 +279,7 @@ Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
   (_doubleField_handle);
   String_releaseFfiHandle(_stringField_handle);
   Boolean_releaseFfiHandle(_booleanField_handle);
-  (_bytesField_handle);
+  Blob_releaseFfiHandle(_bytesField_handle);
   smoke_Structs_Point_releaseFfiHandle(_pointField_handle);
   return _result;
 }
@@ -311,7 +311,7 @@ Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle
     (_doubleField_handle),
     String_fromFfi(_stringField_handle),
     Boolean_fromFfi(_booleanField_handle),
-    (_bytesField_handle),
+    Blob_fromFfi(_bytesField_handle),
     smoke_Structs_Point_fromFfi(_pointField_handle)
   );
   (_int8Field_handle);
@@ -326,7 +326,7 @@ Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle
   (_doubleField_handle);
   String_releaseFfiHandle(_stringField_handle);
   Boolean_releaseFfiHandle(_booleanField_handle);
-  (_bytesField_handle);
+  Blob_releaseFfiHandle(_bytesField_handle);
   smoke_Structs_Point_releaseFfiHandle(_pointField_handle);
   return _result;
 }

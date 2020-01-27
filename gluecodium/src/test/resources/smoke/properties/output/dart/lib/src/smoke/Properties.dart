@@ -1,6 +1,6 @@
+import 'package:library/src/Blob__conversion.dart';
 import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/List__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/PropertiesInterface.dart';
 import 'package:library/src/smoke/Properties_InternalErrorCode__conversion.dart';
@@ -89,15 +89,15 @@ class Properties {
   List<int> get byteBufferProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Properties_byteBufferProperty_get');
     final __result_handle = _get_ffi(_handle);
-    final _result = (__result_handle);
-    (__result_handle);
+    final _result = Blob_fromFfi(__result_handle);
+    Blob_releaseFfiHandle(__result_handle);
     return _result;
   }
   set byteBufferProperty(List<int> value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('smoke_Properties_byteBufferProperty_set__Blob');
-    final _value_handle = (value);
+    final _value_handle = Blob_toFfi(value);
     final __result_handle = _set_ffi(_handle, _value_handle);
-    (_value_handle);
+    Blob_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;

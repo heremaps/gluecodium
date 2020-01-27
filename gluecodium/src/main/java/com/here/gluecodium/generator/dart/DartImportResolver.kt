@@ -64,7 +64,7 @@ internal class DartImportResolver(
         when (limeType.typeId) {
             LimeBasicType.TypeId.BOOLEAN -> listOf(createConversionImport("Boolean"))
             LimeBasicType.TypeId.STRING -> listOf(createConversionImport("String"))
-            LimeBasicType.TypeId.BLOB -> listOf(createConversionImport("List"))
+            LimeBasicType.TypeId.BLOB -> listOf(createConversionImport("Blob"))
             LimeBasicType.TypeId.DATE -> listOf(createConversionImport("DateTime"))
             else -> emptyList()
         }

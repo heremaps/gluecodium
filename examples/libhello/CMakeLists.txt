@@ -80,7 +80,7 @@ feature(MethodOverloading cpp android swift dart SOURCES
     lime/test/MethodOverloads.lime
 )
 
-feature(Blob cpp android swift SOURCES
+feature(Blob cpp android swift dart SOURCES
     src/hello/HelloWorldBuiltinTypes.cpp
     src/test/ArraysByteBuffer.cpp
     src/test/StaticByteArrayMethods.cpp

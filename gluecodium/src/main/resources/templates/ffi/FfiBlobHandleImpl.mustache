@@ -1,0 +1,82 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>ffi/FfiCopyrightHeader}}
+
+#include "BlobHandle.h"
+#include <memory>
+#include <new>
+#include <vector>
+
+namespace {
+using Blob = std::vector<uint8_t>;
+using BlobPtr = std::shared_ptr<Blob>;
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+FfiOpaqueHandle
+blob_create_handle() {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) BlobPtr(new Blob()));
+}
+
+void
+blob_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<BlobPtr*>(handle);
+}
+
+void
+blob_insert(FfiOpaqueHandle handle, uint8_t value) {
+    (*reinterpret_cast<BlobPtr*>(handle))->push_back(value);
+}
+
+FfiOpaqueHandle
+blob_iterator(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) Blob::iterator(
+        (*reinterpret_cast<BlobPtr*>(handle))->begin()
+    ));
+}
+
+void
+blob_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
+    delete reinterpret_cast<Blob::iterator*>(iterator_handle);
+}
+
+bool
+blob_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
+    return *reinterpret_cast<Blob::iterator*>(iterator_handle) !=
+        (*reinterpret_cast<BlobPtr*>(handle))->end();
+}
+
+void
+blob_iterator_increment(FfiOpaqueHandle iterator_handle) {
+    ++*reinterpret_cast<Blob::iterator*>(iterator_handle);
+}
+
+uint8_t
+blob_iterator_get(FfiOpaqueHandle iterator_handle) {
+    return **reinterpret_cast<Blob::iterator*>(iterator_handle);
+}
+
+#ifdef __cplusplus
+}
+#endif

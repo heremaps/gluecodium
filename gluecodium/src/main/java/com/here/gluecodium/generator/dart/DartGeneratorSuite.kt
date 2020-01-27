@@ -216,7 +216,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 TemplateEngine.render("dart/DartPubspec", templateData),
                 "$ROOT_DIR/pubspec.yaml"
             )
-        ) + listOf("Boolean", "String", "DateTime").map {
+        ) + listOf("Boolean", "String", "DateTime", "Blob").map {
             GeneratedFile(
                 TemplateEngine.render("dart/Dart${it}Conversion", templateData),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/${it}__conversion.dart"
@@ -226,7 +226,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     private fun generateFfiCommonFiles(): List<GeneratedFile> {
         val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
-        val headerAndImpl = listOf("StringHandle")
+        val headerAndImpl = listOf("StringHandle", "BlobHandle")
         val data = mapOf(
             "opaqueHandleType" to OPAQUE_HANDLE_TYPE,
             "internalNamespace" to internalNamespace
