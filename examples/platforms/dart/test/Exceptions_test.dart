@@ -150,4 +150,33 @@ void main() {
     expect(result, "bar value");
     expect(exception, isNull);
   });
+  _testSuite.test("Throwing constructor throws", () {
+    ThrowingConstructor result = null;
+    ThrowingConstructor_SomeException exception = null;
+
+    try {
+      result = new ThrowingConstructor(1.0);
+    } on ThrowingConstructor_SomeException catch(e) {
+      exception = e;
+    }
+
+    expect(result, isNull);
+    expect(exception, isNotNull);
+    expect(exception.error, ThrowingConstructor_ErrorEnum.crashed);
+  });
+  _testSuite.test("Throwing constructor does not throw", () {
+    ThrowingConstructor result = null;
+    ThrowingConstructor_SomeException exception = null;
+
+    try {
+      result = new ThrowingConstructor(0.0);
+    } on ThrowingConstructor_SomeException catch(e) {
+      exception = e;
+    }
+
+    expect(result, isNotNull);
+    expect(exception, isNull);
+
+    result.release();
+  });
 }
