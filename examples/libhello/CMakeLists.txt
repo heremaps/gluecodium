@@ -331,7 +331,7 @@ feature(ListenersWithThreads cpp android SOURCES
     lime/test/ListenersThreads.lime
 )
 
-feature(Dates cpp android swift SOURCES
+feature(Dates cpp android swift dart SOURCES
     src/test/Dates.cpp
 
     lime/test/Dates.lime

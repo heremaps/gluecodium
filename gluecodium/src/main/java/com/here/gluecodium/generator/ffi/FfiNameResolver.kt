@@ -83,7 +83,9 @@ internal class FfiNameResolver(
             LimeBasicType.TypeId.BOOLEAN -> "bool"
             LimeBasicType.TypeId.FLOAT -> "float"
             LimeBasicType.TypeId.DOUBLE -> "double"
-            else -> OPAQUE_HANDLE_TYPE
+            LimeBasicType.TypeId.STRING -> OPAQUE_HANDLE_TYPE
+            LimeBasicType.TypeId.BLOB -> OPAQUE_HANDLE_TYPE
+            LimeBasicType.TypeId.DATE -> "uint64_t"
         }
 
     private fun getListName(elementType: LimeTypeRef) = "ListOf_${getTypeName(elementType.type)}"
