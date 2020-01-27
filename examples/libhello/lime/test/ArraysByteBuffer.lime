@@ -21,6 +21,10 @@ class ArraysByteBuffer {
     struct StructWithByteBuffer {
         image: Blob
     }
+    @Immutable
+    struct ImmutableStructWithByteBuffer {
+        image: Blob
+    }
     struct StructWithImplicitArray {
         image: List<UByte>
     }

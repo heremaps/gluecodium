@@ -26,7 +26,6 @@ import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.hello.HelloWorldBuiltinTypes;
-import java.util.Arrays;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -206,7 +205,6 @@ public final class PlainDataStructuresTest {
             1.0,
             "test string",
             true,
-            "hello".getBytes(),
             new PlainDataStructuresImmutable.Point(11.0, 12.0));
 
     PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder builder =
@@ -226,12 +224,10 @@ public final class PlainDataStructuresTest {
             .setDoubleField(1.0)
             .setStringField("test string")
             .setBooleanField(true)
-            .setBytesField("hello".getBytes())
             .setPointField(new PlainDataStructuresImmutable.Point(11.0, 12.0))
             .build();
 
     assertEquals(allTypesStruct.booleanField, result.booleanField);
-    assertTrue(Arrays.equals(allTypesStruct.bytesField, result.bytesField));
     assertEquals(allTypesStruct.doubleField, result.doubleField);
     assertEquals(allTypesStruct.floatField, result.floatField);
     assertEquals(allTypesStruct.int8Field, result.int8Field);
