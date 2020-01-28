@@ -75,9 +75,9 @@ void main() {
       exception = e;
     }
 
+    expect(exception, isNull);
     expect(result.x, 1);
     expect(result.y, 2);
-    expect(exception, isNull);
   });
   _testSuite.test("Vector copy constructor throws", () {
     Vector result = null;
@@ -143,10 +143,10 @@ void main() {
       exception = e;
     }
 
+    expect(exception, isNull);
     expect(result.x, 1);
     expect(result.y, 2);
     expect(result.z, 3);
-    expect(exception, isNull);
   });
   _testSuite.test("Vector3 copy constructor throws", () {
     StructsWithMethodsInterface_Vector3 result = null;
