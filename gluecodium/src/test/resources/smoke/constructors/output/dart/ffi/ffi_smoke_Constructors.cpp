@@ -34,13 +34,40 @@ smoke_Constructors_create__String_ULong(FfiOpaqueHandle foo, uint64_t bar) {
         )
     );
 }
+void
+smoke_Constructors_create__String_return_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>*>(handle);
+}
+FfiOpaqueHandle
+smoke_Constructors_create__String_return_get_result(FfiOpaqueHandle handle) {
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toFfi(
+        reinterpret_cast<gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>*>(handle)->unsafe_value()
+    );
+}
+uint32_t
+smoke_Constructors_create__String_return_get_error(FfiOpaqueHandle handle) {
+    return gluecodium::ffi::Conversion<::smoke::Constructors::ErrorEnum>::toFfi(
+        reinterpret_cast<gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>*>(handle)->error()
+    );
+}
+bool
+smoke_Constructors_create__String_return_has_error(FfiOpaqueHandle handle) {
+    return !reinterpret_cast<gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>*>(handle)->has_value();
+}
 FfiOpaqueHandle
 smoke_Constructors_create__String(FfiOpaqueHandle input) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toFfi(
-        ::smoke::Constructors::create(
+    auto&& _cpp_call_result =         ::smoke::Constructors::create(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
-        )
-    );
+        );
+    if (_cpp_call_result.has_value()) {
+        return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>(
+            std::forward<std::shared_ptr<::smoke::Constructors>>(_cpp_call_result.unsafe_value())
+        ));
+    }
+    auto _error_code = _cpp_call_result.error();
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>(
+        static_cast<::smoke::Constructors::ErrorEnum>(_error_code.value())
+    ));
 }
 FfiOpaqueHandle
 smoke_Constructors_create__ListOf_1Double(FfiOpaqueHandle input) {

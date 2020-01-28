@@ -18,7 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "/// "}}
+{{#functions}}
+{{>dart/DartFunctionException}}
+
+{{/functions}}{{!!
+}}{{#unless comment.isEmpty}}{{prefix comment "/// "}}
 {{/unless}}
 class {{resolveName visibility}}{{resolveName}} {
 {{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}

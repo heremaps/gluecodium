@@ -1,0 +1,40 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#if thrownType}}
+final _{{resolveName}}_return_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_return_release_handle');
+final _{{resolveName}}_return_get_result = {{#isNotEq returnType.typeRef.type.name "Void"}}__lib.nativeLibrary.lookupFunction<
+    {{resolveName returnType.typeRef "FfiApiTypes"}} Function(Pointer<Void>),
+    {{resolveName returnType.typeRef "FfiDartTypes"}} Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_return_get_result');{{/isNotEq}}{{!!
+    }}{{#isEq returnType.typeRef.type.name "Void"}}(Pointer) {};{{/isEq}}
+final _{{resolveName}}_return_get_error = __lib.nativeLibrary.lookupFunction<
+    {{resolveName exception.errorType "FfiApiTypes"}} Function(Pointer<Void>),
+    {{resolveName exception.errorType "FfiDartTypes"}} Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_return_get_error');
+final _{{resolveName}}_return_has_error = __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_return_has_error');
+
+{{/if}}

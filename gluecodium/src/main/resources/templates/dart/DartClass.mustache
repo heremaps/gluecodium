@@ -23,7 +23,11 @@ final __release_handle = __lib.nativeLibrary.lookupFunction<
     void Function(Pointer<Void>)
   >('{{resolveName "Ffi"}}_release_handle');
 
-{{>dart/DartDocumentation}}
+{{#functions}}
+{{>dart/DartFunctionException}}
+
+{{/functions}}{{!!
+}}{{>dart/DartDocumentation}}
 class {{resolveName visibility}}{{resolveName}} {{!!
 }}{{#if parent}}{{#isEq type parent.type.type}}extends{{/isEq}}{{!!
 }}{{#isNoEq type parent.type.type}}implements{{/isNoEq}} {{resolveName parent}} {{/if}}{

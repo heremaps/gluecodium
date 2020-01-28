@@ -49,7 +49,7 @@ void main() {
   _testSuite.test("Nested immutable struct round trip", () {
     final input = PlainDataStructuresImmutable_NestingImmutableStruct(
         PlainDataStructuresImmutable_AllTypesImmutableStruct(
-            -1, 2, -3, 4, -5, 6, -7, 8, -9, 10, "foo", true, 
+            -1, 2, -3, 4, -5, 6, -7, 8, -9, 10, "foo", true,
             PlainDataStructuresImmutable_Point(-11, 12)
         )
     );

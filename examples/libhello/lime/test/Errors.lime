@@ -17,7 +17,6 @@
 
 package test
 
-import another.TypeCollectionWithEnums.Explosive
 import another.TypeCollectionWithEnums.SomeEnum
 import another.TypeCollectionWithEnums.YetAnother
 
@@ -56,11 +55,6 @@ class Errors {
     static fun methodWithErrorAndString(
         errorFlag: Boolean
     ): /* Output string */ String throws another.AdditionalErrors.External
-    // Example static method with an error enum which returns an array with bytes [x00, x01, x02]
-    // or raises "EXPLODED" error if errorFlag is true
-    static fun methodThatExplodes(
-        errorFlag: Boolean
-    ): /* Output buffer */ Blob throws Explosive
     // Example static method with an error enum which returns enum ANOTHER_RESULT
     // or raises "BAD" error if errorFlag is true
     static fun methodWithGoodAndBad(

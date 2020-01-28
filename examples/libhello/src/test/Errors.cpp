@@ -67,20 +67,6 @@ Errors::method_with_error_and_string( const bool error_flag )
     }
 }
 
-lorem_ipsum::test::Return< std::shared_ptr< std::vector< uint8_t > >, std::error_code >
-Errors::method_that_explodes( const bool error_flag )
-{
-    if ( error_flag )
-    {
-        return std::error_code( another::ExplosiveErrorCode::EXPLODED );
-    }
-    else
-    {
-        return std::make_shared< std::vector< uint8_t > >(
-            std::vector< uint8_t >{0x00, 0x01, 0x02} );
-    }
-}
-
 lorem_ipsum::test::Return< another::SomeEnum, std::error_code >
 Errors::method_with_good_and_bad( const bool error_flag )
 {

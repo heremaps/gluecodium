@@ -44,13 +44,13 @@ class ErrorsTests: XCTestCase {
     }
 
     func testMethodThatExplodesThrows() {
-      XCTAssertThrowsError(try Errors.methodThatExplodes(errorFlag: true)) { error in
+      XCTAssertThrowsError(try ArraysByteBuffer.methodThatExplodes(errorFlag: true)) { error in
         XCTAssertEqual(error as? ExplosiveError, ExplosiveError.exploded)
       }
     }
 
     func testMethodThatExplodesFinishes() {
-      XCTAssertEqual(try Errors.methodThatExplodes(errorFlag: false), Data([0x00, 0x01, 0x02]))
+      XCTAssertEqual(try ArraysByteBuffer.methodThatExplodes(errorFlag: false), Data([0x00, 0x01, 0x02]))
     }
 
     func testMethodWithGoodAndBadThrows() {

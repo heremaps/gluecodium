@@ -23,22 +23,35 @@
 {{#parameters}}
   final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}
-  final __result_handle = _{{resolveName}}_ffi({{!!
+  final __{{#if thrownType}}call_{{/if}}result_handle = _{{resolveName}}_ffi({{!!
   }}{{#unless isStatic}}_handle{{#if parameters}}, {{/if}}{{/unless}}{{!!
   }}{{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#parameters}}
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
 {{/parameters}}
+{{#if thrownType}}
+  if (_{{resolveName}}_return_has_error(__call_result_handle) != 0) {
+      final __error_handle = _{{resolveName}}_return_get_error(__call_result_handle);
+      _{{resolveName}}_return_release_handle(__call_result_handle);
+      final _error_value = {{#set call="fromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__error_handle);
+      {{#set call="releaseFfiHandle" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__error_handle);
+      throw {{resolveName exception}}(_error_value);
+  }
+  final __result_handle = _{{resolveName}}_return_get_result(__call_result_handle);
+  _{{resolveName}}_return_release_handle(__call_result_handle);
+{{/if}}
   {{#if isConstructor}}return __result_handle;{{/if}}{{#unless isConstructor}}{{!!
   }}{{#returnType}}final _result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);{{/returnType}}
   return _result;{{/unless}}
 }{{!!
 
-}}{{+ffiApi}}{{resolveName returnType.typeRef "FfiApiTypes"}} Function({{!!
+}}{{+ffiApi}}{{#if thrownType}}Pointer<Void>{{/if}}{{#unless thrownType}}{{!!
+}}{{resolveName returnType.typeRef "FfiApiTypes"}}{{/unless}} Function({{!!
 }}{{#unless isStatic}}Pointer<Void>{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
 
-}}{{+ffiDart}}{{resolveName returnType.typeRef "FfiDartTypes"}} Function({{!!
+}}{{+ffiDart}}{{#if thrownType}}Pointer<Void>{{/if}}{{#unless thrownType}}{{!!
+}}{{resolveName returnType.typeRef "FfiDartTypes"}}{{/unless}} Function({{!!
 }}{{#unless isStatic}}Pointer<Void>{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}
