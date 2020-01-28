@@ -37,7 +37,6 @@ internal class FfiApiTypeNameResolver : NameResolver {
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
         return when {
-            limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
             limeType is LimeBasicType -> getBasicTypeRefName(limeType)
             limeType is LimeEnumeration -> "Uint32"
             else -> OPAQUE_HANDLE_TYPE
@@ -58,7 +57,9 @@ internal class FfiApiTypeNameResolver : NameResolver {
             LimeBasicType.TypeId.BOOLEAN -> "Uint8"
             LimeBasicType.TypeId.FLOAT -> "Float"
             LimeBasicType.TypeId.DOUBLE -> "Double"
-            else -> OPAQUE_HANDLE_TYPE
+            LimeBasicType.TypeId.STRING -> OPAQUE_HANDLE_TYPE
+            LimeBasicType.TypeId.BLOB -> OPAQUE_HANDLE_TYPE
+            LimeBasicType.TypeId.DATE -> "Uint64"
         }
 
     companion object {

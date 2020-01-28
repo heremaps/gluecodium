@@ -207,18 +207,15 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart"
             ),
             GeneratedFile(
-                TemplateEngine.render("dart/DartBooleanConversion", templateData),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/Boolean__conversion.dart"
-            ),
-            GeneratedFile(
-                TemplateEngine.render("dart/DartStringConversion", templateData),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/String__conversion.dart"
-            ),
-            GeneratedFile(
                 TemplateEngine.render("dart/DartPubspec", templateData),
                 "$ROOT_DIR/pubspec.yaml"
             )
-        )
+        ) + listOf("Boolean", "String", "DateTime").map {
+            GeneratedFile(
+                TemplateEngine.render("dart/Dart${it}Conversion", templateData),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/${it}__conversion.dart"
+            )
+        }
     }
 
     private fun generateFfiCommonFiles(): List<GeneratedFile> {

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "OpaqueHandle.h"
+#include <chrono>
 #include <memory>
 #include <new>
 #include <type_traits>
@@ -103,6 +104,27 @@ struct Conversion<T, typename std::enable_if<std::is_enum<T>::value>::type> {
     static T
     toCpp(uint32_t ref) {
         return static_cast<T>(ref);
+    }
+};
+
+template<>
+struct Conversion<std::chrono::system_clock::time_point, void> {
+    static uint64_t
+    toFfi(const std::chrono::system_clock::time_point& t) {
+        using namespace std::chrono;
+        return duration_cast<microseconds>( t.time_since_epoch()).count();
+    }
+
+    static uint64_t
+    toFfi(std::chrono::system_clock::time_point&& t) {
+        using namespace std::chrono;
+        return duration_cast<microseconds>( t.time_since_epoch()).count();
+    }
+
+    static std::chrono::system_clock::time_point
+    toCpp(uint64_t t) {
+        using namespace std::chrono;
+        return system_clock::time_point(duration_cast<system_clock::duration>(microseconds(t)));
     }
 };
 
