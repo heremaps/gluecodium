@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Move BuiltinOptionals.swift into correct source set
+
 ## 6.1.0
 Release date: 2020-01-21
 ### Features

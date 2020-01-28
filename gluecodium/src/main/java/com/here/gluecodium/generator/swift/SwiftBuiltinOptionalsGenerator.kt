@@ -30,7 +30,7 @@ class SwiftBuiltinOptionalsGenerator {
             SwiftType.INT32, SwiftType.UINT32, SwiftType.INT64, SwiftType.UINT64))
 
         val content = TemplateEngine.render("swift/BuiltinOptionals", builtinTypes)
-        return listOf(GeneratedFile(content, SWIFT_BUILTIN_OPTIONALS))
+        return listOf(GeneratedFile(content, SWIFT_BUILTIN_OPTIONALS, GeneratedFile.SourceSet.COMMON))
     }
 
     companion object {
