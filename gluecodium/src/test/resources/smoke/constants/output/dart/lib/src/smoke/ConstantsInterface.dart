@@ -17,11 +17,14 @@ class ConstantsInterface {
   static final String stringConstant = "Foo bar";
   static final ConstantsInterface_StateEnum enumConstant = ConstantsInterface_StateEnum.on;
 }
-Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? ConstantsInterface._(handle) : null;
+Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) => value._handle;
+ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) => ConstantsInterface._(handle);
 void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_ConstantsInterface_toFfi_nullable(ConstantsInterface value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+ConstantsInterface smoke_ConstantsInterface_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? ConstantsInterface._(handle) : null;
+void smoke_ConstantsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum ConstantsInterface_StateEnum {
     off,
     on
@@ -52,4 +55,32 @@ ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi(int hand
   }
 }
 void smoke_ConstantsInterface_StateEnum_releaseFfiHandle(int handle) {}
+final _smoke_ConstantsInterface_StateEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_ConstantsInterface_StateEnum_create_handle_nullable');
+final _smoke_ConstantsInterface_StateEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ConstantsInterface_StateEnum_release_handle_nullable');
+final _smoke_ConstantsInterface_StateEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_ConstantsInterface_StateEnum_get_value_nullable');
+Pointer<Void> smoke_ConstantsInterface_StateEnum_toFfi_nullable(ConstantsInterface_StateEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_ConstantsInterface_StateEnum_toFfi(value);
+  final result = _smoke_ConstantsInterface_StateEnum_create_handle_nullable(_handle);
+  smoke_ConstantsInterface_StateEnum_releaseFfiHandle(_handle);
+  return result;
+}
+ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_ConstantsInterface_StateEnum_get_value_nullable(handle);
+  final result = smoke_ConstantsInterface_StateEnum_fromFfi(_handle);
+  smoke_ConstantsInterface_StateEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_ConstantsInterface_StateEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ConstantsInterface_StateEnum_release_handle_nullable(handle);
 // End of ConstantsInterface_StateEnum "private" section.

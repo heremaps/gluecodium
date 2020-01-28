@@ -1,5 +1,5 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/TypesWithDefaults.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -78,4 +78,33 @@ StructWithInitializerDefaults smoke_StructWithInitializerDefaults_fromFfi(Pointe
   return _result;
 }
 void smoke_StructWithInitializerDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructWithInitializerDefaults_release_handle(handle);
+// Nullable StructWithInitializerDefaults
+final _smoke_StructWithInitializerDefaults_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructWithInitializerDefaults_create_handle_nullable');
+final _smoke_StructWithInitializerDefaults_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_StructWithInitializerDefaults_release_handle_nullable');
+final _smoke_StructWithInitializerDefaults_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructWithInitializerDefaults_get_value_nullable');
+Pointer<Void> smoke_StructWithInitializerDefaults_toFfi_nullable(StructWithInitializerDefaults value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_StructWithInitializerDefaults_toFfi(value);
+  final result = _smoke_StructWithInitializerDefaults_create_handle_nullable(_handle);
+  smoke_StructWithInitializerDefaults_releaseFfiHandle(_handle);
+  return result;
+}
+StructWithInitializerDefaults smoke_StructWithInitializerDefaults_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_StructWithInitializerDefaults_get_value_nullable(handle);
+  final result = smoke_StructWithInitializerDefaults_fromFfi(_handle);
+  smoke_StructWithInitializerDefaults_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_StructWithInitializerDefaults_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_StructWithInitializerDefaults_release_handle_nullable(handle);
 // End of StructWithInitializerDefaults "private" section.

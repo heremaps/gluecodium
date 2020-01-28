@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,10 +18,24 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
+{{>ffi/FfiCopyrightHeader}}
 
-int Boolean_toFfi(bool value) => value ? 1 : 0;
+#pragma once
 
-bool Boolean_fromFfi(int handle) => handle != 0;
+#include "Export.h"
+#include "OpaqueHandle.h"
+#include <cstdint>
 
-void Boolean_releaseFfiHandle(int handle) {}
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{#builtInTypes}}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{this}}_create_handle_nullable({{resolveName}} value);
+_GLUECODIUM_FFI_EXPORT void {{this}}_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT {{resolveName}} {{this}}_get_value_nullable(FfiOpaqueHandle handle);
+{{/builtInTypes}}
+
+#ifdef __cplusplus
+}
+#endif

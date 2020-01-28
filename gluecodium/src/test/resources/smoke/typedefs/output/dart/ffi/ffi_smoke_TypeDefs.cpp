@@ -89,6 +89,27 @@ smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_field_field(FfiOpaqueHandl
     );
 }
 FfiOpaqueHandle
+smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>(
+            gluecodium::ffi::Conversion<::smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>::toCpp(value)
+        )
+    );
+}
+void
+smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>*>(handle);
+}
+FfiOpaqueHandle
+smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>*>(handle)
+    );
+}
+FfiOpaqueHandle
 smoke_TypeDefs_TestStruct_create_handle(FfiOpaqueHandle something) {
     auto _result = new (std::nothrow) ::smoke::TypeDefs::TestStruct(gluecodium::ffi::Conversion<std::string>::toCpp(something));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
@@ -101,6 +122,27 @@ FfiOpaqueHandle
 smoke_TypeDefs_TestStruct_get_field_something(FfiOpaqueHandle handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         reinterpret_cast<::smoke::TypeDefs::TestStruct*>(handle)->something
+    );
+}
+FfiOpaqueHandle
+smoke_TypeDefs_TestStruct_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::TypeDefs::TestStruct>(
+            gluecodium::ffi::Conversion<::smoke::TypeDefs::TestStruct>::toCpp(value)
+        )
+    );
+}
+void
+smoke_TypeDefs_TestStruct_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::TypeDefs::TestStruct>*>(handle);
+}
+FfiOpaqueHandle
+smoke_TypeDefs_TestStruct_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::TypeDefs::TestStruct>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::TypeDefs::TestStruct>*>(handle)
     );
 }
 #ifdef __cplusplus

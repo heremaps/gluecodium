@@ -59,29 +59,6 @@ void main() {
     result1.release();
     result2.release();
   });
-  _testSuite.test("Get null instances", () {
-    final nested = NestedInstantiableOne();
-
-    final result1 = nested.getInstanceOne();
-    final result2 = nested.getInstanceTwo();
-
-    expect(result1, isNull);
-    expect(result2, isNull);
-
-    nested.release();
-  });
-  _testSuite.test("Set null instances", () {
-    final nested = NestedInstantiableOne();
-
-    nested.setSameTypeInstances(null, null);
-    final result1 = nested.getInstanceOne();
-    final result2 = nested.getInstanceTwo();
-
-    expect(result1, isNull);
-    expect(result2, isNull);
-
-    nested.release();
-  });
   _testSuite.test("Set multiple type instances", () {
     final simpleOne1 = SimpleInstantiableOne("one");
     final simpleOne2 = SimpleInstantiableOne("other");
@@ -115,30 +92,28 @@ void main() {
     result6.release();
   });
   _testSuite.test("Set self instance", () {
-    final nested = InstancesFactory.createNestedInstantiableTwo();
+    final nestedTwo = InstancesFactory.createNestedInstantiableTwo();
     final simpleOne = SimpleInstantiableOne("one");
-    nested.setMultipleTypeInstances(simpleOne, null, null);
+    final simpleTwo = SimpleInstantiableTwo("two");
+    final nestedOne = NestedInstantiableOne();
+    nestedTwo.setMultipleTypeInstances(simpleOne, simpleTwo, nestedOne);
 
-    nested.setSelfInstantiable(nested);
-    final result1 = nested.getSelfInstantiable();
+    nestedTwo.setSelfInstantiable(nestedTwo);
+    final result1 = nestedTwo.getSelfInstantiable();
     final result2 = result1.getInstantiableOne();
 
     expect(result2.getStringValue(), equals("one"));
 
-    nested.setSelfInstantiable(null);
-    nested.release();
+    final nestedTwoOther = InstancesFactory.createNestedInstantiableTwo();
+    nestedTwo.setSelfInstantiable(nestedTwoOther); // Needed to break reference loop.
+    nestedTwoOther.release();
+    nestedTwo.release();
+
     simpleOne.release();
+    simpleTwo.release();
+    nestedOne.release();
     result1.release();
     result2.release();
-  });
-  _testSuite.test("Set self instance null", () {
-    final nested = InstancesFactory.createNestedInstantiableTwo();
-
-    nested.setSelfInstantiable(null);
-
-    expect(nested.getSelfInstantiable(), isNull);
-
-    nested.release();
   });
   _testSuite.test("Get instance from struct", () {
     final result = InstanceInStruct.createInStruct();
@@ -146,10 +121,5 @@ void main() {
     expect(result.mySelf.getStringValue(), equals("foo"));
 
     result.mySelf.release();
-  });
-  _testSuite.test("Get null instance from struct", () {
-    final result = InstanceInStruct.createNullInStruct();
-
-    expect(result.mySelf, isNull);
   });
 }

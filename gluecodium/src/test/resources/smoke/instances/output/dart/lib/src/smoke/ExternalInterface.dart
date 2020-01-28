@@ -1,4 +1,4 @@
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -30,6 +30,34 @@ ExternalInterface_SomeEnum smoke_ExternalInterface_SomeEnum_fromFfi(int handle) 
   }
 }
 void smoke_ExternalInterface_SomeEnum_releaseFfiHandle(int handle) {}
+final _smoke_ExternalInterface_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_ExternalInterface_SomeEnum_create_handle_nullable');
+final _smoke_ExternalInterface_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeEnum_release_handle_nullable');
+final _smoke_ExternalInterface_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeEnum_get_value_nullable');
+Pointer<Void> smoke_ExternalInterface_SomeEnum_toFfi_nullable(ExternalInterface_SomeEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_ExternalInterface_SomeEnum_toFfi(value);
+  final result = _smoke_ExternalInterface_SomeEnum_create_handle_nullable(_handle);
+  smoke_ExternalInterface_SomeEnum_releaseFfiHandle(_handle);
+  return result;
+}
+ExternalInterface_SomeEnum smoke_ExternalInterface_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_ExternalInterface_SomeEnum_get_value_nullable(handle);
+  final result = smoke_ExternalInterface_SomeEnum_fromFfi(_handle);
+  smoke_ExternalInterface_SomeEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_ExternalInterface_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalInterface_SomeEnum_release_handle_nullable(handle);
 // End of ExternalInterface_SomeEnum "private" section.
 class ExternalInterface_SomeStruct {
   String someField;
@@ -63,6 +91,35 @@ ExternalInterface_SomeStruct smoke_ExternalInterface_SomeStruct_fromFfi(Pointer<
   return _result;
 }
 void smoke_ExternalInterface_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalInterface_SomeStruct_release_handle(handle);
+// Nullable ExternalInterface_SomeStruct
+final _smoke_ExternalInterface_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeStruct_create_handle_nullable');
+final _smoke_ExternalInterface_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeStruct_release_handle_nullable');
+final _smoke_ExternalInterface_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalInterface_SomeStruct_get_value_nullable');
+Pointer<Void> smoke_ExternalInterface_SomeStruct_toFfi_nullable(ExternalInterface_SomeStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_ExternalInterface_SomeStruct_toFfi(value);
+  final result = _smoke_ExternalInterface_SomeStruct_create_handle_nullable(_handle);
+  smoke_ExternalInterface_SomeStruct_releaseFfiHandle(_handle);
+  return result;
+}
+ExternalInterface_SomeStruct smoke_ExternalInterface_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_ExternalInterface_SomeStruct_get_value_nullable(handle);
+  final result = smoke_ExternalInterface_SomeStruct_fromFfi(_handle);
+  smoke_ExternalInterface_SomeStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_ExternalInterface_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalInterface_SomeStruct_release_handle_nullable(handle);
 // End of ExternalInterface_SomeStruct "private" section.
 // ExternalInterface "private" section, not exported.
 final _smoke_ExternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
@@ -92,9 +149,13 @@ class ExternalInterface__Impl implements ExternalInterface{
     return _result;
   }
 }
-Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface__Impl value) => value._handle;
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? ExternalInterface__Impl._(handle) : null;
+  ExternalInterface__Impl._(handle);
 void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_ExternalInterface_toFfi_nullable(ExternalInterface__Impl value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+ExternalInterface smoke_ExternalInterface_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? ExternalInterface__Impl._(handle) : null;
+void smoke_ExternalInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of ExternalInterface "private" section.

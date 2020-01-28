@@ -85,6 +85,10 @@ FfiOpaqueHandle
 {{>ffiStructReleaseAndGetters}}
 {{/externalStructs}}
 
+{{#enums}}
+{{#set type=this handleType="uint32_t"}}{{>ffi/FfiNullableImpl}}{{/set}}
+{{/enums}}
+
 #ifdef __cplusplus
 }
 #endif{{!!
@@ -104,6 +108,9 @@ void
 }
 
 {{/fields}}{{/set}}
+
+{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableImpl}}{{/set}}
+
 {{/ffiStructReleaseAndGetters}}{{!!
 
 }}{{+ffiFunction}}{{#if thrownType}}

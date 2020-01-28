@@ -1,4 +1,4 @@
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -36,9 +36,13 @@ class SimpleInterface__Impl implements SimpleInterface{
     return _result;
   }
 }
-Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface__Impl value) => value._handle;
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? SimpleInterface__Impl._(handle) : null;
+  SimpleInterface__Impl._(handle);
 void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_SimpleInterface_toFfi_nullable(SimpleInterface__Impl value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+SimpleInterface smoke_SimpleInterface_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? SimpleInterface__Impl._(handle) : null;
+void smoke_SimpleInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of SimpleInterface "private" section.

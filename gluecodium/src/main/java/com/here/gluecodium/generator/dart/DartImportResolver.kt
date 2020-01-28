@@ -56,14 +56,11 @@ internal class DartImportResolver(
     }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
-        when (limeType.typeId) {
-            LimeBasicType.TypeId.BOOLEAN -> listOf(createConversionImport("Boolean"))
-            LimeBasicType.TypeId.STRING -> listOf(createConversionImport("String"))
-            LimeBasicType.TypeId.BLOB ->
-                listOf(createConversionImport("Blob"), DartImport("typed_data", isSystem = true))
-            LimeBasicType.TypeId.DATE -> listOf(createConversionImport("DateTime"))
-            else -> emptyList()
-        }
+        listOf(createConversionImport("BuiltInTypes")) +
+            when (limeType.typeId) {
+                LimeBasicType.TypeId.BLOB -> listOf(DartImport("typed_data", isSystem = true))
+                else -> emptyList()
+            }
 
     private fun resolveGenericTypeImports(limeType: LimeGenericType) =
         when (limeType) {

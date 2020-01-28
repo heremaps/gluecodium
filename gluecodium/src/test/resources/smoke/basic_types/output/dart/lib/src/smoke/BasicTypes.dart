@@ -1,5 +1,4 @@
-import 'package:library/src/Boolean__conversion.dart';
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -120,8 +119,11 @@ class BasicTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? BasicTypes._(handle) : null;
+Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) => value._handle;
+BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) => BasicTypes._(handle);
 void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_BasicTypes_toFfi_nullable(BasicTypes value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+BasicTypes smoke_BasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? BasicTypes._(handle) : null;
+void smoke_BasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}

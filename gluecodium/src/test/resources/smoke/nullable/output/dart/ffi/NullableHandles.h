@@ -1,0 +1,52 @@
+#pragma once
+#include "Export.h"
+#include "OpaqueHandle.h"
+#include <cstdint>
+#ifdef __cplusplus
+extern "C" {
+#endif
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Byte_create_handle_nullable(int8_t value);
+_GLUECODIUM_FFI_EXPORT void Byte_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT int8_t Byte_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle UByte_create_handle_nullable(uint8_t value);
+_GLUECODIUM_FFI_EXPORT void UByte_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint8_t UByte_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Short_create_handle_nullable(int16_t value);
+_GLUECODIUM_FFI_EXPORT void Short_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT int16_t Short_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle UShort_create_handle_nullable(uint16_t value);
+_GLUECODIUM_FFI_EXPORT void UShort_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint16_t UShort_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Int_create_handle_nullable(int32_t value);
+_GLUECODIUM_FFI_EXPORT void Int_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT int32_t Int_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle UInt_create_handle_nullable(uint32_t value);
+_GLUECODIUM_FFI_EXPORT void UInt_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t UInt_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Long_create_handle_nullable(int64_t value);
+_GLUECODIUM_FFI_EXPORT void Long_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT int64_t Long_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle ULong_create_handle_nullable(uint64_t value);
+_GLUECODIUM_FFI_EXPORT void ULong_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint64_t ULong_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Float_create_handle_nullable(float value);
+_GLUECODIUM_FFI_EXPORT void Float_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT float Float_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Double_create_handle_nullable(double value);
+_GLUECODIUM_FFI_EXPORT void Double_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT double Double_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Boolean_create_handle_nullable(bool value);
+_GLUECODIUM_FFI_EXPORT void Boolean_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool Boolean_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle String_create_handle_nullable(FfiOpaqueHandle value);
+_GLUECODIUM_FFI_EXPORT void String_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle String_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Blob_create_handle_nullable(FfiOpaqueHandle value);
+_GLUECODIUM_FFI_EXPORT void Blob_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Blob_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle Date_create_handle_nullable(uint64_t value);
+_GLUECODIUM_FFI_EXPORT void Date_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint64_t Date_get_value_nullable(FfiOpaqueHandle handle);
+#ifdef __cplusplus
+}
+#endif

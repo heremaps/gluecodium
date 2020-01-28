@@ -317,7 +317,7 @@ feature(Equatable cpp android swift SOURCES
     lime/test/Equatable.lime
 )
 
-feature(Nullable cpp android swift SOURCES
+feature(Nullable cpp android swift dart SOURCES
     src/test/NullableInstances.cpp
     src/test/NullableInterfaceImpl.cpp
 

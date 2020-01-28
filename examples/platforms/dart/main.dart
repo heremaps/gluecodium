@@ -29,7 +29,8 @@ import "test/ExternalTypes_test.dart" as ExternalTypes;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/Lists_test.dart" as ListsTests;
 import "test/Maps_test.dart" as MapsTests;
-import "test/MethodOverloads_test.dart" as MethodOverloads;
+import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
+import "test/Nullable_test.dart" as NullableTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresImmutable_test.dart" as PlainDataStructuresImmutableTests;
 import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
@@ -54,7 +55,8 @@ final _allTests = [
   InterfacesTests.main,
   ListsTests.main,
   MapsTests.main,
-  MethodOverloads.main,
+  MethodOverloadsTests.main,
+  NullableTests.main,
   PlainDataStructuresTests.main,
   PlainDataStructuresImmutableTests.main,
   PlainDataStructuresTypeCollectionTests.main,

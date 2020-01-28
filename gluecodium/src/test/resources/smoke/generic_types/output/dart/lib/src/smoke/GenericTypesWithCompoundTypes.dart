@@ -1,6 +1,5 @@
-import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/DummyClass.dart';
 import 'package:library/src/smoke/DummyInterface.dart';
 import 'dart:ffi';
@@ -87,11 +86,14 @@ class GenericTypesWithCompoundTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? GenericTypesWithCompoundTypes._(handle) : null;
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) => value._handle;
+GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) => GenericTypesWithCompoundTypes._(handle);
 void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi_nullable(GenericTypesWithCompoundTypes value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? GenericTypesWithCompoundTypes._(handle) : null;
+void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum GenericTypesWithCompoundTypes_SomeEnum {
     foo,
     bar
@@ -122,6 +124,34 @@ GenericTypesWithCompoundTypes_SomeEnum smoke_GenericTypesWithCompoundTypes_SomeE
   }
 }
 void smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(int handle) {}
+final _smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable');
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(GenericTypesWithCompoundTypes_SomeEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);
+  final result = _smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(_handle);
+  smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_handle);
+  return result;
+}
+GenericTypesWithCompoundTypes_SomeEnum smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(handle);
+  final result = smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_handle);
+  smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(handle);
 // End of GenericTypesWithCompoundTypes_SomeEnum "private" section.
 enum GenericTypesWithCompoundTypes_ExternalEnum {
     on,
@@ -153,6 +183,34 @@ GenericTypesWithCompoundTypes_ExternalEnum smoke_GenericTypesWithCompoundTypes_E
   }
 }
 void smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(int handle) {}
+final _smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable');
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(GenericTypesWithCompoundTypes_ExternalEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
+  final result = _smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(_handle);
+  smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_handle);
+  return result;
+}
+GenericTypesWithCompoundTypes_ExternalEnum smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(handle);
+  final result = smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_handle);
+  smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(handle);
 // End of GenericTypesWithCompoundTypes_ExternalEnum "private" section.
 class GenericTypesWithCompoundTypes_BasicStruct {
   double value;
@@ -186,6 +244,35 @@ GenericTypesWithCompoundTypes_BasicStruct smoke_GenericTypesWithCompoundTypes_Ba
   return _result;
 }
 void smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(handle);
+// Nullable GenericTypesWithCompoundTypes_BasicStruct
+final _smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable');
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(GenericTypesWithCompoundTypes_BasicStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(value);
+  final result = _smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable(_handle);
+  smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_handle);
+  return result;
+}
+GenericTypesWithCompoundTypes_BasicStruct smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable(handle);
+  final result = smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_handle);
+  smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable(handle);
 // End of GenericTypesWithCompoundTypes_BasicStruct "private" section.
 class GenericTypesWithCompoundTypes_ExternalStruct {
   String string;
@@ -219,4 +306,33 @@ GenericTypesWithCompoundTypes_ExternalStruct smoke_GenericTypesWithCompoundTypes
   return _result;
 }
 void smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(handle);
+// Nullable GenericTypesWithCompoundTypes_ExternalStruct
+final _smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable');
+final _smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable');
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(GenericTypesWithCompoundTypes_ExternalStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(value);
+  final result = _smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable(_handle);
+  smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_handle);
+  return result;
+}
+GenericTypesWithCompoundTypes_ExternalStruct smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable(handle);
+  final result = smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_handle);
+  smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable(handle);
 // End of GenericTypesWithCompoundTypes_ExternalStruct "private" section.

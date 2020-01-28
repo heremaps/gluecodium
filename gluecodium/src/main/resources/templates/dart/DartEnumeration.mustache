@@ -53,6 +53,8 @@ int {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(int handle) {}
 
+{{>dart/DartNullableTypeConversion}}
+
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+enumeratorValue}}{{#value}}{{.}}{{/value}}{{^value}}{{iter.position}}{{/value}}{{/enumeratorValue}}

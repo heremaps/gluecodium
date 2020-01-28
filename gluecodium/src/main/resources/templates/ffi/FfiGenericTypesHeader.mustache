@@ -49,7 +49,7 @@ _GLUECODIUM_FFI_EXPORT {{resolveName valueType}} {{resolveName}}_iterator_get_va
 }}{{#notInstanceOf this "LimeMap"}}
 _GLUECODIUM_FFI_EXPORT {{resolveName elementType}} {{resolveName}}_iterator_get(FfiOpaqueHandle iterator_handle);
 {{/notInstanceOf}}
-
+{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 
 {{/genericTypes}}
 

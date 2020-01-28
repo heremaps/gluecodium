@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-import 'package:library/src/Blob__conversion.dart';
-import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/PropertiesInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -158,11 +156,14 @@ class Properties {
     return _result;
   }
 }
-Pointer<Void> smoke_Properties_toFfi(Properties value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-Properties smoke_Properties_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? Properties._(handle) : null;
+Pointer<Void> smoke_Properties_toFfi(Properties value) => value._handle;
+Properties smoke_Properties_fromFfi(Pointer<Void> handle) => Properties._(handle);
 void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Properties_toFfi_nullable(Properties value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Properties smoke_Properties_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? Properties._(handle) : null;
+void smoke_Properties_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum Properties_InternalErrorCode {
     errorNone,
     errorFatal
@@ -193,6 +194,34 @@ Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi(int hand
   }
 }
 void smoke_Properties_InternalErrorCode_releaseFfiHandle(int handle) {}
+final _smoke_Properties_InternalErrorCode_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_Properties_InternalErrorCode_create_handle_nullable');
+final _smoke_Properties_InternalErrorCode_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Properties_InternalErrorCode_release_handle_nullable');
+final _smoke_Properties_InternalErrorCode_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Properties_InternalErrorCode_get_value_nullable');
+Pointer<Void> smoke_Properties_InternalErrorCode_toFfi_nullable(Properties_InternalErrorCode value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_Properties_InternalErrorCode_toFfi(value);
+  final result = _smoke_Properties_InternalErrorCode_create_handle_nullable(_handle);
+  smoke_Properties_InternalErrorCode_releaseFfiHandle(_handle);
+  return result;
+}
+Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_Properties_InternalErrorCode_get_value_nullable(handle);
+  final result = smoke_Properties_InternalErrorCode_fromFfi(_handle);
+  smoke_Properties_InternalErrorCode_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_Properties_InternalErrorCode_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Properties_InternalErrorCode_release_handle_nullable(handle);
 // End of Properties_InternalErrorCode "private" section.
 class Properties_ExampleStruct {
   double value;
@@ -226,4 +255,33 @@ Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi(Pointer<Void> ha
   return _result;
 }
 void smoke_Properties_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Properties_ExampleStruct_release_handle(handle);
+// Nullable Properties_ExampleStruct
+final _smoke_Properties_ExampleStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Properties_ExampleStruct_create_handle_nullable');
+final _smoke_Properties_ExampleStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Properties_ExampleStruct_release_handle_nullable');
+final _smoke_Properties_ExampleStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Properties_ExampleStruct_get_value_nullable');
+Pointer<Void> smoke_Properties_ExampleStruct_toFfi_nullable(Properties_ExampleStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_Properties_ExampleStruct_toFfi(value);
+  final result = _smoke_Properties_ExampleStruct_create_handle_nullable(_handle);
+  smoke_Properties_ExampleStruct_releaseFfiHandle(_handle);
+  return result;
+}
+Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_Properties_ExampleStruct_get_value_nullable(handle);
+  final result = smoke_Properties_ExampleStruct_fromFfi(_handle);
+  smoke_Properties_ExampleStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_Properties_ExampleStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Properties_ExampleStruct_release_handle_nullable(handle);
 // End of Properties_ExampleStruct "private" section.

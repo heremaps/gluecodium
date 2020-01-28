@@ -1,5 +1,5 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -77,11 +77,14 @@ class Constructors {
     return __result_handle;
   }
 }
-Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? Constructors._(handle) : null;
+Pointer<Void> smoke_Constructors_toFfi(Constructors value) => value._handle;
+Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) => Constructors._(handle);
 void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Constructors smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? Constructors._(handle) : null;
+void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum Constructors_ErrorEnum {
     none,
     crashed
@@ -112,6 +115,34 @@ Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi(int handle) {
   }
 }
 void smoke_Constructors_ErrorEnum_releaseFfiHandle(int handle) {}
+final _smoke_Constructors_ErrorEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_Constructors_ErrorEnum_create_handle_nullable');
+final _smoke_Constructors_ErrorEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Constructors_ErrorEnum_release_handle_nullable');
+final _smoke_Constructors_ErrorEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Constructors_ErrorEnum_get_value_nullable');
+Pointer<Void> smoke_Constructors_ErrorEnum_toFfi_nullable(Constructors_ErrorEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_Constructors_ErrorEnum_toFfi(value);
+  final result = _smoke_Constructors_ErrorEnum_create_handle_nullable(_handle);
+  smoke_Constructors_ErrorEnum_releaseFfiHandle(_handle);
+  return result;
+}
+Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_Constructors_ErrorEnum_get_value_nullable(handle);
+  final result = smoke_Constructors_ErrorEnum_fromFfi(_handle);
+  smoke_Constructors_ErrorEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_Constructors_ErrorEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Constructors_ErrorEnum_release_handle_nullable(handle);
 // End of Constructors_ErrorEnum "private" section.
 class Constructors_ConstructorExplodedException implements Exception {
   final Constructors_ErrorEnum error;

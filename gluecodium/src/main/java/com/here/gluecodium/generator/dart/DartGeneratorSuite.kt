@@ -33,6 +33,7 @@ import com.here.gluecodium.generator.ffi.FfiCppNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -99,7 +100,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             ) + generateFfi(it, ffiResolvers, includeResolver)
         } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
-            generateDartCommonFiles(pathsCollector) + generateFfiCommonFiles()
+            generateDartCommonFiles(pathsCollector, dartResolvers) +
+            generateFfiCommonFiles(ffiResolvers)
     }
 
     private fun generateDart(
@@ -165,6 +167,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val functions =
             types.filterIsInstance<LimeContainer>().flatMap { it.functions }.sortedBy { it.fullName }
         val classes = types.filterIsInstance<LimeContainerWithInheritance>()
+        val enums = types.filterIsInstance<LimeEnumeration>()
 
         val structs = types.filterIsInstance<LimeStruct>()
         val externalTypes = types.filter { it.attributes.have(CPP, EXTERNAL_TYPE) }
@@ -177,11 +180,13 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val includes = includeResolver.resolveIncludes(limeType) +
             functions.flatMap { collectTypeRefs(it) }.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { includeResolver.resolveIncludes(it) } +
-            structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) }
+            structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) } +
+            enums.flatMap { includeResolver.resolveIncludes(it) }
 
         val data = mapOf(
             "model" to rootElement,
             "classes" to classes,
+            "enums" to enums,
             "externalStructs" to externalStructs,
             "nonExternalStructs" to nonExternalStructs,
             "internalNamespace" to internalNamespace,
@@ -197,42 +202,62 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
     }
 
-    private fun generateDartCommonFiles(relativePaths: List<DartExport>): List<GeneratedFile> {
-        val templateData = mapOf("libraryName" to libraryName, "files" to relativePaths)
+    private fun generateDartCommonFiles(
+        relativePaths: List<DartExport>,
+        nameResolvers: Map<String, NameResolver>
+    ): List<GeneratedFile> {
+        val templateData = mapOf(
+            "libraryName" to libraryName,
+            "files" to relativePaths,
+            "builtInTypes" to
+                LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID }
+        )
         return listOf(
             GeneratedFile(
-                TemplateEngine.render("dart/DartExports", templateData),
+                TemplateEngine.render("dart/DartExports", templateData, nameResolvers),
                 "$LIB_DIR/$libraryName.dart"
             ),
             GeneratedFile(
-                TemplateEngine.render("dart/DartLibraryInit", templateData),
+                TemplateEngine.render("dart/DartLibraryInit", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart"
             ),
             GeneratedFile(
-                TemplateEngine.render("dart/DartPubspec", templateData),
+                TemplateEngine.render("dart/DartPubspec", templateData, nameResolvers),
                 "$ROOT_DIR/pubspec.yaml"
-            )
-        ) + listOf("Boolean", "String", "DateTime", "Blob").map {
+            ),
             GeneratedFile(
-                TemplateEngine.render("dart/Dart${it}Conversion", templateData),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/${it}__conversion.dart"
+                TemplateEngine.render("dart/DartBuiltInTypesConversion", templateData, nameResolvers),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/BuiltInTypes__conversion.dart"
             )
-        }
+        )
     }
 
-    private fun generateFfiCommonFiles(): List<GeneratedFile> {
+    private fun generateFfiCommonFiles(
+        nameResolvers: Map<String, NameResolver>
+    ): List<GeneratedFile> {
         val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
-        val headerAndImpl = listOf("StringHandle", "BlobHandle")
+        val headerAndImpl = listOf("StringHandle", "BlobHandle", "NullableHandles")
         val data = mapOf(
             "opaqueHandleType" to OPAQUE_HANDLE_TYPE,
-            "internalNamespace" to internalNamespace
+            "internalNamespace" to internalNamespace,
+            "builtInTypes" to
+                LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID }
         )
 
         return headerOnly.map {
-            GeneratedFile(TemplateEngine.render("ffi/Ffi$it", data), "$FFI_DIR/$it.h")
+            GeneratedFile(
+                TemplateEngine.render("ffi/Ffi$it", data, nameResolvers),
+                "$FFI_DIR/$it.h"
+            )
         } + headerAndImpl.flatMap { listOf(
-            GeneratedFile(TemplateEngine.render("ffi/Ffi${it}Header", data), "$FFI_DIR/$it.h"),
-            GeneratedFile(TemplateEngine.render("ffi/Ffi${it}Impl", data), "$FFI_DIR/$it.cpp")
+            GeneratedFile(
+                TemplateEngine.render("ffi/Ffi${it}Header", data, nameResolvers),
+                "$FFI_DIR/$it.h"
+            ),
+            GeneratedFile(
+                TemplateEngine.render("ffi/Ffi${it}Impl", data, nameResolvers),
+                "$FFI_DIR/$it.cpp"
+            )
         ) }
     }
 
