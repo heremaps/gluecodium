@@ -1,7 +1,6 @@
 import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/smoke/MethodOverloads_Point__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -118,3 +117,41 @@ class MethodOverloads_Point {
   double y;
   MethodOverloads_Point(this.x, this.y);
 }
+// MethodOverloads_Point "private" section, not exported.
+final _smoke_MethodOverloads_Point_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Double, Double),
+    Pointer<Void> Function(double, double)
+  >('smoke_MethodOverloads_Point_create_handle');
+final _smoke_MethodOverloads_Point_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_MethodOverloads_Point_release_handle');
+final _smoke_MethodOverloads_Point_get_field_x = __lib.nativeLibrary.lookupFunction<
+    Double Function(Pointer<Void>),
+    double Function(Pointer<Void>)
+  >('smoke_MethodOverloads_Point_get_field_x');
+final _smoke_MethodOverloads_Point_get_field_y = __lib.nativeLibrary.lookupFunction<
+    Double Function(Pointer<Void>),
+    double Function(Pointer<Void>)
+  >('smoke_MethodOverloads_Point_get_field_y');
+Pointer<Void> smoke_MethodOverloads_Point_toFfi(MethodOverloads_Point value) {
+  final _x_handle = (value.x);
+  final _y_handle = (value.y);
+  final _result = _smoke_MethodOverloads_Point_create_handle(_x_handle, _y_handle);
+  (_x_handle);
+  (_y_handle);
+  return _result;
+}
+MethodOverloads_Point smoke_MethodOverloads_Point_fromFfi(Pointer<Void> handle) {
+  final _x_handle = _smoke_MethodOverloads_Point_get_field_x(handle);
+  final _y_handle = _smoke_MethodOverloads_Point_get_field_y(handle);
+  final _result = MethodOverloads_Point(
+    (_x_handle),
+    (_y_handle)
+  );
+  (_x_handle);
+  (_y_handle);
+  return _result;
+}
+void smoke_MethodOverloads_Point_releaseFfiHandle(Pointer<Void> handle) => _smoke_MethodOverloads_Point_release_handle(handle);
+// End of MethodOverloads_Point "private" section.

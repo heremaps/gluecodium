@@ -126,3 +126,50 @@ class GenericTypesWithBasicTypes_StructWithGenerics {
   Set<int> numbersSet;
   GenericTypesWithBasicTypes_StructWithGenerics(this.numbersList, this.numbersMap, this.numbersSet);
 }
+// GenericTypesWithBasicTypes_StructWithGenerics "private" section, not exported.
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle');
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle');
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList');
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap');
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet');
+Pointer<Void> smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi(GenericTypesWithBasicTypes_StructWithGenerics value) {
+  final _numbersList_handle = ListOf_UByte_toFfi(value.numbersList);
+  final _numbersMap_handle = MapOf_UByte_to_String_toFfi(value.numbersMap);
+  final _numbersSet_handle = SetOf_UByte_toFfi(value.numbersSet);
+  final _result = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle(_numbersList_handle, _numbersMap_handle, _numbersSet_handle);
+  ListOf_UByte_releaseFfiHandle(_numbersList_handle);
+  MapOf_UByte_to_String_releaseFfiHandle(_numbersMap_handle);
+  SetOf_UByte_releaseFfiHandle(_numbersSet_handle);
+  return _result;
+}
+GenericTypesWithBasicTypes_StructWithGenerics smoke_GenericTypesWithBasicTypes_StructWithGenerics_fromFfi(Pointer<Void> handle) {
+  final _numbersList_handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList(handle);
+  final _numbersMap_handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap(handle);
+  final _numbersSet_handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet(handle);
+  final _result = GenericTypesWithBasicTypes_StructWithGenerics(
+    ListOf_UByte_fromFfi(_numbersList_handle),
+    MapOf_UByte_to_String_fromFfi(_numbersMap_handle),
+    SetOf_UByte_fromFfi(_numbersSet_handle)
+  );
+  ListOf_UByte_releaseFfiHandle(_numbersList_handle);
+  MapOf_UByte_to_String_releaseFfiHandle(_numbersMap_handle);
+  SetOf_UByte_releaseFfiHandle(_numbersSet_handle);
+  return _result;
+}
+void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle(handle);
+// End of GenericTypesWithBasicTypes_StructWithGenerics "private" section.

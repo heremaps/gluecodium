@@ -46,6 +46,7 @@ types StructsWithMethods {
     
             y: Double
         )
+        @Dart("createCopy")
         constructor create(
             other: Vector
         ) throws ValidationUtils.Validation
@@ -76,6 +77,7 @@ class StructsWithMethodsInterface {
             y: Double,
             z: Double
         )
+        @Dart("createCopy")
         constructor create(
             other: Vector3
         ) throws ValidationUtils.Validation

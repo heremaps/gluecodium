@@ -37,6 +37,8 @@ import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
 import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
 import "test/StaticIntMethods_test.dart" as StaticIntMethodsTests;
 import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
+import "test/StructsWithConstants_test.dart" as StructsWithConstantsTests;
+import "test/StructsWithMethods_test.dart" as StructsWithMethodsTests;
 
 final _allTests = [
   ClassesTests.main,
@@ -57,7 +59,9 @@ final _allTests = [
   StaticBooleanMethodsTests.main,
   StaticFloatDoubleMethodsTests.main,
   StaticIntMethodsTests.main,
-  StaticStringMethodsTests.main
+  StaticStringMethodsTests.main,
+  StructsWithConstantsTests.main,
+  StructsWithMethodsTests.main
 ];
 
 void main() {

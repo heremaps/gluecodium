@@ -18,7 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}static {{/if}}{{#if isConstructor}}Pointer<Void> {{/if}}{{!!
-}}{{#unless isConstructor}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{/unless}}{{!!
+{{#if isStatic}}static {{/if}}{{!!
+}}{{#if isConstructor}}{{#if isStruct}}{{>ffiReturnDeclaration}}{{/if}}{{!!
+}}{{#unless isStruct}}Pointer<Void> {{/unless}}{{/if}}{{!!
+}}{{#unless isConstructor}}{{>ffiReturnDeclaration}}{{/unless}}{{!!
 }}{{#if isConstructor}}_{{/if}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
-}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
+
+}}{{+ffiReturnDeclaration}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{/ffiReturnDeclaration}}

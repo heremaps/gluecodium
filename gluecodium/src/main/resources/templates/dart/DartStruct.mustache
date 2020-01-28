@@ -27,11 +27,68 @@
 class {{resolveName visibility}}{{resolveName}} {
 {{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
 {{/fields}}{{/set}}
-{{#if fields}}  {{resolveName}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{/if}}
-{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}
-{{#set parent=this}}{{#functions}}
+{{#if fields}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
+}}this._({{#fields}}_other.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{/if}}{{/if}}
+{{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
+{{/constants}}{{/set}}
+{{#set parent=this isStruct=true}}{{#constructors}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{prefixPartial "dartConstructor" "  "}}
+{{/constructors}}
+{{#functions}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
 }
+
+// {{resolveName}} "private" section, not exported.
+
+final _{{resolveName "Ffi"}}_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}}),
+    Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
+  >('{{resolveName "Ffi"}}_create_handle');
+final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_release_handle');
+{{#set parent=this}}{{#fields}}
+final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.nativeLibrary.lookupFunction<
+    {{resolveName typeRef "FfiApiTypes"}} Function(Pointer<Void>),
+    {{resolveName typeRef "FfiDartTypes"}} Function(Pointer<Void>)
+  >('{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
+{{/fields}}{{/set}}
+
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+{{#fields}}
+  final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName}});
+{{/fields}}
+  final _result = _{{resolveName "Ffi"}}_create_handle({{#fields}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{#fields}}
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
+{{/fields}}
+  return _result;
+}
+
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+{{#set parent=this}}{{#fields}}
+  final _{{resolveName}}_handle = _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}(handle);
+{{/fields}}{{/set}}
+  final _result = {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}
+    {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
+  {{/fields}});
+{{#fields}}
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
+{{/fields}}
+  return _result;
+}
+
+void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveName "Ffi"}}_release_handle(handle);
+
+// End of {{resolveName}} "private" section.{{!!
+
+}}{{+dartConstructor}}{{resolveName visibility}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
+}}this._copy(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
+{{/dartConstructor}}

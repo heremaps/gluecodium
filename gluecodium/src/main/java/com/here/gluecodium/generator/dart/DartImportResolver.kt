@@ -27,7 +27,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
@@ -54,11 +53,10 @@ internal class DartImportResolver(
     private fun resolveImports(limeElement: LimeNamedElement): List<DartImport> {
         val filePath = limeElement.path.head.joinToString("/")
         val fileName = nameResolver.resolveName(getTopElement(limeElement))
-        val conversionImport =
-            if (limeElement is LimeStruct || limeElement is LimeEnumeration) {
-                val conversionFileName = nameResolver.resolveName(limeElement)
-                createConversionImport("$filePath/$conversionFileName")
-            } else null
+        val conversionImport = (limeElement as? LimeEnumeration)?.let {
+            val conversionFileName = nameResolver.resolveName(it)
+            createConversionImport("$filePath/$conversionFileName")
+        }
         return listOfNotNull(DartImport("$filePath/$fileName"), conversionImport)
     }
 

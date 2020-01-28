@@ -45,7 +45,7 @@ abstract class {{resolveName visibility}}{{resolveName}} {{!!
 {{>dart/DartStruct}}
 {{/structs}}
 
-// "Private" section, not exported.
+// {{resolveName}} "private" section, not exported.
 
 final __release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -78,3 +78,5 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}}__Impl value) =>
   handle.address != 0 ? {{resolveName}}__Impl._(handle) : null;
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) {}
+
+// End of {{resolveName}} "private" section.

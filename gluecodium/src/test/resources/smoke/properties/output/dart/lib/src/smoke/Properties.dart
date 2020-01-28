@@ -3,7 +3,6 @@ import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/List__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/PropertiesInterface.dart';
-import 'package:library/src/smoke/Properties_ExampleStruct__conversion.dart';
 import 'package:library/src/smoke/Properties_InternalErrorCode__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -172,3 +171,32 @@ class Properties_ExampleStruct {
   double value;
   Properties_ExampleStruct(this.value);
 }
+// Properties_ExampleStruct "private" section, not exported.
+final _smoke_Properties_ExampleStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Double),
+    Pointer<Void> Function(double)
+  >('smoke_Properties_ExampleStruct_create_handle');
+final _smoke_Properties_ExampleStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Properties_ExampleStruct_release_handle');
+final _smoke_Properties_ExampleStruct_get_field_value = __lib.nativeLibrary.lookupFunction<
+    Double Function(Pointer<Void>),
+    double Function(Pointer<Void>)
+  >('smoke_Properties_ExampleStruct_get_field_value');
+Pointer<Void> smoke_Properties_ExampleStruct_toFfi(Properties_ExampleStruct value) {
+  final _value_handle = (value.value);
+  final _result = _smoke_Properties_ExampleStruct_create_handle(_value_handle);
+  (_value_handle);
+  return _result;
+}
+Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi(Pointer<Void> handle) {
+  final _value_handle = _smoke_Properties_ExampleStruct_get_field_value(handle);
+  final _result = Properties_ExampleStruct(
+    (_value_handle)
+  );
+  (_value_handle);
+  return _result;
+}
+void smoke_Properties_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Properties_ExampleStruct_release_handle(handle);
+// End of Properties_ExampleStruct "private" section.

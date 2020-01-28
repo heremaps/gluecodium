@@ -7,7 +7,7 @@ abstract class SimpleInterface {
   String getStringValue();
   SimpleInterface useSimpleInterface(SimpleInterface input);
 }
-// "Private" section, not exported.
+// SimpleInterface "private" section, not exported.
 final __release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -40,3 +40,4 @@ Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface__Impl value) =>
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) =>
   handle.address != 0 ? SimpleInterface__Impl._(handle) : null;
 void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) {}
+// End of SimpleInterface "private" section.

@@ -3,9 +3,7 @@ import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/DummyClass.dart';
 import 'package:library/src/smoke/DummyInterface.dart';
-import 'package:library/src/smoke/GenericTypesWithCompoundTypes_BasicStruct__conversion.dart';
 import 'package:library/src/smoke/GenericTypesWithCompoundTypes_ExternalEnum__conversion.dart';
-import 'package:library/src/smoke/GenericTypesWithCompoundTypes_ExternalStruct__conversion.dart';
 import 'package:library/src/smoke/GenericTypesWithCompoundTypes_SomeEnum__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -108,7 +106,65 @@ class GenericTypesWithCompoundTypes_BasicStruct {
   double value;
   GenericTypesWithCompoundTypes_BasicStruct(this.value);
 }
+// GenericTypesWithCompoundTypes_BasicStruct "private" section, not exported.
+final _smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Double),
+    Pointer<Void> Function(double)
+  >('smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle');
+final _smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle');
+final _smoke_GenericTypesWithCompoundTypes_BasicStruct_get_field_value = __lib.nativeLibrary.lookupFunction<
+    Double Function(Pointer<Void>),
+    double Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_BasicStruct_get_field_value');
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(GenericTypesWithCompoundTypes_BasicStruct value) {
+  final _value_handle = (value.value);
+  final _result = _smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle(_value_handle);
+  (_value_handle);
+  return _result;
+}
+GenericTypesWithCompoundTypes_BasicStruct smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(Pointer<Void> handle) {
+  final _value_handle = _smoke_GenericTypesWithCompoundTypes_BasicStruct_get_field_value(handle);
+  final _result = GenericTypesWithCompoundTypes_BasicStruct(
+    (_value_handle)
+  );
+  (_value_handle);
+  return _result;
+}
+void smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(handle);
+// End of GenericTypesWithCompoundTypes_BasicStruct "private" section.
 class GenericTypesWithCompoundTypes_ExternalStruct {
   String string;
   GenericTypesWithCompoundTypes_ExternalStruct(this.string);
 }
+// GenericTypesWithCompoundTypes_ExternalStruct "private" section, not exported.
+final _smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle');
+final _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle');
+final _smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_field_string = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_field_string');
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(GenericTypesWithCompoundTypes_ExternalStruct value) {
+  final _string_handle = String_toFfi(value.string);
+  final _result = _smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle(_string_handle);
+  String_releaseFfiHandle(_string_handle);
+  return _result;
+}
+GenericTypesWithCompoundTypes_ExternalStruct smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(Pointer<Void> handle) {
+  final _string_handle = _smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_field_string(handle);
+  final _result = GenericTypesWithCompoundTypes_ExternalStruct(
+    String_fromFfi(_string_handle)
+  );
+  String_releaseFfiHandle(_string_handle);
+  return _result;
+}
+void smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(handle);
+// End of GenericTypesWithCompoundTypes_ExternalStruct "private" section.
