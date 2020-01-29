@@ -19,6 +19,7 @@
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 
 function(_main)
+    apigen_set_generated_files(${APIGEN_TARGET})
     _generate()
     _collect_all_files_in_single_compilation_units()
 endfunction()

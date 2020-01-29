@@ -114,6 +114,7 @@ function(apigen_generate)
 
   message(STATUS "${operationVerb} '${APIGEN_TARGET}' with '${APIGEN_GENERATOR}' generator using Gluecodium version '${APIGEN_VERSION}'
   Input: '${apigen_generate_LIME_SOURCES}'")
+  message("GEORG target: ${APIGEN_TARGET} Input: '${apigen_generate_LIME_SOURCES}'")
 
 
   # Attach properties to target for re-use in other modules
@@ -177,11 +178,13 @@ function(apigen_generate)
   endif()
   apigen_list_generated_sources(_generated_files
     ${_source_sets}
+    TARGET ${APIGEN_TARGET}
     GENERATOR ${APIGEN_GENERATOR}
     BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
   add_custom_command(OUTPUT ${_generated_files}
     COMMAND ${CMAKE_COMMAND}
+        -DAPIGEN_TARGET=${APIGEN_TARGET}
         -DAPIGEN_GLUECODIUM_GRADLE_WRAPPER=${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
         -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
         -DAPIGEN_GLUECODIUM_ARGS=${APIGEN_GLUECODIUM_ARGS}
@@ -192,7 +195,7 @@ function(apigen_generate)
         -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
         -DAPIGEN_VERBOSE=${APIGEN_VERBOSE}
-	# Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
+        # Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
         -DAPIGEN_AUX_FILES=$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>;$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
         VERBATIM

@@ -30,25 +30,30 @@ cmake_minimum_required(VERSION 3.5)
 # These might differ depending on the previously used generator (cpp, android,
 # swift, etc.). This module depends on apigen_generate() to have been run on
 # the target first.
+# For Swift generator the target properties SWIFT_SOURCES and BRIDGING_HEADERS
+# will be set.
 #
 # .. command:: apigen_target_sources
 #
 # The general form of the command is::
 #
 #     apigen_target_sources(<target> (MAIN) (COMMON))
-#        <target>    Target for which source was generated via `apigen_generate`
-#        MAIN        Add the MAIN generated source set, i.e. code generated for
-#                    the input Lime IDL files.
-#        COMMON      Add the common generated source set which is independent of
-#                    input Lime IDL files and can be shared between different
-#                    targets
+#        <target>      Target for which source was generated via `apigen_generate`
+#        SKIP_SWIFT    Do not add Swift files to the target directly. Instead the
+#                      target properties SWIFT_SOURCES and BRIDGING_HEADERS can be
+#                      used for custom compilation logic.
+#        MAIN          Add the MAIN generated source set, i.e. code generated for
+#                      the input Lime IDL files.
+#        COMMON        Add the common generated source set which is independent of
+#                      input Lime IDL files and can be shared between different
+#                      targets
 #     If neither MAIN nor COMMON are specified, both are added. Specifying a
 #     source set requires a separate common output directory to be set for
 #     `apigen_generate`.
 #
 
 function(apigen_target_sources target)
-  set(options MAIN COMMON)
+  set(options MAIN COMMON SKIP_SWIFT_FILES)
   cmake_parse_arguments(apigen_target_sources "${options}" "" "" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
@@ -71,8 +76,60 @@ function(apigen_target_sources target)
 
   apigen_list_generated_sources(_generated_files
     ${_source_sets}
+    TARGET ${target}
     GENERATOR "${GENERATOR}"
     BUILD_OUTPUT_DIR "${BUILD_OUTPUT_DIR}")
   source_group("Generated Source Files" FILES ${_generated_files})
-  target_sources(${target} PRIVATE ${_generated_files})
+
+  if(NOT GENERATOR STREQUAL swift)
+    target_sources(${target} PRIVATE ${_generated_files})
+  else()
+    apigen_set_generated_files(${target})
+
+    foreach(_upper_case_source_set ${_source_sets})
+      string(TOLOWER ${_upper_case_source_set} _source_set)
+      # Generated files are marked as such by CMake, but this source file property is on directory scope.
+      # This means for targets in other directories, CMake is not aware that the file is supposed to be
+      # absent during configuration, see issue https://gitlab.kitware.com/cmake/cmake/issues/18399.
+      # Work around this by marking it explicitly as generated and also create dummy files.
+      # When creating these dummy files it is important that not all are already present while building,
+      # otherwise CMake may decide to skip Gluecodium step completely. But this workaround is only
+      # necessary for public/interface sources, so as long as there some private ones without dummy
+      # file, everything is fine.
+      set_property(SOURCE
+            ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+            ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+            ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}}
+          PROPERTY GENERATED 1)
+
+      foreach(generated_file
+          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+        if(NOT EXISTS "${generated_file}")
+          get_filename_component(directory "${generated_file}" DIRECTORY)
+          file(MAKE_DIRECTORY "${directory}")
+          file(WRITE "${generated_file}" "// Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399")
+        endif()
+      endforeach()
+
+      # Swift code which is supposed to end up in one module cannot easily be split into multiple
+      # compilation units. So instead just attach the Swift code as a property here.
+      # Bridging headers need to be collected for all included compilation units and end up in the final
+      # CBridge modulemap used for building.
+      set_property(TARGET ${target} APPEND PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+      set_property(TARGET ${target} APPEND PROPERTY BRIDGING_HEADERS ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}})
+      if(NOT apigen_target_sources_SKIP_SWIFT)
+        target_sources(${target} PRIVATE ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+      endif()
+
+      target_sources(${target}
+        PUBLIC
+          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+        PRIVATE
+          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}}
+      )
+    endforeach()
+  endif()
 endfunction()
