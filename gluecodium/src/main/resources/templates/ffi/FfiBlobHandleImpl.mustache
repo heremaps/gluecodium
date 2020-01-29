@@ -26,8 +26,7 @@
 #include <vector>
 
 namespace {
-using Blob = std::vector<uint8_t>;
-using BlobPtr = std::shared_ptr<Blob>;
+using BlobPtr = std::shared_ptr<std::vector<uint8_t>>;
 }
 
 #ifdef __cplusplus
@@ -35,8 +34,8 @@ extern "C" {
 #endif
 
 FfiOpaqueHandle
-blob_create_handle() {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) BlobPtr(new Blob()));
+blob_create_handle(uint64_t length) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) BlobPtr(new std::vector<uint8_t>(length)));
 }
 
 void
@@ -44,37 +43,19 @@ blob_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<BlobPtr*>(handle);
 }
 
-void
-blob_insert(FfiOpaqueHandle handle, uint8_t value) {
-    (*reinterpret_cast<BlobPtr*>(handle))->push_back(value);
-}
-
-FfiOpaqueHandle
-blob_iterator(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) Blob::iterator(
-        (*reinterpret_cast<BlobPtr*>(handle))->begin()
-    ));
-}
-
-void
-blob_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
-    delete reinterpret_cast<Blob::iterator*>(iterator_handle);
-}
-
-bool
-blob_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
-    return *reinterpret_cast<Blob::iterator*>(iterator_handle) !=
-        (*reinterpret_cast<BlobPtr*>(handle))->end();
-}
-
-void
-blob_iterator_increment(FfiOpaqueHandle iterator_handle) {
-    ++*reinterpret_cast<Blob::iterator*>(iterator_handle);
+uint64_t
+blob_get_length(FfiOpaqueHandle handle) {
+    return (*reinterpret_cast<BlobPtr*>(handle))->size();
 }
 
 uint8_t
-blob_iterator_get(FfiOpaqueHandle iterator_handle) {
-    return **reinterpret_cast<Blob::iterator*>(iterator_handle);
+blob_get_at(FfiOpaqueHandle handle, uint64_t index) {
+    return (*reinterpret_cast<BlobPtr*>(handle))->at(index);
+}
+
+void
+blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value) {
+    (*reinterpret_cast<BlobPtr*>(handle))->at(index) = value;
 }
 
 #ifdef __cplusplus

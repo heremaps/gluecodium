@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,24 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>ffi/FfiCopyrightHeader}}
-
-#pragma once
-
-#include "Export.h"
-#include "OpaqueHandle.h"
-#include <cstdint>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle blob_create_handle(uint64_t length);
-_GLUECODIUM_FFI_EXPORT void blob_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT uint64_t blob_get_length(FfiOpaqueHandle iterator_handle);
-_GLUECODIUM_FFI_EXPORT uint8_t blob_get_at(FfiOpaqueHandle iterator_handle, uint64_t index);
-_GLUECODIUM_FFI_EXPORT void blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value);
-
-#ifdef __cplusplus
-}
-#endif
+import '{{#if isSystem}}dart:{{filePath}}{{/if}}{{!!
+}}{{#unless isSystem}}package:{{libraryName}}/src/{{filePath}}.dart{{/unless}}'{{!!
+}}{{#asAlias}} as {{.}}{{/asAlias}};

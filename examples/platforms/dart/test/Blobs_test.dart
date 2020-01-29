@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+import "dart:typed_data";
 import "package:test/test.dart";
 import "package:hello/hello.dart";
 import "../test_suite.dart";
@@ -26,31 +27,31 @@ final _testSuite = TestSuite("Blobs");
 
 void main() {
   _testSuite.test("methodWithByteBuffer() empty list", () {
-    final result = ArraysByteBuffer.methodWithByteBuffer([]);
+    final result = ArraysByteBuffer.methodWithByteBuffer(Uint8List(0));
 
     expect(result, isEmpty);
   });
   _testSuite.test("methodWithByteBuffer() reverses list", () {
-    final result = ArraysByteBuffer.methodWithByteBuffer([0, 42, 255]);
+    final result = ArraysByteBuffer.methodWithByteBuffer(Uint8List.fromList([0, 42, 255]));
 
     expect(result, [255, 42, 0]);
   });
   _testSuite.test("methodWithByteBufferInStruct() empty list", () {
     final result = ArraysByteBuffer.methodWithByteBufferInStruct(
-        ArraysByteBuffer_StructWithByteBuffer([])
+        ArraysByteBuffer_StructWithByteBuffer(Uint8List(0))
     );
 
     expect(result.image, isEmpty);
   });
   _testSuite.test("methodWithBymethodWithByteBufferInStructteBuffer() reverses list", () {
     final result = ArraysByteBuffer.methodWithByteBufferInStruct(
-        ArraysByteBuffer_StructWithByteBuffer([0, 42, 255])
+        ArraysByteBuffer_StructWithByteBuffer(Uint8List.fromList([0, 42, 255]))
     );
 
-    expect(result.image, [255, 42, 0]);
+    expect(result.image, Uint8List.fromList([255, 42, 0]));
   });
   _testSuite.test("methodThatExplodes() throws", () {
-    List<int> result = null;
+    Uint8List result = null;
     ExplosiveException exception = null;
 
     try {
@@ -64,7 +65,7 @@ void main() {
     expect(exception.error, ExplosiveErrorCode.exploded);
   });
   _testSuite.test("methodThatExplodes() does not throw", () {
-    List<int> result = null;
+    Uint8List result = null;
     ExplosiveException exception = null;
 
     try {
@@ -73,7 +74,7 @@ void main() {
       exception = e;
     }
 
-    expect(result, [0, 1, 2]);
     expect(exception, isNull);
+    expect(result, Uint8List.fromList([0, 1, 2]));
   });
 }

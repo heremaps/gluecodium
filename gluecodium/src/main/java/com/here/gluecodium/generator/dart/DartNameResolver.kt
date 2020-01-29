@@ -73,7 +73,7 @@ internal class DartNameResolver(
             TypeId.BOOLEAN -> "bool"
             TypeId.FLOAT, TypeId.DOUBLE -> "double"
             TypeId.STRING -> "String"
-            TypeId.BLOB -> "List<int>"
+            TypeId.BLOB -> "Uint8List"
             TypeId.DATE -> "DateTime"
         }
 

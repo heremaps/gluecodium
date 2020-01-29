@@ -21,7 +21,7 @@
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
 {{#imports}}
-import 'package:{{libraryName}}/src/{{filePath}}.dart'{{#asAlias}} as {{.}}{{/asAlias}};
+{{>dart/DartImport}}
 {{/imports}}
 
 {{#model}}

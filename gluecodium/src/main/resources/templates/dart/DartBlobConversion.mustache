@@ -21,60 +21,47 @@
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
 import 'dart:ffi';
+import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 
 import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
 
 final _Blob_create_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(),
-    Pointer<Void> Function()
+    Pointer<Void> Function(Uint64),
+    Pointer<Void> Function(int)
   >('blob_create_handle');
 final _Blob_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('blob_release_handle');
-final _Blob_insert = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>, Uint8),
-    void Function(Pointer<Void>, int)
-  >('blob_insert');
-final _Blob_iterator = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
->('blob_iterator');
-final _Blob_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
->('blob_iterator_release_handle');
-final _Blob_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
-    Int8 Function(Pointer<Void>, Pointer<Void>),
-    int Function(Pointer<Void>, Pointer<Void>)
->('blob_iterator_is_valid');
-final _Blob_iterator_increment = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
->('blob_iterator_increment');
-final _Blob_iterator_get = __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>),
+final _Blob_get_length = __lib.nativeLibrary.lookupFunction<
+    Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('blob_iterator_get');
+>('blob_get_length');
+final _Blob_get_at = __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>, Uint64),
+    int Function(Pointer<Void>, int)
+>('blob_get_at');
+final _Blob_set_at = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Uint64, Uint8),
+    void Function(Pointer<Void>, int, int)
+  >('blob_set_at');
 
-Pointer<Void> Blob_toFfi(List<int> value) {
-  final _result = _Blob_create_handle();
-  for (final element in value) {
-    _Blob_insert(_result, element);
+Pointer<Void> Blob_toFfi(Uint8List list) {
+  final length = list.length;
+  final result = _Blob_create_handle(length);
+  for (int i = 0; i < length; ++i) {
+    _Blob_set_at(result, i, list[i]);
   }
-  return _result;
+  return result;
 }
 
-List<int> Blob_fromFfi(Pointer<Void> handle) {
-  final result = List<int>();
-  final _iterator_handle = _Blob_iterator(handle);
-  while (_Blob_iterator_is_valid(handle, _iterator_handle) != 0) {
-    final _element_handle = _Blob_iterator_get(_iterator_handle);
-    result.add(_element_handle);
-    _Blob_iterator_increment(_iterator_handle);
+Uint8List Blob_fromFfi(Pointer<Void> handle) {
+  final length = _Blob_get_length(handle);
+  final result = Uint8List(length);
+  for (int i = 0; i < length; ++i) {
+    result[i] = _Blob_get_at(handle, i);
   }
-  _Blob_iterator_release_handle(_iterator_handle);
   return result;
 }
 

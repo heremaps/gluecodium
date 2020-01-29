@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:library/src/Blob__conversion.dart';
 import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
@@ -182,7 +183,7 @@ class Structs_AllTypesStruct {
   final double doubleField;
   final String stringField;
   final bool booleanField;
-  final List<int> bytesField;
+  final Uint8List bytesField;
   final Structs_Point pointField;
   Structs_AllTypesStruct(this.int8Field, this.uint8Field, this.int16Field, this.uint16Field, this.int32Field, this.uint32Field, this.int64Field, this.uint64Field, this.floatField, this.doubleField, this.stringField, this.booleanField, this.bytesField, this.pointField);
 }
