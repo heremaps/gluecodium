@@ -18,12 +18,24 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#typeRef.type.actualType}}{{!!
-}}{{#instanceOf this "LimeBasicType"}}{{!!
-}}{{#isEq typeId.toString "Boolean"}}Boolean_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "String"}}String_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "Blob"}}Blob_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "Date"}}DateTime_{{call}}{{/isEq}}{{!!
-}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeBasicType"}}{{resolveName "Ffi"}}_{{call}}{{/notInstanceOf}}{{!!
-}}{{/typeRef.type.actualType}}
+{{>ffi/FfiCopyrightHeader}}
+
+#pragma once
+
+#include "Export.h"
+#include "OpaqueHandle.h"
+#include <cstdint>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle blob_create_handle(uint64_t length);
+_GLUECODIUM_FFI_EXPORT void blob_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint64_t blob_get_length(FfiOpaqueHandle iterator_handle);
+_GLUECODIUM_FFI_EXPORT uint8_t blob_get_at(FfiOpaqueHandle iterator_handle, uint64_t index);
+_GLUECODIUM_FFI_EXPORT void blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value);
+
+#ifdef __cplusplus
+}
+#endif

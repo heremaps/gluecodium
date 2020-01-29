@@ -19,6 +19,15 @@
 
 package com.here.gluecodium.generator.dart
 
-data class DartImport(val filePath: String, val asAlias: String? = null) : Comparable<DartImport> {
-    override fun compareTo(other: DartImport) = filePath.compareTo(other.filePath)
+data class DartImport(
+    val filePath: String,
+    val asAlias: String? = null,
+    val isSystem: Boolean = false
+) : Comparable<DartImport> {
+    override fun compareTo(other: DartImport) =
+        when (val systemComparison = isSystem.compareTo(other.isSystem)) {
+            0 -> filePath.compareTo(other.filePath)
+            // According to Dart style guide, system imports should precede package imports.
+            else -> -systemComparison
+        }
 }

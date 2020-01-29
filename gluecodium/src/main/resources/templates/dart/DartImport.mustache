@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,12 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#typeRef.type.actualType}}{{!!
-}}{{#instanceOf this "LimeBasicType"}}{{!!
-}}{{#isEq typeId.toString "Boolean"}}Boolean_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "String"}}String_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "Blob"}}Blob_{{call}}{{/isEq}}{{!!
-}}{{#isEq typeId.toString "Date"}}DateTime_{{call}}{{/isEq}}{{!!
-}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeBasicType"}}{{resolveName "Ffi"}}_{{call}}{{/notInstanceOf}}{{!!
-}}{{/typeRef.type.actualType}}
+import '{{#if isSystem}}dart:{{filePath}}{{/if}}{{!!
+}}{{#unless isSystem}}package:{{libraryName}}/src/{{filePath}}.dart{{/unless}}'{{!!
+}}{{#asAlias}} as {{.}}{{/asAlias}};
