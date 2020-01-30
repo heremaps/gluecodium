@@ -53,7 +53,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 
 function(apigen_target_sources target)
-  set(options MAIN COMMON SKIP_SWIFT_FILES)
+  set(options MAIN COMMON SKIP_SWIFT)
   cmake_parse_arguments(apigen_target_sources "${options}" "" "" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
