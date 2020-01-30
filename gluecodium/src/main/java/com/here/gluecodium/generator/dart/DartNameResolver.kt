@@ -100,7 +100,10 @@ internal class DartNameResolver(
                 val postfix: String
                 when (actualType) {
                     is LimeStruct -> {
-                        prefix = "${resolveName(actualType)}("
+                        val useDefaultsConstructor =
+                            actualType.fields.isNotEmpty() && limeValue.values.isEmpty()
+                        val constructorName = if (useDefaultsConstructor) ".withDefaults" else ""
+                        prefix = "${resolveName(actualType)}$constructorName("
                         postfix = ")"
                     }
                     is LimeList -> {

@@ -97,28 +97,6 @@ class DefaultsTests: XCTestCase {
       XCTAssertTrue(special.doubleNegativeInfinityField < 0)
     }
 
-    func testSwiftNullableDefaults() {
-      let result = Defaults.NullableStructWithDefaults()
-
-      XCTAssertNil(result.intField)
-      XCTAssertNil(result.uintField)
-      XCTAssertNil(result.floatField)
-      XCTAssertNil(result.boolField)
-      XCTAssertNil(result.stringField)
-      XCTAssertNil(result.enumField)
-    }
-
-    func testCppNullableDefaults() {
-      let result = Defaults.getNullableDefaults()
-
-      XCTAssertNil(result.intField)
-      XCTAssertNil(result.uintField)
-      XCTAssertNil(result.floatField)
-      XCTAssertNil(result.boolField)
-      XCTAssertNil(result.stringField)
-      XCTAssertNil(result.enumField)
-    }
-
     func testSwiftEmptyDefaults() {
       let result = Defaults.StructWithEmptyDefaults()
 
@@ -167,8 +145,6 @@ class DefaultsTests: XCTestCase {
         ("testGetImmutableDefault", testGetImmutableDefault),
         ("testSwiftSpecialDefaults", testSwiftSpecialDefaults),
         ("testCppSpecialDefaults", testCppSpecialDefaults),
-        ("testSwiftNullableDefaults", testSwiftNullableDefaults),
-        ("testCppNullableDefaults", testCppNullableDefaults),
         ("testSwiftEmptyDefaults", testSwiftEmptyDefaults),
         ("testCppEmptyDefaults", testCppEmptyDefaults),
         ("testSwiftInitializerDefaults", testSwiftInitializerDefaults),

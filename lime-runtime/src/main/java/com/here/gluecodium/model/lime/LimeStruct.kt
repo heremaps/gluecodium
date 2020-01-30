@@ -38,4 +38,12 @@ class LimeStruct(
 ) {
     override val childTypes
         get() = fields.map { it.typeRef }
+
+    @Suppress("unused")
+    val initializedFields
+        get() = fields.filter { it.defaultValue != null }
+
+    @Suppress("unused")
+    val uninitializedFields
+        get() = fields.filter { it.defaultValue == null }
 }
