@@ -9,13 +9,13 @@ Bindings generation for Swift consists of the Swift code and some translation la
 
 ## Classes with C++ implementation
 
-By classes are generated as classes in Swift and abstract classes in BaseAPI. Calling into C++, objects needs to pass through the
+Lime IDL classes are generated as classes in Swift and abstract classes in BaseAPI. Calling into C++, objects needs to pass through the
 C interface. The lifetime of the C++ object can be prolonged by holding a reference on Swift side.
 ![Interfaces code overview](diagrams/SwiftInterfaces.svg)
 
 ## Interfaces with Swift implementation
 
-For interfaces Gluecodium generates a protocal in Swift which can be implemented in Swift and passed to C++. Gluecodium generates
+For interfaces Gluecodium generates a protocol in Swift which can be implemented in Swift and passed to C++. Gluecodium generates
 the necessary proxy class. Holding a `shared_ptr` to the proxy on C++ side will extend the life of the Swift object.
 ![Listeners code overview](diagrams/SwiftProxy.svg)
 
