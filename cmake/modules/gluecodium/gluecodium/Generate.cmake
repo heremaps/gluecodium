@@ -114,8 +114,6 @@ function(apigen_generate)
 
   message(STATUS "${operationVerb} '${APIGEN_TARGET}' with '${APIGEN_GENERATOR}' generator using Gluecodium version '${APIGEN_VERSION}'
   Input: '${apigen_generate_LIME_SOURCES}'")
-  message("GEORG target: ${APIGEN_TARGET} Input: '${apigen_generate_LIME_SOURCES}'")
-
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${APIGEN_TARGET} PROPERTIES
