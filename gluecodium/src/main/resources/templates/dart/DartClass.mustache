@@ -22,6 +22,8 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{resolveName "Ffi"}}_release_handle');
+{{#ifHasAttribute "Equatable"}}{{>dartFfiEqualityFunction}}{{/ifHasAttribute}}{{!!
+}}{{#ifHasAttribute "PointerEquatable"}}{{>dartFfiEqualityFunction}}{{/ifHasAttribute}}
 
 {{#functions}}
 {{>dart/DartFunctionException}}
@@ -50,6 +52,8 @@ class {{resolveName visibility}}{{resolveName}} {{!!
 {{#properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/properties}}
+{{#ifHasAttribute "Equatable"}}{{>dartFfiEqualityOperator}}{{/ifHasAttribute}}{{!!
+}}{{#ifHasAttribute "PointerEquatable"}}{{>dartFfiEqualityOperator}}{{/ifHasAttribute}}
 }
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) => value._handle;
@@ -85,4 +89,21 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 }}{{+dartConstructor}}{{resolveName visibility}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this._(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
-{{/dartConstructor}}
+{{/dartConstructor}}{{!!
+
+}}{{+dartFfiEqualityFunction}}
+final __are_equal = __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>, Pointer<Void>),
+    int Function(Pointer<Void>, Pointer<Void>)
+  >('{{resolveName "Ffi"}}_are_equal');
+{{/dartFfiEqualityFunction}}{{!!
+
+}}{{+dartFfiEqualityOperator}}
+  @override
+  bool operator ==(dynamic other) {
+    if (identical(this, other)) return true;
+    if (other is! {{resolveName}}) return false;
+    {{resolveName}} _other = other;
+    return __are_equal(_handle, _other._handle) != 0;
+  }
+{{/dartFfiEqualityOperator}}

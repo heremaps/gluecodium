@@ -83,7 +83,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 internalNamespace
             )
         )
-        val importResolver = DartImportResolver(limeModel.referenceMap, dartNameResolver)
+        val importResolver = DartImportResolver(
+            limeModel.referenceMap,
+            dartNameResolver,
+            "$libraryName/$SRC_DIR_SUFFIX"
+        )
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val pathsCollector = mutableListOf<DartExport>()
@@ -127,7 +131,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val content = TemplateEngine.render(
             "dart/DartFile",
             mapOf(
-                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
+                "imports" to imports.distinct().sorted().filterNot { it.filePath.endsWith(filePath) },
                 "model" to rootElement,
                 "contentTemplate" to contentTemplateName,
                 "libraryName" to libraryName

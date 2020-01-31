@@ -91,6 +91,7 @@ class EquatableInterface {
     constructor create(
         name: String
     )
+    @Dart("areEqualAnother")
     static fun areEqual(
         lhs: AnotherEquatableStruct,
 
@@ -101,11 +102,13 @@ class EquatableInterface {
 
         rhs: Equatable.EquatableStruct
     ): Boolean
+    @Dart("areEqualNullable")
     static fun areEqual(
         lhs: Equatable.EquatableNullableStruct,
 
         rhs: Equatable.EquatableNullableStruct
     ): Boolean
+    @Dart("haveSameHashAnother")
     static fun haveSameHash(
         lhs: AnotherEquatableStruct,
         rhs: AnotherEquatableStruct
@@ -114,6 +117,7 @@ class EquatableInterface {
         lhs: Equatable.EquatableStruct,
         rhs: Equatable.EquatableStruct
     ): Boolean
+    @Dart("haveSameHashNullable")
     static fun haveSameHash(
         lhs: Equatable.EquatableNullableStruct,
         rhs: Equatable.EquatableNullableStruct
@@ -140,6 +144,7 @@ class PointerEquatableInterface {
         one: EquatableStruct,
         other: EquatableStruct
     ): Boolean
+    @Dart("areEqualOptional")
     static fun areEqual(
         one: OptionalEquatableStruct,
         other: OptionalEquatableStruct
@@ -148,6 +153,7 @@ class PointerEquatableInterface {
         one: EquatableStruct,
         other: EquatableStruct
     ): Boolean
+    @Dart("haveSameOptional")
     static fun haveSameHash(
         one: OptionalEquatableStruct,
         other: OptionalEquatableStruct

@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.dart
 
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -26,12 +27,14 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class DartImportResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameResolver: DartNameResolver
+    private val nameResolver: DartNameResolver,
+    private val srcPath: String
 ) {
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
@@ -52,7 +55,12 @@ internal class DartImportResolver(
     private fun resolveImports(limeElement: LimeNamedElement): List<DartImport> {
         val filePath = limeElement.path.head.joinToString("/")
         val fileName = nameResolver.resolveName(getTopElement(limeElement))
-        return listOf(DartImport("$filePath/$fileName"))
+        val additionalImports = when {
+            limeElement is LimeStruct && limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
+                listOf(collectionSystemImport, collectionPackageImport)
+            else -> emptyList()
+        }
+        return listOfNotNull(DartImport("$srcPath/$filePath/$fileName")) + additionalImports
     }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
@@ -75,8 +83,11 @@ internal class DartImportResolver(
             limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement
         }.last()
 
+    private fun createConversionImport(filePath: String) =
+        DartImport("$srcPath/${filePath}__conversion")
+
     companion object {
-        private fun createConversionImport(filePath: String) =
-            DartImport(filePath + "__conversion")
+        private val collectionSystemImport = DartImport("collection", isSystem = true)
+        private val collectionPackageImport = DartImport("collection/collection")
     }
 }
