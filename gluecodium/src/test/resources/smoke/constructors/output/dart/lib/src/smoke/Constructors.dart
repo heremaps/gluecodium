@@ -1,10 +1,9 @@
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/smoke/Constructors_ErrorEnum__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Constructors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Constructors_release_handle');
@@ -27,7 +26,7 @@ final _createFromString_return_has_error = __lib.nativeLibrary.lookupFunction<
 class Constructors {
   final Pointer<Void> _handle;
   Constructors._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_Constructors_release_handle(_handle);
   Constructors.create() : this._(_create());
   Constructors.createFromOther(Constructors other) : this._(_createFromOther(other));
   Constructors.createFromMulti(String foo, int bar) : this._(_createFromMulti(foo, bar));
@@ -87,6 +86,33 @@ enum Constructors_ErrorEnum {
     none,
     crashed
 }
+// Constructors_ErrorEnum "private" section, not exported.
+int smoke_Constructors_ErrorEnum_toFfi(Constructors_ErrorEnum value) {
+  switch (value) {
+  case Constructors_ErrorEnum.none:
+    return 0;
+  break;
+  case Constructors_ErrorEnum.crashed:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Constructors_ErrorEnum enum.");
+  }
+}
+Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Constructors_ErrorEnum.none;
+  break;
+  case 1:
+    return Constructors_ErrorEnum.crashed;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Constructors_ErrorEnum enum.");
+  }
+}
+void smoke_Constructors_ErrorEnum_releaseFfiHandle(int handle) {}
+// End of Constructors_ErrorEnum "private" section.
 class Constructors_ConstructorExplodedException implements Exception {
   final Constructors_ErrorEnum error;
   Constructors_ConstructorExplodedException(this.error);

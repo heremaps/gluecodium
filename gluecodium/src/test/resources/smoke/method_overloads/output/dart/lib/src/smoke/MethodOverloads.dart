@@ -4,14 +4,14 @@ import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_MethodOverloads_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_MethodOverloads_release_handle');
 class MethodOverloads {
   final Pointer<Void> _handle;
   MethodOverloads._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_MethodOverloads_release_handle(_handle);
   bool isBoolean(bool input) {
     final _isBoolean_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Uint8), int Function(Pointer<Void>, int)>('smoke_MethodOverloads_isBoolean__Boolean');
     final _input_handle = Boolean_toFfi(input);

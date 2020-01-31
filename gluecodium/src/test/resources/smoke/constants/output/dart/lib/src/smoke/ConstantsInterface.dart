@@ -1,14 +1,14 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ConstantsInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_ConstantsInterface_release_handle');
 class ConstantsInterface {
   final Pointer<Void> _handle;
   ConstantsInterface._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_ConstantsInterface_release_handle(_handle);
   static final bool boolConstant = true;
   static final int intConstant = -11;
   static final int uintConstant = 4294967295;
@@ -26,3 +26,30 @@ enum ConstantsInterface_StateEnum {
     off,
     on
 }
+// ConstantsInterface_StateEnum "private" section, not exported.
+int smoke_ConstantsInterface_StateEnum_toFfi(ConstantsInterface_StateEnum value) {
+  switch (value) {
+  case ConstantsInterface_StateEnum.off:
+    return 0;
+  break;
+  case ConstantsInterface_StateEnum.on:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for ConstantsInterface_StateEnum enum.");
+  }
+}
+ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return ConstantsInterface_StateEnum.off;
+  break;
+  case 1:
+    return ConstantsInterface_StateEnum.on;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for ConstantsInterface_StateEnum enum.");
+  }
+}
+void smoke_ConstantsInterface_StateEnum_releaseFfiHandle(int handle) {}
+// End of ConstantsInterface_StateEnum "private" section.

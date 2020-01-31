@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{resolveName "Ffi"}}_release_handle');
@@ -34,7 +34,7 @@ class {{resolveName visibility}}{{resolveName}} {{!!
   final Pointer<Void> _handle;
   {{resolveName}}._(this._handle);
 
-  void release() => __release_handle(_handle);
+  void release() => _{{resolveName "Ffi"}}_release_handle(_handle);
 
 {{#set isInClass=true}}{{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
@@ -68,7 +68,13 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) {}
 {{/exceptions}}
 {{#structs}}
 {{>dart/DartStruct}}
-{{/structs}}{{!!
+{{/structs}}
+{{#classes}}
+{{>dart/DartClass}}
+{{/classes}}
+{{#interfaces}}
+{{>dart/DartInterface}}
+{{/interfaces}}{{!!
 
 }}{{+dartConstructor}}{{resolveName visibility}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!

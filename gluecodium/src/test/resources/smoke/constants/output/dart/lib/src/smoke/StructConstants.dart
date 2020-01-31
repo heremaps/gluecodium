@@ -2,14 +2,14 @@ import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructConstants_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_StructConstants_release_handle');
 class StructConstants {
   final Pointer<Void> _handle;
   StructConstants._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_StructConstants_release_handle(_handle);
   static final StructConstants_SomeStruct structConstant = StructConstants_SomeStruct("bar Buzz", 1.41);
   static final StructConstants_NestingStruct nestingStructConstant = StructConstants_NestingStruct(StructConstants_SomeStruct("nonsense", -2.82));
 }

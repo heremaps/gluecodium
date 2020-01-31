@@ -1,12 +1,10 @@
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/smoke/Errors_ExternalErrors__conversion.dart';
-import 'package:library/src/smoke/Errors_InternalErrorCode__conversion.dart';
 import 'package:library/src/smoke/Payload.dart';
 import 'package:library/src/smoke/WithPayloadException.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Errors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Errors_release_handle');
@@ -84,7 +82,7 @@ final _methodWithPayloadErrorAndReturnValue_return_has_error = __lib.nativeLibra
 class Errors {
   final Pointer<Void> _handle;
   Errors._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_Errors_release_handle(_handle);
   static methodWithErrors() {
     final _methodWithErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Errors_methodWithErrors');
     final __call_result_handle = _methodWithErrors_ffi();
@@ -175,11 +173,71 @@ enum Errors_InternalErrorCode {
     errorNone,
     errorFatal
 }
+// Errors_InternalErrorCode "private" section, not exported.
+int smoke_Errors_InternalErrorCode_toFfi(Errors_InternalErrorCode value) {
+  switch (value) {
+  case Errors_InternalErrorCode.errorNone:
+    return 0;
+  break;
+  case Errors_InternalErrorCode.errorFatal:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Errors_InternalErrorCode enum.");
+  }
+}
+Errors_InternalErrorCode smoke_Errors_InternalErrorCode_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Errors_InternalErrorCode.errorNone;
+  break;
+  case 1:
+    return Errors_InternalErrorCode.errorFatal;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Errors_InternalErrorCode enum.");
+  }
+}
+void smoke_Errors_InternalErrorCode_releaseFfiHandle(int handle) {}
+// End of Errors_InternalErrorCode "private" section.
 enum Errors_ExternalErrors {
     none,
     boom,
     bust
 }
+// Errors_ExternalErrors "private" section, not exported.
+int smoke_Errors_ExternalErrors_toFfi(Errors_ExternalErrors value) {
+  switch (value) {
+  case Errors_ExternalErrors.none:
+    return 0;
+  break;
+  case Errors_ExternalErrors.boom:
+    return 1;
+  break;
+  case Errors_ExternalErrors.bust:
+    return 2;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Errors_ExternalErrors enum.");
+  }
+}
+Errors_ExternalErrors smoke_Errors_ExternalErrors_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Errors_ExternalErrors.none;
+  break;
+  case 1:
+    return Errors_ExternalErrors.boom;
+  break;
+  case 2:
+    return Errors_ExternalErrors.bust;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Errors_ExternalErrors enum.");
+  }
+}
+void smoke_Errors_ExternalErrors_releaseFfiHandle(int handle) {}
+// End of Errors_ExternalErrors "private" section.
 class Errors_InternalException implements Exception {
   final Errors_InternalErrorCode error;
   Errors_InternalException(this.error);

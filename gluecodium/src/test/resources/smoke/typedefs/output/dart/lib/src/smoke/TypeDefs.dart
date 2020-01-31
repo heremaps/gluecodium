@@ -4,14 +4,14 @@ import 'package:library/src/smoke/TypeCollection.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_TypeDefs_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_TypeDefs_release_handle');
 class TypeDefs {
   final Pointer<Void> _handle;
   TypeDefs._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_TypeDefs_release_handle(_handle);
   static double methodWithPrimitiveTypeDef(double input) {
     final _methodWithPrimitiveTypeDef_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Double), double Function(double)>('smoke_TypeDefs_methodWithPrimitiveTypeDef__Double');
     final _input_handle = (input);

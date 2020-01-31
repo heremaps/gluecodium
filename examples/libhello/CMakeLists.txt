@@ -362,7 +362,7 @@ feature(EscapedNames cpp android swift SOURCES
     lime/test/KeywordNames.lime
 )
 
-feature(Nesting cpp android swift SOURCES
+feature(Nesting cpp android swift dart SOURCES
     src/test/TopLevelTypes.cpp
     src/test/NestedContainers.cpp
 

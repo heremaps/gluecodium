@@ -1,5 +1,4 @@
 import 'package:library/src/Boolean__conversion.dart';
-import 'package:library/src/smoke/ValidationErrorCode__conversion.dart';
 import 'package:library/src/smoke/ValidationUtils.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';

@@ -7,14 +7,14 @@ import 'package:library/src/smoke/TypeCollection.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Structs_release_handle');
 class Structs {
   final Pointer<Void> _handle;
   Structs._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_Structs_release_handle(_handle);
   static Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinates_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Structs_swapPointCoordinates__Point');
     final _input_handle = smoke_Structs_Point_toFfi(input);
@@ -84,6 +84,33 @@ enum Structs_FooBar {
     foo,
     bar
 }
+// Structs_FooBar "private" section, not exported.
+int smoke_Structs_FooBar_toFfi(Structs_FooBar value) {
+  switch (value) {
+  case Structs_FooBar.foo:
+    return 0;
+  break;
+  case Structs_FooBar.bar:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Structs_FooBar enum.");
+  }
+}
+Structs_FooBar smoke_Structs_FooBar_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Structs_FooBar.foo;
+  break;
+  case 1:
+    return Structs_FooBar.bar;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Structs_FooBar enum.");
+  }
+}
+void smoke_Structs_FooBar_releaseFfiHandle(int handle) {}
+// End of Structs_FooBar "private" section.
 class Structs_Point {
   double x;
   double y;

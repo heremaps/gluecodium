@@ -24,3 +24,35 @@ enum {{resolveName visibility}}{{resolveName}} {
 {{prefixPartial "dart/DartEnumerator" "    "}}
 {{/enumerators}}
 }
+
+// {{resolveName}} "private" section, not exported.
+
+int {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+  switch (value) {
+{{#set parent=this}}{{#enumerators}}
+  case {{resolveName parent}}.{{resolveName}}:
+    return {{>enumeratorValue}};
+  break;
+{{/enumerators}}{{/set}}
+  default:
+    throw StateError("Invalid enum value $value for {{resolveName}} enum.");
+  }
+}
+
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi(int handle) {
+  switch (handle) {
+{{#set parent=this}}{{#enumerators}}
+  case {{>enumeratorValue}}:
+    return {{resolveName parent}}.{{resolveName}};
+  break;
+{{/enumerators}}{{/set}}
+  default:
+    throw StateError("Invalid numeric value $handle for {{resolveName}} enum.");
+  }
+}
+
+void {{resolveName "Ffi"}}_releaseFfiHandle(int handle) {}
+
+// End of {{resolveName}} "private" section.{{!!
+
+}}{{+enumeratorValue}}{{#value}}{{.}}{{/value}}{{^value}}{{iter.position}}{{/value}}{{/enumeratorValue}}

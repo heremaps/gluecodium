@@ -2,14 +2,14 @@ import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SimpleClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_SimpleClass_release_handle');
 class SimpleClass {
   final Pointer<Void> _handle;
   SimpleClass._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_SimpleClass_release_handle(_handle);
   String getStringValue() {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_SimpleClass_getStringValue');
     final __result_handle = _getStringValue_ffi(_handle);

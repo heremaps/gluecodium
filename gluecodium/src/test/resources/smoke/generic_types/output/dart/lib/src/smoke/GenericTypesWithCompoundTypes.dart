@@ -3,19 +3,17 @@ import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/DummyClass.dart';
 import 'package:library/src/smoke/DummyInterface.dart';
-import 'package:library/src/smoke/GenericTypesWithCompoundTypes_ExternalEnum__conversion.dart';
-import 'package:library/src/smoke/GenericTypesWithCompoundTypes_SomeEnum__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_GenericTypesWithCompoundTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_GenericTypesWithCompoundTypes_release_handle');
 class GenericTypesWithCompoundTypes {
   final Pointer<Void> _handle;
   GenericTypesWithCompoundTypes._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_GenericTypesWithCompoundTypes_release_handle(_handle);
   List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input) {
     final _methodWithStructList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_GenericTypesWithCompoundTypes_methodWithStructList__ListOf_1smoke_1GenericTypesWithCompoundTypes_1BasicStruct');
     final _input_handle = ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(input);
@@ -98,10 +96,64 @@ enum GenericTypesWithCompoundTypes_SomeEnum {
     foo,
     bar
 }
+// GenericTypesWithCompoundTypes_SomeEnum "private" section, not exported.
+int smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(GenericTypesWithCompoundTypes_SomeEnum value) {
+  switch (value) {
+  case GenericTypesWithCompoundTypes_SomeEnum.foo:
+    return 0;
+  break;
+  case GenericTypesWithCompoundTypes_SomeEnum.bar:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for GenericTypesWithCompoundTypes_SomeEnum enum.");
+  }
+}
+GenericTypesWithCompoundTypes_SomeEnum smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return GenericTypesWithCompoundTypes_SomeEnum.foo;
+  break;
+  case 1:
+    return GenericTypesWithCompoundTypes_SomeEnum.bar;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for GenericTypesWithCompoundTypes_SomeEnum enum.");
+  }
+}
+void smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(int handle) {}
+// End of GenericTypesWithCompoundTypes_SomeEnum "private" section.
 enum GenericTypesWithCompoundTypes_ExternalEnum {
     on,
     off
 }
+// GenericTypesWithCompoundTypes_ExternalEnum "private" section, not exported.
+int smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(GenericTypesWithCompoundTypes_ExternalEnum value) {
+  switch (value) {
+  case GenericTypesWithCompoundTypes_ExternalEnum.on:
+    return 0;
+  break;
+  case GenericTypesWithCompoundTypes_ExternalEnum.off:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for GenericTypesWithCompoundTypes_ExternalEnum enum.");
+  }
+}
+GenericTypesWithCompoundTypes_ExternalEnum smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return GenericTypesWithCompoundTypes_ExternalEnum.on;
+  break;
+  case 1:
+    return GenericTypesWithCompoundTypes_ExternalEnum.off;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for GenericTypesWithCompoundTypes_ExternalEnum enum.");
+  }
+}
+void smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(int handle) {}
+// End of GenericTypesWithCompoundTypes_ExternalEnum "private" section.
 class GenericTypesWithCompoundTypes_BasicStruct {
   double value;
   GenericTypesWithCompoundTypes_BasicStruct(this.value);

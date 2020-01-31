@@ -1,14 +1,14 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SpecialNames_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_SpecialNames_release_handle');
 class SpecialNames {
   final Pointer<Void> _handle;
   SpecialNames._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_SpecialNames_release_handle(_handle);
   create() {
     final _create_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_SpecialNames_create');
     final __result_handle = _create_ffi(_handle);

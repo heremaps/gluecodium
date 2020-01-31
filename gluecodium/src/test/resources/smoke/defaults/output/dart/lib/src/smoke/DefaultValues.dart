@@ -1,19 +1,17 @@
 import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/smoke/DefaultValues_ExternalEnum__conversion.dart';
-import 'package:library/src/smoke/DefaultValues_SomeEnum__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_DefaultValues_release_handle');
 class DefaultValues {
   final Pointer<Void> _handle;
   DefaultValues._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_DefaultValues_release_handle(_handle);
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
     final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
     final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
@@ -33,10 +31,64 @@ enum DefaultValues_SomeEnum {
     fooValue,
     barValue
 }
+// DefaultValues_SomeEnum "private" section, not exported.
+int smoke_DefaultValues_SomeEnum_toFfi(DefaultValues_SomeEnum value) {
+  switch (value) {
+  case DefaultValues_SomeEnum.fooValue:
+    return 0;
+  break;
+  case DefaultValues_SomeEnum.barValue:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for DefaultValues_SomeEnum enum.");
+  }
+}
+DefaultValues_SomeEnum smoke_DefaultValues_SomeEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return DefaultValues_SomeEnum.fooValue;
+  break;
+  case 1:
+    return DefaultValues_SomeEnum.barValue;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for DefaultValues_SomeEnum enum.");
+  }
+}
+void smoke_DefaultValues_SomeEnum_releaseFfiHandle(int handle) {}
+// End of DefaultValues_SomeEnum "private" section.
 enum DefaultValues_ExternalEnum {
     oneValue,
     anotherValue
 }
+// DefaultValues_ExternalEnum "private" section, not exported.
+int smoke_DefaultValues_ExternalEnum_toFfi(DefaultValues_ExternalEnum value) {
+  switch (value) {
+  case DefaultValues_ExternalEnum.oneValue:
+    return 0;
+  break;
+  case DefaultValues_ExternalEnum.anotherValue:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for DefaultValues_ExternalEnum enum.");
+  }
+}
+DefaultValues_ExternalEnum smoke_DefaultValues_ExternalEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return DefaultValues_ExternalEnum.oneValue;
+  break;
+  case 1:
+    return DefaultValues_ExternalEnum.anotherValue;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for DefaultValues_ExternalEnum enum.");
+  }
+}
+void smoke_DefaultValues_ExternalEnum_releaseFfiHandle(int handle) {}
+// End of DefaultValues_ExternalEnum "private" section.
 class DefaultValues_StructWithDefaults {
   int intField;
   int uintField;

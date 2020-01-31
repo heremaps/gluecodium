@@ -87,10 +87,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val pathsCollector = mutableListOf<DartExport>()
 
-        val allTypes = limeModel.topElements
-            .filterIsInstance<LimeType>()
-            .flatMap { LimeTypeHelper.getAllTypes(it) }
-        val enums = allTypes.filterIsInstance<LimeEnumeration>().distinct()
         val genericTypes = TypeRefsCollector.getAllTypeRefs(limeModel)
             .map { it.type }
             .filterIsInstance<LimeGenericType>()
@@ -101,8 +97,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             listOfNotNull(
                 generateDart(it, dartResolvers, dartNameResolver, importResolver, pathsCollector)
             ) + generateFfi(it, ffiResolvers, includeResolver)
-        } + enums.flatMap {
-            generateDartEnumConversion(it, dartResolvers, dartNameResolver, importResolver)
         } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
             generateDartCommonFiles(pathsCollector) + generateFfiCommonFiles()
@@ -126,7 +120,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val allSymbols = (allTypes + freeConstants).map { dartNameResolver.resolveName(it) }
         pathsCollector += DartExport(relativePath, allSymbols)
 
-        val imports = collectImports(rootElement, importResolver)
+        val imports = importResolver.resolveImports(rootElement) +
+            collectImports(allTypes, importResolver)
         val content = TemplateEngine.render(
             "dart/DartFile",
             mapOf(
@@ -142,19 +137,19 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     }
 
     private fun collectImports(
-        rootElement: LimeNamedElement,
+        allTypes: List<LimeType>,
         importResolver: DartImportResolver
     ): List<DartImport> {
-        val functions = collectFunctions(rootElement)
-        val properties = (rootElement as? LimeContainerWithInheritance)?.properties ?: emptyList()
-        val exceptions = collectExceptions(rootElement)
-        val structs = listOfNotNull(rootElement as? LimeStruct) +
-            ((rootElement as? LimeContainer)?.structs ?: emptyList())
-        val typeRefs = functions.flatMap { collectTypeRefs(it) } + properties.map { it.typeRef } +
-            exceptions.map { it.errorType } + structs.flatMap { it.fields }.map { it.typeRef }
+        val functions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions }
+        val properties =
+            allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.properties }
+        val exceptions = allTypes.filterIsInstance<LimeException>()
+        val structs = allTypes.filterIsInstance<LimeStruct>()
+        val typeRefs = structs.flatMap { it.fields + it.constants }.map { it.typeRef } +
+            functions.flatMap { collectTypeRefs(it) } + properties.map { it.typeRef } +
+            exceptions.map { it.errorType }
 
-        return importResolver.resolveImports(rootElement) +
-            functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
+        return functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
             typeRefs.flatMap { importResolver.resolveImports(it) }
     }
 
@@ -166,8 +161,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val limeType = rootElement as? LimeType
         if (limeType == null || limeType is LimeException) return emptyList()
 
-        val functions = collectFunctions(limeType).sortedBy { it.fullName }
         val types = LimeTypeHelper.getAllTypes(limeType)
+        val functions =
+            types.filterIsInstance<LimeContainer>().flatMap { it.functions }.sortedBy { it.fullName }
         val classes = types.filterIsInstance<LimeContainerWithInheritance>()
 
         val structs = types.filterIsInstance<LimeStruct>()
@@ -240,31 +236,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         ) }
     }
 
-    private fun generateDartEnumConversion(
-        limeEnum: LimeEnumeration,
-        nameResolvers: Map<String, NameResolver>,
-        dartNameResolver: DartNameResolver,
-        importResolver: DartImportResolver
-    ): List<GeneratedFile> {
-        val imports = importResolver.resolveImports(limeEnum)
-
-        val packagePath = limeEnum.path.head.joinToString(separator = "/")
-        val filePath = "$packagePath/${dartNameResolver.resolveName(limeEnum)}"
-        val relativePath = "$SRC_DIR_SUFFIX/${filePath}__conversion.dart"
-
-        val content = TemplateEngine.render(
-            "dart/DartEnumConversion",
-            mapOf(
-                "imports" to imports.distinct().sorted().filterNot { it.filePath == filePath },
-                "model" to limeEnum,
-                "libraryName" to libraryName
-            ),
-            nameResolvers
-        )
-
-        return listOf(GeneratedFile(content, "$LIB_DIR/$relativePath"))
-    }
-
     private fun generateDartGenericTypesConversion(
         genericTypes: List<LimeGenericType>,
         nameResolvers: Map<String, NameResolver>,
@@ -319,20 +290,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             is LimeTypeAlias -> null
             else -> throw GluecodiumExecutionException("Unsupported top-level element: " +
                     limeElement::class.java.name)
-        }
-
-    private fun collectFunctions(limeElement: LimeNamedElement): List<LimeFunction> =
-        when (limeElement) {
-            is LimeContainer ->
-                limeElement.functions + limeElement.structs.flatMap { collectFunctions(it) }
-            else -> emptyList()
-        }
-
-    private fun collectExceptions(limeElement: LimeNamedElement): List<LimeException> =
-        when (limeElement) {
-            is LimeContainer -> limeElement.exceptions
-            is LimeException -> listOf(limeElement)
-            else -> emptyList()
         }
 
     private fun collectTypeRefs(limeFunction: LimeFunction) =

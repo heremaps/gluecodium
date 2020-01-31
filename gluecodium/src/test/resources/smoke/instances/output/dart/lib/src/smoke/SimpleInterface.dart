@@ -8,14 +8,15 @@ abstract class SimpleInterface {
   SimpleInterface useSimpleInterface(SimpleInterface input);
 }
 // SimpleInterface "private" section, not exported.
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_SimpleInterface_release_handle');
 class SimpleInterface__Impl implements SimpleInterface{
   final Pointer<Void> _handle;
   SimpleInterface__Impl._(this._handle);
-  void release() => __release_handle(_handle);
+  @override
+  void release() => _smoke_SimpleInterface_release_handle(_handle);
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_SimpleInterface_getStringValue');

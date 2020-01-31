@@ -4,14 +4,14 @@ import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_GenericTypesWithBasicTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_GenericTypesWithBasicTypes_release_handle');
 class GenericTypesWithBasicTypes {
   final Pointer<Void> _handle;
   GenericTypesWithBasicTypes._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_GenericTypesWithBasicTypes_release_handle(_handle);
   List<int> methodWithList(List<int> input) {
     final _methodWithList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_GenericTypesWithBasicTypes_methodWithList__ListOf_1Int');
     final _input_handle = ListOf_Int_toFfi(input);

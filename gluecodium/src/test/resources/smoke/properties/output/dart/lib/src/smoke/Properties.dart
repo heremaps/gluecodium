@@ -4,18 +4,17 @@ import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/PropertiesInterface.dart';
-import 'package:library/src/smoke/Properties_InternalErrorCode__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Properties_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Properties_release_handle');
 class Properties {
   final Pointer<Void> _handle;
   Properties._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_Properties_release_handle(_handle);
   int get builtInTypeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>), int Function(Pointer<Void>)>('smoke_Properties_builtInTypeProperty_get');
     final __result_handle = _get_ffi(_handle);
@@ -168,6 +167,33 @@ enum Properties_InternalErrorCode {
     errorNone,
     errorFatal
 }
+// Properties_InternalErrorCode "private" section, not exported.
+int smoke_Properties_InternalErrorCode_toFfi(Properties_InternalErrorCode value) {
+  switch (value) {
+  case Properties_InternalErrorCode.errorNone:
+    return 0;
+  break;
+  case Properties_InternalErrorCode.errorFatal:
+    return 999;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Properties_InternalErrorCode enum.");
+  }
+}
+Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Properties_InternalErrorCode.errorNone;
+  break;
+  case 999:
+    return Properties_InternalErrorCode.errorFatal;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Properties_InternalErrorCode enum.");
+  }
+}
+void smoke_Properties_InternalErrorCode_releaseFfiHandle(int handle) {}
+// End of Properties_InternalErrorCode "private" section.
 class Properties_ExampleStruct {
   double value;
   Properties_ExampleStruct(this.value);
