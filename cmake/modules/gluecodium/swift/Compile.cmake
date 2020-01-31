@@ -41,7 +41,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/Test.cmake)
 # apigen_swift_compile
 # -------------------
 #
-# This module create the framework structur and
+# This module create the framework structure and
 # compiles and generate the framework binary.
 #
 # .. command:: apigen_swift_compile
