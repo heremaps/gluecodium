@@ -155,7 +155,7 @@ feature(StructsImmutable cpp android swift dart SOURCES
     lime/test/PlainDataStructuresImmutable.lime
 )
 
-feature(TypeDefs cpp android swift SOURCES
+feature(TypeDefs cpp android swift dart SOURCES
     src/hello/HelloWorldTypedefs.cpp
     src/test/StaticTypedef.cpp
 
