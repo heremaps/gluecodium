@@ -21,7 +21,6 @@ package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -53,11 +52,7 @@ internal class DartImportResolver(
     private fun resolveImports(limeElement: LimeNamedElement): List<DartImport> {
         val filePath = limeElement.path.head.joinToString("/")
         val fileName = nameResolver.resolveName(getTopElement(limeElement))
-        val conversionImport = (limeElement as? LimeEnumeration)?.let {
-            val conversionFileName = nameResolver.resolveName(it)
-            createConversionImport("$filePath/$conversionFileName")
-        }
-        return listOfNotNull(DartImport("$filePath/$fileName"), conversionImport)
+        return listOf(DartImport("$filePath/$fileName"))
     }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =

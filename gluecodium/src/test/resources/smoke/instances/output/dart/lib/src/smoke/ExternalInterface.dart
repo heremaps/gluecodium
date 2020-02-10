@@ -10,6 +10,27 @@ abstract class ExternalInterface {
 enum ExternalInterface_SomeEnum {
     someValue
 }
+// ExternalInterface_SomeEnum "private" section, not exported.
+int smoke_ExternalInterface_SomeEnum_toFfi(ExternalInterface_SomeEnum value) {
+  switch (value) {
+  case ExternalInterface_SomeEnum.someValue:
+    return 0;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for ExternalInterface_SomeEnum enum.");
+  }
+}
+ExternalInterface_SomeEnum smoke_ExternalInterface_SomeEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return ExternalInterface_SomeEnum.someValue;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for ExternalInterface_SomeEnum enum.");
+  }
+}
+void smoke_ExternalInterface_SomeEnum_releaseFfiHandle(int handle) {}
+// End of ExternalInterface_SomeEnum "private" section.
 class ExternalInterface_SomeStruct {
   String someField;
   ExternalInterface_SomeStruct(this.someField);
@@ -44,14 +65,15 @@ ExternalInterface_SomeStruct smoke_ExternalInterface_SomeStruct_fromFfi(Pointer<
 void smoke_ExternalInterface_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalInterface_SomeStruct_release_handle(handle);
 // End of ExternalInterface_SomeStruct "private" section.
 // ExternalInterface "private" section, not exported.
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ExternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_ExternalInterface_release_handle');
 class ExternalInterface__Impl implements ExternalInterface{
   final Pointer<Void> _handle;
   ExternalInterface__Impl._(this._handle);
-  void release() => __release_handle(_handle);
+  @override
+  void release() => _smoke_ExternalInterface_release_handle(_handle);
   @override
   someMethod(int someParameter) {
     final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('smoke_ExternalInterface_someMethod__Byte');

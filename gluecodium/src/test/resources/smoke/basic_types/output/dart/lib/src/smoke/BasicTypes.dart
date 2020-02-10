@@ -3,14 +3,14 @@ import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_BasicTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_BasicTypes_release_handle');
 class BasicTypes {
   final Pointer<Void> _handle;
   BasicTypes._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_BasicTypes_release_handle(_handle);
   static String stringFunction(String input) {
     final _stringFunction_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_BasicTypes_stringFunction__String');
     final _input_handle = String_toFfi(input);

@@ -2,14 +2,14 @@ import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ExternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_ExternalClass_release_handle');
 class ExternalClass {
   final Pointer<Void> _handle;
   ExternalClass._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_ExternalClass_release_handle(_handle);
   someMethod(int someParameter) {
     final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('smoke_ExternalClass_someMethod__Byte');
     final _someParameter_handle = (someParameter);
@@ -35,6 +35,27 @@ void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) {}
 enum ExternalClass_SomeEnum {
     someValue
 }
+// ExternalClass_SomeEnum "private" section, not exported.
+int smoke_ExternalClass_SomeEnum_toFfi(ExternalClass_SomeEnum value) {
+  switch (value) {
+  case ExternalClass_SomeEnum.someValue:
+    return 0;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for ExternalClass_SomeEnum enum.");
+  }
+}
+ExternalClass_SomeEnum smoke_ExternalClass_SomeEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return ExternalClass_SomeEnum.someValue;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for ExternalClass_SomeEnum enum.");
+  }
+}
+void smoke_ExternalClass_SomeEnum_releaseFfiHandle(int handle) {}
+// End of ExternalClass_SomeEnum "private" section.
 class ExternalClass_SomeStruct {
   String someField;
   ExternalClass_SomeStruct(this.someField);

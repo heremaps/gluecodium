@@ -1,18 +1,15 @@
 import 'package:library/src/String__conversion.dart';
-import 'package:library/src/smoke/Enums_ExternalEnum__conversion.dart';
-import 'package:library/src/smoke/Enums_InternalErrorCode__conversion.dart';
-import 'package:library/src/smoke/Enums_SimpleEnum__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Enums_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Enums_release_handle');
 class Enums {
   final Pointer<Void> _handle;
   Enums._(this._handle);
-  void release() => __release_handle(_handle);
+  void release() => _smoke_Enums_release_handle(_handle);
   static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) {
     final _methodWithEnumeration_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Uint32), int Function(int)>('smoke_Enums_methodWithEnumeration__SimpleEnum');
     final _input_handle = smoke_Enums_SimpleEnum_toFfi(input);
@@ -70,18 +67,126 @@ enum Enums_SimpleEnum {
     first,
     second
 }
+// Enums_SimpleEnum "private" section, not exported.
+int smoke_Enums_SimpleEnum_toFfi(Enums_SimpleEnum value) {
+  switch (value) {
+  case Enums_SimpleEnum.first:
+    return 0;
+  break;
+  case Enums_SimpleEnum.second:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Enums_SimpleEnum enum.");
+  }
+}
+Enums_SimpleEnum smoke_Enums_SimpleEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Enums_SimpleEnum.first;
+  break;
+  case 1:
+    return Enums_SimpleEnum.second;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Enums_SimpleEnum enum.");
+  }
+}
+void smoke_Enums_SimpleEnum_releaseFfiHandle(int handle) {}
+// End of Enums_SimpleEnum "private" section.
 enum Enums_InternalErrorCode {
     errorNone,
     errorFatal
 }
+// Enums_InternalErrorCode "private" section, not exported.
+int smoke_Enums_InternalErrorCode_toFfi(Enums_InternalErrorCode value) {
+  switch (value) {
+  case Enums_InternalErrorCode.errorNone:
+    return 0;
+  break;
+  case Enums_InternalErrorCode.errorFatal:
+    return 999;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Enums_InternalErrorCode enum.");
+  }
+}
+Enums_InternalErrorCode smoke_Enums_InternalErrorCode_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Enums_InternalErrorCode.errorNone;
+  break;
+  case 999:
+    return Enums_InternalErrorCode.errorFatal;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Enums_InternalErrorCode enum.");
+  }
+}
+void smoke_Enums_InternalErrorCode_releaseFfiHandle(int handle) {}
+// End of Enums_InternalErrorCode "private" section.
 enum Enums_ExternalEnum {
     fooValue,
     barValue
 }
+// Enums_ExternalEnum "private" section, not exported.
+int smoke_Enums_ExternalEnum_toFfi(Enums_ExternalEnum value) {
+  switch (value) {
+  case Enums_ExternalEnum.fooValue:
+    return 0;
+  break;
+  case Enums_ExternalEnum.barValue:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Enums_ExternalEnum enum.");
+  }
+}
+Enums_ExternalEnum smoke_Enums_ExternalEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Enums_ExternalEnum.fooValue;
+  break;
+  case 1:
+    return Enums_ExternalEnum.barValue;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Enums_ExternalEnum enum.");
+  }
+}
+void smoke_Enums_ExternalEnum_releaseFfiHandle(int handle) {}
+// End of Enums_ExternalEnum "private" section.
 enum Enums_VeryExternalEnum {
     foo,
     bar
 }
+// Enums_VeryExternalEnum "private" section, not exported.
+int smoke_Enums_VeryExternalEnum_toFfi(Enums_VeryExternalEnum value) {
+  switch (value) {
+  case Enums_VeryExternalEnum.foo:
+    return 0;
+  break;
+  case Enums_VeryExternalEnum.bar:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for Enums_VeryExternalEnum enum.");
+  }
+}
+Enums_VeryExternalEnum smoke_Enums_VeryExternalEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return Enums_VeryExternalEnum.foo;
+  break;
+  case 1:
+    return Enums_VeryExternalEnum.bar;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for Enums_VeryExternalEnum enum.");
+  }
+}
+void smoke_Enums_VeryExternalEnum_releaseFfiHandle(int handle) {}
+// End of Enums_VeryExternalEnum "private" section.
 class Enums_ErrorStruct {
   Enums_InternalErrorCode type;
   String message;

@@ -1,10 +1,7 @@
 import 'package:library/src/Boolean__conversion.dart';
 import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/AnEnum.dart';
-import 'package:library/src/smoke/AnEnum__conversion.dart';
 import 'package:library/src/smoke/DefaultValues.dart';
-import 'package:library/src/smoke/DefaultValues_ExternalEnum__conversion.dart';
-import 'package:library/src/smoke/SomeEnum__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -12,6 +9,33 @@ enum SomeEnum {
     fooValue,
     barValue
 }
+// SomeEnum "private" section, not exported.
+int smoke_TypesWithDefaults_SomeEnum_toFfi(SomeEnum value) {
+  switch (value) {
+  case SomeEnum.fooValue:
+    return 0;
+  break;
+  case SomeEnum.barValue:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for SomeEnum enum.");
+  }
+}
+SomeEnum smoke_TypesWithDefaults_SomeEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return SomeEnum.fooValue;
+  break;
+  case 1:
+    return SomeEnum.barValue;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for SomeEnum enum.");
+  }
+}
+void smoke_TypesWithDefaults_SomeEnum_releaseFfiHandle(int handle) {}
+// End of SomeEnum "private" section.
 class StructWithDefaults {
   int intField;
   int uintField;

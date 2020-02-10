@@ -40,14 +40,15 @@ PropertiesInterface_ExampleStruct smoke_PropertiesInterface_ExampleStruct_fromFf
 void smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PropertiesInterface_ExampleStruct_release_handle(handle);
 // End of PropertiesInterface_ExampleStruct "private" section.
 // PropertiesInterface "private" section, not exported.
-final __release_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_PropertiesInterface_release_handle');
 class PropertiesInterface__Impl implements PropertiesInterface{
   final Pointer<Void> _handle;
   PropertiesInterface__Impl._(this._handle);
-  void release() => __release_handle(_handle);
+  @override
+  void release() => _smoke_PropertiesInterface_release_handle(_handle);
   PropertiesInterface_ExampleStruct get structProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_PropertiesInterface_structProperty_get');
     final __result_handle = _get_ffi(_handle);
