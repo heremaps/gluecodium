@@ -47,4 +47,14 @@ abstract class LimeContainerWithInheritance(
     functions = functions,
     properties = properties,
     exceptions = exceptions
-)
+) {
+    @Suppress("unused")
+    val inheritedFunctions: List<LimeFunction>
+        get() = (parent?.type?.actualType as? LimeContainerWithInheritance)
+            ?.let { it.functions + it.inheritedFunctions } ?: emptyList()
+
+    @Suppress("unused")
+    val inheritedProperties: List<LimeProperty>
+        get() = (parent?.type?.actualType as? LimeContainerWithInheritance)
+            ?.let { it.properties + it.inheritedProperties } ?: emptyList()
+}

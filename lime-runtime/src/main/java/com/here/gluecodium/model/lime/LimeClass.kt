@@ -51,4 +51,8 @@ class LimeClass(
     interfaces = interfaces,
     lambdas = lambdas,
     parent = parent
-)
+) {
+    @Suppress("unused")
+    val hasClassParent
+        get() = parent?.type?.actualType is LimeClass
+}

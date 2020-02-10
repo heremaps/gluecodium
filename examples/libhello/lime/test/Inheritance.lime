@@ -107,8 +107,10 @@ class InheritanceTestHelper {
 }
 
 class ChildConstructorOverloads : ConstructorOverloads {
+    @Dart("createNoParametersChild")
     @Java("createNoParametersChild")
     constructor create()
+    @Dart("createWithErrorChild")
     @Java("createWithErrorChild")
     constructor create(
         input: Double

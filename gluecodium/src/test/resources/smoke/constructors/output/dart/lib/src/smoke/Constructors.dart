@@ -2,6 +2,7 @@ import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_Constructors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -24,14 +25,17 @@ final _createFromString_return_has_error = __lib.nativeLibrary.lookupFunction<
     int Function(Pointer<Void>)
   >('smoke_Constructors_create__String_return_has_error');
 class Constructors {
-  final Pointer<Void> _handle;
-  Constructors._(this._handle);
+  @protected
+  final Pointer<Void> handle;
+  Pointer<Void> get _handle => handle;
+  @protected
+  Constructors(this.handle);
   void release() => _smoke_Constructors_release_handle(_handle);
-  Constructors.create() : this._(_create());
-  Constructors.createFromOther(Constructors other) : this._(_createFromOther(other));
-  Constructors.createFromMulti(String foo, int bar) : this._(_createFromMulti(foo, bar));
-  Constructors.createFromString(String input) : this._(_createFromString(input));
-  Constructors.createFromList(List<double> input) : this._(_createFromList(input));
+  Constructors.create() : this(_create());
+  Constructors.createFromOther(Constructors other) : this(_createFromOther(other));
+  Constructors.createFromMulti(String foo, int bar) : this(_createFromMulti(foo, bar));
+  Constructors.createFromString(String input) : this(_createFromString(input));
+  Constructors.createFromList(List<double> input) : this(_createFromList(input));
   static Pointer<Void> _create() {
     final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Constructors_create');
     final __result_handle = _create_ffi();
@@ -78,12 +82,12 @@ class Constructors {
   }
 }
 Pointer<Void> smoke_Constructors_toFfi(Constructors value) => value._handle;
-Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) => Constructors._(handle);
+Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) => Constructors(handle);
 void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) {}
 Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors value) =>
   value != null ? value._handle : Pointer<Void>.fromAddress(0);
 Constructors smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? Constructors._(handle) : null;
+  handle.address != 0 ? Constructors(handle) : null;
 void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum Constructors_ErrorEnum {
     none,

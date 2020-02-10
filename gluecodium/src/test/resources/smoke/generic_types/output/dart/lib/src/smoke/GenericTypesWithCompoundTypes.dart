@@ -4,6 +4,7 @@ import 'package:library/src/smoke/DummyClass.dart';
 import 'package:library/src/smoke/DummyInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_GenericTypesWithCompoundTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),

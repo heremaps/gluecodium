@@ -3,6 +3,7 @@ import 'package:library/src/smoke/AnEnum.dart';
 import 'package:library/src/smoke/DefaultValues.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 enum SomeEnum {
     fooValue,

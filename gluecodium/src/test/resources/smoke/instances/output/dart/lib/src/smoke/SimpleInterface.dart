@@ -1,6 +1,7 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class SimpleInterface {
   void release();
@@ -12,11 +13,12 @@ final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_SimpleInterface_release_handle');
-class SimpleInterface__Impl implements SimpleInterface{
-  final Pointer<Void> _handle;
-  SimpleInterface__Impl._(this._handle);
+class SimpleInterface__Impl implements SimpleInterface {
+  Pointer<Void> get _handle => handle;
+  final Pointer<Void> handle;
+  SimpleInterface__Impl(this.handle);
   @override
-  void release() => _smoke_SimpleInterface_release_handle(_handle);
+  void release() => _smoke_SimpleInterface_release_handle(handle);
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_SimpleInterface_getStringValue');
@@ -36,13 +38,14 @@ class SimpleInterface__Impl implements SimpleInterface{
     return _result;
   }
 }
-Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface__Impl value) => value._handle;
+Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface__Impl value) =>
+  value != null ? value.handle : Pointer<Void>.fromAddress(0);
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) =>
-  SimpleInterface__Impl._(handle);
+  handle.address != 0 ? SimpleInterface__Impl(handle) : null;
 void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) {}
 Pointer<Void> smoke_SimpleInterface_toFfi_nullable(SimpleInterface__Impl value) =>
   value != null ? value._handle : Pointer<Void>.fromAddress(0);
 SimpleInterface smoke_SimpleInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? SimpleInterface__Impl._(handle) : null;
+  handle.address != 0 ? SimpleInterface__Impl(handle) : null;
 void smoke_SimpleInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of SimpleInterface "private" section.

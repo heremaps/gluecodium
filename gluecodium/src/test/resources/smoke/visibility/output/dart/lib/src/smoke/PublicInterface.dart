@@ -1,6 +1,7 @@
 import 'package:library/src/smoke/PublicClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PublicInterface {
   void release();
@@ -72,19 +73,21 @@ final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_PublicInterface_release_handle');
-class PublicInterface__Impl implements PublicInterface{
-  final Pointer<Void> _handle;
-  PublicInterface__Impl._(this._handle);
+class PublicInterface__Impl implements PublicInterface {
+  Pointer<Void> get _handle => handle;
+  final Pointer<Void> handle;
+  PublicInterface__Impl(this.handle);
   @override
-  void release() => _smoke_PublicInterface_release_handle(_handle);
+  void release() => _smoke_PublicInterface_release_handle(handle);
 }
-Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface__Impl value) => value._handle;
+Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface__Impl value) =>
+  value != null ? value.handle : Pointer<Void>.fromAddress(0);
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) =>
-  PublicInterface__Impl._(handle);
+  handle.address != 0 ? PublicInterface__Impl(handle) : null;
 void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) {}
 Pointer<Void> smoke_PublicInterface_toFfi_nullable(PublicInterface__Impl value) =>
   value != null ? value._handle : Pointer<Void>.fromAddress(0);
 PublicInterface smoke_PublicInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? PublicInterface__Impl._(handle) : null;
+  handle.address != 0 ? PublicInterface__Impl(handle) : null;
 void smoke_PublicInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of PublicInterface "private" section.
