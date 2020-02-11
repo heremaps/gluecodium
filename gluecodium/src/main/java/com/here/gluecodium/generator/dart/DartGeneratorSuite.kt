@@ -86,7 +86,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val importResolver = DartImportResolver(limeModel.referenceMap, dartNameResolver)
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
-        val pathsCollector = mutableListOf<DartExport>()
+        val exportsCollector = mutableListOf<DartExport>()
 
         val genericTypes = TypeRefsCollector.getAllTypeRefs(limeModel)
             .map { it.type }
@@ -96,11 +96,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         return limeModel.topElements.flatMap {
             listOfNotNull(
-                generateDart(it, dartResolvers, dartNameResolver, importResolver, pathsCollector)
+                generateDart(it, dartResolvers, dartNameResolver, importResolver, exportsCollector)
             ) + generateFfi(it, ffiResolvers, includeResolver)
         } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
-            generateDartCommonFiles(pathsCollector, dartResolvers) +
+            generateDartCommonFiles(exportsCollector, dartResolvers) +
             generateFfiCommonFiles(ffiResolvers)
     }
 
@@ -109,7 +109,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         nameResolvers: Map<String, NameResolver>,
         dartNameResolver: DartNameResolver,
         importResolver: DartImportResolver,
-        pathsCollector: MutableList<DartExport>
+        exportsCollector: MutableList<DartExport>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
@@ -119,8 +119,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
-        val allSymbols = (allTypes + freeConstants).map { dartNameResolver.resolveName(it) }
-        pathsCollector += DartExport(relativePath, allSymbols)
+        val allSymbols = (allTypes + freeConstants)
+            .filterNot { it.visibility.isInternal }
+            .map { dartNameResolver.resolveName(it) }
+        exportsCollector += DartExport(relativePath, allSymbols)
 
         val imports = importResolver.resolveImports(rootElement) +
             collectImports(allTypes, importResolver)
