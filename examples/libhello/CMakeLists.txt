@@ -192,7 +192,7 @@ feature(JavaBuilder android SOURCES
     lime/test/JavaBuilder.lime
 )
 
-feature(Listeners cpp android swift SOURCES
+feature(Listeners cpp android swift dart SOURCES
     src/hello/HelloWorldListeners.h
     src/hello/HelloWorldListeners.cpp
     src/hello/HelloWorldCalculatorListenerFactory.cpp
@@ -216,7 +216,7 @@ feature(ComplexListeners cpp android swift SOURCES
     lime/test/ComplexListeners.lime
 )
 
-feature(ListenersWithReturnValues cpp android swift SOURCES
+feature(ListenersWithReturnValues cpp android swift dart SOURCES
     src/test/ListenersReturnValues.cpp
     src/test/ListenersReturnValues.h
     src/test/ListenerWithAttributes.cpp

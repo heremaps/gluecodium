@@ -29,6 +29,11 @@
 #include <memory>
 #include <new>
 
+{{#interfaces}}
+{{>ffi/FfiProxyDeclaration}}
+
+{{/interfaces}}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -69,6 +74,33 @@ void
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}
 
 {{/classes}}
+
+{{#interfaces}}
+FfiOpaqueHandle
+{{resolveName}}_create_proxy(uint64_t token{{#if inheritedFunctions functions logic="or"}}, {{!!
+}}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
+}}{{#if inheritedProperties properties logic="or"}}, {{!!
+}}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
+}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<{{resolveName "C++"}}>(
+            new (std::nothrow) {{resolveName}}_Proxy(token{{#if inheritedFunctions functions logic="or"}}, {{!!
+            }}{{#each inheritedFunctions functions}}f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
+            }}{{#if inheritedProperties properties logic="or"}}, {{!!
+            }}{{#each inheritedProperties properties}}p{{iter.position}}g{{!!
+            }}{{#if setter}}, p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}})
+        )
+    );
+}
+
+FfiOpaqueHandle
+{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)->get()
+    );
+}
+
+{{/interfaces}}
 
 {{#nonExternalStructs}}
 FfiOpaqueHandle
@@ -132,7 +164,7 @@ void
     delete reinterpret_cast<{{>ffiErrorReturnType}}*>(handle);
 }
 
-{{#isNotEq returnType.typeRef.type.name "Void"}}{{resolveName returnType.typeRef}}
+{{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}}
 {{resolveName}}_return_get_result(FfiOpaqueHandle handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
         reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->unsafe_value()
@@ -157,12 +189,12 @@ FfiOpaqueHandle
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     auto&& _cpp_call_result = {{>ffiCallCppFunction}};
 {{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
-}}{{#isEq returnType.typeRef.type.name "Void"}}
+}}{{#isEq returnType.typeRef.toString "Void"}}
     if (_cpp_call_result.value() == 0) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(true));
     }
     auto _error_code = _cpp_call_result;
-{{/isEq}}{{#isNotEq returnType.typeRef.type.name "Void"}}
+{{/isEq}}{{#isNotEq returnType.typeRef.toString "Void"}}
     if (_cpp_call_result.has_value()) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(
             std::forward<{{resolveName returnType.typeRef "C++"}}>(_cpp_call_result.unsafe_value())
@@ -185,9 +217,9 @@ FfiOpaqueHandle
 {{resolveName returnType.typeRef}}
 {{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
-    {{#isNotEq returnType.typeRef.type.name "Void"}}return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
+    {{#isNotEq returnType.typeRef.toString "Void"}}return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
 {{/isNotEq}}{{!!
-}}{{>ffiCallCppFunction}}{{#isNotEq returnType.typeRef.type.name "Void"}}
+}}{{>ffiCallCppFunction}}{{#isNotEq returnType.typeRef.toString "Void"}}
     ){{/isNotEq}};
 }
 {{/unless}}{{/ffiFunction}}{{!!

@@ -77,6 +77,17 @@ final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_PublicInterface_release_handle');
+final _smoke_PublicInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint64),
+    Pointer<Void> Function(int)
+  >('smoke_PublicInterface_create_proxy');
+final _smoke_PublicInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('smoke_PublicInterface_get_raw_pointer');
+int _PublicInterface_instance_counter = 1024;
+final Map<int, PublicInterface> _PublicInterface_instance_cache = {};
+final Map<Pointer<Void>, PublicInterface> _PublicInterface_reverse_cache = {};
 class PublicInterface__Impl implements PublicInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -84,13 +95,22 @@ class PublicInterface__Impl implements PublicInterface {
   @override
   void release() => _smoke_PublicInterface_release_handle(handle);
 }
-Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface__Impl value) =>
-  _smoke_PublicInterface_copy_handle(value._handle);
-PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) =>
-  PublicInterface__Impl(_smoke_PublicInterface_copy_handle(handle));
+Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
+  if (value is PublicInterface__Impl) return _smoke_PublicInterface_copy_handle(value.handle);
+  const UNKNOWN_ERROR = -1;
+  final token = _PublicInterface_instance_counter++;
+  _PublicInterface_instance_cache[token] = value;
+  final result = _smoke_PublicInterface_create_proxy(token);
+  _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(result)] = value;
+  return result;
+}
+PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
+  final instance = _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(handle)];
+  return instance != null ? instance : PublicInterface__Impl(_smoke_PublicInterface_copy_handle(handle));
+}
 void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PublicInterface_release_handle(handle);
-Pointer<Void> smoke_PublicInterface_toFfi_nullable(PublicInterface__Impl value) =>
+Pointer<Void> smoke_PublicInterface_toFfi_nullable(PublicInterface value) =>
   value != null ? smoke_PublicInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 PublicInterface smoke_PublicInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_PublicInterface_fromFfi(handle) : null;

@@ -79,6 +79,17 @@ final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunc
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_PropertiesInterface_release_handle');
+final _smoke_PropertiesInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint64, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer)
+  >('smoke_PropertiesInterface_create_proxy');
+final _smoke_PropertiesInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('smoke_PropertiesInterface_get_raw_pointer');
+int _PropertiesInterface_instance_counter = 1024;
+final Map<int, PropertiesInterface> _PropertiesInterface_instance_cache = {};
+final Map<Pointer<Void>, PropertiesInterface> _PropertiesInterface_reverse_cache = {};
 class PropertiesInterface__Impl implements PropertiesInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -102,13 +113,31 @@ class PropertiesInterface__Impl implements PropertiesInterface {
     return _result;
   }
 }
-Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) =>
-  _smoke_PropertiesInterface_copy_handle(value._handle);
-PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) =>
-  PropertiesInterface__Impl(_smoke_PropertiesInterface_copy_handle(handle));
+int _PropertiesInterface_structProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
+  _result.value = smoke_PropertiesInterface_ExampleStruct_toFfi(_PropertiesInterface_instance_cache[_token].structProperty);
+  return 0;
+}
+int _PropertiesInterface_structProperty_set_static(int _token, Pointer<Void> _value) {
+  _PropertiesInterface_instance_cache[_token].structProperty = smoke_PropertiesInterface_ExampleStruct_fromFfi(_value);
+  smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(_value);
+  return 0;
+}
+Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface value) {
+  if (value is PropertiesInterface__Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
+  const UNKNOWN_ERROR = -1;
+  final token = _PropertiesInterface_instance_counter++;
+  _PropertiesInterface_instance_cache[token] = value;
+  final result = _smoke_PropertiesInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterface_structProperty_get_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_PropertiesInterface_structProperty_set_static, UNKNOWN_ERROR));
+  _PropertiesInterface_reverse_cache[_smoke_PropertiesInterface_get_raw_pointer(result)] = value;
+  return result;
+}
+PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) {
+  final instance = _PropertiesInterface_reverse_cache[_smoke_PropertiesInterface_get_raw_pointer(handle)];
+  return instance != null ? instance : PropertiesInterface__Impl(_smoke_PropertiesInterface_copy_handle(handle));
+}
 void smoke_PropertiesInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PropertiesInterface_release_handle(handle);
-Pointer<Void> smoke_PropertiesInterface_toFfi_nullable(PropertiesInterface__Impl value) =>
+Pointer<Void> smoke_PropertiesInterface_toFfi_nullable(PropertiesInterface value) =>
   value != null ? smoke_PropertiesInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 PropertiesInterface smoke_PropertiesInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_PropertiesInterface_fromFfi(handle) : null;

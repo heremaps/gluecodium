@@ -30,6 +30,7 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.ffi.FfiCppIncludeResolver
 import com.here.gluecodium.generator.ffi.FfiCppNameResolver
+import com.here.gluecodium.generator.ffi.FfiCppParameterTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
@@ -74,14 +75,16 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "FfiApiTypes" to FfiApiTypeNameResolver(),
             "FfiDartTypes" to FfiDartTypeNameResolver()
         )
+        val ffiCppNameResolver = FfiCppNameResolver(
+            limeModel.referenceMap,
+            cppNameRules,
+            rootNamespace,
+            internalNamespace
+        )
         val ffiResolvers = mapOf(
             "" to ffiNameResolver,
-            "C++" to FfiCppNameResolver(
-                limeModel.referenceMap,
-                cppNameRules,
-                rootNamespace,
-                internalNamespace
-            )
+            "C++" to ffiCppNameResolver,
+            "C++ parameter" to FfiCppParameterTypeNameResolver(ffiCppNameResolver)
         )
         val importResolver = DartImportResolver(
             limeModel.referenceMap,
@@ -118,7 +121,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
-        val filePath = "$packagePath/${nameRules.getName(rootElement)}"
+        val filePath = "$packagePath/${dartNameResolver.resolveName(rootElement)}"
         val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
@@ -179,6 +182,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             types.filterIsInstance<LimeContainer>().flatMap { it.functions }.sortedBy { it.fullName }
         val classes = types.filterIsInstance<LimeContainerWithInheritance>()
         val enums = types.filterIsInstance<LimeEnumeration>()
+        val interfaces = types.filterIsInstance<LimeInterface>()
+            // TODO: #137 handle errors
+            .filterNot { (it.functions + it.inheritedFunctions).any { it.thrownType != null } }
 
         val structs = types.filterIsInstance<LimeStruct>()
         val externalTypes = types.filter { it.attributes.have(CPP, EXTERNAL_TYPE) }
@@ -198,6 +204,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "model" to rootElement,
             "classes" to classes,
             "enums" to enums,
+            "interfaces" to interfaces,
             "externalStructs" to externalStructs,
             "nonExternalStructs" to nonExternalStructs,
             "internalNamespace" to internalNamespace,
