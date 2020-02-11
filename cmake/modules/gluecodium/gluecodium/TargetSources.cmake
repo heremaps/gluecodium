@@ -109,7 +109,7 @@ function(apigen_target_sources target)
         if(NOT EXISTS "${generated_file}")
           get_filename_component(directory "${generated_file}" DIRECTORY)
           file(MAKE_DIRECTORY "${directory}")
-          file(WRITE "${generated_file}" "// Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399")
+          file(WRITE "${generated_file}" "#error Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399")
         endif()
       endforeach()
 
