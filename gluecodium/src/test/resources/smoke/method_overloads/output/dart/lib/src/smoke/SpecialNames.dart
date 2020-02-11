@@ -1,3 +1,4 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -38,8 +39,11 @@ class SpecialNames {
     return _result;
   }
 }
-Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? SpecialNames._(handle) : null;
+Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) => value._handle;
+SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) => SpecialNames._(handle);
 void smoke_SpecialNames_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_SpecialNames_toFfi_nullable(SpecialNames value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+SpecialNames smoke_SpecialNames_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? SpecialNames._(handle) : null;
+void smoke_SpecialNames_releaseFfiHandle_nullable(Pointer<Void> handle) {}

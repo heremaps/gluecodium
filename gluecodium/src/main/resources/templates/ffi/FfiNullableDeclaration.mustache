@@ -18,10 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-
-int DateTime_toFfi(DateTime value) => value.microsecondsSinceEpoch;
-
-DateTime DateTime_fromFfi(int us) => DateTime.fromMicrosecondsSinceEpoch(us, isUtc: true);
-
-void DateTime_releaseFfiHandle(int handle) {}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName type}}_create_handle_nullable({{handleType}} value);
+_GLUECODIUM_FFI_EXPORT void {{resolveName type}}_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT {{handleType}} {{resolveName type}}_get_value_nullable(FfiOpaqueHandle handle);

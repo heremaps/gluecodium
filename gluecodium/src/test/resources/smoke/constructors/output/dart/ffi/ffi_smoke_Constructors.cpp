@@ -81,6 +81,27 @@ void
 smoke_Constructors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle);
 }
+FfiOpaqueHandle
+smoke_Constructors_ErrorEnum_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::Constructors::ErrorEnum>(
+            gluecodium::ffi::Conversion<::smoke::Constructors::ErrorEnum>::toCpp(value)
+        )
+    );
+}
+void
+smoke_Constructors_ErrorEnum_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::Constructors::ErrorEnum>*>(handle);
+}
+uint32_t
+smoke_Constructors_ErrorEnum_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::Constructors::ErrorEnum>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::Constructors::ErrorEnum>*>(handle)
+    );
+}
 #ifdef __cplusplus
 }
 #endif

@@ -23,6 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
@@ -43,6 +44,7 @@ internal class FfiNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is TypeId -> getBasicTypeName(element)
             is LimeTypeRef -> getTypeRefName(element)
             is LimeFunction -> getMangledFullName(element)
             is LimeType -> getTypeName(element)
@@ -55,10 +57,15 @@ internal class FfiNameResolver(
         val limeType = limeTypeRef.type.actualType
         return when {
             limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
-            limeType is LimeBasicType -> getBasicTypeRefName(limeType)
+            limeType is LimeBasicType -> getBasicTypeName(limeType.typeId)
             limeType is LimeEnumeration -> "uint32_t"
             else -> OPAQUE_HANDLE_TYPE
         }
+    }
+
+    private fun getNestedTypeRefName(limeTypeRef: LimeTypeRef): String {
+        val prefix = if (limeTypeRef.isNullable) "Nullable_" else ""
+        return prefix + getTypeName(limeTypeRef.type.actualType)
     }
 
     private fun getTypeName(limeType: LimeType): String =
@@ -69,31 +76,33 @@ internal class FfiNameResolver(
             else -> getMangledFullName(actualType)
         }
 
-    private fun getBasicTypeRefName(limeType: LimeBasicType) =
-        when (limeType.typeId) {
-            LimeBasicType.TypeId.VOID -> "void"
-            LimeBasicType.TypeId.INT8 -> "int8_t"
-            LimeBasicType.TypeId.UINT8 -> "uint8_t"
-            LimeBasicType.TypeId.INT16 -> "int16_t"
-            LimeBasicType.TypeId.UINT16 -> "uint16_t"
-            LimeBasicType.TypeId.INT32 -> "int32_t"
-            LimeBasicType.TypeId.UINT32 -> "uint32_t"
-            LimeBasicType.TypeId.INT64 -> "int64_t"
-            LimeBasicType.TypeId.UINT64 -> "uint64_t"
-            LimeBasicType.TypeId.BOOLEAN -> "bool"
-            LimeBasicType.TypeId.FLOAT -> "float"
-            LimeBasicType.TypeId.DOUBLE -> "double"
-            LimeBasicType.TypeId.STRING -> OPAQUE_HANDLE_TYPE
-            LimeBasicType.TypeId.BLOB -> OPAQUE_HANDLE_TYPE
-            LimeBasicType.TypeId.DATE -> "uint64_t"
+    private fun getBasicTypeName(typeId: TypeId) =
+        when (typeId) {
+            TypeId.VOID -> "void"
+            TypeId.INT8 -> "int8_t"
+            TypeId.UINT8 -> "uint8_t"
+            TypeId.INT16 -> "int16_t"
+            TypeId.UINT16 -> "uint16_t"
+            TypeId.INT32 -> "int32_t"
+            TypeId.UINT32 -> "uint32_t"
+            TypeId.INT64 -> "int64_t"
+            TypeId.UINT64 -> "uint64_t"
+            TypeId.BOOLEAN -> "bool"
+            TypeId.FLOAT -> "float"
+            TypeId.DOUBLE -> "double"
+            TypeId.STRING -> OPAQUE_HANDLE_TYPE
+            TypeId.BLOB -> OPAQUE_HANDLE_TYPE
+            TypeId.DATE -> "uint64_t"
         }
 
-    private fun getListName(elementType: LimeTypeRef) = "ListOf_${getTypeName(elementType.type)}"
+    private fun getListName(elementType: LimeTypeRef) =
+        "ListOf_${getNestedTypeRefName(elementType)}"
 
-    private fun getSetName(elementType: LimeTypeRef) = "SetOf_${getTypeName(elementType.type)}"
+    private fun getSetName(elementType: LimeTypeRef) =
+        "SetOf_${getNestedTypeRefName(elementType)}"
 
     private fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
-        "MapOf_${getTypeName(keyType.type)}_to_${getTypeName(valueType.type)}"
+        "MapOf_${getNestedTypeRefName(keyType)}_to_${getNestedTypeRefName(valueType)}"
 
     private fun getMangledFullName(limeElement: LimeNamedElement): String {
         val prefix = when {
@@ -123,7 +132,11 @@ internal class FfiNameResolver(
     }
 
     private fun mangleName(name: String) =
-        name.replace(" ", "").replace("_", "_1").replace("<", "Of_").replace(",", "_").replace(">", "")
+        name.replace(" ", "")
+            .replace("_", "_1")
+            .replace("<", "Of_")
+            .replace(",", "_")
+            .replace(">", "")
 
     private class FfiSignatureResolver(
         limeReferenceMap: Map<String, LimeElement>,

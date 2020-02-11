@@ -22,14 +22,18 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiDartTypeNameResolver : NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is TypeId -> getBasicTypeName(element)
             is LimeTypeRef -> getTypeRefName(element)
+            is LimeType -> getTypeName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
@@ -37,29 +41,35 @@ internal class FfiDartTypeNameResolver : NameResolver {
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
         return when {
-            limeType is LimeBasicType -> getBasicTypeRefName(limeType)
-            limeType is LimeEnumeration -> "int"
-            else -> OPAQUE_HANDLE_TYPE
+            limeTypeRef.isNullable -> OPAQUE_HANDLE_TYPE
+            else -> getTypeName(limeType)
         }
     }
 
-    private fun getBasicTypeRefName(limeType: LimeBasicType) =
-        when (limeType.typeId) {
-            LimeBasicType.TypeId.VOID -> "void"
-            LimeBasicType.TypeId.INT8 -> "int"
-            LimeBasicType.TypeId.UINT8 -> "int"
-            LimeBasicType.TypeId.INT16 -> "int"
-            LimeBasicType.TypeId.UINT16 -> "int"
-            LimeBasicType.TypeId.INT32 -> "int"
-            LimeBasicType.TypeId.UINT32 -> "int"
-            LimeBasicType.TypeId.INT64 -> "int"
-            LimeBasicType.TypeId.UINT64 -> "int"
-            LimeBasicType.TypeId.BOOLEAN -> "int"
-            LimeBasicType.TypeId.FLOAT -> "double"
-            LimeBasicType.TypeId.DOUBLE -> "double"
-            LimeBasicType.TypeId.STRING -> OPAQUE_HANDLE_TYPE
-            LimeBasicType.TypeId.BLOB -> OPAQUE_HANDLE_TYPE
-            LimeBasicType.TypeId.DATE -> "int"
+    private fun getTypeName(limeType: LimeType): String =
+        when (limeType) {
+            is LimeBasicType -> getBasicTypeName(limeType.typeId)
+            is LimeEnumeration -> "int"
+            else -> OPAQUE_HANDLE_TYPE
+        }
+
+    private fun getBasicTypeName(typeId: TypeId) =
+        when (typeId) {
+            TypeId.VOID -> "void"
+            TypeId.INT8 -> "int"
+            TypeId.UINT8 -> "int"
+            TypeId.INT16 -> "int"
+            TypeId.UINT16 -> "int"
+            TypeId.INT32 -> "int"
+            TypeId.UINT32 -> "int"
+            TypeId.INT64 -> "int"
+            TypeId.UINT64 -> "int"
+            TypeId.BOOLEAN -> "int"
+            TypeId.FLOAT -> "double"
+            TypeId.DOUBLE -> "double"
+            TypeId.STRING -> OPAQUE_HANDLE_TYPE
+            TypeId.BLOB -> OPAQUE_HANDLE_TYPE
+            TypeId.DATE -> "int"
         }
 
     companion object {

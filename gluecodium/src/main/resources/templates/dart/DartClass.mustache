@@ -52,13 +52,19 @@ class {{resolveName visibility}}{{resolveName}} {{!!
 {{/properties}}
 }
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) => value._handle;
 
-{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? {{resolveName}}._(handle) : null;
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) => {{resolveName}}._(handle);
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) {}
+
+Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? {{resolveName}}._(handle) : null;
+
+void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 
 {{#enumerations}}
 {{>dart/DartEnumeration}}

@@ -1,4 +1,4 @@
-import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -75,8 +75,11 @@ class GenericTypesWithGenericTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi(GenericTypesWithGenericTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? GenericTypesWithGenericTypes._(handle) : null;
+Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi(GenericTypesWithGenericTypes value) => value._handle;
+GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi(Pointer<Void> handle) => GenericTypesWithGenericTypes._(handle);
 void smoke_GenericTypesWithGenericTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi_nullable(GenericTypesWithGenericTypes value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? GenericTypesWithGenericTypes._(handle) : null;
+void smoke_GenericTypesWithGenericTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}

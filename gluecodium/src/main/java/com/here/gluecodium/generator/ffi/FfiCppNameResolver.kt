@@ -56,6 +56,7 @@ internal class FfiCppNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is TypeId -> getBasicTypeName(element)
             is LimeTypeRef -> getTypeRefName(element)
             is LimeField -> getFieldName(element)
             is LimeException -> getExceptionTypeName(element)
@@ -92,7 +93,7 @@ internal class FfiCppNameResolver(
 
     private fun getTypeName(limeType: LimeType): String =
         when (limeType) {
-            is LimeBasicType -> getBasicTypeName(limeType)
+            is LimeBasicType -> getBasicTypeName(limeType.typeId)
             is LimeGenericType -> getGenericTypeName(limeType)
             else -> cppNameResolver.getFullyQualifiedName(limeType)
         }
@@ -103,8 +104,8 @@ internal class FfiCppNameResolver(
             else -> getTypeName(errorType)
         }
 
-    private fun getBasicTypeName(limeType: LimeBasicType) =
-        when (limeType.typeId) {
+    private fun getBasicTypeName(typeId: TypeId) =
+        when (typeId) {
             TypeId.VOID -> "void"
             TypeId.INT8 -> "int8_t"
             TypeId.UINT8 -> "uint8_t"

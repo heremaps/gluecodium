@@ -1,3 +1,4 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -38,6 +39,35 @@ PropertiesInterface_ExampleStruct smoke_PropertiesInterface_ExampleStruct_fromFf
   return _result;
 }
 void smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PropertiesInterface_ExampleStruct_release_handle(handle);
+// Nullable PropertiesInterface_ExampleStruct
+final _smoke_PropertiesInterface_ExampleStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_PropertiesInterface_ExampleStruct_create_handle_nullable');
+final _smoke_PropertiesInterface_ExampleStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_PropertiesInterface_ExampleStruct_release_handle_nullable');
+final _smoke_PropertiesInterface_ExampleStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_PropertiesInterface_ExampleStruct_get_value_nullable');
+Pointer<Void> smoke_PropertiesInterface_ExampleStruct_toFfi_nullable(PropertiesInterface_ExampleStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_PropertiesInterface_ExampleStruct_toFfi(value);
+  final result = _smoke_PropertiesInterface_ExampleStruct_create_handle_nullable(_handle);
+  smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(_handle);
+  return result;
+}
+PropertiesInterface_ExampleStruct smoke_PropertiesInterface_ExampleStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_PropertiesInterface_ExampleStruct_get_value_nullable(handle);
+  final result = smoke_PropertiesInterface_ExampleStruct_fromFfi(_handle);
+  smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_PropertiesInterface_ExampleStruct_release_handle_nullable(handle);
 // End of PropertiesInterface_ExampleStruct "private" section.
 // PropertiesInterface "private" section, not exported.
 final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunction<
@@ -66,9 +96,13 @@ class PropertiesInterface__Impl implements PropertiesInterface{
     return _result;
   }
 }
-Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) => value._handle;
 PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? PropertiesInterface__Impl._(handle) : null;
+  PropertiesInterface__Impl._(handle);
 void smoke_PropertiesInterface_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_PropertiesInterface_toFfi_nullable(PropertiesInterface__Impl value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+PropertiesInterface smoke_PropertiesInterface_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? PropertiesInterface__Impl._(handle) : null;
+void smoke_PropertiesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of PropertiesInterface "private" section.

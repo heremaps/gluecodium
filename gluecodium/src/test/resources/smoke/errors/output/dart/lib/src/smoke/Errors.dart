@@ -1,4 +1,4 @@
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/smoke/Payload.dart';
 import 'package:library/src/smoke/WithPayloadException.dart';
 import 'dart:ffi';
@@ -164,11 +164,14 @@ class Errors {
     return _result;
   }
 }
-Pointer<Void> smoke_Errors_toFfi(Errors value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-Errors smoke_Errors_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? Errors._(handle) : null;
+Pointer<Void> smoke_Errors_toFfi(Errors value) => value._handle;
+Errors smoke_Errors_fromFfi(Pointer<Void> handle) => Errors._(handle);
 void smoke_Errors_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Errors_toFfi_nullable(Errors value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+Errors smoke_Errors_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? Errors._(handle) : null;
+void smoke_Errors_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum Errors_InternalErrorCode {
     errorNone,
     errorFatal
@@ -199,6 +202,34 @@ Errors_InternalErrorCode smoke_Errors_InternalErrorCode_fromFfi(int handle) {
   }
 }
 void smoke_Errors_InternalErrorCode_releaseFfiHandle(int handle) {}
+final _smoke_Errors_InternalErrorCode_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_Errors_InternalErrorCode_create_handle_nullable');
+final _smoke_Errors_InternalErrorCode_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Errors_InternalErrorCode_release_handle_nullable');
+final _smoke_Errors_InternalErrorCode_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Errors_InternalErrorCode_get_value_nullable');
+Pointer<Void> smoke_Errors_InternalErrorCode_toFfi_nullable(Errors_InternalErrorCode value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_Errors_InternalErrorCode_toFfi(value);
+  final result = _smoke_Errors_InternalErrorCode_create_handle_nullable(_handle);
+  smoke_Errors_InternalErrorCode_releaseFfiHandle(_handle);
+  return result;
+}
+Errors_InternalErrorCode smoke_Errors_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_Errors_InternalErrorCode_get_value_nullable(handle);
+  final result = smoke_Errors_InternalErrorCode_fromFfi(_handle);
+  smoke_Errors_InternalErrorCode_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_Errors_InternalErrorCode_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Errors_InternalErrorCode_release_handle_nullable(handle);
 // End of Errors_InternalErrorCode "private" section.
 enum Errors_ExternalErrors {
     none,
@@ -237,6 +268,34 @@ Errors_ExternalErrors smoke_Errors_ExternalErrors_fromFfi(int handle) {
   }
 }
 void smoke_Errors_ExternalErrors_releaseFfiHandle(int handle) {}
+final _smoke_Errors_ExternalErrors_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_Errors_ExternalErrors_create_handle_nullable');
+final _smoke_Errors_ExternalErrors_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_Errors_ExternalErrors_release_handle_nullable');
+final _smoke_Errors_ExternalErrors_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_Errors_ExternalErrors_get_value_nullable');
+Pointer<Void> smoke_Errors_ExternalErrors_toFfi_nullable(Errors_ExternalErrors value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_Errors_ExternalErrors_toFfi(value);
+  final result = _smoke_Errors_ExternalErrors_create_handle_nullable(_handle);
+  smoke_Errors_ExternalErrors_releaseFfiHandle(_handle);
+  return result;
+}
+Errors_ExternalErrors smoke_Errors_ExternalErrors_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_Errors_ExternalErrors_get_value_nullable(handle);
+  final result = smoke_Errors_ExternalErrors_fromFfi(_handle);
+  smoke_Errors_ExternalErrors_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_Errors_ExternalErrors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Errors_ExternalErrors_release_handle_nullable(handle);
 // End of Errors_ExternalErrors "private" section.
 class Errors_InternalException implements Exception {
   final Errors_InternalErrorCode error;

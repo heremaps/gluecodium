@@ -1,4 +1,4 @@
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -27,11 +27,14 @@ class ExternalClass {
     return _result;
   }
 }
-Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? ExternalClass._(handle) : null;
+Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) => value._handle;
+ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) => ExternalClass._(handle);
 void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_ExternalClass_toFfi_nullable(ExternalClass value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+ExternalClass smoke_ExternalClass_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? ExternalClass._(handle) : null;
+void smoke_ExternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 enum ExternalClass_SomeEnum {
     someValue
 }
@@ -55,6 +58,34 @@ ExternalClass_SomeEnum smoke_ExternalClass_SomeEnum_fromFfi(int handle) {
   }
 }
 void smoke_ExternalClass_SomeEnum_releaseFfiHandle(int handle) {}
+final _smoke_ExternalClass_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('smoke_ExternalClass_SomeEnum_create_handle_nullable');
+final _smoke_ExternalClass_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeEnum_release_handle_nullable');
+final _smoke_ExternalClass_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeEnum_get_value_nullable');
+Pointer<Void> smoke_ExternalClass_SomeEnum_toFfi_nullable(ExternalClass_SomeEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_ExternalClass_SomeEnum_toFfi(value);
+  final result = _smoke_ExternalClass_SomeEnum_create_handle_nullable(_handle);
+  smoke_ExternalClass_SomeEnum_releaseFfiHandle(_handle);
+  return result;
+}
+ExternalClass_SomeEnum smoke_ExternalClass_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_ExternalClass_SomeEnum_get_value_nullable(handle);
+  final result = smoke_ExternalClass_SomeEnum_fromFfi(_handle);
+  smoke_ExternalClass_SomeEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_ExternalClass_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalClass_SomeEnum_release_handle_nullable(handle);
 // End of ExternalClass_SomeEnum "private" section.
 class ExternalClass_SomeStruct {
   String someField;
@@ -88,4 +119,33 @@ ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi(Pointer<Void> ha
   return _result;
 }
 void smoke_ExternalClass_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalClass_SomeStruct_release_handle(handle);
+// Nullable ExternalClass_SomeStruct
+final _smoke_ExternalClass_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeStruct_create_handle_nullable');
+final _smoke_ExternalClass_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeStruct_release_handle_nullable');
+final _smoke_ExternalClass_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalClass_SomeStruct_get_value_nullable');
+Pointer<Void> smoke_ExternalClass_SomeStruct_toFfi_nullable(ExternalClass_SomeStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_ExternalClass_SomeStruct_toFfi(value);
+  final result = _smoke_ExternalClass_SomeStruct_create_handle_nullable(_handle);
+  smoke_ExternalClass_SomeStruct_releaseFfiHandle(_handle);
+  return result;
+}
+ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_ExternalClass_SomeStruct_get_value_nullable(handle);
+  final result = smoke_ExternalClass_SomeStruct_fromFfi(_handle);
+  smoke_ExternalClass_SomeStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_ExternalClass_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalClass_SomeStruct_release_handle_nullable(handle);
 // End of ExternalClass_SomeStruct "private" section.

@@ -115,6 +115,27 @@ smoke_MethodOverloads_Point_get_field_y(FfiOpaqueHandle handle) {
         reinterpret_cast<::smoke::MethodOverloads::Point*>(handle)->y
     );
 }
+FfiOpaqueHandle
+smoke_MethodOverloads_Point_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::MethodOverloads::Point>(
+            gluecodium::ffi::Conversion<::smoke::MethodOverloads::Point>::toCpp(value)
+        )
+    );
+}
+void
+smoke_MethodOverloads_Point_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::MethodOverloads::Point>*>(handle);
+}
+FfiOpaqueHandle
+smoke_MethodOverloads_Point_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::MethodOverloads::Point>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::MethodOverloads::Point>*>(handle)
+    );
+}
 #ifdef __cplusplus
 }
 #endif

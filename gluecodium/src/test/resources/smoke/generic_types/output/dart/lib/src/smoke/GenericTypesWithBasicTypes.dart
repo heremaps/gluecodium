@@ -1,6 +1,5 @@
-import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -115,11 +114,14 @@ class GenericTypesWithBasicTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? GenericTypesWithBasicTypes._(handle) : null;
+Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes value) => value._handle;
+GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) => GenericTypesWithBasicTypes._(handle);
 void smoke_GenericTypesWithBasicTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi_nullable(GenericTypesWithBasicTypes value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? GenericTypesWithBasicTypes._(handle) : null;
+void smoke_GenericTypesWithBasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 class GenericTypesWithBasicTypes_StructWithGenerics {
   List<int> numbersList;
   Map<int, String> numbersMap;
@@ -172,4 +174,33 @@ GenericTypesWithBasicTypes_StructWithGenerics smoke_GenericTypesWithBasicTypes_S
   return _result;
 }
 void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle(handle);
+// Nullable GenericTypesWithBasicTypes_StructWithGenerics
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable');
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable');
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable');
+Pointer<Void> smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi_nullable(GenericTypesWithBasicTypes_StructWithGenerics value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi(value);
+  final result = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable(_handle);
+  smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(_handle);
+  return result;
+}
+GenericTypesWithBasicTypes_StructWithGenerics smoke_GenericTypesWithBasicTypes_StructWithGenerics_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable(handle);
+  final result = smoke_GenericTypesWithBasicTypes_StructWithGenerics_fromFfi(_handle);
+  smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable(handle);
 // End of GenericTypesWithBasicTypes_StructWithGenerics "private" section.

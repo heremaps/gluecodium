@@ -41,6 +41,48 @@ smoke_ExternalClass_SomeStruct_get_field_someField(FfiOpaqueHandle handle) {
         reinterpret_cast<::fire::Baz::some_Struct*>(handle)->some_Field
     );
 }
+FfiOpaqueHandle
+smoke_ExternalClass_SomeStruct_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::fire::Baz::some_Struct>(
+            gluecodium::ffi::Conversion<::fire::Baz::some_Struct>::toCpp(value)
+        )
+    );
+}
+void
+smoke_ExternalClass_SomeStruct_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::fire::Baz::some_Struct>*>(handle);
+}
+FfiOpaqueHandle
+smoke_ExternalClass_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::fire::Baz::some_Struct>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::fire::Baz::some_Struct>*>(handle)
+    );
+}
+FfiOpaqueHandle
+smoke_ExternalClass_SomeEnum_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::fire::Baz::some_Enum>(
+            gluecodium::ffi::Conversion<::fire::Baz::some_Enum>::toCpp(value)
+        )
+    );
+}
+void
+smoke_ExternalClass_SomeEnum_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::fire::Baz::some_Enum>*>(handle);
+}
+uint32_t
+smoke_ExternalClass_SomeEnum_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::fire::Baz::some_Enum>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::fire::Baz::some_Enum>*>(handle)
+    );
+}
 #ifdef __cplusplus
 }
 #endif

@@ -20,20 +20,23 @@
 package com.here.gluecodium.model.lime
 
 class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
-    enum class TypeId(private val tag: String) {
+    enum class TypeId(
+        private val tag: String,
+        @Suppress("unused") val isNumericType: Boolean = false
+    ) {
         VOID("Void"),
-        INT8("Byte"),
-        UINT8("UByte"),
-        INT16("Short"),
-        UINT16("UShort"),
-        INT32("Int"),
-        UINT32("UInt"),
-        INT64("Long"),
-        UINT64("ULong"),
+        INT8("Byte", true),
+        UINT8("UByte", true),
+        INT16("Short", true),
+        UINT16("UShort", true),
+        INT32("Int", true),
+        UINT32("UInt", true),
+        INT64("Long", true),
+        UINT64("ULong", true),
+        FLOAT("Float", true),
+        DOUBLE("Double", true),
         BOOLEAN("Boolean"),
         STRING("String"),
-        FLOAT("Float"),
-        DOUBLE("Double"),
         BLOB("Blob"),
         DATE("Date");
 

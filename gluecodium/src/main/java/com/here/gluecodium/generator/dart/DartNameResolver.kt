@@ -47,8 +47,9 @@ internal class DartNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is TypeId -> resolveBasicType(element)
             is LimeVisibility -> resolveVisibility(element)
-            is LimeBasicType -> resolveBasicType(element)
+            is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
             is LimeGenericType -> resolveGenericType(element)
             is LimeTypeRef -> resolveName(element.type)
@@ -65,8 +66,8 @@ internal class DartNameResolver(
             else -> ""
         }
 
-    private fun resolveBasicType(limeBasicType: LimeBasicType) =
-        when (limeBasicType.typeId) {
+    private fun resolveBasicType(typeId: TypeId) =
+        when (typeId) {
             TypeId.VOID -> "void"
             TypeId.INT8, TypeId.UINT8, TypeId.INT16, TypeId.UINT16,
             TypeId.INT32, TypeId.UINT32, TypeId.INT64, TypeId.UINT64 -> "int"

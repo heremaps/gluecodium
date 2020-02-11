@@ -1,4 +1,4 @@
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/smoke/RouteUtils.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -47,4 +47,33 @@ Route smoke_StructsWithConstants_Route_fromFfi(Pointer<Void> handle) {
   return _result;
 }
 void smoke_StructsWithConstants_Route_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructsWithConstants_Route_release_handle(handle);
+// Nullable Route
+final _smoke_StructsWithConstants_Route_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructsWithConstants_Route_create_handle_nullable');
+final _smoke_StructsWithConstants_Route_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_StructsWithConstants_Route_release_handle_nullable');
+final _smoke_StructsWithConstants_Route_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructsWithConstants_Route_get_value_nullable');
+Pointer<Void> smoke_StructsWithConstants_Route_toFfi_nullable(Route value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_StructsWithConstants_Route_toFfi(value);
+  final result = _smoke_StructsWithConstants_Route_create_handle_nullable(_handle);
+  smoke_StructsWithConstants_Route_releaseFfiHandle(_handle);
+  return result;
+}
+Route smoke_StructsWithConstants_Route_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_StructsWithConstants_Route_get_value_nullable(handle);
+  final result = smoke_StructsWithConstants_Route_fromFfi(_handle);
+  smoke_StructsWithConstants_Route_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_StructsWithConstants_Route_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_StructsWithConstants_Route_release_handle_nullable(handle);
 // End of Route "private" section.

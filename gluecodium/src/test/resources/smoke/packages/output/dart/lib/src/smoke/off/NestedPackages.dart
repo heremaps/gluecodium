@@ -1,4 +1,4 @@
-import 'package:library/src/String__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -20,11 +20,14 @@ class NestedPackages {
     return _result;
   }
 }
-Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? NestedPackages._(handle) : null;
+Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) => value._handle;
+NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) => NestedPackages._(handle);
 void smoke_off_NestedPackages_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_off_NestedPackages_toFfi_nullable(NestedPackages value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+NestedPackages smoke_off_NestedPackages_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? NestedPackages._(handle) : null;
+void smoke_off_NestedPackages_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 class NestedPackages_SomeStruct {
   String someField;
   NestedPackages_SomeStruct(this.someField);
@@ -57,4 +60,33 @@ NestedPackages_SomeStruct smoke_off_NestedPackages_SomeStruct_fromFfi(Pointer<Vo
   return _result;
 }
 void smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_off_NestedPackages_SomeStruct_release_handle(handle);
+// Nullable NestedPackages_SomeStruct
+final _smoke_off_NestedPackages_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_off_NestedPackages_SomeStruct_create_handle_nullable');
+final _smoke_off_NestedPackages_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_off_NestedPackages_SomeStruct_release_handle_nullable');
+final _smoke_off_NestedPackages_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_off_NestedPackages_SomeStruct_get_value_nullable');
+Pointer<Void> smoke_off_NestedPackages_SomeStruct_toFfi_nullable(NestedPackages_SomeStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_off_NestedPackages_SomeStruct_toFfi(value);
+  final result = _smoke_off_NestedPackages_SomeStruct_create_handle_nullable(_handle);
+  smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(_handle);
+  return result;
+}
+NestedPackages_SomeStruct smoke_off_NestedPackages_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_off_NestedPackages_SomeStruct_get_value_nullable(handle);
+  final result = smoke_off_NestedPackages_SomeStruct_fromFfi(_handle);
+  smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_off_NestedPackages_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_off_NestedPackages_SomeStruct_release_handle_nullable(handle);
 // End of NestedPackages_SomeStruct "private" section.

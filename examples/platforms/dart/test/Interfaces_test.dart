@@ -62,29 +62,6 @@ void main() {
     result1.release();
     result2.release();
   });
-  _testSuite.test("Get null interfaces", () {
-    final nested = InterfacesFactory.createNestedInterfaceOne();
-
-    final result1 = nested.getInterfaceOne();
-    final result2 = nested.getInterfaceTwo();
-
-    expect(result1, isNull);
-    expect(result2, isNull);
-
-    nested.release();
-  });
-  _testSuite.test("Set null interfaces", () {
-    final nested = InterfacesFactory.createNestedInterfaceOne();
-
-    nested.setSameTypeInterfaces(null, null);
-    final result1 = nested.getInterfaceOne();
-    final result2 = nested.getInterfaceTwo();
-
-    expect(result1, isNull);
-    expect(result2, isNull);
-
-    nested.release();
-  });
   _testSuite.test("Set multiple type interfaces", () {
     final simpleOne1 = InterfacesFactory.createSimpleInterfaceOne();
     final simpleOne2 = InterfacesFactory.createSimpleInterfaceOne();
@@ -122,30 +99,28 @@ void main() {
     result6.release();
   });
   _testSuite.test("Set self interface", () {
-    final nested = InterfacesFactory.createNestedInterfaceTwo();
+    final nestedTwo = InterfacesFactory.createNestedInterfaceTwo();
     final simpleOne = InterfacesFactory.createSimpleInterfaceOne();
+    final simpleTwo = InterfacesFactory.createSimpleInterfaceTwo();
+    final nestedOne = InterfacesFactory.createNestedInterfaceOne();
     simpleOne.setStringValue("one");
-    nested.setMultipleTypeInterfaces(simpleOne, null, null);
+    nestedTwo.setMultipleTypeInterfaces(simpleOne, simpleTwo, nestedOne);
 
-    nested.setSelfInterface(nested);
-    final result1 = nested.getSelfInterface();
+    nestedTwo.setSelfInterface(nestedTwo);
+    final result1 = nestedTwo.getSelfInterface();
     final result2 = result1.getInterfaceOne();
 
     expect(result2.getStringValue(), equals("one"));
 
-    nested.setSelfInterface(null);
-    nested.release();
+    final nestedTwoOther = InterfacesFactory.createNestedInterfaceTwo();
+    nestedTwo.setSelfInterface(nestedTwoOther); // Needed to break reference loop.
+    nestedTwoOther.release();
+    nestedTwo.release();
+
     simpleOne.release();
+    simpleTwo.release();
+    nestedOne.release();
     result1.release();
     result2.release();
-  });
-  _testSuite.test("Set self interface null", () {
-    final nested = InterfacesFactory.createNestedInterfaceTwo();
-
-    nested.setSelfInterface(null);
-
-    expect(nested.getSelfInterface(), isNull);
-
-    nested.release();
   });
 }

@@ -1,5 +1,5 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'package:library/src/smoke/TypeCollection.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -83,11 +83,14 @@ class TypeDefs {
     return _result;
   }
 }
-Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? TypeDefs._(handle) : null;
+Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) => value._handle;
+TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) => TypeDefs._(handle);
 void smoke_TypeDefs_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_TypeDefs_toFfi_nullable(TypeDefs value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+TypeDefs smoke_TypeDefs_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? TypeDefs._(handle) : null;
+void smoke_TypeDefs_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 class TypeDefs_StructHavingAliasFieldDefinedBelow {
   double field;
   TypeDefs_StructHavingAliasFieldDefinedBelow(this.field);
@@ -120,6 +123,35 @@ TypeDefs_StructHavingAliasFieldDefinedBelow smoke_TypeDefs_StructHavingAliasFiel
   return _result;
 }
 void smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle(handle);
+// Nullable TypeDefs_StructHavingAliasFieldDefinedBelow
+final _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle_nullable');
+final _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle_nullable');
+final _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_value_nullable');
+Pointer<Void> smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_toFfi_nullable(TypeDefs_StructHavingAliasFieldDefinedBelow value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_toFfi(value);
+  final result = _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle_nullable(_handle);
+  smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_releaseFfiHandle(_handle);
+  return result;
+}
+TypeDefs_StructHavingAliasFieldDefinedBelow smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_value_nullable(handle);
+  final result = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_fromFfi(_handle);
+  smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle_nullable(handle);
 // End of TypeDefs_StructHavingAliasFieldDefinedBelow "private" section.
 class TypeDefs_TestStruct {
   String something;
@@ -153,4 +185,33 @@ TypeDefs_TestStruct smoke_TypeDefs_TestStruct_fromFfi(Pointer<Void> handle) {
   return _result;
 }
 void smoke_TypeDefs_TestStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypeDefs_TestStruct_release_handle(handle);
+// Nullable TypeDefs_TestStruct
+final _smoke_TypeDefs_TestStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_TypeDefs_TestStruct_create_handle_nullable');
+final _smoke_TypeDefs_TestStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_TypeDefs_TestStruct_release_handle_nullable');
+final _smoke_TypeDefs_TestStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_TypeDefs_TestStruct_get_value_nullable');
+Pointer<Void> smoke_TypeDefs_TestStruct_toFfi_nullable(TypeDefs_TestStruct value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_TypeDefs_TestStruct_toFfi(value);
+  final result = _smoke_TypeDefs_TestStruct_create_handle_nullable(_handle);
+  smoke_TypeDefs_TestStruct_releaseFfiHandle(_handle);
+  return result;
+}
+TypeDefs_TestStruct smoke_TypeDefs_TestStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_TypeDefs_TestStruct_get_value_nullable(handle);
+  final result = smoke_TypeDefs_TestStruct_fromFfi(_handle);
+  smoke_TypeDefs_TestStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_TypeDefs_TestStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_TypeDefs_TestStruct_release_handle_nullable(handle);
 // End of TypeDefs_TestStruct "private" section.

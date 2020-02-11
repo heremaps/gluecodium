@@ -1,6 +1,5 @@
-import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
-import 'package:library/src/String__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -107,11 +106,14 @@ class MethodOverloads {
     return _result;
   }
 }
-Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
-MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? MethodOverloads._(handle) : null;
+Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) => value._handle;
+MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) => MethodOverloads._(handle);
 void smoke_MethodOverloads_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_MethodOverloads_toFfi_nullable(MethodOverloads value) =>
+  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+MethodOverloads smoke_MethodOverloads_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? MethodOverloads._(handle) : null;
+void smoke_MethodOverloads_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 class MethodOverloads_Point {
   double x;
   double y;
@@ -154,4 +156,33 @@ MethodOverloads_Point smoke_MethodOverloads_Point_fromFfi(Pointer<Void> handle) 
   return _result;
 }
 void smoke_MethodOverloads_Point_releaseFfiHandle(Pointer<Void> handle) => _smoke_MethodOverloads_Point_release_handle(handle);
+// Nullable MethodOverloads_Point
+final _smoke_MethodOverloads_Point_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_MethodOverloads_Point_create_handle_nullable');
+final _smoke_MethodOverloads_Point_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_MethodOverloads_Point_release_handle_nullable');
+final _smoke_MethodOverloads_Point_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_MethodOverloads_Point_get_value_nullable');
+Pointer<Void> smoke_MethodOverloads_Point_toFfi_nullable(MethodOverloads_Point value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_MethodOverloads_Point_toFfi(value);
+  final result = _smoke_MethodOverloads_Point_create_handle_nullable(_handle);
+  smoke_MethodOverloads_Point_releaseFfiHandle(_handle);
+  return result;
+}
+MethodOverloads_Point smoke_MethodOverloads_Point_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_MethodOverloads_Point_get_value_nullable(handle);
+  final result = smoke_MethodOverloads_Point_fromFfi(_handle);
+  smoke_MethodOverloads_Point_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_MethodOverloads_Point_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_MethodOverloads_Point_release_handle_nullable(handle);
 // End of MethodOverloads_Point "private" section.

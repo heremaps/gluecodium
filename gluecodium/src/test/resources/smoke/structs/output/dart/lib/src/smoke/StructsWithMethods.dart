@@ -1,4 +1,4 @@
-import 'package:library/src/Boolean__conversion.dart';
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/smoke/ValidationUtils.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -126,4 +126,33 @@ Vector smoke_StructsWithMethods_Vector_fromFfi(Pointer<Void> handle) {
   return _result;
 }
 void smoke_StructsWithMethods_Vector_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructsWithMethods_Vector_release_handle(handle);
+// Nullable Vector
+final _smoke_StructsWithMethods_Vector_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructsWithMethods_Vector_create_handle_nullable');
+final _smoke_StructsWithMethods_Vector_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('smoke_StructsWithMethods_Vector_release_handle_nullable');
+final _smoke_StructsWithMethods_Vector_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructsWithMethods_Vector_get_value_nullable');
+Pointer<Void> smoke_StructsWithMethods_Vector_toFfi_nullable(Vector value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_StructsWithMethods_Vector_toFfi(value);
+  final result = _smoke_StructsWithMethods_Vector_create_handle_nullable(_handle);
+  smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
+  return result;
+}
+Vector smoke_StructsWithMethods_Vector_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_StructsWithMethods_Vector_get_value_nullable(handle);
+  final result = smoke_StructsWithMethods_Vector_fromFfi(_handle);
+  smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_StructsWithMethods_Vector_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_StructsWithMethods_Vector_release_handle_nullable(handle);
 // End of Vector "private" section.

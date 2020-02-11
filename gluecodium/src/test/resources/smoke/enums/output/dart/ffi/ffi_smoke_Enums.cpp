@@ -73,6 +73,111 @@ smoke_Enums_ErrorStruct_get_field_message(FfiOpaqueHandle handle) {
         reinterpret_cast<::smoke::Enums::ErrorStruct*>(handle)->message
     );
 }
+FfiOpaqueHandle
+smoke_Enums_ErrorStruct_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::Enums::ErrorStruct>(
+            gluecodium::ffi::Conversion<::smoke::Enums::ErrorStruct>::toCpp(value)
+        )
+    );
+}
+void
+smoke_Enums_ErrorStruct_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::Enums::ErrorStruct>*>(handle);
+}
+FfiOpaqueHandle
+smoke_Enums_ErrorStruct_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::Enums::ErrorStruct>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::Enums::ErrorStruct>*>(handle)
+    );
+}
+FfiOpaqueHandle
+smoke_Enums_SimpleEnum_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::Enums::SimpleEnum>(
+            gluecodium::ffi::Conversion<::smoke::Enums::SimpleEnum>::toCpp(value)
+        )
+    );
+}
+void
+smoke_Enums_SimpleEnum_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::Enums::SimpleEnum>*>(handle);
+}
+uint32_t
+smoke_Enums_SimpleEnum_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::Enums::SimpleEnum>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::Enums::SimpleEnum>*>(handle)
+    );
+}
+FfiOpaqueHandle
+smoke_Enums_InternalErrorCode_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::Enums::InternalErrorCode>(
+            gluecodium::ffi::Conversion<::smoke::Enums::InternalErrorCode>::toCpp(value)
+        )
+    );
+}
+void
+smoke_Enums_InternalErrorCode_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::Enums::InternalErrorCode>*>(handle);
+}
+uint32_t
+smoke_Enums_InternalErrorCode_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::Enums::InternalErrorCode>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::Enums::InternalErrorCode>*>(handle)
+    );
+}
+FfiOpaqueHandle
+smoke_Enums_ExternalEnum_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::Enums::External_Enum>(
+            gluecodium::ffi::Conversion<::smoke::Enums::External_Enum>::toCpp(value)
+        )
+    );
+}
+void
+smoke_Enums_ExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::Enums::External_Enum>*>(handle);
+}
+uint32_t
+smoke_Enums_ExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::Enums::External_Enum>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::Enums::External_Enum>*>(handle)
+    );
+}
+FfiOpaqueHandle
+smoke_Enums_VeryExternalEnum_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::fire::SomeVeryExternalEnum>(
+            gluecodium::ffi::Conversion<::fire::SomeVeryExternalEnum>::toCpp(value)
+        )
+    );
+}
+void
+smoke_Enums_VeryExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::fire::SomeVeryExternalEnum>*>(handle);
+}
+uint32_t
+smoke_Enums_VeryExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::fire::SomeVeryExternalEnum>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::fire::SomeVeryExternalEnum>*>(handle)
+    );
+}
 #ifdef __cplusplus
 }
 #endif

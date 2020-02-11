@@ -23,6 +23,7 @@
 #pragma once
 
 #include "OpaqueHandle.h"
+#include "{{>common/InternalInclude}}Optional.h"
 #include <chrono>
 #include <memory>
 #include <new>
@@ -86,6 +87,23 @@ struct Conversion<std::shared_ptr<T>, typename std::enable_if<std::is_class<std:
     static std::shared_ptr<T>
     toCpp(FfiOpaqueHandle ref) {
         return ref ? *reinterpret_cast<std::shared_ptr<T>*>(ref) : std::shared_ptr<T>{};
+    }
+};
+
+template<typename T>
+struct Conversion<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>, typename std::enable_if<std::is_class<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>>::value>::type> {
+    static FfiOpaqueHandle
+    toFfi({{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T> t) {
+        return t
+            ? reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>(std::move(t)))
+            : 0;
+    }
+
+    static {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>
+    toCpp(const FfiOpaqueHandle& handle) {
+        return handle
+            ? *reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>*>(handle)
+            : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>{};
     }
 };
 
