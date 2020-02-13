@@ -30,7 +30,7 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
 
 {{/functions}}{{!!
 }}{{>dart/DartDocumentation}}
-class {{resolveName visibility}}{{resolveName}} {{!!
+class {{resolveName}} {{!!
 }}{{#if parent}}{{#isEq type parent.type.type}}extends{{/isEq}}{{!!
 }}{{#isNoEq type parent.type.type}}implements{{/isNoEq}} {{resolveName parent}} {{/if}}{
   final Pointer<Void> _handle;
@@ -86,7 +86,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 {{>dart/DartInterface}}
 {{/interfaces}}{{!!
 
-}}{{+dartConstructor}}{{resolveName visibility}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
+}}{{+dartConstructor}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this._(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
 {{/dartConstructor}}{{!!
