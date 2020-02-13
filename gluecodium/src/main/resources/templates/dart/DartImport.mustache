@@ -19,5 +19,5 @@
   !
   !}}
 import '{{#if isSystem}}dart:{{filePath}}{{/if}}{{!!
-}}{{#unless isSystem}}package:{{libraryName}}/src/{{filePath}}.dart{{/unless}}'{{!!
+}}{{#unless isSystem}}package:{{filePath}}.dart{{/unless}}'{{!!
 }}{{#asAlias}} as {{.}}{{/asAlias}};

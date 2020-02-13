@@ -310,7 +310,7 @@ feature(Constants cpp android swift dart SOURCES
     lime/test/Constants.lime
 )
 
-feature(Equatable cpp android swift SOURCES
+feature(Equatable cpp android swift dart SOURCES
     src/test/EquatableImpl.cpp
 
     lime/hello/HelloWorldEquatable.lime

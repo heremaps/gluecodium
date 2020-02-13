@@ -55,6 +55,8 @@ void
 {{resolveName}}_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
 }
+{{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}{{!!
+}}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}
 {{/classes}}
 
 {{#nonExternalStructs}}
@@ -197,4 +199,17 @@ FfiOpaqueHandle
 }}{{/ffiCallCppFunction}}{{!!
 
 }}{{+ffiErrorReturnType}}{{#internalNamespace}}{{.}}::{{/internalNamespace}}Return<{{!!
-}}{{resolveName returnType.typeRef "C++"}}, {{resolveName exception.errorType "C++"}}>{{/ffiErrorReturnType}}
+}}{{resolveName returnType.typeRef "C++"}}, {{resolveName exception.errorType "C++"}}>{{/ffiErrorReturnType}}{{!!
+
+}}{{+ffiEqualityFunction}}
+
+bool
+{{resolveName}}_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2) {
+    bool isNull1 = handle1 == 0;
+    bool isNull2 = handle2 == 0;
+    if (isNull1 && isNull2) return true;
+    if (isNull1 || isNull2) return false;
+    return {{#ifHasAttribute "Equatable"}}*{{/ifHasAttribute}}*reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle1) ==
+        {{#ifHasAttribute "Equatable"}}*{{/ifHasAttribute}}*reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle2);
+}
+{{/ffiEqualityFunction}}

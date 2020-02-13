@@ -45,6 +45,25 @@ class {{resolveName visibility}}{{resolveName}} {
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
+{{#ifHasAttribute "Equatable"}}
+  @override
+  bool operator ==(dynamic other) {
+    if (identical(this, other)) return true;
+    if (other is! {{resolveName}}) return false;
+    {{resolveName}} _other = other;
+    return {{joinPartial fields "dartFieldEq" " &&
+        "}};
+  }
+
+  @override
+  int get hashCode {
+    int result = 7;
+{{#fields}}
+    result = 31 * result + {{resolveName}}.hashCode;
+{{/fields}}
+    return result;
+  }
+{{/ifHasAttribute}}
 }
 
 // {{resolveName}} "private" section, not exported.
@@ -99,4 +118,12 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 }}{{+dartConstructor}}{{resolveName visibility}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this._copy(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
-{{/dartConstructor}}
+{{/dartConstructor}}{{!!
+
+}}{{+dartFieldEq}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().equals({{resolveName}}, _other.{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().equals({{resolveName}}, _other.{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().equals({{resolveName}}, _other.{{resolveName}}){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
+}}{{resolveName}} == _other.{{resolveName}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{/dartFieldEq}}
