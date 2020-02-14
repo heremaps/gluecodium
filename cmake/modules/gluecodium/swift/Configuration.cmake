@@ -72,18 +72,12 @@ function(apigen_swift_configuration target)
     set(CMAKE_Swift_LANGUAGE_VERSION "5.0" CACHE STRING "Swift version to use for compilation.")
   endif()
 
-  if(NOT SWIFT_FRAMEWORK_NAME)
+  if(NOT CMAKE_GENERATOR STREQUAL "Xcode" OR NOT SWIFT_FRAMEWORK_NAME)
     set(SWIFT_FRAMEWORK_NAME ${target})
   endif()
-
-  if(CMAKE_GENERATOR STREQUAL "Xcode")
-    # Only Xcode generator supports generating Frameworks at the moment
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${SWIFT_FRAMEWORK_NAME})
-  else()
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${target})
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${target})
-  endif()
+  string(MAKE_C_IDENTIFIER "${SWIFT_FRAMEWORK_NAME}" SWIFT_MODULE_NAME)
+  set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
+  set_target_properties(${target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${SWIFT_MODULE_NAME})
 
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
