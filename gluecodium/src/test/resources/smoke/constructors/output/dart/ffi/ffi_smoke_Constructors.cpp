@@ -77,6 +77,14 @@ smoke_Constructors_create__ListOf_1Double(FfiOpaqueHandle input) {
         )
     );
 }
+FfiOpaqueHandle
+smoke_Constructors_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::Constructors>(
+            *reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle)
+        )
+    );
+}
 void
 smoke_Constructors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle);

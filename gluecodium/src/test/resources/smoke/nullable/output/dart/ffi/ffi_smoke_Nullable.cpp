@@ -213,6 +213,14 @@ smoke_Nullable_instanceProperty_set__SomeInterface(FfiOpaqueHandle _self, FfiOpa
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SomeInterface>>::toCpp(value)
         );
 }
+FfiOpaqueHandle
+smoke_Nullable_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::Nullable>(
+            *reinterpret_cast<std::shared_ptr<::smoke::Nullable>*>(handle)
+        )
+    );
+}
 void
 smoke_Nullable_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Nullable>*>(handle);

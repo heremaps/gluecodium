@@ -22,6 +22,14 @@ smoke_SimpleInterface_useSimpleInterface__SimpleInterface(FfiOpaqueHandle _self,
         )
     );
 }
+FfiOpaqueHandle
+smoke_SimpleInterface_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::SimpleInterface>(
+            *reinterpret_cast<std::shared_ptr<::smoke::SimpleInterface>*>(handle)
+        )
+    );
+}
 void
 smoke_SimpleInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SimpleInterface>*>(handle);

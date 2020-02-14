@@ -5,6 +5,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_Errors_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Errors_copy_handle');
 final _smoke_Errors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -165,14 +169,18 @@ class Errors {
     return _result;
   }
 }
-Pointer<Void> smoke_Errors_toFfi(Errors value) => value._handle;
-Errors smoke_Errors_fromFfi(Pointer<Void> handle) => Errors._(handle);
-void smoke_Errors_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Errors_toFfi(Errors value) =>
+  _smoke_Errors_copy_handle(value._handle);
+Errors smoke_Errors_fromFfi(Pointer<Void> handle) =>
+  Errors._(_smoke_Errors_copy_handle(handle));
+void smoke_Errors_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Errors_release_handle(handle);
 Pointer<Void> smoke_Errors_toFfi_nullable(Errors value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_Errors_toFfi(value) : Pointer<Void>.fromAddress(0);
 Errors smoke_Errors_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? Errors._(handle) : null;
-void smoke_Errors_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_Errors_fromFfi(handle) : null;
+void smoke_Errors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Errors_release_handle(handle);
 enum Errors_InternalErrorCode {
     errorNone,
     errorFatal

@@ -123,6 +123,10 @@ void smoke_ExternalInterface_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> 
   _smoke_ExternalInterface_SomeStruct_release_handle_nullable(handle);
 // End of ExternalInterface_SomeStruct "private" section.
 // ExternalInterface "private" section, not exported.
+final _smoke_ExternalInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalInterface_copy_handle');
 final _smoke_ExternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -152,13 +156,15 @@ class ExternalInterface__Impl implements ExternalInterface {
   }
 }
 Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface__Impl value) =>
-  value != null ? value.handle : Pointer<Void>.fromAddress(0);
+  _smoke_ExternalInterface_copy_handle(value._handle);
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? ExternalInterface__Impl(handle) : null;
-void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) {}
+  ExternalInterface__Impl(_smoke_ExternalInterface_copy_handle(handle));
+void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_ExternalInterface_release_handle(handle);
 Pointer<Void> smoke_ExternalInterface_toFfi_nullable(ExternalInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_ExternalInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 ExternalInterface smoke_ExternalInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? ExternalInterface__Impl(handle) : null;
-void smoke_ExternalInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_ExternalInterface_fromFfi(handle) : null;
+void smoke_ExternalInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalInterface_release_handle(handle);
 // End of ExternalInterface "private" section.

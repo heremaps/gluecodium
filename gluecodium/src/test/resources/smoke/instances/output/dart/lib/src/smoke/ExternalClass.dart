@@ -3,6 +3,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_ExternalClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ExternalClass_copy_handle');
 final _smoke_ExternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -28,14 +32,18 @@ class ExternalClass {
     return _result;
   }
 }
-Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) => value._handle;
-ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) => ExternalClass._(handle);
-void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
+  _smoke_ExternalClass_copy_handle(value._handle);
+ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) =>
+  ExternalClass._(_smoke_ExternalClass_copy_handle(handle));
+void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_ExternalClass_release_handle(handle);
 Pointer<Void> smoke_ExternalClass_toFfi_nullable(ExternalClass value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_ExternalClass_toFfi(value) : Pointer<Void>.fromAddress(0);
 ExternalClass smoke_ExternalClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? ExternalClass._(handle) : null;
-void smoke_ExternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_ExternalClass_fromFfi(handle) : null;
+void smoke_ExternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalClass_release_handle(handle);
 enum ExternalClass_SomeEnum {
     someValue
 }

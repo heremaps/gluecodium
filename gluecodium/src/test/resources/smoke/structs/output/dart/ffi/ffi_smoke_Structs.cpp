@@ -66,6 +66,14 @@ smoke_Structs_modifyAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input) {
         )
     );
 }
+FfiOpaqueHandle
+smoke_Structs_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::Structs>(
+            *reinterpret_cast<std::shared_ptr<::smoke::Structs>*>(handle)
+        )
+    );
+}
 void
 smoke_Structs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Structs>*>(handle);

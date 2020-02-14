@@ -48,6 +48,7 @@ extern "C" {
 {{/model}}
 
 {{#classes}}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}

@@ -3,6 +3,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_StructConstants_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_StructConstants_copy_handle');
 final _smoke_StructConstants_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -14,14 +18,18 @@ class StructConstants {
   static final StructConstants_SomeStruct structConstant = StructConstants_SomeStruct("bar Buzz", 1.41);
   static final StructConstants_NestingStruct nestingStructConstant = StructConstants_NestingStruct(StructConstants_SomeStruct("nonsense", -2.82));
 }
-Pointer<Void> smoke_StructConstants_toFfi(StructConstants value) => value._handle;
-StructConstants smoke_StructConstants_fromFfi(Pointer<Void> handle) => StructConstants._(handle);
-void smoke_StructConstants_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_StructConstants_toFfi(StructConstants value) =>
+  _smoke_StructConstants_copy_handle(value._handle);
+StructConstants smoke_StructConstants_fromFfi(Pointer<Void> handle) =>
+  StructConstants._(_smoke_StructConstants_copy_handle(handle));
+void smoke_StructConstants_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_StructConstants_release_handle(handle);
 Pointer<Void> smoke_StructConstants_toFfi_nullable(StructConstants value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_StructConstants_toFfi(value) : Pointer<Void>.fromAddress(0);
 StructConstants smoke_StructConstants_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? StructConstants._(handle) : null;
-void smoke_StructConstants_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_StructConstants_fromFfi(handle) : null;
+void smoke_StructConstants_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_StructConstants_release_handle(handle);
 class StructConstants_SomeStruct {
   String stringField;
   double floatField;

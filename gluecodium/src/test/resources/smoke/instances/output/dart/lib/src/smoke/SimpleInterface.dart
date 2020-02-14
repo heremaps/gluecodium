@@ -9,6 +9,10 @@ abstract class SimpleInterface {
   SimpleInterface useSimpleInterface(SimpleInterface input);
 }
 // SimpleInterface "private" section, not exported.
+final _smoke_SimpleInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_SimpleInterface_copy_handle');
 final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -39,13 +43,15 @@ class SimpleInterface__Impl implements SimpleInterface {
   }
 }
 Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface__Impl value) =>
-  value != null ? value.handle : Pointer<Void>.fromAddress(0);
+  _smoke_SimpleInterface_copy_handle(value._handle);
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? SimpleInterface__Impl(handle) : null;
-void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) {}
+  SimpleInterface__Impl(_smoke_SimpleInterface_copy_handle(handle));
+void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_SimpleInterface_release_handle(handle);
 Pointer<Void> smoke_SimpleInterface_toFfi_nullable(SimpleInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_SimpleInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 SimpleInterface smoke_SimpleInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? SimpleInterface__Impl(handle) : null;
-void smoke_SimpleInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_SimpleInterface_fromFfi(handle) : null;
+void smoke_SimpleInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_SimpleInterface_release_handle(handle);
 // End of SimpleInterface "private" section.

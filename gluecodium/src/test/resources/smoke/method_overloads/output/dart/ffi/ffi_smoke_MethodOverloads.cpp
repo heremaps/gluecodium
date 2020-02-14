@@ -90,6 +90,14 @@ smoke_MethodOverloads_isFloat__ListOf_1Byte(FfiOpaqueHandle _self, FfiOpaqueHand
         )
     );
 }
+FfiOpaqueHandle
+smoke_MethodOverloads_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::MethodOverloads>(
+            *reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*>(handle)
+        )
+    );
+}
 void
 smoke_MethodOverloads_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*>(handle);

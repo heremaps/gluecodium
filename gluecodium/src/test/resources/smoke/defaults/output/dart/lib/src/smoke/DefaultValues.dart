@@ -4,6 +4,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_DefaultValues_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_DefaultValues_copy_handle');
 final _smoke_DefaultValues_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -22,14 +26,18 @@ class DefaultValues {
     return _result;
   }
 }
-Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) => value._handle;
-DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) => DefaultValues._(handle);
-void smoke_DefaultValues_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
+  _smoke_DefaultValues_copy_handle(value._handle);
+DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) =>
+  DefaultValues._(_smoke_DefaultValues_copy_handle(handle));
+void smoke_DefaultValues_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_DefaultValues_release_handle(handle);
 Pointer<Void> smoke_DefaultValues_toFfi_nullable(DefaultValues value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_DefaultValues_toFfi(value) : Pointer<Void>.fromAddress(0);
 DefaultValues smoke_DefaultValues_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? DefaultValues._(handle) : null;
-void smoke_DefaultValues_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_DefaultValues_fromFfi(handle) : null;
+void smoke_DefaultValues_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_DefaultValues_release_handle(handle);
 enum DefaultValues_SomeEnum {
     fooValue,
     barValue

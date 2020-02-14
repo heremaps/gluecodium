@@ -16,6 +16,14 @@ smoke_off_NestedPackages_basicMethod__SomeStruct(FfiOpaqueHandle input) {
         )
     );
 }
+FfiOpaqueHandle
+smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::off::NestedPackages>(
+            *reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle)
+        )
+    );
+}
 void
 smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle);

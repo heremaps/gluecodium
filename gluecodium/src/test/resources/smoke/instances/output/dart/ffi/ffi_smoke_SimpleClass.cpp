@@ -22,6 +22,14 @@ smoke_SimpleClass_useSimpleClass__SimpleClass(FfiOpaqueHandle _self, FfiOpaqueHa
         )
     );
 }
+FfiOpaqueHandle
+smoke_SimpleClass_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::SimpleClass>(
+            *reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(handle)
+        )
+    );
+}
 void
 smoke_SimpleClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(handle);

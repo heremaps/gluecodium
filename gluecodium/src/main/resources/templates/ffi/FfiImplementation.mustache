@@ -51,12 +51,23 @@ extern "C" {
 {{/model}}
 
 {{#classes}}
+FfiOpaqueHandle
+{{resolveName}}_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<{{resolveName "C++"}}>(
+            *reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)
+        )
+    );
+}
+
 void
 {{resolveName}}_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
 }
+
 {{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}
+
 {{/classes}}
 
 {{#nonExternalStructs}}

@@ -71,6 +71,10 @@ void smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle_nullable(Pointer<V
   _smoke_PropertiesInterface_ExampleStruct_release_handle_nullable(handle);
 // End of PropertiesInterface_ExampleStruct "private" section.
 // PropertiesInterface "private" section, not exported.
+final _smoke_PropertiesInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_PropertiesInterface_copy_handle');
 final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -99,13 +103,15 @@ class PropertiesInterface__Impl implements PropertiesInterface {
   }
 }
 Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) =>
-  value != null ? value.handle : Pointer<Void>.fromAddress(0);
+  _smoke_PropertiesInterface_copy_handle(value._handle);
 PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? PropertiesInterface__Impl(handle) : null;
-void smoke_PropertiesInterface_releaseFfiHandle(Pointer<Void> handle) {}
+  PropertiesInterface__Impl(_smoke_PropertiesInterface_copy_handle(handle));
+void smoke_PropertiesInterface_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_PropertiesInterface_release_handle(handle);
 Pointer<Void> smoke_PropertiesInterface_toFfi_nullable(PropertiesInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_PropertiesInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 PropertiesInterface smoke_PropertiesInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? PropertiesInterface__Impl(handle) : null;
-void smoke_PropertiesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_PropertiesInterface_fromFfi(handle) : null;
+void smoke_PropertiesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_PropertiesInterface_release_handle(handle);
 // End of PropertiesInterface "private" section.

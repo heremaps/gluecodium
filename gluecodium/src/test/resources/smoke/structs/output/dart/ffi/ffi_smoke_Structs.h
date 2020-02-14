@@ -12,6 +12,7 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Structs_getAnotherExternalStruct();
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Structs_getYetAnotherExternalStruct();
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Structs_createPoint__Double_Double(double x, double y);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Structs_modifyAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Structs_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void smoke_Structs_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Structs_Point_create_handle(double, double);
 _GLUECODIUM_FFI_EXPORT void smoke_Structs_Point_release_handle(FfiOpaqueHandle handle);
