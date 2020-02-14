@@ -28,6 +28,7 @@ import "test/EquatableStructs_test.dart" as EquatableStructsTests;
 import "test/Enums_test.dart" as EnumsTests;
 import "test/Exceptions_test.dart" as Exceptions;
 import "test/ExternalTypes_test.dart" as ExternalTypes;
+import "test/Inheritance_test.dart" as InheritanceTests;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/Lists_test.dart" as ListsTests;
 import "test/Maps_test.dart" as MapsTests;
@@ -56,6 +57,7 @@ final _allTests = [
   EnumsTests.main,
   Exceptions.main,
   ExternalTypes.main,
+  InheritanceTests.main,
   InterfacesTests.main,
   ListsTests.main,
   MapsTests.main,

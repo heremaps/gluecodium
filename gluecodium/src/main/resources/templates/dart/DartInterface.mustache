@@ -62,12 +62,14 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
-}}class {{resolveName}}__Impl implements {{resolveName}}{
-  final Pointer<Void> _handle;
-  {{resolveName}}__Impl._(this._handle);
+}}class {{resolveName}}__Impl {{#if parent}}extends {{resolveName parent}}__Impl {{/if}}implements {{resolveName}} {
+  Pointer<Void> get _handle => handle;
+  {{#if parent}}{{resolveName}}__Impl(Pointer<Void> handle) : super(handle);{{/if}}{{!!
+  }}{{#unless parent}}final Pointer<Void> handle;
+  {{resolveName}}__Impl(this.handle);{{/unless}}
 
   @override
-  void release() => _{{resolveName "Ffi"}}_release_handle(_handle);
+  void release() => _{{resolveName "Ffi"}}_release_handle(handle);
 
 {{#set parent=this}}{{#functions}}
   @override
@@ -78,10 +80,11 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
 {{/properties}}
 }
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}}__Impl value) => value._handle;
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}}__Impl value) =>
+  value != null ? value.handle : Pointer<Void>.fromAddress(0);
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) =>
-  {{resolveName}}__Impl._(handle);
+  handle.address != 0 ? {{resolveName}}__Impl(handle) : null;
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) {}
 
@@ -89,7 +92,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}}__Impl value) 
   value != null ? value._handle : Pointer<Void>.fromAddress(0);
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? {{resolveName}}__Impl._(handle) : null;
+  handle.address != 0 ? {{resolveName}}__Impl(handle) : null;
 
 void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 

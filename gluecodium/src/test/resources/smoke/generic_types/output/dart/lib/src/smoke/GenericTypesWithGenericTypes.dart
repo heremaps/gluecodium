@@ -2,6 +2,7 @@ import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_GenericTypesWithGenericTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),

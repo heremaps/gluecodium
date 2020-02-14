@@ -1,6 +1,7 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PropertiesInterface {
   void release();
@@ -74,11 +75,12 @@ final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunc
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_PropertiesInterface_release_handle');
-class PropertiesInterface__Impl implements PropertiesInterface{
-  final Pointer<Void> _handle;
-  PropertiesInterface__Impl._(this._handle);
+class PropertiesInterface__Impl implements PropertiesInterface {
+  Pointer<Void> get _handle => handle;
+  final Pointer<Void> handle;
+  PropertiesInterface__Impl(this.handle);
   @override
-  void release() => _smoke_PropertiesInterface_release_handle(_handle);
+  void release() => _smoke_PropertiesInterface_release_handle(handle);
   PropertiesInterface_ExampleStruct get structProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_PropertiesInterface_structProperty_get');
     final __result_handle = _get_ffi(_handle);
@@ -96,13 +98,14 @@ class PropertiesInterface__Impl implements PropertiesInterface{
     return _result;
   }
 }
-Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) => value._handle;
+Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface__Impl value) =>
+  value != null ? value.handle : Pointer<Void>.fromAddress(0);
 PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) =>
-  PropertiesInterface__Impl._(handle);
+  handle.address != 0 ? PropertiesInterface__Impl(handle) : null;
 void smoke_PropertiesInterface_releaseFfiHandle(Pointer<Void> handle) {}
 Pointer<Void> smoke_PropertiesInterface_toFfi_nullable(PropertiesInterface__Impl value) =>
   value != null ? value._handle : Pointer<Void>.fromAddress(0);
 PropertiesInterface smoke_PropertiesInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? PropertiesInterface__Impl._(handle) : null;
+  handle.address != 0 ? PropertiesInterface__Impl(handle) : null;
 void smoke_PropertiesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of PropertiesInterface "private" section.

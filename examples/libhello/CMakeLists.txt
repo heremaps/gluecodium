@@ -263,7 +263,7 @@ feature(Defaults cpp android swift dart SOURCES
     lime/test/Defaults.lime
 )
 
-feature(Inheritance cpp android swift SOURCES
+feature(Inheritance cpp android swift dart SOURCES
     src/hello/HelloWorldInheritance.cpp
     src/test/ChildClassImpl.cpp
     src/test/ChildClassImpl.h

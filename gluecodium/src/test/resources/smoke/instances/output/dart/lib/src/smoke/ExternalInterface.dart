@@ -1,6 +1,7 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ExternalInterface {
   void release();
@@ -126,11 +127,12 @@ final _smoke_ExternalInterface_release_handle = __lib.nativeLibrary.lookupFuncti
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_ExternalInterface_release_handle');
-class ExternalInterface__Impl implements ExternalInterface{
-  final Pointer<Void> _handle;
-  ExternalInterface__Impl._(this._handle);
+class ExternalInterface__Impl implements ExternalInterface {
+  Pointer<Void> get _handle => handle;
+  final Pointer<Void> handle;
+  ExternalInterface__Impl(this.handle);
   @override
-  void release() => _smoke_ExternalInterface_release_handle(_handle);
+  void release() => _smoke_ExternalInterface_release_handle(handle);
   @override
   someMethod(int someParameter) {
     final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('smoke_ExternalInterface_someMethod__Byte');
@@ -149,13 +151,14 @@ class ExternalInterface__Impl implements ExternalInterface{
     return _result;
   }
 }
-Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface__Impl value) => value._handle;
+Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface__Impl value) =>
+  value != null ? value.handle : Pointer<Void>.fromAddress(0);
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) =>
-  ExternalInterface__Impl._(handle);
+  handle.address != 0 ? ExternalInterface__Impl(handle) : null;
 void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) {}
 Pointer<Void> smoke_ExternalInterface_toFfi_nullable(ExternalInterface__Impl value) =>
   value != null ? value._handle : Pointer<Void>.fromAddress(0);
 ExternalInterface smoke_ExternalInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? ExternalInterface__Impl._(handle) : null;
+  handle.address != 0 ? ExternalInterface__Impl(handle) : null;
 void smoke_ExternalInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
 // End of ExternalInterface "private" section.

@@ -128,8 +128,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .map { dartNameResolver.resolveName(it) }
         exportsCollector += DartExport(relativePath, allSymbols)
 
+        val parentImports = (rootElement as? LimeContainerWithInheritance)?.parent
+            ?.let { importResolver.resolveImports(it) } ?: emptyList()
         val imports = importResolver.resolveImports(rootElement) +
-            collectImports(allTypes, importResolver)
+            collectImports(allTypes, importResolver) + parentImports
         val content = TemplateEngine.render(
             "dart/DartFile",
             mapOf(
@@ -148,7 +150,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         allTypes: List<LimeType>,
         importResolver: DartImportResolver
     ): List<DartImport> {
-        val functions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions }
+        val functions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions } +
+            allTypes.filterIsInstance<LimeContainerWithInheritance>()
+                .filter { it.parent?.type?.actualType is LimeInterface }
+                .flatMap { it.inheritedFunctions }
         val properties =
             allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.properties }
         val exceptions = allTypes.filterIsInstance<LimeException>()
