@@ -2,6 +2,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_ConstantsInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ConstantsInterface_copy_handle');
 final _smoke_ConstantsInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -18,14 +22,18 @@ class ConstantsInterface {
   static final String stringConstant = "Foo bar";
   static final ConstantsInterface_StateEnum enumConstant = ConstantsInterface_StateEnum.on;
 }
-Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) => value._handle;
-ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) => ConstantsInterface._(handle);
-void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
+  _smoke_ConstantsInterface_copy_handle(value._handle);
+ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) =>
+  ConstantsInterface._(_smoke_ConstantsInterface_copy_handle(handle));
+void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_ConstantsInterface_release_handle(handle);
 Pointer<Void> smoke_ConstantsInterface_toFfi_nullable(ConstantsInterface value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_ConstantsInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 ConstantsInterface smoke_ConstantsInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? ConstantsInterface._(handle) : null;
-void smoke_ConstantsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_ConstantsInterface_fromFfi(handle) : null;
+void smoke_ConstantsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ConstantsInterface_release_handle(handle);
 enum ConstantsInterface_StateEnum {
     off,
     on

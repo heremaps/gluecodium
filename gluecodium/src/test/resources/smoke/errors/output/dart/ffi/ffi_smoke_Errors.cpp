@@ -141,6 +141,14 @@ smoke_Errors_methodWithPayloadErrorAndReturnValue() {
         std::forward<gluecodium::Return<std::string, ::smoke::Payload>>(_cpp_call_result)
     ));
 }
+FfiOpaqueHandle
+smoke_Errors_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::Errors>(
+            *reinterpret_cast<std::shared_ptr<::smoke::Errors>*>(handle)
+        )
+    );
+}
 void
 smoke_Errors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Errors>*>(handle);

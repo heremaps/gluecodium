@@ -69,6 +69,10 @@ void smoke_PublicInterface_InternalStruct_releaseFfiHandle_nullable(Pointer<Void
   _smoke_PublicInterface_InternalStruct_release_handle_nullable(handle);
 // End of PublicInterface_InternalStruct "private" section.
 // PublicInterface "private" section, not exported.
+final _smoke_PublicInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_PublicInterface_copy_handle');
 final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -81,13 +85,15 @@ class PublicInterface__Impl implements PublicInterface {
   void release() => _smoke_PublicInterface_release_handle(handle);
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface__Impl value) =>
-  value != null ? value.handle : Pointer<Void>.fromAddress(0);
+  _smoke_PublicInterface_copy_handle(value._handle);
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? PublicInterface__Impl(handle) : null;
-void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) {}
+  PublicInterface__Impl(_smoke_PublicInterface_copy_handle(handle));
+void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_PublicInterface_release_handle(handle);
 Pointer<Void> smoke_PublicInterface_toFfi_nullable(PublicInterface__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_PublicInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
 PublicInterface smoke_PublicInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? PublicInterface__Impl(handle) : null;
-void smoke_PublicInterface_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_PublicInterface_fromFfi(handle) : null;
+void smoke_PublicInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_PublicInterface_release_handle(handle);
 // End of PublicInterface "private" section.

@@ -5,6 +5,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_TypeDefs_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_TypeDefs_copy_handle');
 final _smoke_TypeDefs_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -84,14 +88,18 @@ class TypeDefs {
     return _result;
   }
 }
-Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) => value._handle;
-TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) => TypeDefs._(handle);
-void smoke_TypeDefs_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) =>
+  _smoke_TypeDefs_copy_handle(value._handle);
+TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) =>
+  TypeDefs._(_smoke_TypeDefs_copy_handle(handle));
+void smoke_TypeDefs_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_TypeDefs_release_handle(handle);
 Pointer<Void> smoke_TypeDefs_toFfi_nullable(TypeDefs value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_TypeDefs_toFfi(value) : Pointer<Void>.fromAddress(0);
 TypeDefs smoke_TypeDefs_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? TypeDefs._(handle) : null;
-void smoke_TypeDefs_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_TypeDefs_fromFfi(handle) : null;
+void smoke_TypeDefs_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_TypeDefs_release_handle(handle);
 class TypeDefs_StructHavingAliasFieldDefinedBelow {
   double field;
   TypeDefs_StructHavingAliasFieldDefinedBelow(this.field);

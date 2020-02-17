@@ -4,6 +4,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_MethodOverloads_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_MethodOverloads_copy_handle');
 final _smoke_MethodOverloads_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -107,14 +111,18 @@ class MethodOverloads {
     return _result;
   }
 }
-Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) => value._handle;
-MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) => MethodOverloads._(handle);
-void smoke_MethodOverloads_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>
+  _smoke_MethodOverloads_copy_handle(value._handle);
+MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) =>
+  MethodOverloads._(_smoke_MethodOverloads_copy_handle(handle));
+void smoke_MethodOverloads_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_MethodOverloads_release_handle(handle);
 Pointer<Void> smoke_MethodOverloads_toFfi_nullable(MethodOverloads value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_MethodOverloads_toFfi(value) : Pointer<Void>.fromAddress(0);
 MethodOverloads smoke_MethodOverloads_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? MethodOverloads._(handle) : null;
-void smoke_MethodOverloads_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_MethodOverloads_fromFfi(handle) : null;
+void smoke_MethodOverloads_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_MethodOverloads_release_handle(handle);
 class MethodOverloads_Point {
   double x;
   double y;

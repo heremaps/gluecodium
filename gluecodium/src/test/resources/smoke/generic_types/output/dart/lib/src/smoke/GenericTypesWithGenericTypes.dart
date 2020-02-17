@@ -4,6 +4,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_GenericTypesWithGenericTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithGenericTypes_copy_handle');
 final _smoke_GenericTypesWithGenericTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -76,11 +80,15 @@ class GenericTypesWithGenericTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi(GenericTypesWithGenericTypes value) => value._handle;
-GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi(Pointer<Void> handle) => GenericTypesWithGenericTypes._(handle);
-void smoke_GenericTypesWithGenericTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi(GenericTypesWithGenericTypes value) =>
+  _smoke_GenericTypesWithGenericTypes_copy_handle(value._handle);
+GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi(Pointer<Void> handle) =>
+  GenericTypesWithGenericTypes._(_smoke_GenericTypesWithGenericTypes_copy_handle(handle));
+void smoke_GenericTypesWithGenericTypes_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithGenericTypes_release_handle(handle);
 Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi_nullable(GenericTypesWithGenericTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_GenericTypesWithGenericTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
 GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? GenericTypesWithGenericTypes._(handle) : null;
-void smoke_GenericTypesWithGenericTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_GenericTypesWithGenericTypes_fromFfi(handle) : null;
+void smoke_GenericTypesWithGenericTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithGenericTypes_release_handle(handle);

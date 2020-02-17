@@ -4,6 +4,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_GenericTypesWithBasicTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithBasicTypes_copy_handle');
 final _smoke_GenericTypesWithBasicTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -115,14 +119,18 @@ class GenericTypesWithBasicTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes value) => value._handle;
-GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) => GenericTypesWithBasicTypes._(handle);
-void smoke_GenericTypesWithBasicTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes value) =>
+  _smoke_GenericTypesWithBasicTypes_copy_handle(value._handle);
+GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) =>
+  GenericTypesWithBasicTypes._(_smoke_GenericTypesWithBasicTypes_copy_handle(handle));
+void smoke_GenericTypesWithBasicTypes_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithBasicTypes_release_handle(handle);
 Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi_nullable(GenericTypesWithBasicTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_GenericTypesWithBasicTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
 GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? GenericTypesWithBasicTypes._(handle) : null;
-void smoke_GenericTypesWithBasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_GenericTypesWithBasicTypes_fromFfi(handle) : null;
+void smoke_GenericTypesWithBasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithBasicTypes_release_handle(handle);
 class GenericTypesWithBasicTypes_StructWithGenerics {
   List<int> numbersList;
   Map<int, String> numbersMap;

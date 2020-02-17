@@ -6,6 +6,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_GenericTypesWithCompoundTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_GenericTypesWithCompoundTypes_copy_handle');
 final _smoke_GenericTypesWithCompoundTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -87,14 +91,18 @@ class GenericTypesWithCompoundTypes {
     return _result;
   }
 }
-Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) => value._handle;
-GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) => GenericTypesWithCompoundTypes._(handle);
-void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) =>
+  _smoke_GenericTypesWithCompoundTypes_copy_handle(value._handle);
+GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) =>
+  GenericTypesWithCompoundTypes._(_smoke_GenericTypesWithCompoundTypes_copy_handle(handle));
+void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
 Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi_nullable(GenericTypesWithCompoundTypes value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_GenericTypesWithCompoundTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
 GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? GenericTypesWithCompoundTypes._(handle) : null;
-void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_GenericTypesWithCompoundTypes_fromFfi(handle) : null;
+void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
 enum GenericTypesWithCompoundTypes_SomeEnum {
     foo,
     bar

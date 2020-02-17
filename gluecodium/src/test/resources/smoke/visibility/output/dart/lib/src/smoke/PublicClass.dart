@@ -3,6 +3,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_PublicClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_PublicClass_copy_handle');
 final _smoke_PublicClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -53,14 +57,18 @@ class PublicClass {
     return _result;
   }
 }
-Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) => value._handle;
-PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) => PublicClass._(handle);
-void smoke_PublicClass_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) =>
+  _smoke_PublicClass_copy_handle(value._handle);
+PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) =>
+  PublicClass._(_smoke_PublicClass_copy_handle(handle));
+void smoke_PublicClass_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_PublicClass_release_handle(handle);
 Pointer<Void> smoke_PublicClass_toFfi_nullable(PublicClass value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_PublicClass_toFfi(value) : Pointer<Void>.fromAddress(0);
 PublicClass smoke_PublicClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? PublicClass._(handle) : null;
-void smoke_PublicClass_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_PublicClass_fromFfi(handle) : null;
+void smoke_PublicClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_PublicClass_release_handle(handle);
 enum PublicClass_InternalEnum {
     foo,
     bar

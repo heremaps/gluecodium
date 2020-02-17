@@ -4,6 +4,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_Constructors_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Constructors_copy_handle');
 final _smoke_Constructors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -81,14 +85,18 @@ class Constructors {
     return __result_handle;
   }
 }
-Pointer<Void> smoke_Constructors_toFfi(Constructors value) => value._handle;
-Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) => Constructors(handle);
-void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
+  _smoke_Constructors_copy_handle(value._handle);
+Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) =>
+  Constructors(_smoke_Constructors_copy_handle(handle));
+void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Constructors_release_handle(handle);
 Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_Constructors_toFfi(value) : Pointer<Void>.fromAddress(0);
 Constructors smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? Constructors(handle) : null;
-void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_Constructors_fromFfi(handle) : null;
+void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Constructors_release_handle(handle);
 enum Constructors_ErrorEnum {
     none,
     crashed

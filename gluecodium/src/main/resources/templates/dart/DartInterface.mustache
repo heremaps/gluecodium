@@ -53,6 +53,10 @@ abstract class {{resolveName}} {{!!
 
 // {{resolveName}} "private" section, not exported.
 
+final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_copy_handle');
 final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -81,19 +85,21 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
 }
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}}__Impl value) =>
-  value != null ? value.handle : Pointer<Void>.fromAddress(0);
+  _{{resolveName "Ffi"}}_copy_handle(value._handle);
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) =>
-  handle.address != 0 ? {{resolveName}}__Impl(handle) : null;
+  {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
 
-void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) {}
+void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
+  _{{resolveName "Ffi"}}_release_handle(handle);
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}}__Impl value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? {{resolveName "Ffi"}}_toFfi(value) : Pointer<Void>.fromAddress(0);
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? {{resolveName}}__Impl(handle) : null;
+  handle.address != 0 ? {{resolveName "Ffi"}}_fromFfi(handle) : null;
 
-void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _{{resolveName "Ffi"}}_release_handle(handle);
 
 // End of {{resolveName}} "private" section.

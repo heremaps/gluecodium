@@ -3,6 +3,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_Enums_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Enums_copy_handle');
 final _smoke_Enums_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -59,14 +63,18 @@ class Enums {
     return _result;
   }
 }
-Pointer<Void> smoke_Enums_toFfi(Enums value) => value._handle;
-Enums smoke_Enums_fromFfi(Pointer<Void> handle) => Enums._(handle);
-void smoke_Enums_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Enums_toFfi(Enums value) =>
+  _smoke_Enums_copy_handle(value._handle);
+Enums smoke_Enums_fromFfi(Pointer<Void> handle) =>
+  Enums._(_smoke_Enums_copy_handle(handle));
+void smoke_Enums_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Enums_release_handle(handle);
 Pointer<Void> smoke_Enums_toFfi_nullable(Enums value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_Enums_toFfi(value) : Pointer<Void>.fromAddress(0);
 Enums smoke_Enums_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? Enums._(handle) : null;
-void smoke_Enums_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_Enums_fromFfi(handle) : null;
+void smoke_Enums_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Enums_release_handle(handle);
 enum Enums_SimpleEnum {
     first,
     second

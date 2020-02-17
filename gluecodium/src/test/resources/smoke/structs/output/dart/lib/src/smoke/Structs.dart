@@ -6,6 +6,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_Structs_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Structs_copy_handle');
 final _smoke_Structs_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -74,14 +78,18 @@ class Structs {
     return _result;
   }
 }
-Pointer<Void> smoke_Structs_toFfi(Structs value) => value._handle;
-Structs smoke_Structs_fromFfi(Pointer<Void> handle) => Structs._(handle);
-void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Structs_toFfi(Structs value) =>
+  _smoke_Structs_copy_handle(value._handle);
+Structs smoke_Structs_fromFfi(Pointer<Void> handle) =>
+  Structs._(_smoke_Structs_copy_handle(handle));
+void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Structs_release_handle(handle);
 Pointer<Void> smoke_Structs_toFfi_nullable(Structs value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_Structs_toFfi(value) : Pointer<Void>.fromAddress(0);
 Structs smoke_Structs_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? Structs._(handle) : null;
-void smoke_Structs_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_Structs_fromFfi(handle) : null;
+void smoke_Structs_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Structs_release_handle(handle);
 enum Structs_FooBar {
     foo,
     bar

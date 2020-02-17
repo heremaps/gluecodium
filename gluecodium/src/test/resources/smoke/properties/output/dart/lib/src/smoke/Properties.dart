@@ -6,6 +6,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_Properties_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Properties_copy_handle');
 final _smoke_Properties_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -157,14 +161,18 @@ class Properties {
     return _result;
   }
 }
-Pointer<Void> smoke_Properties_toFfi(Properties value) => value._handle;
-Properties smoke_Properties_fromFfi(Pointer<Void> handle) => Properties._(handle);
-void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_Properties_toFfi(Properties value) =>
+  _smoke_Properties_copy_handle(value._handle);
+Properties smoke_Properties_fromFfi(Pointer<Void> handle) =>
+  Properties._(_smoke_Properties_copy_handle(handle));
+void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Properties_release_handle(handle);
 Pointer<Void> smoke_Properties_toFfi_nullable(Properties value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_Properties_toFfi(value) : Pointer<Void>.fromAddress(0);
 Properties smoke_Properties_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? Properties._(handle) : null;
-void smoke_Properties_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_Properties_fromFfi(handle) : null;
+void smoke_Properties_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Properties_release_handle(handle);
 enum Properties_InternalErrorCode {
     errorNone,
     errorFatal

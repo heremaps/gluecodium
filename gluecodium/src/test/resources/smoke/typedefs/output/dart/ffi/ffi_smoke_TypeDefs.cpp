@@ -69,6 +69,14 @@ smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double(FfiOpaqueHandle _self, 
             gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)
         );
 }
+FfiOpaqueHandle
+smoke_TypeDefs_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::TypeDefs>(
+            *reinterpret_cast<std::shared_ptr<::smoke::TypeDefs>*>(handle)
+        )
+    );
+}
 void
 smoke_TypeDefs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::TypeDefs>*>(handle);

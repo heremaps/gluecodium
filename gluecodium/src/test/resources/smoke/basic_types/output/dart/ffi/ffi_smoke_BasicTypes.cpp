@@ -105,6 +105,14 @@ smoke_BasicTypes_ulongFunction__ULong(uint64_t input) {
         )
     );
 }
+FfiOpaqueHandle
+smoke_BasicTypes_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::BasicTypes>(
+            *reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle)
+        )
+    );
+}
 void
 smoke_BasicTypes_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle);

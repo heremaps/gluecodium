@@ -115,6 +115,14 @@ smoke_Properties_staticReadonlyProperty_get() {
         ::smoke::Properties::get_static_readonly_property()
     );
 }
+FfiOpaqueHandle
+smoke_Properties_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::Properties>(
+            *reinterpret_cast<std::shared_ptr<::smoke::Properties>*>(handle)
+        )
+    );
+}
 void
 smoke_Properties_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Properties>*>(handle);

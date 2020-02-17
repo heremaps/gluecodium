@@ -21,6 +21,14 @@ smoke_ExternalClass_someProperty_get(FfiOpaqueHandle _self) {
         (*gluecodium::ffi::Conversion<std::shared_ptr<::fire::Baz>>::toCpp(_self)).get_Me()
     );
 }
+FfiOpaqueHandle
+smoke_ExternalClass_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::fire::Baz>(
+            *reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle)
+        )
+    );
+}
 void
 smoke_ExternalClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle);

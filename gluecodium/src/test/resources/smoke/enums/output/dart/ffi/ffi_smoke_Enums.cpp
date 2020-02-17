@@ -48,6 +48,14 @@ smoke_Enums_methodWithExternalEnum__External_1Enum(uint32_t input) {
             gluecodium::ffi::Conversion<::smoke::Enums::External_Enum>::toCpp(input)
         );
 }
+FfiOpaqueHandle
+smoke_Enums_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<::smoke::Enums>(
+            *reinterpret_cast<std::shared_ptr<::smoke::Enums>*>(handle)
+        )
+    );
+}
 void
 smoke_Enums_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Enums>*>(handle);

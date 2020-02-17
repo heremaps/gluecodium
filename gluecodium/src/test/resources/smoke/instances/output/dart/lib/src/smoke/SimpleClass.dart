@@ -3,6 +3,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_SimpleClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_SimpleClass_copy_handle');
 final _smoke_SimpleClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -28,11 +32,15 @@ class SimpleClass {
     return _result;
   }
 }
-Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) => value._handle;
-SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) => SimpleClass._(handle);
-void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
+  _smoke_SimpleClass_copy_handle(value._handle);
+SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) =>
+  SimpleClass._(_smoke_SimpleClass_copy_handle(handle));
+void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_SimpleClass_release_handle(handle);
 Pointer<Void> smoke_SimpleClass_toFfi_nullable(SimpleClass value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_SimpleClass_toFfi(value) : Pointer<Void>.fromAddress(0);
 SimpleClass smoke_SimpleClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? SimpleClass._(handle) : null;
-void smoke_SimpleClass_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_SimpleClass_fromFfi(handle) : null;
+void smoke_SimpleClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_SimpleClass_release_handle(handle);

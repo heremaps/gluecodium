@@ -3,6 +3,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+final _smoke_off_NestedPackages_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_off_NestedPackages_copy_handle');
 final _smoke_off_NestedPackages_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -21,14 +25,18 @@ class NestedPackages {
     return _result;
   }
 }
-Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) => value._handle;
-NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) => NestedPackages._(handle);
-void smoke_off_NestedPackages_releaseFfiHandle(Pointer<Void> handle) {}
+Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
+  _smoke_off_NestedPackages_copy_handle(value._handle);
+NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) =>
+  NestedPackages._(_smoke_off_NestedPackages_copy_handle(handle));
+void smoke_off_NestedPackages_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_off_NestedPackages_release_handle(handle);
 Pointer<Void> smoke_off_NestedPackages_toFfi_nullable(NestedPackages value) =>
-  value != null ? value._handle : Pointer<Void>.fromAddress(0);
+  value != null ? smoke_off_NestedPackages_toFfi(value) : Pointer<Void>.fromAddress(0);
 NestedPackages smoke_off_NestedPackages_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? NestedPackages._(handle) : null;
-void smoke_off_NestedPackages_releaseFfiHandle_nullable(Pointer<Void> handle) {}
+  handle.address != 0 ? smoke_off_NestedPackages_fromFfi(handle) : null;
+void smoke_off_NestedPackages_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_off_NestedPackages_release_handle(handle);
 class NestedPackages_SomeStruct {
   String someField;
   NestedPackages_SomeStruct(this.someField);
