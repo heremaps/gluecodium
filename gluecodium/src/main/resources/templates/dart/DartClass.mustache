@@ -108,7 +108,10 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 {{/classes}}
 {{#interfaces}}
 {{>dart/DartInterface}}
-{{/interfaces}}{{!!
+{{/interfaces}}
+{{#lambdas}}
+{{>dart/DartLambda}}
+{{/lambdas}}{{!!
 
 }}{{+dartConstructor}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!

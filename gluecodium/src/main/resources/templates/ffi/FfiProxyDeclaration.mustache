@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}}_Proxy : public {{resolveName "C++"}} {
+class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
     {{resolveName}}_Proxy(uint64_t token{{#if inheritedFunctions functions logic="or"}}, {{!!
     }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
@@ -34,7 +34,7 @@ public:
 {{#each inheritedFunctions functions}}
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-    }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}} override {
+    }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}}{{#unless isLambda}} override{{/unless}} {
         {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}} _result_handle;{{/isNotEq}}
         int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
         }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!

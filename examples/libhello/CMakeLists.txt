@@ -370,7 +370,7 @@ feature(Nesting cpp android swift dart SOURCES
     lime/test/NestedContainers.lime
 )
 
-feature(Lambdas cpp android swift SOURCES
+feature(Lambdas cpp android swift dart SOURCES
     lime/test/Lambdas.lime
 
     src/test/Lambdas.cpp

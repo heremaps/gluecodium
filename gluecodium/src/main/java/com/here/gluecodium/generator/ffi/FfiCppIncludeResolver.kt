@@ -73,7 +73,8 @@ internal class FfiCppIncludeResolver(
                 CppLibraryIncludes.MAP,
                 cppIncludeResolver.createInternalNamespaceInclude("UnorderedMapHash.h")
             )
-            is LimeLambda -> getTypeRefIncludes(limeType.returnType) +
+            is LimeLambda -> cppIncludeResolver.resolveIncludes(limeType) +
+                getTypeRefIncludes(limeType.returnType) +
                 limeType.parameters.flatMap { getTypeRefIncludes(it.typeRef) } +
                 CppLibraryIncludes.FUNCTIONAL
             is LimeContainerWithInheritance -> cppIncludeResolver.resolveIncludes(limeType) +

@@ -33,6 +33,10 @@
 {{>ffi/FfiProxyDeclaration}}
 
 {{/interfaces}}
+{{#set isLambda=true}}{{#lambdas}}
+{{>ffi/FfiProxyDeclaration}}
+
+{{/lambdas}}{{/set}}
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,6 +57,9 @@ extern "C" {
 {{>ffiFunction}}
 {{/functions}}{{/set}}
 {{/structs}}
+{{#this.lambdas}}{{#set parent=this}}{{#asFunction}}
+{{>ffiFunction}}
+{{/asFunction}}{{/set}}{{/this.lambdas}}
 {{/model}}
 
 {{#classes}}
@@ -74,6 +81,24 @@ void
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}
 
 {{/classes}}
+{{#lambdas}}
+FfiOpaqueHandle
+{{resolveName}}_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) {{resolveName "C++"}}(
+            *reinterpret_cast<{{resolveName "C++"}}*>(handle)
+        )
+    );
+}
+
+void
+{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
+}
+
+{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableImpl}}{{/set}}
+
+{{/lambdas}}
 
 {{#interfaces}}
 FfiOpaqueHandle
@@ -101,6 +126,23 @@ FfiOpaqueHandle
 }
 
 {{/interfaces}}
+{{#lambdas}}
+FfiOpaqueHandle
+{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new {{resolveName "C++"}}(
+            std::bind(&{{resolveName}}_Proxy::operator(), std::make_shared<{{resolveName}}_Proxy>(token, f0){{!!
+            }}{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}})
+        )
+    );
+}
+
+FfiOpaqueHandle
+{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle) {
+    return handle;
+}
+
+{{/lambdas}}
 
 {{#nonExternalStructs}}
 FfiOpaqueHandle
@@ -226,7 +268,9 @@ FfiOpaqueHandle
 
 }}{{+selfReferenceConversion}}{{#instanceOf parent "LimeStruct"}}{{!!
 }}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{#notInstanceOf parent "LimeStruct"}}{{!!
-}}(*{{>ffi/FfiInternal}}::Conversion<std::shared_ptr<{{resolveName parent "C++"}}>>::toCpp(_self)){{/notInstanceOf}}{{/selfReferenceConversion}}{{!!
+}}{{#instanceOf parent "LimeLambda"}}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{!!
+}}{{#notInstanceOf parent "LimeLambda"}}(*{{>ffi/FfiInternal}}::Conversion<std::shared_ptr<{{resolveName parent "C++"}}>>::toCpp(_self)){{!!
+}}{{/notInstanceOf}}{{/notInstanceOf}}{{/selfReferenceConversion}}{{!!
 
 }}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 

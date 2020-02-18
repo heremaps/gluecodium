@@ -22,4 +22,7 @@ package com.here.gluecodium.model.lime
 class LimeLambdaParameter(
     val typeRef: LimeTypeRef,
     val attributes: LimeAttributes? = null
-) : LimeElement
+) : LimeElement {
+    fun asParameter(path: LimePath) =
+        LimeParameter(path = path, attributes = attributes, typeRef = typeRef)
+}

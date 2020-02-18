@@ -46,6 +46,7 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
@@ -163,10 +164,12 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 .flatMap { it.inheritedFunctions }
         val properties =
             allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.properties }
+        val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()
         val typeRefs = structs.flatMap { it.fields + it.constants }.map { it.typeRef } +
             functions.flatMap { collectTypeRefs(it) } + properties.map { it.typeRef } +
+            lambdas.flatMap { collectTypeRefs(it.asFunction()) } +
             exceptions.map { it.errorType }
 
         return functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
@@ -182,9 +185,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         if (limeType == null || limeType is LimeException) return emptyList()
 
         val types = LimeTypeHelper.getAllTypes(limeType)
-        val functions =
-            types.filterIsInstance<LimeContainer>().flatMap { it.functions }.sortedBy { it.fullName }
-        val classes = types.filterIsInstance<LimeContainerWithInheritance>()
+        val lambdas = types.filterIsInstance<LimeLambda>()
+        val interfaces = types.filterIsInstance<LimeInterface>()
+        val classes = types.filterIsInstance<LimeClass>() + interfaces
         val enums = types.filterIsInstance<LimeEnumeration>()
 
         val structs = types.filterIsInstance<LimeStruct>()
@@ -193,8 +196,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             externalTypes.filterIsInstance<LimeContainer>().flatMap { it.structs }
         val nonExternalStructs = structs - externalStructs
 
-        val packagePath = rootElement.path.head.joinToString(separator = "_")
-        val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
+        val functions = types.filterIsInstance<LimeContainer>().flatMap { it.functions } +
+            lambdas.map { it.asFunction() }
         val includes = includeResolver.resolveIncludes(limeType) +
             functions.flatMap { collectTypeRefs(it) }.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { includeResolver.resolveIncludes(it) } +
@@ -202,11 +205,14 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             enums.flatMap { includeResolver.resolveIncludes(it) } +
             resolveThrownTypeIncludes(types)
 
+        val packagePath = rootElement.path.head.joinToString(separator = "_")
+        val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
         val data = mapOf(
             "model" to rootElement,
             "classes" to classes,
             "enums" to enums,
-            "interfaces" to types.filterIsInstance<LimeInterface>(),
+            "interfaces" to interfaces,
+            "lambdas" to lambdas,
             "externalStructs" to externalStructs,
             "nonExternalStructs" to nonExternalStructs,
             "internalNamespace" to internalNamespace,
@@ -343,6 +349,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             is LimeStruct -> "dart/DartStruct"
             is LimeEnumeration -> "dart/DartEnumeration"
             is LimeException -> "dart/DartException"
+            is LimeLambda -> "dart/DartLambda"
             is LimeTypeAlias -> null
             else -> throw GluecodiumExecutionException("Unsupported top-level element: " +
                     limeElement::class.java.name)
