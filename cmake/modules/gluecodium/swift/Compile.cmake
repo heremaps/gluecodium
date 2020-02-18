@@ -24,7 +24,9 @@ set(includeguard_gluecodium_swift_Compile ON)
 cmake_minimum_required(VERSION 3.13)
 
 set(MINIMAL_CLANG_VERSION 5.0)
-if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"
+   OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+   OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${MINIMAL_CLANG_VERSION})
   message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,"
   "your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}\n"
   "On Ubuntu 16.04 you can run\n"
