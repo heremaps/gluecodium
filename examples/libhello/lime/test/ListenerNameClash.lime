@@ -17,6 +17,7 @@
 
 package test.clash
 
+@Dart("RouteProviderClash")
 @Swift("RouteProviderClash")
 interface RouteProvider {
     fun setRoute(

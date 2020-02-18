@@ -31,6 +31,9 @@ import "test/ExternalTypes_test.dart" as ExternalTypes;
 import "test/Inheritance_test.dart" as InheritanceTests;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/Lists_test.dart" as ListsTests;
+import "test/Listeners_test.dart" as ListenersTests;
+import "test/ListenersWithAttributes_test.dart" as ListenersWithAttributesTests;
+import "test/ListenersWithReturnValues_test.dart" as ListenersWithReturnValuesTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
 import "test/Nullable_test.dart" as NullableTests;
@@ -60,6 +63,9 @@ final _allTests = [
   InheritanceTests.main,
   InterfacesTests.main,
   ListsTests.main,
+  ListenersTests.main,
+  ListenersWithAttributesTests.main,
+  ListenersWithReturnValuesTests.main,
   MapsTests.main,
   MethodOverloadsTests.main,
   NullableTests.main,

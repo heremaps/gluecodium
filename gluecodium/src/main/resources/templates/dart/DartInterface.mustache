@@ -61,6 +61,18 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{resolveName "Ffi"}}_release_handle');
+final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint64{{>ffiFunctionPointers}}),
+    Pointer<Void> Function(int{{>ffiFunctionPointers}})
+  >('{{resolveName "Ffi"}}_create_proxy');
+final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('{{resolveName "Ffi"}}_get_raw_pointer');
+
+int _{{resolveName}}_instance_counter = 1024;
+final Map<int, {{resolveName}}> _{{resolveName}}_instance_cache = {};
+final Map<Pointer<Void>, {{resolveName}}> _{{resolveName}}_reverse_cache = {};
 
 {{#functions}}
 {{>dart/DartFunctionException}}
@@ -84,16 +96,73 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
 {{/properties}}
 }
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}}__Impl value) =>
-  _{{resolveName "Ffi"}}_copy_handle(value._handle);
+{{#set parent=this}}{{#each inheritedFunctions functions}}
+int _{{resolveName parent}}_{{resolveName}}_static({{!!
+}}int _token{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}) {
+  {{#isNotEq returnType.typeRef.toString "Void"}}final _result_object = {{/isNotEq}}{{!!
+  }}_{{resolveName parent}}_instance_cache[_token].{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
+  }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
+  }}{{/parameters}});{{#isNotEq returnType.typeRef.toString "Void"}}
+  _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
+{{#parameters}}
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+{{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
+  if (_result_object != null) _result_object.release();
+{{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
+  if (_result_object != null) _result_object.release();
+{{/instanceOf}}
+  return 0;{{!! TODO: #137 handle errors }}
+}
+{{/each}}
 
-{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) =>
-  {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
+{{#each inheritedProperties properties}}
+int _{{resolveName parent}}_{{resolveName}}_get_static(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
+  _result.value = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
+  }}_{{resolveName parent}}_instance_cache[_token].{{resolveName visibility}}{{resolveName}});
+  return 0;
+}
+{{#if setter}}
+
+int _{{resolveName parent}}_{{resolveName}}_set_static(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
+  _{{resolveName parent}}_instance_cache[_token].{{resolveName visibility}}{{resolveName}} = {{!!
+  }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+  return 0;
+}
+{{/if}}
+{{/each}}{{/set}}
+
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+  if (value is {{resolveName}}__Impl) return _{{resolveName "Ffi"}}_copy_handle(value.handle);
+
+  const UNKNOWN_ERROR = -1;
+  final token = _{{resolveName}}_instance_counter++;
+  _{{resolveName}}_instance_cache[token] = value;
+
+  final result = _{{resolveName "Ffi"}}_create_proxy(token{{!!
+  }}{{#set parent=this}}{{#if inheritedFunctions functions logic="or"}}, {{#each inheritedFunctions functions}}{{!!
+  }}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, UNKNOWN_ERROR){{#if iter.hasNext}}, {{/if}}{{!!
+  }}{{/each}}{{/if}}{{#if inheritedProperties properties logic="or"}}, {{!!
+  }}{{#each inheritedProperties properties}}{{#set property=this}}{{!!
+  }}{{#getter}}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName property}}_get_static, UNKNOWN_ERROR){{/getter}}{{!!
+  }}{{#setter}}, Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName property}}_set_static, UNKNOWN_ERROR){{/setter}}{{!!
+  }}{{#if iter.hasNext}}, {{/if}}{{/set}}{{/each}}{{/if}}{{/set}});
+  _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(result)] = value;
+
+  return result;
+}
+
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+  final instance = _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(handle)];
+  return instance != null ? instance : {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
+}
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}_release_handle(handle);
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}}__Impl value) =>
+Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) =>
   value != null ? {{resolveName "Ffi"}}_toFfi(value) : Pointer<Void>.fromAddress(0);
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
@@ -102,4 +171,13 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}}__Impl value) 
 void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}_release_handle(handle);
 
-// End of {{resolveName}} "private" section.
+// End of {{resolveName}} "private" section.{{!!
+
+}}{{+ffiApi}}Int64 Function(Uint64{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/isNotEq}}){{/ffiApi}}{{!!
+
+}}{{+ffiFunctionPointers}}{{#if inheritedFunctions functions logic="or"}}, {{!!
+}}{{#each inheritedFunctions functions}}Pointer{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
+}}{{#if inheritedProperties properties logic="or"}}, {{!!
+}}{{#each inheritedProperties properties}}Pointer{{#if setter}}, Pointer{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{/ffiFunctionPointers}}
