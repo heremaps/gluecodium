@@ -15,7 +15,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required(VERSION 3.6)
+if(IOS)
+    cmake_minimum_required(VERSION 3.15)
+else()
+    cmake_minimum_required(VERSION 3.6)
+endif()
 project(hello_world)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
