@@ -1,16 +1,18 @@
 package smoke
-
 @Cpp("fooListener")
 @Java("barListener")
 @Swift("bazListener")
+@Dart("weeListener")
 interface PlatformNamesListener {
     @Cpp("FooMethod")
     @Java("BarMethod")
     @Swift("BazMethod")
+    @Dart("WeeMethod")
     fun basicMethod(
         @Cpp("FooParameter")
         @Java("BarParameter")
         @Swift("BazParameter", Label = "_")
+        @Dart("WeeParameter")
         basicParameter: String
     )
 }

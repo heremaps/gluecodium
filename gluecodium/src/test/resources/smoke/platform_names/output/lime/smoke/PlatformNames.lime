@@ -1,38 +1,41 @@
 package smoke
-
 @Cpp("fooTypes")
 @Swift("bazTypes")
+@Dart("weeTypes")
 types PlatformNames {
     @Cpp("fooTypedef")
     @Swift("bazTypedef")
     typealias BasicTypedef = Double
-
     @Cpp("fooEnum")
     @Java("barEnum")
     @Swift("bazEnum")
+    @Dart("werrEnum")
     enum BasicEnum {
         @Cpp("foo_item")
         @Java("bar_item")
         @Swift("BAZ_ITEM")
+        @Dart("WEE_ITEM")
         BASIC_ITEM
     }
-
     @Cpp("fooStruct")
     @Java("barStruct")
     @Swift("bazStruct")
+    @Dart("weeStruct")
     struct BasicStruct {
         @Cpp("FOO_FIELD")
         @Java("BAR_FIELD")
         @Swift("BAZ_FIELD")
+        @Dart("WEE_FIELD")
         stringField: String
-
         @Cpp("FooCreate")
         @Java("BarCreate")
         @Swift("BazCreate")
+        @Dart("WeeCreate")
         constructor make(
             @Cpp("FooParameter")
             @Java("BarParameter")
             @Swift("BazParameter", Label = "_")
+            @Dart("WeeParameter")
             basicParameter: String
         )
     }

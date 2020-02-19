@@ -31,6 +31,7 @@ types `types` {
 
     typealias `List` = List<`struct`>
 
+    @Dart("Const")
     const `const`: `enum` = `enum`.`NaN`
 }
 

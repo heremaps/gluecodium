@@ -23,26 +23,31 @@ types PlatformNames {
     @Cpp("fooStruct")
     @Java("barStruct")
     @Swift("bazStruct")
+    @Dart("weeStruct")
     struct BasicStruct {
         @Cpp("FOO_FIELD")
         @Java("BAR_FIELD")
         @Swift("BAZ_FIELD")
+        @Dart("WEE_FIELD")
         stringField: String
         @Cpp("create")
         constructor make(
             @Cpp("FooParameter")
             @Java("BarParameter")
             @Swift("BazParameter", Label = "_")
+            @Dart("WeeParameter")
             basicParameter: String
         )
     }
     @Cpp("fooEnum")
     @Java("barEnum")
     @Swift("bazEnum")
+    @Dart("weeEnum")
     enum BasicEnum {
         @Cpp("foo_item")
         @Java("bar_item")
         @Swift("BAZ_ITEM")
+        @Dart("WEE_ITEM")
         BASIC_ITEM
     }
     @Cpp("fooTypedef")
@@ -57,26 +62,32 @@ types PlatformNames {
 @Cpp("fooInterface")
 @Java("barInterface")
 @Swift("bazInterface")
+@Dart("wwInterface")
 class PlatformNamesInterface {
     @Cpp("FooMethod")
     @Java("BarMethod")
     @Swift("BazMethod")
+    @Dart("WeeMethod")
     static fun basicMethod(
         @Cpp("FooParameter")
         @Java("BarParameter")
         @Swift("BazParameter", Label = "_")
+        @Dart("WeeParameter")
         basicParameter: String
     ): PlatformNames.BasicStruct
     @Cpp("make")
     @Java("make")
     @Swift("make")
+    @Dart("make")
     constructor create(
         @Cpp("makeParameter")
         @Java("makeParameter")
         @Swift("makeParameter", Label = "_")
+        @Dart("makeParameter")
         basicParameter: String
     )
     @Swift("BAZ_ATTRIBUTE")
+    @Dart("WEE_ATTRIBUTE")
     property basicAttribute: UInt {
         @Cpp("GET_FOO_ATTRIBUTE")
         @Java("GET_BAR_ATTRIBUTE")
@@ -90,14 +101,17 @@ class PlatformNamesInterface {
 @Cpp("fooListener")
 @Java("barListener")
 @Swift("bazListener")
+@Dart("WeeListener")
 interface PlatformNamesListener {
     @Cpp("FooMethod")
     @Java("BarMethod")
     @Swift("BazMethod")
+    @Dart("WeeMethod")
     fun basicMethod(
         @Cpp("FooParameter")
         @Java("BarParameter")
         @Swift("BazParameter", Label = "_")
+        @Dart("WeeParameter")
         basicParameter: String
     )
 }

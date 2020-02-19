@@ -188,6 +188,7 @@ feature(Properties cpp android swift dart SOURCES
     lime/test/AttributesInterfaceFactory.lime
 )
 
+# This feature is intended for Android only.
 feature(JavaBuilder android SOURCES
     lime/test/JavaBuilder.lime
 )
@@ -209,7 +210,7 @@ feature(Listeners cpp android swift dart SOURCES
     lime/test/ListenerNameClash.lime
 )
 
-feature(ComplexListeners cpp android swift SOURCES
+feature(ComplexListeners cpp android swift dart SOURCES
     src/test/ComplexListener.cpp
     src/test/ComplexListener.h
 
@@ -284,7 +285,7 @@ feature(Serialization android swift SOURCES
     lime/test/Serialization.lime
 )
 
-feature(CircularDependencies cpp android swift SOURCES
+feature(CircularDependencies cpp android swift dart SOURCES
     lime/test/Circular.lime
 )
 
@@ -297,7 +298,7 @@ feature(ExternalTypes cpp android swift dart SOURCES
     lime/test/UseExternalTypes.lime
 )
 
-feature(UnderscorePackage cpp android swift SOURCES
+feature(UnderscorePackage cpp android swift dart SOURCES
     src/test/UseUnderscorePackage.cpp
 
     lime/test/UnderscorePackage.lime
@@ -325,6 +326,7 @@ feature(Nullable cpp android swift dart SOURCES
     lime/test/NullableInterface.lime
 )
 
+#TODO: #138 enable for Dart
 feature(ListenersWithThreads cpp android SOURCES
     src/test/ListenersThreads.cpp
 
@@ -345,6 +347,7 @@ feature(StructsWithCompanion cpp android swift dart SOURCES
     lime/test/StructsWithConstants.lime
 )
 
+#TODO: #80 enable for Dart
 feature(Comments cpp android swift SOURCES
     src/test/Comments.cpp
 
@@ -352,13 +355,13 @@ feature(Comments cpp android swift SOURCES
     lime/test/CommentsInterface.lime
 )
 
-feature(PlatformNames cpp android swift SOURCES
+feature(PlatformNames cpp android swift dart SOURCES
     src/test/PlatformNames.cpp
 
     lime/test/PlatformNames.lime
 )
 
-feature(EscapedNames cpp android swift SOURCES
+feature(EscapedNames cpp android swift dart SOURCES
     lime/test/KeywordNames.lime
 )
 
@@ -376,7 +379,8 @@ feature(Lambdas cpp android swift dart SOURCES
     src/test/Lambdas.cpp
 )
 
-feature(Extensions cpp android swift SOURCES
+# This feature is intended for Swift only.
+feature(Extensions swift SOURCES
     lime/test/Extensions.lime
 )
 

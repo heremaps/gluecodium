@@ -31,6 +31,7 @@ types `types` {
 
     typealias `ULong` = List<`struct`>
 
+    @Dart("Const")
     const `const`: `enum` = `enum`.`Blob`
 }
 
