@@ -74,8 +74,8 @@ function(apigen_swift_compile target architecture)
   endif()
 
   if(APPLE)
-    if(XCODE_IOS_PLATFORM)
-      execute_process(COMMAND xcrun --sdk "${XCODE_IOS_PLATFORM}" --find swiftc
+    if(CMAKE_OSX_SYSROOT)
+      execute_process(COMMAND xcrun --sdk "${CMAKE_OSX_SYSROOT}" --find swiftc
         OUTPUT_VARIABLE SWIFTC)
     else()
       execute_process(COMMAND xcrun --find swiftc
@@ -95,12 +95,12 @@ function(apigen_swift_compile target architecture)
 
   set(TARGET_ARCHITECTURE ${architecture})
 
-  if(IOS_DEPLOYMENT_TARGET)
+  if(IOS)
     # If the toolchain does not specify the platform, it uses 'iphone' by default.
     if(NOT XCODE_PLATFORM_SUFFIX)
       set(XCODE_PLATFORM_SUFFIX "ios")
     endif()
-    set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${IOS_DEPLOYMENT_TARGET})
+    set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${CMAKE_OSX_DEPLOYMENT_TARGET})
     message(STATUS "[Swift] Cross compiling for target ${full_target} for ${CMAKE_OSX_SYSROOT}")
     set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
   else()
