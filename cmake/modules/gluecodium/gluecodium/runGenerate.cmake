@@ -44,9 +44,15 @@ function(_generate)
     endforeach()
     set(_gluecodium_command ${_gluecodium_time} ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} ${_build_local_gluecodium} -Pversion=${APIGEN_GLUECODIUM_VERSION} run --args=${APIGEN_GLUECODIUM_ARGS})
 
+    if(APIGEN_COMMON_OUTPUT_DIR)
+        set(_common_output_dir ${APIGEN_COMMON_OUTPUT_DIR})
+    else()
+        set(_common_output_dir .)
+    endif()
+
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_COMMON_OUTPUT_DIR}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${_common_output_dir}
         COMMAND ${_gluecodium_command}
         WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
         RESULT_VARIABLE GENERATE_RESULT
