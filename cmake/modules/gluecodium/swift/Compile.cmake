@@ -24,7 +24,9 @@ set(includeguard_gluecodium_swift_Compile ON)
 cmake_minimum_required(VERSION 3.13)
 
 set(MINIMAL_CLANG_VERSION 5.0)
-if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"
+   OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+   OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${MINIMAL_CLANG_VERSION})
   message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,"
   "your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}\n"
   "On Ubuntu 16.04 you can run\n"
@@ -72,8 +74,8 @@ function(apigen_swift_compile target architecture)
   endif()
 
   if(APPLE)
-    if(XCODE_IOS_PLATFORM)
-      execute_process(COMMAND xcrun --sdk "${XCODE_IOS_PLATFORM}" --find swiftc
+    if(CMAKE_OSX_SYSROOT)
+      execute_process(COMMAND xcrun --sdk "${CMAKE_OSX_SYSROOT}" --find swiftc
         OUTPUT_VARIABLE SWIFTC)
     else()
       execute_process(COMMAND xcrun --find swiftc
@@ -93,12 +95,12 @@ function(apigen_swift_compile target architecture)
 
   set(TARGET_ARCHITECTURE ${architecture})
 
-  if(IOS_DEPLOYMENT_TARGET)
+  if(IOS)
     # If the toolchain does not specify the platform, it uses 'iphone' by default.
     if(NOT XCODE_PLATFORM_SUFFIX)
       set(XCODE_PLATFORM_SUFFIX "ios")
     endif()
-    set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${IOS_DEPLOYMENT_TARGET})
+    set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${CMAKE_OSX_DEPLOYMENT_TARGET})
     message(STATUS "[Swift] Cross compiling for target ${full_target} for ${CMAKE_OSX_SYSROOT}")
     set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
   else()
@@ -115,7 +117,7 @@ function(apigen_swift_compile target architecture)
   get_target_property(TARGET_TYPE ${target} TYPE)
   if(APPLE)
     if(NOT CMAKE_Swift_COMPILER_LOADED)
-      messagE(FATAL_ERROR "Swift language must be enabled on top level")
+      message(FATAL_ERROR "Swift language must be enabled on top level")
     endif()
     set(SWIFT_FLAGS "-import-underlying-module -I${SWIFT_OUTPUT_DIR}")
     foreach(FRAMEWORK ${APIGEN_SWIFT_COMPILE_FRAMEWORKS})
