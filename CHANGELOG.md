@@ -1,8 +1,11 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.2.0
+Release date: 2020-02-20
+### Features
+  * Experimental support for generating Dart bindings.
 ### Bug fixes:
-  * Move BuiltinOptionals.swift into correct source set
+  * Moved BuiltinOptionals.swift into correct source set.
   * Fixed redundant empty lines in C++ headers for enums and structs.
 
 ## 6.1.0
