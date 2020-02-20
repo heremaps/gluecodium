@@ -48,14 +48,14 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     override fun exitDecriptionFirstWord(ctx: LimedocParser.DecriptionFirstWordContext) {
         contentCollector += when {
             ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> "" to ctx.text
+            else -> listOf("" to ctx.text)
         }
     }
 
     override fun exitDescriptionContent(ctx: LimedocParser.DescriptionContentContext) {
         contentCollector += when {
             ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> "" to unescapeText(ctx.text)
+            else -> listOf("" to unescapeText(ctx.text))
         }
     }
 
@@ -69,14 +69,16 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     override fun exitBlockTagContent(ctx: LimedocParser.BlockTagContentContext) {
         contentCollector += when {
             ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> "" to unescapeText(ctx.text)
+            else -> listOf("" to unescapeText(ctx.text))
         }
     }
 
     // Private functions
 
-    private fun convertInlineTag(inlineTag: LimedocParser.InlineTagContext) =
-        inlineTag.tagName().text to inlineTag.inlineTagContent().joinToString("") { unescapeText(it.text) }
+    private fun convertInlineTag(inlineTag: LimedocParser.InlineTagContext): List<Pair<String, String>> {
+        val tagContent = inlineTag.inlineTagContent().joinToString("") { unescapeText(it.text) }
+        return inlineTag.tagName().map { it.text to tagContent }
+    }
 
     private fun unescapeText(text: String) =
         text.replace("""\\(@|\{|\}|\\)""".toRegex()) { it.groupValues[1] }

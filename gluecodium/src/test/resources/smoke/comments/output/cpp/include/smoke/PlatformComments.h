@@ -21,6 +21,14 @@ public:
         USELESS,
         USEFUL
     };
+    /**
+     * This is a very useful struct.
+     */
+    struct _GLUECODIUM_CPP_EXPORT Something {
+        ::std::string nothing;
+        Something( );
+        Something( const ::std::string& nothing );
+    };
 public:
     /**
      * This is some very useless method that does nothing.
