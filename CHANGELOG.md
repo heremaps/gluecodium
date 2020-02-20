@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Move BuiltinOptionals.swift into correct source set
+  * Fixed redundant empty lines in C++ headers for enums and structs.
 
 ## 6.1.0
 Release date: 2020-01-21

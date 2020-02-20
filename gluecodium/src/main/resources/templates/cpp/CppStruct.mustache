@@ -30,10 +30,8 @@ public:
 {{/if}}{{!!
 }}{{#unless hasAccessors}}
 {{#fields}}
-{{#if hasComment}}
-{{prefixPartial "cpp/CppFieldComment" "    "}}
-{{/if}}
-    {{#if isImmutable}}const {{/if}}{{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
+{{#if hasComment}}{{prefixPartial "cpp/CppFieldComment" "    "}}{{/if}}{{!!
+}}    {{#if isImmutable}}const {{/if}}{{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
 {{/fields}}
 {{/unless}}{{!!
 }}{{#if fields}}
@@ -44,7 +42,8 @@ public:
 {{prefix constructorComment "     * "}}
      */
 {{/if}}
-    {{name}}( );{{/if}}{{#if hasPartialDefaults}}
+    {{name}}( );{{/if}}{{!!
+}}{{#if hasPartialDefaults}}
 {{#if constructorComment}}
     /**
 {{prefix constructorComment "     * "}}
@@ -83,15 +82,16 @@ public:
     void {{setterName}}( {{>cpp/CppMethodParameterType}} value_ ) { {{name}} = value_; }{{/unless}}
 {{/fields}}
 
-{{/if}}{{!!}}{{#if methods}}
+{{/if}}{{!!
+}}{{#if methods}}
 {{#methods}}
-    {{>cpp/CppMethodSignature}};
+{{prefixPartial "cpp/CppMethodSignature" "    "}};
 {{/methods}}
 
 {{/if}}{{!!
 }}{{#if constants}}
 {{#constants}}
-    {{#set storageQualifier="static"}}{{>cpp/CppConstant}}{{/set}}
+{{#set storageQualifier="static"}}{{prefixPartial "cpp/CppConstant" "    "}}{{/set}}
 {{/constants}}
 
 {{/if}}{{!!
