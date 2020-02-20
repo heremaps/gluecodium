@@ -32,7 +32,7 @@ public:
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}} { }
 
 {{#each inheritedFunctions functions}}
-    {{resolveName returnType.typeRef "C++"}}
+    {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}} override {
         {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}} _result_handle;{{/isNotEq}}
@@ -43,10 +43,17 @@ public:
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi({{resolveName}}){{#if iter.hasNext}},
 {{/if}}{{/parameters}}{{#isNotEq returnType.typeRef.toString "Void"}},
             &_result_handle{{/isNotEq}}
-        );{{!! TODO: #137 handle errors }}{{#isNotEq returnType.typeRef.toString "Void"}}
-        auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
-        {{#returnType}}{{>ffiReleaseHandle}}{{/returnType}};
-        return _result;{{/isNotEq}}
+        );{{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{#isEq returnType.typeRef.toString "Void"}}
+{{prefixPartial "proxyReturnError" "        "}}{{/isEq}}{{!!
+        }}{{#isNotEq returnType.typeRef.toString "Void"}}
+        if (_error == 0) {
+{{prefixPartial "proxyReturnResult" "            "}}
+        } else {
+{{prefixPartial "proxyReturnError" "            "}}
+        }{{/isNotEq}}{{/instanceOf}}{{!!
+        }}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!! TODO: #140 handle arbitrary payload}}{{/notInstanceOf}}{{/if}}{{!!
+        }}{{#unless thrownType}}{{#isNotEq returnType.typeRef.toString "Void"}}
+{{prefixPartial "proxyReturnResult" "        "}}{{/isNotEq}}{{/unless}}
     }
 
 {{/each}}
@@ -93,4 +100,10 @@ private:
 }}{{#notInstanceOf this "LimeBasicType"}}{{#instanceOf this "LimeEnumeration"}}{{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeEnumeration"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>(_result_handle){{/notInstanceOf}}{{!!
 }}{{/notInstanceOf}}{{!!
-}}{{/typeRef.type.actualType}}{{/unless}}{{/ffiReleaseHandle}}
+}}{{/typeRef.type.actualType}}{{/unless}}{{/ffiReleaseHandle}}{{!!
+
+}}{{+proxyReturnResult}}auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
+{{#returnType}}{{>ffiReleaseHandle}}{{/returnType}};
+return _result;{{/proxyReturnResult}}{{!!
+
+}}{{+proxyReturnError}}return make_error_code({{>ffi/FfiInternal}}::Conversion<{{resolveName exception.errorType "C++"}}>::toCpp((uint32_t)_error));{{/proxyReturnError}}

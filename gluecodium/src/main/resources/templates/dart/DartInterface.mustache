@@ -101,19 +101,32 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}) {
+  {{#if thrownType}}
+  int _error = 0;
+  try {
+  {{/if}}
   {{#isNotEq returnType.typeRef.toString "Void"}}final _result_object = {{/isNotEq}}{{!!
   }}_{{resolveName parent}}_instance_cache[_token].{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
   }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#isNotEq returnType.typeRef.toString "Void"}}
   _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
-{{#parameters}}
+{{#if thrownType}}
+  } on {{resolveName exception}} catch(e) {
+{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!! TODO: #140 handle arbitrary payload}}{{!!
+}}    _error = {{#set typeRef=exception.errorType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(e.error);{{/instanceOf}}
+  } finally {
+  {{/if}}{{!!
+}}{{#parameters}}
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
   if (_result_object != null) _result_object.release();
 {{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
   if (_result_object != null) _result_object.release();
-{{/instanceOf}}
-  return 0;{{!! TODO: #137 handle errors }}
+{{/instanceOf}}{{!!
+  }}{{#if thrownType}}
+  }
+  {{/if}}
+  return {{#if thrownType}}_error{{/if}}{{#unless thrownType}}0{{/unless}};
 }
 {{/each}}
 

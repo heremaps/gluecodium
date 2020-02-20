@@ -33,6 +33,7 @@ import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/Lists_test.dart" as ListsTests;
 import "test/Listeners_test.dart" as ListenersTests;
 import "test/ListenersWithAttributes_test.dart" as ListenersWithAttributesTests;
+import "test/ListenersWithErrors_test.dart" as ListenersWithErrorsTests;
 import "test/ListenersWithReturnValues_test.dart" as ListenersWithReturnValuesTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
@@ -65,6 +66,7 @@ final _allTests = [
   ListsTests.main,
   ListenersTests.main,
   ListenersWithAttributesTests.main,
+  ListenersWithErrorsTests.main,
   ListenersWithReturnValuesTests.main,
   MapsTests.main,
   MethodOverloadsTests.main,
