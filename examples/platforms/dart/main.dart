@@ -30,6 +30,7 @@ import "test/Exceptions_test.dart" as Exceptions;
 import "test/ExternalTypes_test.dart" as ExternalTypes;
 import "test/Inheritance_test.dart" as InheritanceTests;
 import "test/Interfaces_test.dart" as InterfacesTests;
+import "test/Lambdas_test.dart" as LambdasTests;
 import "test/Lists_test.dart" as ListsTests;
 import "test/Listeners_test.dart" as ListenersTests;
 import "test/ListenersWithAttributes_test.dart" as ListenersWithAttributesTests;
@@ -63,6 +64,7 @@ final _allTests = [
   ExternalTypes.main,
   InheritanceTests.main,
   InterfacesTests.main,
+  LambdasTests.main,
   ListsTests.main,
   ListenersTests.main,
   ListenersWithAttributesTests.main,

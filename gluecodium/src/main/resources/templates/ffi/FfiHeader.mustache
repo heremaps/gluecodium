@@ -45,6 +45,9 @@ extern "C" {
 {{>ffiFunctionDeclaration}}
 {{/functions}}
 {{/structs}}
+{{#this.lambdas}}{{#asFunction}}
+{{>ffiFunctionDeclaration}}
+{{/asFunction}}{{/this.lambdas}}
 {{/model}}
 
 {{#classes}}
@@ -54,7 +57,13 @@ _GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handl
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}
 {{/classes}}
 
-{{#interfaces}}
+{{#lambdas}}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
+{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
+{{/lambdas}}
+
+{{#each interfaces lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_proxy(uint64_t token{{!!
 }}{{#if inheritedFunctions functions logic="or"}}, {{!!
 }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
@@ -62,7 +71,7 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_proxy(uint64_t tok
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}});
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
-{{/interfaces}}
+{{/each}}
 
 {{#each nonExternalStructs externalStructs}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}});

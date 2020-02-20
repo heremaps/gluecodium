@@ -1,0 +1,117 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>dart/DartDocumentation}}
+typedef {{resolveName}} = {{resolveName returnType}} Function({{!!
+}}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+
+// {{resolveName}} "private" section, not exported.
+
+final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_copy_handle');
+final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_release_handle');
+final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint64, Pointer),
+    Pointer<Void> Function(int, Pointer)
+  >('{{resolveName "Ffi"}}_create_proxy');
+final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('{{resolveName "Ffi"}}_get_raw_pointer');
+
+int _{{resolveName}}_instance_counter = 1024;
+final Map<int, {{resolveName}}> _{{resolveName}}_instance_cache = {};
+final Map<Pointer<Void>, {{resolveName}}> _{{resolveName}}_reverse_cache = {};
+
+class {{resolveName}}__Impl {
+  Pointer<Void> get _handle => handle;
+  final Pointer<Void> handle;
+  {{resolveName}}__Impl(this.handle);
+
+  void release() => _{{resolveName "Ffi"}}_release_handle(handle);
+
+{{#set parent=this}}{{#asFunction}}
+{{prefixPartial "dart/DartFunction" "  "}}
+{{/asFunction}}{{/set}}
+}
+
+{{#set parent=this}}{{#asFunction}}
+int _{{resolveName parent}}_{{resolveName}}_static({{!!
+}}int _token{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}) {
+  {{#isNotEq returnType.typeRef.toString "Void"}}final _result_object = {{/isNotEq}}{{!!
+  }}_{{resolveName parent}}_instance_cache[_token]({{#parameters}}{{!!
+  }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
+  }}{{/parameters}});{{#isNotEq returnType.typeRef.toString "Void"}}
+  _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
+{{#parameters}}
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+{{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
+  if (_result_object != null) _result_object.release();
+{{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
+  if (_result_object != null) _result_object.release();
+{{/instanceOf}}
+  return 0;
+}
+{{/asFunction}}{{/set}}
+
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+  const UNKNOWN_ERROR = -1;
+  final token = _{{resolveName}}_instance_counter++;
+  _{{resolveName}}_instance_cache[token] = value;
+
+  final result = _{{resolveName "Ffi"}}_create_proxy(token, {{#set parent=this}}{{#asFunction}}{{!!
+  }}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, UNKNOWN_ERROR){{!!
+  }}{{/asFunction}}{{/set}});
+  _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(result)] = value;
+
+  return result;
+}
+
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+  final instance = _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(handle)];
+  if (instance != null) return instance;
+  final _impl = {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
+  return ({{#asFunction}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}}){{!!
+  }} {
+    final _result =_impl.call({{#asFunction}}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}});
+    _impl.release();
+    return _result;
+  };
+}
+
+void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
+  _{{resolveName "Ffi"}}_release_handle(handle);
+
+// Nullable {{resolveName}}
+
+{{>dart/DartNullableTypeConversion}}
+
+// End of {{resolveName}} "private" section.{{!!
+
+}}{{+ffiApi}}Int64 Function(Uint64{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/isNotEq}}){{/ffiApi}}

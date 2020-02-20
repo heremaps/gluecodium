@@ -36,6 +36,7 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -124,7 +125,6 @@ internal class FfiCppNameResolver(
         }
 
     private fun getFieldName(limeField: LimeField) =
-        // TODO: simplify
         when {
             getParentElement(limeField).attributes.have(CPP, ACCESSORS) ->
                 cppNameResolver.getGetterName(limeField) + "()"
@@ -134,11 +134,12 @@ internal class FfiCppNameResolver(
         }
 
     private fun getFunctionName(limeFunction: LimeFunction): String {
-        val limeProperty = getParentElement(limeFunction) as? LimeProperty
+        val parentElement = getParentElement(limeFunction)
         return when {
-            limeProperty == null -> cppNameResolver.getName(limeFunction)
-            limeFunction === limeProperty.getter -> cppNameResolver.getGetterName(limeProperty)
-            limeFunction === limeProperty.setter -> cppNameResolver.getSetterName(limeProperty)
+            parentElement is LimeLambda -> "operator()"
+            parentElement !is LimeProperty -> cppNameResolver.getName(limeFunction)
+            limeFunction === parentElement.getter -> cppNameResolver.getGetterName(parentElement)
+            limeFunction === parentElement.setter -> cppNameResolver.getSetterName(parentElement)
             else ->
                 throw GluecodiumExecutionException("Invalid property accessor ${limeFunction.path}")
         }
