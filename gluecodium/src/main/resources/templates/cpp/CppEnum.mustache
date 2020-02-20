@@ -26,9 +26,7 @@ enum class {{name}} {
 };
 {{/unless}}{{!!
 
-}}{{+enumItem}}
-{{#if comment.documentation}}
-{{prefixPartial "cpp/DocComment" "    "}}
-{{/if}}
-    {{name}}{{#value}} = {{name}}{{/value}}{{!!
+}}{{+enumItem}}{{!!
+}}{{#if comment.documentation}}{{prefixPartial "cpp/DocComment" "    "}}{{/if}}{{!!
+}}    {{name}}{{#value}} = {{name}}{{/value}}{{!!
 }}{{/enumItem}}
