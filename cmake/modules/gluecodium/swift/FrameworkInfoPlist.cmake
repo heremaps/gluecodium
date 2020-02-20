@@ -23,6 +23,30 @@ set(includeguard_gluecodium_swift_FrameworkInfoPlist ON)
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
+# apigen_check_only_listed_ios_architectures_are_enabled
+# ---------------------------------
+#
+# Checks if only listed architectures are enabled with CMAKE_OSX_ARCHITECTURES
+#   variable
+#
+# .. command:: apigen_check_only_listed_ios_architectures_are_enabled
+#
+# The general form of the command is::
+#
+#     apigen_check_only_listed_ios_architectures_are_enabled(result arch1 arch2 ...)
+#
+
+function (apigen_check_only_listed_ios_architectures_are_enabled _result)
+  foreach (_architecture ${CMAKE_OSX_ARCHITECTURES})
+    if (NOT ${_architecture} IN_LIST ARGN)
+      set (${_result} NO PARENT_SCOPE)
+      return ()
+    endif ()
+  endforeach ()
+  set (${_result} YES PARENT_SCOPE)
+endfunction ()
+
+#.rst:
 # apigen_swift_framework_info_plist
 # ---------------------------------
 #
@@ -48,6 +72,20 @@ function(apigen_swift_framework_info_plist target)
   get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
   get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
   get_target_property(MACOSX_FRAMEWORK_IDENTIFIER ${target} APIGEN_SWIFT_FRAMEWORK_IDENTIFIER)
+  if(IOS)
+    if(CMAKE_OSX_ARCHITECTURES) # Support CMake's default toolchain
+      apigen_check_only_listed_ios_architectures_are_enabled (_is_iphone_os "armv7" "armv7s" "arm64" "arm64e")
+      if(_is_iphone_os)
+        set(APPLE_PLATFORM_NAME iPhoneOS)
+      else()
+        set(APPLE_PLATFORM_NAME iPhoneSimulator)
+      endif()
+    else()
+      set(APPLE_PLATFORM_NAME iPhoneOS)
+    endif()
+  else()
+    set(APPLE_PLATFORM_NAME MacOSX)
+  endif()
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_framework_info_plist() depends on apigen_generate() configured with generator 'swift'")
