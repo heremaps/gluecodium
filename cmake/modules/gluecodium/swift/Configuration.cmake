@@ -64,7 +64,11 @@ function(apigen_swift_configuration target)
   endif()
 
   if(NOT MINIMUM_OS_VERSION)
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION 11.0)
+    if(CMAKE_OSX_DEPLOYMENT_TARGET) # Variable from CMake default toolchain
+      set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${CMAKE_OSX_DEPLOYMENT_TARGET})
+    else()
+      set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION 11.0)
+    endif()
   endif()
 
   if(NOT DEFINED CMAKE_Swift_LANGUAGE_VERSION)
