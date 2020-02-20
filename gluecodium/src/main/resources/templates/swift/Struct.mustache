@@ -19,7 +19,9 @@
   !
   !}}
 {{>swift/Comment}}
-{{visibility}} struct {{simpleName}}{{#isEquatable}}: Hashable{{/isEquatable}} {
+{{visibility}} struct {{simpleName}}{{#if isEquatable isCodable logic="or"}}{{!!
+}}:{{#if isEquatable}} Hashable{{/if}}{{#if isEquatable isCodable logic="and"}},{{/if}}{{#if isCodable}} Codable{{/if}}{{!!
+}}{{/if}} {
 {{#constants}}
 {{prefixPartial "swift/Constant" "    "}}
 {{/constants}}{{!!

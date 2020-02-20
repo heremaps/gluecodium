@@ -29,6 +29,7 @@ class SwiftStruct(
     optional: Boolean = false,
     val isEquatable: Boolean = false,
     val isImmutable: Boolean = false,
+    val isCodable: Boolean = false,
     val fields: List<SwiftField> = emptyList(),
     val constants: List<SwiftConstant> = emptyList(),
     val methods: List<SwiftMethod> = emptyList(),
@@ -66,6 +67,7 @@ class SwiftStruct(
             optional,
             isEquatable,
             isImmutable,
+            isCodable,
             fields,
             constants,
             methods
@@ -89,6 +91,7 @@ class SwiftStruct(
             optional,
             isEquatable,
             isImmutable,
+            isCodable,
             fields,
             constants,
             methods

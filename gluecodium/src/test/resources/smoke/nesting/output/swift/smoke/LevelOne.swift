@@ -34,7 +34,7 @@ public class LevelOne {
             deinit {
                 smoke_LevelOne_LevelTwo_LevelThree_release_handle(c_instance)
             }
-            public enum LevelFourEnum : UInt32, CaseIterable {
+            public enum LevelFourEnum : UInt32, CaseIterable, Codable {
                 case none
             }
             public struct LevelFour {

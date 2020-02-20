@@ -3,7 +3,7 @@
 
 import Foundation
 public typealias ErrorCodeToMessageMap = [Int32: String]
-public enum SomeEnum : UInt32, CaseIterable {
+public enum SomeEnum : UInt32, CaseIterable, Codable {
     case foo
     case bar
 }

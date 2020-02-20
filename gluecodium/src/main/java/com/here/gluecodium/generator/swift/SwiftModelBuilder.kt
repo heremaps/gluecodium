@@ -254,6 +254,7 @@ class SwiftModelBuilder(
             visibility = getVisibility(limeStruct),
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
+            isCodable = limeStruct.attributes.have(LimeAttributeType.SERIALIZABLE),
             fields = getPreviousResults(SwiftField::class.java),
             constants = getPreviousResults(SwiftConstant::class.java),
             methods = getPreviousResults(SwiftMethod::class.java),

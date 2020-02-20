@@ -5,7 +5,7 @@ public typealias List = [Struct]
 public typealias ExceptionError = Enum
 extension Enum : Error {
 }
-public enum Enum : UInt32, CaseIterable {
+public enum Enum : UInt32, CaseIterable, Codable {
     case naN
 }
 internal func copyToCType(_ swiftEnum: Enum) -> PrimitiveHolder<UInt32> {

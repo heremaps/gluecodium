@@ -19,11 +19,11 @@ public class DefaultValues {
     deinit {
         smoke_DefaultValues_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32, CaseIterable {
+    public enum SomeEnum : UInt32, CaseIterable, Codable {
         case fooValue
         case barValue
     }
-    public enum ExternalEnum : UInt32, CaseIterable {
+    public enum ExternalEnum : UInt32, CaseIterable, Codable {
         case oneValue
         case anotherValue
     }

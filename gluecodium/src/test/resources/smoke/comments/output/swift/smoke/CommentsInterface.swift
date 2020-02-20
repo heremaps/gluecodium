@@ -244,7 +244,7 @@ internal func moveToCType(_ swiftClass: CommentsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 /// This is some very useful enum.
-public enum SomeEnum : UInt32, CaseIterable {
+public enum SomeEnum : UInt32, CaseIterable, Codable {
     /// Not quite useful
     case useless
     /// Somewhat useful

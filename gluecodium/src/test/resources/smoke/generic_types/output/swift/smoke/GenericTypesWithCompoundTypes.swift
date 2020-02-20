@@ -12,11 +12,11 @@ public class GenericTypesWithCompoundTypes {
     deinit {
         smoke_GenericTypesWithCompoundTypes_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32, CaseIterable {
+    public enum SomeEnum : UInt32, CaseIterable, Codable {
         case foo
         case bar
     }
-    public enum ExternalEnum : UInt32, CaseIterable {
+    public enum ExternalEnum : UInt32, CaseIterable, Codable {
         case on
         case off
     }

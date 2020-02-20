@@ -2,7 +2,7 @@
 //
 
 import Foundation
-public enum TCEnum : UInt32, CaseIterable {
+public enum TCEnum : UInt32, CaseIterable, Codable {
     case first
     case second
 }

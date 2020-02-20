@@ -17,7 +17,7 @@ public class ExternalClass {
     deinit {
         smoke_ExternalClass_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32, CaseIterable {
+    public enum SomeEnum : UInt32, CaseIterable, Codable {
         case someValue
     }
     public struct SomeStruct {

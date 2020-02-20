@@ -94,7 +94,7 @@ public class Properties {
     deinit {
         smoke_Properties_release_handle(c_instance)
     }
-    public enum InternalErrorCode : UInt32, CaseIterable {
+    public enum InternalErrorCode : UInt32, CaseIterable, Codable {
         case errorNone
         case errorFatal = 999
     }

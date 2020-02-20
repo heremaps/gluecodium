@@ -2,7 +2,7 @@
 //
 
 import Foundation
-public enum StateEnum : UInt32, CaseIterable {
+public enum StateEnum : UInt32, CaseIterable, Codable {
     case off
     case on
 }

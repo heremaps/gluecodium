@@ -45,6 +45,7 @@ types Serialization {
     }
 
     @Serializable
+    @Equatable
     struct NestedSerializableStruct {
         someField: String
     }

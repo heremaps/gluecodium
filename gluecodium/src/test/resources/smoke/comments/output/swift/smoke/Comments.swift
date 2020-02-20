@@ -30,7 +30,7 @@ public class Comments {
         smoke_Comments_release_handle(c_instance)
     }
     /// This is some very useful enum.
-    public enum SomeEnum : UInt32, CaseIterable {
+    public enum SomeEnum : UInt32, CaseIterable, Codable {
         /// Not quite useful
         case useless
         /// Somewhat useful

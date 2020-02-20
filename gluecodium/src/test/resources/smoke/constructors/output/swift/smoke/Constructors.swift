@@ -48,7 +48,7 @@ public class Constructors {
     deinit {
         smoke_Constructors_release_handle(c_instance)
     }
-    public enum ErrorEnum : UInt32, CaseIterable {
+    public enum ErrorEnum : UInt32, CaseIterable, Codable {
         case none
         case crashed
     }
