@@ -24,5 +24,7 @@
 	<string>${MACOSX_FRAMEWORK_MINIMUM_OS_VERSION}</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
+	<key>CFBundleSupportedPlatforms</key>
+	<array><string>${APPLE_PLATFORM_NAME}</string></array>
 </dict>
 </plist>
