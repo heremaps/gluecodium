@@ -104,7 +104,7 @@ public class Nullable {
     deinit {
         smoke_Nullable_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32, CaseIterable {
+    public enum SomeEnum : UInt32, CaseIterable, Codable {
         case on
         case off
     }

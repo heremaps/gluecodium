@@ -14,7 +14,7 @@ public class PlatformComments {
     deinit {
         smoke_PlatformComments_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32, CaseIterable {
+    public enum SomeEnum : UInt32, CaseIterable, Codable {
         case useless
         case useful
     }

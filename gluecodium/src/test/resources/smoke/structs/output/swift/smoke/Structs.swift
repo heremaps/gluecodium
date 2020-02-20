@@ -13,7 +13,7 @@ public class Structs {
     deinit {
         smoke_Structs_release_handle(c_instance)
     }
-    public enum FooBar : UInt32, CaseIterable {
+    public enum FooBar : UInt32, CaseIterable, Codable {
         case foo
         case bar
     }

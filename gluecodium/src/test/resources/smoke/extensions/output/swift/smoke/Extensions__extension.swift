@@ -4,7 +4,7 @@ import Foundation
 extension Extensions {
     public static let fooConst: Extensions.FooEnum = Extensions.FooEnum.foo
     public typealias FooAlias = Extensions.FooStruct
-    public enum FooEnum : UInt32, CaseIterable {
+    public enum FooEnum : UInt32, CaseIterable, Codable {
         case foo
         case bar
     }

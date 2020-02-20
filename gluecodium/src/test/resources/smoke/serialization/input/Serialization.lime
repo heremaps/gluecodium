@@ -51,3 +51,9 @@ types Serialization {
     typealias NestedStructArray = List<NestedSerializableStruct>
     typealias ErrorCodeToMessageMap = Map<Int, String>
 }
+
+@Equatable
+@Serializable
+struct SerializableEquatableStruct {
+    fooField: String
+}

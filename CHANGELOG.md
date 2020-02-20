@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features
+  * Structs marked as `@Serializable` in IDL now conform to `Codable` protocol in Swift.
+
 ## 6.2.0
 Release date: 2020-02-20
 ### Features

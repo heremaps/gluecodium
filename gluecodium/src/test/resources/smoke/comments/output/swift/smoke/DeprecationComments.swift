@@ -147,7 +147,7 @@ extension SomeEnum : Error {
 }
 /// This is some very useful enum.
 @available(*, deprecated, message: "Unfortunately, this enum is deprecated. Use `Comments.SomeEnum` instead.")
-public enum SomeEnum : UInt32, CaseIterable {
+public enum SomeEnum : UInt32, CaseIterable, Codable {
     /// Not quite useful
     @available(*, deprecated, message: "Unfortunately, this item is deprecated.
     Use `Comments.SomeEnum.useless` instead.")

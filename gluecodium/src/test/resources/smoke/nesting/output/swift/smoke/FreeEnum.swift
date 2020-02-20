@@ -2,7 +2,7 @@
 //
 
 import Foundation
-public enum FreeEnum : UInt32, CaseIterable {
+public enum FreeEnum : UInt32, CaseIterable, Codable {
     case foo
     case bar
 }

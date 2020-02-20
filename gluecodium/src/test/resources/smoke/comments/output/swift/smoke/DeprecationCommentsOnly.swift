@@ -133,7 +133,7 @@ internal func moveToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 @available(*, deprecated, message: "Unfortunately, this enum is deprecated.")
-public enum SomeEnum : UInt32, CaseIterable {
+public enum SomeEnum : UInt32, CaseIterable, Codable {
     @available(*, deprecated, message: "Unfortunately, this item is deprecated.")
     case useless
 }

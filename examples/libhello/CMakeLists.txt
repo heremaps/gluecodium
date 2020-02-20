@@ -279,7 +279,7 @@ feature(Inheritance cpp android swift dart SOURCES
     lime/test/ListenerInheritanceArrays.lime
 )
 
-feature(Serialization android SOURCES
+feature(Serialization android swift SOURCES
     lime/hello/HelloWorldParcelable.lime
     lime/test/Serialization.lime
 )

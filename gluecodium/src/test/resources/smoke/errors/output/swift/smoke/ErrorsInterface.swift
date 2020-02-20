@@ -191,7 +191,7 @@ extension InternalError : Error {
 }
 extension ExternalErrors : Error {
 }
-public enum InternalError : UInt32, CaseIterable {
+public enum InternalError : UInt32, CaseIterable, Codable {
     case errorNone
     case errorFatal
 }
@@ -225,7 +225,7 @@ internal func moveFromCType(_ handle: _baseRef) -> InternalError? {
     }
     return copyFromCType(handle)
 }
-public enum ExternalErrors : UInt32, CaseIterable {
+public enum ExternalErrors : UInt32, CaseIterable, Codable {
     case none
     case boom
     case bust

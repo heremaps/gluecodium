@@ -19,7 +19,7 @@
   !
   !}}
 {{>swift/Comment}}
-{{visibility}} enum {{simpleName}} : UInt32, CaseIterable {
+{{visibility}} enum {{simpleName}} : UInt32, CaseIterable, Codable {
 {{#items}}{{prefixPartial "enumItem" "    "}}
 {{/items}}
 }

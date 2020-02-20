@@ -55,6 +55,7 @@ let allTests = [
     testCase(NullableStructsTests.allTests),
     testCase(PlainDataStructuresFromTypeCollectionTests.allTests),
     testCase(PlainDataStructuresTests.allTests),
+    testCase(SerializationTests.allTests),
     testCase(SetTypeTests.allTests),
     testCase(StaticBooleanMethodsTests.allTests),
     testCase(StaticByteArrayMethodsTests.allTests),

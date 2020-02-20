@@ -3,7 +3,7 @@
 
 import Foundation
 public typealias bazTypedef = Double
-public enum bazEnum : UInt32, CaseIterable {
+public enum bazEnum : UInt32, CaseIterable, Codable {
     case BAZ_ITEM
 }
 internal func copyToCType(_ swiftEnum: bazEnum) -> PrimitiveHolder<UInt32> {

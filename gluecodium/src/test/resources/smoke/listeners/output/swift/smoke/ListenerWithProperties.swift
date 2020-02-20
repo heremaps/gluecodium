@@ -217,7 +217,7 @@ internal func copyToCType(_ swiftClass: ListenerWithProperties?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ListenerWithProperties?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-public enum ResultEnum : UInt32, CaseIterable {
+public enum ResultEnum : UInt32, CaseIterable, Codable {
     case none
     case result
 }

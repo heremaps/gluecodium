@@ -48,7 +48,7 @@ public class INameRules {
     deinit {
         namerules_NameRules_release_handle(c_instance)
     }
-    public enum IExampleErrorCode : UInt32, CaseIterable {
+    public enum IExampleErrorCode : UInt32, CaseIterable, Codable {
         case none
         case fatal
     }

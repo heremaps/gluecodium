@@ -109,7 +109,7 @@ internal func copyToCType(_ swiftClass: ExternalInterface?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ExternalInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-public enum SomeEnum : UInt32, CaseIterable {
+public enum SomeEnum : UInt32, CaseIterable, Codable {
     case someValue
 }
 internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {

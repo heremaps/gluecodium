@@ -13,19 +13,19 @@ public class Enums {
     deinit {
         smoke_Enums_release_handle(c_instance)
     }
-    public enum SimpleEnum : UInt32, CaseIterable {
+    public enum SimpleEnum : UInt32, CaseIterable, Codable {
         case first
         case second
     }
-    public enum InternalErrorCode : UInt32, CaseIterable {
+    public enum InternalErrorCode : UInt32, CaseIterable, Codable {
         case errorNone
         case errorFatal = 999
     }
-    public enum ExternalEnum : UInt32, CaseIterable {
+    public enum ExternalEnum : UInt32, CaseIterable, Codable {
         case fooValue
         case barValue
     }
-    public enum VeryExternalEnum : UInt32, CaseIterable {
+    public enum VeryExternalEnum : UInt32, CaseIterable, Codable {
         case foo
         case bar
     }
