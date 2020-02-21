@@ -1,11 +1,13 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.2.1
+Release date: 2020-02-21
 ### Features
   * Structs marked as `@Serializable` in IDL now conform to `Codable` protocol in Swift.
   * Added support for specifying multiple platform names in a single inline tag in documentation
     comments (e.g. `foo {@Cpp @Java bar}`).
 
+## 6.2.0
 Release date: 2020-02-20
 ### Features
   * Experimental support for generating Dart bindings.
