@@ -76,7 +76,7 @@ blockTagContent
     ;
 
 inlineTag
-      : '{@' tagName WhiteSpace inlineTagContent* '}'
+      : '{@' tagName (WhiteSpace '@' tagName)* WhiteSpace inlineTagContent* '}'
       ;
 
 inlineTagContent

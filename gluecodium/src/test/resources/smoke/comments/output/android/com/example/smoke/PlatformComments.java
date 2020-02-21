@@ -24,6 +24,16 @@ public final class PlatformComments extends NativeBase {
         public final PlatformComments.SomeEnum error;
     }
     /**
+     * <p>This is a very super struct.</p>
+     */
+    public final static class Something {
+        @NonNull
+        public String nothing;
+        public Something(@NonNull final String nothing) {
+            this.nothing = nothing;
+        }
+    }
+    /**
      * For internal use only.
      * @exclude
      */

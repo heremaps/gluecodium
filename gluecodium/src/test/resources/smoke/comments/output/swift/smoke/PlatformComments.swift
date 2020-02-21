@@ -18,6 +18,16 @@ public class PlatformComments {
         case useless
         case useful
     }
+    /// This is a super useful struct.
+    public struct Something {
+        public var nothing: String
+        public init(nothing: String) {
+            self.nothing = nothing
+        }
+        internal init(cHandle: _baseRef) {
+            nothing = moveFromCType(smoke_PlatformComments_Something_nothing_get(cHandle))
+        }
+    }
     /// This is some very useless method that is very swift.
     public func doNothing() -> Void {
         return moveFromCType(smoke_PlatformComments_doNothing(self.c_instance))
@@ -81,6 +91,45 @@ internal func copyToCType(_ swiftClass: PlatformComments?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: PlatformComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
+}
+internal func copyFromCType(_ handle: _baseRef) -> PlatformComments.Something {
+    return PlatformComments.Something(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> PlatformComments.Something {
+    defer {
+        smoke_PlatformComments_Something_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: PlatformComments.Something) -> RefHolder {
+    let c_nothing = moveToCType(swiftType.nothing)
+    return RefHolder(smoke_PlatformComments_Something_create_handle(c_nothing.ref))
+}
+internal func moveToCType(_ swiftType: PlatformComments.Something) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PlatformComments_Something_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> PlatformComments.Something? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_PlatformComments_Something_unwrap_optional_handle(handle)
+    return PlatformComments.Something(cHandle: unwrappedHandle) as PlatformComments.Something
+}
+internal func moveFromCType(_ handle: _baseRef) -> PlatformComments.Something? {
+    defer {
+        smoke_PlatformComments_Something_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: PlatformComments.Something?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_nothing = moveToCType(swiftType.nothing)
+    return RefHolder(smoke_PlatformComments_Something_create_optional_handle(c_nothing.ref))
+}
+internal func moveToCType(_ swiftType: PlatformComments.Something?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PlatformComments_Something_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: PlatformComments.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

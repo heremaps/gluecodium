@@ -547,6 +547,11 @@ The resulting documentation will look like this, per language:
 Note that one space after the `@Platform` is treated as separator, everything after that, including
 spaces is considered to be part of the comment.
 
+Multiple platform tags can be combined in a single `{@ }` section, if necessary:
+```
+// Process something{@Cpp @Java  the right way}.
+```
+
 #### Special characters in documentation comments
 
 Special characters `@`, `{`, `}`, and `\` can be used in documentation comments only if they are

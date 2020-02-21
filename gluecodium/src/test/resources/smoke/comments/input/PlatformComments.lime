@@ -38,4 +38,9 @@ class PlatformComments {
     // @return {@Cpp Usefulness}{@Java Uselessness [SomeEnum]}{@Swift Usefulness} of the input
     // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong] \\esc\@pe\{s\} }.
     fun someMethodWithAllComments(input: String): Boolean throws SomethingWrong
+
+    // This is a{@Cpp @Java  very}{@Java @Swift  super}{@Swift @Cpp  useful}{@Cpp @Java @Swift  struct}.
+    struct something {
+        nothing: String
+    }
 }

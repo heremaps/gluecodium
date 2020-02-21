@@ -7,6 +7,10 @@ class PlatformComments {
     }
     // An {@Java exception}{@Swift error} when something goes wrong.
     exception SomethingWrong(SomeEnum)
+    // This is a{@Cpp  very}{@Java  very}{@Java  super}{@Swift  super}{@Swift  useful}{@Cpp  useful}{@Cpp  struct}{@Java  struct}{@Swift  struct}.
+    struct something {
+        nothing: String
+    }
     // This is some very useless method that {@Cpp does nothing}{@Java makes some coffee}{@Swift is very swift}.
     fun doNothing()
     // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Swift Eats a hip bruschetta.}
