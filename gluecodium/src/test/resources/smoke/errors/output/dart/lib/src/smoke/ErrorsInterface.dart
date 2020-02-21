@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/Payload.dart';
 import 'package:library/src/smoke/WithPayloadException.dart';
 import 'dart:ffi';
@@ -163,6 +164,10 @@ final _smoke_ErrorsInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_ErrorsInterface_get_raw_pointer');
+final _smoke_ErrorsInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ErrorsInterface_get_type_id');
 int _ErrorsInterface_instance_counter = 1024;
 final Map<int, ErrorsInterface> _ErrorsInterface_instance_cache = {};
 final Map<Pointer<Void>, ErrorsInterface> _ErrorsInterface_reverse_cache = {};
@@ -390,7 +395,15 @@ Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
 }
 ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
   final instance = _ErrorsInterface_reverse_cache[_smoke_ErrorsInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : ErrorsInterface__Impl(_smoke_ErrorsInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_ErrorsInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_ErrorsInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? ErrorsInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_ErrorsInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ErrorsInterface_release_handle(handle);

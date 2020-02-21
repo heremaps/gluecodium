@@ -1,3 +1,5 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -22,6 +24,10 @@ final _smoke_InternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunct
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_InternalInterface_get_raw_pointer');
+final _smoke_InternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_InternalInterface_get_type_id');
 int _InternalInterface_instance_counter = 1024;
 final Map<int, InternalInterface> _InternalInterface_instance_cache = {};
 final Map<Pointer<Void>, InternalInterface> _InternalInterface_reverse_cache = {};
@@ -43,7 +49,15 @@ Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
 }
 InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
   final instance = _InternalInterface_reverse_cache[_smoke_InternalInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : InternalInterface__Impl(_smoke_InternalInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_InternalInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_InternalInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? InternalInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_InternalInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_InternalInterface_release_handle(handle);

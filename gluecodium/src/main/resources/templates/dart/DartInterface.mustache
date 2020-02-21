@@ -72,6 +72,10 @@ final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('{{resolveName "Ffi"}}_get_raw_pointer');
+final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('{{resolveName "Ffi"}}_get_type_id');
 
 int _{{resolveName}}_instance_counter = 1024;
 final Map<int, {{resolveName}}> _{{resolveName}}_instance_cache = {};
@@ -172,7 +176,16 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
   final instance = _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(handle)];
-  return instance != null ? instance : {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
+  if (instance != null) return instance;
+
+  final _copied_handle = _{{resolveName "Ffi"}}_copy_handle(handle);
+  final _type_id_handle = _{{resolveName "Ffi"}}_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? {{resolveName}}__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>

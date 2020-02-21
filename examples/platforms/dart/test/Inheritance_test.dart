@@ -57,5 +57,25 @@ void main() {
 
     result.release();
   });
-  // TODO: #131 add tests for preserving type information
+  _testSuite.test("Type information is preserved for interface inheriting from interface", () {
+    final RootInterface result = InheritanceTestHelper.createChildAsRootInterface();
+
+    expect(result, isA<ChildInterface>());
+
+    result.release();
+  });
+  _testSuite.test("Type information is preserved for class inheriting from interface", () {
+    final ChildInterface result = InheritanceTestHelper.createConcreteChildAsChildInterface();
+
+    expect(result, isA<ConcreteChild>());
+
+    result.release();
+  });
+  _testSuite.test("Type information is preserved for class inheriting from class", () {
+    final ConcreteChild result = InheritanceTestHelper.createGrandchildClassAsChildClass();
+
+    expect(result, isA<ConcreteGrandChild>());
+
+    result.release();
+  });
 }

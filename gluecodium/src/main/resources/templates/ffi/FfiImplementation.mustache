@@ -176,6 +176,15 @@ FfiOpaqueHandle
 {{#set type=this handleType="uint32_t"}}{{>ffi/FfiNullableImpl}}{{/set}}
 {{/enums}}
 
+{{#typeRepositories}}
+FfiOpaqueHandle
+{{resolveName}}_get_type_id(FfiOpaqueHandle handle) {
+    const auto& type_repository = {{>common/InternalNamespace}}get_type_repository(static_cast<{{resolveName "C++"}}*>(nullptr));
+    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)->get());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
+}
+{{/typeRepositories}}
+
 #ifdef __cplusplus
 }
 #endif{{!!

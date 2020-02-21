@@ -1,4 +1,6 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/package/Interface.dart';
 import 'package:library/src/package/Types.dart';
 import 'dart:ffi';
@@ -13,6 +15,10 @@ final _package_Class_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('package_Class_release_handle');
+final _package_Class_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('package_Class_get_type_id');
 final _fun_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -76,8 +82,16 @@ class Class implements Interface {
 }
 Pointer<Void> package_Class_toFfi(Class value) =>
   _package_Class_copy_handle(value._handle);
-Class package_Class_fromFfi(Pointer<Void> handle) =>
-  Class._(_package_Class_copy_handle(handle));
+Class package_Class_fromFfi(Pointer<Void> handle) {
+  final _copied_handle = _package_Class_copy_handle(handle);
+  final _type_id_handle = _package_Class_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? Class._(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
+}
 void package_Class_releaseFfiHandle(Pointer<Void> handle) =>
   _package_Class_release_handle(handle);
 Pointer<Void> package_Class_toFfi_nullable(Class value) =>
@@ -86,3 +100,7 @@ Class package_Class_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? package_Class_fromFfi(handle) : null;
 void package_Class_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _package_Class_release_handle(handle);
+// Internal, not exported.
+class Class__Factory {
+  static Class create(Pointer<Void> handle) => Class._(handle);
+}

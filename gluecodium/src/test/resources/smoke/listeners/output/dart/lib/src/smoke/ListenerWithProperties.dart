@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/CalculationResult.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -161,6 +162,10 @@ final _smoke_ListenerWithProperties_get_raw_pointer = __lib.nativeLibrary.lookup
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_ListenerWithProperties_get_raw_pointer');
+final _smoke_ListenerWithProperties_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ListenerWithProperties_get_type_id');
 int _ListenerWithProperties_instance_counter = 1024;
 final Map<int, ListenerWithProperties> _ListenerWithProperties_instance_cache = {};
 final Map<Pointer<Void>, ListenerWithProperties> _ListenerWithProperties_reverse_cache = {};
@@ -357,7 +362,15 @@ Pointer<Void> smoke_ListenerWithProperties_toFfi(ListenerWithProperties value) {
 }
 ListenerWithProperties smoke_ListenerWithProperties_fromFfi(Pointer<Void> handle) {
   final instance = _ListenerWithProperties_reverse_cache[_smoke_ListenerWithProperties_get_raw_pointer(handle)];
-  return instance != null ? instance : ListenerWithProperties__Impl(_smoke_ListenerWithProperties_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_ListenerWithProperties_copy_handle(handle);
+  final _type_id_handle = _smoke_ListenerWithProperties_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? ListenerWithProperties__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_ListenerWithProperties_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ListenerWithProperties_release_handle(handle);

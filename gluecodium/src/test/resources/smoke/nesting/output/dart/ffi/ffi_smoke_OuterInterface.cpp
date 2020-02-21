@@ -118,6 +118,18 @@ smoke_OuterInterface_InnerInterface_get_raw_pointer(FfiOpaqueHandle handle) {
         reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle)->get()
     );
 }
+FfiOpaqueHandle
+smoke_OuterInterface_get_type_id(FfiOpaqueHandle handle) {
+    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::OuterInterface*>(nullptr));
+    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::OuterInterface>*>(handle)->get());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
+}
+FfiOpaqueHandle
+smoke_OuterInterface_InnerInterface_get_type_id(FfiOpaqueHandle handle) {
+    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::OuterInterface::InnerInterface*>(nullptr));
+    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle)->get());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
+}
 #ifdef __cplusplus
 }
 #endif

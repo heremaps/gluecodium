@@ -78,6 +78,12 @@ smoke_SimpleInterface_get_raw_pointer(FfiOpaqueHandle handle) {
         reinterpret_cast<std::shared_ptr<::smoke::SimpleInterface>*>(handle)->get()
     );
 }
+FfiOpaqueHandle
+smoke_SimpleInterface_get_type_id(FfiOpaqueHandle handle) {
+    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::SimpleInterface*>(nullptr));
+    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::SimpleInterface>*>(handle)->get());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
+}
 #ifdef __cplusplus
 }
 #endif

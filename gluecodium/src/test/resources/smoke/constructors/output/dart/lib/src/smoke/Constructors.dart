@@ -1,5 +1,6 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -12,6 +13,10 @@ final _smoke_Constructors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_Constructors_release_handle');
+final _smoke_Constructors_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_Constructors_get_type_id');
 final _createFromString_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -87,8 +92,16 @@ class Constructors {
 }
 Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
   _smoke_Constructors_copy_handle(value._handle);
-Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) =>
-  Constructors(_smoke_Constructors_copy_handle(handle));
+Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
+  final _copied_handle = _smoke_Constructors_copy_handle(handle);
+  final _type_id_handle = _smoke_Constructors_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? Constructors(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
+}
 void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Constructors_release_handle(handle);
 Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors value) =>
@@ -97,6 +110,10 @@ Constructors smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Constructors_fromFfi(handle) : null;
 void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Constructors_release_handle(handle);
+// Internal, not exported.
+class Constructors__Factory {
+  static Constructors create(Pointer<Void> handle) => Constructors(handle);
+}
 enum Constructors_ErrorEnum {
     none,
     crashed

@@ -293,6 +293,12 @@ smoke_ListenerWithProperties_ResultEnum_get_value_nullable(FfiOpaqueHandle handl
         **reinterpret_cast<gluecodium::optional<::smoke::ListenerWithProperties::ResultEnum>*>(handle)
     );
 }
+FfiOpaqueHandle
+smoke_ListenerWithProperties_get_type_id(FfiOpaqueHandle handle) {
+    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::ListenerWithProperties*>(nullptr));
+    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle)->get());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
+}
 #ifdef __cplusplus
 }
 #endif

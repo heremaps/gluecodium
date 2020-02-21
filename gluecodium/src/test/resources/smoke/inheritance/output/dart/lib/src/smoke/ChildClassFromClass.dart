@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/ParentClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -12,6 +13,10 @@ final _smoke_ChildClassFromClass_release_handle = __lib.nativeLibrary.lookupFunc
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_ChildClassFromClass_release_handle');
+final _smoke_ChildClassFromClass_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ChildClassFromClass_get_type_id');
 class ChildClassFromClass extends ParentClass {
   Pointer<Void> get _handle => handle;
   ChildClassFromClass._(Pointer<Void> handle) : super(handle);
@@ -26,8 +31,16 @@ class ChildClassFromClass extends ParentClass {
 }
 Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
   _smoke_ChildClassFromClass_copy_handle(value._handle);
-ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) =>
-  ChildClassFromClass._(_smoke_ChildClassFromClass_copy_handle(handle));
+ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
+  final _copied_handle = _smoke_ChildClassFromClass_copy_handle(handle);
+  final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? ChildClassFromClass._(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
+}
 void smoke_ChildClassFromClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ChildClassFromClass_release_handle(handle);
 Pointer<Void> smoke_ChildClassFromClass_toFfi_nullable(ChildClassFromClass value) =>
@@ -36,3 +49,7 @@ ChildClassFromClass smoke_ChildClassFromClass_fromFfi_nullable(Pointer<Void> han
   handle.address != 0 ? smoke_ChildClassFromClass_fromFfi(handle) : null;
 void smoke_ChildClassFromClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ChildClassFromClass_release_handle(handle);
+// Internal, not exported.
+class ChildClassFromClass__Factory {
+  static ChildClassFromClass create(Pointer<Void> handle) => ChildClassFromClass._(handle);
+}
