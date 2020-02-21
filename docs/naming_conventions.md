@@ -20,8 +20,8 @@ To get around this limitation, the identifier can be put in \`backticks\` (e.g. 
 Custom name rules
 -----------------
 
-The default name rules for Java, Swift and C++ can be customized by providing the path to a name rules
-properties file. These can be passed via `-javanamerules`, `-swiftnamerules` or `-cppnamerules`
+The default name rules for C++, Java, Swift and Dart can be customized by providing the path to a name rules
+properties file. These can be passed via `-cppnamerules`, `-javanamerules`, `-swiftnamerules`, or `-dartnamerules`
 command line parameters.
 
 Example custom `cpp.properties`:
@@ -148,5 +148,39 @@ property.prefix.boolean=is
 type=UpperCamelCase
 error=UpperCamelCase
 error.suffix=Error
+
+```
+
+Default Dart names
+----------
+
+### General naming conventions
+* Type names are in UpperCamelCase.
+* Method and variable names are in lowerCamelCase.
+* Constant and enumerator names are in lowerCamelCase.
+
+### Property names
+Properties are generated as properties in Dart:
+* Property names have no prefix, unless it's a Boolean property.
+* Boolean property names are prefixed with `is`.
+
+### Method overloads ambiguity resolution
+Since Dart language has no concept of method overloading, declaring two methods with the same name
+in the IDL file leads to a compile-time error. This can be resolved manually at LimeIDL level by
+specifying alternative names for these conflicting methods through marking them with
+`@Dart("<method-name>")` attribute in the IDL definition.
+
+### Default namerules/java.properties
+```
+field=lowerCamelCase
+parameter=lowerCamelCase
+constant=lowerCamelCase
+enumerator=lowerCamelCase
+method=lowerCamelCase
+property=lowerCamelCase
+property.prefix.boolean=is
+type=UpperCamelCase
+error=UpperCamelCase
+error.suffix=Exception
 
 ```
