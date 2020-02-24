@@ -5,19 +5,19 @@ class PlatformComments {
         Useless,
         Useful
     }
-    // An {@Java exception}{@Swift error} when something goes wrong.
+    // An {@Java exception}{@Dart exception}{@Swift error} when something goes wrong.
     exception SomethingWrong(SomeEnum)
     // This is a{@Cpp  very}{@Java  very}{@Java  super}{@Swift  super}{@Swift  useful}{@Cpp  useful}{@Cpp  struct}{@Java  struct}{@Swift  struct}.
     struct something {
         nothing: String
     }
-    // This is some very useless method that {@Cpp does nothing}{@Java makes some coffee}{@Swift is very swift}.
+    // This is some very useless method that {@Cpp does nothing}{@Java makes some coffee}{@Swift is very swift}{@Dart cannot have overloads}.
     fun doNothing()
-    // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Swift Eats a hip bruschetta.}
+    // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Swift Eats a hip bruschetta.}{@Dart Colors everything in fuchsia.}
     fun doMagic()
     // This is some very useful method that measures the usefulness of its input or \\esc\@pe\{s\}.
     // @param[input] Very useful {@Cpp input [PlatformComments] }parameter that \\esc\@pe\{s\}
-    // @return {@Cpp Usefulness}{@Java Uselessness [SomeEnum]}{@Swift Usefulness} of the input
+    // @return {@Cpp Usefulness}{@Java Uselessness [SomeEnum]}{@Swift Usefulness}{@Dart Uselessness [SomeEnum]} of the input
     // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong] \\esc\@pe\{s\} }.
     fun someMethodWithAllComments(
         input: String

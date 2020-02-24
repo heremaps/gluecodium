@@ -35,7 +35,9 @@ import org.trimou.handlebars.Options
  * Example: {{resolveName visibility}}<br/>
  * Example: {{resolveName "C++"}}<br/>
  * Example: {{resolveName returnType.typeRef "C++"}}<br/>
- * Example: {{resolveName field "C++" "getter"}}
+ * Example: {{resolveName field "C++" "getter"}}<br/>
+ * <br/>
+ * Also can be used as a section helper, e.g. {{#resolveName visibility}}...{{/resolveName}}
  */
 internal class NameResolverHelper : BasicHelper() {
     val nameResolvers = mutableMapOf<String, NameResolver>()
@@ -72,7 +74,14 @@ internal class NameResolverHelper : BasicHelper() {
             "setter" -> resolver.resolveSetterName(element)
             else -> resolver.resolveName(element)
         }
-        options.append(name)
+
+        if (isSection(options)) {
+            options.push(name)
+            options.fn()
+            options.pop()
+        } else {
+            options.append(name)
+        }
     }
 
     override fun numberOfRequiredParameters() = 0

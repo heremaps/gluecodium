@@ -20,17 +20,20 @@
 package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -39,14 +42,28 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
+import com.here.gluecodium.platform.common.CommentsProcessor
+import com.vladsch.flexmark.ast.LinkRef
+import com.vladsch.flexmark.formatter.Formatter
+import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 internal class DartNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: NameRules
+    private val nameRules: NameRules,
+    private val limeLogger: LimeLogger
 ) : NameResolver {
+
+    private val commentsProcessor = DartCommentsProcessor()
+    private val limeToDartNames = buildPathMap()
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is LimeComment -> commentsProcessor.process(
+                element.path.toString(),
+                element.getFor("Dart"),
+                limeToDartNames,
+                limeLogger
+            )
             is TypeId -> resolveBasicType(element)
             is LimeVisibility -> resolveVisibility(element)
             is LimeBasicType -> resolveBasicType(element.typeId)
@@ -156,4 +173,26 @@ internal class DartNameResolver(
                 ?: throw GluecodiumExecutionException(
                     "Failed to resolve parent for element ${limeElement.fullName}"
                 ))
+
+    private fun buildPathMap(): Map<String, String> {
+        val result = limeReferenceMap.values
+            .filterIsInstance<LimeNamedElement>()
+            .associateBy({ it.fullName }, { resolveName(it) })
+            .toMutableMap()
+
+        val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
+        result += properties.associateBy({ it.fullName + ".get" }, { resolveName(it) })
+        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveName(it) })
+
+        return result
+    }
+
+    private class DartCommentsProcessor : CommentsProcessor(Formatter.builder().build()) {
+        override fun processLink(linkNode: LinkRef, linkReference: String) {
+            linkNode.reference = BasedSequenceImpl.of(linkReference)
+            linkNode.referenceOpeningMarker = BasedSequenceImpl.of("[")
+            linkNode.referenceClosingMarker = BasedSequenceImpl.of("]")
+            linkNode.firstChild.unlink()
+        }
+    }
 }

@@ -25,9 +25,13 @@ package com.here.gluecodium.model.lime
  * only applies to the platform represented by the tag (and thus should be skipped for all other
  * platforms).
  */
-class LimeComment(private val taggedSections: List<Pair<String, String>> = emptyList()) {
+class LimeComment(
+    val path: LimePath = LimePath.EMPTY_PATH,
+    private val taggedSections: List<Pair<String, String>> = emptyList()
+) {
 
-    constructor(comment: String) : this(listOf("" to comment))
+    constructor(comment: String, path: LimePath = LimePath.EMPTY_PATH) :
+            this(path, listOf("" to comment))
 
     fun isEmpty() = taggedSections.all { it.second.isEmpty() }
 

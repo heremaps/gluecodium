@@ -22,8 +22,9 @@ package com.here.gluecodium.loader
 import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.antlr.LimedocParserBaseListener
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimePath
 
-internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
+internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocParserBaseListener() {
 
     private val commentsCollector = mutableMapOf<Pair<String, String>, LimeComment>()
     private val contentCollector = mutableListOf<Pair<String, String>>()
@@ -37,7 +38,7 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     // Overrides
 
     override fun exitDescription(ctx: LimedocParser.DescriptionContext) {
-        commentsCollector[Pair("", "")] = LimeComment(contentCollector.toList())
+        commentsCollector[Pair("", "")] = LimeComment(currentPath, contentCollector.toList())
         contentCollector.clear()
     }
 
@@ -62,7 +63,8 @@ internal class AntlrLimedocBuilder : LimedocParserBaseListener() {
     override fun exitBlockTag(ctx: LimedocParser.BlockTagContext) {
         val tagName = ctx.tagName().text
         val tagParameter = ctx.blockTagParameter()?.text ?: ""
-        commentsCollector[Pair(tagName, tagParameter)] = LimeComment(contentCollector.toList())
+        commentsCollector[Pair(tagName, tagParameter)] =
+            LimeComment(currentPath, contentCollector.toList())
         contentCollector.clear()
     }
 

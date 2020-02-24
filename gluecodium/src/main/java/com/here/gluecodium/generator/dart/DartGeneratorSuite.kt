@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.NameResolver
@@ -59,6 +60,7 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.platform.common.GeneratorSuite
+import java.util.logging.Logger
 
 class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
@@ -70,7 +72,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules)
+        val dartNameResolver = DartNameResolver(
+            limeModel.referenceMap,
+            nameRules,
+            LimeLogger(logger, limeModel.fileNameMap)
+        )
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules)
 
         val dartResolvers = mapOf(
@@ -414,6 +420,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     companion object {
         const val GENERATOR_NAME = "dart"
+
+        private val logger = Logger.getLogger(DartGeneratorSuite::class.java.name)
         private const val ROOT_DIR = GENERATOR_NAME
         private const val LIB_DIR = "$ROOT_DIR/lib"
         private const val SRC_DIR_SUFFIX = "src"

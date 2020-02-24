@@ -50,6 +50,7 @@ object TemplateEngine {
             .registerHelper("resolveName", nameResolverHelper)
             .registerHelper("ifHasAttribute", IfHasAttributeHelper(true))
             .registerHelper("unlessHasAttribute", IfHasAttributeHelper(false))
+            .registerHelper("getAttribute", GetAttributeHelper())
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()

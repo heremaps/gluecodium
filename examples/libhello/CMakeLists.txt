@@ -347,8 +347,7 @@ feature(StructsWithCompanion cpp android swift dart SOURCES
     lime/test/StructsWithConstants.lime
 )
 
-#TODO: #80 enable for Dart
-feature(Comments cpp android swift SOURCES
+feature(Comments cpp android swift dart SOURCES
     src/test/Comments.cpp
 
     lime/test/Comments.lime
