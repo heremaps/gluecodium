@@ -32,7 +32,9 @@ New instances can only be created if it is the return value of a function and it
 the users C++ implementation which subclass is returned. When the function is called from
 platform code the instance will be automatically wrapped.
 
-**Note:** As of now, there is no guarantee of pointer equality on platform side for the same wrapped C++ object.
+**Note:** As of now, there is no guarantee of pointer equality on transition from C++ to platform
+(i.e. the same C++ object returned twice to the platform side may be represented with different
+platform objects).
 
 Structs
 -------
