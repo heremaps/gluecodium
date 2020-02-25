@@ -8,5 +8,6 @@ types `types` {
     struct `struct` {
         `null`: `enum` = `enum`.`NaN`
     }
+    @Dart("Const")
     const `const`: `enum` = `enum`.`NaN`
 }
