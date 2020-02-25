@@ -170,7 +170,7 @@ in the IDL file leads to a compile-time error. This can be resolved manually at 
 specifying alternative names for these conflicting methods through marking them with
 `@Dart("<method-name>")` attribute in the IDL definition.
 
-### Default namerules/java.properties
+### Default namerules/dart.properties
 ```
 field=lowerCamelCase
 parameter=lowerCamelCase
