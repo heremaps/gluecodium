@@ -4,30 +4,21 @@ LimeIDL design proposal
 Overview
 --------
 
-This document proposes the design for the new input language for Gluecodium: LimeIDL. The document
-describes the following:
-* What is LimeIDL?
-* Why is it needed?
-
-When the stable version of Gluecodium with full LimeIDL support is released, this document will be
-converted into LimeIDL documentation (probably by just removing the "why?" section and reducing
-other explanations while focusing on syntax description).
+This document describes the input language for Gluecodium: LimeIDL.
 
 ### What is LimeIDL?
 
-LimeIDL is the proposed new input language for Gluecodium. The name is a stylized abbreviation. "LIME"
+LimeIDL is the input language for Gluecodium. The name is a stylized abbreviation. "LIME"
 stands for "Language-Independent ModEl", the internal language-independent syntax tree model that
-serves as an intermediate step between the input language (e.g. Franca IDL, LimeIDL) and the output
-language (e.g. C++, Java, Swift). "IDL" is an industry-standard abbreviation for "Interface
+serves as an intermediate step between the input language (e.g. LimeIDL) and the output
+language (e.g. C++, Java, Swift, Dart). "IDL" is an industry-standard abbreviation for "Interface
 Definition Language". This describes any Gluecodium input language perfectly, as its input languages are
 defining programming interfaces (as opposed to defining executable code, like output languages do).
 
-LimeIDL proposed syntax is inspired by (and somewhat just borrowed from) the modern programming
-languages like Kotlin and Swift. The initial version of the syntax has full feature parity with
-Franca input for Gluecodium (but not with the "base" Franca IDL, as Gluecodium uses only a subset of Franca
-language, with some custom extensions). The design intent is to have an input language that is
-compact (i.e. not verbose) and is easy to read and write in. The intent is also for the language to
-be flexible enough to be extended in the future without losing these qualities.
+LimeIDL syntax is inspired by the modern programming languages like Kotlin and Swift. The design
+intent is to have an input language that is compact (i.e. not verbose) and is easy to read and
+write in. The intent is also for the language to be flexible enough to be extended in the future
+without losing these qualities.
 
 LimeIDL syntax
 --------------
@@ -207,7 +198,7 @@ some top-level element).
 *ParameterName*: *ParameterType*
 * Example: `constructor create(options: Options?) throws SomethingWrongException`
 * Can be placed in: class, struct
-* Description: declares a constructor (Java, Swift) or a factory function (C++) in the parent type:
+* Description: declares a constructor (Java, Swift, Dart) or a factory function (C++) in the parent type:
   * a constructor declaration includes a name, which translates into a name of the factory function
   in C++. Other output languages have normal "nameless" constructors generated in the public API.
   * a constructor can have any number of parameters (zero or more).
@@ -223,7 +214,7 @@ some top-level element).
   * a property can be declared as `static` (optionally), meaning it's not a member property but a
   class property (type property).
   * a property declaration corresponds to a property in the output language if it does have such
-  concept (Swift) or to a pair of accessor methods (or just one getter method for a readonly
+  concept (Swift, Dart) or to a pair of accessor methods (or just one getter method for a readonly
   property) if there is no "property" concept (C++, Java).
 
 #### Struct
@@ -433,6 +424,9 @@ deprecated, takes a string literal value as a deprecation message.
   use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
+* **@Dart**: marks an element with Dart-specific properties:
+  * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
+  This is the default property for this attribute.
 * **@Cpp**: marks an element with C++-specific properties:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
   This is the default property for this attribute.
@@ -556,8 +550,3 @@ Multiple platform tags can be combined in a single `{@ }` section, if necessary:
 
 Special characters `@`, `{`, `}`, and `\` can be used in documentation comments only if they are
 "escaped" with an additional backslash (i.e. `\@`, `\{`, `\}`, and `\\` respectively).
-
-[franca]: http://franca.github.io/franca/
-[xtext]: https://www.eclipse.org/Xtext/
-[emf]: https://www.eclipse.org/modeling/emf/
-[antlr]: https://www.antlr.org/

@@ -9,75 +9,76 @@ description of LimeIDL please refer to the [LimeIDL description](lime_idl.md).
 Overview
 --------
 
-Gluecodium generates a C++ API with language bindings for Java and Swift. For C++ it will
+Gluecodium generates a C++ API with language bindings for Java, Swift, or Dart. For C++ it will
 generate declarations only. These need to be implemented by you to provide application logic.
-Java and Swift bindings are completely generated and forward all calls to C++.
+Java, Swift, and Dart bindings are completely generated and forward all calls to C++.
 
 Crossing the language boundary
 ------------------------------
 
-When building a Swift or Java app, the entry point for the program will be in Java/Swift.
-Calls then can be made from Java/Swift into C++ code. Java/Swift can call static or
-non-static member functions. Calling into Java/Swift from C++ is only possible on objects
-passed from Java/Swift to C++ first.
+When building a mobile app, the entry point for the program will be in Java/Swift/Dart (referred
+further as "platform code"). Calls then can be made from platform code into C++ code. Platform code
+can call static or non-static member functions. Calling into platform code from C++ is only possible
+on objects passed from platform code to C++ first.
 
-**Note:** In Java the native library needs to be loaded manually before any call to C++ is
-possible.
+**Note:** Both in Java and in Dart the native library needs to be loaded manually before any call to C++ is possible.
 
 Classes
 -------
 
 Classes are generated as an abstract class in C++ and as wrapper classes containing all the
-conversion and glue code in Java/Swift. These classes have their logic always on C++ side.
+conversion and glue code in platform code. These classes have their logic always on C++ side.
 New instances can only be created if it is the return value of a function and it is up to
 the users C++ implementation which subclass is returned. When the function is called from
-Java/Swift the instance will be automatically wrapped.
+platform code the instance will be automatically wrapped.
 
-**Note:** There is no pointer equality on Java and Swift side for the same wrapped C++ object.
+**Note:** As of now, there is no guarantee of pointer equality on transition from C++ to platform
+(i.e. the same C++ object returned twice to the platform side may be represented with different
+platform objects).
 
 Structs
 -------
 
 Similar to a `class` but considered a value type. It is generated as `struct` in Swift and C++
-and as `class` in Java. Structs are passed by value and since they are value types, all methods
+and as `class` in Java and Dart. Structs are passed by value and since they are value types, all methods
 are const. Structs have by default constructors generated in all languages.
 
-**Note:** Although in Java everything is a reference type, modifications on a struct are
+**Note:** Although in Java and Dart everything is a reference type, modifications on a struct are
 not reflected in C++ unless it is passed to C++ explicitly as a parameter or similar. If
 changes need to be propagated a class with properties should be used.
 
 Interfaces
 ----------
 
-An interface is generated as interface/protocol in Java/Swift. For C++ the same abstract
+An interface is generated as interface/protocol/abstract-class in Java/Swift/Dart. For C++ the same abstract
 class and glue is generated as it would be for classes. Unlike classes, interfaces can also be
-implemented in Java/Swift allowing to use platform logic.
-When an instance implementing the interface/protocol is passed to C++, a proxy
+implemented in platform code allowing to use platform logic.
+When an instance implementing the interface is passed to C++, a proxy
 object is instantiated. For the receiver of said object it is transparent whether the
-implementation is in Java/Swift or C++.
+implementation is in platform code or C++.
 Although the same wrapper objects as for classes are generated, allowing to implement the
 interface also in C++, the main use case is to use services provided by the target platform,
-e.g. positioning, notifications etc.
+e.g. positioning, notifications, threading etc.
 
 **Note** It is safe to do comparison on the `std::shared_ptr` in C++ to check if it's the same
-Java/Swift object as passed before. This is not true if C++ doesn't hold a shared pointer
+platform object as passed before. This is not true if C++ doesn't hold a shared pointer
 anymore and the proxy is released.
 
 **Note** Holding `std::shared_ptr` of the proxy object in C++ will extend the lifetime of the
-object in Java/Swift.
+object on platform side.
 
-**Note** Interfaces cannot have static methods since Gluecodium cannot know in which language
-these should be implemented.
+**Note** Interfaces cannot have static methods since not all output languages (and/or their variants)
+support such language feature.
 
 Constructors
 ------------
 
 Constructors are special methods for structs and classes which return a new instance of that type.
 Constructors are generated as static method declarations in C++ and can do initialization,
-validation and return errors. In Java/Swift these are generated as constructors/initializers to
+validation and return errors. In platform code these are generated as constructors/initializers to
 provide native feel.
 
-**Note:** Having custom constructors on structs disables generation of the default ones in Java/Swift.
+**Note:** Having custom constructors on structs disables generation of the default ones in platform code.
 
 **Note:** Constructors are not supported for interfaces.
 
@@ -114,7 +115,7 @@ getters and setters.
 Annotations
 -----------
 
-### Language annotations @Cpp, @Swift, @Java
+### Language annotations: @Cpp, @Swift, @Java, @Dart
 
 Language annotations allow to set attributes specific to a generated language. All of them support
 setting a custom name for the annotated element which will be used for generation.
@@ -159,11 +160,11 @@ reasons):
 * conversion functions are generated to support implicit conversion from the enum type to `std::error_code`.
 * if return type is `void`, `Return<Value, Error>` is replaced by just `std::error_code`.
 
-### Java
+### Java, Dart
 
-LimeIDL exception types are represented as Java exceptions in Java generated code. The generated
+LimeIDL exception types are represented as platform exceptions in Java/Dart generated code. The generated
 exception class has a field `error` that carries the value of the error type. There are no
-additional conventions, the generated exceptions behave like regular Java exceptions.
+additional conventions, the generated exceptions behave like regular Java/Dart exceptions.
 
 ### Swift
 
