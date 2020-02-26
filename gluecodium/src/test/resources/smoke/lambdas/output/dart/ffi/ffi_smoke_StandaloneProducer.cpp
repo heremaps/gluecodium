@@ -12,7 +12,7 @@ public:
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);

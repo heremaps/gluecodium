@@ -36,7 +36,7 @@ public:
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}}{{#unless isLambda}} override{{/unless}} {
         {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}} _result_handle;{{/isNotEq}}
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
+        {{#if thrownType}}int64_t _error = {{/if}}(*reinterpret_cast<int64_t (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
         }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
         }}{{#isNotEq returnType.typeRef.toString "Void"}}, {{resolveName returnType.typeRef}}*{{/isNotEq}}){{!!
         }}>(f{{iter.position}}))(token{{#if parameters}}, {{/if}}{{#parameters}}

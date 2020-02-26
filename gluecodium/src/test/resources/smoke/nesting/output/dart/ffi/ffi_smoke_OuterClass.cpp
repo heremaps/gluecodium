@@ -12,7 +12,7 @@ public:
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(input),
             &_result_handle
         );
