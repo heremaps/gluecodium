@@ -1,7 +1,11 @@
 #include "NullableHandles.h"
 #include "ConversionBase.h"
 #include "gluecodium/Optional.h"
+#include <chrono>
+#include <memory>
 #include <new>
+#include <string>
+#include <vector>
 #ifdef __cplusplus
 extern "C" {
 #endif
