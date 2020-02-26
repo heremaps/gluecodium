@@ -1,15 +1,20 @@
 # Gluecodium project Release Notes
 
+## 6.2.2
+Release date: 2020-02-27
+### Bug fixes:
+  * Fixed compilation issues in the experimental Dart generator.
+
 ## 6.2.1
 Release date: 2020-02-21
-### Features
+### Features:
   * Structs marked as `@Serializable` in IDL now conform to `Codable` protocol in Swift.
   * Added support for specifying multiple platform names in a single inline tag in documentation
     comments (e.g. `foo {@Cpp @Java bar}`).
 
 ## 6.2.0
 Release date: 2020-02-20
-### Features
+### Features:
   * Experimental support for generating Dart bindings.
 ### Bug fixes:
   * Moved BuiltinOptionals.swift into correct source set.
@@ -17,7 +22,7 @@ Release date: 2020-02-20
 
 ## 6.1.0
 Release date: 2020-01-21
-### Features
+### Features:
   * Allow renaming JNI_OnLoad via define.
   * Enable CMake modules for use of Gluecodium in multiple targets.
 ### Bug fixes:
