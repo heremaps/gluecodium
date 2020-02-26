@@ -25,67 +25,67 @@
 import Foundation
 
 {{#sets}}
-internal func copyFromCType(_ handle: _baseRef) -> {{publicName}} {
+internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{publicName}} {
     var result: {{publicName}} = []
     let iterator_handle = {{cPrefix}}_iterator(handle)
     while {{cPrefix}}_iterator_is_valid(handle, iterator_handle) {
-        result.insert({{elementType.className}}copyFromCType({{cPrefix}}_iterator_get(iterator_handle)))
+        result.insert({{#elementType}}{{>swift/ConversionPrefixFrom}}{{/elementType}}copyFromCType({{cPrefix}}_iterator_get(iterator_handle)))
         {{cPrefix}}_iterator_increment(iterator_handle)
     }
     {{cPrefix}}_iterator_release_handle(iterator_handle)
     return result
 }
 
-internal func moveFromCType(_ handle: _baseRef) -> {{publicName}} {
+internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{publicName}} {
     defer {
         {{cPrefix}}_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return {{internalPrefix}}copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftSet: {{publicName}}) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftSet: {{publicName}}) -> RefHolder {
     let handle = {{cPrefix}}_create_handle()
     for item in swiftSet {
-        {{cPrefix}}_insert(handle, moveToCType(item).ref)
+        {{cPrefix}}_insert(handle, {{#elementType}}{{>swift/ConversionPrefixTo}}{{/elementType}}moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
 
-internal func moveToCType(_ swiftSet: {{publicName}}) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftSet).ref, release: {{cPrefix}}_release_handle)
+internal func {{internalPrefix}}moveToCType(_ swiftSet: {{publicName}}) -> RefHolder {
+    return RefHolder(ref: {{internalPrefix}}copyToCType(swiftSet).ref, release: {{cPrefix}}_release_handle)
 }
 {{!!
 Optionals
 }}
-internal func copyToCType(_ swiftSet: {{publicName}}?) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftSet: {{publicName}}?) -> RefHolder {
     guard let swiftSet = swiftSet else {
         return RefHolder(0)
     }
     let optionalHandle = {{cPrefix}}_create_optional_handle()
     let handle = {{cPrefix}}_unwrap_optional_handle(optionalHandle)
     for item in swiftSet {
-        {{cPrefix}}_insert(handle, moveToCType(item).ref)
+        {{cPrefix}}_insert(handle, {{#elementType}}{{>swift/ConversionPrefixTo}}{{/elementType}}moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
 
-internal func moveToCType(_ swiftType: {{publicName}}?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_optional_handle)
+internal func {{internalPrefix}}moveToCType(_ swiftType: {{publicName}}?) -> RefHolder {
+    return RefHolder(ref: {{internalPrefix}}copyToCType(swiftType).ref, release: {{cPrefix}}_release_optional_handle)
 }
 
-internal func copyFromCType(_ handle: _baseRef) -> {{publicName}}? {
+internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{publicName}}? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = {{cPrefix}}_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as {{publicName}}
+    return {{internalPrefix}}copyFromCType(unwrappedHandle) as {{publicName}}
 }
 
-internal func moveFromCType(_ handle: _baseRef) -> {{publicName}}? {
+internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{publicName}}? {
     defer {
         {{cPrefix}}_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return {{internalPrefix}}copyFromCType(handle)
 }
 
 {{/sets}}

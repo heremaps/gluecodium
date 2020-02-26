@@ -131,6 +131,6 @@ class SwiftTypeMapperTest {
 
         assertTrue(result is SwiftArray)
         assertEquals("ArrayOf__Float", result.cPrefix)
-        assertEquals(SwiftType.FLOAT, (result as SwiftArray).underlyingType)
+        assertEquals(SwiftType.FLOAT, (result as SwiftArray).elementType)
     }
 }

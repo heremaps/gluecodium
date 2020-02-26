@@ -88,6 +88,7 @@ function(apigen_generate)
       CPP_EXPORT
       CPP_NAMERULES
       SWIFT_NAMERULES
+      SWIFT_INTERNAL_PREFIX
       OUTPUT_DIR
       COMMON_OUTPUT_DIR
       BUILD_OUTPUT_DIR
@@ -156,6 +157,7 @@ function(apigen_generate)
   _apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
   _apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
   _apigen_parse_option(-libraryname LIBRARY_NAME)
+  _apigen_parse_option(-swiftinternalprefix SWIFT_INTERNAL_PREFIX)
   _apigen_parse_option(-cppexport CPP_EXPORT)
 
   if(NOT apigen_generate_CPP_EXPORT)

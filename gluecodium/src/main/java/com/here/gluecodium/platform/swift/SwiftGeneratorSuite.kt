@@ -52,10 +52,11 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val commentsProcessor = SwiftCommentsProcessor()
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
+    private val internalPrefix = options.swiftInternalPrefix
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
-        val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules)
+        val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules, internalPrefix)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = limeReferenceMap,
             cppIncludeResolver =
@@ -93,9 +94,12 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .filterIsInstance<SwiftModelElement>()
             .forEach { processElementComments(it, elementToLimeName, limeToSwiftName, limeLogger) }
 
-        val result = swiftModel.containers.filter { it.childElements.isNotEmpty() }.map {
+        return swiftModel.containers.filter { it.childElements.isNotEmpty() }.map {
             GeneratedFile(
-                TemplateEngine.render("swift/File", it),
+                TemplateEngine.render(
+                    "swift/File",
+                    mapOf("model" to it, "internalPrefix" to internalPrefix)
+                ),
                 it.fileName
             )
         } +
@@ -104,8 +108,6 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             cBridgeGenerator.collectionsGenerator.generate() +
             swiftGenerator.genericsGenerator.generate() +
             swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
-
-        return result.filterNotNull()
     }
 
     private fun processElementComments(

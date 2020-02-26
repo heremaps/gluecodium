@@ -27,7 +27,7 @@ import com.here.gluecodium.model.swift.SwiftSet
 import com.here.gluecodium.model.swift.SwiftType
 import java.util.TreeMap
 
-class SwiftGenericsGenerator {
+class SwiftGenericsGenerator(private val internalPrefix: String?) {
     private val generics = mutableMapOf<String, SwiftType>()
 
     fun collect(generics: Map<String, SwiftType>) {
@@ -41,9 +41,10 @@ class SwiftGenericsGenerator {
     }
 
     private fun generateArrays(swiftTypes: Collection<SwiftType>): List<GeneratedFile> {
-        val data = mapOf("arrays" to swiftTypes.filterIsInstance<SwiftArray>())
+        val arrays = swiftTypes.filterIsInstance<SwiftArray>()
+        val data = mapOf("arrays" to arrays, "internalPrefix" to internalPrefix)
         return when {
-            data.isEmpty() -> emptyList()
+            arrays.isEmpty() -> emptyList()
             else -> listOf(GeneratedFile(
                 TemplateEngine.render("swift/Array", data),
                 "swift/Collections.swift"
@@ -52,9 +53,10 @@ class SwiftGenericsGenerator {
     }
 
     private fun generateDictionaries(swiftTypes: Collection<SwiftType>): List<GeneratedFile> {
-        val data = mapOf("dictionaries" to swiftTypes.filterIsInstance<SwiftDictionary>())
+        val dictionaries = swiftTypes.filterIsInstance<SwiftDictionary>()
+        val data = mapOf("dictionaries" to dictionaries, "internalPrefix" to internalPrefix)
         return when {
-            data.isEmpty() -> emptyList()
+            dictionaries.isEmpty() -> emptyList()
             else -> listOf(GeneratedFile(
                 TemplateEngine.render("swift/Dictionary", data),
                 "swift/Dictionaries.swift"
@@ -63,9 +65,10 @@ class SwiftGenericsGenerator {
     }
 
     private fun generateSets(swiftTypes: Collection<SwiftType>): List<GeneratedFile> {
-        val data = mapOf("sets" to swiftTypes.filterIsInstance<SwiftSet>())
+        val sets = swiftTypes.filterIsInstance<SwiftSet>()
+        val data = mapOf("sets" to sets, "internalPrefix" to internalPrefix)
         return when {
-            data.isEmpty() -> emptyList()
+            sets.isEmpty() -> emptyList()
             else -> listOf(GeneratedFile(
                 TemplateEngine.render("swift/Set", data),
                 "swift/Sets.swift"

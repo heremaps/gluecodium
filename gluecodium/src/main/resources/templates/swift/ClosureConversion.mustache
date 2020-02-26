@@ -25,8 +25,8 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     let refHolder = RefHolder(ref: handle, release: {{cPrefix}}_release_handle)
     return { ({{#parameters}}p{{iter.position}}: {{publicName}}{{#if optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }} -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}} in
-        return {{returnType.className}}moveFromCType({{cPrefix}}_call(refHolder.ref{{!!
-        }}{{#parameters}}, moveToCType(p{{iter.position}}).ref{{/parameters}}))
+        return {{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}moveFromCType({{cPrefix}}_call(refHolder.ref{{!!
+        }}{{#parameters}}, {{>swift/ConversionPrefixTo}}moveToCType(p{{iter.position}}).ref{{/parameters}}))
     }
 }
 
@@ -60,8 +60,8 @@ internal func createFunctionalTable(_ swiftType: @escaping {{name}}) -> {{functi
     }
     functions.{{cPrefix}}_call = { swift_closure_pointer{{#parameters}}, p{{iter.position}}{{/parameters}} in
         let closure_holder = Unmanaged<AnyObject>.fromOpaque(swift_closure_pointer!).takeUnretainedValue() as! {{cPrefix}}_Holder
-        return {{returnType.className}}copyToCType(closure_holder.closure({{!!
-        }}{{#parameters}}{{className}}moveFromCType(p{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/parameters}})).ref
+        return {{#returnType}}{{>swift/ConversionPrefixTo}}{{/returnType}}copyToCType(closure_holder.closure({{!!
+        }}{{#parameters}}{{>swift/ConversionPrefixFrom}}moveFromCType(p{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/parameters}})).ref
     }
 
     return functions

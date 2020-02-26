@@ -411,6 +411,7 @@ apigen_generate(TARGET hello
         JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
         JAVA_NULLABLE_ANNOTATION android.support.annotation.Nullable
         CPP_INTERNAL_NAMESPACE lorem_ipsum.test
+        SWIFT_INTERNAL_PREFIX "libhello_"
         LIBRARY_NAME "hello"
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
         VERBOSE)

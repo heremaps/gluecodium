@@ -24,6 +24,7 @@
 
 import Foundation
 
+{{#model}}
 {{#classes}}
 {{>swift/ClassDefinition}}
 
@@ -57,3 +58,4 @@ extension {{type.publicName}} : Error {
 }}{{#extensions}}
 {{>swift/Extension}}
 {{/extensions}}
+{{/model}}
