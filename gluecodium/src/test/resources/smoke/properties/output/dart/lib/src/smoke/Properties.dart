@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/PropertiesInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';

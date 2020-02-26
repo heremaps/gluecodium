@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/ParentInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -12,6 +13,10 @@ final _smoke_ChildClassFromInterface_release_handle = __lib.nativeLibrary.lookup
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('smoke_ChildClassFromInterface_release_handle');
+final _smoke_ChildClassFromInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ChildClassFromInterface_get_type_id');
 class ChildClassFromInterface implements ParentInterface {
   final Pointer<Void> _handle;
   ChildClassFromInterface._(this._handle);
@@ -51,8 +56,16 @@ class ChildClassFromInterface implements ParentInterface {
 }
 Pointer<Void> smoke_ChildClassFromInterface_toFfi(ChildClassFromInterface value) =>
   _smoke_ChildClassFromInterface_copy_handle(value._handle);
-ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi(Pointer<Void> handle) =>
-  ChildClassFromInterface._(_smoke_ChildClassFromInterface_copy_handle(handle));
+ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi(Pointer<Void> handle) {
+  final _copied_handle = _smoke_ChildClassFromInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_ChildClassFromInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? ChildClassFromInterface._(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
+}
 void smoke_ChildClassFromInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ChildClassFromInterface_release_handle(handle);
 Pointer<Void> smoke_ChildClassFromInterface_toFfi_nullable(ChildClassFromInterface value) =>
@@ -61,3 +74,7 @@ ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi_nullable(Pointer<V
   handle.address != 0 ? smoke_ChildClassFromInterface_fromFfi(handle) : null;
 void smoke_ChildClassFromInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ChildClassFromInterface_release_handle(handle);
+// Internal, not exported.
+class ChildClassFromInterface__Factory {
+  static ChildClassFromInterface create(Pointer<Void> handle) => ChildClassFromInterface._(handle);
+}

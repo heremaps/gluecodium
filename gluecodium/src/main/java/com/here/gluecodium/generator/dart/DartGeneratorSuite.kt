@@ -99,6 +99,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val exportsCollector = mutableListOf<DartExport>()
+        val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
         val genericTypes = TypeRefsCollector.getAllTypeRefs(limeModel)
             .map { it.type }
@@ -107,12 +108,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .sortedBy { ffiNameResolver.resolveName(it) }
 
         return limeModel.topElements.flatMap {
-            listOfNotNull(
-                generateDart(it, dartResolvers, dartNameResolver, importResolver, exportsCollector)
-            ) + generateFfi(it, ffiResolvers, includeResolver)
+            listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
+                exportsCollector, typeRepositoriesCollector)) + generateFfi(it, ffiResolvers, includeResolver)
         } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
-            generateDartCommonFiles(exportsCollector, dartResolvers) +
+            generateDartCommonFiles(exportsCollector, typeRepositoriesCollector, dartResolvers, importResolver) +
             generateFfiCommonFiles(ffiResolvers)
     }
 
@@ -121,7 +121,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         nameResolvers: Map<String, NameResolver>,
         dartNameResolver: DartNameResolver,
         importResolver: DartImportResolver,
-        exportsCollector: MutableList<DartExport>
+        exportsCollector: MutableList<DartExport>,
+        typeRepositoriesCollector: MutableList<LimeContainerWithInheritance>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
@@ -135,6 +136,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .filterNot { it.visibility.isInternal }
             .map { dartNameResolver.resolveName(it) }
         exportsCollector += DartExport(relativePath, allSymbols)
+        typeRepositoriesCollector += getTypeRepositories(allTypes)
 
         val parentImports = (rootElement as? LimeContainerWithInheritance)?.parent
             ?.let { importResolver.resolveImports(it) } ?: emptyList()
@@ -154,16 +156,20 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         return GeneratedFile(content, "$LIB_DIR/$relativePath")
     }
 
+    private fun getTypeRepositories(allTypes: List<LimeType>) =
+        allTypes.filterIsInstance<LimeInterface>() +
+        allTypes.filterIsInstance<LimeClass>().filter { it.parent != null || it.visibility.isOpen }
+
     private fun collectImports(
         allTypes: List<LimeType>,
         importResolver: DartImportResolver
     ): List<DartImport> {
+        val classes = allTypes.filterIsInstance<LimeContainerWithInheritance>()
         val functions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions } +
-            allTypes.filterIsInstance<LimeContainerWithInheritance>()
+            classes
                 .filter { it.parent?.type?.actualType is LimeInterface }
                 .flatMap { it.inheritedFunctions }
-        val properties =
-            allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.properties }
+        val properties = classes.flatMap { it.properties }
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()
@@ -173,7 +179,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             exceptions.map { it.errorType }
 
         return functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
-            typeRefs.flatMap { importResolver.resolveImports(it) }
+            typeRefs.flatMap { importResolver.resolveImports(it) } +
+            classes.flatMap { importResolver.resolveImports(it) }
     }
 
     private fun generateFfi(
@@ -213,6 +220,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "enums" to enums,
             "interfaces" to interfaces,
             "lambdas" to lambdas,
+            "typeRepositories" to getTypeRepositories(types),
             "externalStructs" to externalStructs,
             "nonExternalStructs" to nonExternalStructs,
             "internalNamespace" to internalNamespace,
@@ -241,13 +249,18 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     private fun generateDartCommonFiles(
         relativePaths: List<DartExport>,
-        nameResolvers: Map<String, NameResolver>
+        typeRepositories: List<LimeContainerWithInheritance>,
+        nameResolvers: Map<String, NameResolver>,
+        importResolver: DartImportResolver
     ): List<GeneratedFile> {
         val templateData = mapOf(
             "libraryName" to libraryName,
             "files" to relativePaths,
             "builtInTypes" to
-                LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID }
+                LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID },
+            "typeRepositories" to typeRepositories,
+            "imports" to
+                typeRepositories.flatMap { importResolver.resolveImports(it) }.distinct().sorted()
         )
         return listOf(
             GeneratedFile(
@@ -265,6 +278,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             GeneratedFile(
                 TemplateEngine.render("dart/DartBuiltInTypesConversion", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/BuiltInTypes__conversion.dart"
+            ),
+            GeneratedFile(
+                TemplateEngine.render("dart/DartTypeRepository", templateData, nameResolvers),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_type_repository.dart"
             )
         )
     }

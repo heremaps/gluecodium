@@ -1,5 +1,6 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/DummyClass.dart';
 import 'package:library/src/smoke/DummyInterface.dart';
 import 'dart:ffi';

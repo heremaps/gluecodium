@@ -86,6 +86,10 @@ _GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{resolveName parent}}_get_field_
 {{#set type=this handleType="uint32_t"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 {{/enums}}
 
+{{#typeRepositories}}
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_get_type_id(FfiOpaqueHandle handle);
+{{/typeRepositories}}
+
 #ifdef __cplusplus
 }
 #endif{{!!

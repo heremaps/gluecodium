@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/ParentInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -25,6 +26,10 @@ final _smoke_ChildInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_ChildInterface_get_raw_pointer');
+final _smoke_ChildInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_ChildInterface_get_type_id');
 int _ChildInterface_instance_counter = 1024;
 final Map<int, ChildInterface> _ChildInterface_instance_cache = {};
 final Map<Pointer<Void>, ChildInterface> _ChildInterface_reverse_cache = {};
@@ -70,7 +75,15 @@ Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {
 }
 ChildInterface smoke_ChildInterface_fromFfi(Pointer<Void> handle) {
   final instance = _ChildInterface_reverse_cache[_smoke_ChildInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : ChildInterface__Impl(_smoke_ChildInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_ChildInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_ChildInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? ChildInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_ChildInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ChildInterface_release_handle(handle);

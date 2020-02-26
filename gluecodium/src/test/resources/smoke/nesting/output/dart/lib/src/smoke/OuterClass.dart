@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -92,6 +93,10 @@ final _smoke_OuterClass_InnerInterface_get_raw_pointer = __lib.nativeLibrary.loo
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_OuterClass_InnerInterface_get_raw_pointer');
+final _smoke_OuterClass_InnerInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_OuterClass_InnerInterface_get_type_id');
 int _OuterClass_InnerInterface_instance_counter = 1024;
 final Map<int, OuterClass_InnerInterface> _OuterClass_InnerInterface_instance_cache = {};
 final Map<Pointer<Void>, OuterClass_InnerInterface> _OuterClass_InnerInterface_reverse_cache = {};
@@ -129,7 +134,15 @@ Pointer<Void> smoke_OuterClass_InnerInterface_toFfi(OuterClass_InnerInterface va
 }
 OuterClass_InnerInterface smoke_OuterClass_InnerInterface_fromFfi(Pointer<Void> handle) {
   final instance = _OuterClass_InnerInterface_reverse_cache[_smoke_OuterClass_InnerInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : OuterClass_InnerInterface__Impl(_smoke_OuterClass_InnerInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_OuterClass_InnerInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_OuterClass_InnerInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? OuterClass_InnerInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_OuterClass_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterClass_InnerInterface_release_handle(handle);

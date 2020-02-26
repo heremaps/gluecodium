@@ -21,8 +21,10 @@ package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -36,6 +38,8 @@ internal class DartImportResolver(
     private val nameResolver: DartNameResolver,
     private val srcPath: String
 ) {
+    private val builtInTypesConversionImport = createConversionImport("BuiltInTypes")
+    private val typeRepositoryImport = DartImport("$srcPath/_type_repository", "__lib")
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
@@ -58,13 +62,18 @@ internal class DartImportResolver(
         val additionalImports = when {
             limeElement is LimeStruct && limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
                 listOf(collectionSystemImport, collectionPackageImport)
+            limeElement is LimeInterface ->
+                listOf(builtInTypesConversionImport, typeRepositoryImport)
+            limeElement is LimeClass &&
+                    (limeElement.parent != null || limeElement.visibility.isOpen) ->
+                listOf(builtInTypesConversionImport, typeRepositoryImport)
             else -> emptyList()
         }
         return listOfNotNull(DartImport("$srcPath/$filePath/$fileName")) + additionalImports
     }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
-        listOf(createConversionImport("BuiltInTypes")) +
+        listOf(builtInTypesConversionImport) +
             when (limeType.typeId) {
                 LimeBasicType.TypeId.BLOB -> listOf(DartImport("typed_data", isSystem = true))
                 else -> emptyList()

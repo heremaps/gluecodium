@@ -1,3 +1,5 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/PublicClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -85,6 +87,10 @@ final _smoke_PublicInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_PublicInterface_get_raw_pointer');
+final _smoke_PublicInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_PublicInterface_get_type_id');
 int _PublicInterface_instance_counter = 1024;
 final Map<int, PublicInterface> _PublicInterface_instance_cache = {};
 final Map<Pointer<Void>, PublicInterface> _PublicInterface_reverse_cache = {};
@@ -106,7 +112,15 @@ Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
 }
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
   final instance = _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : PublicInterface__Impl(_smoke_PublicInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_PublicInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_PublicInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? PublicInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PublicInterface_release_handle(handle);

@@ -157,6 +157,12 @@ smoke_CalculatorListener_ResultStruct_get_value_nullable(FfiOpaqueHandle handle)
         **reinterpret_cast<gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>(handle)
     );
 }
+FfiOpaqueHandle
+smoke_CalculatorListener_get_type_id(FfiOpaqueHandle handle) {
+    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::CalculatorListener*>(nullptr));
+    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle)->get());
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
+}
 #ifdef __cplusplus
 }
 #endif

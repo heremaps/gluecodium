@@ -19,6 +19,7 @@ _GLUECODIUM_FFI_EXPORT void smoke_Constructors_release_handle(FfiOpaqueHandle ha
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Constructors_ErrorEnum_create_handle_nullable(uint32_t value);
 _GLUECODIUM_FFI_EXPORT void smoke_Constructors_ErrorEnum_release_handle_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT uint32_t smoke_Constructors_ErrorEnum_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle smoke_Constructors_get_type_id(FfiOpaqueHandle handle);
 #ifdef __cplusplus
 }
 #endif

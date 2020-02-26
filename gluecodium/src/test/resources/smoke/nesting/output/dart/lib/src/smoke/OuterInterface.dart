@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -62,6 +63,10 @@ final _smoke_OuterInterface_InnerInterface_get_raw_pointer = __lib.nativeLibrary
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_OuterInterface_InnerInterface_get_raw_pointer');
+final _smoke_OuterInterface_InnerInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_OuterInterface_InnerInterface_get_type_id');
 int _OuterInterface_InnerInterface_instance_counter = 1024;
 final Map<int, OuterInterface_InnerInterface> _OuterInterface_InnerInterface_instance_cache = {};
 final Map<Pointer<Void>, OuterInterface_InnerInterface> _OuterInterface_InnerInterface_reverse_cache = {};
@@ -99,7 +104,15 @@ Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInte
 }
 OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointer<Void> handle) {
   final instance = _OuterInterface_InnerInterface_reverse_cache[_smoke_OuterInterface_InnerInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : OuterInterface_InnerInterface__Impl(_smoke_OuterInterface_InnerInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_OuterInterface_InnerInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_OuterInterface_InnerInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? OuterInterface_InnerInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_OuterInterface_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerInterface_release_handle(handle);
@@ -127,6 +140,10 @@ final _smoke_OuterInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('smoke_OuterInterface_get_raw_pointer');
+final _smoke_OuterInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('smoke_OuterInterface_get_type_id');
 int _OuterInterface_instance_counter = 1024;
 final Map<int, OuterInterface> _OuterInterface_instance_cache = {};
 final Map<Pointer<Void>, OuterInterface> _OuterInterface_reverse_cache = {};
@@ -164,7 +181,15 @@ Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
 }
 OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
   final instance = _OuterInterface_reverse_cache[_smoke_OuterInterface_get_raw_pointer(handle)];
-  return instance != null ? instance : OuterInterface__Impl(_smoke_OuterInterface_copy_handle(handle));
+  if (instance != null) return instance;
+  final _copied_handle = _smoke_OuterInterface_copy_handle(handle);
+  final _type_id_handle = _smoke_OuterInterface_get_type_id(handle);
+  final _type_id = String_fromFfi(_type_id_handle);
+  final result = _type_id.isEmpty
+    ? OuterInterface__Impl(_copied_handle)
+    : __lib.typeRepository[_type_id](_copied_handle);
+  String_releaseFfiHandle(_type_id_handle);
+  return result;
 }
 void smoke_OuterInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterInterface_release_handle(handle);

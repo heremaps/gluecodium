@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/OuterClass.dart';
 import 'package:library/src/smoke/OuterInterface.dart';
 import 'dart:ffi';
