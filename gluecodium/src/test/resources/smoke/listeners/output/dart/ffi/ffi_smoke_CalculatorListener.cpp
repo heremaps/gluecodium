@@ -13,37 +13,37 @@ public:
         : token(token), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) { }
     void
     on_calculation_result(const double calculationResult) override {
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f0))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f0))(token,
             gluecodium::ffi::Conversion<double>::toFfi(calculationResult)
         );
     }
     void
     on_calculation_result_const(const double calculationResult) const override {
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f1))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f1))(token,
             gluecodium::ffi::Conversion<double>::toFfi(calculationResult)
         );
     }
     void
     on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f2))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f2))(token,
             gluecodium::ffi::Conversion<::smoke::CalculatorListener::ResultStruct>::toFfi(calculationResult)
         );
     }
     void
     on_calculation_result_array(const std::vector<double>& calculationResult) override {
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f3))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f3))(token,
             gluecodium::ffi::Conversion<std::vector<double>>::toFfi(calculationResult)
         );
     }
     void
     on_calculation_result_map(const std::unordered_map<std::string, double>& calculationResults) override {
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f4))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f4))(token,
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toFfi(calculationResults)
         );
     }
     void
     on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f5))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f5))(token,
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(calculationResult)
         );
     }

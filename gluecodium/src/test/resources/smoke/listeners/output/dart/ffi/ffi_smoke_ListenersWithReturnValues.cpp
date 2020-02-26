@@ -15,7 +15,7 @@ public:
     double
     fetch_data_double() override {
         double _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, double*)>(f0))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, double*)>(f0))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<double>::toCpp(_result_handle);
@@ -25,7 +25,7 @@ public:
     std::string
     fetch_data_string() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f1))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f1))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
@@ -35,7 +35,7 @@ public:
     ::smoke::ListenersWithReturnValues::ResultStruct
     fetch_data_struct() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f2))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f2))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toCpp(_result_handle);
@@ -45,7 +45,7 @@ public:
     ::smoke::ListenersWithReturnValues::ResultEnum
     fetch_data_enum() override {
         uint32_t _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, uint32_t*)>(f3))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, uint32_t*)>(f3))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<::smoke::ListenersWithReturnValues::ResultEnum>::toCpp(_result_handle);
@@ -55,7 +55,7 @@ public:
     std::vector<double>
     fetch_data_array() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f4))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f4))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<std::vector<double>>::toCpp(_result_handle);
@@ -65,7 +65,7 @@ public:
     std::unordered_map<std::string, double>
     fetch_data_map() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f5))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f5))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(_result_handle);
@@ -75,7 +75,7 @@ public:
     std::shared_ptr<::smoke::CalculationResult>
     fetch_data_instance() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f6))(token,
+        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f6))(token,
             &_result_handle
         );
         auto _result = gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCpp(_result_handle);
