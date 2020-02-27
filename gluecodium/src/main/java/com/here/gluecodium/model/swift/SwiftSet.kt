@@ -47,7 +47,7 @@ class SwiftSet(
         get() = listOf(elementType)
 
     companion object {
-        private fun getImplName(underlyingType: SwiftType) =
-            "Set<" + underlyingType.publicName + ">"
+        private fun getImplName(elementType: SwiftType) =
+            "Set<" + elementType.publicName + ">"
     }
 }

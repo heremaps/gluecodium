@@ -20,13 +20,13 @@
 package com.here.gluecodium.model.swift
 
 class SwiftArray private constructor(
-    val underlyingType: SwiftType,
+    val elementType: SwiftType,
     visibility: SwiftVisibility?,
     publicName: String,
     optional: Boolean,
     cPrefix: String
 ) : SwiftType(
-    getImplName(underlyingType),
+    getImplName(elementType),
     cPrefix,
     visibility,
     TypeCategory.ARRAY,
@@ -34,30 +34,30 @@ class SwiftArray private constructor(
     optional
 ) {
 
-    constructor(underlyingType: SwiftType, cPrefix: String) : this(
-        underlyingType,
+    constructor(elementType: SwiftType, cPrefix: String) : this(
+        elementType,
         null,
-        getImplName(underlyingType),
+        getImplName(elementType),
         false,
         cPrefix
     )
 
     override fun withAlias(aliasName: String) =
-        SwiftArray(underlyingType, visibility, aliasName, optional, cPrefix)
+        SwiftArray(elementType, visibility, aliasName, optional, cPrefix)
 
     override fun withOptional(optional: Boolean): SwiftType =
         when (optional) {
             this.optional -> this
-            else -> SwiftArray(underlyingType, visibility, publicName, optional, cPrefix)
+            else -> SwiftArray(elementType, visibility, publicName, optional, cPrefix)
         }
 
     fun withoutAlias() =
-        SwiftArray(underlyingType, visibility, getImplName(underlyingType), optional, cPrefix)
+        SwiftArray(elementType, visibility, getImplName(elementType), optional, cPrefix)
 
     override val childElements
-        get() = listOf(underlyingType)
+        get() = listOf(elementType)
 
     companion object {
-        private fun getImplName(underlyingType: SwiftType) = "[${underlyingType.publicName}]"
+        private fun getImplName(elementType: SwiftType) = "[${elementType.publicName}]"
     }
 }

@@ -177,6 +177,7 @@ class Gluecodium(
         var cppInternalNamespace: List<String> = emptyList(),
         var cppRootNamespace: List<String> = listOf(),
         var cppExport: String = DEFAULT_CPP_EXPORT_MACRO_NAME,
+        var swiftInternalPrefix: String? = null,
         var libraryName: String = "library",
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,

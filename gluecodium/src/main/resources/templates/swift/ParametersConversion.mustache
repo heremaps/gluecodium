@@ -20,15 +20,15 @@
   !}}
 {{#selfIsStruct}}{{^isStatic}}let c_self_handle = moveToCType(self){{/isStatic}}{{/selfIsStruct}}
 {{#parameters}}
-let c_{{name}} = moveToCType({{name}})
+let c_{{name}} = {{#type}}{{>swift/ConversionPrefixTo}}{{/type}}moveToCType({{name}})
 {{/parameters}}
 {{#if error}}
 let RESULT = {{>swift/DelegateCall}}
 if (!RESULT.has_value) {
-    throw {{error.className}}moveFromCType(RESULT.error_value) as {{error.name}}
+    throw moveFromCType(RESULT.error_value) as {{error.name}}
 }{{#unless isReturningVoid}} else {
-    return {{returnType.className}}moveFromCType(RESULT.returned_value)
+    return {{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}moveFromCType(RESULT.returned_value)
 }{{/unless}}
 {{/if}}{{#unless error}}
-return {{returnType.className}}moveFromCType({{>swift/DelegateCall}})
+return {{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}moveFromCType({{>swift/DelegateCall}})
 {{/unless}}

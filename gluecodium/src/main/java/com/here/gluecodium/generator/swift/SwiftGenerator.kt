@@ -33,9 +33,10 @@ import com.here.gluecodium.platform.common.GeneratorSuite
 
 class SwiftGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: SwiftNameRules
+    private val nameRules: SwiftNameRules,
+    internalPrefix: String?
 ) {
-    val genericsGenerator = SwiftGenericsGenerator()
+    val genericsGenerator = SwiftGenericsGenerator(internalPrefix)
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
     private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)

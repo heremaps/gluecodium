@@ -69,7 +69,7 @@
 
     internal init(cHandle: _baseRef) {
 {{#fields}}
-        {{name}} = {{type.className}}moveFromCType({{cPrefix}}_{{name}}_get(cHandle))
+        {{name}} = {{#type}}{{>swift/ConversionPrefixFrom}}{{/type}}moveFromCType({{cPrefix}}_{{name}}_get(cHandle))
 {{/fields}}
     }
 {{/if}}{{!!
