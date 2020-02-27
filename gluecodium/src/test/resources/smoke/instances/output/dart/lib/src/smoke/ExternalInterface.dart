@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -144,9 +145,6 @@ final _smoke_ExternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('smoke_ExternalInterface_get_type_id');
-int _ExternalInterface_instance_counter = 1024;
-final Map<int, ExternalInterface> _ExternalInterface_instance_cache = {};
-final Map<Pointer<Void>, ExternalInterface> _ExternalInterface_reverse_cache = {};
 class ExternalInterface__Impl implements ExternalInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -172,25 +170,24 @@ class ExternalInterface__Impl implements ExternalInterface {
   }
 }
 int _ExternalInterface_someMethod_static(int _token, int someParameter) {
-  _ExternalInterface_instance_cache[_token].someMethod((someParameter));
+  (__lib.instanceCache[_token] as ExternalInterface).someMethod((someParameter));
   (someParameter);
   return 0;
 }
 int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi(_ExternalInterface_instance_cache[_token].someProperty);
+  _result.value = String_toFfi((__lib.instanceCache[_token] as ExternalInterface).someProperty);
   return 0;
 }
 Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
   if (value is ExternalInterface__Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _ExternalInterface_instance_counter++;
-  _ExternalInterface_instance_cache[token] = value;
-  final result = _smoke_ExternalInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, UNKNOWN_ERROR));
-  _ExternalInterface_reverse_cache[_smoke_ExternalInterface_get_raw_pointer(result)] = value;
+  final token = __lib.getNewToken();
+  __lib.instanceCache[token] = value;
+  final result = _smoke_ExternalInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError));
+  __lib.reverseCache[_smoke_ExternalInterface_get_raw_pointer(result)] = value;
   return result;
 }
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) {
-  final instance = _ExternalInterface_reverse_cache[_smoke_ExternalInterface_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_smoke_ExternalInterface_get_raw_pointer(handle)] as ExternalInterface;
   if (instance != null) return instance;
   final _copied_handle = _smoke_ExternalInterface_copy_handle(handle);
   final _type_id_handle = _smoke_ExternalInterface_get_type_id(handle);

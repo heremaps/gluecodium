@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/PublicClass.dart';
 import 'dart:ffi';
@@ -91,9 +92,6 @@ final _smoke_PublicInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('smoke_PublicInterface_get_type_id');
-int _PublicInterface_instance_counter = 1024;
-final Map<int, PublicInterface> _PublicInterface_instance_cache = {};
-final Map<Pointer<Void>, PublicInterface> _PublicInterface_reverse_cache = {};
 class PublicInterface__Impl implements PublicInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -103,15 +101,14 @@ class PublicInterface__Impl implements PublicInterface {
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface__Impl) return _smoke_PublicInterface_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _PublicInterface_instance_counter++;
-  _PublicInterface_instance_cache[token] = value;
+  final token = __lib.getNewToken();
+  __lib.instanceCache[token] = value;
   final result = _smoke_PublicInterface_create_proxy(token);
-  _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(result)] = value;
+  __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(result)] = value;
   return result;
 }
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
-  final instance = _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(handle)] as PublicInterface;
   if (instance != null) return instance;
   final _copied_handle = _smoke_PublicInterface_copy_handle(handle);
   final _type_id_handle = _smoke_PublicInterface_get_type_id(handle);

@@ -41,10 +41,6 @@ final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>)
     >('{{resolveName "Ffi"}}_get_raw_pointer');
 
-int _{{resolveName}}_instance_counter = 1024;
-final Map<int, {{resolveName}}> _{{resolveName}}_instance_cache = {};
-final Map<Pointer<Void>, {{resolveName}}> _{{resolveName}}_reverse_cache = {};
-
 class {{resolveName}}__Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -63,7 +59,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}) {
   {{#isNotEq returnType.typeRef.toString "Void"}}final _result_object = {{/isNotEq}}{{!!
-  }}_{{resolveName parent}}_instance_cache[_token]({{#parameters}}{{!!
+  }}(__lib.instanceCache[_token] as {{resolveName parent}})({{#parameters}}{{!!
   }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#isNotEq returnType.typeRef.toString "Void"}}
   _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
@@ -79,20 +75,19 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{/asFunction}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
-  const UNKNOWN_ERROR = -1;
-  final token = _{{resolveName}}_instance_counter++;
-  _{{resolveName}}_instance_cache[token] = value;
+  final token = __lib.getNewToken();
+  __lib.instanceCache[token] = value;
 
   final result = _{{resolveName "Ffi"}}_create_proxy(token, {{#set parent=this}}{{#asFunction}}{{!!
-  }}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, UNKNOWN_ERROR){{!!
+  }}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{!!
   }}{{/asFunction}}{{/set}});
-  _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(result)] = value;
+  __lib.reverseCache[_{{resolveName "Ffi"}}_get_raw_pointer(result)] = value;
 
   return result;
 }
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
-  final instance = _{{resolveName}}_reverse_cache[_{{resolveName "Ffi"}}_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_{{resolveName "Ffi"}}_get_raw_pointer(handle)] as {{resolveName}};
   if (instance != null) return instance;
   final _impl = {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
   return ({{#asFunction}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}}){{!!

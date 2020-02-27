@@ -1,5 +1,3 @@
-import 'package:library/src/BuiltInTypes__conversion.dart';
-import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/SimpleInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
