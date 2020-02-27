@@ -167,8 +167,8 @@ Pointer<Void> smoke_Equatable_EquatableStruct_toFfi(EquatableStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _structField_handle = smoke_Equatable_NestedEquatableStruct_toFfi(value.structField);
   final _enumField_handle = smoke_Equatable_SomeEnum_toFfi(value.enumField);
-  final _arrayField_handle = ListOf_String_toFfi(value.arrayField);
-  final _mapField_handle = MapOf_Int_to_String_toFfi(value.mapField);
+  final _arrayField_handle = library_ListOf_String_toFfi(value.arrayField);
+  final _mapField_handle = library_MapOf_Int_to_String_toFfi(value.mapField);
   final _result = _smoke_Equatable_EquatableStruct_create_handle(_boolField_handle, _intField_handle, _longField_handle, _floatField_handle, _doubleField_handle, _stringField_handle, _structField_handle, _enumField_handle, _arrayField_handle, _mapField_handle);
   Boolean_releaseFfiHandle(_boolField_handle);
   (_intField_handle);
@@ -178,8 +178,8 @@ Pointer<Void> smoke_Equatable_EquatableStruct_toFfi(EquatableStruct value) {
   String_releaseFfiHandle(_stringField_handle);
   smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_structField_handle);
   smoke_Equatable_SomeEnum_releaseFfiHandle(_enumField_handle);
-  ListOf_String_releaseFfiHandle(_arrayField_handle);
-  MapOf_Int_to_String_releaseFfiHandle(_mapField_handle);
+  library_ListOf_String_releaseFfiHandle(_arrayField_handle);
+  library_MapOf_Int_to_String_releaseFfiHandle(_mapField_handle);
   return _result;
 }
 EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
@@ -202,8 +202,8 @@ EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
     String_fromFfi(_stringField_handle),
     smoke_Equatable_NestedEquatableStruct_fromFfi(_structField_handle),
     smoke_Equatable_SomeEnum_fromFfi(_enumField_handle),
-    ListOf_String_fromFfi(_arrayField_handle),
-    MapOf_Int_to_String_fromFfi(_mapField_handle)
+    library_ListOf_String_fromFfi(_arrayField_handle),
+    library_MapOf_Int_to_String_fromFfi(_mapField_handle)
   );
   Boolean_releaseFfiHandle(_boolField_handle);
   (_intField_handle);
@@ -213,8 +213,8 @@ EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
   String_releaseFfiHandle(_stringField_handle);
   smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_structField_handle);
   smoke_Equatable_SomeEnum_releaseFfiHandle(_enumField_handle);
-  ListOf_String_releaseFfiHandle(_arrayField_handle);
-  MapOf_Int_to_String_releaseFfiHandle(_mapField_handle);
+  library_ListOf_String_releaseFfiHandle(_arrayField_handle);
+  library_MapOf_Int_to_String_releaseFfiHandle(_mapField_handle);
   return _result;
 }
 void smoke_Equatable_EquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_EquatableStruct_release_handle(handle);
@@ -342,8 +342,8 @@ Pointer<Void> smoke_Equatable_EquatableNullableStruct_toFfi(EquatableNullableStr
   final _stringField_handle = String_toFfi_nullable(value.stringField);
   final _structField_handle = smoke_Equatable_NestedEquatableStruct_toFfi_nullable(value.structField);
   final _enumField_handle = smoke_Equatable_SomeEnum_toFfi_nullable(value.enumField);
-  final _arrayField_handle = ListOf_String_toFfi_nullable(value.arrayField);
-  final _mapField_handle = MapOf_Int_to_String_toFfi_nullable(value.mapField);
+  final _arrayField_handle = library_ListOf_String_toFfi_nullable(value.arrayField);
+  final _mapField_handle = library_MapOf_Int_to_String_toFfi_nullable(value.mapField);
   final _result = _smoke_Equatable_EquatableNullableStruct_create_handle(_boolField_handle, _intField_handle, _uintField_handle, _floatField_handle, _stringField_handle, _structField_handle, _enumField_handle, _arrayField_handle, _mapField_handle);
   Boolean_releaseFfiHandle_nullable(_boolField_handle);
   Int_releaseFfiHandle_nullable(_intField_handle);
@@ -352,8 +352,8 @@ Pointer<Void> smoke_Equatable_EquatableNullableStruct_toFfi(EquatableNullableStr
   String_releaseFfiHandle_nullable(_stringField_handle);
   smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(_structField_handle);
   smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
-  MapOf_Int_to_String_releaseFfiHandle_nullable(_mapField_handle);
+  library_ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
+  library_MapOf_Int_to_String_releaseFfiHandle_nullable(_mapField_handle);
   return _result;
 }
 EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<Void> handle) {
@@ -374,8 +374,8 @@ EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<
     String_fromFfi_nullable(_stringField_handle),
     smoke_Equatable_NestedEquatableStruct_fromFfi_nullable(_structField_handle),
     smoke_Equatable_SomeEnum_fromFfi_nullable(_enumField_handle),
-    ListOf_String_fromFfi_nullable(_arrayField_handle),
-    MapOf_Int_to_String_fromFfi_nullable(_mapField_handle)
+    library_ListOf_String_fromFfi_nullable(_arrayField_handle),
+    library_MapOf_Int_to_String_fromFfi_nullable(_mapField_handle)
   );
   Boolean_releaseFfiHandle_nullable(_boolField_handle);
   Int_releaseFfiHandle_nullable(_intField_handle);
@@ -384,8 +384,8 @@ EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<
   String_releaseFfiHandle_nullable(_stringField_handle);
   smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(_structField_handle);
   smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
-  MapOf_Int_to_String_releaseFfiHandle_nullable(_mapField_handle);
+  library_ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
+  library_MapOf_Int_to_String_releaseFfiHandle_nullable(_mapField_handle);
   return _result;
 }
 void smoke_Equatable_EquatableNullableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_EquatableNullableStruct_release_handle(handle);

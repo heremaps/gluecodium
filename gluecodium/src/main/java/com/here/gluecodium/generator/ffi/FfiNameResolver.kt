@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -37,7 +38,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: NameRules
+    private val nameRules: NameRules,
+    private val libraryName: String
 ) : NameResolver {
 
     private val signatureResolver = FfiSignatureResolver(limeReferenceMap, this)
@@ -68,13 +70,22 @@ internal class FfiNameResolver(
         return prefix + getTypeName(limeTypeRef.type.actualType)
     }
 
-    private fun getTypeName(limeType: LimeType): String =
+    private fun getTypeName(limeType: LimeType) =
         when (val actualType = limeType.actualType) {
+            is LimeGenericType -> getGenericTypeName(actualType)
+            else -> getMangledFullName(actualType)
+        }
+
+    private fun getGenericTypeName(limeType: LimeType): String {
+        val typeName = when (val actualType = limeType.actualType) {
             is LimeList -> getListName(actualType.elementType)
             is LimeSet -> getSetName(actualType.elementType)
             is LimeMap -> getMapName(actualType.keyType, actualType.valueType)
-            else -> getMangledFullName(actualType)
+            else ->
+                throw GluecodiumExecutionException("Unsupported element type ${actualType.javaClass.name}")
         }
+        return "${libraryName}_$typeName"
+    }
 
     private fun getBasicTypeName(typeId: TypeId) =
         when (typeId) {

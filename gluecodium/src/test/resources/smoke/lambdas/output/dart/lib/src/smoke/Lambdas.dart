@@ -29,13 +29,13 @@ class Lambdas {
   }
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) {
     final _fuse_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_Lambdas_fuse__ListOf_1String_Indexer');
-    final _items_handle = ListOf_String_toFfi(items);
+    final _items_handle = library_ListOf_String_toFfi(items);
     final _callback_handle = smoke_Lambdas_Indexer_toFfi(callback);
     final __result_handle = _fuse_ffi(_items_handle, _callback_handle);
-    ListOf_String_releaseFfiHandle(_items_handle);
+    library_ListOf_String_releaseFfiHandle(_items_handle);
     smoke_Lambdas_Indexer_releaseFfiHandle(_callback_handle);
-    final _result = MapOf_Int_to_String_fromFfi(__result_handle);
-    MapOf_Int_to_String_releaseFfiHandle(__result_handle);
+    final _result = library_MapOf_Int_to_String_fromFfi(__result_handle);
+    library_MapOf_Int_to_String_releaseFfiHandle(__result_handle);
     return _result;
   }
 }

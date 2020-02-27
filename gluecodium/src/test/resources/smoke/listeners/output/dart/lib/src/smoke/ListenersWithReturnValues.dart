@@ -203,16 +203,16 @@ class ListenersWithReturnValues__Impl implements ListenersWithReturnValues {
   List<double> fetchDataArray() {
     final _fetchDataArray_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_ListenersWithReturnValues_fetchDataArray');
     final __result_handle = _fetchDataArray_ffi(_handle);
-    final _result = ListOf_Double_fromFfi(__result_handle);
-    ListOf_Double_releaseFfiHandle(__result_handle);
+    final _result = library_ListOf_Double_fromFfi(__result_handle);
+    library_ListOf_Double_releaseFfiHandle(__result_handle);
     return _result;
   }
   @override
   Map<String, double> fetchDataMap() {
     final _fetchDataMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_ListenersWithReturnValues_fetchDataMap');
     final __result_handle = _fetchDataMap_ffi(_handle);
-    final _result = MapOf_String_to_Double_fromFfi(__result_handle);
-    MapOf_String_to_Double_releaseFfiHandle(__result_handle);
+    final _result = library_MapOf_String_to_Double_fromFfi(__result_handle);
+    library_MapOf_String_to_Double_releaseFfiHandle(__result_handle);
     return _result;
   }
   @override
@@ -246,12 +246,12 @@ int _ListenersWithReturnValues_fetchDataEnum_static(int _token, Pointer<Uint32> 
 }
 int _ListenersWithReturnValues_fetchDataArray_static(int _token, Pointer<Pointer<Void>> _result) {
   final _result_object = _ListenersWithReturnValues_instance_cache[_token].fetchDataArray();
-  _result.value = ListOf_Double_toFfi(_result_object);
+  _result.value = library_ListOf_Double_toFfi(_result_object);
   return 0;
 }
 int _ListenersWithReturnValues_fetchDataMap_static(int _token, Pointer<Pointer<Void>> _result) {
   final _result_object = _ListenersWithReturnValues_instance_cache[_token].fetchDataMap();
-  _result.value = MapOf_String_to_Double_toFfi(_result_object);
+  _result.value = library_MapOf_String_to_Double_toFfi(_result_object);
   return 0;
 }
 int _ListenersWithReturnValues_fetchDataInstance_static(int _token, Pointer<Pointer<Void>> _result) {

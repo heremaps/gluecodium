@@ -520,12 +520,12 @@ final _smoke_Structs_ExternalStruct_get_field_externalStructField = __lib.native
 Pointer<Void> smoke_Structs_ExternalStruct_toFfi(Structs_ExternalStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _externalStringField_handle = String_toFfi(value.externalStringField);
-  final _externalArrayField_handle = ListOf_Byte_toFfi(value.externalArrayField);
+  final _externalArrayField_handle = library_ListOf_Byte_toFfi(value.externalArrayField);
   final _externalStructField_handle = smoke_Structs_AnotherExternalStruct_toFfi(value.externalStructField);
   final _result = _smoke_Structs_ExternalStruct_create_handle(_stringField_handle, _externalStringField_handle, _externalArrayField_handle, _externalStructField_handle);
   String_releaseFfiHandle(_stringField_handle);
   String_releaseFfiHandle(_externalStringField_handle);
-  ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+  library_ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
   smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
   return _result;
 }
@@ -537,12 +537,12 @@ Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi(Pointer<Void> handle
   final _result = Structs_ExternalStruct(
     String_fromFfi(_stringField_handle),
     String_fromFfi(_externalStringField_handle),
-    ListOf_Byte_fromFfi(_externalArrayField_handle),
+    library_ListOf_Byte_fromFfi(_externalArrayField_handle),
     smoke_Structs_AnotherExternalStruct_fromFfi(_externalStructField_handle)
   );
   String_releaseFfiHandle(_stringField_handle);
   String_releaseFfiHandle(_externalStringField_handle);
-  ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+  library_ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
   smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
   return _result;
 }
@@ -843,17 +843,17 @@ final _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField = __lib.nat
     Pointer<Void> Function(Pointer<Void>)
   >('smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField');
 Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi(Structs_StructWithArrayOfImmutable value) {
-  final _arrayField_handle = ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
+  final _arrayField_handle = library_ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
   final _result = _smoke_Structs_StructWithArrayOfImmutable_create_handle(_arrayField_handle);
-  ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+  library_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
   return _result;
 }
 Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_fromFfi(Pointer<Void> handle) {
   final _arrayField_handle = _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField(handle);
   final _result = Structs_StructWithArrayOfImmutable(
-    ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
+    library_ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
   );
-  ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+  library_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
   return _result;
 }
 void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_StructWithArrayOfImmutable_release_handle(handle);

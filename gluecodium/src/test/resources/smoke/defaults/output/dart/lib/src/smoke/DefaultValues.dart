@@ -558,17 +558,17 @@ final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField = __li
     Pointer<Void> Function(Pointer<Void>)
   >('smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField');
 Pointer<Void> smoke_DefaultValues_StructWithEmptyDefaults_toFfi(DefaultValues_StructWithEmptyDefaults value) {
-  final _intsField_handle = ListOf_Int_toFfi(value.intsField);
-  final _floatsField_handle = ListOf_Float_toFfi(value.floatsField);
-  final _mapField_handle = MapOf_UInt_to_String_toFfi(value.mapField);
+  final _intsField_handle = library_ListOf_Int_toFfi(value.intsField);
+  final _floatsField_handle = library_ListOf_Float_toFfi(value.floatsField);
+  final _mapField_handle = library_MapOf_UInt_to_String_toFfi(value.mapField);
   final _structField_handle = smoke_DefaultValues_StructWithDefaults_toFfi(value.structField);
-  final _setTypeField_handle = SetOf_String_toFfi(value.setTypeField);
+  final _setTypeField_handle = library_SetOf_String_toFfi(value.setTypeField);
   final _result = _smoke_DefaultValues_StructWithEmptyDefaults_create_handle(_intsField_handle, _floatsField_handle, _mapField_handle, _structField_handle, _setTypeField_handle);
-  ListOf_Int_releaseFfiHandle(_intsField_handle);
-  ListOf_Float_releaseFfiHandle(_floatsField_handle);
-  MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
+  library_ListOf_Int_releaseFfiHandle(_intsField_handle);
+  library_ListOf_Float_releaseFfiHandle(_floatsField_handle);
+  library_MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
   smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_structField_handle);
-  SetOf_String_releaseFfiHandle(_setTypeField_handle);
+  library_SetOf_String_releaseFfiHandle(_setTypeField_handle);
   return _result;
 }
 DefaultValues_StructWithEmptyDefaults smoke_DefaultValues_StructWithEmptyDefaults_fromFfi(Pointer<Void> handle) {
@@ -578,17 +578,17 @@ DefaultValues_StructWithEmptyDefaults smoke_DefaultValues_StructWithEmptyDefault
   final _structField_handle = _smoke_DefaultValues_StructWithEmptyDefaults_get_field_structField(handle);
   final _setTypeField_handle = _smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField(handle);
   final _result = DefaultValues_StructWithEmptyDefaults(
-    ListOf_Int_fromFfi(_intsField_handle),
-    ListOf_Float_fromFfi(_floatsField_handle),
-    MapOf_UInt_to_String_fromFfi(_mapField_handle),
+    library_ListOf_Int_fromFfi(_intsField_handle),
+    library_ListOf_Float_fromFfi(_floatsField_handle),
+    library_MapOf_UInt_to_String_fromFfi(_mapField_handle),
     smoke_DefaultValues_StructWithDefaults_fromFfi(_structField_handle),
-    SetOf_String_fromFfi(_setTypeField_handle)
+    library_SetOf_String_fromFfi(_setTypeField_handle)
   );
-  ListOf_Int_releaseFfiHandle(_intsField_handle);
-  ListOf_Float_releaseFfiHandle(_floatsField_handle);
-  MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
+  library_ListOf_Int_releaseFfiHandle(_intsField_handle);
+  library_ListOf_Float_releaseFfiHandle(_floatsField_handle);
+  library_MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
   smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_structField_handle);
-  SetOf_String_releaseFfiHandle(_setTypeField_handle);
+  library_SetOf_String_releaseFfiHandle(_setTypeField_handle);
   return _result;
 }
 void smoke_DefaultValues_StructWithEmptyDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithEmptyDefaults_release_handle(handle);
