@@ -52,11 +52,13 @@ class CBridgeGenerator(
     private val includeResolver: CBridgeIncludeResolver,
     private val cppNameResolver: CppNameResolver,
     private val internalNamespace: List<String>,
-    private val swiftNameRules: SwiftNameRules
+    private val swiftNameRules: SwiftNameRules,
+    internalPrefix: String?
 ) {
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
-    private val nameResolver = SwiftNameResolver(limeReferenceMap, swiftNameRules)
-    private val swiftTypeMapper = SwiftTypeMapper(nameResolver)
+    private val swiftNameResolver = SwiftNameResolver(limeReferenceMap, swiftNameRules)
+    private val nameResolver = CBridgeNameResolver(internalPrefix ?: "")
+    private val swiftTypeMapper = SwiftTypeMapper(swiftNameResolver, nameResolver)
 
     val collectionsGenerator = CCollectionsGenerator(internalNamespace)
 
@@ -121,7 +123,7 @@ class CBridgeGenerator(
             SwiftModelBuilder(
                 limeReferenceMap = limeReferenceMap,
                 signatureResolver = signatureResolver,
-                nameResolver = nameResolver,
+                nameResolver = swiftNameResolver,
                 typeMapper = swiftTypeMapper,
                 nameRules = swiftNameRules,
                 buildTransientModel = { buildTransientSwiftModel(it) }
@@ -130,6 +132,7 @@ class CBridgeGenerator(
             cppIncludeResolver,
             cppNameResolver,
             includeResolver,
+            nameResolver,
             internalNamespace
         )
 
@@ -157,7 +160,7 @@ class CBridgeGenerator(
             SwiftModelBuilder(
                 limeReferenceMap = limeReferenceMap,
                 signatureResolver = signatureResolver,
-                nameResolver = nameResolver,
+                nameResolver = swiftNameResolver,
                 typeMapper = swiftTypeMapper,
                 nameRules = swiftNameRules,
                 buildTransientModel = { buildTransientSwiftModel(it) }

@@ -52,6 +52,7 @@ class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,
     private val cppNameResolver: CppNameResolver,
     private val includeResolver: CBridgeIncludeResolver,
+    private val nameResolver: CBridgeNameResolver,
     private val internalNamespace: List<String>
 ) {
     private val genericsCollector = mutableMapOf<String, CCollectionType>()
@@ -166,7 +167,7 @@ class CBridgeTypeMapper(
             valueType
         )
 
-        val mapName = CBridgeNameResolver.getCollectionName(limeType)
+        val mapName = nameResolver.getCollectionName(limeType)
         val cMap = CMap(mapName, keyType, valueType, CppLibraryIncludes.MAP, hasStdHash)
         genericsCollector.putIfAbsent(mapName, cMap)
         return result
@@ -198,7 +199,7 @@ class CBridgeTypeMapper(
             elementType
         )
 
-        val setName = CBridgeNameResolver.getCollectionName(limeType)
+        val setName = nameResolver.getCollectionName(limeType)
         val cSet = CSet(setName, elementType, CppLibraryIncludes.SET, hasStdHash)
         genericsCollector.putIfAbsent(setName, cSet)
 
@@ -221,7 +222,7 @@ class CBridgeTypeMapper(
             elementType
         )
 
-        val arrayName = CBridgeNameResolver.getCollectionName(limeType)
+        val arrayName = nameResolver.getCollectionName(limeType)
         genericsCollector.putIfAbsent(arrayName, CArray(arrayName, result))
 
         return result

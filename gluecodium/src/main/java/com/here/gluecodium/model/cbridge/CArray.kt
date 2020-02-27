@@ -25,21 +25,21 @@ import com.here.gluecodium.generator.cbridge.CppTypeInfo
 class CArray(name: String, typeInfo: CppArrayTypeInfo) : CCollectionType(name) {
 
     val arrayType: CppTypeInfo = typeInfo
-    val underlyingType: CppTypeInfo = typeInfo.innerType
+    val elementType: CppTypeInfo = typeInfo.innerType
     val type = arrayType.functionReturnType.toString()
     @Suppress("unused")
-    val innerType = underlyingType.functionReturnType.toString()
+    val innerType = elementType.functionReturnType.toString()
     @Suppress("unused")
-    val argument = underlyingType.cType.toString()
+    val argument = elementType.cType.toString()
     @Suppress("unused")
-    val innerBaseApi = underlyingType.name
+    val innerBaseApi = elementType.name
 
     override val returnTypeIncludes
-        get() = getLastType(underlyingType).functionReturnType.includes +
+        get() = getLastType(elementType).functionReturnType.includes +
                 arrayType.functionReturnType.includes
 
     override val includes
-        get() = getLastType(underlyingType).includes + arrayType.includes
+        get() = getLastType(elementType).includes + arrayType.includes
 
     private fun getLastType(typeInfo: CppTypeInfo): CppTypeInfo =
         if (typeInfo is CppArrayTypeInfo) getLastType(typeInfo.innerType) else typeInfo
