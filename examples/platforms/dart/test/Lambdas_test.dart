@@ -98,6 +98,8 @@ void main() {
     final result = lambda("foo", "bar");
 
     expect(result, "foo>.<bar");
+
+    Lambdas.resetRealConcatenator();
   });
   _testSuite.test("Call nullable C++ lambda in Dart with value", () {
     final lambda = Lambdas.getNullableConfuser();

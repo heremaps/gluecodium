@@ -10,8 +10,11 @@
 #include <new>
 class smoke_ListenersWithReturnValues_Proxy : public ::smoke::ListenersWithReturnValues {
 public:
-    smoke_ListenersWithReturnValues_Proxy(uint64_t token, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6)
-        : token(token), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5), f6(f6) { }
+    smoke_ListenersWithReturnValues_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6)
+        : token(token), deleter(deleter), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5), f6(f6) { }
+    ~smoke_ListenersWithReturnValues_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     double
     fetch_data_double() override {
         double _result_handle;
@@ -84,6 +87,7 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
     FfiOpaqueHandle f1;
     FfiOpaqueHandle f2;
@@ -150,10 +154,10 @@ library_smoke_ListenersWithReturnValues_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_ListenersWithReturnValues_create_proxy(uint64_t token, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6) {
+library_smoke_ListenersWithReturnValues_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::ListenersWithReturnValues>(
-            new (std::nothrow) smoke_ListenersWithReturnValues_Proxy(token, f0, f1, f2, f3, f4, f5, f6)
+            new (std::nothrow) smoke_ListenersWithReturnValues_Proxy(token, deleter, f0, f1, f2, f3, f4, f5, f6)
         )
     );
 }

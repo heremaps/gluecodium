@@ -102,14 +102,14 @@ void
 
 {{#interfaces}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token{{#if inheritedFunctions functions logic="or"}}, {{!!
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
 }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<{{resolveName "C++"}}>(
-            new (std::nothrow) {{resolveName}}_Proxy(token{{#if inheritedFunctions functions logic="or"}}, {{!!
+            new (std::nothrow) {{resolveName}}_Proxy(token, deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
             }}{{#each inheritedFunctions functions}}f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
             }}{{#if inheritedProperties properties logic="or"}}, {{!!
             }}{{#each inheritedProperties properties}}p{{iter.position}}g{{!!
@@ -128,10 +128,10 @@ FfiOpaqueHandle
 {{/interfaces}}
 {{#lambdas}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new {{resolveName "C++"}}(
-            std::bind(&{{resolveName}}_Proxy::operator(), std::make_shared<{{resolveName}}_Proxy>(token, f0){{!!
+            std::bind(&{{resolveName}}_Proxy::operator(), std::make_shared<{{resolveName}}_Proxy>(token, deleter, f0){{!!
             }}{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}})
         )
     );

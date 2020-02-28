@@ -57,8 +57,8 @@ final _smoke_OuterInterface_InnerInterface_release_handle = __lib.nativeLibrary.
     void Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerInterface_release_handle');
 final _smoke_OuterInterface_InnerInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer)
   >('library_smoke_OuterInterface_InnerInterface_create_proxy');
 final _smoke_OuterInterface_InnerInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -95,7 +95,7 @@ Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInte
   if (value is OuterInterface_InnerInterface__Impl) return _smoke_OuterInterface_InnerInterface_copy_handle(value.handle);
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
-  final result = _smoke_OuterInterface_InnerInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError));
+  final result = _smoke_OuterInterface_InnerInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError));
   __lib.reverseCache[_smoke_OuterInterface_InnerInterface_get_raw_pointer(result)] = value;
   return result;
 }
@@ -130,8 +130,8 @@ final _smoke_OuterInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     void Function(Pointer<Void>)
   >('library_smoke_OuterInterface_release_handle');
 final _smoke_OuterInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer)
   >('library_smoke_OuterInterface_create_proxy');
 final _smoke_OuterInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -168,7 +168,7 @@ Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
   if (value is OuterInterface__Impl) return _smoke_OuterInterface_copy_handle(value.handle);
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
-  final result = _smoke_OuterInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError));
+  final result = _smoke_OuterInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError));
   __lib.reverseCache[_smoke_OuterInterface_get_raw_pointer(result)] = value;
   return result;
 }

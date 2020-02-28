@@ -20,8 +20,8 @@ final _smoke_ChildInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     void Function(Pointer<Void>)
   >('library_smoke_ChildInterface_release_handle');
 final _smoke_ChildInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ChildInterface_create_proxy');
 final _smoke_ChildInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -66,7 +66,7 @@ Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {
   if (value is ChildInterface__Impl) return _smoke_ChildInterface_copy_handle(value.handle);
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
-  final result = _smoke_ChildInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64)>(_ChildInterface_rootMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64)>(_ChildInterface_childMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ChildInterface_rootProperty_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ChildInterface_rootProperty_set_static, __lib.unknownError));
+  final result = _smoke_ChildInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64)>(_ChildInterface_rootMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64)>(_ChildInterface_childMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ChildInterface_rootProperty_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ChildInterface_rootProperty_set_static, __lib.unknownError));
   __lib.reverseCache[_smoke_ChildInterface_get_raw_pointer(result)] = value;
   return result;
 }

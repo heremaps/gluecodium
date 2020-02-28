@@ -5,7 +5,8 @@ int _instanceCounter = 1024;
 final Map<int, Object> instanceCache = {};
 final Map<Pointer<Void>, Object> reverseCache = {};
 int getNewToken() => _instanceCounter++;
-int uncacheObject(int token, Pointer<Void> rawPointer) {
+void uncacheObject(int token, Pointer<Void> rawPointer) {
   instanceCache.remove(token);
   reverseCache.remove(rawPointer);
 }
+final uncacheObjectFfi = Pointer.fromFunction<Void Function(Uint64, Pointer<Void>)>(uncacheObject);

@@ -14,8 +14,11 @@
 #include <new>
 class smoke_Lambdas_Producer_Proxy {
 public:
-    smoke_Lambdas_Producer_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_Lambdas_Producer_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_Lambdas_Producer_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
@@ -28,12 +31,16 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 class smoke_Lambdas_Confuser_Proxy {
 public:
-    smoke_Lambdas_Confuser_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_Lambdas_Confuser_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_Lambdas_Confuser_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     ::smoke::Lambdas::Producer
     operator()(const std::string& p0) {
         FfiOpaqueHandle _result_handle;
@@ -47,12 +54,16 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 class smoke_Lambdas_Consumer_Proxy {
 public:
-    smoke_Lambdas_Consumer_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_Lambdas_Consumer_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_Lambdas_Consumer_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     void
     operator()(const std::string& p0) {
         (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f0))(token,
@@ -61,12 +72,16 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 class smoke_Lambdas_Indexer_Proxy {
 public:
-    smoke_Lambdas_Indexer_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_Lambdas_Indexer_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_Lambdas_Indexer_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     int32_t
     operator()(const std::string& p0, const float p1) {
         int32_t _result_handle;
@@ -81,12 +96,16 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 class smoke_Lambdas_NullableConfuser_Proxy {
 public:
-    smoke_Lambdas_NullableConfuser_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_Lambdas_NullableConfuser_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_Lambdas_NullableConfuser_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     gluecodium::optional<::smoke::Lambdas::Producer>
     operator()(const gluecodium::optional<std::string>& p0) {
         FfiOpaqueHandle _result_handle;
@@ -100,6 +119,7 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 #ifdef __cplusplus
@@ -338,10 +358,10 @@ library_smoke_Lambdas_NullableConfuser_get_value_nullable(FfiOpaqueHandle handle
     );
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_Producer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_Lambdas_Producer_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Producer(
-            std::bind(&smoke_Lambdas_Producer_Proxy::operator(), std::make_shared<smoke_Lambdas_Producer_Proxy>(token, f0))
+            std::bind(&smoke_Lambdas_Producer_Proxy::operator(), std::make_shared<smoke_Lambdas_Producer_Proxy>(token, deleter, f0))
         )
     );
 }
@@ -350,10 +370,10 @@ library_smoke_Lambdas_Producer_get_raw_pointer(FfiOpaqueHandle handle) {
     return handle;
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_Confuser_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_Lambdas_Confuser_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Confuser(
-            std::bind(&smoke_Lambdas_Confuser_Proxy::operator(), std::make_shared<smoke_Lambdas_Confuser_Proxy>(token, f0), std::placeholders::_1)
+            std::bind(&smoke_Lambdas_Confuser_Proxy::operator(), std::make_shared<smoke_Lambdas_Confuser_Proxy>(token, deleter, f0), std::placeholders::_1)
         )
     );
 }
@@ -362,10 +382,10 @@ library_smoke_Lambdas_Confuser_get_raw_pointer(FfiOpaqueHandle handle) {
     return handle;
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_Consumer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_Lambdas_Consumer_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Consumer(
-            std::bind(&smoke_Lambdas_Consumer_Proxy::operator(), std::make_shared<smoke_Lambdas_Consumer_Proxy>(token, f0), std::placeholders::_1)
+            std::bind(&smoke_Lambdas_Consumer_Proxy::operator(), std::make_shared<smoke_Lambdas_Consumer_Proxy>(token, deleter, f0), std::placeholders::_1)
         )
     );
 }
@@ -374,10 +394,10 @@ library_smoke_Lambdas_Consumer_get_raw_pointer(FfiOpaqueHandle handle) {
     return handle;
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_Indexer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_Lambdas_Indexer_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Indexer(
-            std::bind(&smoke_Lambdas_Indexer_Proxy::operator(), std::make_shared<smoke_Lambdas_Indexer_Proxy>(token, f0), std::placeholders::_1, std::placeholders::_2)
+            std::bind(&smoke_Lambdas_Indexer_Proxy::operator(), std::make_shared<smoke_Lambdas_Indexer_Proxy>(token, deleter, f0), std::placeholders::_1, std::placeholders::_2)
         )
     );
 }
@@ -386,10 +406,10 @@ library_smoke_Lambdas_Indexer_get_raw_pointer(FfiOpaqueHandle handle) {
     return handle;
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_NullableConfuser_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_Lambdas_NullableConfuser_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::NullableConfuser(
-            std::bind(&smoke_Lambdas_NullableConfuser_Proxy::operator(), std::make_shared<smoke_Lambdas_NullableConfuser_Proxy>(token, f0), std::placeholders::_1)
+            std::bind(&smoke_Lambdas_NullableConfuser_Proxy::operator(), std::make_shared<smoke_Lambdas_NullableConfuser_Proxy>(token, deleter, f0), std::placeholders::_1)
         )
     );
 }

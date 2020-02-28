@@ -15,8 +15,8 @@ final _smoke_StandaloneProducer_release_handle = __lib.nativeLibrary.lookupFunct
     void Function(Pointer<Void>)
   >('library_smoke_StandaloneProducer_release_handle');
 final _smoke_StandaloneProducer_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy');
 final _smoke_StandaloneProducer_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -43,7 +43,7 @@ int _StandaloneProducer_call_static(int _token, Pointer<Pointer<Void>> _result) 
 Pointer<Void> smoke_StandaloneProducer_toFfi(StandaloneProducer value) {
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
-  final result = _smoke_StandaloneProducer_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducer_call_static, __lib.unknownError));
+  final result = _smoke_StandaloneProducer_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducer_call_static, __lib.unknownError));
   __lib.reverseCache[_smoke_StandaloneProducer_get_raw_pointer(result)] = value;
   return result;
 }
