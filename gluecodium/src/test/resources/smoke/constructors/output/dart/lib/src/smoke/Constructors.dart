@@ -84,9 +84,9 @@ class Constructors {
   }
   static Pointer<Void> _createFromList(List<double> input) {
     final _createFromList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Constructors_create__ListOf_1Double');
-    final _input_handle = ListOf_Double_toFfi(input);
+    final _input_handle = library_ListOf_Double_toFfi(input);
     final __result_handle = _createFromList_ffi(_input_handle);
-    ListOf_Double_releaseFfiHandle(_input_handle);
+    library_ListOf_Double_releaseFfiHandle(_input_handle);
     return __result_handle;
   }
 }

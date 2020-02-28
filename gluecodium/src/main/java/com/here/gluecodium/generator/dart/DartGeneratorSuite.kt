@@ -71,7 +71,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules)
-        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules)
+        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, libraryName)
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,

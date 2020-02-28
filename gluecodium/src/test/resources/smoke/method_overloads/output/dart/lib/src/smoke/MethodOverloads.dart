@@ -69,18 +69,18 @@ class MethodOverloads {
   }
   bool isBooleanStringArray(List<String> input) {
     final _isBooleanStringArray_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('smoke_MethodOverloads_isBoolean__ListOf_1String');
-    final _input_handle = ListOf_String_toFfi(input);
+    final _input_handle = library_ListOf_String_toFfi(input);
     final __result_handle = _isBooleanStringArray_ffi(_handle, _input_handle);
-    ListOf_String_releaseFfiHandle(_input_handle);
+    library_ListOf_String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
   bool isBooleanIntArray(List<int> input) {
     final _isBooleanIntArray_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('smoke_MethodOverloads_isBoolean__ListOf_1Byte');
-    final _input_handle = ListOf_Byte_toFfi(input);
+    final _input_handle = library_ListOf_Byte_toFfi(input);
     final __result_handle = _isBooleanIntArray_ffi(_handle, _input_handle);
-    ListOf_Byte_releaseFfiHandle(_input_handle);
+    library_ListOf_Byte_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;
@@ -103,9 +103,9 @@ class MethodOverloads {
   }
   bool isFloatList(List<int> input) {
     final _isFloatList_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('smoke_MethodOverloads_isFloat__ListOf_1Byte');
-    final _input_handle = ListOf_Byte_toFfi(input);
+    final _input_handle = library_ListOf_Byte_toFfi(input);
     final __result_handle = _isFloatList_ffi(_handle, _input_handle);
-    ListOf_Byte_releaseFfiHandle(_input_handle);
+    library_ListOf_Byte_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;

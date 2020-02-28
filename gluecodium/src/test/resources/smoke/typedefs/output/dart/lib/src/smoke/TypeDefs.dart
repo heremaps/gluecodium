@@ -28,11 +28,11 @@ class TypeDefs {
   }
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) {
     final _methodWithComplexTypeDef_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct');
-    final _input_handle = ListOf_smoke_TypeDefs_TestStruct_toFfi(input);
+    final _input_handle = library_ListOf_smoke_TypeDefs_TestStruct_toFfi(input);
     final __result_handle = _methodWithComplexTypeDef_ffi(_input_handle);
-    ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
-    final _result = ListOf_smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
-    ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
+    library_ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
+    final _result = library_ListOf_smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
+    library_ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static double returnNestedIntTypeDef(double input) {
@@ -74,15 +74,15 @@ class TypeDefs {
   List<double> get primitiveTypeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_TypeDefs_primitiveTypeProperty_get');
     final __result_handle = _get_ffi(_handle);
-    final _result = ListOf_Double_fromFfi(__result_handle);
-    ListOf_Double_releaseFfiHandle(__result_handle);
+    final _result = library_ListOf_Double_fromFfi(__result_handle);
+    library_ListOf_Double_releaseFfiHandle(__result_handle);
     return _result;
   }
   set primitiveTypeProperty(List<double> value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double');
-    final _value_handle = ListOf_Double_toFfi(value);
+    final _value_handle = library_ListOf_Double_toFfi(value);
     final __result_handle = _set_ffi(_handle, _value_handle);
-    ListOf_Double_releaseFfiHandle(_value_handle);
+    library_ListOf_Double_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;

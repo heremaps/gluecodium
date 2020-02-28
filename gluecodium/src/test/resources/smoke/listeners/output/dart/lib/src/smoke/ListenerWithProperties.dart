@@ -242,15 +242,15 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   List<String> get arrayedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_ListenerWithProperties_arrayedMessage_get');
     final __result_handle = _get_ffi(_handle);
-    final _result = ListOf_String_fromFfi(__result_handle);
-    ListOf_String_releaseFfiHandle(__result_handle);
+    final _result = library_ListOf_String_fromFfi(__result_handle);
+    library_ListOf_String_releaseFfiHandle(__result_handle);
     return _result;
   }
   set arrayedMessage(List<String> value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('smoke_ListenerWithProperties_arrayedMessage_set__ListOf_1String');
-    final _value_handle = ListOf_String_toFfi(value);
+    final _value_handle = library_ListOf_String_toFfi(value);
     final __result_handle = _set_ffi(_handle, _value_handle);
-    ListOf_String_releaseFfiHandle(_value_handle);
+    library_ListOf_String_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
@@ -258,15 +258,15 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   Map<String, double> get mappedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_ListenerWithProperties_mappedMessage_get');
     final __result_handle = _get_ffi(_handle);
-    final _result = MapOf_String_to_Double_fromFfi(__result_handle);
-    MapOf_String_to_Double_releaseFfiHandle(__result_handle);
+    final _result = library_MapOf_String_to_Double_fromFfi(__result_handle);
+    library_MapOf_String_to_Double_releaseFfiHandle(__result_handle);
     return _result;
   }
   set mappedMessage(Map<String, double> value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('smoke_ListenerWithProperties_mappedMessage_set__MapOf_1String_1to_1Double');
-    final _value_handle = MapOf_String_to_Double_toFfi(value);
+    final _value_handle = library_MapOf_String_to_Double_toFfi(value);
     final __result_handle = _set_ffi(_handle, _value_handle);
-    MapOf_String_to_Double_releaseFfiHandle(_value_handle);
+    library_MapOf_String_to_Double_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
@@ -325,21 +325,21 @@ int _ListenerWithProperties_enumeratedMessage_set_static(int _token, int _value)
   return 0;
 }
 int _ListenerWithProperties_arrayedMessage_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = ListOf_String_toFfi(_ListenerWithProperties_instance_cache[_token].arrayedMessage);
+  _result.value = library_ListOf_String_toFfi(_ListenerWithProperties_instance_cache[_token].arrayedMessage);
   return 0;
 }
 int _ListenerWithProperties_arrayedMessage_set_static(int _token, Pointer<Void> _value) {
-  _ListenerWithProperties_instance_cache[_token].arrayedMessage = ListOf_String_fromFfi(_value);
-  ListOf_String_releaseFfiHandle(_value);
+  _ListenerWithProperties_instance_cache[_token].arrayedMessage = library_ListOf_String_fromFfi(_value);
+  library_ListOf_String_releaseFfiHandle(_value);
   return 0;
 }
 int _ListenerWithProperties_mappedMessage_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = MapOf_String_to_Double_toFfi(_ListenerWithProperties_instance_cache[_token].mappedMessage);
+  _result.value = library_MapOf_String_to_Double_toFfi(_ListenerWithProperties_instance_cache[_token].mappedMessage);
   return 0;
 }
 int _ListenerWithProperties_mappedMessage_set_static(int _token, Pointer<Void> _value) {
-  _ListenerWithProperties_instance_cache[_token].mappedMessage = MapOf_String_to_Double_fromFfi(_value);
-  MapOf_String_to_Double_releaseFfiHandle(_value);
+  _ListenerWithProperties_instance_cache[_token].mappedMessage = library_MapOf_String_to_Double_fromFfi(_value);
+  library_MapOf_String_to_Double_releaseFfiHandle(_value);
   return 0;
 }
 int _ListenerWithProperties_bufferedMessage_get_static(int _token, Pointer<Pointer<Void>> _result) {

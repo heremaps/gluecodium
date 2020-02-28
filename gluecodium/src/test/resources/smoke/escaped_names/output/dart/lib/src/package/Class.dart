@@ -47,9 +47,9 @@ class Class implements Interface {
   }
   Struct fun(List<Struct> double) {
     final _fun_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('package_Class_fun__ListOf_1package_1Types_1Struct');
-    final _double_handle = ListOf_package_Types_Struct_toFfi(double);
+    final _double_handle = library_ListOf_package_Types_Struct_toFfi(double);
     final __call_result_handle = _fun_ffi(_handle, _double_handle);
-    ListOf_package_Types_Struct_releaseFfiHandle(_double_handle);
+    library_ListOf_package_Types_Struct_releaseFfiHandle(_double_handle);
     if (_fun_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _fun_return_get_error(__call_result_handle);
         _fun_return_release_handle(__call_result_handle);
