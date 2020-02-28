@@ -1,5 +1,14 @@
 # Gluecodium project Release Notes
 
+## 6.3.0
+Release date: 2020-02-28
+### Features
+  * Added "-swiftinternalprefix" optional command line parameter, to help resolving name clashes in
+    case of modularized Swift builds.
+### Bug fixes:
+  * Fixed two compilation issues for Dart FFI bindings.
+  * Fixed several small issues in CMake helpers.
+
 ## 6.2.1
 Release date: 2020-02-21
 ### Features
