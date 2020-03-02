@@ -48,14 +48,9 @@ uint64_t
     return (*reinterpret_cast<BlobPtr*>(handle))->size();
 }
 
-uint8_t
-{{libraryName}}_blob_get_at(FfiOpaqueHandle handle, uint64_t index) {
-    return (*reinterpret_cast<BlobPtr*>(handle))->at(index);
-}
-
-void
-{{libraryName}}_blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value) {
-    (*reinterpret_cast<BlobPtr*>(handle))->at(index) = value;
+uint8_t*
+{{libraryName}}_blob_get_data_pointer(FfiOpaqueHandle handle) {
+    return (*reinterpret_cast<BlobPtr*>(handle))->data();
 }
 
 #ifdef __cplusplus
