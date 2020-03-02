@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 6.3.1.
+Release date: 2020-03-02
+### Bug fixes:
+  * Fixed CBridge compilation issues for "-swiftinternalprefix" modularization helper.
+
 ## 6.3.0
 Release date: 2020-02-28
 ### Features
