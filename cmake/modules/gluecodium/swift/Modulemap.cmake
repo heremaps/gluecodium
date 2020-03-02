@@ -56,8 +56,6 @@ function(apigen_swift_modulemap target)
     message(FATAL_ERROR "apigen_swift_modulemap() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  set(MODULEMAP_FRAMEWORK_PATH "${SWIFT_OUTPUT_DIR}/${SWIFT_MODULE_NAME}.framework/Modules/module.modulemap")
-
   # Module map generation
   apigen_set_generated_files(${target})
   set(_cbridge_modulemap "module ${SWIFT_MODULE_NAME} {\n")
