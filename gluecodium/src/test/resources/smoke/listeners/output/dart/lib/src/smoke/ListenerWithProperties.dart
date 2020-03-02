@@ -351,9 +351,24 @@ int _ListenerWithProperties_bufferedMessage_set_static(int _token, Pointer<Void>
 }
 Pointer<Void> smoke_ListenerWithProperties_toFfi(ListenerWithProperties value) {
   if (value is ListenerWithProperties__Impl) return _smoke_ListenerWithProperties_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_ListenerWithProperties_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_message_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_message_set_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_packedMessage_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_packedMessage_set_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_structuredMessage_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_structuredMessage_set_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint32>)>(_ListenerWithProperties_enumeratedMessage_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Uint32)>(_ListenerWithProperties_enumeratedMessage_set_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_arrayedMessage_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_arrayedMessage_set_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_mappedMessage_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_mappedMessage_set_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_bufferedMessage_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_bufferedMessage_set_static, __lib.unknownError));
+  final result = _smoke_ListenerWithProperties_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_message_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_message_set_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_packedMessage_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_packedMessage_set_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_structuredMessage_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_structuredMessage_set_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint32>)>(_ListenerWithProperties_enumeratedMessage_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Uint32)>(_ListenerWithProperties_enumeratedMessage_set_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_arrayedMessage_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_arrayedMessage_set_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_mappedMessage_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_mappedMessage_set_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithProperties_bufferedMessage_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ListenerWithProperties_bufferedMessage_set_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_ListenerWithProperties_get_raw_pointer(result)] = value;
   return result;
 }

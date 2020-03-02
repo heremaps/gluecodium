@@ -93,9 +93,11 @@ int _OuterInterface_InnerInterface_foo_static(int _token, Pointer<Void> input, P
 }
 Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInterface value) {
   if (value is OuterInterface_InnerInterface__Impl) return _smoke_OuterInterface_InnerInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_OuterInterface_InnerInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError));
+  final result = _smoke_OuterInterface_InnerInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_OuterInterface_InnerInterface_get_raw_pointer(result)] = value;
   return result;
 }
@@ -166,9 +168,11 @@ int _OuterInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<
 }
 Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
   if (value is OuterInterface__Impl) return _smoke_OuterInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_OuterInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError));
+  final result = _smoke_OuterInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_OuterInterface_get_raw_pointer(result)] = value;
   return result;
 }

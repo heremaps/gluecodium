@@ -123,9 +123,11 @@ int _OuterClass_InnerInterface_foo_static(int _token, Pointer<Void> input, Point
 }
 Pointer<Void> smoke_OuterClass_InnerInterface_toFfi(OuterClass_InnerInterface value) {
   if (value is OuterClass_InnerInterface__Impl) return _smoke_OuterClass_InnerInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_OuterClass_InnerInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterClass_InnerInterface_foo_static, __lib.unknownError));
+  final result = _smoke_OuterClass_InnerInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterClass_InnerInterface_foo_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_OuterClass_InnerInterface_get_raw_pointer(result)] = value;
   return result;
 }

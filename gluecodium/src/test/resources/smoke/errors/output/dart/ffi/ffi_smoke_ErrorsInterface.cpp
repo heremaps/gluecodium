@@ -1,5 +1,6 @@
 #include "ffi_smoke_ErrorsInterface.h"
 #include "ConversionBase.h"
+#include "ProxyCache.h"
 #include "smoke/ErrorsInterface.h"
 #include "smoke/Payload.h"
 #include <memory>
@@ -209,11 +210,17 @@ library_smoke_ErrorsInterface_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_ErrorsInterface_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::ErrorsInterface>(
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ErrorsInterface_Proxy>(token);
+    std::shared_ptr<smoke_ErrorsInterface_Proxy>* proxy_ptr;
+    if (cached_proxy) {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ErrorsInterface_Proxy>(cached_proxy);
+    } else {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ErrorsInterface_Proxy>(
             new (std::nothrow) smoke_ErrorsInterface_Proxy(token, deleter, f0, f1, f2, f3, f4)
-        )
-    );
+        );
+        gluecodium::ffi::cache_proxy(token, *proxy_ptr);
+    }
+    return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
 library_smoke_ErrorsInterface_get_raw_pointer(FfiOpaqueHandle handle) {

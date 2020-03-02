@@ -71,4 +71,12 @@ void main() {
     expect(RouteProviderImpl.setRouteWasRun, isTrue);
     expect(RouteProviderImpl.setRouteCouldCast, isTrue);
   });
+  _testSuite.test("Proxy cache works", () {
+    final listener = new MessageListener();
+
+    PersistingLogger.addListener(listener);
+    final result = PersistingLogger.removeListener(listener);
+
+    expect(result, isTrue);
+  });
 }

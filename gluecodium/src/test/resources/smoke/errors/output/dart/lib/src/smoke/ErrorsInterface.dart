@@ -384,9 +384,15 @@ int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(int _token, Poi
 }
 Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
   if (value is ErrorsInterface__Impl) return _smoke_ErrorsInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_ErrorsInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64)>(_ErrorsInterface_methodWithErrors_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64)>(_ErrorsInterface_methodWithExternalErrors_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithErrorsAndReturnValue_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64)>(_ErrorsInterface_methodWithPayloadError_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadErrorAndReturnValue_static, __lib.unknownError));
+  final result = _smoke_ErrorsInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64)>(_ErrorsInterface_methodWithErrors_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64)>(_ErrorsInterface_methodWithExternalErrors_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithErrorsAndReturnValue_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64)>(_ErrorsInterface_methodWithPayloadError_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadErrorAndReturnValue_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_ErrorsInterface_get_raw_pointer(result)] = value;
   return result;
 }

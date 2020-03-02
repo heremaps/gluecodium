@@ -38,9 +38,10 @@ class Interface__Impl implements Interface {
 }
 Pointer<Void> package_Interface_toFfi(Interface value) {
   if (value is Interface__Impl) return _package_Interface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _package_Interface_create_proxy(token, __lib.uncacheObjectFfi);
+  final result = _package_Interface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
   __lib.reverseCache[_package_Interface_get_raw_pointer(result)] = value;
   return result;
 }

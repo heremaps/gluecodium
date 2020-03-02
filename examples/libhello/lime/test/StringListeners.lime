@@ -40,19 +40,22 @@ class DummyLogger {
     // Send the message to our Mobile overlords through the registered listeners
     static fun relayMessage(
         listener: StringListener,
-
         message: String
     )
     // Send the message to our Mobile overlords through the registered listeners
     static fun relayMessageAsStruct(
         listener: StringListener,
-
         message: String
     )
     // Send the message to our Mobile overlords through the registered listeners
     static fun relayConstMessage(
         listener: StringListener,
-
         message: String
     )
+}
+
+class PersistingLogger {
+    static fun addListener(listener: StringListener)
+    // Returns `false` if listeners was not found, returns `true` otherwise.
+    static fun removeListener(listener: StringListener): Boolean
 }

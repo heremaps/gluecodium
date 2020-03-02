@@ -38,9 +38,10 @@ class InternalInterface__Impl implements InternalInterface {
 }
 Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
   if (value is InternalInterface__Impl) return _smoke_InternalInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_InternalInterface_create_proxy(token, __lib.uncacheObjectFfi);
+  final result = _smoke_InternalInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
   __lib.reverseCache[_smoke_InternalInterface_get_raw_pointer(result)] = value;
   return result;
 }

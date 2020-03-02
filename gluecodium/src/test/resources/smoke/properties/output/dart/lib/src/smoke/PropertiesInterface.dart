@@ -127,9 +127,12 @@ int _PropertiesInterface_structProperty_set_static(int _token, Pointer<Void> _va
 }
 Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface value) {
   if (value is PropertiesInterface__Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_PropertiesInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterface_structProperty_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_PropertiesInterface_structProperty_set_static, __lib.unknownError));
+  final result = _smoke_PropertiesInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterface_structProperty_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_PropertiesInterface_structProperty_set_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_PropertiesInterface_get_raw_pointer(result)] = value;
   return result;
 }

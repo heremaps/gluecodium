@@ -54,9 +54,11 @@ int _weeListener_WeeMethod_static(int _token, Pointer<Void> WeeParameter) {
 }
 Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {
   if (value is weeListener__Impl) return _smoke_PlatformNamesListener_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_PlatformNamesListener_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_weeListener_WeeMethod_static, __lib.unknownError));
+  final result = _smoke_PlatformNamesListener_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_weeListener_WeeMethod_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_PlatformNamesListener_get_raw_pointer(result)] = value;
   return result;
 }
