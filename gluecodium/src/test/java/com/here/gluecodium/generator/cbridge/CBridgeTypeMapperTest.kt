@@ -65,8 +65,13 @@ class CBridgeTypeMapperTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        typeMapper =
-            CBridgeTypeMapper(cppIncludeResolver, cppNameResolver, includeResolver, emptyList())
+        typeMapper = CBridgeTypeMapper(
+            cppIncludeResolver,
+            cppNameResolver,
+            includeResolver,
+            CBridgeNameResolver(""),
+            emptyList()
+        )
     }
 
     @Test

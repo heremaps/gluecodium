@@ -45,7 +45,10 @@ import com.here.gluecodium.model.swift.SwiftSet
 import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.model.swift.SwiftType
 
-class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
+class SwiftTypeMapper(
+    private val nameResolver: SwiftNameResolver,
+    private val cbridgeNameResolver: CBridgeNameResolver
+) {
 
     private val genericsCollector = mutableMapOf<String, SwiftType>()
     val generics: Map<String, SwiftType> = genericsCollector
@@ -104,7 +107,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
     private fun mapArrayType(limeType: LimeList): SwiftArray {
         val result = SwiftArray(
             mapType(limeType.elementType.type),
-            CBridgeNameResolver.getCollectionName(limeType)
+            cbridgeNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeList
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
@@ -117,7 +120,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
         val result = SwiftDictionary(
             mapType(limeType.keyType.type),
             mapType(limeType.valueType.type),
-            CBridgeNameResolver.getCollectionName(limeType)
+            cbridgeNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeMap
         val keyTypeKey = getActualTypeKey(actualType.keyType.type)
@@ -130,7 +133,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
     private fun mapSetType(limeType: LimeSet): SwiftSet {
         val result = SwiftSet(
             mapType(limeType.elementType.type),
-            CBridgeNameResolver.getCollectionName(limeType)
+            cbridgeNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeSet
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)

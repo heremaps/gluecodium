@@ -25,16 +25,16 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 
-object CBridgeNameResolver {
+class CBridgeNameResolver(private val internalPrefix: String) {
     fun getCollectionName(limeType: LimeType): String = when (limeType) {
         is LimeTypeAlias -> getCollectionName(limeType.typeRef.type)
-        is LimeList -> "ArrayOf_${getCollectionName(limeType.elementType.type)}"
+        is LimeList -> "${internalPrefix}ArrayOf_${getCollectionName(limeType.elementType.type)}"
         is LimeMap -> {
             val keyTypeName = getCollectionName(limeType.keyType.type)
             val valueTypeName = getCollectionName(limeType.valueType.type)
-            "MapOf_${keyTypeName}_To_$valueTypeName"
+            "${internalPrefix}MapOf_${keyTypeName}_To_$valueTypeName"
         }
-        is LimeSet -> "SetOf_${getCollectionName(limeType.elementType.type)}"
+        is LimeSet -> "${internalPrefix}SetOf_${getCollectionName(limeType.elementType.type)}"
         else -> CBridgeNameRules.getTypeName(limeType)
     }
 }
