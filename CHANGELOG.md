@@ -1,6 +1,10 @@
 # Gluecodium project Release Notes
 
-## 6.3.1.
+## Unreleased
+### Bug fixes:
+  * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
+
+## 6.3.1
 Release date: 2020-03-02
 ### Bug fixes:
   * Fixed CBridge compilation issues for "-swiftinternalprefix" modularization helper.
