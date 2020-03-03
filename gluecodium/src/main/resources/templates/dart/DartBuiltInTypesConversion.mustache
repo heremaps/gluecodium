@@ -31,23 +31,23 @@ import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
 final _Blob_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('blob_create_handle');
+  >('{{libraryName}}_blob_create_handle');
 final _Blob_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('blob_release_handle');
+  >('{{libraryName}}_blob_release_handle');
 final _Blob_get_length = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('blob_get_length');
+>('{{libraryName}}_blob_get_length');
 final _Blob_get_at = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>, Uint64),
     int Function(Pointer<Void>, int)
->('blob_get_at');
+>('{{libraryName}}_blob_get_at');
 final _Blob_set_at = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint64, Uint8),
     void Function(Pointer<Void>, int, int)
-  >('blob_set_at');
+  >('{{libraryName}}_blob_set_at');
 
 Pointer<Void> Blob_toFfi(Uint8List list) {
   final length = list.length;
@@ -90,15 +90,15 @@ void Date_releaseFfiHandle(int handle) {}
 final _String_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Utf8>),
     Pointer<Void> Function(Pointer<Utf8>)
-  >('std_string_create_handle');
+  >('{{libraryName}}_std_string_create_handle');
 final _String_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('std_string_release_handle');
+  >('{{libraryName}}_std_string_release_handle');
 final _String_get_value = __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
-  >('std_string_get_value');
+  >('{{libraryName}}_std_string_get_value');
 
 Pointer<Void> String_toFfi(String value) {
   final cValue = Utf8.toUtf8(value);
@@ -117,15 +117,15 @@ void String_releaseFfiHandle(Pointer<Void> handle) => _String_release_handle(han
 final _{{this}}_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{resolveName "FfiApiTypes"}}),
     Pointer<Void> Function({{resolveName "FfiDartTypes"}})
-  >('{{this}}_create_handle_nullable');
+  >('{{libraryName}}_{{this}}_create_handle_nullable');
 final _{{this}}_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{this}}_release_handle_nullable');
+  >('{{libraryName}}_{{this}}_release_handle_nullable');
 final _{{this}}_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     {{resolveName "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{this}}_get_value_nullable');
+  >('{{libraryName}}_{{this}}_get_value_nullable');
 
 Pointer<Void> {{this}}_toFfi_nullable({{resolveName}} value) {
   if (value == null) return Pointer<Void>.fromAddress(0);

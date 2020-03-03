@@ -71,16 +71,16 @@ class {{resolveName}} {
 final _{{resolveName "Ffi"}}_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}}),
     Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
-  >('{{resolveName "Ffi"}}_create_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_create_handle');
 final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{resolveName "Ffi"}}_release_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
 {{#set parent=this}}{{#fields}}
 final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.nativeLibrary.lookupFunction<
     {{resolveName typeRef "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName typeRef "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
+  >('{{libraryName}}_{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
 {{/fields}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {

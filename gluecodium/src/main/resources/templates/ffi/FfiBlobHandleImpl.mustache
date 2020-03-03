@@ -34,27 +34,27 @@ extern "C" {
 #endif
 
 FfiOpaqueHandle
-blob_create_handle(uint64_t length) {
+{{libraryName}}_blob_create_handle(uint64_t length) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) BlobPtr(new std::vector<uint8_t>(length)));
 }
 
 void
-blob_release_handle(FfiOpaqueHandle handle) {
+{{libraryName}}_blob_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<BlobPtr*>(handle);
 }
 
 uint64_t
-blob_get_length(FfiOpaqueHandle handle) {
+{{libraryName}}_blob_get_length(FfiOpaqueHandle handle) {
     return (*reinterpret_cast<BlobPtr*>(handle))->size();
 }
 
 uint8_t
-blob_get_at(FfiOpaqueHandle handle, uint64_t index) {
+{{libraryName}}_blob_get_at(FfiOpaqueHandle handle, uint64_t index) {
     return (*reinterpret_cast<BlobPtr*>(handle))->at(index);
 }
 
 void
-blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value) {
+{{libraryName}}_blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value) {
     (*reinterpret_cast<BlobPtr*>(handle))->at(index) = value;
 }
 

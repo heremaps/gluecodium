@@ -21,18 +21,18 @@
 final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{resolveName "Ffi"}}_copy_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle');
 final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{resolveName "Ffi"}}_release_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
 {{#ifHasAttribute "Equatable"}}{{>dartFfiEqualityFunction}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>dartFfiEqualityFunction}}{{/ifHasAttribute}}
 {{#if parent visibility.isOpen logic="or"}}
 final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{resolveName "Ffi"}}_get_type_id');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id');
 {{/if}}
 
 {{#functions}}
@@ -148,7 +148,7 @@ class {{resolveName}}__Factory {
 final __are_equal = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
-  >('{{resolveName "Ffi"}}_are_equal');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_are_equal');
 {{/dartFfiEqualityFunction}}{{!!
 
 }}{{+dartFfiEqualityOperator}}

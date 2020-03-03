@@ -29,19 +29,19 @@ extern "C" {
 #endif
 
 FfiOpaqueHandle
-std_string_create_handle(const char* c_str)
+{{libraryName}}_std_string_create_handle(const char* c_str)
 {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(c_str));
 }
 
 void
-std_string_release_handle(FfiOpaqueHandle handle)
+{{libraryName}}_std_string_release_handle(FfiOpaqueHandle handle)
 {
     delete reinterpret_cast<std::string*>(handle);
 }
 
 const char*
-std_string_get_value(FfiOpaqueHandle handle)
+{{libraryName}}_std_string_get_value(FfiOpaqueHandle handle)
 {
     return reinterpret_cast<std::string*>(handle)->c_str();
 }

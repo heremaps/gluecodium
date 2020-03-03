@@ -6,17 +6,17 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_Dates_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Dates_copy_handle');
+  >('library_smoke_Dates_copy_handle');
 final _smoke_Dates_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Dates_release_handle');
+  >('library_smoke_Dates_release_handle');
 class Dates {
   final Pointer<Void> _handle;
   Dates._(this._handle);
   void release() => _smoke_Dates_release_handle(_handle);
   DateTime dateMethod(DateTime input) {
-    final _dateMethod_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Uint64), int Function(Pointer<Void>, int)>('smoke_Dates_dateMethod__Date');
+    final _dateMethod_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Uint64), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateMethod__Date');
     final _input_handle = Date_toFfi(input);
     final __result_handle = _dateMethod_ffi(_handle, _input_handle);
     Date_releaseFfiHandle(_input_handle);
@@ -25,14 +25,14 @@ class Dates {
     return _result;
   }
   DateTime get dateProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>), int Function(Pointer<Void>)>('smoke_Dates_dateProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_Dates_dateProperty_get');
     final __result_handle = _get_ffi(_handle);
     final _result = Date_fromFfi(__result_handle);
     Date_releaseFfiHandle(__result_handle);
     return _result;
   }
   set dateProperty(DateTime value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint64), void Function(Pointer<Void>, int)>('smoke_Dates_dateProperty_set__Date');
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint64), void Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_set__Date');
     final _value_handle = Date_toFfi(value);
     final __result_handle = _set_ffi(_handle, _value_handle);
     Date_releaseFfiHandle(_value_handle);
@@ -61,15 +61,15 @@ class Dates_DateStruct {
 final _smoke_Dates_DateStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('smoke_Dates_DateStruct_create_handle');
+  >('library_smoke_Dates_DateStruct_create_handle');
 final _smoke_Dates_DateStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Dates_DateStruct_release_handle');
+  >('library_smoke_Dates_DateStruct_release_handle');
 final _smoke_Dates_DateStruct_get_field_dateField = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Dates_DateStruct_get_field_dateField');
+  >('library_smoke_Dates_DateStruct_get_field_dateField');
 Pointer<Void> smoke_Dates_DateStruct_toFfi(Dates_DateStruct value) {
   final _dateField_handle = Date_toFfi(value.dateField);
   final _result = _smoke_Dates_DateStruct_create_handle(_dateField_handle);
@@ -89,15 +89,15 @@ void smoke_Dates_DateStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Dat
 final _smoke_Dates_DateStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Dates_DateStruct_create_handle_nullable');
+  >('library_smoke_Dates_DateStruct_create_handle_nullable');
 final _smoke_Dates_DateStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Dates_DateStruct_release_handle_nullable');
+  >('library_smoke_Dates_DateStruct_release_handle_nullable');
 final _smoke_Dates_DateStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Dates_DateStruct_get_value_nullable');
+  >('library_smoke_Dates_DateStruct_get_value_nullable');
 Pointer<Void> smoke_Dates_DateStruct_toFfi_nullable(Dates_DateStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Dates_DateStruct_toFfi(value);

@@ -7,15 +7,15 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_ParentClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ParentClass_copy_handle');
+  >('library_smoke_ParentClass_copy_handle');
 final _smoke_ParentClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_ParentClass_release_handle');
+  >('library_smoke_ParentClass_release_handle');
 final _smoke_ParentClass_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ParentClass_get_type_id');
+  >('library_smoke_ParentClass_get_type_id');
 class ParentClass {
   @protected
   final Pointer<Void> handle;
@@ -24,7 +24,7 @@ class ParentClass {
   ParentClass(this.handle);
   void release() => _smoke_ParentClass_release_handle(_handle);
   rootMethod() {
-    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_ParentClass_rootMethod');
+    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ParentClass_rootMethod');
     final __result_handle = _rootMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);

@@ -6,23 +6,23 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _Blob_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('blob_create_handle');
+  >('library_blob_create_handle');
 final _Blob_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('blob_release_handle');
+  >('library_blob_release_handle');
 final _Blob_get_length = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('blob_get_length');
+>('library_blob_get_length');
 final _Blob_get_at = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>, Uint64),
     int Function(Pointer<Void>, int)
->('blob_get_at');
+>('library_blob_get_at');
 final _Blob_set_at = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint64, Uint8),
     void Function(Pointer<Void>, int, int)
-  >('blob_set_at');
+  >('library_blob_set_at');
 Pointer<Void> Blob_toFfi(Uint8List list) {
   final length = list.length;
   final result = _Blob_create_handle(length);
@@ -52,15 +52,15 @@ void Date_releaseFfiHandle(int handle) {}
 final _String_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Utf8>),
     Pointer<Void> Function(Pointer<Utf8>)
-  >('std_string_create_handle');
+  >('library_std_string_create_handle');
 final _String_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('std_string_release_handle');
+  >('library_std_string_release_handle');
 final _String_get_value = __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
-  >('std_string_get_value');
+  >('library_std_string_get_value');
 Pointer<Void> String_toFfi(String value) {
   final cValue = Utf8.toUtf8(value);
   final result = _String_create_handle(cValue);
@@ -73,15 +73,15 @@ void String_releaseFfiHandle(Pointer<Void> handle) => _String_release_handle(han
 final _Byte_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int8),
     Pointer<Void> Function(int)
-  >('Byte_create_handle_nullable');
+  >('library_Byte_create_handle_nullable');
 final _Byte_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Byte_release_handle_nullable');
+  >('library_Byte_release_handle_nullable');
 final _Byte_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('Byte_get_value_nullable');
+  >('library_Byte_get_value_nullable');
 Pointer<Void> Byte_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -99,15 +99,15 @@ void Byte_releaseFfiHandle_nullable(Pointer<Void> handle) => _Byte_release_handl
 final _UByte_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint8),
     Pointer<Void> Function(int)
-  >('UByte_create_handle_nullable');
+  >('library_UByte_create_handle_nullable');
 final _UByte_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('UByte_release_handle_nullable');
+  >('library_UByte_release_handle_nullable');
 final _UByte_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('UByte_get_value_nullable');
+  >('library_UByte_get_value_nullable');
 Pointer<Void> UByte_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -125,15 +125,15 @@ void UByte_releaseFfiHandle_nullable(Pointer<Void> handle) => _UByte_release_han
 final _Short_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int16),
     Pointer<Void> Function(int)
-  >('Short_create_handle_nullable');
+  >('library_Short_create_handle_nullable');
 final _Short_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Short_release_handle_nullable');
+  >('library_Short_release_handle_nullable');
 final _Short_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Int16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('Short_get_value_nullable');
+  >('library_Short_get_value_nullable');
 Pointer<Void> Short_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -151,15 +151,15 @@ void Short_releaseFfiHandle_nullable(Pointer<Void> handle) => _Short_release_han
 final _UShort_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint16),
     Pointer<Void> Function(int)
-  >('UShort_create_handle_nullable');
+  >('library_UShort_create_handle_nullable');
 final _UShort_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('UShort_release_handle_nullable');
+  >('library_UShort_release_handle_nullable');
 final _UShort_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('UShort_get_value_nullable');
+  >('library_UShort_get_value_nullable');
 Pointer<Void> UShort_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -177,15 +177,15 @@ void UShort_releaseFfiHandle_nullable(Pointer<Void> handle) => _UShort_release_h
 final _Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int32),
     Pointer<Void> Function(int)
-  >('Int_create_handle_nullable');
+  >('library_Int_create_handle_nullable');
 final _Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Int_release_handle_nullable');
+  >('library_Int_release_handle_nullable');
 final _Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('Int_get_value_nullable');
+  >('library_Int_get_value_nullable');
 Pointer<Void> Int_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -203,15 +203,15 @@ void Int_releaseFfiHandle_nullable(Pointer<Void> handle) => _Int_release_handle_
 final _UInt_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('UInt_create_handle_nullable');
+  >('library_UInt_create_handle_nullable');
 final _UInt_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('UInt_release_handle_nullable');
+  >('library_UInt_release_handle_nullable');
 final _UInt_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('UInt_get_value_nullable');
+  >('library_UInt_get_value_nullable');
 Pointer<Void> UInt_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -229,15 +229,15 @@ void UInt_releaseFfiHandle_nullable(Pointer<Void> handle) => _UInt_release_handl
 final _Long_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int64),
     Pointer<Void> Function(int)
-  >('Long_create_handle_nullable');
+  >('library_Long_create_handle_nullable');
 final _Long_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Long_release_handle_nullable');
+  >('library_Long_release_handle_nullable');
 final _Long_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('Long_get_value_nullable');
+  >('library_Long_get_value_nullable');
 Pointer<Void> Long_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -255,15 +255,15 @@ void Long_releaseFfiHandle_nullable(Pointer<Void> handle) => _Long_release_handl
 final _ULong_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('ULong_create_handle_nullable');
+  >('library_ULong_create_handle_nullable');
 final _ULong_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('ULong_release_handle_nullable');
+  >('library_ULong_release_handle_nullable');
 final _ULong_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('ULong_get_value_nullable');
+  >('library_ULong_get_value_nullable');
 Pointer<Void> ULong_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -281,15 +281,15 @@ void ULong_releaseFfiHandle_nullable(Pointer<Void> handle) => _ULong_release_han
 final _Float_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Float),
     Pointer<Void> Function(double)
-  >('Float_create_handle_nullable');
+  >('library_Float_create_handle_nullable');
 final _Float_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Float_release_handle_nullable');
+  >('library_Float_release_handle_nullable');
 final _Float_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('Float_get_value_nullable');
+  >('library_Float_get_value_nullable');
 Pointer<Void> Float_toFfi_nullable(double value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -307,15 +307,15 @@ void Float_releaseFfiHandle_nullable(Pointer<Void> handle) => _Float_release_han
 final _Double_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Double),
     Pointer<Void> Function(double)
-  >('Double_create_handle_nullable');
+  >('library_Double_create_handle_nullable');
 final _Double_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Double_release_handle_nullable');
+  >('library_Double_release_handle_nullable');
 final _Double_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('Double_get_value_nullable');
+  >('library_Double_get_value_nullable');
 Pointer<Void> Double_toFfi_nullable(double value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
@@ -333,15 +333,15 @@ void Double_releaseFfiHandle_nullable(Pointer<Void> handle) => _Double_release_h
 final _Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint8),
     Pointer<Void> Function(int)
-  >('Boolean_create_handle_nullable');
+  >('library_Boolean_create_handle_nullable');
 final _Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Boolean_release_handle_nullable');
+  >('library_Boolean_release_handle_nullable');
 final _Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('Boolean_get_value_nullable');
+  >('library_Boolean_get_value_nullable');
 Pointer<Void> Boolean_toFfi_nullable(bool value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Boolean_toFfi(value);
@@ -361,15 +361,15 @@ void Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) => _Boolean_release
 final _String_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('String_create_handle_nullable');
+  >('library_String_create_handle_nullable');
 final _String_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('String_release_handle_nullable');
+  >('library_String_release_handle_nullable');
 final _String_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('String_get_value_nullable');
+  >('library_String_get_value_nullable');
 Pointer<Void> String_toFfi_nullable(String value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = String_toFfi(value);
@@ -389,15 +389,15 @@ void String_releaseFfiHandle_nullable(Pointer<Void> handle) => _String_release_h
 final _Blob_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('Blob_create_handle_nullable');
+  >('library_Blob_create_handle_nullable');
 final _Blob_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Blob_release_handle_nullable');
+  >('library_Blob_release_handle_nullable');
 final _Blob_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('Blob_get_value_nullable');
+  >('library_Blob_get_value_nullable');
 Pointer<Void> Blob_toFfi_nullable(Uint8List value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Blob_toFfi(value);
@@ -417,15 +417,15 @@ void Blob_releaseFfiHandle_nullable(Pointer<Void> handle) => _Blob_release_handl
 final _Date_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('Date_create_handle_nullable');
+  >('library_Date_create_handle_nullable');
 final _Date_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('Date_release_handle_nullable');
+  >('library_Date_release_handle_nullable');
 final _Date_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('Date_get_value_nullable');
+  >('library_Date_get_value_nullable');
 Pointer<Void> Date_toFfi_nullable(DateTime value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Date_toFfi(value);

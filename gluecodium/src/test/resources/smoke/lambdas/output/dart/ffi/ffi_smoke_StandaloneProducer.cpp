@@ -27,13 +27,13 @@ private:
 extern "C" {
 #endif
 FfiOpaqueHandle
-smoke_StandaloneProducer_call(FfiOpaqueHandle _self) {
+library_smoke_StandaloneProducer_call(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         gluecodium::ffi::Conversion<::smoke::StandaloneProducer>::toCpp(_self).operator()()
     );
 }
 FfiOpaqueHandle
-smoke_StandaloneProducer_copy_handle(FfiOpaqueHandle handle) {
+library_smoke_StandaloneProducer_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) ::smoke::StandaloneProducer(
             *reinterpret_cast<::smoke::StandaloneProducer*>(handle)
@@ -41,11 +41,11 @@ smoke_StandaloneProducer_copy_handle(FfiOpaqueHandle handle) {
     );
 }
 void
-smoke_StandaloneProducer_release_handle(FfiOpaqueHandle handle) {
+library_smoke_StandaloneProducer_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<::smoke::StandaloneProducer*>(handle);
 }
 FfiOpaqueHandle
-smoke_StandaloneProducer_create_handle_nullable(FfiOpaqueHandle value)
+library_smoke_StandaloneProducer_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) gluecodium::optional<::smoke::StandaloneProducer>(
@@ -54,19 +54,19 @@ smoke_StandaloneProducer_create_handle_nullable(FfiOpaqueHandle value)
     );
 }
 void
-smoke_StandaloneProducer_release_handle_nullable(FfiOpaqueHandle handle)
+library_smoke_StandaloneProducer_release_handle_nullable(FfiOpaqueHandle handle)
 {
     delete reinterpret_cast<gluecodium::optional<::smoke::StandaloneProducer>*>(handle);
 }
 FfiOpaqueHandle
-smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
+library_smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<::smoke::StandaloneProducer>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::StandaloneProducer>*>(handle)
     );
 }
 FfiOpaqueHandle
-smoke_StandaloneProducer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_StandaloneProducer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::StandaloneProducer(
             std::bind(&smoke_StandaloneProducer_Proxy::operator(), std::make_shared<smoke_StandaloneProducer_Proxy>(token, f0))
@@ -74,7 +74,7 @@ smoke_StandaloneProducer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
     );
 }
 FfiOpaqueHandle
-smoke_StandaloneProducer_get_raw_pointer(FfiOpaqueHandle handle) {
+library_smoke_StandaloneProducer_get_raw_pointer(FfiOpaqueHandle handle) {
     return handle;
 }
 #ifdef __cplusplus

@@ -127,91 +127,91 @@ private:
 extern "C" {
 #endif
 FfiOpaqueHandle
-smoke_ListenerWithProperties_message_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_message_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_message()
     );
 }
 void
-smoke_ListenerWithProperties_message_set__String(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_ListenerWithProperties_message_set__String(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_message(
             gluecodium::ffi::Conversion<std::string>::toCpp(value)
         );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_packedMessage_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_packedMessage_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_packed_message()
     );
 }
 void
-smoke_ListenerWithProperties_packedMessage_set__CalculationResult(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_packed_message(
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCpp(value)
         );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_structuredMessage_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_structuredMessage_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_structured_message()
     );
 }
 void
-smoke_ListenerWithProperties_structuredMessage_set__ResultStruct(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_structured_message(
             gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toCpp(value)
         );
 }
 uint32_t
-smoke_ListenerWithProperties_enumeratedMessage_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_enumeratedMessage_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_enumerated_message()
     );
 }
 void
-smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum(FfiOpaqueHandle _self, uint32_t value) {
+library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum(FfiOpaqueHandle _self, uint32_t value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_enumerated_message(
             gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toCpp(value)
         );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_arrayedMessage_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_arrayedMessage_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::vector<std::string>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_arrayed_message()
     );
 }
 void
-smoke_ListenerWithProperties_arrayedMessage_set__ListOf_1String(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_1String(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_arrayed_message(
             gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)
         );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_mappedMessage_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_mappedMessage_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_mapped_message()
     );
 }
 void
-smoke_ListenerWithProperties_mappedMessage_set__MapOf_1String_1to_1Double(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_1String_1to_1Double(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_mapped_message(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(value)
         );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_bufferedMessage_get(FfiOpaqueHandle _self) {
+library_smoke_ListenerWithProperties_bufferedMessage_get(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).get_buffered_message()
     );
 }
 void
-smoke_ListenerWithProperties_bufferedMessage_set__Blob(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_buffered_message(
             gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
         );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_copy_handle(FfiOpaqueHandle handle) {
+library_smoke_ListenerWithProperties_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::ListenerWithProperties>(
             *reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle)
@@ -219,11 +219,11 @@ smoke_ListenerWithProperties_copy_handle(FfiOpaqueHandle handle) {
     );
 }
 void
-smoke_ListenerWithProperties_release_handle(FfiOpaqueHandle handle) {
+library_smoke_ListenerWithProperties_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle);
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_create_proxy(uint64_t token, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s) {
+library_smoke_ListenerWithProperties_create_proxy(uint64_t token, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::ListenerWithProperties>(
             new (std::nothrow) smoke_ListenerWithProperties_Proxy(token, p0g, p0s, p1g, p1s, p2g, p2s, p3g, p3s, p4g, p4s, p5g, p5s, p6g, p6s)
@@ -231,28 +231,28 @@ smoke_ListenerWithProperties_create_proxy(uint64_t token, FfiOpaqueHandle p0g, F
     );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_get_raw_pointer(FfiOpaqueHandle handle) {
+library_smoke_ListenerWithProperties_get_raw_pointer(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle)->get()
     );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_ResultStruct_create_handle(double result) {
+library_smoke_ListenerWithProperties_ResultStruct_create_handle(double result) {
     auto _result = new (std::nothrow) ::smoke::ListenerWithProperties::ResultStruct(gluecodium::ffi::Conversion<double>::toCpp(result));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
-smoke_ListenerWithProperties_ResultStruct_release_handle(FfiOpaqueHandle handle) {
+library_smoke_ListenerWithProperties_ResultStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<::smoke::ListenerWithProperties::ResultStruct*>(handle);
 }
 double
-smoke_ListenerWithProperties_ResultStruct_get_field_result(FfiOpaqueHandle handle) {
+library_smoke_ListenerWithProperties_ResultStruct_get_field_result(FfiOpaqueHandle handle) {
     return gluecodium::ffi::Conversion<double>::toFfi(
         reinterpret_cast<::smoke::ListenerWithProperties::ResultStruct*>(handle)->result
     );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_ResultStruct_create_handle_nullable(FfiOpaqueHandle value)
+library_smoke_ListenerWithProperties_ResultStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) gluecodium::optional<::smoke::ListenerWithProperties::ResultStruct>(
@@ -261,19 +261,19 @@ smoke_ListenerWithProperties_ResultStruct_create_handle_nullable(FfiOpaqueHandle
     );
 }
 void
-smoke_ListenerWithProperties_ResultStruct_release_handle_nullable(FfiOpaqueHandle handle)
+library_smoke_ListenerWithProperties_ResultStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
     delete reinterpret_cast<gluecodium::optional<::smoke::ListenerWithProperties::ResultStruct>*>(handle);
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_ResultStruct_get_value_nullable(FfiOpaqueHandle handle)
+library_smoke_ListenerWithProperties_ResultStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::ListenerWithProperties::ResultStruct>*>(handle)
     );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_ResultEnum_create_handle_nullable(uint32_t value)
+library_smoke_ListenerWithProperties_ResultEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) gluecodium::optional<::smoke::ListenerWithProperties::ResultEnum>(
@@ -282,19 +282,19 @@ smoke_ListenerWithProperties_ResultEnum_create_handle_nullable(uint32_t value)
     );
 }
 void
-smoke_ListenerWithProperties_ResultEnum_release_handle_nullable(FfiOpaqueHandle handle)
+library_smoke_ListenerWithProperties_ResultEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
     delete reinterpret_cast<gluecodium::optional<::smoke::ListenerWithProperties::ResultEnum>*>(handle);
 }
 uint32_t
-smoke_ListenerWithProperties_ResultEnum_get_value_nullable(FfiOpaqueHandle handle)
+library_smoke_ListenerWithProperties_ResultEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::ListenerWithProperties::ResultEnum>*>(handle)
     );
 }
 FfiOpaqueHandle
-smoke_ListenerWithProperties_get_type_id(FfiOpaqueHandle handle) {
+library_smoke_ListenerWithProperties_get_type_id(FfiOpaqueHandle handle) {
     const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::ListenerWithProperties*>(nullptr));
     const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));

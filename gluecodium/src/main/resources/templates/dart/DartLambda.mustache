@@ -27,19 +27,19 @@ typedef {{resolveName}} = {{resolveName returnType}} Function({{!!
 final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{resolveName "Ffi"}}_copy_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle');
 final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{resolveName "Ffi"}}_release_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
 final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer),
     Pointer<Void> Function(int, Pointer)
-  >('{{resolveName "Ffi"}}_create_proxy');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy');
 final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('{{resolveName "Ffi"}}_get_raw_pointer');
+    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
 
 class {{resolveName}}__Impl {
   Pointer<Void> get _handle => handle;

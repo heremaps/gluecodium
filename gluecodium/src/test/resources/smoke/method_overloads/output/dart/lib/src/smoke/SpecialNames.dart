@@ -6,38 +6,38 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_SpecialNames_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_SpecialNames_copy_handle');
+  >('library_smoke_SpecialNames_copy_handle');
 final _smoke_SpecialNames_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_SpecialNames_release_handle');
+  >('library_smoke_SpecialNames_release_handle');
 class SpecialNames {
   final Pointer<Void> _handle;
   SpecialNames._(this._handle);
   void release() => _smoke_SpecialNames_release_handle(_handle);
   create() {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_SpecialNames_create');
+    final _create_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_SpecialNames_create');
     final __result_handle = _create_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   reallyRelease() {
-    final _reallyRelease_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_SpecialNames_release');
+    final _reallyRelease_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_SpecialNames_release');
     final __result_handle = _reallyRelease_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   createProxy() {
-    final _createProxy_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_SpecialNames_createProxy');
+    final _createProxy_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_SpecialNames_createProxy');
     final __result_handle = _createProxy_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   Uppercase() {
-    final _Uppercase_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_SpecialNames_Uppercase');
+    final _Uppercase_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_SpecialNames_Uppercase');
     final __result_handle = _Uppercase_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);

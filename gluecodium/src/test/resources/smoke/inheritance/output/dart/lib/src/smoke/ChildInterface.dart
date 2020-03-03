@@ -14,23 +14,23 @@ abstract class ChildInterface implements ParentInterface {
 final _smoke_ChildInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ChildInterface_copy_handle');
+  >('library_smoke_ChildInterface_copy_handle');
 final _smoke_ChildInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_ChildInterface_release_handle');
+  >('library_smoke_ChildInterface_release_handle');
 final _smoke_ChildInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer)
-  >('smoke_ChildInterface_create_proxy');
+  >('library_smoke_ChildInterface_create_proxy');
 final _smoke_ChildInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_ChildInterface_get_raw_pointer');
+    >('library_smoke_ChildInterface_get_raw_pointer');
 final _smoke_ChildInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ChildInterface_get_type_id');
+  >('library_smoke_ChildInterface_get_type_id');
 class ChildInterface__Impl extends ParentInterface__Impl implements ChildInterface {
   Pointer<Void> get _handle => handle;
   ChildInterface__Impl(Pointer<Void> handle) : super(handle);
@@ -38,7 +38,7 @@ class ChildInterface__Impl extends ParentInterface__Impl implements ChildInterfa
   void release() => _smoke_ChildInterface_release_handle(handle);
   @override
   childMethod() {
-    final _childMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_ChildInterface_childMethod');
+    final _childMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ChildInterface_childMethod');
     final __result_handle = _childMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);

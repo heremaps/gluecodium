@@ -9,33 +9,33 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_UseFreeTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_UseFreeTypes_copy_handle');
+  >('library_smoke_UseFreeTypes_copy_handle');
 final _smoke_UseFreeTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_UseFreeTypes_release_handle');
+  >('library_smoke_UseFreeTypes_release_handle');
 final _doStuff_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_release_handle');
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_release_handle');
 final _doStuff_return_get_result = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_result');
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_result');
 final _doStuff_return_get_error = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_error');
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_error');
 final _doStuff_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error');
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error');
 class UseFreeTypes {
   final Pointer<Void> _handle;
   UseFreeTypes._(this._handle);
   void release() => _smoke_UseFreeTypes_release_handle(_handle);
   DateTime doStuff(FreePoint point, FreeEnum mode) {
-    final _doStuff_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, Pointer<Void>, int)>('smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum');
+    final _doStuff_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum');
     final _point_handle = smoke_FreePoint_toFfi(point);
     final _mode_handle = smoke_FreeEnum_toFfi(mode);
     final __call_result_handle = _doStuff_ffi(_handle, _point_handle, _mode_handle);

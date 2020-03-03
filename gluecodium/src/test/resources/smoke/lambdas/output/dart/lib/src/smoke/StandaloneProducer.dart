@@ -9,26 +9,26 @@ typedef StandaloneProducer = String Function();
 final _smoke_StandaloneProducer_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StandaloneProducer_copy_handle');
+  >('library_smoke_StandaloneProducer_copy_handle');
 final _smoke_StandaloneProducer_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_StandaloneProducer_release_handle');
+  >('library_smoke_StandaloneProducer_release_handle');
 final _smoke_StandaloneProducer_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer),
     Pointer<Void> Function(int, Pointer)
-  >('smoke_StandaloneProducer_create_proxy');
+  >('library_smoke_StandaloneProducer_create_proxy');
 final _smoke_StandaloneProducer_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_StandaloneProducer_get_raw_pointer');
+    >('library_smoke_StandaloneProducer_get_raw_pointer');
 class StandaloneProducer__Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   StandaloneProducer__Impl(this.handle);
   void release() => _smoke_StandaloneProducer_release_handle(handle);
   String call() {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_StandaloneProducer_call');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_StandaloneProducer_call');
     final __result_handle = _call_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -63,15 +63,15 @@ void smoke_StandaloneProducer_releaseFfiHandle(Pointer<Void> handle) =>
 final _smoke_StandaloneProducer_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StandaloneProducer_create_handle_nullable');
+  >('library_smoke_StandaloneProducer_create_handle_nullable');
 final _smoke_StandaloneProducer_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_StandaloneProducer_release_handle_nullable');
+  >('library_smoke_StandaloneProducer_release_handle_nullable');
 final _smoke_StandaloneProducer_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StandaloneProducer_get_value_nullable');
+  >('library_smoke_StandaloneProducer_get_value_nullable');
 Pointer<Void> smoke_StandaloneProducer_toFfi_nullable(StandaloneProducer value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StandaloneProducer_toFfi(value);
