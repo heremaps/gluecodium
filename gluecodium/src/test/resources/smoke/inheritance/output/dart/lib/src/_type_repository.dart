@@ -1,5 +1,3 @@
-import 'package:library/src/BuiltInTypes__conversion.dart';
-import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/ChildClassFromClass.dart';
 import 'package:library/src/smoke/ChildClassFromInterface.dart';
 import 'package:library/src/smoke/ChildInterface.dart';

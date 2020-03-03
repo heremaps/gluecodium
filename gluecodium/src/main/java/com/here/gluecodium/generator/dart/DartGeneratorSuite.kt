@@ -140,8 +140,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val parentImports = (rootElement as? LimeContainerWithInheritance)?.parent
             ?.let { importResolver.resolveImports(it) } ?: emptyList()
-        val imports = importResolver.resolveImports(rootElement) +
-            collectImports(allTypes, importResolver) + parentImports
+        val imports = allTypes.flatMap { importResolver.resolveDeclarationImports(it) } +
+            collectReferenceImports(allTypes, importResolver) + parentImports
         val content = TemplateEngine.render(
             "dart/DartFile",
             mapOf(
@@ -160,7 +160,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         allTypes.filterIsInstance<LimeInterface>() +
         allTypes.filterIsInstance<LimeClass>().filter { it.parent != null || it.visibility.isOpen }
 
-    private fun collectImports(
+    private fun collectReferenceImports(
         allTypes: List<LimeType>,
         importResolver: DartImportResolver
     ): List<DartImport> {
@@ -179,8 +179,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             exceptions.map { it.errorType }
 
         return functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
-            typeRefs.flatMap { importResolver.resolveImports(it) } +
-            classes.flatMap { importResolver.resolveImports(it) }
+            typeRefs.flatMap { importResolver.resolveImports(it) }
     }
 
     private fun generateFfi(
@@ -282,6 +281,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             GeneratedFile(
                 TemplateEngine.render("dart/DartTypeRepository", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_type_repository.dart"
+            ),
+            GeneratedFile(
+                TemplateEngine.render("dart/DartTokenCache", templateData, nameResolvers),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_token_cache.dart"
             )
         )
     }

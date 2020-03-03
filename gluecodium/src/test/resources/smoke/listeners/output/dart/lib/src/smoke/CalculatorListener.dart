@@ -1,5 +1,6 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/CalculationResult.dart';
 import 'dart:ffi';
@@ -98,9 +99,6 @@ final _smoke_CalculatorListener_get_type_id = __lib.nativeLibrary.lookupFunction
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('smoke_CalculatorListener_get_type_id');
-int _CalculatorListener_instance_counter = 1024;
-final Map<int, CalculatorListener> _CalculatorListener_instance_cache = {};
-final Map<Pointer<Void>, CalculatorListener> _CalculatorListener_reverse_cache = {};
 class CalculatorListener__Impl implements CalculatorListener {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -169,46 +167,45 @@ class CalculatorListener__Impl implements CalculatorListener {
   }
 }
 int _CalculatorListener_onCalculationResult_static(int _token, double calculationResult) {
-  _CalculatorListener_instance_cache[_token].onCalculationResult((calculationResult));
+  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResult((calculationResult));
   (calculationResult);
   return 0;
 }
 int _CalculatorListener_onCalculationResultConst_static(int _token, double calculationResult) {
-  _CalculatorListener_instance_cache[_token].onCalculationResultConst((calculationResult));
+  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultConst((calculationResult));
   (calculationResult);
   return 0;
 }
 int _CalculatorListener_onCalculationResultStruct_static(int _token, Pointer<Void> calculationResult) {
-  _CalculatorListener_instance_cache[_token].onCalculationResultStruct(smoke_CalculatorListener_ResultStruct_fromFfi(calculationResult));
+  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultStruct(smoke_CalculatorListener_ResultStruct_fromFfi(calculationResult));
   smoke_CalculatorListener_ResultStruct_releaseFfiHandle(calculationResult);
   return 0;
 }
 int _CalculatorListener_onCalculationResultArray_static(int _token, Pointer<Void> calculationResult) {
-  _CalculatorListener_instance_cache[_token].onCalculationResultArray(library_ListOf_Double_fromFfi(calculationResult));
+  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultArray(library_ListOf_Double_fromFfi(calculationResult));
   library_ListOf_Double_releaseFfiHandle(calculationResult);
   return 0;
 }
 int _CalculatorListener_onCalculationResultMap_static(int _token, Pointer<Void> calculationResults) {
-  _CalculatorListener_instance_cache[_token].onCalculationResultMap(library_MapOf_String_to_Double_fromFfi(calculationResults));
+  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultMap(library_MapOf_String_to_Double_fromFfi(calculationResults));
   library_MapOf_String_to_Double_releaseFfiHandle(calculationResults);
   return 0;
 }
 int _CalculatorListener_onCalculationResultInstance_static(int _token, Pointer<Void> calculationResult) {
-  _CalculatorListener_instance_cache[_token].onCalculationResultInstance(smoke_CalculationResult_fromFfi(calculationResult));
+  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultInstance(smoke_CalculationResult_fromFfi(calculationResult));
   smoke_CalculationResult_releaseFfiHandle(calculationResult);
   return 0;
 }
 Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {
   if (value is CalculatorListener__Impl) return _smoke_CalculatorListener_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _CalculatorListener_instance_counter++;
-  _CalculatorListener_instance_cache[token] = value;
-  final result = _smoke_CalculatorListener_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Double)>(_CalculatorListener_onCalculationResult_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Double)>(_CalculatorListener_onCalculationResultConst_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultStruct_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultArray_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultMap_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultInstance_static, UNKNOWN_ERROR));
-  _CalculatorListener_reverse_cache[_smoke_CalculatorListener_get_raw_pointer(result)] = value;
+  final token = __lib.getNewToken();
+  __lib.instanceCache[token] = value;
+  final result = _smoke_CalculatorListener_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Double)>(_CalculatorListener_onCalculationResult_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Double)>(_CalculatorListener_onCalculationResultConst_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultStruct_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultArray_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultMap_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultInstance_static, __lib.unknownError));
+  __lib.reverseCache[_smoke_CalculatorListener_get_raw_pointer(result)] = value;
   return result;
 }
 CalculatorListener smoke_CalculatorListener_fromFfi(Pointer<Void> handle) {
-  final instance = _CalculatorListener_reverse_cache[_smoke_CalculatorListener_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_smoke_CalculatorListener_get_raw_pointer(handle)] as CalculatorListener;
   if (instance != null) return instance;
   final _copied_handle = _smoke_CalculatorListener_copy_handle(handle);
   final _type_id_handle = _smoke_CalculatorListener_get_type_id(handle);
