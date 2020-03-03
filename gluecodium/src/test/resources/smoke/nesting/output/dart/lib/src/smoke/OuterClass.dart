@@ -8,17 +8,17 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_OuterClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_OuterClass_copy_handle');
+  >('library_smoke_OuterClass_copy_handle');
 final _smoke_OuterClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_OuterClass_release_handle');
+  >('library_smoke_OuterClass_release_handle');
 class OuterClass {
   final Pointer<Void> _handle;
   OuterClass._(this._handle);
   void release() => _smoke_OuterClass_release_handle(_handle);
   String foo(String input) {
-    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_OuterClass_foo__String');
+    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_OuterClass_foo__String');
     final _input_handle = String_toFfi(input);
     final __result_handle = _foo_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
@@ -42,17 +42,17 @@ void smoke_OuterClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 final _smoke_OuterClass_InnerClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_OuterClass_InnerClass_copy_handle');
+  >('library_smoke_OuterClass_InnerClass_copy_handle');
 final _smoke_OuterClass_InnerClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_OuterClass_InnerClass_release_handle');
+  >('library_smoke_OuterClass_InnerClass_release_handle');
 class OuterClass_InnerClass {
   final Pointer<Void> _handle;
   OuterClass_InnerClass._(this._handle);
   void release() => _smoke_OuterClass_InnerClass_release_handle(_handle);
   String foo(String input) {
-    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_OuterClass_InnerClass_foo__String');
+    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_OuterClass_InnerClass_foo__String');
     final _input_handle = String_toFfi(input);
     final __result_handle = _foo_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
@@ -81,23 +81,23 @@ abstract class OuterClass_InnerInterface {
 final _smoke_OuterClass_InnerInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_OuterClass_InnerInterface_copy_handle');
+  >('library_smoke_OuterClass_InnerInterface_copy_handle');
 final _smoke_OuterClass_InnerInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_OuterClass_InnerInterface_release_handle');
+  >('library_smoke_OuterClass_InnerInterface_release_handle');
 final _smoke_OuterClass_InnerInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer),
     Pointer<Void> Function(int, Pointer)
-  >('smoke_OuterClass_InnerInterface_create_proxy');
+  >('library_smoke_OuterClass_InnerInterface_create_proxy');
 final _smoke_OuterClass_InnerInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_OuterClass_InnerInterface_get_raw_pointer');
+    >('library_smoke_OuterClass_InnerInterface_get_raw_pointer');
 final _smoke_OuterClass_InnerInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_OuterClass_InnerInterface_get_type_id');
+  >('library_smoke_OuterClass_InnerInterface_get_type_id');
 class OuterClass_InnerInterface__Impl implements OuterClass_InnerInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -106,7 +106,7 @@ class OuterClass_InnerInterface__Impl implements OuterClass_InnerInterface {
   void release() => _smoke_OuterClass_InnerInterface_release_handle(handle);
   @override
   String foo(String input) {
-    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_OuterClass_InnerInterface_foo__String');
+    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_OuterClass_InnerInterface_foo__String');
     final _input_handle = String_toFfi(input);
     final __result_handle = _foo_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);

@@ -15,23 +15,23 @@ abstract class ParentInterface {
 final _smoke_ParentInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ParentInterface_copy_handle');
+  >('library_smoke_ParentInterface_copy_handle');
 final _smoke_ParentInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_ParentInterface_release_handle');
+  >('library_smoke_ParentInterface_release_handle');
 final _smoke_ParentInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, Pointer, Pointer, Pointer)
-  >('smoke_ParentInterface_create_proxy');
+  >('library_smoke_ParentInterface_create_proxy');
 final _smoke_ParentInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_ParentInterface_get_raw_pointer');
+    >('library_smoke_ParentInterface_get_raw_pointer');
 final _smoke_ParentInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ParentInterface_get_type_id');
+  >('library_smoke_ParentInterface_get_type_id');
 class ParentInterface__Impl implements ParentInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -40,21 +40,21 @@ class ParentInterface__Impl implements ParentInterface {
   void release() => _smoke_ParentInterface_release_handle(handle);
   @override
   rootMethod() {
-    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_ParentInterface_rootMethod');
+    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ParentInterface_rootMethod');
     final __result_handle = _rootMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   String get rootProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_ParentInterface_rootProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_get');
     final __result_handle = _get_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
     return _result;
   }
   set rootProperty(String value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('smoke_ParentInterface_rootProperty_set__String');
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String');
     final _value_handle = String_toFfi(value);
     final __result_handle = _set_ffi(_handle, _value_handle);
     String_releaseFfiHandle(_value_handle);

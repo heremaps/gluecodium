@@ -8,21 +8,21 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_ChildClassFromClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ChildClassFromClass_copy_handle');
+  >('library_smoke_ChildClassFromClass_copy_handle');
 final _smoke_ChildClassFromClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_ChildClassFromClass_release_handle');
+  >('library_smoke_ChildClassFromClass_release_handle');
 final _smoke_ChildClassFromClass_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ChildClassFromClass_get_type_id');
+  >('library_smoke_ChildClassFromClass_get_type_id');
 class ChildClassFromClass extends ParentClass {
   Pointer<Void> get _handle => handle;
   ChildClassFromClass._(Pointer<Void> handle) : super(handle);
   void release() => _smoke_ChildClassFromClass_release_handle(_handle);
   childClassMethod() {
-    final _childClassMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('smoke_ChildClassFromClass_childClassMethod');
+    final _childClassMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ChildClassFromClass_childClassMethod');
     final __result_handle = _childClassMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);

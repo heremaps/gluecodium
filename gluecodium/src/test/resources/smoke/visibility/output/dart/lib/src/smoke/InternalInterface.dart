@@ -12,23 +12,23 @@ abstract class InternalInterface {
 final _smoke_InternalInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_InternalInterface_copy_handle');
+  >('library_smoke_InternalInterface_copy_handle');
 final _smoke_InternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_InternalInterface_release_handle');
+  >('library_smoke_InternalInterface_release_handle');
 final _smoke_InternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('smoke_InternalInterface_create_proxy');
+  >('library_smoke_InternalInterface_create_proxy');
 final _smoke_InternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_InternalInterface_get_raw_pointer');
+    >('library_smoke_InternalInterface_get_raw_pointer');
 final _smoke_InternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_InternalInterface_get_type_id');
+  >('library_smoke_InternalInterface_get_type_id');
 class InternalInterface__Impl implements InternalInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;

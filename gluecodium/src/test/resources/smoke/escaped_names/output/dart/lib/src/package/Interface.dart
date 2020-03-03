@@ -12,23 +12,23 @@ abstract class Interface {
 final _package_Interface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('package_Interface_copy_handle');
+  >('library_package_Interface_copy_handle');
 final _package_Interface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('package_Interface_release_handle');
+  >('library_package_Interface_release_handle');
 final _package_Interface_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('package_Interface_create_proxy');
+  >('library_package_Interface_create_proxy');
 final _package_Interface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('package_Interface_get_raw_pointer');
+    >('library_package_Interface_get_raw_pointer');
 final _package_Interface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('package_Interface_get_type_id');
+  >('library_package_Interface_get_type_id');
 class Interface__Impl implements Interface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;

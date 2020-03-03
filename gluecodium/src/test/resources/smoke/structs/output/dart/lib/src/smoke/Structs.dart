@@ -9,17 +9,17 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_Structs_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_copy_handle');
+  >('library_smoke_Structs_copy_handle');
 final _smoke_Structs_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_release_handle');
+  >('library_smoke_Structs_release_handle');
 class Structs {
   final Pointer<Void> _handle;
   Structs._(this._handle);
   void release() => _smoke_Structs_release_handle(_handle);
   static Structs_Point swapPointCoordinates(Structs_Point input) {
-    final _swapPointCoordinates_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Structs_swapPointCoordinates__Point');
+    final _swapPointCoordinates_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point');
     final _input_handle = smoke_Structs_Point_toFfi(input);
     final __result_handle = _swapPointCoordinates_ffi(_input_handle);
     smoke_Structs_Point_releaseFfiHandle(_input_handle);
@@ -28,7 +28,7 @@ class Structs {
     return _result;
   }
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
-    final _returnAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Structs_returnAllTypesStruct__AllTypesStruct');
+    final _returnAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct');
     final _input_handle = smoke_Structs_AllTypesStruct_toFfi(input);
     final __result_handle = _returnAllTypesStruct_ffi(_input_handle);
     smoke_Structs_AllTypesStruct_releaseFfiHandle(_input_handle);
@@ -37,28 +37,28 @@ class Structs {
     return _result;
   }
   static Structs_ExternalStruct getExternalStruct() {
-    final _getExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Structs_getExternalStruct');
+    final _getExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Structs_getExternalStruct');
     final __result_handle = _getExternalStruct_ffi();
     final _result = smoke_Structs_ExternalStruct_fromFfi(__result_handle);
     smoke_Structs_ExternalStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Structs_AnotherExternalStruct getAnotherExternalStruct() {
-    final _getAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Structs_getAnotherExternalStruct');
+    final _getAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Structs_getAnotherExternalStruct');
     final __result_handle = _getAnotherExternalStruct_ffi();
     final _result = smoke_Structs_AnotherExternalStruct_fromFfi(__result_handle);
     smoke_Structs_AnotherExternalStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Structs_YetAnotherExternalStruct getYetAnotherExternalStruct() {
-    final _getYetAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Structs_getYetAnotherExternalStruct');
+    final _getYetAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Structs_getYetAnotherExternalStruct');
     final __result_handle = _getYetAnotherExternalStruct_ffi();
     final _result = smoke_Structs_YetAnotherExternalStruct_fromFfi(__result_handle);
     smoke_Structs_YetAnotherExternalStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Point createPoint(double x, double y) {
-    final _createPoint_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Double, Double), Pointer<Void> Function(double, double)>('smoke_Structs_createPoint__Double_Double');
+    final _createPoint_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Double, Double), Pointer<Void> Function(double, double)>('library_smoke_Structs_createPoint__Double_Double');
     final _x_handle = (x);
     final _y_handle = (y);
     final __result_handle = _createPoint_ffi(_x_handle, _y_handle);
@@ -69,7 +69,7 @@ class Structs {
     return _result;
   }
   static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
-    final _modifyAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_Structs_modifyAllTypesStruct__AllTypesStruct');
+    final _modifyAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct');
     final _input_handle = smoke_TypeCollection_AllTypesStruct_toFfi(input);
     final __result_handle = _modifyAllTypesStruct_ffi(_input_handle);
     smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(_input_handle);
@@ -123,15 +123,15 @@ void smoke_Structs_FooBar_releaseFfiHandle(int handle) {}
 final _smoke_Structs_FooBar_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('smoke_Structs_FooBar_create_handle_nullable');
+  >('library_smoke_Structs_FooBar_create_handle_nullable');
 final _smoke_Structs_FooBar_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_FooBar_release_handle_nullable');
+  >('library_smoke_Structs_FooBar_release_handle_nullable');
 final _smoke_Structs_FooBar_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_FooBar_get_value_nullable');
+  >('library_smoke_Structs_FooBar_get_value_nullable');
 Pointer<Void> smoke_Structs_FooBar_toFfi_nullable(Structs_FooBar value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_FooBar_toFfi(value);
@@ -158,19 +158,19 @@ class Structs_Point {
 final _smoke_Structs_Point_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Double, Double),
     Pointer<Void> Function(double, double)
-  >('smoke_Structs_Point_create_handle');
+  >('library_smoke_Structs_Point_create_handle');
 final _smoke_Structs_Point_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_Point_release_handle');
+  >('library_smoke_Structs_Point_release_handle');
 final _smoke_Structs_Point_get_field_x = __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('smoke_Structs_Point_get_field_x');
+  >('library_smoke_Structs_Point_get_field_x');
 final _smoke_Structs_Point_get_field_y = __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('smoke_Structs_Point_get_field_y');
+  >('library_smoke_Structs_Point_get_field_y');
 Pointer<Void> smoke_Structs_Point_toFfi(Structs_Point value) {
   final _x_handle = (value.x);
   final _y_handle = (value.y);
@@ -195,15 +195,15 @@ void smoke_Structs_Point_releaseFfiHandle(Pointer<Void> handle) => _smoke_Struct
 final _smoke_Structs_Point_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_Point_create_handle_nullable');
+  >('library_smoke_Structs_Point_create_handle_nullable');
 final _smoke_Structs_Point_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_Point_release_handle_nullable');
+  >('library_smoke_Structs_Point_release_handle_nullable');
 final _smoke_Structs_Point_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_Point_get_value_nullable');
+  >('library_smoke_Structs_Point_get_value_nullable');
 Pointer<Void> smoke_Structs_Point_toFfi_nullable(Structs_Point value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_Point_toFfi(value);
@@ -230,19 +230,19 @@ class Structs_Line {
 final _smoke_Structs_Line_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>)
-  >('smoke_Structs_Line_create_handle');
+  >('library_smoke_Structs_Line_create_handle');
 final _smoke_Structs_Line_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_Line_release_handle');
+  >('library_smoke_Structs_Line_release_handle');
 final _smoke_Structs_Line_get_field_a = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_Line_get_field_a');
+  >('library_smoke_Structs_Line_get_field_a');
 final _smoke_Structs_Line_get_field_b = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_Line_get_field_b');
+  >('library_smoke_Structs_Line_get_field_b');
 Pointer<Void> smoke_Structs_Line_toFfi(Structs_Line value) {
   final _a_handle = smoke_Structs_Point_toFfi(value.a);
   final _b_handle = smoke_Structs_Point_toFfi(value.b);
@@ -267,15 +267,15 @@ void smoke_Structs_Line_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs
 final _smoke_Structs_Line_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_Line_create_handle_nullable');
+  >('library_smoke_Structs_Line_create_handle_nullable');
 final _smoke_Structs_Line_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_Line_release_handle_nullable');
+  >('library_smoke_Structs_Line_release_handle_nullable');
 final _smoke_Structs_Line_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_Line_get_value_nullable');
+  >('library_smoke_Structs_Line_get_value_nullable');
 Pointer<Void> smoke_Structs_Line_toFfi_nullable(Structs_Line value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_Line_toFfi(value);
@@ -314,67 +314,67 @@ class Structs_AllTypesStruct {
 final _smoke_Structs_AllTypesStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int8, Uint8, Int16, Uint16, Int32, Uint32, Int64, Uint64, Float, Double, Pointer<Void>, Uint8, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(int, int, int, int, int, int, int, int, double, double, Pointer<Void>, int, Pointer<Void>, Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_create_handle');
+  >('library_smoke_Structs_AllTypesStruct_create_handle');
 final _smoke_Structs_AllTypesStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_release_handle');
+  >('library_smoke_Structs_AllTypesStruct_release_handle');
 final _smoke_Structs_AllTypesStruct_get_field_int8Field = __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_int8Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_int8Field');
 final _smoke_Structs_AllTypesStruct_get_field_uint8Field = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_uint8Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint8Field');
 final _smoke_Structs_AllTypesStruct_get_field_int16Field = __lib.nativeLibrary.lookupFunction<
     Int16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_int16Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_int16Field');
 final _smoke_Structs_AllTypesStruct_get_field_uint16Field = __lib.nativeLibrary.lookupFunction<
     Uint16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_uint16Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint16Field');
 final _smoke_Structs_AllTypesStruct_get_field_int32Field = __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_int32Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_int32Field');
 final _smoke_Structs_AllTypesStruct_get_field_uint32Field = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_uint32Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint32Field');
 final _smoke_Structs_AllTypesStruct_get_field_int64Field = __lib.nativeLibrary.lookupFunction<
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_int64Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_int64Field');
 final _smoke_Structs_AllTypesStruct_get_field_uint64Field = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_uint64Field');
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint64Field');
 final _smoke_Structs_AllTypesStruct_get_field_floatField = __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_floatField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_floatField');
 final _smoke_Structs_AllTypesStruct_get_field_doubleField = __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_doubleField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_doubleField');
 final _smoke_Structs_AllTypesStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_stringField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_stringField');
 final _smoke_Structs_AllTypesStruct_get_field_booleanField = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_booleanField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_booleanField');
 final _smoke_Structs_AllTypesStruct_get_field_bytesField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_bytesField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_bytesField');
 final _smoke_Structs_AllTypesStruct_get_field_pointField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_field_pointField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_pointField');
 Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
   final _int8Field_handle = (value.int8Field);
   final _uint8Field_handle = (value.uint8Field);
@@ -459,15 +459,15 @@ void smoke_Structs_AllTypesStruct_releaseFfiHandle(Pointer<Void> handle) => _smo
 final _smoke_Structs_AllTypesStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_create_handle_nullable');
+  >('library_smoke_Structs_AllTypesStruct_create_handle_nullable');
 final _smoke_Structs_AllTypesStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_release_handle_nullable');
+  >('library_smoke_Structs_AllTypesStruct_release_handle_nullable');
 final _smoke_Structs_AllTypesStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AllTypesStruct_get_value_nullable');
+  >('library_smoke_Structs_AllTypesStruct_get_value_nullable');
 Pointer<Void> smoke_Structs_AllTypesStruct_toFfi_nullable(Structs_AllTypesStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_AllTypesStruct_toFfi(value);
@@ -496,36 +496,36 @@ class Structs_ExternalStruct {
 final _smoke_Structs_ExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_create_handle');
+  >('library_smoke_Structs_ExternalStruct_create_handle');
 final _smoke_Structs_ExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_release_handle');
+  >('library_smoke_Structs_ExternalStruct_release_handle');
 final _smoke_Structs_ExternalStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_get_field_stringField');
+  >('library_smoke_Structs_ExternalStruct_get_field_stringField');
 final _smoke_Structs_ExternalStruct_get_field_externalStringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_get_field_externalStringField');
+  >('library_smoke_Structs_ExternalStruct_get_field_externalStringField');
 final _smoke_Structs_ExternalStruct_get_field_externalArrayField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_get_field_externalArrayField');
+  >('library_smoke_Structs_ExternalStruct_get_field_externalArrayField');
 final _smoke_Structs_ExternalStruct_get_field_externalStructField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_get_field_externalStructField');
+  >('library_smoke_Structs_ExternalStruct_get_field_externalStructField');
 Pointer<Void> smoke_Structs_ExternalStruct_toFfi(Structs_ExternalStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _externalStringField_handle = String_toFfi(value.externalStringField);
-  final _externalArrayField_handle = library_ListOf_Byte_toFfi(value.externalArrayField);
+  final _externalArrayField_handle = ListOf_Byte_toFfi(value.externalArrayField);
   final _externalStructField_handle = smoke_Structs_AnotherExternalStruct_toFfi(value.externalStructField);
   final _result = _smoke_Structs_ExternalStruct_create_handle(_stringField_handle, _externalStringField_handle, _externalArrayField_handle, _externalStructField_handle);
   String_releaseFfiHandle(_stringField_handle);
   String_releaseFfiHandle(_externalStringField_handle);
-  library_ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+  ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
   smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
   return _result;
 }
@@ -537,12 +537,12 @@ Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi(Pointer<Void> handle
   final _result = Structs_ExternalStruct(
     String_fromFfi(_stringField_handle),
     String_fromFfi(_externalStringField_handle),
-    library_ListOf_Byte_fromFfi(_externalArrayField_handle),
+    ListOf_Byte_fromFfi(_externalArrayField_handle),
     smoke_Structs_AnotherExternalStruct_fromFfi(_externalStructField_handle)
   );
   String_releaseFfiHandle(_stringField_handle);
   String_releaseFfiHandle(_externalStringField_handle);
-  library_ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+  ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
   smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
   return _result;
 }
@@ -551,15 +551,15 @@ void smoke_Structs_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smo
 final _smoke_Structs_ExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_create_handle_nullable');
+  >('library_smoke_Structs_ExternalStruct_create_handle_nullable');
 final _smoke_Structs_ExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_release_handle_nullable');
+  >('library_smoke_Structs_ExternalStruct_release_handle_nullable');
 final _smoke_Structs_ExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ExternalStruct_get_value_nullable');
+  >('library_smoke_Structs_ExternalStruct_get_value_nullable');
 Pointer<Void> smoke_Structs_ExternalStruct_toFfi_nullable(Structs_ExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_ExternalStruct_toFfi(value);
@@ -585,15 +585,15 @@ class Structs_AnotherExternalStruct {
 final _smoke_Structs_AnotherExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int8),
     Pointer<Void> Function(int)
-  >('smoke_Structs_AnotherExternalStruct_create_handle');
+  >('library_smoke_Structs_AnotherExternalStruct_create_handle');
 final _smoke_Structs_AnotherExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_AnotherExternalStruct_release_handle');
+  >('library_smoke_Structs_AnotherExternalStruct_release_handle');
 final _smoke_Structs_AnotherExternalStruct_get_field_intField = __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Structs_AnotherExternalStruct_get_field_intField');
+  >('library_smoke_Structs_AnotherExternalStruct_get_field_intField');
 Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi(Structs_AnotherExternalStruct value) {
   final _intField_handle = (value.intField);
   final _result = _smoke_Structs_AnotherExternalStruct_create_handle(_intField_handle);
@@ -613,15 +613,15 @@ void smoke_Structs_AnotherExternalStruct_releaseFfiHandle(Pointer<Void> handle) 
 final _smoke_Structs_AnotherExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AnotherExternalStruct_create_handle_nullable');
+  >('library_smoke_Structs_AnotherExternalStruct_create_handle_nullable');
 final _smoke_Structs_AnotherExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_AnotherExternalStruct_release_handle_nullable');
+  >('library_smoke_Structs_AnotherExternalStruct_release_handle_nullable');
 final _smoke_Structs_AnotherExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_AnotherExternalStruct_get_value_nullable');
+  >('library_smoke_Structs_AnotherExternalStruct_get_value_nullable');
 Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi_nullable(Structs_AnotherExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_AnotherExternalStruct_toFfi(value);
@@ -647,15 +647,15 @@ class Structs_YetAnotherExternalStruct {
 final _smoke_Structs_YetAnotherExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_YetAnotherExternalStruct_create_handle');
+  >('library_smoke_Structs_YetAnotherExternalStruct_create_handle');
 final _smoke_Structs_YetAnotherExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_YetAnotherExternalStruct_release_handle');
+  >('library_smoke_Structs_YetAnotherExternalStruct_release_handle');
 final _smoke_Structs_YetAnotherExternalStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_YetAnotherExternalStruct_get_field_stringField');
+  >('library_smoke_Structs_YetAnotherExternalStruct_get_field_stringField');
 Pointer<Void> smoke_Structs_YetAnotherExternalStruct_toFfi(Structs_YetAnotherExternalStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_Structs_YetAnotherExternalStruct_create_handle(_stringField_handle);
@@ -675,15 +675,15 @@ void smoke_Structs_YetAnotherExternalStruct_releaseFfiHandle(Pointer<Void> handl
 final _smoke_Structs_YetAnotherExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_YetAnotherExternalStruct_create_handle_nullable');
+  >('library_smoke_Structs_YetAnotherExternalStruct_create_handle_nullable');
 final _smoke_Structs_YetAnotherExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_YetAnotherExternalStruct_release_handle_nullable');
+  >('library_smoke_Structs_YetAnotherExternalStruct_release_handle_nullable');
 final _smoke_Structs_YetAnotherExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_YetAnotherExternalStruct_get_value_nullable');
+  >('library_smoke_Structs_YetAnotherExternalStruct_get_value_nullable');
 Pointer<Void> smoke_Structs_YetAnotherExternalStruct_toFfi_nullable(Structs_YetAnotherExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_YetAnotherExternalStruct_toFfi(value);
@@ -709,15 +709,15 @@ class Structs_NestingImmutableStruct {
 final _smoke_Structs_NestingImmutableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_NestingImmutableStruct_create_handle');
+  >('library_smoke_Structs_NestingImmutableStruct_create_handle');
 final _smoke_Structs_NestingImmutableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_NestingImmutableStruct_release_handle');
+  >('library_smoke_Structs_NestingImmutableStruct_release_handle');
 final _smoke_Structs_NestingImmutableStruct_get_field_structField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_NestingImmutableStruct_get_field_structField');
+  >('library_smoke_Structs_NestingImmutableStruct_get_field_structField');
 Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi(Structs_NestingImmutableStruct value) {
   final _structField_handle = smoke_Structs_AllTypesStruct_toFfi(value.structField);
   final _result = _smoke_Structs_NestingImmutableStruct_create_handle(_structField_handle);
@@ -737,15 +737,15 @@ void smoke_Structs_NestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle)
 final _smoke_Structs_NestingImmutableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_NestingImmutableStruct_create_handle_nullable');
+  >('library_smoke_Structs_NestingImmutableStruct_create_handle_nullable');
 final _smoke_Structs_NestingImmutableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_NestingImmutableStruct_release_handle_nullable');
+  >('library_smoke_Structs_NestingImmutableStruct_release_handle_nullable');
 final _smoke_Structs_NestingImmutableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_NestingImmutableStruct_get_value_nullable');
+  >('library_smoke_Structs_NestingImmutableStruct_get_value_nullable');
 Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi_nullable(Structs_NestingImmutableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_NestingImmutableStruct_toFfi(value);
@@ -771,15 +771,15 @@ class Structs_DoubleNestingImmutableStruct {
 final _smoke_Structs_DoubleNestingImmutableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_DoubleNestingImmutableStruct_create_handle');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle');
 final _smoke_Structs_DoubleNestingImmutableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_DoubleNestingImmutableStruct_release_handle');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle');
 final _smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField');
 Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi(Structs_DoubleNestingImmutableStruct value) {
   final _nestingStructField_handle = smoke_Structs_NestingImmutableStruct_toFfi(value.nestingStructField);
   final _result = _smoke_Structs_DoubleNestingImmutableStruct_create_handle(_nestingStructField_handle);
@@ -799,15 +799,15 @@ void smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle(Pointer<Void> h
 final _smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable');
 final _smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable');
 final _smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable');
 Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi_nullable(Structs_DoubleNestingImmutableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_DoubleNestingImmutableStruct_toFfi(value);
@@ -833,27 +833,27 @@ class Structs_StructWithArrayOfImmutable {
 final _smoke_Structs_StructWithArrayOfImmutable_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_StructWithArrayOfImmutable_create_handle');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle');
 final _smoke_Structs_StructWithArrayOfImmutable_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_StructWithArrayOfImmutable_release_handle');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle');
 final _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField');
 Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi(Structs_StructWithArrayOfImmutable value) {
-  final _arrayField_handle = library_ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
+  final _arrayField_handle = ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
   final _result = _smoke_Structs_StructWithArrayOfImmutable_create_handle(_arrayField_handle);
-  library_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+  ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
   return _result;
 }
 Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_fromFfi(Pointer<Void> handle) {
   final _arrayField_handle = _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField(handle);
   final _result = Structs_StructWithArrayOfImmutable(
-    library_ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
+    ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
   );
-  library_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+  ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
   return _result;
 }
 void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_StructWithArrayOfImmutable_release_handle(handle);
@@ -861,15 +861,15 @@ void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> han
 final _smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable');
 final _smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable');
 final _smoke_Structs_StructWithArrayOfImmutable_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_StructWithArrayOfImmutable_get_value_nullable');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_get_value_nullable');
 Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi_nullable(Structs_StructWithArrayOfImmutable value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_StructWithArrayOfImmutable_toFfi(value);
@@ -895,15 +895,15 @@ class Structs_ImmutableStructWithCppAccessors {
 final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ImmutableStructWithCppAccessors_create_handle');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle');
 final _smoke_Structs_ImmutableStructWithCppAccessors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_ImmutableStructWithCppAccessors_release_handle');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle');
 final _smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField');
 Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi(Structs_ImmutableStructWithCppAccessors value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_Structs_ImmutableStructWithCppAccessors_create_handle(_stringField_handle);
@@ -923,15 +923,15 @@ void smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void
 final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable');
 final _smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable');
 final _smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable');
 Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi_nullable(Structs_ImmutableStructWithCppAccessors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_ImmutableStructWithCppAccessors_toFfi(value);
@@ -957,15 +957,15 @@ class Structs_MutableStructWithCppAccessors {
 final _smoke_Structs_MutableStructWithCppAccessors_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_MutableStructWithCppAccessors_create_handle');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle');
 final _smoke_Structs_MutableStructWithCppAccessors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_MutableStructWithCppAccessors_release_handle');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle');
 final _smoke_Structs_MutableStructWithCppAccessors_get_field_stringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_MutableStructWithCppAccessors_get_field_stringField');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_get_field_stringField');
 Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi(Structs_MutableStructWithCppAccessors value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_Structs_MutableStructWithCppAccessors_create_handle(_stringField_handle);
@@ -985,15 +985,15 @@ void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> 
 final _smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable');
 final _smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable');
 final _smoke_Structs_MutableStructWithCppAccessors_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Structs_MutableStructWithCppAccessors_get_value_nullable');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_get_value_nullable');
 Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi_nullable(Structs_MutableStructWithCppAccessors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_MutableStructWithCppAccessors_toFfi(value);

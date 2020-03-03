@@ -9,13 +9,13 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
-smoke_SimpleClass_getStringValue(FfiOpaqueHandle _self) {
+library_smoke_SimpleClass_getStringValue(FfiOpaqueHandle _self) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(_self)).get_string_value()
     );
 }
 FfiOpaqueHandle
-smoke_SimpleClass_useSimpleClass__SimpleClass(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_SimpleClass_useSimpleClass__SimpleClass(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(_self)).use_simple_class(
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(input)
@@ -23,7 +23,7 @@ smoke_SimpleClass_useSimpleClass__SimpleClass(FfiOpaqueHandle _self, FfiOpaqueHa
     );
 }
 FfiOpaqueHandle
-smoke_SimpleClass_copy_handle(FfiOpaqueHandle handle) {
+library_smoke_SimpleClass_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::SimpleClass>(
             *reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(handle)
@@ -31,7 +31,7 @@ smoke_SimpleClass_copy_handle(FfiOpaqueHandle handle) {
     );
 }
 void
-smoke_SimpleClass_release_handle(FfiOpaqueHandle handle) {
+library_smoke_SimpleClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(handle);
 }
 #ifdef __cplusplus

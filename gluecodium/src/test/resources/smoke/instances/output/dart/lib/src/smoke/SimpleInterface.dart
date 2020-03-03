@@ -14,23 +14,23 @@ abstract class SimpleInterface {
 final _smoke_SimpleInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_SimpleInterface_copy_handle');
+  >('library_smoke_SimpleInterface_copy_handle');
 final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_SimpleInterface_release_handle');
+  >('library_smoke_SimpleInterface_release_handle');
 final _smoke_SimpleInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer, Pointer),
     Pointer<Void> Function(int, Pointer, Pointer)
-  >('smoke_SimpleInterface_create_proxy');
+  >('library_smoke_SimpleInterface_create_proxy');
 final _smoke_SimpleInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_SimpleInterface_get_raw_pointer');
+    >('library_smoke_SimpleInterface_get_raw_pointer');
 final _smoke_SimpleInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_SimpleInterface_get_type_id');
+  >('library_smoke_SimpleInterface_get_type_id');
 class SimpleInterface__Impl implements SimpleInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -39,7 +39,7 @@ class SimpleInterface__Impl implements SimpleInterface {
   void release() => _smoke_SimpleInterface_release_handle(handle);
   @override
   String getStringValue() {
-    final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_SimpleInterface_getStringValue');
+    final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_SimpleInterface_getStringValue');
     final __result_handle = _getStringValue_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -47,7 +47,7 @@ class SimpleInterface__Impl implements SimpleInterface {
   }
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) {
-    final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
+    final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
     final _input_handle = smoke_SimpleInterface_toFfi(input);
     final __result_handle = _useSimpleInterface_ffi(_handle, _input_handle);
     smoke_SimpleInterface_releaseFfiHandle(_input_handle);

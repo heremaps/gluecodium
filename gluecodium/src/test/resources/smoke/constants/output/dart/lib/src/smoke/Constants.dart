@@ -35,15 +35,15 @@ void smoke_Constants_StateEnum_releaseFfiHandle(int handle) {}
 final _smoke_Constants_StateEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('smoke_Constants_StateEnum_create_handle_nullable');
+  >('library_smoke_Constants_StateEnum_create_handle_nullable');
 final _smoke_Constants_StateEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Constants_StateEnum_release_handle_nullable');
+  >('library_smoke_Constants_StateEnum_release_handle_nullable');
 final _smoke_Constants_StateEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Constants_StateEnum_get_value_nullable');
+  >('library_smoke_Constants_StateEnum_get_value_nullable');
 Pointer<Void> smoke_Constants_StateEnum_toFfi_nullable(StateEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Constants_StateEnum_toFfi(value);

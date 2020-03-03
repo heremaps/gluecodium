@@ -13,23 +13,23 @@ abstract class weeListener {
 final _smoke_PlatformNamesListener_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PlatformNamesListener_copy_handle');
+  >('library_smoke_PlatformNamesListener_copy_handle');
 final _smoke_PlatformNamesListener_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_PlatformNamesListener_release_handle');
+  >('library_smoke_PlatformNamesListener_release_handle');
 final _smoke_PlatformNamesListener_create_proxy = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Pointer),
     Pointer<Void> Function(int, Pointer)
-  >('smoke_PlatformNamesListener_create_proxy');
+  >('library_smoke_PlatformNamesListener_create_proxy');
 final _smoke_PlatformNamesListener_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_PlatformNamesListener_get_raw_pointer');
+    >('library_smoke_PlatformNamesListener_get_raw_pointer');
 final _smoke_PlatformNamesListener_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PlatformNamesListener_get_type_id');
+  >('library_smoke_PlatformNamesListener_get_type_id');
 class weeListener__Impl implements weeListener {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -38,7 +38,7 @@ class weeListener__Impl implements weeListener {
   void release() => _smoke_PlatformNamesListener_release_handle(handle);
   @override
   WeeMethod(String WeeParameter) {
-    final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('smoke_PlatformNamesListener_basicMethod__String');
+    final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String');
     final _WeeParameter_handle = String_toFfi(WeeParameter);
     final __result_handle = _WeeMethod_ffi(_handle, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);

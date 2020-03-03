@@ -71,7 +71,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules)
-        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, libraryName)
+        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules)
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
@@ -215,6 +215,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
         val data = mapOf(
             "model" to rootElement,
+            "libraryName" to libraryName,
             "classes" to classes,
             "enums" to enums,
             "interfaces" to interfaces,
@@ -295,6 +296,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
         val headerAndImpl = listOf("StringHandle", "BlobHandle", "NullableHandles")
         val data = mapOf(
+            "libraryName" to libraryName,
             "opaqueHandleType" to OPAQUE_HANDLE_TYPE,
             "internalNamespace" to internalNamespace,
             "builtInTypes" to
@@ -328,9 +330,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val content = TemplateEngine.render(
             "dart/DartGenericTypesConversion",
             mapOf(
+                "libraryName" to libraryName,
                 "imports" to imports.distinct().sorted(),
-                "genericTypes" to genericTypes,
-                "libraryName" to libraryName
+                "genericTypes" to genericTypes
             ),
             nameResolvers
         )
@@ -347,6 +349,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val fileName = "GenericTypesConversion"
         val data = mapOf(
+            "libraryName" to libraryName,
             "genericTypes" to genericTypes,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,
