@@ -47,7 +47,7 @@ public:
          */
         ::smoke::DeprecationComments::Usefulness some_field;
         SomeStruct( );
-        SomeStruct( const ::smoke::DeprecationComments::Usefulness some_field );
+        SomeStruct( ::smoke::DeprecationComments::Usefulness some_field );
     };
     /**
      * This is some very useful constant.

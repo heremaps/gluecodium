@@ -14,8 +14,8 @@ StructsWithConstantsInterface::MultiRoute::MultiRoute( )
     : descriptions{ }, type{ }
 {
 }
-StructsWithConstantsInterface::MultiRoute::MultiRoute( const ::std::vector< ::std::string >& descriptions, const ::smoke::RouteType type )
-    : descriptions( descriptions ), type( type )
+StructsWithConstantsInterface::MultiRoute::MultiRoute( ::std::vector< ::std::string > descriptions, ::smoke::RouteType type )
+    : descriptions( std::move( descriptions ) ), type( std::move( type ) )
 {
 }
 const ::std::string StructsWithConstantsInterface::StructWithConstantsOnly::DEFAULT_DESCRIPTION = "Foo";

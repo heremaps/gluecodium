@@ -33,7 +33,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT BasicStruct {
         double value;
         BasicStruct( );
-        BasicStruct( const double value );
+        BasicStruct( double value );
     };
 public:
     virtual ::std::vector< ::alien::FooStruct > method_with_struct_list( const ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;

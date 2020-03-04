@@ -29,14 +29,14 @@ const {{type.name}} {{#parentName}}{{.}}::{{/parentName}}{{structName}}::{{name}
 }{{/if}}
 {{#if hasPartialDefaults}}
 
-{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} )
-    : {{#uninitializedFields}}{{name}}{{#initializer}}( {{name}} ){{/initializer}}{{!!
-}}{{^initializer}}( {{name}} ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
+{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial uninitializedFields "structConstructorParameter" ", "}} )
+    : {{#uninitializedFields}}{{name}}{{#initializer}}( std::move( {{name}} ) ){{/initializer}}{{!!
+}}{{^initializer}}( std::move( {{name}} ) ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
 {
 }{{/if}}
 
-{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} )
-    : {{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
+{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial fields "structConstructorParameter" ", "}} )
+    : {{#fields}}{{name}}( std::move( {{name}} ) ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 
@@ -91,4 +91,6 @@ static_assert(
             ? ( *{{name}} == *rhs.{{name}} )
             : ( static_cast< bool >( {{name}} ) == static_cast< bool >( rhs.{{name}} ) ) ){{!!
 }}{{/needsPointerValueEqual}}{{^needsPointerValueEqual}}{{!!
-}}{{name}} == rhs.{{name}}{{/needsPointerValueEqual}}{{/fieldEq}}
+}}{{name}} == rhs.{{name}}{{/needsPointerValueEqual}}{{/fieldEq}}{{!!
+
+}}{{+structConstructorParameter}}{{type.name}} {{name}}{{/structConstructorParameter}}

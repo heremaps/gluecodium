@@ -3,13 +3,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/EquatableStructWithAccessors.h"
+#include <utility>
 namespace smoke {
 EquatableStructWithAccessors::EquatableStructWithAccessors( )
     : foo_field{ }
 {
 }
-EquatableStructWithAccessors::EquatableStructWithAccessors( const ::std::string& foo_field )
-    : foo_field( foo_field )
+EquatableStructWithAccessors::EquatableStructWithAccessors( ::std::string foo_field )
+    : foo_field( std::move( foo_field ) )
 {
 }
 bool EquatableStructWithAccessors::operator==( const EquatableStructWithAccessors& rhs ) const

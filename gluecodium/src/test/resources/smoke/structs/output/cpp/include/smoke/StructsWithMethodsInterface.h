@@ -18,7 +18,7 @@ public:
         double y;
         double z;
         Vector3( );
-        Vector3( const double x, const double y, const double z );
+        Vector3( double x, double y, double z );
         double distance_to( const ::smoke::StructsWithMethodsInterface::Vector3& other ) const;
         ::smoke::StructsWithMethodsInterface::Vector3 add( const ::smoke::StructsWithMethodsInterface::Vector3& other ) const;
         static bool validate( const double x, const double y, const double z );

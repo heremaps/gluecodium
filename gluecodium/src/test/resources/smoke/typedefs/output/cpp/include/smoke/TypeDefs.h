@@ -19,12 +19,12 @@ public:
     struct _GLUECODIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
         ::smoke::TypeDefs::PrimitiveTypeDef field;
         StructHavingAliasFieldDefinedBelow( );
-        StructHavingAliasFieldDefinedBelow( const ::smoke::TypeDefs::PrimitiveTypeDef field );
+        StructHavingAliasFieldDefinedBelow( ::smoke::TypeDefs::PrimitiveTypeDef field );
     };
     struct _GLUECODIUM_CPP_EXPORT TestStruct {
         ::std::string something;
         TestStruct( );
-        TestStruct( const ::std::string& something );
+        TestStruct( ::std::string something );
     };
     using StructArray = ::std::vector< ::smoke::TypeDefs::TestStruct >;
     using ComplexTypeDef = ::smoke::TypeDefs::StructArray;

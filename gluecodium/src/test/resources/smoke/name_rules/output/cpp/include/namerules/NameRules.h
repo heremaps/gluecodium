@@ -29,7 +29,7 @@ public:
         double m_value;
         ::std::vector< int64_t > m_int_value;
         ExampleStruct( );
-        ExampleStruct( const double m_value, const ::std::vector< int64_t >& m_int_value );
+        ExampleStruct( double m_value, ::std::vector< int64_t > m_int_value );
     };
 public:
     /**

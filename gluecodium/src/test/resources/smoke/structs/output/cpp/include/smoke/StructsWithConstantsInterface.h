@@ -18,7 +18,7 @@ public:
         ::std::vector< ::std::string > descriptions;
         ::smoke::RouteType type;
         MultiRoute( );
-        MultiRoute( const ::std::vector< ::std::string >& descriptions, const ::smoke::RouteType type );
+        MultiRoute( ::std::vector< ::std::string > descriptions, ::smoke::RouteType type );
         _GLUECODIUM_CPP_EXPORT static const ::std::string DEFAULT_DESCRIPTION;
         _GLUECODIUM_CPP_EXPORT static const ::smoke::RouteType DEFAULT_TYPE;
     };

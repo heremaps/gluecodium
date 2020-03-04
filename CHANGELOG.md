@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed C++ struct constructors to avoid unnecessary copying.
+
 ## 6.3.1.
 Release date: 2020-03-02
 ### Bug fixes:

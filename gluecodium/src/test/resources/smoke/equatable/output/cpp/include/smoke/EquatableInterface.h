@@ -26,7 +26,7 @@ public:
         /// \warning @NotNull
         ::std::shared_ptr< ::smoke::PointerEquatableInterface > nested_pointer_equatable_instance;
         EquatableStruct( );
-        EquatableStruct( const int32_t int_field, const ::std::string& string_field, const ::std::shared_ptr< ::smoke::EquatableInterface >& nested_equatable_instance, const ::std::shared_ptr< ::smoke::PointerEquatableInterface >& nested_pointer_equatable_instance );
+        EquatableStruct( int32_t int_field, ::std::string string_field, ::std::shared_ptr< ::smoke::EquatableInterface > nested_equatable_instance, ::std::shared_ptr< ::smoke::PointerEquatableInterface > nested_pointer_equatable_instance );
         bool operator==( const EquatableStruct& rhs ) const;
         bool operator!=( const EquatableStruct& rhs ) const;
     };

@@ -11,7 +11,7 @@ struct _GLUECODIUM_CPP_EXPORT Vector {
     double x;
     double y;
     Vector( );
-    Vector( const double x, const double y );
+    Vector( double x, double y );
     double distance_to( const ::smoke::Vector& other ) const;
     ::smoke::Vector add( const ::smoke::Vector& other ) const;
     static bool validate( const double x, const double y );
