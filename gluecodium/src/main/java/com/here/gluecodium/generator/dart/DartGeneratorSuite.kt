@@ -135,7 +135,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val allSymbols = (allTypes + freeConstants)
             .filterNot { it.visibility.isInternal }
             .map { dartNameResolver.resolveName(it) }
-        exportsCollector += DartExport(relativePath, allSymbols)
+        if (allSymbols.isNotEmpty()) {
+            exportsCollector += DartExport(relativePath, allSymbols)
+        }
         typeRepositoriesCollector += getTypeRepositories(allTypes)
 
         val parentImports = (rootElement as? LimeContainerWithInheritance)?.parent
