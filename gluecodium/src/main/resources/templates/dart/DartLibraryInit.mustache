@@ -25,10 +25,18 @@ import 'dart:io' show Platform;
 
 import 'package:ffi/ffi.dart';
 
-final nativeLibrary = DynamicLibrary.open(_getLibraryPath());
+final nativeLibrary = _loadNativeLibrary();
+
+DynamicLibrary _loadNativeLibrary() {
+  try {
+    return DynamicLibrary.open(_getLibraryPath());
+  } catch (e) {
+    return DynamicLibrary.process();
+  }
+}
 
 String _getLibraryPath() {
   if (Platform.isWindows) return 'lib{{libraryName}}.dll';
-  if (Platform.isMacOS) return 'lib{{libraryName}}.dylib';
+  if (Platform.isMacOS || Platform.isIOS) return 'lib{{libraryName}}.dylib';
   return 'lib{{libraryName}}.so';
 }
