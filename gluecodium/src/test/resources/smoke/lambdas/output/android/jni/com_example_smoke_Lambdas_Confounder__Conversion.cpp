@@ -6,6 +6,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniWrapperCache.h"
 #include <new>
 namespace gluecodium
 {

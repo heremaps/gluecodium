@@ -12,6 +12,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructList(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -136,6 +137,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(JNIE
 JNIEXPORT void JNICALL
 Java_com_example_smoke_GenericTypesWithCompoundTypes_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (_jpointerRef);
+    auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*>(_jpointerRef);
+    ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
 }
 }

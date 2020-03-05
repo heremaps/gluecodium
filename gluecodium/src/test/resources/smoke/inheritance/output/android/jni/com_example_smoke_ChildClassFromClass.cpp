@@ -6,6 +6,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 void
 Java_com_example_smoke_ChildClassFromClass_childClassMethod(JNIEnv* _jenv, jobject _jinstance)
@@ -21,6 +22,8 @@ Java_com_example_smoke_ChildClassFromClass_childClassMethod(JNIEnv* _jenv, jobje
 JNIEXPORT void JNICALL
 Java_com_example_smoke_ChildClassFromClass_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::smoke::ChildClassFromClass>*> (_jpointerRef);
+    auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::ChildClassFromClass>*>(_jpointerRef);
+    ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
 }
 }

@@ -5,6 +5,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniWrapperCache.h"
 #include <new>
 namespace gluecodium
 {
@@ -41,10 +42,9 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::SimpleClass>& _ninp
         return {};
     }
     auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
-    if ( jResult )
-    {
-        return jResult;
-    }
+    if (jResult) return jResult;
+    jResult = ::gluecodium::jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
+    if (jResult) return jResult;
     auto &javaClass = CachedJavaClass<::smoke::SimpleClass>::java_class;
     auto pInstanceSharedPointer = new (::std::nothrow) std::shared_ptr<::smoke::SimpleClass>(_ninput);
     if ( pInstanceSharedPointer == nullptr )
@@ -54,6 +54,7 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::SimpleClass>& _ninp
     }
     jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+    ::gluecodium::jni::JniWrapperCache::cache_wrapper(_jenv, _ninput, jResult);
     return jResult;
 }
 }

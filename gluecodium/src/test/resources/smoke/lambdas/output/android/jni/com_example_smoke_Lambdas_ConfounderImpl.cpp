@@ -7,6 +7,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 jobject
 Java_com_example_smoke_Lambdas_00024ConfounderImpl_confuse(JNIEnv* _jenv, jobject _jinstance, jstring jp0)

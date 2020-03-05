@@ -6,6 +6,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniWrapperCache.h"
 #include <new>
 namespace gluecodium
 {
@@ -47,10 +48,9 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ExternalInterface>&
         return {};
     }
     auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
-    if ( jResult )
-    {
-        return jResult;
-    }
+    if (jResult) return jResult;
+    jResult = ::gluecodium::jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
+    if (jResult) return jResult;
     const auto& id = ::gluecodium::get_type_repository(static_cast< ::smoke::ExternalInterface* >(nullptr)).get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<::smoke::ExternalInterface>::get_java_class(id);
     auto pInstanceSharedPointer = new (::std::nothrow) std::shared_ptr<::smoke::ExternalInterface>(_ninput);
@@ -61,6 +61,7 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ExternalInterface>&
     }
     jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+    ::gluecodium::jni::JniWrapperCache::cache_wrapper(_jenv, _ninput, jResult);
     return jResult;
 }
 }

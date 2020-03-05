@@ -245,6 +245,7 @@ open class JavaGeneratorSuite protected constructor(
         private const val JNI_REFERENCE = "JniReference"
         private const val JNI_CALL_JAVA_METHOD = "JniCallJavaMethod"
         private const val JNI_CLASS_CACHE = "JniClassCache"
+        private const val JNI_WRAPPER_CACHE = "JniWrapperCache"
 
         private val UTILS_FILES = listOf(
             CPP_PROXY_BASE,
@@ -252,10 +253,14 @@ open class JavaGeneratorSuite protected constructor(
             JNI_BASE,
             JNI_CPP_CONVERSION_UTILS,
             BOXING_CONVERSION_UTILS,
-            JNI_CLASS_CACHE
+            JNI_CLASS_CACHE,
+            JNI_WRAPPER_CACHE
         )
         private val UTILS_FILES_HEADER_ONLY = listOf(
-            JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD, ARRAY_CONVERSION_UTILS
+            JNI_TEMPLATE_METAINFO,
+            JNI_REFERENCE,
+            JNI_CALL_JAVA_METHOD,
+            ARRAY_CONVERSION_UTILS
         )
 
         private const val NATIVE_BASE_JAVA = "NativeBase.java"

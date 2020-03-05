@@ -7,6 +7,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 jobject
 Java_com_example_smoke_NestedReferences_insideOut(JNIEnv* _jenv, jobject _jinstance, jobject jstruct1, jobject jstruct2)
@@ -29,6 +30,8 @@ Java_com_example_smoke_NestedReferences_insideOut(JNIEnv* _jenv, jobject _jinsta
 JNIEXPORT void JNICALL
 Java_com_example_smoke_NestedReferences_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::smoke::NestedReferences>*> (_jpointerRef);
+    auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::NestedReferences>*>(_jpointerRef);
+    ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
 }
 }

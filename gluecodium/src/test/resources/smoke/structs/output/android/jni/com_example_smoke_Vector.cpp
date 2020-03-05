@@ -7,6 +7,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 jdouble
 Java_com_example_smoke_Vector_distanceTo(JNIEnv* _jenv, jobject _jinstance, jobject jother)
