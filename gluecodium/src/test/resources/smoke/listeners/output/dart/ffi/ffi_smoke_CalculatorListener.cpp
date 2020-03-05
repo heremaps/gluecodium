@@ -1,5 +1,6 @@
 #include "ffi_smoke_CalculatorListener.h"
 #include "ConversionBase.h"
+#include "ProxyCache.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/CalculatorListener.h"
@@ -113,11 +114,17 @@ library_smoke_CalculatorListener_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::CalculatorListener>(
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_CalculatorListener_Proxy>(token);
+    std::shared_ptr<smoke_CalculatorListener_Proxy>* proxy_ptr;
+    if (cached_proxy) {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_CalculatorListener_Proxy>(cached_proxy);
+    } else {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_CalculatorListener_Proxy>(
             new (std::nothrow) smoke_CalculatorListener_Proxy(token, deleter, f0, f1, f2, f3, f4, f5)
-        )
-    );
+        );
+        gluecodium::ffi::cache_proxy(token, *proxy_ptr);
+    }
+    return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_get_raw_pointer(FfiOpaqueHandle handle) {

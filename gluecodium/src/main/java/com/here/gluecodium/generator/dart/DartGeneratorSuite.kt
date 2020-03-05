@@ -211,7 +211,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             structs.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) } +
             enums.flatMap { includeResolver.resolveIncludes(it) } +
-            resolveThrownTypeIncludes(types)
+            resolveThrownTypeIncludes(types) + resolveProxyIncludes(types)
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
@@ -245,6 +245,15 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .filterIsInstance<LimeEnumeration>()
         return when {
             exceptionEnums.isNotEmpty() -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
+            else -> emptyList()
+        }
+    }
+
+    private fun resolveProxyIncludes(types: List<LimeType>): List<Include> {
+        val proxiedTypes =
+            types.filterIsInstance<LimeInterface>() + types.filterIsInstance<LimeLambda>()
+        return when {
+            proxiedTypes.isNotEmpty() -> listOf(Include.createInternalInclude("ProxyCache.h"))
             else -> emptyList()
         }
     }
@@ -295,7 +304,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private fun generateFfiCommonFiles(
         nameResolvers: Map<String, NameResolver>
     ): List<GeneratedFile> {
-        val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
+        val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle", "ProxyCache")
         val headerAndImpl = listOf("StringHandle", "BlobHandle", "NullableHandles")
         val data = mapOf(
             "libraryName" to libraryName,

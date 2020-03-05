@@ -107,15 +107,22 @@ FfiOpaqueHandle
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<{{resolveName "C++"}}>(
+    auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token);
+    std::shared_ptr<{{resolveName}}_Proxy>* proxy_ptr;
+    if (cached_proxy) {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(cached_proxy);
+    } else {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(
             new (std::nothrow) {{resolveName}}_Proxy(token, deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
             }}{{#each inheritedFunctions functions}}f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
             }}{{#if inheritedProperties properties logic="or"}}, {{!!
             }}{{#each inheritedProperties properties}}p{{iter.position}}g{{!!
             }}{{#if setter}}, p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}})
-        )
-    );
+        );
+        {{>ffi/FfiInternal}}::cache_proxy(token, *proxy_ptr);
+    }
+
+    return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 
 FfiOpaqueHandle
@@ -129,10 +136,15 @@ FfiOpaqueHandle
 {{#lambdas}}
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+    auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token);
+    if (!cached_proxy) {
+        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, deleter, f0);
+        {{>ffi/FfiInternal}}::cache_proxy(token, cached_proxy);
+    }
+
     return reinterpret_cast<FfiOpaqueHandle>(
         new {{resolveName "C++"}}(
-            std::bind(&{{resolveName}}_Proxy::operator(), std::make_shared<{{resolveName}}_Proxy>(token, deleter, f0){{!!
-            }}{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}})
+            std::bind(&{{resolveName}}_Proxy::operator(), cached_proxy{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}})
         )
     );
 }

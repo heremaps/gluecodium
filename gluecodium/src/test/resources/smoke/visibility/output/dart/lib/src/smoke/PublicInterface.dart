@@ -101,9 +101,10 @@ class PublicInterface__Impl implements PublicInterface {
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface__Impl) return _smoke_PublicInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_PublicInterface_create_proxy(token, __lib.uncacheObjectFfi);
+  final result = _smoke_PublicInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
   __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(result)] = value;
   return result;
 }

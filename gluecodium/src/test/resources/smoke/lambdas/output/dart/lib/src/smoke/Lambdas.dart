@@ -89,9 +89,11 @@ int _Lambdas_Producer_call_static(int _token, Pointer<Pointer<Void>> _result) {
   return 0;
 }
 Pointer<Void> smoke_Lambdas_Producer_toFfi(Lambdas_Producer value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_Lambdas_Producer_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_Lambdas_Producer_call_static, __lib.unknownError));
+  final result = _smoke_Lambdas_Producer_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_Lambdas_Producer_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_Lambdas_Producer_get_raw_pointer(result)] = value;
   return result;
 }
@@ -178,9 +180,11 @@ int _Lambdas_Confuser_call_static(int _token, Pointer<Void> p0, Pointer<Pointer<
   return 0;
 }
 Pointer<Void> smoke_Lambdas_Confuser_toFfi(Lambdas_Confuser value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_Lambdas_Confuser_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_Confuser_call_static, __lib.unknownError));
+  final result = _smoke_Lambdas_Confuser_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_Confuser_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_Lambdas_Confuser_get_raw_pointer(result)] = value;
   return result;
 }
@@ -265,9 +269,11 @@ int _Lambdas_Consumer_call_static(int _token, Pointer<Void> p0) {
   return 0;
 }
 Pointer<Void> smoke_Lambdas_Consumer_toFfi(Lambdas_Consumer value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_Lambdas_Consumer_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_Lambdas_Consumer_call_static, __lib.unknownError));
+  final result = _smoke_Lambdas_Consumer_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_Lambdas_Consumer_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_Lambdas_Consumer_get_raw_pointer(result)] = value;
   return result;
 }
@@ -356,9 +362,11 @@ int _Lambdas_Indexer_call_static(int _token, Pointer<Void> p0, double p1, Pointe
   return 0;
 }
 Pointer<Void> smoke_Lambdas_Indexer_toFfi(Lambdas_Indexer value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_Lambdas_Indexer_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Float, Pointer<Int32>)>(_Lambdas_Indexer_call_static, __lib.unknownError));
+  final result = _smoke_Lambdas_Indexer_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Float, Pointer<Int32>)>(_Lambdas_Indexer_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_Lambdas_Indexer_get_raw_pointer(result)] = value;
   return result;
 }
@@ -444,9 +452,11 @@ int _Lambdas_NullableConfuser_call_static(int _token, Pointer<Void> p0, Pointer<
   return 0;
 }
 Pointer<Void> smoke_Lambdas_NullableConfuser_toFfi(Lambdas_NullableConfuser value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_Lambdas_NullableConfuser_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_NullableConfuser_call_static, __lib.unknownError));
+  final result = _smoke_Lambdas_NullableConfuser_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_NullableConfuser_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_Lambdas_NullableConfuser_get_raw_pointer(result)] = value;
   return result;
 }

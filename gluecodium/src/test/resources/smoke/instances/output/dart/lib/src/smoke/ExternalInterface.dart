@@ -180,9 +180,12 @@ int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>
 }
 Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
   if (value is ExternalInterface__Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_ExternalInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError));
+  final result = _smoke_ExternalInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_ExternalInterface_get_raw_pointer(result)] = value;
   return result;
 }

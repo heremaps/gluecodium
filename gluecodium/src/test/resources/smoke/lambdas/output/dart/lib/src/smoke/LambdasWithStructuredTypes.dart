@@ -88,9 +88,11 @@ int _LambdasWithStructuredTypes_ClassCallback_call_static(int _token, Pointer<Vo
   return 0;
 }
 Pointer<Void> smoke_LambdasWithStructuredTypes_ClassCallback_toFfi(LambdasWithStructuredTypes_ClassCallback value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_LambdasWithStructuredTypes_ClassCallback_call_static, __lib.unknownError));
+  final result = _smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_LambdasWithStructuredTypes_ClassCallback_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_LambdasWithStructuredTypes_ClassCallback_get_raw_pointer(result)] = value;
   return result;
 }
@@ -175,9 +177,11 @@ int _LambdasWithStructuredTypes_StructCallback_call_static(int _token, Pointer<V
   return 0;
 }
 Pointer<Void> smoke_LambdasWithStructuredTypes_StructCallback_toFfi(LambdasWithStructuredTypes_StructCallback value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_LambdasWithStructuredTypes_StructCallback_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_LambdasWithStructuredTypes_StructCallback_call_static, __lib.unknownError));
+  final result = _smoke_LambdasWithStructuredTypes_StructCallback_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_LambdasWithStructuredTypes_StructCallback_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_LambdasWithStructuredTypes_StructCallback_get_raw_pointer(result)] = value;
   return result;
 }

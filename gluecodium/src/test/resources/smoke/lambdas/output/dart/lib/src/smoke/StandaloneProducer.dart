@@ -41,9 +41,11 @@ int _StandaloneProducer_call_static(int _token, Pointer<Pointer<Void>> _result) 
   return 0;
 }
 Pointer<Void> smoke_StandaloneProducer_toFfi(StandaloneProducer value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_StandaloneProducer_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducer_call_static, __lib.unknownError));
+  final result = _smoke_StandaloneProducer_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducer_call_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_StandaloneProducer_get_raw_pointer(result)] = value;
   return result;
 }

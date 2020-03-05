@@ -75,12 +75,11 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{/asFunction}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-
-  final result = _{{resolveName "Ffi"}}_create_proxy(token, __lib.uncacheObjectFfi, {{#set parent=this}}{{#asFunction}}{{!!
-  }}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{!!
-  }}{{/asFunction}}{{/set}});
+  final result = _{{resolveName "Ffi"}}_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,{{#set parent=this}}{{#asFunction}}
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{/asFunction}}{{/set}}
+  );
   __lib.reverseCache[_{{resolveName "Ffi"}}_get_raw_pointer(result)] = value;
 
   return result;
