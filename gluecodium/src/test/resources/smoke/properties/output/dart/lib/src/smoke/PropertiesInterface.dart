@@ -82,8 +82,8 @@ final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunc
     void Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_release_handle');
 final _smoke_PropertiesInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer, Pointer)
   >('library_smoke_PropertiesInterface_create_proxy');
 final _smoke_PropertiesInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -129,7 +129,7 @@ Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface value) {
   if (value is PropertiesInterface__Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
-  final result = _smoke_PropertiesInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterface_structProperty_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_PropertiesInterface_structProperty_set_static, __lib.unknownError));
+  final result = _smoke_PropertiesInterface_create_proxy(token, __lib.uncacheObjectFfi, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterface_structProperty_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_PropertiesInterface_structProperty_set_static, __lib.unknownError));
   __lib.reverseCache[_smoke_PropertiesInterface_get_raw_pointer(result)] = value;
   return result;
 }

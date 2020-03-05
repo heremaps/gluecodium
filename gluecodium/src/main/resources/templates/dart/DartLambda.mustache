@@ -33,8 +33,8 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
 final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer)
   >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy');
 final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -78,7 +78,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
 
-  final result = _{{resolveName "Ffi"}}_create_proxy(token, {{#set parent=this}}{{#asFunction}}{{!!
+  final result = _{{resolveName "Ffi"}}_create_proxy(token, __lib.uncacheObjectFfi, {{#set parent=this}}{{#asFunction}}{{!!
   }}Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{!!
   }}{{/asFunction}}{{/set}});
   __lib.reverseCache[_{{resolveName "Ffi"}}_get_raw_pointer(result)] = value;

@@ -9,8 +9,11 @@
 #include <new>
 class smoke_CalculatorListener_Proxy : public ::smoke::CalculatorListener {
 public:
-    smoke_CalculatorListener_Proxy(uint64_t token, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5)
-        : token(token), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) { }
+    smoke_CalculatorListener_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5)
+        : token(token), deleter(deleter), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) { }
+    ~smoke_CalculatorListener_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     void
     on_calculation_result(const double calculationResult) override {
         (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f0))(token,
@@ -49,6 +52,7 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
     FfiOpaqueHandle f1;
     FfiOpaqueHandle f2;
@@ -108,10 +112,10 @@ library_smoke_CalculatorListener_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_CalculatorListener_create_proxy(uint64_t token, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5) {
+library_smoke_CalculatorListener_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::CalculatorListener>(
-            new (std::nothrow) smoke_CalculatorListener_Proxy(token, f0, f1, f2, f3, f4, f5)
+            new (std::nothrow) smoke_CalculatorListener_Proxy(token, deleter, f0, f1, f2, f3, f4, f5)
         )
     );
 }

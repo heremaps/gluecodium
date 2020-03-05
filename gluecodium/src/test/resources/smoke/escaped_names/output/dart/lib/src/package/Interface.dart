@@ -18,8 +18,8 @@ final _package_Interface_release_handle = __lib.nativeLibrary.lookupFunction<
     void Function(Pointer<Void>)
   >('library_package_Interface_release_handle');
 final _package_Interface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
+    Pointer<Void> Function(Uint64, Pointer),
+    Pointer<Void> Function(int, Pointer)
   >('library_package_Interface_create_proxy');
 final _package_Interface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -40,7 +40,7 @@ Pointer<Void> package_Interface_toFfi(Interface value) {
   if (value is Interface__Impl) return _package_Interface_copy_handle(value.handle);
   final token = __lib.getNewToken();
   __lib.instanceCache[token] = value;
-  final result = _package_Interface_create_proxy(token);
+  final result = _package_Interface_create_proxy(token, __lib.uncacheObjectFfi);
   __lib.reverseCache[_package_Interface_get_raw_pointer(result)] = value;
   return result;
 }
