@@ -56,6 +56,7 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
@@ -335,23 +336,27 @@ class JavaModelBuilder(
         javaInterface.annotations += functionalInterfaceAnnotation
 
         val parameters = limeLambda.parameters.mapIndexed { index, parameter ->
-            JavaParameter(
+            val result = JavaParameter(
                 nameRules.getName(parameter, index),
                 typeMapper.applyNullability(
                     typeMapper.mapType(parameter.typeRef),
                     parameter.typeRef.isNullable
                 )
             )
+            result.comment = createComments(parameter)
+            result
         }
         val methodName = limeLambda.attributes.get(JAVA, FUNCTION_NAME)?.let {
             nameRules.ruleSet.getMethodName(it)
         } ?: "apply"
         val applyMethod = JavaMethod(
             name = methodName,
+            comment = createComments(limeLambda),
             parameters = parameters,
+            returnComment = limeLambda.returnType.comment.getFor(PLATFORM_TAG),
             returnType = typeMapper.applyNullability(
-                typeMapper.mapType(limeLambda.returnType),
-                limeLambda.returnType.isNullable
+                typeMapper.mapType(limeLambda.returnType.typeRef),
+                limeLambda.returnType.typeRef.isNullable
             )
         )
         javaInterface.methods += applyMethod
@@ -517,6 +522,12 @@ class JavaModelBuilder(
 
     private fun createComments(limeElement: LimeNamedElement) =
         createComments(limeElement, PLATFORM_TAG)
+
+    private fun createComments(limeLambdaParameter: LimeLambdaParameter) =
+        Comments(
+            limeLambdaParameter.comment.getFor(PLATFORM_TAG),
+            limeLambdaParameter.attributes?.get(DEPRECATED, MESSAGE)
+        )
 
     companion object {
         const val PLATFORM_TAG = "Java"

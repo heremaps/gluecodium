@@ -90,7 +90,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
             is LimeReturnType -> collectImports(context, limeElement.typeRef)
             is LimeException -> collectImports(context, limeElement.errorType)
             is LimeLambda -> (
-                    limeElement.parameters + limeElement.returnType
+                    limeElement.parameters + limeElement.returnType.typeRef
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeTypeRef -> {
                 val limeType = limeElement.type

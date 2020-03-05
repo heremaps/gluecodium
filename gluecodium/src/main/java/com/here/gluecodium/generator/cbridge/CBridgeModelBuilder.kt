@@ -157,8 +157,7 @@ class CBridgeModelBuilder(
             typeMapper.mapType(limeErrorTypeRef, cppErrorType)
         } else null
 
-        val errorTypeIsEnum =
-            limeErrorTypeRef?.type?.let { it.actualType } is LimeEnumeration
+        val errorTypeIsEnum = limeErrorTypeRef?.type?.actualType is LimeEnumeration
         val result = CFunction(
             shortName = swiftMethod.cShortName,
             nestedSpecifier = swiftMethod.cNestedSpecifier,
@@ -304,7 +303,7 @@ class CBridgeModelBuilder(
         val cFunction = CFunction(
             shortName = "call",
             nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeLambda),
-            returnType = typeMapper.mapType(limeLambda.returnType, cppFunction.returnType),
+            returnType = typeMapper.mapType(limeLambda.returnType.typeRef, cppFunction.returnType),
             parameters = parameters,
             selfParameter = CParameter("_instance", selfType),
             delegateCallIncludes = cppIncludeResolver.resolveIncludes(limeLambda).toSet(),

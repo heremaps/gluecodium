@@ -449,7 +449,7 @@ class SwiftModelBuilder(
             comment = createComments(limeLambda),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeLambda),
             parameters = limeLambda.parameters.map { typeMapper.mapType(it.typeRef) },
-            returnType = typeMapper.mapType(limeLambda.returnType)
+            returnType = typeMapper.mapType(limeLambda.returnType.typeRef)
         )
 
         storeNamedResult(limeLambda, swiftElement)

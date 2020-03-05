@@ -166,8 +166,7 @@ class JniModelBuilder(
         val limeErrorTypeRef = limeMethod.exception?.errorType
         val jniException = if (limeErrorTypeRef != null) {
             val javaExceptionType = javaMethod.exception!!
-            val limeErrorTypeIsEnum =
-                limeErrorTypeRef.type.let { it.actualType } is LimeEnumeration
+            val limeErrorTypeIsEnum = limeErrorTypeRef.type.actualType is LimeEnumeration
             val conversionIncludes = JniIncludeResolver.getConversionIncludes(
                 limeErrorTypeRef,
                 javaExceptionType.errorType
@@ -335,7 +334,7 @@ class JniModelBuilder(
 
         val javaMethod = javaInterface.methods.first()
         val cppFunctionRef = cppUsing.definition as CppFunctionTypeRef
-        val limeReturnType = limeLambda.returnType
+        val limeReturnType = limeLambda.returnType.typeRef
         jniContainer.methods += JniMethod(
             javaMethodName = getMangledName(javaMethod.name),
             cppMethodName = "operator()",

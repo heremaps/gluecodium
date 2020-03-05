@@ -25,7 +25,7 @@ class LimeLambda(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val parameters: List<LimeLambdaParameter> = emptyList(),
-    val returnType: LimeTypeRef = LimeBasicTypeRef(LimeBasicType.TypeId.VOID)
+    val returnType: LimeReturnType = LimeReturnType.VOID
 ) : LimeType(path, visibility, comment, attributes) {
 
     fun asFunction() = LimeFunction(
@@ -33,7 +33,7 @@ class LimeLambda(
         visibility = visibility,
         comment = comment,
         attributes = attributes,
-        returnType = LimeReturnType(returnType),
+        returnType = returnType,
         parameters = parameters.mapIndexed { idx, it -> it.asParameter(path.child("p$idx")) }
     )
 
