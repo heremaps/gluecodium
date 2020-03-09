@@ -15,30 +15,17 @@ final _Blob_get_length = __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
 >('library_blob_get_length');
-final _Blob_get_at = __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>, Uint64),
-    int Function(Pointer<Void>, int)
->('library_blob_get_at');
-final _Blob_set_at = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>, Uint64, Uint8),
-    void Function(Pointer<Void>, int, int)
-  >('library_blob_set_at');
+final _Blob_get_data_pointer = __lib.nativeLibrary.lookupFunction<
+    Pointer<Uint8> Function(Pointer<Void>),
+    Pointer<Uint8> Function(Pointer<Void>)
+>('library_blob_get_data_pointer');
 Pointer<Void> Blob_toFfi(Uint8List list) {
-  final length = list.length;
-  final result = _Blob_create_handle(length);
-  for (int i = 0; i < length; ++i) {
-    _Blob_set_at(result, i, list[i]);
-  }
+  final result = _Blob_create_handle(list.length);
+  _Blob_get_data_pointer(result).asTypedList(list.length).setRange(0, list.length, list);
   return result;
 }
-Uint8List Blob_fromFfi(Pointer<Void> handle) {
-  final length = _Blob_get_length(handle);
-  final result = Uint8List(length);
-  for (int i = 0; i < length; ++i) {
-    result[i] = _Blob_get_at(handle, i);
-  }
-  return result;
-}
+Uint8List Blob_fromFfi(Pointer<Void> handle) =>
+  Uint8List.fromList(_Blob_get_data_pointer(handle).asTypedList(_Blob_get_length(handle)));
 void Blob_releaseFfiHandle(Pointer<Void> handle) => _Blob_release_handle(handle);
 // Boolean
 int Boolean_toFfi(bool value) => value ? 1 : 0;
