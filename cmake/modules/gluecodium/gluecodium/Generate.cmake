@@ -204,7 +204,9 @@ function(apigen_generate)
         VERBATIM
     DEPENDS
       "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
-      ${apigen_generate_LIME_SOURCES})
+      ${apigen_generate_LIME_SOURCES}
+      ${_lime_interface_sources}
+      ${_lime_sources})
 endfunction()
 
 macro(_apigen_parse_path_option GLUECODIUM_OPTION CMAKE_OPTION)
