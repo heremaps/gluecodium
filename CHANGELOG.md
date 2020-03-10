@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Swift compilation issue for "-swiftinternalprefix" modularization helper.
+
 ## 6.3.1.
 Release date: 2020-03-02
 ### Bug fixes:
