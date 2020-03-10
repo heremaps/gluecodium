@@ -182,6 +182,9 @@ function(apigen_generate)
     GENERATOR ${APIGEN_GENERATOR}
     BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
+  set (_lime_interface_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>,INCLUDE,.*\\.lime$>")
+  set (_lime_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>,INCLUDE,.*\\.lime$>")
+
   add_custom_command(OUTPUT ${_generated_files}
     COMMAND ${CMAKE_COMMAND}
         -DAPIGEN_TARGET=${APIGEN_TARGET}
@@ -196,7 +199,7 @@ function(apigen_generate)
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
         -DAPIGEN_VERBOSE=${APIGEN_VERBOSE}
         # Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
-        -DAPIGEN_AUX_FILES=$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>;$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>
+        -DAPIGEN_AUX_FILES=${_lime_interface_sources};${_lime_sources}
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
         VERBATIM
     DEPENDS
