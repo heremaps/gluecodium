@@ -1,10 +1,12 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.3.2
+Release date: 2020-03-10
 ### Bug fixes:
   * Fixed Swift compilation issue for "-swiftinternalprefix" modularization helper.
+  * Fixed issues in CMake helpers related to modularization.
 
-## 6.3.1.
+## 6.3.1
 Release date: 2020-03-02
 ### Bug fixes:
   * Fixed CBridge compilation issues for "-swiftinternalprefix" modularization helper.
