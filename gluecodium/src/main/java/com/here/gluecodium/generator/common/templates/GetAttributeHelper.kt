@@ -22,21 +22,18 @@ package com.here.gluecodium.generator.common.templates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeNamedElement
-import org.trimou.handlebars.BasicSectionHelper
+import org.trimou.handlebars.BasicHelper
 import org.trimou.handlebars.Options
 
 /**
- * ifHasAttribute: Check the presence of the attribute with given type and given value type (if present) on the
- * given LIME element and execute the section if it is there. If LIME element is omitted, `this` is
- * taken instead.<br/>
- * Usage: {{#ifHasAttribute \[limeElement\] "attributeType" \["attributeValueType"\]}}...{{/ifHasAttribute}}<br/>
- * Example: {{#ifHasAttribute "equatable"}}...{{/ifHasAttribute}}<br/>
- * Example: {{#ifHasAttribute type "equatable"}}...{{/ifHasAttribute}}<br/>
- * Example: {{#ifHasAttribute type "cpp" "accessors"}}...{{/ifHasAttribute}}<br/>
- * unlessHasAttribute: same as above, except the the section is executed only if the attribute is
- * not there.
+ * getAttribute: Get the value of the attribute with given type and given value type (if present) on the
+ * given LIME element.<br/>
+ * Usage: {{getAttribute \[limeElement\] "attributeType" \["attributeValueType"\]}}<br/>
+ * Example: {{getAttribute "equatable"}}<br/>
+ * Example: {{getAttribute type "equatable"}}<br/>
+ * Example: {{getAttribute type "cpp" "accessors"}}
  */
-internal class IfHasAttributeHelper(private val equality: Boolean) : BasicSectionHelper() {
+internal class GetAttributeHelper : BasicHelper() {
     override fun execute(options: Options) {
         val limeElement: LimeNamedElement
         val attributeTypeName: String
@@ -55,16 +52,10 @@ internal class IfHasAttributeHelper(private val equality: Boolean) : BasicSectio
         }
 
         val attributeType = resolveAttributeType(attributeTypeName) ?: return
-        if (attributeValueTypeName == null) {
-            if (limeElement.attributes.have(attributeType) == equality) {
-                options.fn()
-            }
-        } else {
-            val attributeValueType = resolveAttributeValueType(attributeValueTypeName) ?: return
-            if (limeElement.attributes.have(attributeType, attributeValueType) == equality) {
-                options.fn()
-            }
-        }
+        val attributeValueType = attributeValueTypeName?.let { resolveAttributeValueType(it) }
+            ?: attributeType.defaultValueType
+            ?: return
+        limeElement.attributes.get(attributeType, attributeValueType)?.let { options.append(it) }
     }
 
     private fun resolveAttributeType(attributeTypeName: String) =

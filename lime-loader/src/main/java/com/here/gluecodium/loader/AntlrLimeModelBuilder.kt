@@ -740,7 +740,7 @@ internal class AntlrLimeModelBuilder(
         parser.removeErrorListeners()
         parser.addErrorListener(ThrowingErrorListener(ctx.getStart().line - 1))
 
-        val builder = AntlrLimedocBuilder()
+        val builder = AntlrLimedocBuilder(currentPath)
         ParseTreeWalker.DEFAULT.walk(builder, parser.documentation())
 
         return builder.result

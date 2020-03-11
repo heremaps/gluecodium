@@ -18,5 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "/// "}}
-{{/unless}}
+{{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
+{{/unless}}{{/resolveName}}{{!!
+}}{{#ifHasAttribute "Deprecated"}}
+@Deprecated("{{getAttribute "Deprecated"}}")
+{{/ifHasAttribute}}

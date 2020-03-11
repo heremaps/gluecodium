@@ -18,11 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}{{prefix comment "/// "}}
-{{/unless}}{{!!
-}}{{#parameters}}{{#unless comment.isEmpty}}/// @param[{{name}}] {{prefix comment "/// " skipFirstLine=true}}
-{{/unless}}{{/parameters}}{{!!
-}}{{#unless returnType.comment.isEmpty}}/// @return {{prefix returnType.comment "/// " skipFirstLine=true}}
-{{/unless}}{{!!
-}}{{#if thrownType}}{{#unless thrownType.comment.isEmpty}}/// @throws {{prefix thrownType.comment "/// " skipFirstLine=true}}
-{{/unless}}{{/if}}
+{{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
+{{/unless}}{{/resolveName}}{{!!
+}}{{#parameters}}{{#resolveName comment}}{{#unless this.isEmpty}}/// @param[{{name}}] {{prefix this "/// " skipFirstLine=true}}
+{{/unless}}{{/resolveName}}{{/parameters}}{{!!
+}}{{#resolveName returnType.comment}}{{#unless this.isEmpty}}/// @return {{prefix this "/// " skipFirstLine=true}}
+{{/unless}}{{/resolveName}}{{!!
+}}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}/// @throws {{prefix this "/// " skipFirstLine=true}}
+{{/unless}}{{/resolveName}}{{/if}}{{!!
+}}{{#ifHasAttribute "Deprecated"}}
+@Deprecated("{{getAttribute "Deprecated"}}")
+{{/ifHasAttribute}}
