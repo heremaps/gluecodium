@@ -21,8 +21,8 @@ final _smoke_ParentInterface_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('library_smoke_ParentInterface_release_handle');
 final _smoke_ParentInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ParentInterface_create_proxy');
 final _smoke_ParentInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -78,9 +78,13 @@ int _ParentInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
 }
 Pointer<Void> smoke_ParentInterface_toFfi(ParentInterface value) {
   if (value is ParentInterface__Impl) return _smoke_ParentInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_ParentInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64)>(_ParentInterface_rootMethod_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ParentInterface_rootProperty_get_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ParentInterface_rootProperty_set_static, __lib.unknownError));
+  final result = _smoke_ParentInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64)>(_ParentInterface_rootMethod_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ParentInterface_rootProperty_get_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_ParentInterface_rootProperty_set_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_ParentInterface_get_raw_pointer(result)] = value;
   return result;
 }

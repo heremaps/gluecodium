@@ -20,8 +20,8 @@ final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('library_smoke_SimpleInterface_release_handle');
 final _smoke_SimpleInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer, Pointer)
   >('library_smoke_SimpleInterface_create_proxy');
 final _smoke_SimpleInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -70,9 +70,12 @@ int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, 
 }
 Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
   if (value is SimpleInterface__Impl) return _smoke_SimpleInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_SimpleInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterface_getStringValue_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterface_useSimpleInterface_static, __lib.unknownError));
+  final result = _smoke_SimpleInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterface_getStringValue_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterface_useSimpleInterface_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_SimpleInterface_get_raw_pointer(result)] = value;
   return result;
 }

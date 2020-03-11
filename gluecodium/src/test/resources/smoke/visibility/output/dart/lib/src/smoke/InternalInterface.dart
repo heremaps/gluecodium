@@ -18,8 +18,8 @@ final _smoke_InternalInterface_release_handle = __lib.nativeLibrary.lookupFuncti
     void Function(Pointer<Void>)
   >('library_smoke_InternalInterface_release_handle');
 final _smoke_InternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
+    Pointer<Void> Function(Uint64, Pointer),
+    Pointer<Void> Function(int, Pointer)
   >('library_smoke_InternalInterface_create_proxy');
 final _smoke_InternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -38,9 +38,10 @@ class InternalInterface__Impl implements InternalInterface {
 }
 Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
   if (value is InternalInterface__Impl) return _smoke_InternalInterface_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_InternalInterface_create_proxy(token);
+  final result = _smoke_InternalInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
   __lib.reverseCache[_smoke_InternalInterface_get_raw_pointer(result)] = value;
   return result;
 }

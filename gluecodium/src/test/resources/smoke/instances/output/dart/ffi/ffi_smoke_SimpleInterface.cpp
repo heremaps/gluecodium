@@ -1,5 +1,6 @@
 #include "ffi_smoke_SimpleInterface.h"
 #include "ConversionBase.h"
+#include "ProxyCache.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
 #include <string>
@@ -7,8 +8,11 @@
 #include <new>
 class smoke_SimpleInterface_Proxy : public ::smoke::SimpleInterface {
 public:
-    smoke_SimpleInterface_Proxy(uint64_t token, FfiOpaqueHandle f0, FfiOpaqueHandle f1)
-        : token(token), f0(f0), f1(f1) { }
+    smoke_SimpleInterface_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1)
+        : token(token), deleter(deleter), f0(f0), f1(f1) { }
+    ~smoke_SimpleInterface_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     std::string
     get_string_value() override {
         FfiOpaqueHandle _result_handle;
@@ -32,6 +36,7 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
     FfiOpaqueHandle f1;
 };
@@ -65,12 +70,18 @@ library_smoke_SimpleInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SimpleInterface>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_SimpleInterface_create_proxy(uint64_t token, FfiOpaqueHandle f0, FfiOpaqueHandle f1) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::SimpleInterface>(
-            new (std::nothrow) smoke_SimpleInterface_Proxy(token, f0, f1)
-        )
-    );
+library_smoke_SimpleInterface_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1) {
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_SimpleInterface_Proxy>(token);
+    std::shared_ptr<smoke_SimpleInterface_Proxy>* proxy_ptr;
+    if (cached_proxy) {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_SimpleInterface_Proxy>(cached_proxy);
+    } else {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_SimpleInterface_Proxy>(
+            new (std::nothrow) smoke_SimpleInterface_Proxy(token, deleter, f0, f1)
+        );
+        gluecodium::ffi::cache_proxy(token, *proxy_ptr);
+    }
+    return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
 library_smoke_SimpleInterface_get_raw_pointer(FfiOpaqueHandle handle) {

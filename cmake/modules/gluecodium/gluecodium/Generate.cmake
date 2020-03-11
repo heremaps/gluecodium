@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_Generate)
 endif()
 set(includeguard_gluecodium_Generate ON)
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.15)
 
 #.rst:
 # Code generation module
@@ -92,7 +92,7 @@ function(apigen_generate)
       OUTPUT_DIR
       COMMON_OUTPUT_DIR
       BUILD_OUTPUT_DIR
-      LIBRARY_NAME)
+      DART_LIBRARY_NAME)
   set(multiValueArgs LIME_SOURCES FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -156,7 +156,7 @@ function(apigen_generate)
   _apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
   _apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
   _apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
-  _apigen_parse_option(-libraryname LIBRARY_NAME)
+  _apigen_parse_option(-libraryname DART_LIBRARY_NAME)
   _apigen_parse_option(-swiftinternalprefix SWIFT_INTERNAL_PREFIX)
   _apigen_parse_option(-cppexport CPP_EXPORT)
 
@@ -182,6 +182,9 @@ function(apigen_generate)
     GENERATOR ${APIGEN_GENERATOR}
     BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
+  set (_lime_interface_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>,INCLUDE,.*\\.lime$>")
+  set (_lime_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>,INCLUDE,.*\\.lime$>")
+
   add_custom_command(OUTPUT ${_generated_files}
     COMMAND ${CMAKE_COMMAND}
         -DAPIGEN_TARGET=${APIGEN_TARGET}
@@ -196,12 +199,14 @@ function(apigen_generate)
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
         -DAPIGEN_VERBOSE=${APIGEN_VERBOSE}
         # Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
-        -DAPIGEN_AUX_FILES=$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>;$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>
+        -DAPIGEN_AUX_FILES=${_lime_interface_sources};${_lime_sources}
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
         VERBATIM
     DEPENDS
       "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
-      ${apigen_generate_LIME_SOURCES})
+      ${apigen_generate_LIME_SOURCES}
+      ${_lime_interface_sources}
+      ${_lime_sources})
 endfunction()
 
 macro(_apigen_parse_path_option GLUECODIUM_OPTION CMAKE_OPTION)

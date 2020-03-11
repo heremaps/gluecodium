@@ -33,8 +33,7 @@ extern "C" {
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_blob_create_handle(uint64_t length);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_blob_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT uint64_t {{libraryName}}_blob_get_length(FfiOpaqueHandle iterator_handle);
-_GLUECODIUM_FFI_EXPORT uint8_t {{libraryName}}_blob_get_at(FfiOpaqueHandle iterator_handle, uint64_t index);
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_blob_set_at(FfiOpaqueHandle handle, uint64_t index, uint8_t value);
+_GLUECODIUM_FFI_EXPORT uint8_t* {{libraryName}}_blob_get_data_pointer(FfiOpaqueHandle iterator_handle);
 
 #ifdef __cplusplus
 }

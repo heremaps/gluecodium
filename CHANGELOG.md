@@ -1,10 +1,16 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
-### Bug fixes:
-  * Fixed C++ struct constructors to avoid unnecessary copying.
+### Features:
+  * Updated C++ struct constructors to use move semantics to avoid unnecessary copying.
 
-## 6.3.1.
+## 6.3.2
+Release date: 2020-03-10
+### Bug fixes:
+  * Fixed Swift compilation issue for "-swiftinternalprefix" modularization helper.
+  * Fixed issues in CMake helpers related to modularization.
+
+## 6.3.1
 Release date: 2020-03-02
 ### Bug fixes:
   * Fixed CBridge compilation issues for "-swiftinternalprefix" modularization helper.

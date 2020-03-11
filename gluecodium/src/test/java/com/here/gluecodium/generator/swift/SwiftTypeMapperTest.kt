@@ -24,6 +24,7 @@ import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeStruct
@@ -37,6 +38,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -133,5 +135,18 @@ class SwiftTypeMapperTest {
         assertTrue(result is SwiftArray)
         assertEquals("ArrayOf__Float", result.cPrefix)
         assertEquals(SwiftType.FLOAT, (result as SwiftArray).elementType)
+        assertFalse(typeMapper.generics.isEmpty())
+    }
+
+    @Test
+    fun mapListInLambdaDoesNotCollectGenerics() {
+        val limeElement = LimeLambda(
+            path = LimePath.EMPTY_PATH,
+            returnType = LimeDirectTypeRef(LimeList(LimeBasicTypeRef.FLOAT))
+        )
+
+        typeMapper.mapType(LimeDirectTypeRef(limeElement))
+
+        assertTrue(typeMapper.generics.isEmpty())
     }
 }

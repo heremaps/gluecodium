@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/DummyLogger.h"
+#include "test/PersistingLogger.h"
 #include "test/StringListener.h"
 
 #include <algorithm>
@@ -48,6 +49,25 @@ DummyLogger::relay_const_message( const ::std::shared_ptr<::test::StringListener
                                   const ::std::string& message )
 {
     listener->on_const_message( message );
+}
+
+namespace
+{
+std::vector<std::shared_ptr<::test::StringListener>> s_listeners{};
+}
+
+void
+PersistingLogger::add_listener(const std::shared_ptr<test::StringListener>& listener) {
+    s_listeners.push_back(listener);
+}
+
+bool
+PersistingLogger::remove_listener(const std::shared_ptr<test::StringListener>& listener) {
+    auto iter = std::find(s_listeners.begin(), s_listeners.end(), listener);
+    if (iter == s_listeners.end()) return false;
+
+    s_listeners.erase(iter);
+    return true;
 }
 
 }  // namespace test

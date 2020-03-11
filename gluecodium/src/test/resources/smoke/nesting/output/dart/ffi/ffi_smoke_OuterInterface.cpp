@@ -1,5 +1,6 @@
 #include "ffi_smoke_OuterInterface.h"
 #include "ConversionBase.h"
+#include "ProxyCache.h"
 #include "smoke/OuterInterface.h"
 #include <memory>
 #include <string>
@@ -7,8 +8,11 @@
 #include <new>
 class smoke_OuterInterface_Proxy : public ::smoke::OuterInterface {
 public:
-    smoke_OuterInterface_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_OuterInterface_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_OuterInterface_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
@@ -22,12 +26,16 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 class smoke_OuterInterface_InnerInterface_Proxy : public ::smoke::OuterInterface::InnerInterface {
 public:
-    smoke_OuterInterface_InnerInterface_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_OuterInterface_InnerInterface_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_OuterInterface_InnerInterface_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
@@ -41,6 +49,7 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 #ifdef __cplusplus
@@ -91,12 +100,18 @@ library_smoke_OuterInterface_InnerInterface_release_handle(FfiOpaqueHandle handl
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_OuterInterface_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::OuterInterface>(
-            new (std::nothrow) smoke_OuterInterface_Proxy(token, f0)
-        )
-    );
+library_smoke_OuterInterface_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_OuterInterface_Proxy>(token);
+    std::shared_ptr<smoke_OuterInterface_Proxy>* proxy_ptr;
+    if (cached_proxy) {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_OuterInterface_Proxy>(cached_proxy);
+    } else {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_OuterInterface_Proxy>(
+            new (std::nothrow) smoke_OuterInterface_Proxy(token, deleter, f0)
+        );
+        gluecodium::ffi::cache_proxy(token, *proxy_ptr);
+    }
+    return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
 library_smoke_OuterInterface_get_raw_pointer(FfiOpaqueHandle handle) {
@@ -105,12 +120,18 @@ library_smoke_OuterInterface_get_raw_pointer(FfiOpaqueHandle handle) {
     );
 }
 FfiOpaqueHandle
-library_smoke_OuterInterface_InnerInterface_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::OuterInterface::InnerInterface>(
-            new (std::nothrow) smoke_OuterInterface_InnerInterface_Proxy(token, f0)
-        )
-    );
+library_smoke_OuterInterface_InnerInterface_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_OuterInterface_InnerInterface_Proxy>(token);
+    std::shared_ptr<smoke_OuterInterface_InnerInterface_Proxy>* proxy_ptr;
+    if (cached_proxy) {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_OuterInterface_InnerInterface_Proxy>(cached_proxy);
+    } else {
+        proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_OuterInterface_InnerInterface_Proxy>(
+            new (std::nothrow) smoke_OuterInterface_InnerInterface_Proxy(token, deleter, f0)
+        );
+        gluecodium::ffi::cache_proxy(token, *proxy_ptr);
+    }
+    return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
 library_smoke_OuterInterface_InnerInterface_get_raw_pointer(FfiOpaqueHandle handle) {

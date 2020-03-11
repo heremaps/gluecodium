@@ -20,16 +20,20 @@
   !}}
 class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
-    {{resolveName}}_Proxy(uint64_t token{{#if inheritedFunctions functions logic="or"}}, {{!!
+    {{resolveName}}_Proxy(uint64_t token, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
     }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
     }}{{#if inheritedProperties properties logic="or"}}, {{!!
     }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
     }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}})
-        : token(token){{#if inheritedFunctions functions logic="or"}}, {{!!
+        : token(token), deleter(deleter){{#if inheritedFunctions functions logic="or"}}, {{!!
         }}{{#each inheritedFunctions functions}}f{{iter.position}}(f{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
         }}{{#if inheritedProperties properties logic="or"}}, {{!!
         }}{{#each inheritedProperties properties}}p{{iter.position}}g(p{{iter.position}}g){{!!
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}} { }
+
+    ~{{resolveName}}_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
 
 {{#each inheritedFunctions functions}}
     {{resolveName "C++ return type"}}
@@ -81,6 +85,7 @@ public:
 
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
 {{#each inheritedFunctions functions}}
     FfiOpaqueHandle f{{iter.position}};
 {{/each}}

@@ -1,5 +1,6 @@
 #include "ffi_smoke_StandaloneProducer.h"
 #include "ConversionBase.h"
+#include "ProxyCache.h"
 #include "smoke/StandaloneProducer.h"
 #include <functional>
 #include <string>
@@ -7,8 +8,11 @@
 #include <new>
 class smoke_StandaloneProducer_Proxy {
 public:
-    smoke_StandaloneProducer_Proxy(uint64_t token, FfiOpaqueHandle f0)
-        : token(token), f0(f0) { }
+    smoke_StandaloneProducer_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), deleter(deleter), f0(f0) { }
+    ~smoke_StandaloneProducer_Proxy() {
+        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+    }
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
@@ -21,6 +25,7 @@ public:
     }
 private:
     uint64_t token;
+    FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
 };
 #ifdef __cplusplus
@@ -66,10 +71,15 @@ library_smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
     );
 }
 FfiOpaqueHandle
-library_smoke_StandaloneProducer_create_proxy(uint64_t token, FfiOpaqueHandle f0) {
+library_smoke_StandaloneProducer_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_StandaloneProducer_Proxy>(token);
+    if (!cached_proxy) {
+        cached_proxy = std::make_shared<smoke_StandaloneProducer_Proxy>(token, deleter, f0);
+        gluecodium::ffi::cache_proxy(token, cached_proxy);
+    }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::StandaloneProducer(
-            std::bind(&smoke_StandaloneProducer_Proxy::operator(), std::make_shared<smoke_StandaloneProducer_Proxy>(token, f0))
+            std::bind(&smoke_StandaloneProducer_Proxy::operator(), cached_proxy)
         )
     );
 }

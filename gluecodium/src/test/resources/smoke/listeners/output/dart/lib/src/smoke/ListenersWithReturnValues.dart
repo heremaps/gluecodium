@@ -148,8 +148,8 @@ final _smoke_ListenersWithReturnValues_release_handle = __lib.nativeLibrary.look
     void Function(Pointer<Void>)
   >('library_smoke_ListenersWithReturnValues_release_handle');
 final _smoke_ListenersWithReturnValues_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ListenersWithReturnValues_create_proxy');
 final _smoke_ListenersWithReturnValues_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -260,9 +260,17 @@ int _ListenersWithReturnValues_fetchDataInstance_static(int _token, Pointer<Poin
 }
 Pointer<Void> smoke_ListenersWithReturnValues_toFfi(ListenersWithReturnValues value) {
   if (value is ListenersWithReturnValues__Impl) return _smoke_ListenersWithReturnValues_copy_handle(value.handle);
-  final token = __lib.getNewToken();
-  __lib.instanceCache[token] = value;
-  final result = _smoke_ListenersWithReturnValues_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Double>)>(_ListenersWithReturnValues_fetchDataDouble_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataString_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataStruct_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint32>)>(_ListenersWithReturnValues_fetchDataEnum_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataArray_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataMap_static, __lib.unknownError), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataInstance_static, __lib.unknownError));
+  final result = _smoke_ListenersWithReturnValues_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Double>)>(_ListenersWithReturnValues_fetchDataDouble_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataString_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataStruct_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint32>)>(_ListenersWithReturnValues_fetchDataEnum_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataArray_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataMap_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataInstance_static, __lib.unknownError)
+  );
   __lib.reverseCache[_smoke_ListenersWithReturnValues_get_raw_pointer(result)] = value;
   return result;
 }

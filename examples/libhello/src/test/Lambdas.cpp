@@ -111,6 +111,12 @@ Lambdas::set_real_concatenator(const Lambdas::Concatenator& value)
     s_real_concatenator = value;
 }
 
+void
+Lambdas::reset_real_concatenator()
+{
+    s_real_concatenator = {};
+}
+
 Lambdas::NullableConfuser
 Lambdas::get_nullable_confuser()
 {
