@@ -67,6 +67,7 @@ object OptionReader {
             "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml"
         )
         addOption("help", false, "Shows this help and exits.")
+        addOption("version", false, "Prints version info and exits.")
         addOption(
             "validate",
             "validate-only",
@@ -123,6 +124,9 @@ object OptionReader {
             printUsage()
             return null
         }
+        if (cmd.hasOption("version")) {
+            return null
+        }
 
         val optionsConfig = when {
             cmd.hasOption("options") -> readConfigFile(cmd.getOptionValue("options"))
@@ -177,8 +181,7 @@ object OptionReader {
 
     fun printUsage() {
         val header = "Gluecodium - Generate APIs from LimeIDL files\n\n"
-        val footer = "\nPlease report issues at /dev/null"
-
+        val footer = "\nPlease report issues here: https://github.com/heremaps/gluecodium/issues"
         HelpFormatter().printHelp("generate [input]", header, options, footer, true)
     }
 

@@ -22,7 +22,6 @@ import java.util.regex.Pattern
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 apply plugin: 'application'
