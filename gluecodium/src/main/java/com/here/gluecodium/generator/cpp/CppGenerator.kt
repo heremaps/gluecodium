@@ -26,6 +26,7 @@ import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.cpp.CppConstant
 import com.here.gluecodium.model.cpp.CppExternableElement
 import com.here.gluecodium.model.cpp.CppFile
+import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppUsing
 import java.nio.file.Paths
 
@@ -73,6 +74,9 @@ class CppGenerator(private val pathPrefix: String, private val internalNamespace
             if (externalElements.isNotEmpty()) {
                 cppModel.implementationIncludes += CppLibraryIncludes.TYPE_TRAITS
                 cppModel.implementationIncludes += externalElements.flatMap { it.includes }
+            }
+            if (cppModel.members.filterIsInstance<CppStruct>().isNotEmpty()) {
+                cppModel.implementationIncludes += CppLibraryIncludes.UTILITY
             }
 
             val implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel)

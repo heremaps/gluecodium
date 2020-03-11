@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Updated C++ struct constructors to use move semantics to avoid unnecessary copying.
 ### Bug fixes:
   * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
 

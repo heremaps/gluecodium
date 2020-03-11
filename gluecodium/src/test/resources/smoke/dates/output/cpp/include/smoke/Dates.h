@@ -23,7 +23,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT DateStruct {
         ::std::chrono::system_clock::time_point date_field;
         DateStruct( );
-        DateStruct( const ::std::chrono::system_clock::time_point& date_field );
+        DateStruct( ::std::chrono::system_clock::time_point date_field );
     };
 public:
     virtual ::std::chrono::system_clock::time_point date_method( const ::std::chrono::system_clock::time_point& input ) = 0;

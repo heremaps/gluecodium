@@ -17,8 +17,8 @@ EquatableInterface::EquatableStruct::EquatableStruct( )
     : int_field{ }, string_field{ }, nested_equatable_instance{ }, nested_pointer_equatable_instance{ }
 {
 }
-EquatableInterface::EquatableStruct::EquatableStruct( const int32_t int_field, const ::std::string& string_field, const ::std::shared_ptr< ::smoke::EquatableInterface >& nested_equatable_instance, const ::std::shared_ptr< ::smoke::PointerEquatableInterface >& nested_pointer_equatable_instance )
-    : int_field( int_field ), string_field( string_field ), nested_equatable_instance( nested_equatable_instance ), nested_pointer_equatable_instance( nested_pointer_equatable_instance )
+EquatableInterface::EquatableStruct::EquatableStruct( int32_t int_field, ::std::string string_field, ::std::shared_ptr< ::smoke::EquatableInterface > nested_equatable_instance, ::std::shared_ptr< ::smoke::PointerEquatableInterface > nested_pointer_equatable_instance )
+    : int_field( std::move( int_field ) ), string_field( std::move( string_field ) ), nested_equatable_instance( std::move( nested_equatable_instance ) ), nested_pointer_equatable_instance( std::move( nested_pointer_equatable_instance ) )
 {
 }
 bool EquatableInterface::EquatableStruct::operator==( const EquatableStruct& rhs ) const

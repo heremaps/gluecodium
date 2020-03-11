@@ -21,8 +21,8 @@ LevelOne::LevelTwo::LevelThree::LevelFour::LevelFour( )
     : string_field{ }
 {
 }
-LevelOne::LevelTwo::LevelThree::LevelFour::LevelFour( const ::std::string& string_field )
-    : string_field( string_field )
+LevelOne::LevelTwo::LevelThree::LevelFour::LevelFour( ::std::string string_field )
+    : string_field( std::move( string_field ) )
 {
 }
 }

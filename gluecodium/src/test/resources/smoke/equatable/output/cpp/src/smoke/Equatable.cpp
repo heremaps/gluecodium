@@ -3,13 +3,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Equatable.h"
+#include <utility>
 namespace smoke {
 EquatableStruct::EquatableStruct( )
     : bool_field{ }, int_field{ }, long_field{ }, float_field{ }, double_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
 {
 }
-EquatableStruct::EquatableStruct( const bool bool_field, const int32_t int_field, const int64_t long_field, const float float_field, const double double_field, const ::std::string& string_field, const ::smoke::NestedEquatableStruct& struct_field, const ::smoke::SomeEnum enum_field, const ::std::vector< ::std::string >& array_field, const ::smoke::ErrorCodeToMessageMap& map_field )
-    : bool_field( bool_field ), int_field( int_field ), long_field( long_field ), float_field( float_field ), double_field( double_field ), string_field( string_field ), struct_field( struct_field ), enum_field( enum_field ), array_field( array_field ), map_field( map_field )
+EquatableStruct::EquatableStruct( bool bool_field, int32_t int_field, int64_t long_field, float float_field, double double_field, ::std::string string_field, ::smoke::NestedEquatableStruct struct_field, ::smoke::SomeEnum enum_field, ::std::vector< ::std::string > array_field, ::smoke::ErrorCodeToMessageMap map_field )
+    : bool_field( std::move( bool_field ) ), int_field( std::move( int_field ) ), long_field( std::move( long_field ) ), float_field( std::move( float_field ) ), double_field( std::move( double_field ) ), string_field( std::move( string_field ) ), struct_field( std::move( struct_field ) ), enum_field( std::move( enum_field ) ), array_field( std::move( array_field ) ), map_field( std::move( map_field ) )
 {
 }
 bool EquatableStruct::operator==( const EquatableStruct& rhs ) const
@@ -33,8 +34,8 @@ EquatableNullableStruct::EquatableNullableStruct( )
     : bool_field{ }, int_field{ }, uint_field{ }, float_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
 {
 }
-EquatableNullableStruct::EquatableNullableStruct( const ::gluecodium::optional< bool >& bool_field, const ::gluecodium::optional< int32_t >& int_field, const ::gluecodium::optional< uint16_t >& uint_field, const ::gluecodium::optional< float >& float_field, const ::gluecodium::optional< ::std::string >& string_field, const ::gluecodium::optional< ::smoke::NestedEquatableStruct >& struct_field, const ::gluecodium::optional< ::smoke::SomeEnum >& enum_field, const ::gluecodium::optional< ::std::vector< ::std::string > >& array_field, const ::gluecodium::optional< ::smoke::ErrorCodeToMessageMap >& map_field )
-    : bool_field( bool_field ), int_field( int_field ), uint_field( uint_field ), float_field( float_field ), string_field( string_field ), struct_field( struct_field ), enum_field( enum_field ), array_field( array_field ), map_field( map_field )
+EquatableNullableStruct::EquatableNullableStruct( ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< int32_t > int_field, ::gluecodium::optional< uint16_t > uint_field, ::gluecodium::optional< float > float_field, ::gluecodium::optional< ::std::string > string_field, ::gluecodium::optional< ::smoke::NestedEquatableStruct > struct_field, ::gluecodium::optional< ::smoke::SomeEnum > enum_field, ::gluecodium::optional< ::std::vector< ::std::string > > array_field, ::gluecodium::optional< ::smoke::ErrorCodeToMessageMap > map_field )
+    : bool_field( std::move( bool_field ) ), int_field( std::move( int_field ) ), uint_field( std::move( uint_field ) ), float_field( std::move( float_field ) ), string_field( std::move( string_field ) ), struct_field( std::move( struct_field ) ), enum_field( std::move( enum_field ) ), array_field( std::move( array_field ) ), map_field( std::move( map_field ) )
 {
 }
 bool EquatableNullableStruct::operator==( const EquatableNullableStruct& rhs ) const
@@ -75,8 +76,8 @@ NestedEquatableStruct::NestedEquatableStruct( )
     : foo_field{ }
 {
 }
-NestedEquatableStruct::NestedEquatableStruct( const ::std::string& foo_field )
-    : foo_field( foo_field )
+NestedEquatableStruct::NestedEquatableStruct( ::std::string foo_field )
+    : foo_field( std::move( foo_field ) )
 {
 }
 bool NestedEquatableStruct::operator==( const NestedEquatableStruct& rhs ) const

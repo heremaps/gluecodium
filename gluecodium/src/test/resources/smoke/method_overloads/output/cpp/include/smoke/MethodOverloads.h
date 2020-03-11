@@ -20,7 +20,7 @@ public:
         double x;
         double y;
         Point( );
-        Point( const double x, const double y );
+        Point( double x, double y );
     };
 public:
     virtual bool is_boolean( const bool input ) = 0;

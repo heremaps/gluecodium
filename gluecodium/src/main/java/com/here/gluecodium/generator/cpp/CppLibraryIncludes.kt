@@ -36,6 +36,7 @@ object CppLibraryIncludes {
     val SET = Include.createSystemInclude("unordered_set")
     val FUNCTIONAL = Include.createSystemInclude("functional")
     val TYPE_TRAITS = Include.createSystemInclude("type_traits")
+    val UTILITY = Include.createSystemInclude("utility")
 
     fun hasStdHash(limeType: LimeTypeRef): Boolean {
         val actualType = limeType.type.actualType as? LimeBasicType ?: return false

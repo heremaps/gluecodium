@@ -13,6 +13,6 @@ struct _GLUECODIUM_CPP_EXPORT StructWithInterface {
     /// \warning @NotNull
     ::std::shared_ptr< ::smoke::SimpleInterface > interface_instance;
     StructWithInterface( );
-    StructWithInterface( const ::std::shared_ptr< ::smoke::SimpleInterface >& interface_instance );
+    StructWithInterface( ::std::shared_ptr< ::smoke::SimpleInterface > interface_instance );
 };
 }
