@@ -51,33 +51,33 @@ extern "C" {
 {{/model}}
 
 {{#classes}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_copy_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}
 {{/classes}}
 
 {{#lambdas}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_copy_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 {{/lambdas}}
 
 {{#each interfaces lambdas}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_proxy(uint64_t token{{!!
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter{{!!
 }}{{#if inheritedFunctions functions logic="or"}}, {{!!
 }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}});
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
 {{/each}}
 
 {{#each nonExternalStructs externalStructs}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-_GLUECODIUM_FFI_EXPORT void {{resolveName}}_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#set parent=this}}{{#fields}}
-_GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{libraryName}}_{{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle);
 {{/fields}}{{/set}}
 {{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 {{/each}}
@@ -87,7 +87,7 @@ _GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{resolveName parent}}_get_field_
 {{/enums}}
 
 {{#typeRepositories}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_get_type_id(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_type_id(FfiOpaqueHandle handle);
 {{/typeRepositories}}
 
 #ifdef __cplusplus
@@ -96,17 +96,17 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{resolveName}}_get_type_id(FfiOpaqueHand
 
 }}{{+ffiFunctionDeclaration}}
 {{#if thrownType}}
-_GLUECODIUM_FFI_EXPORT void {{resolveName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
-_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{resolveName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
-_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{resolveName}}_return_get_error(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT bool {{resolveName}}_return_has_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
+_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{libraryName}}_{{resolveName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
+_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{libraryName}}_{{resolveName}}_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_return_has_error(FfiOpaqueHandle handle);
 
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle{{/if}}{{!!
-}}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{resolveName}}({{!!
+}}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{libraryName}}_{{resolveName}}({{!!
 }}{{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/ffiFunctionDeclaration}}{{!!
 
 }}{{+ffiEqualityFunctionDeclaration}}
-_GLUECODIUM_FFI_EXPORT bool {{resolveName}}_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2);
+_GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2);
 {{/ffiEqualityFunctionDeclaration}}

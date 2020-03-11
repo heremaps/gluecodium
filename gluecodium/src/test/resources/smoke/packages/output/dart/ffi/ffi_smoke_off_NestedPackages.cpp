@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
-smoke_off_NestedPackages_basicMethod__SomeStruct(FfiOpaqueHandle input) {
+library_smoke_off_NestedPackages_basicMethod__SomeStruct(FfiOpaqueHandle input) {
     return gluecodium::ffi::Conversion<::smoke::off::NestedPackages::SomeStruct>::toFfi(
         ::smoke::off::NestedPackages::basic_method(
             gluecodium::ffi::Conversion<::smoke::off::NestedPackages::SomeStruct>::toCpp(input)
@@ -17,7 +17,7 @@ smoke_off_NestedPackages_basicMethod__SomeStruct(FfiOpaqueHandle input) {
     );
 }
 FfiOpaqueHandle
-smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle) {
+library_smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::off::NestedPackages>(
             *reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle)
@@ -25,26 +25,26 @@ smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle) {
     );
 }
 void
-smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle) {
+library_smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle);
 }
 FfiOpaqueHandle
-smoke_off_NestedPackages_SomeStruct_create_handle(FfiOpaqueHandle someField) {
+library_smoke_off_NestedPackages_SomeStruct_create_handle(FfiOpaqueHandle someField) {
     auto _result = new (std::nothrow) ::smoke::off::NestedPackages::SomeStruct(gluecodium::ffi::Conversion<std::string>::toCpp(someField));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
-smoke_off_NestedPackages_SomeStruct_release_handle(FfiOpaqueHandle handle) {
+library_smoke_off_NestedPackages_SomeStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<::smoke::off::NestedPackages::SomeStruct*>(handle);
 }
 FfiOpaqueHandle
-smoke_off_NestedPackages_SomeStruct_get_field_someField(FfiOpaqueHandle handle) {
+library_smoke_off_NestedPackages_SomeStruct_get_field_someField(FfiOpaqueHandle handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         reinterpret_cast<::smoke::off::NestedPackages::SomeStruct*>(handle)->some_field
     );
 }
 FfiOpaqueHandle
-smoke_off_NestedPackages_SomeStruct_create_handle_nullable(FfiOpaqueHandle value)
+library_smoke_off_NestedPackages_SomeStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) gluecodium::optional<::smoke::off::NestedPackages::SomeStruct>(
@@ -53,12 +53,12 @@ smoke_off_NestedPackages_SomeStruct_create_handle_nullable(FfiOpaqueHandle value
     );
 }
 void
-smoke_off_NestedPackages_SomeStruct_release_handle_nullable(FfiOpaqueHandle handle)
+library_smoke_off_NestedPackages_SomeStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
     delete reinterpret_cast<gluecodium::optional<::smoke::off::NestedPackages::SomeStruct>*>(handle);
 }
 FfiOpaqueHandle
-smoke_off_NestedPackages_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
+library_smoke_off_NestedPackages_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<::smoke::off::NestedPackages::SomeStruct>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::off::NestedPackages::SomeStruct>*>(handle)

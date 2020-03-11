@@ -71,7 +71,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules)
-        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, libraryName)
+        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules)
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
@@ -135,13 +135,15 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val allSymbols = (allTypes + freeConstants)
             .filterNot { it.visibility.isInternal }
             .map { dartNameResolver.resolveName(it) }
-        exportsCollector += DartExport(relativePath, allSymbols)
+        if (allSymbols.isNotEmpty()) {
+            exportsCollector += DartExport(relativePath, allSymbols)
+        }
         typeRepositoriesCollector += getTypeRepositories(allTypes)
 
         val parentImports = (rootElement as? LimeContainerWithInheritance)?.parent
             ?.let { importResolver.resolveImports(it) } ?: emptyList()
-        val imports = importResolver.resolveImports(rootElement) +
-            collectImports(allTypes, importResolver) + parentImports
+        val imports = allTypes.flatMap { importResolver.resolveDeclarationImports(it) } +
+            collectReferenceImports(allTypes, importResolver) + parentImports
         val content = TemplateEngine.render(
             "dart/DartFile",
             mapOf(
@@ -160,7 +162,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         allTypes.filterIsInstance<LimeInterface>() +
         allTypes.filterIsInstance<LimeClass>().filter { it.parent != null || it.visibility.isOpen }
 
-    private fun collectImports(
+    private fun collectReferenceImports(
         allTypes: List<LimeType>,
         importResolver: DartImportResolver
     ): List<DartImport> {
@@ -179,8 +181,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             exceptions.map { it.errorType }
 
         return functions.mapNotNull { it.exception }.flatMap { importResolver.resolveImports(it) } +
-            typeRefs.flatMap { importResolver.resolveImports(it) } +
-            classes.flatMap { importResolver.resolveImports(it) }
+            typeRefs.flatMap { importResolver.resolveImports(it) }
     }
 
     private fun generateFfi(
@@ -210,12 +211,13 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             structs.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) } +
             enums.flatMap { includeResolver.resolveIncludes(it) } +
-            resolveThrownTypeIncludes(types)
+            resolveThrownTypeIncludes(types) + resolveProxyIncludes(types)
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
         val data = mapOf(
             "model" to rootElement,
+            "libraryName" to libraryName,
             "classes" to classes,
             "enums" to enums,
             "interfaces" to interfaces,
@@ -243,6 +245,15 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .filterIsInstance<LimeEnumeration>()
         return when {
             exceptionEnums.isNotEmpty() -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
+            else -> emptyList()
+        }
+    }
+
+    private fun resolveProxyIncludes(types: List<LimeType>): List<Include> {
+        val proxiedTypes =
+            types.filterIsInstance<LimeInterface>() + types.filterIsInstance<LimeLambda>()
+        return when {
+            proxiedTypes.isNotEmpty() -> listOf(Include.createInternalInclude("ProxyCache.h"))
             else -> emptyList()
         }
     }
@@ -282,6 +293,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             GeneratedFile(
                 TemplateEngine.render("dart/DartTypeRepository", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_type_repository.dart"
+            ),
+            GeneratedFile(
+                TemplateEngine.render("dart/DartTokenCache", templateData, nameResolvers),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_token_cache.dart"
             )
         )
     }
@@ -289,9 +304,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private fun generateFfiCommonFiles(
         nameResolvers: Map<String, NameResolver>
     ): List<GeneratedFile> {
-        val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
+        val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle", "ProxyCache")
         val headerAndImpl = listOf("StringHandle", "BlobHandle", "NullableHandles")
         val data = mapOf(
+            "libraryName" to libraryName,
             "opaqueHandleType" to OPAQUE_HANDLE_TYPE,
             "internalNamespace" to internalNamespace,
             "builtInTypes" to
@@ -325,9 +341,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val content = TemplateEngine.render(
             "dart/DartGenericTypesConversion",
             mapOf(
+                "libraryName" to libraryName,
                 "imports" to imports.distinct().sorted(),
-                "genericTypes" to genericTypes,
-                "libraryName" to libraryName
+                "genericTypes" to genericTypes
             ),
             nameResolvers
         )
@@ -344,6 +360,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val fileName = "GenericTypesConversion"
         val data = mapOf(
+            "libraryName" to libraryName,
             "genericTypes" to genericTypes,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,

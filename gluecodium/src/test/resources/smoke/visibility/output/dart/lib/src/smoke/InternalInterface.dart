@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -11,26 +12,23 @@ abstract class InternalInterface {
 final _smoke_InternalInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_InternalInterface_copy_handle');
+  >('library_smoke_InternalInterface_copy_handle');
 final _smoke_InternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_InternalInterface_release_handle');
+  >('library_smoke_InternalInterface_release_handle');
 final _smoke_InternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
-  >('smoke_InternalInterface_create_proxy');
+    Pointer<Void> Function(Uint64, Pointer),
+    Pointer<Void> Function(int, Pointer)
+  >('library_smoke_InternalInterface_create_proxy');
 final _smoke_InternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_InternalInterface_get_raw_pointer');
+    >('library_smoke_InternalInterface_get_raw_pointer');
 final _smoke_InternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_InternalInterface_get_type_id');
-int _InternalInterface_instance_counter = 1024;
-final Map<int, InternalInterface> _InternalInterface_instance_cache = {};
-final Map<Pointer<Void>, InternalInterface> _InternalInterface_reverse_cache = {};
+  >('library_smoke_InternalInterface_get_type_id');
 class InternalInterface__Impl implements InternalInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -40,15 +38,15 @@ class InternalInterface__Impl implements InternalInterface {
 }
 Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
   if (value is InternalInterface__Impl) return _smoke_InternalInterface_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _InternalInterface_instance_counter++;
-  _InternalInterface_instance_cache[token] = value;
-  final result = _smoke_InternalInterface_create_proxy(token);
-  _InternalInterface_reverse_cache[_smoke_InternalInterface_get_raw_pointer(result)] = value;
+  final result = _smoke_InternalInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
+  __lib.reverseCache[_smoke_InternalInterface_get_raw_pointer(result)] = value;
   return result;
 }
 InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
-  final instance = _InternalInterface_reverse_cache[_smoke_InternalInterface_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_smoke_InternalInterface_get_raw_pointer(handle)] as InternalInterface;
   if (instance != null) return instance;
   final _copied_handle = _smoke_InternalInterface_copy_handle(handle);
   final _type_id_handle = _smoke_InternalInterface_get_type_id(handle);

@@ -5,11 +5,11 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_InternalClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_InternalClass_copy_handle');
+  >('library_smoke_InternalClass_copy_handle');
 final _smoke_InternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_InternalClass_release_handle');
+  >('library_smoke_InternalClass_release_handle');
 class InternalClass {
   final Pointer<Void> _handle;
   InternalClass._(this._handle);

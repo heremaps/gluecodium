@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -21,22 +21,29 @@
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
 import 'dart:ffi';
-import 'dart:io' show Platform;
-
 import 'package:ffi/ffi.dart';
 
-final nativeLibrary = _loadNativeLibrary();
+const unknownError = -1;
 
-DynamicLibrary _loadNativeLibrary() {
-  try {
-    return DynamicLibrary.open(_getLibraryPath());
-  } catch (e) {
-    return DynamicLibrary.process();
+int _instanceCounter = 1024;
+final Map<int, Object> instanceCache = {};
+final Map<Object, int> tokenCache = {};
+final Map<Pointer<Void>, Object> reverseCache = {};
+
+int cacheObject(Object obj) {
+  int token = tokenCache[obj];
+  if (token == null) {
+    token = _instanceCounter++;
+    instanceCache[token] = obj;
+    tokenCache[obj] = token;
   }
+  return token;
 }
 
-String _getLibraryPath() {
-  if (Platform.isWindows) return 'lib{{libraryName}}.dll';
-  if (Platform.isMacOS || Platform.isIOS) return 'lib{{libraryName}}.dylib';
-  return 'lib{{libraryName}}.so';
+void uncacheObject(int token, Pointer<Void> rawPointer) {
+  tokenCache.remove(instanceCache[token]);
+  instanceCache.remove(token);
+  reverseCache.remove(rawPointer);
 }
+
+final uncacheObjectFfi = Pointer.fromFunction<Void Function(Uint64, Pointer<Void>)>(uncacheObject);

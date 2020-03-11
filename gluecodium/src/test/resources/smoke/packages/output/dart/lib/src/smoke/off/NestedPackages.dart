@@ -6,17 +6,17 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_off_NestedPackages_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_copy_handle');
+  >('library_smoke_off_NestedPackages_copy_handle');
 final _smoke_off_NestedPackages_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_release_handle');
+  >('library_smoke_off_NestedPackages_release_handle');
 class NestedPackages {
   final Pointer<Void> _handle;
   NestedPackages._(this._handle);
   void release() => _smoke_off_NestedPackages_release_handle(_handle);
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
-    final _basicMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_off_NestedPackages_basicMethod__SomeStruct');
+    final _basicMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct');
     final _input_handle = smoke_off_NestedPackages_SomeStruct_toFfi(input);
     final __result_handle = _basicMethod_ffi(_input_handle);
     smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(_input_handle);
@@ -45,15 +45,15 @@ class NestedPackages_SomeStruct {
 final _smoke_off_NestedPackages_SomeStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_SomeStruct_create_handle');
+  >('library_smoke_off_NestedPackages_SomeStruct_create_handle');
 final _smoke_off_NestedPackages_SomeStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_SomeStruct_release_handle');
+  >('library_smoke_off_NestedPackages_SomeStruct_release_handle');
 final _smoke_off_NestedPackages_SomeStruct_get_field_someField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_SomeStruct_get_field_someField');
+  >('library_smoke_off_NestedPackages_SomeStruct_get_field_someField');
 Pointer<Void> smoke_off_NestedPackages_SomeStruct_toFfi(NestedPackages_SomeStruct value) {
   final _someField_handle = String_toFfi(value.someField);
   final _result = _smoke_off_NestedPackages_SomeStruct_create_handle(_someField_handle);
@@ -73,15 +73,15 @@ void smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(Pointer<Void> handle) 
 final _smoke_off_NestedPackages_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_SomeStruct_create_handle_nullable');
+  >('library_smoke_off_NestedPackages_SomeStruct_create_handle_nullable');
 final _smoke_off_NestedPackages_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_SomeStruct_release_handle_nullable');
+  >('library_smoke_off_NestedPackages_SomeStruct_release_handle_nullable');
 final _smoke_off_NestedPackages_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_off_NestedPackages_SomeStruct_get_value_nullable');
+  >('library_smoke_off_NestedPackages_SomeStruct_get_value_nullable');
 Pointer<Void> smoke_off_NestedPackages_SomeStruct_toFfi_nullable(NestedPackages_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_off_NestedPackages_SomeStruct_toFfi(value);

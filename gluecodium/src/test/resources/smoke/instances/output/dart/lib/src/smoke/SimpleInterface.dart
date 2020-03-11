@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -13,26 +14,23 @@ abstract class SimpleInterface {
 final _smoke_SimpleInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_SimpleInterface_copy_handle');
+  >('library_smoke_SimpleInterface_copy_handle');
 final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_SimpleInterface_release_handle');
+  >('library_smoke_SimpleInterface_release_handle');
 final _smoke_SimpleInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
-  >('smoke_SimpleInterface_create_proxy');
+    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer, Pointer)
+  >('library_smoke_SimpleInterface_create_proxy');
 final _smoke_SimpleInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_SimpleInterface_get_raw_pointer');
+    >('library_smoke_SimpleInterface_get_raw_pointer');
 final _smoke_SimpleInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_SimpleInterface_get_type_id');
-int _SimpleInterface_instance_counter = 1024;
-final Map<int, SimpleInterface> _SimpleInterface_instance_cache = {};
-final Map<Pointer<Void>, SimpleInterface> _SimpleInterface_reverse_cache = {};
+  >('library_smoke_SimpleInterface_get_type_id');
 class SimpleInterface__Impl implements SimpleInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -41,7 +39,7 @@ class SimpleInterface__Impl implements SimpleInterface {
   void release() => _smoke_SimpleInterface_release_handle(handle);
   @override
   String getStringValue() {
-    final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('smoke_SimpleInterface_getStringValue');
+    final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_SimpleInterface_getStringValue');
     final __result_handle = _getStringValue_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -49,7 +47,7 @@ class SimpleInterface__Impl implements SimpleInterface {
   }
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) {
-    final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
+    final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
     final _input_handle = smoke_SimpleInterface_toFfi(input);
     final __result_handle = _useSimpleInterface_ffi(_handle, _input_handle);
     smoke_SimpleInterface_releaseFfiHandle(_input_handle);
@@ -59,12 +57,12 @@ class SimpleInterface__Impl implements SimpleInterface {
   }
 }
 int _SimpleInterface_getStringValue_static(int _token, Pointer<Pointer<Void>> _result) {
-  final _result_object = _SimpleInterface_instance_cache[_token].getStringValue();
+  final _result_object = (__lib.instanceCache[_token] as SimpleInterface).getStringValue();
   _result.value = String_toFfi(_result_object);
   return 0;
 }
 int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  final _result_object = _SimpleInterface_instance_cache[_token].useSimpleInterface(smoke_SimpleInterface_fromFfi(input));
+  final _result_object = (__lib.instanceCache[_token] as SimpleInterface).useSimpleInterface(smoke_SimpleInterface_fromFfi(input));
   _result.value = smoke_SimpleInterface_toFfi(_result_object);
   smoke_SimpleInterface_releaseFfiHandle(input);
   if (_result_object != null) _result_object.release();
@@ -72,15 +70,17 @@ int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, 
 }
 Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
   if (value is SimpleInterface__Impl) return _smoke_SimpleInterface_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _SimpleInterface_instance_counter++;
-  _SimpleInterface_instance_cache[token] = value;
-  final result = _smoke_SimpleInterface_create_proxy(token, Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterface_getStringValue_static, UNKNOWN_ERROR), Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterface_useSimpleInterface_static, UNKNOWN_ERROR));
-  _SimpleInterface_reverse_cache[_smoke_SimpleInterface_get_raw_pointer(result)] = value;
+  final result = _smoke_SimpleInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterface_getStringValue_static, __lib.unknownError),
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterface_useSimpleInterface_static, __lib.unknownError)
+  );
+  __lib.reverseCache[_smoke_SimpleInterface_get_raw_pointer(result)] = value;
   return result;
 }
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
-  final instance = _SimpleInterface_reverse_cache[_smoke_SimpleInterface_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_smoke_SimpleInterface_get_raw_pointer(handle)] as SimpleInterface;
   if (instance != null) return instance;
   final _copied_handle = _smoke_SimpleInterface_copy_handle(handle);
   final _type_id_handle = _smoke_SimpleInterface_get_type_id(handle);

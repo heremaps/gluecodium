@@ -31,9 +31,9 @@ extern "C" {
 #endif
 
 {{#builtInTypes}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{this}}_create_handle_nullable({{resolveName}} value);
-_GLUECODIUM_FFI_EXPORT void {{this}}_release_handle_nullable(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT {{resolveName}} {{this}}_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{this}}_create_handle_nullable({{resolveName}} value);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{this}}_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT {{resolveName}} {{libraryName}}_{{this}}_get_value_nullable(FfiOpaqueHandle handle);
 {{/builtInTypes}}
 
 #ifdef __cplusplus

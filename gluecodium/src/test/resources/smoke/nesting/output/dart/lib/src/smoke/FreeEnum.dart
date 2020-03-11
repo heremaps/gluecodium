@@ -35,15 +35,15 @@ void smoke_FreeEnum_releaseFfiHandle(int handle) {}
 final _smoke_FreeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('smoke_FreeEnum_create_handle_nullable');
+  >('library_smoke_FreeEnum_create_handle_nullable');
 final _smoke_FreeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_FreeEnum_release_handle_nullable');
+  >('library_smoke_FreeEnum_release_handle_nullable');
 final _smoke_FreeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_FreeEnum_get_value_nullable');
+  >('library_smoke_FreeEnum_get_value_nullable');
 Pointer<Void> smoke_FreeEnum_toFfi_nullable(FreeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_FreeEnum_toFfi(value);

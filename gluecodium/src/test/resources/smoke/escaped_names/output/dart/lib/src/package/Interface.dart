@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -11,26 +12,23 @@ abstract class Interface {
 final _package_Interface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('package_Interface_copy_handle');
+  >('library_package_Interface_copy_handle');
 final _package_Interface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('package_Interface_release_handle');
+  >('library_package_Interface_release_handle');
 final _package_Interface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
-  >('package_Interface_create_proxy');
+    Pointer<Void> Function(Uint64, Pointer),
+    Pointer<Void> Function(int, Pointer)
+  >('library_package_Interface_create_proxy');
 final _package_Interface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('package_Interface_get_raw_pointer');
+    >('library_package_Interface_get_raw_pointer');
 final _package_Interface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('package_Interface_get_type_id');
-int _Interface_instance_counter = 1024;
-final Map<int, Interface> _Interface_instance_cache = {};
-final Map<Pointer<Void>, Interface> _Interface_reverse_cache = {};
+  >('library_package_Interface_get_type_id');
 class Interface__Impl implements Interface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -40,15 +38,15 @@ class Interface__Impl implements Interface {
 }
 Pointer<Void> package_Interface_toFfi(Interface value) {
   if (value is Interface__Impl) return _package_Interface_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _Interface_instance_counter++;
-  _Interface_instance_cache[token] = value;
-  final result = _package_Interface_create_proxy(token);
-  _Interface_reverse_cache[_package_Interface_get_raw_pointer(result)] = value;
+  final result = _package_Interface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
+  __lib.reverseCache[_package_Interface_get_raw_pointer(result)] = value;
   return result;
 }
 Interface package_Interface_fromFfi(Pointer<Void> handle) {
-  final instance = _Interface_reverse_cache[_package_Interface_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_package_Interface_get_raw_pointer(handle)] as Interface;
   if (instance != null) return instance;
   final _copied_handle = _package_Interface_copy_handle(handle);
   final _type_id_handle = _package_Interface_get_type_id(handle);

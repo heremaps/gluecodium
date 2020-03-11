@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
@@ -53,10 +54,13 @@ class SwiftTypeMapper(
     private val genericsCollector = mutableMapOf<String, SwiftType>()
     val generics: Map<String, SwiftType> = genericsCollector
 
-    fun mapType(limeTypeRef: LimeTypeRef) =
-        mapType(limeTypeRef.type).withOptional(limeTypeRef.isNullable)
+    fun mapType(limeTypeRef: LimeTypeRef): SwiftType {
+        val limeType = limeTypeRef.type
+        val collectGenerics = limeType.actualType is LimeGenericType
+        return mapType(limeType, collectGenerics).withOptional(limeTypeRef.isNullable)
+    }
 
-    private fun mapType(limeType: LimeType): SwiftType {
+    private fun mapType(limeType: LimeType, collectGenerics: Boolean = false): SwiftType {
         return when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeStruct -> SwiftStruct(
@@ -65,7 +69,8 @@ class SwiftTypeMapper(
             )
             is LimeEnumeration -> SwiftEnum(nameResolver.getFullName(limeType))
             is LimeTypeAlias ->
-                mapType(limeType.typeRef.type).withAlias(nameResolver.getFullName(limeType))
+                mapType(limeType.typeRef.type, collectGenerics)
+                    .withAlias(nameResolver.getFullName(limeType))
             is LimeClass, is LimeTypesCollection -> SwiftStruct(
                 name = nameResolver.getFullName(limeType),
                 cPrefix = CBridgeNameRules.getNestedSpecifierString(limeType),
@@ -77,9 +82,9 @@ class SwiftTypeMapper(
                 category = SwiftType.TypeCategory.CLASS,
                 isInterface = true
             )
-            is LimeList -> mapArrayType(limeType)
-            is LimeMap -> mapMapType(limeType)
-            is LimeSet -> mapSetType(limeType)
+            is LimeList -> mapArrayType(limeType, collectGenerics)
+            is LimeMap -> mapMapType(limeType, collectGenerics)
+            is LimeSet -> mapSetType(limeType, collectGenerics)
             is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorType.type))
             is LimeLambda ->
                 SwiftClosure(
@@ -104,40 +109,49 @@ class SwiftTypeMapper(
             else -> mapType(limeType).name
         }
 
-    private fun mapArrayType(limeType: LimeList): SwiftArray {
+    private fun mapArrayType(limeType: LimeList, collectGenerics: Boolean): SwiftArray {
         val result = SwiftArray(
-            mapType(limeType.elementType.type),
+            mapType(limeType.elementType.type, collectGenerics),
             cbridgeNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeList
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
-        genericsCollector.putIfAbsent(elementTypeKey, result.withoutAlias())
+
+        if (collectGenerics) {
+            genericsCollector.putIfAbsent(elementTypeKey, result.withoutAlias())
+        }
 
         return result
     }
 
-    private fun mapMapType(limeType: LimeMap): SwiftDictionary {
+    private fun mapMapType(limeType: LimeMap, collectGenerics: Boolean): SwiftDictionary {
         val result = SwiftDictionary(
-            mapType(limeType.keyType.type),
-            mapType(limeType.valueType.type),
+            mapType(limeType.keyType.type, collectGenerics),
+            mapType(limeType.valueType.type, collectGenerics),
             cbridgeNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeMap
         val keyTypeKey = getActualTypeKey(actualType.keyType.type)
         val valueTypeKey = getActualTypeKey(actualType.valueType.type)
-        genericsCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", result)
+
+        if (collectGenerics) {
+            genericsCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", result)
+        }
 
         return result
     }
 
-    private fun mapSetType(limeType: LimeSet): SwiftSet {
+    private fun mapSetType(limeType: LimeSet, collectGenerics: Boolean): SwiftSet {
         val result = SwiftSet(
-            mapType(limeType.elementType.type),
+            mapType(limeType.elementType.type, collectGenerics),
             cbridgeNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeSet
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
-        genericsCollector.putIfAbsent("$elementTypeKey:", result)
+
+        if (collectGenerics) {
+            genericsCollector.putIfAbsent("$elementTypeKey:", result)
+        }
 
         return result
     }

@@ -11,15 +11,15 @@ class StructWithClass {
 final _smoke_StructWithClass_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithClass_create_handle');
+  >('library_smoke_StructWithClass_create_handle');
 final _smoke_StructWithClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_StructWithClass_release_handle');
+  >('library_smoke_StructWithClass_release_handle');
 final _smoke_StructWithClass_get_field_classInstance = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithClass_get_field_classInstance');
+  >('library_smoke_StructWithClass_get_field_classInstance');
 Pointer<Void> smoke_StructWithClass_toFfi(StructWithClass value) {
   final _classInstance_handle = smoke_SimpleClass_toFfi(value.classInstance);
   final _result = _smoke_StructWithClass_create_handle(_classInstance_handle);
@@ -39,15 +39,15 @@ void smoke_StructWithClass_releaseFfiHandle(Pointer<Void> handle) => _smoke_Stru
 final _smoke_StructWithClass_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithClass_create_handle_nullable');
+  >('library_smoke_StructWithClass_create_handle_nullable');
 final _smoke_StructWithClass_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_StructWithClass_release_handle_nullable');
+  >('library_smoke_StructWithClass_release_handle_nullable');
 final _smoke_StructWithClass_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithClass_get_value_nullable');
+  >('library_smoke_StructWithClass_get_value_nullable');
 Pointer<Void> smoke_StructWithClass_toFfi_nullable(StructWithClass value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructWithClass_toFfi(value);

@@ -8,88 +8,88 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_Errors_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Errors_copy_handle');
+  >('library_smoke_Errors_copy_handle');
 final _smoke_Errors_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_release_handle');
+  >('library_smoke_Errors_release_handle');
 final _methodWithErrors_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrors_return_release_handle');
+  >('library_smoke_Errors_methodWithErrors_return_release_handle');
 final _methodWithErrors_return_get_result = (Pointer) {};
 final _methodWithErrors_return_get_error = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrors_return_get_error');
+  >('library_smoke_Errors_methodWithErrors_return_get_error');
 final _methodWithErrors_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrors_return_has_error');
+  >('library_smoke_Errors_methodWithErrors_return_has_error');
 final _methodWithExternalErrors_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_methodWithExternalErrors_return_release_handle');
+  >('library_smoke_Errors_methodWithExternalErrors_return_release_handle');
 final _methodWithExternalErrors_return_get_result = (Pointer) {};
 final _methodWithExternalErrors_return_get_error = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithExternalErrors_return_get_error');
+  >('library_smoke_Errors_methodWithExternalErrors_return_get_error');
 final _methodWithExternalErrors_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithExternalErrors_return_has_error');
+  >('library_smoke_Errors_methodWithExternalErrors_return_has_error');
 final _methodWithErrorsAndReturnValue_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrorsAndReturnValue_return_release_handle');
+  >('library_smoke_Errors_methodWithErrorsAndReturnValue_return_release_handle');
 final _methodWithErrorsAndReturnValue_return_get_result = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrorsAndReturnValue_return_get_result');
+  >('library_smoke_Errors_methodWithErrorsAndReturnValue_return_get_result');
 final _methodWithErrorsAndReturnValue_return_get_error = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrorsAndReturnValue_return_get_error');
+  >('library_smoke_Errors_methodWithErrorsAndReturnValue_return_get_error');
 final _methodWithErrorsAndReturnValue_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithErrorsAndReturnValue_return_has_error');
+  >('library_smoke_Errors_methodWithErrorsAndReturnValue_return_has_error');
 final _methodWithPayloadError_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadError_return_release_handle');
+  >('library_smoke_Errors_methodWithPayloadError_return_release_handle');
 final _methodWithPayloadError_return_get_result = (Pointer) {};
 final _methodWithPayloadError_return_get_error = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadError_return_get_error');
+  >('library_smoke_Errors_methodWithPayloadError_return_get_error');
 final _methodWithPayloadError_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadError_return_has_error');
+  >('library_smoke_Errors_methodWithPayloadError_return_has_error');
 final _methodWithPayloadErrorAndReturnValue_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadErrorAndReturnValue_return_release_handle');
+  >('library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_release_handle');
 final _methodWithPayloadErrorAndReturnValue_return_get_result = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadErrorAndReturnValue_return_get_result');
+  >('library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_get_result');
 final _methodWithPayloadErrorAndReturnValue_return_get_error = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadErrorAndReturnValue_return_get_error');
+  >('library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_get_error');
 final _methodWithPayloadErrorAndReturnValue_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_methodWithPayloadErrorAndReturnValue_return_has_error');
+  >('library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_has_error');
 class Errors {
   final Pointer<Void> _handle;
   Errors._(this._handle);
   void release() => _smoke_Errors_release_handle(_handle);
   static methodWithErrors() {
-    final _methodWithErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Errors_methodWithErrors');
+    final _methodWithErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Errors_methodWithErrors');
     final __call_result_handle = _methodWithErrors_ffi();
     if (_methodWithErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrors_return_get_error(__call_result_handle);
@@ -105,7 +105,7 @@ class Errors {
     return _result;
   }
   static methodWithExternalErrors() {
-    final _methodWithExternalErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Errors_methodWithExternalErrors');
+    final _methodWithExternalErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Errors_methodWithExternalErrors');
     final __call_result_handle = _methodWithExternalErrors_ffi();
     if (_methodWithExternalErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithExternalErrors_return_get_error(__call_result_handle);
@@ -121,7 +121,7 @@ class Errors {
     return _result;
   }
   static String methodWithErrorsAndReturnValue() {
-    final _methodWithErrorsAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Errors_methodWithErrorsAndReturnValue');
+    final _methodWithErrorsAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Errors_methodWithErrorsAndReturnValue');
     final __call_result_handle = _methodWithErrorsAndReturnValue_ffi();
     if (_methodWithErrorsAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrorsAndReturnValue_return_get_error(__call_result_handle);
@@ -137,7 +137,7 @@ class Errors {
     return _result;
   }
   static methodWithPayloadError() {
-    final _methodWithPayloadError_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Errors_methodWithPayloadError');
+    final _methodWithPayloadError_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Errors_methodWithPayloadError');
     final __call_result_handle = _methodWithPayloadError_ffi();
     if (_methodWithPayloadError_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithPayloadError_return_get_error(__call_result_handle);
@@ -153,7 +153,7 @@ class Errors {
     return _result;
   }
   static String methodWithPayloadErrorAndReturnValue() {
-    final _methodWithPayloadErrorAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('smoke_Errors_methodWithPayloadErrorAndReturnValue');
+    final _methodWithPayloadErrorAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Errors_methodWithPayloadErrorAndReturnValue');
     final __call_result_handle = _methodWithPayloadErrorAndReturnValue_ffi();
     if (_methodWithPayloadErrorAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithPayloadErrorAndReturnValue_return_get_error(__call_result_handle);
@@ -214,15 +214,15 @@ void smoke_Errors_InternalErrorCode_releaseFfiHandle(int handle) {}
 final _smoke_Errors_InternalErrorCode_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('smoke_Errors_InternalErrorCode_create_handle_nullable');
+  >('library_smoke_Errors_InternalErrorCode_create_handle_nullable');
 final _smoke_Errors_InternalErrorCode_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_InternalErrorCode_release_handle_nullable');
+  >('library_smoke_Errors_InternalErrorCode_release_handle_nullable');
 final _smoke_Errors_InternalErrorCode_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_InternalErrorCode_get_value_nullable');
+  >('library_smoke_Errors_InternalErrorCode_get_value_nullable');
 Pointer<Void> smoke_Errors_InternalErrorCode_toFfi_nullable(Errors_InternalErrorCode value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Errors_InternalErrorCode_toFfi(value);
@@ -280,15 +280,15 @@ void smoke_Errors_ExternalErrors_releaseFfiHandle(int handle) {}
 final _smoke_Errors_ExternalErrors_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('smoke_Errors_ExternalErrors_create_handle_nullable');
+  >('library_smoke_Errors_ExternalErrors_create_handle_nullable');
 final _smoke_Errors_ExternalErrors_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_Errors_ExternalErrors_release_handle_nullable');
+  >('library_smoke_Errors_ExternalErrors_release_handle_nullable');
 final _smoke_Errors_ExternalErrors_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_Errors_ExternalErrors_get_value_nullable');
+  >('library_smoke_Errors_ExternalErrors_get_value_nullable');
 Pointer<Void> smoke_Errors_ExternalErrors_toFfi_nullable(Errors_ExternalErrors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Errors_ExternalErrors_toFfi(value);

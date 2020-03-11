@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/PublicClass.dart';
 import 'dart:ffi';
@@ -16,15 +17,15 @@ class PublicInterface_InternalStruct {
 final _smoke_PublicInterface_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicInterface_InternalStruct_create_handle');
+  >('library_smoke_PublicInterface_InternalStruct_create_handle');
 final _smoke_PublicInterface_InternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_PublicInterface_InternalStruct_release_handle');
+  >('library_smoke_PublicInterface_InternalStruct_release_handle');
 final _smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType');
+  >('library_smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType');
 Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi(PublicInterface_InternalStruct value) {
   final _fieldOfInternalType_handle = smoke_PublicClass_InternalStruct_toFfi(value.fieldOfInternalType);
   final _result = _smoke_PublicInterface_InternalStruct_create_handle(_fieldOfInternalType_handle);
@@ -44,15 +45,15 @@ void smoke_PublicInterface_InternalStruct_releaseFfiHandle(Pointer<Void> handle)
 final _smoke_PublicInterface_InternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicInterface_InternalStruct_create_handle_nullable');
+  >('library_smoke_PublicInterface_InternalStruct_create_handle_nullable');
 final _smoke_PublicInterface_InternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_PublicInterface_InternalStruct_release_handle_nullable');
+  >('library_smoke_PublicInterface_InternalStruct_release_handle_nullable');
 final _smoke_PublicInterface_InternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicInterface_InternalStruct_get_value_nullable');
+  >('library_smoke_PublicInterface_InternalStruct_get_value_nullable');
 Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi_nullable(PublicInterface_InternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PublicInterface_InternalStruct_toFfi(value);
@@ -74,26 +75,23 @@ void smoke_PublicInterface_InternalStruct_releaseFfiHandle_nullable(Pointer<Void
 final _smoke_PublicInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicInterface_copy_handle');
+  >('library_smoke_PublicInterface_copy_handle');
 final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_PublicInterface_release_handle');
+  >('library_smoke_PublicInterface_release_handle');
 final _smoke_PublicInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
-  >('smoke_PublicInterface_create_proxy');
+    Pointer<Void> Function(Uint64, Pointer),
+    Pointer<Void> Function(int, Pointer)
+  >('library_smoke_PublicInterface_create_proxy');
 final _smoke_PublicInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('smoke_PublicInterface_get_raw_pointer');
+    >('library_smoke_PublicInterface_get_raw_pointer');
 final _smoke_PublicInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicInterface_get_type_id');
-int _PublicInterface_instance_counter = 1024;
-final Map<int, PublicInterface> _PublicInterface_instance_cache = {};
-final Map<Pointer<Void>, PublicInterface> _PublicInterface_reverse_cache = {};
+  >('library_smoke_PublicInterface_get_type_id');
 class PublicInterface__Impl implements PublicInterface {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -103,15 +101,15 @@ class PublicInterface__Impl implements PublicInterface {
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface__Impl) return _smoke_PublicInterface_copy_handle(value.handle);
-  const UNKNOWN_ERROR = -1;
-  final token = _PublicInterface_instance_counter++;
-  _PublicInterface_instance_cache[token] = value;
-  final result = _smoke_PublicInterface_create_proxy(token);
-  _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(result)] = value;
+  final result = _smoke_PublicInterface_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi
+  );
+  __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(result)] = value;
   return result;
 }
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
-  final instance = _PublicInterface_reverse_cache[_smoke_PublicInterface_get_raw_pointer(handle)];
+  final instance = __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(handle)] as PublicInterface;
   if (instance != null) return instance;
   final _copied_handle = _smoke_PublicInterface_copy_handle(handle);
   final _type_id_handle = _smoke_PublicInterface_get_type_id(handle);

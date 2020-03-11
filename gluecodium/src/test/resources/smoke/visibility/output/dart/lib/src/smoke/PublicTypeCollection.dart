@@ -11,15 +11,15 @@ class InternalStruct {
 final _smoke_PublicTypeCollection_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicTypeCollection_InternalStruct_create_handle');
+  >('library_smoke_PublicTypeCollection_InternalStruct_create_handle');
 final _smoke_PublicTypeCollection_InternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_PublicTypeCollection_InternalStruct_release_handle');
+  >('library_smoke_PublicTypeCollection_InternalStruct_release_handle');
 final _smoke_PublicTypeCollection_InternalStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicTypeCollection_InternalStruct_get_field_stringField');
+  >('library_smoke_PublicTypeCollection_InternalStruct_get_field_stringField');
 Pointer<Void> smoke_PublicTypeCollection_InternalStruct_toFfi(InternalStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_PublicTypeCollection_InternalStruct_create_handle(_stringField_handle);
@@ -39,15 +39,15 @@ void smoke_PublicTypeCollection_InternalStruct_releaseFfiHandle(Pointer<Void> ha
 final _smoke_PublicTypeCollection_InternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicTypeCollection_InternalStruct_create_handle_nullable');
+  >('library_smoke_PublicTypeCollection_InternalStruct_create_handle_nullable');
 final _smoke_PublicTypeCollection_InternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_PublicTypeCollection_InternalStruct_release_handle_nullable');
+  >('library_smoke_PublicTypeCollection_InternalStruct_release_handle_nullable');
 final _smoke_PublicTypeCollection_InternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_PublicTypeCollection_InternalStruct_get_value_nullable');
+  >('library_smoke_PublicTypeCollection_InternalStruct_get_value_nullable');
 Pointer<Void> smoke_PublicTypeCollection_InternalStruct_toFfi_nullable(InternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PublicTypeCollection_InternalStruct_toFfi(value);

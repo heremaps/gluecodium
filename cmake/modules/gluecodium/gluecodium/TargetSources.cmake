@@ -106,11 +106,7 @@ function(apigen_target_sources target)
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
-        if(NOT EXISTS "${generated_file}")
-          get_filename_component(directory "${generated_file}" DIRECTORY)
-          file(MAKE_DIRECTORY "${directory}")
-          file(WRITE "${generated_file}" "#error Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399")
-        endif()
+        _apigen_create_generated_file_if_missing("${generated_file}")
       endforeach()
 
       # Swift code which is supposed to end up in one module cannot easily be split into multiple
@@ -133,3 +129,18 @@ function(apigen_target_sources target)
     endforeach()
   endif()
 endfunction()
+
+function (_apigen_create_generated_file_if_missing generated_file)
+  if(NOT EXISTS "${generated_file}")
+    get_filename_component(directory "${generated_file}" DIRECTORY)
+    file(MAKE_DIRECTORY "${directory}")
+    file(WRITE "${generated_file}" "#error Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399")
+
+    find_program(TOUCH_APP touch)
+    if (TOUCH_APP)
+      execute_process(COMMAND ${TOUCH_APP} -t 0001010101 "${generated_file}")
+    else ()
+      message (WARNING "Touch app not found on this computer. Gluecodium may work wrong")
+    endif ()
+  endif()
+endfunction ()

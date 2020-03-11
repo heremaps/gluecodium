@@ -5,11 +5,11 @@ import 'package:library/src/_library_init.dart' as __lib;
 final _smoke_ConstantsInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_ConstantsInterface_copy_handle');
+  >('library_smoke_ConstantsInterface_copy_handle');
 final _smoke_ConstantsInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_ConstantsInterface_release_handle');
+  >('library_smoke_ConstantsInterface_release_handle');
 class ConstantsInterface {
   final Pointer<Void> _handle;
   ConstantsInterface._(this._handle);
@@ -67,15 +67,15 @@ void smoke_ConstantsInterface_StateEnum_releaseFfiHandle(int handle) {}
 final _smoke_ConstantsInterface_StateEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('smoke_ConstantsInterface_StateEnum_create_handle_nullable');
+  >('library_smoke_ConstantsInterface_StateEnum_create_handle_nullable');
 final _smoke_ConstantsInterface_StateEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_ConstantsInterface_StateEnum_release_handle_nullable');
+  >('library_smoke_ConstantsInterface_StateEnum_release_handle_nullable');
 final _smoke_ConstantsInterface_StateEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('smoke_ConstantsInterface_StateEnum_get_value_nullable');
+  >('library_smoke_ConstantsInterface_StateEnum_get_value_nullable');
 Pointer<Void> smoke_ConstantsInterface_StateEnum_toFfi_nullable(ConstantsInterface_StateEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ConstantsInterface_StateEnum_toFfi(value);

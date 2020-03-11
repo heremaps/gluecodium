@@ -1,5 +1,3 @@
-import 'package:library/src/BuiltInTypes__conversion.dart';
-import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/SimpleInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -13,15 +11,15 @@ class StructWithInterface {
 final _smoke_StructWithInterface_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithInterface_create_handle');
+  >('library_smoke_StructWithInterface_create_handle');
 final _smoke_StructWithInterface_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_StructWithInterface_release_handle');
+  >('library_smoke_StructWithInterface_release_handle');
 final _smoke_StructWithInterface_get_field_interfaceInstance = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithInterface_get_field_interfaceInstance');
+  >('library_smoke_StructWithInterface_get_field_interfaceInstance');
 Pointer<Void> smoke_StructWithInterface_toFfi(StructWithInterface value) {
   final _interfaceInstance_handle = smoke_SimpleInterface_toFfi(value.interfaceInstance);
   final _result = _smoke_StructWithInterface_create_handle(_interfaceInstance_handle);
@@ -41,15 +39,15 @@ void smoke_StructWithInterface_releaseFfiHandle(Pointer<Void> handle) => _smoke_
 final _smoke_StructWithInterface_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithInterface_create_handle_nullable');
+  >('library_smoke_StructWithInterface_create_handle_nullable');
 final _smoke_StructWithInterface_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('smoke_StructWithInterface_release_handle_nullable');
+  >('library_smoke_StructWithInterface_release_handle_nullable');
 final _smoke_StructWithInterface_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('smoke_StructWithInterface_get_value_nullable');
+  >('library_smoke_StructWithInterface_get_value_nullable');
 Pointer<Void> smoke_StructWithInterface_toFfi_nullable(StructWithInterface value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructWithInterface_toFfi(value);

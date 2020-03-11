@@ -29,9 +29,9 @@
 extern "C" {
 #endif
 
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle std_string_create_handle(const char* c_str);
-_GLUECODIUM_FFI_EXPORT void std_string_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT const char* std_string_get_value(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_std_string_create_handle(const char* c_str);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_std_string_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT const char* {{libraryName}}_std_string_get_value(FfiOpaqueHandle handle);
 
 #ifdef __cplusplus
 }
