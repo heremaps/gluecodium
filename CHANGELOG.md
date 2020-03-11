@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
+
 ## 6.3.2
 Release date: 2020-03-10
 ### Bug fixes:
