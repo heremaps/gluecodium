@@ -39,11 +39,15 @@ class CppNameRules(
     }
 
     companion object {
-        fun joinFullyQualifiedName(nameList: List<String>) = "::" + nameList.joinToString("::")
+        fun joinFullyQualifiedName(nameList: List<String>) =
+            when {
+                nameList.isNotEmpty() -> "::" + nameList.joinToString("::")
+                else -> ""
+            }
 
         fun joinFullyQualifiedName(namespace: String?, name: String) =
             when {
-                namespace == null -> "::$name"
+                namespace.isNullOrEmpty() -> "::$name"
                 namespace.startsWith("::") -> "$namespace::$name"
                 else -> "::$namespace::$name"
             }
