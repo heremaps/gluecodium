@@ -174,3 +174,12 @@ struct EquatableStructWithInternalFields {
     internal internalMapField: Map<String, String>
     internal internalSetField: Set<String>
 }
+
+@Equatable
+interface EquatableInterface {
+    property name: String { get }
+}
+
+internal class EquatableInterfaceFactory {
+    static fun createEquatableInterface(name: String): EquatableInterface
+}
