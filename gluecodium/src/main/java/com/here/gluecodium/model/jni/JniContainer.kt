@@ -50,8 +50,7 @@ class JniContainer(
     val enums: MutableList<JniEnum> = mutableListOf()
     val includes: MutableSet<Include> = LinkedHashSet()
     @Suppress("unused")
-    val hasNativeEquatable =
-        containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
+    val hasNativeEquatable = isEquatable || isPointerEquatable
     @Suppress("unused")
     val fullJavaName = (javaPackage.packageNames + javaNames.joinToString("$")).joinToString("/")
     @Suppress("unused")
