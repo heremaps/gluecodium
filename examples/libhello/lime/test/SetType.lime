@@ -31,8 +31,8 @@ class SetType {
         id: String
     }
     typealias StructSet = Set<EquatableStruct>
-    typealias ClassSet = Set<EquatableClass>
-    typealias PointerEquatableSet = Set<PointerEquatableClass>
+    typealias ClassSet = Set<SomeEquatableClass>
+    typealias PointerEquatableSet = Set<SomePointerEquatableClass>
 
     static fun stringSetRoundTrip(
         input: StringSet
@@ -55,7 +55,7 @@ class SetType {
 }
 
 @Equatable
-class EquatableClass {
+class SomeEquatableClass {
     constructor create(
         id: String
     )
@@ -63,7 +63,7 @@ class EquatableClass {
 }
 
 @PointerEquatable
-class PointerEquatableClass {
+class SomePointerEquatableClass {
     constructor create(
         id: String
     )

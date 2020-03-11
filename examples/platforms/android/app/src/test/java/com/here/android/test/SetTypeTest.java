@@ -113,18 +113,19 @@ public class SetTypeTest {
 
   @Test
   public void classSetRoundTrip() {
-    Set<EquatableClass> input = Collections.singleton(new EquatableClass("foo"));
+    Set<SomeEquatableClass> input = Collections.singleton(new SomeEquatableClass("foo"));
 
-    Set<EquatableClass> result = SetType.classSetRoundTrip(input);
+    Set<SomeEquatableClass> result = SetType.classSetRoundTrip(input);
 
     assertEquals(input, result);
   }
 
   @Test
-  public void pointerEquatableClassSetRoundTrip() {
-    Set<PointerEquatableClass> input = Collections.singleton(new PointerEquatableClass("foo"));
+  public void SomePointerEquatableClassSetRoundTrip() {
+    Set<SomePointerEquatableClass> input =
+        Collections.singleton(new SomePointerEquatableClass("foo"));
 
-    Set<PointerEquatableClass> result = SetType.pointerEquatableSetRoundTrip(input);
+    Set<SomePointerEquatableClass> result = SetType.pointerEquatableSetRoundTrip(input);
 
     assertEquals(input, result);
   }

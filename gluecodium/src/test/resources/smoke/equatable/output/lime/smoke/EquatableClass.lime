@@ -1,0 +1,12 @@
+package smoke
+
+@Equatable
+class EquatableClass {
+    @Equatable
+    struct EquatableStruct {
+        intField: Int
+        stringField: String
+        nestedEquatableInstance: EquatableClass
+        nestedPointerEquatableInstance: PointerEquatableClass
+    }
+}

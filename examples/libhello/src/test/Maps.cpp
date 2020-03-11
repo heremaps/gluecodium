@@ -18,9 +18,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/EquatableClass.h"
+#include "test/SomeEquatableClass.h"
 #include "test/Maps.h"
-#include "test/PointerEquatableClass.h"
+#include "test/SomePointerEquatableClass.h"
 #include "test/SimpleInterfaceOne.h"
 
 #include <algorithm>
@@ -140,8 +140,8 @@ Maps::struct_to_string_round_trip(const Maps::StructToString& input)
     return input;
 }
 
-Maps::PointerEquatableClassToString
-Maps::pointer_equatable_class_to_string_round_trip(const Maps::PointerEquatableClassToString& input)
+Maps::SomePointerEquatableClassToString
+Maps::some_pointer_equatable_class_to_string_round_trip(const Maps::SomePointerEquatableClassToString& input)
 {
     return input;
 }

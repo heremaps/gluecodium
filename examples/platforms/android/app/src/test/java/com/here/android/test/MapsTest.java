@@ -268,22 +268,23 @@ public class MapsTest {
 
   @Test
   public void classToStringMapRoundTrip() {
-    Map<EquatableClass, String> input = new HashMap<>();
-    input.put(new EquatableClass("foo"), "foo");
-    input.put(new EquatableClass("bar"), "bar");
+    Map<SomeEquatableClass, String> input = new HashMap<>();
+    input.put(new SomeEquatableClass("foo"), "foo");
+    input.put(new SomeEquatableClass("bar"), "bar");
 
-    Map<EquatableClass, String> result = Maps.classToStringRoundTrip(input);
+    Map<SomeEquatableClass, String> result = Maps.classToStringRoundTrip(input);
 
     assertEquals(input, result);
   }
 
   @Test
-  public void pointerEquatableClassToStringMapRoundTrip() {
-    Map<PointerEquatableClass, String> input = new HashMap<>();
-    input.put(new PointerEquatableClass("foo"), "foo");
-    input.put(new PointerEquatableClass("bar"), "bar");
+  public void SomePointerEquatableClassToStringMapRoundTrip() {
+    Map<SomePointerEquatableClass, String> input = new HashMap<>();
+    input.put(new SomePointerEquatableClass("foo"), "foo");
+    input.put(new SomePointerEquatableClass("bar"), "bar");
 
-    Map<PointerEquatableClass, String> result = Maps.pointerEquatableClassToStringRoundTrip(input);
+    Map<SomePointerEquatableClass, String> result =
+        Maps.somePointerEquatableClassToStringRoundTrip(input);
 
     assertEquals(input, result);
   }

@@ -181,22 +181,22 @@ class MapsTests: XCTestCase {
     }
 
     func testClassMapRoundTrip() {
-        let input: [EquatableClass: String] = [
-            EquatableClass(id: "foo"): "foo",
-            EquatableClass(id: "bar"): "bar"
+        let input: [SomeEquatableClass: String] = [
+            SomeEquatableClass(id: "foo"): "foo",
+            SomeEquatableClass(id: "bar"): "bar"
         ]
 
         let result = Maps.classToStringRoundTrip(input: input)
         XCTAssertEqual(input, result)
     }
 
-    func testPointerEquatableClassMapRoundTrip() {
-        let input: [PointerEquatableClass: String] = [
-            PointerEquatableClass(id: "foo"): "foo",
-            PointerEquatableClass(id: "bar"): "bar"
+    func testSomePointerEquatableClassMapRoundTrip() {
+        let input: [SomePointerEquatableClass: String] = [
+            SomePointerEquatableClass(id: "foo"): "foo",
+            SomePointerEquatableClass(id: "bar"): "bar"
         ]
 
-        let result = Maps.pointerEquatableClassToStringRoundTrip(input: input)
+        let result = Maps.somePointerEquatableClassToStringRoundTrip(input: input)
         XCTAssertEqual(input, result)
     }
 
@@ -216,6 +216,6 @@ class MapsTests: XCTestCase {
         ("testMethodWithMapToInstance", testMethodWithMapToInstance),
         ("testStructMapRoundTrip", testStructMapRoundTrip),
         ("testClassMapRoundTrip", testClassMapRoundTrip),
-        ("testPointerEquatableClassMapRoundTrip", testPointerEquatableClassMapRoundTrip)
+        ("testSomePointerEquatableClassMapRoundTrip", testSomePointerEquatableClassMapRoundTrip)
     ]
 }

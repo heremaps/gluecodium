@@ -18,19 +18,19 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/EquatableInterface.h"
-#include "test/PointerEquatableInterface.h"
+#include "test/EquatableClass.h"
+#include "test/PointerEquatableClass.h"
 
 namespace test
 {
 namespace {
-class EquatableInterfaceImpl: public EquatableInterface {
+class EquatableClassImpl: public EquatableClass {
 public:
-    EquatableInterfaceImpl(const std::string& name)
+    EquatableClassImpl(const std::string& name)
         : m_name(name)
     {}
 
-    ~EquatableInterfaceImpl() = default;
+    ~EquatableClassImpl() = default;
 
     std::string get_name() const override {
         return m_name;
@@ -39,81 +39,81 @@ private:
     std::string m_name;
 };
 
-class PointerEquatableInterfaceImpl: public PointerEquatableInterface {
+class PointerEquatableClassImpl: public PointerEquatableClass {
 public:
-    ~PointerEquatableInterfaceImpl() = default;
+    ~PointerEquatableClassImpl() = default;
 };
 
-static std::shared_ptr<PointerEquatableInterface> s_pointer_equal_instance;
+static std::shared_ptr<PointerEquatableClass> s_pointer_equal_instance;
 }
 
-std::shared_ptr<EquatableInterface>
-EquatableInterface::create(const std::string& name) {
-    return std::make_shared<EquatableInterfaceImpl>(name);
+std::shared_ptr<EquatableClass>
+EquatableClass::create(const std::string& name) {
+    return std::make_shared<EquatableClassImpl>(name);
 }
 
-std::shared_ptr<PointerEquatableInterface>
-PointerEquatableInterface::create_new() {
-    s_pointer_equal_instance = std::make_shared<PointerEquatableInterfaceImpl>();
+std::shared_ptr<PointerEquatableClass>
+PointerEquatableClass::create_new() {
+    s_pointer_equal_instance = std::make_shared<PointerEquatableClassImpl>();
     return s_pointer_equal_instance;
 }
 
-std::shared_ptr<PointerEquatableInterface>
-PointerEquatableInterface::return_last() {
+std::shared_ptr<PointerEquatableClass>
+PointerEquatableClass::return_last() {
     return s_pointer_equal_instance;
 }
 
 bool
-EquatableInterface::are_equal( const EquatableInterface::AnotherEquatableStruct& lhs,
-                               const EquatableInterface::AnotherEquatableStruct& rhs )
+EquatableClass::are_equal( const EquatableClass::AnotherEquatableStruct& lhs,
+                               const EquatableClass::AnotherEquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-EquatableInterface::are_equal( const EquatableStruct& lhs, const EquatableStruct& rhs )
+EquatableClass::are_equal( const EquatableStruct& lhs, const EquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-EquatableInterface::are_equal( const EquatableNullableStruct& lhs,
+EquatableClass::are_equal( const EquatableNullableStruct& lhs,
                                const EquatableNullableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-PointerEquatableInterface::are_equal( const PointerEquatableInterface::EquatableStruct& lhs,
-                                      const PointerEquatableInterface::EquatableStruct& rhs )
+PointerEquatableClass::are_equal( const PointerEquatableClass::EquatableStruct& lhs,
+                                      const PointerEquatableClass::EquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-PointerEquatableInterface::are_equal( const PointerEquatableInterface::OptionalEquatableStruct& lhs,
-                                      const PointerEquatableInterface::OptionalEquatableStruct& rhs )
+PointerEquatableClass::are_equal( const PointerEquatableClass::OptionalEquatableStruct& lhs,
+                                      const PointerEquatableClass::OptionalEquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-EquatableInterface::have_same_hash( const EquatableInterface::AnotherEquatableStruct& lhs,
-                                    const EquatableInterface::AnotherEquatableStruct& rhs )
+EquatableClass::have_same_hash( const EquatableClass::AnotherEquatableStruct& lhs,
+                                    const EquatableClass::AnotherEquatableStruct& rhs )
 {
-    auto hasher = lorem_ipsum::test::hash< EquatableInterface::AnotherEquatableStruct >( );
+    auto hasher = lorem_ipsum::test::hash< EquatableClass::AnotherEquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
-EquatableInterface::have_same_hash( const EquatableStruct& lhs, const EquatableStruct& rhs )
+EquatableClass::have_same_hash( const EquatableStruct& lhs, const EquatableStruct& rhs )
 {
     auto hasher = lorem_ipsum::test::hash< EquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
-EquatableInterface::have_same_hash( const EquatableNullableStruct& lhs,
+EquatableClass::have_same_hash( const EquatableNullableStruct& lhs,
                                     const EquatableNullableStruct& rhs )
 {
     auto hasher = lorem_ipsum::test::hash< EquatableNullableStruct >( );
@@ -121,29 +121,29 @@ EquatableInterface::have_same_hash( const EquatableNullableStruct& lhs,
 }
 
 bool
-PointerEquatableInterface::have_same_hash( const PointerEquatableInterface::EquatableStruct& lhs,
-                                           const PointerEquatableInterface::EquatableStruct& rhs )
+PointerEquatableClass::have_same_hash( const PointerEquatableClass::EquatableStruct& lhs,
+                                           const PointerEquatableClass::EquatableStruct& rhs )
 {
-    auto hasher = lorem_ipsum::test::hash< PointerEquatableInterface::EquatableStruct >( );
+    auto hasher = lorem_ipsum::test::hash< PointerEquatableClass::EquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
-PointerEquatableInterface::have_same_hash( const PointerEquatableInterface::OptionalEquatableStruct& lhs,
-                                           const PointerEquatableInterface::OptionalEquatableStruct& rhs )
+PointerEquatableClass::have_same_hash( const PointerEquatableClass::OptionalEquatableStruct& lhs,
+                                           const PointerEquatableClass::OptionalEquatableStruct& rhs )
 {
-    auto hasher = lorem_ipsum::test::hash< PointerEquatableInterface::OptionalEquatableStruct >( );
+    auto hasher = lorem_ipsum::test::hash< PointerEquatableClass::OptionalEquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
-EquatableInterface::operator == ( const EquatableInterface& rhs ) {
+EquatableClass::operator == ( const EquatableClass& rhs ) {
     return get_name( ) == rhs.get_name( );
 }
 
 }  // namespace test
 
 std::size_t
-lorem_ipsum::test::hash <::test::EquatableInterface>::operator( )( const ::test::EquatableInterface& t ) const {
+lorem_ipsum::test::hash <::test::EquatableClass>::operator( )( const ::test::EquatableClass& t ) const {
     return 11 ^ std::hash<std::string>( )( t.get_name( ) );
 }
