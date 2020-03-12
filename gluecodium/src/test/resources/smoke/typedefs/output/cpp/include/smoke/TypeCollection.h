@@ -11,13 +11,13 @@ struct _GLUECODIUM_CPP_EXPORT Point {
     double x;
     double y;
     Point( );
-    Point( const double x, const double y );
+    Point( double x, double y );
 };
 using PointTypeDef = ::smoke::Point;
 struct _GLUECODIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
     ::smoke::StorageId field;
     StructHavingAliasFieldDefinedBelow( );
-    StructHavingAliasFieldDefinedBelow( const ::smoke::StorageId field );
+    StructHavingAliasFieldDefinedBelow( ::smoke::StorageId field );
 };
 _GLUECODIUM_CPP_EXPORT extern const ::smoke::StorageId INVALID_STORAGE_ID;
 }

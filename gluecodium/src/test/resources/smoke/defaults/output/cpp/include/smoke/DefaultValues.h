@@ -42,7 +42,7 @@ public:
         ::smoke::DefaultValues::SomeEnum enum_field = ::smoke::DefaultValues::SomeEnum::BAR_VALUE;
         ::fire::SomeVeryExternalEnum external_enum_field = ::fire::SomeVeryExternalEnum::Another_Value;
         StructWithDefaults( );
-        StructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::DefaultValues::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
+        StructWithDefaults( int32_t int_field, uint32_t uint_field, float float_field, double double_field, bool bool_field, ::std::string string_field, ::smoke::DefaultValues::SomeEnum enum_field, ::fire::SomeVeryExternalEnum external_enum_field );
     };
     struct _GLUECODIUM_CPP_EXPORT NullableStructWithDefaults {
         ::gluecodium::optional< int32_t > int_field = ::gluecodium::optional< int32_t >();
@@ -52,7 +52,7 @@ public:
         ::gluecodium::optional< ::std::string > string_field = ::gluecodium::optional< ::std::string >();
         ::gluecodium::optional< ::smoke::DefaultValues::SomeEnum > enum_field = ::gluecodium::optional< ::smoke::DefaultValues::SomeEnum >();
         NullableStructWithDefaults( );
-        NullableStructWithDefaults( const ::gluecodium::optional< int32_t >& int_field, const ::gluecodium::optional< uint32_t >& uint_field, const ::gluecodium::optional< float >& float_field, const ::gluecodium::optional< bool >& bool_field, const ::gluecodium::optional< ::std::string >& string_field, const ::gluecodium::optional< ::smoke::DefaultValues::SomeEnum >& enum_field );
+        NullableStructWithDefaults( ::gluecodium::optional< int32_t > int_field, ::gluecodium::optional< uint32_t > uint_field, ::gluecodium::optional< float > float_field, ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< ::std::string > string_field, ::gluecodium::optional< ::smoke::DefaultValues::SomeEnum > enum_field );
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithSpecialDefaults {
         float float_nan_field = std::numeric_limits<float>::quiet_NaN();
@@ -62,7 +62,7 @@ public:
         double double_infinity_field = std::numeric_limits<double>::infinity();
         double double_negative_infinity_field = -std::numeric_limits<double>::infinity();
         StructWithSpecialDefaults( );
-        StructWithSpecialDefaults( const float float_nan_field, const float float_infinity_field, const float float_negative_infinity_field, const double double_nan_field, const double double_infinity_field, const double double_negative_infinity_field );
+        StructWithSpecialDefaults( float float_nan_field, float float_infinity_field, float float_negative_infinity_field, double double_nan_field, double double_infinity_field, double double_negative_infinity_field );
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithEmptyDefaults {
         ::std::vector< int32_t > ints_field = {};
@@ -71,7 +71,7 @@ public:
         ::smoke::DefaultValues::StructWithDefaults struct_field = {};
         ::smoke::DefaultValues::StringSet set_type_field = {};
         StructWithEmptyDefaults( );
-        StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field, const ::smoke::DefaultValues::StringSet& set_type_field );
+        StructWithEmptyDefaults( ::std::vector< int32_t > ints_field, ::smoke::DefaultValues::FloatArray floats_field, ::smoke::DefaultValues::IdToStringMap map_field, ::smoke::DefaultValues::StructWithDefaults struct_field, ::smoke::DefaultValues::StringSet set_type_field );
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithTypedefDefaults {
         ::smoke::DefaultValues::LongTypedef long_field = 42;
@@ -79,7 +79,7 @@ public:
         ::smoke::DefaultValues::StringTypedef string_field = "\\Jonny \"Magic\" Smith\n";
         ::smoke::DefaultValues::EnumTypedef enum_field = ::smoke::DefaultValues::SomeEnum::BAR_VALUE;
         StructWithTypedefDefaults( );
-        StructWithTypedefDefaults( const ::smoke::DefaultValues::LongTypedef long_field, const ::smoke::DefaultValues::BooleanTypedef bool_field, const ::smoke::DefaultValues::StringTypedef& string_field, const ::smoke::DefaultValues::EnumTypedef enum_field );
+        StructWithTypedefDefaults( ::smoke::DefaultValues::LongTypedef long_field, ::smoke::DefaultValues::BooleanTypedef bool_field, ::smoke::DefaultValues::StringTypedef string_field, ::smoke::DefaultValues::EnumTypedef enum_field );
     };
 public:
     static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );

@@ -58,7 +58,7 @@ public:
          * remains to be seen
          * @param nullable_field Can be `null`
          */
-        SomeStruct( const ::smoke::Comments::Usefulness some_field, const ::gluecodium::optional< ::std::string >& nullable_field );
+        SomeStruct( ::smoke::Comments::Usefulness some_field, ::gluecodium::optional< ::std::string > nullable_field );
     };
     /**
      * This is some very useful constant.

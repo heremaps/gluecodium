@@ -29,7 +29,7 @@ public:
         double m_value;
         ::std::vector< int64_t > m_int_value;
         ExampleStruct( );
-        ExampleStruct( const double m_value, const ::std::vector< int64_t >& m_int_value );
+        ExampleStruct( double m_value, ::std::vector< int64_t > m_int_value );
     };
 public:
     /**
@@ -37,7 +37,7 @@ public:
      * \return @NotNull
      */
     static ::std::shared_ptr< ::namerules::NameRules > create(  );
-    virtual ::::Return< double, ::std::error_code > someMethod( const ::namerules::NameRules::ExampleStruct& some_argument ) = 0;
+    virtual ::Return< double, ::std::error_code > someMethod( const ::namerules::NameRules::ExampleStruct& some_argument ) = 0;
     virtual uint32_t retrieve_int_property(  ) const = 0;
     virtual void STORE_INT_PROPERTY_NOW( const uint32_t value ) = 0;
     virtual bool really_boolean_property(  ) const = 0;

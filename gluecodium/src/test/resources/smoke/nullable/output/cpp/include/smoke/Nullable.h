@@ -30,7 +30,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         ::std::string string_field;
         SomeStruct( );
-        SomeStruct( const ::std::string& string_field );
+        SomeStruct( ::std::string string_field );
     };
     struct _GLUECODIUM_CPP_EXPORT NullableStruct {
         ::gluecodium::optional< ::std::string > string_field;
@@ -43,7 +43,7 @@ public:
         ::gluecodium::optional< ::smoke::Nullable::SomeMap > map_field;
         ::std::shared_ptr< ::smoke::SomeInterface > instance_field;
         NullableStruct( );
-        NullableStruct( const ::gluecodium::optional< ::std::string >& string_field, const ::gluecodium::optional< bool >& bool_field, const ::gluecodium::optional< double >& double_field, const ::gluecodium::optional< ::smoke::Nullable::SomeStruct >& struct_field, const ::gluecodium::optional< ::smoke::Nullable::SomeEnum >& enum_field, const ::gluecodium::optional< ::smoke::Nullable::SomeArray >& array_field, const ::gluecodium::optional< ::std::vector< ::std::string > >& inline_array_field, const ::gluecodium::optional< ::smoke::Nullable::SomeMap >& map_field, const ::std::shared_ptr< ::smoke::SomeInterface >& instance_field );
+        NullableStruct( ::gluecodium::optional< ::std::string > string_field, ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< double > double_field, ::gluecodium::optional< ::smoke::Nullable::SomeStruct > struct_field, ::gluecodium::optional< ::smoke::Nullable::SomeEnum > enum_field, ::gluecodium::optional< ::smoke::Nullable::SomeArray > array_field, ::gluecodium::optional< ::std::vector< ::std::string > > inline_array_field, ::gluecodium::optional< ::smoke::Nullable::SomeMap > map_field, ::std::shared_ptr< ::smoke::SomeInterface > instance_field );
     };
     struct _GLUECODIUM_CPP_EXPORT NullableIntsStruct {
         ::gluecodium::optional< int8_t > int8_field;
@@ -55,7 +55,7 @@ public:
         ::gluecodium::optional< uint32_t > uint32_field;
         ::gluecodium::optional< uint64_t > uint64_field;
         NullableIntsStruct( );
-        NullableIntsStruct( const ::gluecodium::optional< int8_t >& int8_field, const ::gluecodium::optional< int16_t >& int16_field, const ::gluecodium::optional< int32_t >& int32_field, const ::gluecodium::optional< int64_t >& int64_field, const ::gluecodium::optional< uint8_t >& uint8_field, const ::gluecodium::optional< uint16_t >& uint16_field, const ::gluecodium::optional< uint32_t >& uint32_field, const ::gluecodium::optional< uint64_t >& uint64_field );
+        NullableIntsStruct( ::gluecodium::optional< int8_t > int8_field, ::gluecodium::optional< int16_t > int16_field, ::gluecodium::optional< int32_t > int32_field, ::gluecodium::optional< int64_t > int64_field, ::gluecodium::optional< uint8_t > uint8_field, ::gluecodium::optional< uint16_t > uint16_field, ::gluecodium::optional< uint32_t > uint32_field, ::gluecodium::optional< uint64_t > uint64_field );
     };
 public:
     virtual ::gluecodium::optional< ::std::string > method_with_string( const ::gluecodium::optional< ::std::string >& input ) = 0;

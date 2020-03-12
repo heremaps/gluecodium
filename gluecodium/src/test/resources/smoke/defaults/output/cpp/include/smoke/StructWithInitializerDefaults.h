@@ -17,6 +17,6 @@ struct _GLUECODIUM_CPP_EXPORT StructWithInitializerDefaults {
     ::smoke::DefaultValues::StringSet set_type_field = {"foo", "bar"};
     ::smoke::DefaultValues::IdToStringMap map_field = {{1, "foo"}, {42, "bar"}};
     StructWithInitializerDefaults( );
-    StructWithInitializerDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::StructWithAnEnum& struct_field, const ::smoke::DefaultValues::StringSet& set_type_field, const ::smoke::DefaultValues::IdToStringMap& map_field );
+    StructWithInitializerDefaults( ::std::vector< int32_t > ints_field, ::smoke::DefaultValues::FloatArray floats_field, ::smoke::StructWithAnEnum struct_field, ::smoke::DefaultValues::StringSet set_type_field, ::smoke::DefaultValues::IdToStringMap map_field );
 };
 }

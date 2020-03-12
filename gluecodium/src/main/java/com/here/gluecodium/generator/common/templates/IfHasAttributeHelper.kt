@@ -31,10 +31,10 @@ import org.trimou.handlebars.Options
  * taken instead.<br/>
  * Usage: {{#ifHasAttribute \[limeElement\] "attributeType" \["attributeValueType"\]}}...{{/ifHasAttribute}}<br/>
  * Example: {{#ifHasAttribute "equatable"}}...{{/ifHasAttribute}}<br/>
- * Example: {{#ifHasAttribute type "equatable"}}...{{/ifHasAttribute}}
- * Example: {{#ifHasAttribute type "cpp" "accessors"}}...{{/ifHasAttribute}}
+ * Example: {{#ifHasAttribute type "equatable"}}...{{/ifHasAttribute}}<br/>
+ * Example: {{#ifHasAttribute type "cpp" "accessors"}}...{{/ifHasAttribute}}<br/>
  * unlessHasAttribute: same as above, except the the section is executed only if the attribute is
- * not there
+ * not there.
  */
 internal class IfHasAttributeHelper(private val equality: Boolean) : BasicSectionHelper() {
     override fun execute(options: Options) {

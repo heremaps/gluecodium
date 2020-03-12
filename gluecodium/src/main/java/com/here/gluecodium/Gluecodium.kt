@@ -49,7 +49,6 @@ class Gluecodium(
     private val options: Options,
     private val modelLoader: LimeModelLoader = LimeModelLoader.getLoader()
 ) {
-    private val version = loadVersion()
     internal val cache = SplitSourceSetCache(
         options.outputDir,
         options.commonOutputDir,
@@ -67,8 +66,6 @@ class Gluecodium(
     }
 
     fun execute(): Boolean {
-        LOGGER.info("Version: $version")
-
         if (options.idlSources.isEmpty()) {
             throw OptionReaderException("input option required")
         }
@@ -276,6 +273,7 @@ class Gluecodium(
 
         @JvmStatic
         fun main(args: Array<String>) {
+            LOGGER.info("Version: ${loadVersion()}")
             try {
                 val options = OptionReader.read(args)
                 if (options == null || Gluecodium(options).execute()) {

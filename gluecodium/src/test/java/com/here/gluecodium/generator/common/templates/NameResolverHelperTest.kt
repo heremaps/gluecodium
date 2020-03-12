@@ -27,6 +27,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.trimou.engine.MustacheTagType
 import org.trimou.handlebars.Options
 
 @RunWith(JUnit4::class)
@@ -44,6 +45,7 @@ class NameResolverHelperTest {
                 if (element === genericElement) "foo" else "bar"
         }
         every { options.parameters } returns parameters
+        every { options.tagInfo.type } returns MustacheTagType.VARIABLE
     }
 
     @Test

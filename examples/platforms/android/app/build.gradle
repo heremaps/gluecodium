@@ -41,6 +41,7 @@ android {
         warningsAsErrors true
         disable 'GradleDependency'
         disable 'Autofill'
+        disable 'OldTargetApi'
     }
 
     testOptions {

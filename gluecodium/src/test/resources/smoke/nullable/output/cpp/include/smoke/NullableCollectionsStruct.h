@@ -18,6 +18,6 @@ struct _GLUECODIUM_CPP_EXPORT NullableCollectionsStruct {
     ::std::vector< ::gluecodium::optional< ::std::chrono::system_clock::time_point > > dates;
     ::std::unordered_map< int32_t, ::gluecodium::optional< ::smoke::Nullable::SomeStruct > > structs;
     NullableCollectionsStruct( );
-    NullableCollectionsStruct( const ::std::vector< ::gluecodium::optional< ::std::chrono::system_clock::time_point > >& dates, const ::std::unordered_map< int32_t, ::gluecodium::optional< ::smoke::Nullable::SomeStruct > >& structs );
+    NullableCollectionsStruct( ::std::vector< ::gluecodium::optional< ::std::chrono::system_clock::time_point > > dates, ::std::unordered_map< int32_t, ::gluecodium::optional< ::smoke::Nullable::SomeStruct > > structs );
 };
 }

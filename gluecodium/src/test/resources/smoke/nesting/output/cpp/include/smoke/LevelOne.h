@@ -31,7 +31,7 @@ public:
             struct _GLUECODIUM_CPP_EXPORT LevelFour {
                 ::std::string string_field;
                 LevelFour( );
-                LevelFour( const ::std::string& string_field );
+                LevelFour( ::std::string string_field );
                 static ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour foo_factory(  );
                 _GLUECODIUM_CPP_EXPORT static const bool FOO;
             };

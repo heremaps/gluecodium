@@ -22,8 +22,7 @@
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
-}}{{#unless comment.isEmpty}}{{prefix comment "/// "}}
-{{/unless}}
+}}{{>dart/DartDocumentation}}
 class {{resolveName}} {
 {{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
 {{/fields}}{{/set}}

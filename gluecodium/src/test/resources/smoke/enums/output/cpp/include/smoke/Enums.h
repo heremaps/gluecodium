@@ -29,7 +29,7 @@ public:
         ::smoke::Enums::InternalErrorCode type;
         ::std::string message;
         ErrorStruct( );
-        ErrorStruct( const ::smoke::Enums::InternalErrorCode type, const ::std::string& message );
+        ErrorStruct( ::smoke::Enums::InternalErrorCode type, ::std::string message );
     };
 public:
     static ::smoke::Enums::SimpleEnum method_with_enumeration( const ::smoke::Enums::SimpleEnum input );

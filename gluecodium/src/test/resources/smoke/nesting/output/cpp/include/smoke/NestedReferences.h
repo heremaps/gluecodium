@@ -18,7 +18,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT NestedReferences {
         ::std::string string_field;
         NestedReferences( );
-        NestedReferences( const ::std::string& string_field );
+        NestedReferences( ::std::string string_field );
     };
 public:
     /**

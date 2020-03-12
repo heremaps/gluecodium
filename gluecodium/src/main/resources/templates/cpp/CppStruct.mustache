@@ -55,7 +55,7 @@ public:
 {{/uninitializedFields}}
      */
 {{/if}}
-    {{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} );{{/if}}
+    {{name}}( {{joinPartial uninitializedFields "structConstructorParameter" ", "}} );{{/if}}
 {{#if constructorComment}}
     /**
 {{prefix constructorComment "     * "}}
@@ -67,7 +67,7 @@ public:
 {{/fields}}
      */
 {{/if}}
-    {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
+    {{name}}( {{joinPartial fields "structConstructorParameter" ", "}} );
 
 {{/if}}{{!!
 }}{{#if hasAccessors}}
@@ -79,7 +79,7 @@ public:
 {{#if hasComment}}
 {{prefixPartial "cpp/CppFieldComment" "    "}}
 {{/if}}
-    void {{setterName}}( {{>cpp/CppMethodParameterType}} value_ ) { {{name}} = value_; }{{/unless}}
+    void {{setterName}}( {{type.name}} value_ ) { {{name}} = value_; }{{/unless}}
 {{/fields}}
 
 {{/if}}{{!!
@@ -101,4 +101,6 @@ public:
 
 {{/if}}
 };
-{{/unless}}
+{{/unless}}{{!!
+
+}}{{+structConstructorParameter}}{{type.name}} {{name}}{{/structConstructorParameter}}

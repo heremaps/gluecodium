@@ -12,16 +12,16 @@ StructConstants::SomeStruct::SomeStruct( )
     : string_field{ }, float_field{ }
 {
 }
-StructConstants::SomeStruct::SomeStruct( const ::std::string& string_field, const float float_field )
-    : string_field( string_field ), float_field( float_field )
+StructConstants::SomeStruct::SomeStruct( ::std::string string_field, float float_field )
+    : string_field( std::move( string_field ) ), float_field( std::move( float_field ) )
 {
 }
 StructConstants::NestingStruct::NestingStruct( )
     : struct_field{ }
 {
 }
-StructConstants::NestingStruct::NestingStruct( const ::smoke::StructConstants::SomeStruct& struct_field )
-    : struct_field( struct_field )
+StructConstants::NestingStruct::NestingStruct( ::smoke::StructConstants::SomeStruct struct_field )
+    : struct_field( std::move( struct_field ) )
 {
 }
 const ::smoke::StructConstants::SomeStruct StructConstants::STRUCT_CONSTANT = {"bar Buzz", 1.41f};

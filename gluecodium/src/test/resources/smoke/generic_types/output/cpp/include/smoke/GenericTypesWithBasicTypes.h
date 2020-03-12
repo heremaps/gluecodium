@@ -26,7 +26,7 @@ public:
         ::std::unordered_map< uint8_t, ::std::string > numbers_map;
         ::std::unordered_set< uint8_t > numbers_set;
         StructWithGenerics( );
-        StructWithGenerics( const ::std::vector< uint8_t >& numbers_list, const ::std::unordered_map< uint8_t, ::std::string >& numbers_map, const ::std::unordered_set< uint8_t >& numbers_set );
+        StructWithGenerics( ::std::vector< uint8_t > numbers_list, ::std::unordered_map< uint8_t, ::std::string > numbers_map, ::std::unordered_set< uint8_t > numbers_set );
     };
 public:
     virtual ::std::vector< int32_t > method_with_list( const ::std::vector< int32_t >& input ) = 0;
