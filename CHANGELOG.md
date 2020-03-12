@@ -5,6 +5,9 @@
   * Updated C++ struct constructors to use move semantics to avoid unnecessary copying.
 ### Bug fixes:
   * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
+### Breaking changes:
+  * Added validation against using `@PointerEquatable` attribute on interfaces in IDL files. This
+    usage is currently unsupported but was erroneously allowed before.
 
 ## 6.3.2
 Release date: 2020-03-10
@@ -91,7 +94,6 @@ Release date: 2019-11-21
 ### Bug fixes:
   * Fixed C++ compilation issue for `@Equatable` structs with `Date` type fields.
   * Fixed Java compilation issue for interfaces with same name in different packages.
-
 ### Breaking changes:
   * Removed "stdout" command line option.
 
