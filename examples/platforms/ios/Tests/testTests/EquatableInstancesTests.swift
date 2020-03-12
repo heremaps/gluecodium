@@ -222,6 +222,27 @@ class EquatableInstancesTests: XCTestCase {
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
+    func testInterfacesAreEqual() {
+        let one = EquatableInterfaceFactory.createEquatableInterface(name: "one")
+        let other = EquatableInterfaceFactory.createEquatableInterface(name: "one")
+
+        XCTAssertTrue(one == other)
+    }
+
+    func testInterfacesAreUnequal() {
+        let one = EquatableInterfaceFactory.createEquatableInterface(name: "one")
+        let other = EquatableInterfaceFactory.createEquatableInterface(name: "other")
+
+        XCTAssertFalse(one == other)
+    }
+
+    class EquatableInterfaceFoo: EquatableInterface {
+        init(name: String) {
+            self.name = name
+        }
+        let name: String
+    }
+
     func hash<H>(_ value: H) -> Int where H: Hashable {
         var hasher = Hasher()
         value.hash(into: &hasher)
@@ -244,6 +265,8 @@ class EquatableInstancesTests: XCTestCase {
         ("testNilUnequalInstancesInStruct", testNilUnequalInstancesInStruct),
         ("testNilEqualInstancesInStruct", testNilEqualInstancesInStruct),
         ("testNilPointerEqualInstancesInStruct", testNilPointerEqualInstancesInStruct),
-        ("testNilPointerUnequalInstancesInStruct", testNilPointerUnequalInstancesInStruct)
+        ("testNilPointerUnequalInstancesInStruct", testNilPointerUnequalInstancesInStruct),
+        ("testInterfacesAreEqual", testInterfacesAreEqual),
+        ("testInterfacesAreUnequal", testInterfacesAreUnequal)
     ]
 }
