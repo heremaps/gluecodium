@@ -465,13 +465,15 @@ internal class AntlrLimeModelBuilder(
 
     override fun enterLambda(ctx: LimeParser.LambdaContext) {
         pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
+        structuredCommentsStack.push(parseStructuredComment(ctx.docComment(), ctx))
     }
 
     override fun exitLambda(ctx: LimeParser.LambdaContext) {
-        val parameters = ctx.lambdaParameter().map {
+        val parameters = ctx.lambdaParameter().mapIndexed { index, it ->
             LimeLambdaParameter(
-                typeMapper.mapTypeRef(currentPath, it.typeRef()),
-                convertAnnotations(it.annotation())
+                typeRef = typeMapper.mapTypeRef(currentPath, it.typeRef()),
+                comment = getComment("param", "p$index", null, ctx),
+                attributes = convertAnnotations(it.annotation())
             )
         }
         val limeElement = LimeLambda(
@@ -480,7 +482,10 @@ internal class AntlrLimeModelBuilder(
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = convertAnnotations(ctx.annotation()),
             parameters = parameters,
-            returnType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
+            returnType = LimeReturnType(
+                typeMapper.mapTypeRef(currentPath, ctx.typeRef()),
+                getComment("return", null, ctx)
+            )
         )
 
         storeResultAndPopStacks(limeElement)
@@ -698,18 +703,20 @@ internal class AntlrLimeModelBuilder(
 
     private fun getComment(
         commentTag: String,
-        commentContexts: List<LimeParser.DocCommentContext>,
+        commentContexts: List<LimeParser.DocCommentContext>?,
         currentContext: ParserRuleContext
     ) = getComment(commentTag, "", commentContexts, currentContext)
 
     private fun getComment(
         commentTag: String,
         elementName: String,
-        commentContexts: List<LimeParser.DocCommentContext>,
+        commentContexts: List<LimeParser.DocCommentContext>?,
         currentContext: ParserRuleContext
     ): LimeComment {
         val commentFromParent = structuredCommentsStack.peek().getTagBlock(commentTag, elementName)
-        val ownComment = parseStructuredComment(commentContexts, currentContext).description
+        val ownComment =
+            commentContexts?.let { parseStructuredComment(it, currentContext).description }
+                ?: LimeComment()
         return when {
             commentFromParent.isEmpty() -> ownComment
             ownComment.isEmpty() -> commentFromParent

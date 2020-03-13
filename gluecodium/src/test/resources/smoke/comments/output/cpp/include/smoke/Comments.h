@@ -7,6 +7,7 @@
 #include "gluecodium/Optional.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <system_error>
 namespace smoke {
@@ -31,6 +32,10 @@ public:
          */
         USEFUL
     };
+    /**
+     * This is some very useful lambda that does it.
+     */
+    using SomeLambda = ::std::function<double(const ::std::string&, const int32_t)>;
     /**
      * This is some very useful typedef.
      */

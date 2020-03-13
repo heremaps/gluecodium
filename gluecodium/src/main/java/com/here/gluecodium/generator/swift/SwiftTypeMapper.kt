@@ -90,7 +90,7 @@ class SwiftTypeMapper(
                 SwiftClosure(
                     name = nameResolver.getFullName(limeType),
                     parameters = limeType.parameters.map { mapType(it.typeRef.type) },
-                    returnType = mapType(limeType.returnType.type)
+                    returnType = mapType(limeType.returnType.typeRef.type)
                 )
             else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
         }

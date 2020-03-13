@@ -92,13 +92,12 @@ class CppTypeMapper(
     fun mapLambda(limeLambda: LimeLambda): CppTypeRef =
         CppFunctionTypeRef(
             limeLambda.parameters.map { mapType(it.typeRef) },
-            mapType(limeLambda.returnType)
+            mapType(limeLambda.returnType.typeRef)
         )
 
     fun mapReturnType(returnType: LimeReturnType, exceptionType: LimeException?): CppTypeRef {
         val cppReturnType = mapType(returnType.typeRef)
-        val errorTypeIsEnum =
-            exceptionType?.errorType?.type?.let { it.actualType } is LimeEnumeration
+        val errorTypeIsEnum = exceptionType?.errorType?.type?.actualType is LimeEnumeration
         return when {
             exceptionType == null -> cppReturnType
             errorTypeIsEnum && cppReturnType == CppPrimitiveTypeRef.VOID -> STD_ERROR_CODE_TYPE

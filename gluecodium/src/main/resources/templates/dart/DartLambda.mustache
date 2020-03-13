@@ -19,7 +19,7 @@
   !
   !}}
 {{>dart/DartDocumentation}}
-typedef {{resolveName}} = {{resolveName returnType}} Function({{!!
+typedef {{resolveName}} = {{resolveName returnType.typeRef}} Function({{!!
 }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 
 // {{resolveName}} "private" section, not exported.

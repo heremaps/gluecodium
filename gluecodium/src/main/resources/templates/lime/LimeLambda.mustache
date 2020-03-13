@@ -21,4 +21,4 @@
 {{>lime/LimeDocumentation}}
 {{visibility}}lambda {{escapedName}} = ({{!!
 }}{{#parameters}}{{#if attributes.toString}}{{attributes}} {{/if}}{{typeRef.escapedName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}) -> {{returnType.escapedName}}
+}}) -> {{returnType.typeRef.escapedName}}

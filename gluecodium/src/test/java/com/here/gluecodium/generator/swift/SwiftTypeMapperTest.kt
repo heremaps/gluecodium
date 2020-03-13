@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypesCollection
@@ -142,7 +143,7 @@ class SwiftTypeMapperTest {
     fun mapListInLambdaDoesNotCollectGenerics() {
         val limeElement = LimeLambda(
             path = LimePath.EMPTY_PATH,
-            returnType = LimeDirectTypeRef(LimeList(LimeBasicTypeRef.FLOAT))
+            returnType = LimeReturnType(LimeDirectTypeRef(LimeList(LimeBasicTypeRef.FLOAT)))
         )
 
         typeMapper.mapType(LimeDirectTypeRef(limeElement))

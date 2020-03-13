@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
   * Updated C++ struct constructors to use move semantics to avoid unnecessary copying.
+  * Added support for structured documentation comments on lambda type declaration in IDL.
 ### Bug fixes:
   * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
 ### Breaking changes:

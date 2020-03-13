@@ -31,6 +31,11 @@ public final class Lambdas extends NativeBase {
             });
         }
         private static native void disposeNativeHandle(long nativeHandle);
+        /**
+         * Should confuse everyone thoroughly
+         * @param p0
+         * @return
+         */
         @NonNull
         public native Lambdas.Producer confuse(@NonNull final String p0);
     }
@@ -81,6 +86,11 @@ public final class Lambdas extends NativeBase {
      */
     @FunctionalInterface
     public interface Confounder {
+        /**
+         * Should confuse everyone thoroughly
+         * @param p0
+         * @return
+         */
         @NonNull
         Lambdas.Producer confuse(@NonNull final String p0);
     }

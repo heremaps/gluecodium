@@ -7,6 +7,8 @@ public class Comments {
     public typealias Usefulness = Bool
     /// This is some very useful exception.
     public typealias SomethingWrongError = Comments.SomeEnum
+    /// This is some very useful lambda that does it.
+    public typealias SomeLambda = (String, Int32) -> Double
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
     /// Some very useful property.
@@ -179,6 +181,69 @@ internal func copyToCType(_ swiftClass: Comments?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: Comments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
+    return moveFromCType(smoke_Comments_SomeLambda_copy_handle(handle))
+}
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
+    let refHolder = RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
+    return { (p0: String, p1: Int32) -> Double in
+        return moveFromCType(smoke_Comments_SomeLambda_call(refHolder.ref, moveToCType(p0).ref, moveToCType(p1).ref))
+    }
+}
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
+    guard handle != 0 else {
+        return nil
+    }
+    return copyFromCType(handle) as Comments.SomeLambda
+}
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
+    guard handle != 0 else {
+        return nil
+    }
+    return moveFromCType(handle) as Comments.SomeLambda
+}
+internal func createFunctionalTable(_ swiftType: @escaping Comments.SomeLambda) -> smoke_Comments_SomeLambda_FunctionTable {
+    class smoke_Comments_SomeLambda_Holder {
+        let closure: Comments.SomeLambda
+        init(_ closure: @escaping Comments.SomeLambda) {
+            self.closure = closure
+        }
+    }
+    var functions = smoke_Comments_SomeLambda_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(smoke_Comments_SomeLambda_Holder(swiftType)).toOpaque()
+    functions.release = { swift_closure_pointer in
+        if let swift_closure = swift_closure_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_closure).release()
+        }
+    }
+    functions.smoke_Comments_SomeLambda_call = { swift_closure_pointer, p0, p1 in
+        let closure_holder = Unmanaged<AnyObject>.fromOpaque(swift_closure_pointer!).takeUnretainedValue() as! smoke_Comments_SomeLambda_Holder
+        return copyToCType(closure_holder.closure(moveFromCType(p0), moveFromCType(p1))).ref
+    }
+    return functions
+}
+internal func copyToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
+    let handle = smoke_Comments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
+    let handle = smoke_Comments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
+}
+internal func copyToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let handle = smoke_Comments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let handle = smoke_Comments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     return Comments.SomeStruct(cHandle: handle)

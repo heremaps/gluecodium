@@ -81,6 +81,13 @@ class comments {
 
     // This is some very useful exception.
     exception SomethingWrong(SomeEnum)
+
+    // This is some very useful lambda that does it.
+    // @param[p0] Very useful input parameter
+    // @param[p1] Slightly less useful input parameter
+    // @return Usefulness of the input
+    @Java(FunctionName = "doIt")
+    lambda SomeLambda = (String, @Java("index") Int) -> Double
 }
 
 // This is some very useful interface.

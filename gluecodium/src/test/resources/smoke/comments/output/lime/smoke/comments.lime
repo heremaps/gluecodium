@@ -3,6 +3,9 @@ package smoke
 class comments {
     // This is some very useful typedef.
     typealias Usefulness = Boolean
+    // This is some very useful lambda that does it.
+    @Java(FunctionName = "doIt")
+    lambda SomeLambda = (String, @Java("index") Int) -> Double
     // This is some very useful enum.
     enum SomeEnum {
         // Not quite useful
@@ -20,6 +23,9 @@ class comments {
         someField: Usefulness
         // Can be `null`
         nullableField: String?
+        // This is some very useful lambda that does it.
+        @Java(FunctionName = "doIt")
+        lambda SomeLambda = (String, @Java("index") Int) -> Double
     }
     // This is some very useful constant.
     const VeryUseful: Usefulness = true

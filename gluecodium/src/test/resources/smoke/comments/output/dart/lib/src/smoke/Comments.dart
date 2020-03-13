@@ -1,4 +1,5 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -337,3 +338,97 @@ Comments_SomeStruct smoke_Comments_SomeStruct_fromFfi_nullable(Pointer<Void> han
 void smoke_Comments_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Comments_SomeStruct_release_handle_nullable(handle);
 // End of Comments_SomeStruct "private" section.
+/// This is some very useful lambda that does it.
+typedef Comments_SomeLambda = double Function(String, int);
+// Comments_SomeLambda "private" section, not exported.
+final _smoke_Comments_SomeLambda_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_Comments_SomeLambda_copy_handle');
+final _smoke_Comments_SomeLambda_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_Comments_SomeLambda_release_handle');
+final _smoke_Comments_SomeLambda_create_proxy = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint64, Pointer, Pointer),
+    Pointer<Void> Function(int, Pointer, Pointer)
+  >('library_smoke_Comments_SomeLambda_create_proxy');
+final _smoke_Comments_SomeLambda_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_Comments_SomeLambda_get_raw_pointer');
+class Comments_SomeLambda__Impl {
+  Pointer<Void> get _handle => handle;
+  final Pointer<Void> handle;
+  Comments_SomeLambda__Impl(this.handle);
+  void release() => _smoke_Comments_SomeLambda_release_handle(handle);
+  double call(String p0, int p1) {
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Pointer<Void>, Int32), double Function(Pointer<Void>, Pointer<Void>, int)>('library_smoke_Comments_SomeLambda_call__String_Int');
+    final _p0_handle = String_toFfi(p0);
+    final _p1_handle = (p1);
+    final __result_handle = _call_ffi(_handle, _p0_handle, _p1_handle);
+    String_releaseFfiHandle(_p0_handle);
+    (_p1_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+}
+int _Comments_SomeLambda_call_static(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
+  final _result_object = (__lib.instanceCache[_token] as Comments_SomeLambda)(String_fromFfi(p0), (p1));
+  _result.value = (_result_object);
+  String_releaseFfiHandle(p0);
+  (p1);
+  return 0;
+}
+Pointer<Void> smoke_Comments_SomeLambda_toFfi(Comments_SomeLambda value) {
+  final result = _smoke_Comments_SomeLambda_create_proxy(
+    __lib.cacheObject(value),
+    __lib.uncacheObjectFfi,
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_Comments_SomeLambda_call_static, __lib.unknownError)
+  );
+  __lib.reverseCache[_smoke_Comments_SomeLambda_get_raw_pointer(result)] = value;
+  return result;
+}
+Comments_SomeLambda smoke_Comments_SomeLambda_fromFfi(Pointer<Void> handle) {
+  final instance = __lib.reverseCache[_smoke_Comments_SomeLambda_get_raw_pointer(handle)] as Comments_SomeLambda;
+  if (instance != null) return instance;
+  final _impl = Comments_SomeLambda__Impl(_smoke_Comments_SomeLambda_copy_handle(handle));
+  return (String p0, int p1) {
+    final _result =_impl.call(p0, p1);
+    _impl.release();
+    return _result;
+  };
+}
+void smoke_Comments_SomeLambda_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Comments_SomeLambda_release_handle(handle);
+// Nullable Comments_SomeLambda
+final _smoke_Comments_SomeLambda_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_Comments_SomeLambda_create_handle_nullable');
+final _smoke_Comments_SomeLambda_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_Comments_SomeLambda_release_handle_nullable');
+final _smoke_Comments_SomeLambda_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_Comments_SomeLambda_get_value_nullable');
+Pointer<Void> smoke_Comments_SomeLambda_toFfi_nullable(Comments_SomeLambda value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_Comments_SomeLambda_toFfi(value);
+  final result = _smoke_Comments_SomeLambda_create_handle_nullable(_handle);
+  smoke_Comments_SomeLambda_releaseFfiHandle(_handle);
+  return result;
+}
+Comments_SomeLambda smoke_Comments_SomeLambda_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_Comments_SomeLambda_get_value_nullable(handle);
+  final result = smoke_Comments_SomeLambda_fromFfi(_handle);
+  smoke_Comments_SomeLambda_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_Comments_SomeLambda_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Comments_SomeLambda_release_handle_nullable(handle);
+// End of Comments_SomeLambda "private" section.

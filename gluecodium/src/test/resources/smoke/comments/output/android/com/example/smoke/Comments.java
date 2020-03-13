@@ -40,6 +40,24 @@ public final class Comments extends NativeBase {
         }
         public final Comments.SomeEnum error;
     }
+    static class SomeLambdaImpl extends NativeBase implements SomeLambda {
+        protected SomeLambdaImpl(final long nativeHandle) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+        private static native void disposeNativeHandle(long nativeHandle);
+        /**
+         * This is some very useful lambda that does it.
+         * @param p0 Very useful input parameter
+         * @param index Slightly less useful input parameter
+         * @return Usefulness of the input
+         */
+        public native double doIt(@NonNull final String p0, final int index);
+    }
     /**
      * <p>This is some very useful struct.</p>
      */
@@ -64,6 +82,19 @@ public final class Comments extends NativeBase {
             this.someField = someField;
             this.nullableField = nullableField;
         }
+    }
+    /**
+     * This is some very useful lambda that does it.
+     */
+    @FunctionalInterface
+    public interface SomeLambda {
+        /**
+         * This is some very useful lambda that does it.
+         * @param p0 Very useful input parameter
+         * @param index Slightly less useful input parameter
+         * @return Usefulness of the input
+         */
+        double doIt(@NonNull final String p0, final int index);
     }
     /**
      * For internal use only.
