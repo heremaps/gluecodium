@@ -409,7 +409,7 @@ behavior specific to a single output language.
 
 Here's the list of currently supported attributes:
 * **@Immutable**: marks a struct type as immutable.
-* **@Equatable**: marks a struct type or a class as equatable.
+* **@Equatable**: marks a struct type, a class, or an interface as equatable.
 * **@PointerEquatable**: marks a class as equatable by reference (pointer). This is an interim tool
 for manually ensuring referential equality (automatic referential equality is planned, but not
 implemented yet, see issue #46). Please note that this attribute is not supported for interfaces.

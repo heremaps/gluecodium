@@ -71,8 +71,8 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
-{{#ifHasAttribute "Equatable"}}{{>dartFfiEqualityFunction}}{{/ifHasAttribute}}{{!!
-}}{{#ifHasAttribute "PointerEquatable"}}{{>dartFfiEqualityFunction}}{{/ifHasAttribute}}
+{{#ifHasAttribute "Equatable"}}{{>dart/DartFfiEqualityFunction}}{{/ifHasAttribute}}{{!!
+}}{{#ifHasAttribute "PointerEquatable"}}{{>dart/DartFfiEqualityFunction}}{{/ifHasAttribute}}
 {{#if parent visibility.isOpen logic="or"}}
 final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -115,8 +115,8 @@ class {{resolveName}}$Impl{{!!
 {{#inheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/inheritedProperties}}{{/set}}
-{{#ifHasAttribute "Equatable"}}{{>dartFfiEqualityOperator}}{{/ifHasAttribute}}{{!!
-}}{{#ifHasAttribute "PointerEquatable"}}{{>dartFfiEqualityOperator}}{{/ifHasAttribute}}
+{{#ifHasAttribute "Equatable"}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/ifHasAttribute}}{{!!
+}}{{#ifHasAttribute "PointerEquatable"}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/ifHasAttribute}}
 }
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
@@ -156,22 +156,6 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
 {{/dartConstructor}}{{!!
-
-}}{{+dartFfiEqualityFunction}}
-final __are_equal = __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>, Pointer<Void>),
-    int Function(Pointer<Void>, Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_are_equal');
-{{/dartFfiEqualityFunction}}{{!!
-
-}}{{+dartFfiEqualityOperator}}
-  @override
-  bool operator ==(dynamic other) {
-    if (identical(this, other)) return true;
-    if (other is! {{resolveName}}$Impl) return false;
-    return __are_equal((this as {{resolveName}}$Impl).handle, other.handle) != 0;
-  }
-{{/dartFfiEqualityOperator}}{{!!
 
 }}{{+dartImplRedirect}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
     }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
