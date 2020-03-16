@@ -134,13 +134,13 @@ public final class EquatableNullableTest {
   public void equatableNullableStructEqualsCpp() {
     EquatableNullableStruct otherStruct = createEquatableNullableStruct();
 
-    assertTrue(EquatableInterface.areEqual(mainStruct, otherStruct));
+    assertTrue(EquatableClass.areEqual(mainStruct, otherStruct));
   }
 
   @Test
   public void equatableNullableStructEqualsCppWithNulls() {
     assertTrue(
-        EquatableInterface.areEqual(new EquatableNullableStruct(), new EquatableNullableStruct()));
+        EquatableClass.areEqual(new EquatableNullableStruct(), new EquatableNullableStruct()));
   }
 
   @Test
@@ -148,7 +148,7 @@ public final class EquatableNullableTest {
     EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.arrayField.add("foo");
 
-    assertFalse(EquatableInterface.areEqual(mainStruct, otherStruct));
+    assertFalse(EquatableClass.areEqual(mainStruct, otherStruct));
   }
 
   private static EquatableNullableStruct createEquatableNullableStruct() {

@@ -82,7 +82,7 @@ types Equatable {
 }
 
 @Equatable
-class EquatableInterface {
+class EquatableClass {
     @Equatable
     struct AnotherEquatableStruct {
         intField: Int
@@ -126,20 +126,20 @@ class EquatableInterface {
 }
 
 @PointerEquatable
-class PointerEquatableInterface {
+class PointerEquatableClass {
     @Equatable
     struct EquatableStruct {
-        equatable: EquatableInterface
-        pointerEquatable: PointerEquatableInterface
+        equatable: EquatableClass
+        pointerEquatable: PointerEquatableClass
     }
     @Equatable
     struct OptionalEquatableStruct {
-        equatable: EquatableInterface?
-        pointerEquatable: PointerEquatableInterface?
+        equatable: EquatableClass?
+        pointerEquatable: PointerEquatableClass?
     }
-    static fun createNew(): PointerEquatableInterface
+    static fun createNew(): PointerEquatableClass
     // Returns the last created instance again
-    static fun returnLast(): PointerEquatableInterface
+    static fun returnLast(): PointerEquatableClass
     static fun areEqual(
         one: EquatableStruct,
         other: EquatableStruct

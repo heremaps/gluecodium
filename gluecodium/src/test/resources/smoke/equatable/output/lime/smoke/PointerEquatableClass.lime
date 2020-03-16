@@ -1,5 +1,5 @@
 package smoke
 
 @PointerEquatable
-class PointerEquatableInterface {
+class PointerEquatableClass {
 }

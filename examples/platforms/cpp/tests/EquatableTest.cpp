@@ -19,8 +19,8 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Equatable.h"
-#include "test/EquatableClass.h"
-#include "test/PointerEquatableClass.h"
+#include "test/SomeEquatableClass.h"
+#include "test/SomePointerEquatableClass.h"
 #include <gmock/gmock.h>
 
 namespace test
@@ -59,10 +59,10 @@ TEST( EquatableTest, unequal_structs )
 
 TEST( EquatableTest, equal_classes )
 {
-    auto one_class = test::EquatableClass::create("foo");
-    auto other_class = test::EquatableClass::create("foo");
+    auto one_class = test::SomeEquatableClass::create("foo");
+    auto other_class = test::SomeEquatableClass::create("foo");
 
-    lorem_ipsum::test::EqualityEqualTo<test::EquatableClass> equalizer;
+    lorem_ipsum::test::EqualityEqualTo<test::SomeEquatableClass> equalizer;
     lorem_ipsum::test::EqualityHash<decltype(one_class)> hasher;
 
     EXPECT_TRUE(equalizer(one_class, other_class));
@@ -71,10 +71,10 @@ TEST( EquatableTest, equal_classes )
 
 TEST( EquatableTest, unequal_classes )
 {
-    auto one_class = test::EquatableClass::create("foo");
-    auto other_class = test::EquatableClass::create("bar");
+    auto one_class = test::SomeEquatableClass::create("foo");
+    auto other_class = test::SomeEquatableClass::create("bar");
 
-    lorem_ipsum::test::EqualityEqualTo<test::EquatableClass> equalizer;
+    lorem_ipsum::test::EqualityEqualTo<test::SomeEquatableClass> equalizer;
     lorem_ipsum::test::EqualityHash<decltype(one_class)> hasher;
 
     EXPECT_FALSE(equalizer(one_class, other_class));
@@ -83,7 +83,7 @@ TEST( EquatableTest, unequal_classes )
 
 TEST( EquatableTest, pointer_equal_classes )
 {
-    auto one_class = test::PointerEquatableClass::create("foo");
+    auto one_class = test::SomePointerEquatableClass::create("foo");
     auto other_class = one_class;
 
     lorem_ipsum::test::hash<decltype(one_class)> hasher;
@@ -93,8 +93,8 @@ TEST( EquatableTest, pointer_equal_classes )
 
 TEST( EquatableTest, pointer_unequal_classes )
 {
-    auto one_class = test::PointerEquatableClass::create("foo");
-    auto other_class = test::PointerEquatableClass::create("foo");
+    auto one_class = test::SomePointerEquatableClass::create("foo");
+    auto other_class = test::SomePointerEquatableClass::create("foo");
 
     lorem_ipsum::test::hash<decltype(one_class)> hasher;
 

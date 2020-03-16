@@ -26,7 +26,7 @@ final _testSuite = TestSuite("EquatableClasses");
 
 void main() {
   _testSuite.test("Pointer equatable class equals to self", () {
-    final one = PointerEquatableInterface.createNew();
+    final one = PointerEquatableClass.createNew();
 
     final result = one == one;
 
@@ -35,8 +35,8 @@ void main() {
     one.release();
   });
   _testSuite.test("Pointer equatable class not equals to other", () {
-    final one = PointerEquatableInterface.createNew();
-    final other = PointerEquatableInterface.createNew();
+    final one = PointerEquatableClass.createNew();
+    final other = PointerEquatableClass.createNew();
 
     final result = one == other;
 
@@ -46,8 +46,8 @@ void main() {
     other.release();
   });
   _testSuite.test("Pointer equatable class equals to self from other source", () {
-    final one = PointerEquatableInterface.createNew();
-    final other = PointerEquatableInterface.returnLast();
+    final one = PointerEquatableClass.createNew();
+    final other = PointerEquatableClass.returnLast();
 
     final result = one == other;
 
@@ -57,7 +57,7 @@ void main() {
     other.release();
   });
   _testSuite.test("Pointer equatable class equals to self", () {
-    final one = EquatableInterface("one");
+    final one = EquatableClass("one");
 
     final result = one == one;
 
@@ -66,8 +66,8 @@ void main() {
     one.release();
   });
   _testSuite.test("Pointer equatable class equals", () {
-    final one = EquatableInterface("one");
-    final other = EquatableInterface("one");
+    final one = EquatableClass("one");
+    final other = EquatableClass("one");
 
     final result = one == other;
 
@@ -77,8 +77,8 @@ void main() {
     other.release();
   });
   _testSuite.test("Pointer equatable class not equals", () {
-    final one = EquatableInterface("one");
-    final other = EquatableInterface("two");
+    final one = EquatableClass("one");
+    final other = EquatableClass("two");
 
     final result = one == other;
 

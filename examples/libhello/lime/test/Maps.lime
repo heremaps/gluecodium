@@ -16,8 +16,8 @@
 # License-Filename: LICENSE
 
 package test
-import test.EquatableClass
-import test.PointerEquatableClass
+import test.SomeEquatableClass
+import test.SomePointerEquatableClass
 
 class Maps {
     struct SomeStruct {
@@ -46,8 +46,8 @@ class Maps {
     typealias EnumToString = Map<SomeEnum, String>
     typealias StringToInstance = Map<String, SimpleInterfaceOne>
     typealias StructToString = Map<EquatableStruct, String>
-    typealias ClassToString = Map<EquatableClass, String>
-    typealias PointerEquatableClassToString = Map<PointerEquatableClass, String>
+    typealias ClassToString = Map<SomeEquatableClass, String>
+    typealias SomePointerEquatableClassToString = Map<SomePointerEquatableClass, String>
     // Example static method which takes a map and returns a map of same type & having the same keys
     // but values converted to uppercase.
     static fun methodWithMap(
@@ -94,7 +94,7 @@ class Maps {
     static fun classToStringRoundTrip(
         input: ClassToString
     ): ClassToString
-    static fun pointerEquatableClassToStringRoundTrip(
-        input: PointerEquatableClassToString
-    ): PointerEquatableClassToString
+    static fun somePointerEquatableClassToStringRoundTrip(
+        input: SomePointerEquatableClassToString
+    ): SomePointerEquatableClassToString
 }

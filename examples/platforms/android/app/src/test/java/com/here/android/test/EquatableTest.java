@@ -167,7 +167,7 @@ public final class EquatableTest {
   public void equatableStructEqualsCpp() {
     EquatableStruct otherStruct = createEquatableStruct();
 
-    assertTrue(EquatableInterface.areEqual(mainStruct, otherStruct));
+    assertTrue(EquatableClass.areEqual(mainStruct, otherStruct));
   }
 
   @Test
@@ -175,13 +175,13 @@ public final class EquatableTest {
     EquatableStruct otherStruct = createEquatableStruct();
     otherStruct.arrayField.add("foo");
 
-    assertFalse(EquatableInterface.areEqual(mainStruct, otherStruct));
+    assertFalse(EquatableClass.areEqual(mainStruct, otherStruct));
   }
 
   @Test
   public void differentInstancesPointerUnequal() {
-    PointerEquatableInterface one = PointerEquatableInterface.createNew();
-    PointerEquatableInterface other = PointerEquatableInterface.createNew();
+    PointerEquatableClass one = PointerEquatableClass.createNew();
+    PointerEquatableClass other = PointerEquatableClass.createNew();
 
     assertNotEquals(one, other);
     assertNotEquals(one.hashCode(), other.hashCode());
@@ -189,8 +189,8 @@ public final class EquatableTest {
 
   @Test
   public void sameInstancesPointerEqual() {
-    PointerEquatableInterface one = PointerEquatableInterface.createNew();
-    PointerEquatableInterface same = PointerEquatableInterface.returnLast();
+    PointerEquatableClass one = PointerEquatableClass.createNew();
+    PointerEquatableClass same = PointerEquatableClass.returnLast();
 
     assertEquals(one, same);
     assertEquals(one.hashCode(), same.hashCode());
@@ -198,8 +198,8 @@ public final class EquatableTest {
 
   @Test
   public void classEqual() {
-    EquatableInterface one = new EquatableInterface("one");
-    EquatableInterface other = new EquatableInterface("one");
+    EquatableClass one = new EquatableClass("one");
+    EquatableClass other = new EquatableClass("one");
 
     assertEquals(one, other);
     assertEquals(one.hashCode(), other.hashCode());
@@ -207,8 +207,8 @@ public final class EquatableTest {
 
   @Test
   public void classUnequal() {
-    EquatableInterface one = new EquatableInterface("one");
-    EquatableInterface other = new EquatableInterface("two");
+    EquatableClass one = new EquatableClass("one");
+    EquatableClass other = new EquatableClass("two");
 
     assertNotEquals(one, other);
     assertNotEquals(one.hashCode(), other.hashCode());
@@ -216,189 +216,189 @@ public final class EquatableTest {
 
   @Test
   public void differentTypeUnequal() {
-    EquatableInterface one = new EquatableInterface("one");
+    EquatableClass one = new EquatableClass("one");
 
     assertNotEquals(one, 7);
   }
 
   @Test
   public void equalInstancesInStruct() {
-    EquatableInterface one = new EquatableInterface("one");
-    EquatableInterface other = new EquatableInterface("one");
-    PointerEquatableInterface uninteresting = PointerEquatableInterface.createNew();
-    PointerEquatableInterface.EquatableStruct oneStruct =
-        new PointerEquatableInterface.EquatableStruct(one, uninteresting);
-    PointerEquatableInterface.EquatableStruct otherStruct =
-        new PointerEquatableInterface.EquatableStruct(other, uninteresting);
+    EquatableClass one = new EquatableClass("one");
+    EquatableClass other = new EquatableClass("one");
+    PointerEquatableClass uninteresting = PointerEquatableClass.createNew();
+    PointerEquatableClass.EquatableStruct oneStruct =
+        new PointerEquatableClass.EquatableStruct(one, uninteresting);
+    PointerEquatableClass.EquatableStruct otherStruct =
+        new PointerEquatableClass.EquatableStruct(other, uninteresting);
 
     assertEquals(oneStruct, otherStruct);
     assertEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertTrue(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertTrue(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void unequalInstancesInStruct() {
-    EquatableInterface one = new EquatableInterface("one");
-    EquatableInterface other = new EquatableInterface("other");
-    PointerEquatableInterface uninteresting = PointerEquatableInterface.createNew();
-    PointerEquatableInterface.EquatableStruct oneStruct =
-        new PointerEquatableInterface.EquatableStruct(one, uninteresting);
-    PointerEquatableInterface.EquatableStruct otherStruct =
-        new PointerEquatableInterface.EquatableStruct(other, uninteresting);
+    EquatableClass one = new EquatableClass("one");
+    EquatableClass other = new EquatableClass("other");
+    PointerEquatableClass uninteresting = PointerEquatableClass.createNew();
+    PointerEquatableClass.EquatableStruct oneStruct =
+        new PointerEquatableClass.EquatableStruct(one, uninteresting);
+    PointerEquatableClass.EquatableStruct otherStruct =
+        new PointerEquatableClass.EquatableStruct(other, uninteresting);
 
     assertNotEquals(oneStruct, otherStruct);
     assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void pointerEqualInstancesInStruct() {
-    PointerEquatableInterface one = PointerEquatableInterface.createNew();
-    PointerEquatableInterface other = PointerEquatableInterface.returnLast();
-    EquatableInterface uninteresting = new EquatableInterface("same for both");
-    PointerEquatableInterface.EquatableStruct oneStruct =
-        new PointerEquatableInterface.EquatableStruct(uninteresting, one);
-    PointerEquatableInterface.EquatableStruct otherStruct =
-        new PointerEquatableInterface.EquatableStruct(uninteresting, other);
+    PointerEquatableClass one = PointerEquatableClass.createNew();
+    PointerEquatableClass other = PointerEquatableClass.returnLast();
+    EquatableClass uninteresting = new EquatableClass("same for both");
+    PointerEquatableClass.EquatableStruct oneStruct =
+        new PointerEquatableClass.EquatableStruct(uninteresting, one);
+    PointerEquatableClass.EquatableStruct otherStruct =
+        new PointerEquatableClass.EquatableStruct(uninteresting, other);
 
     assertEquals(oneStruct, otherStruct);
     assertEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertTrue(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertTrue(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void pointerUnequalInstancesInStruct() {
-    PointerEquatableInterface one = PointerEquatableInterface.createNew();
-    PointerEquatableInterface other = PointerEquatableInterface.createNew();
-    EquatableInterface uninteresting = new EquatableInterface("same for both");
-    PointerEquatableInterface.EquatableStruct oneStruct =
-        new PointerEquatableInterface.EquatableStruct(uninteresting, one);
-    PointerEquatableInterface.EquatableStruct otherStruct =
-        new PointerEquatableInterface.EquatableStruct(uninteresting, other);
+    PointerEquatableClass one = PointerEquatableClass.createNew();
+    PointerEquatableClass other = PointerEquatableClass.createNew();
+    EquatableClass uninteresting = new EquatableClass("same for both");
+    PointerEquatableClass.EquatableStruct oneStruct =
+        new PointerEquatableClass.EquatableStruct(uninteresting, one);
+    PointerEquatableClass.EquatableStruct otherStruct =
+        new PointerEquatableClass.EquatableStruct(uninteresting, other);
 
     assertNotEquals(oneStruct, otherStruct);
     assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void optionalEqualInstancesInStruct() {
-    EquatableInterface one = new EquatableInterface("one");
-    EquatableInterface other = new EquatableInterface("one");
-    PointerEquatableInterface uninteresting = PointerEquatableInterface.createNew();
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(one, uninteresting);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(other, uninteresting);
+    EquatableClass one = new EquatableClass("one");
+    EquatableClass other = new EquatableClass("one");
+    PointerEquatableClass uninteresting = PointerEquatableClass.createNew();
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(one, uninteresting);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(other, uninteresting);
 
     assertEquals(oneStruct, otherStruct);
     assertEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertTrue(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertTrue(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void optionalUnequalInstancesInStruct() {
-    EquatableInterface one = new EquatableInterface("one");
-    EquatableInterface other = new EquatableInterface("other");
-    PointerEquatableInterface uninteresting = PointerEquatableInterface.createNew();
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(one, uninteresting);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(other, uninteresting);
+    EquatableClass one = new EquatableClass("one");
+    EquatableClass other = new EquatableClass("other");
+    PointerEquatableClass uninteresting = PointerEquatableClass.createNew();
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(one, uninteresting);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(other, uninteresting);
 
     assertNotEquals(oneStruct, otherStruct);
     assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void optionalPointerEqualInstancesInStruct() {
-    PointerEquatableInterface one = PointerEquatableInterface.createNew();
-    PointerEquatableInterface other = PointerEquatableInterface.returnLast();
-    EquatableInterface uninteresting = new EquatableInterface("same for both");
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, one);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, other);
+    PointerEquatableClass one = PointerEquatableClass.createNew();
+    PointerEquatableClass other = PointerEquatableClass.returnLast();
+    EquatableClass uninteresting = new EquatableClass("same for both");
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, one);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, other);
 
     assertEquals(oneStruct, otherStruct);
     assertEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertTrue(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertTrue(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void optionalPointerUnequalInstancesInStruct() {
-    PointerEquatableInterface one = PointerEquatableInterface.createNew();
-    PointerEquatableInterface other = PointerEquatableInterface.createNew();
-    EquatableInterface uninteresting = new EquatableInterface("same for both");
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, one);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, other);
+    PointerEquatableClass one = PointerEquatableClass.createNew();
+    PointerEquatableClass other = PointerEquatableClass.createNew();
+    EquatableClass uninteresting = new EquatableClass("same for both");
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, one);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, other);
 
     assertNotEquals(oneStruct, otherStruct);
     assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void nullEqualInstancesInStruct() {
-    EquatableInterface one = null;
-    EquatableInterface other = null;
-    PointerEquatableInterface uninteresting = PointerEquatableInterface.createNew();
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(one, uninteresting);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(other, uninteresting);
+    EquatableClass one = null;
+    EquatableClass other = null;
+    PointerEquatableClass uninteresting = PointerEquatableClass.createNew();
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(one, uninteresting);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(other, uninteresting);
 
     assertEquals(oneStruct, otherStruct);
     assertEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertTrue(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertTrue(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void nullUnequalInstancesInStruct() {
-    EquatableInterface one = null;
-    EquatableInterface other = new EquatableInterface("one");
-    PointerEquatableInterface uninteresting = PointerEquatableInterface.createNew();
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(one, uninteresting);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(other, uninteresting);
+    EquatableClass one = null;
+    EquatableClass other = new EquatableClass("one");
+    PointerEquatableClass uninteresting = PointerEquatableClass.createNew();
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(one, uninteresting);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(other, uninteresting);
 
     assertNotEquals(oneStruct, otherStruct);
     assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void nullPointerEqualInstancesInStruct() {
-    PointerEquatableInterface one = null;
-    PointerEquatableInterface other = null;
-    EquatableInterface uninteresting = new EquatableInterface("same for both");
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, one);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, other);
+    PointerEquatableClass one = null;
+    PointerEquatableClass other = null;
+    EquatableClass uninteresting = new EquatableClass("same for both");
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, one);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, other);
 
     assertEquals(oneStruct, otherStruct);
     assertEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertTrue(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertTrue(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   @Test
   public void nullPointerUnequalInstancesInStruct() {
-    PointerEquatableInterface one = null;
-    PointerEquatableInterface other = PointerEquatableInterface.createNew();
-    EquatableInterface uninteresting = new EquatableInterface("same for both");
-    PointerEquatableInterface.OptionalEquatableStruct oneStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, one);
-    PointerEquatableInterface.OptionalEquatableStruct otherStruct =
-        new PointerEquatableInterface.OptionalEquatableStruct(uninteresting, other);
+    PointerEquatableClass one = null;
+    PointerEquatableClass other = PointerEquatableClass.createNew();
+    EquatableClass uninteresting = new EquatableClass("same for both");
+    PointerEquatableClass.OptionalEquatableStruct oneStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, one);
+    PointerEquatableClass.OptionalEquatableStruct otherStruct =
+        new PointerEquatableClass.OptionalEquatableStruct(uninteresting, other);
 
     assertNotEquals(oneStruct, otherStruct);
     assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
-    assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
+    assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
   private static EquatableStruct createEquatableStruct() {

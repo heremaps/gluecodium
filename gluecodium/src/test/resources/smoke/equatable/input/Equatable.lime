@@ -57,18 +57,18 @@ types Equatable {
 }
 
 @Equatable
-class EquatableInterface {
+class EquatableClass {
     @Equatable
     struct EquatableStruct {
         intField: Int
         stringField: String
-        nestedEquatableInstance: EquatableInterface
-        nestedPointerEquatableInstance: PointerEquatableInterface
+        nestedEquatableInstance: EquatableClass
+        nestedPointerEquatableInstance: PointerEquatableClass
     }
 }
 
 @PointerEquatable
-class PointerEquatableInterface {
+class PointerEquatableClass {
 }
 
 @Equatable

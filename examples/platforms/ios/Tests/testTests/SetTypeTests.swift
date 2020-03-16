@@ -89,7 +89,7 @@ class SetTypeTests: XCTestCase {
     }
 
     func testClassSetRoundTrip() {
-        let input: SetType.ClassSet = [EquatableClass(id: "foo")]
+        let input: SetType.ClassSet = [SomeEquatableClass(id: "foo")]
 
         let result = SetType.classSetRoundTrip(input: input)
 
@@ -97,7 +97,7 @@ class SetTypeTests: XCTestCase {
     }
 
     func testPointerEquatableSetRoundTrip() {
-        let input: SetType.PointerEquatableSet = [PointerEquatableClass(id: "foo")]
+        let input: SetType.PointerEquatableSet = [SomePointerEquatableClass(id: "foo")]
 
         let result = SetType.pointerEquatableSetRoundTrip(input: input)
 

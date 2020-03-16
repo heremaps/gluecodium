@@ -5,16 +5,16 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public final class EquatableInterface extends NativeBase {
+public final class EquatableClass extends NativeBase {
     public final static class EquatableStruct {
         public int intField;
         @NonNull
         public String stringField;
         @NonNull
-        public EquatableInterface nestedEquatableInstance;
+        public EquatableClass nestedEquatableInstance;
         @NonNull
-        public PointerEquatableInterface nestedPointerEquatableInstance;
-        public EquatableStruct(final int intField, @NonNull final String stringField, @NonNull final EquatableInterface nestedEquatableInstance, @NonNull final PointerEquatableInterface nestedPointerEquatableInstance) {
+        public PointerEquatableClass nestedPointerEquatableInstance;
+        public EquatableStruct(final int intField, @NonNull final String stringField, @NonNull final EquatableClass nestedEquatableInstance, @NonNull final PointerEquatableClass nestedPointerEquatableInstance) {
             this.intField = intField;
             this.stringField = stringField;
             this.nestedEquatableInstance = nestedEquatableInstance;
@@ -44,7 +44,7 @@ public final class EquatableInterface extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected EquatableInterface(final long nativeHandle) {
+    protected EquatableClass(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

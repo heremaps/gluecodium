@@ -23,202 +23,202 @@ import hello
 
 class EquatableInstancesTests: XCTestCase {
     func testDifferentInstancesArePointerUnequal() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.createNew()
+        let one = PointerEquatableClass.createNew()
+        let other = PointerEquatableClass.createNew()
         XCTAssertNotEqual(one, other)
         XCTAssertNotEqual(hash(one), hash(other))
     }
 
     func testSameInstancesArePointerEqual() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.returnLast()
+        let one = PointerEquatableClass.createNew()
+        let other = PointerEquatableClass.returnLast()
         XCTAssertEqual(one, other)
         XCTAssertEqual(hash(one), hash(other))
     }
 
     func testUnequalInstancesAreUnequal() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "other")
+        let one = EquatableClass(name: "one")
+        let other = EquatableClass(name: "other")
         XCTAssertNotEqual(one, other)
         XCTAssertNotEqual(hash(one), hash(other))
     }
 
     func testEqualInstancesAreEqual() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "one")
+        let one = EquatableClass(name: "one")
+        let other = EquatableClass(name: "one")
         XCTAssertEqual(one, other)
         XCTAssertEqual(hash(one), hash(other))
     }
 
     func testEqualInstancesInStruct() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "one")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
+        let one = EquatableClass(name: "one")
+        let other = EquatableClass(name: "one")
+        let uninteresting = PointerEquatableClass.createNew()
+        let oneStruct = PointerEquatableClass.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
+        let otherStruct = PointerEquatableClass.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
 
         XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testUnequalInstancesInStruct() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "other")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
+        let one = EquatableClass(name: "one")
+        let other = EquatableClass(name: "other")
+        let uninteresting = PointerEquatableClass.createNew()
+        let oneStruct = PointerEquatableClass.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
+        let otherStruct = PointerEquatableClass.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
 
         XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testPointerUnequalInstancesInStruct() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.createNew()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
+        let one = PointerEquatableClass.createNew()
+        let other = PointerEquatableClass.createNew()
+        let uninteresting = EquatableClass(name: "same for both")
+        let oneStruct = PointerEquatableClass.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
+        let otherStruct = PointerEquatableClass.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
 
         XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testPointerEqualInstancesInStruct() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.returnLast()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
+        let one = PointerEquatableClass.createNew()
+        let other = PointerEquatableClass.returnLast()
+        let uninteresting = EquatableClass(name: "same for both")
+        let oneStruct = PointerEquatableClass.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
+        let otherStruct = PointerEquatableClass.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
 
         XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testOptionalEqualInstancesInStruct() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "one")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: one,
+        let one = EquatableClass(name: "one")
+        let other = EquatableClass(name: "one")
+        let uninteresting = PointerEquatableClass.createNew()
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: one,
                                                                           pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: other,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: other,
                                                                             pointerEquatable: uninteresting)
 
         XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testOptionalUnequalInstancesInStruct() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "other")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: one,
+        let one = EquatableClass(name: "one")
+        let other = EquatableClass(name: "other")
+        let uninteresting = PointerEquatableClass.createNew()
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: one,
                                                                           pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: other,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: other,
                                                                             pointerEquatable: uninteresting)
 
         XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testOptionalPointerUnequalInstancesInStruct() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.createNew()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let one = PointerEquatableClass.createNew()
+        let other = PointerEquatableClass.createNew()
+        let uninteresting = EquatableClass(name: "same for both")
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                           pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                             pointerEquatable: other)
 
         XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testOptionalPointerEqualInstancesInStruct() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.returnLast()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let one = PointerEquatableClass.createNew()
+        let other = PointerEquatableClass.returnLast()
+        let uninteresting = EquatableClass(name: "same for both")
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                           pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                             pointerEquatable: other)
 
         XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testNilEqualInstancesInStruct() {
-        let one: EquatableInterface? = nil
-        let other: EquatableInterface? = nil
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: one,
+        let one: EquatableClass? = nil
+        let other: EquatableClass? = nil
+        let uninteresting = PointerEquatableClass.createNew()
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: one,
                                                                           pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: other,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: other,
                                                                             pointerEquatable: uninteresting)
 
         XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testNilUnequalInstancesInStruct() {
-        let one: EquatableInterface? = nil
-        let other = EquatableInterface(name: "one")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: one,
+        let one: EquatableClass? = nil
+        let other = EquatableClass(name: "one")
+        let uninteresting = PointerEquatableClass.createNew()
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: one,
                                                                           pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: other,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: other,
                                                                             pointerEquatable: uninteresting)
 
         XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testNilPointerUnequalInstancesInStruct() {
-        let one: PointerEquatableInterface? = nil
-        let other = PointerEquatableInterface.createNew()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let one: PointerEquatableClass? = nil
+        let other = PointerEquatableClass.createNew()
+        let uninteresting = EquatableClass(name: "same for both")
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                           pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                             pointerEquatable: other)
 
         XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testNilPointerEqualInstancesInStruct() {
-        let one: PointerEquatableInterface? = nil
-        let other: PointerEquatableInterface? = nil
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let one: PointerEquatableClass? = nil
+        let other: PointerEquatableClass? = nil
+        let uninteresting = EquatableClass(name: "same for both")
+        let oneStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                           pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.OptionalEquatableStruct(equatable: uninteresting,
+        let otherStruct = PointerEquatableClass.OptionalEquatableStruct(equatable: uninteresting,
                                                                             pointerEquatable: other)
 
         XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableClass.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 

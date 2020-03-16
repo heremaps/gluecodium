@@ -18,16 +18,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/EquatableClass.h"
-#include "test/PointerEquatableClass.h"
+#include "test/SomeEquatableClass.h"
+#include "test/SomePointerEquatableClass.h"
 #include "test/SimpleInterfaceOne.h"
 #include "test/SetType.h"
 
 namespace {
-class EquatableClassImpl: public test::EquatableClass
+class SomeEquatableClassImpl: public test::SomeEquatableClass
 {
 public:
-    EquatableClassImpl(const std::string& id)
+    SomeEquatableClassImpl(const std::string& id)
         : m_id(id)
     {
     }
@@ -39,10 +39,10 @@ private:
     std::string m_id;
 };
 
-class PointerEquatableClassImpl: public test::PointerEquatableClass
+class SomePointerEquatableClassImpl: public test::SomePointerEquatableClass
 {
 public:
-    PointerEquatableClassImpl(const std::string& id)
+    SomePointerEquatableClassImpl(const std::string& id)
         : m_id(id)
     {
     }
@@ -59,19 +59,19 @@ private:
 namespace test
 {
 bool
-EquatableClass::operator==( const EquatableClass& other)
+SomeEquatableClass::operator==( const SomeEquatableClass& other)
 {
     return get_id() == other.get_id();
 }
 
-std::shared_ptr<PointerEquatableClass>
-PointerEquatableClass::create(const std::string& id) {
-    return std::make_shared<PointerEquatableClassImpl>(id);
+std::shared_ptr<SomePointerEquatableClass>
+SomePointerEquatableClass::create(const std::string& id) {
+    return std::make_shared<SomePointerEquatableClassImpl>(id);
 }
 
-std::shared_ptr<EquatableClass>
-EquatableClass::create(const std::string& id) {
-    return std::make_shared<EquatableClassImpl>(id);
+std::shared_ptr<SomeEquatableClass>
+SomeEquatableClass::create(const std::string& id) {
+    return std::make_shared<SomeEquatableClassImpl>(id);
 }
 
 SetType::StringSet
@@ -112,6 +112,6 @@ SetType::pointer_equatable_set_round_trip(const SetType::PointerEquatableSet& in
 }  // namespace test
 
 size_t
-lorem_ipsum::test::hash<::test::EquatableClass>::operator()(const ::test::EquatableClass& t) const {
+lorem_ipsum::test::hash<::test::SomeEquatableClass>::operator()(const ::test::SomeEquatableClass& t) const {
     return std::hash<std::string>()(t.get_id());
 }
