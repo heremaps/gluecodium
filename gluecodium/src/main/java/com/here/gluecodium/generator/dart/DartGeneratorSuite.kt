@@ -24,6 +24,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -286,23 +287,28 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartLibraryInit", templateData, nameResolvers),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart"
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart",
+                COMMON
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartPubspec", templateData, nameResolvers),
-                "$ROOT_DIR/pubspec.yaml"
+                "$ROOT_DIR/pubspec.yaml",
+                COMMON
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartBuiltInTypesConversion", templateData, nameResolvers),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/BuiltInTypes__conversion.dart"
+                "$LIB_DIR/$SRC_DIR_SUFFIX/BuiltInTypes__conversion.dart",
+                COMMON
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartTypeRepository", templateData, nameResolvers),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/_type_repository.dart"
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_type_repository.dart",
+                COMMON
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartTokenCache", templateData, nameResolvers),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/_token_cache.dart"
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_token_cache.dart",
+                COMMON
             )
         )
     }
@@ -323,16 +329,19 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         return headerOnly.map {
             GeneratedFile(
                 TemplateEngine.render("ffi/Ffi$it", data, nameResolvers),
-                "$FFI_DIR/$it.h"
+                "$FFI_DIR/$it.h",
+                COMMON
             )
         } + headerAndImpl.flatMap { listOf(
             GeneratedFile(
                 TemplateEngine.render("ffi/Ffi${it}Header", data, nameResolvers),
-                "$FFI_DIR/$it.h"
+                "$FFI_DIR/$it.h",
+                COMMON
             ),
             GeneratedFile(
                 TemplateEngine.render("ffi/Ffi${it}Impl", data, nameResolvers),
-                "$FFI_DIR/$it.cpp"
+                "$FFI_DIR/$it.cpp",
+                COMMON
             )
         ) }
     }
