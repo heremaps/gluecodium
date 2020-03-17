@@ -52,7 +52,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val commentsProcessor = SwiftCommentsProcessor()
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
-    private val internalPrefix = options.swiftInternalPrefix
+    private val internalPrefix = options.internalPrefix
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap

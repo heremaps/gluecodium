@@ -21,15 +21,15 @@
 final _{{resolveName "Ffi"}}_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{resolveName "FfiApiTypes"}}),
     Pointer<Void> Function({{resolveName "FfiDartTypes"}})
-  >('{{libraryName}}_{{resolveName "Ffi"}}_create_handle_nullable');
+  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_create_handle_nullable');
 final _{{resolveName "Ffi"}}_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle_nullable');
+  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_release_handle_nullable');
 final _{{resolveName "Ffi"}}_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     {{resolveName "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_get_value_nullable');
+  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_get_value_nullable');
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
