@@ -6,9 +6,6 @@
   * Added support for structured documentation comments on lambda type declaration in IDL.
 ### Bug fixes:
   * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
-### Breaking changes:
-  * Added validation against using `@PointerEquatable` attribute on interfaces in IDL files. This
-    usage is currently unsupported but was erroneously allowed before.
 
 ## 6.3.2
 Release date: 2020-03-10
