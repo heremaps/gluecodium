@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName type}}_create_handle_nullable({{handleType}} value);
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName type}}_release_handle_nullable(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT {{handleType}} {{libraryName}}_{{resolveName type}}_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{internalPrefix}}{{resolveName type}}_create_handle_nullable({{handleType}} value);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{internalPrefix}}{{resolveName type}}_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT {{handleType}} {{libraryName}}_{{internalPrefix}}{{resolveName type}}_get_value_nullable(FfiOpaqueHandle handle);

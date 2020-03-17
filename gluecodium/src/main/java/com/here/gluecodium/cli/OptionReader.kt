@@ -104,7 +104,7 @@ object OptionReader {
         )
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
-        addOption("swiftinternalprefix", true, "Name prefix for internal conversion functions in Swift.")
+        addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
         addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
@@ -163,7 +163,7 @@ object OptionReader {
         options.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
         options.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()
         getStringValue("cppexport")?.let { options.cppExport = it }
-        getStringValue("swiftinternalprefix")?.let { options.swiftInternalPrefix = it }
+        getStringValue("internalprefix")?.let { options.internalPrefix = it }
         getStringValue("libraryname")?.let { options.libraryName = it }
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)

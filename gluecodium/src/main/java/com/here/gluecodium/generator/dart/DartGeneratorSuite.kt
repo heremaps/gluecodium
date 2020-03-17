@@ -71,6 +71,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val rootNamespace = options.cppRootNamespace
     private val internalNamespace = options.cppInternalNamespace
+    private val internalPrefix = options.internalPrefix
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val dartNameResolver = DartNameResolver(
@@ -357,6 +358,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             "dart/DartGenericTypesConversion",
             mapOf(
                 "libraryName" to libraryName,
+                "internalPrefix" to internalPrefix,
                 "imports" to imports.distinct().sorted(),
                 "genericTypes" to genericTypes
             ),
@@ -376,6 +378,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val fileName = "GenericTypesConversion"
         val data = mapOf(
             "libraryName" to libraryName,
+            "internalPrefix" to internalPrefix,
             "genericTypes" to genericTypes,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,
