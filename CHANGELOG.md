@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.3.3
+Release date: 2020-03-17
 ### Features:
   * Updated C++ struct constructors to use move semantics to avoid unnecessary copying.
   * Added support for structured documentation comments on lambda type declaration in IDL.
@@ -22,7 +23,7 @@ Release date: 2020-03-02
 
 ## 6.3.0
 Release date: 2020-02-28
-### Features
+### Features:
   * Added "-swiftinternalprefix" optional command line parameter, to help resolving name clashes in
     case of modularized Swift builds.
 ### Bug fixes:
@@ -31,14 +32,14 @@ Release date: 2020-02-28
 
 ## 6.2.1
 Release date: 2020-02-21
-### Features
+### Features:
   * Structs marked as `@Serializable` in IDL now conform to `Codable` protocol in Swift.
   * Added support for specifying multiple platform names in a single inline tag in documentation
     comments (e.g. `foo {@Cpp @Java bar}`).
 
 ## 6.2.0
 Release date: 2020-02-20
-### Features
+### Features:
   * Experimental support for generating Dart bindings.
 ### Bug fixes:
   * Moved BuiltinOptionals.swift into correct source set.
@@ -46,7 +47,7 @@ Release date: 2020-02-20
 
 ## 6.1.0
 Release date: 2020-01-21
-### Features
+### Features:
   * Allow renaming JNI_OnLoad via define.
   * Enable CMake modules for use of Gluecodium in multiple targets.
 ### Bug fixes:
