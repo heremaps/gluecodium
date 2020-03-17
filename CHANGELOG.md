@@ -6,6 +6,7 @@
   * Added support for structured documentation comments on lambda type declaration in IDL.
 ### Bug fixes:
   * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
+  * Fixed more issues in CMake helpers related to modularization.
 ### Breaking changes:
   * Added validation against using `@PointerEquatable` attribute on interfaces in IDL files. This
     usage is currently unsupported but was erroneously allowed before.

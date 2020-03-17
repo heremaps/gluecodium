@@ -72,15 +72,17 @@ endfunction()
 function(_collect_all_files_in_single_compilation_units)
     _include_all(cpp "cpp/*.cpp")
 
-    if(APIGEN_GENERATOR STREQUAL android)
+    if(APIGEN_GENERATOR MATCHES android)
         # Include all conversion headers first, so all later generic conversions relying on specialization have all these defined
         _include_all(jni "android/jni/*_Conversion.h" "android/jni/*.cpp")
-    elseif(APIGEN_GENERATOR STREQUAL swift)
+    elseif(APIGEN_GENERATOR MATCHES swift)
         _include_all(cbridge "cbridge/*.cpp")
         # Collect all includes to be used in the modulemap
         _include_all(cbridge_header "cbridge/*.h")
         _concatenate_swift_files()
-    elseif(APIGEN_GENERATOR STREQUAL dart)
+    endif()
+    # Support Android+Dart and Swift+Dart fused builds
+    if(APIGEN_GENERATOR MATCHES dart)
         _include_all(dart "dart/ffi/*.cpp")
     endif()
 endfunction()
