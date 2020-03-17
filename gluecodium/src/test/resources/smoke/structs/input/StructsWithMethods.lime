@@ -37,10 +37,12 @@ types StructsWithMethods {
             y: Double
         ): Boolean
 
+        @Dart(Default)
         constructor create(
             x: Double,
             y: Double
         )
+        @Dart("copy")
         constructor create(other: Vector) throws ValidationUtils.Validation
     }
 }
@@ -59,7 +61,9 @@ class StructsWithMethodsInterface {
             z: Double
         ): Boolean
 
+        @Dart(Default)
         constructor create(input: String)
+        @Dart("copy")
         constructor create(other: Vector3) throws ValidationUtils.Validation
     }
 

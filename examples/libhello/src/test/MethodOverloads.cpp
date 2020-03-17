@@ -20,6 +20,7 @@
 
 #include "test/ConstructorOverloads.h"
 #include "test/MethodOverloads.h"
+#include "test/StructConstructorOverloads.h"
 
 namespace test
 {
@@ -114,6 +115,18 @@ std::shared_ptr< ConstructorOverloads >
 ConstructorOverloads::create( const std::vector< double >& input )
 {
     return std::make_shared< ConstructorOverloadsImpl >( );
+}
+
+StructConstructorOverloads
+StructConstructorOverloads::create()
+{
+    return StructConstructorOverloads("");
+}
+
+StructConstructorOverloads
+StructConstructorOverloads::create(const std::string& input)
+{
+    return StructConstructorOverloads(input);
 }
 
 }  // namespace test

@@ -4,19 +4,19 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _create_return_release_handle = __lib.nativeLibrary.lookupFunction<
+final _copy_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_release_handle');
-final _create_return_get_result = __lib.nativeLibrary.lookupFunction<
+final _copy_return_get_result = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_get_result');
-final _create_return_get_error = __lib.nativeLibrary.lookupFunction<
+final _copy_return_get_error = __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_get_error');
-final _create_return_has_error = __lib.nativeLibrary.lookupFunction<
+final _copy_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_has_error');
@@ -25,8 +25,8 @@ class Vector {
   double y;
   Vector._(this.x, this.y);
   Vector._copy(Vector _other) : this._(_other.x, _other.y);
-  Vector.create(double x, double y) : this._copy(_create(x, y));
-  Vector.create(Vector other) : this._copy(_create(other));
+  Vector(double x, double y) : this._copy(_create(x, y));
+  Vector.copy(Vector other) : this._copy(_copy(other));
   double distanceTo(Vector other) {
     final _distanceTo_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Pointer<Void>), double Function(Pointer<Void>, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_distanceTo__Vector');
     final _other_handle = smoke_StructsWithMethods_Vector_toFfi(other);
@@ -71,20 +71,20 @@ class Vector {
     smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
     return _result;
   }
-  static Vector _create(Vector other) {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_create__Vector');
+  static Vector _copy(Vector other) {
+    final _copy_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_create__Vector');
     final _other_handle = smoke_StructsWithMethods_Vector_toFfi(other);
-    final __call_result_handle = _create_ffi(_other_handle);
+    final __call_result_handle = _copy_ffi(_other_handle);
     smoke_StructsWithMethods_Vector_releaseFfiHandle(_other_handle);
-    if (_create_return_has_error(__call_result_handle) != 0) {
-        final __error_handle = _create_return_get_error(__call_result_handle);
-        _create_return_release_handle(__call_result_handle);
+    if (_copy_return_has_error(__call_result_handle) != 0) {
+        final __error_handle = _copy_return_get_error(__call_result_handle);
+        _copy_return_release_handle(__call_result_handle);
         final _error_value = smoke_ValidationUtils_ValidationErrorCode_fromFfi(__error_handle);
         smoke_ValidationUtils_ValidationErrorCode_releaseFfiHandle(__error_handle);
         throw ValidationException(_error_value);
     }
-    final __result_handle = _create_return_get_result(__call_result_handle);
-    _create_return_release_handle(__call_result_handle);
+    final __result_handle = _copy_return_get_result(__call_result_handle);
+    _copy_return_release_handle(__call_result_handle);
     final _result = smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
     smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
     return _result;

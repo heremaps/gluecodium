@@ -579,6 +579,8 @@ internal class AntlrLimeModelBuilder(
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL
             "ObjC" -> LimeAttributeValueType.OBJC
+            "Message" -> LimeAttributeValueType.MESSAGE
+            "Default" -> LimeAttributeValueType.DEFAULT
             "ExternalType" -> LimeAttributeValueType.EXTERNAL_TYPE
             "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
             "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER

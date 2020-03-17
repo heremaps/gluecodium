@@ -23,17 +23,18 @@ open class Constructors {
         CRASHED
     }
 
+    @Dart(Default)
     constructor create()
-    @Dart("createFromOther")
+    @Dart("fromOther")
     constructor create(other: Constructors)
-    @Dart("createFromMulti")
+    @Dart("fromMulti")
     constructor create(
         foo: String,
         bar: ULong
     )
-    @Dart("createFromString")
+    @Dart("fromString")
     constructor create(input: String) throws ConstructorExploded
-    @Dart("createFromList")
+    @Dart("fromList")
     constructor create(input: List<Double>)
 
     exception ConstructorExploded(ErrorEnum)

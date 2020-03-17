@@ -16,9 +16,11 @@ class StructsWithMethodsInterface {
             y: Double,
             z: Double
         ): Boolean
+        @Dart(Default)
         constructor create(
             input: String
         )
+        @Dart("copy")
         constructor create(
             other: Vector3
         ) throws Validation
