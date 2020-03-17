@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed issue with Dart generator enabled with Swift.
+
 ## 6.3.3
 Release date: 2020-03-17
 ### Features:
