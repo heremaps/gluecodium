@@ -41,9 +41,14 @@ function(apigen_list_generated_sources _sources_list_output)
   cmake_parse_arguments(apigen_list_generated_sources "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   apigen_set_generated_files(${apigen_list_generated_sources_TARGET})
-  if(NOT apigen_list_generated_sources_GENERATOR IN_LIST APIGEN_SUPPORTED_GENERATORS)
-    message(FATAL_ERROR "Generator ${apigen_list_generated_sources_GENERATOR} is not in list of supported generators: ${APIGEN_SUPPORTED_GENERATORS}")
-  endif()
+
+  string(REPLACE "," ";" _generators ${apigen_list_generated_sources_GENERATOR})
+  foreach(_generator ${_generators})
+    if(NOT _generator IN_LIST APIGEN_SUPPORTED_GENERATORS)
+      message(FATAL_ERROR "Generator ${_generator} is not in list of supported generators: ${APIGEN_SUPPORTED_GENERATORS}")
+    endif()
+  endforeach()
+
   if(NOT apigen_list_generated_sources_MAIN AND NOT apigen_list_generated_sources_COMMON)
     message(FATAL_ERROR "No source set was specified")
   endif()
