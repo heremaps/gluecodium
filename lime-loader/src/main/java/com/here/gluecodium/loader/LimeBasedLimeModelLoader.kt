@@ -33,7 +33,6 @@ import com.here.gluecodium.validator.LimeFunctionsValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeImportsValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
-import com.here.gluecodium.validator.LimeInterfacesValidator
 import com.here.gluecodium.validator.LimeSerializableStructsValidator
 import com.here.gluecodium.validator.LimeStructsValidator
 import com.here.gluecodium.validator.LimeTypeRefTargetValidator
@@ -157,8 +156,7 @@ internal class LimeBasedLimeModelLoader : LimeModelLoader {
     private fun getIndependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
             { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
-            { LimeExternalTypesValidator(limeLogger).validate(it) },
-            { LimeInterfacesValidator(limeLogger).validate(it) }
+            { LimeExternalTypesValidator(limeLogger).validate(it) }
         )
 }
 
