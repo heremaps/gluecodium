@@ -6,6 +6,7 @@
   * Added support for structured documentation comments on lambda type declaration in IDL.
 ### Bug fixes:
   * Fixed C++ compilation issue for when "-intnamespace" command line parameter is not specified.
+  * Fixed more issues in CMake helpers related to modularization.
 
 ## 6.3.2
 Release date: 2020-03-10
