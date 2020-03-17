@@ -81,6 +81,10 @@ function(apigen_target_include_directories target)
       target_include_directories(${target}
         PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/android/jni>)
     endif()
+    if(${GENERATOR} MATCHES dart)
+      target_include_directories(${target}
+        PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/dart/ffi>)
+    endif()
   endif()
 
   if(${GENERATOR} MATCHES android)
