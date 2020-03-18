@@ -1,8 +1,9 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.3.4
+Release date: 2020-03-18
 ### Bug fixes:
-  * Fixed issue with Dart generator enabled with Swift.
+  * Fixed issue in CMake helpers related to Swift+Dart fused builds.
 
 ## 6.3.3
 Release date: 2020-03-17
