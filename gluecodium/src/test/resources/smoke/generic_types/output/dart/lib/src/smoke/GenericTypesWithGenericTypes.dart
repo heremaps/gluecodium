@@ -4,6 +4,17 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+abstract class GenericTypesWithGenericTypes {
+  void release();
+  List<List<int>> methodWithListOfLists(List<List<int>> input);
+  Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input);
+  Set<Set<int>> methodWithSetOfSets(Set<Set<int>> input);
+  Map<int, List<int>> methodWithListAndMap(List<Map<int, bool>> input);
+  Set<List<int>> methodWithListAndSet(List<Set<int>> input);
+  Set<Map<int, bool>> methodWithMapAndSet(Map<int, Set<int>> input);
+  Map<List<int>, bool> methodWithMapGenericKeys(Map<Set<int>, bool> input);
+}
+// GenericTypesWithGenericTypes "private" section, not exported.
 final _smoke_GenericTypesWithGenericTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -12,67 +23,82 @@ final _smoke_GenericTypesWithGenericTypes_release_handle = __lib.nativeLibrary.l
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_GenericTypesWithGenericTypes_release_handle');
-class GenericTypesWithGenericTypes {
-  final Pointer<Void> _handle;
-  GenericTypesWithGenericTypes._(this._handle);
-  void release() => _smoke_GenericTypesWithGenericTypes_release_handle(_handle);
+class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes {
+  final Pointer<Void> handle;
+  GenericTypesWithGenericTypes$Impl(this.handle);
+  @override
+  void release() => _smoke_GenericTypesWithGenericTypes_release_handle(handle);
+  @override
   List<List<int>> methodWithListOfLists(List<List<int>> input) {
     final _methodWithListOfLists_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_1ListOf_1Int');
     final _input_handle = ListOf_ListOf_Int_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithListOfLists_ffi(_handle, _input_handle);
     ListOf_ListOf_Int_releaseFfiHandle(_input_handle);
     final _result = ListOf_ListOf_Int_fromFfi(__result_handle);
     ListOf_ListOf_Int_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input) {
     final _methodWithMapOfMaps_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_1Int_1to_1MapOf_1Int_1to_1Boolean');
     final _input_handle = MapOf_Int_to_MapOf_Int_to_Boolean_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithMapOfMaps_ffi(_handle, _input_handle);
     MapOf_Int_to_MapOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
     final _result = MapOf_MapOf_Int_to_Boolean_to_Boolean_fromFfi(__result_handle);
     MapOf_MapOf_Int_to_Boolean_to_Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Set<Set<int>> methodWithSetOfSets(Set<Set<int>> input) {
     final _methodWithSetOfSets_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_1SetOf_1Int');
     final _input_handle = SetOf_SetOf_Int_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithSetOfSets_ffi(_handle, _input_handle);
     SetOf_SetOf_Int_releaseFfiHandle(_input_handle);
     final _result = SetOf_SetOf_Int_fromFfi(__result_handle);
     SetOf_SetOf_Int_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Map<int, List<int>> methodWithListAndMap(List<Map<int, bool>> input) {
     final _methodWithListAndMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_1MapOf_1Int_1to_1Boolean');
     final _input_handle = ListOf_MapOf_Int_to_Boolean_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithListAndMap_ffi(_handle, _input_handle);
     ListOf_MapOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
     final _result = MapOf_Int_to_ListOf_Int_fromFfi(__result_handle);
     MapOf_Int_to_ListOf_Int_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Set<List<int>> methodWithListAndSet(List<Set<int>> input) {
     final _methodWithListAndSet_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_1SetOf_1Int');
     final _input_handle = ListOf_SetOf_Int_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithListAndSet_ffi(_handle, _input_handle);
     ListOf_SetOf_Int_releaseFfiHandle(_input_handle);
     final _result = SetOf_ListOf_Int_fromFfi(__result_handle);
     SetOf_ListOf_Int_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Set<Map<int, bool>> methodWithMapAndSet(Map<int, Set<int>> input) {
     final _methodWithMapAndSet_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_1Int_1to_1SetOf_1Int');
     final _input_handle = MapOf_Int_to_SetOf_Int_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithMapAndSet_ffi(_handle, _input_handle);
     MapOf_Int_to_SetOf_Int_releaseFfiHandle(_input_handle);
     final _result = SetOf_MapOf_Int_to_Boolean_fromFfi(__result_handle);
     SetOf_MapOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Map<List<int>, bool> methodWithMapGenericKeys(Map<Set<int>, bool> input) {
     final _methodWithMapGenericKeys_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_1SetOf_1Int_1to_1Boolean');
     final _input_handle = MapOf_SetOf_Int_to_Boolean_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _methodWithMapGenericKeys_ffi(_handle, _input_handle);
     MapOf_SetOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
     final _result = MapOf_ListOf_Int_to_Boolean_fromFfi(__result_handle);
@@ -81,9 +107,9 @@ class GenericTypesWithGenericTypes {
   }
 }
 Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi(GenericTypesWithGenericTypes value) =>
-  _smoke_GenericTypesWithGenericTypes_copy_handle(value._handle);
+  _smoke_GenericTypesWithGenericTypes_copy_handle((value as GenericTypesWithGenericTypes$Impl).handle);
 GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi(Pointer<Void> handle) =>
-  GenericTypesWithGenericTypes._(_smoke_GenericTypesWithGenericTypes_copy_handle(handle));
+  GenericTypesWithGenericTypes$Impl(_smoke_GenericTypesWithGenericTypes_copy_handle(handle));
 void smoke_GenericTypesWithGenericTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_GenericTypesWithGenericTypes_release_handle(handle);
 Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi_nullable(GenericTypesWithGenericTypes value) =>
@@ -92,3 +118,4 @@ GenericTypesWithGenericTypes smoke_GenericTypesWithGenericTypes_fromFfi_nullable
   handle.address != 0 ? smoke_GenericTypesWithGenericTypes_fromFfi(handle) : null;
 void smoke_GenericTypesWithGenericTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_GenericTypesWithGenericTypes_release_handle(handle);
+// End of GenericTypesWithGenericTypes "private" section.

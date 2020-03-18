@@ -29,15 +29,14 @@ final _smoke_InternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InternalInterface_get_type_id');
-class InternalInterface__Impl implements InternalInterface {
-  Pointer<Void> get _handle => handle;
+class InternalInterface$Impl implements InternalInterface {
   final Pointer<Void> handle;
-  InternalInterface__Impl(this.handle);
+  InternalInterface$Impl(this.handle);
   @override
   void release() => _smoke_InternalInterface_release_handle(handle);
 }
 Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
-  if (value is InternalInterface__Impl) return _smoke_InternalInterface_copy_handle(value.handle);
+  if (value is InternalInterface$Impl) return _smoke_InternalInterface_copy_handle(value.handle);
   final result = _smoke_InternalInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi
@@ -52,7 +51,7 @@ InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_InternalInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? InternalInterface__Impl(_copied_handle)
+    ? InternalInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

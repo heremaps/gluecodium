@@ -22,13 +22,14 @@ final _smoke_StandaloneProducer_get_raw_pointer = __lib.nativeLibrary.lookupFunc
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('library_smoke_StandaloneProducer_get_raw_pointer');
-class StandaloneProducer__Impl {
+class StandaloneProducer$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
-  StandaloneProducer__Impl(this.handle);
+  StandaloneProducer$Impl(this.handle);
   void release() => _smoke_StandaloneProducer_release_handle(handle);
   String call() {
     final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_StandaloneProducer_call');
+    final _handle = this.handle;
     final __result_handle = _call_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -52,7 +53,7 @@ Pointer<Void> smoke_StandaloneProducer_toFfi(StandaloneProducer value) {
 StandaloneProducer smoke_StandaloneProducer_fromFfi(Pointer<Void> handle) {
   final instance = __lib.reverseCache[_smoke_StandaloneProducer_get_raw_pointer(handle)] as StandaloneProducer;
   if (instance != null) return instance;
-  final _impl = StandaloneProducer__Impl(_smoke_StandaloneProducer_copy_handle(handle));
+  final _impl = StandaloneProducer$Impl(_smoke_StandaloneProducer_copy_handle(handle));
   return () {
     final _result =_impl.call();
     _impl.release();

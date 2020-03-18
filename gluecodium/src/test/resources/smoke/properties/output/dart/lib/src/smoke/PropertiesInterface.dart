@@ -93,14 +93,14 @@ final _smoke_PropertiesInterface_get_type_id = __lib.nativeLibrary.lookupFunctio
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_get_type_id');
-class PropertiesInterface__Impl implements PropertiesInterface {
-  Pointer<Void> get _handle => handle;
+class PropertiesInterface$Impl implements PropertiesInterface {
   final Pointer<Void> handle;
-  PropertiesInterface__Impl(this.handle);
+  PropertiesInterface$Impl(this.handle);
   @override
   void release() => _smoke_PropertiesInterface_release_handle(handle);
   PropertiesInterface_ExampleStruct get structProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_PropertiesInterface_structProperty_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = smoke_PropertiesInterface_ExampleStruct_fromFfi(__result_handle);
     smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(__result_handle);
@@ -109,6 +109,7 @@ class PropertiesInterface__Impl implements PropertiesInterface {
   set structProperty(PropertiesInterface_ExampleStruct value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PropertiesInterface_structProperty_set__ExampleStruct');
     final _value_handle = smoke_PropertiesInterface_ExampleStruct_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -126,7 +127,7 @@ int _PropertiesInterface_structProperty_set_static(int _token, Pointer<Void> _va
   return 0;
 }
 Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface value) {
-  if (value is PropertiesInterface__Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
+  if (value is PropertiesInterface$Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
   final result = _smoke_PropertiesInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -143,7 +144,7 @@ PropertiesInterface smoke_PropertiesInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_PropertiesInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? PropertiesInterface__Impl(_copied_handle)
+    ? PropertiesInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

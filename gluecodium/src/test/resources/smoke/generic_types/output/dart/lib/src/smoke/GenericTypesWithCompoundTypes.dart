@@ -6,103 +6,17 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_GenericTypesWithCompoundTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithCompoundTypes_copy_handle');
-final _smoke_GenericTypesWithCompoundTypes_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithCompoundTypes_release_handle');
-class GenericTypesWithCompoundTypes {
-  final Pointer<Void> _handle;
-  GenericTypesWithCompoundTypes._(this._handle);
-  void release() => _smoke_GenericTypesWithCompoundTypes_release_handle(_handle);
-  List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input) {
-    final _methodWithStructList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithStructList__ListOf_1smoke_1GenericTypesWithCompoundTypes_1BasicStruct');
-    final _input_handle = ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(input);
-    final __result_handle = _methodWithStructList_ffi(_handle, _input_handle);
-    ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_input_handle);
-    final _result = ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
-    ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  Map<String, GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructMap(Map<String, GenericTypesWithCompoundTypes_BasicStruct> input) {
-    final _methodWithStructMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithStructMap__MapOf_1String_1to_1smoke_1GenericTypesWithCompoundTypes_1BasicStruct');
-    final _input_handle = MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(input);
-    final __result_handle = _methodWithStructMap_ffi(_handle, _input_handle);
-    MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_input_handle);
-    final _result = MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
-    MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  List<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumList(List<GenericTypesWithCompoundTypes_SomeEnum> input) {
-    final _methodWithEnumList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumList__ListOf_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum');
-    final _input_handle = ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(input);
-    final __result_handle = _methodWithEnumList_ffi(_handle, _input_handle);
-    ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
-    final _result = ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
-    ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> methodWithEnumMapKey(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> input) {
-    final _methodWithEnumMapKey_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey__MapOf_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum_1to_1Boolean');
-    final _input_handle = MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi(input);
-    final __result_handle = _methodWithEnumMapKey_ffi(_handle, _input_handle);
-    MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_releaseFfiHandle(_input_handle);
-    final _result = MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi(__result_handle);
-    MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  Map<int, GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumMapValue(Map<int, GenericTypesWithCompoundTypes_SomeEnum> input) {
-    final _methodWithEnumMapValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue__MapOf_1Int_1to_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum');
-    final _input_handle = MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(input);
-    final __result_handle = _methodWithEnumMapValue_ffi(_handle, _input_handle);
-    MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
-    final _result = MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
-    MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  Set<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumSet(Set<GenericTypesWithCompoundTypes_SomeEnum> input) {
-    final _methodWithEnumSet_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumSet__SetOf_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum');
-    final _input_handle = SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(input);
-    final __result_handle = _methodWithEnumSet_ffi(_handle, _input_handle);
-    SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
-    final _result = SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
-    SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  List<DummyInterface> methodWithInstancesList(List<DummyClass> input) {
-    final _methodWithInstancesList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithInstancesList__ListOf_1smoke_1DummyClass');
-    final _input_handle = ListOf_smoke_DummyClass_toFfi(input);
-    final __result_handle = _methodWithInstancesList_ffi(_handle, _input_handle);
-    ListOf_smoke_DummyClass_releaseFfiHandle(_input_handle);
-    final _result = ListOf_smoke_DummyInterface_fromFfi(__result_handle);
-    ListOf_smoke_DummyInterface_releaseFfiHandle(__result_handle);
-    return _result;
-  }
-  Map<int, DummyInterface> methodWithInstancesMap(Map<int, DummyClass> input) {
-    final _methodWithInstancesMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap__MapOf_1Int_1to_1smoke_1DummyClass');
-    final _input_handle = MapOf_Int_to_smoke_DummyClass_toFfi(input);
-    final __result_handle = _methodWithInstancesMap_ffi(_handle, _input_handle);
-    MapOf_Int_to_smoke_DummyClass_releaseFfiHandle(_input_handle);
-    final _result = MapOf_Int_to_smoke_DummyInterface_fromFfi(__result_handle);
-    MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle(__result_handle);
-    return _result;
-  }
+abstract class GenericTypesWithCompoundTypes {
+  void release();
+  List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input);
+  Map<String, GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructMap(Map<String, GenericTypesWithCompoundTypes_BasicStruct> input);
+  List<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumList(List<GenericTypesWithCompoundTypes_SomeEnum> input);
+  Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> methodWithEnumMapKey(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> input);
+  Map<int, GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumMapValue(Map<int, GenericTypesWithCompoundTypes_SomeEnum> input);
+  Set<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumSet(Set<GenericTypesWithCompoundTypes_SomeEnum> input);
+  List<DummyInterface> methodWithInstancesList(List<DummyClass> input);
+  Map<int, DummyInterface> methodWithInstancesMap(Map<int, DummyClass> input);
 }
-Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) =>
-  _smoke_GenericTypesWithCompoundTypes_copy_handle(value._handle);
-GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) =>
-  GenericTypesWithCompoundTypes._(_smoke_GenericTypesWithCompoundTypes_copy_handle(handle));
-void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
-Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi_nullable(GenericTypesWithCompoundTypes value) =>
-  value != null ? smoke_GenericTypesWithCompoundTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_GenericTypesWithCompoundTypes_fromFfi(handle) : null;
-void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
 enum GenericTypesWithCompoundTypes_SomeEnum {
     foo,
     bar
@@ -345,3 +259,119 @@ GenericTypesWithCompoundTypes_ExternalStruct smoke_GenericTypesWithCompoundTypes
 void smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable(handle);
 // End of GenericTypesWithCompoundTypes_ExternalStruct "private" section.
+// GenericTypesWithCompoundTypes "private" section, not exported.
+final _smoke_GenericTypesWithCompoundTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_GenericTypesWithCompoundTypes_copy_handle');
+final _smoke_GenericTypesWithCompoundTypes_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_GenericTypesWithCompoundTypes_release_handle');
+class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundTypes {
+  final Pointer<Void> handle;
+  GenericTypesWithCompoundTypes$Impl(this.handle);
+  @override
+  void release() => _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
+  @override
+  List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input) {
+    final _methodWithStructList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithStructList__ListOf_1smoke_1GenericTypesWithCompoundTypes_1BasicStruct');
+    final _input_handle = ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithStructList_ffi(_handle, _input_handle);
+    ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_input_handle);
+    final _result = ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
+    ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  Map<String, GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructMap(Map<String, GenericTypesWithCompoundTypes_BasicStruct> input) {
+    final _methodWithStructMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithStructMap__MapOf_1String_1to_1smoke_1GenericTypesWithCompoundTypes_1BasicStruct');
+    final _input_handle = MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithStructMap_ffi(_handle, _input_handle);
+    MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_input_handle);
+    final _result = MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
+    MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  List<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumList(List<GenericTypesWithCompoundTypes_SomeEnum> input) {
+    final _methodWithEnumList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumList__ListOf_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum');
+    final _input_handle = ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithEnumList_ffi(_handle, _input_handle);
+    ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
+    final _result = ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
+    ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> methodWithEnumMapKey(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> input) {
+    final _methodWithEnumMapKey_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey__MapOf_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum_1to_1Boolean');
+    final _input_handle = MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithEnumMapKey_ffi(_handle, _input_handle);
+    MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_releaseFfiHandle(_input_handle);
+    final _result = MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi(__result_handle);
+    MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  Map<int, GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumMapValue(Map<int, GenericTypesWithCompoundTypes_SomeEnum> input) {
+    final _methodWithEnumMapValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue__MapOf_1Int_1to_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum');
+    final _input_handle = MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithEnumMapValue_ffi(_handle, _input_handle);
+    MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
+    final _result = MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
+    MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  Set<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumSet(Set<GenericTypesWithCompoundTypes_SomeEnum> input) {
+    final _methodWithEnumSet_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithEnumSet__SetOf_1smoke_1GenericTypesWithCompoundTypes_1SomeEnum');
+    final _input_handle = SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithEnumSet_ffi(_handle, _input_handle);
+    SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
+    final _result = SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
+    SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  List<DummyInterface> methodWithInstancesList(List<DummyClass> input) {
+    final _methodWithInstancesList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithInstancesList__ListOf_1smoke_1DummyClass');
+    final _input_handle = ListOf_smoke_DummyClass_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithInstancesList_ffi(_handle, _input_handle);
+    ListOf_smoke_DummyClass_releaseFfiHandle(_input_handle);
+    final _result = ListOf_smoke_DummyInterface_fromFfi(__result_handle);
+    ListOf_smoke_DummyInterface_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  Map<int, DummyInterface> methodWithInstancesMap(Map<int, DummyClass> input) {
+    final _methodWithInstancesMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap__MapOf_1Int_1to_1smoke_1DummyClass');
+    final _input_handle = MapOf_Int_to_smoke_DummyClass_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithInstancesMap_ffi(_handle, _input_handle);
+    MapOf_Int_to_smoke_DummyClass_releaseFfiHandle(_input_handle);
+    final _result = MapOf_Int_to_smoke_DummyInterface_fromFfi(__result_handle);
+    MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+}
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) =>
+  _smoke_GenericTypesWithCompoundTypes_copy_handle((value as GenericTypesWithCompoundTypes$Impl).handle);
+GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) =>
+  GenericTypesWithCompoundTypes$Impl(_smoke_GenericTypesWithCompoundTypes_copy_handle(handle));
+void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
+Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi_nullable(GenericTypesWithCompoundTypes value) =>
+  value != null ? smoke_GenericTypesWithCompoundTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
+GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_GenericTypesWithCompoundTypes_fromFfi(handle) : null;
+void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
+// End of GenericTypesWithCompoundTypes "private" section.

@@ -177,16 +177,16 @@ final _smoke_DeprecationComments_get_type_id = __lib.nativeLibrary.lookupFunctio
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_get_type_id');
-class DeprecationComments__Impl implements DeprecationComments {
-  Pointer<Void> get _handle => handle;
+class DeprecationComments$Impl implements DeprecationComments {
   final Pointer<Void> handle;
-  DeprecationComments__Impl(this.handle);
+  DeprecationComments$Impl(this.handle);
   @override
   void release() => _smoke_DeprecationComments_release_handle(handle);
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_DeprecationComments_someMethodWithAllComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
@@ -198,6 +198,7 @@ class DeprecationComments__Impl implements DeprecationComments {
   Use [comments.SomeProperty.get] instead.")
   bool get isSomeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_DeprecationComments_isSomeProperty_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -209,6 +210,7 @@ class DeprecationComments__Impl implements DeprecationComments {
   set isSomeProperty(bool value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint8), void Function(Pointer<Void>, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean');
     final _value_handle = Boolean_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     Boolean_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -232,7 +234,7 @@ int _DeprecationComments_isSomeProperty_set_static(int _token, int _value) {
   return 0;
 }
 Pointer<Void> smoke_DeprecationComments_toFfi(DeprecationComments value) {
-  if (value is DeprecationComments__Impl) return _smoke_DeprecationComments_copy_handle(value.handle);
+  if (value is DeprecationComments$Impl) return _smoke_DeprecationComments_copy_handle(value.handle);
   final result = _smoke_DeprecationComments_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -250,7 +252,7 @@ DeprecationComments smoke_DeprecationComments_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_DeprecationComments_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? DeprecationComments__Impl(_copied_handle)
+    ? DeprecationComments$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

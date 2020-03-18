@@ -92,15 +92,14 @@ final _smoke_PublicInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_get_type_id');
-class PublicInterface__Impl implements PublicInterface {
-  Pointer<Void> get _handle => handle;
+class PublicInterface$Impl implements PublicInterface {
   final Pointer<Void> handle;
-  PublicInterface__Impl(this.handle);
+  PublicInterface$Impl(this.handle);
   @override
   void release() => _smoke_PublicInterface_release_handle(handle);
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
-  if (value is PublicInterface__Impl) return _smoke_PublicInterface_copy_handle(value.handle);
+  if (value is PublicInterface$Impl) return _smoke_PublicInterface_copy_handle(value.handle);
   final result = _smoke_PublicInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi
@@ -115,7 +114,7 @@ PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_PublicInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? PublicInterface__Impl(_copied_handle)
+    ? PublicInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

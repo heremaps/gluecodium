@@ -22,9 +22,10 @@
   final _{{resolveName}}_ffi = __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{libraryName}}_{{resolveName "Ffi"}}');
 {{#parameters}}
   final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
-{{/parameters}}{{#if isStruct}}{{#unless isStatic}}
-  final _handle = {{resolveName parent "Ffi"}}_toFfi(this);
-{{/unless}}{{/if}}
+{{/parameters}}{{#unless isStatic}}
+  final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}_toFfi(this){{/if}}{{!!
+  }}{{#unless isStruct}}this.handle{{/unless}};
+{{/unless}}
   final __{{#if thrownType}}call_{{/if}}result_handle = _{{resolveName}}_ffi({{!!
   }}{{#unless isStatic}}_handle{{#if parameters}}, {{/if}}{{/unless}}{{!!
   }}{{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});

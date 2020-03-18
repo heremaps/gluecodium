@@ -32,15 +32,15 @@ final _smoke_ParentInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ParentInterface_get_type_id');
-class ParentInterface__Impl implements ParentInterface {
-  Pointer<Void> get _handle => handle;
+class ParentInterface$Impl implements ParentInterface {
   final Pointer<Void> handle;
-  ParentInterface__Impl(this.handle);
+  ParentInterface$Impl(this.handle);
   @override
   void release() => _smoke_ParentInterface_release_handle(handle);
   @override
   rootMethod() {
     final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ParentInterface_rootMethod');
+    final _handle = this.handle;
     final __result_handle = _rootMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -48,6 +48,7 @@ class ParentInterface__Impl implements ParentInterface {
   }
   String get rootProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -56,6 +57,7 @@ class ParentInterface__Impl implements ParentInterface {
   set rootProperty(String value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String');
     final _value_handle = String_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     String_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -77,7 +79,7 @@ int _ParentInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
   return 0;
 }
 Pointer<Void> smoke_ParentInterface_toFfi(ParentInterface value) {
-  if (value is ParentInterface__Impl) return _smoke_ParentInterface_copy_handle(value.handle);
+  if (value is ParentInterface$Impl) return _smoke_ParentInterface_copy_handle(value.handle);
   final result = _smoke_ParentInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -95,7 +97,7 @@ ParentInterface smoke_ParentInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_ParentInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? ParentInterface__Impl(_copied_handle)
+    ? ParentInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

@@ -167,14 +167,14 @@ final _smoke_ListenerWithProperties_get_type_id = __lib.nativeLibrary.lookupFunc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ListenerWithProperties_get_type_id');
-class ListenerWithProperties__Impl implements ListenerWithProperties {
-  Pointer<Void> get _handle => handle;
+class ListenerWithProperties$Impl implements ListenerWithProperties {
   final Pointer<Void> handle;
-  ListenerWithProperties__Impl(this.handle);
+  ListenerWithProperties$Impl(this.handle);
   @override
   void release() => _smoke_ListenerWithProperties_release_handle(handle);
   String get message {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_message_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -183,6 +183,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set message(String value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ListenerWithProperties_message_set__String');
     final _value_handle = String_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     String_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -191,6 +192,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   }
   CalculationResult get packedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_packedMessage_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = smoke_CalculationResult_fromFfi(__result_handle);
     smoke_CalculationResult_releaseFfiHandle(__result_handle);
@@ -199,6 +201,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set packedMessage(CalculationResult value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult');
     final _value_handle = smoke_CalculationResult_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     smoke_CalculationResult_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -207,6 +210,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   }
   ListenerWithProperties_ResultStruct get structuredMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_structuredMessage_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = smoke_ListenerWithProperties_ResultStruct_fromFfi(__result_handle);
     smoke_ListenerWithProperties_ResultStruct_releaseFfiHandle(__result_handle);
@@ -215,6 +219,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set structuredMessage(ListenerWithProperties_ResultStruct value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct');
     final _value_handle = smoke_ListenerWithProperties_ResultStruct_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     smoke_ListenerWithProperties_ResultStruct_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -223,6 +228,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   }
   ListenerWithProperties_ResultEnum get enumeratedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_enumeratedMessage_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = smoke_ListenerWithProperties_ResultEnum_fromFfi(__result_handle);
     smoke_ListenerWithProperties_ResultEnum_releaseFfiHandle(__result_handle);
@@ -231,6 +237,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set enumeratedMessage(ListenerWithProperties_ResultEnum value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint32), void Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum');
     final _value_handle = smoke_ListenerWithProperties_ResultEnum_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     smoke_ListenerWithProperties_ResultEnum_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -239,6 +246,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   }
   List<String> get arrayedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_arrayedMessage_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = ListOf_String_fromFfi(__result_handle);
     ListOf_String_releaseFfiHandle(__result_handle);
@@ -247,6 +255,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set arrayedMessage(List<String> value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_1String');
     final _value_handle = ListOf_String_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     ListOf_String_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -255,6 +264,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   }
   Map<String, double> get mappedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = MapOf_String_to_Double_fromFfi(__result_handle);
     MapOf_String_to_Double_releaseFfiHandle(__result_handle);
@@ -263,6 +273,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set mappedMessage(Map<String, double> value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_1String_1to_1Double');
     final _value_handle = MapOf_String_to_Double_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     MapOf_String_to_Double_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -271,6 +282,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   }
   Uint8List get bufferedMessage {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ListenerWithProperties_bufferedMessage_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = Blob_fromFfi(__result_handle);
     Blob_releaseFfiHandle(__result_handle);
@@ -279,6 +291,7 @@ class ListenerWithProperties__Impl implements ListenerWithProperties {
   set bufferedMessage(Uint8List value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_ListenerWithProperties_bufferedMessage_set__Blob');
     final _value_handle = Blob_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     Blob_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -350,7 +363,7 @@ int _ListenerWithProperties_bufferedMessage_set_static(int _token, Pointer<Void>
   return 0;
 }
 Pointer<Void> smoke_ListenerWithProperties_toFfi(ListenerWithProperties value) {
-  if (value is ListenerWithProperties__Impl) return _smoke_ListenerWithProperties_copy_handle(value.handle);
+  if (value is ListenerWithProperties$Impl) return _smoke_ListenerWithProperties_copy_handle(value.handle);
   final result = _smoke_ListenerWithProperties_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -379,7 +392,7 @@ ListenerWithProperties smoke_ListenerWithProperties_fromFfi(Pointer<Void> handle
   final _type_id_handle = _smoke_ListenerWithProperties_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? ListenerWithProperties__Impl(_copied_handle)
+    ? ListenerWithProperties$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

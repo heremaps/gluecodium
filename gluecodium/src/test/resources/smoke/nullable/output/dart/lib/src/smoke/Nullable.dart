@@ -5,281 +5,39 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_Nullable_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Nullable_copy_handle');
-final _smoke_Nullable_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_Nullable_release_handle');
-class Nullable {
-  final Pointer<Void> _handle;
-  Nullable._(this._handle);
-  void release() => _smoke_Nullable_release_handle(_handle);
-  String methodWithString(String input) {
-    final _methodWithString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String');
-    final _input_handle = String_toFfi_nullable(input);
-    final __result_handle = _methodWithString_ffi(_handle, _input_handle);
-    String_releaseFfiHandle_nullable(_input_handle);
-    final _result = String_fromFfi_nullable(__result_handle);
-    String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  bool methodWithBoolean(bool input) {
-    final _methodWithBoolean_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithBoolean__Boolean');
-    final _input_handle = Boolean_toFfi_nullable(input);
-    final __result_handle = _methodWithBoolean_ffi(_handle, _input_handle);
-    Boolean_releaseFfiHandle_nullable(_input_handle);
-    final _result = Boolean_fromFfi_nullable(__result_handle);
-    Boolean_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  double methodWithDouble(double input) {
-    final _methodWithDouble_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithDouble__Double');
-    final _input_handle = Double_toFfi_nullable(input);
-    final __result_handle = _methodWithDouble_ffi(_handle, _input_handle);
-    Double_releaseFfiHandle_nullable(_input_handle);
-    final _result = Double_fromFfi_nullable(__result_handle);
-    Double_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  int methodWithInt(int input) {
-    final _methodWithInt_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithInt__Long');
-    final _input_handle = Long_toFfi_nullable(input);
-    final __result_handle = _methodWithInt_ffi(_handle, _input_handle);
-    Long_releaseFfiHandle_nullable(_input_handle);
-    final _result = Long_fromFfi_nullable(__result_handle);
-    Long_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  Nullable_SomeStruct methodWithSomeStruct(Nullable_SomeStruct input) {
-    final _methodWithSomeStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeStruct__SomeStruct');
-    final _input_handle = smoke_Nullable_SomeStruct_toFfi_nullable(input);
-    final __result_handle = _methodWithSomeStruct_ffi(_handle, _input_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_input_handle);
-    final _result = smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  Nullable_SomeEnum methodWithSomeEnum(Nullable_SomeEnum input) {
-    final _methodWithSomeEnum_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeEnum__SomeEnum');
-    final _input_handle = smoke_Nullable_SomeEnum_toFfi_nullable(input);
-    final __result_handle = _methodWithSomeEnum_ffi(_handle, _input_handle);
-    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_input_handle);
-    final _result = smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  List<String> methodWithSomeArray(List<String> input) {
-    final _methodWithSomeArray_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_1String');
-    final _input_handle = ListOf_String_toFfi_nullable(input);
-    final __result_handle = _methodWithSomeArray_ffi(_handle, _input_handle);
-    ListOf_String_releaseFfiHandle_nullable(_input_handle);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  List<String> methodWithInlineArray(List<String> input) {
-    final _methodWithInlineArray_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithInlineArray__ListOf_1String');
-    final _input_handle = ListOf_String_toFfi_nullable(input);
-    final __result_handle = _methodWithInlineArray_ffi(_handle, _input_handle);
-    ListOf_String_releaseFfiHandle_nullable(_input_handle);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  Map<int, String> methodWithSomeMap(Map<int, String> input) {
-    final _methodWithSomeMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_1Long_1to_1String');
-    final _input_handle = MapOf_Long_to_String_toFfi_nullable(input);
-    final __result_handle = _methodWithSomeMap_ffi(_handle, _input_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(_input_handle);
-    final _result = MapOf_Long_to_String_fromFfi_nullable(__result_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  SomeInterface methodWithInstance(SomeInterface input) {
-    final _methodWithInstance_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithInstance__SomeInterface');
-    final _input_handle = smoke_SomeInterface_toFfi_nullable(input);
-    final __result_handle = _methodWithInstance_ffi(_handle, _input_handle);
-    smoke_SomeInterface_releaseFfiHandle_nullable(_input_handle);
-    final _result = smoke_SomeInterface_fromFfi_nullable(__result_handle);
-    smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  String get stringProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_stringProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = String_fromFfi_nullable(__result_handle);
-    String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set stringProperty(String value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_stringProperty_set__String');
-    final _value_handle = String_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  bool get isBoolProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_isBoolProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = Boolean_fromFfi_nullable(__result_handle);
-    Boolean_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set isBoolProperty(bool value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_isBoolProperty_set__Boolean');
-    final _value_handle = Boolean_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    Boolean_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  double get doubleProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_doubleProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = Double_fromFfi_nullable(__result_handle);
-    Double_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set doubleProperty(double value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_doubleProperty_set__Double');
-    final _value_handle = Double_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    Double_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  int get intProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_intProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = Long_fromFfi_nullable(__result_handle);
-    Long_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set intProperty(int value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_intProperty_set__Long');
-    final _value_handle = Long_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    Long_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  Nullable_SomeStruct get structProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_structProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set structProperty(Nullable_SomeStruct value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_structProperty_set__SomeStruct');
-    final _value_handle = smoke_Nullable_SomeStruct_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  Nullable_SomeEnum get enumProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_enumProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set enumProperty(Nullable_SomeEnum value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_enumProperty_set__SomeEnum');
-    final _value_handle = smoke_Nullable_SomeEnum_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  List<String> get arrayProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_arrayProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set arrayProperty(List<String> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_1String');
-    final _value_handle = ListOf_String_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    ListOf_String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  List<String> get inlineArrayProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set inlineArrayProperty(List<String> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_set__ListOf_1String');
-    final _value_handle = ListOf_String_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    ListOf_String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  Map<int, String> get mapProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_mapProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = MapOf_Long_to_String_fromFfi_nullable(__result_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set mapProperty(Map<int, String> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String');
-    final _value_handle = MapOf_Long_to_String_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  SomeInterface get instanceProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_instanceProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = smoke_SomeInterface_fromFfi_nullable(__result_handle);
-    smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
-    return _result;
-  }
-  set instanceProperty(SomeInterface value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_instanceProperty_set__SomeInterface');
-    final _value_handle = smoke_SomeInterface_toFfi_nullable(value);
-    final __result_handle = _set_ffi(_handle, _value_handle);
-    smoke_SomeInterface_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
+abstract class Nullable {
+  void release();
+  String methodWithString(String input);
+  bool methodWithBoolean(bool input);
+  double methodWithDouble(double input);
+  int methodWithInt(int input);
+  Nullable_SomeStruct methodWithSomeStruct(Nullable_SomeStruct input);
+  Nullable_SomeEnum methodWithSomeEnum(Nullable_SomeEnum input);
+  List<String> methodWithSomeArray(List<String> input);
+  List<String> methodWithInlineArray(List<String> input);
+  Map<int, String> methodWithSomeMap(Map<int, String> input);
+  SomeInterface methodWithInstance(SomeInterface input);
+  String get stringProperty;
+  set stringProperty(String value);
+  bool get isBoolProperty;
+  set isBoolProperty(bool value);
+  double get doubleProperty;
+  set doubleProperty(double value);
+  int get intProperty;
+  set intProperty(int value);
+  Nullable_SomeStruct get structProperty;
+  set structProperty(Nullable_SomeStruct value);
+  Nullable_SomeEnum get enumProperty;
+  set enumProperty(Nullable_SomeEnum value);
+  List<String> get arrayProperty;
+  set arrayProperty(List<String> value);
+  List<String> get inlineArrayProperty;
+  set inlineArrayProperty(List<String> value);
+  Map<int, String> get mapProperty;
+  set mapProperty(Map<int, String> value);
+  SomeInterface get instanceProperty;
+  set instanceProperty(SomeInterface value);
 }
-Pointer<Void> smoke_Nullable_toFfi(Nullable value) =>
-  _smoke_Nullable_copy_handle(value._handle);
-Nullable smoke_Nullable_fromFfi(Pointer<Void> handle) =>
-  Nullable._(_smoke_Nullable_copy_handle(handle));
-void smoke_Nullable_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_Nullable_release_handle(handle);
-Pointer<Void> smoke_Nullable_toFfi_nullable(Nullable value) =>
-  value != null ? smoke_Nullable_toFfi(value) : Pointer<Void>.fromAddress(0);
-Nullable smoke_Nullable_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_Nullable_fromFfi(handle) : null;
-void smoke_Nullable_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Nullable_release_handle(handle);
 enum Nullable_SomeEnum {
     on,
     off
@@ -675,3 +433,341 @@ Nullable_NullableIntsStruct smoke_Nullable_NullableIntsStruct_fromFfi_nullable(P
 void smoke_Nullable_NullableIntsStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Nullable_NullableIntsStruct_release_handle_nullable(handle);
 // End of Nullable_NullableIntsStruct "private" section.
+// Nullable "private" section, not exported.
+final _smoke_Nullable_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_Nullable_copy_handle');
+final _smoke_Nullable_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_Nullable_release_handle');
+class Nullable$Impl implements Nullable {
+  final Pointer<Void> handle;
+  Nullable$Impl(this.handle);
+  @override
+  void release() => _smoke_Nullable_release_handle(handle);
+  @override
+  String methodWithString(String input) {
+    final _methodWithString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String');
+    final _input_handle = String_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithString_ffi(_handle, _input_handle);
+    String_releaseFfiHandle_nullable(_input_handle);
+    final _result = String_fromFfi_nullable(__result_handle);
+    String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  bool methodWithBoolean(bool input) {
+    final _methodWithBoolean_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithBoolean__Boolean');
+    final _input_handle = Boolean_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithBoolean_ffi(_handle, _input_handle);
+    Boolean_releaseFfiHandle_nullable(_input_handle);
+    final _result = Boolean_fromFfi_nullable(__result_handle);
+    Boolean_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  double methodWithDouble(double input) {
+    final _methodWithDouble_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithDouble__Double');
+    final _input_handle = Double_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithDouble_ffi(_handle, _input_handle);
+    Double_releaseFfiHandle_nullable(_input_handle);
+    final _result = Double_fromFfi_nullable(__result_handle);
+    Double_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  int methodWithInt(int input) {
+    final _methodWithInt_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithInt__Long');
+    final _input_handle = Long_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithInt_ffi(_handle, _input_handle);
+    Long_releaseFfiHandle_nullable(_input_handle);
+    final _result = Long_fromFfi_nullable(__result_handle);
+    Long_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  Nullable_SomeStruct methodWithSomeStruct(Nullable_SomeStruct input) {
+    final _methodWithSomeStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeStruct__SomeStruct');
+    final _input_handle = smoke_Nullable_SomeStruct_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithSomeStruct_ffi(_handle, _input_handle);
+    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_input_handle);
+    final _result = smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
+    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  Nullable_SomeEnum methodWithSomeEnum(Nullable_SomeEnum input) {
+    final _methodWithSomeEnum_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeEnum__SomeEnum');
+    final _input_handle = smoke_Nullable_SomeEnum_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithSomeEnum_ffi(_handle, _input_handle);
+    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_input_handle);
+    final _result = smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
+    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  List<String> methodWithSomeArray(List<String> input) {
+    final _methodWithSomeArray_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_1String');
+    final _input_handle = ListOf_String_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithSomeArray_ffi(_handle, _input_handle);
+    ListOf_String_releaseFfiHandle_nullable(_input_handle);
+    final _result = ListOf_String_fromFfi_nullable(__result_handle);
+    ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  List<String> methodWithInlineArray(List<String> input) {
+    final _methodWithInlineArray_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithInlineArray__ListOf_1String');
+    final _input_handle = ListOf_String_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithInlineArray_ffi(_handle, _input_handle);
+    ListOf_String_releaseFfiHandle_nullable(_input_handle);
+    final _result = ListOf_String_fromFfi_nullable(__result_handle);
+    ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  Map<int, String> methodWithSomeMap(Map<int, String> input) {
+    final _methodWithSomeMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_1Long_1to_1String');
+    final _input_handle = MapOf_Long_to_String_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithSomeMap_ffi(_handle, _input_handle);
+    MapOf_Long_to_String_releaseFfiHandle_nullable(_input_handle);
+    final _result = MapOf_Long_to_String_fromFfi_nullable(__result_handle);
+    MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  SomeInterface methodWithInstance(SomeInterface input) {
+    final _methodWithInstance_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_methodWithInstance__SomeInterface');
+    final _input_handle = smoke_SomeInterface_toFfi_nullable(input);
+    final _handle = this.handle;
+    final __result_handle = _methodWithInstance_ffi(_handle, _input_handle);
+    smoke_SomeInterface_releaseFfiHandle_nullable(_input_handle);
+    final _result = smoke_SomeInterface_fromFfi_nullable(__result_handle);
+    smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  String get stringProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_stringProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = String_fromFfi_nullable(__result_handle);
+    String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set stringProperty(String value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_stringProperty_set__String');
+    final _value_handle = String_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    String_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  bool get isBoolProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_isBoolProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = Boolean_fromFfi_nullable(__result_handle);
+    Boolean_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set isBoolProperty(bool value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_isBoolProperty_set__Boolean');
+    final _value_handle = Boolean_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    Boolean_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  double get doubleProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_doubleProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = Double_fromFfi_nullable(__result_handle);
+    Double_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set doubleProperty(double value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_doubleProperty_set__Double');
+    final _value_handle = Double_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    Double_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  int get intProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_intProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = Long_fromFfi_nullable(__result_handle);
+    Long_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set intProperty(int value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_intProperty_set__Long');
+    final _value_handle = Long_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    Long_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  Nullable_SomeStruct get structProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_structProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
+    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set structProperty(Nullable_SomeStruct value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_structProperty_set__SomeStruct');
+    final _value_handle = smoke_Nullable_SomeStruct_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  Nullable_SomeEnum get enumProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_enumProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
+    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set enumProperty(Nullable_SomeEnum value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_enumProperty_set__SomeEnum');
+    final _value_handle = smoke_Nullable_SomeEnum_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  List<String> get arrayProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_arrayProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = ListOf_String_fromFfi_nullable(__result_handle);
+    ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set arrayProperty(List<String> value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_1String');
+    final _value_handle = ListOf_String_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    ListOf_String_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  List<String> get inlineArrayProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = ListOf_String_fromFfi_nullable(__result_handle);
+    ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set inlineArrayProperty(List<String> value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_set__ListOf_1String');
+    final _value_handle = ListOf_String_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    ListOf_String_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  Map<int, String> get mapProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_mapProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = MapOf_Long_to_String_fromFfi_nullable(__result_handle);
+    MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set mapProperty(Map<int, String> value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String');
+    final _value_handle = MapOf_Long_to_String_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    MapOf_Long_to_String_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  SomeInterface get instanceProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Nullable_instanceProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = smoke_SomeInterface_fromFfi_nullable(__result_handle);
+    smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
+    return _result;
+  }
+  @override
+  set instanceProperty(SomeInterface value) {
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Nullable_instanceProperty_set__SomeInterface');
+    final _value_handle = smoke_SomeInterface_toFfi_nullable(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, _value_handle);
+    smoke_SomeInterface_releaseFfiHandle_nullable(_value_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+}
+Pointer<Void> smoke_Nullable_toFfi(Nullable value) =>
+  _smoke_Nullable_copy_handle((value as Nullable$Impl).handle);
+Nullable smoke_Nullable_fromFfi(Pointer<Void> handle) =>
+  Nullable$Impl(_smoke_Nullable_copy_handle(handle));
+void smoke_Nullable_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_Nullable_release_handle(handle);
+Pointer<Void> smoke_Nullable_toFfi_nullable(Nullable value) =>
+  value != null ? smoke_Nullable_toFfi(value) : Pointer<Void>.fromAddress(0);
+Nullable smoke_Nullable_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_Nullable_fromFfi(handle) : null;
+void smoke_Nullable_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_Nullable_release_handle(handle);
+// End of Nullable "private" section.

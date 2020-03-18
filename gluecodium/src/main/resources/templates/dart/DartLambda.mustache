@@ -41,10 +41,10 @@ final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>)
     >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
 
-class {{resolveName}}__Impl {
+class {{resolveName}}$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
-  {{resolveName}}__Impl(this.handle);
+  {{resolveName}}$Impl(this.handle);
 
   void release() => _{{resolveName "Ffi"}}_release_handle(handle);
 
@@ -88,7 +88,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
   final instance = __lib.reverseCache[_{{resolveName "Ffi"}}_get_raw_pointer(handle)] as {{resolveName}};
   if (instance != null) return instance;
-  final _impl = {{resolveName}}__Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
+  final _impl = {{resolveName}}$Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
   return ({{#asFunction}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}}){{!!
   }} {
     final _result =_impl.call({{#asFunction}}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}});

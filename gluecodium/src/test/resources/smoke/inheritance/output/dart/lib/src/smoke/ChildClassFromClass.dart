@@ -5,6 +5,11 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+abstract class ChildClassFromClass implements ParentClass {
+  void release();
+  childClassMethod();
+}
+// ChildClassFromClass "private" section, not exported.
 final _smoke_ChildClassFromClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -17,12 +22,14 @@ final _smoke_ChildClassFromClass_get_type_id = __lib.nativeLibrary.lookupFunctio
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_get_type_id');
-class ChildClassFromClass extends ParentClass {
-  Pointer<Void> get _handle => handle;
-  ChildClassFromClass._(Pointer<Void> handle) : super(handle);
-  void release() => _smoke_ChildClassFromClass_release_handle(_handle);
+class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFromClass {
+  ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);
+  @override
+  void release() => _smoke_ChildClassFromClass_release_handle(handle);
+  @override
   childClassMethod() {
     final _childClassMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ChildClassFromClass_childClassMethod');
+    final _handle = this.handle;
     final __result_handle = _childClassMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -30,13 +37,13 @@ class ChildClassFromClass extends ParentClass {
   }
 }
 Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
-  _smoke_ChildClassFromClass_copy_handle(value._handle);
+  _smoke_ChildClassFromClass_copy_handle((value as ChildClassFromClass$Impl).handle);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   final _copied_handle = _smoke_ChildClassFromClass_copy_handle(handle);
   final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? ChildClassFromClass._(_copied_handle)
+    ? ChildClassFromClass$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
@@ -49,7 +56,4 @@ ChildClassFromClass smoke_ChildClassFromClass_fromFfi_nullable(Pointer<Void> han
   handle.address != 0 ? smoke_ChildClassFromClass_fromFfi(handle) : null;
 void smoke_ChildClassFromClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ChildClassFromClass_release_handle(handle);
-// Internal, not exported.
-class ChildClassFromClass__Factory {
-  static ChildClassFromClass create(Pointer<Void> handle) => ChildClassFromClass._(handle);
-}
+// End of ChildClassFromClass "private" section.

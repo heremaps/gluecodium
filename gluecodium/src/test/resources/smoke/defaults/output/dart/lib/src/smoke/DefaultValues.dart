@@ -4,40 +4,10 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_DefaultValues_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_copy_handle');
-final _smoke_DefaultValues_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_release_handle');
-class DefaultValues {
-  final Pointer<Void> _handle;
-  DefaultValues._(this._handle);
-  void release() => _smoke_DefaultValues_release_handle(_handle);
-  static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
-    final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
-    final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
-    final __result_handle = _processStructWithDefaults_ffi(_input_handle);
-    smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_input_handle);
-    final _result = smoke_DefaultValues_StructWithDefaults_fromFfi(__result_handle);
-    smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(__result_handle);
-    return _result;
-  }
+abstract class DefaultValues {
+  void release();
+  static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => DefaultValues$Impl.processStructWithDefaults(input);
 }
-Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
-  _smoke_DefaultValues_copy_handle(value._handle);
-DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) =>
-  DefaultValues._(_smoke_DefaultValues_copy_handle(handle));
-void smoke_DefaultValues_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_DefaultValues_release_handle(handle);
-Pointer<Void> smoke_DefaultValues_toFfi_nullable(DefaultValues value) =>
-  value != null ? smoke_DefaultValues_toFfi(value) : Pointer<Void>.fromAddress(0);
-DefaultValues smoke_DefaultValues_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_DefaultValues_fromFfi(handle) : null;
-void smoke_DefaultValues_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_DefaultValues_release_handle(handle);
 enum DefaultValues_SomeEnum {
     fooValue,
     barValue
@@ -716,3 +686,40 @@ DefaultValues_StructWithTypedefDefaults smoke_DefaultValues_StructWithTypedefDef
 void smoke_DefaultValues_StructWithTypedefDefaults_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_DefaultValues_StructWithTypedefDefaults_release_handle_nullable(handle);
 // End of DefaultValues_StructWithTypedefDefaults "private" section.
+// DefaultValues "private" section, not exported.
+final _smoke_DefaultValues_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_DefaultValues_copy_handle');
+final _smoke_DefaultValues_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_DefaultValues_release_handle');
+class DefaultValues$Impl implements DefaultValues {
+  final Pointer<Void> handle;
+  DefaultValues$Impl(this.handle);
+  @override
+  void release() => _smoke_DefaultValues_release_handle(handle);
+  static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
+    final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
+    final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
+    final __result_handle = _processStructWithDefaults_ffi(_input_handle);
+    smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_input_handle);
+    final _result = smoke_DefaultValues_StructWithDefaults_fromFfi(__result_handle);
+    smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+}
+Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
+  _smoke_DefaultValues_copy_handle((value as DefaultValues$Impl).handle);
+DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) =>
+  DefaultValues$Impl(_smoke_DefaultValues_copy_handle(handle));
+void smoke_DefaultValues_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_DefaultValues_release_handle(handle);
+Pointer<Void> smoke_DefaultValues_toFfi_nullable(DefaultValues value) =>
+  value != null ? smoke_DefaultValues_toFfi(value) : Pointer<Void>.fromAddress(0);
+DefaultValues smoke_DefaultValues_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_DefaultValues_fromFfi(handle) : null;
+void smoke_DefaultValues_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_DefaultValues_release_handle(handle);
+// End of DefaultValues "private" section.

@@ -8,11 +8,11 @@ import 'package:library/src/smoke/ParentInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 final Map<String, Function> typeRepository = {
-  "smoke_ParentInterface": (handle) => ParentInterface__Impl(handle),
-  "smoke_ChildInterface": (handle) => ChildInterface__Impl(handle),
-  "smoke_ChildClassFromInterface": (handle) => ChildClassFromInterface__Factory.create(handle),
-  "smoke_ParentClass": (handle) => ParentClass(handle),
-  "smoke_ChildClassFromClass": (handle) => ChildClassFromClass__Factory.create(handle),
-  "smoke_InternalParent": (handle) => InternalParent(handle),
-  "smoke_InternalChild": (handle) => InternalChild__Factory.create(handle),
+  "smoke_ParentInterface": (handle) => ParentInterface$Impl(handle),
+  "smoke_ChildInterface": (handle) => ChildInterface$Impl(handle),
+  "smoke_ChildClassFromInterface": (handle) => ChildClassFromInterface$Impl(handle),
+  "smoke_ParentClass": (handle) => ParentClass$Impl(handle),
+  "smoke_ChildClassFromClass": (handle) => ChildClassFromClass$Impl(handle),
+  "smoke_InternalParent": (handle) => InternalParent$Impl(handle),
+  "smoke_InternalChild": (handle) => InternalChild$Impl(handle),
  };

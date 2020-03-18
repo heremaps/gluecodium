@@ -31,14 +31,14 @@ final _smoke_ChildInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildInterface_get_type_id');
-class ChildInterface__Impl extends ParentInterface__Impl implements ChildInterface {
-  Pointer<Void> get _handle => handle;
-  ChildInterface__Impl(Pointer<Void> handle) : super(handle);
+class ChildInterface$Impl extends ParentInterface$Impl implements ChildInterface {
+  ChildInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() => _smoke_ChildInterface_release_handle(handle);
   @override
   childMethod() {
     final _childMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ChildInterface_childMethod');
+    final _handle = this.handle;
     final __result_handle = _childMethod_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -63,7 +63,7 @@ int _ChildInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
   return 0;
 }
 Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {
-  if (value is ChildInterface__Impl) return _smoke_ChildInterface_copy_handle(value.handle);
+  if (value is ChildInterface$Impl) return _smoke_ChildInterface_copy_handle(value.handle);
   final result = _smoke_ChildInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -82,7 +82,7 @@ ChildInterface smoke_ChildInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_ChildInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? ChildInterface__Impl(_copied_handle)
+    ? ChildInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

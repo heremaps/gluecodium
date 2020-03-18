@@ -145,16 +145,16 @@ final _smoke_ExternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_get_type_id');
-class ExternalInterface__Impl implements ExternalInterface {
-  Pointer<Void> get _handle => handle;
+class ExternalInterface$Impl implements ExternalInterface {
   final Pointer<Void> handle;
-  ExternalInterface__Impl(this.handle);
+  ExternalInterface$Impl(this.handle);
   @override
   void release() => _smoke_ExternalInterface_release_handle(handle);
   @override
   someMethod(int someParameter) {
     final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someMethod__Byte');
     final _someParameter_handle = (someParameter);
+    final _handle = this.handle;
     final __result_handle = _someMethod_ffi(_handle, _someParameter_handle);
     (_someParameter_handle);
     final _result = (__result_handle);
@@ -163,6 +163,7 @@ class ExternalInterface__Impl implements ExternalInterface {
   }
   String get someProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ExternalInterface_someProperty_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -179,7 +180,7 @@ int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>
   return 0;
 }
 Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
-  if (value is ExternalInterface__Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
+  if (value is ExternalInterface$Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
   final result = _smoke_ExternalInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -196,7 +197,7 @@ ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_ExternalInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? ExternalInterface__Impl(_copied_handle)
+    ? ExternalInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

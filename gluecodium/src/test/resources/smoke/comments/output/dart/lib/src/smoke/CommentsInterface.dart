@@ -187,16 +187,16 @@ final _smoke_CommentsInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CommentsInterface_get_type_id');
-class CommentsInterface__Impl implements CommentsInterface {
-  Pointer<Void> get _handle => handle;
+class CommentsInterface$Impl implements CommentsInterface {
   final Pointer<Void> handle;
-  CommentsInterface__Impl(this.handle);
+  CommentsInterface$Impl(this.handle);
   @override
   void release() => _smoke_CommentsInterface_release_handle(handle);
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithAllComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
@@ -207,6 +207,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   bool someMethodWithInputComments(String input) {
     final _someMethodWithInputComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithInputComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithInputComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
@@ -217,6 +218,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   bool someMethodWithOutputComments(String input) {
     final _someMethodWithOutputComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithOutputComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithOutputComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
@@ -227,6 +229,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   bool someMethodWithNoComments(String input) {
     final _someMethodWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithNoComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithNoComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
@@ -237,6 +240,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   someMethodWithoutReturnTypeWithAllComments(String input) {
     final _someMethodWithoutReturnTypeWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithoutReturnTypeWithAllComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = (__result_handle);
@@ -247,6 +251,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   someMethodWithoutReturnTypeWithNoComments(String input) {
     final _someMethodWithoutReturnTypeWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _someMethodWithoutReturnTypeWithNoComments_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = (__result_handle);
@@ -256,6 +261,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   @override
   bool someMethodWithoutInputParametersWithAllComments() {
     final _someMethodWithoutInputParametersWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments');
+    final _handle = this.handle;
     final __result_handle = _someMethodWithoutInputParametersWithAllComments_ffi(_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -264,6 +270,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   @override
   bool someMethodWithoutInputParametersWithNoComments() {
     final _someMethodWithoutInputParametersWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments');
+    final _handle = this.handle;
     final __result_handle = _someMethodWithoutInputParametersWithNoComments_ffi(_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -272,6 +279,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   @override
   someMethodWithNothing() {
     final _someMethodWithNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithNothing');
+    final _handle = this.handle;
     final __result_handle = _someMethodWithNothing_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -280,6 +288,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   @override
   someMethodWithoutReturnTypeOrInputParameters() {
     final _someMethodWithoutReturnTypeOrInputParameters_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters');
+    final _handle = this.handle;
     final __result_handle = _someMethodWithoutReturnTypeOrInputParameters_ffi(_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -288,6 +297,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   /// Gets some very useful property.
   bool get isSomeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_CommentsInterface_isSomeProperty_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -297,6 +307,7 @@ class CommentsInterface__Impl implements CommentsInterface {
   set isSomeProperty(bool value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint8), void Function(Pointer<Void>, int)>('library_smoke_CommentsInterface_isSomeProperty_set__Boolean');
     final _value_handle = Boolean_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     Boolean_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -366,7 +377,7 @@ int _CommentsInterface_isSomeProperty_set_static(int _token, int _value) {
   return 0;
 }
 Pointer<Void> smoke_CommentsInterface_toFfi(CommentsInterface value) {
-  if (value is CommentsInterface__Impl) return _smoke_CommentsInterface_copy_handle(value.handle);
+  if (value is CommentsInterface$Impl) return _smoke_CommentsInterface_copy_handle(value.handle);
   final result = _smoke_CommentsInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -393,7 +404,7 @@ CommentsInterface smoke_CommentsInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_CommentsInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? CommentsInterface__Impl(_copied_handle)
+    ? CommentsInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

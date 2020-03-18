@@ -30,16 +30,16 @@ final _smoke_PlatformNamesListener_get_type_id = __lib.nativeLibrary.lookupFunct
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_get_type_id');
-class weeListener__Impl implements weeListener {
-  Pointer<Void> get _handle => handle;
+class weeListener$Impl implements weeListener {
   final Pointer<Void> handle;
-  weeListener__Impl(this.handle);
+  weeListener$Impl(this.handle);
   @override
   void release() => _smoke_PlatformNamesListener_release_handle(handle);
   @override
   WeeMethod(String WeeParameter) {
     final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String');
     final _WeeParameter_handle = String_toFfi(WeeParameter);
+    final _handle = this.handle;
     final __result_handle = _WeeMethod_ffi(_handle, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
     final _result = (__result_handle);
@@ -53,7 +53,7 @@ int _weeListener_WeeMethod_static(int _token, Pointer<Void> WeeParameter) {
   return 0;
 }
 Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {
-  if (value is weeListener__Impl) return _smoke_PlatformNamesListener_copy_handle(value.handle);
+  if (value is weeListener$Impl) return _smoke_PlatformNamesListener_copy_handle(value.handle);
   final result = _smoke_PlatformNamesListener_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -69,7 +69,7 @@ weeListener smoke_PlatformNamesListener_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_PlatformNamesListener_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? weeListener__Impl(_copied_handle)
+    ? weeListener$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
