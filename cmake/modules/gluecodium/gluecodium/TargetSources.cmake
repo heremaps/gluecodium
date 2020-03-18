@@ -81,7 +81,7 @@ function(apigen_target_sources target)
     BUILD_OUTPUT_DIR "${BUILD_OUTPUT_DIR}")
   source_group("Generated Source Files" FILES ${_generated_files})
 
-  if(NOT GENERATOR STREQUAL swift)
+  if(NOT GENERATOR MATCHES swift)
     target_sources(${target} PRIVATE ${_generated_files})
   else()
     apigen_set_generated_files(${target})
