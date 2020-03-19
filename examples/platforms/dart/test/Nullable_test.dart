@@ -20,7 +20,7 @@
 
 import "dart:typed_data";
 import "package:test/test.dart";
-import "package:hello/hello.dart";
+import "package:hello/test.dart";
 import "../test_suite.dart";
 
 final _testSuite = TestSuite("Nullable");

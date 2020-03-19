@@ -106,7 +106,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
         val includeResolver =
             FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
-        val exportsCollector = mutableListOf<DartExport>()
+        val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
         val genericTypes = TypeRefsCollector.getAllTypeRefs(limeModel)
@@ -129,7 +129,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         nameResolvers: Map<String, NameResolver>,
         dartNameResolver: DartNameResolver,
         importResolver: DartImportResolver,
-        exportsCollector: MutableList<DartExport>,
+        exportsCollector: MutableMap<List<String>, MutableList<DartExport>>,
         typeRepositoriesCollector: MutableList<LimeContainerWithInheritance>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
@@ -144,7 +144,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .filterNot { it.visibility.isInternal }
             .map { dartNameResolver.resolveName(it) }
         if (allSymbols.isNotEmpty()) {
-            exportsCollector += DartExport(relativePath, allSymbols)
+            exportsCollector
+                .getOrPut(rootElement.path.head, { mutableListOf() })
+                .add(DartExport(relativePath, allSymbols))
         }
         typeRepositoriesCollector += getTypeRepositories(allTypes)
 
@@ -267,25 +269,26 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     }
 
     private fun generateDartCommonFiles(
-        relativePaths: List<DartExport>,
+        exports: Map<List<String>, List<DartExport>>,
         typeRepositories: List<LimeContainerWithInheritance>,
         nameResolvers: Map<String, NameResolver>,
         importResolver: DartImportResolver
     ): List<GeneratedFile> {
+        val exportFiles = exports.map {
+            GeneratedFile(
+                TemplateEngine.render("dart/DartExports", mapOf("files" to it.value), nameResolvers),
+                "$LIB_DIR/${it.key.joinToString(".")}.dart"
+            )
+        }
         val templateData = mapOf(
             "libraryName" to libraryName,
-            "files" to relativePaths,
             "builtInTypes" to
                 LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID },
             "typeRepositories" to typeRepositories,
             "imports" to
                 typeRepositories.flatMap { importResolver.resolveImports(it) }.distinct().sorted()
         )
-        return listOf(
-            GeneratedFile(
-                TemplateEngine.render("dart/DartExports", templateData, nameResolvers),
-                "$LIB_DIR/$libraryName.dart"
-            ),
+        return exportFiles + listOf(
             GeneratedFile(
                 TemplateEngine.render("dart/DartLibraryInit", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart",
