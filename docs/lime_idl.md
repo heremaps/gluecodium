@@ -429,6 +429,7 @@ deprecated, takes a string literal value as a deprecation message.
 * **@Dart**: marks an element with Dart-specific properties:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default property for this attribute.
+  * **Default**: marks a constructor as a "default" (nameless) in Dart.
 * **@Cpp**: marks an element with C++-specific properties:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
   This is the default property for this attribute.

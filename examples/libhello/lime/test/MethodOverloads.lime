@@ -78,22 +78,32 @@ interface SpecialNames {
 }
 
 open class ConstructorOverloads {
+    @Dart(Default)
     constructor create()
-    @Dart("createFromString")
+    @Dart("fromString")
     constructor create(
         input: String
     )
-    @Dart("createFromBoolean")
+    @Dart("fromBoolean")
     constructor create(
         input: Boolean
     )
-    @Dart("createFromMulti")
+    @Dart("fromMulti")
     constructor create(
         stringInput: String,
         booleanInput: Boolean
     )
-    @Dart("createFromList")
+    @Dart("fromList")
     constructor create(
         input: List<Double>
     )
+}
+
+struct StructConstructorOverloads {
+    stringField: String
+
+    @Dart("empty")
+    constructor create()
+    @Dart(Default)
+    constructor create(input: String)
 }

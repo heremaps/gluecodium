@@ -14,10 +14,12 @@ types StructsWithMethods {
             x: Double,
             y: Double
         ): Boolean
+        @Dart(Default)
         constructor create(
             x: Double,
             y: Double
         )
+        @Dart("copy")
         constructor create(
             other: Vector
         ) throws Validation

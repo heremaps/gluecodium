@@ -22,7 +22,8 @@
 abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
 {{#set parent=this}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-  factory {{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
+  factory {{resolveName parent}}{{#unlessHasAttribute this "Dart" "Default"}}{{!!
+  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unlessHasAttribute}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
   }}){{>dartImplRedirect}};
 {{/constructors}}{{/set}}

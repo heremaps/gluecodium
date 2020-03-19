@@ -29,6 +29,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     LABEL("Label"),
     OBJC("ObjC"),
     MESSAGE("Message"),
+    DEFAULT("Default"),
     EXTERNAL_TYPE("ExternalType"),
     EXTERNAL_NAME("ExternalName"),
     EXTERNAL_GETTER("ExternalGetter"),
