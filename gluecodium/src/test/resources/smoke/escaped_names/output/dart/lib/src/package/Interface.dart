@@ -29,15 +29,14 @@ final _package_Interface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Interface_get_type_id');
-class Interface__Impl implements Interface {
-  Pointer<Void> get _handle => handle;
+class Interface$Impl implements Interface {
   final Pointer<Void> handle;
-  Interface__Impl(this.handle);
+  Interface$Impl(this.handle);
   @override
   void release() => _package_Interface_release_handle(handle);
 }
 Pointer<Void> package_Interface_toFfi(Interface value) {
-  if (value is Interface__Impl) return _package_Interface_copy_handle(value.handle);
+  if (value is Interface$Impl) return _package_Interface_copy_handle(value.handle);
   final result = _package_Interface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi
@@ -52,7 +51,7 @@ Interface package_Interface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _package_Interface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? Interface__Impl(_copied_handle)
+    ? Interface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

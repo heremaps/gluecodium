@@ -31,15 +31,15 @@ final _smoke_SimpleInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleInterface_get_type_id');
-class SimpleInterface__Impl implements SimpleInterface {
-  Pointer<Void> get _handle => handle;
+class SimpleInterface$Impl implements SimpleInterface {
   final Pointer<Void> handle;
-  SimpleInterface__Impl(this.handle);
+  SimpleInterface$Impl(this.handle);
   @override
   void release() => _smoke_SimpleInterface_release_handle(handle);
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_SimpleInterface_getStringValue');
+    final _handle = this.handle;
     final __result_handle = _getStringValue_ffi(_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -49,6 +49,7 @@ class SimpleInterface__Impl implements SimpleInterface {
   SimpleInterface useSimpleInterface(SimpleInterface input) {
     final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
     final _input_handle = smoke_SimpleInterface_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _useSimpleInterface_ffi(_handle, _input_handle);
     smoke_SimpleInterface_releaseFfiHandle(_input_handle);
     final _result = smoke_SimpleInterface_fromFfi(__result_handle);
@@ -69,7 +70,7 @@ int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, 
   return 0;
 }
 Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
-  if (value is SimpleInterface__Impl) return _smoke_SimpleInterface_copy_handle(value.handle);
+  if (value is SimpleInterface$Impl) return _smoke_SimpleInterface_copy_handle(value.handle);
   final result = _smoke_SimpleInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -86,7 +87,7 @@ SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_SimpleInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? SimpleInterface__Impl(_copied_handle)
+    ? SimpleInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

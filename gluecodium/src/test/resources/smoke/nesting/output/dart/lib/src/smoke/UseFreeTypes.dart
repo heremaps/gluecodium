@@ -6,6 +6,11 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+abstract class UseFreeTypes {
+  void release();
+  DateTime doStuff(FreePoint point, FreeEnum mode);
+}
+// UseFreeTypes "private" section, not exported.
 final _smoke_UseFreeTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -30,14 +35,17 @@ final _doStuff_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error');
-class UseFreeTypes {
-  final Pointer<Void> _handle;
-  UseFreeTypes._(this._handle);
-  void release() => _smoke_UseFreeTypes_release_handle(_handle);
+class UseFreeTypes$Impl implements UseFreeTypes {
+  final Pointer<Void> handle;
+  UseFreeTypes$Impl(this.handle);
+  @override
+  void release() => _smoke_UseFreeTypes_release_handle(handle);
+  @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
     final _doStuff_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum');
     final _point_handle = smoke_FreePoint_toFfi(point);
     final _mode_handle = smoke_FreeEnum_toFfi(mode);
+    final _handle = this.handle;
     final __call_result_handle = _doStuff_ffi(_handle, _point_handle, _mode_handle);
     smoke_FreePoint_releaseFfiHandle(_point_handle);
     smoke_FreeEnum_releaseFfiHandle(_mode_handle);
@@ -56,9 +64,9 @@ class UseFreeTypes {
   }
 }
 Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
-  _smoke_UseFreeTypes_copy_handle(value._handle);
+  _smoke_UseFreeTypes_copy_handle((value as UseFreeTypes$Impl).handle);
 UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) =>
-  UseFreeTypes._(_smoke_UseFreeTypes_copy_handle(handle));
+  UseFreeTypes$Impl(_smoke_UseFreeTypes_copy_handle(handle));
 void smoke_UseFreeTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_UseFreeTypes_release_handle(handle);
 Pointer<Void> smoke_UseFreeTypes_toFfi_nullable(UseFreeTypes value) =>
@@ -67,3 +75,4 @@ UseFreeTypes smoke_UseFreeTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_UseFreeTypes_fromFfi(handle) : null;
 void smoke_UseFreeTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_UseFreeTypes_release_handle(handle);
+// End of UseFreeTypes "private" section.

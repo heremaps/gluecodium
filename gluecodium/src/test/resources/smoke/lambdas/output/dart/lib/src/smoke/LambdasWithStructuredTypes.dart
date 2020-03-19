@@ -6,49 +6,11 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_LambdasWithStructuredTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LambdasWithStructuredTypes_copy_handle');
-final _smoke_LambdasWithStructuredTypes_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_LambdasWithStructuredTypes_release_handle');
-class LambdasWithStructuredTypes {
-  final Pointer<Void> _handle;
-  LambdasWithStructuredTypes._(this._handle);
-  void release() => _smoke_LambdasWithStructuredTypes_release_handle(_handle);
-  doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
-    final _doClassStuff_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback');
-    final _callback_handle = smoke_LambdasWithStructuredTypes_ClassCallback_toFfi(callback);
-    final __result_handle = _doClassStuff_ffi(_handle, _callback_handle);
-    smoke_LambdasWithStructuredTypes_ClassCallback_releaseFfiHandle(_callback_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  doStructStuff(LambdasWithStructuredTypes_StructCallback callback) {
-    final _doStructStuff_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback');
-    final _callback_handle = smoke_LambdasWithStructuredTypes_StructCallback_toFfi(callback);
-    final __result_handle = _doStructStuff_ffi(_handle, _callback_handle);
-    smoke_LambdasWithStructuredTypes_StructCallback_releaseFfiHandle(_callback_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
+abstract class LambdasWithStructuredTypes {
+  void release();
+  doClassStuff(LambdasWithStructuredTypes_ClassCallback callback);
+  doStructStuff(LambdasWithStructuredTypes_StructCallback callback);
 }
-Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi(LambdasWithStructuredTypes value) =>
-  _smoke_LambdasWithStructuredTypes_copy_handle(value._handle);
-LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi(Pointer<Void> handle) =>
-  LambdasWithStructuredTypes._(_smoke_LambdasWithStructuredTypes_copy_handle(handle));
-void smoke_LambdasWithStructuredTypes_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_LambdasWithStructuredTypes_release_handle(handle);
-Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi_nullable(LambdasWithStructuredTypes value) =>
-  value != null ? smoke_LambdasWithStructuredTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_LambdasWithStructuredTypes_fromFfi(handle) : null;
-void smoke_LambdasWithStructuredTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_LambdasWithStructuredTypes_release_handle(handle);
 typedef LambdasWithStructuredTypes_ClassCallback = void Function(LambdasInterface);
 // LambdasWithStructuredTypes_ClassCallback "private" section, not exported.
 final _smoke_LambdasWithStructuredTypes_ClassCallback_copy_handle = __lib.nativeLibrary.lookupFunction<
@@ -67,14 +29,15 @@ final _smoke_LambdasWithStructuredTypes_ClassCallback_get_raw_pointer = __lib.na
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('library_smoke_LambdasWithStructuredTypes_ClassCallback_get_raw_pointer');
-class LambdasWithStructuredTypes_ClassCallback__Impl {
+class LambdasWithStructuredTypes_ClassCallback$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
-  LambdasWithStructuredTypes_ClassCallback__Impl(this.handle);
+  LambdasWithStructuredTypes_ClassCallback$Impl(this.handle);
   void release() => _smoke_LambdasWithStructuredTypes_ClassCallback_release_handle(handle);
   call(LambdasInterface p0) {
     final _call_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface');
     final _p0_handle = smoke_LambdasInterface_toFfi(p0);
+    final _handle = this.handle;
     final __result_handle = _call_ffi(_handle, _p0_handle);
     smoke_LambdasInterface_releaseFfiHandle(_p0_handle);
     final _result = (__result_handle);
@@ -99,7 +62,7 @@ Pointer<Void> smoke_LambdasWithStructuredTypes_ClassCallback_toFfi(LambdasWithSt
 LambdasWithStructuredTypes_ClassCallback smoke_LambdasWithStructuredTypes_ClassCallback_fromFfi(Pointer<Void> handle) {
   final instance = __lib.reverseCache[_smoke_LambdasWithStructuredTypes_ClassCallback_get_raw_pointer(handle)] as LambdasWithStructuredTypes_ClassCallback;
   if (instance != null) return instance;
-  final _impl = LambdasWithStructuredTypes_ClassCallback__Impl(_smoke_LambdasWithStructuredTypes_ClassCallback_copy_handle(handle));
+  final _impl = LambdasWithStructuredTypes_ClassCallback$Impl(_smoke_LambdasWithStructuredTypes_ClassCallback_copy_handle(handle));
   return (LambdasInterface p0) {
     final _result =_impl.call(p0);
     _impl.release();
@@ -156,14 +119,15 @@ final _smoke_LambdasWithStructuredTypes_StructCallback_get_raw_pointer = __lib.n
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('library_smoke_LambdasWithStructuredTypes_StructCallback_get_raw_pointer');
-class LambdasWithStructuredTypes_StructCallback__Impl {
+class LambdasWithStructuredTypes_StructCallback$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
-  LambdasWithStructuredTypes_StructCallback__Impl(this.handle);
+  LambdasWithStructuredTypes_StructCallback$Impl(this.handle);
   void release() => _smoke_LambdasWithStructuredTypes_StructCallback_release_handle(handle);
   call(LambdasDeclarationOrder_SomeStruct p0) {
     final _call_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct');
     final _p0_handle = smoke_LambdasDeclarationOrder_SomeStruct_toFfi(p0);
+    final _handle = this.handle;
     final __result_handle = _call_ffi(_handle, _p0_handle);
     smoke_LambdasDeclarationOrder_SomeStruct_releaseFfiHandle(_p0_handle);
     final _result = (__result_handle);
@@ -188,7 +152,7 @@ Pointer<Void> smoke_LambdasWithStructuredTypes_StructCallback_toFfi(LambdasWithS
 LambdasWithStructuredTypes_StructCallback smoke_LambdasWithStructuredTypes_StructCallback_fromFfi(Pointer<Void> handle) {
   final instance = __lib.reverseCache[_smoke_LambdasWithStructuredTypes_StructCallback_get_raw_pointer(handle)] as LambdasWithStructuredTypes_StructCallback;
   if (instance != null) return instance;
-  final _impl = LambdasWithStructuredTypes_StructCallback__Impl(_smoke_LambdasWithStructuredTypes_StructCallback_copy_handle(handle));
+  final _impl = LambdasWithStructuredTypes_StructCallback$Impl(_smoke_LambdasWithStructuredTypes_StructCallback_copy_handle(handle));
   return (LambdasDeclarationOrder_SomeStruct p0) {
     final _result =_impl.call(p0);
     _impl.release();
@@ -227,3 +191,53 @@ LambdasWithStructuredTypes_StructCallback smoke_LambdasWithStructuredTypes_Struc
 void smoke_LambdasWithStructuredTypes_StructCallback_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_LambdasWithStructuredTypes_StructCallback_release_handle_nullable(handle);
 // End of LambdasWithStructuredTypes_StructCallback "private" section.
+// LambdasWithStructuredTypes "private" section, not exported.
+final _smoke_LambdasWithStructuredTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_LambdasWithStructuredTypes_copy_handle');
+final _smoke_LambdasWithStructuredTypes_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_LambdasWithStructuredTypes_release_handle');
+class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
+  final Pointer<Void> handle;
+  LambdasWithStructuredTypes$Impl(this.handle);
+  @override
+  void release() => _smoke_LambdasWithStructuredTypes_release_handle(handle);
+  @override
+  doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
+    final _doClassStuff_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback');
+    final _callback_handle = smoke_LambdasWithStructuredTypes_ClassCallback_toFfi(callback);
+    final _handle = this.handle;
+    final __result_handle = _doClassStuff_ffi(_handle, _callback_handle);
+    smoke_LambdasWithStructuredTypes_ClassCallback_releaseFfiHandle(_callback_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  doStructStuff(LambdasWithStructuredTypes_StructCallback callback) {
+    final _doStructStuff_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback');
+    final _callback_handle = smoke_LambdasWithStructuredTypes_StructCallback_toFfi(callback);
+    final _handle = this.handle;
+    final __result_handle = _doStructStuff_ffi(_handle, _callback_handle);
+    smoke_LambdasWithStructuredTypes_StructCallback_releaseFfiHandle(_callback_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+}
+Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi(LambdasWithStructuredTypes value) =>
+  _smoke_LambdasWithStructuredTypes_copy_handle((value as LambdasWithStructuredTypes$Impl).handle);
+LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi(Pointer<Void> handle) =>
+  LambdasWithStructuredTypes$Impl(_smoke_LambdasWithStructuredTypes_copy_handle(handle));
+void smoke_LambdasWithStructuredTypes_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_LambdasWithStructuredTypes_release_handle(handle);
+Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi_nullable(LambdasWithStructuredTypes value) =>
+  value != null ? smoke_LambdasWithStructuredTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
+LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_LambdasWithStructuredTypes_fromFfi(handle) : null;
+void smoke_LambdasWithStructuredTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_LambdasWithStructuredTypes_release_handle(handle);
+// End of LambdasWithStructuredTypes "private" section.

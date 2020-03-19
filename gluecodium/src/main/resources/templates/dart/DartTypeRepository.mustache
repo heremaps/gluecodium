@@ -28,6 +28,5 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
 final Map<String, Function> typeRepository = { {{#typeRepositories}}
-  "{{resolveName "Ffi"}}": (handle) => {{resolveName}}{{#instanceOf this "LimeInterface"}}__Impl{{/instanceOf}}{{!!
-  }}{{#notInstanceOf this "LimeInterface"}}{{#unless visibility.isOpen}}__Factory.create{{/unless}}{{/notInstanceOf}}(handle),
+  "{{resolveName "Ffi"}}": (handle) => {{resolveName}}$Impl(handle),
 {{/typeRepositories}} };

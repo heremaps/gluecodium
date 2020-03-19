@@ -240,15 +240,15 @@ final _methodWithPayloadErrorAndReturnValue_return_has_error = __lib.nativeLibra
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_return_has_error');
-class ErrorsInterface__Impl implements ErrorsInterface {
-  Pointer<Void> get _handle => handle;
+class ErrorsInterface$Impl implements ErrorsInterface {
   final Pointer<Void> handle;
-  ErrorsInterface__Impl(this.handle);
+  ErrorsInterface$Impl(this.handle);
   @override
   void release() => _smoke_ErrorsInterface_release_handle(handle);
   @override
   methodWithErrors() {
     final _methodWithErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ErrorsInterface_methodWithErrors');
+    final _handle = this.handle;
     final __call_result_handle = _methodWithErrors_ffi(_handle);
     if (_methodWithErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrors_return_get_error(__call_result_handle);
@@ -266,6 +266,7 @@ class ErrorsInterface__Impl implements ErrorsInterface {
   @override
   methodWithExternalErrors() {
     final _methodWithExternalErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ErrorsInterface_methodWithExternalErrors');
+    final _handle = this.handle;
     final __call_result_handle = _methodWithExternalErrors_ffi(_handle);
     if (_methodWithExternalErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithExternalErrors_return_get_error(__call_result_handle);
@@ -283,6 +284,7 @@ class ErrorsInterface__Impl implements ErrorsInterface {
   @override
   String methodWithErrorsAndReturnValue() {
     final _methodWithErrorsAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ErrorsInterface_methodWithErrorsAndReturnValue');
+    final _handle = this.handle;
     final __call_result_handle = _methodWithErrorsAndReturnValue_ffi(_handle);
     if (_methodWithErrorsAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrorsAndReturnValue_return_get_error(__call_result_handle);
@@ -383,7 +385,7 @@ int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(int _token, Poi
   return _error;
 }
 Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
-  if (value is ErrorsInterface__Impl) return _smoke_ErrorsInterface_copy_handle(value.handle);
+  if (value is ErrorsInterface$Impl) return _smoke_ErrorsInterface_copy_handle(value.handle);
   final result = _smoke_ErrorsInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -403,7 +405,7 @@ ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_ErrorsInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? ErrorsInterface__Impl(_copied_handle)
+    ? ErrorsInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

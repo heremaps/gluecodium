@@ -3,6 +3,22 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+abstract class BasicTypes {
+  void release();
+  static String stringFunction(String input) => BasicTypes$Impl.stringFunction(input);
+  static bool boolFunction(bool input) => BasicTypes$Impl.boolFunction(input);
+  static double floatFunction(double input) => BasicTypes$Impl.floatFunction(input);
+  static double doubleFunction(double input) => BasicTypes$Impl.doubleFunction(input);
+  static int byteFunction(int input) => BasicTypes$Impl.byteFunction(input);
+  static int shortFunction(int input) => BasicTypes$Impl.shortFunction(input);
+  static int intFunction(int input) => BasicTypes$Impl.intFunction(input);
+  static int longFunction(int input) => BasicTypes$Impl.longFunction(input);
+  static int ubyteFunction(int input) => BasicTypes$Impl.ubyteFunction(input);
+  static int ushortFunction(int input) => BasicTypes$Impl.ushortFunction(input);
+  static int uintFunction(int input) => BasicTypes$Impl.uintFunction(input);
+  static int ulongFunction(int input) => BasicTypes$Impl.ulongFunction(input);
+}
+// BasicTypes "private" section, not exported.
 final _smoke_BasicTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -11,10 +27,11 @@ final _smoke_BasicTypes_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_BasicTypes_release_handle');
-class BasicTypes {
-  final Pointer<Void> _handle;
-  BasicTypes._(this._handle);
-  void release() => _smoke_BasicTypes_release_handle(_handle);
+class BasicTypes$Impl implements BasicTypes {
+  final Pointer<Void> handle;
+  BasicTypes$Impl(this.handle);
+  @override
+  void release() => _smoke_BasicTypes_release_handle(handle);
   static String stringFunction(String input) {
     final _stringFunction_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String');
     final _input_handle = String_toFfi(input);
@@ -125,9 +142,9 @@ class BasicTypes {
   }
 }
 Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
-  _smoke_BasicTypes_copy_handle(value._handle);
+  _smoke_BasicTypes_copy_handle((value as BasicTypes$Impl).handle);
 BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) =>
-  BasicTypes._(_smoke_BasicTypes_copy_handle(handle));
+  BasicTypes$Impl(_smoke_BasicTypes_copy_handle(handle));
 void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_BasicTypes_release_handle(handle);
 Pointer<Void> smoke_BasicTypes_toFfi_nullable(BasicTypes value) =>
@@ -136,3 +153,4 @@ BasicTypes smoke_BasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_BasicTypes_fromFfi(handle) : null;
 void smoke_BasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_BasicTypes_release_handle(handle);
+// End of BasicTypes "private" section.

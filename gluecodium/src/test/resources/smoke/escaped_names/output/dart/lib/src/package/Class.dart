@@ -7,6 +7,14 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
+abstract class Class implements Interface {
+  factory Class() => Class$Impl.constructor();
+  void release();
+  Struct fun(List<Struct> double);
+  Enum get property;
+  set property(Enum value);
+}
+// Class "private" section, not exported.
 final _package_Class_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -35,19 +43,22 @@ final _fun_return_has_error = __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_has_error');
-class Class implements Interface {
-  final Pointer<Void> _handle;
-  Class._(this._handle);
-  void release() => _package_Class_release_handle(_handle);
-  Class() : this._(_constructor());
+class Class$Impl implements Class {
+  final Pointer<Void> handle;
+  Class$Impl(this.handle);
+  @override
+  void release() => _package_Class_release_handle(handle);
+  Class$Impl.constructor() : this(_constructor());
   static Pointer<Void> _constructor() {
     final _constructor_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_package_Class_constructor');
     final __result_handle = _constructor_ffi();
     return __result_handle;
   }
+  @override
   Struct fun(List<Struct> double) {
     final _fun_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_package_Class_fun__ListOf_1package_1Types_1Struct');
     final _double_handle = ListOf_package_Types_Struct_toFfi(double);
+    final _handle = this.handle;
     final __call_result_handle = _fun_ffi(_handle, _double_handle);
     ListOf_package_Types_Struct_releaseFfiHandle(_double_handle);
     if (_fun_return_has_error(__call_result_handle) != 0) {
@@ -63,16 +74,20 @@ class Class implements Interface {
     package_Types_Struct_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   Enum get property {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_package_Class_property_get');
+    final _handle = this.handle;
     final __result_handle = _get_ffi(_handle);
     final _result = package_Types_Enum_fromFfi(__result_handle);
     package_Types_Enum_releaseFfiHandle(__result_handle);
     return _result;
   }
+  @override
   set property(Enum value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint32), void Function(Pointer<Void>, int)>('library_package_Class_property_set__enum');
     final _value_handle = package_Types_Enum_toFfi(value);
+    final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, _value_handle);
     package_Types_Enum_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
@@ -81,13 +96,13 @@ class Class implements Interface {
   }
 }
 Pointer<Void> package_Class_toFfi(Class value) =>
-  _package_Class_copy_handle(value._handle);
+  _package_Class_copy_handle((value as Class$Impl).handle);
 Class package_Class_fromFfi(Pointer<Void> handle) {
   final _copied_handle = _package_Class_copy_handle(handle);
   final _type_id_handle = _package_Class_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? Class._(_copied_handle)
+    ? Class$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
@@ -100,7 +115,4 @@ Class package_Class_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? package_Class_fromFfi(handle) : null;
 void package_Class_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _package_Class_release_handle(handle);
-// Internal, not exported.
-class Class__Factory {
-  static Class create(Pointer<Void> handle) => Class._(handle);
-}
+// End of Class "private" section.

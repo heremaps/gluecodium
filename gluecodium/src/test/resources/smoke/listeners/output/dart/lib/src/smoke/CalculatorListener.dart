@@ -99,16 +99,16 @@ final _smoke_CalculatorListener_get_type_id = __lib.nativeLibrary.lookupFunction
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_get_type_id');
-class CalculatorListener__Impl implements CalculatorListener {
-  Pointer<Void> get _handle => handle;
+class CalculatorListener$Impl implements CalculatorListener {
   final Pointer<Void> handle;
-  CalculatorListener__Impl(this.handle);
+  CalculatorListener$Impl(this.handle);
   @override
   void release() => _smoke_CalculatorListener_release_handle(handle);
   @override
   onCalculationResult(double calculationResult) {
     final _onCalculationResult_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Double), void Function(Pointer<Void>, double)>('library_smoke_CalculatorListener_onCalculationResult__Double');
     final _calculationResult_handle = (calculationResult);
+    final _handle = this.handle;
     final __result_handle = _onCalculationResult_ffi(_handle, _calculationResult_handle);
     (_calculationResult_handle);
     final _result = (__result_handle);
@@ -119,6 +119,7 @@ class CalculatorListener__Impl implements CalculatorListener {
   onCalculationResultConst(double calculationResult) {
     final _onCalculationResultConst_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Double), void Function(Pointer<Void>, double)>('library_smoke_CalculatorListener_onCalculationResultConst__Double');
     final _calculationResult_handle = (calculationResult);
+    final _handle = this.handle;
     final __result_handle = _onCalculationResultConst_ffi(_handle, _calculationResult_handle);
     (_calculationResult_handle);
     final _result = (__result_handle);
@@ -129,6 +130,7 @@ class CalculatorListener__Impl implements CalculatorListener {
   onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult) {
     final _onCalculationResultStruct_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct');
     final _calculationResult_handle = smoke_CalculatorListener_ResultStruct_toFfi(calculationResult);
+    final _handle = this.handle;
     final __result_handle = _onCalculationResultStruct_ffi(_handle, _calculationResult_handle);
     smoke_CalculatorListener_ResultStruct_releaseFfiHandle(_calculationResult_handle);
     final _result = (__result_handle);
@@ -139,6 +141,7 @@ class CalculatorListener__Impl implements CalculatorListener {
   onCalculationResultArray(List<double> calculationResult) {
     final _onCalculationResultArray_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_1Double');
     final _calculationResult_handle = ListOf_Double_toFfi(calculationResult);
+    final _handle = this.handle;
     final __result_handle = _onCalculationResultArray_ffi(_handle, _calculationResult_handle);
     ListOf_Double_releaseFfiHandle(_calculationResult_handle);
     final _result = (__result_handle);
@@ -149,6 +152,7 @@ class CalculatorListener__Impl implements CalculatorListener {
   onCalculationResultMap(Map<String, double> calculationResults) {
     final _onCalculationResultMap_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_1String_1to_1Double');
     final _calculationResults_handle = MapOf_String_to_Double_toFfi(calculationResults);
+    final _handle = this.handle;
     final __result_handle = _onCalculationResultMap_ffi(_handle, _calculationResults_handle);
     MapOf_String_to_Double_releaseFfiHandle(_calculationResults_handle);
     final _result = (__result_handle);
@@ -159,6 +163,7 @@ class CalculatorListener__Impl implements CalculatorListener {
   onCalculationResultInstance(CalculationResult calculationResult) {
     final _onCalculationResultInstance_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult');
     final _calculationResult_handle = smoke_CalculationResult_toFfi(calculationResult);
+    final _handle = this.handle;
     final __result_handle = _onCalculationResultInstance_ffi(_handle, _calculationResult_handle);
     smoke_CalculationResult_releaseFfiHandle(_calculationResult_handle);
     final _result = (__result_handle);
@@ -197,7 +202,7 @@ int _CalculatorListener_onCalculationResultInstance_static(int _token, Pointer<V
   return 0;
 }
 Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {
-  if (value is CalculatorListener__Impl) return _smoke_CalculatorListener_copy_handle(value.handle);
+  if (value is CalculatorListener$Impl) return _smoke_CalculatorListener_copy_handle(value.handle);
   final result = _smoke_CalculatorListener_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -218,7 +223,7 @@ CalculatorListener smoke_CalculatorListener_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_CalculatorListener_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? CalculatorListener__Impl(_copied_handle)
+    ? CalculatorListener$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;

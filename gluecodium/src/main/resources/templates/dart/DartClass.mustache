@@ -18,6 +18,50 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{>dart/DartDocumentation}}
+abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
+{{#set parent=this}}{{#constructors}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+  factory {{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
+  }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+  }}){{>dartImplRedirect}};
+{{/constructors}}{{/set}}
+
+  void release();
+
+{{#set isInClass=true}}{{#constants}}
+{{prefixPartial "dart/DartConstant" "  "}}
+{{/constants}}{{/set}}
+{{#set parent=this}}{{#functions}}{{#unless isConstructor}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{prefixPartial "dart/DartFunctionSignature" "  "}}{{#if isStatic}}{{>dartImplRedirect}}{{/if}};
+{{/unless}}{{/functions}}{{/set}}
+{{#set parent=this}}{{#properties}}
+{{#set property=this}}{{prefixPartial "dartPropertyRedirect" "  "}}{{/set}}
+{{/properties}}{{/set}}
+}
+
+{{#enumerations}}
+{{>dart/DartEnumeration}}
+{{/enumerations}}
+{{#exceptions}}
+{{>dart/DartException}}
+{{/exceptions}}
+{{#structs}}
+{{>dart/DartStruct}}
+{{/structs}}
+{{#classes}}
+{{>dart/DartClass}}
+{{/classes}}
+{{#interfaces}}
+{{>dart/DartInterface}}
+{{/interfaces}}
+{{#lambdas}}
+{{>dart/DartLambda}}
+{{/lambdas}}
+
+// {{resolveName}} "private" section, not exported.
+
 final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -38,52 +82,44 @@ final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
 {{#functions}}
 {{>dart/DartFunctionException}}
 
-{{/functions}}{{!!
-}}{{>dart/DartDocumentation}}
-class {{resolveName}} {{!!
-}}{{#if parent}}{{#if hasClassParent}}extends{{/if}}{{!!
-}}{{#unless hasClassParent}}implements{{/unless}} {{resolveName parent}} {{/if}}{
-  {{#if hasClassParent}}Pointer<Void> get _handle => handle;{{/if}}{{!!
-  }}{{#unless hasClassParent}}{{#if visibility.isOpen}}@protected
+{{/functions}}
+class {{resolveName}}$Impl{{!!
+}}{{#if hasClassParent}} extends {{resolveName parent}}$Impl{{/if}} implements {{resolveName}} {
+{{#unless hasClassParent}}
   final Pointer<Void> handle;
-  Pointer<Void> get _handle => handle;{{/if}}{{!!
-  }}{{#unless visibility.isOpen}}final Pointer<Void> _handle;{{/unless}}{{/unless}}
-  {{#if visibility.isOpen}}@protected
-  {{resolveName}}{{/if}}{{#unless visibility.isOpen}}{{resolveName}}._{{/unless}}{{!!
-  }}{{#unless hasClassParent}}(this.{{#unless visibility.isOpen}}_{{/unless}}handle){{/unless}}{{!!
-  }}{{#if hasClassParent}}(Pointer<Void> handle) : super(handle){{/if}};
 
-  void release() => _{{resolveName "Ffi"}}_release_handle(_handle);
+{{/unless}}
+  {{resolveName}}$Impl({{#if hasClassParent}}Pointer<Void> {{/if}}{{#unless hasClassParent}}this.{{/unless}}handle){{!!
+  }}{{#if hasClassParent}} : super(handle){{/if}};
 
-{{#set isInClass=true}}{{#constants}}
-{{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}{{/set}}
+  @override
+  void release() => _{{resolveName "Ffi"}}_release_handle(handle);
+
 {{#set inheritanceParent=parent parent=this}}{{#constructors}}
-{{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
 {{#functions}}
-{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{#unless isStatic}}  @override
+{{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{#if inheritanceParent}}{{#instanceOf inheritanceParent.type "LimeInterface"}}
 {{#inheritedFunctions}}
-{{prefixPartial "dart/DartFunctionDocs" "  "}}
-  @override
+{{#unless isStatic}}  @override
+{{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/inheritedFunctions}}{{/instanceOf}}{{/if}}{{/set}}
-{{#properties}}
+{{#set override=true skipDocs=true}}{{#properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/properties}}
 {{#inheritedProperties}}
-  @override
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/inheritedProperties}}
+{{/inheritedProperties}}{{/set}}
 {{#ifHasAttribute "Equatable"}}{{>dartFfiEqualityOperator}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>dartFfiEqualityOperator}}{{/ifHasAttribute}}
 }
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
-  _{{resolveName "Ffi"}}_copy_handle(value._handle);
+  _{{resolveName "Ffi"}}_copy_handle((value as {{resolveName}}$Impl).handle);
 
 {{#if parent visibility.isOpen logic="or"}}
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
@@ -91,14 +127,14 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
   final _type_id_handle = _{{resolveName "Ffi"}}_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? {{resolveName}}{{#unless visibility.isOpen}}._{{/unless}}(_copied_handle)
+    ? {{resolveName}}$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
 }
 {{/if}}{{#unless parent visibility.isOpen logic="and"}}
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) =>
-  {{resolveName}}{{#unless visibility.isOpen}}._{{/unless}}(_{{resolveName "Ffi"}}_copy_handle(handle));
+  {{resolveName}}$Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
 {{/unless}}
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
@@ -113,35 +149,11 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) =>
 void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}_release_handle(handle);
 
-{{#if parent visibility.isOpen logic="or"}}
-// Internal, not exported.
-class {{resolveName}}__Factory {
-  static {{resolveName}} create(Pointer<Void> handle) => {{resolveName}}{{#unless visibility.isOpen}}._{{/unless}}(handle);
-}
-{{/if}}
+// End of {{resolveName}} "private" section.{{!!
 
-{{#enumerations}}
-{{>dart/DartEnumeration}}
-{{/enumerations}}
-{{#exceptions}}
-{{>dart/DartException}}
-{{/exceptions}}
-{{#structs}}
-{{>dart/DartStruct}}
-{{/structs}}
-{{#classes}}
-{{>dart/DartClass}}
-{{/classes}}
-{{#interfaces}}
-{{>dart/DartInterface}}
-{{/interfaces}}
-{{#lambdas}}
-{{>dart/DartLambda}}
-{{/lambdas}}{{!!
-
-}}{{+dartConstructor}}{{resolveName parent}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}({{!!
+}}{{+dartConstructor}}{{resolveName parent}}$Impl.{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
-}}this{{#unless parent.visibility.isOpen}}._{{/unless}}(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
+}}this(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
 {{/dartConstructor}}{{!!
 
 }}{{+dartFfiEqualityFunction}}
@@ -155,8 +167,24 @@ final __are_equal = __lib.nativeLibrary.lookupFunction<
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
-    if (other is! {{resolveName}}) return false;
-    {{resolveName}} _other = other;
-    return __are_equal(_handle, _other._handle) != 0;
+    if (other is! {{resolveName}}$Impl) return false;
+    return __are_equal((this as {{resolveName}}$Impl).handle, other.handle) != 0;
   }
-{{/dartFfiEqualityOperator}}
+{{/dartFfiEqualityOperator}}{{!!
+
+}}{{+dartImplRedirect}} => {{resolveName parent}}$Impl.{{resolveName}}({{!!
+    }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
+}}{{/dartImplRedirect}}{{!!
+
+}}{{+dartPropertyRedirect}}
+{{#getter}}
+{{>dart/DartDocumentation}}
+{{#if isStatic}}static {{/if}}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
+}}{{#if isStatic}} => {{resolveName parent}}$Impl.{{resolveName property}}{{/if}};
+{{/getter}}
+{{#setter}}
+{{>dart/DartDocumentation}}
+{{#if isStatic}}static {{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
+}}{{#if isStatic}} { {{resolveName parent}}$Impl.{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
+{{/setter}}
+{{/dartPropertyRedirect}}

@@ -3,85 +3,18 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_PlatformComments_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PlatformComments_copy_handle');
-final _smoke_PlatformComments_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_PlatformComments_release_handle');
-final _someMethodWithAllComments_return_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_release_handle');
-final _someMethodWithAllComments_return_get_result = __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_result');
-final _someMethodWithAllComments_return_get_error = __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_error');
-final _someMethodWithAllComments_return_has_error = __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error');
-class PlatformComments {
-  final Pointer<Void> _handle;
-  PlatformComments._(this._handle);
-  void release() => _smoke_PlatformComments_release_handle(_handle);
+abstract class PlatformComments {
+  void release();
   /// This is some very useless method that cannot have overloads.
-  doNothing() {
-    final _doNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_PlatformComments_doNothing');
-    final __result_handle = _doNothing_ffi(_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
+  doNothing();
   /// Colors everything in fuchsia.
-  doMagic() {
-    final _doMagic_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_PlatformComments_doMagic');
-    final __result_handle = _doMagic_ffi(_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
+  doMagic();
   /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
   /// @param[input] Very useful parameter that \esc@pe{s}
   /// @return Uselessness [PlatformComments_SomeEnum] of the input
   /// @throws Sometimes it happens.
-  bool someMethodWithAllComments(String input) {
-    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PlatformComments_someMethodWithAllComments__String');
-    final _input_handle = String_toFfi(input);
-    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
-    String_releaseFfiHandle(_input_handle);
-    if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
-        final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
-        _someMethodWithAllComments_return_release_handle(__call_result_handle);
-        final _error_value = smoke_PlatformComments_SomeEnum_fromFfi(__error_handle);
-        smoke_PlatformComments_SomeEnum_releaseFfiHandle(__error_handle);
-        throw PlatformComments_SomethingWrongException(_error_value);
-    }
-    final __result_handle = _someMethodWithAllComments_return_get_result(__call_result_handle);
-    _someMethodWithAllComments_return_release_handle(__call_result_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
-  }
+  bool someMethodWithAllComments(String input);
 }
-Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
-  _smoke_PlatformComments_copy_handle(value._handle);
-PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) =>
-  PlatformComments._(_smoke_PlatformComments_copy_handle(handle));
-void smoke_PlatformComments_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_PlatformComments_release_handle(handle);
-Pointer<Void> smoke_PlatformComments_toFfi_nullable(PlatformComments value) =>
-  value != null ? smoke_PlatformComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-PlatformComments smoke_PlatformComments_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_PlatformComments_fromFfi(handle) : null;
-void smoke_PlatformComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_PlatformComments_release_handle(handle);
 enum PlatformComments_SomeEnum {
     useless,
     useful
@@ -209,3 +142,85 @@ PlatformComments_Something smoke_PlatformComments_Something_fromFfi_nullable(Poi
 void smoke_PlatformComments_Something_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_PlatformComments_Something_release_handle_nullable(handle);
 // End of PlatformComments_Something "private" section.
+// PlatformComments "private" section, not exported.
+final _smoke_PlatformComments_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_PlatformComments_copy_handle');
+final _smoke_PlatformComments_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_PlatformComments_release_handle');
+final _someMethodWithAllComments_return_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_release_handle');
+final _someMethodWithAllComments_return_get_result = __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_result');
+final _someMethodWithAllComments_return_get_error = __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_error');
+final _someMethodWithAllComments_return_has_error = __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error');
+class PlatformComments$Impl implements PlatformComments {
+  final Pointer<Void> handle;
+  PlatformComments$Impl(this.handle);
+  @override
+  void release() => _smoke_PlatformComments_release_handle(handle);
+  @override
+  doNothing() {
+    final _doNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_PlatformComments_doNothing');
+    final _handle = this.handle;
+    final __result_handle = _doNothing_ffi(_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  doMagic() {
+    final _doMagic_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_PlatformComments_doMagic');
+    final _handle = this.handle;
+    final __result_handle = _doMagic_ffi(_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  bool someMethodWithAllComments(String input) {
+    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PlatformComments_someMethodWithAllComments__String');
+    final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
+    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
+    String_releaseFfiHandle(_input_handle);
+    if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
+        final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
+        _someMethodWithAllComments_return_release_handle(__call_result_handle);
+        final _error_value = smoke_PlatformComments_SomeEnum_fromFfi(__error_handle);
+        smoke_PlatformComments_SomeEnum_releaseFfiHandle(__error_handle);
+        throw PlatformComments_SomethingWrongException(_error_value);
+    }
+    final __result_handle = _someMethodWithAllComments_return_get_result(__call_result_handle);
+    _someMethodWithAllComments_return_release_handle(__call_result_handle);
+    final _result = Boolean_fromFfi(__result_handle);
+    Boolean_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+}
+Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
+  _smoke_PlatformComments_copy_handle((value as PlatformComments$Impl).handle);
+PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) =>
+  PlatformComments$Impl(_smoke_PlatformComments_copy_handle(handle));
+void smoke_PlatformComments_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_PlatformComments_release_handle(handle);
+Pointer<Void> smoke_PlatformComments_toFfi_nullable(PlatformComments value) =>
+  value != null ? smoke_PlatformComments_toFfi(value) : Pointer<Void>.fromAddress(0);
+PlatformComments smoke_PlatformComments_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_PlatformComments_fromFfi(handle) : null;
+void smoke_PlatformComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_PlatformComments_release_handle(handle);
+// End of PlatformComments "private" section.

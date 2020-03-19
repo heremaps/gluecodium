@@ -3,47 +3,11 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_ExternalClass_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalClass_copy_handle');
-final _smoke_ExternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_ExternalClass_release_handle');
-class ExternalClass {
-  final Pointer<Void> _handle;
-  ExternalClass._(this._handle);
-  void release() => _smoke_ExternalClass_release_handle(_handle);
-  someMethod(int someParameter) {
-    final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('library_smoke_ExternalClass_someMethod__Byte');
-    final _someParameter_handle = (someParameter);
-    final __result_handle = _someMethod_ffi(_handle, _someParameter_handle);
-    (_someParameter_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
-  }
-  String get someProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ExternalClass_someProperty_get');
-    final __result_handle = _get_ffi(_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
-  }
+abstract class ExternalClass {
+  void release();
+  someMethod(int someParameter);
+  String get someProperty;
 }
-Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
-  _smoke_ExternalClass_copy_handle(value._handle);
-ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) =>
-  ExternalClass._(_smoke_ExternalClass_copy_handle(handle));
-void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_ExternalClass_release_handle(handle);
-Pointer<Void> smoke_ExternalClass_toFfi_nullable(ExternalClass value) =>
-  value != null ? smoke_ExternalClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-ExternalClass smoke_ExternalClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_ExternalClass_fromFfi(handle) : null;
-void smoke_ExternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExternalClass_release_handle(handle);
 enum ExternalClass_SomeEnum {
     someValue
 }
@@ -158,3 +122,51 @@ ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi_nullable(Pointer
 void smoke_ExternalClass_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ExternalClass_SomeStruct_release_handle_nullable(handle);
 // End of ExternalClass_SomeStruct "private" section.
+// ExternalClass "private" section, not exported.
+final _smoke_ExternalClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_ExternalClass_copy_handle');
+final _smoke_ExternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_ExternalClass_release_handle');
+class ExternalClass$Impl implements ExternalClass {
+  final Pointer<Void> handle;
+  ExternalClass$Impl(this.handle);
+  @override
+  void release() => _smoke_ExternalClass_release_handle(handle);
+  @override
+  someMethod(int someParameter) {
+    final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('library_smoke_ExternalClass_someMethod__Byte');
+    final _someParameter_handle = (someParameter);
+    final _handle = this.handle;
+    final __result_handle = _someMethod_ffi(_handle, _someParameter_handle);
+    (_someParameter_handle);
+    final _result = (__result_handle);
+    (__result_handle);
+    return _result;
+  }
+  @override
+  String get someProperty {
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ExternalClass_someProperty_get');
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle);
+    final _result = String_fromFfi(__result_handle);
+    String_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+}
+Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
+  _smoke_ExternalClass_copy_handle((value as ExternalClass$Impl).handle);
+ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) =>
+  ExternalClass$Impl(_smoke_ExternalClass_copy_handle(handle));
+void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_ExternalClass_release_handle(handle);
+Pointer<Void> smoke_ExternalClass_toFfi_nullable(ExternalClass value) =>
+  value != null ? smoke_ExternalClass_toFfi(value) : Pointer<Void>.fromAddress(0);
+ExternalClass smoke_ExternalClass_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_ExternalClass_fromFfi(handle) : null;
+void smoke_ExternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_ExternalClass_release_handle(handle);
+// End of ExternalClass "private" section.

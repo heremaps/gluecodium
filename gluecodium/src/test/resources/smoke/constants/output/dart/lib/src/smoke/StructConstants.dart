@@ -3,33 +3,11 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
-final _smoke_StructConstants_copy_handle = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_copy_handle');
-final _smoke_StructConstants_release_handle = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_StructConstants_release_handle');
-class StructConstants {
-  final Pointer<Void> _handle;
-  StructConstants._(this._handle);
-  void release() => _smoke_StructConstants_release_handle(_handle);
+abstract class StructConstants {
+  void release();
   static final StructConstants_SomeStruct structConstant = StructConstants_SomeStruct("bar Buzz", 1.41);
   static final StructConstants_NestingStruct nestingStructConstant = StructConstants_NestingStruct(StructConstants_SomeStruct("nonsense", -2.82));
 }
-Pointer<Void> smoke_StructConstants_toFfi(StructConstants value) =>
-  _smoke_StructConstants_copy_handle(value._handle);
-StructConstants smoke_StructConstants_fromFfi(Pointer<Void> handle) =>
-  StructConstants._(_smoke_StructConstants_copy_handle(handle));
-void smoke_StructConstants_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_StructConstants_release_handle(handle);
-Pointer<Void> smoke_StructConstants_toFfi_nullable(StructConstants value) =>
-  value != null ? smoke_StructConstants_toFfi(value) : Pointer<Void>.fromAddress(0);
-StructConstants smoke_StructConstants_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_StructConstants_fromFfi(handle) : null;
-void smoke_StructConstants_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructConstants_release_handle(handle);
 class StructConstants_SomeStruct {
   String stringField;
   double floatField;
@@ -164,3 +142,31 @@ StructConstants_NestingStruct smoke_StructConstants_NestingStruct_fromFfi_nullab
 void smoke_StructConstants_NestingStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_StructConstants_NestingStruct_release_handle_nullable(handle);
 // End of StructConstants_NestingStruct "private" section.
+// StructConstants "private" section, not exported.
+final _smoke_StructConstants_copy_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_StructConstants_copy_handle');
+final _smoke_StructConstants_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_StructConstants_release_handle');
+class StructConstants$Impl implements StructConstants {
+  final Pointer<Void> handle;
+  StructConstants$Impl(this.handle);
+  @override
+  void release() => _smoke_StructConstants_release_handle(handle);
+}
+Pointer<Void> smoke_StructConstants_toFfi(StructConstants value) =>
+  _smoke_StructConstants_copy_handle((value as StructConstants$Impl).handle);
+StructConstants smoke_StructConstants_fromFfi(Pointer<Void> handle) =>
+  StructConstants$Impl(_smoke_StructConstants_copy_handle(handle));
+void smoke_StructConstants_releaseFfiHandle(Pointer<Void> handle) =>
+  _smoke_StructConstants_release_handle(handle);
+Pointer<Void> smoke_StructConstants_toFfi_nullable(StructConstants value) =>
+  value != null ? smoke_StructConstants_toFfi(value) : Pointer<Void>.fromAddress(0);
+StructConstants smoke_StructConstants_fromFfi_nullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smoke_StructConstants_fromFfi(handle) : null;
+void smoke_StructConstants_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_StructConstants_release_handle(handle);
+// End of StructConstants "private" section.

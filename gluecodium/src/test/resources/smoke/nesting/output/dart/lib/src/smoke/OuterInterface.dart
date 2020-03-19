@@ -9,6 +9,11 @@ abstract class OuterInterface {
   void release();
   String foo(String input);
 }
+abstract class OuterInterface_InnerClass {
+  void release();
+  String foo(String input);
+}
+// OuterInterface_InnerClass "private" section, not exported.
 final _smoke_OuterInterface_InnerClass_copy_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -17,13 +22,16 @@ final _smoke_OuterInterface_InnerClass_release_handle = __lib.nativeLibrary.look
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerClass_release_handle');
-class OuterInterface_InnerClass {
-  final Pointer<Void> _handle;
-  OuterInterface_InnerClass._(this._handle);
-  void release() => _smoke_OuterInterface_InnerClass_release_handle(_handle);
+class OuterInterface_InnerClass$Impl implements OuterInterface_InnerClass {
+  final Pointer<Void> handle;
+  OuterInterface_InnerClass$Impl(this.handle);
+  @override
+  void release() => _smoke_OuterInterface_InnerClass_release_handle(handle);
+  @override
   String foo(String input) {
     final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_OuterInterface_InnerClass_foo__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = String_fromFfi(__result_handle);
@@ -32,9 +40,9 @@ class OuterInterface_InnerClass {
   }
 }
 Pointer<Void> smoke_OuterInterface_InnerClass_toFfi(OuterInterface_InnerClass value) =>
-  _smoke_OuterInterface_InnerClass_copy_handle(value._handle);
+  _smoke_OuterInterface_InnerClass_copy_handle((value as OuterInterface_InnerClass$Impl).handle);
 OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi(Pointer<Void> handle) =>
-  OuterInterface_InnerClass._(_smoke_OuterInterface_InnerClass_copy_handle(handle));
+  OuterInterface_InnerClass$Impl(_smoke_OuterInterface_InnerClass_copy_handle(handle));
 void smoke_OuterInterface_InnerClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerClass_release_handle(handle);
 Pointer<Void> smoke_OuterInterface_InnerClass_toFfi_nullable(OuterInterface_InnerClass value) =>
@@ -43,6 +51,7 @@ OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi_nullable(Point
   handle.address != 0 ? smoke_OuterInterface_InnerClass_fromFfi(handle) : null;
 void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerClass_release_handle(handle);
+// End of OuterInterface_InnerClass "private" section.
 abstract class OuterInterface_InnerInterface {
   void release();
   String foo(String input);
@@ -68,16 +77,16 @@ final _smoke_OuterInterface_InnerInterface_get_type_id = __lib.nativeLibrary.loo
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerInterface_get_type_id');
-class OuterInterface_InnerInterface__Impl implements OuterInterface_InnerInterface {
-  Pointer<Void> get _handle => handle;
+class OuterInterface_InnerInterface$Impl implements OuterInterface_InnerInterface {
   final Pointer<Void> handle;
-  OuterInterface_InnerInterface__Impl(this.handle);
+  OuterInterface_InnerInterface$Impl(this.handle);
   @override
   void release() => _smoke_OuterInterface_InnerInterface_release_handle(handle);
   @override
   String foo(String input) {
     final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_OuterInterface_InnerInterface_foo__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = String_fromFfi(__result_handle);
@@ -92,7 +101,7 @@ int _OuterInterface_InnerInterface_foo_static(int _token, Pointer<Void> input, P
   return 0;
 }
 Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInterface value) {
-  if (value is OuterInterface_InnerInterface__Impl) return _smoke_OuterInterface_InnerInterface_copy_handle(value.handle);
+  if (value is OuterInterface_InnerInterface$Impl) return _smoke_OuterInterface_InnerInterface_copy_handle(value.handle);
   final result = _smoke_OuterInterface_InnerInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -108,7 +117,7 @@ OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointe
   final _type_id_handle = _smoke_OuterInterface_InnerInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? OuterInterface_InnerInterface__Impl(_copied_handle)
+    ? OuterInterface_InnerInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
@@ -143,16 +152,16 @@ final _smoke_OuterInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_get_type_id');
-class OuterInterface__Impl implements OuterInterface {
-  Pointer<Void> get _handle => handle;
+class OuterInterface$Impl implements OuterInterface {
   final Pointer<Void> handle;
-  OuterInterface__Impl(this.handle);
+  OuterInterface$Impl(this.handle);
   @override
   void release() => _smoke_OuterInterface_release_handle(handle);
   @override
   String foo(String input) {
     final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_OuterInterface_foo__String');
     final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = String_fromFfi(__result_handle);
@@ -167,7 +176,7 @@ int _OuterInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<
   return 0;
 }
 Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
-  if (value is OuterInterface__Impl) return _smoke_OuterInterface_copy_handle(value.handle);
+  if (value is OuterInterface$Impl) return _smoke_OuterInterface_copy_handle(value.handle);
   final result = _smoke_OuterInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.uncacheObjectFfi,
@@ -183,7 +192,7 @@ OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
   final _type_id_handle = _smoke_OuterInterface_get_type_id(handle);
   final _type_id = String_fromFfi(_type_id_handle);
   final result = _type_id.isEmpty
-    ? OuterInterface__Impl(_copied_handle)
+    ? OuterInterface$Impl(_copied_handle)
     : __lib.typeRepository[_type_id](_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
