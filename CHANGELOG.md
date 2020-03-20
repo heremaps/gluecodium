@@ -1,8 +1,10 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.3.5
+Release date: 2020-03-20
 ### Features:
   * Added support for explicitly specifying "default" (nameless) constructors for Dart.
+  * Added support for emulating package structure for Dart.
 
 ## 6.3.4
 Release date: 2020-03-18
