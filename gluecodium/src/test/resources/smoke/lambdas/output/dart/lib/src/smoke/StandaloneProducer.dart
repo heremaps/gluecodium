@@ -3,6 +3,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 typedef StandaloneProducer = String Function();
 // StandaloneProducer "private" section, not exported.
@@ -15,8 +16,8 @@ final _smoke_StandaloneProducer_release_handle = __lib.nativeLibrary.lookupFunct
     void Function(Pointer<Void>)
   >('library_smoke_StandaloneProducer_release_handle');
 final _smoke_StandaloneProducer_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy');
 final _smoke_StandaloneProducer_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -28,9 +29,9 @@ class StandaloneProducer$Impl {
   StandaloneProducer$Impl(this.handle);
   void release() => _smoke_StandaloneProducer_release_handle(handle);
   String call() {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_StandaloneProducer_call');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StandaloneProducer_call');
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
     return _result;
@@ -44,6 +45,7 @@ int _StandaloneProducer_call_static(int _token, Pointer<Pointer<Void>> _result) 
 Pointer<Void> smoke_StandaloneProducer_toFfi(StandaloneProducer value) {
   final result = _smoke_StandaloneProducer_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducer_call_static, __lib.unknownError)
   );

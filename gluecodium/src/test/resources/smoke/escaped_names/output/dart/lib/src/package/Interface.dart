@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class Interface {
   void release() {}
@@ -18,8 +19,8 @@ final _package_Interface_release_handle = __lib.nativeLibrary.lookupFunction<
     void Function(Pointer<Void>)
   >('library_package_Interface_release_handle');
 final _package_Interface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer),
+    Pointer<Void> Function(int, int, Pointer)
   >('library_package_Interface_create_proxy');
 final _package_Interface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -39,6 +40,7 @@ Pointer<Void> package_Interface_toFfi(Interface value) {
   if (value is Interface$Impl) return _package_Interface_copy_handle(value.handle);
   final result = _package_Interface_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi
   );
   __lib.reverseCache[_package_Interface_get_raw_pointer(result)] = value;

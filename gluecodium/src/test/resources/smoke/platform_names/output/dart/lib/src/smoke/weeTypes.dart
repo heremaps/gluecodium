@@ -2,6 +2,7 @@ import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 enum werrEnum {
     WEE_ITEM
@@ -61,9 +62,9 @@ class weeStruct {
   weeStruct._copy(weeStruct _other) : this._(_other.WEE_FIELD);
   weeStruct(String WeeParameter) : this._copy(_WeeCreate(WeeParameter));
   static weeStruct _WeeCreate(String WeeParameter) {
-    final _WeeCreate_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String');
+    final _WeeCreate_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String');
     final _WeeParameter_handle = String_toFfi(WeeParameter);
-    final __result_handle = _WeeCreate_ffi(_WeeParameter_handle);
+    final __result_handle = _WeeCreate_ffi(__lib.LibraryContext.isolateId, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
     final _result = smoke_PlatformNames_BasicStruct_fromFfi(__result_handle);
     smoke_PlatformNames_BasicStruct_releaseFfiHandle(__result_handle);

@@ -2,6 +2,7 @@ import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 /// This is some very useful interface.
 /// There is a lot to say about this interface.
@@ -49,11 +50,11 @@ class MultiLineComments$Impl implements MultiLineComments {
   void release() => _smoke_MultiLineComments_release_handle(handle);
   @override
   double someMethodWithLongComment(String input, double ratio) {
-    final _someMethodWithLongComment_ffi = __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Pointer<Void>, Double), double Function(Pointer<Void>, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double');
+    final _someMethodWithLongComment_ffi = __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double');
     final _input_handle = String_toFfi(input);
     final _ratio_handle = (ratio);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithLongComment_ffi(_handle, _input_handle, _ratio_handle);
+    final __result_handle = _someMethodWithLongComment_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle, _ratio_handle);
     String_releaseFfiHandle(_input_handle);
     (_ratio_handle);
     final _result = (__result_handle);

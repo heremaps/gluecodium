@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ExternalInterface {
   void release() {}
@@ -134,8 +135,8 @@ final _smoke_ExternalInterface_release_handle = __lib.nativeLibrary.lookupFuncti
     void Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_release_handle');
 final _smoke_ExternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
   >('library_smoke_ExternalInterface_create_proxy');
 final _smoke_ExternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -152,27 +153,28 @@ class ExternalInterface$Impl implements ExternalInterface {
   void release() => _smoke_ExternalInterface_release_handle(handle);
   @override
   someMethod(int someParameter) {
-    final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int8), void Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someMethod__Byte');
+    final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte');
     final _someParameter_handle = (someParameter);
     final _handle = this.handle;
-    final __result_handle = _someMethod_ffi(_handle, _someParameter_handle);
+    final __result_handle = _someMethod_ffi(_handle, __lib.LibraryContext.isolateId, _someParameter_handle);
     (_someParameter_handle);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   String get someProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_ExternalInterface_someProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get');
     final _handle = this.handle;
-    final __result_handle = _get_ffi(_handle);
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
     return _result;
   }
 }
 int _ExternalInterface_someMethod_static(int _token, int someParameter) {
-  (__lib.instanceCache[_token] as ExternalInterface).someMethod((someParameter));
+  final __someParameter = (someParameter);
   (someParameter);
+  (__lib.instanceCache[_token] as ExternalInterface).someMethod(__someParameter);
   return 0;
 }
 int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
@@ -183,6 +185,7 @@ Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
   if (value is ExternalInterface$Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
   final result = _smoke_ExternalInterface_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError),
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError)

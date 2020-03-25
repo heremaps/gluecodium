@@ -10,7 +10,8 @@
 extern "C" {
 #endif
 uint32_t
-library_smoke_Enums_methodWithEnumeration__SimpleEnum(uint32_t input) {
+library_smoke_Enums_methodWithEnumeration__SimpleEnum(int32_t _isolate_id, uint32_t input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Enums::SimpleEnum>::toFfi(
         ::smoke::Enums::method_with_enumeration(
             gluecodium::ffi::Conversion<::smoke::Enums::SimpleEnum>::toCpp(input)
@@ -18,7 +19,8 @@ library_smoke_Enums_methodWithEnumeration__SimpleEnum(uint32_t input) {
     );
 }
 uint32_t
-library_smoke_Enums_flipEnumValue__InternalErrorCode(uint32_t input) {
+library_smoke_Enums_flipEnumValue__InternalErrorCode(int32_t _isolate_id, uint32_t input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Enums::InternalErrorCode>::toFfi(
         ::smoke::Enums::flip_enum_value(
             gluecodium::ffi::Conversion<::smoke::Enums::InternalErrorCode>::toCpp(input)
@@ -26,7 +28,8 @@ library_smoke_Enums_flipEnumValue__InternalErrorCode(uint32_t input) {
     );
 }
 uint32_t
-library_smoke_Enums_extractEnumFromStruct__ErrorStruct(FfiOpaqueHandle input) {
+library_smoke_Enums_extractEnumFromStruct__ErrorStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Enums::InternalErrorCode>::toFfi(
         ::smoke::Enums::extract_enum_from_struct(
             gluecodium::ffi::Conversion<::smoke::Enums::ErrorStruct>::toCpp(input)
@@ -34,7 +37,8 @@ library_smoke_Enums_extractEnumFromStruct__ErrorStruct(FfiOpaqueHandle input) {
     );
 }
 FfiOpaqueHandle
-library_smoke_Enums_createStructWithEnumInside__InternalErrorCode_String(uint32_t type, FfiOpaqueHandle message) {
+library_smoke_Enums_createStructWithEnumInside__InternalErrorCode_String(int32_t _isolate_id, uint32_t type, FfiOpaqueHandle message) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Enums::ErrorStruct>::toFfi(
         ::smoke::Enums::create_struct_with_enum_inside(
             gluecodium::ffi::Conversion<::smoke::Enums::InternalErrorCode>::toCpp(type),
@@ -43,7 +47,8 @@ library_smoke_Enums_createStructWithEnumInside__InternalErrorCode_String(uint32_
     );
 }
 void
-library_smoke_Enums_methodWithExternalEnum__External_1Enum(uint32_t input) {
+library_smoke_Enums_methodWithExternalEnum__External_1Enum(int32_t _isolate_id, uint32_t input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             ::smoke::Enums::method_with_external_enum(
             gluecodium::ffi::Conversion<::smoke::Enums::External_Enum>::toCpp(input)
         );

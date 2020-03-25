@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PropertiesInterface {
   void release() {}
@@ -82,8 +83,8 @@ final _smoke_PropertiesInterface_release_handle = __lib.nativeLibrary.lookupFunc
     void Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_release_handle');
 final _smoke_PropertiesInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
   >('library_smoke_PropertiesInterface_create_proxy');
 final _smoke_PropertiesInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -99,18 +100,18 @@ class PropertiesInterface$Impl implements PropertiesInterface {
   @override
   void release() => _smoke_PropertiesInterface_release_handle(handle);
   PropertiesInterface_ExampleStruct get structProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_PropertiesInterface_structProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PropertiesInterface_structProperty_get');
     final _handle = this.handle;
-    final __result_handle = _get_ffi(_handle);
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = smoke_PropertiesInterface_ExampleStruct_fromFfi(__result_handle);
     smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   set structProperty(PropertiesInterface_ExampleStruct value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PropertiesInterface_structProperty_set__ExampleStruct');
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PropertiesInterface_structProperty_set__ExampleStruct');
     final _value_handle = smoke_PropertiesInterface_ExampleStruct_toFfi(value);
     final _handle = this.handle;
-    final __result_handle = _set_ffi(_handle, _value_handle);
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -122,14 +123,16 @@ int _PropertiesInterface_structProperty_get_static(int _token, Pointer<Pointer<V
   return 0;
 }
 int _PropertiesInterface_structProperty_set_static(int _token, Pointer<Void> _value) {
-  (__lib.instanceCache[_token] as PropertiesInterface).structProperty = smoke_PropertiesInterface_ExampleStruct_fromFfi(_value);
+  final __value = smoke_PropertiesInterface_ExampleStruct_fromFfi(_value);
   smoke_PropertiesInterface_ExampleStruct_releaseFfiHandle(_value);
+  (__lib.instanceCache[_token] as PropertiesInterface).structProperty = __value;
   return 0;
 }
 Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface value) {
   if (value is PropertiesInterface$Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
   final result = _smoke_PropertiesInterface_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterface_structProperty_get_static, __lib.unknownError),
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_PropertiesInterface_structProperty_set_static, __lib.unknownError)

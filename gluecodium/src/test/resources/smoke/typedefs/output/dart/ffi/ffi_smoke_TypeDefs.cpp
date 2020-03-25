@@ -10,7 +10,8 @@
 extern "C" {
 #endif
 double
-library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double(double input) {
+library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double(int32_t _isolate_id, double input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<double>::toFfi(
         ::smoke::TypeDefs::method_with_primitive_type_def(
             gluecodium::ffi::Conversion<double>::toCpp(input)
@@ -18,7 +19,8 @@ library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double(double input) {
     );
 }
 FfiOpaqueHandle
-library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct(FfiOpaqueHandle input) {
+library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::vector<::smoke::TypeDefs::TestStruct>>::toFfi(
         ::smoke::TypeDefs::method_with_complex_type_def(
             gluecodium::ffi::Conversion<std::vector<::smoke::TypeDefs::TestStruct>>::toCpp(input)
@@ -26,7 +28,8 @@ library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestSt
     );
 }
 double
-library_smoke_TypeDefs_returnNestedIntTypeDef__Double(double input) {
+library_smoke_TypeDefs_returnNestedIntTypeDef__Double(int32_t _isolate_id, double input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<double>::toFfi(
         ::smoke::TypeDefs::return_nested_int_type_def(
             gluecodium::ffi::Conversion<double>::toCpp(input)
@@ -34,7 +37,8 @@ library_smoke_TypeDefs_returnNestedIntTypeDef__Double(double input) {
     );
 }
 FfiOpaqueHandle
-library_smoke_TypeDefs_returnTestStructTypeDef__TestStruct(FfiOpaqueHandle input) {
+library_smoke_TypeDefs_returnTestStructTypeDef__TestStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::TypeDefs::TestStruct>::toFfi(
         ::smoke::TypeDefs::return_test_struct_type_def(
             gluecodium::ffi::Conversion<::smoke::TypeDefs::TestStruct>::toCpp(input)
@@ -42,7 +46,8 @@ library_smoke_TypeDefs_returnTestStructTypeDef__TestStruct(FfiOpaqueHandle input
     );
 }
 FfiOpaqueHandle
-library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct(FfiOpaqueHandle input) {
+library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::TypeDefs::TestStruct>::toFfi(
         ::smoke::TypeDefs::return_nested_struct_type_def(
             gluecodium::ffi::Conversion<::smoke::TypeDefs::TestStruct>::toCpp(input)
@@ -50,7 +55,8 @@ library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct(FfiOpaqueHandle inp
     );
 }
 FfiOpaqueHandle
-library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point(FfiOpaqueHandle input) {
+library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Point>::toFfi(
         ::smoke::TypeDefs::return_type_def_point_from_type_collection(
             gluecodium::ffi::Conversion<::smoke::Point>::toCpp(input)
@@ -58,13 +64,15 @@ library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point(FfiOpaqueHand
     );
 }
 FfiOpaqueHandle
-library_smoke_TypeDefs_primitiveTypeProperty_get(FfiOpaqueHandle _self) {
+library_smoke_TypeDefs_primitiveTypeProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::vector<double>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::TypeDefs>>::toCpp(_self)).get_primitive_type_property()
     );
 }
 void
-library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double(FfiOpaqueHandle _self, FfiOpaqueHandle value) {
+library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::TypeDefs>>::toCpp(_self)).set_primitive_type_property(
             gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)
         );

@@ -4,6 +4,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class Lambdas {
   void release();
@@ -21,8 +22,8 @@ final _smoke_Lambdas_Producer_release_handle = __lib.nativeLibrary.lookupFunctio
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Producer_release_handle');
 final _smoke_Lambdas_Producer_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Producer_create_proxy');
 final _smoke_Lambdas_Producer_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -34,9 +35,9 @@ class Lambdas_Producer$Impl {
   Lambdas_Producer$Impl(this.handle);
   void release() => _smoke_Lambdas_Producer_release_handle(handle);
   String call() {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Lambdas_Producer_call');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Lambdas_Producer_call');
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
     return _result;
@@ -50,6 +51,7 @@ int _Lambdas_Producer_call_static(int _token, Pointer<Pointer<Void>> _result) {
 Pointer<Void> smoke_Lambdas_Producer_toFfi(Lambdas_Producer value) {
   final result = _smoke_Lambdas_Producer_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_Lambdas_Producer_call_static, __lib.unknownError)
   );
@@ -110,8 +112,8 @@ final _smoke_Lambdas_Confuser_release_handle = __lib.nativeLibrary.lookupFunctio
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Confuser_release_handle');
 final _smoke_Lambdas_Confuser_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Confuser_create_proxy');
 final _smoke_Lambdas_Confuser_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -123,10 +125,10 @@ class Lambdas_Confuser$Impl {
   Lambdas_Confuser$Impl(this.handle);
   void release() => _smoke_Lambdas_Confuser_release_handle(handle);
   Lambdas_Producer call(String p0) {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_Confuser_call__String');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_Confuser_call__String');
     final _p0_handle = String_toFfi(p0);
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle, _p0_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle);
     String_releaseFfiHandle(_p0_handle);
     final _result = smoke_Lambdas_Producer_fromFfi(__result_handle);
     smoke_Lambdas_Producer_releaseFfiHandle(__result_handle);
@@ -142,6 +144,7 @@ int _Lambdas_Confuser_call_static(int _token, Pointer<Void> p0, Pointer<Pointer<
 Pointer<Void> smoke_Lambdas_Confuser_toFfi(Lambdas_Confuser value) {
   final result = _smoke_Lambdas_Confuser_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_Confuser_call_static, __lib.unknownError)
   );
@@ -201,8 +204,8 @@ final _smoke_Lambdas_Consumer_release_handle = __lib.nativeLibrary.lookupFunctio
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Consumer_release_handle');
 final _smoke_Lambdas_Consumer_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Consumer_create_proxy');
 final _smoke_Lambdas_Consumer_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -214,10 +217,10 @@ class Lambdas_Consumer$Impl {
   Lambdas_Consumer$Impl(this.handle);
   void release() => _smoke_Lambdas_Consumer_release_handle(handle);
   call(String p0) {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_Consumer_call__String');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_Consumer_call__String');
     final _p0_handle = String_toFfi(p0);
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle, _p0_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle);
     String_releaseFfiHandle(_p0_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -232,6 +235,7 @@ int _Lambdas_Consumer_call_static(int _token, Pointer<Void> p0) {
 Pointer<Void> smoke_Lambdas_Consumer_toFfi(Lambdas_Consumer value) {
   final result = _smoke_Lambdas_Consumer_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_Lambdas_Consumer_call_static, __lib.unknownError)
   );
@@ -291,8 +295,8 @@ final _smoke_Lambdas_Indexer_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Indexer_release_handle');
 final _smoke_Lambdas_Indexer_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Indexer_create_proxy');
 final _smoke_Lambdas_Indexer_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -304,11 +308,11 @@ class Lambdas_Indexer$Impl {
   Lambdas_Indexer$Impl(this.handle);
   void release() => _smoke_Lambdas_Indexer_release_handle(handle);
   int call(String p0, double p1) {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Int32 Function(Pointer<Void>, Pointer<Void>, Float), int Function(Pointer<Void>, Pointer<Void>, double)>('library_smoke_Lambdas_Indexer_call__String_Float');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Int32 Function(Pointer<Void>, Int32, Pointer<Void>, Float), int Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_Lambdas_Indexer_call__String_Float');
     final _p0_handle = String_toFfi(p0);
     final _p1_handle = (p1);
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle, _p0_handle, _p1_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle, _p1_handle);
     String_releaseFfiHandle(_p0_handle);
     (_p1_handle);
     final _result = (__result_handle);
@@ -326,6 +330,7 @@ int _Lambdas_Indexer_call_static(int _token, Pointer<Void> p0, double p1, Pointe
 Pointer<Void> smoke_Lambdas_Indexer_toFfi(Lambdas_Indexer value) {
   final result = _smoke_Lambdas_Indexer_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Float, Pointer<Int32>)>(_Lambdas_Indexer_call_static, __lib.unknownError)
   );
@@ -385,8 +390,8 @@ final _smoke_Lambdas_NullableConfuser_release_handle = __lib.nativeLibrary.looku
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_NullableConfuser_release_handle');
 final _smoke_Lambdas_NullableConfuser_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_NullableConfuser_create_proxy');
 final _smoke_Lambdas_NullableConfuser_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -398,10 +403,10 @@ class Lambdas_NullableConfuser$Impl {
   Lambdas_NullableConfuser$Impl(this.handle);
   void release() => _smoke_Lambdas_NullableConfuser_release_handle(handle);
   Lambdas_Producer call(String p0) {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_NullableConfuser_call__String');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_NullableConfuser_call__String');
     final _p0_handle = String_toFfi_nullable(p0);
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle, _p0_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle);
     String_releaseFfiHandle_nullable(_p0_handle);
     final _result = smoke_Lambdas_Producer_fromFfi_nullable(__result_handle);
     smoke_Lambdas_Producer_releaseFfiHandle_nullable(__result_handle);
@@ -417,6 +422,7 @@ int _Lambdas_NullableConfuser_call_static(int _token, Pointer<Void> p0, Pointer<
 Pointer<Void> smoke_Lambdas_NullableConfuser_toFfi(Lambdas_NullableConfuser value) {
   final result = _smoke_Lambdas_NullableConfuser_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_NullableConfuser_call_static, __lib.unknownError)
   );
@@ -481,11 +487,11 @@ class Lambdas$Impl implements Lambdas {
   void release() => _smoke_Lambdas_release_handle(handle);
   @override
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser) {
-    final _deconfuse_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_deconfuse__String_Confuser');
+    final _deconfuse_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_deconfuse__String_Confuser');
     final _value_handle = String_toFfi(value);
     final _confuser_handle = smoke_Lambdas_Confuser_toFfi(confuser);
     final _handle = this.handle;
-    final __result_handle = _deconfuse_ffi(_handle, _value_handle, _confuser_handle);
+    final __result_handle = _deconfuse_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle, _confuser_handle);
     String_releaseFfiHandle(_value_handle);
     smoke_Lambdas_Confuser_releaseFfiHandle(_confuser_handle);
     final _result = smoke_Lambdas_Producer_fromFfi(__result_handle);
@@ -493,10 +499,10 @@ class Lambdas$Impl implements Lambdas {
     return _result;
   }
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) {
-    final _fuse_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_fuse__ListOf_1String_Indexer');
+    final _fuse_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_fuse__ListOf_1String_Indexer');
     final _items_handle = ListOf_String_toFfi(items);
     final _callback_handle = smoke_Lambdas_Indexer_toFfi(callback);
-    final __result_handle = _fuse_ffi(_items_handle, _callback_handle);
+    final __result_handle = _fuse_ffi(__lib.LibraryContext.isolateId, _items_handle, _callback_handle);
     ListOf_String_releaseFfiHandle(_items_handle);
     smoke_Lambdas_Indexer_releaseFfiHandle(_callback_handle);
     final _result = MapOf_Int_to_String_fromFfi(__result_handle);

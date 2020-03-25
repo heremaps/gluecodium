@@ -5,6 +5,7 @@ import 'package:library/src/smoke/FreePoint.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class UseFreeTypes {
   void release();
@@ -42,11 +43,11 @@ class UseFreeTypes$Impl implements UseFreeTypes {
   void release() => _smoke_UseFreeTypes_release_handle(handle);
   @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
-    final _doStuff_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum');
+    final _doStuff_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum');
     final _point_handle = smoke_FreePoint_toFfi(point);
     final _mode_handle = smoke_FreeEnum_toFfi(mode);
     final _handle = this.handle;
-    final __call_result_handle = _doStuff_ffi(_handle, _point_handle, _mode_handle);
+    final __call_result_handle = _doStuff_ffi(_handle, __lib.LibraryContext.isolateId, _point_handle, _mode_handle);
     smoke_FreePoint_releaseFfiHandle(_point_handle);
     smoke_FreeEnum_releaseFfiHandle(_mode_handle);
     if (_doStuff_return_has_error(__call_result_handle) != 0) {

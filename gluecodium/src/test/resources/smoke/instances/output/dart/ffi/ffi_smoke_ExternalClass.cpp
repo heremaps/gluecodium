@@ -10,13 +10,15 @@
 extern "C" {
 #endif
 void
-library_smoke_ExternalClass_someMethod__Byte(FfiOpaqueHandle _self, int8_t someParameter) {
+library_smoke_ExternalClass_someMethod__Byte(FfiOpaqueHandle _self, int32_t _isolate_id, int8_t someParameter) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<::fire::Baz>>::toCpp(_self)).some_Method(
             gluecodium::ffi::Conversion<int8_t>::toCpp(someParameter)
         );
 }
 FfiOpaqueHandle
-library_smoke_ExternalClass_someProperty_get(FfiOpaqueHandle _self) {
+library_smoke_ExternalClass_someProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::fire::Baz>>::toCpp(_self)).get_Me()
     );

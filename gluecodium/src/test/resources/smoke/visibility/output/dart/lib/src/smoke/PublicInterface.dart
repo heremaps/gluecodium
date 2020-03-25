@@ -5,6 +5,7 @@ import 'package:library/src/smoke/PublicClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PublicInterface {
   void release() {}
@@ -81,8 +82,8 @@ final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('library_smoke_PublicInterface_release_handle');
 final _smoke_PublicInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer),
+    Pointer<Void> Function(int, int, Pointer)
   >('library_smoke_PublicInterface_create_proxy');
 final _smoke_PublicInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -102,6 +103,7 @@ Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface$Impl) return _smoke_PublicInterface_copy_handle(value.handle);
   final result = _smoke_PublicInterface_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi
   );
   __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(result)] = value;

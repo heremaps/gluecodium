@@ -326,8 +326,7 @@ feature(Nullable cpp android swift dart SOURCES
     lime/test/NullableInterface.lime
 )
 
-#TODO: #138 enable for Dart
-feature(ListenersWithThreads cpp android SOURCES
+feature(CallbacksWithThreads cpp android dart SOURCES
     src/test/ListenersThreads.cpp
 
     lime/test/ListenersThreads.lime

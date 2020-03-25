@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import "test/Blobs_test.dart" as BlobsTests;
+import "test/CallbacksMultithreaded_test.dart" as CallbacksMultithreadedTests;
 import "test/Classes_test.dart" as ClassesTests;
 import "test/Constants_test.dart" as ConstantsTests;
 import "test/Dates_test.dart" as DatesTests;
@@ -53,6 +54,7 @@ import "test/StructsWithMethods_test.dart" as StructsWithMethodsTests;
 
 final _allTests = [
   BlobsTests.main,
+  CallbacksMultithreadedTests.main,
   ClassesTests.main,
   ConstantsTests.main,
   DatesTests.main,

@@ -9,13 +9,15 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
-library_smoke_SimpleClass_getStringValue(FfiOpaqueHandle _self) {
+library_smoke_SimpleClass_getStringValue(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(_self)).get_string_value()
     );
 }
 FfiOpaqueHandle
-library_smoke_SimpleClass_useSimpleClass__SimpleClass(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_SimpleClass_useSimpleClass__SimpleClass(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(_self)).use_simple_class(
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleClass>>::toCpp(input)

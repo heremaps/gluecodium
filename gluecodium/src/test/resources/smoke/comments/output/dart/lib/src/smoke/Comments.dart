@@ -3,6 +3,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 /// This is some very useful interface.
 abstract class Comments {
@@ -199,8 +200,8 @@ final _smoke_Comments_SomeLambda_release_handle = __lib.nativeLibrary.lookupFunc
     void Function(Pointer<Void>)
   >('library_smoke_Comments_SomeLambda_release_handle');
 final _smoke_Comments_SomeLambda_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Comments_SomeLambda_create_proxy');
 final _smoke_Comments_SomeLambda_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -212,11 +213,11 @@ class Comments_SomeLambda$Impl {
   Comments_SomeLambda$Impl(this.handle);
   void release() => _smoke_Comments_SomeLambda_release_handle(handle);
   double call(String p0, int p1) {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Pointer<Void>, Int32), double Function(Pointer<Void>, Pointer<Void>, int)>('library_smoke_Comments_SomeLambda_call__String_Int');
+    final _call_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_Comments_SomeLambda_call__String_Int');
     final _p0_handle = String_toFfi(p0);
     final _p1_handle = (p1);
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle, _p0_handle, _p1_handle);
+    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle, _p1_handle);
     String_releaseFfiHandle(_p0_handle);
     (_p1_handle);
     final _result = (__result_handle);
@@ -234,6 +235,7 @@ int _Comments_SomeLambda_call_static(int _token, Pointer<Void> p0, int p1, Point
 Pointer<Void> smoke_Comments_SomeLambda_toFfi(Comments_SomeLambda value) {
   final result = _smoke_Comments_SomeLambda_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_Comments_SomeLambda_call_static, __lib.unknownError)
   );
@@ -314,10 +316,10 @@ class Comments$Impl implements Comments {
   void release() => _smoke_Comments_release_handle(handle);
   @override
   bool someMethodWithAllComments(String input) {
-    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String');
+    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
+    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
@@ -334,10 +336,10 @@ class Comments$Impl implements Comments {
   }
   @override
   bool someMethodWithInputComments(String input) {
-    final _someMethodWithInputComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_someMethodWithInputComments__String');
+    final _someMethodWithInputComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithInputComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithInputComments_ffi(_handle, _input_handle);
+    final __result_handle = _someMethodWithInputComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -345,10 +347,10 @@ class Comments$Impl implements Comments {
   }
   @override
   bool someMethodWithOutputComments(String input) {
-    final _someMethodWithOutputComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_someMethodWithOutputComments__String');
+    final _someMethodWithOutputComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithOutputComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithOutputComments_ffi(_handle, _input_handle);
+    final __result_handle = _someMethodWithOutputComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -356,10 +358,10 @@ class Comments$Impl implements Comments {
   }
   @override
   bool someMethodWithNoComments(String input) {
-    final _someMethodWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_someMethodWithNoComments__String');
+    final _someMethodWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithNoComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithNoComments_ffi(_handle, _input_handle);
+    final __result_handle = _someMethodWithNoComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -367,10 +369,10 @@ class Comments$Impl implements Comments {
   }
   @override
   someMethodWithoutReturnTypeWithAllComments(String input) {
-    final _someMethodWithoutReturnTypeWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeWithAllComments__String');
+    final _someMethodWithoutReturnTypeWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeWithAllComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithoutReturnTypeWithAllComments_ffi(_handle, _input_handle);
+    final __result_handle = _someMethodWithoutReturnTypeWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -378,10 +380,10 @@ class Comments$Impl implements Comments {
   }
   @override
   someMethodWithoutReturnTypeWithNoComments(String input) {
-    final _someMethodWithoutReturnTypeWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeWithNoComments__String');
+    final _someMethodWithoutReturnTypeWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeWithNoComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithoutReturnTypeWithNoComments_ffi(_handle, _input_handle);
+    final __result_handle = _someMethodWithoutReturnTypeWithNoComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -389,47 +391,47 @@ class Comments$Impl implements Comments {
   }
   @override
   bool someMethodWithoutInputParametersWithAllComments() {
-    final _someMethodWithoutInputParametersWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_Comments_someMethodWithoutInputParametersWithAllComments');
+    final _someMethodWithoutInputParametersWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithoutInputParametersWithAllComments');
     final _handle = this.handle;
-    final __result_handle = _someMethodWithoutInputParametersWithAllComments_ffi(_handle);
+    final __result_handle = _someMethodWithoutInputParametersWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
   @override
   bool someMethodWithoutInputParametersWithNoComments() {
-    final _someMethodWithoutInputParametersWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_Comments_someMethodWithoutInputParametersWithNoComments');
+    final _someMethodWithoutInputParametersWithNoComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithoutInputParametersWithNoComments');
     final _handle = this.handle;
-    final __result_handle = _someMethodWithoutInputParametersWithNoComments_ffi(_handle);
+    final __result_handle = _someMethodWithoutInputParametersWithNoComments_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
   @override
   someMethodWithNothing() {
-    final _someMethodWithNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_Comments_someMethodWithNothing');
+    final _someMethodWithNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithNothing');
     final _handle = this.handle;
-    final __result_handle = _someMethodWithNothing_ffi(_handle);
+    final __result_handle = _someMethodWithNothing_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   @override
   someMethodWithoutReturnTypeOrInputParameters() {
-    final _someMethodWithoutReturnTypeOrInputParameters_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeOrInputParameters');
+    final _someMethodWithoutReturnTypeOrInputParameters_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithoutReturnTypeOrInputParameters');
     final _handle = this.handle;
-    final __result_handle = _someMethodWithoutReturnTypeOrInputParameters_ffi(_handle);
+    final __result_handle = _someMethodWithoutReturnTypeOrInputParameters_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = (__result_handle);
     (__result_handle);
     return _result;
   }
   @override
   String oneParameterCommentOnly(String undocumented, String documented) {
-    final _oneParameterCommentOnly_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_oneParameterCommentOnly__String_String');
+    final _oneParameterCommentOnly_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_oneParameterCommentOnly__String_String');
     final _undocumented_handle = String_toFfi(undocumented);
     final _documented_handle = String_toFfi(documented);
     final _handle = this.handle;
-    final __result_handle = _oneParameterCommentOnly_ffi(_handle, _undocumented_handle, _documented_handle);
+    final __result_handle = _oneParameterCommentOnly_ffi(_handle, __lib.LibraryContext.isolateId, _undocumented_handle, _documented_handle);
     String_releaseFfiHandle(_undocumented_handle);
     String_releaseFfiHandle(_documented_handle);
     final _result = String_fromFfi(__result_handle);
@@ -438,10 +440,10 @@ class Comments$Impl implements Comments {
   }
   @override
   String returnCommentOnly(String undocumented) {
-    final _returnCommentOnly_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_Comments_returnCommentOnly__String');
+    final _returnCommentOnly_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_returnCommentOnly__String');
     final _undocumented_handle = String_toFfi(undocumented);
     final _handle = this.handle;
-    final __result_handle = _returnCommentOnly_ffi(_handle, _undocumented_handle);
+    final __result_handle = _returnCommentOnly_ffi(_handle, __lib.LibraryContext.isolateId, _undocumented_handle);
     String_releaseFfiHandle(_undocumented_handle);
     final _result = String_fromFfi(__result_handle);
     String_releaseFfiHandle(__result_handle);
@@ -449,19 +451,19 @@ class Comments$Impl implements Comments {
   }
   @override
   bool get isSomeProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_Comments_isSomeProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_isSomeProperty_get');
     final _handle = this.handle;
-    final __result_handle = _get_ffi(_handle);
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
   @override
   set isSomeProperty(bool value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint8), void Function(Pointer<Void>, int)>('library_smoke_Comments_isSomeProperty_set__Boolean');
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Comments_isSomeProperty_set__Boolean');
     final _value_handle = Boolean_toFfi(value);
     final _handle = this.handle;
-    final __result_handle = _set_ffi(_handle, _value_handle);
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Boolean_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);

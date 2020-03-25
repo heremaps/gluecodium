@@ -3,6 +3,7 @@ import 'package:library/src/smoke/FreeEnum.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 class FreePoint {
   double x;
@@ -10,9 +11,9 @@ class FreePoint {
   FreePoint(this.x, this.y);
   static final FreeEnum aBar = FreeEnum.bar;
   FreePoint flip() {
-    final _flip_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_FreePoint_flip');
+    final _flip_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip');
     final _handle = smoke_FreePoint_toFfi(this);
-    final __result_handle = _flip_ffi(_handle);
+    final __result_handle = _flip_ffi(_handle, __lib.LibraryContext.isolateId);
     smoke_FreePoint_releaseFfiHandle(_handle);
     final _result = smoke_FreePoint_fromFfi(__result_handle);
     smoke_FreePoint_releaseFfiHandle(__result_handle);
