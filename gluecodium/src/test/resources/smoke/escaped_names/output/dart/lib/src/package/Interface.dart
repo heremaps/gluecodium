@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class Interface {
-  void release();
+  void release() {}
 }
 // Interface "private" section, not exported.
 final _package_Interface_copy_handle = __lib.nativeLibrary.lookupFunction<

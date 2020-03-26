@@ -7,7 +7,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PublicInterface {
-  void release();
+  void release() {}
 }
 class PublicInterface_InternalStruct {
   PublicClass_InternalStruct _fieldOfInternalType;

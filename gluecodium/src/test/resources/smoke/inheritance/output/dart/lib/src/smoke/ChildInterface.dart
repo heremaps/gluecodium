@@ -7,7 +7,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ChildInterface implements ParentInterface {
-  void release();
+  void release() {}
   childMethod();
 }
 // ChildInterface "private" section, not exported.

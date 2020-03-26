@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class OuterInterface {
-  void release();
+  void release() {}
   String foo(String input);
 }
 abstract class OuterInterface_InnerClass {
@@ -53,7 +53,7 @@ void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> han
   _smoke_OuterInterface_InnerClass_release_handle(handle);
 // End of OuterInterface_InnerClass "private" section.
 abstract class OuterInterface_InnerInterface {
-  void release();
+  void release() {}
   String foo(String input);
 }
 // OuterInterface_InnerInterface "private" section, not exported.

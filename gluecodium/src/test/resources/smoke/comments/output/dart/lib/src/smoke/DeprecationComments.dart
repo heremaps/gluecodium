@@ -8,7 +8,7 @@ import 'package:library/src/_library_init.dart' as __lib;
 /// This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [comments] instead.")
 abstract class DeprecationComments {
-  void release();
+  void release() {}
   /// This is some very useful constant.
   @Deprecated("Unfortunately, this constant is deprecated. Use [comments.VeryUseful] instead.")
   static final bool veryUseful = true;
