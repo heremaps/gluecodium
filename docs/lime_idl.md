@@ -544,6 +544,8 @@ The resulting documentation will look like this, per language:
 Note that one space after the `@Platform` is treated as separator, everything after that, including
 spaces is considered to be part of the comment.
 
+Supported platform tags are `@Cpp`, `@Java`, `@Swift`, and `@Dart`.
+
 Multiple platform tags can be combined in a single `{@ }` section, if necessary:
 ```
 // Process something{@Cpp @Java  the right way}.
