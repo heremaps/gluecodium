@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PropertiesInterface {
-  void release();
+  void release() {}
   PropertiesInterface_ExampleStruct get structProperty;
   set structProperty(PropertiesInterface_ExampleStruct value);
 }

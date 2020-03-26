@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ExternalInterface {
-  void release();
+  void release() {}
   someMethod(int someParameter);
   String get someProperty;
 }

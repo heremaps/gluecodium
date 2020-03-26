@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 /// This is some very useful interface.
 abstract class CommentsInterface {
-  void release();
+  void release() {}
   /// This is some very useful constant.
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.

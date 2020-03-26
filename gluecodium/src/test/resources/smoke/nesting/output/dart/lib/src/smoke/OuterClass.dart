@@ -53,7 +53,7 @@ void smoke_OuterClass_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle)
   _smoke_OuterClass_InnerClass_release_handle(handle);
 // End of OuterClass_InnerClass "private" section.
 abstract class OuterClass_InnerInterface {
-  void release();
+  void release() {}
   String foo(String input);
 }
 // OuterClass_InnerInterface "private" section, not exported.

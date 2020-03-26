@@ -24,7 +24,7 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("Listeners");
 
-class MessageListener implements StringListener {
+class MessageListener extends StringListener {
   @override
   void onMessage(String message) {}
 
@@ -33,17 +33,12 @@ class MessageListener implements StringListener {
 
   @override
   void onStructMessage(StringListener_StringStruct message) {}
-
-  @override
-  void release() {}
 }
 
-class RouteImpl implements Route {
-  @override
-  void release() {}
+class RouteImpl extends Route {
 }
 
-class RouteProviderImpl implements RouteProvider {
+class RouteProviderImpl extends RouteProvider {
   static bool setRouteWasRun = false;
   static bool setRouteCouldCast = false;
 
@@ -53,9 +48,6 @@ class RouteProviderImpl implements RouteProvider {
     setRouteCouldCast = route is RouteImpl;
     route.release();
   }
-
-  @override
-  void release() {}
 }
 
 void main() {

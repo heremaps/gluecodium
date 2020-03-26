@@ -26,12 +26,9 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ListenersWithAttributes");
 
-class TestMessagePackage implements MessagePackage {
+class TestMessagePackage extends MessagePackage {
   @override
   String unpackMessage() => "Works";
-
-  @override
-  void release() {}
 }
 
 class TestListener implements ListenerWithAttributes {

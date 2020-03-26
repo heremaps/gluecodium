@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
-  void release();
+  void release() {}
   @Deprecated("Unfortunately, this constant is deprecated.")
   static final bool veryUseful = true;
   /// @param[input] Very useful input parameter

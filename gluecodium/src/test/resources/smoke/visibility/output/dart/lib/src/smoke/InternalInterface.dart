@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class InternalInterface {
-  void release();
+  void release() {}
 }
 // InternalInterface "private" section, not exported.
 final _smoke_InternalInterface_copy_handle = __lib.nativeLibrary.lookupFunction<

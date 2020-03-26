@@ -25,7 +25,7 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ListenersWithErrors");
 
-class TestListener implements ErrorsInInterface {
+class TestListener extends ErrorsInInterface {
   String _message = "Doesn't work";
 
   @override
@@ -43,12 +43,9 @@ class TestListener implements ErrorsInInterface {
   void setMessageWithPayload(String value) {
     _message = value;
   }
-
-  @override
-  void release() {}
 }
 
-class ThrowingListener implements ErrorsInInterface {
+class ThrowingListener extends ErrorsInInterface {
   String _message = "Doesn't work";
 
   @override
@@ -70,9 +67,6 @@ class ThrowingListener implements ErrorsInInterface {
   void setMessageWithPayload(String value) {
     // TODO: #140 throw with payload
   }
-
-  @override
-  void release() {}
 }
 
 void main() {

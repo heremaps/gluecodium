@@ -8,7 +8,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ErrorsInterface {
-  void release();
+  void release() {}
   methodWithErrors();
   methodWithExternalErrors();
   String methodWithErrorsAndReturnValue();

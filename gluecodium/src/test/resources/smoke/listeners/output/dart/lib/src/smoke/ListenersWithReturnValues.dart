@@ -8,7 +8,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ListenersWithReturnValues {
-  void release();
+  void release() {}
   double fetchDataDouble();
   String fetchDataString();
   ListenersWithReturnValues_ResultStruct fetchDataStruct();

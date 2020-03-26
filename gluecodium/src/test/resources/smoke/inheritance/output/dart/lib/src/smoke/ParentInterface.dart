@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ParentInterface {
-  void release();
+  void release() {}
   rootMethod();
   String get rootProperty;
   set rootProperty(String value);
