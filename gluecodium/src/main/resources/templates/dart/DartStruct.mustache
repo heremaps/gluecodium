@@ -26,13 +26,13 @@
 class {{resolveName}} {
 {{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
 {{/fields}}{{/set}}
-{{#if fields}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{#if fields}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
-}}this._({{#fields}}_other.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+}}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
   {{resolveName}}.withDefaults({{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
-    : {{#fields}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
-    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#unless defaultValue}}{{resolveName visibility}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{/unless}}{{/if}}
 {{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}{{/set}}
@@ -58,7 +58,7 @@ class {{resolveName}} {
   int get hashCode {
     int result = 7;
 {{#fields}}
-    result = 31 * result + {{resolveName}}.hashCode;
+    result = 31 * result + {{resolveName visibility}}{{resolveName}}.hashCode;
 {{/fields}}
     return result;
   }
@@ -84,7 +84,7 @@ final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.nati
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 {{#fields}}
-  final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName}});
+  final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName visibility}}{{resolveName}});
 {{/fields}}
   final _result = _{{resolveName "Ffi"}}_create_handle({{#fields}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#fields}}
@@ -122,9 +122,9 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 {{/dartConstructor}}{{!!
 
 }}{{+dartFieldEq}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().equals({{resolveName}}, _other.{{resolveName}}){{/instanceOf}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().equals({{resolveName}}, _other.{{resolveName}}){{/instanceOf}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().equals({{resolveName}}, _other.{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
-}}{{resolveName}} == _other.{{resolveName}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{resolveName visibility}}{{resolveName}} == _other.{{resolveName visibility}}{{resolveName}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
 }}{{/dartFieldEq}}

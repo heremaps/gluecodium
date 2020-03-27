@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue in Dart for @Equatable structs with internal fields.
+
 ## 6.3.5
 Release date: 2020-03-20
 ### Features:

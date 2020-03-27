@@ -76,3 +76,12 @@ class PointerEquatableClass {
 struct EquatableStructWithAccessors {
     fooField: String
 }
+
+@Equatable
+struct EquatableStructWithInternalFields {
+    publicField: String
+    internal internalField: String
+    internal internalListField: List<String>
+    internal internalMapField: Map<String, String>
+    internal internalSetField: Set<String>
+}

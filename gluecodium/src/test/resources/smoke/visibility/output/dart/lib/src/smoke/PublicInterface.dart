@@ -11,7 +11,7 @@ abstract class PublicInterface {
 }
 class PublicInterface_InternalStruct {
   PublicClass_InternalStruct _fieldOfInternalType;
-  PublicInterface_InternalStruct(this.fieldOfInternalType);
+  PublicInterface_InternalStruct(this._fieldOfInternalType);
 }
 // PublicInterface_InternalStruct "private" section, not exported.
 final _smoke_PublicInterface_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -27,7 +27,7 @@ final _smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType = __li
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType');
 Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi(PublicInterface_InternalStruct value) {
-  final _fieldOfInternalType_handle = smoke_PublicClass_InternalStruct_toFfi(value.fieldOfInternalType);
+  final _fieldOfInternalType_handle = smoke_PublicClass_InternalStruct_toFfi(value._fieldOfInternalType);
   final _result = _smoke_PublicInterface_InternalStruct_create_handle(_fieldOfInternalType_handle);
   smoke_PublicClass_InternalStruct_releaseFfiHandle(_fieldOfInternalType_handle);
   return _result;
