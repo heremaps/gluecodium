@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_init.dart' as __lib;
 class InternalStruct {
   String _stringField;
-  InternalStruct(this.stringField);
+  InternalStruct(this._stringField);
 }
 // InternalStruct "private" section, not exported.
 final _smoke_PublicTypeCollection_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -21,7 +21,7 @@ final _smoke_PublicTypeCollection_InternalStruct_get_field_stringField = __lib.n
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicTypeCollection_InternalStruct_get_field_stringField');
 Pointer<Void> smoke_PublicTypeCollection_InternalStruct_toFfi(InternalStruct value) {
-  final _stringField_handle = String_toFfi(value.stringField);
+  final _stringField_handle = String_toFfi(value._stringField);
   final _result = _smoke_PublicTypeCollection_InternalStruct_create_handle(_stringField_handle);
   String_releaseFfiHandle(_stringField_handle);
   return _result;

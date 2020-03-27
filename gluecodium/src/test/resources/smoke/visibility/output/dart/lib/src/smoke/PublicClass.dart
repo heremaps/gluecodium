@@ -72,7 +72,7 @@ void smoke_PublicClass_InternalEnum_releaseFfiHandle_nullable(Pointer<Void> hand
 // End of PublicClass_InternalEnum "private" section.
 class PublicClass_InternalStruct {
   String _stringField;
-  PublicClass_InternalStruct(this.stringField);
+  PublicClass_InternalStruct(this._stringField);
 }
 // PublicClass_InternalStruct "private" section, not exported.
 final _smoke_PublicClass_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -88,7 +88,7 @@ final _smoke_PublicClass_InternalStruct_get_field_stringField = __lib.nativeLibr
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicClass_InternalStruct_get_field_stringField');
 Pointer<Void> smoke_PublicClass_InternalStruct_toFfi(PublicClass_InternalStruct value) {
-  final _stringField_handle = String_toFfi(value.stringField);
+  final _stringField_handle = String_toFfi(value._stringField);
   final _result = _smoke_PublicClass_InternalStruct_create_handle(_stringField_handle);
   String_releaseFfiHandle(_stringField_handle);
   return _result;
@@ -134,7 +134,7 @@ void smoke_PublicClass_InternalStruct_releaseFfiHandle_nullable(Pointer<Void> ha
 // End of PublicClass_InternalStruct "private" section.
 class PublicClass_PublicStruct {
   PublicClass_InternalStruct _internalField;
-  PublicClass_PublicStruct(this.internalField);
+  PublicClass_PublicStruct(this._internalField);
 }
 // PublicClass_PublicStruct "private" section, not exported.
 final _smoke_PublicClass_PublicStruct_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -150,7 +150,7 @@ final _smoke_PublicClass_PublicStruct_get_field_internalField = __lib.nativeLibr
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicClass_PublicStruct_get_field_internalField');
 Pointer<Void> smoke_PublicClass_PublicStruct_toFfi(PublicClass_PublicStruct value) {
-  final _internalField_handle = smoke_PublicClass_InternalStruct_toFfi(value.internalField);
+  final _internalField_handle = smoke_PublicClass_InternalStruct_toFfi(value._internalField);
   final _result = _smoke_PublicClass_PublicStruct_create_handle(_internalField_handle);
   smoke_PublicClass_InternalStruct_releaseFfiHandle(_internalField_handle);
   return _result;
@@ -197,9 +197,9 @@ void smoke_PublicClass_PublicStruct_releaseFfiHandle_nullable(Pointer<Void> hand
 class PublicClass_PublicStructWithInternalDefaults {
   String _internalField;
   double publicField;
-  PublicClass_PublicStructWithInternalDefaults(this.internalField, this.publicField);
+  PublicClass_PublicStructWithInternalDefaults(this._internalField, this.publicField);
   PublicClass_PublicStructWithInternalDefaults.withDefaults(double publicField)
-    : internalField = "foo", publicField = publicField;
+    : _internalField = "foo", publicField = publicField;
 }
 // PublicClass_PublicStructWithInternalDefaults "private" section, not exported.
 final _smoke_PublicClass_PublicStructWithInternalDefaults_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -219,7 +219,7 @@ final _smoke_PublicClass_PublicStructWithInternalDefaults_get_field_publicField 
     double Function(Pointer<Void>)
   >('library_smoke_PublicClass_PublicStructWithInternalDefaults_get_field_publicField');
 Pointer<Void> smoke_PublicClass_PublicStructWithInternalDefaults_toFfi(PublicClass_PublicStructWithInternalDefaults value) {
-  final _internalField_handle = String_toFfi(value.internalField);
+  final _internalField_handle = String_toFfi(value._internalField);
   final _publicField_handle = (value.publicField);
   final _result = _smoke_PublicClass_PublicStructWithInternalDefaults_create_handle(_internalField_handle, _publicField_handle);
   String_releaseFfiHandle(_internalField_handle);
