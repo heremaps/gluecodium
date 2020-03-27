@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## 6.3.6
+Release date: 2020-03-27
+
 ## 6.3.5
 Release date: 2020-03-20
 ### Features:
