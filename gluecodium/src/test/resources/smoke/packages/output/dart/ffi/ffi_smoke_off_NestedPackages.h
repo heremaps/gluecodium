@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_off_NestedPackages_basicMethod__SomeStruct(FfiOpaqueHandle input);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_off_NestedPackages_basicMethod__SomeStruct(int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_off_NestedPackages_SomeStruct_create_handle(FfiOpaqueHandle);

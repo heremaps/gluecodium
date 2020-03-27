@@ -10,7 +10,8 @@
 extern "C" {
 #endif
 uint64_t
-library_smoke_Dates_dateMethod__Date(FfiOpaqueHandle _self, uint64_t input) {
+library_smoke_Dates_dateMethod__Date(FfiOpaqueHandle _self, int32_t _isolate_id, uint64_t input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Dates>>::toCpp(_self)).date_method(
             gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(input)
@@ -18,13 +19,15 @@ library_smoke_Dates_dateMethod__Date(FfiOpaqueHandle _self, uint64_t input) {
     );
 }
 uint64_t
-library_smoke_Dates_dateProperty_get(FfiOpaqueHandle _self) {
+library_smoke_Dates_dateProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Dates>>::toCpp(_self)).get_date_property()
     );
 }
 void
-library_smoke_Dates_dateProperty_set__Date(FfiOpaqueHandle _self, uint64_t value) {
+library_smoke_Dates_dateProperty_set__Date(FfiOpaqueHandle _self, int32_t _isolate_id, uint64_t value) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Dates>>::toCpp(_self)).set_date_property(
             gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(value)
         );

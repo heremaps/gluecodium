@@ -2,6 +2,7 @@ import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class Dates {
   void release();
@@ -87,10 +88,10 @@ class Dates$Impl implements Dates {
   void release() => _smoke_Dates_release_handle(handle);
   @override
   DateTime dateMethod(DateTime input) {
-    final _dateMethod_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Uint64), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateMethod__Date');
+    final _dateMethod_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date');
     final _input_handle = Date_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _dateMethod_ffi(_handle, _input_handle);
+    final __result_handle = _dateMethod_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     Date_releaseFfiHandle(_input_handle);
     final _result = Date_fromFfi(__result_handle);
     Date_releaseFfiHandle(__result_handle);
@@ -98,19 +99,19 @@ class Dates$Impl implements Dates {
   }
   @override
   DateTime get dateProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_Dates_dateProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_get');
     final _handle = this.handle;
-    final __result_handle = _get_ffi(_handle);
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = Date_fromFfi(__result_handle);
     Date_releaseFfiHandle(__result_handle);
     return _result;
   }
   @override
   set dateProperty(DateTime value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint64), void Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_set__Date');
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateProperty_set__Date');
     final _value_handle = Date_toFfi(value);
     final _handle = this.handle;
-    final __result_handle = _set_ffi(_handle, _value_handle);
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Date_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);

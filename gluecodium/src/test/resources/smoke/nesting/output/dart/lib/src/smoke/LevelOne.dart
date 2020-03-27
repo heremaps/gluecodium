@@ -4,6 +4,7 @@ import 'package:library/src/smoke/OuterInterface.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class LevelOne {
   void release();
@@ -72,8 +73,8 @@ class LevelOne_LevelTwo_LevelThree_LevelFour {
   LevelOne_LevelTwo_LevelThree_LevelFour(this.stringField);
   static final bool foo = false;
   static LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() {
-    final _fooFactory_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory');
-    final __result_handle = _fooFactory_ffi();
+    final _fooFactory_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory');
+    final __result_handle = _fooFactory_ffi(__lib.LibraryContext.isolateId);
     final _result = smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fromFfi(__result_handle);
     smoke_LevelOne_LevelTwo_LevelThree_LevelFour_releaseFfiHandle(__result_handle);
     return _result;
@@ -153,10 +154,10 @@ class LevelOne_LevelTwo_LevelThree$Impl implements LevelOne_LevelTwo_LevelThree 
   void release() => _smoke_LevelOne_LevelTwo_LevelThree_release_handle(handle);
   @override
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input) {
-    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface');
+    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface');
     final _input_handle = smoke_OuterClass_InnerInterface_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _foo_ffi(_handle, _input_handle);
+    final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_OuterClass_InnerInterface_releaseFfiHandle(_input_handle);
     final _result = smoke_OuterInterface_InnerClass_fromFfi(__result_handle);
     smoke_OuterInterface_InnerClass_releaseFfiHandle(__result_handle);

@@ -3,6 +3,7 @@ import 'package:library/src/smoke/Comments.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class UnicodeComments {
   void release();
@@ -44,10 +45,10 @@ class UnicodeComments$Impl implements UnicodeComments {
   void release() => _smoke_UnicodeComments_release_handle(handle);
   @override
   bool someMethodWithAllComments(String input) {
-    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, Pointer<Void>)>('library_smoke_UnicodeComments_someMethodWithAllComments__String');
+    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_UnicodeComments_someMethodWithAllComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
+    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);

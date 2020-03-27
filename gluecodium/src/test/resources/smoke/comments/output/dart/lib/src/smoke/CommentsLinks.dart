@@ -2,6 +2,7 @@ import 'package:library/src/smoke/Comments.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 /// The nested types like [random_method] don't need full name prefix, but it's
 /// possible to references other interfaces like [CommentsInterface] or other members
@@ -137,10 +138,10 @@ class CommentsLinks$Impl implements CommentsLinks {
   void release() => _smoke_CommentsLinks_release_handle(handle);
   @override
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
-    final _randomMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum');
+    final _randomMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum');
     final _inputParameter_handle = smoke_Comments_SomeEnum_toFfi(inputParameter);
     final _handle = this.handle;
-    final __call_result_handle = _randomMethod_ffi(_handle, _inputParameter_handle);
+    final __call_result_handle = _randomMethod_ffi(_handle, __lib.LibraryContext.isolateId, _inputParameter_handle);
     smoke_Comments_SomeEnum_releaseFfiHandle(_inputParameter_handle);
     if (_randomMethod_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _randomMethod_return_get_error(__call_result_handle);

@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class InternalInterface {
   void release() {}
@@ -18,8 +19,8 @@ final _smoke_InternalInterface_release_handle = __lib.nativeLibrary.lookupFuncti
     void Function(Pointer<Void>)
   >('library_smoke_InternalInterface_release_handle');
 final _smoke_InternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer),
+    Pointer<Void> Function(int, int, Pointer)
   >('library_smoke_InternalInterface_create_proxy');
 final _smoke_InternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -39,6 +40,7 @@ Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
   if (value is InternalInterface$Impl) return _smoke_InternalInterface_copy_handle(value.handle);
   final result = _smoke_InternalInterface_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi
   );
   __lib.reverseCache[_smoke_InternalInterface_get_raw_pointer(result)] = value;

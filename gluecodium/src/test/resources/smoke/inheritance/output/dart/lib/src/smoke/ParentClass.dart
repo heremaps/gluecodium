@@ -3,6 +3,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class ParentClass {
   void release();
@@ -28,9 +29,9 @@ class ParentClass$Impl implements ParentClass {
   void release() => _smoke_ParentClass_release_handle(handle);
   @override
   rootMethod() {
-    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>), void Function(Pointer<Void>)>('library_smoke_ParentClass_rootMethod');
+    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod');
     final _handle = this.handle;
-    final __result_handle = _rootMethod_ffi(_handle);
+    final __result_handle = _rootMethod_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = (__result_handle);
     (__result_handle);
     return _result;

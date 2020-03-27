@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class Constructors {
   factory Constructors() => Constructors$Impl.create();
@@ -116,30 +117,30 @@ class Constructors$Impl implements Constructors {
   Constructors$Impl.fromString(String input) : this(_fromString(input));
   Constructors$Impl.fromList(List<double> input) : this(_fromList(input));
   static Pointer<Void> _create() {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Constructors_create');
-    final __result_handle = _create_ffi();
+    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create');
+    final __result_handle = _create_ffi(__lib.LibraryContext.isolateId);
     return __result_handle;
   }
   static Pointer<Void> _fromOther(Constructors other) {
-    final _fromOther_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Constructors_create__Constructors');
+    final _fromOther_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__Constructors');
     final _other_handle = smoke_Constructors_toFfi(other);
-    final __result_handle = _fromOther_ffi(_other_handle);
+    final __result_handle = _fromOther_ffi(__lib.LibraryContext.isolateId, _other_handle);
     smoke_Constructors_releaseFfiHandle(_other_handle);
     return __result_handle;
   }
   static Pointer<Void> _fromMulti(String foo, int bar) {
-    final _fromMulti_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Uint64), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Constructors_create__String_ULong');
+    final _fromMulti_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Uint64), Pointer<Void> Function(int, Pointer<Void>, int)>('library_smoke_Constructors_create__String_ULong');
     final _foo_handle = String_toFfi(foo);
     final _bar_handle = (bar);
-    final __result_handle = _fromMulti_ffi(_foo_handle, _bar_handle);
+    final __result_handle = _fromMulti_ffi(__lib.LibraryContext.isolateId, _foo_handle, _bar_handle);
     String_releaseFfiHandle(_foo_handle);
     (_bar_handle);
     return __result_handle;
   }
   static Pointer<Void> _fromString(String input) {
-    final _fromString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Constructors_create__String');
+    final _fromString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__String');
     final _input_handle = String_toFfi(input);
-    final __call_result_handle = _fromString_ffi(_input_handle);
+    final __call_result_handle = _fromString_ffi(__lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     if (_fromString_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _fromString_return_get_error(__call_result_handle);
@@ -153,9 +154,9 @@ class Constructors$Impl implements Constructors {
     return __result_handle;
   }
   static Pointer<Void> _fromList(List<double> input) {
-    final _fromList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double');
+    final _fromList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double');
     final _input_handle = ListOf_Double_toFfi(input);
-    final __result_handle = _fromList_ffi(_input_handle);
+    final __result_handle = _fromList_ffi(__lib.LibraryContext.isolateId, _input_handle);
     ListOf_Double_releaseFfiHandle(_input_handle);
     return __result_handle;
   }

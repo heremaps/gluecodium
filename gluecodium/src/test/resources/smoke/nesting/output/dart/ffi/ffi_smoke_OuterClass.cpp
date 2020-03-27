@@ -1,5 +1,7 @@
 #include "ffi_smoke_OuterClass.h"
 #include "ConversionBase.h"
+#include "CallbacksQueue.h"
+#include "IsolateContext.h"
 #include "ProxyCache.h"
 #include "smoke/OuterClass.h"
 #include <memory>
@@ -8,32 +10,42 @@
 #include <new>
 class smoke_OuterClass_InnerInterface_Proxy : public ::smoke::OuterClass::InnerInterface {
 public:
-    smoke_OuterClass_InnerInterface_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
-        : token(token), deleter(deleter), f0(f0) { }
+    smoke_OuterClass_InnerInterface_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_OuterClass_InnerInterface_Proxy() {
-        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
+            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        });
     }
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
-        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(input),
             &_result_handle
-        );
+        ); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
         delete reinterpret_cast<std::string*>(_result_handle);
         return _result;
     }
 private:
     uint64_t token;
+    int32_t isolate_id;
     FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
+    inline void dispatch(std::function<void()>&& callback) const
+    {
+        gluecodium::ffi::IsolateContext::is_current(isolate_id)
+            ? callback()
+            : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+    }
 };
 #ifdef __cplusplus
 extern "C" {
 #endif
 FfiOpaqueHandle
-library_smoke_OuterClass_foo__String(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_OuterClass_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass>>::toCpp(_self)).foo(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
@@ -77,14 +89,14 @@ library_smoke_OuterClass_InnerInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerInterface>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_OuterClass_InnerInterface_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+library_smoke_OuterClass_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_OuterClass_InnerInterface_Proxy>(token);
     std::shared_ptr<smoke_OuterClass_InnerInterface_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_OuterClass_InnerInterface_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_OuterClass_InnerInterface_Proxy>(
-            new (std::nothrow) smoke_OuterClass_InnerInterface_Proxy(token, deleter, f0)
+            new (std::nothrow) smoke_OuterClass_InnerInterface_Proxy(token, isolate_id, deleter, f0)
         );
         gluecodium::ffi::cache_proxy(token, *proxy_ptr);
     }

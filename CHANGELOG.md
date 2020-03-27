@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for cross-thread calling of Dart code in C++.
 ### Bug fixes:
   * Fixed compilation issue in Dart for @Equatable structs with internal fields.
 

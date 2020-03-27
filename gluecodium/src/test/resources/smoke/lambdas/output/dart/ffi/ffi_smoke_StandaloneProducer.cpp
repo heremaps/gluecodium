@@ -1,5 +1,7 @@
 #include "ffi_smoke_StandaloneProducer.h"
 #include "ConversionBase.h"
+#include "CallbacksQueue.h"
+#include "IsolateContext.h"
 #include "ProxyCache.h"
 #include "smoke/StandaloneProducer.h"
 #include <functional>
@@ -8,31 +10,41 @@
 #include <new>
 class smoke_StandaloneProducer_Proxy {
 public:
-    smoke_StandaloneProducer_Proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
-        : token(token), deleter(deleter), f0(f0) { }
+    smoke_StandaloneProducer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
+        : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_StandaloneProducer_Proxy() {
-        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
+            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        });
     }
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
-        (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
             &_result_handle
-        );
+        ); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
         delete reinterpret_cast<std::string*>(_result_handle);
         return _result;
     }
 private:
     uint64_t token;
+    int32_t isolate_id;
     FfiOpaqueHandle deleter;
     FfiOpaqueHandle f0;
+    inline void dispatch(std::function<void()>&& callback) const
+    {
+        gluecodium::ffi::IsolateContext::is_current(isolate_id)
+            ? callback()
+            : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+    }
 };
 #ifdef __cplusplus
 extern "C" {
 #endif
 FfiOpaqueHandle
-library_smoke_StandaloneProducer_call(FfiOpaqueHandle _self) {
+library_smoke_StandaloneProducer_call(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         gluecodium::ffi::Conversion<::smoke::StandaloneProducer>::toCpp(_self).operator()()
     );
@@ -71,10 +83,10 @@ library_smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
     );
 }
 FfiOpaqueHandle
-library_smoke_StandaloneProducer_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+library_smoke_StandaloneProducer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_StandaloneProducer_Proxy>(token);
     if (!cached_proxy) {
-        cached_proxy = std::make_shared<smoke_StandaloneProducer_Proxy>(token, deleter, f0);
+        cached_proxy = std::make_shared<smoke_StandaloneProducer_Proxy>(token, isolate_id, deleter, f0);
         gluecodium::ffi::cache_proxy(token, cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(

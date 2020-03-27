@@ -16,7 +16,8 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
-library_smoke_Structs_swapPointCoordinates__Point(FfiOpaqueHandle input) {
+library_smoke_Structs_swapPointCoordinates__Point(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Structs::Point>::toFfi(
         ::smoke::Structs::swap_point_coordinates(
             gluecodium::ffi::Conversion<::smoke::Structs::Point>::toCpp(input)
@@ -24,7 +25,8 @@ library_smoke_Structs_swapPointCoordinates__Point(FfiOpaqueHandle input) {
     );
 }
 FfiOpaqueHandle
-library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input) {
+library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Structs::AllTypesStruct>::toFfi(
         ::smoke::Structs::return_all_types_struct(
             gluecodium::ffi::Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)
@@ -32,25 +34,29 @@ library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input
     );
 }
 FfiOpaqueHandle
-library_smoke_Structs_getExternalStruct() {
+library_smoke_Structs_getExternalStruct(int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Structs::ExternalStruct>::toFfi(
         ::smoke::Structs::get_external_struct()
     );
 }
 FfiOpaqueHandle
-library_smoke_Structs_getAnotherExternalStruct() {
+library_smoke_Structs_getAnotherExternalStruct(int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::fire::SomeVeryExternalStruct>::toFfi(
         ::smoke::Structs::get_another_external_struct()
     );
 }
 FfiOpaqueHandle
-library_smoke_Structs_getYetAnotherExternalStruct() {
+library_smoke_Structs_getYetAnotherExternalStruct(int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Structs::Yet_Another_External_Struct>::toFfi(
         ::smoke::Structs::get_yet_another_external_struct()
     );
 }
 FfiOpaqueHandle
-library_smoke_Structs_createPoint__Double_Double(double x, double y) {
+library_smoke_Structs_createPoint__Double_Double(int32_t _isolate_id, double x, double y) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::Point>::toFfi(
         ::smoke::Structs::create_point(
             gluecodium::ffi::Conversion<double>::toCpp(x),
@@ -59,7 +65,8 @@ library_smoke_Structs_createPoint__Double_Double(double x, double y) {
     );
 }
 FfiOpaqueHandle
-library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(FfiOpaqueHandle input) {
+library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::AllTypesStruct>::toFfi(
         ::smoke::Structs::modify_all_types_struct(
             gluecodium::ffi::Conversion<::smoke::AllTypesStruct>::toCpp(input)

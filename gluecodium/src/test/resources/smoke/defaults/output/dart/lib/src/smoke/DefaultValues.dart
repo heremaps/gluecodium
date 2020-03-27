@@ -3,6 +3,7 @@ import 'package:library/src/GenericTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class DefaultValues {
   void release();
@@ -701,9 +702,9 @@ class DefaultValues$Impl implements DefaultValues {
   @override
   void release() => _smoke_DefaultValues_release_handle(handle);
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
-    final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
+    final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
     final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
-    final __result_handle = _processStructWithDefaults_ffi(_input_handle);
+    final __result_handle = _processStructWithDefaults_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_input_handle);
     final _result = smoke_DefaultValues_StructWithDefaults_fromFfi(__result_handle);
     smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(__result_handle);

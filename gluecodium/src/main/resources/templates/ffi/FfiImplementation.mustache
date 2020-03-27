@@ -102,7 +102,7 @@ void
 
 {{#interfaces}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
 }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
@@ -113,7 +113,7 @@ FfiOpaqueHandle
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(
-            new (std::nothrow) {{resolveName}}_Proxy(token, deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
+            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
             }}{{#each inheritedFunctions functions}}f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
             }}{{#if inheritedProperties properties logic="or"}}, {{!!
             }}{{#each inheritedProperties properties}}p{{iter.position}}g{{!!
@@ -135,10 +135,11 @@ FfiOpaqueHandle
 {{/interfaces}}
 {{#lambdas}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+{{libraryName}}_{{resolveName}}_create_proxy({{!!
+}}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token);
     if (!cached_proxy) {
-        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, deleter, f0);
+        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, deleter, f0);
         {{>ffi/FfiInternal}}::cache_proxy(token, cached_proxy);
     }
 
@@ -248,8 +249,9 @@ bool
 }
 
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
+{{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
+    {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
     auto&& _cpp_call_result = {{>ffiCallCppFunction}};
 {{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
 }}{{#isEq returnType.typeRef.toString "Void"}}
@@ -278,8 +280,9 @@ FfiOpaqueHandle
 
 }}{{#unless thrownType}}
 {{resolveName returnType.typeRef}}
-{{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
+{{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
+    {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
     {{#isNotEq returnType.typeRef.toString "Void"}}return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
 {{/isNotEq}}{{!!
 }}{{>ffiCallCppFunction}}{{#isNotEq returnType.typeRef.toString "Void"}}

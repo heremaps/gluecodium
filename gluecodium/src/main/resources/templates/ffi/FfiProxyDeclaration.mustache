@@ -20,19 +20,22 @@
   !}}
 class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
-    {{resolveName}}_Proxy(uint64_t token, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
+    {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, {{!!
+    }}FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
     }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
     }}{{#if inheritedProperties properties logic="or"}}, {{!!
     }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
     }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}})
-        : token(token), deleter(deleter){{#if inheritedFunctions functions logic="or"}}, {{!!
+        : token(token), isolate_id(isolate_id), deleter(deleter){{#if inheritedFunctions functions logic="or"}}, {{!!
         }}{{#each inheritedFunctions functions}}f{{iter.position}}(f{{iter.position}}){{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
         }}{{#if inheritedProperties properties logic="or"}}, {{!!
         }}{{#each inheritedProperties properties}}p{{iter.position}}g(p{{iter.position}}g){{!!
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}} { }
 
     ~{{resolveName}}_Proxy() {
-        (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [this]() {
+            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        });
     }
 
 {{#each inheritedFunctions functions}}
@@ -40,14 +43,15 @@ public:
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}}{{#unless isLambda}} override{{/unless}} {
         {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}} _result_handle;{{/isNotEq}}
-        {{#if thrownType}}int64_t _error = {{/if}}(*reinterpret_cast<int64_t (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
+        {{#if thrownType}}int64_t _error;{{/if}}
+        dispatch([&]() { {{#if thrownType}}_error = {{/if}}(*reinterpret_cast<int64_t (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
         }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
         }}{{#isNotEq returnType.typeRef.toString "Void"}}, {{resolveName returnType.typeRef}}*{{/isNotEq}}){{!!
         }}>(f{{iter.position}}))(token{{#if parameters}}, {{/if}}{{#parameters}}
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi({{resolveName}}){{#if iter.hasNext}},
 {{/if}}{{/parameters}}{{#isNotEq returnType.typeRef.toString "Void"}},
             &_result_handle{{/isNotEq}}
-        );{{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{#isEq returnType.typeRef.toString "Void"}}
+        ); });{{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{#isEq returnType.typeRef.toString "Void"}}
 {{prefixPartial "proxyReturnError" "        "}}{{/isEq}}{{!!
         }}{{#isNotEq returnType.typeRef.toString "Void"}}
         if (_error == 0) {
@@ -67,7 +71,8 @@ public:
     {{resolveName returnType.typeRef "C++"}}
     {{resolveName "C++"}}() const override {
         {{resolveName returnType.typeRef}} _result_handle;
-        (*reinterpret_cast<int64_t (*)(uint64_t, {{resolveName returnType.typeRef}}*)>(p{{iter.position}}g))(token, &_result_handle);
+        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, {{resolveName returnType.typeRef}}*)>{{!!
+        }}(p{{iter.position}}g))(token, &_result_handle); });
         auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
         {{#returnType}}{{>ffiReleaseHandle}}{{/returnType}};
         return _result;
@@ -76,15 +81,16 @@ public:
 {{#setter}}
     void
     {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value) override {
-        (*reinterpret_cast<int64_t (*)(uint64_t, {{resolveName typeRef}})>(p{{iter.position}}s))(token,
+        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, {{resolveName typeRef}})>(p{{iter.position}}s))(token,
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(value)
-        );
+        ); });
     }
 {{/setter}}
 {{/each}}
 
 private:
     uint64_t token;
+    int32_t isolate_id;
     FfiOpaqueHandle deleter;
 {{#each inheritedFunctions functions}}
     FfiOpaqueHandle f{{iter.position}};
@@ -94,6 +100,13 @@ private:
     FfiOpaqueHandle p{{iter.position}}s;
 {{/if}}
 {{/each}}
+
+    inline void dispatch(std::function<void()>&& callback) const
+    {
+        {{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)
+            ? callback()
+            : {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+    }
 };{{!!
 
 }}{{+ffiReleaseHandle}}{{#if typeRef.isNullable}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>(_result_handle){{/if}}{{!!
