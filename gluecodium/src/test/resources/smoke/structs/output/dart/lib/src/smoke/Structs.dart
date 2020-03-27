@@ -5,6 +5,7 @@ import 'package:library/src/smoke/TypeCollection.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class Structs {
   void release();
@@ -952,49 +953,49 @@ class Structs$Impl implements Structs {
   @override
   void release() => _smoke_Structs_release_handle(handle);
   static Structs_Point swapPointCoordinates(Structs_Point input) {
-    final _swapPointCoordinates_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point');
+    final _swapPointCoordinates_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point');
     final _input_handle = smoke_Structs_Point_toFfi(input);
-    final __result_handle = _swapPointCoordinates_ffi(_input_handle);
+    final __result_handle = _swapPointCoordinates_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Structs_Point_releaseFfiHandle(_input_handle);
     final _result = smoke_Structs_Point_fromFfi(__result_handle);
     smoke_Structs_Point_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
-    final _returnAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct');
+    final _returnAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct');
     final _input_handle = smoke_Structs_AllTypesStruct_toFfi(input);
-    final __result_handle = _returnAllTypesStruct_ffi(_input_handle);
+    final __result_handle = _returnAllTypesStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Structs_AllTypesStruct_releaseFfiHandle(_input_handle);
     final _result = smoke_Structs_AllTypesStruct_fromFfi(__result_handle);
     smoke_Structs_AllTypesStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Structs_ExternalStruct getExternalStruct() {
-    final _getExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Structs_getExternalStruct');
-    final __result_handle = _getExternalStruct_ffi();
+    final _getExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct');
+    final __result_handle = _getExternalStruct_ffi(__lib.LibraryContext.isolateId);
     final _result = smoke_Structs_ExternalStruct_fromFfi(__result_handle);
     smoke_Structs_ExternalStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Structs_AnotherExternalStruct getAnotherExternalStruct() {
-    final _getAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Structs_getAnotherExternalStruct');
-    final __result_handle = _getAnotherExternalStruct_ffi();
+    final _getAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct');
+    final __result_handle = _getAnotherExternalStruct_ffi(__lib.LibraryContext.isolateId);
     final _result = smoke_Structs_AnotherExternalStruct_fromFfi(__result_handle);
     smoke_Structs_AnotherExternalStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Structs_YetAnotherExternalStruct getYetAnotherExternalStruct() {
-    final _getYetAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(), Pointer<Void> Function()>('library_smoke_Structs_getYetAnotherExternalStruct');
-    final __result_handle = _getYetAnotherExternalStruct_ffi();
+    final _getYetAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getYetAnotherExternalStruct');
+    final __result_handle = _getYetAnotherExternalStruct_ffi(__lib.LibraryContext.isolateId);
     final _result = smoke_Structs_YetAnotherExternalStruct_fromFfi(__result_handle);
     smoke_Structs_YetAnotherExternalStruct_releaseFfiHandle(__result_handle);
     return _result;
   }
   static Point createPoint(double x, double y) {
-    final _createPoint_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Double, Double), Pointer<Void> Function(double, double)>('library_smoke_Structs_createPoint__Double_Double');
+    final _createPoint_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double');
     final _x_handle = (x);
     final _y_handle = (y);
-    final __result_handle = _createPoint_ffi(_x_handle, _y_handle);
+    final __result_handle = _createPoint_ffi(__lib.LibraryContext.isolateId, _x_handle, _y_handle);
     (_x_handle);
     (_y_handle);
     final _result = smoke_TypeCollection_Point_fromFfi(__result_handle);
@@ -1002,9 +1003,9 @@ class Structs$Impl implements Structs {
     return _result;
   }
   static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
-    final _modifyAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct');
+    final _modifyAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct');
     final _input_handle = smoke_TypeCollection_AllTypesStruct_toFfi(input);
-    final __result_handle = _modifyAllTypesStruct_ffi(_input_handle);
+    final __result_handle = _modifyAllTypesStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(_input_handle);
     final _result = smoke_TypeCollection_AllTypesStruct_fromFfi(__result_handle);
     smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(__result_handle);

@@ -38,6 +38,17 @@ notify_impl( const std::shared_ptr< ThreadedListener >& listener,
     listener->unloaded( UnloadedClass::create( ) );
     response = listener->on_event( message );
 }
+
+void
+notify_no_response(const std::shared_ptr<ThreadedListener>& listener, const std::string& message) {
+    listener->on_event(message);
+}
+
+void
+notify_lambda_no_response(const std::function<void(const std::string&)>& lambda,
+                          const std::string& message) {
+    lambda(message);
+}
 }
 
 class ThreadedNotifierImpl : public ThreadedNotifier
@@ -51,6 +62,20 @@ public:
         std::thread notification_thread( notify_impl, listener, message, std::ref( response ) );
         notification_thread.join( );
         return response;
+    }
+
+    void
+    notify_on_detached(const std::shared_ptr<ThreadedListener>& listener,
+                       const std::string& message) override {
+        std::thread notification_thread(notify_no_response, listener, message);
+        notification_thread.detach();
+    }
+
+    void
+    notify_lambda_on_detached(const std::function<void(const std::string&)>& lambda,
+                              const std::string& message) override {
+        std::thread notification_thread(notify_lambda_no_response, lambda, message);
+        notification_thread.detach();
     }
 };
 

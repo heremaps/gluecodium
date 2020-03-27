@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
@@ -147,8 +148,8 @@ final _smoke_DeprecationCommentsOnly_release_handle = __lib.nativeLibrary.lookup
     void Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_release_handle');
 final _smoke_DeprecationCommentsOnly_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_DeprecationCommentsOnly_create_proxy');
 final _smoke_DeprecationCommentsOnly_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -165,10 +166,10 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
   void release() => _smoke_DeprecationCommentsOnly_release_handle(handle);
   @override
   bool someMethodWithAllComments(String input) {
-    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_someMethodWithAllComments__String');
+    final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_someMethodWithAllComments__String');
     final _input_handle = String_toFfi(input);
     final _handle = this.handle;
-    final __result_handle = _someMethodWithAllComments_ffi(_handle, _input_handle);
+    final __result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
@@ -176,19 +177,19 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
   }
   @Deprecated("Unfortunately, this property's getter is deprecated.")
   bool get isSomeProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>), int Function(Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_isSomeProperty_get');
+    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DeprecationCommentsOnly_isSomeProperty_get');
     final _handle = this.handle;
-    final __result_handle = _get_ffi(_handle);
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     final _result = Boolean_fromFfi(__result_handle);
     Boolean_releaseFfiHandle(__result_handle);
     return _result;
   }
   @Deprecated("Unfortunately, this property's setter is deprecated.")
   set isSomeProperty(bool value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Uint8), void Function(Pointer<Void>, int)>('library_smoke_DeprecationCommentsOnly_isSomeProperty_set__Boolean');
+    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationCommentsOnly_isSomeProperty_set__Boolean');
     final _value_handle = Boolean_toFfi(value);
     final _handle = this.handle;
-    final __result_handle = _set_ffi(_handle, _value_handle);
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Boolean_releaseFfiHandle(_value_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -196,9 +197,10 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
   }
 }
 int _DeprecationCommentsOnly_someMethodWithAllComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  final _result_object = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(String_fromFfi(input));
-  _result.value = Boolean_toFfi(_result_object);
+  final __input = String_fromFfi(input);
   String_releaseFfiHandle(input);
+  final _result_object = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(__input);
+  _result.value = Boolean_toFfi(_result_object);
   return 0;
 }
 int _DeprecationCommentsOnly_isSomeProperty_get_static(int _token, Pointer<Uint8> _result) {
@@ -206,14 +208,16 @@ int _DeprecationCommentsOnly_isSomeProperty_get_static(int _token, Pointer<Uint8
   return 0;
 }
 int _DeprecationCommentsOnly_isSomeProperty_set_static(int _token, int _value) {
-  (__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty = Boolean_fromFfi(_value);
+  final __value = Boolean_fromFfi(_value);
   Boolean_releaseFfiHandle(_value);
+  (__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty = __value;
   return 0;
 }
 Pointer<Void> smoke_DeprecationCommentsOnly_toFfi(DeprecationCommentsOnly value) {
   if (value is DeprecationCommentsOnly$Impl) return _smoke_DeprecationCommentsOnly_copy_handle(value.handle);
   final result = _smoke_DeprecationCommentsOnly_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationCommentsOnly_someMethodWithAllComments_static, __lib.unknownError),
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint8>)>(_DeprecationCommentsOnly_isSomeProperty_get_static, __lib.unknownError),

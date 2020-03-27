@@ -2,6 +2,7 @@ import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class NestedPackages {
   void release();
@@ -84,9 +85,9 @@ class NestedPackages$Impl implements NestedPackages {
   @override
   void release() => _smoke_off_NestedPackages_release_handle(handle);
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
-    final _basicMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>), Pointer<Void> Function(Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct');
+    final _basicMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct');
     final _input_handle = smoke_off_NestedPackages_SomeStruct_toFfi(input);
-    final __result_handle = _basicMethod_ffi(_input_handle);
+    final __result_handle = _basicMethod_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(_input_handle);
     final _result = smoke_off_NestedPackages_SomeStruct_fromFfi(__result_handle);
     smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(__result_handle);

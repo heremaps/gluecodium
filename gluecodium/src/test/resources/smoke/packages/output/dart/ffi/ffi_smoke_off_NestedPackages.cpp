@@ -9,7 +9,8 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
-library_smoke_off_NestedPackages_basicMethod__SomeStruct(FfiOpaqueHandle input) {
+library_smoke_off_NestedPackages_basicMethod__SomeStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<::smoke::off::NestedPackages::SomeStruct>::toFfi(
         ::smoke::off::NestedPackages::basic_method(
             gluecodium::ffi::Conversion<::smoke::off::NestedPackages::SomeStruct>::toCpp(input)

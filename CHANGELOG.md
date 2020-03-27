@@ -2,6 +2,10 @@
 
 ## 6.3.6
 Release date: 2020-03-27
+### Features:
+  * Added support for cross-thread calling of Dart code in C++.
+### Bug fixes:
+  * Fixed compilation issue in Dart for @Equatable structs with internal fields.
 
 ## 6.3.5
 Release date: 2020-03-20

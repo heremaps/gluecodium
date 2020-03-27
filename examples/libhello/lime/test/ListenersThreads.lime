@@ -33,11 +33,11 @@ interface ThreadedListener {
     )
 }
 
+lambda ThreadedLambda = (String) -> Void
+
 class ThreadedNotifier {
     constructor createOnNewThread()
-    fun notify(
-        listener: ThreadedListener,
-
-        message: String
-    ): Long
+    fun notify(listener: ThreadedListener, message: String): Long
+    fun notifyOnDetached(listener: ThreadedListener, message: String)
+    fun notifyLambdaOnDetached(`lambda`: ThreadedLambda, message: String)
 }

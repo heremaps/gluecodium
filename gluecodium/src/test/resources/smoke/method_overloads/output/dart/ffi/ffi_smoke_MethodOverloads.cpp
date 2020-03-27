@@ -10,7 +10,8 @@
 extern "C" {
 #endif
 bool
-library_smoke_MethodOverloads_isBoolean__Boolean(FfiOpaqueHandle _self, bool input) {
+library_smoke_MethodOverloads_isBoolean__Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, bool input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<bool>::toCpp(input)
@@ -18,7 +19,8 @@ library_smoke_MethodOverloads_isBoolean__Boolean(FfiOpaqueHandle _self, bool inp
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__Byte(FfiOpaqueHandle _self, int8_t input) {
+library_smoke_MethodOverloads_isBoolean__Byte(FfiOpaqueHandle _self, int32_t _isolate_id, int8_t input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<int8_t>::toCpp(input)
@@ -26,7 +28,8 @@ library_smoke_MethodOverloads_isBoolean__Byte(FfiOpaqueHandle _self, int8_t inpu
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__String(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isBoolean__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
@@ -34,7 +37,8 @@ library_smoke_MethodOverloads_isBoolean__String(FfiOpaqueHandle _self, FfiOpaque
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__Point(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isBoolean__Point(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<::smoke::MethodOverloads::Point>::toCpp(input)
@@ -42,7 +46,8 @@ library_smoke_MethodOverloads_isBoolean__Point(FfiOpaqueHandle _self, FfiOpaqueH
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point(FfiOpaqueHandle _self, bool input1, int8_t input2, FfiOpaqueHandle input3, FfiOpaqueHandle input4) {
+library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point(FfiOpaqueHandle _self, int32_t _isolate_id, bool input1, int8_t input2, FfiOpaqueHandle input3, FfiOpaqueHandle input4) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<bool>::toCpp(input1),
@@ -53,7 +58,8 @@ library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point(FfiOpaqueHand
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__ListOf_1String(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isBoolean__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(input)
@@ -61,7 +67,8 @@ library_smoke_MethodOverloads_isBoolean__ListOf_1String(FfiOpaqueHandle _self, F
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__ListOf_1Byte(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isBoolean__ListOf_1Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
             gluecodium::ffi::Conversion<std::vector<int8_t>>::toCpp(input)
@@ -69,13 +76,15 @@ library_smoke_MethodOverloads_isBoolean__ListOf_1Byte(FfiOpaqueHandle _self, Ffi
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean(FfiOpaqueHandle _self) {
+library_smoke_MethodOverloads_isBoolean(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_boolean()
     );
 }
 bool
-library_smoke_MethodOverloads_isFloat__String(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isFloat__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_float(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
@@ -83,7 +92,8 @@ library_smoke_MethodOverloads_isFloat__String(FfiOpaqueHandle _self, FfiOpaqueHa
     );
 }
 bool
-library_smoke_MethodOverloads_isFloat__ListOf_1Byte(FfiOpaqueHandle _self, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isFloat__ListOf_1Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::MethodOverloads>>::toCpp(_self)).is_float(
             gluecodium::ffi::Conversion<std::vector<int8_t>>::toCpp(input)

@@ -263,7 +263,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val proxiedTypes =
             types.filterIsInstance<LimeInterface>() + types.filterIsInstance<LimeLambda>()
         return when {
-            proxiedTypes.isNotEmpty() -> listOf(Include.createInternalInclude("ProxyCache.h"))
+            proxiedTypes.isNotEmpty() -> listOf(
+                Include.createInternalInclude("CallbacksQueue.h"),
+                Include.createInternalInclude("IsolateContext.h"),
+                Include.createInternalInclude("ProxyCache.h")
+            )
             else -> emptyList()
         }
     }
@@ -290,8 +294,18 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
         return exportFiles + listOf(
             GeneratedFile(
+                TemplateEngine.render("dart/DartLibraryContextExport", templateData, nameResolvers),
+                "$LIB_DIR/${libraryName}_context.dart",
+                COMMON
+            ),
+            GeneratedFile(
                 TemplateEngine.render("dart/DartLibraryInit", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart",
+                COMMON
+            ),
+            GeneratedFile(
+                TemplateEngine.render("dart/DartLibraryContext", templateData, nameResolvers),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_library_context.dart",
                 COMMON
             ),
             GeneratedFile(
@@ -321,7 +335,14 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         nameResolvers: Map<String, NameResolver>
     ): List<GeneratedFile> {
         val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle", "ProxyCache")
-        val headerAndImpl = listOf("StringHandle", "BlobHandle", "NullableHandles")
+        val headerAndImpl = listOf(
+            "StringHandle",
+            "BlobHandle",
+            "NullableHandles",
+            "IsolateContext",
+            "CallbacksQueue",
+            "CallbacksHandle"
+        )
         val data = mapOf(
             "libraryName" to libraryName,
             "opaqueHandleType" to OPAQUE_HANDLE_TYPE,

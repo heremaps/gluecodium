@@ -5,13 +5,14 @@ import 'package:library/src/smoke/PublicClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class PublicInterface {
   void release() {}
 }
 class PublicInterface_InternalStruct {
   PublicClass_InternalStruct _fieldOfInternalType;
-  PublicInterface_InternalStruct(this.fieldOfInternalType);
+  PublicInterface_InternalStruct(this._fieldOfInternalType);
 }
 // PublicInterface_InternalStruct "private" section, not exported.
 final _smoke_PublicInterface_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -27,7 +28,7 @@ final _smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType = __li
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType');
 Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi(PublicInterface_InternalStruct value) {
-  final _fieldOfInternalType_handle = smoke_PublicClass_InternalStruct_toFfi(value.fieldOfInternalType);
+  final _fieldOfInternalType_handle = smoke_PublicClass_InternalStruct_toFfi(value._fieldOfInternalType);
   final _result = _smoke_PublicInterface_InternalStruct_create_handle(_fieldOfInternalType_handle);
   smoke_PublicClass_InternalStruct_releaseFfiHandle(_fieldOfInternalType_handle);
   return _result;
@@ -81,8 +82,8 @@ final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('library_smoke_PublicInterface_release_handle');
 final _smoke_PublicInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer),
-    Pointer<Void> Function(int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer),
+    Pointer<Void> Function(int, int, Pointer)
   >('library_smoke_PublicInterface_create_proxy');
 final _smoke_PublicInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -102,6 +103,7 @@ Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface$Impl) return _smoke_PublicInterface_copy_handle(value.handle);
   final result = _smoke_PublicInterface_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi
   );
   __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(result)] = value;

@@ -65,8 +65,8 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
 final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer{{>ffiFunctionPointers}}),
-    Pointer<Void> Function(int, Pointer{{>ffiFunctionPointers}})
+    Pointer<Void> Function(Uint64, Int32, Pointer{{>ffiFunctionPointers}}),
+    Pointer<Void> Function(int, int, Pointer{{>ffiFunctionPointers}})
   >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy');
 final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -107,9 +107,13 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
   int _error = 0;
   try {
   {{/if}}
+{{#parameters}}
+  final __{{resolveName}} = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+{{/parameters}}
   {{#isNotEq returnType.typeRef.toString "Void"}}final _result_object = {{/isNotEq}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
-  }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
+  }}__{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#isNotEq returnType.typeRef.toString "Void"}}
   _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
 {{#if thrownType}}
@@ -118,9 +122,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}    _error = {{#set typeRef=exception.errorType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(e.error);{{/instanceOf}}
   } finally {
   {{/if}}{{!!
-}}{{#parameters}}
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
-{{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
+}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
   if (_result_object != null) _result_object.release();
 {{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
   if (_result_object != null) _result_object.release();
@@ -141,9 +143,9 @@ int _{{resolveName parent}}_{{resolveName}}_get_static(int _token, Pointer<{{res
 {{#if setter}}
 
 int _{{resolveName parent}}_{{resolveName}}_set_static(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
-  (__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} = {{!!
-  }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+  final __value = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+  (__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} = __value;
   return 0;
 }
 {{/if}}
@@ -154,6 +156,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 
   final result = _{{resolveName "Ffi"}}_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi{{#set parent=this}}{{#each inheritedFunctions functions}},
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{!!
     }}{{/each}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}},

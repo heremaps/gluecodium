@@ -64,8 +64,8 @@ _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOp
 {{/lambdas}}
 
 {{#each interfaces lambdas}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, FfiOpaqueHandle deleter{{!!
-}}{{#if inheritedFunctions functions logic="or"}}, {{!!
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
+}}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
 }}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
@@ -103,7 +103,7 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_return_has_error(Ffi
 
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle{{/if}}{{!!
 }}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{libraryName}}_{{resolveName}}({{!!
-}}{{#unless isStatic}}FfiOpaqueHandle _self{{#if parameters}}, {{/if}}{{/unless}}{{!!
+}}{{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/ffiFunctionDeclaration}}{{!!
 

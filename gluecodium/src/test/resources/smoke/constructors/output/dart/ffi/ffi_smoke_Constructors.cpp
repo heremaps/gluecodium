@@ -12,13 +12,15 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
-library_smoke_Constructors_create() {
+library_smoke_Constructors_create(int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toFfi(
         ::smoke::Constructors::create()
     );
 }
 FfiOpaqueHandle
-library_smoke_Constructors_create__Constructors(FfiOpaqueHandle other) {
+library_smoke_Constructors_create__Constructors(int32_t _isolate_id, FfiOpaqueHandle other) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toFfi(
         ::smoke::Constructors::create(
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toCpp(other)
@@ -26,7 +28,8 @@ library_smoke_Constructors_create__Constructors(FfiOpaqueHandle other) {
     );
 }
 FfiOpaqueHandle
-library_smoke_Constructors_create__String_ULong(FfiOpaqueHandle foo, uint64_t bar) {
+library_smoke_Constructors_create__String_ULong(int32_t _isolate_id, FfiOpaqueHandle foo, uint64_t bar) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toFfi(
         ::smoke::Constructors::create(
             gluecodium::ffi::Conversion<std::string>::toCpp(foo),
@@ -55,7 +58,8 @@ library_smoke_Constructors_create__String_return_has_error(FfiOpaqueHandle handl
     return !reinterpret_cast<gluecodium::Return<std::shared_ptr<::smoke::Constructors>, ::smoke::Constructors::ErrorEnum>*>(handle)->has_value();
 }
 FfiOpaqueHandle
-library_smoke_Constructors_create__String(FfiOpaqueHandle input) {
+library_smoke_Constructors_create__String(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     auto&& _cpp_call_result =         ::smoke::Constructors::create(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
         );
@@ -70,7 +74,8 @@ library_smoke_Constructors_create__String(FfiOpaqueHandle input) {
     ));
 }
 FfiOpaqueHandle
-library_smoke_Constructors_create__ListOf_1Double(FfiOpaqueHandle input) {
+library_smoke_Constructors_create__ListOf_1Double(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Constructors>>::toFfi(
         ::smoke::Constructors::create(
             gluecodium::ffi::Conversion<std::vector<double>>::toCpp(input)

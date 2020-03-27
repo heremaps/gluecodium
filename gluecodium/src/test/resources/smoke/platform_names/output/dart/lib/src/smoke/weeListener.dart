@@ -4,6 +4,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 abstract class weeListener {
   void release() {}
@@ -19,8 +20,8 @@ final _smoke_PlatformNamesListener_release_handle = __lib.nativeLibrary.lookupFu
     void Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_release_handle');
 final _smoke_PlatformNamesListener_create_proxy = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Pointer, Pointer),
-    Pointer<Void> Function(int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_PlatformNamesListener_create_proxy');
 final _smoke_PlatformNamesListener_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
@@ -37,10 +38,10 @@ class weeListener$Impl implements weeListener {
   void release() => _smoke_PlatformNamesListener_release_handle(handle);
   @override
   WeeMethod(String WeeParameter) {
-    final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String');
+    final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String');
     final _WeeParameter_handle = String_toFfi(WeeParameter);
     final _handle = this.handle;
-    final __result_handle = _WeeMethod_ffi(_handle, _WeeParameter_handle);
+    final __result_handle = _WeeMethod_ffi(_handle, __lib.LibraryContext.isolateId, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
     final _result = (__result_handle);
     (__result_handle);
@@ -48,14 +49,16 @@ class weeListener$Impl implements weeListener {
   }
 }
 int _weeListener_WeeMethod_static(int _token, Pointer<Void> WeeParameter) {
-  (__lib.instanceCache[_token] as weeListener).WeeMethod(String_fromFfi(WeeParameter));
+  final __WeeParameter = String_fromFfi(WeeParameter);
   String_releaseFfiHandle(WeeParameter);
+  (__lib.instanceCache[_token] as weeListener).WeeMethod(__WeeParameter);
   return 0;
 }
 Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {
   if (value is weeListener$Impl) return _smoke_PlatformNamesListener_copy_handle(value.handle);
   final result = _smoke_PlatformNamesListener_create_proxy(
     __lib.cacheObject(value),
+    __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_weeListener_WeeMethod_static, __lib.unknownError)
   );
