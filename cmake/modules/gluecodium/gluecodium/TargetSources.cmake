@@ -88,6 +88,14 @@ function(apigen_target_sources target)
 
     foreach(_upper_case_source_set ${_source_sets})
       string(TOLOWER ${_upper_case_source_set} _source_set)
+
+      set (_generated_cpp_files
+        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}})
+      if(GENERATOR MATCHES dart)
+          list(APPEND _generated_cpp_files ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_dart_${_source_set}})
+      endif()
+
       # Generated files are marked as such by CMake, but this source file property is on directory scope.
       # This means for targets in other directories, CMake is not aware that the file is supposed to be
       # absent during configuration, see issue https://gitlab.kitware.com/cmake/cmake/issues/18399.
@@ -97,13 +105,12 @@ function(apigen_target_sources target)
       # necessary for public/interface sources, so as long as there some private ones without dummy
       # file, everything is fine.
       set_property(SOURCE
-            ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+            ${_generated_cpp_files}
             ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
-            ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}}
-          PROPERTY GENERATED 1)
+          PROPERTY GENERATED YES)
 
       foreach(generated_file
-          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+          ${_generated_cpp_files}
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
         _apigen_create_generated_file_if_missing("${generated_file}")
@@ -123,8 +130,7 @@ function(apigen_target_sources target)
         PUBLIC
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
         PRIVATE
-          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
-          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}}
+          ${_generated_cpp_files}
       )
     endforeach()
   endif()
