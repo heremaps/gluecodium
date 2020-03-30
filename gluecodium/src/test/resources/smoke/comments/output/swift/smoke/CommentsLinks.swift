@@ -50,6 +50,8 @@ public class CommentsLinks {
     /// * top level enum: `TypeCollectionEnum`
     /// * top level enum item: `TypeCollectionEnum.item`
     /// * error: `Comments.SomethingWrongError`
+    /// * type from aux sources, same package: `AuxClass`
+    /// * type from aux sources, different package: `AuxStruct`
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`

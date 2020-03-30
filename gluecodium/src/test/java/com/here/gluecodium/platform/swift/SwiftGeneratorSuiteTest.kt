@@ -35,7 +35,7 @@ class SwiftGeneratorSuiteTest {
 
     @Test
     fun generatedFilesContainStaticFiles() {
-        val generatedFiles = suite.generate(LimeModel(emptyMap(), emptyList(), emptyMap()))
+        val generatedFiles = suite.generate(LimeModel(emptyMap(), emptyList()))
 
         assertTrue(
             generatedFiles.toString() + " must contain all " + SwiftGenerator.STATIC_FILES,

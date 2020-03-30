@@ -71,6 +71,11 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             limeModel.topElements.fold(SwiftModel(emptyMap(), emptyList())) { model, rootElement ->
                 model.merge(swiftGenerator.generateModel(rootElement))
             }
+        // Build name mapping for auxiliary model
+        val auxModel =
+            limeModel.auxiliaryElements.fold(SwiftModel(emptyMap(), emptyList())) { model, rootElement ->
+                model.merge(swiftGenerator.generateModel(rootElement))
+            }
 
         val elementToSwiftName = mutableMapOf<SwiftModelElement, String>()
         fun resolveFullName(element: SwiftModelElement, name: String) {
@@ -79,15 +84,14 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 elementName = "$elementName(...)"
             }
             val fullName = if (name.isEmpty()) elementName else "$name.$elementName"
-
             element.childElements.forEach { resolveFullName(it, fullName) }
-
             elementToSwiftName[element] = fullName
         }
         swiftModel.containers.forEach { resolveFullName(it, "") }
+        auxModel.containers.forEach { resolveFullName(it, "") }
 
-        val limeToSwiftName =
-            swiftModel.referenceMap.mapValues { elementToSwiftName[it.value] ?: "" }
+        val limeToSwiftName = (swiftModel.referenceMap + auxModel.referenceMap)
+            .mapValues { elementToSwiftName[it.value] ?: "" }
         val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)

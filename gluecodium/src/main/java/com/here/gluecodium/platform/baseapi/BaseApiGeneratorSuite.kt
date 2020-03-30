@@ -104,6 +104,9 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 cppReferenceMap
             )
         }
+        // Build name mapping for auxiliary model
+        limeModel.auxiliaryElements.forEach { buildCppModel(cppModelBuilder, it, cppReferenceMap) }
+
         val cppToLimeName = cppReferenceMap.entries.associate { it.value to it.key }
         val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
 
@@ -126,9 +129,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         allErrorEnums: Set<String>,
         mapping: MutableMap<String, CppElement>
     ): CppFile {
-        LimeTreeWalker(listOf(cppModelBuilder)).walkTree(limeModel)
-        val finalResults = cppModelBuilder.finalResults
-        mapping.putAll(cppModelBuilder.referenceMap)
+        val finalResults = buildCppModel(cppModelBuilder, limeModel, mapping)
 
         val elementsWithIncludes =
             flattenCppModel(finalResults).filterIsInstance<CppElementWithIncludes>()
@@ -169,6 +170,16 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             exportName = exportName,
             internalNamespace = internalNamespace
         )
+    }
+
+    private fun buildCppModel(
+        cppModelBuilder: CppModelBuilder,
+        limeModel: LimeNamedElement,
+        mappingCollector: MutableMap<String, CppElement>
+    ): List<CppElement> {
+        LimeTreeWalker(listOf(cppModelBuilder)).walkTree(limeModel)
+        mappingCollector.putAll(cppModelBuilder.referenceMap)
+        return cppModelBuilder.finalResults
     }
 
     private fun processElementComments(

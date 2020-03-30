@@ -69,7 +69,7 @@ open class JavaGeneratorSuite protected constructor(
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val javaPackageList =
-            if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
+            if (rootPackage.isNotEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
         val internalPackageList = javaPackageList + internalPackage
 
         val jniGenerator = JniGenerator(
@@ -89,8 +89,16 @@ open class JavaGeneratorSuite protected constructor(
             limeModel.topElements.fold(JavaModel()) { model, rootElement ->
                 model.merge(jniGenerator.generateModel(rootElement))
             }
+        // Build name mapping for auxiliary model
+        val auxNameMapping = limeModel.auxiliaryElements.fold(emptyMap<String, JavaElement>()) {
+                acc, element -> acc + jniGenerator.generateModel(element).referenceMap
+            }
 
-        processCommentLinks(combinedModel.javaElements, combinedModel.referenceMap, limeModel)
+        processCommentLinks(
+            combinedModel.javaElements,
+            combinedModel.referenceMap + auxNameMapping,
+            limeModel
+        )
 
         val javaTemplates = JavaTemplates(generatorName)
         val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements).toMutableList()
@@ -129,8 +137,7 @@ open class JavaGeneratorSuite protected constructor(
         limeModel: LimeModel
     ) {
         val elementToJavaName = mutableMapOf<JavaElement, String>()
-
-        javaModel.forEach { resolveFullName(it, "", elementToJavaName) }
+        referenceMap.values.forEach { resolveFullName(it, "", elementToJavaName) }
 
         val limeToJavaName = referenceMap.mapValues { elementToJavaName[it.value] ?: "" }
         val elementToLimeName = referenceMap.entries.associate { it.value to it.key }
