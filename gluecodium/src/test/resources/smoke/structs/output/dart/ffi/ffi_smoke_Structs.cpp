@@ -1,5 +1,6 @@
 #include "ffi_smoke_Structs.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
 #include "gluecodium/VectorHash.h"

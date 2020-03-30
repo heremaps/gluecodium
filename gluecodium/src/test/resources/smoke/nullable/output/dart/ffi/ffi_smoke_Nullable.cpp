@@ -1,5 +1,6 @@
 #include "ffi_smoke_Nullable.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Nullable.h"

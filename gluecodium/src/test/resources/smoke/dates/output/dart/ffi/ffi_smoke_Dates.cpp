@@ -1,5 +1,6 @@
 #include "ffi_smoke_Dates.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "gluecodium/TimePointHash.h"
 #include "smoke/Dates.h"
 #include <chrono>
