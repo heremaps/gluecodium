@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.3.7
+Release date: 2020-03-30
 ### Bug fixes:
   * Fixed compilation issue in Dart for structs with methods.
 
