@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Internal implementation classes for Lambda interfaces in Java are now marked with `@exclude`
+    JavaDoc tag.
+
 ## 6.3.7
 Release date: 2020-03-30
 ### Bug fixes:

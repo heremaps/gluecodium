@@ -40,6 +40,9 @@ public final class Comments extends NativeBase {
         }
         public final Comments.SomeEnum error;
     }
+    /**
+     * @exclude
+     */
     static class SomeLambdaImpl extends NativeBase implements SomeLambda {
         protected SomeLambdaImpl(final long nativeHandle) {
             super(nativeHandle, new Disposer() {

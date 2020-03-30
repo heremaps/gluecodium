@@ -374,6 +374,7 @@ class JavaModelBuilder(
         implClass.visibility = JavaVisibility.PACKAGE
         implClass.javaPackage = rootPackage
         implClass.parentInterfaces += JavaCustomTypeRef(javaInterface.name, javaInterface.javaPackage)
+        implClass.comment = Comments("@exclude")
 
         storeNamedResult(limeLambda, javaInterface)
         storeResult(implClass)
