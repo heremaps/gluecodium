@@ -41,7 +41,7 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger) {
         signatureResolver: LimeSignatureResolver
     ): Boolean {
         val thrownType =
-            limeFunction.thrownType?.typeRef?.type?.let { it.actualType }
+            limeFunction.thrownType?.typeRef?.type?.actualType
         return when {
             limeFunction.isConstructor &&
                     signatureResolver.hasConstructorSignatureClash(limeFunction) -> {

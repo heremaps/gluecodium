@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * Added validation against name clashes between property declarations in IDL files.
+
 ## 6.3.7
 Release date: 2020-03-30
 ### Bug fixes:
