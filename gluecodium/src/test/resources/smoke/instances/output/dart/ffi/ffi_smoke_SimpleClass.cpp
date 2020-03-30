@@ -1,5 +1,6 @@
 #include "ffi_smoke_SimpleClass.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "smoke/SimpleClass.h"
 #include <memory>
 #include <string>

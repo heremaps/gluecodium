@@ -1,9 +1,12 @@
 #include "ffi_smoke_TypeDefs.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/TypeCollection.h"
 #include "smoke/TypeDefs.h"
 #include <memory>
 #include <string>
+#include <vector>
 #include <memory>
 #include <new>
 #ifdef __cplusplus

@@ -1,5 +1,6 @@
 #include "ffi_smoke_MethodOverloads.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "smoke/MethodOverloads.h"
 #include <cstdint>
 #include <memory>

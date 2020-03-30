@@ -1,5 +1,6 @@
 #include "ffi_smoke_Errors.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "smoke/Errors.h"
 #include "smoke/Payload.h"

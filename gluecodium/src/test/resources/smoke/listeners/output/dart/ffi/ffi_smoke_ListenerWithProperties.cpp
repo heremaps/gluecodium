@@ -3,8 +3,13 @@
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
+#include "gluecodium/VectorHash.h"
+#include "smoke/CalculationResult.h"
 #include "smoke/ListenerWithProperties.h"
+#include <cstdint>
 #include <memory>
+#include <string>
+#include <vector>
 #include <memory>
 #include <new>
 class smoke_ListenerWithProperties_Proxy : public ::smoke::ListenerWithProperties {

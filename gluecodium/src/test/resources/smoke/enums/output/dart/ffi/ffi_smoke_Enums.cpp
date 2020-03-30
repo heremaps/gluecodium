@@ -1,5 +1,6 @@
 #include "ffi_smoke_Enums.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "smoke/Enums.h"
 #include <memory>

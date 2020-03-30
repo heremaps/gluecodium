@@ -1,7 +1,13 @@
 #include "ffi_smoke_Properties.h"
 #include "ConversionBase.h"
+#include "IsolateContext.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/Properties.h"
+#include "smoke/PropertiesInterface.h"
+#include <cstdint>
 #include <memory>
+#include <string>
+#include <vector>
 #include <memory>
 #include <new>
 #ifdef __cplusplus

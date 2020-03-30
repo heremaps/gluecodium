@@ -214,14 +214,17 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             externalTypes.filterIsInstance<LimeContainer>().flatMap { it.structs }
         val nonExternalStructs = structs - externalStructs
 
-        val functions = types.filterIsInstance<LimeContainer>().flatMap { it.functions } +
-            lambdas.map { it.asFunction() }
+        val containers = types.filterIsInstance<LimeContainer>()
+        val functions = containers.flatMap { it.functions } + lambdas.map { it.asFunction() } +
+            containers.flatMap { it.properties }.flatMap { listOfNotNull(it.getter, it.setter) }
+
         val includes = includeResolver.resolveIncludes(limeType) +
             functions.flatMap { collectTypeRefs(it) }.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { includeResolver.resolveIncludes(it) } +
             structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) } +
             enums.flatMap { includeResolver.resolveIncludes(it) } +
-            resolveThrownTypeIncludes(types) + resolveProxyIncludes(types)
+            resolveThrownTypeIncludes(types) + resolveProxyIncludes(types) +
+            if (functions.isNotEmpty()) listOf(Include.createInternalInclude("IsolateContext.h")) else emptyList()
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
@@ -265,7 +268,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         return when {
             proxiedTypes.isNotEmpty() -> listOf(
                 Include.createInternalInclude("CallbacksQueue.h"),
-                Include.createInternalInclude("IsolateContext.h"),
                 Include.createInternalInclude("ProxyCache.h")
             )
             else -> emptyList()
