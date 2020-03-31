@@ -7,28 +7,28 @@ public class GenericTypesWithBasicTypes {
     public typealias BasicSet = Set<String>
     public var listProperty: [Float] {
         get {
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
+            let c_newValue = foobar_moveToCType(newValue)
             return moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     public var mapProperty: [Float: Double] {
         get {
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
+            let c_newValue = foobar_moveToCType(newValue)
             return moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     public var setProperty: Set<Float> {
         get {
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
+            let c_newValue = foobar_moveToCType(newValue)
             return moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -52,34 +52,34 @@ public class GenericTypesWithBasicTypes {
             self.numbersSet = numbersSet
         }
         internal init(cHandle: _baseRef) {
-            numbersList = moveFromCType(smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersList_get(cHandle))
-            numbersMap = moveFromCType(smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersMap_get(cHandle))
-            numbersSet = moveFromCType(smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersSet_get(cHandle))
+            numbersList = foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersList_get(cHandle))
+            numbersMap = foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersMap_get(cHandle))
+            numbersSet = foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersSet_get(cHandle))
         }
     }
     public func methodWithList(input: [Int32]) -> [Int32] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithList(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithList(self.c_instance, c_input.ref))
     }
     public func methodWithMap(input: [Int32: Bool]) -> [Int32: Bool] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithMap(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithMap(self.c_instance, c_input.ref))
     }
     public func methodWithSet(input: Set<Int32>) -> Set<Int32> {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSet(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSet(self.c_instance, c_input.ref))
     }
     public func methodWithListTypeAlias(input: GenericTypesWithBasicTypes.BasicList) -> GenericTypesWithBasicTypes.BasicList {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(self.c_instance, c_input.ref))
     }
     public func methodWithMapTypeAlias(input: GenericTypesWithBasicTypes.BasicMap) -> GenericTypesWithBasicTypes.BasicMap {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(self.c_instance, c_input.ref))
     }
     public func methodWithSetTypeAlias(input: GenericTypesWithBasicTypes.BasicSet) -> GenericTypesWithBasicTypes.BasicSet {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(self.c_instance, c_input.ref))
     }
 }
 internal func getRef(_ ref: GenericTypesWithBasicTypes?, owning: Bool = true) -> RefHolder {
@@ -134,9 +134,9 @@ internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.St
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics) -> RefHolder {
-    let c_numbersList = moveToCType(swiftType.numbersList)
-    let c_numbersMap = moveToCType(swiftType.numbersMap)
-    let c_numbersSet = moveToCType(swiftType.numbersSet)
+    let c_numbersList = foobar_moveToCType(swiftType.numbersList)
+    let c_numbersMap = foobar_moveToCType(swiftType.numbersMap)
+    let c_numbersSet = foobar_moveToCType(swiftType.numbersSet)
     return RefHolder(smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle(c_numbersList.ref, c_numbersMap.ref, c_numbersSet.ref))
 }
 internal func moveToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics) -> RefHolder {
@@ -159,9 +159,9 @@ internal func copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGene
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_numbersList = moveToCType(swiftType.numbersList)
-    let c_numbersMap = moveToCType(swiftType.numbersMap)
-    let c_numbersSet = moveToCType(swiftType.numbersSet)
+    let c_numbersList = foobar_moveToCType(swiftType.numbersList)
+    let c_numbersMap = foobar_moveToCType(swiftType.numbersMap)
+    let c_numbersSet = foobar_moveToCType(swiftType.numbersSet)
     return RefHolder(smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_optional_handle(c_numbersList.ref, c_numbersMap.ref, c_numbersSet.ref))
 }
 internal func moveToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics?) -> RefHolder {

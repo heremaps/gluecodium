@@ -38,7 +38,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: NameRules
+    private val nameRules: NameRules,
+    private val internalPrefix: String
 ) : NameResolver {
 
     private val signatureResolver = FfiSignatureResolver(limeReferenceMap, this)
@@ -76,7 +77,7 @@ internal class FfiNameResolver(
         }
 
     private fun getGenericTypeName(limeType: LimeType) =
-        when (val actualType = limeType.actualType) {
+        internalPrefix + when (val actualType = limeType.actualType) {
             is LimeList -> getListName(actualType.elementType)
             is LimeSet -> getSetName(actualType.elementType)
             is LimeMap -> getMapName(actualType.keyType, actualType.valueType)
