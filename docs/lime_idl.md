@@ -170,9 +170,15 @@ There are some restrictions on inheritance:
 * a class or an interface with "public" visibility cannot inherit from a class or an interface with
 "internal" visibility (see `Visibility` above).
 
+Contrary to the usual practice encountered in programming languages, in LimeIDL it is not necessary
+to (re)declare functions and properties of parent class/interface in the child class. An IDL
+declaration describes an API and parent's functions and properties are already part of child's API
+due to inheritance. Gluecodium generators will also generate all necessary code for the child class
+automatically.
+
 ### Child element declarations
 
-Child element declarations can only be placed inside the declaraion of another element (most often
+Child element declarations can only be placed inside the declaration of another element (most often
 some top-level element).
 
 #### Function
