@@ -1,6 +1,9 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Bug fixes:
+  * Internal implementation classes for Lambda interfaces in Java are now marked with `@exclude`
+    JavaDoc tag.
 ### Breaking changes:
   * Added validation against name clashes between property declarations in IDL files.
 
