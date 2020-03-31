@@ -39,36 +39,36 @@ public class GenericTypesWithCompoundTypes {
         }
     }
     public func methodWithStructList(input: [GenericTypesWithCompoundTypes.BasicStruct]) -> [GenericTypesWithCompoundTypes.ExternalStruct] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithStructList(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithStructList(self.c_instance, c_input.ref))
     }
     public func methodWithStructMap(input: [String: GenericTypesWithCompoundTypes.BasicStruct]) -> [String: GenericTypesWithCompoundTypes.ExternalStruct] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithStructMap(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithStructMap(self.c_instance, c_input.ref))
     }
     public func methodWithEnumList(input: [GenericTypesWithCompoundTypes.SomeEnum]) -> [GenericTypesWithCompoundTypes.ExternalEnum] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumList(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumList(self.c_instance, c_input.ref))
     }
     public func methodWithEnumMapKey(input: [GenericTypesWithCompoundTypes.SomeEnum: Bool]) -> [GenericTypesWithCompoundTypes.ExternalEnum: Bool] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(self.c_instance, c_input.ref))
     }
     public func methodWithEnumMapValue(input: [Int32: GenericTypesWithCompoundTypes.SomeEnum]) -> [Int32: GenericTypesWithCompoundTypes.ExternalEnum] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(self.c_instance, c_input.ref))
     }
     public func methodWithEnumSet(input: Set<GenericTypesWithCompoundTypes.SomeEnum>) -> Set<GenericTypesWithCompoundTypes.ExternalEnum> {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(self.c_instance, c_input.ref))
     }
     public func methodWithInstancesList(input: [DummyClass]) -> [DummyInterface] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(self.c_instance, c_input.ref))
     }
     public func methodWithInstancesMap(input: [Int32: DummyClass]) -> [Int32: DummyInterface] {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(self.c_instance, c_input.ref))
     }
 }
 internal func getRef(_ ref: GenericTypesWithCompoundTypes?, owning: Bool = true) -> RefHolder {

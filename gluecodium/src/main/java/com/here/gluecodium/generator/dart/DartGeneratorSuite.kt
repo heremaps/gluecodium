@@ -71,7 +71,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val rootNamespace = options.cppRootNamespace
     private val internalNamespace = options.cppInternalNamespace
-    private val internalPrefix = options.internalPrefix
+    private val internalPrefix = options.internalPrefix ?: ""
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val dartNameResolver = DartNameResolver(
@@ -79,7 +79,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             nameRules,
             LimeLogger(logger, limeModel.fileNameMap)
         )
-        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules)
+        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,

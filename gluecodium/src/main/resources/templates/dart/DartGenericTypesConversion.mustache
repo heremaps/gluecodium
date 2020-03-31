@@ -33,54 +33,54 @@ import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
 final _{{resolveName "Ffi"}}_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_create_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_create_handle');
 final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_release_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
 {{#instanceOf this "LimeMap"}}
 final _{{resolveName "Ffi"}}_put = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, {{resolveName keyType "FfiApiTypes"}}, {{resolveName valueType "FfiApiTypes"}}),
     void Function(Pointer<Void>, {{resolveName keyType "FfiDartTypes"}}, {{resolveName valueType "FfiDartTypes"}})
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_put');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_put');
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
 final _{{resolveName "Ffi"}}_insert = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, {{resolveName elementType "FfiApiTypes"}}),
     void Function(Pointer<Void>, {{resolveName elementType "FfiDartTypes"}})
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_insert');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_insert');
 {{/notInstanceOf}}
 final _{{resolveName "Ffi"}}_iterator = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator');
 final _{{resolveName "Ffi"}}_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator_release_handle');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator_release_handle');
 final _{{resolveName "Ffi"}}_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator_is_valid');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator_is_valid');
 final _{{resolveName "Ffi"}}_iterator_increment = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator_increment');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator_increment');
 {{#instanceOf this "LimeMap"}}
 final _{{resolveName "Ffi"}}_iterator_get_key = __lib.nativeLibrary.lookupFunction<
     {{resolveName keyType "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName keyType "FfiDartTypes"}} Function(Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator_get_key');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator_get_key');
 final _{{resolveName "Ffi"}}_iterator_get_value = __lib.nativeLibrary.lookupFunction<
     {{resolveName valueType "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName valueType "FfiDartTypes"}} Function(Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator_get_value');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator_get_value');
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
 final _{{resolveName "Ffi"}}_iterator_get = __lib.nativeLibrary.lookupFunction<
     {{resolveName elementType "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName elementType "FfiDartTypes"}} Function(Pointer<Void>)
->('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_iterator_get');
+>('{{libraryName}}_{{resolveName "Ffi"}}_iterator_get');
 {{/notInstanceOf}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
@@ -129,6 +129,6 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveName "Ffi"}}_release_handle(handle);
 
-{{>dart/DartNullableTypeConversion}}
+{{#set self=this internalPrefix=""}}{{#self}}{{>dart/DartNullableTypeConversion}}{{/self}}{{/set}}
 
 {{/genericTypes}}

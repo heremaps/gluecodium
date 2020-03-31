@@ -35,18 +35,18 @@ extern "C" {
 
 {{#genericTypes}}
 FfiOpaqueHandle
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_create_handle() {
+{{libraryName}}_{{resolveName}}_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}());
 }
 
 void
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+{{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
 }
 
 {{#instanceOf this "LimeMap"}}
 void
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_put(FfiOpaqueHandle handle, {{resolveName keyType}} key, {{resolveName valueType}} value) {
+{{libraryName}}_{{resolveName}}_put(FfiOpaqueHandle handle, {{resolveName keyType}} key, {{resolveName valueType}} value) {
     reinterpret_cast<{{resolveName "C++"}}*>(handle)->emplace(
         {{>ffi/FfiInternal}}::Conversion<{{resolveName keyType "C++"}}>::toCpp(key),
         {{>ffi/FfiInternal}}::Conversion<{{resolveName valueType "C++"}}>::toCpp(value)
@@ -55,7 +55,7 @@ void
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
 void
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_insert(FfiOpaqueHandle handle, {{resolveName elementType}} value) {
+{{libraryName}}_{{resolveName}}_insert(FfiOpaqueHandle handle, {{resolveName elementType}} value) {
     reinterpret_cast<{{resolveName "C++"}}*>(handle)->{{!!
     }}{{#instanceOf this "LimeList"}}push_back{{/instanceOf}}{{!!
     }}{{#notInstanceOf this "LimeList"}}insert{{/notInstanceOf}}(
@@ -65,38 +65,38 @@ void
 {{/notInstanceOf}}
 
 FfiOpaqueHandle
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator(FfiOpaqueHandle handle) {
+{{libraryName}}_{{resolveName}}_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName "C++"}}::iterator(
         reinterpret_cast<{{resolveName "C++"}}*>(handle)->begin()
     ));
 }
 
 void
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
+{{libraryName}}_{{resolveName}}_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle);
 }
 
 bool
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
+{{libraryName}}_{{resolveName}}_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle) !=
         reinterpret_cast<{{resolveName "C++"}}*>(handle)->end();
 }
 
 void
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator_increment(FfiOpaqueHandle iterator_handle) {
+{{libraryName}}_{{resolveName}}_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle);
 }
 
 {{#instanceOf this "LimeMap"}}
 {{resolveName keyType}}
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator_get_key(FfiOpaqueHandle iterator_handle) {
+{{libraryName}}_{{resolveName}}_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName keyType "C++"}}>::toFfi(
         (*reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle))->first
     );
 }
 
 {{resolveName valueType}}
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator_get_value(FfiOpaqueHandle iterator_handle) {
+{{libraryName}}_{{resolveName}}_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName valueType "C++"}}>::toFfi(
         (*reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle))->second
     );
@@ -104,14 +104,14 @@ void
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
 {{resolveName elementType}}
-{{libraryName}}_{{internalPrefix}}{{resolveName}}_iterator_get(FfiOpaqueHandle iterator_handle) {
+{{libraryName}}_{{resolveName}}_iterator_get(FfiOpaqueHandle iterator_handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName elementType "C++"}}>::toFfi(
         **reinterpret_cast<{{resolveName "C++"}}::iterator*>(iterator_handle)
     );
 }
 {{/notInstanceOf}}
 
-{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableImpl}}{{/set}}
+{{#set type=this handleType="FfiOpaqueHandle" internalPrefix=""}}{{>ffi/FfiNullableImpl}}{{/set}}
 
 {{/genericTypes}}
 
