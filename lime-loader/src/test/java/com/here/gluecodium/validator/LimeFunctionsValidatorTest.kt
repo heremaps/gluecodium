@@ -35,7 +35,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LimeFunctionsValidatorSignatureTest(
+class LimeFunctionsValidatorTest(
     private val limeMethod1: LimeFunction,
     private val limeMethod2: LimeFunction,
     private val expectedResult: Boolean

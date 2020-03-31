@@ -4,6 +4,8 @@
 ### Bug fixes:
   * Internal implementation classes for Lambda interfaces in Java are now marked with `@exclude`
     JavaDoc tag.
+### Breaking changes:
+  * Added validation against name clashes between property declarations in IDL files.
 
 ## 6.3.7
 Release date: 2020-03-30
