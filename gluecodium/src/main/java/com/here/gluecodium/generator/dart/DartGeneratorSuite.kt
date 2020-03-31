@@ -74,12 +74,15 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val internalPrefix = options.internalPrefix ?: ""
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         val dartNameResolver = DartNameResolver(
             limeModel.referenceMap,
             nameRules,
-            LimeLogger(logger, limeModel.fileNameMap)
+            limeLogger
         )
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
+
+        DartOverloadsValidator(dartNameResolver, limeLogger).validate(limeModel)
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
