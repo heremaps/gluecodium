@@ -1,5 +1,5 @@
-LimeIDL design proposal
-=======================
+LimeIDL documentation
+=====================
 
 Overview
 --------
