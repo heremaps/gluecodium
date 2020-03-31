@@ -2,6 +2,8 @@
 
 ## Unreleased
 ### Bug fixes:
+  * Documentation links to elements declared in "auxiliary" IDL sources are now resolved correctly
+    in the generated C++, Java, and Swift code.
   * Internal implementation classes for Lambda interfaces in Java are now marked with `@exclude`
     JavaDoc tag.
 ### Breaking changes:

@@ -65,14 +65,18 @@ internal class LimeBasedLimeModelLoader : LimeModelLoader {
             throw LimeLoadingException("Syntax errors found, see log for details.")
         }
 
+        val excludedIdlFiles = resolvedAuxSources - resolvedIdlSources
+        val filteredElements = loadedElements.filterNotNull().flatten()
+            .groupBy { excludedIdlFiles.contains(elementNameToFileName[it.fullName]) }
         val limeModel = LimeModel(
             referenceResolver.referenceMap,
-            loadedElements.filterNotNull().flatten(),
+            filteredElements[false] ?: emptyList(),
+            filteredElements[true] ?: emptyList(),
             elementNameToFileName
         )
         validateModel(limeModel, fileNameToImports)
 
-        return filterModel(limeModel, resolvedAuxSources - resolvedIdlSources)
+        return limeModel
     }
 
     private fun validateModel(
@@ -90,14 +94,6 @@ internal class LimeBasedLimeModelLoader : LimeModelLoader {
             throw LimeLoadingException("Validation errors found, see log for details.")
         }
     }
-
-    private fun filterModel(fullModel: LimeModel, excludedIdlFiles: Set<String>) =
-        LimeModel(
-            fullModel.referenceMap,
-            fullModel.topElements
-                .filterNot { excludedIdlFiles.contains(fullModel.fileNameMap[it.fullName]) },
-            fullModel.fileNameMap
-        )
 
     private fun loadFile(
         fileName: String,

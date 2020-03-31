@@ -30,6 +30,8 @@ abstract class CommentsLinks {
   /// * top level enum: [TypeCollectionEnum]
   /// * top level enum item: [item]
   /// * error: [Comments_SomethingWrongException]
+  /// * type from aux sources, same package: [AuxClass]
+  /// * type from aux sources, different package: [AuxStruct]
   ///
   /// Not working for Java:
   /// * typedef: [bool]

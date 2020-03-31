@@ -33,6 +33,8 @@ class CommentsLinks {
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
     // * error: [comments.SomethingWrong]
+    // * type from aux sources, same package: [AuxClass]
+    // * type from aux sources, different package: [fire.AuxStruct]
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]

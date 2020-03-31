@@ -59,6 +59,8 @@ public:
      * * top level enum: ::smoke::TypeCollectionEnum
      * * top level enum item: ::smoke::TypeCollectionEnum::ITEM
      * * error: ::smoke::Comments::SomeEnum
+     * * type from aux sources, same package: ::smoke::AuxClass
+     * * type from aux sources, different package: ::fire::AuxStruct
      *
      * Not working for Java:
      * * typedef: ::smoke::Comments::Usefulness

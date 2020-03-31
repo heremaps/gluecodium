@@ -65,6 +65,7 @@ abstract class AcceptanceTestBase protected constructor(
 
     protected fun runTest() {
         val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
+        val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
         val outputDirectory = File(featureDirectory, FEATURE_OUTPUT_FOLDER)
 
         val referenceFiles = GENERATOR_DIRECTORIES[generatorName]!!
@@ -74,7 +75,8 @@ abstract class AcceptanceTestBase protected constructor(
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
-        val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), emptyList())
+        val limeModel =
+            LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
         assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
@@ -100,6 +102,7 @@ abstract class AcceptanceTestBase protected constructor(
 
     companion object {
         internal const val FEATURE_INPUT_FOLDER = "input"
+        private const val FEATURE_AUX_FOLDER = "aux"
         private const val FEATURE_OUTPUT_FOLDER = "output"
         private const val IGNORE_PREFIX = "ignore"
         private val GENERATOR_NAMES = listOf(
