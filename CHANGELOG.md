@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 6.4.1
+Release date: 2020-03-31
+### Bug fixes:
+  * Fixed compilation issue in Swift for collection types in modularized builds.
+
 ## 6.4.0
 Release date: 2020-03-31
 ### Bug fixes:

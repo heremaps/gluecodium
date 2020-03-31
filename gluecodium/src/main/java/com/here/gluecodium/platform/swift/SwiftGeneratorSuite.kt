@@ -72,9 +72,10 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 model.merge(swiftGenerator.generateModel(rootElement))
             }
         // Build name mapping for auxiliary model
+        val auxGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules, internalPrefix)
         val auxModel =
             limeModel.auxiliaryElements.fold(SwiftModel(emptyMap(), emptyList())) { model, rootElement ->
-                model.merge(swiftGenerator.generateModel(rootElement))
+                model.merge(auxGenerator.generateModel(rootElement))
             }
 
         val elementToSwiftName = mutableMapOf<SwiftModelElement, String>()
