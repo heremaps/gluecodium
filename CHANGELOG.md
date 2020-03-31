@@ -1,11 +1,13 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.4.0
+Release date: 2020-03-31
 ### Bug fixes:
   * Documentation links to elements declared in "auxiliary" IDL sources are now resolved correctly
     in the generated C++, Java, and Swift code.
   * Internal implementation classes for Lambda interfaces in Java are now marked with `@exclude`
     JavaDoc tag.
+  * Fixed compilation issue in Dart for collection types in modularized builds.
 ### Breaking changes:
   * Added validation against name clashes between property declarations in IDL files.
 
