@@ -9,30 +9,30 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_library_init.dart' as __lib;
 class EquatableStructWithInternalFields {
   String publicField;
-  String _internalField;
-  List<String> _internalListField;
-  Map<String, String> _internalMapField;
-  Set<String> _internalSetField;
-  EquatableStructWithInternalFields(this.publicField, this._internalField, this._internalListField, this._internalMapField, this._internalSetField);
+  String internal_internalField;
+  List<String> internal_internalListField;
+  Map<String, String> internal_internalMapField;
+  Set<String> internal_internalSetField;
+  EquatableStructWithInternalFields(this.publicField, this.internal_internalField, this.internal_internalListField, this.internal_internalMapField, this.internal_internalSetField);
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
     if (other is! EquatableStructWithInternalFields) return false;
     EquatableStructWithInternalFields _other = other;
     return publicField == _other.publicField &&
-        _internalField == _other._internalField &&
-        DeepCollectionEquality().equals(_internalListField, _other._internalListField) &&
-        DeepCollectionEquality().equals(_internalMapField, _other._internalMapField) &&
-        DeepCollectionEquality().equals(_internalSetField, _other._internalSetField);
+        internal_internalField == _other.internal_internalField &&
+        DeepCollectionEquality().equals(internal_internalListField, _other.internal_internalListField) &&
+        DeepCollectionEquality().equals(internal_internalMapField, _other.internal_internalMapField) &&
+        DeepCollectionEquality().equals(internal_internalSetField, _other.internal_internalSetField);
   }
   @override
   int get hashCode {
     int result = 7;
     result = 31 * result + publicField.hashCode;
-    result = 31 * result + _internalField.hashCode;
-    result = 31 * result + _internalListField.hashCode;
-    result = 31 * result + _internalMapField.hashCode;
-    result = 31 * result + _internalSetField.hashCode;
+    result = 31 * result + internal_internalField.hashCode;
+    result = 31 * result + internal_internalListField.hashCode;
+    result = 31 * result + internal_internalMapField.hashCode;
+    result = 31 * result + internal_internalSetField.hashCode;
     return result;
   }
 }
@@ -67,10 +67,10 @@ final _smoke_EquatableStructWithInternalFields_get_field_internalSetField = __li
   >('library_smoke_EquatableStructWithInternalFields_get_field_internalSetField');
 Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi(EquatableStructWithInternalFields value) {
   final _publicField_handle = String_toFfi(value.publicField);
-  final _internalField_handle = String_toFfi(value._internalField);
-  final _internalListField_handle = ListOf_String_toFfi(value._internalListField);
-  final _internalMapField_handle = MapOf_String_to_String_toFfi(value._internalMapField);
-  final _internalSetField_handle = SetOf_String_toFfi(value._internalSetField);
+  final _internalField_handle = String_toFfi(value.internal_internalField);
+  final _internalListField_handle = ListOf_String_toFfi(value.internal_internalListField);
+  final _internalMapField_handle = MapOf_String_to_String_toFfi(value.internal_internalMapField);
+  final _internalSetField_handle = SetOf_String_toFfi(value.internal_internalSetField);
   final _result = _smoke_EquatableStructWithInternalFields_create_handle(_publicField_handle, _internalField_handle, _internalListField_handle, _internalMapField_handle, _internalSetField_handle);
   String_releaseFfiHandle(_publicField_handle);
   String_releaseFfiHandle(_internalField_handle);
