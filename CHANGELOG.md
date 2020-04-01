@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 6.4.2
+Release date: 2020-04-01
+### Bug fixes:
+  * Fixed version number.
+
 ## 6.4.1
 Release date: 2020-03-31
 ### Bug fixes:
