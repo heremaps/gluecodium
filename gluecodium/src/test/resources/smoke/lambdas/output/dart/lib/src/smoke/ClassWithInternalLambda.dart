@@ -32,7 +32,7 @@ class ClassWithInternalLambda_InternalLambda$Impl {
   final Pointer<Void> handle;
   ClassWithInternalLambda_InternalLambda$Impl(this.handle);
   void release() => _smoke_ClassWithInternalLambda_InternalLambda_release_handle(handle);
-  bool _call(String p0) {
+  bool internal_call(String p0) {
     final _call_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_InternalLambda_call__String');
     final _p0_handle = String_toFfi(p0);
     final _handle = this.handle;
@@ -64,7 +64,7 @@ ClassWithInternalLambda_InternalLambda smoke_ClassWithInternalLambda_InternalLam
   if (instance != null) return instance;
   final _impl = ClassWithInternalLambda_InternalLambda$Impl(_smoke_ClassWithInternalLambda_InternalLambda_copy_handle(handle));
   return (String p0) {
-    final _result =_impl._call(p0);
+    final _result =_impl.internal_call(p0);
     _impl.release();
     return _result;
   };

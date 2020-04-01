@@ -80,7 +80,7 @@ internal class DartNameResolver(
 
     private fun resolveVisibility(limeVisibility: LimeVisibility) =
         when (limeVisibility) {
-            LimeVisibility.INTERNAL -> "_"
+            LimeVisibility.INTERNAL -> "internal_"
             else -> ""
         }
 
