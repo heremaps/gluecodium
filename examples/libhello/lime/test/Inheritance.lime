@@ -116,3 +116,10 @@ class ChildConstructorOverloads : ConstructorOverloads {
         input: Double
     ) throws ThrowingConstructor.Some
 }
+
+interface ParentWithClassReferences {
+    fun classFunction(): ChildClass
+    property classProperty: GrandchildClass
+}
+
+class ChildWithParentClassReferences : ParentWithClassReferences {}
