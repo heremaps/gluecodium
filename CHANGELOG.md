@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 6.4.4
+Release date: 2020-04-01
+### Bug fixes:
+  * Fixed compilation issue in Dart for internal lambdas.
+
 ## 6.4.3
 Release date: 2020-04-01
 ### Bug fixes:
