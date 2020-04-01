@@ -41,3 +41,10 @@ class ChildClassFromClass : ParentClass {
 open internal class InternalParent {}
 
 internal class InternalChild : InternalParent {}
+
+interface ParentWithClassReferences {
+    fun classFunction(): ChildClassFromClass
+    property classProperty: ParentClass
+}
+
+class ChildWithParentClassReferences : ParentWithClassReferences {}

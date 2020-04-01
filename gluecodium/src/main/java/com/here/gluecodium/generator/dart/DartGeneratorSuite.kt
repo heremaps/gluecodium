@@ -178,10 +178,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     ): List<DartImport> {
         val classes = allTypes.filterIsInstance<LimeContainerWithInheritance>()
         val functions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions } +
-            classes
-                .filter { it.parent?.type?.actualType is LimeInterface }
-                .flatMap { it.inheritedFunctions }
-        val properties = classes.flatMap { it.properties }
+            classes.flatMap { it.inheritedFunctions }
+        val properties = classes.flatMap { it.properties + it.inheritedProperties }
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()

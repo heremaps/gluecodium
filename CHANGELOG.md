@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue in Dart for inherited properties with class type reference.
+
 ## 6.4.2
 Release date: 2020-04-01
 ### Bug fixes:
