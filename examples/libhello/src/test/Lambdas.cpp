@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/ClassWithInternalLambda.h"
 #include "test/Lambdas.h"
 
 namespace test
@@ -136,6 +137,12 @@ Lambdas::apply_nullable_confuser(const Lambdas::NullableConfuser& confuser,
                                  const lorem_ipsum::test::optional<std::string>& value)
 {
     return confuser(value);
+}
+
+bool
+ClassWithInternalLambda::invoke_internal_lambda(const InternalLambda& lambda,
+                                                const std::string& value) {
+    return lambda(value);
 }
 
 }

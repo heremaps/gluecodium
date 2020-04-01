@@ -70,3 +70,8 @@ class LambdasWithStructuredTypes {
     fun do_class_stuff(callback : ClassCallback)
     fun do_struct_stuff(callback : StructCallback)
 }
+
+class ClassWithInternalLambda {
+    internal lambda InternalLambda = (String) -> Boolean
+    internal static fun invokeInternalLambda(`lambda`: InternalLambda, value: String): Boolean
+}
