@@ -92,7 +92,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   final _impl = {{resolveName}}$Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
   return ({{#asFunction}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}}){{!!
   }} {
-    final _result =_impl.call({{#asFunction}}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}});
+    final _result =_impl.{{#asFunction}}{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}});
     _impl.release();
     return _result;
   };

@@ -58,6 +58,7 @@ internal class DartNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is String -> element
             is LimeComment -> commentsProcessor.process(
                 element.path.toString(),
                 element.getFor("Dart"),

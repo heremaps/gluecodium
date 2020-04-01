@@ -173,7 +173,7 @@ final __are_equal = __lib.nativeLibrary.lookupFunction<
   }
 {{/dartFfiEqualityOperator}}{{!!
 
-}}{{+dartImplRedirect}} => {{resolveName parent}}$Impl.{{resolveName}}({{!!
+}}{{+dartImplRedirect}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
     }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
 }}{{/dartImplRedirect}}{{!!
 
