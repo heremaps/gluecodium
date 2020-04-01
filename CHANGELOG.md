@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed reference resolution for Dart documentation comments.
+
 ## 6.4.7
 Release date: 2020-04-02
 ### Bug fixes:

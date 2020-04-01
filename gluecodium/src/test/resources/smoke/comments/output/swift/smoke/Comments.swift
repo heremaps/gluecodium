@@ -60,12 +60,12 @@ public class Comments {
         }
     }
     /// This is some very useful method that measures the usefulness of its input.
-    /// - Parameter input: Very useful input parameter
+    /// - Parameter inputParameter: Very useful input parameter
     /// - Returns: Usefulness of the input
     /// - Throws: `Comments.SomethingWrongError` Sometimes it happens.
-    public func someMethodWithAllComments(input: String) throws -> Comments.Usefulness {
-        let c_input = moveToCType(input)
-        let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_input.ref)
+    public func someMethodWithAllComments(inputParameter: String) throws -> Comments.Usefulness {
+        let c_inputParameter = moveToCType(inputParameter)
+        let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
