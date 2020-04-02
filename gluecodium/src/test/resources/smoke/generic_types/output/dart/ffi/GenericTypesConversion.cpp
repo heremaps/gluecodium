@@ -9,6 +9,7 @@
 #include "smoke/DummyClass.h"
 #include "smoke/DummyInterface.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
+#include "smoke/YetAnotherDummyClass.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -858,6 +859,66 @@ library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nul
 {
     return gluecodium::ffi::Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toFfi(
         **reinterpret_cast<gluecodium::optional<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle() {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>());
+}
+void
+library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>*>(handle);
+}
+void
+library_foobar_ListOf_smoke_YetAnotherDummyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
+    reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<std::shared_ptr<::smoke::YetAnotherDummyClass>>::toCpp(value)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>::iterator(
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>*>(handle)->begin()
+    ));
+}
+void
+library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle);
+}
+bool
+library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
+    return *reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>*>(handle)->end();
+}
+void
+library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
+    ++*reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle);
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::YetAnotherDummyClass>>::toFfi(
+        **reinterpret_cast<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>>(
+            gluecodium::ffi::Conversion<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>>::toCpp(value)
+        )
+    );
+}
+void
+library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>>*>(handle);
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>>::toFfi(
+        **reinterpret_cast<gluecodium::optional<std::vector<std::shared_ptr<::smoke::YetAnotherDummyClass>>>*>(handle)
     );
 }
 FfiOpaqueHandle

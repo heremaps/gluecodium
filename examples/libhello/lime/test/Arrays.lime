@@ -220,5 +220,7 @@ class CountDispenser {
 }
 
 class AnotherDummyClass {}
+lambda LambdaWithClassCollectionReturnType = () -> List<AnotherDummyClass>
 
-lambda LambdaWithClassGenerics = (List<AnotherDummyClass>?) -> List<AnotherDummyClass>
+class YetAnotherDummyClass {}
+lambda LambdaWithClassCollectionParameterType = (List<YetAnotherDummyClass>) -> Void
