@@ -152,7 +152,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+dartConstructor}}{{resolveName parent}}$Impl.{{resolveName}}({{!!
+}}{{+dartConstructor}}{{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
 {{/dartConstructor}}{{!!

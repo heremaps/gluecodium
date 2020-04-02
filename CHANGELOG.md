@@ -1,5 +1,14 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue in Dart for internal constructors.
+
+## 6.4.5
+Release date: 2020-04-01
+### Bug fixes:
+  * Fixed compilation issue in Dart for internal classes.
+
 ## 6.4.4
 Release date: 2020-04-01
 ### Bug fixes:
