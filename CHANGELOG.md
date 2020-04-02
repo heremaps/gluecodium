@@ -3,6 +3,8 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed compilation issue in Dart for internal constructors.
+  * Fixed validation for type references in lambda IDL declarations.
+  * Fixed compilation issue in Dart for collection type references in lambdas.
 
 ## 6.4.5
 Release date: 2020-04-01

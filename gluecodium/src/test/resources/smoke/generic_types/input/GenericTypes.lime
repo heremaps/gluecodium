@@ -85,3 +85,7 @@ class GenericTypesWithCompoundTypes {
 class DummyClass {}
 
 interface DummyInterface {}
+
+class AnotherDummyClass {}
+
+lambda LambdaWithClassGenerics = (List<AnotherDummyClass>?) -> List<AnotherDummyClass>
