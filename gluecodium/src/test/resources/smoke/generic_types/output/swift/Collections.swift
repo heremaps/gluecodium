@@ -1,6 +1,58 @@
 //
 //
 import Foundation
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [AnotherDummyClass] {
+    var result: [AnotherDummyClass] = []
+    let count = foobar_ArrayOf_smoke_AnotherDummyClass_count(handle)
+    for idx in 0..<count {
+        result.append(AnotherDummyClass_copyFromCType(foobar_ArrayOf_smoke_AnotherDummyClass_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [AnotherDummyClass] {
+    defer {
+        foobar_ArrayOf_smoke_AnotherDummyClass_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [AnotherDummyClass]) -> RefHolder {
+    let handle = foobar_ArrayOf_smoke_AnotherDummyClass_create_handle()
+    for item in swiftArray {
+        let value = moveToCType(item)
+        foobar_ArrayOf_smoke_AnotherDummyClass_append(handle, value.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [AnotherDummyClass]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_AnotherDummyClass_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [AnotherDummyClass]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_smoke_AnotherDummyClass_create_optional_handle()
+    let handle = foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        foobar_ArrayOf_smoke_AnotherDummyClass_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [AnotherDummyClass]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [AnotherDummyClass]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [AnotherDummyClass]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [AnotherDummyClass]? {
+    defer {
+        foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [DummyClass] {
     var result: [DummyClass] = []
     let count = foobar_ArrayOf_smoke_DummyClass_count(handle)

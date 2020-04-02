@@ -22,6 +22,7 @@ package com.here.gluecodium.common
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeTypeAlias
@@ -31,8 +32,10 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 abstract class LimeTypeRefsVisitor<T> {
     protected fun traverseModel(limeModel: LimeModel): List<T> {
         val allElements = limeModel.referenceMap.values
+        val allFunctions = allElements.filterIsInstance<LimeFunction>() +
+            allElements.filterIsInstance<LimeLambda>().map { it.asFunction() }
         return allElements.filterIsInstance<LimeTypedElement>().map { visitTypeRef(it, it.typeRef) } +
-            allElements.filterIsInstance<LimeFunction>().flatMap {
+            allFunctions.flatMap {
                 listOf(visitTypeRef(it, it.returnType.typeRef), visitTypeRef(it, it.thrownType?.typeRef))
             } +
             allElements.filterIsInstance<LimeContainerWithInheritance>().map { visitTypeRef(it, it.parent) } +

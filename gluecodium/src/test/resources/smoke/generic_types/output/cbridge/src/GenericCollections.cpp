@@ -4,11 +4,13 @@
 #include "alien/FooStruct.h"
 #include "cbridge/include/GenericCollections.h"
 #include "cbridge/include/StringHandle.h"
+#include "cbridge/include/smoke/cbridge_AnotherDummyClass.h"
 #include "cbridge/include/smoke/cbridge_DummyClass.h"
 #include "cbridge/include/smoke/cbridge_DummyInterface.h"
 #include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/Optional.h"
+#include "smoke/AnotherDummyClass.h"
 #include "smoke/DummyClass.h"
 #include "smoke/DummyInterface.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
@@ -209,6 +211,33 @@ void foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<std::vector<std::unordered_set<int32_t>>>*>( handle ) );
+}
+_baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_handle() {
+    return reinterpret_cast<_baseRef>( new std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>( ) );
+}
+_baseRef foobar_ArrayOf_smoke_AnotherDummyClass_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>( *reinterpret_cast<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>*>( handle ) ) );
+}
+void foobar_ArrayOf_smoke_AnotherDummyClass_release_handle(_baseRef handle) {
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>*>( handle );
+}
+uint64_t foobar_ArrayOf_smoke_AnotherDummyClass_count(_baseRef handle) {
+    return Conversion<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>>::toCpp( handle ).size( );
+}
+_baseRef foobar_ArrayOf_smoke_AnotherDummyClass_get( _baseRef handle, uint64_t index ) { return Conversion<std::shared_ptr<::smoke::AnotherDummyClass>>::referenceBaseRef(Conversion<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>>::toCpp( handle )[index]);
+}
+void foobar_ArrayOf_smoke_AnotherDummyClass_append( _baseRef handle, _baseRef item )
+{
+Conversion<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>>::toCpp(handle).push_back(Conversion<std::shared_ptr<::smoke::AnotherDummyClass>>::toCpp(item));
+}
+_baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::gluecodium::optional<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>>( std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>( ) ) );
+}
+void foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>>*>( handle );
+}
+_baseRef foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<::smoke::AnotherDummyClass>>>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<std::shared_ptr<::smoke::DummyClass>>( ) );

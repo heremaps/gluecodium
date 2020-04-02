@@ -218,3 +218,7 @@ class CountDispenser {
     }
     static fun countCharacters(input: List<NameDispenser.Holder>): List<Holder>
 }
+
+class AnotherDummyClass {}
+
+lambda LambdaWithClassGenerics = (List<AnotherDummyClass>?) -> List<AnotherDummyClass>
