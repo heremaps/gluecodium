@@ -1,8 +1,10 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.4.7
+Release date: 2020-04-02
 ### Bug fixes:
   * Fixed validation for parameter types in lambda IDL declarations.
+  * Fixed Dart runtime issue for cross-platform handles.
 
 ## 6.4.6
 Release date: 2020-04-02
