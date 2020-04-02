@@ -32,9 +32,12 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 abstract class LimeTypeRefsVisitor<T> {
     protected fun traverseModel(limeModel: LimeModel): List<T> {
         val allElements = limeModel.referenceMap.values
-        val allFunctions = allElements.filterIsInstance<LimeFunction>() +
-            allElements.filterIsInstance<LimeLambda>().map { it.asFunction() }
-        return allElements.filterIsInstance<LimeTypedElement>().map { visitTypeRef(it, it.typeRef) } +
+        val allLambdasAsFunctions = allElements.filterIsInstance<LimeLambda>().map { it.asFunction() }
+        val allFunctions = allElements.filterIsInstance<LimeFunction>() + allLambdasAsFunctions
+        val allTypedElements = allElements.filterIsInstance<LimeTypedElement>() +
+            allLambdasAsFunctions.flatMap { it.parameters }
+
+        return allTypedElements.map { visitTypeRef(it, it.typeRef) } +
             allFunctions.flatMap {
                 listOf(visitTypeRef(it, it.returnType.typeRef), visitTypeRef(it, it.thrownType?.typeRef))
             } +

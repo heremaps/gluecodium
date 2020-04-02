@@ -4,6 +4,7 @@ import 'package:library/src/smoke/AnotherDummyClass.dart';
 import 'package:library/src/smoke/DummyClass.dart';
 import 'package:library/src/smoke/DummyInterface.dart';
 import 'package:library/src/smoke/GenericTypesWithCompoundTypes.dart';
+import 'package:library/src/smoke/YetAnotherDummyClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_init.dart' as __lib;
@@ -1155,6 +1156,88 @@ List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWit
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(handle);
+final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(),
+    Pointer<Void> Function()
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_insert = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Pointer<Void>),
+    void Function(Pointer<Void>, Pointer<Void>)
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_insert');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+    Int8 Function(Pointer<Void>, Pointer<Void>),
+    int Function(Pointer<Void>, Pointer<Void>)
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get');
+Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi(List<YetAnotherDummyClass> value) {
+  final _result = _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle();
+  for (final element in value) {
+    final _element_handle = smoke_YetAnotherDummyClass_toFfi(element);
+    _foobar_ListOf_smoke_YetAnotherDummyClass_insert(_result, _element_handle);
+    smoke_YetAnotherDummyClass_releaseFfiHandle(_element_handle);
+  }
+  return _result;
+}
+List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi(Pointer<Void> handle) {
+  final result = List<YetAnotherDummyClass>();
+  final _iterator_handle = _foobar_ListOf_smoke_YetAnotherDummyClass_iterator(handle);
+  while (_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
+    final _element_handle = _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get(_iterator_handle);
+    result.add(smoke_YetAnotherDummyClass_fromFfi(_element_handle));
+    smoke_YetAnotherDummyClass_releaseFfiHandle(_element_handle);
+    _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment(_iterator_handle);
+  }
+  _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle(_iterator_handle);
+  return result;
+}
+void foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle(handle);
+final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable');
+final _foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable');
+Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi_nullable(List<YetAnotherDummyClass> value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = foobar_ListOf_smoke_YetAnotherDummyClass_toFfi(value);
+  final result = _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable(_handle);
+  foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle(_handle);
+  return result;
+}
+List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable(handle);
+  final result = foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi(_handle);
+  foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle(_handle);
+  return result;
+}
+void foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable(handle);
 final _foobar_MapOf_Float_to_Double_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
