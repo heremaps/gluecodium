@@ -231,10 +231,10 @@ DeprecationCommentsOnly smoke_DeprecationCommentsOnly_fromFfi(Pointer<Void> hand
   if (instance != null) return instance;
   final _copied_handle = _smoke_DeprecationCommentsOnly_copy_handle(handle);
   final _type_id_handle = _smoke_DeprecationCommentsOnly_get_type_id(handle);
-  final _type_id = String_fromFfi(_type_id_handle);
-  final result = _type_id.isEmpty
+  final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
+  final result = factoryConstructor == null
     ? DeprecationCommentsOnly$Impl(_copied_handle)
-    : __lib.typeRepository[_type_id](_copied_handle);
+    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
 }

@@ -101,10 +101,10 @@ Pointer<Void> package_Class_toFfi(Class value) =>
 Class package_Class_fromFfi(Pointer<Void> handle) {
   final _copied_handle = _package_Class_copy_handle(handle);
   final _type_id_handle = _package_Class_get_type_id(handle);
-  final _type_id = String_fromFfi(_type_id_handle);
-  final result = _type_id.isEmpty
+  final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
+  final result = factoryConstructor == null
     ? Class$Impl(_copied_handle)
-    : __lib.typeRepository[_type_id](_copied_handle);
+    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
   return result;
 }
