@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.4.6
+Release date: 2020-04-02
 ### Bug fixes:
   * Fixed compilation issue in Dart for internal constructors.
   * Fixed validation for type references in lambda IDL declarations.
