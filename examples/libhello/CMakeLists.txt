@@ -377,6 +377,12 @@ feature(Lambdas cpp android swift dart SOURCES
     src/test/Lambdas.cpp
 )
 
+feature(Visibility dart SOURCES
+    lime/test/Visibility.lime
+
+    src/test/Visibility.cpp
+)
+
 # This feature is intended for Swift only.
 feature(Extensions swift SOURCES
     lime/test/Extensions.lime

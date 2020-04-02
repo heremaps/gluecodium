@@ -115,7 +115,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+dartConstructor}}{{resolveName parent}}{{#unlessHasAttribute this "Dart" "Default"}}{{!!
-}}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{!!
+}}{{#isNotEq constructors.size 1}}.{{resolveName visibility}}{{resolveName}}{{/isNotEq}}{{!!
 }}{{/unlessHasAttribute}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this._copy(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
