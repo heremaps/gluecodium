@@ -23,3 +23,9 @@ internal class InternalClassWithFunctions {
     @Dart("remake")
     constructor make(foo: String)
 }
+
+struct PublicStructWithNonDefaultInternalField {
+    defaultedField: Int = 42
+    internal internalField: String
+    publicField: Boolean
+}
