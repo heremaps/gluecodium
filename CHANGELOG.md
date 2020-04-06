@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.4.8
+Release date: 2020-04-06
 ### Features:
   * Added support for configuring the path to Dart native shared library at runtime.
 ### Bug fixes:
