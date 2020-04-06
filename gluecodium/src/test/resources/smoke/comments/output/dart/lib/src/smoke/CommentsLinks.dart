@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-import 'package:library/src/_library_init.dart' as __lib;
+
 /// The nested types like [random_method] don't need full name prefix, but it's
 /// possible to references other interfaces like [CommentsInterface] or other members
 /// [comments.someMethodWithAllComments].

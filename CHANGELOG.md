@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for configuring the path to Dart native shared library at runtime.
 ### Bug fixes:
   * Fixed compilation issue in Dart for structs with a mix of internal fields with and without
     default values.

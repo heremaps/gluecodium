@@ -25,29 +25,45 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
+final nativeLibrary = _nativeLibrary ?? _loadNativeLibrary(_getLibraryPath("{{libraryName}}"));
+/*late*/ DynamicLibrary _nativeLibrary;
 
-final _library_callbacks_queue_init = __lib.nativeLibrary.lookupFunction<
+DynamicLibrary _loadNativeLibrary(String nativeLibraryPath) {
+  try {
+    return DynamicLibrary.open(nativeLibraryPath);
+  } catch (e) {
+    return DynamicLibrary.process();
+  }
+}
+
+String _getLibraryPath(String nativeLibraryName) {
+  if (Platform.isWindows) return 'lib${nativeLibraryName}.dll';
+  if (Platform.isMacOS || Platform.isIOS) return 'lib${nativeLibraryName}.dylib';
+  return 'lib${nativeLibraryName}.so';
+}
+
+final _library_callbacks_queue_init = nativeLibrary.lookupFunction<
     Int32 Function(Uint8),
     int Function(int)
   >('{{libraryName}}_library_callbacks_queue_init');
-final _library_callbacks_queue_release = __lib.nativeLibrary.lookupFunction<
+final _library_callbacks_queue_release = nativeLibrary.lookupFunction<
     Void Function(Int32),
     void Function(int)
   >('{{libraryName}}_library_callbacks_queue_release');
-final _library_wait_for_callbacks = __lib.nativeLibrary.lookupFunction<
+final _library_wait_for_callbacks = nativeLibrary.lookupFunction<
     Uint8 Function(Int32),
     int Function(int)
   >('{{libraryName}}_library_wait_for_callbacks');
-final _library_execute_callbacks = __lib.nativeLibrary.lookupFunction<
+final _library_execute_callbacks = nativeLibrary.lookupFunction<
     Void Function(Int32),
     void Function(int)
   >('{{libraryName}}_library_execute_callbacks');
 
 class _SlaveIsolateMessage {
-  _SlaveIsolateMessage(this.port, this.isolateId);
+  _SlaveIsolateMessage(this.port, this.isolateId, this.nativeLibraryPath);
   final SendPort port;
   final int isolateId;
+  final String nativeLibraryPath;
 }
 
 enum IsolateOrigin {
@@ -61,11 +77,15 @@ class LibraryContext {
   static int _isolateId = -1;
   /*late*/ static StreamSubscription _callbackStream;
 
-  static void init(IsolateOrigin isolateOrigin) {
+  /// [nativeLibraryPath] is an optional parameter specifying a path to native shared library
+  /// binary. If omitted (null) automatic library loading is attempted as a fallback. If loading
+  /// fails, current process is used as a native library instead.
+  static void init(IsolateOrigin isolateOrigin, {String nativeLibraryPath}) {
+    _loadCustomLibrary(nativeLibraryPath);
     _isolateId = _library_callbacks_queue_init(isolateOrigin == IsolateOrigin.main ? 1 : 0);
 
     final receivePort = ReceivePort();
-    Isolate.spawn(_slaveIsolate, _SlaveIsolateMessage(receivePort.sendPort, isolateId));
+    Isolate.spawn(_slaveIsolate, _SlaveIsolateMessage(receivePort.sendPort, isolateId, nativeLibraryPath));
     _callbackStream = receivePort.listen((dynamic _) { _library_execute_callbacks(isolateId); });
   }
 
@@ -75,9 +95,14 @@ class LibraryContext {
   }
 
   static void _slaveIsolate(_SlaveIsolateMessage message) {
+    _loadCustomLibrary(message.nativeLibraryPath);
     while (_library_wait_for_callbacks(message.isolateId) != 0) {
       message.port.send(1);
     }
     message.port.send(0);
+  }
+
+  static DynamicLibrary _loadCustomLibrary(String nativeLibraryPath) {
+    if (nativeLibraryPath != null) _nativeLibrary = _loadNativeLibrary(nativeLibraryPath);
   }
 }
