@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-import 'package:library/src/_library_init.dart' as __lib;
+
 class InternalStruct {
   String internal_stringField;
   InternalStruct(this.internal_stringField);

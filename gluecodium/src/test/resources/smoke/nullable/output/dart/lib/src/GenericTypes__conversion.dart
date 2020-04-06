@@ -3,7 +3,7 @@ import 'package:library/src/GenericTypes__conversion.dart';
 import 'package:library/src/smoke/Nullable.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:library/src/_library_init.dart' as __lib;
+import 'package:library/src/_library_context.dart' as __lib;
 final _ListOf_Nullable_Date_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()

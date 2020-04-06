@@ -1,7 +1,7 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
-import 'package:library/src/_library_init.dart' as __lib;
+import 'package:library/src/_library_context.dart' as __lib;
 // Blob
 final _Blob_create_handle = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
