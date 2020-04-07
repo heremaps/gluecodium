@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,5 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/DocComment}}
-{{>cpp/CppExportMacro}}{{storageQualifier}} {{#type}}{{#unless refersToConstType}}const {{/unless}}{{name}}{{/type}} {{name}};
+{{#type}}{{#unless refersToConstType}}const {{/unless}}{{name}}{{/type}} {{!!
+}}{{#if parentName}}{{parentName}}::{{/if}}{{name}} = {{value.name}};

@@ -50,4 +50,16 @@ void main() {
 
     expect(result, equals(""));
   });
+  _testSuite.test("Return input C string", () {
+    final inputString = "Foo";
+
+    final result = StringsWithCstring.returnInputString(inputString);
+
+    expect(result, equals(inputString));
+  });
+  _testSuite.test("Return 'hello' C string", () {
+    final result = StringsWithCstring.returnHelloString();
+
+    expect(result, equals("hello"));
+  });
 }

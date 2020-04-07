@@ -50,6 +50,9 @@ std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, 
 std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* dummy );
 {{>common/InternalNamespace}}optional<std::string> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* dummy );
+const char* convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, const char** dummy );
+{{>common/InternalNamespace}}optional<const char*> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<const char*>* dummy );
 
 /**
  * Converts a jbyteArray to a byte buffer
@@ -76,6 +79,8 @@ std::chrono::system_clock::time_point convert_from_jni(
  */
 JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
 JniReference<jstring> convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional<std::string>& nvalue );
+JniReference<jstring> convert_to_jni( JNIEnv* env, const char* nvalue );
+JniReference<jstring> convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional<const char*>& nvalue );
 
 /**
  * Converts a byte buffer to a jbyteArray

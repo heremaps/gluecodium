@@ -77,4 +77,20 @@ public final class StaticStringMethodsTest {
     // Assert
     assertTrue(returnedString.isEmpty());
   }
+
+  @Test
+  public void returnInputStringWithCString() {
+    String inputString = "Foo";
+
+    String returnedString = StringsWithCstring.returnInputString(inputString);
+
+    assertEquals(inputString, returnedString);
+  }
+
+  @Test
+  public void returnHelloStringWithCString() {
+    String returnedString = StringsWithCstring.returnHelloString();
+
+    assertEquals("hello", returnedString);
+  }
 }

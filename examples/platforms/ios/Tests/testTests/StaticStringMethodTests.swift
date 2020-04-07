@@ -48,11 +48,21 @@ class StaticStringMethodsTests: XCTestCase {
         XCTAssertEqual(StaticStringMethods.returnEmpty(), "")
     }
 
+    func testPassCString() {
+        XCTAssertEqual(StringsWithCstring.returnInputString(inputString: "Foo"), "Foo")
+    }
+
+    func testReturnCString() {
+        XCTAssertEqual(StringsWithCstring.returnHelloString(), "hello")
+    }
+
     static var allTests = [
         ("testPassEmptyString", testPassEmptyString),
         ("testTwoStringParameters", testTwoStringParameters),
         ("testTwoStringParametersOneEmpty", testTwoStringParametersOneEmpty),
         ("testStringReturnString", testStringReturnString),
-        ("testEmptyReturnString", testEmptyReturnString)
+        ("testEmptyReturnString", testEmptyReturnString),
+        ("testPassCString", testPassCString),
+        ("testReturnCString", testReturnCString)
     ]
 }

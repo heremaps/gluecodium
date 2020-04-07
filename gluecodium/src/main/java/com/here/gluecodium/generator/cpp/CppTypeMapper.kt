@@ -28,7 +28,9 @@ import com.here.gluecodium.model.cpp.CppTemplateTypeRef.TemplateClass
 import com.here.gluecodium.model.cpp.CppTypeDefRef
 import com.here.gluecodium.model.cpp.CppTypeRef
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.CSTRING
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -74,7 +76,7 @@ class CppTypeMapper(
         )
 
     fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef {
-        val result = mapType(limeTypeRef.type)
+        val result = mapType(limeTypeRef.type, limeTypeRef.attributes)
         val needsOptionalType =
             limeTypeRef.isNullable && limeTypeRef.type !is LimeContainerWithInheritance
         return if (needsOptionalType) createOptionalType(result) else result
@@ -113,9 +115,9 @@ class CppTypeMapper(
             namespace = CppNameRules.joinFullyQualifiedName(internalNamespace)
         )
 
-    private fun mapType(limeType: LimeType): CppTypeRef =
+    private fun mapType(limeType: LimeType, attributes: LimeAttributes): CppTypeRef =
         when (limeType) {
-            is LimeBasicType -> mapPredefined(limeType)
+            is LimeBasicType -> mapPredefined(limeType, attributes)
             is LimeTypeAlias -> CppTypeDefRef(
                 nameResolver.getFullyQualifiedName(limeType),
                 includeResolver.resolveIncludes(limeType),
@@ -186,7 +188,7 @@ class CppTypeMapper(
             else -> throw GluecodiumExecutionException("Unmapped type: " + limeType.name)
         }
 
-    private fun mapPredefined(limeBasicType: LimeBasicType) =
+    private fun mapPredefined(limeBasicType: LimeBasicType, attributes: LimeAttributes) =
         when (limeBasicType.typeId) {
             TypeId.VOID -> CppPrimitiveTypeRef.VOID
             TypeId.INT8 -> CppPrimitiveTypeRef.INT8
@@ -200,7 +202,8 @@ class CppTypeMapper(
             TypeId.BOOLEAN -> CppPrimitiveTypeRef.BOOL
             TypeId.FLOAT -> CppPrimitiveTypeRef.FLOAT
             TypeId.DOUBLE -> CppPrimitiveTypeRef.DOUBLE
-            TypeId.STRING -> stringType
+            TypeId.STRING ->
+                if (attributes.have(CPP, CSTRING)) CppPrimitiveTypeRef.CSTRING else stringType
             TypeId.BLOB -> blobPointerType
             TypeId.DATE -> dateType
         }

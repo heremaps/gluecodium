@@ -37,7 +37,7 @@ bool
 }
 {{/isEquatable}}{{/unless}}
 {{#setJoin "parentName" parentName name delimiter="::"}}{{#members}}
-{{#instanceOf this "CppConstant"}}{{#unless isExternal}}const {{type.name}} {{parentName}}::{{name}} = {{value.name}};{{/unless}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#unless isExternal}}{{>cpp/CppConstantImpl}}{{/unless}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
 {{#instanceOf this "CppClass"}}{{>cpp/CppClassImpl}}{{/instanceOf}}

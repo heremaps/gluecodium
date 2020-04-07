@@ -48,7 +48,7 @@ namespace {{.}} {
 {{>cpp/CppClassImpl}}
 {{/classes}}
 {{#members}}
-{{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{>cpp/CppConstantImpl}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
 {{/members}}

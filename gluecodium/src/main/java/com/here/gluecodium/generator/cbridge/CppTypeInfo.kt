@@ -62,6 +62,17 @@ open class CppTypeInfo(
                 Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
             )
         )
+        val CSTRING = CppTypeInfo(
+            name = "const char*",
+            cType = CType.STRING_REF,
+            functionReturnType = CType.STRING_REF,
+            includes = listOf(
+                CppLibraryIncludes.STRING,
+                CppLibraryIncludes.NEW,
+                Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE),
+                Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
+            )
+        )
         val DATE = CppTypeInfo(
             name = "std::chrono::system_clock::time_point",
             cType = CType.DOUBLE,

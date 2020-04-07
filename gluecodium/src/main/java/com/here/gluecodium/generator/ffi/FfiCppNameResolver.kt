@@ -26,7 +26,9 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
+import com.here.gluecodium.model.lime.LimeAttributeValueType.CSTRING
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -84,7 +86,7 @@ internal class FfiCppNameResolver(
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
-        val typeName = resolveName(limeType)
+        val typeName = getTypeName(limeType, limeTypeRef.attributes)
         return when {
             limeType is LimeContainerWithInheritance -> "std::shared_ptr<$typeName>"
             limeTypeRef.isNullable -> "$internalNamespace::optional<$typeName>"
@@ -92,9 +94,9 @@ internal class FfiCppNameResolver(
         }
     }
 
-    private fun getTypeName(limeType: LimeType): String =
+    private fun getTypeName(limeType: LimeType, attributes: LimeAttributes? = null): String =
         when (limeType) {
-            is LimeBasicType -> getBasicTypeName(limeType.typeId)
+            is LimeBasicType -> getBasicTypeName(limeType.typeId, attributes)
             is LimeGenericType -> getGenericTypeName(limeType)
             else -> cppNameResolver.getFullyQualifiedName(limeType)
         }
@@ -102,10 +104,10 @@ internal class FfiCppNameResolver(
     private fun getExceptionTypeName(limeException: LimeException) =
         when (val errorType = limeException.errorType.type.actualType) {
             is LimeEnumeration -> "std::error_code"
-            else -> getTypeName(errorType)
+            else -> getTypeName(errorType, limeException.errorType.attributes)
         }
 
-    private fun getBasicTypeName(typeId: TypeId) =
+    private fun getBasicTypeName(typeId: TypeId, attributes: LimeAttributes? = null) =
         when (typeId) {
             TypeId.VOID -> "void"
             TypeId.INT8 -> "int8_t"
@@ -119,7 +121,8 @@ internal class FfiCppNameResolver(
             TypeId.BOOLEAN -> "bool"
             TypeId.FLOAT -> "float"
             TypeId.DOUBLE -> "double"
-            TypeId.STRING -> "std::string"
+            TypeId.STRING ->
+                if (attributes?.have(CPP, CSTRING) == true) "const char*" else "std::string"
             TypeId.BLOB -> "std::shared_ptr<std::vector<uint8_t>>"
             TypeId.DATE -> "std::chrono::system_clock::time_point"
         }

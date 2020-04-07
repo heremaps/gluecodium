@@ -48,6 +48,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 
 template < typename T >
 inline static T*
@@ -261,5 +262,30 @@ struct Conversion< std::chrono::system_clock::time_point >
     toCppReturn( double seconds_since_epoch )
     {
         return seconds_since_epoch_to_time_point( seconds_since_epoch );
+    }
+};
+
+template<>
+struct Conversion<const char*>
+{
+    static _baseRef
+    toBaseRef( const char* t )
+    {
+        return reinterpret_cast< _baseRef >( new std::string( t ) );
+    }
+
+    static const char*
+    toCpp( _baseRef ref )
+    {
+        return reinterpret_cast< std::string* >( ref )->c_str();
+    }
+
+    static const char*
+    toCppReturn( _baseRef ref )
+    {
+        auto ptr = reinterpret_cast< std::string* >( ref );
+        std::string value( *ptr );
+        delete ptr;
+        return value.c_str();
     }
 };

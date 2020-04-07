@@ -527,7 +527,7 @@ class JavaModelBuilder(
     private fun createComments(limeLambdaParameter: LimeLambdaParameter) =
         Comments(
             limeLambdaParameter.comment.getFor(PLATFORM_TAG),
-            limeLambdaParameter.attributes?.get(DEPRECATED, MESSAGE)
+            limeLambdaParameter.attributes.get(DEPRECATED, MESSAGE)
         )
 
     companion object {

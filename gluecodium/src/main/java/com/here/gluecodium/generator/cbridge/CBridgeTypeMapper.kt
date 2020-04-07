@@ -34,6 +34,9 @@ import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.cpp.CppElementWithIncludes
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef
 import com.here.gluecodium.model.cpp.CppTypeRef
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.CSTRING
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -66,18 +69,22 @@ class CBridgeTypeMapper(
     )
 
     fun mapType(limeTypeRef: LimeTypeRef, cppTypeRef: CppTypeRef): CppTypeInfo {
-        val typeInfo = mapType(limeTypeRef.type, cppTypeRef)
+        val typeInfo = mapType(limeTypeRef.type, cppTypeRef, limeTypeRef.attributes)
         return when {
             limeTypeRef.isNullable -> createNullableTypeInfo(typeInfo, cppTypeRef)
             else -> typeInfo
         }
     }
 
-    private fun mapType(limeType: LimeType, cppTypeRef: CppTypeRef): CppTypeInfo =
+    private fun mapType(
+        limeType: LimeType,
+        cppTypeRef: CppTypeRef,
+        attributes: LimeAttributes
+    ): CppTypeInfo =
         when (limeType) {
-            is LimeBasicType -> mapBasicType(limeType)
+            is LimeBasicType -> mapBasicType(limeType, attributes = attributes)
             is LimeTypeAlias ->
-                mapType(limeType.actualType, cppTypeRef.actualType)
+                mapType(limeType.actualType, cppTypeRef.actualType, attributes)
             is LimeContainerWithInheritance -> createCustomTypeInfo(limeType, isClass = true)
             is LimeStruct -> createCustomTypeInfo(limeType)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
@@ -117,7 +124,7 @@ class CBridgeTypeMapper(
         )
     }
 
-    private fun mapBasicType(limeType: LimeBasicType) =
+    private fun mapBasicType(limeType: LimeBasicType, attributes: LimeAttributes) =
         when (limeType.typeId) {
             TypeId.VOID -> CppTypeInfo(CType.VOID)
             TypeId.INT8 -> CppTypeInfo(CType.INT8)
@@ -131,7 +138,8 @@ class CBridgeTypeMapper(
             TypeId.BOOLEAN -> CppTypeInfo(CType.BOOL)
             TypeId.FLOAT -> CppTypeInfo(CType.FLOAT)
             TypeId.DOUBLE -> CppTypeInfo(CType.DOUBLE)
-            TypeId.STRING -> CppTypeInfo.STRING
+            TypeId.STRING ->
+                if (attributes.have(CPP, CSTRING)) CppTypeInfo.CSTRING else CppTypeInfo.STRING
             TypeId.BLOB -> byteBufferTypeInfo
             TypeId.DATE -> CppTypeInfo.DATE
         }
@@ -141,11 +149,12 @@ class CBridgeTypeMapper(
         val cppMapTypeRef = cppType as CppTemplateTypeRef
         val cppKeyType = cppMapTypeRef.templateParameters.first()
         val cppValueType = cppMapTypeRef.templateParameters.last()
-        var keyType = mapType(limeType.keyType.type, cppKeyType)
+        var keyType = mapType(limeType.keyType.type, cppKeyType, limeType.keyType.attributes)
         if (limeType.keyType.isNullable) {
             keyType = createNullableTypeInfo(keyType, cppKeyType)
         }
-        var valueType = mapType(limeType.valueType.type, cppValueType)
+        var valueType =
+            mapType(limeType.valueType.type, cppValueType, limeType.valueType.attributes)
         if (limeType.valueType.isNullable) {
             valueType = createNullableTypeInfo(valueType, cppValueType)
         }
@@ -179,7 +188,8 @@ class CBridgeTypeMapper(
     ): CppSetTypeInfo {
 
         val cppElementType = (cppType as CppTemplateTypeRef).templateParameters.first()
-        var elementType = mapType(limeType.elementType.type, cppElementType)
+        var elementType =
+            mapType(limeType.elementType.type, cppElementType, limeType.elementType.attributes)
         if (limeType.elementType.isNullable) {
             elementType = createNullableTypeInfo(elementType, cppElementType)
         }
@@ -209,7 +219,8 @@ class CBridgeTypeMapper(
     private fun createArrayTypeInfo(limeType: LimeList, cppType: CppTypeRef): CppArrayTypeInfo {
 
         val cppElementType = (cppType as CppTemplateTypeRef).templateParameters.first()
-        var elementType = mapType(limeType.elementType.type, cppElementType)
+        var elementType =
+            mapType(limeType.elementType.type, cppElementType, limeType.elementType.attributes)
         if (limeType.elementType.isNullable) {
             elementType = createNullableTypeInfo(elementType, cppElementType)
         }

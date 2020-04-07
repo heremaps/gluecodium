@@ -28,6 +28,7 @@
 #include <functional>
 #include <memory>
 #include <new>
+#include <string>
 #include <type_traits>
 
 {{#internalNamespace}}
@@ -144,6 +145,20 @@ struct Conversion<std::chrono::system_clock::time_point, void> {
     toCpp(uint64_t t) {
         using namespace std::chrono;
         return system_clock::time_point(duration_cast<system_clock::duration>(microseconds(t)));
+    }
+};
+
+template<>
+struct Conversion<const char*, void>
+{
+    static FfiOpaqueHandle
+    toFfi(const char* t) {
+        return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(t));
+    }
+
+    static const char*
+    toCpp(FfiOpaqueHandle ref) {
+        return reinterpret_cast<std::string*>(ref)->c_str();
     }
 };
 
