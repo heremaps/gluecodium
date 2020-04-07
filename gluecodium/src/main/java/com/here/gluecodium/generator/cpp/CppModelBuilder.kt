@@ -32,6 +32,7 @@ import com.here.gluecodium.model.cpp.CppField
 import com.here.gluecodium.model.cpp.CppInheritance
 import com.here.gluecodium.model.cpp.CppMethod
 import com.here.gluecodium.model.cpp.CppParameter
+import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
 import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTypeRef
 import com.here.gluecodium.model.cpp.CppUsing
@@ -41,6 +42,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
+import com.here.gluecodium.model.lime.LimeAttributeValueType.CSTRING
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
@@ -147,6 +149,7 @@ class CppModelBuilder(
         val isNullable = limeMethod.returnType.typeRef.isNullable
         val isInstance = limeMethod.returnType.typeRef.type is LimeContainerWithInheritance
 
+        val parameters = getPreviousResults(CppParameter::class.java)
         val cppMethod = CppMethod(
             name = nameResolver.getName(limeMethod),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeMethod),
@@ -156,10 +159,21 @@ class CppModelBuilder(
             errorType = limeMethod.exception?.errorType?.let { typeMapper.mapType(it) },
             errorComment = limeMethod.thrownType?.comment?.getFor(PLATFORM_TAG),
             isNotNull = isInstance && !isNullable,
-            parameters = getPreviousResults(CppParameter::class.java),
+            parameters = parameters,
             specifiers = specifiers,
             qualifiers = qualifiers
         )
+
+        if (limeMethod.parameters.any { isCstringParameter(it) }) {
+            val cstringParameters = parameters.mapIndexed { index, cppParameter ->
+                when {
+                    isCstringParameter(limeMethod.parameters[index]) ->
+                        cppParameter.copy(CppPrimitiveTypeRef.CSTRING)
+                    else -> cppParameter
+                }
+            }
+            storeResult(cppMethod.copy(parameters = cstringParameters))
+        }
 
         storeNamedResult(limeMethod, cppMethod)
         closeContext()
@@ -200,7 +214,7 @@ class CppModelBuilder(
                 specifiers.contains(CppMethod.Specifier.STATIC) -> emptySet()
                 else -> setOf(CppMethod.Qualifier.CONST)
             }
-            it.copy(specifiers, qualifiers)
+            it.copy(specifiers = specifiers, qualifiers = qualifiers)
         }
         val cppStruct = CppStruct(
             name = nameResolver.getName(limeStruct),
@@ -470,5 +484,12 @@ class CppModelBuilder(
 
     companion object {
         const val PLATFORM_TAG = "Cpp"
+
+        private fun isCstringParameter(limeParameter: LimeParameter): Boolean {
+            val actualType = limeParameter.typeRef.type.actualType
+            return actualType is LimeBasicType &&
+                    actualType.typeId == LimeBasicType.TypeId.STRING &&
+                    limeParameter.attributes.have(CPP, CSTRING)
+        }
     }
 }

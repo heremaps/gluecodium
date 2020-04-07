@@ -69,9 +69,11 @@ endfunction()
 feature(Strings cpp android swift dart SOURCES
     src/hello/HelloWorld.cpp
     src/test/StaticStringMethods.cpp
+    src/test/StringsWithCstring.cpp
 
     lime/hello/HelloWorld.lime
     lime/test/StaticStringMethods.lime
+    lime/test/StringsWithCstring.lime
 )
 
 feature(MethodOverloading cpp android swift dart SOURCES

@@ -24,8 +24,9 @@ import com.here.gluecodium.model.common.Include
 
 class CppPrimitiveTypeRef private constructor(
     name: String,
-    includes: List<Include> = emptyList()
-) : CppTypeRef(name, includes, refersToValueType = true) {
+    includes: List<Include> = emptyList(),
+    refersToConstType: Boolean = false
+) : CppTypeRef(name, includes, refersToValueType = true, refersToConstType = refersToConstType) {
 
     companion object {
         private val intIncludes = listOf(CppLibraryIncludes.INT_TYPES)
@@ -35,6 +36,7 @@ class CppPrimitiveTypeRef private constructor(
         val FLOAT = CppPrimitiveTypeRef("float")
         val DOUBLE = CppPrimitiveTypeRef("double")
         val CHAR = CppPrimitiveTypeRef("char")
+        val CSTRING = CppPrimitiveTypeRef("const char*", refersToConstType = true)
         val INT8 = CppPrimitiveTypeRef("int8_t", intIncludes)
         val INT16 = CppPrimitiveTypeRef("int16_t", intIncludes)
         val INT32 = CppPrimitiveTypeRef("int32_t", intIncludes)

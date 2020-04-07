@@ -18,4 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-const {{#type}}{{name}}{{^refersToValueType}}&{{/refersToValueType}}{{/type}}
+{{#type}}{{#unless refersToConstType}}const {{/unless}}{{name}}{{#unless refersToValueType}}&{{/unless}}{{/type}}

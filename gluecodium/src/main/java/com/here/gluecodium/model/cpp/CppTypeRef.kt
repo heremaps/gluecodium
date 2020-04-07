@@ -24,7 +24,8 @@ import com.here.gluecodium.model.common.Include
 abstract class CppTypeRef(
     typeName: String,
     includes: List<Include>,
-    val refersToValueType: Boolean = false
+    val refersToValueType: Boolean = false,
+    val refersToConstType: Boolean = false
 ) : CppElementWithIncludes(typeName, typeName, includes) {
 
     open val actualType: CppTypeRef
