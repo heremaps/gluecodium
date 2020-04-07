@@ -31,7 +31,7 @@ class LimeAmbiguousEnumeratorRef(
     parentPaths: List<LimePath>,
     imports: List<LimePath>,
     referenceMap: Map<String, LimeElement>
-) : LimeEnumeratorRef {
+) : LimeEnumeratorRef() {
 
     override val elementFullName by lazy { enumerator.path.toString() }
 

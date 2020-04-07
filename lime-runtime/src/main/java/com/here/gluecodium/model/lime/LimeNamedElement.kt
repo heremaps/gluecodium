@@ -24,7 +24,7 @@ abstract class LimeNamedElement protected constructor(
     val visibility: LimeVisibility = LimeVisibility.PUBLIC,
     val comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null
-) : LimeElement {
+) : LimeElement(attributes) {
 
     open val name
         get() = path.name
@@ -38,6 +38,4 @@ abstract class LimeNamedElement protected constructor(
     @Suppress("unused")
     val packageName
         get() = path.head.joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
-
-    val attributes = attributes ?: LimeAttributes.Builder().build()
 }
