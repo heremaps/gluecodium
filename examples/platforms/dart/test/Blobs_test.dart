@@ -39,14 +39,14 @@ void main() {
   });
   _testSuite.test("methodWithByteBufferInStruct() empty list", () {
     final result = ArraysByteBuffer.methodWithByteBufferInStruct(
-        ArraysByteBuffer_StructWithByteBuffer(Uint8List(0))
+        ArraysByteBufferStructWithByteBuffer(Uint8List(0))
     );
 
     expect(result.image, isEmpty);
   });
   _testSuite.test("methodWithBymethodWithByteBufferInStructteBuffer() reverses list", () {
     final result = ArraysByteBuffer.methodWithByteBufferInStruct(
-        ArraysByteBuffer_StructWithByteBuffer(Uint8List.fromList([0, 42, 255]))
+        ArraysByteBufferStructWithByteBuffer(Uint8List.fromList([0, 42, 255]))
     );
 
     expect(result.image, Uint8List.fromList([255, 42, 0]));

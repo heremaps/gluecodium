@@ -26,41 +26,41 @@ final _testSuite = TestSuite("Enums");
 
 void main() {
   _testSuite.test("Flip enum to zero", () {
-    final errorEnum = Enums_InternalError.errorFatal;
+    final errorEnum = EnumsInternalError.errorFatal;
 
     final result = Enums.flipEnumValue(errorEnum);
 
-    expect(result, equals(Enums_InternalError.errorNone));
+    expect(result, equals(EnumsInternalError.errorNone));
   });
   _testSuite.test("Flip enum from zero", () {
-    final errorEnum = Enums_InternalError.errorNone;
+    final errorEnum = EnumsInternalError.errorNone;
 
     final result = Enums.flipEnumValue(errorEnum);
 
-    expect(result, equals(Enums_InternalError.errorFatal));
+    expect(result, equals(EnumsInternalError.errorFatal));
   });
   _testSuite.test("Extract enum from struct to zero", () {
-    final input = Enums_ErrorStruct(Enums_InternalError.errorFatal, "");
+    final input = EnumsErrorStruct(EnumsInternalError.errorFatal, "");
 
     final result = Enums.extractEnumFromStruct(input);
 
-    expect(result, equals(Enums_InternalError.errorNone));
+    expect(result, equals(EnumsInternalError.errorNone));
   });
   _testSuite.test("Extract enum from struct from zero", () {
-    final input = Enums_ErrorStruct(Enums_InternalError.errorNone, "");
+    final input = EnumsErrorStruct(EnumsInternalError.errorNone, "");
 
     final result = Enums.extractEnumFromStruct(input);
 
-    expect(result, equals(Enums_InternalError.errorFatal));
+    expect(result, equals(EnumsInternalError.errorFatal));
   });
   _testSuite.test("Create struct with enum inside to zero", () {
-    final result = Enums.createStructWithEnumInside(Enums_InternalError.errorFatal, "");
+    final result = Enums.createStructWithEnumInside(EnumsInternalError.errorFatal, "");
 
-    expect(result.type, equals(Enums_InternalError.errorNone));
+    expect(result.type, equals(EnumsInternalError.errorNone));
   });
   _testSuite.test("Create struct with enum inside from zero", () {
-    final result = Enums.createStructWithEnumInside(Enums_InternalError.errorNone, "");
+    final result = Enums.createStructWithEnumInside(EnumsInternalError.errorNone, "");
 
-    expect(result.type, equals(Enums_InternalError.errorFatal));
+    expect(result.type, equals(EnumsInternalError.errorFatal));
   });
 }

@@ -112,7 +112,7 @@ void main() {
     expect(result, equals([false, true, true]));
   });
   _testSuite.test("Reverse Struct list", () {
-    final input = [Arrays_BasicStruct(-4.2), Arrays_BasicStruct(3.1)];
+    final input = [ArraysBasicStruct(-4.2), ArraysBasicStruct(3.1)];
 
     final result = Arrays.reverseStructArray(input);
 

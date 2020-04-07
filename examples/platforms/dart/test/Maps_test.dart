@@ -47,7 +47,7 @@ void main() {
     expect(result, equals({31: ["FOO"], 42: ["BAR"]}));
   });
   _testSuite.test("Map to Struct round trip", () {
-    final input = {31: Maps_SomeStruct("foo"), 42: Maps_SomeStruct("bar")};
+    final input = {31: MapsSomeStruct("foo"), 42: MapsSomeStruct("bar")};
 
     final result = Maps.methodWithMapToStruct(input);
 
@@ -55,14 +55,14 @@ void main() {
     expect(result[42].value, equals("BAR"));
   });
   _testSuite.test("Empty nested Map round trip", () {
-    final input = <int, Map<int, Maps_SomeStruct>>{};
+    final input = <int, Map<int, MapsSomeStruct>>{};
 
     final result = Maps.methodWithNestedMap(input);
 
     expect(result, isEmpty);
   });
   _testSuite.test("Nested map round trip", () {
-    final input = {31: {77: Maps_SomeStruct("foo")}, 42: {199: Maps_SomeStruct("bar")}};
+    final input = {31: {77: MapsSomeStruct("foo")}, 42: {199: MapsSomeStruct("bar")}};
 
     final result = Maps.methodWithNestedMap(input);
 
@@ -70,26 +70,26 @@ void main() {
     expect(result[42][199].value, equals("BAR"));
   });
   _testSuite.test("Empty Map in Struct round trip", () {
-    final input = Maps_StructWithMap({});
+    final input = MapsStructWithMap({});
 
     final result = Maps.methodWithStructWithMap(input);
 
     expect(result.errorMapping, isEmpty);
   });
   _testSuite.test("Map in Struct round trip", () {
-    final input = Maps_StructWithMap({31: "foo", 42: "bar"});
+    final input = MapsStructWithMap({31: "foo", 42: "bar"});
 
     final result = Maps.methodWithStructWithMap(input);
 
     expect(result.errorMapping, equals({31: "FOO", 42: "BAR"}));
   });
   _testSuite.test("Map with Enum keys round trip", () {
-    final input = {Maps_SomeEnum.fooValue: "foo", Maps_SomeEnum.barValue: "bar"};
+    final input = {MapsSomeEnum.fooValue: "foo", MapsSomeEnum.barValue: "bar"};
 
     final result = Maps.methodWithEnumToStringMap(input);
 
     expect(result, equals(
-        {Maps_SomeEnum.fooValue: "FOO", Maps_SomeEnum.barValue: "BAR"}
+        {MapsSomeEnum.fooValue: "FOO", MapsSomeEnum.barValue: "BAR"}
     ));
   });
   _testSuite.test("Map with Instances round trip", () {

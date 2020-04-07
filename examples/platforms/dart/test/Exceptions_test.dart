@@ -27,23 +27,23 @@ final _testSuite = TestSuite("Exceptions");
 
 void main() {
   _testSuite.test("methodWithError() throws", () {
-    Errors_InternalException exception = null;
+    ErrorsInternalException exception = null;
 
     try {
       Errors.methodWithError(true);
-    } on Errors_InternalException catch(e) {
+    } on ErrorsInternalException catch(e) {
       exception = e;
     }
 
     expect(exception, isNotNull);
-    expect(exception.error, Errors_InternalErrorCode.crashed);
+    expect(exception.error, ErrorsInternalErrorCode.crashed);
   });
   _testSuite.test("methodWithError() does not throw", () {
-    Errors_InternalException exception = null;
+    ErrorsInternalException exception = null;
 
     try {
       Errors.methodWithError(false);
-    } on Errors_InternalException catch(e) {
+    } on ErrorsInternalException catch(e) {
       exception = e;
     }
 
@@ -51,25 +51,25 @@ void main() {
   });
   _testSuite.test("methodWithErrorAndString() throws", () {
     String result = null;
-    AdditionalErrors_ExternalException exception = null;
+    AdditionalErrorsExternalException exception = null;
 
     try {
       result = Errors.methodWithErrorAndString(true);
-    } on AdditionalErrors_ExternalException catch(e) {
+    } on AdditionalErrorsExternalException catch(e) {
       exception = e;
     }
 
     expect(result, isNull);
     expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrors_ExternalErrorCode.failed);
+    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
   });
   _testSuite.test("methodWithErrorAndString() does not throw", () {
     String result = null;
-    AdditionalErrors_ExternalException exception = null;
+    AdditionalErrorsExternalException exception = null;
 
     try {
       result = Errors.methodWithErrorAndString(false);
-    } on AdditionalErrors_ExternalException catch(e) {
+    } on AdditionalErrorsExternalException catch(e) {
       exception = e;
     }
 
@@ -77,23 +77,23 @@ void main() {
     expect(exception, isNull);
   });
   _testSuite.test("methodWithExternalError() throws", () {
-    Errors_ExternalException exception = null;
+    ErrorsExternalException exception = null;
 
     try {
       Errors.methodWithExternalError(true);
-    } on Errors_ExternalException catch(e) {
+    } on ErrorsExternalException catch(e) {
       exception = e;
     }
 
     expect(exception, isNotNull);
-    expect(exception.error, Errors_ExternalErrorCode.boom);
+    expect(exception.error, ErrorsExternalErrorCode.boom);
   });
   _testSuite.test("methodWithExternalError() does not throw", () {
-    Errors_ExternalException exception = null;
+    ErrorsExternalException exception = null;
 
     try {
       Errors.methodWithExternalError(false);
-    } on Errors_ExternalException catch(e) {
+    } on ErrorsExternalException catch(e) {
       exception = e;
     }
 
@@ -153,25 +153,25 @@ void main() {
   });
   _testSuite.test("Throwing constructor throws", () {
     ThrowingConstructor result = null;
-    ThrowingConstructor_SomeException exception = null;
+    ThrowingConstructorSomeException exception = null;
 
     try {
       result = new ThrowingConstructor(1.0);
-    } on ThrowingConstructor_SomeException catch(e) {
+    } on ThrowingConstructorSomeException catch(e) {
       exception = e;
     }
 
     expect(result, isNull);
     expect(exception, isNotNull);
-    expect(exception.error, ThrowingConstructor_ErrorEnum.crashed);
+    expect(exception.error, ThrowingConstructorErrorEnum.crashed);
   });
   _testSuite.test("Throwing constructor does not throw", () {
     ThrowingConstructor result = null;
-    ThrowingConstructor_SomeException exception = null;
+    ThrowingConstructorSomeException exception = null;
 
     try {
       result = new ThrowingConstructor(0.0);
-    } on ThrowingConstructor_SomeException catch(e) {
+    } on ThrowingConstructorSomeException catch(e) {
       exception = e;
     }
 

@@ -53,6 +53,7 @@ These are all supported name types in the name config file are:
 | `setter`      | Setter name for an property (only Java, C++)
 | `getter`      | Getter name for an property (only Java, C++)
 | `error`       | Exception/Error name (only Java, Swift)
+| `join`        | Joining of compound names (only Dart, only `join.infix`)
 
 If one of the properties is not set in the custom rules, the default is applied.
 
@@ -170,6 +171,12 @@ in the IDL file leads to a compile-time error. This can be resolved manually at 
 specifying alternative names for these conflicting methods through marking them with
 `@Dart("<method-name>")` attribute in the IDL definition.
 
+### Nested types
+Since Dart language has no concept of nested type declarations, the types that are declared nested
+in IDL have compound names in Dart. The infix used to concatenate the names of the outer type and
+the inner type to form the compound name is controlled through `join.infix` name rule. The default
+infix is `_`. An empty infix is considered valid, if specified.
+
 ### Default namerules/dart.properties
 ```
 field=lowerCamelCase
@@ -182,5 +189,6 @@ property.prefix.boolean=is
 type=UpperCamelCase
 error=UpperCamelCase
 error.suffix=Exception
+join.infix=_
 
 ```

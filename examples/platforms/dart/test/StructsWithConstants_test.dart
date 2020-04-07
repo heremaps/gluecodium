@@ -31,7 +31,7 @@ void main() {
     expect(result, "Nonsense");
   });
   _testSuite.test("MultiRoute default description", () {
-    final result = StructsWithConstantsInterface_MultiRoute.defaultDescription;
+    final result = StructsWithConstantsInterfaceMultiRoute.defaultDescription;
 
     expect(result, "Foo");
   });

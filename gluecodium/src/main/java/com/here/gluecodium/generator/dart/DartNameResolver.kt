@@ -54,6 +54,7 @@ internal class DartNameResolver(
 ) : NameResolver {
 
     private val commentsProcessor = DartCommentsProcessor()
+    private val joinInfix = nameRules.ruleSet.joinInfix ?: ""
     private val limeToDartNames = buildPathMap()
 
     override fun resolveName(element: Any): String =
@@ -80,7 +81,7 @@ internal class DartNameResolver(
 
     private fun resolveVisibility(limeVisibility: LimeVisibility) =
         when (limeVisibility) {
-            LimeVisibility.INTERNAL -> "internal_"
+            LimeVisibility.INTERNAL -> "internal$joinInfix"
             else -> ""
         }
 
@@ -162,7 +163,7 @@ internal class DartNameResolver(
             null -> listOf(typeName)
             is LimeTypesCollection -> listOf(typeName)
             else -> listOf(resolveName(parentType), typeName)
-        }.joinToString("_")
+        }.joinToString(joinInfix)
     }
 
     private fun getPlatformName(element: LimeNamedElement) =

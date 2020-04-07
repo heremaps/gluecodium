@@ -47,7 +47,7 @@ void main() {
     expect(result, inInclusiveRange(3.14 - epsilon, 3.14 + epsilon));
   });
   _testSuite.test("Struct type Property round trip", () {
-    attributes.structAttribute = Attributes_ExampleStruct(2.71, []);
+    attributes.structAttribute = AttributesExampleStruct(2.71, []);
 
     final result = attributes.structAttribute;
 

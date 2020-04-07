@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for configuring name-joining infix for Dart naming rules.
 ### Bug fixes:
   * Fixed reference resolution for Dart documentation comments.
 

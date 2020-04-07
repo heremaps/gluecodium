@@ -35,7 +35,7 @@ void main() {
   });
 
   _testSuite.test("Struct with nullable fields defaults", () {
-    final result = new NullableInterface_NullableStruct.withDefaults();
+    final result = new NullableInterfaceNullableStruct.withDefaults();
 
     expect(result.stringField, isNull);
     expect(result.boolField, isNull);
@@ -48,7 +48,7 @@ void main() {
     expect(result.blobField, isNull);
   });
   _testSuite.test("Struct with nullable fields round trip with nulls", () {
-    final input = new NullableInterface_NullableStruct.withDefaults();
+    final input = new NullableInterfaceNullableStruct.withDefaults();
 
     final result = instance.methodWithNullableStruct(input);
 
@@ -63,12 +63,12 @@ void main() {
     expect(result.blobField, isNull);
   });
   _testSuite.test("Struct with nullable fields round trip with zeroes", () {
-    final input = new NullableInterface_NullableStruct(
+    final input = new NullableInterfaceNullableStruct(
       "",
       false,
       0.0,
-      NullableInterface_SomeStruct(""),
-      NullableInterface_SomeEnum.off,
+      NullableInterfaceSomeStruct(""),
+      NullableInterfaceSomeEnum.off,
       [],
       [],
       {},
@@ -81,19 +81,19 @@ void main() {
     expect(result.boolField, isFalse);
     expect(result.doubleField, 0.0);
     expect(result.structField.stringField, "");
-    expect(result.enumField, NullableInterface_SomeEnum.off);
+    expect(result.enumField, NullableInterfaceSomeEnum.off);
     expect(result.arrayField, isEmpty);
     expect(result.inlineArrayField, isEmpty);
     expect(result.mapField, isEmpty);
     expect(result.blobField, isEmpty);
   });
   _testSuite.test("Struct with nullable fields round trip with non-zeroes", () {
-    final input = new NullableInterface_NullableStruct(
+    final input = new NullableInterfaceNullableStruct(
       "Foo",
       true,
       3.14,
-      NullableInterface_SomeStruct("Bar"),
-      NullableInterface_SomeEnum.on,
+      NullableInterfaceSomeStruct("Bar"),
+      NullableInterfaceSomeEnum.on,
       ["Baz"],
       ["Fizz"],
       {7: "Wheez"},
@@ -106,14 +106,14 @@ void main() {
     expect(result.boolField, isTrue);
     expect(result.doubleField, 3.14);
     expect(result.structField.stringField, "Bar");
-    expect(result.enumField, NullableInterface_SomeEnum.on);
+    expect(result.enumField, NullableInterfaceSomeEnum.on);
     expect(result.arrayField, ["Baz"]);
     expect(result.inlineArrayField, ["Fizz"]);
     expect(result.mapField, {7: "Wheez"});
     expect(result.blobField, Uint8List.fromList([42]));
   });
   _testSuite.test("Nullable int struct defaults", () {
-    final result = new NullableInterface_NullableIntsStruct.withDefaults();
+    final result = new NullableInterfaceNullableIntsStruct.withDefaults();
 
     expect(result.int8Field, isNull);
     expect(result.int16Field, isNull);
@@ -125,7 +125,7 @@ void main() {
     expect(result.uint64Field, isNull);
   });
   _testSuite.test("Nullable int struct round trip with nulls", () {
-    final input = new NullableInterface_NullableIntsStruct.withDefaults();
+    final input = new NullableInterfaceNullableIntsStruct.withDefaults();
 
     final result = instance.methodWithNullableIntsStruct(input);
 
@@ -140,7 +140,7 @@ void main() {
   });
   _testSuite.test("Nullable int struct round trip with zeroes", () {
     final input =
-      new NullableInterface_NullableIntsStruct(0, 0, 0, 0, 0, 0, 0, 0);
+      new NullableInterfaceNullableIntsStruct(0, 0, 0, 0, 0, 0, 0, 0);
 
     final result = instance.methodWithNullableIntsStruct(input);
 
@@ -154,7 +154,7 @@ void main() {
     expect(result.uint64Field, 0);
   });
   _testSuite.test("Nullable int struct round trip with non-zeroes", () {
-    final input = new NullableInterface_NullableIntsStruct(
+    final input = new NullableInterfaceNullableIntsStruct(
         42, -71, -1337, -3735928559, 71, 1337, 2735718543, 3735928559);
 
     final result = instance.methodWithNullableIntsStruct(input);
@@ -235,13 +235,13 @@ void main() {
   });
   _testSuite.test("Nullable Struct round trip with zero", () {
     final result =
-        instance.methodWithSomeStruct(NullableInterface_SomeStruct(""));
+        instance.methodWithSomeStruct(NullableInterfaceSomeStruct(""));
 
     expect(result.stringField, "");
   });
   _testSuite.test("Nullable Struct round trip with non-zero", () {
     final result =
-        instance.methodWithSomeStruct(NullableInterface_SomeStruct("Foo"));
+        instance.methodWithSomeStruct(NullableInterfaceSomeStruct("Foo"));
 
     expect(result.stringField, "Foo");
   });
@@ -251,14 +251,14 @@ void main() {
     expect(result, isNull);
   });
   _testSuite.test("Nullable Enum round trip with zero", () {
-    final result = instance.methodWithSomeEnum(NullableInterface_SomeEnum.off);
+    final result = instance.methodWithSomeEnum(NullableInterfaceSomeEnum.off);
 
-    expect(result, NullableInterface_SomeEnum.off);
+    expect(result, NullableInterfaceSomeEnum.off);
   });
   _testSuite.test("Nullable Enum round trip with non-zero", () {
-    final result = instance.methodWithSomeEnum(NullableInterface_SomeEnum.on);
+    final result = instance.methodWithSomeEnum(NullableInterfaceSomeEnum.on);
 
-    expect(result, NullableInterface_SomeEnum.on);
+    expect(result, NullableInterfaceSomeEnum.on);
   });
   _testSuite.test("Nullable List round trip with null", () {
     final result = instance.methodWithSomeArray(null);
