@@ -299,11 +299,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 COMMON
             ),
             GeneratedFile(
-                TemplateEngine.render("dart/DartLibraryInit", templateData, nameResolvers),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/_library_init.dart",
-                COMMON
-            ),
-            GeneratedFile(
                 TemplateEngine.render("dart/DartLibraryContext", templateData, nameResolvers),
                 "$LIB_DIR/$SRC_DIR_SUFFIX/_library_context.dart",
                 COMMON

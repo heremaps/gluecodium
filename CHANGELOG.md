@@ -4,6 +4,14 @@
 ### Bug fixes:
   * Fixed reference resolution for Dart documentation comments.
 
+## 6.4.8
+Release date: 2020-04-06
+### Features:
+  * Added support for configuring the path to Dart native shared library at runtime.
+### Bug fixes:
+  * Fixed compilation issue in Dart for structs with a mix of internal fields with and without
+    default values.
+
 ## 6.4.7
 Release date: 2020-04-02
 ### Bug fixes:

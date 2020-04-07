@@ -27,7 +27,7 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
-import 'package:{{libraryName}}/src/_library_init.dart' as __lib;
+import 'package:{{libraryName}}/src/_library_context.dart' as __lib;
 
 {{#genericTypes}}
 final _{{resolveName "Ffi"}}_create_handle = __lib.nativeLibrary.lookupFunction<
