@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.4.9
+Release date: 2020-04-07
 ### Features:
   * Added support for configuring name-joining infix for Dart naming rules.
 ### Bug fixes:
