@@ -175,10 +175,18 @@ internal class DartNameResolver(
                     "Failed to resolve parent for element ${limeElement.fullName}"
                 ))
 
+    private fun resolveFullName(limeElement: LimeNamedElement): String {
+        if (limeElement is LimeType || !limeElement.path.hasParent) {
+            return resolveName(limeElement)
+        }
+        val parentElement = getParentElement(limeElement)
+        return "${resolveFullName(parentElement)}.${resolveName(limeElement)}"
+    }
+
     private fun buildPathMap(): Map<String, String> {
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
-            .associateBy({ it.fullName }, { resolveName(it) })
+            .associateBy({ it.fullName }, { resolveFullName(it) })
             .toMutableMap()
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()

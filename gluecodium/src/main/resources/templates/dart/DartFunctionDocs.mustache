@@ -20,8 +20,8 @@
   !}}
 {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
 {{/unless}}{{/resolveName}}{{!!
-}}{{#parameters}}{{#resolveName comment}}{{#unless this.isEmpty}}/// @param[{{name}}] {{prefix this "/// " skipFirstLine=true}}
-{{/unless}}{{/resolveName}}{{/parameters}}{{!!
+}}{{#parameters}}{{#set self=this}}{{#resolveName comment}}{{#unless this.isEmpty}}/// @param[{{resolveName self}}] {{prefix this "/// " skipFirstLine=true}}
+{{/unless}}{{/resolveName}}{{/set}}{{/parameters}}{{!!
 }}{{#resolveName returnType.comment}}{{#unless this.isEmpty}}/// @return {{prefix this "/// " skipFirstLine=true}}
 {{/unless}}{{/resolveName}}{{!!
 }}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}/// @throws {{prefix this "/// " skipFirstLine=true}}

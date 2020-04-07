@@ -30,11 +30,11 @@ class comments {
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
     // This is some very useful method that measures the usefulness of its input.
-    // @param[input] Very useful input parameter
+    // @param[input_parameter] Very useful input parameter
     // @return Usefulness of the input
     // @throws Sometimes it happens.
     fun someMethodWithAllComments(
-        input: String
+        input_parameter: String
     ): Usefulness throws SomethingWrong
     // This is some very useful method that measures the usefulness of its input.
     // @param[input] Very useful input parameter

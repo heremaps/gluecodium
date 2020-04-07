@@ -14,21 +14,21 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class CommentsLinks {
   void release();
   /// Link types:
-  /// * constant: [veryUseful]
+  /// * constant: [Comments.veryUseful]
   /// * struct: [Comments_SomeStruct]
-  /// * struct field: [someField]
+  /// * struct field: [Comments_SomeStruct.someField]
   /// * enum: [Comments_SomeEnum]
-  /// * enum item: [useful]
-  /// * property: [isSomeProperty]
+  /// * enum item: [Comments_SomeEnum.useful]
+  /// * property: [Comments.isSomeProperty]
   /// * property setter: [isSomeProperty]
   /// * property getter: [isSomeProperty]
   /// * method: [comments.someMethodWithAllComments]
   /// * parameter: [inputParameter]
-  /// * top level constant: [typeCollectionConstant]
+  /// * top level constant: [CommentsTypeCollection.typeCollectionConstant]
   /// * top level struct: [TypeCollectionStruct]
-  /// * top level struct field: [field]
+  /// * top level struct field: [TypeCollectionStruct.field]
   /// * top level enum: [TypeCollectionEnum]
-  /// * top level enum item: [item]
+  /// * top level enum item: [TypeCollectionEnum.item]
   /// * error: [Comments_SomethingWrongException]
   /// * type from aux sources, same package: [AuxClass]
   /// * type from aux sources, different package: [AuxStruct]
@@ -38,9 +38,9 @@ abstract class CommentsLinks {
   /// * top level typedef: [bool]
   ///
   /// Not working for Swift:
-  /// * named comment: [][veryUseful]
-  /// @param[inputParameter] Sometimes takes [useful]
-  /// @return Sometimes returns [useful]
+  /// * named comment: [][Comments.veryUseful]
+  /// @param[inputParameter] Sometimes takes [Comments_SomeEnum.useful]
+  /// @return Sometimes returns [Comments_SomeEnum.useful]
   /// @throws May or may not throw [Comments_SomethingWrongException]
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter);
 }

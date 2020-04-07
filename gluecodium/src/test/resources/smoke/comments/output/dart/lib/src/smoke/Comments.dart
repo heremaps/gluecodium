@@ -11,10 +11,10 @@ abstract class Comments {
   /// This is some very useful constant.
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
-  /// @param[input] Very useful input parameter
+  /// @param[inputParameter] Very useful input parameter
   /// @return Usefulness of the input
   /// @throws Sometimes it happens.
-  bool someMethodWithAllComments(String input);
+  bool someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that measures the usefulness of its input.
   /// @param[input] Very useful input parameter
   bool someMethodWithInputComments(String input);
@@ -315,12 +315,12 @@ class Comments$Impl implements Comments {
   @override
   void release() => _smoke_Comments_release_handle(handle);
   @override
-  bool someMethodWithAllComments(String input) {
+  bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String');
-    final _input_handle = String_toFfi(input);
+    final _inputParameter_handle = String_toFfi(inputParameter);
     final _handle = this.handle;
-    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    String_releaseFfiHandle(_input_handle);
+    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _inputParameter_handle);
+    String_releaseFfiHandle(_inputParameter_handle);
     if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
         _someMethodWithAllComments_return_release_handle(__call_result_handle);
