@@ -92,7 +92,8 @@ function(apigen_generate)
       OUTPUT_DIR
       COMMON_OUTPUT_DIR
       BUILD_OUTPUT_DIR
-      DART_LIBRARY_NAME)
+      DART_LIBRARY_NAME
+      DART_NAMERULES)
   set(multiValueArgs LIME_SOURCES FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -155,6 +156,7 @@ function(apigen_generate)
   _apigen_parse_path_option(-cppnamerules CPP_NAMERULES)
   _apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
   _apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
+  _apigen_parse_path_option(-dartnamerules DART_NAMERULES)
   _apigen_parse_path_option(-commonoutput COMMON_OUTPUT_DIR)
   _apigen_parse_option(-libraryname DART_LIBRARY_NAME)
   _apigen_parse_option(-internalprefix INTERNAL_PREFIX)

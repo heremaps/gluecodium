@@ -26,7 +26,7 @@ final _testSuite = TestSuite("StructsWithMethods");
 
 void main() {
   final vector = Vector.create(1, 2);
-  final vector3 = StructsWithMethodsInterface_Vector3.create(1, 2, 3);
+  final vector3 = StructsWithMethodsInterfaceVector3.create(1, 2, 3);
 
   _testSuite.test("Vector distance to self", () {
     final result = vector.distanceTo(vector);
@@ -99,7 +99,7 @@ void main() {
     expect(result, 0.0);
   });
   _testSuite.test("Vector3 distance to other", () {
-    final input = StructsWithMethodsInterface_Vector3.create(-4, -5, 6);
+    final input = StructsWithMethodsInterfaceVector3.create(-4, -5, 6);
 
     final result = vector3.distanceTo(input);
 
@@ -114,7 +114,7 @@ void main() {
     expect(result.z, 6.0);
   });
   _testSuite.test("Vector3 add other", () {
-    final input = StructsWithMethodsInterface_Vector3.create(-4, -7, -10);
+    final input = StructsWithMethodsInterfaceVector3.create(-4, -7, -10);
 
     final result = vector3.add(input);
 
@@ -123,22 +123,22 @@ void main() {
     expect(result.z, -7.0);
   });
   _testSuite.test("Vector3 validate passes", () {
-    final result = StructsWithMethodsInterface_Vector3.validate(1, 2, 3);
+    final result = StructsWithMethodsInterfaceVector3.validate(1, 2, 3);
 
     expect(result, isTrue);
   });
   _testSuite.test("Vector3 validate fails", () {
     final result =
-      StructsWithMethodsInterface_Vector3.validate(1, double.nan, 3);
+      StructsWithMethodsInterfaceVector3.validate(1, double.nan, 3);
 
     expect(result, isFalse);
   });
   _testSuite.test("Vector3 copy constructor does not throw", () {
-    StructsWithMethodsInterface_Vector3 result = null;
+    StructsWithMethodsInterfaceVector3 result = null;
     ValidationException exception = null;
 
     try {
-      result = new StructsWithMethodsInterface_Vector3.createCopy(vector3);
+      result = new StructsWithMethodsInterfaceVector3.createCopy(vector3);
     } on ValidationException catch(e) {
       exception = e;
     }
@@ -149,12 +149,12 @@ void main() {
     expect(result.z, 3);
   });
   _testSuite.test("Vector3 copy constructor throws", () {
-    StructsWithMethodsInterface_Vector3 result = null;
+    StructsWithMethodsInterfaceVector3 result = null;
     ValidationException exception = null;
 
     try {
-      result = new StructsWithMethodsInterface_Vector3.createCopy(
-          new StructsWithMethodsInterface_Vector3.create(1, double.nan, 3)
+      result = new StructsWithMethodsInterfaceVector3.createCopy(
+          new StructsWithMethodsInterfaceVector3.create(1, double.nan, 3)
       );
     } on ValidationException catch(e) {
       exception = e;

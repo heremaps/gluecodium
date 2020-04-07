@@ -50,12 +50,12 @@ class ThrowingListener extends ErrorsInInterface {
 
   @override
   String getMessage() {
-    throw AdditionalErrors_ExternalException(AdditionalErrors_ExternalErrorCode.failed);
+    throw AdditionalErrorsExternalException(AdditionalErrorsExternalErrorCode.failed);
   }
 
   @override
   void setMessage(String value) {
-    throw AdditionalErrors_ExternalException(AdditionalErrors_ExternalErrorCode.failed);
+    throw AdditionalErrorsExternalException(AdditionalErrorsExternalErrorCode.failed);
   }
 
   @override
@@ -87,32 +87,32 @@ void main() {
     expect(result, "Works");
   });
   _testSuite.test("getMessage() error rethrown", () {
-    AdditionalErrors_ExternalException exception = null;
+    AdditionalErrorsExternalException exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
       messenger.getMessage(listener);
-    } on AdditionalErrors_ExternalException catch(e) {
+    } on AdditionalErrorsExternalException catch(e) {
       exception = e;
     }
 
     expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrors_ExternalErrorCode.failed);
+    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
 
     listener.release();
   });
   _testSuite.test("setMessage() error rethrown", () {
-    AdditionalErrors_ExternalException exception = null;
+    AdditionalErrorsExternalException exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
       messenger.setMessage(listener, "Foo");
-    } on AdditionalErrors_ExternalException catch(e) {
+    } on AdditionalErrorsExternalException catch(e) {
       exception = e;
     }
 
     expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrors_ExternalErrorCode.failed);
+    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
 
     listener.release();
   });

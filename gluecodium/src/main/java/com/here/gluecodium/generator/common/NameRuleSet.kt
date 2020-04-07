@@ -29,7 +29,8 @@ class NameRuleSet(
     val getPropertyName: (String, Boolean) -> String = ignore2(::illegal),
     val getSetterName: (name: String) -> String = ::illegal,
     val getGetterName: (name: String, Boolean) -> String = ignore2(::illegal),
-    val getErrorName: (name: String) -> String = ::illegal
+    val getErrorName: (name: String) -> String = ::illegal,
+    val joinInfix: String? = null
 ) {
     companion object {
 

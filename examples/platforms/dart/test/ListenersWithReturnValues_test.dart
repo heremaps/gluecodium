@@ -42,12 +42,12 @@ class TestListener extends ListenerWithReturn {
   MessageBox getBoxedMessage() => MessageBox();
 
   @override
-  ListenerWithReturn_MessageStruct getStructuredMessage() =>
-    ListenerWithReturn_MessageStruct("Works");
+  ListenerWithReturnMessageStruct getStructuredMessage() =>
+    ListenerWithReturnMessageStruct("Works");
 
   @override
-  ListenerWithReturn_MessageEnum getEnumeratedMessage() =>
-    ListenerWithReturn_MessageEnum.yes;
+  ListenerWithReturnMessageEnum getEnumeratedMessage() =>
+    ListenerWithReturnMessageEnum.yes;
 
   @override
   List<String> getArrayedMessage() => ["Works"];

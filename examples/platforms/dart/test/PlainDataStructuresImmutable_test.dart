@@ -26,8 +26,8 @@ final _testSuite = TestSuite("PlainDataStructuresImmutable");
 
 void main() {
   _testSuite.test("All types immutable struct round trip", () {
-    final input = PlainDataStructuresImmutable_AllTypesImmutableStruct(-1, 2, -3, 4, -5,
-        6, -7, 8, -9, 10, "foo", true, PlainDataStructuresImmutable_Point(-11, 12));
+    final input = PlainDataStructuresImmutableAllTypesImmutableStruct(-1, 2, -3, 4, -5,
+        6, -7, 8, -9, 10, "foo", true, PlainDataStructuresImmutablePoint(-11, 12));
 
     final result = PlainDataStructuresImmutable.immutableStructRoundTrip(input);
 
@@ -47,10 +47,10 @@ void main() {
     expect(result.pointField.y, equals(12));
   });
   _testSuite.test("Nested immutable struct round trip", () {
-    final input = PlainDataStructuresImmutable_NestingImmutableStruct(
-        PlainDataStructuresImmutable_AllTypesImmutableStruct(
+    final input = PlainDataStructuresImmutableNestingImmutableStruct(
+        PlainDataStructuresImmutableAllTypesImmutableStruct(
             -1, 2, -3, 4, -5, 6, -7, 8, -9, 10, "foo", true,
-            PlainDataStructuresImmutable_Point(-11, 12)
+            PlainDataStructuresImmutablePoint(-11, 12)
         )
     );
 
@@ -73,7 +73,7 @@ void main() {
   });
   _testSuite.test("Immutable struct with accessprs round trip", () {
     final input =
-        PlainDataStructuresImmutable_ImmutableStructWithCppAccessors("foo");
+        PlainDataStructuresImmutableImmutableStructWithCppAccessors("foo");
 
     final result = PlainDataStructuresImmutable.immutableStructWithAccessorsRoundTrip(input);
 

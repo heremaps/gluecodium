@@ -32,7 +32,7 @@ class MessageListener extends StringListener {
   void onConstMessage(String message) {}
 
   @override
-  void onStructMessage(StringListener_StringStruct message) {}
+  void onStructMessage(StringListenerStringStruct message) {}
 }
 
 class RouteImpl extends Route {

@@ -42,11 +42,11 @@ class TestListener implements ListenerWithAttributes {
   MessageBox boxedMessage = null;
 
   @override
-  ListenerWithReturn_MessageStruct structuredMessage = null;
+  ListenerWithReturnMessageStruct structuredMessage = null;
 
   @override
-  ListenerWithReturn_MessageEnum enumeratedMessage =
-      ListenerWithReturn_MessageEnum.no;
+  ListenerWithReturnMessageEnum enumeratedMessage =
+      ListenerWithReturnMessageEnum.no;
 
   @override
   List<String> arrayedMessage = ["Doesn't work"];

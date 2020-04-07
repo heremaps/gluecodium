@@ -29,7 +29,7 @@ void main() {
   _testSuite.test("Use external struct", () {
     final externalStruct =
       ExternalStruct("foo", "bar", [7, 11], AnotherExternalStruct(42));
-    final input = UseExternalTypes_StructWithExternalTypes(
+    final input = UseExternalTypesStructWithExternalTypes(
         externalStruct, ExternalEnum.bar);
 
     final result = UseExternalTypes.extractExternalStruct(input);
@@ -42,7 +42,7 @@ void main() {
   _testSuite.test("Use external enum", () {
     final externalStruct =
       ExternalStruct("foo", "bar", [7, 11], AnotherExternalStruct(42));
-    final input = UseExternalTypes_StructWithExternalTypes(
+    final input = UseExternalTypesStructWithExternalTypes(
         externalStruct, ExternalEnum.bar);
 
     final result = UseExternalTypes.extractExternalEnum(input);

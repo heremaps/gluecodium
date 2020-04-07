@@ -41,12 +41,12 @@ void main() {
     expect(result, isFalse);
   });
   _testSuite.test("Call isBoolean() with Point", () {
-    final result = MethodOverloads.isBooleanPoint(MethodOverloads_Point(0, 0));
+    final result = MethodOverloads.isBooleanPoint(MethodOverloadsPoint(0, 0));
 
     expect(result, isFalse);
   });
   _testSuite.test("Call isBoolean() with Everything", () {
-    final result = MethodOverloads.isBooleanMulti(false, 42, "nonsense", MethodOverloads_Point(0, 0));
+    final result = MethodOverloads.isBooleanMulti(false, 42, "nonsense", MethodOverloadsPoint(0, 0));
 
     expect(result, isFalse);
   });

@@ -32,7 +32,7 @@ void main() {
     expect(result.y, equals(2.0));
   });
   _testSuite.test("Manipulate simple data structure", () {
-    final input = PlainDataStructures_Point(1.0, 2.0);
+    final input = PlainDataStructuresPoint(1.0, 2.0);
 
     final result = PlainDataStructures.swapPointCoordinates(input);
 
@@ -40,8 +40,8 @@ void main() {
     expect(result.y, equals(1.0));
   });
   _testSuite.test("Create nested data structure with multiple params", () {
-    final input1 = PlainDataStructures_Point(1.0, 2.0);
-    final input2 = PlainDataStructures_Point(3.0, 4.0);
+    final input1 = PlainDataStructuresPoint(1.0, 2.0);
+    final input2 = PlainDataStructuresPoint(3.0, 4.0);
 
     final result = PlainDataStructures.createLine(input1, input2);
 
@@ -51,8 +51,8 @@ void main() {
     expect(result.b.y, equals(4.0));
   });
   _testSuite.test("All types zeros round trip", () {
-    final input = PlainDataStructures_AllTypesStruct(0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, "", false, PlainDataStructures_Point(0, 0));
+    final input = PlainDataStructuresAllTypesStruct(0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, "", false, PlainDataStructuresPoint(0, 0));
 
     final result = PlainDataStructures.returnAllTypesStruct(input);
 
@@ -72,8 +72,8 @@ void main() {
     expect(result.pointField.y, equals(0));
   });
   _testSuite.test("All types non-zeros round trip", () {
-    final input = PlainDataStructures_AllTypesStruct(-1, 2, -3, 4, -5,
-        6, -7, 8, -9, 10, "foo", true, PlainDataStructures_Point(-11, 12));
+    final input = PlainDataStructuresAllTypesStruct(-1, 2, -3, 4, -5,
+        6, -7, 8, -9, 10, "foo", true, PlainDataStructuresPoint(-11, 12));
 
     final result = PlainDataStructures.returnAllTypesStruct(input);
 

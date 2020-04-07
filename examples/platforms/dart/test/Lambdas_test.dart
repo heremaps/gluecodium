@@ -60,7 +60,7 @@ void main() {
   });
   _testSuite.test("Call Dart lambda in struct in C++", () {
     final capturedDelimiter = ">.<";
-    final holder = Lambdas_LambdaHolder(
+    final holder = LambdasLambdaHolder(
         (String s1, String s2) => s1 + capturedDelimiter + s2);
 
     final result = Lambdas.concatenateInStruct("foo", "bar", holder);

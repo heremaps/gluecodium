@@ -40,14 +40,14 @@ void main() {
     expect(result, equals(input));
   });
   _testSuite.test("Empty Enum set round trip", () {
-    final input = <SetType_SomeEnum>{};
+    final input = <SetTypeSomeEnum>{};
 
     final result = SetType.enumSetRoundTrip(input);
 
     expect(result, isEmpty);
   });
   _testSuite.test("Enum set round trip", () {
-    final input = <SetType_SomeEnum>{SetType_SomeEnum.on};
+    final input = <SetTypeSomeEnum>{SetTypeSomeEnum.on};
 
     final result = SetType.enumSetRoundTrip(input);
 

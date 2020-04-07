@@ -37,10 +37,11 @@ private object NameRuleSetLoader {
             getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
             getSetterName = getNameRule(config, NameTypes.Setter),
             getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter),
-            getErrorName = getNameRule(config, NameTypes.Error)
+            getErrorName = getNameRule(config, NameTypes.Error),
+            joinInfix = getInfix(config, NameTypes.Join)
     )
 
-    @Suppress("EnumEntryName")
+    @Suppress("EnumEntryName", "unused")
     enum class NameFormat(val apply: (String) -> String, val joinApply: (List<String?>) -> String) {
         UPPER_SNAKE_CASE(NameHelper::toUpperSnakeCase, NameHelper::joinToUpperSnakeCase),
         lower_snake_case(NameHelper::toLowerSnakeCase, NameHelper::joinToLowerSnakeCase),
@@ -58,7 +59,8 @@ private object NameRuleSetLoader {
         Property,
         Setter,
         Getter,
-        Error
+        Error,
+        Join
     }
 
     private fun getNameRuleBooleanPrefix(config: Configuration, nameType: NameTypes): (String, Boolean) -> String {
@@ -101,6 +103,13 @@ private object NameRuleSetLoader {
             val formatting = config[formattingKey]
             return { formatting.joinApply(listOf(prefix, it, suffix)) }
         } else return config[formattingKey].apply
+    }
+
+    @Suppress("SameParameterValue")
+    private fun getInfix(config: Configuration, nameType: NameTypes): String? {
+        val key = nameType.toString().toLowerCase()
+        val infixKey = Key("$key.infix", stringType)
+        return config.getOrNull(infixKey)
     }
 }
 
