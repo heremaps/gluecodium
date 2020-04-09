@@ -13,39 +13,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.ShowCaseElement" parent="Theme.AppCompat.Light">
-        <item name="android:layout_marginRight">@dimen/description_text_margin</item>
-        <item name="android:layout_marginLeft">@dimen/description_text_margin</item>
-        <item name="android:paddingLeft">@dimen/description_text_padding</item>
-        <item name="android:paddingRight">@dimen/description_text_padding</item>
-        <item name="android:textSize">@dimen/description_text_size</item>
-    </style>
-
-    <style name="AppTheme.ShowCaseText" parent="AppTheme.ShowCaseElement">
-        <item name="android:layout_marginTop">@dimen/fab_margin</item>
-        <item name="android:layout_marginBottom">@dimen/fab_margin</item>
-    </style>
-
-    <style name="AppTheme.ShowCaseInput" parent="AppTheme.ShowCaseElement">
-        <item name="android:ems">10</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:inputType">textNoSuggestions</item>
-        <item name="android:imeOptions">actionDone</item>
-        <item name="android:textSize">@dimen/input_output_text_size</item>
-    </style>
-
-    <style name="AppTheme.ShowCaseResult" parent="AppTheme.ShowCaseText">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/input_output_text_size</item>
-    </style>
-
-    <style name="AppTheme.ShowCaseButton" parent="Base.TextAppearance.AppCompat.Button">
-        <item name="android:layout_marginRight">@dimen/button_side_margin</item>
-        <item name="android:layout_marginLeft">@dimen/button_side_margin</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:background">?attr/colorButtonNormal</item>
-        <item name="android:textSize">@dimen/description_text_size</item>
-    </style>
-
 </resources>
