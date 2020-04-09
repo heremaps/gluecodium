@@ -321,7 +321,9 @@ class CppModelBuilder(
             qualifiers = getterQualifiers
         )
         storeNamedResult(limeProperty, getterMethod)
-        referenceMap["${limeProperty.fullName}.get"] = getterMethod
+        val getterKey = "${limeProperty.fullName}.get"
+        referenceMap[getterKey] = getterMethod
+        reverseReferenceMap[getterMethod] = getterKey
 
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
@@ -344,7 +346,9 @@ class CppModelBuilder(
                 qualifiers = setterQualifiers
             )
             storeResult(setterMethod)
-            referenceMap["${limeProperty.fullName}.set"] = setterMethod
+            val setterKey = "${limeProperty.fullName}.set"
+            referenceMap[setterKey] = setterMethod
+            reverseReferenceMap[setterMethod] = setterKey
         }
 
         closeContext()

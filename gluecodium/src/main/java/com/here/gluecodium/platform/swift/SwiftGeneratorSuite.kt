@@ -68,13 +68,13 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             internalPrefix = internalPrefix
         )
         val swiftModel =
-            limeModel.topElements.fold(SwiftModel(emptyMap(), emptyList())) { model, rootElement ->
+            limeModel.topElements.fold(SwiftModel()) { model, rootElement ->
                 model.merge(swiftGenerator.generateModel(rootElement))
             }
         // Build name mapping for auxiliary model
         val auxGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules, internalPrefix)
         val auxModel =
-            limeModel.auxiliaryElements.fold(SwiftModel(emptyMap(), emptyList())) { model, rootElement ->
+            limeModel.auxiliaryElements.fold(SwiftModel()) { model, rootElement ->
                 model.merge(auxGenerator.generateModel(rootElement))
             }
 
@@ -93,12 +93,11 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
 
         val limeToSwiftName = (swiftModel.referenceMap + auxModel.referenceMap)
             .mapValues { elementToSwiftName[it.value] ?: "" }
-        val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         swiftModel.containers.flatMap { it.allElementsRecursive }
             .filterIsInstance<SwiftModelElement>()
-            .forEach { processElementComments(it, elementToLimeName, limeToSwiftName, limeLogger) }
+            .forEach { processElementComments(it, swiftModel.reverseReferenceMap, limeToSwiftName, limeLogger) }
 
         return swiftModel.containers.filter { it.childElements.isNotEmpty() }.map {
             GeneratedFile(

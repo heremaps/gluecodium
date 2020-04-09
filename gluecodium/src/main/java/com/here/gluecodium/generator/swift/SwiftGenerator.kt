@@ -62,6 +62,7 @@ class SwiftGenerator(
 
         return SwiftModel(
             modelBuilder.referenceMap,
+            modelBuilder.reverseReferenceMap,
             modelBuilder.finalResults.mapNotNull { wrapInFile(it, rootElement) }
         )
     }

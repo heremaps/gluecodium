@@ -52,6 +52,8 @@ public:
      * * property setter: ::smoke::Comments::set_some_property
      * * property getter: ::smoke::Comments::is_some_property
      * * method: ::smoke::Comments::some_method_with_all_comments
+     * * method with signature: ::smoke::Comments::one_parameter_comment_only
+     * * method with signature with no spaces: ::smoke::Comments::one_parameter_comment_only
      * * parameter: input_parameter
      * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
      * * top level struct: ::smoke::TypeCollectionStruct

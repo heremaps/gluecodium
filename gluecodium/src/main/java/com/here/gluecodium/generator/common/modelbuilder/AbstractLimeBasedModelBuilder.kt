@@ -29,6 +29,7 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
@@ -41,6 +42,7 @@ abstract class AbstractLimeBasedModelBuilder<E>(
      * Mapping of LIME full name to model full name.
      */
     val referenceMap = mutableMapOf<String, E>()
+    val reverseReferenceMap = mutableMapOf<E, String>()
 
     override fun startBuilding(limeElement: LimeElement) = openContext()
     override fun startBuilding(limeContainer: LimeContainerWithInheritance) = openContext()
@@ -55,13 +57,19 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     /**
      * Store a result which has a direct mapping to a lime model name. This is used to transform
      * links in comments from lime to language model. "Ambiguous" LIME references (i.e. when the
-     * disambiguation suffix is omitted) are also allowed.
+     * disambiguation suffix is omitted) and full-signature function references are also allowed.
      */
     protected fun storeNamedResult(limeElement: LimeNamedElement, element: E) {
         storeResult(element)
         referenceMap[limeElement.fullName] = element
         val ambiguousKey = limeElement.path.withSuffix("").toString()
         referenceMap[ambiguousKey] = element
+        if (limeElement is LimeFunction) {
+            val signatureKey = ambiguousKey + limeElement.parameters
+                .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
+            referenceMap[signatureKey] = element
+        }
+        reverseReferenceMap[element] = ambiguousKey
     }
 
     protected fun createComments(limeElement: LimeNamedElement, platform: String) =

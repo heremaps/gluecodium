@@ -97,6 +97,7 @@ open class JavaGeneratorSuite protected constructor(
         processCommentLinks(
             combinedModel.javaElements,
             combinedModel.referenceMap + auxNameMapping,
+            combinedModel.reverseReferenceMap,
             limeModel
         )
 
@@ -134,13 +135,12 @@ open class JavaGeneratorSuite protected constructor(
     private fun processCommentLinks(
         javaModel: List<JavaElement>,
         referenceMap: Map<String, JavaElement>,
+        elementToLimeName: Map<JavaElement, String>,
         limeModel: LimeModel
     ) {
         val elementToJavaName = mutableMapOf<JavaElement, String>()
         referenceMap.values.forEach { resolveFullName(it, "", elementToJavaName) }
-
         val limeToJavaName = referenceMap.mapValues { elementToJavaName[it.value] ?: "" }
-        val elementToLimeName = referenceMap.entries.associate { it.value to it.key }
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         javaModel

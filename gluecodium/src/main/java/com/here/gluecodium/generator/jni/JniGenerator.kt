@@ -104,7 +104,12 @@ class JniGenerator(
             wrapInContainer(it, jniToLimeMap, includeResolver)
         }
 
-        return JavaModel(javaBuilder.referenceMap, javaBuilder.finalResults, jniResults)
+        return JavaModel(
+            javaBuilder.referenceMap,
+            javaBuilder.reverseReferenceMap,
+            javaBuilder.finalResults,
+            jniResults
+        )
     }
 
     private fun wrapInContainer(

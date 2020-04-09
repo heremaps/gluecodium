@@ -29,6 +29,7 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -189,6 +190,14 @@ internal class DartNameResolver(
             .filterIsInstance<LimeNamedElement>()
             .associateBy({ it.fullName }, { resolveFullName(it) })
             .toMutableMap()
+
+        val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
+        result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveName(it) })
+        result += functions.associateBy(
+            { function -> function.path.withSuffix("").toString() + function.parameters
+                .joinToString(prefix = "(", postfix = ")") { it.typeRef.toString() } },
+            { resolveName(it) }
+        )
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
         result += properties.associateBy({ it.fullName + ".get" }, { resolveName(it) })
