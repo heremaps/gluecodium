@@ -50,4 +50,13 @@ class CommentsLinks {
     fun random_method(
         inputParameter: SomeEnum
     ): SomeEnum throws SomethingWrong
+    // Links to method overloads:
+    // * other one: [random_method(SomeEnum)]
+    // * this one: [random_method(String, Boolean)]
+    // * ambiguous one: [random_method]
+    @Dart("randomMethod2")
+    fun random_method(
+        text: String,
+        flag: Boolean
+    )
 }

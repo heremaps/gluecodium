@@ -79,17 +79,8 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             }
 
         val elementToSwiftName = mutableMapOf<SwiftModelElement, String>()
-        fun resolveFullName(element: SwiftModelElement, name: String) {
-            var elementName = element.simpleName
-            if (element is SwiftMethod) {
-                elementName = "$elementName(...)"
-            }
-            val fullName = if (name.isEmpty()) elementName else "$name.$elementName"
-            element.childElements.forEach { resolveFullName(it, fullName) }
-            elementToSwiftName[element] = fullName
-        }
-        swiftModel.containers.forEach { resolveFullName(it, "") }
-        auxModel.containers.forEach { resolveFullName(it, "") }
+        swiftModel.containers.forEach { resolveFullName(it, elementToSwiftName) }
+        auxModel.containers.forEach { resolveFullName(it, elementToSwiftName) }
 
         val limeToSwiftName = (swiftModel.referenceMap + auxModel.referenceMap)
             .mapValues { elementToSwiftName[it.value] ?: "" }
@@ -113,6 +104,28 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             cBridgeGenerator.collectionsGenerator.generate() +
             swiftGenerator.genericsGenerator.generate() +
             swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
+    }
+
+    private fun resolveFullName(
+        element: SwiftModelElement,
+        elementToSwiftName: MutableMap<SwiftModelElement, String>,
+        name: String = "",
+        siblings: Set<SwiftModelElement> = emptySet()
+    ) {
+        var elementName = element.simpleName
+        if (element is SwiftMethod) {
+            val overloadedMethods =
+                siblings.filterIsInstance<SwiftMethod>().filter { it.simpleName == elementName }
+            elementName += when {
+                overloadedMethods.size < 2 -> "(...)"
+                else ->
+                    element.parameters.joinToString(prefix = "(", postfix = ")") { it.type.name }
+            }
+        }
+        val fullName = if (name.isEmpty()) elementName else "$name.$elementName"
+        val childElements = element.childElements.toSet()
+        childElements.forEach { resolveFullName(it, elementToSwiftName, fullName, childElements) }
+        elementToSwiftName[element] = fullName
     }
 
     private fun processElementComments(

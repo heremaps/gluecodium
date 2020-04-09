@@ -186,6 +186,13 @@ class CommentsLinks {
     // @throws May or may not throw [comments.SomethingWrong]
     fun random_method(inputParameter: comments.SomeEnum): comments.SomeEnum throws comments.SomethingWrong
 
+    // Links to method overloads:
+    // * other one: [random_method(SomeEnum)]
+    // * this one: [random_method(String, Boolean)]
+    // * ambiguous one: [random_method]
+    @Dart("randomMethod2")
+    fun random_method(text: String, flag: Boolean)
+
     // Links also work in:
     // @constructor constructor comments [comments.SomeStruct]
     struct RandomStruct {

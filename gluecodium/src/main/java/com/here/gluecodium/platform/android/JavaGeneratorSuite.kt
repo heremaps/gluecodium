@@ -140,7 +140,12 @@ open class JavaGeneratorSuite protected constructor(
     ) {
         val elementToJavaName = mutableMapOf<JavaElement, String>()
         referenceMap.values.forEach { resolveFullName(it, "", elementToJavaName) }
-        val limeToJavaName = referenceMap.mapValues { elementToJavaName[it.value] ?: "" }
+
+        val allElements = javaModel.toSet()
+        val limeToJavaName = referenceMap.mapValues {
+            val javaName = elementToJavaName[it.value] ?: return@mapValues ""
+            javaName + getSignatureString(it.value, allElements, elementToLimeName)
+        }
 
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         javaModel
@@ -197,6 +202,22 @@ open class JavaGeneratorSuite protected constructor(
                 commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
             }
         }
+    }
+
+    private fun getSignatureString(
+        javaElement: JavaElement,
+        allElements: Set<JavaElement>,
+        elementToLimeName: Map<JavaElement, String>
+    ): String {
+        val javaMethod = javaElement as? JavaMethod ?: return ""
+        val allOverloads = allElements
+            .filterIsInstance<JavaMethod>()
+            .filter { it.name == javaMethod.name }
+        val limeName = elementToLimeName[javaMethod]
+        val allLimeOverloads = elementToLimeName.values.filter { it == limeName }
+        if (allOverloads.size < 2 && allLimeOverloads.size < 2) return ""
+
+        return javaMethod.parameters.joinToString(prefix = "(", postfix = ")") { it.type.name }
     }
 
     companion object {

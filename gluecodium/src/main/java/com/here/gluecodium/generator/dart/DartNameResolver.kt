@@ -195,7 +195,7 @@ internal class DartNameResolver(
         result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveName(it) })
         result += functions.associateBy(
             { function -> function.path.withSuffix("").toString() + function.parameters
-                .joinToString(prefix = "(", postfix = ")") { it.typeRef.toString() } },
+                .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() } },
             { resolveName(it) }
         )
 
