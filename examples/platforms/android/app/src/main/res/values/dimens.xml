@@ -1,9 +1,0 @@
-<resources>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="description_text_margin">5dp</dimen>
-    <dimen name="description_text_padding">4dp</dimen>
-    <dimen name="button_side_margin">9dp</dimen>
-    <dimen name="description_text_size">16sp</dimen>
-    <dimen name="small_button_text_size">12sp</dimen>
-    <dimen name="input_output_text_size">18sp</dimen>
-</resources>
