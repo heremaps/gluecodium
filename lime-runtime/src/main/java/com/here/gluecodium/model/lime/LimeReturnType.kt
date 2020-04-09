@@ -25,8 +25,8 @@ package com.here.gluecodium.model.lime
 class LimeReturnType(
     val typeRef: LimeTypeRef,
     val comment: LimeComment = LimeComment(),
-    val attributes: LimeAttributes = LimeAttributes.Builder().build()
-) : LimeElement {
+    attributes: LimeAttributes? = null
+) : LimeElement(attributes) {
     companion object {
         val VOID = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.VOID))
     }

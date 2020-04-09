@@ -25,7 +25,7 @@ import com.here.gluecodium.common.StringHelper
  * Represents a constant value on the right-hand side of an assignment (used in constants, field
  * default values, and enumerator values).
  */
-sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
+sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
     /**
      * Represents a literal value, i.e. a value that should be interpreted "literally", without any
      * additional processing or resolution.

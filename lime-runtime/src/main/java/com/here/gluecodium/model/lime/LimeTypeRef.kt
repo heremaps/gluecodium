@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeTypeRef : LimeElement {
+abstract class LimeTypeRef(attributes: LimeAttributes? = null) : LimeElement(attributes) {
     abstract val elementFullName: String
     abstract val type: LimeType
     abstract val isNullable: Boolean

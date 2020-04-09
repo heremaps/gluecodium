@@ -21,7 +21,7 @@ package com.here.gluecodium.generator.common.templates
 
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeElement
 import org.trimou.handlebars.BasicSectionHelper
 import org.trimou.handlebars.Options
 
@@ -38,17 +38,17 @@ import org.trimou.handlebars.Options
  */
 internal class IfHasAttributeHelper(private val equality: Boolean) : BasicSectionHelper() {
     override fun execute(options: Options) {
-        val limeElement: LimeNamedElement
+        val limeElement: LimeElement
         val attributeTypeName: String
         val attributeValueTypeName: String?
         when (val firstParameter = options.parameters.firstOrNull()) {
             is String -> {
-                limeElement = options.peek() as? LimeNamedElement ?: return
+                limeElement = options.peek() as? LimeElement ?: return
                 attributeTypeName = firstParameter
                 attributeValueTypeName = options.parameters.getOrNull(1)?.toString()
             }
             else -> {
-                limeElement = firstParameter as? LimeNamedElement ?: return
+                limeElement = firstParameter as? LimeElement ?: return
                 attributeTypeName = options.parameters.getOrNull(1)?.toString() ?: return
                 attributeValueTypeName = options.parameters.getOrNull(2)?.toString()
             }

@@ -19,4 +19,6 @@
 
 package com.here.gluecodium.model.lime
 
-interface LimeElement
+abstract class LimeElement(attributes: LimeAttributes? = null) {
+    val attributes = attributes ?: LimeAttributes.Builder().build()
+}
