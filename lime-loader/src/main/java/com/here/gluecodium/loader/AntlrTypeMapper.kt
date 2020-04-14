@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class AntlrTypeMapper(
     private val imports: List<LimePath>,
@@ -44,25 +45,29 @@ internal class AntlrTypeMapper(
         currentPath: LimePath,
         typeRef: LimeParser.SimpleTypeRefContext,
         isOptional: Boolean = false
-    ) = when {
-        typeRef.predefinedType() != null ->
-            LimeBasicTypeRef(mapPredefinedType(typeRef.predefinedType()), isOptional)
-        typeRef.genericType() != null ->
-            LimeDirectTypeRef(mapGenericType(currentPath, typeRef.genericType()), isOptional)
-        else -> mapExplicitTypeRef(currentPath, typeRef.identifier(), isOptional)
+    ): LimeTypeRef {
+        val attributes = AntlrLimeConverter.convertAnnotations(typeRef.annotation())
+        return when {
+            typeRef.predefinedType() != null -> LimeBasicTypeRef(
+                mapPredefinedType(typeRef.predefinedType()),
+                isOptional,
+                attributes
+            )
+            typeRef.genericType() != null -> LimeDirectTypeRef(
+                mapGenericType(currentPath, typeRef.genericType()),
+                isOptional,
+                attributes
+            )
+            else -> LimeAmbiguousTypeRef(
+                relativePath = typeRef.identifier().simpleId().map { identifierConverter(it) },
+                parentPaths = listOf(currentPath) + currentPath.allParents,
+                imports = imports,
+                referenceMap = referenceMap,
+                isNullable = isOptional,
+                attributes = attributes
+            )
+        }
     }
-
-    private fun mapExplicitTypeRef(
-        currentPath: LimePath,
-        identifierContext: LimeParser.IdentifierContext,
-        isOptional: Boolean
-    ) = LimeAmbiguousTypeRef(
-        relativePath = identifierContext.simpleId().map { identifierConverter(it) },
-        parentPaths = listOf(currentPath) + currentPath.allParents,
-        imports = imports,
-        referenceMap = referenceMap,
-        isNullable = isOptional
-    )
 
     private fun mapPredefinedType(predefinedType: LimeParser.PredefinedTypeContext): TypeId =
         when {

@@ -25,9 +25,6 @@ import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.model.lime.LimeAmbiguousEnumeratorRef
 import com.here.gluecodium.model.lime.LimeAmbiguousTypeRef
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeComment
@@ -130,7 +127,7 @@ internal class AntlrLimeModelBuilder(
                 path = currentPath,
                 visibility = currentVisibility,
                 comment = parseStructuredComment(ctx.docComment(), ctx).description,
-                attributes = convertAnnotations(ctx.annotation()),
+                attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
                 parent = parentRef,
                 structs = getPreviousResults(LimeStruct::class.java),
                 enumerations = getPreviousResults(LimeEnumeration::class.java),
@@ -148,7 +145,7 @@ internal class AntlrLimeModelBuilder(
                 path = currentPath,
                 visibility = currentVisibility,
                 comment = parseStructuredComment(ctx.docComment(), ctx).description,
-                attributes = convertAnnotations(ctx.annotation()),
+                attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
                 parent = parentRef,
                 structs = getPreviousResults(LimeStruct::class.java),
                 enumerations = getPreviousResults(LimeEnumeration::class.java),
@@ -175,7 +172,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             structs = getPreviousResults(LimeStruct::class.java),
             enumerations = getPreviousResults(LimeEnumeration::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
@@ -215,7 +212,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
             thrownType = exceptionType,
@@ -250,7 +247,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             returnType = LimeReturnType(classTypeRef),
             parameters = getPreviousResults(LimeParameter::class.java),
             thrownType = exceptionType,
@@ -270,7 +267,7 @@ internal class AntlrLimeModelBuilder(
         val limeElement = LimeParameter(
             path = currentPath,
             comment = getComment("param", currentPath.name, ctx.docComment(), ctx),
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             typeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         )
 
@@ -312,7 +309,7 @@ internal class AntlrLimeModelBuilder(
                 path = getterPath,
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
                 comment = getComment("get", getterContext.docComment(), getterContext),
-                attributes = convertAnnotations(getterContext.annotation()),
+                attributes = AntlrLimeConverter.convertAnnotations(getterContext.annotation()),
                 returnType = LimeReturnType(propertyType),
                 isStatic = propertyIsStatic
             )
@@ -321,7 +318,7 @@ internal class AntlrLimeModelBuilder(
                     path = currentPath.child("set"),
                     visibility = convertVisibility(it.visibility(), propertyVisibility),
                     comment = getComment("set", it.docComment(), it),
-                    attributes = convertAnnotations(it.annotation()),
+                    attributes = AntlrLimeConverter.convertAnnotations(it.annotation()),
                     parameters =
                         listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType)),
                     isStatic = propertyIsStatic
@@ -333,7 +330,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = propertyVisibility,
             comment = structuredCommentsStack.peek().description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             typeRef = propertyType,
             getter = getter,
             setter = setter,
@@ -353,7 +350,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             fields = getPreviousResults(LimeField::class.java),
             functions = getPreviousResults(LimeFunction::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
@@ -374,7 +371,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             typeRef = limeTypeRef,
             defaultValue = ctx.literalConstant()?.let { convertLiteralConstant(limeTypeRef, it) }
         )
@@ -391,7 +388,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             enumerators = getPreviousResults(LimeEnumerator::class.java)
         )
 
@@ -406,7 +403,7 @@ internal class AntlrLimeModelBuilder(
         val limeElement = LimeEnumerator(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             value = ctx.literalConstant()?.let { convertLiteralConstant(LimeBasicTypeRef.INT, it) }
         )
 
@@ -423,7 +420,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             visibility = currentVisibility,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             typeRef = limeTypeRef,
             value = convertLiteralConstant(limeTypeRef, ctx.literalConstant())
         )
@@ -440,7 +437,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             typeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         )
 
@@ -456,7 +453,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             errorType = typeMapper.mapSimpleTypeRef(currentPath, ctx.simpleTypeRef())
         )
 
@@ -473,14 +470,14 @@ internal class AntlrLimeModelBuilder(
             LimeLambdaParameter(
                 typeRef = typeMapper.mapTypeRef(currentPath, it.typeRef()),
                 comment = getComment("param", "p$index", null, ctx),
-                attributes = convertAnnotations(it.annotation())
+                attributes = AntlrLimeConverter.convertAnnotations(it.typeRef().simpleTypeRef().annotation())
             )
         }
         val limeElement = LimeLambda(
             path = currentPath,
             visibility = currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = convertAnnotations(ctx.annotation()),
+            attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
             parameters = parameters,
             returnType = LimeReturnType(
                 typeMapper.mapTypeRef(currentPath, ctx.typeRef()),
@@ -530,103 +527,6 @@ internal class AntlrLimeModelBuilder(
             else -> LimeVisibility.PUBLIC
         }
     }
-
-    private fun convertAnnotations(
-        annotations: List<LimeParser.AnnotationContext>
-    ): LimeAttributes {
-        val attributes = LimeAttributes.Builder()
-        annotations.forEach {
-            val attributeType = convertAnnotationType(it)
-            attributes.addAttribute(attributeType)
-            it.annotationValue().forEach { valueContext ->
-                attributes.addAttribute(
-                    attributeType,
-                    convertAnnotationValueType(valueContext, attributeType),
-                    convertAnnotationValue(valueContext)
-                )
-            }
-        }
-        return attributes.build()
-    }
-
-    private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
-        when (val id = ctx.simpleId().text) {
-            "Cpp" -> LimeAttributeType.CPP
-            "Dart" -> LimeAttributeType.DART
-            "Deprecated" -> LimeAttributeType.DEPRECATED
-            "Equatable" -> LimeAttributeType.EQUATABLE
-            "Immutable" -> LimeAttributeType.IMMUTABLE
-            "Java" -> LimeAttributeType.JAVA
-            "PointerEquatable" -> LimeAttributeType.POINTER_EQUATABLE
-            "Swift" -> LimeAttributeType.SWIFT
-            "Serializable" -> LimeAttributeType.SERIALIZABLE
-            else -> throw LimeLoadingException("Unsupported annotation: '$id'")
-        }
-
-    private fun convertAnnotationValueType(
-        ctx: LimeParser.AnnotationValueContext,
-        attributeType: LimeAttributeType
-    ): LimeAttributeValueType {
-        val id = ctx.simpleId()?.text
-            ?: return attributeType.defaultValueType
-                ?: throw LimeLoadingException("Annotation type $attributeType does not support values")
-        return when (id) {
-            "Name" -> LimeAttributeValueType.NAME
-            "Accessors" -> LimeAttributeValueType.ACCESSORS
-            "Builder" -> LimeAttributeValueType.BUILDER
-            "Const" -> LimeAttributeValueType.CONST
-            "Extension" -> LimeAttributeValueType.EXTENSION
-            "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
-            "Label" -> LimeAttributeValueType.LABEL
-            "ObjC" -> LimeAttributeValueType.OBJC
-            "Message" -> LimeAttributeValueType.MESSAGE
-            "Default" -> LimeAttributeValueType.DEFAULT
-            "ExternalType" -> LimeAttributeValueType.EXTERNAL_TYPE
-            "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
-            "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER
-            "ExternalSetter" -> LimeAttributeValueType.EXTERNAL_SETTER
-            else -> throw LimeLoadingException("Unsupported annotation value: '$id'")
-        }
-    }
-
-    private fun convertAnnotationValue(valueContext: LimeParser.AnnotationValueContext): Any {
-        val literals = valueContext.stringLiteral()
-        return when {
-            literals.isEmpty() -> true
-            literals.size == 1 -> convertStringLiteral(literals.first())
-            else -> literals.map { convertStringLiteral(it) }
-        }
-    }
-
-    private fun convertStringLiteral(ctx: LimeParser.StringLiteralContext) =
-        when {
-            ctx.singleLineStringLiteral() != null ->
-                convertSingleLineStringLiteral(ctx.singleLineStringLiteral())
-            ctx.multiLineStringLiteral() != null ->
-                convertMultiLineStringLiteral(ctx.multiLineStringLiteral())
-            else -> throw LimeLoadingException("Unsupported string literal: '$ctx'")
-        }
-
-    private fun convertSingleLineStringLiteral(ctx: LimeParser.SingleLineStringLiteralContext) =
-        ctx.singleLineStringContent().joinToString(separator = "") {
-            it.LineStrText()?.text ?: convertEscapedChar(it.LineStrEscapedChar().text)
-        }
-
-    private fun convertEscapedChar(escapedChar: String) =
-        when (escapedChar) {
-            "\\t" -> "\t"
-            "\\b" -> "\b"
-            "\\r" -> "\r"
-            "\\n" -> "\n"
-            "\\\"" -> "\""
-            "\\\\" -> "\\"
-            else -> throw LimeLoadingException("Unsupported escape sequence: '$escapedChar'")
-        }
-
-    private fun convertMultiLineStringLiteral(ctx: LimeParser.MultiLineStringLiteralContext) =
-        ctx.multiLineStringContent().joinToString(separator = "") {
-            it.MultiLineStrText()?.text ?: it.MultiLineStringQuote().text
-        }
 
     private fun convertLiteralConstant(
         limeTypeRef: LimeTypeRef,
@@ -683,7 +583,7 @@ internal class AntlrLimeModelBuilder(
 
         val literalString = when {
             ctx.singleLineStringLiteral() != null ->
-                convertSingleLineStringLiteral(ctx.singleLineStringLiteral())
+                AntlrLimeConverter.convertSingleLineStringLiteral(ctx.singleLineStringLiteral())
             ctx.BooleanLiteral() != null -> ctx.BooleanLiteral().text
             ctx.IntegerLiteral() != null -> ctx.IntegerLiteral().text
             ctx.DoubleLiteral() != null -> ctx.DoubleLiteral().text

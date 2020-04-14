@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.model.lime
 
-interface LimeEnumeratorRef : LimeElement {
-    val elementFullName: String
-    val enumerator: LimeEnumerator
+abstract class LimeEnumeratorRef : LimeElement() {
+    abstract val elementFullName: String
+    abstract val enumerator: LimeEnumerator
 }

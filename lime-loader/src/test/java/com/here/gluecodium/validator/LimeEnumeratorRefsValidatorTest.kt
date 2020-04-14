@@ -41,11 +41,11 @@ class LimeEnumeratorRefsValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
-    private val dummyEnumeratorRef = object : LimeEnumeratorRef {
+    private val dummyEnumeratorRef = object : LimeEnumeratorRef() {
         override val elementFullName = ""
         override val enumerator = LimeEnumerator(EMPTY_PATH)
     }
-    private val throwingEnumeratorRef = object : LimeEnumeratorRef {
+    private val throwingEnumeratorRef = object : LimeEnumeratorRef() {
         override val elementFullName = ""
         override val enumerator
             get() = throw LimeModelLoaderException("")

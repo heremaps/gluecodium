@@ -125,7 +125,7 @@ lambda
     ;
 
 lambdaParameter
-    : annotation* typeRef NewLine*
+    : typeRef NewLine*
     ;
 
 // Comments and annotations
@@ -152,7 +152,7 @@ typeRef
     ;
 
 simpleTypeRef
-    : identifier | predefinedType | genericType
+    : annotation* (identifier | predefinedType | genericType)
     ;
 
 predefinedType

@@ -31,8 +31,9 @@ class LimeAmbiguousTypeRef(
     private val parentPaths: List<LimePath>,
     private val imports: List<LimePath>,
     private val referenceMap: Map<String, LimeElement>,
-    override val isNullable: Boolean = false
-) : LimeTypeRef() {
+    override val isNullable: Boolean = false,
+    attributes: LimeAttributes? = null
+) : LimeTypeRef(attributes) {
 
     override val elementFullName by lazy { type.path.toString() }
 
