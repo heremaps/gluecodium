@@ -29,4 +29,6 @@ class CppParameter(
         get() = listOf(type)
 
     fun hasComment() = isNotNull || !comment.isEmpty
+
+    fun copy(type: CppTypeRef? = null) = CppParameter(name, type ?: this.type, isNotNull)
 }

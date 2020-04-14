@@ -440,6 +440,8 @@ deprecated, takes a string literal value as a deprecation message.
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
   This is the default property for this attribute.
   * **Const**: marks a function with a `const` qualifier in C++ generated code.
+  * **CString**: marks a function parameter of `String` type to accept `const char*` in C++ (in
+  addition to usual `std::string`). This produces one additional overload for the function.
   * **Accessors**: marks a struct to have accessor functions generated for fields and to generate
   struct fields as "private" in C++ generated code. Intended for use with `@Immutable` attribute.
   * **ExternalType** **=** **"**_HeaderPaths_**"**: marks a class, interface, struct type or

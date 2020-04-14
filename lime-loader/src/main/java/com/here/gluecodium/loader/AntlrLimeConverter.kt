@@ -68,6 +68,7 @@ internal object AntlrLimeConverter {
             "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Builder" -> LimeAttributeValueType.BUILDER
             "Const" -> LimeAttributeValueType.CONST
+            "CString" -> LimeAttributeValueType.CSTRING
             "Extension" -> LimeAttributeValueType.EXTENSION
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL

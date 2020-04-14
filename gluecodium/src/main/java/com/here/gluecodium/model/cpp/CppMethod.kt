@@ -37,8 +37,6 @@ class CppMethod(
 ) : CppElementWithComment(name, fullyQualifiedName, comment = comment) {
 
     enum class Specifier(private val text: String) {
-        EXPLICIT("explicit"),
-        INLINE("inline"),
         STATIC("static"),
         VIRTUAL("virtual");
 
@@ -47,7 +45,6 @@ class CppMethod(
 
     enum class Qualifier(private val text: String) {
         CONST("const"),
-        OVERRIDE("override"),
         PURE_VIRTUAL("= 0");
 
         override fun toString() = text
@@ -66,7 +63,11 @@ class CppMethod(
     override val childElements
         get() = listOf(returnType) + parameters
 
-    fun copy(specifiers: Set<Specifier>? = null, qualifiers: Set<Qualifier>? = null) =
+    fun copy(
+        parameters: List<CppParameter>? = null,
+        specifiers: Set<Specifier>? = null,
+        qualifiers: Set<Qualifier>? = null
+    ) =
         CppMethod(
             name,
             fullyQualifiedName,
@@ -76,7 +77,7 @@ class CppMethod(
             errorType,
             errorComment,
             isNotNull,
-            parameters,
+            parameters ?: this.parameters,
             specifiers ?: this.specifiers,
             qualifiers ?: this.qualifiers
         )

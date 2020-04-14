@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@Cpp(CString)` IDL attribute that marks a function parameter of `String` type
+    to accept `const char*` in C++ generated code.
+
 ## 6.4.9
 Release date: 2020-04-07
 ### Features:
