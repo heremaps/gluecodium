@@ -9,6 +9,12 @@ _How to install_: In the IntelliJ IDEA IDE go to **File** -> **Import Settings..
 "tools/Lime_IDL_file_type_for_IntelliJ.jar" file in the file dialog, then click "OK" few times until
 it's done.
 
+## Sublime Text syntax highlighter for LimeIDL
+
+_What does it do_: highlights syntax for LimeIDL files when you open them in Sublime Text editor.
+
+_How to install_: https://packagecontrol.io/packages/Gluecodium
+
 ## Minimal launcher
 _What does it do_: provides a minimal set of scripts to run Gluecodium from a binary distribution,
 without a need of any compilation or download.

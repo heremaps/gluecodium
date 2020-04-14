@@ -1,14 +1,14 @@
 # Gluecodium [![Build Status](https://travis-ci.com/heremaps/gluecodium.svg?token=kvrUHaaizXLydRxV4KKk&branch=master)](https://travis-ci.com/heremaps/gluecodium) [![Release](https://jitpack.io/v/heremaps/gluecodium.svg)](https://jitpack.io/#heremaps/gluecodium)
 
-Gluecodium **generates C++, Swift** and **Java** code. The main purpose is generating C++ interfaces and
-corresponding Swift and Java bindings mainly for **Android** and **iOS**, but other platforms like **macOS**
-and **Linux** work as well. Once implemented in C++ the code can be used directly from Java and Swift,
+Gluecodium **generates C++, Java**, **Swift**, and **Dart** code. The main purpose is generating C++ interfaces and
+corresponding Java/Swift/Dart bindings for **Android**/**iOS**/**Flutter** respectively, but other platforms like **macOS**
+and **Linux** work as well. Once implemented in C++ the code can be used directly from Java/Swift/Dart,
 eliminating the need for writing conversions and bindings manually.
-To simplify use of platform specific functions, Gluecodium is also able to generate interfaces and protocols
-allowing use of Java and Swift implementations from C++.
+To simplify use of platform specific functions, Gluecodium is also able to generate interfaces/protocols
+allowing use of Java/Swift/Dart implementations from C++.
 
 A few similar systems exist (e.g. Djinni and Swig). However, these systems are unable to generate
-bindings for modern languages like Swift.
+bindings for modern languages like Swift or Dart.
 
 ## Getting started
 
