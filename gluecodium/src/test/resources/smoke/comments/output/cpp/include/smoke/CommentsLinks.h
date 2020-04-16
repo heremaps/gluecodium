@@ -6,10 +6,11 @@
 #include "gluecodium/Export.h"
 #include "gluecodium/Return.h"
 #include "smoke/Comments.h"
+#include <string>
 #include <system_error>
 namespace smoke {
 /**
- * The nested types like ::smoke::CommentsLinks::random_method don't need full name prefix, but it's
+ * The nested types like ::smoke::CommentsLinks::random_method(const ::std::string&, const bool) don't need full name prefix, but it's
  * possible to references other interfaces like ::smoke::CommentsInterface or other members
  * ::smoke::Comments::some_method_with_all_comments.
  *
@@ -75,5 +76,14 @@ public:
      * \retval ::smoke::Comments::SomeEnum May or may not throw ::smoke::Comments::SomeEnum
      */
     virtual ::gluecodium::Return< ::smoke::Comments::SomeEnum, ::std::error_code > random_method( const ::smoke::Comments::SomeEnum input_parameter ) = 0;
+    /**
+     * Links to method overloads:
+     * * other one: ::smoke::CommentsLinks::random_method(const ::smoke::Comments::SomeEnum)
+     * * this one: ::smoke::CommentsLinks::random_method(const ::std::string&, const bool)
+     * * ambiguous one: ::smoke::CommentsLinks::random_method(const ::std::string&, const bool)
+     * \param[in] text
+     * \param[in] flag
+     */
+    virtual void random_method( const ::std::string& text, const bool flag ) = 0;
 };
 }

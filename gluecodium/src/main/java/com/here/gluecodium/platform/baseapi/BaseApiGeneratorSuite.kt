@@ -104,7 +104,10 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         limeModel.auxiliaryElements
             .forEach { buildCppModel(cppModelBuilder, it, cppReferenceMap, cppReverseReferenceMap) }
 
-        val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
+        val allElements = cppReferenceMap.values.toSet()
+        val limeToCppName = cppReferenceMap.mapValues {
+            it.value.fullyQualifiedName + getSignatureString(it.value, allElements)
+        }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         cppFiles.flatMap { it.members }.flatMap { it.allElementsRecursive.toList() }
             .filterIsInstance<CppElementWithComment>()
@@ -205,6 +208,22 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             element.constructorComment = element.constructorComment?.let {
                 commentsProcessor.process(limeName, it, limeToCppName, limeLogger)
             }
+        }
+    }
+
+    private fun getSignatureString(
+        cppElement: CppElement,
+        allElements: Set<CppElement>
+    ): String {
+        val cppMethod = cppElement as? CppMethod ?: return ""
+        val allOverloads = allElements
+            .filterIsInstance<CppMethod>()
+            .filter { it.fullyQualifiedName == cppMethod.fullyQualifiedName }
+        if (allOverloads.size < 2) return ""
+
+        return cppMethod.parameters.joinToString(prefix = "(", postfix = ")") {
+            val suffix = if (it.type.actualType.refersToValueType) "" else "&"
+            "const ${it.type.fullyQualifiedName}$suffix"
         }
     }
 

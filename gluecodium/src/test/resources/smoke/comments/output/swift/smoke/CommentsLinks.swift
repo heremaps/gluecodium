@@ -1,7 +1,7 @@
 //
 //
 import Foundation
-/// The nested types like `CommentsLinks.randomMethod(...)` don't need full name prefix, but it's
+/// The nested types like `CommentsLinks.randomMethod(String, Bool)` don't need full name prefix, but it's
 /// possible to references other interfaces like `CommentsInterface` or other members
 /// `Comments.someMethodWithAllComments(...)`.
 ///
@@ -45,7 +45,7 @@ public class CommentsLinks {
     /// * method: `Comments.someMethodWithAllComments(...)`
     /// * method with signature: `Comments.oneParameterCommentOnly(...)`
     /// * method with signature with no spaces: `Comments.oneParameterCommentOnly(...)`
-    /// * parameter: `CommentsLinks.randomMethod(...).inputParameter`
+    /// * parameter: `CommentsLinks.randomMethod(Comments.SomeEnum).inputParameter`
     /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
     /// * top level struct: `TypeCollectionStruct`
     /// * top level struct field: `TypeCollectionStruct.field`
@@ -66,12 +66,24 @@ public class CommentsLinks {
     /// - Throws: `Comments.SomethingWrongError` May or may not throw `Comments.SomethingWrongError`
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
         let c_inputParameter = moveToCType(inputParameter)
-        let RESULT = smoke_CommentsLinks_randomMethod(self.c_instance, c_inputParameter.ref)
+        let RESULT = smoke_CommentsLinks_randomMethod_SomeEnum(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
             return moveFromCType(RESULT.returned_value)
         }
+    }
+    /// Links to method overloads:
+    /// * other one: `CommentsLinks.randomMethod(Comments.SomeEnum)`
+    /// * this one: `CommentsLinks.randomMethod(String, Bool)`
+    /// * ambiguous one: `CommentsLinks.randomMethod(String, Bool)`
+    /// - Parameters:
+    ///   - text:
+    ///   - flag:
+    public func randomMethod(text: String, flag: Bool) -> Void {
+        let c_text = moveToCType(text)
+        let c_flag = moveToCType(flag)
+        return moveFromCType(smoke_CommentsLinks_randomMethod_String_Boolean(self.c_instance, c_text.ref, c_flag.ref))
     }
 }
 internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {

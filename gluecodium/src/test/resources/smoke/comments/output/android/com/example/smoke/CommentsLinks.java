@@ -5,7 +5,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
- * <p>The nested types like {@link com.example.smoke.CommentsLinks#randomMethod} don't need full name prefix, but it's
+ * <p>The nested types like {@link com.example.smoke.CommentsLinks#randomMethod(String, boolean)} don't need full name prefix, but it's
  * possible to references other interfaces like {@link com.example.smoke.CommentsInterface} or other members
  * {@link com.example.smoke.Comments#someMethodWithAllComments}.</p>
  * <p>Weblinks are not modified like this <a href="http://example.com">example</a> or [www.example.com].</p>
@@ -80,4 +80,15 @@ public final class CommentsLinks extends NativeBase {
      */
     @NonNull
     public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws Comments.SomethingWrongException;
+    /**
+     * <p>Links to method overloads:</p>
+     * <ul>
+     * <li>other one: {@link com.example.smoke.CommentsLinks#randomMethod(Comments.SomeEnum)}</li>
+     * <li>this one: {@link com.example.smoke.CommentsLinks#randomMethod(String, boolean)}</li>
+     * <li>ambiguous one: {@link com.example.smoke.CommentsLinks#randomMethod(String, boolean)}</li>
+     * </ul>
+     * @param text
+     * @param flag
+     */
+    public native void randomMethod(@NonNull final String text, final boolean flag);
 }

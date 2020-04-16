@@ -1,9 +1,10 @@
+import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/smoke/Comments.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-/// The nested types like [randomMethod] don't need full name prefix, but it's
+/// The nested types like [randomMethod2] don't need full name prefix, but it's
 /// possible to references other interfaces like [CommentsInterface] or other members
 /// [someMethodWithAllComments].
 ///
@@ -22,8 +23,8 @@ abstract class CommentsLinks {
   /// * property setter: [isSomeProperty]
   /// * property getter: [isSomeProperty]
   /// * method: [someMethodWithAllComments]
-  /// * method with signature: [comments.oneParameterCommentOnly(String, String)]
-  /// * method with signature with no spaces: [comments.oneParameterCommentOnly(String,String)]
+  /// * method with signature: [oneParameterCommentOnly]
+  /// * method with signature with no spaces: [oneParameterCommentOnly]
   /// * parameter: [inputParameter]
   /// * top level constant: [CommentsTypeCollection.typeCollectionConstant]
   /// * top level struct: [TypeCollectionStruct]
@@ -44,6 +45,11 @@ abstract class CommentsLinks {
   /// @return Sometimes returns [Comments_SomeEnum.useful]
   /// @throws May or may not throw [Comments_SomethingWrongException]
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter);
+  /// Links to method overloads:
+  /// * other one: [randomMethod]
+  /// * this one: [randomMethod2]
+  /// * ambiguous one: [randomMethod2]
+  randomMethod2(String text, bool flag);
 }
 /// Links also work in:
 class CommentsLinks_RandomStruct {
@@ -157,6 +163,19 @@ class CommentsLinks$Impl implements CommentsLinks {
     _randomMethod_return_release_handle(__call_result_handle);
     final _result = smoke_Comments_SomeEnum_fromFfi(__result_handle);
     smoke_Comments_SomeEnum_releaseFfiHandle(__result_handle);
+    return _result;
+  }
+  @override
+  randomMethod2(String text, bool flag) {
+    final _randomMethod2_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Uint8), void Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_CommentsLinks_randomMethod__String_Boolean');
+    final _text_handle = String_toFfi(text);
+    final _flag_handle = Boolean_toFfi(flag);
+    final _handle = this.handle;
+    final __result_handle = _randomMethod2_ffi(_handle, __lib.LibraryContext.isolateId, _text_handle, _flag_handle);
+    String_releaseFfiHandle(_text_handle);
+    Boolean_releaseFfiHandle(_flag_handle);
+    final _result = (__result_handle);
+    (__result_handle);
     return _result;
   }
 }
