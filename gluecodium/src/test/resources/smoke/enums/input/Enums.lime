@@ -65,3 +65,7 @@ types EnumsInTypeCollection {
     }
 }
 
+enum EnumStartsWithOne {
+    FIRST = 1,
+    SECOND
+}

@@ -94,7 +94,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     }
 
     private fun walkChildNodes(limeEnumerator: LimeEnumerator) {
-        walk(limeEnumerator.value)
+        walk(limeEnumerator.explicitValue)
     }
 
     private fun walkChildNodes(limeConstant: LimeConstant) {

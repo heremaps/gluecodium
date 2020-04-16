@@ -5,6 +5,8 @@
   * Added support for `@Cpp(CString)` IDL attribute that marks a function parameter of `String` type
     to accept `const char*` in C++ generated code.
   * Added support for including method signature when adding a documentation reference link in IDL.
+### Bug fixes:
+  * Fixed Dart conversion issue for enumerations with mixed explicit and implicit values.
 
 ## 6.4.9
 Release date: 2020-04-07

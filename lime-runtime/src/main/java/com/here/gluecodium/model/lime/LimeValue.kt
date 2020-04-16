@@ -102,4 +102,8 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
 
     open val escapedValue
         get() = toString()
+
+    companion object {
+        val ZERO = Literal(LimeBasicTypeRef.INT, "0")
+    }
 }

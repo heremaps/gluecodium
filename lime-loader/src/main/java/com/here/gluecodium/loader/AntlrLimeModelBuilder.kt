@@ -400,11 +400,19 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitEnumerator(ctx: LimeParser.EnumeratorContext) {
+        val siblings =
+            parentContext?.previousResults?.filterIsInstance<LimeEnumerator>() ?: emptyList()
+        val computedValue = siblings.lastOrNull()
+            ?.let { it.value as? LimeValue.Literal }
+            ?.value?.toIntOrNull()
+            ?.let { LimeValue.Literal(LimeBasicTypeRef.INT, (it + 1).toString()) }
+            ?: LimeValue.ZERO
         val limeElement = LimeEnumerator(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = AntlrLimeConverter.convertAnnotations(ctx.annotation()),
-            value = ctx.literalConstant()?.let { convertLiteralConstant(LimeBasicTypeRef.INT, it) }
+            computedValue = computedValue,
+            explicitValue = ctx.literalConstant()?.let { convertLiteralConstant(LimeBasicTypeRef.INT, it) }
         )
 
         storeResultAndPopStacks(limeElement)

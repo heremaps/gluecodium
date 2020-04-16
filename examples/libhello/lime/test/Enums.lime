@@ -47,4 +47,10 @@ class Enums {
         // input message
         message: String
     ): /* Output struct with enum and string */ ErrorStruct
+    static fun flipEnumStartsWithOne(input: EnumStartsWithOne): EnumStartsWithOne
+}
+
+enum EnumStartsWithOne {
+    FIRST = 1,
+    SECOND
 }

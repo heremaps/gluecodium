@@ -51,4 +51,12 @@ Enums::create_struct_with_enum_inside( const ::test::Enums::InternalError type,
 {
     return {flip_enum( type ), message};
 }
+
+test::EnumStartsWithOne
+Enums::flip_enum_starts_with_one(const test::EnumStartsWithOne input)
+{
+    return input == test::EnumStartsWithOne::FIRST
+        ? test::EnumStartsWithOne::SECOND
+        : test::EnumStartsWithOne::FIRST;
+}
 }  // namespace test
