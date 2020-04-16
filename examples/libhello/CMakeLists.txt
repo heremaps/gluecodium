@@ -385,6 +385,13 @@ feature(Visibility dart SOURCES
     src/test/Visibility.cpp
 )
 
+# Not supported for C++
+feature(SkipAttribute android swift dart SOURCES
+    lime/test/Skip.lime
+
+    src/test/Skip.cpp
+)
+
 # This feature is intended for Swift only.
 feature(Extensions swift SOURCES
     lime/test/Extensions.lime

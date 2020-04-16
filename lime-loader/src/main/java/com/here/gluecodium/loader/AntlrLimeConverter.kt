@@ -60,21 +60,24 @@ internal object AntlrLimeConverter {
         ctx: LimeParser.AnnotationValueContext,
         attributeType: LimeAttributeType
     ): LimeAttributeValueType {
-        val id = ctx.simpleId()?.text
-            ?: return attributeType.defaultValueType
-                ?: throw LimeLoadingException("Annotation type $attributeType does not support values")
+        val id = ctx.simpleId()?.text ?: return (
+            attributeType.defaultValueType ?: throw LimeLoadingException(
+                "Annotation type $attributeType does not support values"
+            )
+        )
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME
             "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Builder" -> LimeAttributeValueType.BUILDER
             "Const" -> LimeAttributeValueType.CONST
             "CString" -> LimeAttributeValueType.CSTRING
+            "Default" -> LimeAttributeValueType.DEFAULT
             "Extension" -> LimeAttributeValueType.EXTENSION
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL
             "ObjC" -> LimeAttributeValueType.OBJC
             "Message" -> LimeAttributeValueType.MESSAGE
-            "Default" -> LimeAttributeValueType.DEFAULT
+            "Skip" -> LimeAttributeValueType.SKIP
             "ExternalType" -> LimeAttributeValueType.EXTERNAL_TYPE
             "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
             "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER

@@ -24,7 +24,6 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -50,8 +49,7 @@ class DartOverloadsValidatorTest {
         .addAttribute(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT)
         .build()
 
-    private val allElements = mapOf("" to limeClass)
-    private val limeModel = LimeModel(allElements, emptyList())
+    private val allElements = listOf(limeClass)
 
     @MockK private lateinit var nameResolver: DartNameResolver
 
@@ -70,7 +68,7 @@ class DartOverloadsValidatorTest {
         functions += fooFunction
         functions += barFunction
 
-        assertTrue(validator.validate(limeModel))
+        assertTrue(validator.validate(allElements))
     }
 
     @Test
@@ -80,7 +78,7 @@ class DartOverloadsValidatorTest {
         functions += fooFunction
         functions += barFunction
 
-        assertFalse(validator.validate(limeModel))
+        assertFalse(validator.validate(allElements))
     }
 
     @Test
@@ -90,7 +88,7 @@ class DartOverloadsValidatorTest {
         functions += fooConstructor
         functions += barConstructor
 
-        assertTrue(validator.validate(limeModel))
+        assertTrue(validator.validate(allElements))
     }
 
     @Test
@@ -100,7 +98,7 @@ class DartOverloadsValidatorTest {
         functions += fooConstructor
         functions += barConstructor
 
-        assertFalse(validator.validate(limeModel))
+        assertFalse(validator.validate(allElements))
     }
 
     @Test
@@ -115,7 +113,7 @@ class DartOverloadsValidatorTest {
         functions += fooDefaultConstructor
         functions += barConstructor
 
-        assertTrue(validator.validate(limeModel))
+        assertTrue(validator.validate(allElements))
     }
 
     @Test
@@ -135,6 +133,6 @@ class DartOverloadsValidatorTest {
         functions += fooDefaultConstructor
         functions += barDefaultConstructor
 
-        assertFalse(validator.validate(limeModel))
+        assertFalse(validator.validate(allElements))
     }
 }
