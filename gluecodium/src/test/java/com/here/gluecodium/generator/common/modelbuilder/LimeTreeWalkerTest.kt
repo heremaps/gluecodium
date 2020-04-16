@@ -64,7 +64,7 @@ class LimeTreeWalkerTest {
     )
     private val limeTypeDef = LimeTypeAlias(EMPTY_PATH, typeRef = limeTypeDefTypeRef)
     private val limeEnumeratorValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "bar")
-    private val limeEnumerator = LimeEnumerator(EMPTY_PATH, value = limeEnumeratorValue)
+    private val limeEnumerator = LimeEnumerator(EMPTY_PATH, explicitValue = limeEnumeratorValue)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH, enumerators = listOf(limeEnumerator))
     private val limeFieldValue = LimeValue.Literal(limeValueTypeRef, "foo")
     private val limeField = LimeField(

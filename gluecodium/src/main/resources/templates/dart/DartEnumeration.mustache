@@ -31,7 +31,7 @@ int {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   switch (value) {
 {{#set parent=this}}{{#enumerators}}
   case {{resolveName parent}}.{{resolveName}}:
-    return {{>enumeratorValue}};
+    return {{value}};
   break;
 {{/enumerators}}{{/set}}
   default:
@@ -42,7 +42,7 @@ int {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(int handle) {
   switch (handle) {
 {{#set parent=this}}{{#enumerators}}
-  case {{>enumeratorValue}}:
+  case {{value}}:
     return {{resolveName parent}}.{{resolveName}};
   break;
 {{/enumerators}}{{/set}}
@@ -55,6 +55,4 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(int handle) {}
 
 {{>dart/DartNullableTypeConversion}}
 
-// End of {{resolveName}} "private" section.{{!!
-
-}}{{+enumeratorValue}}{{#value}}{{.}}{{/value}}{{^value}}{{iter.position}}{{/value}}{{/enumeratorValue}}
+// End of {{resolveName}} "private" section.

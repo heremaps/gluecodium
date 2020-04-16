@@ -63,4 +63,11 @@ void main() {
 
     expect(result.type, equals(EnumsInternalError.errorFatal));
   });
+  _testSuite.test("Flip enum that starts with 1", () {
+    final input = EnumStartsWithOne.second;
+
+    final result = Enums.flipEnumStartsWithOne(input);
+
+    expect(result, EnumStartsWithOne.first);
+  });
 }
