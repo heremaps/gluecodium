@@ -1,10 +1,12 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.5.0
+Release date: 2020-04-16
 ### Features:
   * Added support for `@Cpp(CString)` IDL attribute that marks a function parameter of `String` type
     to accept `const char*` in C++ generated code.
   * Added support for including method signature when adding a documentation reference link in IDL.
+  * Added validation warnings for method overloads in Dart generator.
 ### Bug fixes:
   * Fixed Dart conversion issue for enumerations with mixed explicit and implicit values.
 
