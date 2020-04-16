@@ -3,10 +3,9 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
-/// The nested types like [random_method] don't need full name prefix, but it's
+/// The nested types like [randomMethod] don't need full name prefix, but it's
 /// possible to references other interfaces like [CommentsInterface] or other members
-/// [comments.someMethodWithAllComments].
+/// [someMethodWithAllComments].
 ///
 /// Weblinks are not modified like this [example] or [www.example.com].
 ///
@@ -22,7 +21,9 @@ abstract class CommentsLinks {
   /// * property: [Comments.isSomeProperty]
   /// * property setter: [isSomeProperty]
   /// * property getter: [isSomeProperty]
-  /// * method: [comments.someMethodWithAllComments]
+  /// * method: [someMethodWithAllComments]
+  /// * method with signature: [comments.oneParameterCommentOnly(String, String)]
+  /// * method with signature with no spaces: [comments.oneParameterCommentOnly(String,String)]
   /// * parameter: [inputParameter]
   /// * top level constant: [CommentsTypeCollection.typeCollectionConstant]
   /// * top level struct: [TypeCollectionStruct]

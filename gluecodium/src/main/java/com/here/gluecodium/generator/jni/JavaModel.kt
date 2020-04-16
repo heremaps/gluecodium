@@ -24,11 +24,13 @@ import com.here.gluecodium.model.jni.JniContainer
 
 class JavaModel(
     val referenceMap: Map<String, JavaElement> = emptyMap(),
+    val reverseReferenceMap: Map<JavaElement, String> = emptyMap(),
     val javaElements: List<JavaElement> = emptyList(),
     val jniContainers: List<JniContainer> = emptyList()
 ) {
     fun merge(other: JavaModel) = JavaModel(
         referenceMap + other.referenceMap,
+        reverseReferenceMap + other.reverseReferenceMap,
         javaElements + other.javaElements,
         jniContainers + other.jniContainers
     )

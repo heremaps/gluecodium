@@ -22,8 +22,14 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.model.swift.SwiftFile
 import com.here.gluecodium.model.swift.SwiftModelElement
 
-class SwiftModel(val referenceMap: Map<String, SwiftModelElement>, val containers: List<SwiftFile>) {
-    fun merge(model: SwiftModel): SwiftModel {
-        return SwiftModel(referenceMap + model.referenceMap, containers + model.containers)
-    }
+class SwiftModel(
+    val referenceMap: Map<String, SwiftModelElement> = emptyMap(),
+    val reverseReferenceMap: Map<SwiftModelElement, String> = emptyMap(),
+    val containers: List<SwiftFile> = emptyList()
+) {
+    fun merge(model: SwiftModel) = SwiftModel(
+        referenceMap + model.referenceMap,
+        reverseReferenceMap + model.reverseReferenceMap,
+        containers + model.containers
+    )
 }

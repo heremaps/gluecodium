@@ -162,6 +162,8 @@ class CommentsLinks {
     // * property setter: [comments.SomeProperty.set]
     // * property getter: [comments.SomeProperty.get]
     // * method: [comments.someMethodWithAllComments]
+    // * method with signature: [comments.oneParameterCommentOnly(String, String)]
+    // * method with signature with no spaces: [comments.oneParameterCommentOnly(String,String)]
     // * parameter: [inputParameter]
     // * top level constant: [CommentsTypeCollection.TypeCollectionConstant]
     // * top level struct: [CommentsTypeCollection.TypeCollectionStruct]

@@ -43,6 +43,8 @@ public class CommentsLinks {
     /// * property setter: `Comments.isSomeProperty`
     /// * property getter: `Comments.isSomeProperty`
     /// * method: `Comments.someMethodWithAllComments(...)`
+    /// * method with signature: `Comments.oneParameterCommentOnly(...)`
+    /// * method with signature with no spaces: `Comments.oneParameterCommentOnly(...)`
     /// * parameter: `CommentsLinks.randomMethod(...).inputParameter`
     /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
     /// * top level struct: `TypeCollectionStruct`

@@ -4,6 +4,7 @@
 ### Features:
   * Added support for `@Cpp(CString)` IDL attribute that marks a function parameter of `String` type
     to accept `const char*` in C++ generated code.
+  * Added support for including method signature when adding a documentation reference link in IDL.
 
 ## 6.4.9
 Release date: 2020-04-07

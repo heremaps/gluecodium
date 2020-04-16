@@ -53,6 +53,8 @@ public final class CommentsLinks extends NativeBase {
      * <li>property setter: {@link com.example.smoke.Comments#setSomeProperty}</li>
      * <li>property getter: {@link com.example.smoke.Comments#isSomeProperty}</li>
      * <li>method: {@link com.example.smoke.Comments#someMethodWithAllComments}</li>
+     * <li>method with signature: {@link com.example.smoke.Comments#oneParameterCommentOnly}</li>
+     * <li>method with signature with no spaces: {@link com.example.smoke.Comments#oneParameterCommentOnly}</li>
      * <li>parameter: {@link com.example.smoke.CommentsLinks#randomMethod#inputParameter}</li>
      * <li>top level constant: {@link com.example.smoke.CommentsTypeCollection#TYPE_COLLECTION_CONSTANT}</li>
      * <li>top level struct: {@link com.example.smoke.TypeCollectionStruct}</li>

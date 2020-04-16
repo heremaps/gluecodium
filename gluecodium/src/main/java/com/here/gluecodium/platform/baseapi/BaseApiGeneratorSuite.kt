@@ -95,42 +95,34 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val generator = CppGenerator(GENERATOR_NAME, internalNamespace)
 
         val cppReferenceMap = mutableMapOf<String, CppElement>()
-        val cppModel = limeModel.topElements.map {
-            mapLimeModelToCppModel(
-                it,
-                nameRules.getOutputFilePath(it),
-                cppModelBuilder,
-                allErrorEnums,
-                cppReferenceMap
-            )
+        val cppReverseReferenceMap = mutableMapOf<CppElement, String>()
+        val cppFiles = limeModel.topElements.map {
+            val cppModel = buildCppModel(cppModelBuilder, it, cppReferenceMap, cppReverseReferenceMap)
+            wrapModelInCppFile(it, nameRules.getOutputFilePath(it), cppModel, allErrorEnums)
         }
         // Build name mapping for auxiliary model
-        limeModel.auxiliaryElements.forEach { buildCppModel(cppModelBuilder, it, cppReferenceMap) }
+        limeModel.auxiliaryElements
+            .forEach { buildCppModel(cppModelBuilder, it, cppReferenceMap, cppReverseReferenceMap) }
 
-        val cppToLimeName = cppReferenceMap.entries.associate { it.value to it.key }
         val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
-
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        cppModel.flatMap { it.members }.flatMap { it.allElementsRecursive.toList() }
+        cppFiles.flatMap { it.members }.flatMap { it.allElementsRecursive.toList() }
             .filterIsInstance<CppElementWithComment>()
-            .forEach { processElementComments(it, cppToLimeName, limeToCppName, limeLogger) }
+            .forEach { processElementComments(it, cppReverseReferenceMap, limeToCppName, limeLogger) }
 
         val helperModel = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
-        return cppModel.flatMap { generator.generateCode(it) } +
+        return cppFiles.flatMap { generator.generateCode(it) } +
                 ADDITIONAL_HEADERS.map { generator.generateHelperHeader(it, helperModel) } +
                 generator.generateHelperImpl("TypeRepositoryImpl", helperModel) +
                 generator.generateHelperHeader("Export", helperModel)
     }
 
-    private fun mapLimeModelToCppModel(
+    private fun wrapModelInCppFile(
         limeModel: LimeNamedElement,
         filename: String,
-        cppModelBuilder: CppModelBuilder,
-        allErrorEnums: Set<String>,
-        mapping: MutableMap<String, CppElement>
+        finalResults: List<CppElement>,
+        allErrorEnums: Set<String>
     ): CppFile {
-        val finalResults = buildCppModel(cppModelBuilder, limeModel, mapping)
-
         val elementsWithIncludes =
             flattenCppModel(finalResults).filterIsInstance<CppElementWithIncludes>()
         val implIncludesFilter: (CppElement) -> Boolean =
@@ -175,10 +167,12 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private fun buildCppModel(
         cppModelBuilder: CppModelBuilder,
         limeModel: LimeNamedElement,
-        mappingCollector: MutableMap<String, CppElement>
+        mappingCollector: MutableMap<String, CppElement>,
+        reverseMappingCollector: MutableMap<CppElement, String>
     ): List<CppElement> {
         LimeTreeWalker(listOf(cppModelBuilder)).walkTree(limeModel)
-        mappingCollector.putAll(cppModelBuilder.referenceMap)
+        mappingCollector += cppModelBuilder.referenceMap
+        reverseMappingCollector += cppModelBuilder.reverseReferenceMap
         return cppModelBuilder.finalResults
     }
 

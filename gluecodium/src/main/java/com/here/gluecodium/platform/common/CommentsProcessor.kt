@@ -45,7 +45,7 @@ abstract class CommentsProcessor(private val renderer: IRender) {
         val path = limeFullName.split(".")
 
         val linkRefHandler = VisitHandler(LinkRef::class.java) {
-            val reference = it.reference.toString()
+            val reference = it.reference.toString().replace(" ", "")
             for (i in path.size downTo 0) {
                 val child = (path.take(i) + reference).joinToString(".")
                 val element = limeToLanguage[child]
