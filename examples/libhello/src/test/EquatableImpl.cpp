@@ -19,6 +19,8 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/EquatableClass.h"
+#include "test/EquatableInterface.h"
+#include "test/EquatableInterfaceFactory.h"
 #include "test/PointerEquatableClass.h"
 
 namespace test
@@ -31,6 +33,21 @@ public:
     {}
 
     ~EquatableClassImpl() = default;
+
+    std::string get_name() const override {
+        return m_name;
+    }
+private:
+    std::string m_name;
+};
+
+class EquatableInterfaceImpl: public EquatableInterface {
+public:
+    EquatableInterfaceImpl(const std::string& name)
+        : m_name(name)
+    {}
+
+    ~EquatableInterfaceImpl() = default;
 
     std::string get_name() const override {
         return m_name;
@@ -141,9 +158,24 @@ EquatableClass::operator == ( const EquatableClass& rhs ) {
     return get_name( ) == rhs.get_name( );
 }
 
+bool
+EquatableInterface::operator==(const EquatableInterface& rhs) {
+    return get_name() == rhs.get_name();
+}
+
+std::shared_ptr<EquatableInterface>
+EquatableInterfaceFactory::create_equatable_interface(const std::string& name) {
+    return std::make_shared<EquatableInterfaceImpl>(name);
+}
+
 }  // namespace test
 
 std::size_t
 lorem_ipsum::test::hash <::test::EquatableClass>::operator( )( const ::test::EquatableClass& t ) const {
     return 11 ^ std::hash<std::string>( )( t.get_name( ) );
+}
+
+std::size_t
+lorem_ipsum::test::hash<::test::EquatableInterface>::operator()(const ::test::EquatableInterface& t) const {
+    return 11 ^ std::hash<std::string>()(t.get_name());
 }

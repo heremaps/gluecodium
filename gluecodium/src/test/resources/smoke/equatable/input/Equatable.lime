@@ -85,3 +85,7 @@ struct EquatableStructWithInternalFields {
     internal internalMapField: Map<String, String>
     internal internalSetField: Set<String>
 }
+
+@Equatable
+interface EquatableInterface {
+}

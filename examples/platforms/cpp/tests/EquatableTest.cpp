@@ -19,6 +19,8 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Equatable.h"
+#include "test/EquatableInterface.h"
+#include "test/EquatableInterfaceFactory.h"
 #include "test/SomeEquatableClass.h"
 #include "test/SomePointerEquatableClass.h"
 #include <gmock/gmock.h>
@@ -98,6 +100,30 @@ TEST( EquatableTest, pointer_unequal_classes )
 
     lorem_ipsum::test::hash<decltype(one_class)> hasher;
 
+    EXPECT_NE(hasher(one_class), hasher(other_class));
+}
+
+TEST( EquatableTest, equal_interfaces )
+{
+    auto one_class = test::EquatableInterfaceFactory::create_equatable_interface("foo");
+    auto other_class = test::EquatableInterfaceFactory::create_equatable_interface("foo");
+
+    lorem_ipsum::test::EqualityEqualTo<test::EquatableInterface> equalizer;
+    lorem_ipsum::test::EqualityHash<decltype(one_class)> hasher;
+
+    EXPECT_TRUE(equalizer(one_class, other_class));
+    EXPECT_EQ(hasher(one_class), hasher(other_class));
+}
+
+TEST( EquatableTest, unequal_interfaces )
+{
+    auto one_class = test::EquatableInterfaceFactory::create_equatable_interface("foo");
+    auto other_class = test::EquatableInterfaceFactory::create_equatable_interface("bar");
+
+    lorem_ipsum::test::EqualityEqualTo<test::EquatableInterface> equalizer;
+    lorem_ipsum::test::EqualityHash<decltype(one_class)> hasher;
+
+    EXPECT_FALSE(equalizer(one_class, other_class));
     EXPECT_NE(hasher(one_class), hasher(other_class));
 }
 
