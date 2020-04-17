@@ -5,8 +5,15 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class SimpleInterface {
+  SimpleInterface() {}
+  factory SimpleInterface.fromLambdas({
+    @required String Function() lambda_getStringValue,
+    @required SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface
+  }) => SimpleInterface$Lambdas(
+    lambda_getStringValue,
+    lambda_useSimpleInterface
+  );
   void release() {}
   String getStringValue();
   SimpleInterface useSimpleInterface(SimpleInterface input);
@@ -32,6 +39,25 @@ final _smoke_SimpleInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleInterface_get_type_id');
+class SimpleInterface$Lambdas implements SimpleInterface {
+  String Function() lambda_getStringValue;
+  SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface;
+  SimpleInterface$Lambdas(
+    String Function() lambda_getStringValue,
+    SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface
+  ) {
+    this.lambda_getStringValue = lambda_getStringValue;
+    this.lambda_useSimpleInterface = lambda_useSimpleInterface;
+  }
+  @override
+  void release() {}
+  @override
+  String getStringValue() =>
+    lambda_getStringValue();
+  @override
+  SimpleInterface useSimpleInterface(SimpleInterface input) =>
+    lambda_useSimpleInterface(input);
+}
 class SimpleInterface$Impl implements SimpleInterface {
   final Pointer<Void> handle;
   SimpleInterface$Impl(this.handle);

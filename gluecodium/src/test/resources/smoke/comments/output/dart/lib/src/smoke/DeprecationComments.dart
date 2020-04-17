@@ -5,10 +5,19 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 /// This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [comments] instead.")
 abstract class DeprecationComments {
+  DeprecationComments() {}
+  factory DeprecationComments.fromLambdas({
+    @required bool Function(String) lambda_someMethodWithAllComments,
+    @required bool Function() lambda_isSomeProperty_get,
+    @required void Function(bool) lambda_isSomeProperty_set
+  }) => DeprecationComments$Lambdas(
+    lambda_someMethodWithAllComments,
+    lambda_isSomeProperty_get,
+    lambda_isSomeProperty_set
+  );
   void release() {}
   /// This is some very useful constant.
   @Deprecated("Unfortunately, this constant is deprecated. Use [comments.VeryUseful] instead.")
@@ -178,6 +187,29 @@ final _smoke_DeprecationComments_get_type_id = __lib.nativeLibrary.lookupFunctio
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_get_type_id');
+class DeprecationComments$Lambdas implements DeprecationComments {
+  bool Function(String) lambda_someMethodWithAllComments;
+  bool Function() lambda_isSomeProperty_get;
+  void Function(bool) lambda_isSomeProperty_set;
+  DeprecationComments$Lambdas(
+    bool Function(String) lambda_someMethodWithAllComments,
+    bool Function() lambda_isSomeProperty_get,
+    void Function(bool) lambda_isSomeProperty_set
+  ) {
+    this.lambda_someMethodWithAllComments = lambda_someMethodWithAllComments;
+    this.lambda_isSomeProperty_get = lambda_isSomeProperty_get;
+    this.lambda_isSomeProperty_set = lambda_isSomeProperty_set;
+  }
+  @override
+  void release() {}
+  @override
+  bool someMethodWithAllComments(String input) =>
+    lambda_someMethodWithAllComments(input);
+  @override
+  bool get isSomeProperty => lambda_isSomeProperty_get();
+  @override
+  set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
+}
 class DeprecationComments$Impl implements DeprecationComments {
   final Pointer<Void> handle;
   DeprecationComments$Impl(this.handle);

@@ -5,8 +5,15 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ExternalInterface {
+  ExternalInterface() {}
+  factory ExternalInterface.fromLambdas({
+    @required void Function(int) lambda_someMethod,
+    @required String Function() lambda_someProperty_get
+  }) => ExternalInterface$Lambdas(
+    lambda_someMethod,
+    lambda_someProperty_get
+  );
   void release() {}
   someMethod(int someParameter);
   String get someProperty;
@@ -146,6 +153,24 @@ final _smoke_ExternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_get_type_id');
+class ExternalInterface$Lambdas implements ExternalInterface {
+  void Function(int) lambda_someMethod;
+  String Function() lambda_someProperty_get;
+  ExternalInterface$Lambdas(
+    void Function(int) lambda_someMethod,
+    String Function() lambda_someProperty_get
+  ) {
+    this.lambda_someMethod = lambda_someMethod;
+    this.lambda_someProperty_get = lambda_someProperty_get;
+  }
+  @override
+  void release() {}
+  @override
+  someMethod(int someParameter) =>
+    lambda_someMethod(someParameter);
+  @override
+  String get someProperty => lambda_someProperty_get();
+}
 class ExternalInterface$Impl implements ExternalInterface {
   final Pointer<Void> handle;
   ExternalInterface$Impl(this.handle);

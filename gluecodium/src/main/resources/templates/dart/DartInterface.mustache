@@ -19,8 +19,33 @@
   !
   !}}
 {{>dart/DartDocumentation}}
-abstract class {{resolveName}} {{!!
-}}{{#if parent}}implements {{resolveName parent}} {{/if}}{
+abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
+{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
+  {{resolveName}}() {}
+
+  factory {{resolveName}}.fromLambdas({
+{{#each inheritedFunctions functions}}
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName}}{{#if iter.hasNext}},
+{{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
+{{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
+{{/if}}{{/getter}}{{#setter}}
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+{{/if}}{{/set}}{{/each}}
+
+  }) => {{resolveName}}$Lambdas(
+{{#each inheritedFunctions functions}}
+    lambda_{{resolveName}}{{#if iter.hasNext}},
+{{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
+{{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
+    lambda_{{resolveName property}}_get{{#if setter}},
+{{/if}}{{/getter}}{{#setter}}
+    lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+{{/if}}{{/set}}{{/each}}
+
+  );
+{{/if}}
+
   void release() {}
 
 {{#set isInClass=true}}{{#constants}}
@@ -81,7 +106,70 @@ final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
-}}class {{resolveName}}$Impl {{#if parent}}extends {{resolveName parent}}$Impl {{/if}}implements {{resolveName}} {
+}}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
+class {{resolveName}}$Lambdas {{#if parent}}extends {{resolveName parent}}$Lambdas {{/if}}implements {{resolveName}} {
+{{#functions}}
+  {{>dart/DartLambdaType}} lambda_{{resolveName}};
+{{/functions}}
+{{#properties}}{{#set property=this}}
+{{#getter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get;
+{{/getter}}{{!!
+}}{{#setter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set;
+{{/setter}}
+{{/set}}{{/properties}}
+
+  {{resolveName}}$Lambdas(
+{{#each inheritedFunctions functions}}
+    {{>dart/DartLambdaType}} lambda_{{resolveName}}{{#if iter.hasNext}},
+{{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
+{{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
+    {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
+{{/if}}{{/getter}}{{#setter}}
+    {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+{{/if}}{{/set}}{{/each}}
+
+  ){{#if parent}} : super(
+{{#inheritedFunctions}}
+    lambda_{{resolveName}}{{#if iter.hasNext}},
+{{/if}}{{/inheritedFunctions}}{{#if inheritedFunctions inheritedProperties}},
+{{/if}}{{#inheritedProperties}}{{#set property=this}}{{#getter}}
+    lambda_{{resolveName property}}_get{{#if setter}},
+{{/if}}{{/getter}}{{#setter}}
+    lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+{{/if}}{{/set}}{{/inheritedProperties}}
+
+  ){{/if}} {
+{{#functions}}
+    this.lambda_{{resolveName}} = lambda_{{resolveName}};
+{{/functions}}
+{{#properties}}{{#set property=this}}
+    this.lambda_{{resolveName property}}_get = lambda_{{resolveName property}}_get;
+{{#setter}}    this.lambda_{{resolveName property}}_set = lambda_{{resolveName property}}_set;
+{{/setter}}
+{{/set}}{{/properties}}
+
+  }
+
+  @override
+  void release() {}
+
+{{#functions}}
+  @override
+  {{>dart/DartFunctionSignature}} =>
+    lambda_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+{{/functions}}
+{{#properties}}
+  @override
+  {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => lambda_{{resolveName}}_get();
+{{#if setter}}
+  @override
+  set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => lambda_{{resolveName}}_set(value);
+{{/if}}
+{{/properties}}
+}
+{{/if}}
+
+class {{resolveName}}$Impl {{#if parent}}extends {{resolveName parent}}$Impl {{/if}}implements {{resolveName}} {
   {{#if parent}}{{resolveName}}$Impl(Pointer<Void> handle) : super(handle);{{/if}}{{!!
   }}{{#unless parent}}final Pointer<Void> handle;
   {{resolveName}}$Impl(this.handle);{{/unless}}

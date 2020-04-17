@@ -5,8 +5,13 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class weeListener {
+  weeListener() {}
+  factory weeListener.fromLambdas({
+    @required void Function(String) lambda_WeeMethod
+  }) => weeListener$Lambdas(
+    lambda_WeeMethod
+  );
   void release() {}
   WeeMethod(String WeeParameter);
 }
@@ -31,6 +36,19 @@ final _smoke_PlatformNamesListener_get_type_id = __lib.nativeLibrary.lookupFunct
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_get_type_id');
+class weeListener$Lambdas implements weeListener {
+  void Function(String) lambda_WeeMethod;
+  weeListener$Lambdas(
+    void Function(String) lambda_WeeMethod
+  ) {
+    this.lambda_WeeMethod = lambda_WeeMethod;
+  }
+  @override
+  void release() {}
+  @override
+  WeeMethod(String WeeParameter) =>
+    lambda_WeeMethod(WeeParameter);
+}
 class weeListener$Impl implements weeListener {
   final Pointer<Void> handle;
   weeListener$Impl(this.handle);

@@ -5,7 +5,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class OuterClass {
   void release();
   String foo(String input);
@@ -54,6 +53,12 @@ void smoke_OuterClass_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle)
   _smoke_OuterClass_InnerClass_release_handle(handle);
 // End of OuterClass_InnerClass "private" section.
 abstract class OuterClass_InnerInterface {
+  OuterClass_InnerInterface() {}
+  factory OuterClass_InnerInterface.fromLambdas({
+    @required String Function(String) lambda_foo
+  }) => OuterClass_InnerInterface$Lambdas(
+    lambda_foo
+  );
   void release() {}
   String foo(String input);
 }
@@ -78,6 +83,19 @@ final _smoke_OuterClass_InnerInterface_get_type_id = __lib.nativeLibrary.lookupF
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterClass_InnerInterface_get_type_id');
+class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
+  String Function(String) lambda_foo;
+  OuterClass_InnerInterface$Lambdas(
+    String Function(String) lambda_foo
+  ) {
+    this.lambda_foo = lambda_foo;
+  }
+  @override
+  void release() {}
+  @override
+  String foo(String input) =>
+    lambda_foo(input);
+}
 class OuterClass_InnerInterface$Impl implements OuterClass_InnerInterface {
   final Pointer<Void> handle;
   OuterClass_InnerInterface$Impl(this.handle);

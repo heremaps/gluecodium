@@ -123,4 +123,28 @@ void main() {
     result1.release();
     result2.release();
   });
+  _testSuite.test("Delegator with functions", () {
+    String stringValue;
+    final delegator = SimpleInterfaceOne.fromLambdas(
+      lambda_setStringValue: (value) { stringValue = value; },
+      lambda_getStringValue: () => stringValue
+    );
+
+    delegator.setStringValue("foo");
+    final result = delegator.getStringValue();
+
+    expect(result, "foo");
+  });
+  _testSuite.test("Delegator with property", () {
+    String stringValue;
+    final delegator = InterfaceWithProperty.fromLambdas(
+      lambda_stringProperty_set: (value) { stringValue = value; },
+      lambda_stringProperty_get: () => stringValue
+    );
+
+    delegator.stringProperty = "foo";
+    final result = delegator.stringProperty;
+
+    expect(result, "foo");
+  });
 }

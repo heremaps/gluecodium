@@ -6,8 +6,19 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ChildInterface implements ParentInterface {
+  ChildInterface() {}
+  factory ChildInterface.fromLambdas({
+    @required void Function() lambda_rootMethod,
+    @required void Function() lambda_childMethod,
+    @required String Function() lambda_rootProperty_get,
+    @required void Function(String) lambda_rootProperty_set
+  }) => ChildInterface$Lambdas(
+    lambda_rootMethod,
+    lambda_childMethod,
+    lambda_rootProperty_get,
+    lambda_rootProperty_set
+  );
   void release() {}
   childMethod();
 }
@@ -32,6 +43,26 @@ final _smoke_ChildInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildInterface_get_type_id');
+class ChildInterface$Lambdas extends ParentInterface$Lambdas implements ChildInterface {
+  void Function() lambda_childMethod;
+  ChildInterface$Lambdas(
+    void Function() lambda_rootMethod,
+    void Function() lambda_childMethod,
+    String Function() lambda_rootProperty_get,
+    void Function(String) lambda_rootProperty_set
+  ) : super(
+    lambda_rootMethod,
+    lambda_rootProperty_get,
+    lambda_rootProperty_set
+  ) {
+    this.lambda_childMethod = lambda_childMethod;
+  }
+  @override
+  void release() {}
+  @override
+  childMethod() =>
+    lambda_childMethod();
+}
 class ChildInterface$Impl extends ParentInterface$Impl implements ChildInterface {
   ChildInterface$Impl(Pointer<Void> handle) : super(handle);
   @override

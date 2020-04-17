@@ -7,8 +7,25 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ListenersWithReturnValues {
+  ListenersWithReturnValues() {}
+  factory ListenersWithReturnValues.fromLambdas({
+    @required double Function() lambda_fetchDataDouble,
+    @required String Function() lambda_fetchDataString,
+    @required ListenersWithReturnValues_ResultStruct Function() lambda_fetchDataStruct,
+    @required ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum,
+    @required List<double> Function() lambda_fetchDataArray,
+    @required Map<String, double> Function() lambda_fetchDataMap,
+    @required CalculationResult Function() lambda_fetchDataInstance
+  }) => ListenersWithReturnValues$Lambdas(
+    lambda_fetchDataDouble,
+    lambda_fetchDataString,
+    lambda_fetchDataStruct,
+    lambda_fetchDataEnum,
+    lambda_fetchDataArray,
+    lambda_fetchDataMap,
+    lambda_fetchDataInstance
+  );
   void release() {}
   double fetchDataDouble();
   String fetchDataString();
@@ -160,6 +177,55 @@ final _smoke_ListenersWithReturnValues_get_type_id = __lib.nativeLibrary.lookupF
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ListenersWithReturnValues_get_type_id');
+class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
+  double Function() lambda_fetchDataDouble;
+  String Function() lambda_fetchDataString;
+  ListenersWithReturnValues_ResultStruct Function() lambda_fetchDataStruct;
+  ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum;
+  List<double> Function() lambda_fetchDataArray;
+  Map<String, double> Function() lambda_fetchDataMap;
+  CalculationResult Function() lambda_fetchDataInstance;
+  ListenersWithReturnValues$Lambdas(
+    double Function() lambda_fetchDataDouble,
+    String Function() lambda_fetchDataString,
+    ListenersWithReturnValues_ResultStruct Function() lambda_fetchDataStruct,
+    ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum,
+    List<double> Function() lambda_fetchDataArray,
+    Map<String, double> Function() lambda_fetchDataMap,
+    CalculationResult Function() lambda_fetchDataInstance
+  ) {
+    this.lambda_fetchDataDouble = lambda_fetchDataDouble;
+    this.lambda_fetchDataString = lambda_fetchDataString;
+    this.lambda_fetchDataStruct = lambda_fetchDataStruct;
+    this.lambda_fetchDataEnum = lambda_fetchDataEnum;
+    this.lambda_fetchDataArray = lambda_fetchDataArray;
+    this.lambda_fetchDataMap = lambda_fetchDataMap;
+    this.lambda_fetchDataInstance = lambda_fetchDataInstance;
+  }
+  @override
+  void release() {}
+  @override
+  double fetchDataDouble() =>
+    lambda_fetchDataDouble();
+  @override
+  String fetchDataString() =>
+    lambda_fetchDataString();
+  @override
+  ListenersWithReturnValues_ResultStruct fetchDataStruct() =>
+    lambda_fetchDataStruct();
+  @override
+  ListenersWithReturnValues_ResultEnum fetchDataEnum() =>
+    lambda_fetchDataEnum();
+  @override
+  List<double> fetchDataArray() =>
+    lambda_fetchDataArray();
+  @override
+  Map<String, double> fetchDataMap() =>
+    lambda_fetchDataMap();
+  @override
+  CalculationResult fetchDataInstance() =>
+    lambda_fetchDataInstance();
+}
 class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
   final Pointer<Void> handle;
   ListenersWithReturnValues$Impl(this.handle);

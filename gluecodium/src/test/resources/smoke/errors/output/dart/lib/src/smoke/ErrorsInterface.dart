@@ -7,8 +7,21 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ErrorsInterface {
+  ErrorsInterface() {}
+  factory ErrorsInterface.fromLambdas({
+    @required void Function() lambda_methodWithErrors,
+    @required void Function() lambda_methodWithExternalErrors,
+    @required String Function() lambda_methodWithErrorsAndReturnValue,
+    @required void Function() lambda_methodWithPayloadError,
+    @required String Function() lambda_methodWithPayloadErrorAndReturnValue
+  }) => ErrorsInterface$Lambdas(
+    lambda_methodWithErrors,
+    lambda_methodWithExternalErrors,
+    lambda_methodWithErrorsAndReturnValue,
+    lambda_methodWithPayloadError,
+    lambda_methodWithPayloadErrorAndReturnValue
+  );
   void release() {}
   methodWithErrors();
   methodWithExternalErrors();
@@ -241,6 +254,43 @@ final _methodWithPayloadErrorAndReturnValue_return_has_error = __lib.nativeLibra
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_return_has_error');
+class ErrorsInterface$Lambdas implements ErrorsInterface {
+  void Function() lambda_methodWithErrors;
+  void Function() lambda_methodWithExternalErrors;
+  String Function() lambda_methodWithErrorsAndReturnValue;
+  void Function() lambda_methodWithPayloadError;
+  String Function() lambda_methodWithPayloadErrorAndReturnValue;
+  ErrorsInterface$Lambdas(
+    void Function() lambda_methodWithErrors,
+    void Function() lambda_methodWithExternalErrors,
+    String Function() lambda_methodWithErrorsAndReturnValue,
+    void Function() lambda_methodWithPayloadError,
+    String Function() lambda_methodWithPayloadErrorAndReturnValue
+  ) {
+    this.lambda_methodWithErrors = lambda_methodWithErrors;
+    this.lambda_methodWithExternalErrors = lambda_methodWithExternalErrors;
+    this.lambda_methodWithErrorsAndReturnValue = lambda_methodWithErrorsAndReturnValue;
+    this.lambda_methodWithPayloadError = lambda_methodWithPayloadError;
+    this.lambda_methodWithPayloadErrorAndReturnValue = lambda_methodWithPayloadErrorAndReturnValue;
+  }
+  @override
+  void release() {}
+  @override
+  methodWithErrors() =>
+    lambda_methodWithErrors();
+  @override
+  methodWithExternalErrors() =>
+    lambda_methodWithExternalErrors();
+  @override
+  String methodWithErrorsAndReturnValue() =>
+    lambda_methodWithErrorsAndReturnValue();
+  @override
+  static methodWithPayloadError() =>
+    lambda_methodWithPayloadError();
+  @override
+  static String methodWithPayloadErrorAndReturnValue() =>
+    lambda_methodWithPayloadErrorAndReturnValue();
+}
 class ErrorsInterface$Impl implements ErrorsInterface {
   final Pointer<Void> handle;
   ErrorsInterface$Impl(this.handle);

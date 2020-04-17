@@ -5,8 +5,17 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ParentInterface {
+  ParentInterface() {}
+  factory ParentInterface.fromLambdas({
+    @required void Function() lambda_rootMethod,
+    @required String Function() lambda_rootProperty_get,
+    @required void Function(String) lambda_rootProperty_set
+  }) => ParentInterface$Lambdas(
+    lambda_rootMethod,
+    lambda_rootProperty_get,
+    lambda_rootProperty_set
+  );
   void release() {}
   rootMethod();
   String get rootProperty;
@@ -33,6 +42,29 @@ final _smoke_ParentInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ParentInterface_get_type_id');
+class ParentInterface$Lambdas implements ParentInterface {
+  void Function() lambda_rootMethod;
+  String Function() lambda_rootProperty_get;
+  void Function(String) lambda_rootProperty_set;
+  ParentInterface$Lambdas(
+    void Function() lambda_rootMethod,
+    String Function() lambda_rootProperty_get,
+    void Function(String) lambda_rootProperty_set
+  ) {
+    this.lambda_rootMethod = lambda_rootMethod;
+    this.lambda_rootProperty_get = lambda_rootProperty_get;
+    this.lambda_rootProperty_set = lambda_rootProperty_set;
+  }
+  @override
+  void release() {}
+  @override
+  rootMethod() =>
+    lambda_rootMethod();
+  @override
+  String get rootProperty => lambda_rootProperty_get();
+  @override
+  set rootProperty(String value) => lambda_rootProperty_set(value);
+}
 class ParentInterface$Impl implements ParentInterface {
   final Pointer<Void> handle;
   ParentInterface$Impl(this.handle);

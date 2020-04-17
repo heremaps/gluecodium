@@ -5,8 +5,15 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class PropertiesInterface {
+  PropertiesInterface() {}
+  factory PropertiesInterface.fromLambdas({
+    @required PropertiesInterface_ExampleStruct Function() lambda_structProperty_get,
+    @required void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set
+  }) => PropertiesInterface$Lambdas(
+    lambda_structProperty_get,
+    lambda_structProperty_set
+  );
   void release() {}
   PropertiesInterface_ExampleStruct get structProperty;
   set structProperty(PropertiesInterface_ExampleStruct value);
@@ -94,6 +101,23 @@ final _smoke_PropertiesInterface_get_type_id = __lib.nativeLibrary.lookupFunctio
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_get_type_id');
+class PropertiesInterface$Lambdas implements PropertiesInterface {
+  PropertiesInterface_ExampleStruct Function() lambda_structProperty_get;
+  void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set;
+  PropertiesInterface$Lambdas(
+    PropertiesInterface_ExampleStruct Function() lambda_structProperty_get,
+    void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set
+  ) {
+    this.lambda_structProperty_get = lambda_structProperty_get;
+    this.lambda_structProperty_set = lambda_structProperty_set;
+  }
+  @override
+  void release() {}
+  @override
+  PropertiesInterface_ExampleStruct get structProperty => lambda_structProperty_get();
+  @override
+  set structProperty(PropertiesInterface_ExampleStruct value) => lambda_structProperty_set(value);
+}
 class PropertiesInterface$Impl implements PropertiesInterface {
   final Pointer<Void> handle;
   PropertiesInterface$Impl(this.handle);

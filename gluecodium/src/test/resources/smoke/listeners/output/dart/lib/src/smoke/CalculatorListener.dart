@@ -7,8 +7,23 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class CalculatorListener {
+  CalculatorListener() {}
+  factory CalculatorListener.fromLambdas({
+    @required void Function(double) lambda_onCalculationResult,
+    @required void Function(double) lambda_onCalculationResultConst,
+    @required void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
+    @required void Function(List<double>) lambda_onCalculationResultArray,
+    @required void Function(Map<String, double>) lambda_onCalculationResultMap,
+    @required void Function(CalculationResult) lambda_onCalculationResultInstance
+  }) => CalculatorListener$Lambdas(
+    lambda_onCalculationResult,
+    lambda_onCalculationResultConst,
+    lambda_onCalculationResultStruct,
+    lambda_onCalculationResultArray,
+    lambda_onCalculationResultMap,
+    lambda_onCalculationResultInstance
+  );
   void release() {}
   onCalculationResult(double calculationResult);
   onCalculationResultConst(double calculationResult);
@@ -100,6 +115,49 @@ final _smoke_CalculatorListener_get_type_id = __lib.nativeLibrary.lookupFunction
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_get_type_id');
+class CalculatorListener$Lambdas implements CalculatorListener {
+  void Function(double) lambda_onCalculationResult;
+  void Function(double) lambda_onCalculationResultConst;
+  void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct;
+  void Function(List<double>) lambda_onCalculationResultArray;
+  void Function(Map<String, double>) lambda_onCalculationResultMap;
+  void Function(CalculationResult) lambda_onCalculationResultInstance;
+  CalculatorListener$Lambdas(
+    void Function(double) lambda_onCalculationResult,
+    void Function(double) lambda_onCalculationResultConst,
+    void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
+    void Function(List<double>) lambda_onCalculationResultArray,
+    void Function(Map<String, double>) lambda_onCalculationResultMap,
+    void Function(CalculationResult) lambda_onCalculationResultInstance
+  ) {
+    this.lambda_onCalculationResult = lambda_onCalculationResult;
+    this.lambda_onCalculationResultConst = lambda_onCalculationResultConst;
+    this.lambda_onCalculationResultStruct = lambda_onCalculationResultStruct;
+    this.lambda_onCalculationResultArray = lambda_onCalculationResultArray;
+    this.lambda_onCalculationResultMap = lambda_onCalculationResultMap;
+    this.lambda_onCalculationResultInstance = lambda_onCalculationResultInstance;
+  }
+  @override
+  void release() {}
+  @override
+  onCalculationResult(double calculationResult) =>
+    lambda_onCalculationResult(calculationResult);
+  @override
+  onCalculationResultConst(double calculationResult) =>
+    lambda_onCalculationResultConst(calculationResult);
+  @override
+  onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult) =>
+    lambda_onCalculationResultStruct(calculationResult);
+  @override
+  onCalculationResultArray(List<double> calculationResult) =>
+    lambda_onCalculationResultArray(calculationResult);
+  @override
+  onCalculationResultMap(Map<String, double> calculationResults) =>
+    lambda_onCalculationResultMap(calculationResults);
+  @override
+  onCalculationResultInstance(CalculationResult calculationResult) =>
+    lambda_onCalculationResultInstance(calculationResult);
+}
 class CalculatorListener$Impl implements CalculatorListener {
   final Pointer<Void> handle;
   CalculatorListener$Impl(this.handle);
