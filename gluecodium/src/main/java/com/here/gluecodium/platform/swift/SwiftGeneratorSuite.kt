@@ -23,6 +23,7 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
@@ -33,6 +34,8 @@ import com.here.gluecodium.generator.swift.SwiftModel
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
 import com.here.gluecodium.model.common.Comments
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
@@ -67,8 +70,10 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             swiftNameRules = swiftNameRules,
             internalPrefix = internalPrefix
         )
+        val filteredElements =
+            LimeModelFilter { !it.attributes.have(SWIFT, SKIP) }.filter(limeModel.topElements)
         val swiftModel =
-            limeModel.topElements.fold(SwiftModel()) { model, rootElement ->
+            filteredElements.fold(SwiftModel()) { model, rootElement ->
                 model.merge(swiftGenerator.generateModel(rootElement))
             }
         // Build name mapping for auxiliary model
@@ -99,7 +104,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
                 it.fileName
             )
         } +
-            limeModel.topElements.flatMap { cBridgeGenerator.generate(it) } +
+            filteredElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
             cBridgeGenerator.collectionsGenerator.generate() +
             swiftGenerator.genericsGenerator.generate() +

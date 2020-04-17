@@ -25,6 +25,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
+import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -38,7 +39,9 @@ import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
@@ -82,7 +85,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         )
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
-        DartOverloadsValidator(dartNameResolver, limeLogger).validate(limeModel)
+        val filteredElements =
+            LimeModelFilter { !it.attributes.have(DART, SKIP) }.filter(limeModel.topElements)
+        DartOverloadsValidator(dartNameResolver, limeLogger).validate(filteredElements)
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
@@ -118,7 +123,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        return limeModel.topElements.flatMap {
+        return filteredElements.flatMap {
             listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
                 exportsCollector, typeRepositoriesCollector)) + generateFfi(it, ffiResolvers, includeResolver)
         } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +

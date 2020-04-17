@@ -24,7 +24,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
 
 /**
  * Validate functions and constructors against overloading. Dart language does not support this.
@@ -33,9 +33,8 @@ internal class DartOverloadsValidator(
     private val nameResolver: DartNameResolver,
     private val logger: LimeLogger
 ) {
-    fun validate(limeModel: LimeModel): Boolean {
-        val allElements = limeModel.referenceMap.values
-        val validationResults = allElements
+    fun validate(limeElements: List<LimeNamedElement>): Boolean {
+        val validationResults = limeElements
             .filterIsInstance<LimeContainerWithInheritance>()
             .map { validateContainer(it) }
 

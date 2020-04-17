@@ -23,6 +23,7 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
@@ -37,6 +38,8 @@ import com.here.gluecodium.model.java.JavaElement
 import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaTopLevelElement
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
@@ -85,8 +88,10 @@ open class JavaGeneratorSuite protected constructor(
             javaNameRules = javaNameRules
         )
 
+        val filteredElements =
+            LimeModelFilter { !it.attributes.have(JAVA, SKIP) }.filter(limeModel.topElements)
         val combinedModel =
-            limeModel.topElements.fold(JavaModel()) { model, rootElement ->
+            filteredElements.fold(JavaModel()) { model, rootElement ->
                 model.merge(jniGenerator.generateModel(rootElement))
             }
         // Build name mapping for auxiliary model
