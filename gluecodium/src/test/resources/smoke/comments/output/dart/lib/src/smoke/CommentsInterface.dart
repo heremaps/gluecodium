@@ -5,9 +5,36 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 /// This is some very useful interface.
 abstract class CommentsInterface {
+  CommentsInterface() {}
+  factory CommentsInterface.fromLambdas({
+    @required bool Function(String) lambda_someMethodWithAllComments,
+    @required bool Function(String) lambda_someMethodWithInputComments,
+    @required bool Function(String) lambda_someMethodWithOutputComments,
+    @required bool Function(String) lambda_someMethodWithNoComments,
+    @required void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments,
+    @required void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments,
+    @required bool Function() lambda_someMethodWithoutInputParametersWithAllComments,
+    @required bool Function() lambda_someMethodWithoutInputParametersWithNoComments,
+    @required void Function() lambda_someMethodWithNothing,
+    @required void Function() lambda_someMethodWithoutReturnTypeOrInputParameters,
+    @required bool Function() lambda_isSomeProperty_get,
+    @required void Function(bool) lambda_isSomeProperty_set
+  }) => CommentsInterface$Lambdas(
+    lambda_someMethodWithAllComments,
+    lambda_someMethodWithInputComments,
+    lambda_someMethodWithOutputComments,
+    lambda_someMethodWithNoComments,
+    lambda_someMethodWithoutReturnTypeWithAllComments,
+    lambda_someMethodWithoutReturnTypeWithNoComments,
+    lambda_someMethodWithoutInputParametersWithAllComments,
+    lambda_someMethodWithoutInputParametersWithNoComments,
+    lambda_someMethodWithNothing,
+    lambda_someMethodWithoutReturnTypeOrInputParameters,
+    lambda_isSomeProperty_get,
+    lambda_isSomeProperty_set
+  );
   void release() {}
   /// This is some very useful constant.
   static final bool veryUseful = true;
@@ -188,6 +215,83 @@ final _smoke_CommentsInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CommentsInterface_get_type_id');
+class CommentsInterface$Lambdas implements CommentsInterface {
+  bool Function(String) lambda_someMethodWithAllComments;
+  bool Function(String) lambda_someMethodWithInputComments;
+  bool Function(String) lambda_someMethodWithOutputComments;
+  bool Function(String) lambda_someMethodWithNoComments;
+  void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments;
+  void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments;
+  bool Function() lambda_someMethodWithoutInputParametersWithAllComments;
+  bool Function() lambda_someMethodWithoutInputParametersWithNoComments;
+  void Function() lambda_someMethodWithNothing;
+  void Function() lambda_someMethodWithoutReturnTypeOrInputParameters;
+  bool Function() lambda_isSomeProperty_get;
+  void Function(bool) lambda_isSomeProperty_set;
+  CommentsInterface$Lambdas(
+    bool Function(String) lambda_someMethodWithAllComments,
+    bool Function(String) lambda_someMethodWithInputComments,
+    bool Function(String) lambda_someMethodWithOutputComments,
+    bool Function(String) lambda_someMethodWithNoComments,
+    void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments,
+    void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments,
+    bool Function() lambda_someMethodWithoutInputParametersWithAllComments,
+    bool Function() lambda_someMethodWithoutInputParametersWithNoComments,
+    void Function() lambda_someMethodWithNothing,
+    void Function() lambda_someMethodWithoutReturnTypeOrInputParameters,
+    bool Function() lambda_isSomeProperty_get,
+    void Function(bool) lambda_isSomeProperty_set
+  ) {
+    this.lambda_someMethodWithAllComments = lambda_someMethodWithAllComments;
+    this.lambda_someMethodWithInputComments = lambda_someMethodWithInputComments;
+    this.lambda_someMethodWithOutputComments = lambda_someMethodWithOutputComments;
+    this.lambda_someMethodWithNoComments = lambda_someMethodWithNoComments;
+    this.lambda_someMethodWithoutReturnTypeWithAllComments = lambda_someMethodWithoutReturnTypeWithAllComments;
+    this.lambda_someMethodWithoutReturnTypeWithNoComments = lambda_someMethodWithoutReturnTypeWithNoComments;
+    this.lambda_someMethodWithoutInputParametersWithAllComments = lambda_someMethodWithoutInputParametersWithAllComments;
+    this.lambda_someMethodWithoutInputParametersWithNoComments = lambda_someMethodWithoutInputParametersWithNoComments;
+    this.lambda_someMethodWithNothing = lambda_someMethodWithNothing;
+    this.lambda_someMethodWithoutReturnTypeOrInputParameters = lambda_someMethodWithoutReturnTypeOrInputParameters;
+    this.lambda_isSomeProperty_get = lambda_isSomeProperty_get;
+    this.lambda_isSomeProperty_set = lambda_isSomeProperty_set;
+  }
+  @override
+  void release() {}
+  @override
+  bool someMethodWithAllComments(String input) =>
+    lambda_someMethodWithAllComments(input);
+  @override
+  bool someMethodWithInputComments(String input) =>
+    lambda_someMethodWithInputComments(input);
+  @override
+  bool someMethodWithOutputComments(String input) =>
+    lambda_someMethodWithOutputComments(input);
+  @override
+  bool someMethodWithNoComments(String input) =>
+    lambda_someMethodWithNoComments(input);
+  @override
+  someMethodWithoutReturnTypeWithAllComments(String input) =>
+    lambda_someMethodWithoutReturnTypeWithAllComments(input);
+  @override
+  someMethodWithoutReturnTypeWithNoComments(String input) =>
+    lambda_someMethodWithoutReturnTypeWithNoComments(input);
+  @override
+  bool someMethodWithoutInputParametersWithAllComments() =>
+    lambda_someMethodWithoutInputParametersWithAllComments();
+  @override
+  bool someMethodWithoutInputParametersWithNoComments() =>
+    lambda_someMethodWithoutInputParametersWithNoComments();
+  @override
+  someMethodWithNothing() =>
+    lambda_someMethodWithNothing();
+  @override
+  someMethodWithoutReturnTypeOrInputParameters() =>
+    lambda_someMethodWithoutReturnTypeOrInputParameters();
+  @override
+  bool get isSomeProperty => lambda_isSomeProperty_get();
+  @override
+  set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
+}
 class CommentsInterface$Impl implements CommentsInterface {
   final Pointer<Void> handle;
   CommentsInterface$Impl(this.handle);

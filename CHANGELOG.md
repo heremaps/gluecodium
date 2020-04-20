@@ -5,6 +5,7 @@
   * Added support for `Skip` platform-specific attribute in IDL (e.g. `@Java(Skip)`, `@Swift(Skip)`,
     or `@Dart(Skip)`). Elements marked with this attribute will be omitted in that platform's
     generated code. This attribute is not supported for C++.
+  * Added support for creating an interface implementation directly from a set of lambdas in Dart.
 
 ## 6.5.0
 Release date: 2020-04-16

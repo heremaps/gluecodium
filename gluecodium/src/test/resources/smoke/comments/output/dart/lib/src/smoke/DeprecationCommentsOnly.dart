@@ -5,9 +5,18 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
+  DeprecationCommentsOnly() {}
+  factory DeprecationCommentsOnly.fromLambdas({
+    @required bool Function(String) lambda_someMethodWithAllComments,
+    @required bool Function() lambda_isSomeProperty_get,
+    @required void Function(bool) lambda_isSomeProperty_set
+  }) => DeprecationCommentsOnly$Lambdas(
+    lambda_someMethodWithAllComments,
+    lambda_isSomeProperty_get,
+    lambda_isSomeProperty_set
+  );
   void release() {}
   @Deprecated("Unfortunately, this constant is deprecated.")
   static final bool veryUseful = true;
@@ -159,6 +168,29 @@ final _smoke_DeprecationCommentsOnly_get_type_id = __lib.nativeLibrary.lookupFun
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_get_type_id');
+class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
+  bool Function(String) lambda_someMethodWithAllComments;
+  bool Function() lambda_isSomeProperty_get;
+  void Function(bool) lambda_isSomeProperty_set;
+  DeprecationCommentsOnly$Lambdas(
+    bool Function(String) lambda_someMethodWithAllComments,
+    bool Function() lambda_isSomeProperty_get,
+    void Function(bool) lambda_isSomeProperty_set
+  ) {
+    this.lambda_someMethodWithAllComments = lambda_someMethodWithAllComments;
+    this.lambda_isSomeProperty_get = lambda_isSomeProperty_get;
+    this.lambda_isSomeProperty_set = lambda_isSomeProperty_set;
+  }
+  @override
+  void release() {}
+  @override
+  bool someMethodWithAllComments(String input) =>
+    lambda_someMethodWithAllComments(input);
+  @override
+  bool get isSomeProperty => lambda_isSomeProperty_get();
+  @override
+  set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
+}
 class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
   final Pointer<Void> handle;
   DeprecationCommentsOnly$Impl(this.handle);

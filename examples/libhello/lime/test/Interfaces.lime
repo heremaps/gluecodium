@@ -61,3 +61,7 @@ class InterfacesFactory {
     static fun createNestedInterfaceOne(): NestedInterfaceOne
     static fun createNestedInterfaceTwo(): NestedInterfaceTwo
 }
+
+interface InterfaceWithProperty {
+    property stringProperty: String
+}

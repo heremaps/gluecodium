@@ -5,8 +5,13 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class OuterInterface {
+  OuterInterface() {}
+  factory OuterInterface.fromLambdas({
+    @required String Function(String) lambda_foo
+  }) => OuterInterface$Lambdas(
+    lambda_foo
+  );
   void release() {}
   String foo(String input);
 }
@@ -54,6 +59,12 @@ void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> han
   _smoke_OuterInterface_InnerClass_release_handle(handle);
 // End of OuterInterface_InnerClass "private" section.
 abstract class OuterInterface_InnerInterface {
+  OuterInterface_InnerInterface() {}
+  factory OuterInterface_InnerInterface.fromLambdas({
+    @required String Function(String) lambda_foo
+  }) => OuterInterface_InnerInterface$Lambdas(
+    lambda_foo
+  );
   void release() {}
   String foo(String input);
 }
@@ -78,6 +89,19 @@ final _smoke_OuterInterface_InnerInterface_get_type_id = __lib.nativeLibrary.loo
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerInterface_get_type_id');
+class OuterInterface_InnerInterface$Lambdas implements OuterInterface_InnerInterface {
+  String Function(String) lambda_foo;
+  OuterInterface_InnerInterface$Lambdas(
+    String Function(String) lambda_foo
+  ) {
+    this.lambda_foo = lambda_foo;
+  }
+  @override
+  void release() {}
+  @override
+  String foo(String input) =>
+    lambda_foo(input);
+}
 class OuterInterface_InnerInterface$Impl implements OuterInterface_InnerInterface {
   final Pointer<Void> handle;
   OuterInterface_InnerInterface$Impl(this.handle);
@@ -155,6 +179,19 @@ final _smoke_OuterInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_get_type_id');
+class OuterInterface$Lambdas implements OuterInterface {
+  String Function(String) lambda_foo;
+  OuterInterface$Lambdas(
+    String Function(String) lambda_foo
+  ) {
+    this.lambda_foo = lambda_foo;
+  }
+  @override
+  void release() {}
+  @override
+  String foo(String input) =>
+    lambda_foo(input);
+}
 class OuterInterface$Impl implements OuterInterface {
   final Pointer<Void> handle;
   OuterInterface$Impl(this.handle);
