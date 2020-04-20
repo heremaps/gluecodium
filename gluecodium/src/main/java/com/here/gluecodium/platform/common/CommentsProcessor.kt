@@ -32,8 +32,14 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 /**
  * Parse Markdown comments and process links.
  */
-abstract class CommentsProcessor(private val renderer: IRender) {
+abstract class CommentsProcessor(private val renderer: IRender, private val werror: Boolean) {
+    val hasError
+        get() = werror && hasErrorFlag
+    private var hasErrorFlag = false
+
     private val parser = Parser.builder(DataSet()).build()
+    private val logFunction: LimeLogger.(String, String) -> Unit =
+        if (werror) LimeLogger::error else LimeLogger::warning
 
     fun process(
         limeFullName: String,
@@ -54,7 +60,8 @@ abstract class CommentsProcessor(private val renderer: IRender) {
                     return@VisitHandler
                 }
             }
-            logger.warning(limeFullName, "Failed to resolve documentation reference [$reference]")
+            logger.logFunction(limeFullName, "Failed to resolve documentation reference [$reference]")
+            hasErrorFlag = true
         }
         val codeBlockHandler = VisitHandler(Code::class.java) {
             if (it.text.toString() == standardNullReference) {

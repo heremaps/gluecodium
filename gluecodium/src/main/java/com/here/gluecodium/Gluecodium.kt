@@ -176,6 +176,7 @@ class Gluecodium(
         var cppExport: String = DEFAULT_CPP_EXPORT_MACRO_NAME,
         var internalPrefix: String? = null,
         var libraryName: String = "library",
+        var werror: Set<String> = emptySet(),
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/cpp.properties"
@@ -192,7 +193,12 @@ class Gluecodium(
             Gluecodium::class.java,
             "/namerules/dart.properties"
         )
-    )
+    ) {
+        companion object {
+            const val WARNING_DOC_LINKS = "DocLinks"
+            const val WARNING_DART_OVERLOADS = "DartOverloads"
+        }
+    }
 
     companion object {
         private val LOGGER = Logger.getLogger(Gluecodium::class.java.name)

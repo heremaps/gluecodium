@@ -37,7 +37,7 @@ internal class LimeImportsValidator(private val logger: LimeLogger) {
         referenceMap: Map<String, LimeElement>
     ): Boolean {
         val unresolvedImports = imports.filterNot { referenceMap.containsKey(it.toString()) }
-        unresolvedImports.forEach { logger.error(fileName, "import '$it' cannot be resolved") }
+        unresolvedImports.forEach { logger.errorWithFileName(fileName, "import '$it' cannot be resolved") }
         return unresolvedImports.isEmpty()
     }
 }

@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.swift
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
@@ -52,7 +53,8 @@ import java.util.logging.Logger
 class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
-    private val commentsProcessor = SwiftCommentsProcessor()
+    private val commentsProcessor =
+        SwiftCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
     private val internalPrefix = options.internalPrefix
@@ -94,6 +96,10 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         swiftModel.containers.flatMap { it.allElementsRecursive }
             .filterIsInstance<SwiftModelElement>()
             .forEach { processElementComments(it, swiftModel.reverseReferenceMap, limeToSwiftName, limeLogger) }
+
+        if (commentsProcessor.hasError) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
 
         return swiftModel.containers.filter { it.childElements.isNotEmpty() }.map {
             GeneratedFile(

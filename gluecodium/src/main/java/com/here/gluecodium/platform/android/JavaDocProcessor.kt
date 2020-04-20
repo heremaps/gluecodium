@@ -27,7 +27,9 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 /**
  * Parse markdown comments and output JavaDoc
  */
-class JavaDocProcessor : CommentsProcessor(HtmlRenderer.builder().build()) {
+class JavaDocProcessor(werror: Boolean) :
+    CommentsProcessor(HtmlRenderer.builder().build(), werror) {
+
     override fun processLink(linkNode: LinkRef, linkReference: String) {
         linkNode.chars = BasedSequenceImpl.of("{@link $linkReference}")
         linkNode.firstChild.unlink()

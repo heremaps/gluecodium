@@ -75,19 +75,23 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val rootNamespace = options.cppRootNamespace
     private val internalNamespace = options.cppInternalNamespace
     private val internalPrefix = options.internalPrefix ?: ""
+    private val commentsProcessor =
+        DartCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+    private val overloadsWerror = options.werror.contains(Gluecodium.Options.WARNING_DART_OVERLOADS)
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        val dartNameResolver = DartNameResolver(
-            limeModel.referenceMap,
-            nameRules,
-            limeLogger
-        )
+        val dartNameResolver =
+            DartNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
         val filteredElements =
             LimeModelFilter { !it.attributes.have(DART, SKIP) }.filter(limeModel.topElements)
-        DartOverloadsValidator(dartNameResolver, limeLogger).validate(filteredElements)
+        val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
+            .validate(filteredElements)
+        if (!validationResult) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
@@ -123,13 +127,19 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        return filteredElements.flatMap {
+        val generatedFiles = filteredElements.flatMap {
             listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
                 exportsCollector, typeRepositoriesCollector)) + generateFfi(it, ffiResolvers, includeResolver)
         } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
             generateDartCommonFiles(exportsCollector, typeRepositoriesCollector, dartResolvers, importResolver) +
             generateFfiCommonFiles(ffiResolvers)
+
+        if (commentsProcessor.hasError) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
+
+        return generatedFiles
     }
 
     private fun generateDart(

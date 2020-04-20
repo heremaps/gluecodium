@@ -31,7 +31,10 @@ class LimeLogger(
     fun error(limeElement: LimeNamedElement, message: String) =
         log(Level.SEVERE, getFileName(limeElement), limeElement.fullName, message)
 
-    fun error(fileName: String, message: String) =
+    fun error(elementName: String, message: String) =
+        log(Level.SEVERE, getFileName(elementName), elementName, message)
+
+    fun errorWithFileName(fileName: String, message: String) =
         log(Level.SEVERE, fileName, null, message)
 
     fun warning(limeElement: LimeNamedElement, message: String) =
