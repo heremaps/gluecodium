@@ -43,18 +43,14 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
-import com.here.gluecodium.platform.common.CommentsProcessor
-import com.vladsch.flexmark.ast.LinkRef
-import com.vladsch.flexmark.formatter.Formatter
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 internal class DartNameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: NameRules,
-    private val limeLogger: LimeLogger
+    private val limeLogger: LimeLogger,
+    private val commentsProcessor: DartCommentsProcessor
 ) : NameResolver {
 
-    private val commentsProcessor = DartCommentsProcessor()
     private val joinInfix = nameRules.ruleSet.joinInfix ?: ""
     private val limeToDartNames = buildPathMap()
 
@@ -204,14 +200,5 @@ internal class DartNameResolver(
         result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveName(it) })
 
         return result
-    }
-
-    private class DartCommentsProcessor : CommentsProcessor(Formatter.builder().build()) {
-        override fun processLink(linkNode: LinkRef, linkReference: String) {
-            linkNode.reference = BasedSequenceImpl.of(linkReference)
-            linkNode.referenceOpeningMarker = BasedSequenceImpl.of("[")
-            linkNode.referenceClosingMarker = BasedSequenceImpl.of("]")
-            linkNode.firstChild.unlink()
-        }
     }
 }

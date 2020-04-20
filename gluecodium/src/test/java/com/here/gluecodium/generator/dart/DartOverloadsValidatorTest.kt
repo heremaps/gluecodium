@@ -58,7 +58,7 @@ class DartOverloadsValidatorTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        validator = DartOverloadsValidator(nameResolver, mockk(relaxed = true))
+        validator = DartOverloadsValidator(nameResolver, mockk(relaxed = true), true)
     }
 
     @Test

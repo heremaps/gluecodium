@@ -106,6 +106,13 @@ object OptionReader {
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
         addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
         addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
+        addOption(
+            "werror",
+            "warning-as-error",
+            true,
+            "Treat the specified validation warning type as an error. Possible values: " +
+                "${Gluecodium.Options.WARNING_DOC_LINKS}, ${Gluecodium.Options.WARNING_DART_OVERLOADS}."
+        )
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
         addOption("swiftnamerules", true, "Swift name rules property file.")
@@ -165,6 +172,7 @@ object OptionReader {
         getStringValue("cppexport")?.let { options.cppExport = it }
         getStringValue("internalprefix")?.let { options.internalPrefix = it }
         getStringValue("libraryname")?.let { options.libraryName = it }
+        getStringListValue("werror")?.let { options.werror = it.toSet() }
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
         options.javaNameRules =

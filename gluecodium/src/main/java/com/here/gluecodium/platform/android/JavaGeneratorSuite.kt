@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.android
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
@@ -57,7 +58,8 @@ open class JavaGeneratorSuite protected constructor(
     private val internalPackage = options.javaInternalPackages
     private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
-    private val commentsProcessor = JavaDocProcessor()
+    private val commentsProcessor =
+        JavaDocProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
     private val cppNameRules =
         CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
@@ -105,6 +107,10 @@ open class JavaGeneratorSuite protected constructor(
             combinedModel.reverseReferenceMap,
             limeModel
         )
+
+        if (commentsProcessor.hasError) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
 
         val javaTemplates = JavaTemplates(generatorName)
         val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements).toMutableList()

@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.baseapi
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
@@ -65,7 +66,8 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
-    private val commentsProcessor = DoxygenCommentsProcessor()
+    private val commentsProcessor =
+        DoxygenCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
     private val nameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
 
     override val name = "com.here.BaseApiGenerator"
@@ -112,6 +114,10 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         cppFiles.flatMap { it.members }.flatMap { it.allElementsRecursive.toList() }
             .filterIsInstance<CppElementWithComment>()
             .forEach { processElementComments(it, cppReverseReferenceMap, limeToCppName, limeLogger) }
+
+        if (commentsProcessor.hasError) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
 
         val helperModel = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
         return cppFiles.flatMap { generator.generateCode(it) } +

@@ -24,7 +24,9 @@ import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
-class DoxygenCommentsProcessor : CommentsProcessor(Formatter.builder().build()) {
+class DoxygenCommentsProcessor(werror: Boolean) :
+    CommentsProcessor(Formatter.builder().build(), werror) {
+
     override fun processLink(linkNode: LinkRef, linkReference: String) {
         linkNode.reference = BasedSequenceImpl.of(linkReference)
         // Doxygen documentation claims that \link classname Alternative title \endlink is the

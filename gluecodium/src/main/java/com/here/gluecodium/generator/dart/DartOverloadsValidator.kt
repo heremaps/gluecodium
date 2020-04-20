@@ -31,14 +31,18 @@ import com.here.gluecodium.model.lime.LimeNamedElement
  */
 internal class DartOverloadsValidator(
     private val nameResolver: DartNameResolver,
-    private val logger: LimeLogger
+    private val logger: LimeLogger,
+    private val werror: Boolean
 ) {
+    private val logFunction: LimeLogger.(LimeNamedElement, String) -> Unit =
+        if (werror) LimeLogger::error else LimeLogger::warning
+
     fun validate(limeElements: List<LimeNamedElement>): Boolean {
         val validationResults = limeElements
             .filterIsInstance<LimeContainerWithInheritance>()
             .map { validateContainer(it) }
 
-        return !validationResults.contains(false)
+        return !werror || !validationResults.contains(false)
     }
 
     private fun validateContainer(limeContainer: LimeContainerWithInheritance): Boolean {
@@ -50,7 +54,7 @@ internal class DartOverloadsValidator(
             .filter { it.value.size > 1 }
         overloadedFunctions.forEach { entry ->
             val pathsString = entry.value.map { it.path.toString() }.sorted().joinToString()
-            logger.warning(
+            logger.logFunction(
                 entry.value.first(),
                 "there is more than one function with '${entry.key}' name: $pathsString"
             )
@@ -65,7 +69,7 @@ internal class DartOverloadsValidator(
             } else {
                 "there is more than one constructor with '${entry.key}' name: $pathsString"
             }
-            logger.warning(entry.value.first(), warningText)
+            logger.logFunction(entry.value.first(), warningText)
         }
 
         return overloadedFunctions.isEmpty() && overloadedConstructors.isEmpty()

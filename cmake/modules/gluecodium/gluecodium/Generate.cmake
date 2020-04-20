@@ -94,7 +94,7 @@ function(apigen_generate)
       BUILD_OUTPUT_DIR
       DART_LIBRARY_NAME
       DART_NAMERULES)
-  set(multiValueArgs LIME_SOURCES FRANCA_SOURCES)
+  set(multiValueArgs LIME_SOURCES FRANCA_SOURCES WERROR)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
   list(APPEND apigen_generate_LIME_SOURCES ${apigen_generate_FRANCA_SOURCES})
@@ -145,6 +145,9 @@ function(apigen_generate)
       set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
     endif()
     string(APPEND APIGEN_GLUECODIUM_ARGS " -input \"${input}\"")
+  endforeach()
+  foreach(werror ${apigen_generate_WERROR})
+    string(APPEND APIGEN_GLUECODIUM_ARGS " -werror ${werror}")
   endforeach()
   _apigen_parse_option(--android-merge-manifest ANDROID_MERGE_MANIFEST)
   _apigen_parse_option(-javapackage JAVA_PACKAGE)
