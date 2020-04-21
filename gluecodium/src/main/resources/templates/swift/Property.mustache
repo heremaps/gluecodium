@@ -18,8 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/Comment}}
-{{^isInterface}}{{visibility}} {{/isInterface}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} {
+{{>swift/Comment}}{{#if isCached}}{{!!
+}}{{visibility}} private(set) {{#if isStatic}}static {{/if}}{{#unless isStatic}}lazy {{/unless}}{{!!
+}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} = {
+    {{#getter}}{{>swift/ParametersConversion}}{{/getter}}
+}(){{!!
+}}{{/if}}{{#unless isCached}}{{!!
+}}{{^isInterface}}{{visibility}} {{/isInterface}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}{{!!
+}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} {
 {{#getter}}
     get {
 {{prefixPartial 'swift/ParametersConversion' '        '}}
@@ -30,6 +36,6 @@
 {{prefixPartial 'swift/ParametersConversion' '        '}}
     }
 {{/setter}}
-}{{!!
+}{{/unless}}{{!!
 
 }}{{+setterVisibility}}{{#if setter}}{{#isNotEq visibility setter.visibility}}{{setter.visibility}}(set) {{/isNotEq}}{{/if}}{{/setterVisibility}}

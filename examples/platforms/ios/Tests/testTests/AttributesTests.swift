@@ -55,11 +55,35 @@ class AttributesTests: XCTestCase {
       XCTAssertEqual("fooBar", Attributes.staticAttribute)
     }
 
+    func testCachedProperty() {
+      let instance = CachedProperties()
+
+      XCTAssertEqual(0, instance.callCount)
+
+      let result1 = instance.cachedProperty
+      let result2 = instance.cachedProperty
+
+      XCTAssertEqual(1, instance.callCount)
+      XCTAssertEqual(["foo", "bar"], result1)
+    }
+
+    func testStaticCachedProperty() {
+      XCTAssertEqual(0, CachedProperties.staticCallCount)
+
+      let result1 = CachedProperties.staticCachedProperty
+      let result2 = CachedProperties.staticCachedProperty
+
+      XCTAssertEqual(1, CachedProperties.staticCallCount)
+      XCTAssertEqual(Data([0, 1, 2]), result1)
+    }
+
     static var allTests = [
         ("testBuiltInTypeAttribute", testBuiltInTypeAttribute),
         ("testReadonlyAttribute", testReadonlyAttribute),
         ("testStructAttribute", testStructAttribute),
         ("testStructArrayLiteralAttribute", testStructArrayLiteralAttribute),
-        ("testStaticAttribute", testStaticAttribute)
+        ("testStaticAttribute", testStaticAttribute),
+        ("testCachedProperty", testCachedProperty),
+        ("testStaticCachedProperty", testStaticCachedProperty)
     ]
 }

@@ -23,6 +23,7 @@ import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -373,12 +374,13 @@ class SwiftModelBuilder(
             } else null
 
         val property = SwiftProperty(
-            nameRules.getPropertyName(limeProperty),
-            propertyVisibility,
-            swiftType,
-            getterMethod,
-            swiftSetter,
-            limeProperty.isStatic
+            propertyName = nameRules.getPropertyName(limeProperty),
+            visibility = propertyVisibility,
+            type = swiftType,
+            getter = getterMethod,
+            setter = swiftSetter,
+            isStatic = limeProperty.isStatic,
+            isCached = limeProperty.attributes.have(CACHED)
         )
         property.comment = createComments(limeProperty)
 
