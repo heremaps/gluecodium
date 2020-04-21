@@ -99,6 +99,26 @@
 {{#if needsBuilder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
 {{/unless}}{{/if}}
-{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
+{{#methods}}{{#if isCached}}
+    private {{#if isStatic}}static {{/if}}{{returnType.name}} cache_{{name}};
+    private {{#if isStatic}}static {{/if}}boolean is_cached_{{name}} = false;
+
+{{prefixPartial "java/MethodComment" "    "}}
+{{#allAnnotations}}
+    @{{name}}
+{{/allAnnotations}}
+    {{#if visibility.toString}}{{visibility}} {{/if}}{{!!
+}}{{#if isStatic}}static {{/if}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}}) {
+        if (!is_cached_{{name}}) {
+            cache_{{name}} = {{name}}_private({{#parameters}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+            is_cached_{{name}} = true;
+        }
+        return cache_{{name}};
+    }
+
+    private {{#if isStatic}}static {{/if}}native {{returnType.name}} {{name}}_private{{!!
+}}({{joinPartial parameters "java/Parameter" ", "}});
+{{/if}}{{!!
+}}{{#unless isCached}}{{prefixPartial "java/MethodSignature" "    "}}{{/unless}}
 {{/methods}}
 }

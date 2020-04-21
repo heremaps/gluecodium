@@ -293,7 +293,8 @@ class JavaModelBuilder(
             returnType = javaType,
             returnComment = propertyComment,
             qualifiers = qualifiers,
-            isGetter = true
+            isGetter = true,
+            isCached = limeProperty.attributes.have(LimeAttributeType.CACHED)
         )
         addDeprecatedAnnotationIfNeeded(getterMethod)
 

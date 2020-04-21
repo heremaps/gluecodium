@@ -33,6 +33,7 @@ class JavaMethod(
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,
     val isGetter: Boolean = false,
+    val isCached: Boolean = false,
     qualifiers: Set<MethodQualifier> = EnumSet.noneOf(MethodQualifier::class.java),
     annotations: Set<JavaTypeRef> = emptySet()
 ) : JavaElement(name) {
@@ -66,6 +67,9 @@ class JavaMethod(
     override val childElements
         get() = listOfNotNull(returnType, exception) + parameters + super.childElements
 
+    val isStatic
+        get() = qualifiers.contains(MethodQualifier.STATIC)
+
     fun shallowCopy() = JavaMethod(
         name = name,
         comment = comment,
@@ -76,6 +80,7 @@ class JavaMethod(
         parameters = parameters,
         isConstructor = isConstructor,
         isGetter = isGetter,
+        isCached = isCached,
         qualifiers = qualifiers,
         annotations = annotations
     )
