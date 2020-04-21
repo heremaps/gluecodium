@@ -183,6 +183,8 @@ feature(Properties cpp android swift dart SOURCES
     src/test/AttributesInterfaceFactory.cpp
     src/test/AttributesImpl.h
     src/test/AttributesImpl.cpp
+    src/test/CachedPropertiesImpl.h
+    src/test/CachedPropertiesImpl.cpp
 
     lime/hello/HelloWorldAttributes.lime
     lime/test/Attributes.lime

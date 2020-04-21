@@ -27,6 +27,7 @@ enum class LimeAttributeType(
     JAVA("Java", LimeAttributeValueType.NAME),
     SWIFT("Swift", LimeAttributeValueType.NAME),
     DART("Dart", LimeAttributeValueType.NAME),
+    CACHED("Cached"),
     DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
     EQUATABLE("Equatable"),
     IMMUTABLE("Immutable"),
