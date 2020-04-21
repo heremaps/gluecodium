@@ -401,6 +401,24 @@ public final class EquatableTest {
     assertFalse(PointerEquatableClass.areEqual(oneStruct, otherStruct));
   }
 
+  @Test
+  public void equatableInterfaceEquals() {
+    EquatableInterface oneInterface = EquatableInterfaceFactory.createEquatableInterface("foo");
+    EquatableInterface otherInterface = EquatableInterfaceFactory.createEquatableInterface("foo");
+
+    assertEquals(oneInterface, otherInterface);
+    assertEquals(oneInterface.hashCode(), otherInterface.hashCode());
+  }
+
+  @Test
+  public void equatableInterfaceNotEquals() {
+    EquatableInterface oneInterface = EquatableInterfaceFactory.createEquatableInterface("foo");
+    EquatableInterface otherInterface = EquatableInterfaceFactory.createEquatableInterface("bar");
+
+    assertNotEquals(oneInterface, otherInterface);
+    assertNotEquals(oneInterface.hashCode(), otherInterface.hashCode());
+  }
+
   private static EquatableStruct createEquatableStruct() {
 
     Map<Integer, String> someMap = new HashMap<>();

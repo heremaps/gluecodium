@@ -414,7 +414,7 @@ class JavaModelBuilder(
     }
 
     private fun createJavaImplementationClass(
-        limeContainer: LimeContainerWithInheritance,
+        limeInterface: LimeInterface,
         javaInterface: JavaInterface,
         extendedClass: JavaTypeRef
     ): JavaClass {
@@ -425,14 +425,15 @@ class JavaModelBuilder(
             it.visibility = JavaVisibility.PUBLIC
         }
 
-        val implClassName = nameRules.getImplementationClassName(limeContainer)
+        val implClassName = nameRules.getImplementationClassName(limeInterface)
         val javaClass = JavaClass(
             name = implClassName,
-            classNames = nameResolver.getClassNames(limeContainer).dropLast(1) + implClassName,
+            classNames = nameResolver.getClassNames(limeInterface).dropLast(1) + implClassName,
             extendedClass = extendedClass,
             methods = classMethods,
             isImplClass = true,
-            needsDisposer = nativeBase == extendedClass
+            needsDisposer = nativeBase == extendedClass,
+            hasNativeEquatable = limeInterface.attributes.have(LimeAttributeType.EQUATABLE)
         )
         javaClass.visibility = JavaVisibility.PACKAGE
         javaClass.javaPackage = rootPackage
@@ -531,7 +532,7 @@ class JavaModelBuilder(
     private fun createComments(limeLambdaParameter: LimeLambdaParameter) =
         Comments(
             limeLambdaParameter.comment.getFor(PLATFORM_TAG),
-            limeLambdaParameter.attributes?.get(DEPRECATED, MESSAGE)
+            limeLambdaParameter.attributes.get(DEPRECATED, MESSAGE)
         )
 
     companion object {
