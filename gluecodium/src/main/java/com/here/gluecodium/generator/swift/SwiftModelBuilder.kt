@@ -162,6 +162,7 @@ class SwiftModelBuilder(
             nameSpace = limeContainer.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
+            hasEquatableType = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
             isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC),
             hasTypeRepository = true
         )

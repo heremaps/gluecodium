@@ -44,9 +44,17 @@ extension {{implName}}: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }{{/useParentCInstance}}{{!!
 
-}}{{#hasEquatableType}}
-extension {{name}}: Hashable {
-    public static func == (lhs: {{name}}, rhs: {{name}}) -> Bool {
+}}{{#if hasEquatableType}}
+{{#if isInterface}}
+public func ==(lhs: {{name}}, rhs: {{name}}) -> Bool {
+    guard let lhsImpl = lhs as? {{implName}} else { return lhs === rhs }
+    guard let rhsImpl = rhs as? {{implName}} else { return lhs === rhs }
+    return lhsImpl == rhsImpl
+}
+
+{{/if}}
+extension {{implName}}: Hashable {
+    public static func == (lhs: {{implName}}, rhs: {{implName}}) -> Bool {
         return {{cInstance}}_equal(lhs.c_handle, rhs.c_handle)
     }
 
@@ -54,7 +62,7 @@ extension {{name}}: Hashable {
         hasher.combine({{cInstance}}_hash(c_handle))
     }
 }
-{{/hasEquatableType}}
+{{/if}}
 
 internal func {{mangledName}}copyFromCType(_ handle: _baseRef) -> {{name}} {
 {{#if isInterface}}

@@ -180,6 +180,6 @@ interface EquatableInterface {
     property name: String { get }
 }
 
-internal class EquatableInterfaceFactory {
+class EquatableInterfaceFactory {
     static fun createEquatableInterface(name: String): EquatableInterface
 }
