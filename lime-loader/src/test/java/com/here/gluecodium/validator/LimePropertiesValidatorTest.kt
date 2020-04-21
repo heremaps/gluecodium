@@ -19,6 +19,8 @@
 
 package com.here.gluecodium.validator
 
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
@@ -39,27 +41,30 @@ import org.junit.runners.JUnit4
 class LimePropertiesValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
+    private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val limeModel = LimeModel(allElements, emptyList())
-    private val limeGetter = LimeFunction(EMPTY_PATH)
+    private val limeFunction = LimeFunction(EMPTY_PATH)
     private val limePropertyFoo = LimeProperty(
-        LimePath(emptyList(), listOf("foo")),
+        fooPath,
         typeRef = LimeBasicTypeRef.INT,
-        getter = limeGetter
+        getter = limeFunction
     )
     private val limePropertyBar = LimeProperty(
         LimePath(emptyList(), listOf("bar")),
         typeRef = LimeBasicTypeRef.INT,
-        getter = limeGetter
+        getter = limeFunction
     )
     private val limePropertyFoo2 = LimeProperty(
         LimePath(listOf("baz"), listOf("foo")),
         typeRef = LimeBasicTypeRef.INT,
-        getter = limeGetter
+        getter = limeFunction
     )
     private val limeContainerDoubleFoo = object : LimeContainerWithInheritance(
         EMPTY_PATH,
         properties = listOf(limePropertyFoo, limePropertyFoo2)
     ) {}
+    private val cachedAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.CACHED).build()
 
     private val validator = LimePropertiesValidator(mockk(relaxed = true))
 
@@ -115,6 +120,35 @@ class LimePropertiesValidatorTest {
             parent = LimeDirectTypeRef(limeContainerDoubleFoo),
             properties = listOf(limePropertyFoo)
         ) {}
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateCachedReadOnlyProperty() {
+        val limeProperty = LimeProperty(
+            path = fooPath,
+            typeRef = LimeBasicTypeRef.INT,
+            getter = limeFunction,
+            attributes = cachedAttributes
+        )
+        allElements[""] =
+            object : LimeContainerWithInheritance(EMPTY_PATH, properties = listOf(limeProperty)) {}
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateCachedReadWriteProperty() {
+        val limeProperty = LimeProperty(
+            path = fooPath,
+            typeRef = LimeBasicTypeRef.INT,
+            getter = limeFunction,
+            setter = limeFunction,
+            attributes = cachedAttributes
+        )
+        allElements[""] =
+            object : LimeContainerWithInheritance(EMPTY_PATH, properties = listOf(limeProperty)) {}
 
         assertFalse(validator.validate(limeModel))
     }

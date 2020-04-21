@@ -46,3 +46,10 @@ interface PropertiesInterface {
 
     property structProperty: ExampleStruct { get set }
 }
+
+class CachedProperties {
+    @Cached
+    property cachedProperty: List<String> { get }
+    @Cached
+    static property staticCachedProperty: Blob { get }
+}

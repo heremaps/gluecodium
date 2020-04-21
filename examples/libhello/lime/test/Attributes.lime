@@ -34,3 +34,14 @@ class Attributes {
         internal set
     }
 }
+
+class CachedProperties {
+    @Cached
+    property cachedProperty: List<String> { get }
+    @Cached
+    static property staticCachedProperty: Blob { get }
+
+    constructor create()
+    property callCount: UInt { get }
+    static property staticCallCount: UInt { get }
+}

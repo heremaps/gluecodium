@@ -20,6 +20,7 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeProperty
@@ -42,12 +43,21 @@ internal class LimePropertiesValidator(private val logger: LimeLogger) {
             .contains(false)
     }
 
-    private fun validateProperty(limeProperty: LimeProperty, allPropertyNames: List<String>) =
-        when {
+    private fun validateProperty(limeProperty: LimeProperty, allPropertyNames: List<String>): Boolean {
+        val overloadsValidationResult = when {
             allPropertyNames.filter { it == limeProperty.name }.size > 1 -> {
                 logger.error(limeProperty, "property has conflicting overloads")
                 false
             }
             else -> true
         }
+        val attributesValidationResult = when {
+            limeProperty.attributes.have(CACHED) && limeProperty.setter != null -> {
+                logger.error(limeProperty, "read-write property cannot be @Cached")
+                false
+            }
+            else -> true
+        }
+        return overloadsValidationResult && attributesValidationResult
+    }
 }
