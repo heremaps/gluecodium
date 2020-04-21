@@ -8,7 +8,8 @@
   * Added support for creating an interface implementation directly from a set of lambdas in Dart.
   * Added `-werror` command line parameter to support elevating specific validation warnings to
     errors. Current supported warning types are `DocLinks` and `DartOverloads`.
-  * Added support for @Equatable attribute on interface declarations in IDL.
+  * Added support for `@Equatable` attribute on interface declarations in IDL.
+  * Added support for `@Cached` attribute on read-only property declarations in IDL.
 
 ## 6.5.0
 Release date: 2020-04-16

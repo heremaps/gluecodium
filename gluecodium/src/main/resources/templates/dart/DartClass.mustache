@@ -109,9 +109,11 @@ class {{resolveName}}$Impl{{!!
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/inheritedFunctions}}{{/instanceOf}}{{/if}}{{/set}}
-{{#set override=true skipDocs=true}}{{#properties}}
+{{#set override=true skipDocs=true}}{{#properties}}{{#ifHasAttribute "Cached"}}
+{{prefixPartial "dartCachedProperty" "  "}}
+{{/ifHasAttribute}}{{#unlessHasAttribute "Cached"}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/properties}}
+{{/unlessHasAttribute}}{{/properties}}
 {{#inheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/inheritedProperties}}{{/set}}
@@ -172,4 +174,25 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 {{#if isStatic}}static {{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
 }}{{#if isStatic}} { {{resolveName parent}}$Impl.{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
 {{/setter}}
-{{/dartPropertyRedirect}}
+{{/dartPropertyRedirect}}{{!!
+
+}}{{+dartCachedProperty}}
+{{#if isStatic}}static {{/if}}{{resolveName typeRef}} _cache_{{resolveName}};
+{{#if isStatic}}static {{/if}}bool _is_cached_{{resolveName}} = false;
+{{#unless isStatic}}@override
+{{/unless}}
+{{#if isStatic}}static {{/if}}{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
+  if (!_is_cached_{{resolveName}}) {
+    final _{{resolveName getter}}_ffi = __lib.nativeLibrary.lookupFunction<{{!!
+    }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!
+    }}{{resolveName typeRef "FfiDartTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}int)>{{!!
+    }}('{{libraryName}}_{{resolveName getter "Ffi"}}');
+    final __result_handle = _{{resolveName getter}}_ffi({{!!
+    }}{{#unless isStatic}}this.handle, {{/unless}}__lib.LibraryContext.isolateId);
+    _cache_{{resolveName}} = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+    _is_cached_{{resolveName}} = true;
+  }
+  return _cache_{{resolveName}};
+}
+{{/dartCachedProperty}}
