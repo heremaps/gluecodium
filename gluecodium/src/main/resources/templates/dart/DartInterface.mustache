@@ -97,6 +97,7 @@ final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
+{{#ifHasAttribute "Equatable"}}{{>dart/DartFfiEqualityFunction}}{{/ifHasAttribute}}
 final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -184,6 +185,9 @@ class {{resolveName}}$Impl {{#if parent}}extends {{resolveName parent}}$Impl {{/
 {{#properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/properties}}
+{{#ifHasAttribute "Equatable"}}{{#set self=this nameSuffix="$Impl"}}{{#self}}{{!!
+}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{!!
+}}{{/self}}{{/set}}{{/ifHasAttribute}}
 }
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}
