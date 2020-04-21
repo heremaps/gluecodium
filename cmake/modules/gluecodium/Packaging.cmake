@@ -205,7 +205,7 @@ function(apigen_create_package)
 
     if(ARG_EXTRA_SOURCE_DIR)
       file(GLOB_RECURSE extra_sources ${ARG_EXTRA_SOURCE_DIR}/*.swift)
-      target_sources(${ARG_TARGET} "${extra_sources}")
+      target_sources(${ARG_TARGET} PRIVATE "${extra_sources}")
     endif()
 
     # Fixup dependency paths so the loader can find the proper libraries.
