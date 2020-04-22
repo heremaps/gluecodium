@@ -274,9 +274,11 @@ class JniModelBuilder(
         val javaGetter = javaMethods.first()
         val cppGetter = cppMethods.first()
         val getterTypeRef = limeProperty.getter.returnType.typeRef
+        val javaMethodName =
+            getMangledName(javaGetter.name + if (javaGetter.isCached) "_private" else "")
         storeResult(
             JniMethod(
-                javaMethodName = getMangledName(javaGetter.name),
+                javaMethodName = javaMethodName,
                 cppMethodName = cppGetter.name,
                 returnType = JniType(
                     javaGetter.returnType,

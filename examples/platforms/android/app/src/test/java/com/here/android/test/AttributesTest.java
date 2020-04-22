@@ -24,6 +24,7 @@ import static junit.framework.Assert.assertNotNull;
 import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -66,5 +67,38 @@ public class AttributesTest {
     Attributes.setStaticAttribute("fooBar");
 
     assertEquals("fooBar", Attributes.getStaticAttribute());
+  }
+
+  @Test
+  public void getCachedProperty() {
+    final CachedProperties instance = new CachedProperties();
+
+    assertEquals(0, instance.getCallCount());
+
+    final List<String> result1 = instance.getCachedProperty();
+    final List<String> result2 = instance.getCachedProperty();
+
+    assertEquals(1, instance.getCallCount());
+
+    assertNotNull(result1);
+    assertEquals(2, result1.size());
+    assertEquals("foo", result1.get(0));
+    assertEquals("bar", result1.get(1));
+  }
+
+  @Test
+  public void getStaticCachedProperty() {
+    assertEquals(0, CachedProperties.getStaticCallCount());
+
+    final byte[] result1 = CachedProperties.getStaticCachedProperty();
+    final byte[] result2 = CachedProperties.getStaticCachedProperty();
+
+    assertEquals(1, CachedProperties.getStaticCallCount());
+
+    assertNotNull(result1);
+    assertEquals(3, result1.length);
+    assertEquals(0, result1[0]);
+    assertEquals(1, result1[1]);
+    assertEquals(2, result1[2]);
   }
 }
