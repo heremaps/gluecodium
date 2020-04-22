@@ -45,12 +45,14 @@ function(_generate)
 
     if(APIGEN_COMMON_OUTPUT_DIR)
         set(_common_output_dir ${APIGEN_COMMON_OUTPUT_DIR})
+        set(_lock_directory ${APIGEN_COMMON_OUTPUT_DIR})
     else()
         set(_common_output_dir .)
+        set(_lock_directory ${APIGEN_OUTPUT_DIR})
     endif()
 
-    message ("Using locking file to generate sources: ${_common_output_dir}-lock.cmake")
-    file (LOCK ${_common_output_dir}-lock.cmake TIMEOUT 3600)
+    message ("Using locking file to generate sources: ${_lock_directory}-lock.cmake")
+    file (LOCK ${_lock_directory}-lock.cmake TIMEOUT 3600)
 
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
