@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 6.6.0
+Release date: 2020-04-22
 ### Features:
   * Added support for `Skip` platform-specific attribute in IDL (e.g. `@Java(Skip)`, `@Swift(Skip)`,
     or `@Dart(Skip)`). Elements marked with this attribute will be omitted in that platform's
@@ -10,6 +11,9 @@
     errors. Current supported warning types are `DocLinks` and `DartOverloads`.
   * Added support for `@Equatable` attribute on interface declarations in IDL.
   * Added support for `@Cached` attribute on read-only property declarations in IDL.
+### Bug fixes:
+  * Fixed Windows build issue in CMake helpers.
+  * Fixed Java memory issue in CMake helpers.
 
 ## 6.5.0
 Release date: 2020-04-16
