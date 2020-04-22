@@ -25,7 +25,8 @@ class SwiftProperty(
     type: SwiftType,
     val getter: SwiftMethod,
     val setter: SwiftMethod?,
-    val isStatic: Boolean
+    val isStatic: Boolean,
+    val isCached: Boolean = false
 ) : SwiftTypedModelElement(propertyName, visibility, type) {
 
     override val childElements
