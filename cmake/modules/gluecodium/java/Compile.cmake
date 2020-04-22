@@ -50,24 +50,45 @@ cmake_minimum_required(VERSION 3.5)
 
 find_package(Java COMPONENTS Development REQUIRED)
 
-function(collect_dependencies TARGET DEPENDENCY_LIST)
+function(collect_java_dependencies TARGET JAVA_DEPENDENCIES JAVA_DEPENDENCIES_DIRS)
+  if(${TARGET} IN_LIST java_deps_visited)
+      return()
+  endif()
+  list(APPEND java_deps_visited "${TARGET}")
+
   get_target_property(interface_libs ${TARGET} INTERFACE_LINK_LIBRARIES)
   # CMake doesn't want us to ask INTERFACE_LIBRARY targets for arbitrary properties,
   # instead of just returning it's not defined it fails because it's not whitelisted
   # for INTERFACE_LIBRARY. So we have to do an additional check before the real check.
   get_target_property(target_type ${TARGET} TYPE)
-  if(target_type STREQUAL "INTERFACE_LIBRARY")
-    set(link_libs)
-  else()
+
+  unset(java_deps)
+  unset(java_dep_dirs)
+  unset(link_libs)
+
+  if(NOT target_type STREQUAL "INTERFACE_LIBRARY")
     get_target_property(link_libs ${TARGET} LINK_LIBRARIES)
+    get_target_property(java_output ${TARGET} APIGEN_JAVA_JAR_OUTPUT_DIR)
+    if (java_output)
+      list(APPEND java_deps ${TARGET})
+      list(APPEND java_dep_dirs ${java_output})
+    endif()
   endif()
+
   foreach(lib ${interface_libs} ${link_libs})
       if(TARGET ${lib})
-          list(APPEND DEPENDENCIES ${lib})
-          collect_dependencies(${lib} DEPENDENCIES)
+          collect_java_dependencies(${lib} java_deps java_dep_dirs)
       endif()
   endforeach()
-  set(${DEPENDENCY_LIST} "${${DEPENDENCY_LIST}};${DEPENDENCIES}" PARENT_SCOPE)
+
+  set(java_deps_visited "${java_deps_visited}" PARENT_SCOPE)
+
+  if (java_deps)
+    set(${JAVA_DEPENDENCIES} "${${JAVA_DEPENDENCIES}};${java_deps}" PARENT_SCOPE)
+  endif()
+  if (java_dep_dirs)
+    set(${JAVA_DEPENDENCIES_DIRS} "${${JAVA_DEPENDENCIES_DIRS}};${java_dep_dirs}" PARENT_SCOPE)
+  endif()
 endfunction()
 
 function(collect_java_source_dirs TARGET SOURCE_DIRS)
@@ -121,20 +142,9 @@ function(apigen_java_compile)
     list(APPEND APIGEN_JAVA_LOCAL_JARS "${local_jars}")
   endforeach()
 
-  collect_dependencies(${apigen_java_compile_TARGET} DEPENDENCIES)
-  foreach(dep ${DEPENDENCIES})
-    # CMake doesn't want us to ask INTERFACE_LIBRARY targets for arbitrary properties,
-    # instead of just returning it's not defined it fails because it's not whitelisted
-    # for INTERFACE_LIBRARY. So we have to do an additional check before the real check.
-    get_target_property(dependency_type ${dep} TYPE)
-    if(NOT dependency_type STREQUAL "INTERFACE_LIBRARY")
-      get_target_property(java_output ${dep} APIGEN_JAVA_JAR_OUTPUT_DIR)
-      if (java_output)
-        list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES ${dep})
-        list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS ${java_output})
-      endif()
-    endif()
-  endforeach()
+  collect_java_dependencies(${apigen_java_compile_TARGET}
+      APIGEN_JAVA_LOCAL_DEPENDENCIES
+      APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS)
 
   foreach(remote_dependencies ${apigen_java_compile_REMOTE_DEPENDENCIES})
     list(APPEND APIGEN_JAVA_REMOTE_DEPENDENCIES "${remote_dependencies}")
