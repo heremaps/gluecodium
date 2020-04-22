@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+import "dart:typed_data";
 import "package:test/test.dart";
 import "package:hello/test.dart";
 import "../test_suite.dart";
@@ -66,5 +67,27 @@ void main() {
     final result = attributes.arrayAttribute;
 
     expect(result, equals(["foo", "bar"]));
+  });
+  _testSuite.test("Cached property", () {
+    final instance = CachedProperties();
+
+    expect(instance.callCount, 0);
+
+    final result1 = instance.cachedProperty;
+    final result2 = instance.cachedProperty;
+
+    expect(instance.callCount, 1);
+    expect(result1, equals(["foo", "bar"]));
+
+    instance.release();
+  });
+  _testSuite.test("Static cached property", () {
+    expect(CachedProperties.staticCallCount, 0);
+
+    final result1 = CachedProperties.staticCachedProperty;
+    final result2 = CachedProperties.staticCachedProperty;
+
+    expect(CachedProperties.staticCallCount, 1);
+    expect(result1, Uint8List.fromList([0, 1, 2]));
   });
 }
