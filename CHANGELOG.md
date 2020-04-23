@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added referential integrity in generated Java code. Meaning, when the same C++ object is passed
+    twice to Java side, it is not guaranteed to be the same object on Java side as well.
+
 ## 6.6.0
 Release date: 2020-04-22
 ### Features:

@@ -26,6 +26,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniWrapperCache.h"
 #include <new>
 
 {{#internalNamespace}}
@@ -93,10 +94,10 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
     JniReference<jobject> jResult;
 {{/if}}{{#unless isFunctionalInterface}}
     auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject( _ninput.get( ) );
-    if ( jResult )
-    {
-        return jResult;
-    }
+    if (jResult) return jResult;
+
+    jResult = {{>common/InternalNamespace}}jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
+    if (jResult) return jResult;
 {{/unless}}
 
 {{#if hasTypeRepository}}
@@ -113,6 +114,9 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
     }
     jResult = {{>common/InternalNamespace}}jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+{{#unless isFunctionalInterface}}
+    {{>common/InternalNamespace}}jni::JniWrapperCache::cache_wrapper(_jenv, _ninput, jResult);
+{{/unless}}
 
     return jResult;
 }

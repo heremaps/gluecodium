@@ -6,11 +6,14 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 JNIEXPORT void JNICALL
 Java_com_example_smoke_PointerEquatableClass_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::smoke::PointerEquatableClass>*> (_jpointerRef);
+    auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::PointerEquatableClass>*>(_jpointerRef);
+    ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
 }
 jboolean
 Java_com_example_smoke_PointerEquatableClass_equals(JNIEnv* _jenv, jobject _jinstance, jobject jrhs)

@@ -26,6 +26,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 
 extern "C" {
 
@@ -63,8 +64,13 @@ extern "C" {
 JNIEXPORT void JNICALL
 Java_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-{{#unless isFunctionalInterface}}    delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);{{/unless}}
-{{#if isFunctionalInterface}}    delete reinterpret_cast<{{cppFullyQualifiedName}}*>(_jpointerRef);{{/if}}
+{{#unless isFunctionalInterface}}
+    auto p_nobj = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*>(_jpointerRef);
+    {{>common/InternalNamespace}}jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
+{{/unless}}{{#if isFunctionalInterface}}
+    delete reinterpret_cast<{{cppFullyQualifiedName}}*>(_jpointerRef);
+{{/if}}
 }
 {{/instanceOf}}
 {{#hasNativeEquatable}}

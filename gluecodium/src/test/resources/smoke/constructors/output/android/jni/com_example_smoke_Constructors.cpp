@@ -7,6 +7,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 jlong
 Java_com_example_smoke_Constructors_create__(JNIEnv* _jenv, jobject _jinstance)
@@ -101,6 +102,8 @@ Java_com_example_smoke_Constructors_create__Ljava_util_List_2(JNIEnv* _jenv, job
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Constructors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::smoke::Constructors>*> (_jpointerRef);
+    auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(_jpointerRef);
+    ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
 }
 }

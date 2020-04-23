@@ -6,6 +6,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniWrapperCache.h"
 extern "C" {
 void
 Java_com_example_smoke_ExternalInterfaceImpl_someMethod(JNIEnv* _jenv, jobject _jinstance, jbyte jsomeParameter)
@@ -34,6 +35,8 @@ Java_com_example_smoke_ExternalInterfaceImpl_getSomeProperty(JNIEnv* _jenv, jobj
 JNIEXPORT void JNICALL
 Java_com_example_smoke_ExternalInterfaceImpl_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*> (_jpointerRef);
+    auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*>(_jpointerRef);
+    ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+    delete p_nobj;
 }
 }
