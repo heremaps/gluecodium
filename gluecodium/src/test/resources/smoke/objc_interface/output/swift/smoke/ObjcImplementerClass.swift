@@ -32,15 +32,25 @@ extension ObjcImplementerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ObjcImplementerClass_copyFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
+    if let swift_pointer = smoke_ObjcImplementerClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcImplementerClass {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ObjcImplementerClass_get_typed(smoke_ObjcImplementerClass_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcImplementerClass {
+        smoke_ObjcImplementerClass_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
 internal func ObjcImplementerClass_moveFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
+    if let swift_pointer = smoke_ObjcImplementerClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcImplementerClass {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ObjcImplementerClass_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcImplementerClass {
+        smoke_ObjcImplementerClass_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

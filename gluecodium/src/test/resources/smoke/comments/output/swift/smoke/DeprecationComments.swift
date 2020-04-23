@@ -101,8 +101,13 @@ internal func DeprecationComments_copyFromCType(_ handle: _baseRef) -> Deprecati
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationComments {
         return re_constructed
     }
+    if let swift_pointer = smoke_DeprecationComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationComments {
+        return re_constructed
+    }
     if let swift_pointer = smoke_DeprecationComments_get_typed(smoke_DeprecationComments_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? DeprecationComments {
+        smoke_DeprecationComments_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -113,8 +118,13 @@ internal func DeprecationComments_moveFromCType(_ handle: _baseRef) -> Deprecati
         smoke_DeprecationComments_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_DeprecationComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationComments {
+        return re_constructed
+    }
     if let swift_pointer = smoke_DeprecationComments_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? DeprecationComments {
+        smoke_DeprecationComments_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

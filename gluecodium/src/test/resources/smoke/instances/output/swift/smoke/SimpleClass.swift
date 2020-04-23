@@ -33,10 +33,22 @@ extension SimpleClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func SimpleClass_copyFromCType(_ handle: _baseRef) -> SimpleClass {
-    return SimpleClass(cSimpleClass: smoke_SimpleClass_copy_handle(handle))
+    if let swift_pointer = smoke_SimpleClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleClass {
+        return re_constructed
+    }
+    let result = SimpleClass(cSimpleClass: smoke_SimpleClass_copy_handle(handle))
+    smoke_SimpleClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SimpleClass_moveFromCType(_ handle: _baseRef) -> SimpleClass {
-    return SimpleClass(cSimpleClass: handle)
+    if let swift_pointer = smoke_SimpleClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleClass {
+        return re_constructed
+    }
+    let result = SimpleClass(cSimpleClass: handle)
+    smoke_SimpleClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SimpleClass_copyFromCType(_ handle: _baseRef) -> SimpleClass? {
     guard handle != 0 else {

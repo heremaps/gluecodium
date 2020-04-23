@@ -225,7 +225,9 @@ class CBridgeGenerator(
             GeneratorSuite.copyCommonFile(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""
             ),
-            GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, "")
+            GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, ""),
+            GeneratorSuite.copyCommonFile(CBridgeComponents.WRAPPER_CACHE_HEADER, ""),
+            GeneratorSuite.copyCommonFile(CBridgeComponents.WRAPPER_CACHE_IMPL, "")
         )
 
         private fun generateHeaderContent(model: CInterface) =

@@ -121,10 +121,22 @@ extension Properties: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Properties_copyFromCType(_ handle: _baseRef) -> Properties {
-    return Properties(cProperties: smoke_Properties_copy_handle(handle))
+    if let swift_pointer = smoke_Properties_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Properties {
+        return re_constructed
+    }
+    let result = Properties(cProperties: smoke_Properties_copy_handle(handle))
+    smoke_Properties_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Properties_moveFromCType(_ handle: _baseRef) -> Properties {
-    return Properties(cProperties: handle)
+    if let swift_pointer = smoke_Properties_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Properties {
+        return re_constructed
+    }
+    let result = Properties(cProperties: handle)
+    smoke_Properties_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Properties_copyFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {

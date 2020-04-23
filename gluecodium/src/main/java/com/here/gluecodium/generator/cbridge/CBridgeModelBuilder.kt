@@ -117,6 +117,7 @@ class CBridgeModelBuilder(
         }
         cInterface.implementationIncludes.add(cppIncludeResolver.typeRepositoryInclude)
         cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeNameRules.TYPE_INIT_REPOSITORY))
+        cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeComponents.WRAPPER_CACHE_HEADER))
 
         storeResult(cInterface)
         closeContext()

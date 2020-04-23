@@ -74,10 +74,22 @@ extension BasicTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes {
-    return BasicTypes(cBasicTypes: smoke_BasicTypes_copy_handle(handle))
+    if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {
+        return re_constructed
+    }
+    let result = BasicTypes(cBasicTypes: smoke_BasicTypes_copy_handle(handle))
+    smoke_BasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes {
-    return BasicTypes(cBasicTypes: handle)
+    if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {
+        return re_constructed
+    }
+    let result = BasicTypes(cBasicTypes: handle)
+    smoke_BasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes? {
     guard handle != 0 else {

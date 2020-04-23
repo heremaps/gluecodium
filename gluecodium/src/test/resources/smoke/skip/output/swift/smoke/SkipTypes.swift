@@ -44,10 +44,22 @@ extension SkipTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func SkipTypes_copyFromCType(_ handle: _baseRef) -> SkipTypes {
-    return SkipTypes(cSkipTypes: smoke_SkipTypes_copy_handle(handle))
+    if let swift_pointer = smoke_SkipTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SkipTypes {
+        return re_constructed
+    }
+    let result = SkipTypes(cSkipTypes: smoke_SkipTypes_copy_handle(handle))
+    smoke_SkipTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SkipTypes_moveFromCType(_ handle: _baseRef) -> SkipTypes {
-    return SkipTypes(cSkipTypes: handle)
+    if let swift_pointer = smoke_SkipTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SkipTypes {
+        return re_constructed
+    }
+    let result = SkipTypes(cSkipTypes: handle)
+    smoke_SkipTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SkipTypes_copyFromCType(_ handle: _baseRef) -> SkipTypes? {
     guard handle != 0 else {

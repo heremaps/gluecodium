@@ -52,10 +52,22 @@ extension EquatableClass: Hashable {
     }
 }
 internal func EquatableClass_copyFromCType(_ handle: _baseRef) -> EquatableClass {
-    return EquatableClass(cEquatableClass: smoke_EquatableClass_copy_handle(handle))
+    if let swift_pointer = smoke_EquatableClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EquatableClass {
+        return re_constructed
+    }
+    let result = EquatableClass(cEquatableClass: smoke_EquatableClass_copy_handle(handle))
+    smoke_EquatableClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func EquatableClass_moveFromCType(_ handle: _baseRef) -> EquatableClass {
-    return EquatableClass(cEquatableClass: handle)
+    if let swift_pointer = smoke_EquatableClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EquatableClass {
+        return re_constructed
+    }
+    let result = EquatableClass(cEquatableClass: handle)
+    smoke_EquatableClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func EquatableClass_copyFromCType(_ handle: _baseRef) -> EquatableClass? {
     guard handle != 0 else {

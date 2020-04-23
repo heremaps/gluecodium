@@ -42,10 +42,22 @@ extension Lambdas: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Lambdas_copyFromCType(_ handle: _baseRef) -> Lambdas {
-    return Lambdas(cLambdas: smoke_Lambdas_copy_handle(handle))
+    if let swift_pointer = smoke_Lambdas_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Lambdas {
+        return re_constructed
+    }
+    let result = Lambdas(cLambdas: smoke_Lambdas_copy_handle(handle))
+    smoke_Lambdas_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Lambdas_moveFromCType(_ handle: _baseRef) -> Lambdas {
-    return Lambdas(cLambdas: handle)
+    if let swift_pointer = smoke_Lambdas_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Lambdas {
+        return re_constructed
+    }
+    let result = Lambdas(cLambdas: handle)
+    smoke_Lambdas_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Lambdas_copyFromCType(_ handle: _baseRef) -> Lambdas? {
     guard handle != 0 else {

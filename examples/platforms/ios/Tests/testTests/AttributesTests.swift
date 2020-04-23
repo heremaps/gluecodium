@@ -61,7 +61,7 @@ class AttributesTests: XCTestCase {
       XCTAssertEqual(0, instance.callCount)
 
       let result1 = instance.cachedProperty
-      let result2 = instance.cachedProperty
+      let _ = instance.cachedProperty
 
       XCTAssertEqual(1, instance.callCount)
       XCTAssertEqual(["foo", "bar"], result1)
@@ -71,7 +71,7 @@ class AttributesTests: XCTestCase {
       XCTAssertEqual(0, CachedProperties.staticCallCount)
 
       let result1 = CachedProperties.staticCachedProperty
-      let result2 = CachedProperties.staticCachedProperty
+      let _ = CachedProperties.staticCachedProperty
 
       XCTAssertEqual(1, CachedProperties.staticCallCount)
       XCTAssertEqual(Data([0, 1, 2]), result1)

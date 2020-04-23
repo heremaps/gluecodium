@@ -76,10 +76,22 @@ extension Enums: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums {
-    return Enums(cEnums: smoke_Enums_copy_handle(handle))
+    if let swift_pointer = smoke_Enums_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Enums {
+        return re_constructed
+    }
+    let result = Enums(cEnums: smoke_Enums_copy_handle(handle))
+    smoke_Enums_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums {
-    return Enums(cEnums: handle)
+    if let swift_pointer = smoke_Enums_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Enums {
+        return re_constructed
+    }
+    let result = Enums(cEnums: handle)
+    smoke_Enums_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums? {
     guard handle != 0 else {

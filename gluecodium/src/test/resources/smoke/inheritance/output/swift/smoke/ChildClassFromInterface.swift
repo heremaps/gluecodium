@@ -46,15 +46,25 @@ extension ChildClassFromInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
+    if let swift_pointer = smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ChildClassFromInterface_get_typed(smoke_ChildClassFromInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromInterface {
+        smoke_ChildClassFromInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
 internal func ChildClassFromInterface_moveFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
+    if let swift_pointer = smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ChildClassFromInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromInterface {
+        smoke_ChildClassFromInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

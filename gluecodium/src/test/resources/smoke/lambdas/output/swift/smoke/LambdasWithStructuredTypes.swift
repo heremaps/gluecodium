@@ -36,10 +36,22 @@ extension LambdasWithStructuredTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func LambdasWithStructuredTypes_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes {
-    return LambdasWithStructuredTypes(cLambdasWithStructuredTypes: smoke_LambdasWithStructuredTypes_copy_handle(handle))
+    if let swift_pointer = smoke_LambdasWithStructuredTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasWithStructuredTypes {
+        return re_constructed
+    }
+    let result = LambdasWithStructuredTypes(cLambdasWithStructuredTypes: smoke_LambdasWithStructuredTypes_copy_handle(handle))
+    smoke_LambdasWithStructuredTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LambdasWithStructuredTypes_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes {
-    return LambdasWithStructuredTypes(cLambdasWithStructuredTypes: handle)
+    if let swift_pointer = smoke_LambdasWithStructuredTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasWithStructuredTypes {
+        return re_constructed
+    }
+    let result = LambdasWithStructuredTypes(cLambdasWithStructuredTypes: handle)
+    smoke_LambdasWithStructuredTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LambdasWithStructuredTypes_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes? {
     guard handle != 0 else {

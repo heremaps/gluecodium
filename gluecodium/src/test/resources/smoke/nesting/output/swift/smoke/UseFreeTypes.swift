@@ -36,10 +36,22 @@ extension UseFreeTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func UseFreeTypes_copyFromCType(_ handle: _baseRef) -> UseFreeTypes {
-    return UseFreeTypes(cUseFreeTypes: smoke_UseFreeTypes_copy_handle(handle))
+    if let swift_pointer = smoke_UseFreeTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseFreeTypes {
+        return re_constructed
+    }
+    let result = UseFreeTypes(cUseFreeTypes: smoke_UseFreeTypes_copy_handle(handle))
+    smoke_UseFreeTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func UseFreeTypes_moveFromCType(_ handle: _baseRef) -> UseFreeTypes {
-    return UseFreeTypes(cUseFreeTypes: handle)
+    if let swift_pointer = smoke_UseFreeTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseFreeTypes {
+        return re_constructed
+    }
+    let result = UseFreeTypes(cUseFreeTypes: handle)
+    smoke_UseFreeTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func UseFreeTypes_copyFromCType(_ handle: _baseRef) -> UseFreeTypes? {
     guard handle != 0 else {

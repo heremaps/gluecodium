@@ -24,15 +24,25 @@ internal func getRef(_ ref: ChildClassFromClass?, owning: Bool = true) -> RefHol
         : RefHolder(handle_copy)
 }
 internal func ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass {
+    if let swift_pointer = smoke_ChildClassFromClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromClass {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ChildClassFromClass_get_typed(smoke_ChildClassFromClass_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromClass {
+        smoke_ChildClassFromClass_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
 internal func ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass {
+    if let swift_pointer = smoke_ChildClassFromClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromClass {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ChildClassFromClass_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildClassFromClass {
+        smoke_ChildClassFromClass_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

@@ -67,8 +67,13 @@ internal func ExternalInterface_copyFromCType(_ handle: _baseRef) -> ExternalInt
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_ExternalInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ExternalInterface_get_typed(smoke_ExternalInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ExternalInterface {
+        smoke_ExternalInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -79,8 +84,13 @@ internal func ExternalInterface_moveFromCType(_ handle: _baseRef) -> ExternalInt
         smoke_ExternalInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_ExternalInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ExternalInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ExternalInterface {
+        smoke_ExternalInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

@@ -175,8 +175,13 @@ internal func ListenerWithProperties_copyFromCType(_ handle: _baseRef) -> Listen
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithProperties {
         return re_constructed
     }
+    if let swift_pointer = smoke_ListenerWithProperties_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithProperties {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ListenerWithProperties_get_typed(smoke_ListenerWithProperties_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ListenerWithProperties {
+        smoke_ListenerWithProperties_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -187,8 +192,13 @@ internal func ListenerWithProperties_moveFromCType(_ handle: _baseRef) -> Listen
         smoke_ListenerWithProperties_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_ListenerWithProperties_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithProperties {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ListenerWithProperties_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ListenerWithProperties {
+        smoke_ListenerWithProperties_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

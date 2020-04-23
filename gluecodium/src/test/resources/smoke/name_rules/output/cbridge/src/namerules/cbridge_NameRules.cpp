@@ -5,17 +5,32 @@
 #include "cbridge/include/namerules/cbridge_NameRules.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
+#include "cbridge_internal/include/WrapperCache.h"
 #include "namerules/NameRules.h"
 #include <memory>
 #include <new>
 #include <vector>
 void namerules_NameRules_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::namerules::NameRules>>(handle);
+    auto ptr_ptr = get_pointer<std::shared_ptr<::namerules::NameRules>>(handle);
+    auto& wrapper_cache = get_wrapper_cache();
+    if (wrapper_cache_is_alive) {
+        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
+    }
+    delete ptr_ptr;
 }
 _baseRef namerules_NameRules_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::namerules::NameRules>>(handle)))
         : 0;
+}
+const void* namerules_NameRules_get_swift_object_from_wrapper_cache(_baseRef handle) {
+    return handle
+        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::namerules::NameRules>>(handle)->get())
+        : nullptr;
+}
+void namerules_NameRules_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
+    if (!handle) return;
+    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::namerules::NameRules>>(handle)->get(), swift_pointer);
 }
 _baseRef
 namerules_NameRules_ExampleStruct_create_handle( double iValue, _baseRef iIntValue )

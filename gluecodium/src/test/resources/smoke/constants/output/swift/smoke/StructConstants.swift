@@ -49,10 +49,22 @@ extension StructConstants: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants {
-    return StructConstants(cStructConstants: smoke_StructConstants_copy_handle(handle))
+    if let swift_pointer = smoke_StructConstants_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructConstants {
+        return re_constructed
+    }
+    let result = StructConstants(cStructConstants: smoke_StructConstants_copy_handle(handle))
+    smoke_StructConstants_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants {
-    return StructConstants(cStructConstants: handle)
+    if let swift_pointer = smoke_StructConstants_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructConstants {
+        return re_constructed
+    }
+    let result = StructConstants(cStructConstants: handle)
+    smoke_StructConstants_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants? {
     guard handle != 0 else {

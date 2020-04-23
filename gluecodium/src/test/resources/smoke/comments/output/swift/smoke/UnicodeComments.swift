@@ -39,10 +39,22 @@ extension UnicodeComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments {
-    return UnicodeComments(cUnicodeComments: smoke_UnicodeComments_copy_handle(handle))
+    if let swift_pointer = smoke_UnicodeComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UnicodeComments {
+        return re_constructed
+    }
+    let result = UnicodeComments(cUnicodeComments: smoke_UnicodeComments_copy_handle(handle))
+    smoke_UnicodeComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments {
-    return UnicodeComments(cUnicodeComments: handle)
+    if let swift_pointer = smoke_UnicodeComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UnicodeComments {
+        return re_constructed
+    }
+    let result = UnicodeComments(cUnicodeComments: handle)
+    smoke_UnicodeComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments? {
     guard handle != 0 else {

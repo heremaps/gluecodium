@@ -34,10 +34,22 @@ extension SkipFunctions: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func SkipFunctions_copyFromCType(_ handle: _baseRef) -> SkipFunctions {
-    return SkipFunctions(cSkipFunctions: smoke_SkipFunctions_copy_handle(handle))
+    if let swift_pointer = smoke_SkipFunctions_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SkipFunctions {
+        return re_constructed
+    }
+    let result = SkipFunctions(cSkipFunctions: smoke_SkipFunctions_copy_handle(handle))
+    smoke_SkipFunctions_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SkipFunctions_moveFromCType(_ handle: _baseRef) -> SkipFunctions {
-    return SkipFunctions(cSkipFunctions: handle)
+    if let swift_pointer = smoke_SkipFunctions_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SkipFunctions {
+        return re_constructed
+    }
+    let result = SkipFunctions(cSkipFunctions: handle)
+    smoke_SkipFunctions_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SkipFunctions_copyFromCType(_ handle: _baseRef) -> SkipFunctions? {
     guard handle != 0 else {

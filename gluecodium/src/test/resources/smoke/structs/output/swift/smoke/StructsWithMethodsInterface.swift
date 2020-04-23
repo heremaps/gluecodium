@@ -90,10 +90,22 @@ extension StructsWithMethodsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
-    return StructsWithMethodsInterface(cStructsWithMethodsInterface: smoke_StructsWithMethodsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithMethodsInterface {
+        return re_constructed
+    }
+    let result = StructsWithMethodsInterface(cStructsWithMethodsInterface: smoke_StructsWithMethodsInterface_copy_handle(handle))
+    smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
-    return StructsWithMethodsInterface(cStructsWithMethodsInterface: handle)
+    if let swift_pointer = smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithMethodsInterface {
+        return re_constructed
+    }
+    let result = StructsWithMethodsInterface(cStructsWithMethodsInterface: handle)
+    smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface? {
     guard handle != 0 else {

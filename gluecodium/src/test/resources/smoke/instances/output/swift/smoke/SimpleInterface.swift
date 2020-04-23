@@ -65,8 +65,13 @@ internal func SimpleInterface_copyFromCType(_ handle: _baseRef) -> SimpleInterfa
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_SimpleInterface_get_typed(smoke_SimpleInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? SimpleInterface {
+        smoke_SimpleInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -77,8 +82,13 @@ internal func SimpleInterface_moveFromCType(_ handle: _baseRef) -> SimpleInterfa
         smoke_SimpleInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_SimpleInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? SimpleInterface {
+        smoke_SimpleInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

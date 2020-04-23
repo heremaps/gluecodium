@@ -3,6 +3,7 @@
 #include "cbridge/include/smoke/cbridge_StructsWithMethodsInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
+#include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/StructsWithMethodsInterface.h"
@@ -11,12 +12,26 @@
 #include <new>
 #include <string>
 void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle);
+    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle);
+    auto& wrapper_cache = get_wrapper_cache();
+    if (wrapper_cache_is_alive) {
+        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
+    }
+    delete ptr_ptr;
 }
 _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)))
         : 0;
+}
+const void* smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
+    return handle
+        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get())
+        : nullptr;
+}
+void smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
+    if (!handle) return;
+    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get(), swift_pointer);
 }
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_handle( double x, double y, double z )

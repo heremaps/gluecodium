@@ -83,10 +83,22 @@ extension TypeDefs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func TypeDefs_copyFromCType(_ handle: _baseRef) -> TypeDefs {
-    return TypeDefs(cTypeDefs: smoke_TypeDefs_copy_handle(handle))
+    if let swift_pointer = smoke_TypeDefs_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? TypeDefs {
+        return re_constructed
+    }
+    let result = TypeDefs(cTypeDefs: smoke_TypeDefs_copy_handle(handle))
+    smoke_TypeDefs_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func TypeDefs_moveFromCType(_ handle: _baseRef) -> TypeDefs {
-    return TypeDefs(cTypeDefs: handle)
+    if let swift_pointer = smoke_TypeDefs_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? TypeDefs {
+        return re_constructed
+    }
+    let result = TypeDefs(cTypeDefs: handle)
+    smoke_TypeDefs_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func TypeDefs_copyFromCType(_ handle: _baseRef) -> TypeDefs? {
     guard handle != 0 else {

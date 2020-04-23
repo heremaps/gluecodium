@@ -54,10 +54,22 @@ extension GenericTypesWithGenericTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
-    return GenericTypesWithGenericTypes(cGenericTypesWithGenericTypes: smoke_GenericTypesWithGenericTypes_copy_handle(handle))
+    if let swift_pointer = smoke_GenericTypesWithGenericTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithGenericTypes {
+        return re_constructed
+    }
+    let result = GenericTypesWithGenericTypes(cGenericTypesWithGenericTypes: smoke_GenericTypesWithGenericTypes_copy_handle(handle))
+    smoke_GenericTypesWithGenericTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
-    return GenericTypesWithGenericTypes(cGenericTypesWithGenericTypes: handle)
+    if let swift_pointer = smoke_GenericTypesWithGenericTypes_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithGenericTypes {
+        return re_constructed
+    }
+    let result = GenericTypesWithGenericTypes(cGenericTypesWithGenericTypes: handle)
+    smoke_GenericTypesWithGenericTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
     guard handle != 0 else {

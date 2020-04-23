@@ -4,6 +4,7 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
+#include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/Lambdas.h"
@@ -13,12 +14,26 @@
 #include <unordered_map>
 #include <vector>
 void smoke_Lambdas_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::smoke::Lambdas>>(handle);
+    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::Lambdas>>(handle);
+    auto& wrapper_cache = get_wrapper_cache();
+    if (wrapper_cache_is_alive) {
+        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
+    }
+    delete ptr_ptr;
 }
 _baseRef smoke_Lambdas_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Lambdas>>(handle)))
         : 0;
+}
+const void* smoke_Lambdas_get_swift_object_from_wrapper_cache(_baseRef handle) {
+    return handle
+        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::Lambdas>>(handle)->get())
+        : nullptr;
+}
+void smoke_Lambdas_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
+    if (!handle) return;
+    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::Lambdas>>(handle)->get(), swift_pointer);
 }
 _baseRef smoke_Lambdas_deconfuse(_baseRef _instance, _baseRef value, _baseRef confuser) {
     return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Lambdas>>(_instance)->get()->deconfuse(Conversion<std::string>::toCpp(value), Conversion<::smoke::Lambdas::Confuser>::toCpp(confuser)));
@@ -27,7 +42,8 @@ _baseRef smoke_Lambdas_fuse(_baseRef items, _baseRef callback) {
     return Conversion<std::unordered_map<int32_t, std::string>>::toBaseRef(::smoke::Lambdas::fuse(Conversion<std::vector<std::string>>::toCpp(items), Conversion<::smoke::Lambdas::Indexer>::toCpp(callback)));
 }
 void smoke_Lambdas_Producer_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Lambdas::Producer>(handle);
+    auto ptr_ptr = get_pointer<::smoke::Lambdas::Producer>(handle);
+    delete ptr_ptr;
 }
 _baseRef smoke_Lambdas_Producer_copy_handle(_baseRef handle) {
     return handle
@@ -65,7 +81,8 @@ const void* smoke_Lambdas_Producer_get_swift_object_from_cache(_baseRef handle) 
     return handle ? smoke_Lambdas_ProducerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Producer>(handle)) : nullptr;
 }
 void smoke_Lambdas_Confuser_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Lambdas::Confuser>(handle);
+    auto ptr_ptr = get_pointer<::smoke::Lambdas::Confuser>(handle);
+    delete ptr_ptr;
 }
 _baseRef smoke_Lambdas_Confuser_copy_handle(_baseRef handle) {
     return handle
@@ -103,7 +120,8 @@ const void* smoke_Lambdas_Confuser_get_swift_object_from_cache(_baseRef handle) 
     return handle ? smoke_Lambdas_ConfuserProxy::get_swift_object(get_pointer<::smoke::Lambdas::Confuser>(handle)) : nullptr;
 }
 void smoke_Lambdas_Consumer_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Lambdas::Consumer>(handle);
+    auto ptr_ptr = get_pointer<::smoke::Lambdas::Consumer>(handle);
+    delete ptr_ptr;
 }
 _baseRef smoke_Lambdas_Consumer_copy_handle(_baseRef handle) {
     return handle
@@ -140,7 +158,8 @@ const void* smoke_Lambdas_Consumer_get_swift_object_from_cache(_baseRef handle) 
     return handle ? smoke_Lambdas_ConsumerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Consumer>(handle)) : nullptr;
 }
 void smoke_Lambdas_Indexer_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Lambdas::Indexer>(handle);
+    auto ptr_ptr = get_pointer<::smoke::Lambdas::Indexer>(handle);
+    delete ptr_ptr;
 }
 _baseRef smoke_Lambdas_Indexer_copy_handle(_baseRef handle) {
     return handle
@@ -178,7 +197,8 @@ const void* smoke_Lambdas_Indexer_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_Lambdas_IndexerProxy::get_swift_object(get_pointer<::smoke::Lambdas::Indexer>(handle)) : nullptr;
 }
 void smoke_Lambdas_NullableConfuser_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Lambdas::NullableConfuser>(handle);
+    auto ptr_ptr = get_pointer<::smoke::Lambdas::NullableConfuser>(handle);
+    delete ptr_ptr;
 }
 _baseRef smoke_Lambdas_NullableConfuser_copy_handle(_baseRef handle) {
     return handle

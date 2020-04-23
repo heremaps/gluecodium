@@ -50,10 +50,22 @@ extension bazInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface {
-    return bazInterface(cbazInterface: smoke_PlatformNamesInterface_copy_handle(handle))
+    if let swift_pointer = smoke_PlatformNamesInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazInterface {
+        return re_constructed
+    }
+    let result = bazInterface(cbazInterface: smoke_PlatformNamesInterface_copy_handle(handle))
+    smoke_PlatformNamesInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface {
-    return bazInterface(cbazInterface: handle)
+    if let swift_pointer = smoke_PlatformNamesInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazInterface {
+        return re_constructed
+    }
+    let result = bazInterface(cbazInterface: handle)
+    smoke_PlatformNamesInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface? {
     guard handle != 0 else {

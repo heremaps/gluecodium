@@ -31,15 +31,25 @@ extension InternalParent: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent {
+    if let swift_pointer = smoke_InternalParent_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalParent {
+        return re_constructed
+    }
     if let swift_pointer = smoke_InternalParent_get_typed(smoke_InternalParent_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalParent {
+        smoke_InternalParent_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
 internal func InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent {
+    if let swift_pointer = smoke_InternalParent_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalParent {
+        return re_constructed
+    }
     if let swift_pointer = smoke_InternalParent_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalParent {
+        smoke_InternalParent_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
