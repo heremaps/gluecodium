@@ -112,7 +112,7 @@ convert_to_jni(JNIEnv* _jenv, const optional<std::function<R(Args...)>> _ninput)
 // -------------------- createCppProxy() default implementation ------------------------------------
 
 template<class T>
-void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {}
+void createCppProxy(JNIEnv* /*env*/, const JniReference<jobject>& /*obj*/, ::std::shared_ptr<T>& /*result*/) {}
 
 }
 {{#internalNamespace}}
