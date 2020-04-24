@@ -57,33 +57,37 @@ function(apigen_target_include_directories target)
 
   if(APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN)
     get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
-    target_include_directories(${target}
-      PUBLIC
-        $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
-        $<BUILD_INTERFACE:${OUTPUT_DIR}>)
+    if (OUTPUT_DIR)
+      target_include_directories(${target}
+        PUBLIC
+          $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
+          $<BUILD_INTERFACE:${OUTPUT_DIR}>)
 
-    if(${GENERATOR} MATCHES android)
-      target_include_directories(${target}
-        PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/android/jni>)
-    elseif(GENERATOR MATCHES dart)
-      target_include_directories(${target}
-        PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/dart/ffi>)
+      if(${GENERATOR} MATCHES android)
+        target_include_directories(${target}
+          PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/android/jni>)
+      elseif(GENERATOR MATCHES dart)
+        target_include_directories(${target}
+          PUBLIC $<BUILD_INTERFACE:${OUTPUT_DIR}/dart/ffi>)
+      endif()
     endif()
   endif()
 
   if(APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON)
     get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
-    target_include_directories(${target}
-      PUBLIC
-        $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>
-        $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
-    if(${GENERATOR} MATCHES android)
+    if (COMMON_OUTPUT_DIR)
       target_include_directories(${target}
-        PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/android/jni>)
-    endif()
-    if(${GENERATOR} MATCHES dart)
-      target_include_directories(${target}
-        PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/dart/ffi>)
+        PUBLIC
+          $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/cpp/include>
+          $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}>)
+      if(${GENERATOR} MATCHES android)
+        target_include_directories(${target}
+          PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/android/jni>)
+      endif()
+      if(${GENERATOR} MATCHES dart)
+        target_include_directories(${target}
+          PUBLIC $<BUILD_INTERFACE:${COMMON_OUTPUT_DIR}/dart/ffi>)
+      endif()
     endif()
   endif()
 
