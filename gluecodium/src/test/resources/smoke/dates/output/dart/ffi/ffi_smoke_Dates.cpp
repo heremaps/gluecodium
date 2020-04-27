@@ -46,6 +46,12 @@ library_smoke_Dates_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Dates>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_Dates_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::Dates>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_Dates_DateStruct_create_handle(uint64_t dateField) {
     auto _result = new (std::nothrow) ::smoke::Dates::DateStruct(gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(dateField));
     return reinterpret_cast<FfiOpaqueHandle>(_result);

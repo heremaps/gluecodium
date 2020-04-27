@@ -130,6 +130,12 @@ library_smoke_CalculatorListener_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_CalculatorListener_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_CalculatorListener_Proxy>(token);
     std::shared_ptr<smoke_CalculatorListener_Proxy>* proxy_ptr;
@@ -142,12 +148,6 @@ library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id
         gluecodium::ffi::cache_proxy(token, *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
-}
-FfiOpaqueHandle
-library_smoke_CalculatorListener_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_ResultStruct_create_handle(double result) {

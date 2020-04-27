@@ -6,7 +6,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class PublicInterface {
   void release() {}
 }
@@ -94,10 +93,16 @@ final _smoke_PublicInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_get_type_id');
 class PublicInterface$Impl implements PublicInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   PublicInterface$Impl(this.handle);
   @override
-  void release() => _smoke_PublicInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_PublicInterface_get_raw_pointer(handle));
+    _smoke_PublicInterface_release_handle(handle);
+    handle = null;
+  }
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface$Impl) return _smoke_PublicInterface_copy_handle(value.handle);
@@ -110,15 +115,17 @@ Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   return result;
 }
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_PublicInterface_get_raw_pointer(handle)] as PublicInterface;
+  final raw_handle = _smoke_PublicInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as PublicInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_PublicInterface_copy_handle(handle);
   final _type_id_handle = _smoke_PublicInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? PublicInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_PublicInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : PublicInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) =>

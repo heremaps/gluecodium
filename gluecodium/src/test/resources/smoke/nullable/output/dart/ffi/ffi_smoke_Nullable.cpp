@@ -257,6 +257,12 @@ library_smoke_Nullable_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Nullable>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_Nullable_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::Nullable>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_Nullable_SomeStruct_create_handle(FfiOpaqueHandle stringField) {
     auto _result = new (std::nothrow) ::smoke::Nullable::SomeStruct(gluecodium::ffi::Conversion<std::string>::toCpp(stringField));
     return reinterpret_cast<FfiOpaqueHandle>(_result);

@@ -1,10 +1,10 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class DefaultValues {
   void release();
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => DefaultValues$Impl.processStructWithDefaults(input);
@@ -696,11 +696,21 @@ final _smoke_DefaultValues_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DefaultValues_release_handle');
+final _smoke_DefaultValues_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_DefaultValues_get_raw_pointer');
 class DefaultValues$Impl implements DefaultValues {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   DefaultValues$Impl(this.handle);
   @override
-  void release() => _smoke_DefaultValues_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_DefaultValues_get_raw_pointer(handle));
+    _smoke_DefaultValues_release_handle(handle);
+    handle = null;
+  }
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
     final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
     final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
@@ -713,8 +723,19 @@ class DefaultValues$Impl implements DefaultValues {
 }
 Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
   _smoke_DefaultValues_copy_handle((value as DefaultValues$Impl).handle);
-DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) =>
-  DefaultValues$Impl(_smoke_DefaultValues_copy_handle(handle));
+DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_DefaultValues_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as DefaultValues;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_DefaultValues_copy_handle(handle);
+  final result = DefaultValues$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_DefaultValues_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_DefaultValues_release_handle(handle);
 Pointer<Void> smoke_DefaultValues_toFfi_nullable(DefaultValues value) =>

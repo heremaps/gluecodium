@@ -1,9 +1,9 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class PlatformComments {
   void release();
   /// This is some very useless method that cannot have overloads.
@@ -152,6 +152,10 @@ final _smoke_PlatformComments_release_handle = __lib.nativeLibrary.lookupFunctio
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_release_handle');
+final _smoke_PlatformComments_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_PlatformComments_get_raw_pointer');
 final _someMethodWithAllComments_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -169,10 +173,16 @@ final _someMethodWithAllComments_return_has_error = __lib.nativeLibrary.lookupFu
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error');
 class PlatformComments$Impl implements PlatformComments {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   PlatformComments$Impl(this.handle);
   @override
-  void release() => _smoke_PlatformComments_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_PlatformComments_get_raw_pointer(handle));
+    _smoke_PlatformComments_release_handle(handle);
+    handle = null;
+  }
   @override
   doNothing() {
     final _doNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing');
@@ -214,8 +224,19 @@ class PlatformComments$Impl implements PlatformComments {
 }
 Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
   _smoke_PlatformComments_copy_handle((value as PlatformComments$Impl).handle);
-PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) =>
-  PlatformComments$Impl(_smoke_PlatformComments_copy_handle(handle));
+PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_PlatformComments_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as PlatformComments;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_PlatformComments_copy_handle(handle);
+  final result = PlatformComments$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_PlatformComments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PlatformComments_release_handle(handle);
 Pointer<Void> smoke_PlatformComments_toFfi_nullable(PlatformComments value) =>

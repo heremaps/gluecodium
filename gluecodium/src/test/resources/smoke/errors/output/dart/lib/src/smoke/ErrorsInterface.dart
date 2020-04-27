@@ -292,10 +292,16 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
     lambda_methodWithPayloadErrorAndReturnValue();
 }
 class ErrorsInterface$Impl implements ErrorsInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   ErrorsInterface$Impl(this.handle);
   @override
-  void release() => _smoke_ErrorsInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ErrorsInterface_get_raw_pointer(handle));
+    _smoke_ErrorsInterface_release_handle(handle);
+    handle = null;
+  }
   @override
   methodWithErrors() {
     final _methodWithErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ErrorsInterface_methodWithErrors');
@@ -451,15 +457,17 @@ Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
   return result;
 }
 ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_ErrorsInterface_get_raw_pointer(handle)] as ErrorsInterface;
+  final raw_handle = _smoke_ErrorsInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ErrorsInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_ErrorsInterface_copy_handle(handle);
   final _type_id_handle = _smoke_ErrorsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? ErrorsInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_ErrorsInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : ErrorsInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_ErrorsInterface_releaseFfiHandle(Pointer<Void> handle) =>

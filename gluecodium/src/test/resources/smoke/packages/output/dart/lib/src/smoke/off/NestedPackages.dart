@@ -1,9 +1,9 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class NestedPackages {
   void release();
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) => NestedPackages$Impl.basicMethod(input);
@@ -79,11 +79,21 @@ final _smoke_off_NestedPackages_release_handle = __lib.nativeLibrary.lookupFunct
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_off_NestedPackages_release_handle');
+final _smoke_off_NestedPackages_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_off_NestedPackages_get_raw_pointer');
 class NestedPackages$Impl implements NestedPackages {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   NestedPackages$Impl(this.handle);
   @override
-  void release() => _smoke_off_NestedPackages_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_off_NestedPackages_get_raw_pointer(handle));
+    _smoke_off_NestedPackages_release_handle(handle);
+    handle = null;
+  }
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
     final _basicMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct');
     final _input_handle = smoke_off_NestedPackages_SomeStruct_toFfi(input);
@@ -96,8 +106,19 @@ class NestedPackages$Impl implements NestedPackages {
 }
 Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
   _smoke_off_NestedPackages_copy_handle((value as NestedPackages$Impl).handle);
-NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) =>
-  NestedPackages$Impl(_smoke_off_NestedPackages_copy_handle(handle));
+NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_off_NestedPackages_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as NestedPackages;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_off_NestedPackages_copy_handle(handle);
+  final result = NestedPackages$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_off_NestedPackages_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_off_NestedPackages_release_handle(handle);
 Pointer<Void> smoke_off_NestedPackages_toFfi_nullable(NestedPackages value) =>

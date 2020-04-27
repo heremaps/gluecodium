@@ -1,9 +1,9 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class PublicClass {
   void release();
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
@@ -278,11 +278,21 @@ final _smoke_PublicClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PublicClass_release_handle');
+final _smoke_PublicClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_PublicClass_get_raw_pointer');
 class PublicClass$Impl implements PublicClass {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   PublicClass$Impl(this.handle);
   @override
-  void release() => _smoke_PublicClass_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_PublicClass_get_raw_pointer(handle));
+    _smoke_PublicClass_release_handle(handle);
+    handle = null;
+  }
   @override
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input) {
     final _internalMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalMethod__InternalStruct');
@@ -337,8 +347,19 @@ class PublicClass$Impl implements PublicClass {
 }
 Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) =>
   _smoke_PublicClass_copy_handle((value as PublicClass$Impl).handle);
-PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) =>
-  PublicClass$Impl(_smoke_PublicClass_copy_handle(handle));
+PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_PublicClass_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as PublicClass;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_PublicClass_copy_handle(handle);
+  final result = PublicClass$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_PublicClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PublicClass_release_handle(handle);
 Pointer<Void> smoke_PublicClass_toFfi_nullable(PublicClass value) =>

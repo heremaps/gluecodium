@@ -96,6 +96,12 @@ library_smoke_Constructors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_Constructors_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_Constructors_ErrorEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(

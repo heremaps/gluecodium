@@ -33,10 +33,16 @@ final __are_equal = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableInterface_get_type_id');
 class EquatableInterface$Impl implements EquatableInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   EquatableInterface$Impl(this.handle);
   @override
-  void release() => _smoke_EquatableInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_EquatableInterface_get_raw_pointer(handle));
+    _smoke_EquatableInterface_release_handle(handle);
+    handle = null;
+  }
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
@@ -55,15 +61,17 @@ Pointer<Void> smoke_EquatableInterface_toFfi(EquatableInterface value) {
   return result;
 }
 EquatableInterface smoke_EquatableInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_EquatableInterface_get_raw_pointer(handle)] as EquatableInterface;
+  final raw_handle = _smoke_EquatableInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as EquatableInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_EquatableInterface_copy_handle(handle);
   final _type_id_handle = _smoke_EquatableInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? EquatableInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_EquatableInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : EquatableInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_EquatableInterface_releaseFfiHandle(Pointer<Void> handle) =>

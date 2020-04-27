@@ -37,6 +37,12 @@ library_smoke_ExternalClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_ExternalClass_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_ExternalClass_SomeStruct_create_handle(FfiOpaqueHandle someField) {
     auto _result = new (std::nothrow) ::fire::Baz::some_Struct();
     _result->some_Field = gluecodium::ffi::Conversion<std::string>::toCpp(someField);

@@ -293,10 +293,16 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
 class CommentsInterface$Impl implements CommentsInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   CommentsInterface$Impl(this.handle);
   @override
-  void release() => _smoke_CommentsInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_CommentsInterface_get_raw_pointer(handle));
+    _smoke_CommentsInterface_release_handle(handle);
+    handle = null;
+  }
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithAllComments__String');
@@ -511,15 +517,17 @@ Pointer<Void> smoke_CommentsInterface_toFfi(CommentsInterface value) {
   return result;
 }
 CommentsInterface smoke_CommentsInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_CommentsInterface_get_raw_pointer(handle)] as CommentsInterface;
+  final raw_handle = _smoke_CommentsInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as CommentsInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_CommentsInterface_copy_handle(handle);
   final _type_id_handle = _smoke_CommentsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? CommentsInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_CommentsInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : CommentsInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_CommentsInterface_releaseFfiHandle(Pointer<Void> handle) =>

@@ -77,6 +77,13 @@ void
     delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
 }
 
+FfiOpaqueHandle
+{{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)->get()
+    );
+}
+
 {{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunction}}{{/ifHasAttribute}}
 
@@ -123,13 +130,6 @@ FfiOpaqueHandle
     }
 
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
-}
-
-FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)->get()
-    );
 }
 
 {{/interfaces}}

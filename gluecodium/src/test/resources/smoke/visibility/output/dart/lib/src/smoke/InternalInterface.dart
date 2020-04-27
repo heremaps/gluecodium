@@ -5,7 +5,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class InternalInterface {
   void release() {}
 }
@@ -31,10 +30,16 @@ final _smoke_InternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InternalInterface_get_type_id');
 class InternalInterface$Impl implements InternalInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   InternalInterface$Impl(this.handle);
   @override
-  void release() => _smoke_InternalInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_InternalInterface_get_raw_pointer(handle));
+    _smoke_InternalInterface_release_handle(handle);
+    handle = null;
+  }
 }
 Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
   if (value is InternalInterface$Impl) return _smoke_InternalInterface_copy_handle(value.handle);
@@ -47,15 +52,17 @@ Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
   return result;
 }
 InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_InternalInterface_get_raw_pointer(handle)] as InternalInterface;
+  final raw_handle = _smoke_InternalInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as InternalInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_InternalInterface_copy_handle(handle);
   final _type_id_handle = _smoke_InternalInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? InternalInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_InternalInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : InternalInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_InternalInterface_releaseFfiHandle(Pointer<Void> handle) =>

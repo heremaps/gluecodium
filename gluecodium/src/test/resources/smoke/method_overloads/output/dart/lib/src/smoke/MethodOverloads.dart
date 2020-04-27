@@ -1,10 +1,10 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class MethodOverloads {
   void release();
   bool isBoolean(bool input);
@@ -99,11 +99,21 @@ final _smoke_MethodOverloads_release_handle = __lib.nativeLibrary.lookupFunction
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MethodOverloads_release_handle');
+final _smoke_MethodOverloads_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_MethodOverloads_get_raw_pointer');
 class MethodOverloads$Impl implements MethodOverloads {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   MethodOverloads$Impl(this.handle);
   @override
-  void release() => _smoke_MethodOverloads_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_MethodOverloads_get_raw_pointer(handle));
+    _smoke_MethodOverloads_release_handle(handle);
+    handle = null;
+  }
   @override
   bool isBoolean(bool input) {
     final _isBoolean_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_MethodOverloads_isBoolean__Boolean');
@@ -221,8 +231,19 @@ class MethodOverloads$Impl implements MethodOverloads {
 }
 Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>
   _smoke_MethodOverloads_copy_handle((value as MethodOverloads$Impl).handle);
-MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) =>
-  MethodOverloads$Impl(_smoke_MethodOverloads_copy_handle(handle));
+MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_MethodOverloads_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as MethodOverloads;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_MethodOverloads_copy_handle(handle);
+  final result = MethodOverloads$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_MethodOverloads_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_MethodOverloads_release_handle(handle);
 Pointer<Void> smoke_MethodOverloads_toFfi_nullable(MethodOverloads value) =>

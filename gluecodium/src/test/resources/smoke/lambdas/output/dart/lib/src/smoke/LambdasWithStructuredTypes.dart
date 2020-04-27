@@ -6,7 +6,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class LambdasWithStructuredTypes {
   void release();
   doClassStuff(LambdasWithStructuredTypes_ClassCallback callback);
@@ -203,11 +202,21 @@ final _smoke_LambdasWithStructuredTypes_release_handle = __lib.nativeLibrary.loo
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_LambdasWithStructuredTypes_release_handle');
+final _smoke_LambdasWithStructuredTypes_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_LambdasWithStructuredTypes_get_raw_pointer');
 class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   LambdasWithStructuredTypes$Impl(this.handle);
   @override
-  void release() => _smoke_LambdasWithStructuredTypes_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_LambdasWithStructuredTypes_get_raw_pointer(handle));
+    _smoke_LambdasWithStructuredTypes_release_handle(handle);
+    handle = null;
+  }
   @override
   doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
     final _doClassStuff_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback');
@@ -233,8 +242,19 @@ class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
 }
 Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi(LambdasWithStructuredTypes value) =>
   _smoke_LambdasWithStructuredTypes_copy_handle((value as LambdasWithStructuredTypes$Impl).handle);
-LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi(Pointer<Void> handle) =>
-  LambdasWithStructuredTypes$Impl(_smoke_LambdasWithStructuredTypes_copy_handle(handle));
+LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_LambdasWithStructuredTypes_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as LambdasWithStructuredTypes;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_LambdasWithStructuredTypes_copy_handle(handle);
+  final result = LambdasWithStructuredTypes$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_LambdasWithStructuredTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_LambdasWithStructuredTypes_release_handle(handle);
 Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi_nullable(LambdasWithStructuredTypes value) =>

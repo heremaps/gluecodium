@@ -5,7 +5,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class Lambdas {
   void release();
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser);
@@ -480,11 +479,21 @@ final _smoke_Lambdas_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_release_handle');
+final _smoke_Lambdas_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_Lambdas_get_raw_pointer');
 class Lambdas$Impl implements Lambdas {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   Lambdas$Impl(this.handle);
   @override
-  void release() => _smoke_Lambdas_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_Lambdas_get_raw_pointer(handle));
+    _smoke_Lambdas_release_handle(handle);
+    handle = null;
+  }
   @override
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser) {
     final _deconfuse_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_deconfuse__String_Confuser');
@@ -512,8 +521,19 @@ class Lambdas$Impl implements Lambdas {
 }
 Pointer<Void> smoke_Lambdas_toFfi(Lambdas value) =>
   _smoke_Lambdas_copy_handle((value as Lambdas$Impl).handle);
-Lambdas smoke_Lambdas_fromFfi(Pointer<Void> handle) =>
-  Lambdas$Impl(_smoke_Lambdas_copy_handle(handle));
+Lambdas smoke_Lambdas_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_Lambdas_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as Lambdas;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_Lambdas_copy_handle(handle);
+  final result = Lambdas$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_Lambdas_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Lambdas_release_handle(handle);
 Pointer<Void> smoke_Lambdas_toFfi_nullable(Lambdas value) =>

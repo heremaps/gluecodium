@@ -1,9 +1,9 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 /// This is some very useful interface.
 /// There is a lot to say about this interface.
 /// at least it has multiline comments.
@@ -43,11 +43,21 @@ final _smoke_MultiLineComments_release_handle = __lib.nativeLibrary.lookupFuncti
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MultiLineComments_release_handle');
+final _smoke_MultiLineComments_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_MultiLineComments_get_raw_pointer');
 class MultiLineComments$Impl implements MultiLineComments {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   MultiLineComments$Impl(this.handle);
   @override
-  void release() => _smoke_MultiLineComments_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_MultiLineComments_get_raw_pointer(handle));
+    _smoke_MultiLineComments_release_handle(handle);
+    handle = null;
+  }
   @override
   double someMethodWithLongComment(String input, double ratio) {
     final _someMethodWithLongComment_ffi = __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double');
@@ -64,8 +74,19 @@ class MultiLineComments$Impl implements MultiLineComments {
 }
 Pointer<Void> smoke_MultiLineComments_toFfi(MultiLineComments value) =>
   _smoke_MultiLineComments_copy_handle((value as MultiLineComments$Impl).handle);
-MultiLineComments smoke_MultiLineComments_fromFfi(Pointer<Void> handle) =>
-  MultiLineComments$Impl(_smoke_MultiLineComments_copy_handle(handle));
+MultiLineComments smoke_MultiLineComments_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_MultiLineComments_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as MultiLineComments;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_MultiLineComments_copy_handle(handle);
+  final result = MultiLineComments$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_MultiLineComments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_MultiLineComments_release_handle(handle);
 Pointer<Void> smoke_MultiLineComments_toFfi_nullable(MultiLineComments value) =>

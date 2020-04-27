@@ -130,6 +130,12 @@ void
 library_smoke_BasicTypes_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle);
 }
+FfiOpaqueHandle
+library_smoke_BasicTypes_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle)->get()
+    );
+}
 #ifdef __cplusplus
 }
 #endif

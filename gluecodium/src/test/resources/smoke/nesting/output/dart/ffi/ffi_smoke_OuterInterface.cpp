@@ -97,6 +97,12 @@ library_smoke_OuterInterface_InnerClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerClass>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_OuterInterface_InnerClass_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerClass>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_OuterInterface_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::OuterInterface>(
@@ -109,6 +115,12 @@ library_smoke_OuterInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterInterface>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_OuterInterface_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::OuterInterface>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_OuterInterface_InnerInterface_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::OuterInterface::InnerInterface>(
@@ -119,6 +131,12 @@ library_smoke_OuterInterface_InnerInterface_copy_handle(FfiOpaqueHandle handle) 
 void
 library_smoke_OuterInterface_InnerInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle);
+}
+FfiOpaqueHandle
+library_smoke_OuterInterface_InnerInterface_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle)->get()
+    );
 }
 FfiOpaqueHandle
 library_smoke_OuterInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
@@ -135,12 +153,6 @@ library_smoke_OuterInterface_create_proxy(uint64_t token, int32_t isolate_id, Ff
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
-library_smoke_OuterInterface_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::OuterInterface>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_OuterInterface_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_OuterInterface_InnerInterface_Proxy>(token);
     std::shared_ptr<smoke_OuterInterface_InnerInterface_Proxy>* proxy_ptr;
@@ -153,12 +165,6 @@ library_smoke_OuterInterface_InnerInterface_create_proxy(uint64_t token, int32_t
         gluecodium::ffi::cache_proxy(token, *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
-}
-FfiOpaqueHandle
-library_smoke_OuterInterface_InnerInterface_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_OuterInterface_get_type_id(FfiOpaqueHandle handle) {

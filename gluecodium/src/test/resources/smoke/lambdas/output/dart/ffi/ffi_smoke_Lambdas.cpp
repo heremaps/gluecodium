@@ -248,6 +248,12 @@ library_smoke_Lambdas_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Lambdas>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_Lambdas_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::Lambdas>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_Lambdas_Producer_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) ::smoke::Lambdas::Producer(

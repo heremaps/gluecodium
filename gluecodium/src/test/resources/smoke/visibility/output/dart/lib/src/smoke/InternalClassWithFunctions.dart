@@ -1,9 +1,9 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class InternalClassWithFunctions {
   factory InternalClassWithFunctions.make() => InternalClassWithFunctions$Impl.internal_make();
   factory InternalClassWithFunctions.remake(String foo) => InternalClassWithFunctions$Impl.internal_remake(foo);
@@ -19,11 +19,21 @@ final _smoke_InternalClassWithFunctions_release_handle = __lib.nativeLibrary.loo
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClassWithFunctions_release_handle');
+final _smoke_InternalClassWithFunctions_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_InternalClassWithFunctions_get_raw_pointer');
 class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   InternalClassWithFunctions$Impl(this.handle);
   @override
-  void release() => _smoke_InternalClassWithFunctions_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_InternalClassWithFunctions_get_raw_pointer(handle));
+    _smoke_InternalClassWithFunctions_release_handle(handle);
+    handle = null;
+  }
   InternalClassWithFunctions$Impl.internal_make() : this(_make());
   InternalClassWithFunctions$Impl.internal_remake(String foo) : this(_remake(foo));
   @override
@@ -50,8 +60,19 @@ class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
 }
 Pointer<Void> smoke_InternalClassWithFunctions_toFfi(InternalClassWithFunctions value) =>
   _smoke_InternalClassWithFunctions_copy_handle((value as InternalClassWithFunctions$Impl).handle);
-InternalClassWithFunctions smoke_InternalClassWithFunctions_fromFfi(Pointer<Void> handle) =>
-  InternalClassWithFunctions$Impl(_smoke_InternalClassWithFunctions_copy_handle(handle));
+InternalClassWithFunctions smoke_InternalClassWithFunctions_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_InternalClassWithFunctions_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as InternalClassWithFunctions;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_InternalClassWithFunctions_copy_handle(handle);
+  final result = InternalClassWithFunctions$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_InternalClassWithFunctions_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_InternalClassWithFunctions_release_handle(handle);
 Pointer<Void> smoke_InternalClassWithFunctions_toFfi_nullable(InternalClassWithFunctions value) =>

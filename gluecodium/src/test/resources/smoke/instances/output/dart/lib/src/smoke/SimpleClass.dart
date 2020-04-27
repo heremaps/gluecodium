@@ -1,9 +1,9 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class SimpleClass {
   void release();
   String getStringValue();
@@ -18,11 +18,21 @@ final _smoke_SimpleClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SimpleClass_release_handle');
+final _smoke_SimpleClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_SimpleClass_get_raw_pointer');
 class SimpleClass$Impl implements SimpleClass {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   SimpleClass$Impl(this.handle);
   @override
-  void release() => _smoke_SimpleClass_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_SimpleClass_get_raw_pointer(handle));
+    _smoke_SimpleClass_release_handle(handle);
+    handle = null;
+  }
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue');
@@ -46,8 +56,19 @@ class SimpleClass$Impl implements SimpleClass {
 }
 Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
   _smoke_SimpleClass_copy_handle((value as SimpleClass$Impl).handle);
-SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) =>
-  SimpleClass$Impl(_smoke_SimpleClass_copy_handle(handle));
+SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_SimpleClass_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as SimpleClass;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_SimpleClass_copy_handle(handle);
+  final result = SimpleClass$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SimpleClass_release_handle(handle);
 Pointer<Void> smoke_SimpleClass_toFfi_nullable(SimpleClass value) =>

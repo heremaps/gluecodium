@@ -4,7 +4,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ClassWithInternalLambda {
   void release();
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) => ClassWithInternalLambda$Impl.invokeInternalLambda(lambda, value);
@@ -110,11 +109,21 @@ final _smoke_ClassWithInternalLambda_release_handle = __lib.nativeLibrary.lookup
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ClassWithInternalLambda_release_handle');
+final _smoke_ClassWithInternalLambda_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_ClassWithInternalLambda_get_raw_pointer');
 class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   ClassWithInternalLambda$Impl(this.handle);
   @override
-  void release() => _smoke_ClassWithInternalLambda_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ClassWithInternalLambda_get_raw_pointer(handle));
+    _smoke_ClassWithInternalLambda_release_handle(handle);
+    handle = null;
+  }
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
     final _invokeInternalLambda_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String');
     final _lambda_handle = smoke_ClassWithInternalLambda_InternalLambda_toFfi(lambda);
@@ -129,8 +138,19 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
 }
 Pointer<Void> smoke_ClassWithInternalLambda_toFfi(ClassWithInternalLambda value) =>
   _smoke_ClassWithInternalLambda_copy_handle((value as ClassWithInternalLambda$Impl).handle);
-ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> handle) =>
-  ClassWithInternalLambda$Impl(_smoke_ClassWithInternalLambda_copy_handle(handle));
+ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_ClassWithInternalLambda_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ClassWithInternalLambda;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_ClassWithInternalLambda_copy_handle(handle);
+  final result = ClassWithInternalLambda$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_ClassWithInternalLambda_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ClassWithInternalLambda_release_handle(handle);
 Pointer<Void> smoke_ClassWithInternalLambda_toFfi_nullable(ClassWithInternalLambda value) =>

@@ -4,7 +4,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 /// This is some very useful interface.
 abstract class Comments {
   void release();
@@ -293,6 +292,10 @@ final _smoke_Comments_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Comments_release_handle');
+final _smoke_Comments_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_Comments_get_raw_pointer');
 final _someMethodWithAllComments_return_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -310,10 +313,16 @@ final _someMethodWithAllComments_return_has_error = __lib.nativeLibrary.lookupFu
     int Function(Pointer<Void>)
   >('library_smoke_Comments_someMethodWithAllComments__String_return_has_error');
 class Comments$Impl implements Comments {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   Comments$Impl(this.handle);
   @override
-  void release() => _smoke_Comments_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_Comments_get_raw_pointer(handle));
+    _smoke_Comments_release_handle(handle);
+    handle = null;
+  }
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String');
@@ -472,8 +481,19 @@ class Comments$Impl implements Comments {
 }
 Pointer<Void> smoke_Comments_toFfi(Comments value) =>
   _smoke_Comments_copy_handle((value as Comments$Impl).handle);
-Comments smoke_Comments_fromFfi(Pointer<Void> handle) =>
-  Comments$Impl(_smoke_Comments_copy_handle(handle));
+Comments smoke_Comments_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_Comments_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as Comments;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_Comments_copy_handle(handle);
+  final result = Comments$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_Comments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Comments_release_handle(handle);
 Pointer<Void> smoke_Comments_toFfi_nullable(Comments value) =>

@@ -66,10 +66,16 @@ class ParentInterface$Lambdas implements ParentInterface {
   set rootProperty(String value) => lambda_rootProperty_set(value);
 }
 class ParentInterface$Impl implements ParentInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   ParentInterface$Impl(this.handle);
   @override
-  void release() => _smoke_ParentInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ParentInterface_get_raw_pointer(handle));
+    _smoke_ParentInterface_release_handle(handle);
+    handle = null;
+  }
   @override
   rootMethod() {
     final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod');
@@ -126,15 +132,17 @@ Pointer<Void> smoke_ParentInterface_toFfi(ParentInterface value) {
   return result;
 }
 ParentInterface smoke_ParentInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_ParentInterface_get_raw_pointer(handle)] as ParentInterface;
+  final raw_handle = _smoke_ParentInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ParentInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_ParentInterface_copy_handle(handle);
   final _type_id_handle = _smoke_ParentInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? ParentInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_ParentInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : ParentInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_ParentInterface_releaseFfiHandle(Pointer<Void> handle) =>

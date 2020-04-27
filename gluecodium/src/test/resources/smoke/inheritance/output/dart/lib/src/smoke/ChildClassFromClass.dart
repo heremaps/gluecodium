@@ -1,11 +1,11 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/smoke/ParentClass.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ChildClassFromClass implements ParentClass {
   void release();
   childClassMethod();
@@ -19,6 +19,10 @@ final _smoke_ChildClassFromClass_release_handle = __lib.nativeLibrary.lookupFunc
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_release_handle');
+final _smoke_ChildClassFromClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_ChildClassFromClass_get_raw_pointer');
 final _smoke_ChildClassFromClass_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -26,7 +30,12 @@ final _smoke_ChildClassFromClass_get_type_id = __lib.nativeLibrary.lookupFunctio
 class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFromClass {
   ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() => _smoke_ChildClassFromClass_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ChildClassFromClass_get_raw_pointer(handle));
+    _smoke_ChildClassFromClass_release_handle(handle);
+    handle = null;
+  }
   @override
   childClassMethod() {
     final _childClassMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod');
@@ -40,13 +49,21 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
 Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
   _smoke_ChildClassFromClass_copy_handle((value as ChildClassFromClass$Impl).handle);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
-  final _copied_handle = _smoke_ChildClassFromClass_copy_handle(handle);
+  final raw_handle = _smoke_ChildClassFromClass_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ChildClassFromClass;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
   final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? ChildClassFromClass$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_ChildClassFromClass_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : ChildClassFromClass$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_ChildClassFromClass_releaseFfiHandle(Pointer<Void> handle) =>

@@ -59,10 +59,16 @@ class SimpleInterface$Lambdas implements SimpleInterface {
     lambda_useSimpleInterface(input);
 }
 class SimpleInterface$Impl implements SimpleInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   SimpleInterface$Impl(this.handle);
   @override
-  void release() => _smoke_SimpleInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_SimpleInterface_get_raw_pointer(handle));
+    _smoke_SimpleInterface_release_handle(handle);
+    handle = null;
+  }
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue');
@@ -110,15 +116,17 @@ Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
   return result;
 }
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_SimpleInterface_get_raw_pointer(handle)] as SimpleInterface;
+  final raw_handle = _smoke_SimpleInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as SimpleInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_SimpleInterface_copy_handle(handle);
   final _type_id_handle = _smoke_SimpleInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? SimpleInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_SimpleInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : SimpleInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) =>
