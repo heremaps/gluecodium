@@ -159,10 +159,16 @@ class CalculatorListener$Lambdas implements CalculatorListener {
     lambda_onCalculationResultInstance(calculationResult);
 }
 class CalculatorListener$Impl implements CalculatorListener {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   CalculatorListener$Impl(this.handle);
   @override
-  void release() => _smoke_CalculatorListener_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_CalculatorListener_get_raw_pointer(handle));
+    _smoke_CalculatorListener_release_handle(handle);
+    handle = null;
+  }
   @override
   onCalculationResult(double calculationResult) {
     final _onCalculationResult_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResult__Double');
@@ -283,15 +289,17 @@ Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {
   return result;
 }
 CalculatorListener smoke_CalculatorListener_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_CalculatorListener_get_raw_pointer(handle)] as CalculatorListener;
+  final raw_handle = _smoke_CalculatorListener_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as CalculatorListener;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_CalculatorListener_copy_handle(handle);
   final _type_id_handle = _smoke_CalculatorListener_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? CalculatorListener$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_CalculatorListener_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : CalculatorListener$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_CalculatorListener_releaseFfiHandle(Pointer<Void> handle) =>

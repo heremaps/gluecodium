@@ -44,6 +44,7 @@ import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresImmutable_test.dart" as PlainDataStructuresImmutableTests;
 import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
 import "test/Properties_test.dart" as PropertiesTests;
+import "test/RefEquality_test.dart" as RefEqualityTests;
 import "test/Sets_test.dart" as SetsTests;
 import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
 import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
@@ -79,6 +80,7 @@ final _allTests = [
   PlainDataStructuresImmutableTests.main,
   PlainDataStructuresTypeCollectionTests.main,
   PropertiesTests.main,
+  RefEqualityTests.main,
   SetsTests.main,
   StaticBooleanMethodsTests.main,
   StaticFloatDoubleMethodsTests.main,

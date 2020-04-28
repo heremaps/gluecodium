@@ -1,8 +1,8 @@
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class ConstantsInterface {
   void release();
   static final bool boolConstant = true;
@@ -81,16 +81,37 @@ final _smoke_ConstantsInterface_release_handle = __lib.nativeLibrary.lookupFunct
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ConstantsInterface_release_handle');
+final _smoke_ConstantsInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_ConstantsInterface_get_raw_pointer');
 class ConstantsInterface$Impl implements ConstantsInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   ConstantsInterface$Impl(this.handle);
   @override
-  void release() => _smoke_ConstantsInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ConstantsInterface_get_raw_pointer(handle));
+    _smoke_ConstantsInterface_release_handle(handle);
+    handle = null;
+  }
 }
 Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
   _smoke_ConstantsInterface_copy_handle((value as ConstantsInterface$Impl).handle);
-ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) =>
-  ConstantsInterface$Impl(_smoke_ConstantsInterface_copy_handle(handle));
+ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_ConstantsInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ConstantsInterface;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_ConstantsInterface_copy_handle(handle);
+  final result = ConstantsInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ConstantsInterface_release_handle(handle);
 Pointer<Void> smoke_ConstantsInterface_toFfi_nullable(ConstantsInterface value) =>

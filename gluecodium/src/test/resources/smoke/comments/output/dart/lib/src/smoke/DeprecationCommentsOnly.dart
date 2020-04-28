@@ -192,10 +192,16 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
 class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   DeprecationCommentsOnly$Impl(this.handle);
   @override
-  void release() => _smoke_DeprecationCommentsOnly_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_DeprecationCommentsOnly_get_raw_pointer(handle));
+    _smoke_DeprecationCommentsOnly_release_handle(handle);
+    handle = null;
+  }
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllComments_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_someMethodWithAllComments__String');
@@ -259,15 +265,17 @@ Pointer<Void> smoke_DeprecationCommentsOnly_toFfi(DeprecationCommentsOnly value)
   return result;
 }
 DeprecationCommentsOnly smoke_DeprecationCommentsOnly_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_DeprecationCommentsOnly_get_raw_pointer(handle)] as DeprecationCommentsOnly;
+  final raw_handle = _smoke_DeprecationCommentsOnly_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as DeprecationCommentsOnly;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_DeprecationCommentsOnly_copy_handle(handle);
   final _type_id_handle = _smoke_DeprecationCommentsOnly_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? DeprecationCommentsOnly$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_DeprecationCommentsOnly_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : DeprecationCommentsOnly$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_DeprecationCommentsOnly_releaseFfiHandle(Pointer<Void> handle) =>

@@ -172,10 +172,16 @@ class ExternalInterface$Lambdas implements ExternalInterface {
   String get someProperty => lambda_someProperty_get();
 }
 class ExternalInterface$Impl implements ExternalInterface {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   ExternalInterface$Impl(this.handle);
   @override
-  void release() => _smoke_ExternalInterface_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ExternalInterface_get_raw_pointer(handle));
+    _smoke_ExternalInterface_release_handle(handle);
+    handle = null;
+  }
   @override
   someMethod(int someParameter) {
     final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte');
@@ -219,15 +225,17 @@ Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
   return result;
 }
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_ExternalInterface_get_raw_pointer(handle)] as ExternalInterface;
+  final raw_handle = _smoke_ExternalInterface_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ExternalInterface;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_ExternalInterface_copy_handle(handle);
   final _type_id_handle = _smoke_ExternalInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? ExternalInterface$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_ExternalInterface_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : ExternalInterface$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) =>

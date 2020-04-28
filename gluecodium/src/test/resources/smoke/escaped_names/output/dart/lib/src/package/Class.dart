@@ -1,5 +1,6 @@
 import 'package:library/src/BuiltInTypes__conversion.dart';
 import 'package:library/src/GenericTypes__conversion.dart';
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/package/Interface.dart';
 import 'package:library/src/package/Types.dart';
@@ -7,7 +8,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class Class implements Interface {
   factory Class() => Class$Impl.constructor();
   void release();
@@ -24,6 +24,10 @@ final _package_Class_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_package_Class_release_handle');
+final _package_Class_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_package_Class_get_raw_pointer');
 final _package_Class_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -45,10 +49,16 @@ final _fun_return_has_error = __lib.nativeLibrary.lookupFunction<
     int Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_has_error');
 class Class$Impl implements Class {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   Class$Impl(this.handle);
   @override
-  void release() => _package_Class_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_package_Class_get_raw_pointer(handle));
+    _package_Class_release_handle(handle);
+    handle = null;
+  }
   Class$Impl.constructor() : this(_constructor());
   static Pointer<Void> _constructor() {
     final _constructor_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor');
@@ -99,13 +109,21 @@ class Class$Impl implements Class {
 Pointer<Void> package_Class_toFfi(Class value) =>
   _package_Class_copy_handle((value as Class$Impl).handle);
 Class package_Class_fromFfi(Pointer<Void> handle) {
-  final _copied_handle = _package_Class_copy_handle(handle);
+  final raw_handle = _package_Class_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as Class;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
   final _type_id_handle = _package_Class_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? Class$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _package_Class_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : Class$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void package_Class_releaseFfiHandle(Pointer<Void> handle) =>

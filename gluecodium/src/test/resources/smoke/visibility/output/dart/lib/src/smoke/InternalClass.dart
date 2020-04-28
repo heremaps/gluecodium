@@ -1,8 +1,8 @@
+import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 abstract class InternalClass {
   void release();
 }
@@ -15,16 +15,37 @@ final _smoke_InternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClass_release_handle');
+final _smoke_InternalClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+      Pointer<Void> Function(Pointer<Void>),
+      Pointer<Void> Function(Pointer<Void>)
+    >('library_smoke_InternalClass_get_raw_pointer');
 class InternalClass$Impl implements InternalClass {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   InternalClass$Impl(this.handle);
   @override
-  void release() => _smoke_InternalClass_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_InternalClass_get_raw_pointer(handle));
+    _smoke_InternalClass_release_handle(handle);
+    handle = null;
+  }
 }
 Pointer<Void> smoke_InternalClass_toFfi(InternalClass value) =>
   _smoke_InternalClass_copy_handle((value as InternalClass$Impl).handle);
-InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) =>
-  InternalClass$Impl(_smoke_InternalClass_copy_handle(handle));
+InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
+  final raw_handle = _smoke_InternalClass_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as InternalClass;
+  if (instance != null) {
+                        print("FOOBAR cache hit ${raw_handle.address}");
+                        return instance;
+                      }
+                        print("FOOBAR cache miss ${raw_handle.address}");
+  final _copied_handle = _smoke_InternalClass_copy_handle(handle);
+  final result = InternalClass$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
+  return result;
+}
 void smoke_InternalClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_InternalClass_release_handle(handle);
 Pointer<Void> smoke_InternalClass_toFfi_nullable(InternalClass value) =>

@@ -50,10 +50,16 @@ class weeListener$Lambdas implements weeListener {
     lambda_WeeMethod(WeeParameter);
 }
 class weeListener$Impl implements weeListener {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   weeListener$Impl(this.handle);
   @override
-  void release() => _smoke_PlatformNamesListener_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_PlatformNamesListener_get_raw_pointer(handle));
+    _smoke_PlatformNamesListener_release_handle(handle);
+    handle = null;
+  }
   @override
   WeeMethod(String WeeParameter) {
     final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String');
@@ -84,15 +90,17 @@ Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {
   return result;
 }
 weeListener smoke_PlatformNamesListener_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_PlatformNamesListener_get_raw_pointer(handle)] as weeListener;
+  final raw_handle = _smoke_PlatformNamesListener_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as weeListener;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_PlatformNamesListener_copy_handle(handle);
   final _type_id_handle = _smoke_PlatformNamesListener_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? weeListener$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_PlatformNamesListener_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : weeListener$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_PlatformNamesListener_releaseFfiHandle(Pointer<Void> handle) =>

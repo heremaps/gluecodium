@@ -227,10 +227,16 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
     lambda_fetchDataInstance();
 }
 class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
-  final Pointer<Void> handle;
+  @protected
+  Pointer<Void> handle;
   ListenersWithReturnValues$Impl(this.handle);
   @override
-  void release() => _smoke_ListenersWithReturnValues_release_handle(handle);
+  void release() {
+    if (handle == null) return;
+    __lib.reverseCache.remove(_smoke_ListenersWithReturnValues_get_raw_pointer(handle));
+    _smoke_ListenersWithReturnValues_release_handle(handle);
+    handle = null;
+  }
   @override
   double fetchDataDouble() {
     final _fetchDataDouble_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_ListenersWithReturnValues_fetchDataDouble');
@@ -349,15 +355,17 @@ Pointer<Void> smoke_ListenersWithReturnValues_toFfi(ListenersWithReturnValues va
   return result;
 }
 ListenersWithReturnValues smoke_ListenersWithReturnValues_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_ListenersWithReturnValues_get_raw_pointer(handle)] as ListenersWithReturnValues;
+  final raw_handle = _smoke_ListenersWithReturnValues_get_raw_pointer(handle);
+  final instance = __lib.reverseCache[raw_handle] as ListenersWithReturnValues;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_ListenersWithReturnValues_copy_handle(handle);
   final _type_id_handle = _smoke_ListenersWithReturnValues_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  final result = factoryConstructor == null
-    ? ListenersWithReturnValues$Impl(_copied_handle)
-    : factoryConstructor(_copied_handle);
   String_releaseFfiHandle(_type_id_handle);
+  final _copied_handle = _smoke_ListenersWithReturnValues_copy_handle(handle);
+  final result = factoryConstructor != null
+    ? factoryConstructor(_copied_handle)
+    : ListenersWithReturnValues$Impl(_copied_handle);
+  __lib.reverseCache[raw_handle] = result;
   return result;
 }
 void smoke_ListenersWithReturnValues_releaseFfiHandle(Pointer<Void> handle) =>

@@ -230,6 +230,12 @@ library_smoke_ErrorsInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::ErrorsInterface>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_ErrorsInterface_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::ErrorsInterface>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_ErrorsInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ErrorsInterface_Proxy>(token);
     std::shared_ptr<smoke_ErrorsInterface_Proxy>* proxy_ptr;
@@ -242,12 +248,6 @@ library_smoke_ErrorsInterface_create_proxy(uint64_t token, int32_t isolate_id, F
         gluecodium::ffi::cache_proxy(token, *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
-}
-FfiOpaqueHandle
-library_smoke_ErrorsInterface_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::ErrorsInterface>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_ErrorsInterface_InternalError_create_handle_nullable(uint32_t value)

@@ -152,6 +152,12 @@ library_smoke_Properties_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Properties>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_Properties_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::Properties>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_Properties_ExampleStruct_create_handle(double value) {
     auto _result = new (std::nothrow) ::smoke::Properties::ExampleStruct(gluecodium::ffi::Conversion<double>::toCpp(value));
     return reinterpret_cast<FfiOpaqueHandle>(_result);

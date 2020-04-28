@@ -53,6 +53,7 @@ extern "C" {
 {{#classes}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
 {{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}{{!!
 }}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}
 {{/classes}}
@@ -60,6 +61,7 @@ _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOp
 {{#lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
 {{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 {{/lambdas}}
 
@@ -70,7 +72,6 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_pr
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}});
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
 {{/each}}
 
 {{#each nonExternalStructs externalStructs}}

@@ -41,6 +41,12 @@ void
 library_smoke_EquatableInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle);
 }
+FfiOpaqueHandle
+library_smoke_EquatableInterface_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)->get()
+    );
+}
 bool
 library_smoke_EquatableInterface_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2) {
     bool isNull1 = handle1 == 0;
@@ -63,12 +69,6 @@ library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id
         gluecodium::ffi::cache_proxy(token, *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
-}
-FfiOpaqueHandle
-library_smoke_EquatableInterface_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_EquatableInterface_get_type_id(FfiOpaqueHandle handle) {

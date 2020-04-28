@@ -93,6 +93,12 @@ library_smoke_TypeDefs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::TypeDefs>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_TypeDefs_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::TypeDefs>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(double field) {
     auto _result = new (std::nothrow) ::smoke::TypeDefs::StructHavingAliasFieldDefinedBelow(gluecodium::ffi::Conversion<double>::toCpp(field));
     return reinterpret_cast<FfiOpaqueHandle>(_result);

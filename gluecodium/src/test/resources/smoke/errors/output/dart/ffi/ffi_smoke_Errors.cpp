@@ -160,6 +160,12 @@ library_smoke_Errors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Errors>*>(handle);
 }
 FfiOpaqueHandle
+library_smoke_Errors_get_raw_pointer(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        reinterpret_cast<std::shared_ptr<::smoke::Errors>*>(handle)->get()
+    );
+}
+FfiOpaqueHandle
 library_smoke_Errors_InternalErrorCode_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
