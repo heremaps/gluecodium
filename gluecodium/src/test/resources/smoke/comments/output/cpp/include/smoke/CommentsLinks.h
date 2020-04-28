@@ -64,6 +64,8 @@ public:
      * * error: ::smoke::Comments::SomeEnum
      * * type from aux sources, same package: ::smoke::AuxClass
      * * type from aux sources, different package: ::fire::AuxStruct
+     *   * we can also have
+     *   * nested lists
      *
      * Not working for Java:
      * * typedef: ::smoke::Comments::Usefulness

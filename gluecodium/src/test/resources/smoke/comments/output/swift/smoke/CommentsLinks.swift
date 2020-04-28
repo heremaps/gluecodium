@@ -54,6 +54,8 @@ public class CommentsLinks {
     /// * error: `Comments.SomethingWrongError`
     /// * type from aux sources, same package: `AuxClass`
     /// * type from aux sources, different package: `AuxStruct`
+    ///     * we can also have
+    ///     * nested lists
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`
