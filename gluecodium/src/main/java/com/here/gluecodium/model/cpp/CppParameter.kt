@@ -30,5 +30,9 @@ class CppParameter(
 
     fun hasComment() = isNotNull || !comment.isEmpty
 
-    fun copy(type: CppTypeRef? = null) = CppParameter(name, type ?: this.type, isNotNull)
+    fun copy(type: CppTypeRef? = null): CppParameter {
+        val cppParameter = CppParameter(name, type ?: this.type, isNotNull)
+        cppParameter.comment = comment
+        return cppParameter
+    }
 }
