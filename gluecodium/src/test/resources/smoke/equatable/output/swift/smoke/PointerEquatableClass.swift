@@ -34,10 +34,22 @@ extension PointerEquatableClass: Hashable {
     }
 }
 internal func PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> PointerEquatableClass {
-    return PointerEquatableClass(cPointerEquatableClass: smoke_PointerEquatableClass_copy_handle(handle))
+    if let swift_pointer = smoke_PointerEquatableClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PointerEquatableClass {
+        return re_constructed
+    }
+    let result = PointerEquatableClass(cPointerEquatableClass: smoke_PointerEquatableClass_copy_handle(handle))
+    smoke_PointerEquatableClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func PointerEquatableClass_moveFromCType(_ handle: _baseRef) -> PointerEquatableClass {
-    return PointerEquatableClass(cPointerEquatableClass: handle)
+    if let swift_pointer = smoke_PointerEquatableClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PointerEquatableClass {
+        return re_constructed
+    }
+    let result = PointerEquatableClass(cPointerEquatableClass: handle)
+    smoke_PointerEquatableClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> PointerEquatableClass? {
     guard handle != 0 else {

@@ -71,10 +71,22 @@ extension Errors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Errors_copyFromCType(_ handle: _baseRef) -> Errors {
-    return Errors(cErrors: smoke_Errors_copy_handle(handle))
+    if let swift_pointer = smoke_Errors_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Errors {
+        return re_constructed
+    }
+    let result = Errors(cErrors: smoke_Errors_copy_handle(handle))
+    smoke_Errors_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Errors_moveFromCType(_ handle: _baseRef) -> Errors {
-    return Errors(cErrors: handle)
+    if let swift_pointer = smoke_Errors_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Errors {
+        return re_constructed
+    }
+    let result = Errors(cErrors: handle)
+    smoke_Errors_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Errors_copyFromCType(_ handle: _baseRef) -> Errors? {
     guard handle != 0 else {

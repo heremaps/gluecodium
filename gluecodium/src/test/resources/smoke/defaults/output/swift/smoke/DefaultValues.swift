@@ -162,10 +162,22 @@ extension DefaultValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func DefaultValues_copyFromCType(_ handle: _baseRef) -> DefaultValues {
-    return DefaultValues(cDefaultValues: smoke_DefaultValues_copy_handle(handle))
+    if let swift_pointer = smoke_DefaultValues_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DefaultValues {
+        return re_constructed
+    }
+    let result = DefaultValues(cDefaultValues: smoke_DefaultValues_copy_handle(handle))
+    smoke_DefaultValues_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func DefaultValues_moveFromCType(_ handle: _baseRef) -> DefaultValues {
-    return DefaultValues(cDefaultValues: handle)
+    if let swift_pointer = smoke_DefaultValues_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DefaultValues {
+        return re_constructed
+    }
+    let result = DefaultValues(cDefaultValues: handle)
+    smoke_DefaultValues_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func DefaultValues_copyFromCType(_ handle: _baseRef) -> DefaultValues? {
     guard handle != 0 else {

@@ -51,10 +51,22 @@ extension Dates: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Dates_copyFromCType(_ handle: _baseRef) -> Dates {
-    return Dates(cDates: smoke_Dates_copy_handle(handle))
+    if let swift_pointer = smoke_Dates_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Dates {
+        return re_constructed
+    }
+    let result = Dates(cDates: smoke_Dates_copy_handle(handle))
+    smoke_Dates_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Dates_moveFromCType(_ handle: _baseRef) -> Dates {
-    return Dates(cDates: handle)
+    if let swift_pointer = smoke_Dates_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Dates {
+        return re_constructed
+    }
+    let result = Dates(cDates: handle)
+    smoke_Dates_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Dates_copyFromCType(_ handle: _baseRef) -> Dates? {
     guard handle != 0 else {

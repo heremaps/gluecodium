@@ -63,10 +63,22 @@ extension PlatformComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func PlatformComments_copyFromCType(_ handle: _baseRef) -> PlatformComments {
-    return PlatformComments(cPlatformComments: smoke_PlatformComments_copy_handle(handle))
+    if let swift_pointer = smoke_PlatformComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PlatformComments {
+        return re_constructed
+    }
+    let result = PlatformComments(cPlatformComments: smoke_PlatformComments_copy_handle(handle))
+    smoke_PlatformComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func PlatformComments_moveFromCType(_ handle: _baseRef) -> PlatformComments {
-    return PlatformComments(cPlatformComments: handle)
+    if let swift_pointer = smoke_PlatformComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PlatformComments {
+        return re_constructed
+    }
+    let result = PlatformComments(cPlatformComments: handle)
+    smoke_PlatformComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func PlatformComments_copyFromCType(_ handle: _baseRef) -> PlatformComments? {
     guard handle != 0 else {

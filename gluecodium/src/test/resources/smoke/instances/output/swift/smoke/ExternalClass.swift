@@ -47,10 +47,22 @@ extension ExternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ExternalClass_copyFromCType(_ handle: _baseRef) -> ExternalClass {
-    return ExternalClass(cExternalClass: smoke_ExternalClass_copy_handle(handle))
+    if let swift_pointer = smoke_ExternalClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalClass {
+        return re_constructed
+    }
+    let result = ExternalClass(cExternalClass: smoke_ExternalClass_copy_handle(handle))
+    smoke_ExternalClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func ExternalClass_moveFromCType(_ handle: _baseRef) -> ExternalClass {
-    return ExternalClass(cExternalClass: handle)
+    if let swift_pointer = smoke_ExternalClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalClass {
+        return re_constructed
+    }
+    let result = ExternalClass(cExternalClass: handle)
+    smoke_ExternalClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func ExternalClass_copyFromCType(_ handle: _baseRef) -> ExternalClass? {
     guard handle != 0 else {

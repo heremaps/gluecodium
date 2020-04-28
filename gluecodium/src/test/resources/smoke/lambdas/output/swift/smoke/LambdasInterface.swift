@@ -58,8 +58,13 @@ internal func LambdasInterface_copyFromCType(_ handle: _baseRef) -> LambdasInter
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_LambdasInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_LambdasInterface_get_typed(smoke_LambdasInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? LambdasInterface {
+        smoke_LambdasInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -70,8 +75,13 @@ internal func LambdasInterface_moveFromCType(_ handle: _baseRef) -> LambdasInter
         smoke_LambdasInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_LambdasInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_LambdasInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? LambdasInterface {
+        smoke_LambdasInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

@@ -103,8 +103,13 @@ internal func CalculatorListener_copyFromCType(_ handle: _baseRef) -> Calculator
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
         return re_constructed
     }
+    if let swift_pointer = smoke_CalculatorListener_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
+        return re_constructed
+    }
     if let swift_pointer = smoke_CalculatorListener_get_typed(smoke_CalculatorListener_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CalculatorListener {
+        smoke_CalculatorListener_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -115,8 +120,13 @@ internal func CalculatorListener_moveFromCType(_ handle: _baseRef) -> Calculator
         smoke_CalculatorListener_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_CalculatorListener_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
+        return re_constructed
+    }
     if let swift_pointer = smoke_CalculatorListener_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? CalculatorListener {
+        smoke_CalculatorListener_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

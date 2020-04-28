@@ -59,15 +59,25 @@ extension Class: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Class_copyFromCType(_ handle: _baseRef) -> Class {
+    if let swift_pointer = package_Class_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Class {
+        return re_constructed
+    }
     if let swift_pointer = package_Class_get_typed(package_Class_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Class {
+        package_Class_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
 internal func Class_moveFromCType(_ handle: _baseRef) -> Class {
+    if let swift_pointer = package_Class_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Class {
+        return re_constructed
+    }
     if let swift_pointer = package_Class_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? Class {
+        package_Class_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

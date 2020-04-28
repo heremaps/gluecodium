@@ -38,10 +38,22 @@ extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
-    return SpecialNames(cSpecialNames: smoke_SpecialNames_copy_handle(handle))
+    if let swift_pointer = smoke_SpecialNames_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialNames {
+        return re_constructed
+    }
+    let result = SpecialNames(cSpecialNames: smoke_SpecialNames_copy_handle(handle))
+    smoke_SpecialNames_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames {
-    return SpecialNames(cSpecialNames: handle)
+    if let swift_pointer = smoke_SpecialNames_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialNames {
+        return re_constructed
+    }
+    let result = SpecialNames(cSpecialNames: handle)
+    smoke_SpecialNames_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {

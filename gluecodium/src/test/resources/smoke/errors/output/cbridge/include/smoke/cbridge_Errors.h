@@ -40,6 +40,8 @@ typedef struct {
 } smoke_Errors_methodWithPayloadErrorAndReturnValue_result;
 _GLUECODIUM_C_EXPORT void smoke_Errors_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Errors_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT const void* smoke_Errors_get_swift_object_from_wrapper_cache(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_Errors_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
 _GLUECODIUM_C_EXPORT smoke_Errors_methodWithErrors_result smoke_Errors_methodWithErrors();
 _GLUECODIUM_C_EXPORT smoke_Errors_methodWithExternalErrors_result smoke_Errors_methodWithExternalErrors();
 _GLUECODIUM_C_EXPORT smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrorsAndReturnValue();

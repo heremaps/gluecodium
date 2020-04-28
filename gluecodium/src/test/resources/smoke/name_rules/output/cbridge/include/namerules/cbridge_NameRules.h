@@ -25,6 +25,8 @@ _GLUECODIUM_C_EXPORT double namerules_NameRules_ExampleStruct_iValue_get(_baseRe
 _GLUECODIUM_C_EXPORT _baseRef namerules_NameRules_ExampleStruct_iIntValue_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT void namerules_NameRules_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef namerules_NameRules_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT const void* namerules_NameRules_get_swift_object_from_wrapper_cache(_baseRef handle);
+_GLUECODIUM_C_EXPORT void namerules_NameRules_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
 _GLUECODIUM_C_EXPORT _baseRef namerules_NameRules_create();
 _GLUECODIUM_C_EXPORT namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _instance, _baseRef someArgument);
 _GLUECODIUM_C_EXPORT uint32_t namerules_NameRules_intProperty_get(_baseRef _instance);

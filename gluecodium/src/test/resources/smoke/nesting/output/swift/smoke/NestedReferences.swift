@@ -40,10 +40,22 @@ extension NestedReferences: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences {
-    return NestedReferences(cNestedReferences: smoke_NestedReferences_copy_handle(handle))
+    if let swift_pointer = smoke_NestedReferences_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedReferences {
+        return re_constructed
+    }
+    let result = NestedReferences(cNestedReferences: smoke_NestedReferences_copy_handle(handle))
+    smoke_NestedReferences_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences {
-    return NestedReferences(cNestedReferences: handle)
+    if let swift_pointer = smoke_NestedReferences_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedReferences {
+        return re_constructed
+    }
+    let result = NestedReferences(cNestedReferences: handle)
+    smoke_NestedReferences_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences? {
     guard handle != 0 else {

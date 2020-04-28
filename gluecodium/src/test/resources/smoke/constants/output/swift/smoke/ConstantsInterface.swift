@@ -37,10 +37,22 @@ extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface {
-    return ConstantsInterface(cConstantsInterface: smoke_ConstantsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_ConstantsInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ConstantsInterface {
+        return re_constructed
+    }
+    let result = ConstantsInterface(cConstantsInterface: smoke_ConstantsInterface_copy_handle(handle))
+    smoke_ConstantsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsInterface {
-    return ConstantsInterface(cConstantsInterface: handle)
+    if let swift_pointer = smoke_ConstantsInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ConstantsInterface {
+        return re_constructed
+    }
+    let result = ConstantsInterface(cConstantsInterface: handle)
+    smoke_ConstantsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface? {
     guard handle != 0 else {

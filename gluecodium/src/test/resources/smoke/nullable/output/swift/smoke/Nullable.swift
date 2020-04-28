@@ -234,10 +234,22 @@ extension Nullable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Nullable_copyFromCType(_ handle: _baseRef) -> Nullable {
-    return Nullable(cNullable: smoke_Nullable_copy_handle(handle))
+    if let swift_pointer = smoke_Nullable_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Nullable {
+        return re_constructed
+    }
+    let result = Nullable(cNullable: smoke_Nullable_copy_handle(handle))
+    smoke_Nullable_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Nullable_moveFromCType(_ handle: _baseRef) -> Nullable {
-    return Nullable(cNullable: handle)
+    if let swift_pointer = smoke_Nullable_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Nullable {
+        return re_constructed
+    }
+    let result = Nullable(cNullable: handle)
+    smoke_Nullable_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Nullable_copyFromCType(_ handle: _baseRef) -> Nullable? {
     guard handle != 0 else {

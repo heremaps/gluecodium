@@ -2,8 +2,9 @@
 
 ## Unreleased
 ### Features:
-  * Added referential integrity in generated Java code. Meaning, when the same C++ object is passed
-    twice to Java side, it is not guaranteed to be the same object on Java side as well.
+  * Added referential integrity in generated Java/Swift code. Meaning, when the same C++ object is
+    passed twice to Java/Swift side, it is now guaranteed to be the same object on Java/Swift side
+    as well.
 
 ## 6.6.1
 Release date: 2020-04-27

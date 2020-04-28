@@ -153,10 +153,22 @@ extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func Comments_copyFromCType(_ handle: _baseRef) -> Comments {
-    return Comments(cComments: smoke_Comments_copy_handle(handle))
+    if let swift_pointer = smoke_Comments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Comments {
+        return re_constructed
+    }
+    let result = Comments(cComments: smoke_Comments_copy_handle(handle))
+    smoke_Comments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Comments_moveFromCType(_ handle: _baseRef) -> Comments {
-    return Comments(cComments: handle)
+    if let swift_pointer = smoke_Comments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Comments {
+        return re_constructed
+    }
+    let result = Comments(cComments: handle)
+    smoke_Comments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func Comments_copyFromCType(_ handle: _baseRef) -> Comments? {
     guard handle != 0 else {

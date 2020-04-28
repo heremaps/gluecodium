@@ -65,10 +65,22 @@ extension OuterClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func OuterClass_copyFromCType(_ handle: _baseRef) -> OuterClass {
-    return OuterClass(cOuterClass: smoke_OuterClass_copy_handle(handle))
+    if let swift_pointer = smoke_OuterClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass {
+        return re_constructed
+    }
+    let result = OuterClass(cOuterClass: smoke_OuterClass_copy_handle(handle))
+    smoke_OuterClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func OuterClass_moveFromCType(_ handle: _baseRef) -> OuterClass {
-    return OuterClass(cOuterClass: handle)
+    if let swift_pointer = smoke_OuterClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass {
+        return re_constructed
+    }
+    let result = OuterClass(cOuterClass: handle)
+    smoke_OuterClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func OuterClass_copyFromCType(_ handle: _baseRef) -> OuterClass? {
     guard handle != 0 else {
@@ -107,10 +119,22 @@ extension OuterClass.InnerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func OuterClass_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterClass.InnerClass {
-    return OuterClass.InnerClass(cInnerClass: smoke_OuterClass_InnerClass_copy_handle(handle))
+    if let swift_pointer = smoke_OuterClass_InnerClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerClass {
+        return re_constructed
+    }
+    let result = OuterClass.InnerClass(cInnerClass: smoke_OuterClass_InnerClass_copy_handle(handle))
+    smoke_OuterClass_InnerClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func OuterClass_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterClass.InnerClass {
-    return OuterClass.InnerClass(cInnerClass: handle)
+    if let swift_pointer = smoke_OuterClass_InnerClass_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerClass {
+        return re_constructed
+    }
+    let result = OuterClass.InnerClass(cInnerClass: handle)
+    smoke_OuterClass_InnerClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func OuterClass_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterClass.InnerClass? {
     guard handle != 0 else {
@@ -173,8 +197,13 @@ internal func OuterClass_InnerInterface_copyFromCType(_ handle: _baseRef) -> Out
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_OuterClass_InnerInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_OuterClass_InnerInterface_get_typed(smoke_OuterClass_InnerInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? OuterClass.InnerInterface {
+        smoke_OuterClass_InnerInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -185,8 +214,13 @@ internal func OuterClass_InnerInterface_moveFromCType(_ handle: _baseRef) -> Out
         smoke_OuterClass_InnerInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_OuterClass_InnerInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_OuterClass_InnerInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? OuterClass.InnerInterface {
+        smoke_OuterClass_InnerInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

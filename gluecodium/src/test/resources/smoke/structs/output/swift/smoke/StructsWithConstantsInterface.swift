@@ -43,10 +43,22 @@ extension StructsWithConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructsWithConstantsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
-    return StructsWithConstantsInterface(cStructsWithConstantsInterface: smoke_StructsWithConstantsInterface_copy_handle(handle))
+    if let swift_pointer = smoke_StructsWithConstantsInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithConstantsInterface {
+        return re_constructed
+    }
+    let result = StructsWithConstantsInterface(cStructsWithConstantsInterface: smoke_StructsWithConstantsInterface_copy_handle(handle))
+    smoke_StructsWithConstantsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func StructsWithConstantsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
-    return StructsWithConstantsInterface(cStructsWithConstantsInterface: handle)
+    if let swift_pointer = smoke_StructsWithConstantsInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithConstantsInterface {
+        return re_constructed
+    }
+    let result = StructsWithConstantsInterface(cStructsWithConstantsInterface: handle)
+    smoke_StructsWithConstantsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func StructsWithConstantsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface? {
     guard handle != 0 else {

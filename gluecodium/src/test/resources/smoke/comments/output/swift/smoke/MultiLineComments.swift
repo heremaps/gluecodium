@@ -58,10 +58,22 @@ extension MultiLineComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments {
-    return MultiLineComments(cMultiLineComments: smoke_MultiLineComments_copy_handle(handle))
+    if let swift_pointer = smoke_MultiLineComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultiLineComments {
+        return re_constructed
+    }
+    let result = MultiLineComments(cMultiLineComments: smoke_MultiLineComments_copy_handle(handle))
+    smoke_MultiLineComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments {
-    return MultiLineComments(cMultiLineComments: handle)
+    if let swift_pointer = smoke_MultiLineComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultiLineComments {
+        return re_constructed
+    }
+    let result = MultiLineComments(cMultiLineComments: handle)
+    smoke_MultiLineComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {

@@ -49,8 +49,13 @@ internal func ObjcInterface_copyFromCType(_ handle: _baseRef) -> ObjcInterface {
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_ObjcInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ObjcInterface_get_typed(smoke_ObjcInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcInterface {
+        smoke_ObjcInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -61,8 +66,13 @@ internal func ObjcInterface_moveFromCType(_ handle: _baseRef) -> ObjcInterface {
         smoke_ObjcInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_ObjcInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ObjcInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ObjcInterface {
+        smoke_ObjcInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

@@ -90,10 +90,22 @@ extension INameRules: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func INameRules_copyFromCType(_ handle: _baseRef) -> INameRules {
-    return INameRules(cINameRules: namerules_NameRules_copy_handle(handle))
+    if let swift_pointer = namerules_NameRules_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? INameRules {
+        return re_constructed
+    }
+    let result = INameRules(cINameRules: namerules_NameRules_copy_handle(handle))
+    namerules_NameRules_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func INameRules_moveFromCType(_ handle: _baseRef) -> INameRules {
-    return INameRules(cINameRules: handle)
+    if let swift_pointer = namerules_NameRules_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? INameRules {
+        return re_constructed
+    }
+    let result = INameRules(cINameRules: handle)
+    namerules_NameRules_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func INameRules_copyFromCType(_ handle: _baseRef) -> INameRules? {
     guard handle != 0 else {

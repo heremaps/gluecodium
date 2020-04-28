@@ -99,10 +99,22 @@ extension CommentsLinks: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks {
-    return CommentsLinks(cCommentsLinks: smoke_CommentsLinks_copy_handle(handle))
+    if let swift_pointer = smoke_CommentsLinks_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsLinks {
+        return re_constructed
+    }
+    let result = CommentsLinks(cCommentsLinks: smoke_CommentsLinks_copy_handle(handle))
+    smoke_CommentsLinks_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks {
-    return CommentsLinks(cCommentsLinks: handle)
+    if let swift_pointer = smoke_CommentsLinks_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsLinks {
+        return re_constructed
+    }
+    let result = CommentsLinks(cCommentsLinks: handle)
+    smoke_CommentsLinks_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks? {
     guard handle != 0 else {

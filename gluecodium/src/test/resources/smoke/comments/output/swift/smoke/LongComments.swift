@@ -37,10 +37,22 @@ extension LongComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
-    return LongComments(cLongComments: smoke_LongComments_copy_handle(handle))
+    if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
+        return re_constructed
+    }
+    let result = LongComments(cLongComments: smoke_LongComments_copy_handle(handle))
+    smoke_LongComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
-    return LongComments(cLongComments: handle)
+    if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
+        return re_constructed
+    }
+    let result = LongComments(cLongComments: handle)
+    smoke_LongComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {

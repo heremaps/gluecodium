@@ -5,6 +5,7 @@
 #include "cbridge/include/smoke/cbridge_ParentInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
+#include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/ChildClassFromInterface.h"
@@ -13,12 +14,26 @@
 #include <new>
 #include <string>
 void smoke_ChildClassFromInterface_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle);
+    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle);
+    auto& wrapper_cache = get_wrapper_cache();
+    if (wrapper_cache_is_alive) {
+        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
+    }
+    delete ptr_ptr;
 }
 _baseRef smoke_ChildClassFromInterface_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle)))
         : 0;
+}
+const void* smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
+    return handle
+        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle)->get())
+        : nullptr;
+}
+void smoke_ChildClassFromInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
+    if (!handle) return;
+    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle)->get(), swift_pointer);
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ChildClassFromInterface(_baseRef handle);

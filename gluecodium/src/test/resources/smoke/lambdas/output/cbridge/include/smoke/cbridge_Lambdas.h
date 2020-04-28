@@ -10,6 +10,8 @@ extern "C" {
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT const void* smoke_Lambdas_get_swift_object_from_wrapper_cache(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_Lambdas_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_deconfuse(_baseRef _instance, _baseRef value, _baseRef confuser);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_fuse(_baseRef items, _baseRef callback);
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_Producer_release_handle(_baseRef handle);

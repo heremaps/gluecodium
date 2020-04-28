@@ -82,8 +82,13 @@ internal func ChildInterface_copyFromCType(_ handle: _baseRef) -> ChildInterface
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_ChildInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ChildInterface_get_typed(smoke_ChildInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildInterface {
+        smoke_ChildInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -94,8 +99,13 @@ internal func ChildInterface_moveFromCType(_ handle: _baseRef) -> ChildInterface
         smoke_ChildInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_ChildInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_ChildInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? ChildInterface {
+        smoke_ChildInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

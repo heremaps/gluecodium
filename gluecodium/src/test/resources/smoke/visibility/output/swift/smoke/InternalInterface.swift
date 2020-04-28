@@ -48,8 +48,13 @@ internal func InternalInterface_copyFromCType(_ handle: _baseRef) -> InternalInt
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
         return re_constructed
     }
+    if let swift_pointer = smoke_InternalInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_InternalInterface_get_typed(smoke_InternalInterface_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalInterface {
+        smoke_InternalInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
@@ -60,8 +65,13 @@ internal func InternalInterface_moveFromCType(_ handle: _baseRef) -> InternalInt
         smoke_InternalInterface_release_handle(handle)
         return re_constructed
     }
+    if let swift_pointer = smoke_InternalInterface_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
+        return re_constructed
+    }
     if let swift_pointer = smoke_InternalInterface_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? InternalInterface {
+        smoke_InternalInterface_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

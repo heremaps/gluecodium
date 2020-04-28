@@ -70,10 +70,22 @@ extension LevelOne: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne {
-    return LevelOne(cLevelOne: smoke_LevelOne_copy_handle(handle))
+    if let swift_pointer = smoke_LevelOne_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne {
+        return re_constructed
+    }
+    let result = LevelOne(cLevelOne: smoke_LevelOne_copy_handle(handle))
+    smoke_LevelOne_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne {
-    return LevelOne(cLevelOne: handle)
+    if let swift_pointer = smoke_LevelOne_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne {
+        return re_constructed
+    }
+    let result = LevelOne(cLevelOne: handle)
+    smoke_LevelOne_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne? {
     guard handle != 0 else {
@@ -112,10 +124,22 @@ extension LevelOne.LevelTwo: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
-    return LevelOne.LevelTwo(cLevelTwo: smoke_LevelOne_LevelTwo_copy_handle(handle))
+    if let swift_pointer = smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo {
+        return re_constructed
+    }
+    let result = LevelOne.LevelTwo(cLevelTwo: smoke_LevelOne_LevelTwo_copy_handle(handle))
+    smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
-    return LevelOne.LevelTwo(cLevelTwo: handle)
+    if let swift_pointer = smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo {
+        return re_constructed
+    }
+    let result = LevelOne.LevelTwo(cLevelTwo: handle)
+    smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo? {
     guard handle != 0 else {
@@ -154,10 +178,22 @@ extension LevelOne.LevelTwo.LevelThree: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
-    return LevelOne.LevelTwo.LevelThree(cLevelThree: smoke_LevelOne_LevelTwo_LevelThree_copy_handle(handle))
+    if let swift_pointer = smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo.LevelThree {
+        return re_constructed
+    }
+    let result = LevelOne.LevelTwo.LevelThree(cLevelThree: smoke_LevelOne_LevelTwo_LevelThree_copy_handle(handle))
+    smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
-    return LevelOne.LevelTwo.LevelThree(cLevelThree: handle)
+    if let swift_pointer = smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo.LevelThree {
+        return re_constructed
+    }
+    let result = LevelOne.LevelTwo.LevelThree(cLevelThree: handle)
+    smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
 }
 internal func LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree? {
     guard handle != 0 else {

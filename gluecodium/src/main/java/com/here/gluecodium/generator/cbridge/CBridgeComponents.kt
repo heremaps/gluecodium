@@ -29,6 +29,12 @@ object CBridgeComponents {
     val PROXY_CACHE_FILENAME = Paths.get(
         CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "CachedProxyBase.h"
     ).toString()
+    val WRAPPER_CACHE_HEADER = Paths.get(
+        CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "WrapperCache.h"
+    ).toString()
+    val WRAPPER_CACHE_IMPL = Paths.get(
+        CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.SRC_DIR, "WrapperCache.cpp"
+    ).toString()
 
     fun collectImplementationIncludes(cInterface: CInterface): List<Include> {
         val includes = mutableListOf<Include>()
