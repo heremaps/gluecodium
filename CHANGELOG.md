@@ -5,6 +5,8 @@
   * Added referential integrity for classes and interfaces in generated platform code. Meaning, when
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
+### Bug fixes:
+  * Fixed missing documentation comments on parameters marked with `@Cpp(CString)`.
 
 ## 6.6.1
 Release date: 2020-04-27

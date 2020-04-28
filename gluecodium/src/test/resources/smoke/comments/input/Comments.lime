@@ -200,3 +200,9 @@ class CommentsLinks {
         random_field: comments.SomeStruct
     }
 }
+
+class CommentsOnCstring {
+    // Method that takes a C string as input and returns an std::string it as output.
+    // @param[inputString] May or may not be a C string.
+    static fun returnInputString(@Cpp(CString) inputString: String): String
+}
