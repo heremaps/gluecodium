@@ -122,7 +122,13 @@ function(apigen_java_compile)
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
   endif()
 
-  set(_java_source_dirs "${OUTPUT_DIR}/android" "${COMMON_OUTPUT_DIR}/android")
+  unset(_java_source_dirs)
+  if (OUTPUT_DIR)
+    list(APPEND _java_source_dirs "${OUTPUT_DIR}/android")
+  endif()
+  if (COMMON_OUTPUT_DIR)
+    list(APPEND _java_source_dirs "${COMMON_OUTPUT_DIR}/android")
+  endif ()
 
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
