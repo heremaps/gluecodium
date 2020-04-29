@@ -22,13 +22,15 @@ package com.here.gluecodium.platform.swift
 import com.here.gluecodium.platform.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
+import com.vladsch.flexmark.parser.ParserEmulationProfile
+import com.vladsch.flexmark.util.options.MutableDataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
  * Parse markdown comments and process links
  */
 class SwiftCommentsProcessor(werror: Boolean) :
-    CommentsProcessor(Formatter.builder().build(), werror) {
+    CommentsProcessor(Formatter.builder(FORMATTER_OPTIONS).build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String) {
         linkNode.reference = BasedSequenceImpl.of(linkReference)
@@ -38,4 +40,9 @@ class SwiftCommentsProcessor(werror: Boolean) :
     }
 
     override val nullReference = "nil"
+
+    companion object {
+        private val FORMATTER_OPTIONS = MutableDataSet()
+            .set(Formatter.FORMATTER_EMULATION_PROFILE, ParserEmulationProfile.PEGDOWN)
+    }
 }

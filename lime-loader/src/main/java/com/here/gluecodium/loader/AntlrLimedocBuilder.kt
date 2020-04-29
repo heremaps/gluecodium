@@ -46,6 +46,10 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
         contentCollector += "" to "\n".repeat(ctx.NewLine().size)
     }
 
+    override fun enterDescriptionLine(ctx: LimedocParser.DescriptionLineContext) {
+        contentCollector += "" to ctx.WhiteSpace().joinToString("") { it.text }
+    }
+
     override fun exitDecriptionFirstWord(ctx: LimedocParser.DecriptionFirstWordContext) {
         contentCollector += when {
             ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())

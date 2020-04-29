@@ -173,6 +173,8 @@ class CommentsLinks {
     // * error: [comments.SomethingWrong]
     // * type from aux sources, same package: [AuxClass]
     // * type from aux sources, different package: [fire.AuxStruct]
+    //   * we can also have
+    //   * nested lists
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]

@@ -644,14 +644,16 @@ internal class AntlrLimeModelBuilder(
         commentContexts: List<LimeParser.DocCommentContext>,
         ctx: ParserRuleContext
     ): LimeStructuredComment {
-        val commentString = commentContexts.joinToString(separator = "\n") {
+        val commentString = commentContexts.joinToString(separator = "\n") { it ->
             when {
-                it.DelimitedCommentOpen() != null -> it.DelimitedCommentText()?.text?.dropLast(2)
-                    ?.split('\n')?.joinToString("\n") { line -> line.trim() } ?: ""
-                it.LineCommentOpen() != null -> it.LineCommentText()?.text?.trim() ?: ""
+                it.DelimitedCommentOpen() != null ->
+                    it.DelimitedCommentText()?.text?.dropLast(2) ?: ""
+                it.LineCommentOpen() != null ->
+                    it.LineCommentText()?.text?.trimEnd { ch -> ch == '\n' } ?: ""
                 else -> ""
             }
-        }
+        }.trimIndent().split('\n').joinToString("\n") { line -> line.trimEnd() }
+
         val lexer = LimedocLexer(CharStreams.fromString(commentString))
         val parser = LimedocParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()

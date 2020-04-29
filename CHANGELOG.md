@@ -7,6 +7,7 @@
     be the same object on platform side as well.
 ### Bug fixes:
   * Fixed missing documentation comments on parameters marked with `@Cpp(CString)`.
+  * Fixed handling of nested lists in IDL doc comments.
 
 ## 6.6.1
 Release date: 2020-04-27

@@ -63,7 +63,12 @@ public final class CommentsLinks extends NativeBase {
      * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
      * <li>error: {@link com.example.smoke.Comments.SomethingWrongException}</li>
      * <li>type from aux sources, same package: {@link com.example.smoke.AuxClass}</li>
-     * <li>type from aux sources, different package: {@link com.example.fire.AuxStruct}</li>
+     * <li>type from aux sources, different package: {@link com.example.fire.AuxStruct}
+     * <ul>
+     * <li>we can also have</li>
+     * <li>nested lists</li>
+     * </ul>
+     * </li>
      * </ul>
      * <p>Not working for Java:</p>
      * <ul>
