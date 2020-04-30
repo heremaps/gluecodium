@@ -23,18 +23,23 @@ public class Constructors extends NativeBase {
     }
     public Constructors() {
         this(create());
+        cacheThisInstance();
     }
     public Constructors(@NonNull final Constructors other) {
         this(create(other));
+        cacheThisInstance();
     }
     public Constructors(@NonNull final String foo, final long bar) {
         this(create(foo, bar));
+        cacheThisInstance();
     }
     public Constructors(@NonNull final String input) throws Constructors.ConstructorExplodedException {
         this(create(input));
+        cacheThisInstance();
     }
     public Constructors(@NonNull final List<Double> input) {
         this(create(input));
+        cacheThisInstance();
     }
     /**
      * For internal use only.
@@ -49,6 +54,7 @@ public class Constructors extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    private native void cacheThisInstance();
     private static native long create();
     private static native long create(@NonNull final Constructors other);
     private static native long create(@NonNull final String foo, final long bar);

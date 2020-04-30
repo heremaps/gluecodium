@@ -40,6 +40,16 @@ std::shared_ptr<DummyInterface> s_dummy_interface = std::make_shared<DummyInterf
 }
 
 std::shared_ptr<DummyClass>
+DummyClass::create() {
+    return std::make_shared<DummyClassImpl>();
+}
+
+std::shared_ptr<DummyClass>
+DummyClass::dummy_class_round_trip(const std::shared_ptr<DummyClass>& input) {
+    return input;
+}
+
+std::shared_ptr<DummyClass>
 DummyFactory::get_dummy_class_singleton() {
     return s_dummy_class;
 }

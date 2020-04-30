@@ -106,4 +106,12 @@ Java_com_example_smoke_Constructors_disposeNativeHandle(JNIEnv* _jenv, jobject _
     ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
     delete p_nobj;
 }
+JNIEXPORT void JNICALL
+Java_com_example_smoke_Constructors_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto jobj = ::gluecodium::jni::make_non_releasing_ref(_jinstance);
+    auto long_ptr = ::gluecodium::jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
+    auto nobj = *reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(long_ptr);
+    ::gluecodium::jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);
+}
 }

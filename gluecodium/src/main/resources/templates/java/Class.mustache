@@ -43,6 +43,7 @@
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
 {{#if isImplClass}}
         this({{name}}({{join parameters delimiter=", " }}));
+        cacheThisInstance();
 {{/if}}{{#unless isImplClass}}
         {{className}} _other = {{name}}({{join parameters delimiter=", " }});
 {{#fields}}        this.{{name}} = _other.{{name}};
@@ -52,6 +53,9 @@
 {{/constructors}}{{/set}}
 {{#if isImplClass}}
 {{prefixPartial "java/NativeConstructor" "    "}}
+{{#if constructors}}
+    private native void cacheThisInstance();
+{{/if}}
 {{/if}}
 {{#if fields}}{{#unless constructors}}
 

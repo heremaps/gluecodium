@@ -67,4 +67,20 @@ public final class RefEqualityTest {
 
     assertFalse(instance1 == instance2);
   }
+
+  @Test
+  public void refEqualityPreservedForClassConstructor() {
+    DummyClass instance1 = new DummyClass();
+    DummyClass instance2 = DummyClass.dummyClassRoundTrip(instance1);
+
+    assertTrue(instance1 == instance2);
+  }
+
+  @Test
+  public void refInequalityPreservedForClassConstructor() {
+    DummyClass instance1 = new DummyClass();
+    DummyClass instance2 = new DummyClass();
+
+    assertFalse(instance1 == instance2);
+  }
 }

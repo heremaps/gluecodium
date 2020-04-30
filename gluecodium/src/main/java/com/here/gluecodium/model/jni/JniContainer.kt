@@ -42,7 +42,8 @@ class JniContainer(
     val isEquatable: Boolean = false,
     val isPointerEquatable: Boolean = false,
     @Suppress("unused") val hasTypeRepository: Boolean = false,
-    @Suppress("unused") val isFunctionalInterface: Boolean = false
+    @Suppress("unused") val isFunctionalInterface: Boolean = false,
+    @Suppress("unused") val hasConstructors: Boolean = false
 ) : JniElement {
     val methods: MutableList<JniMethod> = mutableListOf()
     val parentMethods: MutableList<JniMethod> = mutableListOf()

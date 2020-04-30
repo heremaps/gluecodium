@@ -131,4 +131,12 @@ Java_com_example_namerules_NAME_1RULES_1DROID_disposeNativeHandle(JNIEnv* _jenv,
     ::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
     delete p_nobj;
 }
+JNIEXPORT void JNICALL
+Java_com_example_namerules_NAME_1RULES_1DROID_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto jobj = ::jni::make_non_releasing_ref(_jinstance);
+    auto long_ptr = ::jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
+    auto nobj = *reinterpret_cast<std::shared_ptr<::namerules::NameRules>*>(long_ptr);
+    ::jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);
+}
 }
