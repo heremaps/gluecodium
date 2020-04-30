@@ -16,7 +16,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
+set (_required_vars APIGEN_GLUECODIUM_DIR APIGEN_OUTPUT_DIR)
+foreach(_var ${_required_vars})
+    if (NOT ${_var})
+        message(FATAL_ERROR "${_var} must be specified")
+    endif ()
+endforeach()
+
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
+include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
 
 function(_main)
     apigen_set_generated_files(${APIGEN_TARGET})
@@ -49,30 +57,20 @@ function(_generate)
 
     if(APIGEN_COMMON_OUTPUT_DIR)
         set(_make_common_output_dir ${CMAKE_COMMAND} -E make_directory ${APIGEN_COMMON_OUTPUT_DIR})
-        set(_lock_directory ${APIGEN_COMMON_OUTPUT_DIR})
     else()
-        set(_make_common_output_dir ${CMAKE_COMMAND} -E true)
-        set(_lock_directory ${APIGEN_OUTPUT_DIR})
+        set(_make_common_output_dir ${CMAKE_COMMAND} -E echo "No common directory specified")
     endif()
-
-    message ("Using locking file to generate sources: ${_lock_directory}-lock.cmake")
-    file (LOCK ${_lock_directory}-lock.cmake TIMEOUT 3600)
 
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
         COMMAND ${_make_common_output_dir}
         COMMAND ${_gluecodium_command}
         WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
-        RESULT_VARIABLE GENERATE_RESULT
-        OUTPUT_VARIABLE GENERATE_OUTPUT
-        ERROR_VARIABLE GENERATE_OUTPUT
-        )
+        RESULT_VARIABLE GENERATE_RESULT)
+
     if(GENERATE_RESULT)
-        message(FATAL_ERROR "Failed to generate from given LimeIDL files:\n${GENERATE_OUTPUT}")
-    elseif(APIGEN_VERBOSE)
-        message(STATUS ${GENERATE_OUTPUT})
+        message(FATAL_ERROR "Failed to generate from given LimeIDL files")
     endif()
-    file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/gluecodium.log" "${GENERATE_OUTPUT}")
 endfunction()
 
 function(_collect_all_files_in_single_compilation_units)
