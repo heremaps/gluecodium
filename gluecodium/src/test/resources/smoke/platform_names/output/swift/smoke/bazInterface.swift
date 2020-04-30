@@ -8,6 +8,7 @@ public class bazInterface {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        smoke_PlatformNamesInterface_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public var BAZ_PROPERTY: UInt32 {
         get {

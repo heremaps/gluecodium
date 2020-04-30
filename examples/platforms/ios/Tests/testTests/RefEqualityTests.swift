@@ -51,10 +51,26 @@ class RefEqualityTests: XCTestCase {
         XCTAssertFalse(instance1 === instance2)
     }
 
+    func testRefEqualityPreservedForClassConstructor() {
+        let instance1 = DummyClass()
+        let instance2 = DummyClass.dummyClassRoundTrip(input: instance1)
+
+        XCTAssertTrue(instance1 === instance2)
+    }
+
+    func testRefInequalityPreservedForClassConstructor() {
+        let instance1 = DummyClass()
+        let instance2 = DummyClass()
+
+        XCTAssertFalse(instance1 === instance2)
+    }
+
     static var allTests = [
         ("testRefEqualityPreservedForClass", testRefEqualityPreservedForClass),
         ("testRefInequalityPreservedForClass", testRefInequalityPreservedForClass),
         ("testRefEqualityPreservedForInterface", testRefEqualityPreservedForInterface),
-        ("testRefInequalityPreservedForInterface", testRefInequalityPreservedForInterface)
+        ("testRefInequalityPreservedForInterface", testRefInequalityPreservedForInterface),
+        ("testRefEqualityPreservedForClassConstructor", testRefEqualityPreservedForClassConstructor),
+        ("testRefInequalityPreservedForClassConstructor", testRefInequalityPreservedForClassConstructor)
     ]
 }
