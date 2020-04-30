@@ -30,6 +30,7 @@ public final class NAME_RULES_DROID extends NativeBase {
     }
     public NAME_RULES_DROID() {
         this(create());
+        cacheThisInstance();
     }
     /**
      * For internal use only.
@@ -44,6 +45,7 @@ public final class NAME_RULES_DROID extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    private native void cacheThisInstance();
     private static native long create();
     public native double some_method(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_x;
     public native long loadIntProperty();

@@ -7,6 +7,7 @@ import java.util.List;
 public final class Class extends InterfaceImpl {
     public Class() {
         this(constructor());
+        cacheThisInstance();
     }
     /**
      * For internal use only.
@@ -15,6 +16,7 @@ public final class Class extends InterfaceImpl {
     protected Class(final long nativeHandle) {
         super(nativeHandle);
     }
+    private native void cacheThisInstance();
     private static native long constructor();
     @NonNull
     public native Struct fun(@NonNull final List<Struct> double) throws ExceptionException;
