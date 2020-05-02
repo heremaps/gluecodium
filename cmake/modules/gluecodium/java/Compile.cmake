@@ -50,6 +50,8 @@ cmake_minimum_required(VERSION 3.5)
 
 find_package(Java COMPONENTS Development REQUIRED)
 
+set(APIGEN_COMPILE_DIR ${CMAKE_CURRENT_LIST_DIR})
+
 function(collect_java_dependencies TARGET JAVA_DEPENDENCIES JAVA_DEPENDENCIES_DIRS)
   if(${TARGET} IN_LIST java_deps_visited)
       return()
@@ -122,14 +124,6 @@ function(apigen_java_compile)
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
   endif()
 
-  unset(_java_source_dirs)
-  if (OUTPUT_DIR)
-    list(APPEND _java_source_dirs "${OUTPUT_DIR}/android")
-  endif()
-  if (COMMON_OUTPUT_DIR)
-    list(APPEND _java_source_dirs "${COMMON_OUTPUT_DIR}/android")
-  endif ()
-
   # Gluecodium invocations for different generators need different output directories
   # as Gluecodium currently wipes the directory upon start.
   set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${BUILD_OUTPUT_DIR}/android/java)
@@ -156,23 +150,25 @@ function(apigen_java_compile)
     list(APPEND APIGEN_JAVA_REMOTE_DEPENDENCIES "${remote_dependencies}")
   endforeach()
 
-  string(REPLACE ";" "$<SEMICOLON>" _java_source_dirs "${_java_source_dirs}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES "${APIGEN_JAVA_LOCAL_DEPENDENCIES}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_REMOTE_DEPENDENCIES "${APIGEN_JAVA_REMOTE_DEPENDENCIES}")
+  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_JARS "${APIGEN_JAVA_LOCAL_JARS}")
 
   add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-    COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
-      -b=compileJava.gradle
-      -PsrcDirs=${_java_source_dirs}
-      -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-      -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
-      -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
-      -PlocalJars=${APIGEN_JAVA_LOCAL_JARS}
-      -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
-      compileJava
+    COMMAND ${CMAKE_COMMAND}
+      -DAPIGEN_JAVA_COMPILE_OUTPUT_DIR=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+      -DAPIGEN_JAVA_LOCAL_DEPENDENCIES=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
+      -DAPIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
+      -DAPIGEN_JAVA_REMOTE_DEPENDENCIES=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
+      -DAPIGEN_JAVA_LOCAL_JARS=${APIGEN_JAVA_LOCAL_JARS}
+      -DAPIGEN_OUTPUT_DIR=${OUTPUT_DIR}
+      -DAPIGEN_COMMON_OUTPUT_DIR=${COMMON_OUTPUT_DIR}
+      -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
+      -P ${APIGEN_COMPILE_DIR}/runCompile.cmake
     WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
+    DEPENDS
+      "${CMAKE_CURRENT_LIST_DIR}/runCompile.cmake"
     VERBATIM
     COMMENT "Compiling generated Java sources into class files...")
 endfunction()

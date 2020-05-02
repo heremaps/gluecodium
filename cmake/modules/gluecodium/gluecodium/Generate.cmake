@@ -66,11 +66,6 @@ else()
 endif()
 
 set(APIGEN_GLUECODIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
-if(WIN32)
-  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew.bat)
-else()
-  set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew)
-endif()
 
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 
@@ -193,7 +188,6 @@ function(apigen_generate)
   add_custom_command(OUTPUT ${_generated_files}
     COMMAND ${CMAKE_COMMAND}
         -DAPIGEN_TARGET=${APIGEN_TARGET}
-        -DAPIGEN_GLUECODIUM_GRADLE_WRAPPER=${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
         -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
         -DAPIGEN_GLUECODIUM_ARGS=${APIGEN_GLUECODIUM_ARGS}
         -DAPIGEN_GLUECODIUM_VERSION=${apigen_generate_VERSION}
@@ -202,7 +196,6 @@ function(apigen_generate)
         -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
         -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
-        -DAPIGEN_VERBOSE=${APIGEN_VERBOSE}
         # Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
         -DAPIGEN_AUX_FILES=${_lime_interface_sources};${_lime_sources}
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
