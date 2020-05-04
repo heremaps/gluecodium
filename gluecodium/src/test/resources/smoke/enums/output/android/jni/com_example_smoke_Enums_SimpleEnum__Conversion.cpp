@@ -10,13 +10,13 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::Enums::SimpleEnum
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum*)
 {
     return ::smoke::Enums::SimpleEnum(
         ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 ::gluecodium::optional<::smoke::Enums::SimpleEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Enums::SimpleEnum>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Enums::SimpleEnum>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::SimpleEnum*)nullptr))

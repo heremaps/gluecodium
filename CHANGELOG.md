@@ -8,6 +8,7 @@
 ### Bug fixes:
   * Fixed missing documentation comments on parameters marked with `@Cpp(CString)`.
   * Fixed handling of nested lists in IDL doc comments.
+  * Reduced the number of compiler warnings for JNI generated code even further.
 
 ## 6.6.1
 Release date: 2020-04-27
@@ -15,6 +16,7 @@ Release date: 2020-04-27
   * Fixed C++ build issue in CMake helpers.
   * Fixed Swift issue in CMake helpers.
   * Fixed Windows build issue with Gradle.
+  * Reduced the number of compiler warnings for JNI generated code.
 
 ## 6.6.0
 Release date: 2020-04-22

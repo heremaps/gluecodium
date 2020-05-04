@@ -35,14 +35,14 @@ namespace jni
 {
 {{#enum}}
 {{cppFullyQualifiedName}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}*)
 {
     return {{cppFullyQualifiedName}}(
         {{>common/InternalNamespace}}jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 
 {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>*)
 {
     return _jinput
         ? {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppFullyQualifiedName}}*)nullptr))

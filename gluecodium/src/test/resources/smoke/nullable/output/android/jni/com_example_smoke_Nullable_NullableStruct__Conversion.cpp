@@ -13,7 +13,7 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::Nullable::NullableStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::NullableStruct* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::NullableStruct*)
 {
     ::smoke::Nullable::NullableStruct _nout{};
     ::gluecodium::optional< ::std::string > n_string_field = ::gluecodium::jni::get_field_value(
@@ -67,7 +67,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     return _nout;
 }
 ::gluecodium::optional<::smoke::Nullable::NullableStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Nullable::NullableStruct>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Nullable::NullableStruct>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::Nullable::NullableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableStruct*)nullptr))

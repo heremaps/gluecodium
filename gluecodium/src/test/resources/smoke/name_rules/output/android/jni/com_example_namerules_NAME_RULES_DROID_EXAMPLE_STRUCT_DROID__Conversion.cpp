@@ -8,7 +8,7 @@
 namespace jni
 {
 ::namerules::NameRules::ExampleStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerules::NameRules::ExampleStruct* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerules::NameRules::ExampleStruct*)
 {
     ::namerules::NameRules::ExampleStruct _nout{};
     double n_m_value = ::jni::get_field_value(
@@ -25,7 +25,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerule
     return _nout;
 }
 ::optional<::namerules::NameRules::ExampleStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional<::namerules::NameRules::ExampleStruct>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional<::namerules::NameRules::ExampleStruct>*)
 {
     return _jinput
         ? ::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleStruct*)nullptr))

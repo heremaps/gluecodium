@@ -11,7 +11,7 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::Structs::ExternalStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ExternalStruct* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ExternalStruct*)
 {
     ::smoke::Structs::ExternalStruct _nout{};
     ::std::string n_stringField = ::gluecodium::jni::get_field_value(
@@ -39,7 +39,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     return _nout;
 }
 ::gluecodium::optional<::smoke::Structs::ExternalStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::ExternalStruct>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::ExternalStruct>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ExternalStruct*)nullptr))

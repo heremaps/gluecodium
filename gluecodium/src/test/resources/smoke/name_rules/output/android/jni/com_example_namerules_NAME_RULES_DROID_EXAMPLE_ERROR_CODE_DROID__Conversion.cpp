@@ -8,13 +8,13 @@
 namespace jni
 {
 ::namerules::NameRules::ExampleErrorCode
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerules::NameRules::ExampleErrorCode* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerules::NameRules::ExampleErrorCode*)
 {
     return ::namerules::NameRules::ExampleErrorCode(
         ::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 ::optional<::namerules::NameRules::ExampleErrorCode>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional<::namerules::NameRules::ExampleErrorCode>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional<::namerules::NameRules::ExampleErrorCode>*)
 {
     return _jinput
         ? ::optional<::namerules::NameRules::ExampleErrorCode>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleErrorCode*)nullptr))

@@ -49,17 +49,17 @@ JniReference<jobject> convert_to_jni( JNIEnv* env, const uint64_t nvalue );
 
 // The following functions are unboxing and converting primitive values from Java boxed types.
 
-bool convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy );
-double convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy );
-float convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy );
-int8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy );
-int16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dummy );
-int32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* dummy );
-int64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dummy );
-uint8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy );
-uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy );
-uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy );
-uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy );
+bool convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* );
+double convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* );
+float convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* );
+int8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* );
+int16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* );
+int32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* );
+int64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* );
+uint8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* );
+uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* );
+uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* );
+uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* );
 
 // Boxing/unboxing conversion functions for nullable types
 
@@ -72,27 +72,27 @@ JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}
 JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int64_t> nvalue );
 
 {{>common/InternalNamespace}}optional<bool> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<bool>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<bool>* );
 {{>common/InternalNamespace}}optional<float> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<float>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<float>* );
 {{>common/InternalNamespace}}optional<double> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<double>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<double>* );
 {{>common/InternalNamespace}}optional<int8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int8_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int8_t>* );
 {{>common/InternalNamespace}}optional<int16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int16_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int16_t>* );
 {{>common/InternalNamespace}}optional<int32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int32_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int32_t>* );
 {{>common/InternalNamespace}}optional<int64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int64_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int64_t>* );
 {{>common/InternalNamespace}}optional<uint8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint8_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint8_t>* );
 {{>common/InternalNamespace}}optional<uint16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint16_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint16_t>* );
 {{>common/InternalNamespace}}optional<uint32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint32_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint32_t>* );
 {{>common/InternalNamespace}}optional<uint64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint64_t>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint64_t>* );
 
 }
 {{#internalNamespace}}
