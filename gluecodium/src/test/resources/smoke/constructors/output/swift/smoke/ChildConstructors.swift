@@ -5,10 +5,12 @@ public class ChildConstructors: Constructors {
     public override init() {
         let _result = ChildConstructors.create()
         super.init(cConstructors: _result)
+        smoke_ChildConstructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public override init(other: Constructors) {
         let _result = ChildConstructors.create(other: other)
         super.init(cConstructors: _result)
+        smoke_ChildConstructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     init(cChildConstructors: _baseRef) {
         super.init(cConstructors: cChildConstructors)

@@ -8,6 +8,7 @@ public class Class: Interface {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        package_Class_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public var property: Enum {
         get {

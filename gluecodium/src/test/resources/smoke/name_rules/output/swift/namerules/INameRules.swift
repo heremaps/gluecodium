@@ -10,6 +10,7 @@ public class INameRules {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        namerules_NameRules_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public var intPropertyPod: UInt32 {
         get {

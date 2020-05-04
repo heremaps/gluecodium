@@ -9,6 +9,7 @@ public class Constructors {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        smoke_Constructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public init(other: Constructors) {
         let _result = Constructors.create(other: other)
@@ -16,6 +17,7 @@ public class Constructors {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        smoke_Constructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public init(foo: String, bar: UInt64) {
         let _result = Constructors.create(foo: foo, bar: bar)
@@ -23,6 +25,7 @@ public class Constructors {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        smoke_Constructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public init(input: String) throws {
         let _result = try Constructors.create(input: input)
@@ -30,6 +33,7 @@ public class Constructors {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        smoke_Constructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     public init(input: [Double]) {
         let _result = Constructors.create(input: input)
@@ -37,6 +41,7 @@ public class Constructors {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
+        smoke_Constructors_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
     let c_instance : _baseRef
     init(cConstructors: _baseRef) {
