@@ -11,7 +11,7 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::StructWithInterface
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::StructWithInterface* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::StructWithInterface*)
 {
     ::smoke::StructWithInterface _nout{};
     ::std::shared_ptr< ::smoke::SimpleInterface > n_interface_instance = convert_from_jni(
@@ -22,7 +22,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     return _nout;
 }
 ::gluecodium::optional<::smoke::StructWithInterface>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::StructWithInterface>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::StructWithInterface>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::StructWithInterface>(convert_from_jni(_jenv, _jinput, (::smoke::StructWithInterface*)nullptr))

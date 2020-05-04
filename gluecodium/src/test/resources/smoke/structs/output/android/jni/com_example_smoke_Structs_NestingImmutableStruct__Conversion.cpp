@@ -11,7 +11,7 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::Structs::NestingImmutableStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::NestingImmutableStruct* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::NestingImmutableStruct*)
 {
     ::smoke::Structs::AllTypesStruct n_struct_field = convert_from_jni(
         _jenv,
@@ -20,7 +20,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     return ::smoke::Structs::NestingImmutableStruct(std::move(n_struct_field));
 }
 ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::NestingImmutableStruct*)nullptr))

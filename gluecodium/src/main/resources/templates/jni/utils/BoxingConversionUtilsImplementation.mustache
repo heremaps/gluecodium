@@ -161,7 +161,7 @@ convert_to_jni( JNIEnv* env, const uint64_t nvalue )
 }
 
 bool
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* )
 {
     auto javaBooleanClass = find_class( env, "java/lang/Boolean" );
     auto booleanValueMethodId = env->GetMethodID( javaBooleanClass.get(), "booleanValue", "()Z" );
@@ -169,7 +169,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy 
 }
 
 double
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* )
 {
     auto javaDoubleClass = find_class( env, "java/lang/Double" );
     auto doubleValueMethodId = env->GetMethodID( javaDoubleClass.get(), "doubleValue", "()D" );
@@ -177,7 +177,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dumm
 }
 
 float
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* )
 {
     auto javaFloatClass = find_class( env, "java/lang/Float" );
     auto floatValueMethodId = env->GetMethodID( javaFloatClass.get(), "floatValue", "()F" );
@@ -185,7 +185,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy
 }
 
 int8_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* )
 {
     auto javaByteClass = find_class( env, "java/lang/Byte" );
     auto byteValueMethodId = env->GetMethodID( javaByteClass.get(), "byteValue", "()B" );
@@ -193,7 +193,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dumm
 }
 
 int16_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* )
 {
     auto javaShortClass = find_class(env, "java/lang/Short" );
     auto shortValueMethodId = env->GetMethodID( javaShortClass.get(), "shortValue", "()S" );
@@ -201,37 +201,37 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dum
 }
 
 int32_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* )
 {
     return unbox_int_value( env, jvalue );
 }
 
 int64_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* )
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint8_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* )
 {
     return unbox_short_value( env, jvalue );
 }
 
 uint16_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* )
 {
     return unbox_int_value( env, jvalue );
 }
 
 uint32_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* )
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint64_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* )
 {
     return unbox_long_value( env, jvalue );
 }
@@ -280,7 +280,7 @@ convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int64_t> nval
 
 {{>common/InternalNamespace}}optional<bool>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<bool>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<bool>* )
 {
     if ( !jvalue )
     {
@@ -292,7 +292,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<float>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<float>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<float>* )
 {
     if ( !jvalue )
     {
@@ -304,7 +304,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<double>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<double>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<double>* )
 {
     if ( !jvalue )
     {
@@ -316,7 +316,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<int8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int8_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int8_t>* )
 {
     if ( !jvalue )
     {
@@ -328,7 +328,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<int16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int16_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int16_t>* )
 {
     if ( !jvalue )
     {
@@ -340,7 +340,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<int32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int32_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int32_t>* )
 {
     if ( !jvalue )
     {
@@ -352,7 +352,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<int64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int64_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int64_t>* )
 {
     if ( !jvalue )
     {
@@ -364,7 +364,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<uint8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint8_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint8_t>* )
 {
     if ( !jvalue )
     {
@@ -376,7 +376,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<uint16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint16_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint16_t>* )
 {
     if ( !jvalue )
     {
@@ -388,7 +388,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<uint32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint32_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint32_t>* )
 {
     if ( !jvalue )
     {
@@ -400,7 +400,7 @@ convert_from_jni(
 
 {{>common/InternalNamespace}}optional<uint64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint64_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint64_t>* )
 {
     if ( !jvalue )
     {

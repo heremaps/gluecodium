@@ -10,13 +10,13 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum*)
 {
     return ::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum(
         ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>(convert_from_jni(_jenv, _jinput, (::smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum*)nullptr))

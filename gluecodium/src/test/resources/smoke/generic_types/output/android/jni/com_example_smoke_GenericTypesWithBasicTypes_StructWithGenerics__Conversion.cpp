@@ -10,7 +10,7 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::GenericTypesWithBasicTypes::StructWithGenerics
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::GenericTypesWithBasicTypes::StructWithGenerics* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::GenericTypesWithBasicTypes::StructWithGenerics*)
 {
     ::smoke::GenericTypesWithBasicTypes::StructWithGenerics _nout{};
     ::std::vector< uint8_t > n_numbers_list = convert_from_jni(
@@ -31,7 +31,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::G
     return _nout;
 }
 ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(convert_from_jni(_jenv, _jinput, (::smoke::GenericTypesWithBasicTypes::StructWithGenerics*)nullptr))

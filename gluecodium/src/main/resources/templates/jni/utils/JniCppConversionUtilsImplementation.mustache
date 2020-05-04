@@ -78,7 +78,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/In
 
 std::shared_ptr< std::vector< uint8_t > >
 convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
-                  std::shared_ptr< std::vector< uint8_t > >* dummy )
+                  std::shared_ptr< std::vector< uint8_t > >* )
 {
     if ( !jvalue )
     {

@@ -10,7 +10,7 @@ namespace gluecodium
 namespace jni
 {
 ::root::space::smoke::SomeStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::root::space::smoke::SomeStruct* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::root::space::smoke::SomeStruct*)
 {
     ::root::space::smoke::SomeStruct _nout{};
     ::std::string n_some_field = ::gluecodium::jni::get_field_value(
@@ -22,7 +22,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::root::sp
     return _nout;
 }
 ::gluecodium::optional<::root::space::smoke::SomeStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::root::space::smoke::SomeStruct>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::root::space::smoke::SomeStruct>*)
 {
     return _jinput
         ? ::gluecodium::optional<::root::space::smoke::SomeStruct>(convert_from_jni(_jenv, _jinput, (::root::space::smoke::SomeStruct*)nullptr))

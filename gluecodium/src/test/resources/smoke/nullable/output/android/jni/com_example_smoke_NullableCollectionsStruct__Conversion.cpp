@@ -11,7 +11,7 @@ namespace gluecodium
 namespace jni
 {
 ::smoke::NullableCollectionsStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::NullableCollectionsStruct* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::NullableCollectionsStruct*)
 {
     ::smoke::NullableCollectionsStruct _nout{};
     ::std::vector< ::gluecodium::optional< ::std::chrono::system_clock::time_point > > n_dates = convert_from_jni(
@@ -27,7 +27,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     return _nout;
 }
 ::gluecodium::optional<::smoke::NullableCollectionsStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::NullableCollectionsStruct>* dummy)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::NullableCollectionsStruct>*)
 {
     return _jinput
         ? ::gluecodium::optional<::smoke::NullableCollectionsStruct>(convert_from_jni(_jenv, _jinput, (::smoke::NullableCollectionsStruct*)nullptr))

@@ -37,7 +37,7 @@ bool
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 bool* dummy )
+                 bool* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Z" );
 
@@ -48,7 +48,7 @@ int8_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 int8_t* dummy )
+                 int8_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "B" );
 
@@ -59,7 +59,7 @@ int16_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 int16_t* dummy )
+                 int16_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "S" );
 
@@ -70,7 +70,7 @@ int32_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 int32_t* dummy )
+                 int32_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "I" );
 
@@ -81,7 +81,7 @@ int64_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 int64_t* dummy )
+                 int64_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
 
@@ -92,7 +92,7 @@ uint8_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 uint8_t* dummy )
+                 uint8_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "S" );
 
@@ -103,7 +103,7 @@ uint16_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 uint16_t* dummy )
+                 uint16_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "I" );
 
@@ -114,7 +114,7 @@ uint32_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 uint32_t* dummy )
+                 uint32_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
 
@@ -125,7 +125,7 @@ uint64_t
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 uint64_t* dummy )
+                 uint64_t* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
 
@@ -136,7 +136,7 @@ float
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 float* dummy )
+                 float* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "F" );
 
@@ -147,7 +147,7 @@ double
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 double* dummy )
+                 double* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "D" );
 
@@ -158,7 +158,7 @@ std::string
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 std::string* dummy )
+                 std::string* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/String;" );
 
@@ -169,7 +169,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<bool>* dummy )
+                 {{>common/InternalNamespace}}optional<bool>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Boolean;" );
 
@@ -180,7 +180,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<int8_t>* dummy )
+                 {{>common/InternalNamespace}}optional<int8_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Byte;" );
 
@@ -191,7 +191,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<int16_t>* dummy )
+                 {{>common/InternalNamespace}}optional<int16_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Short;" );
 
@@ -202,7 +202,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<int32_t>* dummy )
+                 {{>common/InternalNamespace}}optional<int32_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Integer;" );
 
@@ -213,7 +213,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<int64_t>* dummy )
+                 {{>common/InternalNamespace}}optional<int64_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Long;" );
 
@@ -224,7 +224,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<uint8_t>* dummy )
+                 {{>common/InternalNamespace}}optional<uint8_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Short;" );
 
@@ -235,7 +235,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<uint16_t>* dummy )
+                 {{>common/InternalNamespace}}optional<uint16_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Integer;" );
 
@@ -246,7 +246,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<uint32_t>* dummy )
+                 {{>common/InternalNamespace}}optional<uint32_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Long;" );
 
@@ -257,7 +257,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<uint64_t>* dummy )
+                 {{>common/InternalNamespace}}optional<uint64_t>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Long;" );
 
@@ -268,7 +268,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<float>* dummy )
+                 {{>common/InternalNamespace}}optional<float>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Float;" );
 
@@ -279,7 +279,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<double>* dummy )
+                 {{>common/InternalNamespace}}optional<double>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/Double;" );
 
@@ -290,7 +290,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<std::string>* dummy )
+                 {{>common/InternalNamespace}}optional<std::string>* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/lang/String;" );
 
@@ -301,7 +301,7 @@ std::shared_ptr<std::vector<uint8_t>>
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 std::shared_ptr<std::vector<uint8_t>>* dummy )
+                 std::shared_ptr<std::vector<uint8_t>>* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "[B" );
     auto fieldValue = make_local_ref( env, static_cast<jbyteArray>( env->GetObjectField( object.get(), fieldId ) ) );
@@ -313,7 +313,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional<std::shared_ptr<std::vector<uint8_t>>>* dummy )
+                 {{>common/InternalNamespace}}optional<std::shared_ptr<std::vector<uint8_t>>>* )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "[B" );
     auto fieldValue = make_local_ref( env, static_cast<jbyteArray>( env->GetObjectField( object.get(), fieldId ) ) );
@@ -325,7 +325,7 @@ std::chrono::system_clock::time_point
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 std::chrono::system_clock::time_point* dummy )
+                 std::chrono::system_clock::time_point* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/util/Date;" );
 
@@ -337,7 +337,7 @@ get_field_value( JNIEnv* env,
 get_field_value( JNIEnv* env,
                  const JniReference<jobject>& object,
                  const char* fieldName,
-                 {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >* dummy )
+                 {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >* )
 {
     auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/util/Date;" );
 

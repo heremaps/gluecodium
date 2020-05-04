@@ -46,28 +46,28 @@ namespace jni
 /**
  * Converts a JNI jstring to an std::string.
  */
-std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* dummy );
-std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* dummy );
+std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* );
+std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* );
 {{>common/InternalNamespace}}optional<std::string> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* );
 
 /**
  * Converts a jbyteArray to a byte buffer
  */
 std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
-    JNIEnv* env, const JniReference<jbyteArray>& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* dummy );
+    JNIEnv* env, const JniReference<jbyteArray>& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* );
 {{>common/InternalNamespace}}optional<std::shared_ptr< ::std::vector< uint8_t > > > convert_from_jni(
     JNIEnv* env, const JniReference<jbyteArray>& jvalue,
-    {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > >* dummy );
+    {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > >* );
 
 /**
  * Converts a Java Date object to an std::chrono::time_point.
  */
 std::chrono::system_clock::time_point convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::system_clock::time_point* dummy );
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::system_clock::time_point* );
 {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue,
-    {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>* dummy );
+    {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>* );
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
