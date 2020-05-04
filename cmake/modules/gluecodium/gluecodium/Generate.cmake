@@ -196,6 +196,7 @@ function(apigen_generate)
         -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
         -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
+        -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
         # Pass on the interface lime files from dependencies, only INTERFACE_SOURCES is propagated transitively as of CMake 3.16
         -DAPIGEN_AUX_FILES=${_lime_interface_sources};${_lime_sources}
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake

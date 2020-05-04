@@ -19,18 +19,14 @@ if (NOT APIGEN_GLUECODIUM_DIR)
     message(FATAL_ERROR "APIGEN_GLUECODIUM_DIR must be specified")
 endif ()
 
-if (NOT APIGEN_OUTPUT_DIR)
-    message(FATAL_ERROR "APIGEN_OUTPUT_DIR must be specified")
+if (NOT APIGEN_GRADLE_SYNCHRONISATION_DIR)
+    message(FATAL_ERROR "APIGEN_GRADLE_SYNCHRONISATION_DIR must be specified")
 endif ()
 
-if(APIGEN_COMMON_OUTPUT_DIR)
-    set(_lock_directory ${APIGEN_COMMON_OUTPUT_DIR})
-else()
-    set(_lock_directory ${APIGEN_OUTPUT_DIR})
-endif()
+set(_lock_file "${APIGEN_GRADLE_SYNCHRONISATION_DIR}/gluecodium-gradle-lock.cmake")
 
-message ("Using locking file to invocate gradle: ${_lock_directory}-lock.cmake")
-file (LOCK ${_lock_directory}-lock.cmake TIMEOUT 600)
+message ("Using locking file to invocate gradle: ${_lock_file}")
+file (LOCK ${_lock_file} TIMEOUT 600)
 
 if(WIN32)
   set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew.bat)
