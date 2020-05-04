@@ -7,6 +7,8 @@ eliminating the need for writing conversions and bindings manually.
 To simplify use of platform specific functions, Gluecodium is also able to generate interfaces/protocols
 allowing use of Java/Swift/Dart implementations from C++.
 
+![Gluecodium logo](docs/logo.svg)
+
 A few similar systems exist (e.g. Djinni and Swig). However, these systems are unable to generate
 bindings for modern languages like Swift or Dart.
 
