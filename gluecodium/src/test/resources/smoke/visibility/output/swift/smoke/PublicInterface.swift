@@ -12,6 +12,7 @@ internal class _PublicInterface: PublicInterface {
         c_instance = cPublicInterface
     }
     deinit {
+        smoke_PublicInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_PublicInterface_release_handle(c_instance)
     }
 }

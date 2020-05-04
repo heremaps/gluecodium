@@ -31,6 +31,7 @@ public class PublicClass {
         c_instance = cPublicClass
     }
     deinit {
+        smoke_PublicClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_PublicClass_release_handle(c_instance)
     }
     internal enum InternalEnum : UInt32, CaseIterable, Codable {

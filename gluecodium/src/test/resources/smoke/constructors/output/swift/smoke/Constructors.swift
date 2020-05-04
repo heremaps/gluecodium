@@ -51,6 +51,7 @@ public class Constructors {
         c_instance = cConstructors
     }
     deinit {
+        smoke_Constructors_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_Constructors_release_handle(c_instance)
     }
     public enum ErrorEnum : UInt32, CaseIterable, Codable {

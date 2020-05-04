@@ -92,6 +92,7 @@ public class Properties {
         c_instance = cProperties
     }
     deinit {
+        smoke_Properties_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_Properties_release_handle(c_instance)
     }
     public enum InternalErrorCode : UInt32, CaseIterable, Codable {

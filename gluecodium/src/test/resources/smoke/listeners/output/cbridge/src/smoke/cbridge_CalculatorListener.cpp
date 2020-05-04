@@ -14,12 +14,7 @@
 #include <unordered_map>
 #include <vector>
 void smoke_CalculatorListener_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle);
 }
 _baseRef smoke_CalculatorListener_copy_handle(_baseRef handle) {
     return handle
@@ -34,6 +29,10 @@ const void* smoke_CalculatorListener_get_swift_object_from_wrapper_cache(_baseRe
 void smoke_CalculatorListener_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get(), swift_pointer);
+}
+void smoke_CalculatorListener_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_CalculatorListener(_baseRef handle);

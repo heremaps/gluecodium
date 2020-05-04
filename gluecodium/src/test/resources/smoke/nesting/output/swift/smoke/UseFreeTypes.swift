@@ -10,6 +10,7 @@ public class UseFreeTypes {
         c_instance = cUseFreeTypes
     }
     deinit {
+        smoke_UseFreeTypes_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_UseFreeTypes_release_handle(c_instance)
     }
     public func doStuff(point: FreePoint, mode: FreeEnum) throws -> FreeTypeDef {

@@ -10,6 +10,7 @@ public class EnumsInTypeCollectionInterface {
         c_instance = cEnumsInTypeCollectionInterface
     }
     deinit {
+        smoke_EnumsInTypeCollectionInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_EnumsInTypeCollectionInterface_release_handle(c_instance)
     }
     public static func flipEnumValue(input: TCEnum) -> TCEnum {

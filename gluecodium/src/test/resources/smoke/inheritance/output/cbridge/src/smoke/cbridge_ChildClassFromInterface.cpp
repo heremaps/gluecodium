@@ -14,12 +14,7 @@
 #include <new>
 #include <string>
 void smoke_ChildClassFromInterface_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle);
 }
 _baseRef smoke_ChildClassFromInterface_copy_handle(_baseRef handle) {
     return handle
@@ -34,6 +29,10 @@ const void* smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(_b
 void smoke_ChildClassFromInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle)->get(), swift_pointer);
+}
+void smoke_ChildClassFromInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromInterface>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ChildClassFromInterface(_baseRef handle);

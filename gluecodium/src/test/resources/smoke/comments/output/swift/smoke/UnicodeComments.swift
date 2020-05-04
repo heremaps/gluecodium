@@ -10,6 +10,7 @@ public class UnicodeComments {
         c_instance = cUnicodeComments
     }
     deinit {
+        smoke_UnicodeComments_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_UnicodeComments_release_handle(c_instance)
     }
     /// Süßölgefäß

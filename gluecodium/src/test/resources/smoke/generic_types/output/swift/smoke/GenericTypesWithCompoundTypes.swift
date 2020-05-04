@@ -10,6 +10,7 @@ public class GenericTypesWithCompoundTypes {
         c_instance = cGenericTypesWithCompoundTypes
     }
     deinit {
+        smoke_GenericTypesWithCompoundTypes_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_GenericTypesWithCompoundTypes_release_handle(c_instance)
     }
     public enum SomeEnum : UInt32, CaseIterable, Codable {

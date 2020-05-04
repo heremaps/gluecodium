@@ -12,12 +12,7 @@
 #include <string>
 #include <vector>
 void smoke_Constructors_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::Constructors>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::Constructors>>(handle);
 }
 _baseRef smoke_Constructors_copy_handle(_baseRef handle) {
     return handle
@@ -32,6 +27,10 @@ const void* smoke_Constructors_get_swift_object_from_wrapper_cache(_baseRef hand
 void smoke_Constructors_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::Constructors>>(handle)->get(), swift_pointer);
+}
+void smoke_Constructors_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::Constructors>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_Constructors(_baseRef handle);

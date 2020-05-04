@@ -12,6 +12,7 @@ internal class _Interface: Interface {
         c_instance = cInterface
     }
     deinit {
+        package_Interface_remove_swift_object_from_wrapper_cache(c_instance)
         package_Interface_release_handle(c_instance)
     }
 }

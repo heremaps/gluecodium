@@ -12,12 +12,7 @@
 #include <new>
 #include <string>
 void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle);
 }
 _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle) {
     return handle
@@ -32,6 +27,10 @@ const void* smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cach
 void smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get(), swift_pointer);
+}
+void smoke_StructsWithMethodsInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get());
 }
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_handle( double x, double y, double z )

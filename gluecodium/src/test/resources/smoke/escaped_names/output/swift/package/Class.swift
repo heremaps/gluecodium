@@ -27,6 +27,7 @@ public class Class: Interface {
         c_instance = cClass
     }
     deinit {
+        package_Class_remove_swift_object_from_wrapper_cache(c_instance)
         package_Class_release_handle(c_instance)
     }
     private static func constructor() -> _baseRef {

@@ -13,6 +13,7 @@ internal class _OuterInterface: OuterInterface {
         c_instance = cOuterInterface
     }
     deinit {
+        smoke_OuterInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_OuterInterface_release_handle(c_instance)
     }
     public func foo(input: String) -> String {
@@ -118,6 +119,7 @@ public class InnerClass {
         c_instance = cInnerClass
     }
     deinit {
+        smoke_OuterInterface_InnerClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_OuterInterface_InnerClass_release_handle(c_instance)
     }
     public func foo(input: String) -> String {
@@ -191,6 +193,7 @@ internal class _InnerInterface: InnerInterface {
         c_instance = cInnerInterface
     }
     deinit {
+        smoke_OuterInterface_InnerInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_OuterInterface_InnerInterface_release_handle(c_instance)
     }
     public func foo(input: String) -> String {

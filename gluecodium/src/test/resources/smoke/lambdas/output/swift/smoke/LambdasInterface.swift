@@ -14,6 +14,7 @@ internal class _LambdasInterface: LambdasInterface {
         c_instance = cLambdasInterface
     }
     deinit {
+        smoke_LambdasInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_LambdasInterface_release_handle(c_instance)
     }
     public func takeScreenshot(callback: @escaping LambdasInterface.TakeScreenshotCallback) -> Void {

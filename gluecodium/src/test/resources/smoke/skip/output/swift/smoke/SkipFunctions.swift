@@ -10,6 +10,7 @@ public class SkipFunctions {
         c_instance = cSkipFunctions
     }
     deinit {
+        smoke_SkipFunctions_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_SkipFunctions_release_handle(c_instance)
     }
     public static func notInJava(input: String) -> String {

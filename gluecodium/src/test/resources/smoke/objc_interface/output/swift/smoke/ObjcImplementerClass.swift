@@ -11,6 +11,7 @@ public class ObjcImplementerClass: NSObject, ObjcInterface {
         c_instance = cObjcImplementerClass
     }
     deinit {
+        smoke_ObjcImplementerClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ObjcImplementerClass_release_handle(c_instance)
     }
 }

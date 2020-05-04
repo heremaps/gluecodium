@@ -12,6 +12,7 @@ internal class _EquatableInterface: EquatableInterface {
         c_instance = cEquatableInterface
     }
     deinit {
+        smoke_EquatableInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_EquatableInterface_release_handle(c_instance)
     }
 }

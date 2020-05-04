@@ -33,27 +33,12 @@ public:
     using CppPtr = const void*;
     using SwiftPtr = const void*;
 
-    explicit WrapperCache() noexcept { wrapper_cache_is_alive = true; }
-    ~WrapperCache() { wrapper_cache_is_alive = false; }
+    explicit WrapperCache() noexcept;
+    ~WrapperCache();
 
-    void
-    cache_wrapper(CppPtr cpp_ptr, SwiftPtr swift_ptr) {
-        std::lock_guard<std::mutex> lock(mutex);
-        cache[cpp_ptr] = swift_ptr;
-    }
-
-    SwiftPtr
-    get_cached_wrapper(CppPtr cpp_ptr) {
-        std::lock_guard<std::mutex> lock(mutex);
-        auto iter = cache.find(cpp_ptr);
-        return (iter != cache.end()) ? iter->second : nullptr;
-    }
-
-    void
-    remove_cached_wrapper(CppPtr cpp_ptr) {
-        std::lock_guard<std::mutex> lock(mutex);
-        cache.erase(cpp_ptr);
-    }
+    void cache_wrapper(CppPtr cpp_ptr, SwiftPtr swift_ptr);
+    SwiftPtr get_cached_wrapper(CppPtr cpp_ptr);
+    void remove_cached_wrapper(CppPtr cpp_ptr);
 
 private:
     std::mutex mutex;

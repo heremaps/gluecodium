@@ -10,6 +10,7 @@ public class OuterClass {
         c_instance = cOuterClass
     }
     deinit {
+        smoke_OuterClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_OuterClass_release_handle(c_instance)
     }
     public class InnerClass {
@@ -21,6 +22,7 @@ public class OuterClass {
             c_instance = cInnerClass
         }
         deinit {
+            smoke_OuterClass_InnerClass_remove_swift_object_from_wrapper_cache(c_instance)
             smoke_OuterClass_InnerClass_release_handle(c_instance)
         }
         public func foo(input: String) -> String {
@@ -40,6 +42,7 @@ public class OuterClass {
             c_instance = cInnerInterface
         }
         deinit {
+            smoke_OuterClass_InnerInterface_remove_swift_object_from_wrapper_cache(c_instance)
             smoke_OuterClass_InnerInterface_release_handle(c_instance)
         }
         public func foo(input: String) -> String {

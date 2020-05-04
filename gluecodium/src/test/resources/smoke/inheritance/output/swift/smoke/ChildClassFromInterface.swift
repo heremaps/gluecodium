@@ -19,6 +19,7 @@ public class ChildClassFromInterface: ParentInterface {
         c_instance = cChildClassFromInterface
     }
     deinit {
+        smoke_ChildClassFromInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ChildClassFromInterface_release_handle(c_instance)
     }
     public func rootMethod() -> Void {

@@ -10,6 +10,7 @@ public class StructsWithConstantsInterface {
         c_instance = cStructsWithConstantsInterface
     }
     deinit {
+        smoke_StructsWithConstantsInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_StructsWithConstantsInterface_release_handle(c_instance)
     }
     public struct MultiRoute {

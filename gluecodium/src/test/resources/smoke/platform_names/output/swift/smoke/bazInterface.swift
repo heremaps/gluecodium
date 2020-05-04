@@ -27,6 +27,7 @@ public class bazInterface {
         c_instance = cbazInterface
     }
     deinit {
+        smoke_PlatformNamesInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_PlatformNamesInterface_release_handle(c_instance)
     }
     public func BazMethod(_ BazParameter: String) -> bazStruct {

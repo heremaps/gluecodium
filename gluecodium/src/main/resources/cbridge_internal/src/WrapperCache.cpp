@@ -22,6 +22,28 @@
 
 #include "cbridge_internal/include/WrapperCache.h"
 
+WrapperCache::WrapperCache() noexcept { wrapper_cache_is_alive = true; }
+WrapperCache::~WrapperCache() { wrapper_cache_is_alive = false; }
+
+void
+WrapperCache::cache_wrapper(WrapperCache::CppPtr cpp_ptr, WrapperCache::SwiftPtr swift_ptr) {
+    std::lock_guard<std::mutex> lock(mutex);
+    cache[cpp_ptr] = swift_ptr;
+}
+
+WrapperCache::SwiftPtr
+WrapperCache::get_cached_wrapper(WrapperCache::CppPtr cpp_ptr) {
+    std::lock_guard<std::mutex> lock(mutex);
+    auto iter = cache.find(cpp_ptr);
+    return (iter != cache.end()) ? iter->second : nullptr;
+}
+
+void
+WrapperCache::remove_cached_wrapper(WrapperCache::CppPtr cpp_ptr) {
+    std::lock_guard<std::mutex> lock(mutex);
+    cache.erase(cpp_ptr);
+}
+
 // Handle cases of non-deterministic ordering of construction and destruction of global
 // variables. This is on two ends:
 // 1. Use function static variable to ensure it's constructed on first use.

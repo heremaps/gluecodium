@@ -12,12 +12,7 @@
 #include <new>
 #include <string>
 void smoke_OuterClass_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::OuterClass>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::OuterClass>>(handle);
 }
 _baseRef smoke_OuterClass_copy_handle(_baseRef handle) {
     return handle
@@ -33,16 +28,15 @@ void smoke_OuterClass_cache_swift_object_wrapper(_baseRef handle, const void* sw
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::OuterClass>>(handle)->get(), swift_pointer);
 }
+void smoke_OuterClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::OuterClass>>(handle)->get());
+}
 _baseRef smoke_OuterClass_foo(_baseRef _instance, _baseRef input) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 void smoke_OuterClass_InnerClass_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(handle);
 }
 _baseRef smoke_OuterClass_InnerClass_copy_handle(_baseRef handle) {
     return handle
@@ -58,16 +52,15 @@ void smoke_OuterClass_InnerClass_cache_swift_object_wrapper(_baseRef handle, con
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(handle)->get(), swift_pointer);
 }
+void smoke_OuterClass_InnerClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(handle)->get());
+}
 _baseRef smoke_OuterClass_InnerClass_foo(_baseRef _instance, _baseRef input) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerClass>>(_instance)->get()->foo(Conversion<std::string>::toCpp(input)));
 }
 void smoke_OuterClass_InnerInterface_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(handle);
 }
 _baseRef smoke_OuterClass_InnerInterface_copy_handle(_baseRef handle) {
     return handle
@@ -82,6 +75,10 @@ const void* smoke_OuterClass_InnerInterface_get_swift_object_from_wrapper_cache(
 void smoke_OuterClass_InnerInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(handle)->get(), swift_pointer);
+}
+void smoke_OuterClass_InnerInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::OuterClass::InnerInterface>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_OuterClass_InnerInterface(_baseRef handle);

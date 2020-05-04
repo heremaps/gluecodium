@@ -12,12 +12,7 @@
 #include <new>
 #include <string>
 void smoke_EquatableClass_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::EquatableClass>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::EquatableClass>>(handle);
 }
 _baseRef smoke_EquatableClass_copy_handle(_baseRef handle) {
     return handle
@@ -32,6 +27,10 @@ const void* smoke_EquatableClass_get_swift_object_from_wrapper_cache(_baseRef ha
 void smoke_EquatableClass_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::EquatableClass>>(handle)->get(), swift_pointer);
+}
+void smoke_EquatableClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::EquatableClass>>(handle)->get());
 }
 bool smoke_EquatableClass_equal(_baseRef lhs, _baseRef rhs) {
     return **get_pointer<std::shared_ptr<::smoke::EquatableClass>>(lhs) == **get_pointer<std::shared_ptr<::smoke::EquatableClass>>(rhs);

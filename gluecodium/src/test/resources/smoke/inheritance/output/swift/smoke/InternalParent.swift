@@ -10,6 +10,7 @@ internal class InternalParent {
         c_instance = cInternalParent
     }
     deinit {
+        smoke_InternalParent_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_InternalParent_release_handle(c_instance)
     }
 }

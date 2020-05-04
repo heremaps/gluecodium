@@ -44,6 +44,7 @@ internal class _DeprecationComments: DeprecationComments {
         c_instance = cDeprecationComments
     }
     deinit {
+        smoke_DeprecationComments_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_DeprecationComments_release_handle(c_instance)
     }
     /// This is some very useful method that measures the usefulness of its input.
