@@ -36,7 +36,9 @@ class weeInterface$Impl implements weeInterface {
     _smoke_PlatformNamesInterface_release_handle(handle);
     handle = null;
   }
-  weeInterface$Impl.make(String makeParameter) : this(_make(makeParameter));
+  weeInterface$Impl.make(String makeParameter) : handle = _make(makeParameter) {
+    __lib.reverseCache[_smoke_PlatformNamesInterface_get_raw_pointer(handle)] = this;
+  }
   @override
   weeStruct WeeMethod(String WeeParameter) {
     final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_basicMethod__String');

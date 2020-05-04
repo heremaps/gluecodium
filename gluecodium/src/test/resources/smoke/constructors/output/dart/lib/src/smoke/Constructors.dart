@@ -121,11 +121,21 @@ class Constructors$Impl implements Constructors {
     _smoke_Constructors_release_handle(handle);
     handle = null;
   }
-  Constructors$Impl.create() : this(_create());
-  Constructors$Impl.fromOther(Constructors other) : this(_fromOther(other));
-  Constructors$Impl.fromMulti(String foo, int bar) : this(_fromMulti(foo, bar));
-  Constructors$Impl.fromString(String input) : this(_fromString(input));
-  Constructors$Impl.fromList(List<double> input) : this(_fromList(input));
+  Constructors$Impl.create() : handle = _create() {
+    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+  }
+  Constructors$Impl.fromOther(Constructors other) : handle = _fromOther(other) {
+    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+  }
+  Constructors$Impl.fromMulti(String foo, int bar) : handle = _fromMulti(foo, bar) {
+    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+  }
+  Constructors$Impl.fromString(String input) : handle = _fromString(input) {
+    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+  }
+  Constructors$Impl.fromList(List<double> input) : handle = _fromList(input) {
+    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+  }
   static Pointer<Void> _create() {
     final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create');
     final __result_handle = _create_ffi(__lib.LibraryContext.isolateId);

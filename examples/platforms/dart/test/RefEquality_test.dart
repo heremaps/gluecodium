@@ -69,4 +69,26 @@ void main() {
     instance1.release();
     instance2.release();
   });
+  _testSuite.test("Ref equality preserved for a class constructor", () {
+    final instance1 = DummyClass();
+    final instance2 = DummyClass.dummyClassRoundTrip(instance1);
+
+    final result = instance1 == instance2;
+
+    expect(result, isTrue);
+
+    instance1.release();
+    instance2.release();
+  });
+  _testSuite.test("Ref inequality preserved for a class constructor", () {
+    final instance1 = DummyClass();
+    final instance2 = DummyClass();
+
+    final result = instance1 == instance2;
+
+    expect(result, isFalse);
+
+    instance1.release();
+    instance2.release();
+  });
 }

@@ -59,7 +59,9 @@ class Class$Impl implements Class {
     _package_Class_release_handle(handle);
     handle = null;
   }
-  Class$Impl.constructor() : this(_constructor());
+  Class$Impl.constructor() : handle = _constructor() {
+    __lib.reverseCache[_package_Class_get_raw_pointer(handle)] = this;
+  }
   static Pointer<Void> _constructor() {
     final _constructor_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor');
     final __result_handle = _constructor_ffi(__lib.LibraryContext.isolateId);

@@ -173,7 +173,11 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 
 }}{{+dartConstructor}}{{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
-}}this(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
+}}{{#unless hasClassParent}}handle = {{/unless}}{{#if hasClassParent}}super({{/if}}{{!!
+}}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
+}}{{#if hasClassParent}}){{/if}} {
+  __lib.reverseCache[_{{resolveName parent "Ffi"}}_get_raw_pointer(handle)] = this;
+}
 {{/dartConstructor}}{{!!
 
 }}{{+dartImplRedirect}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!

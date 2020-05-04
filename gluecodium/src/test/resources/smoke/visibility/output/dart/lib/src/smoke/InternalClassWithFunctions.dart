@@ -34,8 +34,12 @@ class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
     _smoke_InternalClassWithFunctions_release_handle(handle);
     handle = null;
   }
-  InternalClassWithFunctions$Impl.internal_make() : this(_make());
-  InternalClassWithFunctions$Impl.internal_remake(String foo) : this(_remake(foo));
+  InternalClassWithFunctions$Impl.internal_make() : handle = _make() {
+    __lib.reverseCache[_smoke_InternalClassWithFunctions_get_raw_pointer(handle)] = this;
+  }
+  InternalClassWithFunctions$Impl.internal_remake(String foo) : handle = _remake(foo) {
+    __lib.reverseCache[_smoke_InternalClassWithFunctions_get_raw_pointer(handle)] = this;
+  }
   @override
   internal_fooBar() {
     final _fooBar_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar');
