@@ -58,6 +58,7 @@ let allTests = [
     testCase(RefEqualityTests.allTests),
     testCase(SerializationTests.allTests),
     testCase(SetTypeTests.allTests),
+    testCase(SimpleEqualityTests.allTests),
     testCase(StaticBooleanMethodsTests.allTests),
     testCase(StaticByteArrayMethodsTests.allTests),
     testCase(StaticFloatDoubleMethodsTests.allTests),
