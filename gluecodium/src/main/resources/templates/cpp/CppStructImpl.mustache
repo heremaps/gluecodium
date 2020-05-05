@@ -87,10 +87,11 @@ static_assert(
 {{/methods}}{{/set}}
 {{/if}}{{!!
 
-}}{{+fieldEq}}{{#needsPointerValueEqual}}( ( {{name}} && rhs.{{name}} )
-            ? ( *{{name}} == *rhs.{{name}} )
+}}{{+fieldEq}}{{#if needsPointerValueEqual}}( ( {{name}} && rhs.{{name}} )
+            ? {{#if needsRawPointerEqual}}( &*{{name}} == &*rhs.{{name}} ){{/if}}{{!!
+            }}{{#unless needsRawPointerEqual}}( *{{name}} == *rhs.{{name}} ){{/unless}}
             : ( static_cast< bool >( {{name}} ) == static_cast< bool >( rhs.{{name}} ) ) ){{!!
-}}{{/needsPointerValueEqual}}{{^needsPointerValueEqual}}{{!!
-}}{{name}} == rhs.{{name}}{{/needsPointerValueEqual}}{{/fieldEq}}{{!!
+}}{{/if}}{{#unless needsPointerValueEqual}}{{!!
+}}{{name}} == rhs.{{name}}{{/unless}}{{/fieldEq}}{{!!
 
 }}{{+structConstructorParameter}}{{type.name}} {{name}}{{/structConstructorParameter}}

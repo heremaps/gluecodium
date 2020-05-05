@@ -267,6 +267,7 @@ class CppModelBuilder(
             isNotNull = isInstance && !isNullable,
             isNullable = isNullable,
             hasImmutableType = hasImmutableType,
+            isInstance = isInstance,
             isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE),
             isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
             getterName = getterName,

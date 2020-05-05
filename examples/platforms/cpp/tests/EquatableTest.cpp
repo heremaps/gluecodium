@@ -21,6 +21,8 @@
 #include "test/Equatable.h"
 #include "test/EquatableInterface.h"
 #include "test/EquatableInterfaceFactory.h"
+#include "test/NonEquatableFactory.h"
+#include "test/SimpleEquatableStruct.h"
 #include "test/SomeEquatableClass.h"
 #include "test/SomePointerEquatableClass.h"
 #include <gmock/gmock.h>
@@ -125,6 +127,64 @@ TEST( EquatableTest, unequal_interfaces )
 
     EXPECT_FALSE(equalizer(one_class, other_class));
     EXPECT_NE(hasher(one_class), hasher(other_class));
+}
+
+TEST( EquatableTest, equal_structs_simple_equality )
+{
+    auto class1 = NonEquatableFactory::create_non_equatable_class();
+    auto class2 = NonEquatableFactory::create_non_equatable_class();
+    auto interface1 = NonEquatableFactory::create_non_equatable_interface();
+    auto interface2 = NonEquatableFactory::create_non_equatable_interface();
+    test::SimpleEquatableStruct some_struct{class1, interface1, class2, interface2};
+    test::SimpleEquatableStruct another_struct{class1, interface1, class2, interface2};
+
+    lorem_ipsum::test::hash<test::SimpleEquatableStruct> hasher;
+
+    EXPECT_EQ(some_struct, another_struct);
+    EXPECT_EQ(hasher(some_struct), hasher(another_struct));
+}
+
+TEST( EquatableTest, equal_structs_simple_equality_with_nulls )
+{
+    auto class1 = NonEquatableFactory::create_non_equatable_class();
+    auto interface1 = NonEquatableFactory::create_non_equatable_interface();
+    test::SimpleEquatableStruct some_struct{class1, interface1, nullptr, nullptr};
+    test::SimpleEquatableStruct another_struct{class1, interface1, nullptr, nullptr};
+
+    lorem_ipsum::test::hash<test::SimpleEquatableStruct> hasher;
+
+    EXPECT_EQ(some_struct, another_struct);
+    EXPECT_EQ(hasher(some_struct), hasher(another_struct));
+}
+
+TEST( EquatableTest, unequal_structs_simple_equality )
+{
+    auto class1 = NonEquatableFactory::create_non_equatable_class();
+    auto class2 = NonEquatableFactory::create_non_equatable_class();
+    auto interface1 = NonEquatableFactory::create_non_equatable_interface();
+    auto interface2 = NonEquatableFactory::create_non_equatable_interface();
+    test::SimpleEquatableStruct some_struct{class1, interface1, class2, interface2};
+    test::SimpleEquatableStruct another_struct{class2, interface2, class1, interface1};
+
+    lorem_ipsum::test::hash<test::SimpleEquatableStruct> hasher;
+
+    EXPECT_NE(some_struct, another_struct);
+    EXPECT_NE(hasher(some_struct), hasher(another_struct));
+}
+
+TEST( EquatableTest, unequal_structs_simple_equality_with_nulls )
+{
+    auto class1 = NonEquatableFactory::create_non_equatable_class();
+    auto class2 = NonEquatableFactory::create_non_equatable_class();
+    auto interface1 = NonEquatableFactory::create_non_equatable_interface();
+    auto interface2 = NonEquatableFactory::create_non_equatable_interface();
+    test::SimpleEquatableStruct some_struct{class1, interface1, class2, nullptr};
+    test::SimpleEquatableStruct another_struct{class1, interface1, nullptr, interface2};
+
+    lorem_ipsum::test::hash<test::SimpleEquatableStruct> hasher;
+
+    EXPECT_NE(some_struct, another_struct);
+    EXPECT_NE(hasher(some_struct), hasher(another_struct));
 }
 
 }

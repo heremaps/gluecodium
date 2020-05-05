@@ -324,6 +324,13 @@ feature(Equatable cpp android swift dart SOURCES
     lime/test/RefEquality.lime
 )
 
+# TODO: #202 enable for android, swift, and dart; and merge into Equatable
+feature(SimpleEquatable cpp SOURCES
+    src/test/SimpleEquality.cpp
+
+    lime/test/SimpleEquality.lime
+)
+
 feature(Nullable cpp android swift dart SOURCES
     src/test/NullableInstances.cpp
     src/test/NullableInterfaceImpl.cpp

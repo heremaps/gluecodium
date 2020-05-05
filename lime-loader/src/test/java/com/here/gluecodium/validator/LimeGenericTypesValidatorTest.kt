@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
@@ -86,11 +87,8 @@ class LimeGenericTypesValidatorTest(
                 attributes =
                     LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
             ), true),
-            arrayOf(LimeClass(
-                EMPTY_PATH,
-                attributes = LimeAttributes.Builder()
-                    .addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
-            ), true),
+            arrayOf(LimeClass(EMPTY_PATH), true),
+            arrayOf(LimeInterface(EMPTY_PATH), true),
             arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT), true),
             arrayOf(LimeTypeAlias(
                 EMPTY_PATH,

@@ -22,7 +22,7 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
-import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -100,32 +100,8 @@ class LimeStructsValidatorTest {
     }
 
     @Test
-    fun validateEquatableWithNonEquatableContainerType() {
-        val limeContainer = LimeClass(EMPTY_PATH)
-        val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
-        allElements[""] =
-            LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateEquatableWithEquatableContainerType() {
-        val limeContainer = LimeClass(EMPTY_PATH, attributes = equatableAttributes)
-        val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
-        allElements[""] =
-            LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
-
-        assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateEquatableWithPointerEquatableContainerType() {
-        val limeContainer = LimeClass(
-            EMPTY_PATH,
-            attributes =
-                LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
-        )
+    fun validateEquatableWithContainerType() {
+        val limeContainer = object : LimeContainerWithInheritance(EMPTY_PATH) {}
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeContainer))
         allElements[""] =
             LimeStruct(EMPTY_PATH, attributes = equatableAttributes, fields = listOf(limeField))
