@@ -25,6 +25,7 @@ endforeach()
 
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
+include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
 
 function(_main)
     apigen_set_generated_files(${APIGEN_TARGET})
