@@ -91,4 +91,13 @@ void main() {
     instance1.release();
     instance2.release();
   });
+  _testSuite.test("Ref equality preserved for a class in a list", () {
+    final list = [DummyClass()];
+    final result = DummyClass.dummyClassListRoundTrip(list);
+
+    expect(list.first == result.first, isTrue);
+
+    list.first.release();
+    result.first.release();
+  });
 }

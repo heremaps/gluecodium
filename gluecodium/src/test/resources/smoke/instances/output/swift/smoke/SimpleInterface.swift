@@ -14,6 +14,7 @@ internal class _SimpleInterface: SimpleInterface {
         c_instance = cSimpleInterface
     }
     deinit {
+        smoke_SimpleInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_SimpleInterface_release_handle(c_instance)
     }
     public func getStringValue() -> String {

@@ -10,6 +10,7 @@ public class SkipTypes {
         c_instance = cSkipTypes
     }
     deinit {
+        smoke_SkipTypes_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_SkipTypes_release_handle(c_instance)
     }
     public struct NotInJava {

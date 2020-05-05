@@ -19,6 +19,7 @@ internal class _ExternalInterface: ExternalInterface {
         c_instance = cExternalInterface
     }
     deinit {
+        smoke_ExternalInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ExternalInterface_release_handle(c_instance)
     }
     public func someMethod(someParameter: Int8) -> Void {

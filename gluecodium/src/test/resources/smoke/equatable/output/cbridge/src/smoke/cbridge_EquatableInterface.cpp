@@ -11,12 +11,7 @@
 #include <memory>
 #include <new>
 void smoke_EquatableInterface_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle);
 }
 _baseRef smoke_EquatableInterface_copy_handle(_baseRef handle) {
     return handle
@@ -31,6 +26,10 @@ const void* smoke_EquatableInterface_get_swift_object_from_wrapper_cache(_baseRe
 void smoke_EquatableInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle)->get(), swift_pointer);
+}
+void smoke_EquatableInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_EquatableInterface(_baseRef handle);

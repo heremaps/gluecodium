@@ -14,10 +14,12 @@ _GLUECODIUM_C_EXPORT void smoke_LevelOne_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_LevelOne_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT const void* smoke_LevelOne_get_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_LevelOne_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
+_GLUECODIUM_C_EXPORT void smoke_LevelOne_remove_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_LevelOne_LevelTwo_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT const void* smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
+_GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_remove_swift_object_from_wrapper_cache(_baseRef handle);
 typedef uint32_t smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum;
 _GLUECODIUM_C_EXPORT _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle(_baseRef stringField);
 _GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle(_baseRef handle);
@@ -30,6 +32,7 @@ _GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_LevelThree_release_handle(_bas
 _GLUECODIUM_C_EXPORT _baseRef smoke_LevelOne_LevelTwo_LevelThree_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT const void* smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
+_GLUECODIUM_C_EXPORT void smoke_LevelOne_LevelTwo_LevelThree_remove_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_LevelOne_LevelTwo_LevelThree_foo(_baseRef _instance, _baseRef input);
 #ifdef __cplusplus
 }

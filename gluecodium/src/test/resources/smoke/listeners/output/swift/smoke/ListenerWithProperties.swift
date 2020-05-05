@@ -83,6 +83,7 @@ internal class _ListenerWithProperties: ListenerWithProperties {
         c_instance = cListenerWithProperties
     }
     deinit {
+        smoke_ListenerWithProperties_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ListenerWithProperties_release_handle(c_instance)
     }
 }

@@ -13,6 +13,7 @@ internal class _bazListener: bazListener {
         c_instance = cbazListener
     }
     deinit {
+        smoke_PlatformNamesListener_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_PlatformNamesListener_release_handle(c_instance)
     }
     public func BazMethod(_ BazParameter: String) -> Void {

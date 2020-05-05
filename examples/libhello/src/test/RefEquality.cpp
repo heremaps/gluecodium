@@ -49,6 +49,11 @@ DummyClass::dummy_class_round_trip(const std::shared_ptr<DummyClass>& input) {
     return input;
 }
 
+std::vector<std::shared_ptr<DummyClass>>
+DummyClass::dummy_class_list_round_trip(const std::vector<std::shared_ptr<DummyClass>>& input) {
+    return input;
+}
+
 std::shared_ptr<DummyClass>
 DummyFactory::get_dummy_class_singleton() {
     return s_dummy_class;

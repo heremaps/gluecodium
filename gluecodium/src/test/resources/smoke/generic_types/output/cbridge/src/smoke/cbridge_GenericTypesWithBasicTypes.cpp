@@ -13,12 +13,7 @@
 #include <unordered_set>
 #include <vector>
 void smoke_GenericTypesWithBasicTypes_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle);
 }
 _baseRef smoke_GenericTypesWithBasicTypes_copy_handle(_baseRef handle) {
     return handle
@@ -33,6 +28,10 @@ const void* smoke_GenericTypesWithBasicTypes_get_swift_object_from_wrapper_cache
 void smoke_GenericTypesWithBasicTypes_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get(), swift_pointer);
+}
+void smoke_GenericTypesWithBasicTypes_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get());
 }
 _baseRef
 smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle( _baseRef numbersList, _baseRef numbersMap, _baseRef numbersSet )

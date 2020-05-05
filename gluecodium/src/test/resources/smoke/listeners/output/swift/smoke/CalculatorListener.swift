@@ -19,6 +19,7 @@ internal class _CalculatorListener: CalculatorListener {
         c_instance = cCalculatorListener
     }
     deinit {
+        smoke_CalculatorListener_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {

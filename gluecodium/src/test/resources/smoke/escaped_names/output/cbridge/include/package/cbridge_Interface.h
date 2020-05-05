@@ -10,6 +10,7 @@ _GLUECODIUM_C_EXPORT void package_Interface_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef package_Interface_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT const void* package_Interface_get_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void package_Interface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
+_GLUECODIUM_C_EXPORT void package_Interface_remove_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void* package_Interface_get_typed(_baseRef handle);
 typedef struct {
     void* swift_pointer;

@@ -25,6 +25,7 @@ public class TypeDefs {
         c_instance = cTypeDefs
     }
     deinit {
+        smoke_TypeDefs_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_TypeDefs_release_handle(c_instance)
     }
     public struct StructHavingAliasFieldDefinedBelow {

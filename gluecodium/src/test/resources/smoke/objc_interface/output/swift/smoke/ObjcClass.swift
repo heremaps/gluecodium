@@ -11,6 +11,7 @@ public class ObjcClass: NSObject {
         c_instance = cObjcClass
     }
     deinit {
+        smoke_ObjcClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ObjcClass_release_handle(c_instance)
     }
 }

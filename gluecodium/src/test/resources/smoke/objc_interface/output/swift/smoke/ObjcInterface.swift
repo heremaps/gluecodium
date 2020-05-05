@@ -13,6 +13,7 @@ internal class _ObjcInterface: ObjcInterface {
         c_instance = cObjcInterface
     }
     deinit {
+        smoke_ObjcInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ObjcInterface_release_handle(c_instance)
     }
 }

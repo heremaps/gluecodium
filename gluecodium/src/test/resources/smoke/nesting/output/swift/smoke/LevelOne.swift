@@ -10,6 +10,7 @@ public class LevelOne {
         c_instance = cLevelOne
     }
     deinit {
+        smoke_LevelOne_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_LevelOne_release_handle(c_instance)
     }
     public class LevelTwo {
@@ -21,6 +22,7 @@ public class LevelOne {
             c_instance = cLevelTwo
         }
         deinit {
+            smoke_LevelOne_LevelTwo_remove_swift_object_from_wrapper_cache(c_instance)
             smoke_LevelOne_LevelTwo_release_handle(c_instance)
         }
         public class LevelThree {
@@ -32,6 +34,7 @@ public class LevelOne {
                 c_instance = cLevelThree
             }
             deinit {
+                smoke_LevelOne_LevelTwo_LevelThree_remove_swift_object_from_wrapper_cache(c_instance)
                 smoke_LevelOne_LevelTwo_LevelThree_release_handle(c_instance)
             }
             public enum LevelFourEnum : UInt32, CaseIterable, Codable {

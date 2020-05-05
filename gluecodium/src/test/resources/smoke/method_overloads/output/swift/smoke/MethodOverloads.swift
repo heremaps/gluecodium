@@ -12,6 +12,7 @@ public class MethodOverloads {
         c_instance = cMethodOverloads
     }
     deinit {
+        smoke_MethodOverloads_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_MethodOverloads_release_handle(c_instance)
     }
     public struct Point {

@@ -11,6 +11,7 @@ public class Enums {
         c_instance = cEnums
     }
     deinit {
+        smoke_Enums_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_Enums_release_handle(c_instance)
     }
     public enum SimpleEnum : UInt32, CaseIterable, Codable {

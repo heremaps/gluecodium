@@ -10,6 +10,7 @@ public class SpecialNames {
         c_instance = cSpecialNames
     }
     deinit {
+        smoke_SpecialNames_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_SpecialNames_release_handle(c_instance)
     }
     public func create() -> Void {

@@ -20,6 +20,7 @@ package test
 class DummyClass {
     constructor create()
     static fun dummyClassRoundTrip(input: DummyClass): DummyClass
+    static fun dummyClassListRoundTrip(input: List<DummyClass>): List<DummyClass>
 }
 
 interface DummyInterface {

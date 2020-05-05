@@ -12,6 +12,7 @@ public class LambdasWithStructuredTypes {
         c_instance = cLambdasWithStructuredTypes
     }
     deinit {
+        smoke_LambdasWithStructuredTypes_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_LambdasWithStructuredTypes_release_handle(c_instance)
     }
     public func doClassStuff(callback: @escaping LambdasWithStructuredTypes.ClassCallback) -> Void {

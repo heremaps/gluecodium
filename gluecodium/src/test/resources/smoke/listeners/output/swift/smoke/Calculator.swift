@@ -10,6 +10,7 @@ public class Calculator {
         c_instance = cCalculator
     }
     deinit {
+        smoke_Calculator_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_Calculator_release_handle(c_instance)
     }
     public static func registerListener(listener: CalculatorListener) -> Void {

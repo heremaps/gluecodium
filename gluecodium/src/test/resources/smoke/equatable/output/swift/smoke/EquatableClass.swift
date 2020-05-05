@@ -10,6 +10,7 @@ public class EquatableClass {
         c_instance = cEquatableClass
     }
     deinit {
+        smoke_EquatableClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_EquatableClass_release_handle(c_instance)
     }
     public struct EquatableStruct: Hashable {

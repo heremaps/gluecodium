@@ -24,6 +24,8 @@ import static org.junit.Assert.assertTrue;
 import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -82,5 +84,14 @@ public final class RefEqualityTest {
     DummyClass instance2 = new DummyClass();
 
     assertFalse(instance1 == instance2);
+  }
+
+  @Test
+  public void refEqualityPreservedForClassInList() {
+    List<DummyClass> list = Collections.singletonList(new DummyClass());
+
+    List<DummyClass> result = DummyClass.dummyClassListRoundTrip(list);
+
+    assertTrue(list.get(0) == result.get(0));
   }
 }

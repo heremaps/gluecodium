@@ -15,6 +15,7 @@ public class ExternalClass {
         c_instance = cExternalClass
     }
     deinit {
+        smoke_ExternalClass_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_ExternalClass_release_handle(c_instance)
     }
     public enum SomeEnum : UInt32, CaseIterable, Codable {

@@ -13,12 +13,7 @@
 #include <new>
 #include <string>
 void smoke_LevelOne_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::LevelOne>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::LevelOne>>(handle);
 }
 _baseRef smoke_LevelOne_copy_handle(_baseRef handle) {
     return handle
@@ -34,13 +29,12 @@ void smoke_LevelOne_cache_swift_object_wrapper(_baseRef handle, const void* swif
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne>>(handle)->get(), swift_pointer);
 }
+void smoke_LevelOne_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne>>(handle)->get());
+}
 void smoke_LevelOne_LevelTwo_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo>>(handle);
 }
 _baseRef smoke_LevelOne_LevelTwo_copy_handle(_baseRef handle) {
     return handle
@@ -56,13 +50,12 @@ void smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(_baseRef handle, const v
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo>>(handle)->get(), swift_pointer);
 }
+void smoke_LevelOne_LevelTwo_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo>>(handle)->get());
+}
 void smoke_LevelOne_LevelTwo_LevelThree_release_handle(_baseRef handle) {
-    auto ptr_ptr = get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(handle);
-    auto& wrapper_cache = get_wrapper_cache();
-    if (wrapper_cache_is_alive) {
-        wrapper_cache.remove_cached_wrapper(ptr_ptr->get());
-    }
-    delete ptr_ptr;
+    delete get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(handle);
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_copy_handle(_baseRef handle) {
     return handle
@@ -77,6 +70,10 @@ const void* smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cac
 void smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(handle)->get(), swift_pointer);
+}
+void smoke_LevelOne_LevelTwo_LevelThree_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!wrapper_cache_is_alive) return;
+    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(handle)->get());
 }
 _baseRef
 smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle( _baseRef stringField )

@@ -10,6 +10,7 @@ public class GenericTypesWithGenericTypes {
         c_instance = cGenericTypesWithGenericTypes
     }
     deinit {
+        smoke_GenericTypesWithGenericTypes_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_GenericTypesWithGenericTypes_release_handle(c_instance)
     }
     public func methodWithListOfLists(input: [[Int32]]) -> [[Int32]] {

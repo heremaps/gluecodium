@@ -23,6 +23,7 @@ public class MultiLineComments {
         c_instance = cMultiLineComments
     }
     deinit {
+        smoke_MultiLineComments_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_MultiLineComments_release_handle(c_instance)
     }
     /// This is very important method.

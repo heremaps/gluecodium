@@ -16,6 +16,7 @@ public class Lambdas {
         c_instance = cLambdas
     }
     deinit {
+        smoke_Lambdas_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_Lambdas_release_handle(c_instance)
     }
     public func deconfuse(value: String, confuser: @escaping Lambdas.Convoluter) -> Lambdas.Producer {

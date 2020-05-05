@@ -12,6 +12,7 @@ public class StructConstants {
         c_instance = cStructConstants
     }
     deinit {
+        smoke_StructConstants_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_StructConstants_release_handle(c_instance)
     }
     public struct SomeStruct {

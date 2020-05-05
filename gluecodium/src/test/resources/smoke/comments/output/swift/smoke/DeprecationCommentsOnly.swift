@@ -34,6 +34,7 @@ internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
         c_instance = cDeprecationCommentsOnly
     }
     deinit {
+        smoke_DeprecationCommentsOnly_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_DeprecationCommentsOnly_release_handle(c_instance)
     }
     ///

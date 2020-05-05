@@ -47,6 +47,7 @@ public class INameRules {
         c_instance = cINameRules
     }
     deinit {
+        namerules_NameRules_remove_swift_object_from_wrapper_cache(c_instance)
         namerules_NameRules_release_handle(c_instance)
     }
     public enum IExampleErrorCode : UInt32, CaseIterable, Codable {
