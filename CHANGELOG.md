@@ -6,6 +6,11 @@
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
 
+## 6.6.4
+Release date: 2020-05-06
+### Bug fixes:
+  * Fixed excessive logging in Dart generated code.
+
 ## 6.6.3
 Release date: 2020-05-06
 ### Bug fixes:
