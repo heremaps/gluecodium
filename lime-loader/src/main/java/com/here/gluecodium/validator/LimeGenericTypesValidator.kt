@@ -23,6 +23,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -69,7 +70,7 @@ internal class LimeGenericTypesValidator(private val logger: LimeLogger) :
             limeTypeRef.isNullable -> false
             actualType is LimeEnumeration -> true
             actualType.attributes.have(LimeAttributeType.EQUATABLE) -> true
-            actualType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> true
+            actualType is LimeContainerWithInheritance -> true
             actualType is LimeBasicType -> actualType.typeId != LimeBasicType.TypeId.BLOB &&
                     actualType.typeId != LimeBasicType.TypeId.DATE
             actualType is LimeTypeAlias -> isHashable(actualType.typeRef)

@@ -27,6 +27,7 @@ class CppField(
     val isNotNull: Boolean = false,
     val isNullable: Boolean = false,
     val hasImmutableType: Boolean = false,
+    isInstance: Boolean = false,
     val isClassEquatable: Boolean = false,
     val isClassPointerEquatable: Boolean = false,
     val getterName: String? = null,
@@ -41,4 +42,8 @@ class CppField(
 
     @Suppress("unused")
     val needsPointerValueEqual = isNullable && !isClassPointerEquatable || isClassEquatable
+
+    @Suppress("unused")
+    val needsRawPointerEqual =
+        isNullable && isInstance && !isClassEquatable && !isClassPointerEquatable
 }
