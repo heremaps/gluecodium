@@ -6,7 +6,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 class EquatableStructWithInternalFields {
   String publicField;
   String internal_internalField;
@@ -30,9 +29,9 @@ class EquatableStructWithInternalFields {
     int result = 7;
     result = 31 * result + publicField.hashCode;
     result = 31 * result + internal_internalField.hashCode;
-    result = 31 * result + internal_internalListField.hashCode;
-    result = 31 * result + internal_internalMapField.hashCode;
-    result = 31 * result + internal_internalSetField.hashCode;
+    result = 31 * result + DeepCollectionEquality().hash(internal_internalListField);
+    result = 31 * result + DeepCollectionEquality().hash(internal_internalMapField);
+    result = 31 * result + DeepCollectionEquality().hash(internal_internalSetField);
     return result;
   }
 }
