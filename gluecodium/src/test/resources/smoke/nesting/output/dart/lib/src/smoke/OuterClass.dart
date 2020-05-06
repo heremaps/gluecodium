@@ -54,11 +54,7 @@ Pointer<Void> smoke_OuterClass_InnerClass_toFfi(OuterClass_InnerClass value) =>
 OuterClass_InnerClass smoke_OuterClass_InnerClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterClass_InnerClass_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as OuterClass_InnerClass;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_OuterClass_InnerClass_copy_handle(handle);
   final result = OuterClass_InnerClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
@@ -222,11 +218,7 @@ Pointer<Void> smoke_OuterClass_toFfi(OuterClass value) =>
 OuterClass smoke_OuterClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterClass_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as OuterClass;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_OuterClass_copy_handle(handle);
   final result = OuterClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

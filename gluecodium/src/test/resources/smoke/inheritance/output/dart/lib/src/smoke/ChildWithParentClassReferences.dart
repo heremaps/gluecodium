@@ -74,11 +74,7 @@ Pointer<Void> smoke_ChildWithParentClassReferences_toFfi(ChildWithParentClassRef
 ChildWithParentClassReferences smoke_ChildWithParentClassReferences_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ChildWithParentClassReferences_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as ChildWithParentClassReferences;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ChildWithParentClassReferences_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

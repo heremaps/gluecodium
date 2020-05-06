@@ -484,11 +484,7 @@ Pointer<Void> smoke_Comments_toFfi(Comments value) =>
 Comments smoke_Comments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Comments_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as Comments;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Comments_copy_handle(handle);
   final result = Comments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

@@ -179,11 +179,7 @@ Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_toFfi(LevelOne_LevelTwo_LevelTh
 LevelOne_LevelTwo_LevelThree smoke_LevelOne_LevelTwo_LevelThree_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_LevelOne_LevelTwo_LevelThree_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as LevelOne_LevelTwo_LevelThree;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_LevelOne_LevelTwo_LevelThree_copy_handle(handle);
   final result = LevelOne_LevelTwo_LevelThree$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
@@ -228,11 +224,7 @@ Pointer<Void> smoke_LevelOne_LevelTwo_toFfi(LevelOne_LevelTwo value) =>
 LevelOne_LevelTwo smoke_LevelOne_LevelTwo_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_LevelOne_LevelTwo_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as LevelOne_LevelTwo;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_LevelOne_LevelTwo_copy_handle(handle);
   final result = LevelOne_LevelTwo$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
@@ -277,11 +269,7 @@ Pointer<Void> smoke_LevelOne_toFfi(LevelOne value) =>
 LevelOne smoke_LevelOne_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_LevelOne_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as LevelOne;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_LevelOne_copy_handle(handle);
   final result = LevelOne$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

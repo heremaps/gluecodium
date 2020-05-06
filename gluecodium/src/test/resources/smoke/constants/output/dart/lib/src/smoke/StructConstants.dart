@@ -173,11 +173,7 @@ Pointer<Void> smoke_StructConstants_toFfi(StructConstants value) =>
 StructConstants smoke_StructConstants_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_StructConstants_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as StructConstants;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_StructConstants_copy_handle(handle);
   final result = StructConstants$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

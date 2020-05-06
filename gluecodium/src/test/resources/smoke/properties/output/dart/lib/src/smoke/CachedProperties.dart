@@ -66,11 +66,7 @@ Pointer<Void> smoke_CachedProperties_toFfi(CachedProperties value) =>
 CachedProperties smoke_CachedProperties_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_CachedProperties_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as CachedProperties;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_CachedProperties_copy_handle(handle);
   final result = CachedProperties$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
