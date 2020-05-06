@@ -93,13 +93,15 @@ class CBridgeGenerator(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString()
             ),
-            generateHelperContent(
-                "TypeInitRepository",
-                CBridgeNameRules.TYPE_INIT_REPOSITORY
-            ),
+            generateHelperContent("TypeInitRepository", CBridgeNameRules.TYPE_INIT_REPOSITORY),
             generateHelperContent(
                 "TypeInitRepositoryImpl",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "TypeInitRepository.cpp").toString()
+            ),
+            generateHelperContent("WrapperCacheHeader", CBridgeComponents.WRAPPER_CACHE_HEADER),
+            generateHelperContent(
+                "WrapperCacheImpl",
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "WrapperCache.cpp").toString()
             )
         )
 
@@ -225,9 +227,7 @@ class CBridgeGenerator(
             GeneratorSuite.copyCommonFile(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""
             ),
-            GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, ""),
-            GeneratorSuite.copyCommonFile(CBridgeComponents.WRAPPER_CACHE_HEADER, ""),
-            GeneratorSuite.copyCommonFile(CBridgeComponents.WRAPPER_CACHE_IMPL, "")
+            GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, "")
         )
 
         private fun generateHeaderContent(model: CInterface) =
