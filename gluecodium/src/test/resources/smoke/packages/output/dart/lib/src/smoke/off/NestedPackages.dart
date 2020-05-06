@@ -109,11 +109,7 @@ Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
 NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_off_NestedPackages_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as NestedPackages;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_off_NestedPackages_copy_handle(handle);
   final result = NestedPackages$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

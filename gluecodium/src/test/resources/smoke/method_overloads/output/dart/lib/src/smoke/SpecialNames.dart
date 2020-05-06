@@ -77,11 +77,7 @@ Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) =>
 SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SpecialNames_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as SpecialNames;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_SpecialNames_copy_handle(handle);
   final result = SpecialNames$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

@@ -79,11 +79,7 @@ Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
 UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_UseFreeTypes_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as UseFreeTypes;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_UseFreeTypes_copy_handle(handle);
   final result = UseFreeTypes$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

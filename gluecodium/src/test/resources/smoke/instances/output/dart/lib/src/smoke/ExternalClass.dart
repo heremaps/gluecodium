@@ -173,11 +173,7 @@ Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
 ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ExternalClass_get_raw_pointer(handle);
   final instance = __lib.reverseCache[raw_handle] as ExternalClass;
-  if (instance != null) {
-                        print("FOOBAR cache hit ${raw_handle.address}");
-                        return instance;
-                      }
-                        print("FOOBAR cache miss ${raw_handle.address}");
+  if (instance != null) return instance;
   final _copied_handle = _smoke_ExternalClass_copy_handle(handle);
   final result = ExternalClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
