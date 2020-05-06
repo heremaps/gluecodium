@@ -5,8 +5,12 @@
   * Added referential integrity for classes and interfaces in generated platform code. Meaning, when
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
+
+## 6.6.3
+Release date: 2020-05-06
 ### Bug fixes:
   * Fixed linking issue for Swift modularized builds.
+  * Fixed synchronization issues for Gradle parallel builds in CMake helpers.
 
 ## 6.6.2
 Release date: 2020-05-04
