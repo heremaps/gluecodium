@@ -24,6 +24,7 @@ foreach(_var ${_required_vars})
 endforeach()
 
 include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
+include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
 
 list(APPEND _java_source_dirs "${APIGEN_OUTPUT_DIR}/android")
 
