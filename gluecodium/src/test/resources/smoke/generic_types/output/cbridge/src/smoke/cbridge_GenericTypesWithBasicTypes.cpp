@@ -22,16 +22,16 @@ _baseRef smoke_GenericTypesWithBasicTypes_copy_handle(_baseRef handle) {
 }
 const void* smoke_GenericTypesWithBasicTypes_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get())
         : nullptr;
 }
 void smoke_GenericTypesWithBasicTypes_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get(), swift_pointer);
 }
 void smoke_GenericTypesWithBasicTypes_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!wrapper_cache_is_alive) return;
-    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(handle)->get());
 }
 _baseRef
 smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle( _baseRef numbersList, _baseRef numbersMap, _baseRef numbersSet )

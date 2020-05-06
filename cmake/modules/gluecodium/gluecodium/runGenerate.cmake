@@ -81,7 +81,7 @@ function(_collect_all_files_in_single_compilation_units)
         # Include all conversion headers first, so all later generic conversions relying on specialization have all these defined
         _include_all(jni "android/jni/*_Conversion.h" "android/jni/*.cpp")
     elseif(APIGEN_GENERATOR MATCHES swift)
-        _include_all(cbridge "cbridge/*.cpp" "cbridge_internal/*.cpp")
+        _include_all(cbridge "cbridge/*.cpp")
         # Collect all includes to be used in the modulemap
         _include_all(cbridge_header "cbridge/*.h")
         _concatenate_swift_files()

@@ -21,16 +21,16 @@ _baseRef smoke_ChildClassFromClass_copy_handle(_baseRef handle) {
 }
 const void* smoke_ChildClassFromClass_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get())
         : nullptr;
 }
 void smoke_ChildClassFromClass_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get(), swift_pointer);
 }
 void smoke_ChildClassFromClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!wrapper_cache_is_alive) return;
-    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ChildClassFromClass(_baseRef handle);

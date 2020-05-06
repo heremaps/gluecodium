@@ -22,16 +22,16 @@ _baseRef smoke_Errors_copy_handle(_baseRef handle) {
 }
 const void* smoke_Errors_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::Errors>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::Errors>>(handle)->get())
         : nullptr;
 }
 void smoke_Errors_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::Errors>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::Errors>>(handle)->get(), swift_pointer);
 }
 void smoke_Errors_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!wrapper_cache_is_alive) return;
-    get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::Errors>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::Errors>>(handle)->get());
 }
 smoke_Errors_methodWithErrors_result smoke_Errors_methodWithErrors() {
     auto&& ERROR_VALUE = ::smoke::Errors::method_with_errors().value();
