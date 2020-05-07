@@ -24,6 +24,8 @@ import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
+import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
+import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -135,8 +137,8 @@ class SwiftModelBuilder(
             nameSpace = limeClass.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeClass),
             useParentCInstance = parentClass != null && !parentClass.isInterface,
-            hasEquatableType = limeClass.attributes.have(LimeAttributeType.EQUATABLE) ||
-                    limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
+            hasEquatableType = limeClass.attributes.have(EQUATABLE) ||
+                    limeClass.attributes.have(POINTER_EQUATABLE),
             isObjcInterface = isObjcInterface,
             hasTypeRepository = parentClass != null || limeClass.visibility.isOpen
         )
@@ -163,7 +165,7 @@ class SwiftModelBuilder(
             nameSpace = limeContainer.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
-            hasEquatableType = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
+            hasEquatableType = limeContainer.attributes.have(EQUATABLE),
             isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC),
             hasTypeRepository = true
         )
@@ -254,7 +256,7 @@ class SwiftModelBuilder(
             name = nameResolver.getFullName(limeStruct),
             cPrefix = CBridgeNameRules.getTypeName(limeStruct),
             visibility = getVisibility(limeStruct),
-            isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
+            isEquatable = limeStruct.attributes.have(EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             isCodable = limeStruct.attributes.have(LimeAttributeType.SERIALIZABLE),
             fields = getPreviousResults(SwiftField::class.java),
@@ -269,16 +271,20 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeField: LimeField) {
-        val isNullable = limeField.typeRef.isNullable
-
         val swiftValue = getPreviousResultOrNull(SwiftValue::class.java)
-            ?: if (isNullable) SwiftValue("nil") else null
+            ?: if (limeField.typeRef.isNullable) SwiftValue("nil") else null
 
+        val limeType = limeField.typeRef.type.actualType
+        val isRefEquatable =
+            limeType is LimeContainerWithInheritance &&
+            !limeType.attributes.have(EQUATABLE) &&
+            !limeType.attributes.have(POINTER_EQUATABLE)
         val swiftField = SwiftField(
-            nameRules.getName(limeField),
-            getVisibility(limeField),
-            getPreviousResult(SwiftType::class.java),
-            swiftValue
+            name = nameRules.getName(limeField),
+            visibility = getVisibility(limeField),
+            type = getPreviousResult(SwiftType::class.java),
+            defaultValue = swiftValue,
+            isRefEquatable = isRefEquatable
         )
         swiftField.comment = createComments(limeField)
 

@@ -89,6 +89,24 @@
     }
 
 {{/constructors}}{{/set}}{{!!
+}}{{#if needsExplicitHashable}}
+    public static func == (lhs: {{simpleName}}, rhs: {{simpleName}}) -> Bool {
+        return
+{{#fields}}
+            lhs.{{name}} =={{#if isRefEquatable}}={{/if}} rhs.{{name}}{{#if iter.hasNext}} &&{{/if}}
+{{/fields}}
+    }
+
+    public func hash(into hasher: inout Hasher) {
+{{#fields}}{{#if isRefEquatable}}{{#if type.optional}}
+        hasher.combine({{name}} != nil ? Unmanaged<AnyObject>.passUnretained({{name}}!).toOpaque().hashValue : 0)
+{{/if}}{{#unless type.optional}}
+        hasher.combine(Unmanaged<AnyObject>.passUnretained({{name}}).toOpaque().hashValue)
+{{/unless}}{{/if}}{{#unless isRefEquatable}}
+        hasher.combine({{name}})
+{{/unless}}{{/fields}}
+    }
+{{/if}}{{!!
 }}{{#if methods}}
 
 {{#set selfIsStruct=true}}{{#methods}}

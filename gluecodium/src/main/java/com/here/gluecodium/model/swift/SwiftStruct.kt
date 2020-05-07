@@ -56,6 +56,9 @@ class SwiftStruct(
     val needsReducedConstructor =
         internalFields.isNotEmpty() && internalFields.all { it.defaultValue != null }
 
+    @Suppress("unused")
+    val needsExplicitHashable = isEquatable && fields.any { it.isRefEquatable }
+
     override fun withAlias(aliasName: String): SwiftType {
         val swiftStruct = SwiftStruct(
             name,

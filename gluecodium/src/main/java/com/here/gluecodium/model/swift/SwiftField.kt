@@ -23,7 +23,8 @@ class SwiftField(
     name: String,
     visibility: SwiftVisibility?,
     type: SwiftType,
-    val defaultValue: SwiftValue?
+    val defaultValue: SwiftValue?,
+    val isRefEquatable: Boolean = false
 ) : SwiftTypedModelElement(name, visibility, type) {
 
     override val childElements
