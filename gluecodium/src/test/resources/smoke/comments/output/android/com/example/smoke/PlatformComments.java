@@ -56,7 +56,7 @@ public final class PlatformComments extends NativeBase {
     public native void doMagic();
     /**
      * <p>This is some very useful method that measures the usefulness of its input or \esc@pe{s}.</p>
-     * @param input <p>Very useful parameter that \esc@pe{s}</p>
+     * @param input <p>Very useful parameter that [\esc@pe{s}]</p>
      * @return <p>Uselessness {@link com.example.smoke.PlatformComments.SomeEnum} of the input</p>
      * @throws PlatformComments.SomethingWrongException <p>Sometimes it happens.</p>
      */

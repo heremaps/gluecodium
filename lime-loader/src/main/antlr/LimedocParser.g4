@@ -84,5 +84,5 @@ inlineTagContent
     ;
 
 textContent
-    : TextContent | Name | Identifier | EscapedChar | '[' | ']'
+    : TextContent | Name | Identifier | EscapedChar | MarkdownEscapedChar | '[' | ']'
     ;

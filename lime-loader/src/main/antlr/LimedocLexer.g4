@@ -50,6 +50,7 @@ LCurl : '{' ;
 RCurl : '}' ;
 
 EscapedChar: '\\' ('@' | '{' | '}' | '\\') ;
+MarkdownEscapedChar: '\\' ('`' | '*' | '_' | '[' | ']' | '(' | ')' | '#' | '+' | '-' | '.' | '!') ;
 
 fragment Letter
     : [a-zA-Z]
