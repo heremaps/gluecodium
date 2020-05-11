@@ -403,6 +403,12 @@ feature(Extensions swift SOURCES
     lime/test/Extensions.lime
 )
 
+feature(CppConst cpp android swift dart SOURCES
+    lime/test/CppConstMethods.lime
+
+    src/test/CppConstMethods.cpp
+)
+
 if(APPLE)
     # This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

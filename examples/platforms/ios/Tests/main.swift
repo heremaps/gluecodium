@@ -26,6 +26,7 @@ let allTests = [
     testCase(AttributesInterfaceTests.allTests),
     testCase(AttributesTests.allTests),
     testCase(ConstantsTests.allTests),
+    testCase(CppConstMethodsTests.allTests),
     testCase(DatesTests.allTests),
     testCase(DefaultsTests.allTests),
     testCase(EnumsTests.allTests),
