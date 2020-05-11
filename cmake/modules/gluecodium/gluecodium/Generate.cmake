@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_Generate)
 endif()
 set(includeguard_gluecodium_Generate ON)
 
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.5)
 
 #.rst:
 # Code generation module
@@ -182,8 +182,15 @@ function(apigen_generate)
     GENERATOR ${APIGEN_GENERATOR}
     BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
-  set (_lime_interface_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>,INCLUDE,.*\\.lime$>")
-  set (_lime_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>,INCLUDE,.*\\.lime$>")
+  if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.15)
+    set (_lime_interface_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>,INCLUDE,.*\\.lime$>")
+    set (_lime_sources "$<FILTER:$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>,INCLUDE,.*\\.lime$>")
+    set (_lime_dependencies ${_lime_interface_sources} ${_lime_sources})
+  else()
+    message (WARNING "CMake < 3.15 is obsolete and may work wrongly with Gluecodium")
+    set (_lime_interface_sources "$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>")
+    set (_lime_sources "$<TARGET_PROPERTY:${APIGEN_TARGET},SOURCES>")
+  endif()
 
   add_custom_command(OUTPUT ${_generated_files}
     COMMAND ${CMAKE_COMMAND}
@@ -204,8 +211,7 @@ function(apigen_generate)
     DEPENDS
       "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
       ${apigen_generate_LIME_SOURCES}
-      ${_lime_interface_sources}
-      ${_lime_sources})
+      ${_lime_dependencies})
 endfunction()
 
 macro(_apigen_parse_path_option GLUECODIUM_OPTION CMAKE_OPTION)

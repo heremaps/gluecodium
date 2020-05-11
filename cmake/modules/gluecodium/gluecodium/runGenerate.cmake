@@ -51,6 +51,7 @@ function(_generate)
         unset(_gluecodium_time)
     endif()
 
+    list(FILTER APIGEN_AUX_FILES INCLUDE REGEX ".*\\.lime$")
     foreach(_aux_lime IN LISTS APIGEN_AUX_FILES)
       string(APPEND APIGEN_GLUECODIUM_ARGS " -auxinput \"${_aux_lime}\"")
     endforeach()
