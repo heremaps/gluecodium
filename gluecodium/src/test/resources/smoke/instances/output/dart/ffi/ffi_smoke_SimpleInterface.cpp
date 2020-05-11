@@ -13,8 +13,10 @@ public:
     smoke_SimpleInterface_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0), f1(f1) { }
     ~smoke_SimpleInterface_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     std::string

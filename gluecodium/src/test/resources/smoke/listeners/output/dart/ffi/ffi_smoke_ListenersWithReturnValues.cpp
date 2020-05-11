@@ -16,8 +16,10 @@ public:
     smoke_ListenersWithReturnValues_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5), f6(f6) { }
     ~smoke_ListenersWithReturnValues_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     double
