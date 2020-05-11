@@ -16,7 +16,7 @@ class PlatformComments {
     // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Swift Eats a hip bruschetta.}{@Dart Colors everything in fuchsia.}
     fun doMagic()
     // This is some very useful method that measures the usefulness of its input or \\esc\@pe\{s\}.
-    // @param[input] Very useful {@Cpp input [PlatformComments] }parameter that \\esc\@pe\{s\}
+    // @param[input] Very useful {@Cpp input [PlatformComments] }parameter that \\[\\esc\@pe\{s\}\\]
     // @return {@Cpp Usefulness}{@Java Uselessness [SomeEnum]}{@Swift Usefulness}{@Dart Uselessness [SomeEnum]} of the input
     // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong] \\esc\@pe\{s\} }.
     fun someMethodWithAllComments(
