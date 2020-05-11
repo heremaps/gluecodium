@@ -6,6 +6,7 @@
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
 ### Bug fixes:
+  * Fixed static initialization issue for Swift modularized builds.
   * Fixed handling of `\` backslash in IDL doc comments to support Markdown escaped characters.
 
 ## 6.6.4
