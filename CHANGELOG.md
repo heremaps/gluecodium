@@ -5,10 +5,16 @@
   * Added referential integrity for classes and interfaces in generated platform code. Meaning, when
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
+
+## 6.6.5
+Release date: 2020-05-11
+### Features:
+  * Added fallback compatibility with older CMake versions in CMake helpers.
 ### Bug fixes:
   * Fixed static initialization issue for Swift modularized builds.
   * Fixed handling of `\` backslash in IDL doc comments to support Markdown escaped characters.
   * Fixed Dart crash on isolate shutdown.
+  * Fixed Windows build issue with command line length in CMake helpers.
 
 ## 6.6.4
 Release date: 2020-05-06
