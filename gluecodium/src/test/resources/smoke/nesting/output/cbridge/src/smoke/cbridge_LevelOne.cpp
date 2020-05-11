@@ -30,7 +30,7 @@ void smoke_LevelOne_cache_swift_object_wrapper(_baseRef handle, const void* swif
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne>>(handle)->get(), swift_pointer);
 }
 void smoke_LevelOne_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne>>(handle)->get());
 }
 void smoke_LevelOne_LevelTwo_release_handle(_baseRef handle) {
@@ -51,7 +51,7 @@ void smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(_baseRef handle, const v
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo>>(handle)->get(), swift_pointer);
 }
 void smoke_LevelOne_LevelTwo_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo>>(handle)->get());
 }
 void smoke_LevelOne_LevelTwo_LevelThree_release_handle(_baseRef handle) {
@@ -72,7 +72,7 @@ void smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(_baseRef hand
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(handle)->get(), swift_pointer);
 }
 void smoke_LevelOne_LevelTwo_LevelThree_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>(handle)->get());
 }
 _baseRef

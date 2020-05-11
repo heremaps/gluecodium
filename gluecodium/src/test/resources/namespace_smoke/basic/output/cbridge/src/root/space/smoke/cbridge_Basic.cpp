@@ -28,7 +28,7 @@ void smoke_Basic_cache_swift_object_wrapper(_baseRef handle, const void* swift_p
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::root::space::smoke::Basic>>(handle)->get(), swift_pointer);
 }
 void smoke_Basic_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::root::space::smoke::Basic>>(handle)->get());
 }
 _baseRef smoke_Basic_basicMethod(_baseRef inputString) {

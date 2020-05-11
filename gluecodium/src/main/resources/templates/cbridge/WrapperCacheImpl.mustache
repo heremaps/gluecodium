@@ -46,8 +46,10 @@
 namespace {{.}} {
 {{/internalNamespace}}
 
-WrapperCache::WrapperCache() noexcept { wrapper_cache_is_alive = true; }
-WrapperCache::~WrapperCache() { wrapper_cache_is_alive = false; }
+std::atomic<bool> WrapperCache::is_alive{};
+
+WrapperCache::WrapperCache() noexcept { is_alive = true; }
+WrapperCache::~WrapperCache() { is_alive = false; }
 
 void
 WrapperCache::cache_wrapper(WrapperCache::CppPtr cpp_ptr, WrapperCache::SwiftPtr swift_ptr) {
