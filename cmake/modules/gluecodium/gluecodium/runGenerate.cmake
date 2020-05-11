@@ -29,8 +29,33 @@ include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
 
 function(_main)
     apigen_set_generated_files(${APIGEN_TARGET})
+    _merge_aux_file_with_options()
     _generate()
     _collect_all_files_in_single_compilation_units()
+endfunction()
+
+function(_merge_aux_file_with_options)
+    # Move aux files from separate file to file with options (only for CMake < 3.15)
+    if (NOT APIGEN_GLUECODIUM_AUXINPUT_FILE OR NOT EXISTS ${APIGEN_GLUECODIUM_AUXINPUT_FILE})
+        return ()
+    endif()
+
+    file(READ "${APIGEN_GLUECODIUM_AUXINPUT_FILE}" APIGEN_AUX_FILES)
+    list(FILTER APIGEN_AUX_FILES INCLUDE REGEX ".*\\.lime$")
+
+    if (APIGEN_AUX_FILES)
+        list(REMOVE_DUPLICATES APIGEN_AUX_FILES)
+        file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "auxinput=")
+        # string (JOIN ...) is also not available in old CMake
+        set (_comma "")
+        foreach(_aux_lime IN LISTS APIGEN_AUX_FILES)
+          file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "${_comma}${_aux_lime}")
+          set (_comma ",")
+        endforeach()
+        file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "\n")
+    endif()
+
+    file(REMOVE "${APIGEN_GLUECODIUM_AUXINPUT_FILE}")
 endfunction()
 
 function(_generate)
@@ -51,10 +76,12 @@ function(_generate)
         unset(_gluecodium_time)
     endif()
 
-    list(FILTER APIGEN_AUX_FILES INCLUDE REGEX ".*\\.lime$")
-    foreach(_aux_lime IN LISTS APIGEN_AUX_FILES)
-      string(APPEND APIGEN_GLUECODIUM_ARGS " -auxinput \"${_aux_lime}\"")
-    endforeach()
+    file(READ "${APIGEN_GLUECODIUM_OPTIONS_FILE}" _options_content)
+    message(STATUS "Gluecodium options (stored in file ${APIGEN_GLUECODIUM_OPTIONS_FILE}):\n${_options_content}\n")
+
+    # All options are listed in file, gluecodium needs only path to this file
+    set (APIGEN_GLUECODIUM_ARGS "-options \"${APIGEN_GLUECODIUM_OPTIONS_FILE}\"")
+
     set(_gluecodium_command ${_gluecodium_time} ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} ${_build_local_gluecodium} ${_no_daemon} -Pversion=${APIGEN_GLUECODIUM_VERSION} run --args=${APIGEN_GLUECODIUM_ARGS})
 
     if(APIGEN_COMMON_OUTPUT_DIR)
