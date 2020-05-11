@@ -20,8 +20,10 @@ public:
     smoke_Lambdas_Producer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Producer_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     std::string
@@ -51,8 +53,10 @@ public:
     smoke_Lambdas_Confuser_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Confuser_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     ::smoke::Lambdas::Producer
@@ -83,8 +87,10 @@ public:
     smoke_Lambdas_Consumer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Consumer_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     void
@@ -110,8 +116,10 @@ public:
     smoke_Lambdas_Indexer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Indexer_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     int32_t
@@ -143,8 +151,10 @@ public:
     smoke_Lambdas_NullableConfuser_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_NullableConfuser_Proxy() {
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
     gluecodium::optional<::smoke::Lambdas::Producer>

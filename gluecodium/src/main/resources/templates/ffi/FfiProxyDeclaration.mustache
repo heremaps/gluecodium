@@ -33,8 +33,10 @@ public:
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}} { }
 
     ~{{resolveName}}_Proxy() {
-        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [this]() {
-            (*reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter))(token, this);
+        auto token_local = token;
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
+        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
+            (*deleter_local)(token_local, this);
         });
     }
 
