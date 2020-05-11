@@ -29,7 +29,7 @@ void smoke_OuterInterface_cache_swift_object_wrapper(_baseRef handle, const void
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(handle)->get(), swift_pointer);
 }
 void smoke_OuterInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::OuterInterface>>(handle)->get());
 }
 extern "C" {
@@ -91,7 +91,7 @@ void smoke_OuterInterface_InnerClass_cache_swift_object_wrapper(_baseRef handle,
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerClass>>(handle)->get(), swift_pointer);
 }
 void smoke_OuterInterface_InnerClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerClass>>(handle)->get());
 }
 _baseRef smoke_OuterInterface_InnerClass_foo(_baseRef _instance, _baseRef input) {
@@ -115,7 +115,7 @@ void smoke_OuterInterface_InnerInterface_cache_swift_object_wrapper(_baseRef han
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(handle)->get(), swift_pointer);
 }
 void smoke_OuterInterface_InnerInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::OuterInterface::InnerInterface>>(handle)->get());
 }
 extern "C" {

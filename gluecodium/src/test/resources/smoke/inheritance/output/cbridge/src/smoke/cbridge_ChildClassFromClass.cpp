@@ -29,7 +29,7 @@ void smoke_ChildClassFromClass_cache_swift_object_wrapper(_baseRef handle, const
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get(), swift_pointer);
 }
 void smoke_ChildClassFromClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
-    if (!wrapper_cache_is_alive) return;
+    if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildClassFromClass>>(handle)->get());
 }
 extern "C" {
