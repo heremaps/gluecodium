@@ -24,6 +24,7 @@ import com.here.gluecodium.cache.SplitSourceSetCache
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.cli.OptionReaderException
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.loader.getLoader
@@ -33,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import com.here.gluecodium.platform.common.GeneratorSuite
+import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
@@ -78,6 +80,10 @@ class Gluecodium(
             return false
         }
 
+        if (!validateModel(limeModel)) {
+            LOGGER.severe("Validation errors found, see log for details.")
+            return false
+        }
         if (options.isValidatingOnly) {
             return true
         }
@@ -157,6 +163,13 @@ class Gluecodium(
         ) && saveToDirectory(options.commonOutputDir, commonFiles)
     }
 
+    // TODO: #329 move all model validation here
+    private fun validateModel(limeModel: LimeModel) =
+        LimeDeprecationsValidator(
+            LimeLogger(LOGGER, limeModel.fileNameMap),
+            options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
+        ).validate(limeModel.topElements)
+
     data class Options(
         var idlSources: List<String> = emptyList(),
         var auxiliaryIdlSources: List<String> = emptyList(),
@@ -196,6 +209,7 @@ class Gluecodium(
     ) {
         companion object {
             const val WARNING_DOC_LINKS = "DocLinks"
+            const val WARNING_DEPRECATED_ATTRIBUTES = "DeprecatedAttributes"
             const val WARNING_DART_OVERLOADS = "DartOverloads"
         }
     }

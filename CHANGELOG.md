@@ -9,6 +9,9 @@
     any class or interface types (not just those that are `@Equatable` themselves).
 ### Bug fixes:
   * Fixed `hashCode` implementation for `@Equatable` structs with collection type fields in Dart.
+### Deprecated:
+  * `@PointerEquatable` IDL attribute is now deprecated. It still works the same way as before but
+    its use is discouraged. Referential integrity on platform side makes this attribute redundant.
 
 ## 6.6.5
 Release date: 2020-05-11

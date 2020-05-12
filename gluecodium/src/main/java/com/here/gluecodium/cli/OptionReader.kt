@@ -40,7 +40,12 @@ object OptionReader {
     private val options: Options = Options().run {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output directory")
-        addOption("commonoutput", "common-output-dir", true, "Common generated files output directory, defaults to be the same as output")
+        addOption(
+            "commonoutput",
+            "common-output-dir",
+            true,
+            "Common generated files output directory, defaults to be the same as output"
+        )
         addOption("options", true, "Options file to load options from")
         addOption("auxinput", true, "Auxiliary IDL sources that are loaded but not generated from")
         addOption("javapackage", true, "Java package name")
@@ -111,7 +116,11 @@ object OptionReader {
             "warning-as-error",
             true,
             "Treat the specified validation warning type as an error. Possible values: " +
-                "${Gluecodium.Options.WARNING_DOC_LINKS}, ${Gluecodium.Options.WARNING_DART_OVERLOADS}."
+                listOf(
+                    Gluecodium.Options.WARNING_DOC_LINKS,
+                    Gluecodium.Options.WARNING_DEPRECATED_ATTRIBUTES,
+                    Gluecodium.Options.WARNING_DART_OVERLOADS
+                ).joinToString()
         )
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
