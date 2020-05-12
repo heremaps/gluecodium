@@ -44,9 +44,9 @@ abstract class CommentsLinks {
   ///
   /// Not working for Swift:
   /// * named comment: [][Comments.veryUseful]
-  /// @param[inputParameter] Sometimes takes [Comments_SomeEnum.useful]
-  /// @return Sometimes returns [Comments_SomeEnum.useful]
-  /// @throws May or may not throw [Comments_SomethingWrongException]
+  /// [inputParameter] Sometimes takes [Comments_SomeEnum.useful]
+  /// Returns [Comments_SomeEnum]. Sometimes returns [Comments_SomeEnum.useful]
+  /// Throws [Comments_SomethingWrongException]. May or may not throw [Comments_SomethingWrongException]
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter);
   /// Links to method overloads:
   /// * other one: [randomMethod]

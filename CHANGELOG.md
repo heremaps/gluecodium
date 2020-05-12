@@ -7,6 +7,8 @@
     be the same object on platform side as well.
   * Relaxed restrictions on `@Equatable` structs in IDL. Such structs now can contains fields of
     any class or interface types (not just those that are `@Equatable` themselves).
+  * Improved doc comments in generated Dart code to be more compliant with Dart documentation
+    guidelines.
 ### Bug fixes:
   * Fixed `hashCode` implementation for `@Equatable` structs with collection type fields in Dart.
 ### Deprecated:

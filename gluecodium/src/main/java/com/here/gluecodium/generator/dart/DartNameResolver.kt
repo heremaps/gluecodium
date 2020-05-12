@@ -57,12 +57,7 @@ internal class DartNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is String -> element
-            is LimeComment -> commentsProcessor.process(
-                element.path.toString(),
-                element.getFor("Dart"),
-                limeToDartNames,
-                limeLogger
-            )
+            is LimeComment -> resolveComment(element)
             is TypeId -> resolveBasicType(element)
             is LimeVisibility -> resolveVisibility(element)
             is LimeBasicType -> resolveBasicType(element.typeId)
@@ -163,6 +158,20 @@ internal class DartNameResolver(
         }.joinToString(joinInfix)
     }
 
+    private fun resolveComment(limeComment: LimeComment): String {
+        var commentText = limeComment.getFor("Dart")
+        if (commentText.isBlank()) return ""
+
+        val pathKey = limeComment.path.toString()
+        val limeElement = limeReferenceMap[pathKey] as? LimeNamedElement
+        if (limeElement is LimeType || limeElement is LimeFunction) {
+            // For functions and types, separate first sentence with double line break.
+            commentText = commentText.replaceFirst(END_OF_SENTENCE, ".\n\n")
+        }
+
+        return commentsProcessor.process(pathKey, commentText, limeToDartNames, limeLogger)
+    }
+
     private fun getPlatformName(element: LimeNamedElement) =
         element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
             ?: nameRules.getName(element)
@@ -200,5 +209,9 @@ internal class DartNameResolver(
         result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveName(it) })
 
         return result
+    }
+
+    companion object {
+        private val END_OF_SENTENCE = "\\.\\s+".toRegex()
     }
 }

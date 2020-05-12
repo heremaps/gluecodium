@@ -626,10 +626,14 @@ internal class AntlrLimeModelBuilder(
         val commentFromParent = structuredCommentsStack.peek().getTagBlock(commentTag, elementName)
         val ownComment =
             commentContexts?.let { parseStructuredComment(it, currentContext).description }
-                ?: LimeComment()
+                ?: LimeComment(currentPath)
         return when {
             commentFromParent.isEmpty() -> ownComment
-            ownComment.isEmpty() -> commentFromParent
+            ownComment.isEmpty() -> {
+                val elementPath =
+                    if (elementName.isNotEmpty()) currentPath else currentPath.child(commentTag)
+                commentFromParent.withPath(elementPath)
+            }
             else -> {
                 val position = currentContext.getStart()
                 throw ParseCancellationException(

@@ -31,7 +31,7 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
 
     val result
         get() = LimeStructuredComment(
-            commentsCollector[Pair("", "")] ?: LimeComment(),
+            commentsCollector[Pair("", "")] ?: LimeComment(currentPath),
             commentsCollector
         )
 
