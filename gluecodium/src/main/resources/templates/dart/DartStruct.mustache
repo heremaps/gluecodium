@@ -58,7 +58,7 @@ class {{resolveName}} {
   int get hashCode {
     int result = 7;
 {{#fields}}
-    result = 31 * result + {{resolveName visibility}}{{resolveName}}.hashCode;
+    result = 31 * result + {{>dartFieldHash}};
 {{/fields}}
     return result;
   }
@@ -127,4 +127,12 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 }}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
 }}{{resolveName visibility}}{{resolveName}} == _other.{{resolveName visibility}}{{resolveName}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
-}}{{/dartFieldEq}}
+}}{{/dartFieldEq}}{{!!
+
+}}{{+dartFieldHash}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
+}}{{resolveName visibility}}{{resolveName}}.hashCode{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{/dartFieldHash}}

@@ -40,79 +40,71 @@ void main() {
   });
 
   _testSuite.test("Equatable struct equals to self", () {
-    final result = struct == struct;
-
-    expect(result, isTrue);
+    expect(struct == struct, isTrue);
+    expect(struct.hashCode == struct.hashCode, isTrue);
   });
   _testSuite.test("Equatable struct equals", () {
     final otherStruct = createEquatableStruct();
 
-    final result = struct == otherStruct;
-
-    expect(result, isTrue);
+    expect(struct == otherStruct, isTrue);
+    print(struct.hashCode);
+    print(otherStruct.hashCode);
+    expect(struct.hashCode == otherStruct.hashCode, isTrue);
   });
   _testSuite.test("Equatable struct not equals Boolean field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.boolField = false;
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals Int field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.intField += 1;
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals Double field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.doubleField += 1.0;
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals String field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.stringField += "foo";
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals Struct field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.structField.fooField += "bar";
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals Enum field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.enumField = SomeSomeEnum.foo;
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals List field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.arrayField.add("three");
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
   _testSuite.test("Equatable struct not equals Map field", () {
     final otherStruct = createEquatableStruct();
     otherStruct.mapField.addAll({42: "four"});
 
-    final result = struct == otherStruct;
-
-    expect(result, isFalse);
+    expect(struct == otherStruct, isFalse);
+    expect(struct.hashCode == otherStruct.hashCode, isFalse);
   });
 }

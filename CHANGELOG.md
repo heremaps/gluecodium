@@ -5,6 +5,10 @@
   * Added referential integrity for classes and interfaces in generated platform code. Meaning, when
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
+  * Relaxed restrictions on `@Equatable` structs in IDL. Such structs now can contains fields of
+    any class or interface types (not just those that are `@Equatable` themselves).
+### Bug fixes:
+  * Fixed `hashCode` implementation for `@Equatable` structs with collection type fields in Dart.
 
 ## 6.6.5
 Release date: 2020-05-11

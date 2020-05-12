@@ -6,7 +6,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 enum SomeEnum {
     foo,
     bar
@@ -105,8 +104,8 @@ class EquatableStruct {
     result = 31 * result + stringField.hashCode;
     result = 31 * result + structField.hashCode;
     result = 31 * result + enumField.hashCode;
-    result = 31 * result + arrayField.hashCode;
-    result = 31 * result + mapField.hashCode;
+    result = 31 * result + DeepCollectionEquality().hash(arrayField);
+    result = 31 * result + DeepCollectionEquality().hash(mapField);
     return result;
   }
 }
@@ -285,8 +284,8 @@ class EquatableNullableStruct {
     result = 31 * result + stringField.hashCode;
     result = 31 * result + structField.hashCode;
     result = 31 * result + enumField.hashCode;
-    result = 31 * result + arrayField.hashCode;
-    result = 31 * result + mapField.hashCode;
+    result = 31 * result + DeepCollectionEquality().hash(arrayField);
+    result = 31 * result + DeepCollectionEquality().hash(mapField);
     return result;
   }
 }
