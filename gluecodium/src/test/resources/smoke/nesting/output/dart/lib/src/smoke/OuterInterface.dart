@@ -155,7 +155,7 @@ Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInte
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError)
   );
   __lib.reverseCache[_smoke_OuterInterface_InnerInterface_get_raw_pointer(result)] = value;
   return result;
@@ -253,7 +253,7 @@ Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError)
   );
   __lib.reverseCache[_smoke_OuterInterface_get_raw_pointer(result)] = value;
   return result;

@@ -23,37 +23,37 @@ public:
     }
     void
     on_calculation_result(const double calculationResult) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, double)>(f0))(token,
             gluecodium::ffi::Conversion<double>::toFfi(calculationResult)
         ); });
     }
     void
     on_calculation_result_const(const double calculationResult) const override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, double)>(f1))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, double)>(f1))(token,
             gluecodium::ffi::Conversion<double>::toFfi(calculationResult)
         ); });
     }
     void
     on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f2))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f2))(token,
             gluecodium::ffi::Conversion<::smoke::CalculatorListener::ResultStruct>::toFfi(calculationResult)
         ); });
     }
     void
     on_calculation_result_array(const std::vector<double>& calculationResult) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f3))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f3))(token,
             gluecodium::ffi::Conversion<std::vector<double>>::toFfi(calculationResult)
         ); });
     }
     void
     on_calculation_result_map(const std::unordered_map<std::string, double>& calculationResults) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f4))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f4))(token,
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toFfi(calculationResults)
         ); });
     }
     void
     on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f5))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f5))(token,
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(calculationResult)
         ); });
     }

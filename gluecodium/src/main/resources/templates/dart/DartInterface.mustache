@@ -200,9 +200,10 @@ class {{resolveName}}$Impl {{#if parent}}extends {{resolveName parent}}$Impl {{/
 int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}) {
+}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}{{!!
+}}{{#if thrownType}}, Pointer<{{resolveName exception.errorType "FfiApiTypes"}}> _error{{/if}}) {
   {{#if thrownType}}
-  int _error = 0;
+  bool _error_flag = false;
   try {
   {{/if}}
 {{#parameters}}
@@ -216,8 +217,14 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
   _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
 {{#if thrownType}}
   } on {{resolveName exception}} catch(e) {
-{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!! TODO: #140 handle arbitrary payload}}{{!!
-}}    _error = {{#set typeRef=exception.errorType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(e.error);{{/instanceOf}}
+    _error_flag = true;
+    final _error_object = e.error;
+    _error.value = {{#set typeRef=exception.errorType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_error_object);
+{{#instanceOf exception.errorType.type.actualType "LimeClass"}}
+    if (_error_object != null) _error_object.release();
+{{/instanceOf}}{{#instanceOf exception.errorType.type.actualType "LimeInterface"}}
+    if (_error_object != null) _error_object.release();
+{{/instanceOf}}
   } finally {
   {{/if}}{{!!
 }}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
@@ -228,7 +235,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
   }}{{#if thrownType}}
   }
   {{/if}}
-  return {{#if thrownType}}_error{{/if}}{{#unless thrownType}}0{{/unless}};
+  return{{#if thrownType}} _error_flag ? 1 :{{/if}} 0;
 }
 {{/each}}
 
@@ -298,9 +305,10 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Int64 Function(Uint64{{#if parameters}}, {{/if}}{{!!
+}}{{+ffiApi}}Uint8 Function(Uint64{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/isNotEq}}){{/ffiApi}}{{!!
+}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/isNotEq}}{{!!
+}}{{#if thrownType}}, Pointer<{{resolveName exception.errorType "FfiApiTypes"}}>{{/if}}){{/ffiApi}}{{!!
 
 }}{{+ffiFunctionPointers}}{{#if inheritedFunctions functions logic="or"}}, {{!!
 }}{{#each inheritedFunctions functions}}Pointer{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!

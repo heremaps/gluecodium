@@ -22,7 +22,7 @@ public:
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(input),
             &_result_handle
         ); });
@@ -56,7 +56,7 @@ public:
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(input),
             &_result_handle
         ); });

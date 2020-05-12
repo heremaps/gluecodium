@@ -60,12 +60,12 @@ class ThrowingListener extends ErrorsInInterface {
 
   @override
   String getMessageWithPayload() {
-    return ""; // TODO: #140 throw with payload
+    throw WithPayloadException(Payload(42, "foo"));
   }
 
   @override
   void setMessageWithPayload(String value) {
-    // TODO: #140 throw with payload
+    throw WithPayloadException(Payload(42, "foo"));
   }
 }
 
@@ -116,5 +116,34 @@ void main() {
 
     listener.release();
   });
-  // TODO: #140 test throwing with payload
+  _testSuite.test("getMessageWithPayload() error rethrown", () {
+    WithPayloadException exception = null;
+    final ErrorsInInterface listener = ThrowingListener();
+
+    try {
+      messenger.getMessageWithPayload(listener);
+    } on WithPayloadException catch(e) {
+      exception = e;
+    }
+
+    expect(exception, isNotNull);
+    expect(exception.error, Payload(42, "foo"));
+
+    listener.release();
+  });
+  _testSuite.test("setMessageWithPayload() error rethrown", () {
+    WithPayloadException exception = null;
+    final ErrorsInInterface listener = ThrowingListener();
+
+    try {
+      messenger.setMessageWithPayload(listener, "Foo");
+    } on WithPayloadException catch(e) {
+      exception = e;
+    }
+
+    expect(exception, isNotNull);
+    expect(exception.error, Payload(42, "foo"));
+
+    listener.release();
+  });
 }

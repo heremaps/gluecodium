@@ -280,9 +280,9 @@ Pointer<Void> smoke_DeprecationComments_toFfi(DeprecationComments value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationComments_someMethodWithAllComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint8>)>(_DeprecationComments_isSomeProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Uint8)>(_DeprecationComments_isSomeProperty_set_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationComments_someMethodWithAllComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_DeprecationComments_isSomeProperty_get_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_DeprecationComments_isSomeProperty_set_static, __lib.unknownError)
   );
   __lib.reverseCache[_smoke_DeprecationComments_get_raw_pointer(result)] = value;
   return result;

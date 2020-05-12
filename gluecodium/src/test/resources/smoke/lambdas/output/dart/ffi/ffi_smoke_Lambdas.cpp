@@ -29,7 +29,7 @@ public:
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
             &_result_handle
         ); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
@@ -62,7 +62,7 @@ public:
     ::smoke::Lambdas::Producer
     operator()(const std::string& p0) {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(p0),
             &_result_handle
         ); });
@@ -95,7 +95,7 @@ public:
     }
     void
     operator()(const std::string& p0) {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(p0)
         ); });
     }
@@ -125,7 +125,7 @@ public:
     int32_t
     operator()(const std::string& p0, const float p1) {
         int32_t _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, float, int32_t*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle, float, int32_t*)>(f0))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(p0),
             gluecodium::ffi::Conversion<float>::toFfi(p1),
             &_result_handle
@@ -160,7 +160,7 @@ public:
     gluecodium::optional<::smoke::Lambdas::Producer>
     operator()(const gluecodium::optional<std::string>& p0) {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(token,
             gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toFfi(p0),
             &_result_handle
         ); });

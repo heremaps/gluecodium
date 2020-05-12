@@ -500,18 +500,18 @@ Pointer<Void> smoke_CommentsInterface_toFfi(CommentsInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithAllComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithInputComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithOutputComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithNoComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CommentsInterface_someMethodWithoutReturnTypeWithAllComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CommentsInterface_someMethodWithoutReturnTypeWithNoComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint8>)>(_CommentsInterface_someMethodWithoutInputParametersWithAllComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint8>)>(_CommentsInterface_someMethodWithoutInputParametersWithNoComments_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64)>(_CommentsInterface_someMethodWithNothing_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64)>(_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Uint8>)>(_CommentsInterface_isSomeProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Uint8)>(_CommentsInterface_isSomeProperty_set_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithAllComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithInputComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithOutputComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_CommentsInterface_someMethodWithNoComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_CommentsInterface_someMethodWithoutReturnTypeWithAllComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_CommentsInterface_someMethodWithoutReturnTypeWithNoComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_CommentsInterface_someMethodWithoutInputParametersWithAllComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_CommentsInterface_someMethodWithoutInputParametersWithNoComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_CommentsInterface_someMethodWithNothing_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_CommentsInterface_isSomeProperty_get_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_CommentsInterface_isSomeProperty_set_static, __lib.unknownError)
   );
   __lib.reverseCache[_smoke_CommentsInterface_get_raw_pointer(result)] = value;
   return result;

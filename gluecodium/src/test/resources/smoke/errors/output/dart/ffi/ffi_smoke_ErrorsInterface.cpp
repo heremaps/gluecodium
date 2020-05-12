@@ -23,46 +23,68 @@ public:
     }
     std::error_code
     method_with_errors() override {
-        int64_t _error;
-        dispatch([&]() { _error = (*reinterpret_cast<int64_t (*)(uint64_t)>(f0))(token
+        uint32_t _error_handle;
+        bool _error_flag;
+        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, uint32_t*)>(f0))(token,
+            &_error_handle
         ); });
-        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp((uint32_t)_error));
+        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp((uint32_t)_error_handle));
     }
     std::error_code
     method_with_external_errors() override {
-        int64_t _error;
-        dispatch([&]() { _error = (*reinterpret_cast<int64_t (*)(uint64_t)>(f1))(token
+        uint32_t _error_handle;
+        bool _error_flag;
+        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, uint32_t*)>(f1))(token,
+            &_error_handle
         ); });
-        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::ExternalErrors>::toCpp((uint32_t)_error));
+        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::ExternalErrors>::toCpp((uint32_t)_error_handle));
     }
     gluecodium::Return<std::string, std::error_code>
     method_with_errors_and_return_value() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error;
-        dispatch([&]() { _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f2))(token,
-            &_result_handle
+        uint32_t _error_handle;
+        bool _error_flag;
+        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*, uint32_t*)>(f2))(token,
+            &_result_handle,
+            &_error_handle
         ); });
-        if (_error == 0) {
+        if (_error_flag) {
+            return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp((uint32_t)_error_handle));
+        } else {
             auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
             delete reinterpret_cast<std::string*>(_result_handle);
             return _result;
-        } else {
-            return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp((uint32_t)_error));
         }
     }
     gluecodium::Return<void, ::smoke::Payload>
     method_with_payload_error() override {
-        int64_t _error;
-        dispatch([&]() { _error = (*reinterpret_cast<int64_t (*)(uint64_t)>(f3))(token
+        FfiOpaqueHandle _error_handle;
+        bool _error_flag;
+        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(f3))(token,
+            &_error_handle
         ); });
+        auto _error_result = gluecodium::ffi::Conversion<::smoke::Payload>::toCpp(_error_handle);
+        delete reinterpret_cast<::smoke::Payload*>(_error_handle);
+        return _error_result;
     }
     gluecodium::Return<std::string, ::smoke::Payload>
     method_with_payload_error_and_return_value() override {
         FfiOpaqueHandle _result_handle;
-        int64_t _error;
-        dispatch([&]() { _error = (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f4))(token,
-            &_result_handle
+        FfiOpaqueHandle _error_handle;
+        bool _error_flag;
+        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*, FfiOpaqueHandle*)>(f4))(token,
+            &_result_handle,
+            &_error_handle
         ); });
+        if (_error_flag) {
+            auto _error_result = gluecodium::ffi::Conversion<::smoke::Payload>::toCpp(_error_handle);
+            delete reinterpret_cast<::smoke::Payload*>(_error_handle);
+            return _error_result;
+        } else {
+            auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
+            delete reinterpret_cast<std::string*>(_result_handle);
+            return _result;
+        }
     }
 private:
     uint64_t token;

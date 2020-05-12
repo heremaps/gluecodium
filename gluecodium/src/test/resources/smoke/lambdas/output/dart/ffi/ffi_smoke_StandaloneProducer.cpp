@@ -22,7 +22,7 @@ public:
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
             &_result_handle
         ); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);

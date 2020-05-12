@@ -45,23 +45,25 @@ public:
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}}{{#unless isLambda}} override{{/unless}} {
         {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}} _result_handle;{{/isNotEq}}
-        {{#if thrownType}}int64_t _error;{{/if}}
-        dispatch([&]() { {{#if thrownType}}_error = {{/if}}(*reinterpret_cast<int64_t (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
+        {{#if thrownType}}{{resolveName  exception.errorType}} _error_handle;
+        bool _error_flag;{{/if}}
+        dispatch([&]() { {{#if thrownType}}_error_flag = {{/if}}(*reinterpret_cast<bool (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
         }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-        }}{{#isNotEq returnType.typeRef.toString "Void"}}, {{resolveName returnType.typeRef}}*{{/isNotEq}}){{!!
+        }}{{#isNotEq returnType.typeRef.toString "Void"}}, {{resolveName returnType.typeRef}}*{{/isNotEq}}{{!!
+        }}{{#if thrownType}}, {{resolveName  exception.errorType}}*{{/if}}){{!!
         }}>(f{{iter.position}}))(token{{#if parameters}}, {{/if}}{{#parameters}}
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi({{resolveName}}){{#if iter.hasNext}},
 {{/if}}{{/parameters}}{{#isNotEq returnType.typeRef.toString "Void"}},
-            &_result_handle{{/isNotEq}}
-        ); });{{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{#isEq returnType.typeRef.toString "Void"}}
+            &_result_handle{{/isNotEq}}{{#if thrownType}},
+            &_error_handle{{/if}}
+        ); });{{#if thrownType}}{{#isEq returnType.typeRef.toString "Void"}}
 {{prefixPartial "proxyReturnError" "        "}}{{/isEq}}{{!!
         }}{{#isNotEq returnType.typeRef.toString "Void"}}
-        if (_error == 0) {
-{{prefixPartial "proxyReturnResult" "            "}}
-        } else {
+        if (_error_flag) {
 {{prefixPartial "proxyReturnError" "            "}}
-        }{{/isNotEq}}{{/instanceOf}}{{!!
-        }}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!! TODO: #140 handle arbitrary payload}}{{/notInstanceOf}}{{/if}}{{!!
+        } else {
+{{prefixPartial "proxyReturnResult" "            "}}
+        }{{/isNotEq}}{{/if}}{{!!
         }}{{#unless thrownType}}{{#isNotEq returnType.typeRef.toString "Void"}}
 {{prefixPartial "proxyReturnResult" "        "}}{{/isNotEq}}{{/unless}}
     }
@@ -73,17 +75,17 @@ public:
     {{resolveName returnType.typeRef "C++"}}
     {{resolveName "C++"}}() const override {
         {{resolveName returnType.typeRef}} _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, {{resolveName returnType.typeRef}}*)>{{!!
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, {{resolveName returnType.typeRef}}*)>{{!!
         }}(p{{iter.position}}g))(token, &_result_handle); });
         auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
-        {{#returnType}}{{>ffiReleaseHandle}}{{/returnType}};
+        {{#set typeRef=returnType.typeRef handle="_result_handle"}}{{>ffiReleaseHandle}}{{/set}};
         return _result;
     }
 {{/getter}}
 {{#setter}}
     void
     {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, {{resolveName typeRef}})>(p{{iter.position}}s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, {{resolveName typeRef}})>(p{{iter.position}}s))(token,
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(value)
         ); });
     }
@@ -111,19 +113,25 @@ private:
     }
 };{{!!
 
-}}{{+ffiReleaseHandle}}{{#if typeRef.isNullable}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>(_result_handle){{/if}}{{!!
+}}{{+ffiReleaseHandle}}{{#if typeRef.isNullable}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>({{handle}}){{/if}}{{!!
 }}{{#unless typeRef.isNullable}}{{#typeRef.type.actualType}}{{!!
 }}{{#instanceOf this "LimeBasicType"}}{{!!
-}}{{#isEq typeId.toString "String"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>(_result_handle){{/isEq}}{{!!
-}}{{#isEq typeId.toString "Blob"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>(_result_handle){{/isEq}}{{!!
+}}{{#isEq typeId.toString "String"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>({{handle}}){{/isEq}}{{!!
+}}{{#isEq typeId.toString "Blob"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>({{handle}}){{/isEq}}{{!!
 }}{{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeBasicType"}}{{#instanceOf this "LimeEnumeration"}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeEnumeration"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>(_result_handle){{/notInstanceOf}}{{!!
+}}{{#notInstanceOf this "LimeEnumeration"}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>({{handle}}){{/notInstanceOf}}{{!!
 }}{{/notInstanceOf}}{{!!
 }}{{/typeRef.type.actualType}}{{/unless}}{{/ffiReleaseHandle}}{{!!
 
 }}{{+proxyReturnResult}}auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
-{{#returnType}}{{>ffiReleaseHandle}}{{/returnType}};
+{{#set typeRef=returnType.typeRef handle="_result_handle"}}{{>ffiReleaseHandle}}{{/set}};
 return _result;{{/proxyReturnResult}}{{!!
 
-}}{{+proxyReturnError}}return make_error_code({{>ffi/FfiInternal}}::Conversion<{{resolveName exception.errorType "C++"}}>::toCpp((uint32_t)_error));{{/proxyReturnError}}
+}}{{+proxyReturnError}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
+}}return make_error_code({{>ffi/FfiInternal}}::Conversion<{{resolveName exception.errorType "C++"}}>::toCpp({{!!
+}}(uint32_t)_error_handle));{{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
+}}auto _error_result = {{>ffi/FfiInternal}}::Conversion<{{resolveName exception.errorType "C++"}}>::toCpp(_error_handle);
+{{#set typeRef=exception.errorType handle="_error_handle"}}{{>ffiReleaseHandle}}{{/set}};
+return _error_result;{{!!
+}}{{/notInstanceOf}}{{/proxyReturnError}}
