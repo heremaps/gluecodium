@@ -411,7 +411,7 @@ Here's the list of currently supported attributes:
 * **@Immutable**: marks a struct type as immutable.
 * **@Equatable**: marks a struct type, a class, or an interface as equatable.
 * ~~**@PointerEquatable**~~: **deprecated**. Marks a class as equatable by reference (pointer). This
-was an interim tool for manually ensuring referential equality (which is not ensured automatically).
+was an interim tool for manually ensuring referential equality (which is now ensured automatically).
 Please note that this attribute is not supported for interfaces.
 * **@Serializable**: marks a struct type as serializable.
 * **@Deprecated(**\[**Message** **=**\] **"**_DeprecationMessage_**"**__)__: marks an element as
