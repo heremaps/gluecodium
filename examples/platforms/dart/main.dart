@@ -22,6 +22,7 @@ import "test/Blobs_test.dart" as BlobsTests;
 import "test/CallbacksMultithreaded_test.dart" as CallbacksMultithreadedTests;
 import "test/Classes_test.dart" as ClassesTests;
 import "test/Constants_test.dart" as ConstantsTests;
+import "test/CppConstMethods_test.dart" as CppConstMethodsTests;
 import "test/Dates_test.dart" as DatesTests;
 import "test/Defaults_test.dart" as DefaultsTests;
 import "test/EquatableClasses_test.dart" as EquatableClassesTests;
@@ -59,6 +60,7 @@ final _allTests = [
   CallbacksMultithreadedTests.main,
   ClassesTests.main,
   ConstantsTests.main,
+  CppConstMethodsTests.main,
   DatesTests.main,
   DefaultsTests.main,
   EquatableClassesTests.main,
