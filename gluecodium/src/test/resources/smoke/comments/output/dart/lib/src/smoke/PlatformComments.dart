@@ -11,9 +11,9 @@ abstract class PlatformComments {
   /// Colors everything in fuchsia.
   doMagic();
   /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
-  /// @param[input] Very useful parameter that \[\esc@pe{s}\]
-  /// @return Uselessness [PlatformComments_SomeEnum] of the input
-  /// @throws Sometimes it happens.
+  /// [input] Very useful parameter that \[\esc@pe{s}\]
+  /// Returns [bool]. Uselessness [PlatformComments_SomeEnum] of the input
+  /// Throws [PlatformComments_SomethingWrongException]. Sometimes it happens.
   bool someMethodWithAllComments(String input);
 }
 enum PlatformComments_SomeEnum {

@@ -8,9 +8,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class UnicodeComments {
   void release();
   /// Süßölgefäß
-  /// @param[input] שלום
-  /// @return товарищ
-  /// @throws ネコ
+  /// [input] שלום
+  /// Returns [bool]. товарищ
+  /// Throws [Comments_SomethingWrongException]. ネコ
   bool someMethodWithAllComments(String input);
 }
 // UnicodeComments "private" section, not exported.

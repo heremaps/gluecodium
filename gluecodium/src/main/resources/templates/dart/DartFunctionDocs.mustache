@@ -20,11 +20,14 @@
   !}}
 {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
 {{/unless}}{{/resolveName}}{{!!
-}}{{#parameters}}{{#set self=this}}{{#resolveName comment}}{{#unless this.isEmpty}}/// @param[{{resolveName self}}] {{prefix this "/// " skipFirstLine=true}}
+}}{{#parameters}}{{#set self=this}}{{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+}}/// [{{resolveName self}}] {{prefix this "/// " skipFirstLine=true}}
 {{/unless}}{{/resolveName}}{{/set}}{{/parameters}}{{!!
-}}{{#resolveName returnType.comment}}{{#unless this.isEmpty}}/// @return {{prefix this "/// " skipFirstLine=true}}
+}}{{#resolveName returnType.comment}}{{#unless this.isEmpty}}{{!!
+}}/// Returns [{{resolveName returnType.typeRef}}]. {{prefix this "/// " skipFirstLine=true}}
 {{/unless}}{{/resolveName}}{{!!
-}}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}/// @throws {{prefix this "/// " skipFirstLine=true}}
+}}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}{{!!
+}}/// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}
 {{/unless}}{{/resolveName}}{{/if}}{{!!
 }}{{#ifHasAttribute "Deprecated"}}
 @Deprecated("{{getAttribute "Deprecated"}}")

@@ -41,6 +41,8 @@ class LimeComment(
             .joinToString("") { it.second }
             .trim()
 
+    fun withPath(newPath: LimePath) = LimeComment(newPath, taggedSections)
+
     override fun toString() = taggedSections.joinToString("") {
         when (it.first) {
             "" -> escapeText(it.second)

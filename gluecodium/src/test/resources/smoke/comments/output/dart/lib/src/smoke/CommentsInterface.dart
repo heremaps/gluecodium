@@ -39,24 +39,24 @@ abstract class CommentsInterface {
   /// This is some very useful constant.
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
-  /// @param[input] Very useful input parameter
-  /// @return Usefulness of the input
+  /// [input] Very useful input parameter
+  /// Returns [bool]. Usefulness of the input
   bool someMethodWithAllComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
-  /// @param[input] Very useful input parameter
+  /// [input] Very useful input parameter
   bool someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
-  /// @return Usefulness of the input
+  /// Returns [bool]. Usefulness of the input
   bool someMethodWithOutputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   bool someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
-  /// @param[input] Very useful input parameter
+  /// [input] Very useful input parameter
   someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   someMethodWithoutReturnTypeWithNoComments(String input);
   /// This is some very useful method that measures the usefulness of something.
-  /// @return Usefulness of the input
+  /// Returns [bool]. Usefulness of the input
   bool someMethodWithoutInputParametersWithAllComments();
   /// This is some very useful method that measures the usefulness of something.
   bool someMethodWithoutInputParametersWithNoComments();
