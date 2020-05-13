@@ -35,6 +35,16 @@ import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import com.here.gluecodium.platform.common.GeneratorSuite
 import com.here.gluecodium.validator.LimeDeprecationsValidator
+import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
+import com.here.gluecodium.validator.LimeExternalTypesValidator
+import com.here.gluecodium.validator.LimeFunctionsValidator
+import com.here.gluecodium.validator.LimeGenericTypesValidator
+import com.here.gluecodium.validator.LimeInheritanceValidator
+import com.here.gluecodium.validator.LimePropertiesValidator
+import com.here.gluecodium.validator.LimeSerializableStructsValidator
+import com.here.gluecodium.validator.LimeStructsValidator
+import com.here.gluecodium.validator.LimeTypeRefTargetValidator
+import com.here.gluecodium.validator.LimeTypeRefsValidator
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
@@ -164,11 +174,35 @@ class Gluecodium(
     }
 
     // TODO: #329 move all model validation here
-    private fun validateModel(limeModel: LimeModel) =
-        LimeDeprecationsValidator(
-            LimeLogger(LOGGER, limeModel.fileNameMap),
-            options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
-        ).validate(limeModel.topElements)
+    private fun validateModel(limeModel: LimeModel): Boolean {
+        val limeLogger = LimeLogger(LOGGER, limeModel.fileNameMap)
+        val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)
+        val validators = getIndependentValidators(limeLogger) +
+            if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
+        val validationResults = validators.map { it.invoke(limeModel) }
+        return typeRefsValidationResult && !validationResults.contains(false)
+    }
+
+    private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
+        listOf<(LimeModel) -> Boolean>(
+            { LimeTypeRefTargetValidator(limeLogger).validate(it) },
+            { LimeGenericTypesValidator(limeLogger).validate(it) },
+            { LimeStructsValidator(limeLogger).validate(it) },
+            { LimeSerializableStructsValidator(limeLogger).validate(it) },
+            { LimeInheritanceValidator(limeLogger).validate(it) },
+            { LimeFunctionsValidator(limeLogger).validate(it) }
+        )
+
+    private fun getIndependentValidators(limeLogger: LimeLogger) =
+        listOf<(LimeModel) -> Boolean>(
+            { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
+            { LimeExternalTypesValidator(limeLogger).validate(it) },
+            { LimePropertiesValidator(limeLogger).validate(it) },
+            { LimeDeprecationsValidator(
+                limeLogger,
+                options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
+            ).validate(it.topElements) }
+        )
 
     data class Options(
         var idlSources: List<String> = emptyList(),
