@@ -1,0 +1,7 @@
+package smoke
+class CollectionConstants {
+    const listConstant: List<String> = ["foo", "bar"]
+    const setConstant: Set<String> = ["foo", "bar"]
+    const mapConstant: Map<String, String> = ["foo": "bar"]
+    const mixedConstant: Map<List<String>, Set<String>> = [["foo"]: ["bar"]]
+}

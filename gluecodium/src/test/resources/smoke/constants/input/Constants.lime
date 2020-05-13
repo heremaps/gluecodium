@@ -59,3 +59,10 @@ class StructConstants {
     const structConstant: SomeStruct = {"bar Buzz", 1.41}
     const nestingStructConstant: NestingStruct = {{"nonsense", -2.82}}
 }
+
+class CollectionConstants {
+    const listConstant: List<String> = ["foo", "bar"]
+    const setConstant: Set<String> = ["foo", "bar"]
+    const mapConstant: Map<String, String> = ["foo": "bar"]
+    const mixedConstant: Map<List<String>, Set<String>> = [["foo"]: ["bar"]]
+}

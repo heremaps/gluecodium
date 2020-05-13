@@ -47,8 +47,6 @@ void main() {
     final otherStruct = createEquatableStruct();
 
     expect(struct == otherStruct, isTrue);
-    print(struct.hashCode);
-    print(otherStruct.hashCode);
     expect(struct.hashCode == otherStruct.hashCode, isTrue);
   });
   _testSuite.test("Equatable struct not equals Boolean field", () {
