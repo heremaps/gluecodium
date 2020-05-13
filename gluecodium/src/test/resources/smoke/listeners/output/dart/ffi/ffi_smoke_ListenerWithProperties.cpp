@@ -122,23 +122,23 @@ public:
         ); });
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle p0g;
-    FfiOpaqueHandle p0s;
-    FfiOpaqueHandle p1g;
-    FfiOpaqueHandle p1s;
-    FfiOpaqueHandle p2g;
-    FfiOpaqueHandle p2s;
-    FfiOpaqueHandle p3g;
-    FfiOpaqueHandle p3s;
-    FfiOpaqueHandle p4g;
-    FfiOpaqueHandle p4s;
-    FfiOpaqueHandle p5g;
-    FfiOpaqueHandle p5s;
-    FfiOpaqueHandle p6g;
-    FfiOpaqueHandle p6s;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle p0g;
+    const FfiOpaqueHandle p0s;
+    const FfiOpaqueHandle p1g;
+    const FfiOpaqueHandle p1s;
+    const FfiOpaqueHandle p2g;
+    const FfiOpaqueHandle p2s;
+    const FfiOpaqueHandle p3g;
+    const FfiOpaqueHandle p3s;
+    const FfiOpaqueHandle p4g;
+    const FfiOpaqueHandle p4s;
+    const FfiOpaqueHandle p5g;
+    const FfiOpaqueHandle p5s;
+    const FfiOpaqueHandle p6g;
+    const FfiOpaqueHandle p6s;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)

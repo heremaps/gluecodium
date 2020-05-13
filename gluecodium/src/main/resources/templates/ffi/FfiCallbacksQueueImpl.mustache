@@ -138,7 +138,7 @@ CallbackQueueManager::closeAllQueues()
 }
 
 std::shared_ptr<CallbackQueue>
-CallbackQueueManager::getQueue(int id)
+CallbackQueueManager::getQueue(int id) const
 {
     std::unique_lock<std::mutex> lock(m_mutex);
 

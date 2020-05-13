@@ -37,10 +37,10 @@ public:
         return _result;
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle f0;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)
@@ -71,10 +71,10 @@ public:
         return _result;
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle f0;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)
@@ -100,10 +100,10 @@ public:
         ); });
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle f0;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)
@@ -135,10 +135,10 @@ public:
         return _result;
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle f0;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)
@@ -169,10 +169,10 @@ public:
         return _result;
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle f0;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)
