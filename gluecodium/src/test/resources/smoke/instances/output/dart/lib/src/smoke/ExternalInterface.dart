@@ -218,8 +218,8 @@ Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError)
   );
   __lib.reverseCache[_smoke_ExternalInterface_get_raw_pointer(result)] = value;
   return result;

@@ -26,98 +26,98 @@ public:
     std::string
     get_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(p0g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p0g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
         delete reinterpret_cast<std::string*>(_result_handle);
         return _result;
     }
     void
     set_message(const std::string& value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(p0s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p0s))(token,
             gluecodium::ffi::Conversion<std::string>::toFfi(value)
         ); });
     }
     std::shared_ptr<::smoke::CalculationResult>
     get_packed_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(p1g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p1g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCpp(_result_handle);
         delete reinterpret_cast<std::shared_ptr<::smoke::CalculationResult>*>(_result_handle);
         return _result;
     }
     void
     set_packed_message(const std::shared_ptr<::smoke::CalculationResult>& value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(p1s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p1s))(token,
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(value)
         ); });
     }
     ::smoke::ListenerWithProperties::ResultStruct
     get_structured_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(p2g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p2g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toCpp(_result_handle);
         delete reinterpret_cast<::smoke::ListenerWithProperties::ResultStruct*>(_result_handle);
         return _result;
     }
     void
     set_structured_message(const ::smoke::ListenerWithProperties::ResultStruct& value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(p2s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p2s))(token,
             gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toFfi(value)
         ); });
     }
     ::smoke::ListenerWithProperties::ResultEnum
     get_enumerated_message() const override {
         uint32_t _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, uint32_t*)>(p3g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, uint32_t*)>(p3g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toCpp(_result_handle);
         ;
         return _result;
     }
     void
     set_enumerated_message(const ::smoke::ListenerWithProperties::ResultEnum value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, uint32_t)>(p3s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, uint32_t)>(p3s))(token,
             gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toFfi(value)
         ); });
     }
     std::vector<std::string>
     get_arrayed_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(p4g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p4g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(_result_handle);
         delete reinterpret_cast<std::vector<std::string>*>(_result_handle);
         return _result;
     }
     void
     set_arrayed_message(const std::vector<std::string>& value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(p4s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p4s))(token,
             gluecodium::ffi::Conversion<std::vector<std::string>>::toFfi(value)
         ); });
     }
     std::unordered_map<std::string, double>
     get_mapped_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(p5g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p5g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(_result_handle);
         delete reinterpret_cast<std::unordered_map<std::string, double>*>(_result_handle);
         return _result;
     }
     void
     set_mapped_message(const std::unordered_map<std::string, double>& value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(p5s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p5s))(token,
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toFfi(value)
         ); });
     }
     std::shared_ptr<std::vector<uint8_t>>
     get_buffered_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(p6g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p6g))(token, &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(_result_handle);
         delete reinterpret_cast<std::shared_ptr<std::vector<uint8_t>>*>(_result_handle);
         return _result;
     }
     void
     set_buffered_message(const std::shared_ptr<std::vector<uint8_t>>& value) override {
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle)>(p6s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p6s))(token,
             gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toFfi(value)
         ); });
     }

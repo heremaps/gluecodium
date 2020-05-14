@@ -22,7 +22,7 @@ public:
     std::string
     get_string_value() override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(f0))(token,
             &_result_handle
         ); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
@@ -32,7 +32,7 @@ public:
     std::shared_ptr<::smoke::SimpleInterface>
     use_simple_interface(const std::shared_ptr<::smoke::SimpleInterface>& input) override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<int64_t (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f1))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle, FfiOpaqueHandle*)>(f1))(token,
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toFfi(input),
             &_result_handle
         ); });

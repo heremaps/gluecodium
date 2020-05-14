@@ -278,12 +278,12 @@ Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Double)>(_CalculatorListener_onCalculationResult_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Double)>(_CalculatorListener_onCalculationResultConst_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultStruct_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultArray_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultMap_static, __lib.unknownError),
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultInstance_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Double)>(_CalculatorListener_onCalculationResult_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Double)>(_CalculatorListener_onCalculationResultConst_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultStruct_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultArray_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultMap_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_CalculatorListener_onCalculationResultInstance_static, __lib.unknownError)
   );
   __lib.reverseCache[_smoke_CalculatorListener_get_raw_pointer(result)] = value;
   return result;
