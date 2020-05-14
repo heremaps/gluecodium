@@ -5,6 +5,10 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipFunctions {
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   static String notInJava(String input) => SkipFunctions$Impl.notInJava(input);
   static bool notInSwift(bool input) => SkipFunctions$Impl.notInSwift(input);

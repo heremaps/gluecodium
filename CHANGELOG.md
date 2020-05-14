@@ -8,6 +8,7 @@
   * Relaxed restrictions on `@Equatable` structs in IDL. Such structs now can contains fields of
     any class or interface types (not just those that are `@Equatable` themselves).
   * Added support for arbitrary exception payload when calling a throwing Dart method from C++.
+  * Added doc comments for `release()` methods in Dart generated code.
 ### Deprecated:
   * `@PointerEquatable` IDL attribute is now deprecated. It still works the same way as before but
     its use is discouraged. Referential integrity on platform side makes this attribute redundant.

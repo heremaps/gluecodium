@@ -28,6 +28,7 @@ abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {
   }}){{>dartImplRedirect}};
 {{/constructors}}{{/set}}
 
+{{prefixPartial "dart/DartReleaseDocs" "  "}}
   void release();
 
 {{#set isInClass=true}}{{#constants}}

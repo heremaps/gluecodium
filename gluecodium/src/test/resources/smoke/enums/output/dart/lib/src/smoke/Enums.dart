@@ -5,6 +5,10 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Enums {
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) => Enums$Impl.methodWithEnumeration(input);
   static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) => Enums$Impl.flipEnumValue(input);

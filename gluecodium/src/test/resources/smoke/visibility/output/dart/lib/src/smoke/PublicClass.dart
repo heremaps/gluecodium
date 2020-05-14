@@ -5,6 +5,10 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class PublicClass {
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
   PublicClass_InternalStruct get internal_internalStructProperty;

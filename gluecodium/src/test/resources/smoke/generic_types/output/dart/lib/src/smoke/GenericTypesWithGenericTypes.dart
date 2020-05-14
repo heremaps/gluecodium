@@ -6,6 +6,10 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class GenericTypesWithGenericTypes {
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   List<List<int>> methodWithListOfLists(List<List<int>> input);
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input);
