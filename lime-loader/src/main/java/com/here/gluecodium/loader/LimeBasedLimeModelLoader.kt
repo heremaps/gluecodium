@@ -27,17 +27,7 @@ import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReferenceResolver
-import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
-import com.here.gluecodium.validator.LimeExternalTypesValidator
-import com.here.gluecodium.validator.LimeFunctionsValidator
-import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeImportsValidator
-import com.here.gluecodium.validator.LimeInheritanceValidator
-import com.here.gluecodium.validator.LimePropertiesValidator
-import com.here.gluecodium.validator.LimeSerializableStructsValidator
-import com.here.gluecodium.validator.LimeStructsValidator
-import com.here.gluecodium.validator.LimeTypeRefTargetValidator
-import com.here.gluecodium.validator.LimeTypeRefsValidator
 import java.io.File
 import java.util.logging.Logger
 import org.antlr.v4.runtime.CharStreams
@@ -84,13 +74,9 @@ internal class LimeBasedLimeModelLoader : LimeModelLoader {
         fileNameToImports: Map<String, List<LimePath>>
     ) {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        val typeRefsValidationResult =
-            LimeImportsValidator(limeLogger).validate(limeModel, fileNameToImports) &&
-            LimeTypeRefsValidator(limeLogger).validate(limeModel)
-        val validators = getIndependentValidators(limeLogger) +
-            if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
-        val validationResults = validators.map { it.invoke(limeModel) }
-        if (!typeRefsValidationResult || validationResults.contains(false)) {
+        val validationResult =
+            LimeImportsValidator(limeLogger).validate(limeModel, fileNameToImports)
+        if (!validationResult) {
             throw LimeLoadingException("Validation errors found, see log for details.")
         }
     }
@@ -139,23 +125,6 @@ internal class LimeBasedLimeModelLoader : LimeModelLoader {
             else -> emptyList()
         }
     }
-
-    private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
-        listOf<(LimeModel) -> Boolean>(
-            { LimeTypeRefTargetValidator(limeLogger).validate(it) },
-            { LimeGenericTypesValidator(limeLogger).validate(it) },
-            { LimeStructsValidator(limeLogger).validate(it) },
-            { LimeSerializableStructsValidator(limeLogger).validate(it) },
-            { LimeInheritanceValidator(limeLogger).validate(it) },
-            { LimeFunctionsValidator(limeLogger).validate(it) }
-        )
-
-    private fun getIndependentValidators(limeLogger: LimeLogger) =
-        listOf<(LimeModel) -> Boolean>(
-            { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
-            { LimeExternalTypesValidator(limeLogger).validate(it) },
-            { LimePropertiesValidator(limeLogger).validate(it) }
-        )
 }
 
 fun LimeModelLoader.Companion.getLoader(): LimeModelLoader = LimeBasedLimeModelLoader()
