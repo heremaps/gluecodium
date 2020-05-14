@@ -1,12 +1,12 @@
-import 'package:library/src/smoke/ChildClassFromClass.dart';
-import 'package:library/src/smoke/ChildClassFromInterface.dart';
-import 'package:library/src/smoke/ChildInterface.dart';
-import 'package:library/src/smoke/ChildWithParentClassReferences.dart';
-import 'package:library/src/smoke/InternalChild.dart';
-import 'package:library/src/smoke/InternalParent.dart';
-import 'package:library/src/smoke/ParentClass.dart';
-import 'package:library/src/smoke/ParentInterface.dart';
-import 'package:library/src/smoke/ParentWithClassReferences.dart';
+import 'package:library/src/smoke/child_class_from_class.dart';
+import 'package:library/src/smoke/child_class_from_interface.dart';
+import 'package:library/src/smoke/child_interface.dart';
+import 'package:library/src/smoke/child_with_parent_class_references.dart';
+import 'package:library/src/smoke/internal_child.dart';
+import 'package:library/src/smoke/internal_parent.dart';
+import 'package:library/src/smoke/parent_class.dart';
+import 'package:library/src/smoke/parent_interface.dart';
+import 'package:library/src/smoke/parent_with_class_references.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 final Map<String, Function> typeRepository = {

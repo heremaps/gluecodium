@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.dart
 
+import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
@@ -39,7 +40,7 @@ internal class DartImportResolver(
     private val nameResolver: DartNameResolver,
     private val srcPath: String
 ) {
-    private val builtInTypesConversionImport = createConversionImport("BuiltInTypes")
+    private val builtInTypesConversionImport = createConversionImport("builtin_types")
     private val typeRepositoryImport = DartImport("$srcPath/_type_repository", "__lib")
     private val tokenCacheImport = DartImport("$srcPath/_token_cache", "__lib")
 
@@ -74,7 +75,8 @@ internal class DartImportResolver(
 
     private fun createImport(limeElement: LimeNamedElement): DartImport {
         val filePath = limeElement.path.head.joinToString("/")
-        val fileName = nameResolver.resolveName(getTopElement(limeElement))
+        val topElementName = nameResolver.resolveName(getTopElement(limeElement))
+        val fileName = NameHelper.toLowerSnakeCase(topElementName)
         return DartImport("$srcPath/$filePath/$fileName")
     }
 
@@ -91,7 +93,7 @@ internal class DartImportResolver(
             is LimeSet -> resolveImports(limeType.elementType)
             is LimeMap -> resolveImports(limeType.keyType) + resolveImports(limeType.valueType)
             else -> emptyList()
-        } + createConversionImport("GenericTypes")
+        } + createConversionImport("generic_types")
 
     private fun getTopElement(limeElement: LimeNamedElement) =
         generateSequence(limeElement) {
