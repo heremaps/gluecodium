@@ -33,7 +33,7 @@ namespace ffi
 class IsolateContext
 {
 private:
-    int32_t m_previous_id;
+    const int32_t m_previous_id;
     static thread_local int32_t m_current_id;
 
 public:

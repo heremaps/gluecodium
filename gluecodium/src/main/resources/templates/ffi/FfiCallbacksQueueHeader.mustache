@@ -43,11 +43,11 @@ class CallbackQueue
 private:
     struct Entry
     {
-        std::function<void()> func;
+        const std::function<void()> func;
         std::promise<bool> done;
     };
 
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     std::queue<Entry> m_queue;
 
     bool m_is_closed = false;
@@ -86,12 +86,12 @@ public:
 class CallbackQueueManager
 {
 private:
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     int32_t m_next_id = 0;
     std::unordered_map<int, std::shared_ptr<CallbackQueue>> m_queues;
 
 public:
-    std::shared_ptr<CallbackQueue> getQueue(int id);
+    std::shared_ptr<CallbackQueue> getQueue(int id) const;
 
     /**
      * Create CallbackQeue with given id.

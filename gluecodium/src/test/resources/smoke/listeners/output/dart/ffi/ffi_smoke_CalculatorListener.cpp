@@ -58,15 +58,15 @@ public:
         ); });
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
-    FfiOpaqueHandle f0;
-    FfiOpaqueHandle f1;
-    FfiOpaqueHandle f2;
-    FfiOpaqueHandle f3;
-    FfiOpaqueHandle f4;
-    FfiOpaqueHandle f5;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
+    const FfiOpaqueHandle f0;
+    const FfiOpaqueHandle f1;
+    const FfiOpaqueHandle f2;
+    const FfiOpaqueHandle f3;
+    const FfiOpaqueHandle f4;
+    const FfiOpaqueHandle f5;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)

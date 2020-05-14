@@ -18,9 +18,9 @@ public:
         });
     }
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)

@@ -93,15 +93,15 @@ public:
 {{/each}}
 
 private:
-    uint64_t token;
-    int32_t isolate_id;
-    FfiOpaqueHandle deleter;
+    const uint64_t token;
+    const int32_t isolate_id;
+    const FfiOpaqueHandle deleter;
 {{#each inheritedFunctions functions}}
-    FfiOpaqueHandle f{{iter.position}};
+    const FfiOpaqueHandle f{{iter.position}};
 {{/each}}
 {{#each inheritedProperties properties}}
-    FfiOpaqueHandle p{{iter.position}}g;{{#if setter}}
-    FfiOpaqueHandle p{{iter.position}}s;
+    const FfiOpaqueHandle p{{iter.position}}g;{{#if setter}}
+    const FfiOpaqueHandle p{{iter.position}}s;
 {{/if}}
 {{/each}}
 
