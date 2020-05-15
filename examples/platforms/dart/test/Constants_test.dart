@@ -77,4 +77,25 @@ void main() {
     expect(result.structField.stringField, equals("nonsense"));
     expect(result.structField.floatField, equals(-2.82));
   });
+  _testSuite.test("List type constant", () {
+    final result = CollectionConstants.listConstant;
+
+    expect(result, ["foo", "bar"]);
+  });
+  _testSuite.test("Set type constant", () {
+    final result = CollectionConstants.setConstant;
+
+    expect(result, {"foo", "bar"});
+  });
+  _testSuite.test("Map type constant", () {
+    final result = CollectionConstants.mapConstant;
+
+    expect(result, {"foo": "bar"});
+  });
+  _testSuite.test("Mixed type constant", () {
+    final result = CollectionConstants.mixedConstant;
+
+    expect(result.keys.first, ["foo"]);
+    expect(result.values.first, {"bar"});
+  });
 }

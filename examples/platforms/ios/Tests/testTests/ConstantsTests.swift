@@ -107,6 +107,30 @@ class ConstantsTests: XCTestCase {
         XCTAssertEqual(StructConstants.nestingStructConstant, result)
     }
 
+    func testListConstant() {
+        let result = CollectionConstants.listConstant
+
+        XCTAssertEqual(["foo", "bar"], result)
+    }
+
+    func testSetConstant() {
+        let result = CollectionConstants.setConstant
+
+        XCTAssertEqual(["foo", "bar"], result)
+    }
+
+    func testMapConstant() {
+        let result = CollectionConstants.mapConstant
+
+        XCTAssertEqual(["foo": "bar"], result)
+    }
+
+    func testMixedConstant() {
+        let result = CollectionConstants.mixedConstant
+
+        XCTAssertEqual([["foo"]: ["bar"]], result)
+    }
+
     static var allTests = [
         ("testIntConstantFromTypeCollection", testIntConstantFromTypeCollection),
         ("testUintConstantFromTypeCollection", testUintConstantFromTypeCollection),
@@ -121,6 +145,10 @@ class ConstantsTests: XCTestCase {
         ("testStringConstantFromInterface", testStringConstantFromInterface),
         ("testEnumConstantFromInterface", testEnumConstantFromInterface),
         ("testStructConstant", testStructConstant),
-        ("testNestingStructConstant", testNestingStructConstant)
+        ("testNestingStructConstant", testNestingStructConstant),
+        ("testListConstant", testListConstant),
+        ("testSetConstant", testSetConstant),
+        ("testMapConstant", testMapConstant),
+        ("testMixedConstant", testMixedConstant)
     ]
 }

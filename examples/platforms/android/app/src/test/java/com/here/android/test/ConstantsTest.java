@@ -23,6 +23,11 @@ import static junit.framework.Assert.assertEquals;
 import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -131,5 +136,35 @@ public final class ConstantsTest {
     StructConstants.NestingStruct result = UseStructConstants.getNestingStructConstant();
 
     assertEquals(StructConstants.NESTING_STRUCT_CONSTANT, result);
+  }
+
+  @Test
+  public void checkListConstant() {
+    List<String> result = CollectionConstants.LIST_CONSTANT;
+
+    assertEquals(java.util.Arrays.asList("foo", "bar"), result);
+  }
+
+  @Test
+  public void checkSetConstant() {
+    Set<String> result = CollectionConstants.SET_CONSTANT;
+
+    assertEquals(new HashSet(java.util.Arrays.asList("foo", "bar")), result);
+  }
+
+  @Test
+  public void checkMapConstant() {
+    Map<String, String> result = CollectionConstants.MAP_CONSTANT;
+
+    assertEquals(Collections.singletonMap("foo", "bar"), result);
+  }
+
+  @Test
+  public void checkMixedConstant() {
+    Map<List<String>, Set<String>> result = CollectionConstants.MIXED_CONSTANT;
+
+    assertEquals(
+        Collections.singletonMap(Collections.singletonList("foo"), Collections.singleton("bar")),
+        result);
   }
 }
