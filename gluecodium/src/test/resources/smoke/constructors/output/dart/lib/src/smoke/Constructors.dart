@@ -12,6 +12,10 @@ abstract class Constructors {
   factory Constructors.fromMulti(String foo, int bar) => Constructors$Impl.fromMulti(foo, bar);
   factory Constructors.fromString(String input) => Constructors$Impl.fromString(input);
   factory Constructors.fromList(List<double> input) => Constructors$Impl.fromList(input);
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
 }
 enum Constructors_ErrorEnum {

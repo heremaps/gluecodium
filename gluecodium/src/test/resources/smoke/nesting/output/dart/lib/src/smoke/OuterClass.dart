@@ -6,10 +6,18 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class OuterClass {
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   String foo(String input);
 }
 abstract class OuterClass_InnerClass {
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   String foo(String input);
 }
@@ -76,6 +84,10 @@ abstract class OuterClass_InnerInterface {
   }) => OuterClass_InnerInterface$Lambdas(
     lambda_foo
   );
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release() {}
   String foo(String input);
 }

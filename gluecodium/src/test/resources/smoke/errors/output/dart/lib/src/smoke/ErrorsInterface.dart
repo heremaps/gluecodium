@@ -22,6 +22,10 @@ abstract class ErrorsInterface {
     lambda_methodWithPayloadError,
     lambda_methodWithPayloadErrorAndReturnValue
   );
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release() {}
   methodWithErrors();
   methodWithExternalErrors();

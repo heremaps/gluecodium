@@ -14,6 +14,10 @@ abstract class ExternalInterface {
     lambda_someMethod,
     lambda_someProperty_get
   );
+  /// Destroys the underlying native object.
+  ///
+  /// Call this to free memory when you no longer need this instance.
+  /// Note that setting the instance to null will not destroy the underlying native object.
   void release() {}
   someMethod(int someParameter);
   String get someProperty;
