@@ -61,6 +61,8 @@ public:
     virtual ~smoke_EquatableInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_EquatableInterfaceProxy(const smoke_EquatableInterfaceProxy&) = delete;
+    smoke_EquatableInterfaceProxy& operator=(const smoke_EquatableInterfaceProxy&) = delete;
 private:
     smoke_EquatableInterface_FunctionTable mFunctions;
 };

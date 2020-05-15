@@ -17,6 +17,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_EquatableInterface_Proxy(const smoke_EquatableInterface_Proxy&) = delete;
+    smoke_EquatableInterface_Proxy& operator=(const smoke_EquatableInterface_Proxy&) = delete;
 private:
     const uint64_t token;
     const int32_t isolate_id;

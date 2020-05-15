@@ -22,6 +22,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_ListenersWithReturnValues_Proxy(const smoke_ListenersWithReturnValues_Proxy&) = delete;
+    smoke_ListenersWithReturnValues_Proxy& operator=(const smoke_ListenersWithReturnValues_Proxy&) = delete;
     double
     fetch_data_double() override {
         double _result_handle;

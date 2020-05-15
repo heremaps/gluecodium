@@ -19,6 +19,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_StandaloneProducer_Proxy(const smoke_StandaloneProducer_Proxy&) = delete;
+    smoke_StandaloneProducer_Proxy& operator=(const smoke_StandaloneProducer_Proxy&) = delete;
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;

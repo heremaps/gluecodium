@@ -60,6 +60,8 @@ public:
     virtual ~smoke_Lambdas_ProducerProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_Lambdas_ProducerProxy(const smoke_Lambdas_ProducerProxy&) = delete;
+    smoke_Lambdas_ProducerProxy& operator=(const smoke_Lambdas_ProducerProxy&) = delete;
     ::std::string operator()() {
         auto _call_result = mFunctions.smoke_Lambdas_Producer_call(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);
@@ -98,6 +100,8 @@ public:
     virtual ~smoke_Lambdas_ConfuserProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_Lambdas_ConfuserProxy(const smoke_Lambdas_ConfuserProxy&) = delete;
+    smoke_Lambdas_ConfuserProxy& operator=(const smoke_Lambdas_ConfuserProxy&) = delete;
     ::smoke::Lambdas::Producer operator()(const std::string& p0) {
         auto _call_result = mFunctions.smoke_Lambdas_Confuser_call(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(p0));
         return Conversion<::smoke::Lambdas::Producer>::toCppReturn(_call_result);
@@ -136,6 +140,8 @@ public:
     virtual ~smoke_Lambdas_ConsumerProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_Lambdas_ConsumerProxy(const smoke_Lambdas_ConsumerProxy&) = delete;
+    smoke_Lambdas_ConsumerProxy& operator=(const smoke_Lambdas_ConsumerProxy&) = delete;
     void operator()(const std::string& p0) {
         mFunctions.smoke_Lambdas_Consumer_call(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(p0));
     }
@@ -173,6 +179,8 @@ public:
     virtual ~smoke_Lambdas_IndexerProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_Lambdas_IndexerProxy(const smoke_Lambdas_IndexerProxy&) = delete;
+    smoke_Lambdas_IndexerProxy& operator=(const smoke_Lambdas_IndexerProxy&) = delete;
     int32_t operator()(const std::string& p0, float p1) {
         auto _call_result = mFunctions.smoke_Lambdas_Indexer_call(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(p0), p1);
         return _call_result;
@@ -211,6 +219,8 @@ public:
     virtual ~smoke_Lambdas_NullableConfuserProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_Lambdas_NullableConfuserProxy(const smoke_Lambdas_NullableConfuserProxy&) = delete;
+    smoke_Lambdas_NullableConfuserProxy& operator=(const smoke_Lambdas_NullableConfuserProxy&) = delete;
     ::gluecodium::optional< ::smoke::Lambdas::Producer > operator()(const ::gluecodium::optional< ::std::string >& p0) {
         auto _call_result = mFunctions.smoke_Lambdas_NullableConfuser_call(mFunctions.swift_pointer, Conversion<::gluecodium::optional< ::std::string >>::toBaseRef(p0));
         return Conversion<::gluecodium::optional< ::smoke::Lambdas::Producer >>::toCppReturn(_call_result);

@@ -21,6 +21,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_ErrorsInterface_Proxy(const smoke_ErrorsInterface_Proxy&) = delete;
+    smoke_ErrorsInterface_Proxy& operator=(const smoke_ErrorsInterface_Proxy&) = delete;
     std::error_code
     method_with_errors() override {
         uint32_t _error_handle;

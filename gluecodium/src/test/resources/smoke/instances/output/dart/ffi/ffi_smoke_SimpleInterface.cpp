@@ -19,6 +19,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_SimpleInterface_Proxy(const smoke_SimpleInterface_Proxy&) = delete;
+    smoke_SimpleInterface_Proxy& operator=(const smoke_SimpleInterface_Proxy&) = delete;
     std::string
     get_string_value() override {
         FfiOpaqueHandle _result_handle;

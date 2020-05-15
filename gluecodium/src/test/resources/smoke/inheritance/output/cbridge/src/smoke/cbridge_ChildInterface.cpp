@@ -62,6 +62,8 @@ public:
     virtual ~smoke_ChildInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_ChildInterfaceProxy(const smoke_ChildInterfaceProxy&) = delete;
+    smoke_ChildInterfaceProxy& operator=(const smoke_ChildInterfaceProxy&) = delete;
     void root_method() override {
         mFunctions.smoke_ParentInterface_rootMethod(mFunctions.swift_pointer);
     }

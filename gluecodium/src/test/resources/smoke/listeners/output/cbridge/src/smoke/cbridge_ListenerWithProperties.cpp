@@ -132,6 +132,8 @@ public:
     virtual ~smoke_ListenerWithPropertiesProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_ListenerWithPropertiesProxy(const smoke_ListenerWithPropertiesProxy&) = delete;
+    smoke_ListenerWithPropertiesProxy& operator=(const smoke_ListenerWithPropertiesProxy&) = delete;
     ::std::string get_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithProperties_message_get(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);
