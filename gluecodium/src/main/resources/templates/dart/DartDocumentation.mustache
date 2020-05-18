@@ -20,6 +20,9 @@
   !}}
 {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
 {{/unless}}{{/resolveName}}{{!!
+}}{{#if visibility.isInternal}}
+/// @nodoc
+{{/if}}{{!!
 }}{{#ifHasAttribute "Deprecated"}}
 @Deprecated("{{getAttribute "Deprecated"}}")
 {{/ifHasAttribute}}

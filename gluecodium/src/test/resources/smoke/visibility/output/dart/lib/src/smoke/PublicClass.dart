@@ -10,12 +10,17 @@ abstract class PublicClass {
   /// Call this to free memory when you no longer need this instance.
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
+  /// @nodoc
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
+  /// @nodoc
   PublicClass_InternalStruct get internal_internalStructProperty;
+  /// @nodoc
   set internal_internalStructProperty(PublicClass_InternalStruct value);
   String get internalSetterProperty;
+  /// @nodoc
   set internal_internalSetterProperty(String value);
 }
+/// @nodoc
 enum PublicClass_InternalEnum {
     foo,
     bar
@@ -75,7 +80,9 @@ PublicClass_InternalEnum smoke_PublicClass_InternalEnum_fromFfi_nullable(Pointer
 void smoke_PublicClass_InternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_PublicClass_InternalEnum_release_handle_nullable(handle);
 // End of PublicClass_InternalEnum "private" section.
+/// @nodoc
 class PublicClass_InternalStruct {
+  /// @nodoc
   String internal_stringField;
   PublicClass_InternalStruct(this.internal_stringField);
 }
@@ -138,6 +145,7 @@ void smoke_PublicClass_InternalStruct_releaseFfiHandle_nullable(Pointer<Void> ha
   _smoke_PublicClass_InternalStruct_release_handle_nullable(handle);
 // End of PublicClass_InternalStruct "private" section.
 class PublicClass_PublicStruct {
+  /// @nodoc
   PublicClass_InternalStruct internal_internalField;
   PublicClass_PublicStruct(this.internal_internalField);
 }
@@ -200,6 +208,7 @@ void smoke_PublicClass_PublicStruct_releaseFfiHandle_nullable(Pointer<Void> hand
   _smoke_PublicClass_PublicStruct_release_handle_nullable(handle);
 // End of PublicClass_PublicStruct "private" section.
 class PublicClass_PublicStructWithInternalDefaults {
+  /// @nodoc
   String internal_internalField;
   double publicField;
   PublicClass_PublicStructWithInternalDefaults(this.internal_internalField, this.publicField);

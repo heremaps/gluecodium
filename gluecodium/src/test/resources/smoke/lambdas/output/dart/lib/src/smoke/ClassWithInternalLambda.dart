@@ -12,6 +12,7 @@ abstract class ClassWithInternalLambda {
   void release();
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) => ClassWithInternalLambda$Impl.invokeInternalLambda(lambda, value);
 }
+/// @nodoc
 typedef ClassWithInternalLambda_InternalLambda = bool Function(String);
 // ClassWithInternalLambda_InternalLambda "private" section, not exported.
 final _smoke_ClassWithInternalLambda_InternalLambda_copy_handle = __lib.nativeLibrary.lookupFunction<

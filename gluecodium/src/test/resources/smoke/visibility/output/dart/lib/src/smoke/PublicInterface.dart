@@ -13,7 +13,9 @@ abstract class PublicInterface {
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release() {}
 }
+/// @nodoc
 class PublicInterface_InternalStruct {
+  /// @nodoc
   PublicClass_InternalStruct internal_fieldOfInternalType;
   PublicInterface_InternalStruct(this.internal_fieldOfInternalType);
 }
