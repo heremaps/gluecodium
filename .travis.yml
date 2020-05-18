@@ -42,6 +42,9 @@ jobs:
       dist: xenial
       language: java
       jdk: openjdk8
+      env:
+        - PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin/:$PATH
+        - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       addons:
         apt:
           sources:
