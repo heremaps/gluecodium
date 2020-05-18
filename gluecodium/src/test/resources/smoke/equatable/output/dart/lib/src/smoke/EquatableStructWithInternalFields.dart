@@ -8,9 +8,13 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class EquatableStructWithInternalFields {
   String publicField;
+  /// @nodoc
   String internal_internalField;
+  /// @nodoc
   List<String> internal_internalListField;
+  /// @nodoc
   Map<String, String> internal_internalMapField;
+  /// @nodoc
   Set<String> internal_internalSetField;
   EquatableStructWithInternalFields(this.publicField, this.internal_internalField, this.internal_internalListField, this.internal_internalMapField, this.internal_internalSetField);
   @override

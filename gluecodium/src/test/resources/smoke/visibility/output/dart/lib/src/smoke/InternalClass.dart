@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
+/// @nodoc
 abstract class InternalClass {
   /// Destroys the underlying native object.
   ///

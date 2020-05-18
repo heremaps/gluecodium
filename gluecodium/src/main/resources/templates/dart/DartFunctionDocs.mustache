@@ -25,6 +25,8 @@
 /// Returns [{{resolveName returnType.typeRef}}]. {{prefix this "/// " skipFirstLine=true}}{{/unless}}{{/resolveName}}{{!!
 }}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}
 /// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}{{/unless}}{{/resolveName}}{{/if}}{{!!
+}}{{#if visibility.isInternal}}
+/// @nodoc{{/if}}{{!!
 }}{{#ifHasAttribute "Deprecated"}}
 @Deprecated("{{getAttribute "Deprecated"}}")
 {{/ifHasAttribute}}
