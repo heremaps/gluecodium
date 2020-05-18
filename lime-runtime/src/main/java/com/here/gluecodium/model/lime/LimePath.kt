@@ -33,7 +33,7 @@ data class LimePath(
     val head: List<String>,
     val tail: List<String>,
     val disambiguator: String = ""
-) {
+) : Comparable<LimePath> {
     val container
         get() = tail.first()
 
@@ -60,6 +60,8 @@ data class LimePath(
 
     override fun toString() = (head + tail).joinToString(separator = ".") +
         if (disambiguator.isNotEmpty()) ":$disambiguator" else ""
+
+    override fun compareTo(other: LimePath) = toString().compareTo(other.toString())
 
     companion object {
         val EMPTY_PATH = LimePath(emptyList(), emptyList())

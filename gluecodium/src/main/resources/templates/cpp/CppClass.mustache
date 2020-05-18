@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,35 +18,43 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}{{!!
-}}{{>cpp/DocComment}}
-class {{>cpp/CppExportMacro}}{{name}}{{>cpp/CppInheritance}} {
+{{#unlessHasAttribute "Cpp" "ExternalType"}}{{!!
+}}{{>cpp/CppDocComment}}
+class {{>cpp/CppExportMacro}}{{resolveName}}{{#if parent}}: public {{resolveName parent.type "FQN"}}{{/if}} {
 public:
-    {{name}}();
-    virtual ~{{name}}() = 0;
+    {{resolveName}}();
+    virtual ~{{resolveName}}() = 0;
 
-{{#if members}}
+{{#if enumerations typeAliases structs constants classes interfaces lambdas logic="or"}}
 public:
-{{#sortedMembers}}
-{{#instanceOf this "CppEnum"}}{{prefixPartial "cpp/CppEnum" "    "}}{{/instanceOf}}
-{{#instanceOf this "CppConstant"}}{{#set storageQualifier="static"}}{{prefixPartial "cpp/CppConstant" "    "}}{{/set}}{{/instanceOf}}
-{{#instanceOf this "CppUsing"}}{{prefixPartial "cpp/CppUsing" "    "}}{{/instanceOf}}
-{{#instanceOf this "CppStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}
-{{#instanceOf this "CppClass"}}{{prefixPartial "cpp/CppClass" "    "}}{{/instanceOf}}
-{{/sortedMembers}}
+{{#sort enumerations lambdas typeAliases structs constants}}
+{{#instanceOf this "LimeEnumeration"}}{{prefixPartial "cpp/CppEnumeration" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeLambda"}}{{prefixPartial "cpp/CppLambda" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeTypeAlias"}}{{prefixPartial "cpp/CppTypeAlias" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="static"}}{{#constant}}{{!!
+}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}
+{{/sort}}
+{{#each classes interfaces}}
+{{prefixPartial "cpp/CppClass" "    "}}
+{{/each}}
+{{/if}}
+{{#if functions properties logic="or"}}
+public:
+{{#set isVirtual=true}}{{#functions}}{{#ifPredicate "hasCstringParameters"}}{{#set self=this useCstring=true}}{{#self}}
+{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/self}}{{/set}}{{/ifPredicate}}
+{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/functions}}{{/set}}
+{{#properties}}
+{{prefixPartial "cpp/CppProperty" "    "}}
+{{/properties}}
 
 {{/if}}
-{{#if methods}}
+{{#ifHasAttribute "Equatable"}}
 public:
-{{#methods}}
-{{prefixPartial "cpp/CppMethodSignature" "    "}};
-{{/methods}}
-
-{{/if}}
-{{#isEquatable}}
-public:
-    bool operator==( const {{name}}& rhs );
-    bool operator!=( const {{name}}& rhs );
-{{/isEquatable}}
+    bool operator==( const {{resolveName}}& rhs );
+    bool operator!=( const {{resolveName}}& rhs );
+{{/ifHasAttribute}}
 };{{!!
-}}{{/unless}}
+}}{{/unlessHasAttribute}}

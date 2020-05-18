@@ -18,11 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-std::size_t
-EqualityHash< std::shared_ptr< {{resolveName "FQN"}} > >::operator( )( const std::shared_ptr< {{resolveName "FQN"}} >& t ) const
-{
-    if ( !t ) {
-        return 43;
-    }
-    return 43 ^ {{>common/InternalNamespace}}hash< {{resolveName "FQN"}} >( )( *t );
-};
+{{#set propertyElement=this}}{{#getter}}
+{{>cpp/CppFunctionDoc}}
+{{#if isStatic}}static {{/if}}{{#unless isStatic}}virtual {{/unless}}{{resolveName returnType.typeRef}} {{!!
+}}{{resolveName propertyElement "" "getter"}}(  ){{#unless isStatic}} const = 0{{/unless}};
+{{/getter}}
+{{#setter}}
+{{>cpp/CppFunctionDoc}}
+{{#if isStatic}}static {{/if}}{{#unless isStatic}}virtual {{/unless}}void {{resolveName propertyElement "" "setter"}}{{!!
+}}( const {{#propertyElement}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/propertyElement}} value ){{!!
+}}{{#unless isStatic}} = 0{{/unless}};
+{{/setter}}{{/set}}

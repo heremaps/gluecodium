@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@
   !}}
 {{>cpp/CppCommentHeader}}
 
-{{#implementationIncludes}}{{>common/Include}}{{/implementationIncludes}}
-{{#if errorEnums}}#include <string>{{/if}}
+{{#includes}}{{>common/Include}}{{/includes}}
 
 {{#if typeRegisteredClasses}}
 {{#internalNamespace}}
@@ -29,7 +28,7 @@ namespace {{.}} {
 {{/internalNamespace}}
 
 {{#typeRegisteredClasses}}
-TypeRepository& get_type_repository(const {{fullyQualifiedName}}*) {
+TypeRepository& get_type_repository(const {{resolveName "FQN"}}*) {
     static TypeRepository s_repo;
     return s_repo;
 }
@@ -42,45 +41,39 @@ TypeRepository& get_type_repository(const {{fullyQualifiedName}}*) {
 
 {{#namespace}}
 namespace {{.}} {
-
 {{/namespace}}
-{{#classes}}
-{{>cpp/CppClassImpl}}
-{{/classes}}
-{{#members}}
-{{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
-{{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
-{{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
-{{/members}}
+{{#model}}
+{{include contentTemplate}}
+{{/model}}
 {{#errorEnums}}
 std::error_code
-make_error_code( {{fullyQualifiedName}} value ) noexcept
+make_error_code( {{resolveName "FQN"}} value ) noexcept
 {
-    class {{name}}ErrorCategory: public ::std::error_category
+    class {{resolveName}}ErrorCategory: public ::std::error_category
     {
     public:
-        ~{{name}}ErrorCategory( ) override = default;
+        ~{{resolveName}}ErrorCategory( ) override = default;
 
         const char*
         name( ) const noexcept override
         {
-            return "{{name}}ErrorCategory";
+            return "{{resolveName}}ErrorCategory";
         }
 
         std::string
         message( int condition ) const override
         {
-            switch( {{fullyQualifiedName}}( condition ) )
+            switch( {{resolveName "FQN"}}( condition ) )
             {
-            {{#set enumName=fullyQualifiedName}}{{#items}}
-            case( {{enumName}}::{{name}} ):
-                return "{{enumName}}::{{name}}";
-            {{/items}}{{/set}}
+            {{#enumerators}}
+            case( {{resolveName "FQN"}} ):
+                return "{{resolveName "FQN"}}";
+            {{/enumerators}}
             }
             return "Unknown enum value";
         }
     };
-    static {{name}}ErrorCategory category{};
+    static {{resolveName}}ErrorCategory category{};
 
     return std::error_code( static_cast<int>( value ), category );
 }
@@ -95,13 +88,16 @@ make_error_code( {{fullyQualifiedName}} value ) noexcept
 namespace {{.}} {
 {{/internalNamespace}}
 {{#equatables}}
-{{#instanceOf this "CppStruct"}}
+{{#instanceOf this "LimeStruct"}}
 {{>cpp/StructHashImpl}}
 {{/instanceOf}}
-{{#instanceOf this "CppEnum"}}
+{{#instanceOf this "LimeEnumeration"}}
 {{>cpp/EnumHashImpl}}
 {{/instanceOf}}
-{{#instanceOf this "CppClass"}}
+{{#instanceOf this "LimeClass"}}
+{{>cpp/ClassHashImpl}}
+{{/instanceOf}}
+{{#instanceOf this "LimeInterface"}}
 {{>cpp/ClassHashImpl}}
 {{/instanceOf}}
 {{/equatables}}

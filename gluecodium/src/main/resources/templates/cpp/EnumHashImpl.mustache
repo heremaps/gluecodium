@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
   !
   !}}
 std::size_t
-hash< {{fullyQualifiedName}} >::operator( )( const {{fullyQualifiedName}}& t ) const
+hash< {{resolveName "FQN"}} >::operator( )( const {{resolveName "FQN"}}& t ) const
 {
     return static_cast< std::size_t >( t );
 }

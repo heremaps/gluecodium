@@ -22,14 +22,13 @@ package com.here.gluecodium.loader
 import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
@@ -62,7 +61,7 @@ class AntlrLimeModelBuilderTest {
         modelBuilder.exitProperty(propertyContext)
 
         val result = contextStack.currentContext.currentResults.first() as LimeProperty
-        assertNotEquals(LimeReturnType.VOID, result.getter.returnType)
+        assertFalse(result.getter.returnType.isVoid)
         assertEquals("foo.bar.get", result.getter.path.toString())
         assertEquals(1, result.setter?.parameters?.size)
         assertEquals("foo.bar.set", result.setter?.path?.toString())
@@ -76,7 +75,7 @@ class AntlrLimeModelBuilderTest {
         modelBuilder.exitProperty(propertyContext)
 
         val result = contextStack.currentContext.currentResults.first() as LimeProperty
-        assertNotEquals(LimeReturnType.VOID, result.getter.returnType)
+        assertFalse(result.getter.returnType.isVoid)
         assertEquals("foo.bar.get", result.getter.path.toString())
         assertNull(result.setter)
     }
@@ -89,7 +88,7 @@ class AntlrLimeModelBuilderTest {
         modelBuilder.exitProperty(propertyContext)
 
         val result = contextStack.currentContext.currentResults.first() as LimeProperty
-        assertNotEquals(LimeReturnType.VOID, result.getter.returnType)
+        assertFalse(result.getter.returnType.isVoid)
         assertEquals("foo.bar.get", result.getter.path.toString())
         assertEquals(1, result.setter?.parameters?.size)
         assertEquals("foo.bar.set", result.setter?.path?.toString())

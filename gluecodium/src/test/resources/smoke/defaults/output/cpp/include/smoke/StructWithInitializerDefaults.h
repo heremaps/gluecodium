@@ -8,6 +8,7 @@
 #include "smoke/DefaultValues.h"
 #include "smoke/TypesWithDefaults.h"
 #include <cstdint>
+#include <limits>
 #include <vector>
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT StructWithInitializerDefaults {

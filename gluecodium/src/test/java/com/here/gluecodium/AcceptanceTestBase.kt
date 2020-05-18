@@ -20,12 +20,12 @@
 package com.here.gluecodium
 
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.cpp.CppGeneratorSuite
 import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.platform.android.AndroidGeneratorSuite
-import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite
 import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
@@ -106,7 +106,7 @@ abstract class AcceptanceTestBase protected constructor(
         private const val FEATURE_OUTPUT_FOLDER = "output"
         private const val IGNORE_PREFIX = "ignore"
         private val GENERATOR_NAMES = listOf(
-            BaseApiGeneratorSuite.GENERATOR_NAME,
+            CppGeneratorSuite.GENERATOR_NAME,
             AndroidGeneratorSuite.GENERATOR_NAME,
             SwiftGeneratorSuite.GENERATOR_NAME,
             LimeGeneratorSuite.GENERATOR_NAME,
@@ -117,8 +117,8 @@ abstract class AcceptanceTestBase protected constructor(
         private val LOADER = LimeModelLoader.getLoader()
 
         init {
-            GENERATOR_DIRECTORIES[BaseApiGeneratorSuite.GENERATOR_NAME] =
-                    listOf(BaseApiGeneratorSuite.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[CppGeneratorSuite.GENERATOR_NAME] =
+                    listOf(CppGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[AndroidGeneratorSuite.GENERATOR_NAME] =
                     listOf(AndroidGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[SwiftGeneratorSuite.GENERATOR_NAME] =

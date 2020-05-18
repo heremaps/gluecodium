@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,30 +18,38 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}
-{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}() {
-{{#if inheritances}}
-    {{>common/InternalNamespace}}get_type_repository(this).add_type(this, "{{#namespace}}{{.}}_{{/namespace}}{{name}}");
+{{#unlessHasAttribute "Cpp" "ExternalType"}}
+{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}() {
+{{#if parent}}
+    {{>common/InternalNamespace}}get_type_repository(this).add_type(this, "{{#namespace}}{{.}}_{{/namespace}}{{resolveName}}");
 {{/if}}
 }
-{{#parentName}}{{.}}::{{/parentName}}{{name}}::~{{name}}() {
-{{#if inheritances}}
+{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::~{{resolveName}}() {
+{{#if parent}}
     {{>common/InternalNamespace}}get_type_repository(this).remove_type(this);
 {{/if}}
 }
 
-{{#isEquatable}}
+{{#ifHasAttribute "Equatable"}}
 bool
-{{name}}::operator!=( const {{name}}& rhs ) {
+{{resolveName}}::operator!=( const {{resolveName}}& rhs ) {
     return !( *this == rhs );
 }
-{{/isEquatable}}{{/unless}}
-{{#setJoin "parentName" parentName name delimiter="::"}}{{#members}}
-{{#instanceOf this "CppConstant"}}{{#unless isExternal}}const {{type.name}} {{parentName}}::{{name}} = {{value.name}};{{/unless}}{{/instanceOf}}
-{{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
-{{#instanceOf this "CppEnum"}}{{>cpp/CppEnumImpl}}{{/instanceOf}}
-{{#instanceOf this "CppClass"}}{{>cpp/CppClassImpl}}{{/instanceOf}}
-{{/members}}{{/setJoin}}
-{{#if isExternal}}{{#set className=fullyQualifiedName}}{{#methods}}
-{{>cpp/CppMethodStaticCheck}}
-{{/methods}}{{/set}}{{/if}}
+{{/ifHasAttribute}}{{/unlessHasAttribute}}
+{{#unlessHasAttribute "Cpp" "ExternalType"}}{{#resolveName}}{{#setJoin "parentName" parentName this delimiter="::"}}
+{{#enumerations}}
+{{>cpp/CppEnumerationImpl}}
+{{/enumerations}}
+{{#structs}}
+{{>cpp/CppStructImpl}}
+{{/structs}}
+{{#constants}}
+const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName value}};
+{{/constants}}
+{{#each classes interfaces}}
+{{>cpp/CppClassImpl}}
+{{/each}}
+{{/setJoin}}{{/resolveName}}{{/unlessHasAttribute}}
+{{#ifHasAttribute "Cpp" "ExternalType"}}{{#resolveName "FQN"}}{{#set className=this}}{{#functions}}
+{{>cpp/CppFunctionStaticCheck}}
+{{/functions}}{{/set}}{{/resolveName}}{{/ifHasAttribute}}

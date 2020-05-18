@@ -3,6 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/StructConstants.h"
+#include <utility>
 namespace smoke {
 StructConstants::StructConstants() {
 }

@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,15 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}
-{{>cpp/DocComment}}
-enum class {{name}} {
-{{joinPartial items "enumItem" ",
-"}}
-};
-{{/unless}}{{!!
-
-}}{{+enumItem}}{{!!
-}}{{#if comment.documentation}}{{prefixPartial "cpp/DocComment" "    "}}{{/if}}{{!!
-}}    {{name}}{{#value}} = {{name}}{{/value}}{{!!
-}}{{/enumItem}}
+{{#ifPredicate "hasAnyComment"}}
+/**{{#unless comment.isEmpty}}{{#resolveName comment}}
+{{prefix this " * "}}{{/resolveName}}{{/unless}}{{!!
+}}{{#ifHasAttribute "Deprecated"}}
+ * \deprecated {{#getAttribute "Deprecated"}}{{#resolveName this}}{{!!
+}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/getAttribute}}{{/ifHasAttribute}}
+{{#ifPredicate typeRef "needsNotNullComment"}}
+ * \warning @NotNull
+{{/ifPredicate}}
+ */
+{{/ifPredicate}}{{#unlessPredicate "hasAnyComment"}}{{#ifPredicate typeRef "needsNotNullComment"}}
+/// \warning @NotNull
+{{/ifPredicate}}{{/unlessPredicate}}

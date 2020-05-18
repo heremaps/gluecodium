@@ -18,17 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}
-/**
-{{#if comment.documentation}}{{prefix comment.documentation " * "}}{{/if}}{{#if comment.deprecated}}
- * \deprecated {{prefix comment.deprecated " * " skipFirstLine=true}}{{/if}}
-{{#if isNotNull}}
- * {{>notNullWarning}}
-{{/if}}
- */
-{{/unless}}
-{{#if comment.isEmpty}}{{#if isNotNull}}
-/// {{>notNullWarning}}
-{{/if}}{{/if}}{{!!
-
-}}{{+notNullWarning}}\warning @NotNull{{/notNullWarning}}
+static_assert(
+    std::is_same<
+        {{resolveName returnType.typeRef}},
+        std::remove_cv<std::remove_reference<decltype({{!!
+}}{{#if isStatic}}{{className}}::{{resolveName}}({{/if}}{{!!
+}}{{#unless isStatic}}(({{className}}*)nullptr)->{{resolveName}}({{/unless}}{{!!
+}}{{#parameters}}
+            *(({{resolveName typeRef}}*)nullptr){{#if iter.hasNext}}, {{/if}}{{/parameters}}))>::type>::type
+    >::value,
+    "Expected '{{resolveName returnType.typeRef}}' return type for '{{className}}::{{resolveName}}'."
+);

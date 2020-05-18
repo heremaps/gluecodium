@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,9 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless comment.isEmpty}}
-/**
-{{#if comment.documentation}}{{prefix comment.documentation " * "}}{{/if}}{{#if comment.deprecated}}
- * \deprecated {{prefix comment.deprecated " * " skipFirstLine=true}}{{/if}}
- */
-{{/unless}}
+{{#ifHasAttribute "Cpp" "ExternalType"}}
+{{#resolveName}}{{#set enumName=this}}
+static_assert(std::is_enum<{{enumName}}>::value, "Expected '{{enumName}}' to be an enumeration'.");
+{{#enumerators}}
+static_assert(
+    {{resolveName value}} == static_cast<int64_t>({{enumName}}::{{resolveName}}),
+    "Expected '{{resolveName value}}' value for '{{enumName}}::{{resolveName}}'."
+);
+{{/enumerators}}{{/set}}{{/resolveName}}
+{{/ifHasAttribute}}
