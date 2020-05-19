@@ -26,6 +26,7 @@ import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.LimeModelFilter
+import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -153,7 +154,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
-        val filePath = "$packagePath/${dartNameResolver.resolveName(rootElement)}"
+        val fileName = NameHelper.toLowerSnakeCase(dartNameResolver.resolveName(rootElement))
+        val filePath = "$packagePath/$fileName"
         val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
@@ -328,7 +330,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             ),
             GeneratedFile(
                 TemplateEngine.render("dart/DartBuiltInTypesConversion", templateData, nameResolvers),
-                "$LIB_DIR/$SRC_DIR_SUFFIX/BuiltInTypes__conversion.dart",
+                "$LIB_DIR/$SRC_DIR_SUFFIX/builtin_types__conversion.dart",
                 COMMON
             ),
             GeneratedFile(
@@ -402,7 +404,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             nameResolvers
         )
 
-        return GeneratedFile(content, "$LIB_DIR/$SRC_DIR_SUFFIX/GenericTypes__conversion.dart")
+        return GeneratedFile(content, "$LIB_DIR/$SRC_DIR_SUFFIX/generic_types__conversion.dart")
     }
 
     private fun generateFfiGenericTypesConversion(
