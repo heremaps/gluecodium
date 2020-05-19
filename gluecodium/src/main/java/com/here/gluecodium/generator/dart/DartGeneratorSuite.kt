@@ -66,7 +66,7 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
 
-class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
+class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     private val libraryName = options.libraryName
     private val nameRules = NameRules(nameRuleSetFromConfig(options.dartNameRules))
@@ -448,8 +448,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
         limeFunction.parameters.map { it.typeRef } +
             limeFunction.returnType.typeRef +
             listOfNotNull(limeFunction.exception?.errorType)
-
-    override val name = "com.here.DartGenerator"
 
     private object TypeRefsCollector : LimeTypeRefsVisitor<List<LimeTypeRef>>() {
         override fun visitTypeRef(

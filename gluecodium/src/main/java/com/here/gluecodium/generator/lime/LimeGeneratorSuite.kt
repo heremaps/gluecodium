@@ -45,7 +45,7 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.platform.common.GeneratorSuite
 
-class LimeGeneratorSuite : GeneratorSuite() {
+class LimeGeneratorSuite : GeneratorSuite {
 
     override fun generate(limeModel: LimeModel) = limeModel.topElements.map { generate(it) }
 
@@ -124,8 +124,6 @@ class LimeGeneratorSuite : GeneratorSuite() {
 
     private fun escapeImport(import: LimePath) =
         (import.head + import.tail).joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
-
-    override val name = "com.here.LimeGenerator"
 
     companion object {
         const val GENERATOR_NAME = "lime"

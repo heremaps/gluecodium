@@ -35,10 +35,7 @@ import java.nio.charset.Charset
 import org.apache.commons.io.IOUtils
 
 /** The base interface for all the generators.  */
-abstract class GeneratorSuite {
-
-    /** @return the human readable name of this generator */
-    abstract val name: String
+interface GeneratorSuite {
 
     /**
      * Triggers the generation. The model is assumed to be valid.
@@ -46,23 +43,20 @@ abstract class GeneratorSuite {
      * @param limeModel LIME model
      * @return a list of generated files with their relative destination paths
      */
-    abstract fun generate(limeModel: LimeModel): List<GeneratedFile>
+    fun generate(limeModel: LimeModel): List<GeneratedFile>
 
     companion object {
         /** Creates a new instance of a generator suite by its short identifier  */
-        fun instantiateByShortName(shortName: String, options: Gluecodium.Options): GeneratorSuite? {
-
+        fun instantiateByShortName(shortName: String, options: Gluecodium.Options) =
             when (shortName) {
-                AndroidGeneratorSuite.GENERATOR_NAME -> return AndroidGeneratorSuite(options)
-                JavaGeneratorSuite.GENERATOR_NAME -> return JavaGeneratorSuite(options)
-                BaseApiGeneratorSuite.GENERATOR_NAME -> return BaseApiGeneratorSuite(options)
-                SwiftGeneratorSuite.GENERATOR_NAME -> return SwiftGeneratorSuite(options)
-                LimeGeneratorSuite.GENERATOR_NAME -> return LimeGeneratorSuite()
-                DartGeneratorSuite.GENERATOR_NAME -> return DartGeneratorSuite(options)
+                AndroidGeneratorSuite.GENERATOR_NAME -> AndroidGeneratorSuite(options)
+                JavaGeneratorSuite.GENERATOR_NAME -> JavaGeneratorSuite(options)
+                BaseApiGeneratorSuite.GENERATOR_NAME -> BaseApiGeneratorSuite(options)
+                SwiftGeneratorSuite.GENERATOR_NAME -> SwiftGeneratorSuite(options)
+                LimeGeneratorSuite.GENERATOR_NAME -> LimeGeneratorSuite()
+                DartGeneratorSuite.GENERATOR_NAME -> DartGeneratorSuite(options)
+                else -> null
             }
-
-            return null
-        }
 
         /** @return all available generators */
         fun generatorShortNames() = setOf(

@@ -77,7 +77,6 @@ class GluecodiumTest {
         every { cache.write(true) } returns true
         every { cache.write(false) } returns false
 
-        every { generator.name } returns ""
         every { GeneratorSuite.instantiateByShortName(any(), any()) } returns generator
 
         every { modelLoader.loadModel(any(), any()) } returns LimeModel(emptyMap(), emptyList())

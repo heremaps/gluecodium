@@ -118,13 +118,13 @@ class Gluecodium(
         limeModel: LimeModel,
         fileNamesCache: MutableMap<String, String>
     ): Boolean {
-        LOGGER.fine("Using generator $generatorName")
+        LOGGER.fine("Using generator '$generatorName'")
         val generator = GeneratorSuite.instantiateByShortName(generatorName, options)
         if (generator == null) {
             LOGGER.severe("Failed instantiation of generator '$generatorName'")
             return false
         }
-        LOGGER.fine("Instantiated generator " + generator.name)
+        LOGGER.fine("Instantiated generator '$generatorName'")
 
         val outputFiles = try {
             generator.generate(limeModel)

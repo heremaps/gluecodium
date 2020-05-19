@@ -61,7 +61,7 @@ import java.util.logging.Logger
  * It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the C++ interfaces.
  */
-class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
+class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
@@ -69,8 +69,6 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
     private val commentsProcessor =
         DoxygenCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
     private val nameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
-
-    override val name = "com.here.BaseApiGenerator"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
