@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 7.0.0
+Release date: 2020-05-19
 ### Features:
   * Added referential integrity for classes and interfaces in generated platform code. Meaning, when
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
