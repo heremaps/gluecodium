@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed Dart support for `@constructor` doc comment on structs.
+  * Fixed compilation issue for internal static properties in Dart.
 
 ## 7.0.0
 Release date: 2020-05-19

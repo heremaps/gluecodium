@@ -29,3 +29,7 @@ struct PublicStructWithNonDefaultInternalField {
     internal internalField: String
     publicField: Boolean
 }
+
+internal class InternalClassWithStaticProperty {
+    static property fooBar: String
+}

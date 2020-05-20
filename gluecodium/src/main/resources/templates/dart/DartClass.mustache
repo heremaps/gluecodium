@@ -185,12 +185,12 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 {{#getter}}
 {{>dart/DartDocumentation}}{{!!
 }}{{#if isStatic}}static {{/if}}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
-}}{{#if isStatic}} => {{resolveName parent}}$Impl.{{resolveName property}}{{/if}};
+}}{{#if isStatic}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName property}}{{/if}};
 {{/getter}}
 {{#setter}}
 {{>dart/DartDocumentation}}{{!!
 }}{{#if isStatic}}static {{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
-}}{{#if isStatic}} { {{resolveName parent}}$Impl.{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
+}}{{#if isStatic}} { {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
 {{/setter}}
 {{/dartPropertyRedirect}}{{!!
 
