@@ -122,6 +122,10 @@ class Comments_SomeStruct {
   bool someField;
   /// Can be `null`
   String nullableField;
+  /// This is how easy it is to construct.
+  /// [someField] How useful this struct is
+  /// remains to be seen
+  /// [nullableField] Can be `null`
   Comments_SomeStruct(this.someField, this.nullableField);
 }
 // Comments_SomeStruct "private" section, not exported.

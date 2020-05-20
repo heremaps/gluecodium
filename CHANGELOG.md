@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Dart support for `@constructor` doc comment on structs.
+
 ## 7.0.0
 Release date: 2020-05-19
 ### Features:

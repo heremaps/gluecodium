@@ -26,7 +26,14 @@
 class {{resolveName}} {
 {{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
 {{/fields}}{{/set}}
-{{#if fields}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{#if fields}}{{#unless constructors}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// "}}
+{{#fields}}
+  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}
+{{/unless}}{{/resolveName}}{{/unless}}{{!!
+}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
