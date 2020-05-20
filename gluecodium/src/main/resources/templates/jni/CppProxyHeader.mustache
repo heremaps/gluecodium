@@ -38,6 +38,8 @@ namespace jni
 class {{mangledName}}_CppProxy : public CppProxyBase{{#unless isFunctionalInterface}}, public {{cppFullyQualifiedName}}{{/unless}} {
 public:
     {{mangledName}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
+    {{mangledName}}_CppProxy( const {{mangledName}}_CppProxy& ) = delete;
+    {{mangledName}}_CppProxy& operator=( const {{mangledName}}_CppProxy& ) = delete;
 
 {{#parentMethods}}
     {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;

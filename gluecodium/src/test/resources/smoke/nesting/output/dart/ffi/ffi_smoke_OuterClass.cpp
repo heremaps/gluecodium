@@ -19,6 +19,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_OuterClass_InnerInterface_Proxy(const smoke_OuterClass_InnerInterface_Proxy&) = delete;
+    smoke_OuterClass_InnerInterface_Proxy& operator=(const smoke_OuterClass_InnerInterface_Proxy&) = delete;
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;

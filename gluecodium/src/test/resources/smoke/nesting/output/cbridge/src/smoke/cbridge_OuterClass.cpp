@@ -107,6 +107,8 @@ public:
     virtual ~smoke_OuterClass_InnerInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_OuterClass_InnerInterfaceProxy(const smoke_OuterClass_InnerInterfaceProxy&) = delete;
+    smoke_OuterClass_InnerInterfaceProxy& operator=(const smoke_OuterClass_InnerInterfaceProxy&) = delete;
     ::std::string foo(const std::string& input) override {
         auto _call_result = mFunctions.smoke_OuterClass_InnerInterface_foo(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(input));
         return Conversion<std::string>::toCppReturn(_call_result);

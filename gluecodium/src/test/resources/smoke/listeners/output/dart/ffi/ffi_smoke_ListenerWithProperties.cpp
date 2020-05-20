@@ -23,6 +23,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_ListenerWithProperties_Proxy(const smoke_ListenerWithProperties_Proxy&) = delete;
+    smoke_ListenerWithProperties_Proxy& operator=(const smoke_ListenerWithProperties_Proxy&) = delete;
     std::string
     get_message() const override {
         FfiOpaqueHandle _result_handle;

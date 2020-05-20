@@ -111,6 +111,8 @@ public:
     virtual ~smoke_ListenersWithReturnValuesProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_ListenersWithReturnValuesProxy(const smoke_ListenersWithReturnValuesProxy&) = delete;
+    smoke_ListenersWithReturnValuesProxy& operator=(const smoke_ListenersWithReturnValuesProxy&) = delete;
     double fetch_data_double() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataDouble(mFunctions.swift_pointer);
         return _call_result;

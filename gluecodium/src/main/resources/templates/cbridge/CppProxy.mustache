@@ -29,6 +29,9 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
 
+    {{name}}Proxy(const {{name}}Proxy&) = delete;
+    {{name}}Proxy& operator=(const {{name}}Proxy&) = delete;
+
     {{#each inheritedFunctions functions}}
     {{#if selfParameter}}
     {{cppReturnTypeName}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{!!

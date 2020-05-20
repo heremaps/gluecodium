@@ -40,6 +40,9 @@ public:
         });
     }
 
+    {{resolveName}}_Proxy(const {{resolveName}}_Proxy&) = delete;
+    {{resolveName}}_Proxy& operator=(const {{resolveName}}_Proxy&) = delete;
+
 {{#each inheritedFunctions functions}}
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!

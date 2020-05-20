@@ -59,6 +59,8 @@ public:
     virtual ~smoke_OuterInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_OuterInterfaceProxy(const smoke_OuterInterfaceProxy&) = delete;
+    smoke_OuterInterfaceProxy& operator=(const smoke_OuterInterfaceProxy&) = delete;
     ::std::string foo(const std::string& input) override {
         auto _call_result = mFunctions.smoke_OuterInterface_foo(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(input));
         return Conversion<std::string>::toCppReturn(_call_result);
@@ -145,6 +147,8 @@ public:
     virtual ~smoke_OuterInterface_InnerInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_OuterInterface_InnerInterfaceProxy(const smoke_OuterInterface_InnerInterfaceProxy&) = delete;
+    smoke_OuterInterface_InnerInterfaceProxy& operator=(const smoke_OuterInterface_InnerInterfaceProxy&) = delete;
     ::std::string foo(const std::string& input) override {
         auto _call_result = mFunctions.smoke_OuterInterface_InnerInterface_foo(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(input));
         return Conversion<std::string>::toCppReturn(_call_result);

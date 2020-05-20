@@ -26,6 +26,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_Lambdas_Producer_Proxy(const smoke_Lambdas_Producer_Proxy&) = delete;
+    smoke_Lambdas_Producer_Proxy& operator=(const smoke_Lambdas_Producer_Proxy&) = delete;
     std::string
     operator()() {
         FfiOpaqueHandle _result_handle;
@@ -59,6 +61,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_Lambdas_Confuser_Proxy(const smoke_Lambdas_Confuser_Proxy&) = delete;
+    smoke_Lambdas_Confuser_Proxy& operator=(const smoke_Lambdas_Confuser_Proxy&) = delete;
     ::smoke::Lambdas::Producer
     operator()(const std::string& p0) {
         FfiOpaqueHandle _result_handle;
@@ -93,6 +97,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_Lambdas_Consumer_Proxy(const smoke_Lambdas_Consumer_Proxy&) = delete;
+    smoke_Lambdas_Consumer_Proxy& operator=(const smoke_Lambdas_Consumer_Proxy&) = delete;
     void
     operator()(const std::string& p0) {
         dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f0))(token,
@@ -122,6 +128,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_Lambdas_Indexer_Proxy(const smoke_Lambdas_Indexer_Proxy&) = delete;
+    smoke_Lambdas_Indexer_Proxy& operator=(const smoke_Lambdas_Indexer_Proxy&) = delete;
     int32_t
     operator()(const std::string& p0, const float p1) {
         int32_t _result_handle;
@@ -157,6 +165,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_Lambdas_NullableConfuser_Proxy(const smoke_Lambdas_NullableConfuser_Proxy&) = delete;
+    smoke_Lambdas_NullableConfuser_Proxy& operator=(const smoke_Lambdas_NullableConfuser_Proxy&) = delete;
     gluecodium::optional<::smoke::Lambdas::Producer>
     operator()(const gluecodium::optional<std::string>& p0) {
         FfiOpaqueHandle _result_handle;

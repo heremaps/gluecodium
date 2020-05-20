@@ -62,6 +62,8 @@ public:
     virtual ~smoke_SimpleInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_SimpleInterfaceProxy(const smoke_SimpleInterfaceProxy&) = delete;
+    smoke_SimpleInterfaceProxy& operator=(const smoke_SimpleInterfaceProxy&) = delete;
     ::std::string get_string_value() override {
         auto _call_result = mFunctions.smoke_SimpleInterface_getStringValue(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);

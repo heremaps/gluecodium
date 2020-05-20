@@ -89,6 +89,8 @@ public:
     virtual ~smoke_ErrorsInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_ErrorsInterfaceProxy(const smoke_ErrorsInterfaceProxy&) = delete;
+    smoke_ErrorsInterfaceProxy& operator=(const smoke_ErrorsInterfaceProxy&) = delete;
     ::std::error_code method_with_errors() override {
         auto _result_with_error = mFunctions.smoke_ErrorsInterface_methodWithErrors(mFunctions.swift_pointer);
         if (!_result_with_error.has_value)

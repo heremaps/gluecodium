@@ -21,6 +21,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_CalculatorListener_Proxy(const smoke_CalculatorListener_Proxy&) = delete;
+    smoke_CalculatorListener_Proxy& operator=(const smoke_CalculatorListener_Proxy&) = delete;
     void
     on_calculation_result(const double calculationResult) override {
         dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, double)>(f0))(token,

@@ -19,6 +19,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_OuterInterface_Proxy(const smoke_OuterInterface_Proxy&) = delete;
+    smoke_OuterInterface_Proxy& operator=(const smoke_OuterInterface_Proxy&) = delete;
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
@@ -53,6 +55,8 @@ public:
             (*deleter_local)(token_local, this);
         });
     }
+    smoke_OuterInterface_InnerInterface_Proxy(const smoke_OuterInterface_InnerInterface_Proxy&) = delete;
+    smoke_OuterInterface_InnerInterface_Proxy& operator=(const smoke_OuterInterface_InnerInterface_Proxy&) = delete;
     std::string
     foo(const std::string& input) override {
         FfiOpaqueHandle _result_handle;

@@ -93,6 +93,8 @@ public:
     virtual ~smoke_ExternalInterfaceProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_ExternalInterfaceProxy(const smoke_ExternalInterfaceProxy&) = delete;
+    smoke_ExternalInterfaceProxy& operator=(const smoke_ExternalInterfaceProxy&) = delete;
     void some_Method(int8_t someParameter) override {
         mFunctions.smoke_ExternalInterface_someMethod(mFunctions.swift_pointer, someParameter);
     }

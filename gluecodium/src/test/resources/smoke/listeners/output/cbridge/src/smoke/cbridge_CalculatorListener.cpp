@@ -107,6 +107,8 @@ public:
     virtual ~smoke_CalculatorListenerProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
+    smoke_CalculatorListenerProxy(const smoke_CalculatorListenerProxy&) = delete;
+    smoke_CalculatorListenerProxy& operator=(const smoke_CalculatorListenerProxy&) = delete;
     void on_calculation_result(double calculationResult) override {
         mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
     }
