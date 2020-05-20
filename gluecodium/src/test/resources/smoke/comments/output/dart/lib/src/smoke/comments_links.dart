@@ -62,6 +62,8 @@ abstract class CommentsLinks {
 class CommentsLinks_RandomStruct {
   /// Some random field [Comments_SomeStruct]
   Comments_SomeStruct randomField;
+  /// constructor comments [Comments_SomeStruct]
+  /// [randomField] Some random field [Comments_SomeStruct]
   CommentsLinks_RandomStruct(this.randomField);
 }
 // CommentsLinks_RandomStruct "private" section, not exported.
