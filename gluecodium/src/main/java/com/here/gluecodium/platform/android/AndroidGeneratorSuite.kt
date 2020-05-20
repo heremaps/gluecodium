@@ -30,8 +30,6 @@ import com.here.gluecodium.generator.jni.JniGenerator
 class AndroidGeneratorSuite(options: Gluecodium.Options) : JavaGeneratorSuite(options, true) {
     override val generatorName = GENERATOR_NAME
 
-    override val name = "com.here.AndroidGeneratorSuite"
-
     companion object {
         const val GENERATOR_NAME = "android"
     }

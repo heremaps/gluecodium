@@ -50,7 +50,7 @@ import java.util.logging.Logger
  *
  * The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
  */
-class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
+class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor =
@@ -175,8 +175,6 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite() {
             }
         }
     }
-
-    override val name = "com.here.SwiftGenerator"
 
     companion object {
         private val logger = Logger.getLogger(SwiftGeneratorSuite::class.java.name)

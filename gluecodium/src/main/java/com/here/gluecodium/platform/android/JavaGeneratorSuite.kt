@@ -52,7 +52,7 @@ import java.util.logging.Logger
 open class JavaGeneratorSuite protected constructor(
     options: Gluecodium.Options,
     private val enableAndroidFeatures: Boolean
-) : GeneratorSuite() {
+) : GeneratorSuite {
 
     private val rootPackage = options.javaPackages
     private val internalPackage = options.javaInternalPackages
@@ -69,8 +69,6 @@ open class JavaGeneratorSuite protected constructor(
     protected open val generatorName = GENERATOR_NAME
 
     constructor(options: Gluecodium.Options) : this(options, false)
-
-    override val name = "com.here.JavaGeneratorSuite"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val javaPackageList =

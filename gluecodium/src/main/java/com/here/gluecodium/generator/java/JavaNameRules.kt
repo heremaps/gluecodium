@@ -44,7 +44,7 @@ class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     fun getImplementationClassName(limeElement: LimeNamedElement) = getName(limeElement) + "Impl"
 
     fun getName(limeLambdaParameter: LimeLambdaParameter, index: Int) =
-        limeLambdaParameter.attributes?.get(JAVA, NAME) ?: "p$index"
+        limeLambdaParameter.attributes.get(JAVA, NAME) ?: "p$index"
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
         limeElement?.attributes?.get(JAVA, NAME)
