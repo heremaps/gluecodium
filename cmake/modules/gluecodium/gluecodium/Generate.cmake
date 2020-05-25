@@ -43,6 +43,8 @@ cmake_minimum_required(VERSION 3.5)
 #
 # This function invokes the Gluecodium tool based on a set of of input *.lime
 # files with a specific target language generator.
+# Additional target ${TARGET}.gluecodium.generate is created to make it possible to
+# generate sources without building whole solution.
 #
 # Following properties will be set for given `target` based on the corresponding option without
 # APIGEN_ prefix:
@@ -227,6 +229,8 @@ cache=true\n")
       "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
       ${_lime_dependencies} # Should contain both input and aux files
       )
+
+  add_custom_target(${APIGEN_TARGET}.gluecodium.generate DEPENDS ${_generated_files})
 endfunction()
 
 macro(_apigen_parse_path_option GLUECODIUM_PROPERTY CMAKE_OPTION)
