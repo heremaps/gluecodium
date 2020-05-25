@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/InternalClassWithFunctions.h"
+#include "test/InternalClassWithStaticProperty.h"
 
 namespace test
 {
@@ -30,5 +31,14 @@ InternalClassWithFunctions::make() {
 std::shared_ptr<InternalClassWithFunctions>
 InternalClassWithFunctions::make(const std::string& foo) {
     return {};
+}
+
+std::string
+InternalClassWithStaticProperty::get_foo_bar() {
+    return "foo";
+}
+
+void
+InternalClassWithStaticProperty::set_foo_bar(const std::string& value) {
 }
 }  // namespace test
