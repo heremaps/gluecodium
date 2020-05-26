@@ -23,11 +23,11 @@ final _{{resolveName}}_return_release_handle = __lib.nativeLibrary.lookupFunctio
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_return_release_handle');
-final _{{resolveName}}_return_get_result = {{#isNotEq returnType.typeRef.type.name "Void"}}__lib.nativeLibrary.lookupFunction<
+final _{{resolveName}}_return_get_result = {{#unless returnType.isVoid}}__lib.nativeLibrary.lookupFunction<
     {{resolveName returnType.typeRef "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName returnType.typeRef "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_return_get_result');{{/isNotEq}}{{!!
-    }}{{#isEq returnType.typeRef.type.name "Void"}}(Pointer) {};{{/isEq}}
+  >('{{libraryName}}_{{resolveName "Ffi"}}_return_get_result');{{/unless}}{{!!
+    }}{{#if returnType.isVoid}}(Pointer) {};{{/if}}
 final _{{resolveName}}_return_get_error = __lib.nativeLibrary.lookupFunction<
     {{resolveName exception.errorType "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName exception.errorType "FfiDartTypes"}} Function(Pointer<Void>)

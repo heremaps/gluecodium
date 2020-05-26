@@ -19,6 +19,8 @@
 
 package com.here.gluecodium.model.lime
 
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+
 /**
  * Represents a return type of a [LimeFunction].
  */
@@ -27,7 +29,11 @@ class LimeReturnType(
     val comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null
 ) : LimeElement(attributes) {
+    val isVoid
+        get() = !typeRef.isNullable &&
+                typeRef.type.actualType.let { it is LimeBasicType && it.typeId == TypeId.VOID }
+
     companion object {
-        val VOID = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.VOID))
+        val VOID = LimeReturnType(LimeBasicTypeRef(TypeId.VOID))
     }
 }
