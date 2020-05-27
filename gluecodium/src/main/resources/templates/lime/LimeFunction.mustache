@@ -32,5 +32,5 @@
 }}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}fun {{escapedName}}{{/unless}}({{#parameters}}
 {{prefixPartial "lime/LimeParameter" "    "}}
 {{/parameters}}){{!!
-}}{{#unless isConstructor}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}: {{typeRef.escapedName}}{{/isNotEq}}{{/returnType}}{{/unless}}{{!!
+}}{{#unless isConstructor}}{{#returnType}}{{#unless isVoid}}: {{typeRef.escapedName}}{{/unless}}{{/returnType}}{{/unless}}{{!!
 }}{{#thrownType}} throws {{typeRef.escapedName}}{{/thrownType}}

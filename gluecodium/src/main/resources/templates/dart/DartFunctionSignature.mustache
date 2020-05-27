@@ -25,4 +25,4 @@
 }}{{#if isConstructor}}_{{/if}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
 
-}}{{+ffiReturnDeclaration}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{/ffiReturnDeclaration}}
+}}{{+ffiReturnDeclaration}}{{#returnType}}{{#unless isVoid}}{{resolveName typeRef}} {{/unless}}{{/returnType}}{{/ffiReturnDeclaration}}

@@ -21,8 +21,6 @@ package com.here.gluecodium.generator.ffi
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
-import com.here.gluecodium.model.lime.LimeBasicType
-import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
 
@@ -46,8 +44,7 @@ internal class FfiCppReturnTypeNameResolver(
             return "$returnPrefix<$returnTypeName, ${ffiCppNameResolver.resolveName(exceptionPayload)}>"
         }
 
-        val actualReturnType = limeFunction.returnType.typeRef.type.actualType
-        return if ((actualReturnType as? LimeBasicType)?.typeId == TypeId.VOID) {
+        return if (limeFunction.returnType.isVoid) {
             STD_ERROR_CODE
         } else {
             "$returnPrefix<$returnTypeName, $STD_ERROR_CODE>"

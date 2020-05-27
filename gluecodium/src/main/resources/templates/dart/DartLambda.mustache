@@ -56,12 +56,12 @@ class {{resolveName}}$Impl {
 int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/isNotEq}}) {
-  {{#isNotEq returnType.typeRef.toString "Void"}}final _result_object = {{/isNotEq}}{{!!
+}}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
+  {{#unless returnType.isVoid}}final _result_object = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}})({{#parameters}}{{!!
   }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
-  }}{{/parameters}});{{#isNotEq returnType.typeRef.toString "Void"}}
-  _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/isNotEq}}
+  }}{{/parameters}});{{#unless returnType.isVoid}}
+  _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/unless}}
 {{#parameters}}
   {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
@@ -108,4 +108,4 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
 
 }}{{+ffiApi}}Int64 Function(Uint64{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#isNotEq returnType.typeRef.toString "Void"}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/isNotEq}}){{/ffiApi}}
+}}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}){{/ffiApi}}
