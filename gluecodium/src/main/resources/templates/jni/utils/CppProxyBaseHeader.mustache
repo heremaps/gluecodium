@@ -46,11 +46,14 @@ class CppProxyBase
 public:
     template < typename ResultType, typename ImplType >
     static void
-    createProxy( JNIEnv* jenv, const JniReference<jobject>& jobj, ::std::shared_ptr< ResultType >& result )
+    createProxy( JNIEnv* jenv,
+                 const JniReference<jobject>& jobj,
+                 const ::std::string& type_key,
+                 ::std::shared_ptr< ResultType >& result )
     {
         JniReference<jobject> globalRef = new_global_ref( jenv, jobj.get() );
         jint jHashCode = getHashCode( jenv, jobj.get() );
-        ProxyCacheKey key{globalRef.get(), jHashCode};
+        ProxyCacheKey key{globalRef.get(), jHashCode, type_key};
 
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
         sGlobalJniLock.setJniEnvForCurrentThread( jenv );
@@ -107,6 +110,7 @@ private:
     {
         jobject jObject;
         jint jHashCode;
+        ::std::string type_key;
 
         bool operator==( const ProxyCacheKey& other ) const;
     };
@@ -116,7 +120,10 @@ private:
         inline size_t
         operator( )( const ProxyCacheKey& key ) const
         {
-            return key.jHashCode;
+            size_t result = 7;
+            result = 31 * result + key.jHashCode;
+            result = 31 * result + ::std::hash<::std::string>{}(key.type_key);
+            return result;
         }
     };
 

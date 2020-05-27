@@ -114,7 +114,7 @@ FfiOpaqueHandle
 }}{{#if inheritedProperties properties logic="or"}}, {{!!
 }}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}) {
-    auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token);
+    auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, "{{resolveName}}");
     std::shared_ptr<{{resolveName}}_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(cached_proxy);
@@ -126,7 +126,7 @@ FfiOpaqueHandle
             }}{{#each inheritedProperties properties}}p{{iter.position}}g{{!!
             }}{{#if setter}}, p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}})
         );
-        {{>ffi/FfiInternal}}::cache_proxy(token, *proxy_ptr);
+        {{>ffi/FfiInternal}}::cache_proxy(token, "{{resolveName}}", *proxy_ptr);
     }
 
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
@@ -137,10 +137,10 @@ FfiOpaqueHandle
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_proxy({{!!
 }}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token);
+    auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, "{{resolveName}}");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, deleter, f0);
-        {{>ffi/FfiInternal}}::cache_proxy(token, cached_proxy);
+        {{>ffi/FfiInternal}}::cache_proxy(token, "{{resolveName}}", cached_proxy);
     }
 
     return reinterpret_cast<FfiOpaqueHandle>(

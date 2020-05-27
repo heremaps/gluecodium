@@ -20,6 +20,7 @@ public:
     smoke_Lambdas_Producer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Producer_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_Lambdas_Producer");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -55,6 +56,7 @@ public:
     smoke_Lambdas_Confuser_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Confuser_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_Lambdas_Confuser");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -91,6 +93,7 @@ public:
     smoke_Lambdas_Consumer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Consumer_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_Lambdas_Consumer");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -122,6 +125,7 @@ public:
     smoke_Lambdas_Indexer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_Indexer_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_Lambdas_Indexer");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -159,6 +163,7 @@ public:
     smoke_Lambdas_NullableConfuser_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_Lambdas_NullableConfuser_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_Lambdas_NullableConfuser");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -440,10 +445,10 @@ library_smoke_Lambdas_NullableConfuser_get_value_nullable(FfiOpaqueHandle handle
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Producer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Producer_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Producer_Proxy>(token, "smoke_Lambdas_Producer");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<smoke_Lambdas_Producer_Proxy>(token, isolate_id, deleter, f0);
-        gluecodium::ffi::cache_proxy(token, cached_proxy);
+        gluecodium::ffi::cache_proxy(token, "smoke_Lambdas_Producer", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Producer(
@@ -457,10 +462,10 @@ library_smoke_Lambdas_Producer_get_raw_pointer(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Confuser_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Confuser_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Confuser_Proxy>(token, "smoke_Lambdas_Confuser");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<smoke_Lambdas_Confuser_Proxy>(token, isolate_id, deleter, f0);
-        gluecodium::ffi::cache_proxy(token, cached_proxy);
+        gluecodium::ffi::cache_proxy(token, "smoke_Lambdas_Confuser", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Confuser(
@@ -474,10 +479,10 @@ library_smoke_Lambdas_Confuser_get_raw_pointer(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Consumer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Consumer_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Consumer_Proxy>(token, "smoke_Lambdas_Consumer");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<smoke_Lambdas_Consumer_Proxy>(token, isolate_id, deleter, f0);
-        gluecodium::ffi::cache_proxy(token, cached_proxy);
+        gluecodium::ffi::cache_proxy(token, "smoke_Lambdas_Consumer", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Consumer(
@@ -491,10 +496,10 @@ library_smoke_Lambdas_Consumer_get_raw_pointer(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Indexer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Indexer_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_Indexer_Proxy>(token, "smoke_Lambdas_Indexer");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<smoke_Lambdas_Indexer_Proxy>(token, isolate_id, deleter, f0);
-        gluecodium::ffi::cache_proxy(token, cached_proxy);
+        gluecodium::ffi::cache_proxy(token, "smoke_Lambdas_Indexer", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::Indexer(
@@ -508,10 +513,10 @@ library_smoke_Lambdas_Indexer_get_raw_pointer(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_NullableConfuser_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_NullableConfuser_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_Lambdas_NullableConfuser_Proxy>(token, "smoke_Lambdas_NullableConfuser");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<smoke_Lambdas_NullableConfuser_Proxy>(token, isolate_id, deleter, f0);
-        gluecodium::ffi::cache_proxy(token, cached_proxy);
+        gluecodium::ffi::cache_proxy(token, "smoke_Lambdas_NullableConfuser", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::Lambdas::NullableConfuser(

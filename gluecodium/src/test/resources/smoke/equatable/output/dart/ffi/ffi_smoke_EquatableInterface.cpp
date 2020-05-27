@@ -11,6 +11,7 @@ public:
     smoke_EquatableInterface_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter)
         : token(token), isolate_id(isolate_id), deleter(deleter) { }
     ~smoke_EquatableInterface_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_EquatableInterface");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -62,7 +63,7 @@ library_smoke_EquatableInterface_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHan
 }
 FfiOpaqueHandle
 library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_EquatableInterface_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_EquatableInterface_Proxy>(token, "smoke_EquatableInterface");
     std::shared_ptr<smoke_EquatableInterface_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_EquatableInterface_Proxy>(cached_proxy);
@@ -70,7 +71,7 @@ library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_EquatableInterface_Proxy>(
             new (std::nothrow) smoke_EquatableInterface_Proxy(token, isolate_id, deleter)
         );
-        gluecodium::ffi::cache_proxy(token, *proxy_ptr);
+        gluecodium::ffi::cache_proxy(token, "smoke_EquatableInterface", *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

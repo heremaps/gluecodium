@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a runtime issue in Java and Dart for platform-side objects that implement multiple
+    generated interfaces at once.
+
 ## 7.0.1
 Release date: 2020-05-25
 ### Bug fixes:

@@ -13,6 +13,7 @@ public:
     smoke_StandaloneProducer_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_StandaloneProducer_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, "smoke_StandaloneProducer");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -88,10 +89,10 @@ library_smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
 }
 FfiOpaqueHandle
 library_smoke_StandaloneProducer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_StandaloneProducer_Proxy>(token);
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_StandaloneProducer_Proxy>(token, "smoke_StandaloneProducer");
     if (!cached_proxy) {
         cached_proxy = std::make_shared<smoke_StandaloneProducer_Proxy>(token, isolate_id, deleter, f0);
-        gluecodium::ffi::cache_proxy(token, cached_proxy);
+        gluecodium::ffi::cache_proxy(token, "smoke_StandaloneProducer", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
         new ::smoke::StandaloneProducer(

@@ -204,6 +204,7 @@ feature(Listeners cpp android swift dart SOURCES
     src/test/StringListeners.cpp
     src/test/ListenerRoundtrip.cpp
     src/test/ListenerWithMaps.cpp
+    src/test/MultiListener.cpp
 
     lime/hello/HelloWorldCalculatorListenerFactory.lime
     lime/hello/CalculatorListener.lime
@@ -212,6 +213,7 @@ feature(Listeners cpp android swift dart SOURCES
     lime/test/ListenerRoundtrip.lime
     lime/test/ListenerWithMaps.lime
     lime/test/ListenerNameClash.lime
+    lime/test/MultiListener.lime
 )
 
 feature(ComplexListeners cpp android swift dart SOURCES
