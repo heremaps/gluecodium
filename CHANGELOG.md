@@ -1,12 +1,13 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 7.0.2
+Release date: 2020-05-27
 ### Bug fixes:
   * Fixed a runtime issue in Java and Dart for platform-side objects that implement multiple
     generated interfaces at once.
 
 ## 7.0.1
-Release date: 2020-05-25
+Release date: 2020-05-26
 ### Bug fixes:
   * Fixed Dart support for `@constructor` doc comment on structs.
   * Fixed compilation issue for internal static properties in Dart.
