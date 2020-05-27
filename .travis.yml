@@ -125,6 +125,7 @@ jobs:
         - export DART_LIB=${HOME}/dart_sdk/lib
         - export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
       install:
+        - DART_VERSION=2.8.2
         - source ./scripts/install-cmake.sh 
         - |
           if [ ! -d "${HOME}/dart_sdk/bin" ]; then
@@ -133,6 +134,9 @@ jobs:
             pushd dart-sdk
             fetch dart
             pushd sdk
+            git fetch --tags
+            git checkout tags/${DART_VERSION}
+            gclient sync
             ./tools/generate_buildfiles.py
             sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
             ./tools/build.py --mode release --arch x64 create_sdk
