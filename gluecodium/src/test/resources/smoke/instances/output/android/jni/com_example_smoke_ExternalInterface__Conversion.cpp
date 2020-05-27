@@ -16,7 +16,7 @@ REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ExternalInterfaceImpl", 
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::ExternalInterface>& result)
 {
-    CppProxyBase::createProxy<::smoke::ExternalInterface, com_example_smoke_ExternalInterfaceImpl_CppProxy>(env, obj, result);
+    CppProxyBase::createProxy<::smoke::ExternalInterface, com_example_smoke_ExternalInterfaceImpl_CppProxy>(env, obj, "com_example_smoke_ExternalInterfaceImpl", result);
 }
 std::shared_ptr<::smoke::ExternalInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ExternalInterface>*)
 {

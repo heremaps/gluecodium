@@ -33,6 +33,8 @@ public:
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}} { }
 
     ~{{resolveName}}_Proxy() {
+        {{>ffi/FfiInternal}}::remove_cached_proxy(token, "{{resolveName}}");
+
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {

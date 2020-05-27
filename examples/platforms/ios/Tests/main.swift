@@ -49,6 +49,7 @@ let allTests = [
     testCase(ListenersWithDictionaries.allTests),
     testCase(MapsTests.allTests),
     testCase(MethodOverloadsTests.allTests),
+    testCase(MultiListenerTests.allTests),
     testCase(NullableAttributesTests.allTests),
     testCase(NullableInstancesTests.allTests),
     testCase(NullableListenersTests.allTests),

@@ -16,7 +16,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$ConfounderImpl", com_example
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::smoke::Lambdas::Confuser& result)
 {
     std::shared_ptr<com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy> _nproxy{};
-    CppProxyBase::createProxy<com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy, com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy>(env, obj, _nproxy);
+    CppProxyBase::createProxy<com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy, com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy>(env, obj, "com_example_smoke_Lambdas_00024ConfounderImpl", _nproxy);
     result = std::bind(&com_example_smoke_Lambdas_00024ConfounderImpl_CppProxy::operator(), _nproxy, std::placeholders::_1);
 }
 ::smoke::Lambdas::Confuser convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::Lambdas::Confuser*)

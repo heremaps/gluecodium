@@ -40,6 +40,7 @@ import "test/ListenersWithErrors_test.dart" as ListenersWithErrorsTests;
 import "test/ListenersWithReturnValues_test.dart" as ListenersWithReturnValuesTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
+import "test/MultiListener_test.dart" as MultiListenerTests;
 import "test/Nullable_test.dart" as NullableTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresImmutable_test.dart" as PlainDataStructuresImmutableTests;
@@ -78,6 +79,7 @@ final _allTests = [
   ListenersWithReturnValuesTests.main,
   MapsTests.main,
   MethodOverloadsTests.main,
+  MultiListenerTests.main,
   NullableTests.main,
   PlainDataStructuresTests.main,
   PlainDataStructuresImmutableTests.main,

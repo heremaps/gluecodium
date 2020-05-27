@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <mutex>
+#include <string>
 #include <unordered_map>
 
 {{#internalNamespace}}
@@ -32,14 +33,36 @@ namespace {{.}}
 {{/internalNamespace}}
 namespace ffi
 {
-static std::unordered_map<uint64_t, std::weak_ptr<void>> _proxy_cache{};
+struct ProxyCacheKey
+{
+    uint64_t token;
+    std::string type_key;
+
+    bool
+    operator==(const ProxyCacheKey& other) const {
+        return token == other.token && type_key == other.type_key;
+    }
+};
+
+struct ProxyCacheKeyHash
+{
+    inline size_t
+    operator()(const ProxyCacheKey& key) const {
+        size_t result = 7;
+        result = 31 * result + key.token;
+        result = 31 * result + std::hash<::std::string>{}(key.type_key);
+        return result;
+    }
+};
+
+static std::unordered_map<ProxyCacheKey, std::weak_ptr<void>, ProxyCacheKeyHash> _proxy_cache{};
 static std::mutex _cache_mutex;
 
 template<class T>
 std::shared_ptr<T>
-get_cached_proxy(uint64_t token) {
+get_cached_proxy(uint64_t token, const std::string& type_key) {
     const std::lock_guard<std::mutex> lock(_cache_mutex);
-    auto iter = _proxy_cache.find(token);
+    auto iter = _proxy_cache.find({token, type_key});
     return (iter != _proxy_cache.end())
         ? std::static_pointer_cast<T>(iter->second.lock())
         : std::shared_ptr<T>{};
@@ -47,9 +70,15 @@ get_cached_proxy(uint64_t token) {
 
 template<class T>
 void
-cache_proxy(uint64_t token, std::shared_ptr<T> proxy) {
+cache_proxy(uint64_t token, const std::string& type_key, std::shared_ptr<T> proxy) {
     const std::lock_guard<std::mutex> lock(_cache_mutex);
-    _proxy_cache[token] = std::weak_ptr<void>(std::static_pointer_cast<void>(proxy));
+    _proxy_cache[{token, type_key}] = std::weak_ptr<void>(std::static_pointer_cast<void>(proxy));
+}
+
+void
+remove_cached_proxy(uint64_t token, const std::string& type_key) {
+    const std::lock_guard<std::mutex> lock(_cache_mutex);
+    _proxy_cache.erase({token, type_key});
 }
 
 }
