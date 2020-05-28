@@ -76,6 +76,14 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/In
         : {{>common/InternalNamespace}}optional<std::string>{};
 }
 
+{{>common/InternalNamespace}}optional<std::string>
+convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, {{>common/InternalNamespace}}optional<std::string>* )
+{
+    return jvalue
+        ? {{>common/InternalNamespace}}optional<std::string>( convert_string_from_jni( env, jvalue.get( ) ) )
+        : {{>common/InternalNamespace}}optional<std::string>{};
+}
+
 std::shared_ptr< std::vector< uint8_t > >
 convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
                   std::shared_ptr< std::vector< uint8_t > >* )
