@@ -75,11 +75,7 @@ cache_proxy(uint64_t token, const std::string& type_key, std::shared_ptr<T> prox
     _proxy_cache[{token, type_key}] = std::weak_ptr<void>(std::static_pointer_cast<void>(proxy));
 }
 
-void
-remove_cached_proxy(uint64_t token, const std::string& type_key) {
-    const std::lock_guard<std::mutex> lock(_cache_mutex);
-    _proxy_cache.erase({token, type_key});
-}
+void remove_cached_proxy(uint64_t token, const std::string& type_key);
 
 }
 {{#internalNamespace}}

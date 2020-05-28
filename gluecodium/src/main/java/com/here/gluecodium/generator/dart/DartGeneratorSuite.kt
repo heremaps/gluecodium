@@ -349,14 +349,15 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private fun generateFfiCommonFiles(
         nameResolvers: Map<String, NameResolver>
     ): List<GeneratedFile> {
-        val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle", "ProxyCache")
+        val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
         val headerAndImpl = listOf(
             "StringHandle",
             "BlobHandle",
             "NullableHandles",
             "IsolateContext",
             "CallbacksQueue",
-            "CallbacksHandle"
+            "CallbacksHandle",
+            "ProxyCache"
         )
         val data = mapOf(
             "libraryName" to libraryName,

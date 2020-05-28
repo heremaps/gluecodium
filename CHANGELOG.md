@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue for methods returning a nullable string in Java.
+  * Fixed general compilation issue in Dart for modularized builds.
+
 ## 7.0.2
 Release date: 2020-05-27
 ### Bug fixes:
