@@ -50,6 +50,8 @@ std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, 
 std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* );
 {{>common/InternalNamespace}}optional<std::string> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* );
+{{>common/InternalNamespace}}optional<std::string> convert_from_jni(
+    JNIEnv* env, const JniReference<jstring>& jvalue, {{>common/InternalNamespace}}optional<std::string>* );
 
 /**
  * Converts a jbyteArray to a byte buffer

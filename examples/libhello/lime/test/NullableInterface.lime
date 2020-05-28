@@ -121,3 +121,7 @@ struct NullableCollectionsStruct {
     dates: List<Date?>
     structs: Map<Int, NullableInterface.SomeStruct?>
 }
+
+interface InternalInterfaceWithNullable {
+    fun dummy_function(dummyVar: String): String?
+}
