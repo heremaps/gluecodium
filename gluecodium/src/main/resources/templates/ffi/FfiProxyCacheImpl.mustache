@@ -29,6 +29,9 @@ namespace {{.}}
 namespace ffi
 {
 
+std::unordered_map<ProxyCacheKey, std::weak_ptr<void>, ProxyCacheKeyHash> _proxy_cache{};
+std::mutex _cache_mutex{};
+
 void
 remove_cached_proxy(uint64_t token, const std::string& type_key) {
     const std::lock_guard<std::mutex> lock(_cache_mutex);

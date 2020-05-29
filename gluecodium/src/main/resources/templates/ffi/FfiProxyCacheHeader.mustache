@@ -55,8 +55,8 @@ struct ProxyCacheKeyHash
     }
 };
 
-static std::unordered_map<ProxyCacheKey, std::weak_ptr<void>, ProxyCacheKeyHash> _proxy_cache{};
-static std::mutex _cache_mutex;
+extern std::unordered_map<ProxyCacheKey, std::weak_ptr<void>, ProxyCacheKeyHash> _proxy_cache;
+extern std::mutex _cache_mutex;
 
 template<class T>
 std::shared_ptr<T>
