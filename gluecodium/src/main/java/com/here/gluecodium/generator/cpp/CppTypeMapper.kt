@@ -64,6 +64,10 @@ class CppTypeMapper(
             includeResolver.createInternalNamespaceInclude("TimePointHash.h")
         )
     )
+    private val localeType = CppComplexTypeRef(
+        CppNameRules.joinFullyQualifiedName(internalNamespace + "Locale"),
+        listOf(includeResolver.createInternalNamespaceInclude("Locale.h"))
+    )
 
     private fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
         createTemplateTypeRef(
@@ -203,7 +207,7 @@ class CppTypeMapper(
             TypeId.STRING -> stringType
             TypeId.BLOB -> blobPointerType
             TypeId.DATE -> dateType
-            TypeId.LOCALE -> TODO()
+            TypeId.LOCALE -> localeType
         }
 
     private fun createTemplateTypeRef(

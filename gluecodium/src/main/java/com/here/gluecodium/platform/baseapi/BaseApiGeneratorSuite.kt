@@ -120,7 +120,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val helperModel = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
         return cppFiles.flatMap { generator.generateCode(it) } +
                 ADDITIONAL_HEADERS.map { generator.generateHelperHeader(it, helperModel) } +
-                generator.generateHelperImpl("TypeRepositoryImpl", helperModel) +
+                ADDITIONAL_IMPLS.map { generator.generateHelperImpl(it, helperModel) } +
                 generator.generateHelperHeader("Export", helperModel)
     }
 
@@ -237,6 +237,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
         internal val ADDITIONAL_HEADERS = listOf(
             "Hash",
+            "Locale",
             "Mutex",
             "Optional",
             "OptionalImpl",
@@ -247,6 +248,7 @@ class BaseApiGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "UnorderedSetHash",
             "VectorHash"
         )
+        internal val ADDITIONAL_IMPLS = listOf("LocaleImpl", "TypeRepositoryImpl")
 
         private fun flattenCppModel(members: List<CppElement>) =
             members.flatMap { it.allElementsRecursive }
