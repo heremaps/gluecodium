@@ -134,6 +134,7 @@ class CBridgeTypeMapper(
             TypeId.STRING -> CppTypeInfo.STRING
             TypeId.BLOB -> byteBufferTypeInfo
             TypeId.DATE -> CppTypeInfo.DATE
+            TypeId.LOCALE -> TODO()
         }
 
     private fun createMapTypeInfo(limeType: LimeMap, cppType: CppTypeRef): CppMapTypeInfo {

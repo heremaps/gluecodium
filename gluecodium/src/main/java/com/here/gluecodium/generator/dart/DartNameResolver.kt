@@ -87,6 +87,7 @@ internal class DartNameResolver(
             TypeId.STRING -> "String"
             TypeId.BLOB -> "Uint8List"
             TypeId.DATE -> "DateTime"
+            TypeId.LOCALE -> "Locale"
         }
 
     private fun resolveValue(limeValue: LimeValue): String =

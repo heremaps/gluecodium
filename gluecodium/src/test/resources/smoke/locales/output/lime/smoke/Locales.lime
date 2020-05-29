@@ -1,0 +1,17 @@
+package smoke
+
+class Locales {
+    typealias LocaleTypeDef = Locale
+    typealias LocaleArray = List<Locale>
+    typealias LocaleMap = Map<String, Locale>
+
+    struct LocaleStruct {
+        localeField: Locale
+    }
+
+    fun localeMethod(
+        input: Locale
+    ): Locale
+
+    property localeProperty: Locale
+}

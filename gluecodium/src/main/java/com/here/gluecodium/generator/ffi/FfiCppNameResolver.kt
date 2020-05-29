@@ -122,6 +122,7 @@ internal class FfiCppNameResolver(
             TypeId.STRING -> "std::string"
             TypeId.BLOB -> "std::shared_ptr<std::vector<uint8_t>>"
             TypeId.DATE -> "std::chrono::system_clock::time_point"
+            TypeId.LOCALE -> TODO()
         }
 
     private fun getFieldName(limeField: LimeField) =

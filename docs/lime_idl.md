@@ -313,6 +313,8 @@ Basic types:
 * **ULong**: unsigned 64-bit integer type
 * **Blob**: generic binary data type
 * **Date**: date type (containing both a calendar date and a clock timestamp)
+* **Locale**: locale type (containing ISO codes for region, language, and script; and/or BCP 47
+language tag)
 
 Container types:
 * **List<Type>**: list/array container type, e.g. `List<String>`
