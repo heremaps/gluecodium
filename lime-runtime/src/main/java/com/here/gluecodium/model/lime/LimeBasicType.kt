@@ -38,7 +38,8 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
         BOOLEAN("Boolean"),
         STRING("String"),
         BLOB("Blob"),
-        DATE("Date");
+        DATE("Date"),
+        LOCALE("Locale");
 
         override fun toString() = tag
     }

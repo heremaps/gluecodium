@@ -192,6 +192,7 @@ class JavaTypeMapper(
 
     private fun mapBasicType(limeBasicType: LimeBasicType) =
         when (limeBasicType.typeId) {
+            TypeId.VOID -> JavaPrimitiveTypeRef.VOID
             TypeId.BOOLEAN -> JavaPrimitiveTypeRef.BOOL
             TypeId.FLOAT -> JavaPrimitiveTypeRef.FLOAT
             TypeId.DOUBLE -> JavaPrimitiveTypeRef.DOUBLE
@@ -202,7 +203,7 @@ class JavaTypeMapper(
             TypeId.STRING -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.STRING)
             TypeId.BLOB -> JavaArrayTypeRef(JavaPrimitiveTypeRef.Type.BYTE)
             TypeId.DATE -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.DATE)
-            TypeId.VOID -> JavaPrimitiveTypeRef.VOID
+            TypeId.LOCALE -> TODO()
         }
 
     companion object {

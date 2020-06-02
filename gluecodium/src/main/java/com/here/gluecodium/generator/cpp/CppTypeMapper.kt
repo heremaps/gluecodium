@@ -203,6 +203,7 @@ class CppTypeMapper(
             TypeId.STRING -> stringType
             TypeId.BLOB -> blobPointerType
             TypeId.DATE -> dateType
+            TypeId.LOCALE -> TODO()
         }
 
     private fun createTemplateTypeRef(

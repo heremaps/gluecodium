@@ -70,6 +70,7 @@ internal class FfiApiTypeNameResolver : NameResolver {
             TypeId.STRING -> OPAQUE_HANDLE_TYPE
             TypeId.BLOB -> OPAQUE_HANDLE_TYPE
             TypeId.DATE -> "Uint64"
+            TypeId.LOCALE -> TODO()
         }
 
     companion object {

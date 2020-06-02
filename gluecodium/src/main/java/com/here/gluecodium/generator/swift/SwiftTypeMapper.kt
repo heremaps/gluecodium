@@ -176,6 +176,7 @@ class SwiftTypeMapper(
                 TypeId.DOUBLE -> SwiftType.DOUBLE
                 TypeId.BLOB -> SwiftType.DATA
                 TypeId.DATE -> SwiftType.DATE
+                TypeId.LOCALE -> TODO()
             }
     }
 }

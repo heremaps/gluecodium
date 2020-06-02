@@ -96,6 +96,7 @@ ULongType: 'ULong' ;
 StringType: 'String' ;
 BlobType: 'Blob' ;
 DateType: 'Date' ;
+LocaleType: 'Locale' ;
 
 ListType: 'List' ;
 MapType: 'Map' ;
