@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 7.0.4
+Release date: 2020-06-02
+### Bug fixes:
+  * Fixed runtime issue in Dart for modularized builds.
+
 ## 7.0.3
 Release date: 2020-05-28
 ### Bug fixes:
