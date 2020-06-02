@@ -203,7 +203,7 @@ class JavaTypeMapper(
             TypeId.STRING -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.STRING)
             TypeId.BLOB -> JavaArrayTypeRef(JavaPrimitiveTypeRef.Type.BYTE)
             TypeId.DATE -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.DATE)
-            TypeId.LOCALE -> TODO()
+            TypeId.LOCALE -> JavaReferenceTypeRef(JavaReferenceTypeRef.Type.LOCALE)
         }
 
     companion object {

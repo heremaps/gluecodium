@@ -23,9 +23,21 @@
 namespace test
 {
 lorem_ipsum::test::Locale s_locale = lorem_ipsum::test::Locale("foo", "bar", "baz");
+std::string nonsense = "@#$%";
 
 lorem_ipsum::test::Locale
 Locales::locale_round_trip(const lorem_ipsum::test::Locale& input) {
+    return input;
+}
+
+lorem_ipsum::test::Locale
+Locales::locale_round_trip_strip_tag(const lorem_ipsum::test::Locale& input) {
+    return lorem_ipsum::test::Locale(input.language_code, input.country_code, input.script_code);
+}
+
+lorem_ipsum::test::optional<lorem_ipsum::test::Locale>
+Locales::locale_round_trip_nullable(
+    const lorem_ipsum::test::optional<lorem_ipsum::test::Locale>& input) {
     return input;
 }
 
@@ -38,4 +50,29 @@ void
 Locales::set_locale_property(const lorem_ipsum::test::Locale& value) {
     s_locale = value;
 }
+
+lorem_ipsum::test::Locale
+Locales::get_locale_with_malformed_tag() {
+    return lorem_ipsum::test::Locale(nonsense);
+}
+
+lorem_ipsum::test::Locale
+Locales::get_locale_with_malformed_language() {
+    return lorem_ipsum::test::Locale(lorem_ipsum::test::optional<std::string>(nonsense),
+                                     lorem_ipsum::test::optional<std::string>());
+}
+
+lorem_ipsum::test::Locale
+Locales::get_locale_with_malformed_country() {
+    return lorem_ipsum::test::Locale(lorem_ipsum::test::optional<std::string>(),
+                                     lorem_ipsum::test::optional<std::string>(nonsense));
+}
+
+lorem_ipsum::test::Locale
+Locales::get_locale_with_malformed_script() {
+    return lorem_ipsum::test::Locale(lorem_ipsum::test::optional<std::string>(),
+                                     lorem_ipsum::test::optional<std::string>(),
+                                     lorem_ipsum::test::optional<std::string>(nonsense));
+}
+
 }  // namespace test

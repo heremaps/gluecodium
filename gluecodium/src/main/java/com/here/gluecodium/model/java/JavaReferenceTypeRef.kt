@@ -41,7 +41,8 @@ class JavaReferenceTypeRef(val type: Type) :
         LONG("Long"),
         FLOAT("Float"),
         DOUBLE("Double"),
-        DATE("Date", JAVA_UTIL_PACKAGE, setOf(JavaImport("Date", JavaPackage(JAVA_UTIL_PACKAGE))))
+        DATE("Date", JAVA_UTIL_PACKAGE, setOf(JavaImport("Date", JavaPackage(JAVA_UTIL_PACKAGE)))),
+        LOCALE("Locale", JAVA_UTIL_PACKAGE, setOf(JavaImport("Locale", JavaPackage(JAVA_UTIL_PACKAGE))))
     }
 
     companion object {

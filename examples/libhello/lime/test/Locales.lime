@@ -19,5 +19,12 @@ package test
 
 class Locales {
     static fun localeRoundTrip(input: Locale): Locale
+    static fun localeRoundTripStripTag(input: Locale): Locale
+    static fun localeRoundTripNullable(input: Locale?): Locale?
     static property localeProperty: Locale
+
+    static property localeWithMalformedTag: Locale { get }
+    static property localeWithMalformedLanguage: Locale { get }
+    static property localeWithMalformedCountry: Locale { get }
+    static property localeWithMalformedScript: Locale { get }
 }
