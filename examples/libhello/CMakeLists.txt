@@ -411,6 +411,12 @@ feature(CppConst cpp android swift dart SOURCES
     src/test/CppConstMethods.cpp
 )
 
+feature(Locales cpp SOURCES
+    src/test/Locales.cpp
+
+    lime/test/Locales.lime
+)
+
 if(APPLE)
     # This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

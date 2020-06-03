@@ -43,8 +43,8 @@ class BaseApiGeneratorSuiteTest {
     fun generateFilesEmptyModel() {
         val generatedFiles = baseApiGeneratorSuite.generate(LimeModel(emptyMap(), emptyList()))
         assertNotNull(generatedFiles)
-        // + 1 for Export.h
-        val expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size + 2
+        val expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size +
+            BaseApiGeneratorSuite.ADDITIONAL_IMPLS.size + 1 // + 1 for Export.h
         assertEquals(
                 "Expected cpp/internal files and test generated file",
                 expectedGeneratedFiles,
