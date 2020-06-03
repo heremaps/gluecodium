@@ -86,6 +86,10 @@ class CBridgeGenerator(
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString()
             ),
             generateHelperContent(
+                "LocaleHandle",
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "LocaleHandle.cpp").toString()
+            ),
+            generateHelperContent(
                 "DateHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "DateHandle.cpp").toString()
             ),
@@ -226,6 +230,9 @@ class CBridgeGenerator(
             ),
             GeneratorSuite.copyCommonFile(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""
+            ),
+            GeneratorSuite.copyCommonFile(
+                Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""
             ),
             GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, "")
         )
