@@ -84,6 +84,7 @@ internal class DartImportResolver(
         listOf(builtInTypesConversionImport) +
             when (limeType.typeId) {
                 LimeBasicType.TypeId.BLOB -> listOf(DartImport("typed_data", isSystem = true))
+                LimeBasicType.TypeId.LOCALE -> listOf(DartImport("intl/locale"))
                 else -> emptyList()
             }
 

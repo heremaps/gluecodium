@@ -38,6 +38,7 @@ import "test/Listeners_test.dart" as ListenersTests;
 import "test/ListenersWithAttributes_test.dart" as ListenersWithAttributesTests;
 import "test/ListenersWithErrors_test.dart" as ListenersWithErrorsTests;
 import "test/ListenersWithReturnValues_test.dart" as ListenersWithReturnValuesTests;
+import "test/Locales_test.dart" as LocalesTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
 import "test/MultiListener_test.dart" as MultiListenerTests;
@@ -77,6 +78,7 @@ final _allTests = [
   ListenersWithAttributesTests.main,
   ListenersWithErrorsTests.main,
   ListenersWithReturnValuesTests.main,
+  LocalesTests.main,
   MapsTests.main,
   MethodOverloadsTests.main,
   MultiListenerTests.main,

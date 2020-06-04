@@ -173,7 +173,6 @@ class Gluecodium(
         ) && saveToDirectory(options.commonOutputDir, commonFiles)
     }
 
-    // TODO: #329 move all model validation here
     private fun validateModel(limeModel: LimeModel): Boolean {
         val limeLogger = LimeLogger(LOGGER, limeModel.fileNameMap)
         val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)

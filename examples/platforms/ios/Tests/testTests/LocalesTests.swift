@@ -77,13 +77,13 @@ class LocalesTests: XCTestCase {
     func testLocaleWithMalformedCountry() {
         let result = Locales.localeWithMalformedCountry
 
-        XCTAssertEqual(result.identifier, "_")
+        XCTAssertEqual(result.identifier, "foo-baz_")
     }
 
     func testLocaleWithMalformedScript() {
         let result = Locales.localeWithMalformedScript
 
-        XCTAssertEqual(result.identifier, "_")
+        XCTAssertEqual(result.identifier, "foo_")
     }
 
     static var allTests = [

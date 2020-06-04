@@ -47,6 +47,9 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_Blob_get_value_nullable(FfiOpaque
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_Date_create_handle_nullable(uint64_t value);
 _GLUECODIUM_FFI_EXPORT void library_Date_release_handle_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT uint64_t library_Date_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_Locale_create_handle_nullable(FfiOpaqueHandle value);
+_GLUECODIUM_FFI_EXPORT void library_Locale_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_Locale_get_value_nullable(FfiOpaqueHandle handle);
 #ifdef __cplusplus
 }
 #endif

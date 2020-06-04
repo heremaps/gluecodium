@@ -102,7 +102,7 @@ internal class FfiNameResolver(
             TypeId.STRING -> OPAQUE_HANDLE_TYPE
             TypeId.BLOB -> OPAQUE_HANDLE_TYPE
             TypeId.DATE -> "uint64_t"
-            TypeId.LOCALE -> TODO()
+            TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
         }
 
     private fun getListName(elementType: LimeTypeRef) =

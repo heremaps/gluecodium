@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
+import 'package:intl/locale.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 // Blob
 final _Blob_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -56,6 +57,61 @@ Pointer<Void> String_toFfi(String value) {
 }
 String String_fromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_String_get_value(handle));
 void String_releaseFfiHandle(Pointer<Void> handle) => _String_release_handle(handle);
+// Locale
+final _Locale_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>),
+    Pointer<Void> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>)
+  >('library_locale_create_handle');
+final _Locale_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_locale_release_handle');
+final _Locale_get_language_code = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('library_locale_get_language_code');
+final _Locale_get_country_code = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('library_locale_get_country_code');
+final _Locale_get_script_code = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('library_locale_get_script_code');
+final _Locale_get_language_tag = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('library_locale_get_language_tag');
+Pointer<Void> Locale_toFfi(Locale locale) {
+  final cLanguageCode = Utf8.toUtf8(locale.languageCode);
+  final cCountryCode =
+    locale.countryCode != null ? Utf8.toUtf8(locale.countryCode) : Pointer<Utf8>.fromAddress(0);
+  final cScriptCode =
+    locale.scriptCode != null ? Utf8.toUtf8(locale.scriptCode) : Pointer<Utf8>.fromAddress(0);
+  final cLanguageTag = Utf8.toUtf8(locale.toLanguageTag());
+  final result = _Locale_create_handle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
+  free(cLanguageCode);
+  if (cCountryCode.address != 0) free(cCountryCode);
+  if (cScriptCode.address != 0) free(cScriptCode);
+  free(cLanguageTag);
+  return result;
+}
+Locale Locale_fromFfi(Pointer<Void> handle) {
+  final languageTagCstring = _Locale_get_language_tag(handle);
+  if (languageTagCstring.address != 0) {
+    // BCP 47 language tag takes precedence if present.
+    return Locale.parse(Utf8.fromUtf8(languageTagCstring));
+  }
+  final languageCodeCstring = _Locale_get_language_code(handle);
+  final countryCodeCstring = _Locale_get_country_code(handle);
+  final scriptCodeCstring = _Locale_get_script_code(handle);
+  return Locale.fromSubtags(
+    languageCode: languageCodeCstring.address != 0 ? Utf8.fromUtf8(languageCodeCstring) : null,
+    countryCode: countryCodeCstring.address != 0 ? Utf8.fromUtf8(countryCodeCstring) : null,
+    scriptCode: scriptCodeCstring.address != 0 ? Utf8.fromUtf8(scriptCodeCstring) : null
+  );
+}
+void Locale_releaseFfiHandle(Pointer<Void> handle) => _Locale_release_handle(handle);
 // Nullable Byte
 final _Byte_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int8),
@@ -428,3 +484,31 @@ DateTime Date_fromFfi_nullable(Pointer<Void> handle) {
   return result;
 }
 void Date_releaseFfiHandle_nullable(Pointer<Void> handle) => _Date_release_handle_nullable(handle);
+// Nullable Locale
+final _Locale_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_Locale_create_handle_nullable');
+final _Locale_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_Locale_release_handle_nullable');
+final _Locale_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_Locale_get_value_nullable');
+Pointer<Void> Locale_toFfi_nullable(Locale value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = Locale_toFfi(value);
+  final result = _Locale_create_handle_nullable(_handle);
+  Locale_releaseFfiHandle(_handle);
+  return result;
+}
+Locale Locale_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _Locale_get_value_nullable(handle);
+  final result = Locale_fromFfi(_handle);
+  Locale_releaseFfiHandle(_handle);
+  return result;
+}
+void Locale_releaseFfiHandle_nullable(Pointer<Void> handle) => _Locale_release_handle_nullable(handle);
