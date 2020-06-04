@@ -88,7 +88,7 @@ public:
     }
 
 protected:
-    CppProxyBase( JNIEnv* jenv, JniReference<jobject> globalRef, jint jHashCode );
+    CppProxyBase( JNIEnv* jenv, JniReference<jobject> globalRef, jint jHashCode, ::std::string type_key );
 
     virtual ~CppProxyBase( );
 
@@ -159,6 +159,7 @@ private:
     JniReference<jobject> mGlobalRef;
     jint jHashCode;
     ReverseCacheKey mReverseCacheKey = nullptr;
+    const ::std::string type_key;
 
 protected:
     static ProxyCache sProxyCache;

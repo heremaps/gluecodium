@@ -12,7 +12,7 @@ namespace gluecodium
 namespace jni
 {
 com_example_smoke_CalculatorListenerImpl_CppProxy::com_example_smoke_CalculatorListenerImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_CalculatorListenerImpl" ) {
 }
 void
 com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result( const double ncalculationResult ) {
