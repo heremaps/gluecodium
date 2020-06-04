@@ -35,7 +35,7 @@ namespace jni
 
 {{#container}}
 {{mangledName}}_CppProxy::{{mangledName}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "{{mangledName}}" ) {
 }
 {{#parentMethods}}
 {{>proxyMethod}}

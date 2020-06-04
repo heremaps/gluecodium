@@ -13,7 +13,7 @@ namespace gluecodium
 namespace jni
 {
 com_example_smoke_ErrorsInterfaceImpl_CppProxy::com_example_smoke_ErrorsInterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_ErrorsInterfaceImpl" ) {
 }
 ::std::error_code
 com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors(  ) {

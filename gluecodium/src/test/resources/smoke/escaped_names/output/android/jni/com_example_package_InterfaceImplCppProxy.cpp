@@ -10,7 +10,7 @@ namespace gluecodium
 namespace jni
 {
 com_example_package_InterfaceImpl_CppProxy::com_example_package_InterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_package_InterfaceImpl" ) {
 }
 }
 }

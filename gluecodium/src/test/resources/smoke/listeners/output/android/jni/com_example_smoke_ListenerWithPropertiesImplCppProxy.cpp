@@ -13,7 +13,7 @@ namespace gluecodium
 namespace jni
 {
 com_example_smoke_ListenerWithPropertiesImpl_CppProxy::com_example_smoke_ListenerWithPropertiesImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_ListenerWithPropertiesImpl" ) {
 }
 ::std::string
 com_example_smoke_ListenerWithPropertiesImpl_CppProxy::get_message(  ) const {
