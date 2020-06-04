@@ -42,8 +42,7 @@ open class SwiftType protected constructor(
     enum class TypeCategory {
         BUILTIN_SIMPLE,
         BUILTIN_STRING,
-        BUILTIN_BYTEBUFFER,
-        BUILTIN_DATE,
+        BUILTIN_OTHER,
         STRUCT,
         ENUM,
         CLASS,
@@ -82,7 +81,8 @@ open class SwiftType protected constructor(
         val FLOAT = SwiftType("Float", "float")
         val DOUBLE = SwiftType("Double", "double")
         val STRING = SwiftType("String", "std_string", TypeCategory.BUILTIN_STRING)
-        val DATA = SwiftType("Data", "data", TypeCategory.BUILTIN_BYTEBUFFER)
-        val DATE = SwiftType("Date", "date", TypeCategory.BUILTIN_DATE)
+        val DATA = SwiftType("Data", "data", TypeCategory.BUILTIN_OTHER)
+        val DATE = SwiftType("Date", "date", TypeCategory.BUILTIN_OTHER)
+        val LOCALE = SwiftType("Locale", "locale", TypeCategory.BUILTIN_OTHER)
     }
 }

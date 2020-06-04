@@ -411,7 +411,7 @@ feature(CppConst cpp android swift dart SOURCES
     src/test/CppConstMethods.cpp
 )
 
-feature(Locales cpp android SOURCES
+feature(Locales cpp android swift SOURCES
     src/test/Locales.cpp
 
     lime/test/Locales.lime

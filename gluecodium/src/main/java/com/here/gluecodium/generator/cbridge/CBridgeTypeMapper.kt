@@ -64,6 +64,12 @@ class CBridgeTypeMapper(
         CType.BYTE_ARRAY_REF,
         listOf(BASE_HANDLE_IMPL_INCLUDE)
     )
+    private val localeTypeInfo = CppTypeInfo(
+        "${internalNamespace.joinToString("::")}::Locale",
+        CType(BASE_REF_NAME),
+        CType(BASE_REF_NAME),
+        listOf(BASE_HANDLE_IMPL_INCLUDE)
+    )
 
     fun mapType(limeTypeRef: LimeTypeRef, cppTypeRef: CppTypeRef): CppTypeInfo {
         val typeInfo = mapType(limeTypeRef.type, cppTypeRef)
@@ -134,7 +140,7 @@ class CBridgeTypeMapper(
             TypeId.STRING -> CppTypeInfo.STRING
             TypeId.BLOB -> byteBufferTypeInfo
             TypeId.DATE -> CppTypeInfo.DATE
-            TypeId.LOCALE -> TODO()
+            TypeId.LOCALE -> localeTypeInfo
         }
 
     private fun createMapTypeInfo(limeType: LimeMap, cppType: CppTypeRef): CppMapTypeInfo {

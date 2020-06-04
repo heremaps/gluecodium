@@ -36,6 +36,8 @@ extension String {
     }
 }
 
+// String
+
 internal func copyFromCType(_ handle: _baseRef) -> String {
     return String(data: Data(bytes: std_string_data_get(handle),
                   count: Int(std_string_size_get(handle))), encoding: .utf8)!
@@ -81,6 +83,8 @@ internal func copyToCType(_ swiftType: String?) -> RefHolder {
 internal func moveToCType(_ swiftType: String?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: std_string_release_optional_handle)
 }
+
+// Data
 
 internal func copyFromCType(_ handle: _baseRef) -> Data {
     guard let byteArrayData = byteArray_data_get(handle) else {
@@ -140,6 +144,8 @@ internal func moveToCType(_ swiftType: Data?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: byteArray_release_optional_handle)
 }
 
+// Date
+
 internal func copyFromCType(_ seconds_since_epoch: Double) -> Date {
     return Date(timeIntervalSince1970: seconds_since_epoch)
 }
@@ -182,6 +188,81 @@ internal func moveToCType(_ swiftType: Date?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref,
                      release: chrono_time_point_release_optional_handle)
 }
+
+// Locale
+
+internal func copyFromCType(_ handle: _baseRef) -> Locale {
+    let languageTag = moveFromCType(locale_get_language_tag(handle)) as String?
+    if let languageTagUnwrapped = languageTag {
+        // BCP 47 language tag takes precedence if present.
+        return Locale(identifier: languageTagUnwrapped)
+    }
+
+    var components: [String: String] = [:]
+
+    let languageCode = moveFromCType(locale_get_language_code(handle)) as String?
+    if let languageCodeUnwrapped = languageCode {
+        components["kCFLocaleLanguageCodeKey"] = languageCodeUnwrapped
+    }
+    let countryCode = moveFromCType(locale_get_country_code(handle)) as String?
+    if let countryCodeUnwrapped = countryCode {
+        components["kCFLocaleCountryCodeKey"] = countryCodeUnwrapped
+    }
+    let scriptCode = moveFromCType(locale_get_script_code(handle)) as String?
+    if let scriptCodeUnwrapped = scriptCode {
+        components["kCFLocaleScriptCodeKey"] = scriptCodeUnwrapped
+    }
+
+    return Locale(identifier: Locale.identifier(fromComponents: components))
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> Locale {
+    defer {
+        locale_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: Locale) -> RefHolder {
+    let languageCodeHandle = moveToCType(swiftType.languageCode)
+    let countryCodeHandle = moveToCType(swiftType.regionCode)
+    let scriptCodeHandle = moveToCType(swiftType.scriptCode)
+    let languageTagHandle = moveToCType(swiftType.identifier)
+    return RefHolder(locale_create_handle(languageCodeHandle.ref, countryCodeHandle.ref,
+                                          scriptCodeHandle.ref, languageTagHandle.ref))
+}
+
+internal func moveToCType(_ swiftType: Locale) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: locale_release_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> Locale? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = locale_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as Locale
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> Locale? {
+    defer {
+        locale_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: Locale?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(locale_create_optional_handle(copyToCType(swiftType).ref))
+}
+
+internal func moveToCType(_ swiftType: Locale?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: locale_release_optional_handle)
+}
+
+// Primitives
 
 // catch primitive types
 internal func copyFromCType<T>(_ primitive: T) -> T {

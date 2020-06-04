@@ -47,6 +47,7 @@ let allTests = [
     testCase(ListenersReturnValuesTests.allTests),
     testCase(ListenersTests.allTests),
     testCase(ListenersWithDictionaries.allTests),
+    testCase(LocalesTests.allTests),
     testCase(MapsTests.allTests),
     testCase(MethodOverloadsTests.allTests),
     testCase(MultiListenerTests.allTests),
