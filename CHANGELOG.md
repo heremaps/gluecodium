@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 7.0.5
+Release date: 2020-06-04
+### Bug fixes:
+  * Fixed runtime issue with stale cache references in Java.
+
 ## 7.0.4
 Release date: 2020-06-02
 ### Bug fixes:
