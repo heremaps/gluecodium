@@ -142,6 +142,37 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue,
         : {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >{};
 }
 
+{{>common/InternalNamespace}}Locale
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}Locale*) {
+    if (!jvalue) {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
+        env->ThrowNew(exceptionClass.get(), "");
+        return {{>common/InternalNamespace}}Locale();
+    }
+
+    auto languageCode = call_java_method<jstring>(env, jvalue, "getLanguage", "()Ljava/lang/String;");
+    auto countryCode = call_java_method<jstring>(env, jvalue, "getCountry", "()Ljava/lang/String;");
+    auto scriptCode = call_java_method<jstring>(env, jvalue, "getScript", "()Ljava/lang/String;");
+    auto languageTag = call_java_method<jstring>(env, jvalue, "toLanguageTag", "()Ljava/lang/String;");
+
+    return {{>common/InternalNamespace}}Locale(
+        convert_from_jni(env, languageCode, (std::string*)nullptr),
+        convert_from_jni(env, countryCode, (std::string*)nullptr),
+        convert_from_jni(env, scriptCode, (std::string*)nullptr),
+        convert_from_jni(env, languageTag, (std::string*)nullptr)
+    );
+}
+
+{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue,
+                 {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*)
+{
+    return jvalue
+        ? {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>(
+            convert_from_jni(env, jvalue, ({{>common/InternalNamespace}}Locale*)nullptr))
+        : {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>{};
+}
+
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 JniReference<jstring>
@@ -195,6 +226,46 @@ convert_to_jni( JNIEnv* env,
                 const {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >& nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue) {
+    auto localeBuilderClass = find_class(env, "java/util/Locale$Builder");
+    auto builder = create_object(env, localeBuilderClass);
+    if (nvalue.language_tag) {
+        // BCP 47 language tag takes precedence if present.
+        call_java_method<jobject>(
+            env, builder, "setLanguageTag", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
+            convert_to_jni(env, nvalue.language_tag)
+        );
+        if (env->ExceptionOccurred()) return {};
+    } else {
+        // java.util.Locale has no constructor that takes "script" code,
+        // so Locale.Builder has to be used instead to create a Locale from ISO codes.
+        call_java_method<jobject>(
+            env, builder, "setLanguage", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
+            convert_to_jni(env, nvalue.language_code)
+        );
+        if (env->ExceptionOccurred()) return {};
+
+        call_java_method<jobject>(
+            env, builder, "setRegion", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
+            convert_to_jni(env, nvalue.country_code)
+        );
+        if (env->ExceptionOccurred()) return {};
+
+        call_java_method<jobject>(
+            env, builder, "setScript", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
+            convert_to_jni(env, nvalue.script_code)
+        );
+        if (env->ExceptionOccurred()) return {};
+    }
+    return call_java_method<jobject>(env, builder, "build", "()Ljava/util/Locale;");
+}
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>& nvalue) {
+    return nvalue ? convert_to_jni(env, *nvalue) : JniReference<jobject>{};
 }
 
 }

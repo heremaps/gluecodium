@@ -25,6 +25,7 @@
 #include <jni.h>
 
 #include "JniReference.h"
+#include "{{>common/InternalInclude}}Locale.h"
 #include "{{>common/InternalInclude}}Optional.h"
 
 #include <chrono>
@@ -71,6 +72,15 @@ std::chrono::system_clock::time_point convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue,
     {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>* );
 
+/**
+ * Converts a Java Locale object to {{>common/InternalNamespace}}Locale.
+ */
+{{>common/InternalNamespace}}Locale convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}Locale*);
+{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue,
+    {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*);
+
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 /**
@@ -92,6 +102,13 @@ JniReference<jbyteArray> convert_to_jni(
 JniReference<jobject> convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue );
 JniReference<jobject> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>& nvalue );
+
+/**
+ * Converts {{>common/InternalNamespace}}Locale to a Java Date object.
+ */
+JniReference<jobject> convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue);
+JniReference<jobject> convert_to_jni(
+    JNIEnv* env, const {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>& nvalue);
 
 // -------------------- optional<std::function<>> conversion functions -----------------------------
 
