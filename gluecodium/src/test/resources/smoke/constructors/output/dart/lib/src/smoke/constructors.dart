@@ -169,9 +169,11 @@ class Constructors$Impl implements Constructors {
     if (_fromString_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _fromString_return_get_error(__call_result_handle);
         _fromString_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Constructors_ErrorEnum_fromFfi(__error_handle);
-        smoke_Constructors_ErrorEnum_releaseFfiHandle(__error_handle);
-        throw Constructors_ConstructorExplodedException(_error_value);
+        try {
+          throw Constructors_ConstructorExplodedException(smoke_Constructors_ErrorEnum_fromFfi(__error_handle));
+        } finally {
+          smoke_Constructors_ErrorEnum_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _fromString_return_get_result(__call_result_handle);
     _fromString_return_release_handle(__call_result_handle);

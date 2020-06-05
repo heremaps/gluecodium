@@ -54,8 +54,11 @@ List<double> foobar_ListOf_Float_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_Float_iterator(handle);
   while (_foobar_ListOf_Float_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_Float_iterator_get(_iterator_handle);
-    result.add((_element_handle));
-    (_element_handle);
+    try {
+      result.add((_element_handle));
+    } finally {
+      (_element_handle);
+    }
     _foobar_ListOf_Float_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_Float_iterator_release_handle(_iterator_handle);
@@ -136,8 +139,11 @@ List<int> foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_Int_iterator(handle);
   while (_foobar_ListOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_Int_iterator_get(_iterator_handle);
-    result.add((_element_handle));
-    (_element_handle);
+    try {
+      result.add((_element_handle));
+    } finally {
+      (_element_handle);
+    }
     _foobar_ListOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_Int_iterator_release_handle(_iterator_handle);
@@ -218,8 +224,11 @@ List<String> foobar_ListOf_String_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_String_iterator(handle);
   while (_foobar_ListOf_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_String_iterator_get(_iterator_handle);
-    result.add(String_fromFfi(_element_handle));
-    String_releaseFfiHandle(_element_handle);
+    try {
+      result.add(String_fromFfi(_element_handle));
+    } finally {
+      String_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_String_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_String_iterator_release_handle(_iterator_handle);
@@ -300,8 +309,11 @@ List<int> foobar_ListOf_UByte_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_UByte_iterator(handle);
   while (_foobar_ListOf_UByte_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_UByte_iterator_get(_iterator_handle);
-    result.add((_element_handle));
-    (_element_handle);
+    try {
+      result.add((_element_handle));
+    } finally {
+      (_element_handle);
+    }
     _foobar_ListOf_UByte_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_UByte_iterator_release_handle(_iterator_handle);
@@ -382,8 +394,11 @@ List<List<int>> foobar_ListOf_foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_foobar_ListOf_Int_iterator(handle);
   while (_foobar_ListOf_foobar_ListOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_foobar_ListOf_Int_iterator_get(_iterator_handle);
-    result.add(foobar_ListOf_Int_fromFfi(_element_handle));
-    foobar_ListOf_Int_releaseFfiHandle(_element_handle);
+    try {
+      result.add(foobar_ListOf_Int_fromFfi(_element_handle));
+    } finally {
+      foobar_ListOf_Int_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_foobar_ListOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_foobar_ListOf_Int_iterator_release_handle(_iterator_handle);
@@ -464,8 +479,11 @@ List<Map<int, bool>> foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<V
   final _iterator_handle = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator(handle);
   while (_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get(_iterator_handle);
-    result.add(foobar_MapOf_Int_to_Boolean_fromFfi(_element_handle));
-    foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_element_handle);
+    try {
+      result.add(foobar_MapOf_Int_to_Boolean_fromFfi(_element_handle));
+    } finally {
+      foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -546,8 +564,11 @@ List<Set<int>> foobar_ListOf_foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_foobar_SetOf_Int_iterator(handle);
   while (_foobar_ListOf_foobar_SetOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_foobar_SetOf_Int_iterator_get(_iterator_handle);
-    result.add(foobar_SetOf_Int_fromFfi(_element_handle));
-    foobar_SetOf_Int_releaseFfiHandle(_element_handle);
+    try {
+      result.add(foobar_SetOf_Int_fromFfi(_element_handle));
+    } finally {
+      foobar_SetOf_Int_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_foobar_SetOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_foobar_SetOf_Int_iterator_release_handle(_iterator_handle);
@@ -628,8 +649,11 @@ List<AnotherDummyClass> foobar_ListOf_smoke_AnotherDummyClass_fromFfi(Pointer<Vo
   final _iterator_handle = _foobar_ListOf_smoke_AnotherDummyClass_iterator(handle);
   while (_foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_AnotherDummyClass_iterator_get(_iterator_handle);
-    result.add(smoke_AnotherDummyClass_fromFfi(_element_handle));
-    smoke_AnotherDummyClass_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_AnotherDummyClass_fromFfi(_element_handle));
+    } finally {
+      smoke_AnotherDummyClass_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_AnotherDummyClass_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_AnotherDummyClass_iterator_release_handle(_iterator_handle);
@@ -710,8 +734,11 @@ List<DummyClass> foobar_ListOf_smoke_DummyClass_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_ListOf_smoke_DummyClass_iterator(handle);
   while (_foobar_ListOf_smoke_DummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_DummyClass_iterator_get(_iterator_handle);
-    result.add(smoke_DummyClass_fromFfi(_element_handle));
-    smoke_DummyClass_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_DummyClass_fromFfi(_element_handle));
+    } finally {
+      smoke_DummyClass_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_DummyClass_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_DummyClass_iterator_release_handle(_iterator_handle);
@@ -792,8 +819,11 @@ List<DummyInterface> foobar_ListOf_smoke_DummyInterface_fromFfi(Pointer<Void> ha
   final _iterator_handle = _foobar_ListOf_smoke_DummyInterface_iterator(handle);
   while (_foobar_ListOf_smoke_DummyInterface_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_DummyInterface_iterator_get(_iterator_handle);
-    result.add(smoke_DummyInterface_fromFfi(_element_handle));
-    smoke_DummyInterface_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_DummyInterface_fromFfi(_element_handle));
+    } finally {
+      smoke_DummyInterface_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_DummyInterface_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_DummyInterface_iterator_release_handle(_iterator_handle);
@@ -874,8 +904,11 @@ List<GenericTypesWithCompoundTypes_BasicStruct> foobar_ListOf_smoke_GenericTypes
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get(_iterator_handle);
-    result.add(smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_element_handle));
-    smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_element_handle));
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(_iterator_handle);
@@ -956,8 +989,11 @@ List<GenericTypesWithCompoundTypes_ExternalEnum> foobar_ListOf_smoke_GenericType
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(_iterator_handle);
-    result.add(smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_element_handle));
-    smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_element_handle));
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(_iterator_handle);
@@ -1038,8 +1074,11 @@ List<GenericTypesWithCompoundTypes_ExternalStruct> foobar_ListOf_smoke_GenericTy
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get(_iterator_handle);
-    result.add(smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_element_handle));
-    smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_element_handle));
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(_iterator_handle);
@@ -1120,8 +1159,11 @@ List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWit
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(_iterator_handle);
-    result.add(smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_element_handle));
-    smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_element_handle));
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(_iterator_handle);
@@ -1202,8 +1244,11 @@ List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi(Poin
   final _iterator_handle = _foobar_ListOf_smoke_YetAnotherDummyClass_iterator(handle);
   while (_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get(_iterator_handle);
-    result.add(smoke_YetAnotherDummyClass_fromFfi(_element_handle));
-    smoke_YetAnotherDummyClass_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_YetAnotherDummyClass_fromFfi(_element_handle));
+    } finally {
+      smoke_YetAnotherDummyClass_releaseFfiHandle(_element_handle);
+    }
     _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment(_iterator_handle);
   }
   _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle(_iterator_handle);
@@ -1291,10 +1336,13 @@ Map<double, double> foobar_MapOf_Float_to_Double_fromFfi(Pointer<Void> handle) {
   while (_foobar_MapOf_Float_to_Double_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Float_to_Double_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Float_to_Double_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
+    try {
+      result[(_key_handle)] =
+        (_value_handle);
+    } finally {
+      (_key_handle);
       (_value_handle);
-    (_key_handle);
-    (_value_handle);
+    }
     _foobar_MapOf_Float_to_Double_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Float_to_Double_iterator_release_handle(_iterator_handle);
@@ -1382,10 +1430,13 @@ Map<int, bool> foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<Void> handle) {
   while (_foobar_MapOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_Boolean_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      Boolean_fromFfi(_value_handle);
-    (_key_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        Boolean_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -1473,10 +1524,13 @@ Map<int, List<int>> foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi(Pointer<Void> 
   while (_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      foobar_ListOf_Int_fromFfi(_value_handle);
-    (_key_handle);
-    foobar_ListOf_Int_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        foobar_ListOf_Int_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      foobar_ListOf_Int_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_release_handle(_iterator_handle);
@@ -1564,10 +1618,13 @@ Map<int, Map<int, bool>> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_fromFfi
   while (_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      foobar_MapOf_Int_to_Boolean_fromFfi(_value_handle);
-    (_key_handle);
-    foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        foobar_MapOf_Int_to_Boolean_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -1655,10 +1712,13 @@ Map<int, Set<int>> foobar_MapOf_Int_to_foobar_SetOf_Int_fromFfi(Pointer<Void> ha
   while (_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      foobar_SetOf_Int_fromFfi(_value_handle);
-    (_key_handle);
-    foobar_SetOf_Int_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        foobar_SetOf_Int_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      foobar_SetOf_Int_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_release_handle(_iterator_handle);
@@ -1746,10 +1806,13 @@ Map<int, DummyClass> foobar_MapOf_Int_to_smoke_DummyClass_fromFfi(Pointer<Void> 
   while (_foobar_MapOf_Int_to_smoke_DummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      smoke_DummyClass_fromFfi(_value_handle);
-    (_key_handle);
-    smoke_DummyClass_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        smoke_DummyClass_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      smoke_DummyClass_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_smoke_DummyClass_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_smoke_DummyClass_iterator_release_handle(_iterator_handle);
@@ -1837,10 +1900,13 @@ Map<int, DummyInterface> foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi(Pointe
   while (_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      smoke_DummyInterface_fromFfi(_value_handle);
-    (_key_handle);
-    smoke_DummyInterface_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        smoke_DummyInterface_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      smoke_DummyInterface_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_release_handle(_iterator_handle);
@@ -1928,10 +1994,13 @@ Map<int, GenericTypesWithCompoundTypes_ExternalEnum> foobar_MapOf_Int_to_smoke_G
   while (_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_value_handle);
-    (_key_handle);
-    smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(_iterator_handle);
@@ -2019,10 +2088,13 @@ Map<int, GenericTypesWithCompoundTypes_SomeEnum> foobar_MapOf_Int_to_smoke_Gener
   while (_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_value_handle);
-    (_key_handle);
-    smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(_iterator_handle);
@@ -2110,10 +2182,13 @@ Map<String, String> foobar_MapOf_String_to_String_fromFfi(Pointer<Void> handle) 
   while (_foobar_MapOf_String_to_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_String_to_String_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_String_to_String_iterator_get_value(_iterator_handle);
-    result[String_fromFfi(_key_handle)] =
-      String_fromFfi(_value_handle);
-    String_releaseFfiHandle(_key_handle);
-    String_releaseFfiHandle(_value_handle);
+    try {
+      result[String_fromFfi(_key_handle)] =
+        String_fromFfi(_value_handle);
+    } finally {
+      String_releaseFfiHandle(_key_handle);
+      String_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_String_to_String_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_String_to_String_iterator_release_handle(_iterator_handle);
@@ -2201,10 +2276,13 @@ Map<String, GenericTypesWithCompoundTypes_BasicStruct> foobar_MapOf_String_to_sm
   while (_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value(_iterator_handle);
-    result[String_fromFfi(_key_handle)] =
-      smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_value_handle);
-    String_releaseFfiHandle(_key_handle);
-    smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_value_handle);
+    try {
+      result[String_fromFfi(_key_handle)] =
+        smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_value_handle);
+    } finally {
+      String_releaseFfiHandle(_key_handle);
+      smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(_iterator_handle);
@@ -2292,10 +2370,13 @@ Map<String, GenericTypesWithCompoundTypes_ExternalStruct> foobar_MapOf_String_to
   while (_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value(_iterator_handle);
-    result[String_fromFfi(_key_handle)] =
-      smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_value_handle);
-    String_releaseFfiHandle(_key_handle);
-    smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_value_handle);
+    try {
+      result[String_fromFfi(_key_handle)] =
+        smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_value_handle);
+    } finally {
+      String_releaseFfiHandle(_key_handle);
+      smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(_iterator_handle);
@@ -2383,10 +2464,13 @@ Map<int, String> foobar_MapOf_UByte_to_String_fromFfi(Pointer<Void> handle) {
   while (_foobar_MapOf_UByte_to_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_UByte_to_String_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_UByte_to_String_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      String_fromFfi(_value_handle);
-    (_key_handle);
-    String_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        String_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      String_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_UByte_to_String_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_UByte_to_String_iterator_release_handle(_iterator_handle);
@@ -2474,10 +2558,13 @@ Map<List<int>, bool> foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi(Pointer<V
   while (_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_value(_iterator_handle);
-    result[foobar_ListOf_Int_fromFfi(_key_handle)] =
-      Boolean_fromFfi(_value_handle);
-    foobar_ListOf_Int_releaseFfiHandle(_key_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[foobar_ListOf_Int_fromFfi(_key_handle)] =
+        Boolean_fromFfi(_value_handle);
+    } finally {
+      foobar_ListOf_Int_releaseFfiHandle(_key_handle);
+      Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -2565,10 +2652,13 @@ Map<Map<int, bool>, bool> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fr
   while (_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_value(_iterator_handle);
-    result[foobar_MapOf_Int_to_Boolean_fromFfi(_key_handle)] =
-      Boolean_fromFfi(_value_handle);
-    foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_key_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[foobar_MapOf_Int_to_Boolean_fromFfi(_key_handle)] =
+        Boolean_fromFfi(_value_handle);
+    } finally {
+      foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_key_handle);
+      Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -2656,10 +2746,13 @@ Map<Set<int>, bool> foobar_MapOf_foobar_SetOf_Int_to_Boolean_fromFfi(Pointer<Voi
   while (_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_value(_iterator_handle);
-    result[foobar_SetOf_Int_fromFfi(_key_handle)] =
-      Boolean_fromFfi(_value_handle);
-    foobar_SetOf_Int_releaseFfiHandle(_key_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[foobar_SetOf_Int_fromFfi(_key_handle)] =
+        Boolean_fromFfi(_value_handle);
+    } finally {
+      foobar_SetOf_Int_releaseFfiHandle(_key_handle);
+      Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -2747,10 +2840,13 @@ Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> foobar_MapOf_smoke_Generic
   while (_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value(_iterator_handle);
-    result[smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_key_handle)] =
-      Boolean_fromFfi(_value_handle);
-    smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_key_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_key_handle)] =
+        Boolean_fromFfi(_value_handle);
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_key_handle);
+      Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -2838,10 +2934,13 @@ Map<GenericTypesWithCompoundTypes_SomeEnum, bool> foobar_MapOf_smoke_GenericType
   while (_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key(_iterator_handle);
     final _value_handle = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value(_iterator_handle);
-    result[smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_key_handle)] =
-      Boolean_fromFfi(_value_handle);
-    smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_key_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      result[smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_key_handle)] =
+        Boolean_fromFfi(_value_handle);
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_key_handle);
+      Boolean_releaseFfiHandle(_value_handle);
+    }
     _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -2922,8 +3021,11 @@ Set<double> foobar_SetOf_Float_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_SetOf_Float_iterator(handle);
   while (_foobar_SetOf_Float_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_Float_iterator_get(_iterator_handle);
-    result.add((_element_handle));
-    (_element_handle);
+    try {
+      result.add((_element_handle));
+    } finally {
+      (_element_handle);
+    }
     _foobar_SetOf_Float_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_Float_iterator_release_handle(_iterator_handle);
@@ -3004,8 +3106,11 @@ Set<int> foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_SetOf_Int_iterator(handle);
   while (_foobar_SetOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_Int_iterator_get(_iterator_handle);
-    result.add((_element_handle));
-    (_element_handle);
+    try {
+      result.add((_element_handle));
+    } finally {
+      (_element_handle);
+    }
     _foobar_SetOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_Int_iterator_release_handle(_iterator_handle);
@@ -3086,8 +3191,11 @@ Set<String> foobar_SetOf_String_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_SetOf_String_iterator(handle);
   while (_foobar_SetOf_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_String_iterator_get(_iterator_handle);
-    result.add(String_fromFfi(_element_handle));
-    String_releaseFfiHandle(_element_handle);
+    try {
+      result.add(String_fromFfi(_element_handle));
+    } finally {
+      String_releaseFfiHandle(_element_handle);
+    }
     _foobar_SetOf_String_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_String_iterator_release_handle(_iterator_handle);
@@ -3168,8 +3276,11 @@ Set<int> foobar_SetOf_UByte_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_SetOf_UByte_iterator(handle);
   while (_foobar_SetOf_UByte_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_UByte_iterator_get(_iterator_handle);
-    result.add((_element_handle));
-    (_element_handle);
+    try {
+      result.add((_element_handle));
+    } finally {
+      (_element_handle);
+    }
     _foobar_SetOf_UByte_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_UByte_iterator_release_handle(_iterator_handle);
@@ -3250,8 +3361,11 @@ Set<List<int>> foobar_SetOf_foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_SetOf_foobar_ListOf_Int_iterator(handle);
   while (_foobar_SetOf_foobar_ListOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_foobar_ListOf_Int_iterator_get(_iterator_handle);
-    result.add(foobar_ListOf_Int_fromFfi(_element_handle));
-    foobar_ListOf_Int_releaseFfiHandle(_element_handle);
+    try {
+      result.add(foobar_ListOf_Int_fromFfi(_element_handle));
+    } finally {
+      foobar_ListOf_Int_releaseFfiHandle(_element_handle);
+    }
     _foobar_SetOf_foobar_ListOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_foobar_ListOf_Int_iterator_release_handle(_iterator_handle);
@@ -3332,8 +3446,11 @@ Set<Map<int, bool>> foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<Voi
   final _iterator_handle = _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator(handle);
   while (_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_get(_iterator_handle);
-    result.add(foobar_MapOf_Int_to_Boolean_fromFfi(_element_handle));
-    foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_element_handle);
+    try {
+      result.add(foobar_MapOf_Int_to_Boolean_fromFfi(_element_handle));
+    } finally {
+      foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_element_handle);
+    }
     _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle(_iterator_handle);
@@ -3414,8 +3531,11 @@ Set<Set<int>> foobar_SetOf_foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _foobar_SetOf_foobar_SetOf_Int_iterator(handle);
   while (_foobar_SetOf_foobar_SetOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_foobar_SetOf_Int_iterator_get(_iterator_handle);
-    result.add(foobar_SetOf_Int_fromFfi(_element_handle));
-    foobar_SetOf_Int_releaseFfiHandle(_element_handle);
+    try {
+      result.add(foobar_SetOf_Int_fromFfi(_element_handle));
+    } finally {
+      foobar_SetOf_Int_releaseFfiHandle(_element_handle);
+    }
     _foobar_SetOf_foobar_SetOf_Int_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_foobar_SetOf_Int_iterator_release_handle(_iterator_handle);
@@ -3496,8 +3616,11 @@ Set<GenericTypesWithCompoundTypes_ExternalEnum> foobar_SetOf_smoke_GenericTypesW
   final _iterator_handle = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(handle);
   while (_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(_iterator_handle);
-    result.add(smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_element_handle));
-    smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_element_handle));
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_element_handle);
+    }
     _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(_iterator_handle);
@@ -3578,8 +3701,11 @@ Set<GenericTypesWithCompoundTypes_SomeEnum> foobar_SetOf_smoke_GenericTypesWithC
   final _iterator_handle = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(handle);
   while (_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(_iterator_handle);
-    result.add(smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_element_handle));
-    smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_element_handle);
+    try {
+      result.add(smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_element_handle));
+    } finally {
+      smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_element_handle);
+    }
     _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(_iterator_handle);
   }
   _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(_iterator_handle);

@@ -61,11 +61,13 @@ Pointer<Void> smoke_CalculatorListener_ResultStruct_toFfi(CalculatorListener_Res
 }
 CalculatorListener_ResultStruct smoke_CalculatorListener_ResultStruct_fromFfi(Pointer<Void> handle) {
   final _result_handle = _smoke_CalculatorListener_ResultStruct_get_field_result(handle);
-  final _result = CalculatorListener_ResultStruct(
-    (_result_handle)
-  );
-  (_result_handle);
-  return _result;
+  try {
+    return CalculatorListener_ResultStruct(
+      (_result_handle)
+    );
+  } finally {
+    (_result_handle);
+  }
 }
 void smoke_CalculatorListener_ResultStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_CalculatorListener_ResultStruct_release_handle(handle);
 // Nullable CalculatorListener_ResultStruct
@@ -180,9 +182,11 @@ class CalculatorListener$Impl implements CalculatorListener {
     final _handle = this.handle;
     final __result_handle = _onCalculationResult_ffi(_handle, __lib.LibraryContext.isolateId, _calculationResult_handle);
     (_calculationResult_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   onCalculationResultConst(double calculationResult) {
@@ -191,9 +195,11 @@ class CalculatorListener$Impl implements CalculatorListener {
     final _handle = this.handle;
     final __result_handle = _onCalculationResultConst_ffi(_handle, __lib.LibraryContext.isolateId, _calculationResult_handle);
     (_calculationResult_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult) {
@@ -202,9 +208,11 @@ class CalculatorListener$Impl implements CalculatorListener {
     final _handle = this.handle;
     final __result_handle = _onCalculationResultStruct_ffi(_handle, __lib.LibraryContext.isolateId, _calculationResult_handle);
     smoke_CalculatorListener_ResultStruct_releaseFfiHandle(_calculationResult_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   onCalculationResultArray(List<double> calculationResult) {
@@ -213,9 +221,11 @@ class CalculatorListener$Impl implements CalculatorListener {
     final _handle = this.handle;
     final __result_handle = _onCalculationResultArray_ffi(_handle, __lib.LibraryContext.isolateId, _calculationResult_handle);
     ListOf_Double_releaseFfiHandle(_calculationResult_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   onCalculationResultMap(Map<String, double> calculationResults) {
@@ -224,9 +234,11 @@ class CalculatorListener$Impl implements CalculatorListener {
     final _handle = this.handle;
     final __result_handle = _onCalculationResultMap_ffi(_handle, __lib.LibraryContext.isolateId, _calculationResults_handle);
     MapOf_String_to_Double_releaseFfiHandle(_calculationResults_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   onCalculationResultInstance(CalculationResult calculationResult) {
@@ -235,45 +247,59 @@ class CalculatorListener$Impl implements CalculatorListener {
     final _handle = this.handle;
     final __result_handle = _onCalculationResultInstance_ffi(_handle, __lib.LibraryContext.isolateId, _calculationResult_handle);
     smoke_CalculationResult_releaseFfiHandle(_calculationResult_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 int _CalculatorListener_onCalculationResult_static(int _token, double calculationResult) {
-  final __calculationResult = (calculationResult);
-  (calculationResult);
-  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResult(__calculationResult);
+  try {
+    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResult((calculationResult));
+  } finally {
+    (calculationResult);
+  }
   return 0;
 }
 int _CalculatorListener_onCalculationResultConst_static(int _token, double calculationResult) {
-  final __calculationResult = (calculationResult);
-  (calculationResult);
-  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultConst(__calculationResult);
+  try {
+    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultConst((calculationResult));
+  } finally {
+    (calculationResult);
+  }
   return 0;
 }
 int _CalculatorListener_onCalculationResultStruct_static(int _token, Pointer<Void> calculationResult) {
-  final __calculationResult = smoke_CalculatorListener_ResultStruct_fromFfi(calculationResult);
-  smoke_CalculatorListener_ResultStruct_releaseFfiHandle(calculationResult);
-  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultStruct(__calculationResult);
+  try {
+    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultStruct(smoke_CalculatorListener_ResultStruct_fromFfi(calculationResult));
+  } finally {
+    smoke_CalculatorListener_ResultStruct_releaseFfiHandle(calculationResult);
+  }
   return 0;
 }
 int _CalculatorListener_onCalculationResultArray_static(int _token, Pointer<Void> calculationResult) {
-  final __calculationResult = ListOf_Double_fromFfi(calculationResult);
-  ListOf_Double_releaseFfiHandle(calculationResult);
-  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultArray(__calculationResult);
+  try {
+    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultArray(ListOf_Double_fromFfi(calculationResult));
+  } finally {
+    ListOf_Double_releaseFfiHandle(calculationResult);
+  }
   return 0;
 }
 int _CalculatorListener_onCalculationResultMap_static(int _token, Pointer<Void> calculationResults) {
-  final __calculationResults = MapOf_String_to_Double_fromFfi(calculationResults);
-  MapOf_String_to_Double_releaseFfiHandle(calculationResults);
-  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultMap(__calculationResults);
+  try {
+    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultMap(MapOf_String_to_Double_fromFfi(calculationResults));
+  } finally {
+    MapOf_String_to_Double_releaseFfiHandle(calculationResults);
+  }
   return 0;
 }
 int _CalculatorListener_onCalculationResultInstance_static(int _token, Pointer<Void> calculationResult) {
-  final __calculationResult = smoke_CalculationResult_fromFfi(calculationResult);
-  smoke_CalculationResult_releaseFfiHandle(calculationResult);
-  (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultInstance(__calculationResult);
+  try {
+    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultInstance(smoke_CalculationResult_fromFfi(calculationResult));
+  } finally {
+    smoke_CalculationResult_releaseFfiHandle(calculationResult);
+  }
   return 0;
 }
 Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {

@@ -73,9 +73,11 @@ class MultiLineComments$Impl implements MultiLineComments {
     final __result_handle = _someMethodWithLongComment_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle, _ratio_handle);
     String_releaseFfiHandle(_input_handle);
     (_ratio_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_MultiLineComments_toFfi(MultiLineComments value) =>

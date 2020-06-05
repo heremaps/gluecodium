@@ -3,7 +3,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 enum werrEnum {
     WEE_ITEM
 }
@@ -66,9 +65,11 @@ class weeStruct {
     final _WeeParameter_handle = String_toFfi(WeeParameter);
     final __result_handle = _WeeCreate_ffi(__lib.LibraryContext.isolateId, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
-    final _result = smoke_PlatformNames_BasicStruct_fromFfi(__result_handle);
-    smoke_PlatformNames_BasicStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_PlatformNames_BasicStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_PlatformNames_BasicStruct_releaseFfiHandle(__result_handle);
+    }
   }
 }
 // weeStruct "private" section, not exported.
@@ -92,11 +93,13 @@ Pointer<Void> smoke_PlatformNames_BasicStruct_toFfi(weeStruct value) {
 }
 weeStruct smoke_PlatformNames_BasicStruct_fromFfi(Pointer<Void> handle) {
   final _WEE_FIELD_handle = _smoke_PlatformNames_BasicStruct_get_field_stringField(handle);
-  final _result = weeStruct._(
-    String_fromFfi(_WEE_FIELD_handle)
-  );
-  String_releaseFfiHandle(_WEE_FIELD_handle);
-  return _result;
+  try {
+    return weeStruct._(
+      String_fromFfi(_WEE_FIELD_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_WEE_FIELD_handle);
+  }
 }
 void smoke_PlatformNames_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PlatformNames_BasicStruct_release_handle(handle);
 // Nullable weeStruct

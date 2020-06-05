@@ -78,9 +78,11 @@ class SimpleInterface$Impl implements SimpleInterface {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue');
     final _handle = this.handle;
     final __result_handle = _getStringValue_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) {
@@ -89,22 +91,31 @@ class SimpleInterface$Impl implements SimpleInterface {
     final _handle = this.handle;
     final __result_handle = _useSimpleInterface_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_SimpleInterface_releaseFfiHandle(_input_handle);
-    final _result = smoke_SimpleInterface_fromFfi(__result_handle);
-    smoke_SimpleInterface_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_SimpleInterface_fromFfi(__result_handle);
+    } finally {
+      smoke_SimpleInterface_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _SimpleInterface_getStringValue_static(int _token, Pointer<Pointer<Void>> _result) {
-  final _result_object = (__lib.instanceCache[_token] as SimpleInterface).getStringValue();
-  _result.value = String_toFfi(_result_object);
+  String _result_object = null;
+  try {
+    _result_object = (__lib.instanceCache[_token] as SimpleInterface).getStringValue();
+    _result.value = String_toFfi(_result_object);
+  } finally {
+  }
   return 0;
 }
 int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  final __input = smoke_SimpleInterface_fromFfi(input);
-  smoke_SimpleInterface_releaseFfiHandle(input);
-  final _result_object = (__lib.instanceCache[_token] as SimpleInterface).useSimpleInterface(__input);
-  _result.value = smoke_SimpleInterface_toFfi(_result_object);
-  if (_result_object != null) _result_object.release();
+  SimpleInterface _result_object = null;
+  try {
+    _result_object = (__lib.instanceCache[_token] as SimpleInterface).useSimpleInterface(smoke_SimpleInterface_fromFfi(input));
+    _result.value = smoke_SimpleInterface_toFfi(_result_object);
+  } finally {
+    smoke_SimpleInterface_releaseFfiHandle(input);
+    if (_result_object != null) _result_object.release();
+  }
   return 0;
 }
 Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {

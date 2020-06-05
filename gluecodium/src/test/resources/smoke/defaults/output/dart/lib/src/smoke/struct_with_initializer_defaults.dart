@@ -64,19 +64,21 @@ StructWithInitializerDefaults smoke_StructWithInitializerDefaults_fromFfi(Pointe
   final _structField_handle = _smoke_StructWithInitializerDefaults_get_field_structField(handle);
   final _setTypeField_handle = _smoke_StructWithInitializerDefaults_get_field_setTypeField(handle);
   final _mapField_handle = _smoke_StructWithInitializerDefaults_get_field_mapField(handle);
-  final _result = StructWithInitializerDefaults(
-    ListOf_Int_fromFfi(_intsField_handle),
-    ListOf_Float_fromFfi(_floatsField_handle),
-    smoke_TypesWithDefaults_StructWithAnEnum_fromFfi(_structField_handle),
-    SetOf_String_fromFfi(_setTypeField_handle),
-    MapOf_UInt_to_String_fromFfi(_mapField_handle)
-  );
-  ListOf_Int_releaseFfiHandle(_intsField_handle);
-  ListOf_Float_releaseFfiHandle(_floatsField_handle);
-  smoke_TypesWithDefaults_StructWithAnEnum_releaseFfiHandle(_structField_handle);
-  SetOf_String_releaseFfiHandle(_setTypeField_handle);
-  MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
-  return _result;
+  try {
+    return StructWithInitializerDefaults(
+      ListOf_Int_fromFfi(_intsField_handle),
+      ListOf_Float_fromFfi(_floatsField_handle),
+      smoke_TypesWithDefaults_StructWithAnEnum_fromFfi(_structField_handle),
+      SetOf_String_fromFfi(_setTypeField_handle),
+      MapOf_UInt_to_String_fromFfi(_mapField_handle)
+    );
+  } finally {
+    ListOf_Int_releaseFfiHandle(_intsField_handle);
+    ListOf_Float_releaseFfiHandle(_floatsField_handle);
+    smoke_TypesWithDefaults_StructWithAnEnum_releaseFfiHandle(_structField_handle);
+    SetOf_String_releaseFfiHandle(_setTypeField_handle);
+    MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
+  }
 }
 void smoke_StructWithInitializerDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructWithInitializerDefaults_release_handle(handle);
 // Nullable StructWithInitializerDefaults

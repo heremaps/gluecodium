@@ -139,23 +139,25 @@ StructWithDefaults smoke_TypesWithDefaults_StructWithDefaults_fromFfi(Pointer<Vo
   final _boolField_handle = _smoke_TypesWithDefaults_StructWithDefaults_get_field_boolField(handle);
   final _stringField_handle = _smoke_TypesWithDefaults_StructWithDefaults_get_field_stringField(handle);
   final _enumField_handle = _smoke_TypesWithDefaults_StructWithDefaults_get_field_enumField(handle);
-  final _result = StructWithDefaults(
-    (_intField_handle),
-    (_uintField_handle),
-    (_floatField_handle),
-    (_doubleField_handle),
-    Boolean_fromFfi(_boolField_handle),
-    String_fromFfi(_stringField_handle),
-    smoke_TypesWithDefaults_SomeEnum_fromFfi(_enumField_handle)
-  );
-  (_intField_handle);
-  (_uintField_handle);
-  (_floatField_handle);
-  (_doubleField_handle);
-  Boolean_releaseFfiHandle(_boolField_handle);
-  String_releaseFfiHandle(_stringField_handle);
-  smoke_TypesWithDefaults_SomeEnum_releaseFfiHandle(_enumField_handle);
-  return _result;
+  try {
+    return StructWithDefaults(
+      (_intField_handle),
+      (_uintField_handle),
+      (_floatField_handle),
+      (_doubleField_handle),
+      Boolean_fromFfi(_boolField_handle),
+      String_fromFfi(_stringField_handle),
+      smoke_TypesWithDefaults_SomeEnum_fromFfi(_enumField_handle)
+    );
+  } finally {
+    (_intField_handle);
+    (_uintField_handle);
+    (_floatField_handle);
+    (_doubleField_handle);
+    Boolean_releaseFfiHandle(_boolField_handle);
+    String_releaseFfiHandle(_stringField_handle);
+    smoke_TypesWithDefaults_SomeEnum_releaseFfiHandle(_enumField_handle);
+  }
 }
 void smoke_TypesWithDefaults_StructWithDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypesWithDefaults_StructWithDefaults_release_handle(handle);
 // Nullable StructWithDefaults
@@ -271,25 +273,27 @@ ImmutableStructWithDefaults smoke_TypesWithDefaults_ImmutableStructWithDefaults_
   final _stringField_handle = _smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_stringField(handle);
   final _enumField_handle = _smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_enumField(handle);
   final _externalEnumField_handle = _smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_externalEnumField(handle);
-  final _result = ImmutableStructWithDefaults(
-    (_intField_handle),
-    (_uintField_handle),
-    (_floatField_handle),
-    (_doubleField_handle),
-    Boolean_fromFfi(_boolField_handle),
-    String_fromFfi(_stringField_handle),
-    smoke_TypesWithDefaults_SomeEnum_fromFfi(_enumField_handle),
-    smoke_DefaultValues_ExternalEnum_fromFfi(_externalEnumField_handle)
-  );
-  (_intField_handle);
-  (_uintField_handle);
-  (_floatField_handle);
-  (_doubleField_handle);
-  Boolean_releaseFfiHandle(_boolField_handle);
-  String_releaseFfiHandle(_stringField_handle);
-  smoke_TypesWithDefaults_SomeEnum_releaseFfiHandle(_enumField_handle);
-  smoke_DefaultValues_ExternalEnum_releaseFfiHandle(_externalEnumField_handle);
-  return _result;
+  try {
+    return ImmutableStructWithDefaults(
+      (_intField_handle),
+      (_uintField_handle),
+      (_floatField_handle),
+      (_doubleField_handle),
+      Boolean_fromFfi(_boolField_handle),
+      String_fromFfi(_stringField_handle),
+      smoke_TypesWithDefaults_SomeEnum_fromFfi(_enumField_handle),
+      smoke_DefaultValues_ExternalEnum_fromFfi(_externalEnumField_handle)
+    );
+  } finally {
+    (_intField_handle);
+    (_uintField_handle);
+    (_floatField_handle);
+    (_doubleField_handle);
+    Boolean_releaseFfiHandle(_boolField_handle);
+    String_releaseFfiHandle(_stringField_handle);
+    smoke_TypesWithDefaults_SomeEnum_releaseFfiHandle(_enumField_handle);
+    smoke_DefaultValues_ExternalEnum_releaseFfiHandle(_externalEnumField_handle);
+  }
 }
 void smoke_TypesWithDefaults_ImmutableStructWithDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypesWithDefaults_ImmutableStructWithDefaults_release_handle(handle);
 // Nullable ImmutableStructWithDefaults
@@ -349,11 +353,13 @@ Pointer<Void> smoke_TypesWithDefaults_StructWithAnEnum_toFfi(StructWithAnEnum va
 }
 StructWithAnEnum smoke_TypesWithDefaults_StructWithAnEnum_fromFfi(Pointer<Void> handle) {
   final _config_handle = _smoke_TypesWithDefaults_StructWithAnEnum_get_field_config(handle);
-  final _result = StructWithAnEnum(
-    smoke_AnEnum_AnEnum_fromFfi(_config_handle)
-  );
-  smoke_AnEnum_AnEnum_releaseFfiHandle(_config_handle);
-  return _result;
+  try {
+    return StructWithAnEnum(
+      smoke_AnEnum_AnEnum_fromFfi(_config_handle)
+    );
+  } finally {
+    smoke_AnEnum_AnEnum_releaseFfiHandle(_config_handle);
+  }
 }
 void smoke_TypesWithDefaults_StructWithAnEnum_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypesWithDefaults_StructWithAnEnum_release_handle(handle);
 // Nullable StructWithAnEnum

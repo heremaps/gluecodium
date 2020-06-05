@@ -4,7 +4,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 typedef StandaloneProducer = String Function();
 // StandaloneProducer "private" section, not exported.
 final _smoke_StandaloneProducer_copy_handle = __lib.nativeLibrary.lookupFunction<
@@ -32,14 +31,20 @@ class StandaloneProducer$Impl {
     final _call_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StandaloneProducer_call');
     final _handle = this.handle;
     final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _StandaloneProducer_call_static(int _token, Pointer<Pointer<Void>> _result) {
-  final _result_object = (__lib.instanceCache[_token] as StandaloneProducer)();
-  _result.value = String_toFfi(_result_object);
+  String _result_object;
+  try {
+    _result_object = (__lib.instanceCache[_token] as StandaloneProducer)();
+    _result.value = String_toFfi(_result_object);
+  } finally {
+  }
   return 0;
 }
 Pointer<Void> smoke_StandaloneProducer_toFfi(StandaloneProducer value) {

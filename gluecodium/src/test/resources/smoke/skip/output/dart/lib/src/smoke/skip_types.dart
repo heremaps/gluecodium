@@ -36,11 +36,13 @@ Pointer<Void> smoke_SkipTypes_NotInJava_toFfi(SkipTypes_NotInJava value) {
 }
 SkipTypes_NotInJava smoke_SkipTypes_NotInJava_fromFfi(Pointer<Void> handle) {
   final _fooField_handle = _smoke_SkipTypes_NotInJava_get_field_fooField(handle);
-  final _result = SkipTypes_NotInJava(
-    String_fromFfi(_fooField_handle)
-  );
-  String_releaseFfiHandle(_fooField_handle);
-  return _result;
+  try {
+    return SkipTypes_NotInJava(
+      String_fromFfi(_fooField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_fooField_handle);
+  }
 }
 void smoke_SkipTypes_NotInJava_releaseFfiHandle(Pointer<Void> handle) => _smoke_SkipTypes_NotInJava_release_handle(handle);
 // Nullable SkipTypes_NotInJava
@@ -98,11 +100,13 @@ Pointer<Void> smoke_SkipTypes_NotInSwift_toFfi(SkipTypes_NotInSwift value) {
 }
 SkipTypes_NotInSwift smoke_SkipTypes_NotInSwift_fromFfi(Pointer<Void> handle) {
   final _fooField_handle = _smoke_SkipTypes_NotInSwift_get_field_fooField(handle);
-  final _result = SkipTypes_NotInSwift(
-    String_fromFfi(_fooField_handle)
-  );
-  String_releaseFfiHandle(_fooField_handle);
-  return _result;
+  try {
+    return SkipTypes_NotInSwift(
+      String_fromFfi(_fooField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_fooField_handle);
+  }
 }
 void smoke_SkipTypes_NotInSwift_releaseFfiHandle(Pointer<Void> handle) => _smoke_SkipTypes_NotInSwift_release_handle(handle);
 // Nullable SkipTypes_NotInSwift

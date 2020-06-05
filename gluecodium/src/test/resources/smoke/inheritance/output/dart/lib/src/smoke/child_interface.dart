@@ -81,17 +81,25 @@ class ChildInterface$Impl extends ParentInterface$Impl implements ChildInterface
     final _childMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildInterface_childMethod');
     final _handle = this.handle;
     final __result_handle = _childMethod_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 int _ChildInterface_rootMethod_static(int _token) {
-  (__lib.instanceCache[_token] as ChildInterface).rootMethod();
+  try {
+    (__lib.instanceCache[_token] as ChildInterface).rootMethod();
+  } finally {
+  }
   return 0;
 }
 int _ChildInterface_childMethod_static(int _token) {
-  (__lib.instanceCache[_token] as ChildInterface).childMethod();
+  try {
+    (__lib.instanceCache[_token] as ChildInterface).childMethod();
+  } finally {
+  }
   return 0;
 }
 int _ChildInterface_rootProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
@@ -99,9 +107,12 @@ int _ChildInterface_rootProperty_get_static(int _token, Pointer<Pointer<Void>> _
   return 0;
 }
 int _ChildInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
-  final __value = String_fromFfi(_value);
-  String_releaseFfiHandle(_value);
-  (__lib.instanceCache[_token] as ChildInterface).rootProperty = __value;
+  try {
+    (__lib.instanceCache[_token] as ChildInterface).rootProperty =
+      String_fromFfi(_value);
+  } finally {
+    String_releaseFfiHandle(_value);
+  }
   return 0;
 }
 Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {

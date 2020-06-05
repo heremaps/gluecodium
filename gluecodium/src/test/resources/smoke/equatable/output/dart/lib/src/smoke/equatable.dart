@@ -193,29 +193,31 @@ EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
   final _enumField_handle = _smoke_Equatable_EquatableStruct_get_field_enumField(handle);
   final _arrayField_handle = _smoke_Equatable_EquatableStruct_get_field_arrayField(handle);
   final _mapField_handle = _smoke_Equatable_EquatableStruct_get_field_mapField(handle);
-  final _result = EquatableStruct(
-    Boolean_fromFfi(_boolField_handle),
-    (_intField_handle),
-    (_longField_handle),
-    (_floatField_handle),
-    (_doubleField_handle),
-    String_fromFfi(_stringField_handle),
-    smoke_Equatable_NestedEquatableStruct_fromFfi(_structField_handle),
-    smoke_Equatable_SomeEnum_fromFfi(_enumField_handle),
-    ListOf_String_fromFfi(_arrayField_handle),
-    MapOf_Int_to_String_fromFfi(_mapField_handle)
-  );
-  Boolean_releaseFfiHandle(_boolField_handle);
-  (_intField_handle);
-  (_longField_handle);
-  (_floatField_handle);
-  (_doubleField_handle);
-  String_releaseFfiHandle(_stringField_handle);
-  smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_structField_handle);
-  smoke_Equatable_SomeEnum_releaseFfiHandle(_enumField_handle);
-  ListOf_String_releaseFfiHandle(_arrayField_handle);
-  MapOf_Int_to_String_releaseFfiHandle(_mapField_handle);
-  return _result;
+  try {
+    return EquatableStruct(
+      Boolean_fromFfi(_boolField_handle),
+      (_intField_handle),
+      (_longField_handle),
+      (_floatField_handle),
+      (_doubleField_handle),
+      String_fromFfi(_stringField_handle),
+      smoke_Equatable_NestedEquatableStruct_fromFfi(_structField_handle),
+      smoke_Equatable_SomeEnum_fromFfi(_enumField_handle),
+      ListOf_String_fromFfi(_arrayField_handle),
+      MapOf_Int_to_String_fromFfi(_mapField_handle)
+    );
+  } finally {
+    Boolean_releaseFfiHandle(_boolField_handle);
+    (_intField_handle);
+    (_longField_handle);
+    (_floatField_handle);
+    (_doubleField_handle);
+    String_releaseFfiHandle(_stringField_handle);
+    smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_structField_handle);
+    smoke_Equatable_SomeEnum_releaseFfiHandle(_enumField_handle);
+    ListOf_String_releaseFfiHandle(_arrayField_handle);
+    MapOf_Int_to_String_releaseFfiHandle(_mapField_handle);
+  }
 }
 void smoke_Equatable_EquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_EquatableStruct_release_handle(handle);
 // Nullable EquatableStruct
@@ -366,27 +368,29 @@ EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<
   final _enumField_handle = _smoke_Equatable_EquatableNullableStruct_get_field_enumField(handle);
   final _arrayField_handle = _smoke_Equatable_EquatableNullableStruct_get_field_arrayField(handle);
   final _mapField_handle = _smoke_Equatable_EquatableNullableStruct_get_field_mapField(handle);
-  final _result = EquatableNullableStruct(
-    Boolean_fromFfi_nullable(_boolField_handle),
-    Int_fromFfi_nullable(_intField_handle),
-    UShort_fromFfi_nullable(_uintField_handle),
-    Float_fromFfi_nullable(_floatField_handle),
-    String_fromFfi_nullable(_stringField_handle),
-    smoke_Equatable_NestedEquatableStruct_fromFfi_nullable(_structField_handle),
-    smoke_Equatable_SomeEnum_fromFfi_nullable(_enumField_handle),
-    ListOf_String_fromFfi_nullable(_arrayField_handle),
-    MapOf_Int_to_String_fromFfi_nullable(_mapField_handle)
-  );
-  Boolean_releaseFfiHandle_nullable(_boolField_handle);
-  Int_releaseFfiHandle_nullable(_intField_handle);
-  UShort_releaseFfiHandle_nullable(_uintField_handle);
-  Float_releaseFfiHandle_nullable(_floatField_handle);
-  String_releaseFfiHandle_nullable(_stringField_handle);
-  smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(_structField_handle);
-  smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
-  MapOf_Int_to_String_releaseFfiHandle_nullable(_mapField_handle);
-  return _result;
+  try {
+    return EquatableNullableStruct(
+      Boolean_fromFfi_nullable(_boolField_handle),
+      Int_fromFfi_nullable(_intField_handle),
+      UShort_fromFfi_nullable(_uintField_handle),
+      Float_fromFfi_nullable(_floatField_handle),
+      String_fromFfi_nullable(_stringField_handle),
+      smoke_Equatable_NestedEquatableStruct_fromFfi_nullable(_structField_handle),
+      smoke_Equatable_SomeEnum_fromFfi_nullable(_enumField_handle),
+      ListOf_String_fromFfi_nullable(_arrayField_handle),
+      MapOf_Int_to_String_fromFfi_nullable(_mapField_handle)
+    );
+  } finally {
+    Boolean_releaseFfiHandle_nullable(_boolField_handle);
+    Int_releaseFfiHandle_nullable(_intField_handle);
+    UShort_releaseFfiHandle_nullable(_uintField_handle);
+    Float_releaseFfiHandle_nullable(_floatField_handle);
+    String_releaseFfiHandle_nullable(_stringField_handle);
+    smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(_structField_handle);
+    smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
+    ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
+    MapOf_Int_to_String_releaseFfiHandle_nullable(_mapField_handle);
+  }
 }
 void smoke_Equatable_EquatableNullableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_EquatableNullableStruct_release_handle(handle);
 // Nullable EquatableNullableStruct
@@ -457,11 +461,13 @@ Pointer<Void> smoke_Equatable_NestedEquatableStruct_toFfi(NestedEquatableStruct 
 }
 NestedEquatableStruct smoke_Equatable_NestedEquatableStruct_fromFfi(Pointer<Void> handle) {
   final _fooField_handle = _smoke_Equatable_NestedEquatableStruct_get_field_fooField(handle);
-  final _result = NestedEquatableStruct(
-    String_fromFfi(_fooField_handle)
-  );
-  String_releaseFfiHandle(_fooField_handle);
-  return _result;
+  try {
+    return NestedEquatableStruct(
+      String_fromFfi(_fooField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_fooField_handle);
+  }
 }
 void smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_NestedEquatableStruct_release_handle(handle);
 // Nullable NestedEquatableStruct

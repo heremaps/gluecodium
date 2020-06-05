@@ -50,9 +50,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithListOfLists_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_foobar_ListOf_Int_releaseFfiHandle(_input_handle);
-    final _result = foobar_ListOf_foobar_ListOf_Int_fromFfi(__result_handle);
-    foobar_ListOf_foobar_ListOf_Int_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_foobar_ListOf_Int_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_foobar_ListOf_Int_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input) {
@@ -61,9 +63,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithMapOfMaps_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fromFfi(__result_handle);
-    foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Set<Set<int>> methodWithSetOfSets(Set<Set<int>> input) {
@@ -72,9 +76,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithSetOfSets_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_SetOf_foobar_SetOf_Int_releaseFfiHandle(_input_handle);
-    final _result = foobar_SetOf_foobar_SetOf_Int_fromFfi(__result_handle);
-    foobar_SetOf_foobar_SetOf_Int_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_foobar_SetOf_Int_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_foobar_SetOf_Int_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<int, List<int>> methodWithListAndMap(List<Map<int, bool>> input) {
@@ -83,9 +89,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithListAndMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi(__result_handle);
-    foobar_MapOf_Int_to_foobar_ListOf_Int_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_Int_to_foobar_ListOf_Int_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Set<List<int>> methodWithListAndSet(List<Set<int>> input) {
@@ -94,9 +102,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithListAndSet_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_foobar_SetOf_Int_releaseFfiHandle(_input_handle);
-    final _result = foobar_SetOf_foobar_ListOf_Int_fromFfi(__result_handle);
-    foobar_SetOf_foobar_ListOf_Int_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_foobar_ListOf_Int_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_foobar_ListOf_Int_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Set<Map<int, bool>> methodWithMapAndSet(Map<int, Set<int>> input) {
@@ -105,9 +115,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithMapAndSet_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_Int_to_foobar_SetOf_Int_releaseFfiHandle(_input_handle);
-    final _result = foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi(__result_handle);
-    foobar_SetOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<List<int>, bool> methodWithMapGenericKeys(Map<Set<int>, bool> input) {
@@ -116,9 +128,11 @@ class GenericTypesWithGenericTypes$Impl implements GenericTypesWithGenericTypes 
     final _handle = this.handle;
     final __result_handle = _methodWithMapGenericKeys_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_foobar_SetOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi(__result_handle);
-    foobar_MapOf_foobar_ListOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_foobar_ListOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_GenericTypesWithGenericTypes_toFfi(GenericTypesWithGenericTypes value) =>

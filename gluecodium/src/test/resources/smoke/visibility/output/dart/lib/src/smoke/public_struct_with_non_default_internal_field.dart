@@ -47,15 +47,17 @@ PublicStructWithNonDefaultInternalField smoke_PublicStructWithNonDefaultInternal
   final _defaultedField_handle = _smoke_PublicStructWithNonDefaultInternalField_get_field_defaultedField(handle);
   final _internalField_handle = _smoke_PublicStructWithNonDefaultInternalField_get_field_internalField(handle);
   final _publicField_handle = _smoke_PublicStructWithNonDefaultInternalField_get_field_publicField(handle);
-  final _result = PublicStructWithNonDefaultInternalField(
-    (_defaultedField_handle),
-    String_fromFfi(_internalField_handle),
-    Boolean_fromFfi(_publicField_handle)
-  );
-  (_defaultedField_handle);
-  String_releaseFfiHandle(_internalField_handle);
-  Boolean_releaseFfiHandle(_publicField_handle);
-  return _result;
+  try {
+    return PublicStructWithNonDefaultInternalField(
+      (_defaultedField_handle),
+      String_fromFfi(_internalField_handle),
+      Boolean_fromFfi(_publicField_handle)
+    );
+  } finally {
+    (_defaultedField_handle);
+    String_releaseFfiHandle(_internalField_handle);
+    Boolean_releaseFfiHandle(_publicField_handle);
+  }
 }
 void smoke_PublicStructWithNonDefaultInternalField_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicStructWithNonDefaultInternalField_release_handle(handle);
 // Nullable PublicStructWithNonDefaultInternalField

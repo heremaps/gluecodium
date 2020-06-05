@@ -87,11 +87,13 @@ Pointer<Void> smoke_CommentsLinks_RandomStruct_toFfi(CommentsLinks_RandomStruct 
 }
 CommentsLinks_RandomStruct smoke_CommentsLinks_RandomStruct_fromFfi(Pointer<Void> handle) {
   final _randomField_handle = _smoke_CommentsLinks_RandomStruct_get_field_randomField(handle);
-  final _result = CommentsLinks_RandomStruct(
-    smoke_Comments_SomeStruct_fromFfi(_randomField_handle)
-  );
-  smoke_Comments_SomeStruct_releaseFfiHandle(_randomField_handle);
-  return _result;
+  try {
+    return CommentsLinks_RandomStruct(
+      smoke_Comments_SomeStruct_fromFfi(_randomField_handle)
+    );
+  } finally {
+    smoke_Comments_SomeStruct_releaseFfiHandle(_randomField_handle);
+  }
 }
 void smoke_CommentsLinks_RandomStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_CommentsLinks_RandomStruct_release_handle(handle);
 // Nullable CommentsLinks_RandomStruct
@@ -174,15 +176,19 @@ class CommentsLinks$Impl implements CommentsLinks {
     if (_randomMethod_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _randomMethod_return_get_error(__call_result_handle);
         _randomMethod_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Comments_SomeEnum_fromFfi(__error_handle);
-        smoke_Comments_SomeEnum_releaseFfiHandle(__error_handle);
-        throw Comments_SomethingWrongException(_error_value);
+        try {
+          throw Comments_SomethingWrongException(smoke_Comments_SomeEnum_fromFfi(__error_handle));
+        } finally {
+          smoke_Comments_SomeEnum_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _randomMethod_return_get_result(__call_result_handle);
     _randomMethod_return_release_handle(__call_result_handle);
-    final _result = smoke_Comments_SomeEnum_fromFfi(__result_handle);
-    smoke_Comments_SomeEnum_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Comments_SomeEnum_fromFfi(__result_handle);
+    } finally {
+      smoke_Comments_SomeEnum_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   randomMethod2(String text, bool flag) {
@@ -193,9 +199,11 @@ class CommentsLinks$Impl implements CommentsLinks {
     final __result_handle = _randomMethod2_ffi(_handle, __lib.LibraryContext.isolateId, _text_handle, _flag_handle);
     String_releaseFfiHandle(_text_handle);
     Boolean_releaseFfiHandle(_flag_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_CommentsLinks_toFfi(CommentsLinks value) =>

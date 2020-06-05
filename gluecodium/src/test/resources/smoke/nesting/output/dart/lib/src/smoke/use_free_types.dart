@@ -67,15 +67,19 @@ class UseFreeTypes$Impl implements UseFreeTypes {
     if (_doStuff_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _doStuff_return_get_error(__call_result_handle);
         _doStuff_return_release_handle(__call_result_handle);
-        final _error_value = smoke_FreeEnum_fromFfi(__error_handle);
-        smoke_FreeEnum_releaseFfiHandle(__error_handle);
-        throw FreeException(_error_value);
+        try {
+          throw FreeException(smoke_FreeEnum_fromFfi(__error_handle));
+        } finally {
+          smoke_FreeEnum_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _doStuff_return_get_result(__call_result_handle);
     _doStuff_return_release_handle(__call_result_handle);
-    final _result = Date_fromFfi(__result_handle);
-    Date_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Date_fromFfi(__result_handle);
+    } finally {
+      Date_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>

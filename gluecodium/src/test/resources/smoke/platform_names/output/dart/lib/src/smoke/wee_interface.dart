@@ -50,9 +50,11 @@ class weeInterface$Impl implements weeInterface {
     final _handle = this.handle;
     final __result_handle = _WeeMethod_ffi(_handle, __lib.LibraryContext.isolateId, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
-    final _result = smoke_PlatformNames_BasicStruct_fromFfi(__result_handle);
-    smoke_PlatformNames_BasicStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_PlatformNames_BasicStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_PlatformNames_BasicStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static Pointer<Void> _make(String makeParameter) {
     final _make_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_create__String');
@@ -66,9 +68,11 @@ class weeInterface$Impl implements weeInterface {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_PlatformNamesInterface_basicProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   set WEE_PROPERTY(int value) {
@@ -77,9 +81,11 @@ class weeInterface$Impl implements weeInterface {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     (_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_PlatformNamesInterface_toFfi(weeInterface value) =>

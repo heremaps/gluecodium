@@ -52,9 +52,11 @@ class OuterClass_InnerClass$Impl implements OuterClass_InnerClass {
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_OuterClass_InnerClass_toFfi(OuterClass_InnerClass value) =>
@@ -143,16 +145,21 @@ class OuterClass_InnerInterface$Impl implements OuterClass_InnerInterface {
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _OuterClass_InnerInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  final __input = String_fromFfi(input);
-  String_releaseFfiHandle(input);
-  final _result_object = (__lib.instanceCache[_token] as OuterClass_InnerInterface).foo(__input);
-  _result.value = String_toFfi(_result_object);
+  String _result_object = null;
+  try {
+    _result_object = (__lib.instanceCache[_token] as OuterClass_InnerInterface).foo(String_fromFfi(input));
+    _result.value = String_toFfi(_result_object);
+  } finally {
+    String_releaseFfiHandle(input);
+  }
   return 0;
 }
 Pointer<Void> smoke_OuterClass_InnerInterface_toFfi(OuterClass_InnerInterface value) {
@@ -220,9 +227,11 @@ class OuterClass$Impl implements OuterClass {
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_OuterClass_toFfi(OuterClass value) =>

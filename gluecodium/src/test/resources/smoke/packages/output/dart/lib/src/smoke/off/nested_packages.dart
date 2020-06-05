@@ -37,11 +37,13 @@ Pointer<Void> smoke_off_NestedPackages_SomeStruct_toFfi(NestedPackages_SomeStruc
 }
 NestedPackages_SomeStruct smoke_off_NestedPackages_SomeStruct_fromFfi(Pointer<Void> handle) {
   final _someField_handle = _smoke_off_NestedPackages_SomeStruct_get_field_someField(handle);
-  final _result = NestedPackages_SomeStruct(
-    String_fromFfi(_someField_handle)
-  );
-  String_releaseFfiHandle(_someField_handle);
-  return _result;
+  try {
+    return NestedPackages_SomeStruct(
+      String_fromFfi(_someField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_someField_handle);
+  }
 }
 void smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_off_NestedPackages_SomeStruct_release_handle(handle);
 // Nullable NestedPackages_SomeStruct
@@ -103,9 +105,11 @@ class NestedPackages$Impl implements NestedPackages {
     final _input_handle = smoke_off_NestedPackages_SomeStruct_toFfi(input);
     final __result_handle = _basicMethod_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_off_NestedPackages_SomeStruct_fromFfi(__result_handle);
-    smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_off_NestedPackages_SomeStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>

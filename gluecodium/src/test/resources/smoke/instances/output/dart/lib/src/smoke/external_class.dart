@@ -90,11 +90,13 @@ Pointer<Void> smoke_ExternalClass_SomeStruct_toFfi(ExternalClass_SomeStruct valu
 }
 ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi(Pointer<Void> handle) {
   final _someField_handle = _smoke_ExternalClass_SomeStruct_get_field_someField(handle);
-  final _result = ExternalClass_SomeStruct(
-    String_fromFfi(_someField_handle)
-  );
-  String_releaseFfiHandle(_someField_handle);
-  return _result;
+  try {
+    return ExternalClass_SomeStruct(
+      String_fromFfi(_someField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_someField_handle);
+  }
 }
 void smoke_ExternalClass_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalClass_SomeStruct_release_handle(handle);
 // Nullable ExternalClass_SomeStruct
@@ -158,18 +160,22 @@ class ExternalClass$Impl implements ExternalClass {
     final _handle = this.handle;
     final __result_handle = _someMethod_ffi(_handle, __lib.LibraryContext.isolateId, _someParameter_handle);
     (_someParameter_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   String get someProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalClass_someProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>

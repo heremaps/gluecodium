@@ -165,11 +165,13 @@ Pointer<Void> smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(GenericTypes
 }
 GenericTypesWithCompoundTypes_BasicStruct smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(Pointer<Void> handle) {
   final _value_handle = _smoke_GenericTypesWithCompoundTypes_BasicStruct_get_field_value(handle);
-  final _result = GenericTypesWithCompoundTypes_BasicStruct(
-    (_value_handle)
-  );
-  (_value_handle);
-  return _result;
+  try {
+    return GenericTypesWithCompoundTypes_BasicStruct(
+      (_value_handle)
+    );
+  } finally {
+    (_value_handle);
+  }
 }
 void smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(handle);
 // Nullable GenericTypesWithCompoundTypes_BasicStruct
@@ -227,11 +229,13 @@ Pointer<Void> smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(GenericTy
 }
 GenericTypesWithCompoundTypes_ExternalStruct smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(Pointer<Void> handle) {
   final _string_handle = _smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_field_string(handle);
-  final _result = GenericTypesWithCompoundTypes_ExternalStruct(
-    String_fromFfi(_string_handle)
-  );
-  String_releaseFfiHandle(_string_handle);
-  return _result;
+  try {
+    return GenericTypesWithCompoundTypes_ExternalStruct(
+      String_fromFfi(_string_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_string_handle);
+  }
 }
 void smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(handle);
 // Nullable GenericTypesWithCompoundTypes_ExternalStruct
@@ -295,9 +299,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithStructList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_input_handle);
-    final _result = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
-    foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<String, GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructMap(Map<String, GenericTypesWithCompoundTypes_BasicStruct> input) {
@@ -306,9 +312,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithStructMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
-    foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   List<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumList(List<GenericTypesWithCompoundTypes_SomeEnum> input) {
@@ -317,9 +325,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithEnumList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
-    final _result = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
-    foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> methodWithEnumMapKey(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> input) {
@@ -328,9 +338,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithEnumMapKey_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi(__result_handle);
-    foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<int, GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumMapValue(Map<int, GenericTypesWithCompoundTypes_SomeEnum> input) {
@@ -339,9 +351,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithEnumMapValue_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
-    foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Set<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumSet(Set<GenericTypesWithCompoundTypes_SomeEnum> input) {
@@ -350,9 +364,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithEnumSet_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_input_handle);
-    final _result = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
-    foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   List<DummyInterface> methodWithInstancesList(List<DummyClass> input) {
@@ -361,9 +377,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithInstancesList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_smoke_DummyClass_releaseFfiHandle(_input_handle);
-    final _result = foobar_ListOf_smoke_DummyInterface_fromFfi(__result_handle);
-    foobar_ListOf_smoke_DummyInterface_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_smoke_DummyInterface_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_smoke_DummyInterface_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<int, DummyInterface> methodWithInstancesMap(Map<int, DummyClass> input) {
@@ -372,9 +390,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
     final _handle = this.handle;
     final __result_handle = _methodWithInstancesMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_Int_to_smoke_DummyClass_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi(__result_handle);
-    foobar_MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) =>

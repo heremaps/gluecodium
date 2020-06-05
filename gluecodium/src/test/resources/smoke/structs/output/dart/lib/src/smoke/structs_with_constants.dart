@@ -39,13 +39,15 @@ Pointer<Void> smoke_StructsWithConstants_Route_toFfi(Route value) {
 Route smoke_StructsWithConstants_Route_fromFfi(Pointer<Void> handle) {
   final _description_handle = _smoke_StructsWithConstants_Route_get_field_description(handle);
   final _type_handle = _smoke_StructsWithConstants_Route_get_field_type(handle);
-  final _result = Route(
-    String_fromFfi(_description_handle),
-    smoke_RouteUtils_RouteType_fromFfi(_type_handle)
-  );
-  String_releaseFfiHandle(_description_handle);
-  smoke_RouteUtils_RouteType_releaseFfiHandle(_type_handle);
-  return _result;
+  try {
+    return Route(
+      String_fromFfi(_description_handle),
+      smoke_RouteUtils_RouteType_fromFfi(_type_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_description_handle);
+    smoke_RouteUtils_RouteType_releaseFfiHandle(_type_handle);
+  }
 }
 void smoke_StructsWithConstants_Route_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructsWithConstants_Route_release_handle(handle);
 // Nullable Route

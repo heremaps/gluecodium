@@ -88,19 +88,21 @@ EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFf
   final _internalListField_handle = _smoke_EquatableStructWithInternalFields_get_field_internalListField(handle);
   final _internalMapField_handle = _smoke_EquatableStructWithInternalFields_get_field_internalMapField(handle);
   final _internalSetField_handle = _smoke_EquatableStructWithInternalFields_get_field_internalSetField(handle);
-  final _result = EquatableStructWithInternalFields(
-    String_fromFfi(_publicField_handle),
-    String_fromFfi(_internalField_handle),
-    ListOf_String_fromFfi(_internalListField_handle),
-    MapOf_String_to_String_fromFfi(_internalMapField_handle),
-    SetOf_String_fromFfi(_internalSetField_handle)
-  );
-  String_releaseFfiHandle(_publicField_handle);
-  String_releaseFfiHandle(_internalField_handle);
-  ListOf_String_releaseFfiHandle(_internalListField_handle);
-  MapOf_String_to_String_releaseFfiHandle(_internalMapField_handle);
-  SetOf_String_releaseFfiHandle(_internalSetField_handle);
-  return _result;
+  try {
+    return EquatableStructWithInternalFields(
+      String_fromFfi(_publicField_handle),
+      String_fromFfi(_internalField_handle),
+      ListOf_String_fromFfi(_internalListField_handle),
+      MapOf_String_to_String_fromFfi(_internalMapField_handle),
+      SetOf_String_fromFfi(_internalSetField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_publicField_handle);
+    String_releaseFfiHandle(_internalField_handle);
+    ListOf_String_releaseFfiHandle(_internalListField_handle);
+    MapOf_String_to_String_releaseFfiHandle(_internalMapField_handle);
+    SetOf_String_releaseFfiHandle(_internalSetField_handle);
+  }
 }
 void smoke_EquatableStructWithInternalFields_releaseFfiHandle(Pointer<Void> handle) => _smoke_EquatableStructWithInternalFields_release_handle(handle);
 // Nullable EquatableStructWithInternalFields

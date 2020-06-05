@@ -46,11 +46,13 @@ Pointer<Void> smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_toFfi(TypeDefs_S
 }
 TypeDefs_StructHavingAliasFieldDefinedBelow smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_fromFfi(Pointer<Void> handle) {
   final _field_handle = _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_field_field(handle);
-  final _result = TypeDefs_StructHavingAliasFieldDefinedBelow(
-    (_field_handle)
-  );
-  (_field_handle);
-  return _result;
+  try {
+    return TypeDefs_StructHavingAliasFieldDefinedBelow(
+      (_field_handle)
+    );
+  } finally {
+    (_field_handle);
+  }
 }
 void smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle(handle);
 // Nullable TypeDefs_StructHavingAliasFieldDefinedBelow
@@ -108,11 +110,13 @@ Pointer<Void> smoke_TypeDefs_TestStruct_toFfi(TypeDefs_TestStruct value) {
 }
 TypeDefs_TestStruct smoke_TypeDefs_TestStruct_fromFfi(Pointer<Void> handle) {
   final _something_handle = _smoke_TypeDefs_TestStruct_get_field_something(handle);
-  final _result = TypeDefs_TestStruct(
-    String_fromFfi(_something_handle)
-  );
-  String_releaseFfiHandle(_something_handle);
-  return _result;
+  try {
+    return TypeDefs_TestStruct(
+      String_fromFfi(_something_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_something_handle);
+  }
 }
 void smoke_TypeDefs_TestStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_TypeDefs_TestStruct_release_handle(handle);
 // Nullable TypeDefs_TestStruct
@@ -174,63 +178,77 @@ class TypeDefs$Impl implements TypeDefs {
     final _input_handle = (input);
     final __result_handle = _methodWithPrimitiveTypeDef_ffi(__lib.LibraryContext.isolateId, _input_handle);
     (_input_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) {
     final _methodWithComplexTypeDef_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct');
     final _input_handle = ListOf_smoke_TypeDefs_TestStruct_toFfi(input);
     final __result_handle = _methodWithComplexTypeDef_ffi(__lib.LibraryContext.isolateId, _input_handle);
     ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
-    final _result = ListOf_smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
-    ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return ListOf_smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
+    } finally {
+      ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static double returnNestedIntTypeDef(double input) {
     final _returnNestedIntTypeDef_ffi = __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_returnNestedIntTypeDef__Double');
     final _input_handle = (input);
     final __result_handle = _returnNestedIntTypeDef_ffi(__lib.LibraryContext.isolateId, _input_handle);
     (_input_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   static TypeDefs_TestStruct returnTestStructTypeDef(TypeDefs_TestStruct input) {
     final _returnTestStructTypeDef_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnTestStructTypeDef__TestStruct');
     final _input_handle = smoke_TypeDefs_TestStruct_toFfi(input);
     final __result_handle = _returnTestStructTypeDef_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
-    smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static TypeDefs_TestStruct returnNestedStructTypeDef(TypeDefs_TestStruct input) {
     final _returnNestedStructTypeDef_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct');
     final _input_handle = smoke_TypeDefs_TestStruct_toFfi(input);
     final __result_handle = _returnNestedStructTypeDef_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
-    smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static Point returnTypeDefPointFromTypeCollection(Point input) {
     final _returnTypeDefPointFromTypeCollection_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point');
     final _input_handle = smoke_TypeCollection_Point_toFfi(input);
     final __result_handle = _returnTypeDefPointFromTypeCollection_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_TypeCollection_Point_releaseFfiHandle(_input_handle);
-    final _result = smoke_TypeCollection_Point_fromFfi(__result_handle);
-    smoke_TypeCollection_Point_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_TypeCollection_Point_fromFfi(__result_handle);
+    } finally {
+      smoke_TypeCollection_Point_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   List<double> get primitiveTypeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_TypeDefs_primitiveTypeProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = ListOf_Double_fromFfi(__result_handle);
-    ListOf_Double_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return ListOf_Double_fromFfi(__result_handle);
+    } finally {
+      ListOf_Double_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set primitiveTypeProperty(List<double> value) {
@@ -239,9 +257,11 @@ class TypeDefs$Impl implements TypeDefs {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     ListOf_Double_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) =>

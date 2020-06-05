@@ -42,18 +42,22 @@ class SkipFunctions$Impl implements SkipFunctions {
     final _input_handle = String_toFfi(input);
     final __result_handle = _notInJava_ffi(__lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   static bool notInSwift(bool input) {
     final _notInSwift_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_SkipFunctions_notInSwift__Boolean');
     final _input_handle = Boolean_toFfi(input);
     final __result_handle = _notInSwift_ffi(__lib.LibraryContext.isolateId, _input_handle);
     Boolean_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_SkipFunctions_toFfi(SkipFunctions value) =>

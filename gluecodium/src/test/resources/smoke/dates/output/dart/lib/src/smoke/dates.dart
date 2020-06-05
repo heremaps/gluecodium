@@ -39,11 +39,13 @@ Pointer<Void> smoke_Dates_DateStruct_toFfi(Dates_DateStruct value) {
 }
 Dates_DateStruct smoke_Dates_DateStruct_fromFfi(Pointer<Void> handle) {
   final _dateField_handle = _smoke_Dates_DateStruct_get_field_dateField(handle);
-  final _result = Dates_DateStruct(
-    Date_fromFfi(_dateField_handle)
-  );
-  Date_releaseFfiHandle(_dateField_handle);
-  return _result;
+  try {
+    return Dates_DateStruct(
+      Date_fromFfi(_dateField_handle)
+    );
+  } finally {
+    Date_releaseFfiHandle(_dateField_handle);
+  }
 }
 void smoke_Dates_DateStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Dates_DateStruct_release_handle(handle);
 // Nullable Dates_DateStruct
@@ -107,18 +109,22 @@ class Dates$Impl implements Dates {
     final _handle = this.handle;
     final __result_handle = _dateMethod_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     Date_releaseFfiHandle(_input_handle);
-    final _result = Date_fromFfi(__result_handle);
-    Date_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Date_fromFfi(__result_handle);
+    } finally {
+      Date_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   DateTime get dateProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = Date_fromFfi(__result_handle);
-    Date_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Date_fromFfi(__result_handle);
+    } finally {
+      Date_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set dateProperty(DateTime value) {
@@ -127,9 +133,11 @@ class Dates$Impl implements Dates {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Date_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_Dates_toFfi(Dates value) =>

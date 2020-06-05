@@ -38,9 +38,11 @@
   if (_{{resolveName}}_return_has_error(__call_result_handle) != 0) {
       final __error_handle = _{{resolveName}}_return_get_error(__call_result_handle);
       _{{resolveName}}_return_release_handle(__call_result_handle);
-      final _error_value = {{#set call="fromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__error_handle);
-      {{#set call="releaseFfiHandle" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__error_handle);
-      throw {{resolveName exception}}(_error_value);
+      try {
+        throw {{resolveName exception}}({{#set call="fromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__error_handle));
+      } finally {
+        {{#set call="releaseFfiHandle" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__error_handle);
+      }
   }
   final __result_handle = _{{resolveName}}_return_get_result(__call_result_handle);
   _{{resolveName}}_return_release_handle(__call_result_handle);
@@ -60,6 +62,8 @@
 }}{{#unless isStatic}}Pointer<Void>, {{/unless}}int{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}{{!!
 
-}}{{+ffiReturnConversion}}  {{#returnType}}final _result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);{{/returnType}}
-  return _result;{{/ffiReturnConversion}}
+}}{{+ffiReturnConversion}}  {{#returnType}}try {
+    return {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+  } finally {
+    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+  }{{/returnType}}{{/ffiReturnConversion}}

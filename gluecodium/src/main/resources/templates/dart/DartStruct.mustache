@@ -104,13 +104,15 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 {{#set parent=this}}{{#fields}}
   final _{{resolveName}}_handle = _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
-  final _result = {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}
-    {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
-  {{/fields}});
+  try {
+    return {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}
+      {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
+    {{/fields}});
+  } finally {
 {{#fields}}
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
+    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);
 {{/fields}}
-  return _result;
+  }
 }
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveName "Ffi"}}_release_handle(handle);

@@ -58,9 +58,11 @@ class OuterInterface_InnerClass$Impl implements OuterInterface_InnerClass {
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_OuterInterface_InnerClass_toFfi(OuterInterface_InnerClass value) =>
@@ -149,16 +151,21 @@ class OuterInterface_InnerInterface$Impl implements OuterInterface_InnerInterfac
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _OuterInterface_InnerInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  final __input = String_fromFfi(input);
-  String_releaseFfiHandle(input);
-  final _result_object = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(__input);
-  _result.value = String_toFfi(_result_object);
+  String _result_object = null;
+  try {
+    _result_object = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(String_fromFfi(input));
+    _result.value = String_toFfi(_result_object);
+  } finally {
+    String_releaseFfiHandle(input);
+  }
   return 0;
 }
 Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInterface value) {
@@ -247,16 +254,21 @@ class OuterInterface$Impl implements OuterInterface {
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _OuterInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  final __input = String_fromFfi(input);
-  String_releaseFfiHandle(input);
-  final _result_object = (__lib.instanceCache[_token] as OuterInterface).foo(__input);
-  _result.value = String_toFfi(_result_object);
+  String _result_object = null;
+  try {
+    _result_object = (__lib.instanceCache[_token] as OuterInterface).foo(String_fromFfi(input));
+    _result.value = String_toFfi(_result_object);
+  } finally {
+    String_releaseFfiHandle(input);
+  }
   return 0;
 }
 Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {

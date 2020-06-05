@@ -46,13 +46,15 @@ Pointer<Void> smoke_StructConstants_SomeStruct_toFfi(StructConstants_SomeStruct 
 StructConstants_SomeStruct smoke_StructConstants_SomeStruct_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_StructConstants_SomeStruct_get_field_stringField(handle);
   final _floatField_handle = _smoke_StructConstants_SomeStruct_get_field_floatField(handle);
-  final _result = StructConstants_SomeStruct(
-    String_fromFfi(_stringField_handle),
-    (_floatField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  (_floatField_handle);
-  return _result;
+  try {
+    return StructConstants_SomeStruct(
+      String_fromFfi(_stringField_handle),
+      (_floatField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+    (_floatField_handle);
+  }
 }
 void smoke_StructConstants_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructConstants_SomeStruct_release_handle(handle);
 // Nullable StructConstants_SomeStruct
@@ -110,11 +112,13 @@ Pointer<Void> smoke_StructConstants_NestingStruct_toFfi(StructConstants_NestingS
 }
 StructConstants_NestingStruct smoke_StructConstants_NestingStruct_fromFfi(Pointer<Void> handle) {
   final _structField_handle = _smoke_StructConstants_NestingStruct_get_field_structField(handle);
-  final _result = StructConstants_NestingStruct(
-    smoke_StructConstants_SomeStruct_fromFfi(_structField_handle)
-  );
-  smoke_StructConstants_SomeStruct_releaseFfiHandle(_structField_handle);
-  return _result;
+  try {
+    return StructConstants_NestingStruct(
+      smoke_StructConstants_SomeStruct_fromFfi(_structField_handle)
+    );
+  } finally {
+    smoke_StructConstants_SomeStruct_releaseFfiHandle(_structField_handle);
+  }
 }
 void smoke_StructConstants_NestingStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructConstants_NestingStruct_release_handle(handle);
 // Nullable StructConstants_NestingStruct

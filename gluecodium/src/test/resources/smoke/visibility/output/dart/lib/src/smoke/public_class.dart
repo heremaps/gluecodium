@@ -107,11 +107,13 @@ Pointer<Void> smoke_PublicClass_InternalStruct_toFfi(PublicClass_InternalStruct 
 }
 PublicClass_InternalStruct smoke_PublicClass_InternalStruct_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_PublicClass_InternalStruct_get_field_stringField(handle);
-  final _result = PublicClass_InternalStruct(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return PublicClass_InternalStruct(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_PublicClass_InternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicClass_InternalStruct_release_handle(handle);
 // Nullable PublicClass_InternalStruct
@@ -170,11 +172,13 @@ Pointer<Void> smoke_PublicClass_PublicStruct_toFfi(PublicClass_PublicStruct valu
 }
 PublicClass_PublicStruct smoke_PublicClass_PublicStruct_fromFfi(Pointer<Void> handle) {
   final _internalField_handle = _smoke_PublicClass_PublicStruct_get_field_internalField(handle);
-  final _result = PublicClass_PublicStruct(
-    smoke_PublicClass_InternalStruct_fromFfi(_internalField_handle)
-  );
-  smoke_PublicClass_InternalStruct_releaseFfiHandle(_internalField_handle);
-  return _result;
+  try {
+    return PublicClass_PublicStruct(
+      smoke_PublicClass_InternalStruct_fromFfi(_internalField_handle)
+    );
+  } finally {
+    smoke_PublicClass_InternalStruct_releaseFfiHandle(_internalField_handle);
+  }
 }
 void smoke_PublicClass_PublicStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicClass_PublicStruct_release_handle(handle);
 // Nullable PublicClass_PublicStruct
@@ -243,13 +247,15 @@ Pointer<Void> smoke_PublicClass_PublicStructWithInternalDefaults_toFfi(PublicCla
 PublicClass_PublicStructWithInternalDefaults smoke_PublicClass_PublicStructWithInternalDefaults_fromFfi(Pointer<Void> handle) {
   final _internalField_handle = _smoke_PublicClass_PublicStructWithInternalDefaults_get_field_internalField(handle);
   final _publicField_handle = _smoke_PublicClass_PublicStructWithInternalDefaults_get_field_publicField(handle);
-  final _result = PublicClass_PublicStructWithInternalDefaults(
-    String_fromFfi(_internalField_handle),
-    (_publicField_handle)
-  );
-  String_releaseFfiHandle(_internalField_handle);
-  (_publicField_handle);
-  return _result;
+  try {
+    return PublicClass_PublicStructWithInternalDefaults(
+      String_fromFfi(_internalField_handle),
+      (_publicField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_internalField_handle);
+    (_publicField_handle);
+  }
 }
 void smoke_PublicClass_PublicStructWithInternalDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicClass_PublicStructWithInternalDefaults_release_handle(handle);
 // Nullable PublicClass_PublicStructWithInternalDefaults
@@ -313,18 +319,22 @@ class PublicClass$Impl implements PublicClass {
     final _handle = this.handle;
     final __result_handle = _internalMethod_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_PublicClass_InternalStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_PublicClass_InternalStruct_fromFfi(__result_handle);
-    smoke_PublicClass_InternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_PublicClass_InternalStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_PublicClass_InternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   PublicClass_InternalStruct get internal_internalStructProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PublicClass_internalStructProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = smoke_PublicClass_InternalStruct_fromFfi(__result_handle);
-    smoke_PublicClass_InternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_PublicClass_InternalStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_PublicClass_InternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set internal_internalStructProperty(PublicClass_InternalStruct value) {
@@ -333,18 +343,22 @@ class PublicClass$Impl implements PublicClass {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     smoke_PublicClass_InternalStruct_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   String get internalSetterProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PublicClass_internalSetterProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set internal_internalSetterProperty(String value) {
@@ -353,9 +367,11 @@ class PublicClass$Impl implements PublicClass {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     String_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) =>

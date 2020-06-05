@@ -30,11 +30,13 @@ Pointer<Void> smoke_PublicTypeCollection_InternalStruct_toFfi(InternalStruct val
 }
 InternalStruct smoke_PublicTypeCollection_InternalStruct_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_PublicTypeCollection_InternalStruct_get_field_stringField(handle);
-  final _result = InternalStruct(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return InternalStruct(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_PublicTypeCollection_InternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicTypeCollection_InternalStruct_release_handle(handle);
 // Nullable InternalStruct
