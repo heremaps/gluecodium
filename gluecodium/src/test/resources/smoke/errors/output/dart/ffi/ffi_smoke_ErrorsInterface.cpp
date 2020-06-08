@@ -31,7 +31,7 @@ public:
         dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, uint32_t*)>(f0))(token,
             &_error_handle
         ); });
-        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp((uint32_t)_error_handle));
+        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp(_error_flag ? (uint32_t)_error_handle : 0));
     }
     std::error_code
     method_with_external_errors() override {
@@ -40,7 +40,7 @@ public:
         dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, uint32_t*)>(f1))(token,
             &_error_handle
         ); });
-        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::ExternalErrors>::toCpp((uint32_t)_error_handle));
+        return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::ExternalErrors>::toCpp(_error_flag ? (uint32_t)_error_handle : 0));
     }
     gluecodium::Return<std::string, std::error_code>
     method_with_errors_and_return_value() override {
@@ -52,7 +52,7 @@ public:
             &_error_handle
         ); });
         if (_error_flag) {
-            return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp((uint32_t)_error_handle));
+            return make_error_code(gluecodium::ffi::Conversion<::smoke::ErrorsInterface::InternalError>::toCpp(_error_flag ? (uint32_t)_error_handle : 0));
         } else {
             auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
             delete reinterpret_cast<std::string*>(_result_handle);
