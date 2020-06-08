@@ -501,7 +501,7 @@ internal class AntlrLimeModelBuilder(
     private fun pushPathAndVisibility(
         simpleId: LimeParser.SimpleIdContext,
         visibility: LimeParser.VisibilityContext?,
-        suffix: String = ""
+        suffix: String? = null
     ) {
         pathStack.push(currentPath.child(convertSimpleId(simpleId), suffix))
         visibilityStack.push(convertVisibility(visibility, visibilityStack.peek()))

@@ -32,7 +32,7 @@ package com.here.gluecodium.model.lime
 data class LimePath(
     val head: List<String>,
     val tail: List<String>,
-    private val disambiguationSuffix: String = ""
+    val disambiguator: String = ""
 ) {
     val container
         get() = tail.first()
@@ -50,15 +50,16 @@ data class LimePath(
     val hasParent
         get() = tail.size > 1
 
-    fun child(childName: String, disambiguationSuffix: String = "") =
-        LimePath(head, tail + childName, disambiguationSuffix)
+    fun child(childName: String, disambiguator: String? = null) =
+        LimePath(head, tail + childName, disambiguator ?: this.disambiguator)
 
-    fun child(childNames: List<String>, disambiguationSuffix: String = "") =
-        LimePath(head, tail + childNames, disambiguationSuffix)
+    fun child(childNames: List<String>, disambiguator: String? = null) =
+        LimePath(head, tail + childNames, disambiguator ?: this.disambiguator)
 
-    fun withSuffix(disambiguationSuffix: String) = LimePath(head, tail, disambiguationSuffix)
+    fun withSuffix(disambiguator: String) = LimePath(head, tail, disambiguator)
 
-    override fun toString() = (head + tail).joinToString(separator = ".") + disambiguationSuffix
+    override fun toString() = (head + tail).joinToString(separator = ".") +
+        if (disambiguator.isNotEmpty()) ":$disambiguator" else ""
 
     companion object {
         val EMPTY_PATH = LimePath(emptyList(), emptyList())
