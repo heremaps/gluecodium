@@ -42,9 +42,11 @@ class SimpleClass$Impl implements SimpleClass {
     final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue');
     final _handle = this.handle;
     final __result_handle = _getStringValue_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   SimpleClass useSimpleClass(SimpleClass input) {
@@ -53,9 +55,11 @@ class SimpleClass$Impl implements SimpleClass {
     final _handle = this.handle;
     final __result_handle = _useSimpleClass_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_SimpleClass_releaseFfiHandle(_input_handle);
-    final _result = smoke_SimpleClass_fromFfi(__result_handle);
-    smoke_SimpleClass_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_SimpleClass_fromFfi(__result_handle);
+    } finally {
+      smoke_SimpleClass_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>

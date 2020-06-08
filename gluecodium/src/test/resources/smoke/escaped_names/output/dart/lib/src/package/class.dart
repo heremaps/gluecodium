@@ -81,24 +81,30 @@ class Class$Impl implements Class {
     if (_fun_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _fun_return_get_error(__call_result_handle);
         _fun_return_release_handle(__call_result_handle);
-        final _error_value = package_Types_Enum_fromFfi(__error_handle);
-        package_Types_Enum_releaseFfiHandle(__error_handle);
-        throw ExceptionException(_error_value);
+        try {
+          throw ExceptionException(package_Types_Enum_fromFfi(__error_handle));
+        } finally {
+          package_Types_Enum_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _fun_return_get_result(__call_result_handle);
     _fun_return_release_handle(__call_result_handle);
-    final _result = package_Types_Struct_fromFfi(__result_handle);
-    package_Types_Struct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return package_Types_Struct_fromFfi(__result_handle);
+    } finally {
+      package_Types_Struct_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Enum get property {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_package_Class_property_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = package_Types_Enum_fromFfi(__result_handle);
-    package_Types_Enum_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return package_Types_Enum_fromFfi(__result_handle);
+    } finally {
+      package_Types_Enum_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set property(Enum value) {
@@ -107,9 +113,11 @@ class Class$Impl implements Class {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     package_Types_Enum_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> package_Class_toFfi(Class value) =>

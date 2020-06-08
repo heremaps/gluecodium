@@ -113,13 +113,15 @@ Pointer<Void> smoke_Structs_Point_toFfi(Structs_Point value) {
 Structs_Point smoke_Structs_Point_fromFfi(Pointer<Void> handle) {
   final _x_handle = _smoke_Structs_Point_get_field_x(handle);
   final _y_handle = _smoke_Structs_Point_get_field_y(handle);
-  final _result = Structs_Point(
-    (_x_handle),
-    (_y_handle)
-  );
-  (_x_handle);
-  (_y_handle);
-  return _result;
+  try {
+    return Structs_Point(
+      (_x_handle),
+      (_y_handle)
+    );
+  } finally {
+    (_x_handle);
+    (_y_handle);
+  }
 }
 void smoke_Structs_Point_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_Point_release_handle(handle);
 // Nullable Structs_Point
@@ -185,13 +187,15 @@ Pointer<Void> smoke_Structs_Line_toFfi(Structs_Line value) {
 Structs_Line smoke_Structs_Line_fromFfi(Pointer<Void> handle) {
   final _a_handle = _smoke_Structs_Line_get_field_a(handle);
   final _b_handle = _smoke_Structs_Line_get_field_b(handle);
-  final _result = Structs_Line(
-    smoke_Structs_Point_fromFfi(_a_handle),
-    smoke_Structs_Point_fromFfi(_b_handle)
-  );
-  smoke_Structs_Point_releaseFfiHandle(_a_handle);
-  smoke_Structs_Point_releaseFfiHandle(_b_handle);
-  return _result;
+  try {
+    return Structs_Line(
+      smoke_Structs_Point_fromFfi(_a_handle),
+      smoke_Structs_Point_fromFfi(_b_handle)
+    );
+  } finally {
+    smoke_Structs_Point_releaseFfiHandle(_a_handle);
+    smoke_Structs_Point_releaseFfiHandle(_b_handle);
+  }
 }
 void smoke_Structs_Line_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_Line_release_handle(handle);
 // Nullable Structs_Line
@@ -353,37 +357,39 @@ Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle
   final _booleanField_handle = _smoke_Structs_AllTypesStruct_get_field_booleanField(handle);
   final _bytesField_handle = _smoke_Structs_AllTypesStruct_get_field_bytesField(handle);
   final _pointField_handle = _smoke_Structs_AllTypesStruct_get_field_pointField(handle);
-  final _result = Structs_AllTypesStruct(
-    (_int8Field_handle),
-    (_uint8Field_handle),
-    (_int16Field_handle),
-    (_uint16Field_handle),
-    (_int32Field_handle),
-    (_uint32Field_handle),
-    (_int64Field_handle),
-    (_uint64Field_handle),
-    (_floatField_handle),
-    (_doubleField_handle),
-    String_fromFfi(_stringField_handle),
-    Boolean_fromFfi(_booleanField_handle),
-    Blob_fromFfi(_bytesField_handle),
-    smoke_Structs_Point_fromFfi(_pointField_handle)
-  );
-  (_int8Field_handle);
-  (_uint8Field_handle);
-  (_int16Field_handle);
-  (_uint16Field_handle);
-  (_int32Field_handle);
-  (_uint32Field_handle);
-  (_int64Field_handle);
-  (_uint64Field_handle);
-  (_floatField_handle);
-  (_doubleField_handle);
-  String_releaseFfiHandle(_stringField_handle);
-  Boolean_releaseFfiHandle(_booleanField_handle);
-  Blob_releaseFfiHandle(_bytesField_handle);
-  smoke_Structs_Point_releaseFfiHandle(_pointField_handle);
-  return _result;
+  try {
+    return Structs_AllTypesStruct(
+      (_int8Field_handle),
+      (_uint8Field_handle),
+      (_int16Field_handle),
+      (_uint16Field_handle),
+      (_int32Field_handle),
+      (_uint32Field_handle),
+      (_int64Field_handle),
+      (_uint64Field_handle),
+      (_floatField_handle),
+      (_doubleField_handle),
+      String_fromFfi(_stringField_handle),
+      Boolean_fromFfi(_booleanField_handle),
+      Blob_fromFfi(_bytesField_handle),
+      smoke_Structs_Point_fromFfi(_pointField_handle)
+    );
+  } finally {
+    (_int8Field_handle);
+    (_uint8Field_handle);
+    (_int16Field_handle);
+    (_uint16Field_handle);
+    (_int32Field_handle);
+    (_uint32Field_handle);
+    (_int64Field_handle);
+    (_uint64Field_handle);
+    (_floatField_handle);
+    (_doubleField_handle);
+    String_releaseFfiHandle(_stringField_handle);
+    Boolean_releaseFfiHandle(_booleanField_handle);
+    Blob_releaseFfiHandle(_bytesField_handle);
+    smoke_Structs_Point_releaseFfiHandle(_pointField_handle);
+  }
 }
 void smoke_Structs_AllTypesStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_AllTypesStruct_release_handle(handle);
 // Nullable Structs_AllTypesStruct
@@ -465,17 +471,19 @@ Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi(Pointer<Void> handle
   final _externalStringField_handle = _smoke_Structs_ExternalStruct_get_field_externalStringField(handle);
   final _externalArrayField_handle = _smoke_Structs_ExternalStruct_get_field_externalArrayField(handle);
   final _externalStructField_handle = _smoke_Structs_ExternalStruct_get_field_externalStructField(handle);
-  final _result = Structs_ExternalStruct(
-    String_fromFfi(_stringField_handle),
-    String_fromFfi(_externalStringField_handle),
-    ListOf_Byte_fromFfi(_externalArrayField_handle),
-    smoke_Structs_AnotherExternalStruct_fromFfi(_externalStructField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  String_releaseFfiHandle(_externalStringField_handle);
-  ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
-  smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
-  return _result;
+  try {
+    return Structs_ExternalStruct(
+      String_fromFfi(_stringField_handle),
+      String_fromFfi(_externalStringField_handle),
+      ListOf_Byte_fromFfi(_externalArrayField_handle),
+      smoke_Structs_AnotherExternalStruct_fromFfi(_externalStructField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+    String_releaseFfiHandle(_externalStringField_handle);
+    ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+    smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
+  }
 }
 void smoke_Structs_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_ExternalStruct_release_handle(handle);
 // Nullable Structs_ExternalStruct
@@ -533,11 +541,13 @@ Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi(Structs_AnotherExternalS
 }
 Structs_AnotherExternalStruct smoke_Structs_AnotherExternalStruct_fromFfi(Pointer<Void> handle) {
   final _intField_handle = _smoke_Structs_AnotherExternalStruct_get_field_intField(handle);
-  final _result = Structs_AnotherExternalStruct(
-    (_intField_handle)
-  );
-  (_intField_handle);
-  return _result;
+  try {
+    return Structs_AnotherExternalStruct(
+      (_intField_handle)
+    );
+  } finally {
+    (_intField_handle);
+  }
 }
 void smoke_Structs_AnotherExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_AnotherExternalStruct_release_handle(handle);
 // Nullable Structs_AnotherExternalStruct
@@ -595,11 +605,13 @@ Pointer<Void> smoke_Structs_YetAnotherExternalStruct_toFfi(Structs_YetAnotherExt
 }
 Structs_YetAnotherExternalStruct smoke_Structs_YetAnotherExternalStruct_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_Structs_YetAnotherExternalStruct_get_field_stringField(handle);
-  final _result = Structs_YetAnotherExternalStruct(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return Structs_YetAnotherExternalStruct(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_Structs_YetAnotherExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_YetAnotherExternalStruct_release_handle(handle);
 // Nullable Structs_YetAnotherExternalStruct
@@ -657,11 +669,13 @@ Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi(Structs_NestingImmutabl
 }
 Structs_NestingImmutableStruct smoke_Structs_NestingImmutableStruct_fromFfi(Pointer<Void> handle) {
   final _structField_handle = _smoke_Structs_NestingImmutableStruct_get_field_structField(handle);
-  final _result = Structs_NestingImmutableStruct(
-    smoke_Structs_AllTypesStruct_fromFfi(_structField_handle)
-  );
-  smoke_Structs_AllTypesStruct_releaseFfiHandle(_structField_handle);
-  return _result;
+  try {
+    return Structs_NestingImmutableStruct(
+      smoke_Structs_AllTypesStruct_fromFfi(_structField_handle)
+    );
+  } finally {
+    smoke_Structs_AllTypesStruct_releaseFfiHandle(_structField_handle);
+  }
 }
 void smoke_Structs_NestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_NestingImmutableStruct_release_handle(handle);
 // Nullable Structs_NestingImmutableStruct
@@ -719,11 +733,13 @@ Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi(Structs_DoubleNes
 }
 Structs_DoubleNestingImmutableStruct smoke_Structs_DoubleNestingImmutableStruct_fromFfi(Pointer<Void> handle) {
   final _nestingStructField_handle = _smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField(handle);
-  final _result = Structs_DoubleNestingImmutableStruct(
-    smoke_Structs_NestingImmutableStruct_fromFfi(_nestingStructField_handle)
-  );
-  smoke_Structs_NestingImmutableStruct_releaseFfiHandle(_nestingStructField_handle);
-  return _result;
+  try {
+    return Structs_DoubleNestingImmutableStruct(
+      smoke_Structs_NestingImmutableStruct_fromFfi(_nestingStructField_handle)
+    );
+  } finally {
+    smoke_Structs_NestingImmutableStruct_releaseFfiHandle(_nestingStructField_handle);
+  }
 }
 void smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_DoubleNestingImmutableStruct_release_handle(handle);
 // Nullable Structs_DoubleNestingImmutableStruct
@@ -781,11 +797,13 @@ Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi(Structs_StructWithA
 }
 Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_fromFfi(Pointer<Void> handle) {
   final _arrayField_handle = _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField(handle);
-  final _result = Structs_StructWithArrayOfImmutable(
-    ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
-  );
-  ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
-  return _result;
+  try {
+    return Structs_StructWithArrayOfImmutable(
+      ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
+    );
+  } finally {
+    ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+  }
 }
 void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_StructWithArrayOfImmutable_release_handle(handle);
 // Nullable Structs_StructWithArrayOfImmutable
@@ -843,11 +861,13 @@ Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi(Structs_Immuta
 }
 Structs_ImmutableStructWithCppAccessors smoke_Structs_ImmutableStructWithCppAccessors_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField(handle);
-  final _result = Structs_ImmutableStructWithCppAccessors(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return Structs_ImmutableStructWithCppAccessors(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_ImmutableStructWithCppAccessors_release_handle(handle);
 // Nullable Structs_ImmutableStructWithCppAccessors
@@ -905,11 +925,13 @@ Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi(Structs_MutableS
 }
 Structs_MutableStructWithCppAccessors smoke_Structs_MutableStructWithCppAccessors_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_Structs_MutableStructWithCppAccessors_get_field_stringField(handle);
-  final _result = Structs_MutableStructWithCppAccessors(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return Structs_MutableStructWithCppAccessors(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_MutableStructWithCppAccessors_release_handle(handle);
 // Nullable Structs_MutableStructWithCppAccessors
@@ -971,39 +993,49 @@ class Structs$Impl implements Structs {
     final _input_handle = smoke_Structs_Point_toFfi(input);
     final __result_handle = _swapPointCoordinates_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Structs_Point_releaseFfiHandle(_input_handle);
-    final _result = smoke_Structs_Point_fromFfi(__result_handle);
-    smoke_Structs_Point_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Structs_Point_fromFfi(__result_handle);
+    } finally {
+      smoke_Structs_Point_releaseFfiHandle(__result_handle);
+    }
   }
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
     final _returnAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct');
     final _input_handle = smoke_Structs_AllTypesStruct_toFfi(input);
     final __result_handle = _returnAllTypesStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Structs_AllTypesStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_Structs_AllTypesStruct_fromFfi(__result_handle);
-    smoke_Structs_AllTypesStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Structs_AllTypesStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_Structs_AllTypesStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static Structs_ExternalStruct getExternalStruct() {
     final _getExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct');
     final __result_handle = _getExternalStruct_ffi(__lib.LibraryContext.isolateId);
-    final _result = smoke_Structs_ExternalStruct_fromFfi(__result_handle);
-    smoke_Structs_ExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Structs_ExternalStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_Structs_ExternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static Structs_AnotherExternalStruct getAnotherExternalStruct() {
     final _getAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct');
     final __result_handle = _getAnotherExternalStruct_ffi(__lib.LibraryContext.isolateId);
-    final _result = smoke_Structs_AnotherExternalStruct_fromFfi(__result_handle);
-    smoke_Structs_AnotherExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Structs_AnotherExternalStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_Structs_AnotherExternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static Structs_YetAnotherExternalStruct getYetAnotherExternalStruct() {
     final _getYetAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getYetAnotherExternalStruct');
     final __result_handle = _getYetAnotherExternalStruct_ffi(__lib.LibraryContext.isolateId);
-    final _result = smoke_Structs_YetAnotherExternalStruct_fromFfi(__result_handle);
-    smoke_Structs_YetAnotherExternalStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Structs_YetAnotherExternalStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_Structs_YetAnotherExternalStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static Point createPoint(double x, double y) {
     final _createPoint_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double');
@@ -1012,18 +1044,22 @@ class Structs$Impl implements Structs {
     final __result_handle = _createPoint_ffi(__lib.LibraryContext.isolateId, _x_handle, _y_handle);
     (_x_handle);
     (_y_handle);
-    final _result = smoke_TypeCollection_Point_fromFfi(__result_handle);
-    smoke_TypeCollection_Point_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_TypeCollection_Point_fromFfi(__result_handle);
+    } finally {
+      smoke_TypeCollection_Point_releaseFfiHandle(__result_handle);
+    }
   }
   static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
     final _modifyAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct');
     final _input_handle = smoke_TypeCollection_AllTypesStruct_toFfi(input);
     final __result_handle = _modifyAllTypesStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_TypeCollection_AllTypesStruct_fromFfi(__result_handle);
-    smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_TypeCollection_AllTypesStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_Structs_toFfi(Structs value) =>

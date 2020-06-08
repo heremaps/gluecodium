@@ -67,15 +67,19 @@ class UnicodeComments$Impl implements UnicodeComments {
     if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
         _someMethodWithAllComments_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Comments_SomeEnum_fromFfi(__error_handle);
-        smoke_Comments_SomeEnum_releaseFfiHandle(__error_handle);
-        throw Comments_SomethingWrongException(_error_value);
+        try {
+          throw Comments_SomethingWrongException(smoke_Comments_SomeEnum_fromFfi(__error_handle));
+        } finally {
+          smoke_Comments_SomeEnum_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _someMethodWithAllComments_return_get_result(__call_result_handle);
     _someMethodWithAllComments_return_release_handle(__call_result_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_UnicodeComments_toFfi(UnicodeComments value) =>

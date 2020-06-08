@@ -2,7 +2,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 enum Enum {
     naN
 }
@@ -86,11 +85,13 @@ Pointer<Void> package_Types_Struct_toFfi(Struct value) {
 }
 Struct package_Types_Struct_fromFfi(Pointer<Void> handle) {
   final _null_handle = _package_Types_Struct_get_field_null(handle);
-  final _result = Struct(
-    package_Types_Enum_fromFfi(_null_handle)
-  );
-  package_Types_Enum_releaseFfiHandle(_null_handle);
-  return _result;
+  try {
+    return Struct(
+      package_Types_Enum_fromFfi(_null_handle)
+    );
+  } finally {
+    package_Types_Enum_releaseFfiHandle(_null_handle);
+  }
 }
 void package_Types_Struct_releaseFfiHandle(Pointer<Void> handle) => _package_Types_Struct_release_handle(handle);
 // Nullable Struct

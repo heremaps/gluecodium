@@ -110,11 +110,13 @@ Pointer<Void> smoke_PlatformComments_Something_toFfi(PlatformComments_Something 
 }
 PlatformComments_Something smoke_PlatformComments_Something_fromFfi(Pointer<Void> handle) {
   final _nothing_handle = _smoke_PlatformComments_Something_get_field_nothing(handle);
-  final _result = PlatformComments_Something(
-    String_fromFfi(_nothing_handle)
-  );
-  String_releaseFfiHandle(_nothing_handle);
-  return _result;
+  try {
+    return PlatformComments_Something(
+      String_fromFfi(_nothing_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_nothing_handle);
+  }
 }
 void smoke_PlatformComments_Something_releaseFfiHandle(Pointer<Void> handle) => _smoke_PlatformComments_Something_release_handle(handle);
 // Nullable PlatformComments_Something
@@ -192,18 +194,22 @@ class PlatformComments$Impl implements PlatformComments {
     final _doNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing');
     final _handle = this.handle;
     final __result_handle = _doNothing_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   doMagic() {
     final _doMagic_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doMagic');
     final _handle = this.handle;
     final __result_handle = _doMagic_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   bool someMethodWithAllComments(String input) {
@@ -215,15 +221,19 @@ class PlatformComments$Impl implements PlatformComments {
     if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
         _someMethodWithAllComments_return_release_handle(__call_result_handle);
-        final _error_value = smoke_PlatformComments_SomeEnum_fromFfi(__error_handle);
-        smoke_PlatformComments_SomeEnum_releaseFfiHandle(__error_handle);
-        throw PlatformComments_SomethingWrongException(_error_value);
+        try {
+          throw PlatformComments_SomethingWrongException(smoke_PlatformComments_SomeEnum_fromFfi(__error_handle));
+        } finally {
+          smoke_PlatformComments_SomeEnum_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _someMethodWithAllComments_return_get_result(__call_result_handle);
     _someMethodWithAllComments_return_release_handle(__call_result_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>

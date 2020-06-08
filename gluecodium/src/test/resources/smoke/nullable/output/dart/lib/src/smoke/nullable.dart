@@ -127,11 +127,13 @@ Pointer<Void> smoke_Nullable_SomeStruct_toFfi(Nullable_SomeStruct value) {
 }
 Nullable_SomeStruct smoke_Nullable_SomeStruct_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_Nullable_SomeStruct_get_field_stringField(handle);
-  final _result = Nullable_SomeStruct(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return Nullable_SomeStruct(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_Nullable_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Nullable_SomeStruct_release_handle(handle);
 // Nullable Nullable_SomeStruct
@@ -253,27 +255,29 @@ Nullable_NullableStruct smoke_Nullable_NullableStruct_fromFfi(Pointer<Void> hand
   final _inlineArrayField_handle = _smoke_Nullable_NullableStruct_get_field_inlineArrayField(handle);
   final _mapField_handle = _smoke_Nullable_NullableStruct_get_field_mapField(handle);
   final _instanceField_handle = _smoke_Nullable_NullableStruct_get_field_instanceField(handle);
-  final _result = Nullable_NullableStruct(
-    String_fromFfi_nullable(_stringField_handle),
-    Boolean_fromFfi_nullable(_boolField_handle),
-    Double_fromFfi_nullable(_doubleField_handle),
-    smoke_Nullable_SomeStruct_fromFfi_nullable(_structField_handle),
-    smoke_Nullable_SomeEnum_fromFfi_nullable(_enumField_handle),
-    ListOf_String_fromFfi_nullable(_arrayField_handle),
-    ListOf_String_fromFfi_nullable(_inlineArrayField_handle),
-    MapOf_Long_to_String_fromFfi_nullable(_mapField_handle),
-    smoke_SomeInterface_fromFfi_nullable(_instanceField_handle)
-  );
-  String_releaseFfiHandle_nullable(_stringField_handle);
-  Boolean_releaseFfiHandle_nullable(_boolField_handle);
-  Double_releaseFfiHandle_nullable(_doubleField_handle);
-  smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_structField_handle);
-  smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_inlineArrayField_handle);
-  MapOf_Long_to_String_releaseFfiHandle_nullable(_mapField_handle);
-  smoke_SomeInterface_releaseFfiHandle_nullable(_instanceField_handle);
-  return _result;
+  try {
+    return Nullable_NullableStruct(
+      String_fromFfi_nullable(_stringField_handle),
+      Boolean_fromFfi_nullable(_boolField_handle),
+      Double_fromFfi_nullable(_doubleField_handle),
+      smoke_Nullable_SomeStruct_fromFfi_nullable(_structField_handle),
+      smoke_Nullable_SomeEnum_fromFfi_nullable(_enumField_handle),
+      ListOf_String_fromFfi_nullable(_arrayField_handle),
+      ListOf_String_fromFfi_nullable(_inlineArrayField_handle),
+      MapOf_Long_to_String_fromFfi_nullable(_mapField_handle),
+      smoke_SomeInterface_fromFfi_nullable(_instanceField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle_nullable(_stringField_handle);
+    Boolean_releaseFfiHandle_nullable(_boolField_handle);
+    Double_releaseFfiHandle_nullable(_doubleField_handle);
+    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_structField_handle);
+    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
+    ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
+    ListOf_String_releaseFfiHandle_nullable(_inlineArrayField_handle);
+    MapOf_Long_to_String_releaseFfiHandle_nullable(_mapField_handle);
+    smoke_SomeInterface_releaseFfiHandle_nullable(_instanceField_handle);
+  }
 }
 void smoke_Nullable_NullableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Nullable_NullableStruct_release_handle(handle);
 // Nullable Nullable_NullableStruct
@@ -387,25 +391,27 @@ Nullable_NullableIntsStruct smoke_Nullable_NullableIntsStruct_fromFfi(Pointer<Vo
   final _uint16Field_handle = _smoke_Nullable_NullableIntsStruct_get_field_uint16Field(handle);
   final _uint32Field_handle = _smoke_Nullable_NullableIntsStruct_get_field_uint32Field(handle);
   final _uint64Field_handle = _smoke_Nullable_NullableIntsStruct_get_field_uint64Field(handle);
-  final _result = Nullable_NullableIntsStruct(
-    Byte_fromFfi_nullable(_int8Field_handle),
-    Short_fromFfi_nullable(_int16Field_handle),
-    Int_fromFfi_nullable(_int32Field_handle),
-    Long_fromFfi_nullable(_int64Field_handle),
-    UByte_fromFfi_nullable(_uint8Field_handle),
-    UShort_fromFfi_nullable(_uint16Field_handle),
-    UInt_fromFfi_nullable(_uint32Field_handle),
-    ULong_fromFfi_nullable(_uint64Field_handle)
-  );
-  Byte_releaseFfiHandle_nullable(_int8Field_handle);
-  Short_releaseFfiHandle_nullable(_int16Field_handle);
-  Int_releaseFfiHandle_nullable(_int32Field_handle);
-  Long_releaseFfiHandle_nullable(_int64Field_handle);
-  UByte_releaseFfiHandle_nullable(_uint8Field_handle);
-  UShort_releaseFfiHandle_nullable(_uint16Field_handle);
-  UInt_releaseFfiHandle_nullable(_uint32Field_handle);
-  ULong_releaseFfiHandle_nullable(_uint64Field_handle);
-  return _result;
+  try {
+    return Nullable_NullableIntsStruct(
+      Byte_fromFfi_nullable(_int8Field_handle),
+      Short_fromFfi_nullable(_int16Field_handle),
+      Int_fromFfi_nullable(_int32Field_handle),
+      Long_fromFfi_nullable(_int64Field_handle),
+      UByte_fromFfi_nullable(_uint8Field_handle),
+      UShort_fromFfi_nullable(_uint16Field_handle),
+      UInt_fromFfi_nullable(_uint32Field_handle),
+      ULong_fromFfi_nullable(_uint64Field_handle)
+    );
+  } finally {
+    Byte_releaseFfiHandle_nullable(_int8Field_handle);
+    Short_releaseFfiHandle_nullable(_int16Field_handle);
+    Int_releaseFfiHandle_nullable(_int32Field_handle);
+    Long_releaseFfiHandle_nullable(_int64Field_handle);
+    UByte_releaseFfiHandle_nullable(_uint8Field_handle);
+    UShort_releaseFfiHandle_nullable(_uint16Field_handle);
+    UInt_releaseFfiHandle_nullable(_uint32Field_handle);
+    ULong_releaseFfiHandle_nullable(_uint64Field_handle);
+  }
 }
 void smoke_Nullable_NullableIntsStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Nullable_NullableIntsStruct_release_handle(handle);
 // Nullable Nullable_NullableIntsStruct
@@ -469,9 +475,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithString_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle_nullable(_input_handle);
-    final _result = String_fromFfi_nullable(__result_handle);
-    String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi_nullable(__result_handle);
+    } finally {
+      String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   bool methodWithBoolean(bool input) {
@@ -480,9 +488,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithBoolean_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     Boolean_releaseFfiHandle_nullable(_input_handle);
-    final _result = Boolean_fromFfi_nullable(__result_handle);
-    Boolean_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi_nullable(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   double methodWithDouble(double input) {
@@ -491,9 +501,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithDouble_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     Double_releaseFfiHandle_nullable(_input_handle);
-    final _result = Double_fromFfi_nullable(__result_handle);
-    Double_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return Double_fromFfi_nullable(__result_handle);
+    } finally {
+      Double_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   int methodWithInt(int input) {
@@ -502,9 +514,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithInt_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     Long_releaseFfiHandle_nullable(_input_handle);
-    final _result = Long_fromFfi_nullable(__result_handle);
-    Long_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return Long_fromFfi_nullable(__result_handle);
+    } finally {
+      Long_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   Nullable_SomeStruct methodWithSomeStruct(Nullable_SomeStruct input) {
@@ -513,9 +527,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithSomeStruct_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_input_handle);
-    final _result = smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
+    } finally {
+      smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   Nullable_SomeEnum methodWithSomeEnum(Nullable_SomeEnum input) {
@@ -524,9 +540,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithSomeEnum_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_input_handle);
-    final _result = smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
+    } finally {
+      smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   List<String> methodWithSomeArray(List<String> input) {
@@ -535,9 +553,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithSomeArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     ListOf_String_releaseFfiHandle_nullable(_input_handle);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return ListOf_String_fromFfi_nullable(__result_handle);
+    } finally {
+      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   List<String> methodWithInlineArray(List<String> input) {
@@ -546,9 +566,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithInlineArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     ListOf_String_releaseFfiHandle_nullable(_input_handle);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return ListOf_String_fromFfi_nullable(__result_handle);
+    } finally {
+      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   Map<int, String> methodWithSomeMap(Map<int, String> input) {
@@ -557,9 +579,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithSomeMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     MapOf_Long_to_String_releaseFfiHandle_nullable(_input_handle);
-    final _result = MapOf_Long_to_String_fromFfi_nullable(__result_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return MapOf_Long_to_String_fromFfi_nullable(__result_handle);
+    } finally {
+      MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   SomeInterface methodWithInstance(SomeInterface input) {
@@ -568,18 +592,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _methodWithInstance_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_SomeInterface_releaseFfiHandle_nullable(_input_handle);
-    final _result = smoke_SomeInterface_fromFfi_nullable(__result_handle);
-    smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return smoke_SomeInterface_fromFfi_nullable(__result_handle);
+    } finally {
+      smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   String get stringProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_stringProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi_nullable(__result_handle);
-    String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi_nullable(__result_handle);
+    } finally {
+      String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set stringProperty(String value) {
@@ -588,18 +616,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   bool get isBoolProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_isBoolProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = Boolean_fromFfi_nullable(__result_handle);
-    Boolean_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi_nullable(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set isBoolProperty(bool value) {
@@ -608,18 +640,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Boolean_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   double get doubleProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_doubleProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = Double_fromFfi_nullable(__result_handle);
-    Double_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return Double_fromFfi_nullable(__result_handle);
+    } finally {
+      Double_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set doubleProperty(double value) {
@@ -628,18 +664,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Double_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   int get intProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_intProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = Long_fromFfi_nullable(__result_handle);
-    Long_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return Long_fromFfi_nullable(__result_handle);
+    } finally {
+      Long_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set intProperty(int value) {
@@ -648,18 +688,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Long_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   Nullable_SomeStruct get structProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_structProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return smoke_Nullable_SomeStruct_fromFfi_nullable(__result_handle);
+    } finally {
+      smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set structProperty(Nullable_SomeStruct value) {
@@ -668,18 +712,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   Nullable_SomeEnum get enumProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_enumProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
-    smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return smoke_Nullable_SomeEnum_fromFfi_nullable(__result_handle);
+    } finally {
+      smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set enumProperty(Nullable_SomeEnum value) {
@@ -688,18 +736,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   List<String> get arrayProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_arrayProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return ListOf_String_fromFfi_nullable(__result_handle);
+    } finally {
+      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set arrayProperty(List<String> value) {
@@ -708,18 +760,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     ListOf_String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   List<String> get inlineArrayProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_inlineArrayProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = ListOf_String_fromFfi_nullable(__result_handle);
-    ListOf_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return ListOf_String_fromFfi_nullable(__result_handle);
+    } finally {
+      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set inlineArrayProperty(List<String> value) {
@@ -728,18 +784,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     ListOf_String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   Map<int, String> get mapProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_mapProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = MapOf_Long_to_String_fromFfi_nullable(__result_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return MapOf_Long_to_String_fromFfi_nullable(__result_handle);
+    } finally {
+      MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set mapProperty(Map<int, String> value) {
@@ -748,18 +808,22 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     MapOf_Long_to_String_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   SomeInterface get instanceProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_instanceProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = smoke_SomeInterface_fromFfi_nullable(__result_handle);
-    smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
-    return _result;
+    try {
+      return smoke_SomeInterface_fromFfi_nullable(__result_handle);
+    } finally {
+      smoke_SomeInterface_releaseFfiHandle_nullable(__result_handle);
+    }
   }
   @override
   set instanceProperty(SomeInterface value) {
@@ -768,9 +832,11 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     smoke_SomeInterface_releaseFfiHandle_nullable(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_Nullable_toFfi(Nullable value) =>

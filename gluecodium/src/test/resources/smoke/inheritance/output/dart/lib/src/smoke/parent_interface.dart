@@ -85,17 +85,21 @@ class ParentInterface$Impl implements ParentInterface {
     final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod');
     final _handle = this.handle;
     final __result_handle = _rootMethod_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   String get rootProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   set rootProperty(String value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String');
@@ -103,13 +107,18 @@ class ParentInterface$Impl implements ParentInterface {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     String_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 int _ParentInterface_rootMethod_static(int _token) {
-  (__lib.instanceCache[_token] as ParentInterface).rootMethod();
+  try {
+    (__lib.instanceCache[_token] as ParentInterface).rootMethod();
+  } finally {
+  }
   return 0;
 }
 int _ParentInterface_rootProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
@@ -117,9 +126,12 @@ int _ParentInterface_rootProperty_get_static(int _token, Pointer<Pointer<Void>> 
   return 0;
 }
 int _ParentInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
-  final __value = String_fromFfi(_value);
-  String_releaseFfiHandle(_value);
-  (__lib.instanceCache[_token] as ParentInterface).rootProperty = __value;
+  try {
+    (__lib.instanceCache[_token] as ParentInterface).rootProperty =
+      String_fromFfi(_value);
+  } finally {
+    String_releaseFfiHandle(_value);
+  }
   return 0;
 }
 Pointer<Void> smoke_ParentInterface_toFfi(ParentInterface value) {

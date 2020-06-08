@@ -207,8 +207,11 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
     }}('{{libraryName}}_{{resolveName getter "Ffi"}}');
     final __result_handle = _{{resolveName getter}}_ffi({{!!
     }}{{#unless isStatic}}this.handle, {{/unless}}__lib.LibraryContext.isolateId);
-    _cache_{{resolveName}} = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+    try {
+      _cache_{{resolveName}} = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+    } finally {
+      {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
+    }
     _is_cached_{{resolveName}} = true;
   }
   return _cache_{{resolveName}};

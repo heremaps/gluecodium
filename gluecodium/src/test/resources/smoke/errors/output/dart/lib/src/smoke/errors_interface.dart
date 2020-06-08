@@ -314,15 +314,19 @@ class ErrorsInterface$Impl implements ErrorsInterface {
     if (_methodWithErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrors_return_get_error(__call_result_handle);
         _methodWithErrors_return_release_handle(__call_result_handle);
-        final _error_value = smoke_ErrorsInterface_InternalError_fromFfi(__error_handle);
-        smoke_ErrorsInterface_InternalError_releaseFfiHandle(__error_handle);
-        throw ErrorsInterface_InternalException(_error_value);
+        try {
+          throw ErrorsInterface_InternalException(smoke_ErrorsInterface_InternalError_fromFfi(__error_handle));
+        } finally {
+          smoke_ErrorsInterface_InternalError_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithErrors_return_get_result(__call_result_handle);
     _methodWithErrors_return_release_handle(__call_result_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   methodWithExternalErrors() {
@@ -332,15 +336,19 @@ class ErrorsInterface$Impl implements ErrorsInterface {
     if (_methodWithExternalErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithExternalErrors_return_get_error(__call_result_handle);
         _methodWithExternalErrors_return_release_handle(__call_result_handle);
-        final _error_value = smoke_ErrorsInterface_ExternalErrors_fromFfi(__error_handle);
-        smoke_ErrorsInterface_ExternalErrors_releaseFfiHandle(__error_handle);
-        throw ErrorsInterface_ExternalException(_error_value);
+        try {
+          throw ErrorsInterface_ExternalException(smoke_ErrorsInterface_ExternalErrors_fromFfi(__error_handle));
+        } finally {
+          smoke_ErrorsInterface_ExternalErrors_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithExternalErrors_return_get_result(__call_result_handle);
     _methodWithExternalErrors_return_release_handle(__call_result_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   String methodWithErrorsAndReturnValue() {
@@ -350,15 +358,19 @@ class ErrorsInterface$Impl implements ErrorsInterface {
     if (_methodWithErrorsAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrorsAndReturnValue_return_get_error(__call_result_handle);
         _methodWithErrorsAndReturnValue_return_release_handle(__call_result_handle);
-        final _error_value = smoke_ErrorsInterface_InternalError_fromFfi(__error_handle);
-        smoke_ErrorsInterface_InternalError_releaseFfiHandle(__error_handle);
-        throw ErrorsInterface_InternalException(_error_value);
+        try {
+          throw ErrorsInterface_InternalException(smoke_ErrorsInterface_InternalError_fromFfi(__error_handle));
+        } finally {
+          smoke_ErrorsInterface_InternalError_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithErrorsAndReturnValue_return_get_result(__call_result_handle);
     _methodWithErrorsAndReturnValue_return_release_handle(__call_result_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   static methodWithPayloadError() {
@@ -367,15 +379,19 @@ class ErrorsInterface$Impl implements ErrorsInterface {
     if (_methodWithPayloadError_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithPayloadError_return_get_error(__call_result_handle);
         _methodWithPayloadError_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Payload_fromFfi(__error_handle);
-        smoke_Payload_releaseFfiHandle(__error_handle);
-        throw WithPayloadException(_error_value);
+        try {
+          throw WithPayloadException(smoke_Payload_fromFfi(__error_handle));
+        } finally {
+          smoke_Payload_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithPayloadError_return_get_result(__call_result_handle);
     _methodWithPayloadError_return_release_handle(__call_result_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   static String methodWithPayloadErrorAndReturnValue() {
@@ -384,21 +400,25 @@ class ErrorsInterface$Impl implements ErrorsInterface {
     if (_methodWithPayloadErrorAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithPayloadErrorAndReturnValue_return_get_error(__call_result_handle);
         _methodWithPayloadErrorAndReturnValue_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Payload_fromFfi(__error_handle);
-        smoke_Payload_releaseFfiHandle(__error_handle);
-        throw WithPayloadException(_error_value);
+        try {
+          throw WithPayloadException(smoke_Payload_fromFfi(__error_handle));
+        } finally {
+          smoke_Payload_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithPayloadErrorAndReturnValue_return_get_result(__call_result_handle);
     _methodWithPayloadErrorAndReturnValue_return_release_handle(__call_result_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _ErrorsInterface_methodWithErrors_static(int _token, Pointer<Uint32> _error) {
   bool _error_flag = false;
   try {
-  (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrors();
+    (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrors();
   } on ErrorsInterface_InternalException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -410,7 +430,7 @@ int _ErrorsInterface_methodWithErrors_static(int _token, Pointer<Uint32> _error)
 int _ErrorsInterface_methodWithExternalErrors_static(int _token, Pointer<Uint32> _error) {
   bool _error_flag = false;
   try {
-  (__lib.instanceCache[_token] as ErrorsInterface).methodWithExternalErrors();
+    (__lib.instanceCache[_token] as ErrorsInterface).methodWithExternalErrors();
   } on ErrorsInterface_ExternalException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -421,9 +441,10 @@ int _ErrorsInterface_methodWithExternalErrors_static(int _token, Pointer<Uint32>
 }
 int _ErrorsInterface_methodWithErrorsAndReturnValue_static(int _token, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
   bool _error_flag = false;
+  String _result_object = null;
   try {
-  final _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrorsAndReturnValue();
-  _result.value = String_toFfi(_result_object);
+    _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrorsAndReturnValue();
+    _result.value = String_toFfi(_result_object);
   } on ErrorsInterface_InternalException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -435,7 +456,7 @@ int _ErrorsInterface_methodWithErrorsAndReturnValue_static(int _token, Pointer<P
 int _ErrorsInterface_methodWithPayloadError_static(int _token, Pointer<Pointer<Void>> _error) {
   bool _error_flag = false;
   try {
-  (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadError();
+    (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadError();
   } on WithPayloadException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -446,9 +467,10 @@ int _ErrorsInterface_methodWithPayloadError_static(int _token, Pointer<Pointer<V
 }
 int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(int _token, Pointer<Pointer<Void>> _result, Pointer<Pointer<Void>> _error) {
   bool _error_flag = false;
+  String _result_object = null;
   try {
-  final _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadErrorAndReturnValue();
-  _result.value = String_toFfi(_result_object);
+    _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadErrorAndReturnValue();
+    _result.value = String_toFfi(_result_object);
   } on WithPayloadException catch(e) {
     _error_flag = true;
     final _error_object = e.error;

@@ -48,18 +48,22 @@ class ChildWithParentClassReferences$Impl implements ChildWithParentClassReferen
     final _classFunction_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentWithClassReferences_classFunction');
     final _handle = this.handle;
     final __result_handle = _classFunction_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = smoke_ChildClassFromClass_fromFfi(__result_handle);
-    smoke_ChildClassFromClass_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_ChildClassFromClass_fromFfi(__result_handle);
+    } finally {
+      smoke_ChildClassFromClass_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   ParentClass get classProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentWithClassReferences_classProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = smoke_ParentClass_fromFfi(__result_handle);
-    smoke_ParentClass_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_ParentClass_fromFfi(__result_handle);
+    } finally {
+      smoke_ParentClass_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set classProperty(ParentClass value) {
@@ -68,9 +72,11 @@ class ChildWithParentClassReferences$Impl implements ChildWithParentClassReferen
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     smoke_ParentClass_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_ChildWithParentClassReferences_toFfi(ChildWithParentClassReferences value) =>

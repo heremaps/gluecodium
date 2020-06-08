@@ -42,15 +42,21 @@ class ClassWithInternalLambda_InternalLambda$Impl {
     final _handle = this.handle;
     final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle);
     String_releaseFfiHandle(_p0_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _ClassWithInternalLambda_InternalLambda_call_static(int _token, Pointer<Void> p0, Pointer<Uint8> _result) {
-  final _result_object = (__lib.instanceCache[_token] as ClassWithInternalLambda_InternalLambda)(String_fromFfi(p0));
-  _result.value = Boolean_toFfi(_result_object);
-  String_releaseFfiHandle(p0);
+  bool _result_object;
+  try {
+    _result_object = (__lib.instanceCache[_token] as ClassWithInternalLambda_InternalLambda)(String_fromFfi(p0));
+    _result.value = Boolean_toFfi(_result_object);
+  } finally {
+    String_releaseFfiHandle(p0);
+  }
   return 0;
 }
 Pointer<Void> smoke_ClassWithInternalLambda_InternalLambda_toFfi(ClassWithInternalLambda_InternalLambda value) {
@@ -136,9 +142,11 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
     final __result_handle = _invokeInternalLambda_ffi(__lib.LibraryContext.isolateId, _lambda_handle, _value_handle);
     smoke_ClassWithInternalLambda_InternalLambda_releaseFfiHandle(_lambda_handle);
     String_releaseFfiHandle(_value_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_ClassWithInternalLambda_toFfi(ClassWithInternalLambda value) =>

@@ -99,11 +99,13 @@ Pointer<Void> smoke_ExternalInterface_SomeStruct_toFfi(ExternalInterface_SomeStr
 }
 ExternalInterface_SomeStruct smoke_ExternalInterface_SomeStruct_fromFfi(Pointer<Void> handle) {
   final _someField_handle = _smoke_ExternalInterface_SomeStruct_get_field_someField(handle);
-  final _result = ExternalInterface_SomeStruct(
-    String_fromFfi(_someField_handle)
-  );
-  String_releaseFfiHandle(_someField_handle);
-  return _result;
+  try {
+    return ExternalInterface_SomeStruct(
+      String_fromFfi(_someField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_someField_handle);
+  }
 }
 void smoke_ExternalInterface_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalInterface_SomeStruct_release_handle(handle);
 // Nullable ExternalInterface_SomeStruct
@@ -193,23 +195,29 @@ class ExternalInterface$Impl implements ExternalInterface {
     final _handle = this.handle;
     final __result_handle = _someMethod_ffi(_handle, __lib.LibraryContext.isolateId, _someParameter_handle);
     (_someParameter_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   String get someProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 int _ExternalInterface_someMethod_static(int _token, int someParameter) {
-  final __someParameter = (someParameter);
-  (someParameter);
-  (__lib.instanceCache[_token] as ExternalInterface).someMethod(__someParameter);
+  try {
+    (__lib.instanceCache[_token] as ExternalInterface).someMethod((someParameter));
+  } finally {
+    (someParameter);
+  }
   return 0;
 }
 int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {

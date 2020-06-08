@@ -87,9 +87,11 @@ class LevelOne_LevelTwo_LevelThree_LevelFour {
   static LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() {
     final _fooFactory_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory');
     final __result_handle = _fooFactory_ffi(__lib.LibraryContext.isolateId);
-    final _result = smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fromFfi(__result_handle);
-    smoke_LevelOne_LevelTwo_LevelThree_LevelFour_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fromFfi(__result_handle);
+    } finally {
+      smoke_LevelOne_LevelTwo_LevelThree_LevelFour_releaseFfiHandle(__result_handle);
+    }
   }
 }
 // LevelOne_LevelTwo_LevelThree_LevelFour "private" section, not exported.
@@ -113,11 +115,13 @@ Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_LevelFour_toFfi(LevelOne_LevelT
 }
 LevelOne_LevelTwo_LevelThree_LevelFour smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fromFfi(Pointer<Void> handle) {
   final _stringField_handle = _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_field_stringField(handle);
-  final _result = LevelOne_LevelTwo_LevelThree_LevelFour(
-    String_fromFfi(_stringField_handle)
-  );
-  String_releaseFfiHandle(_stringField_handle);
-  return _result;
+  try {
+    return LevelOne_LevelTwo_LevelThree_LevelFour(
+      String_fromFfi(_stringField_handle)
+    );
+  } finally {
+    String_releaseFfiHandle(_stringField_handle);
+  }
 }
 void smoke_LevelOne_LevelTwo_LevelThree_LevelFour_releaseFfiHandle(Pointer<Void> handle) => _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle(handle);
 // Nullable LevelOne_LevelTwo_LevelThree_LevelFour
@@ -181,9 +185,11 @@ class LevelOne_LevelTwo_LevelThree$Impl implements LevelOne_LevelTwo_LevelThree 
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_OuterClass_InnerInterface_releaseFfiHandle(_input_handle);
-    final _result = smoke_OuterInterface_InnerClass_fromFfi(__result_handle);
-    smoke_OuterInterface_InnerClass_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_OuterInterface_InnerClass_fromFfi(__result_handle);
+    } finally {
+      smoke_OuterInterface_InnerClass_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_toFfi(LevelOne_LevelTwo_LevelThree value) =>

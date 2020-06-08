@@ -34,9 +34,11 @@ class Vector {
     final __result_handle = _distanceTo_ffi(_handle, __lib.LibraryContext.isolateId, _other_handle);
     smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
     smoke_StructsWithMethods_Vector_releaseFfiHandle(_other_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   Vector add(Vector other) {
     final _add_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_add__Vector');
@@ -45,9 +47,11 @@ class Vector {
     final __result_handle = _add_ffi(_handle, __lib.LibraryContext.isolateId, _other_handle);
     smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
     smoke_StructsWithMethods_Vector_releaseFfiHandle(_other_handle);
-    final _result = smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
+    } finally {
+      smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
+    }
   }
   static bool validate(double x, double y) {
     final _validate_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Double, Double), int Function(int, double, double)>('library_smoke_StructsWithMethods_Vector_validate__Double_Double');
@@ -56,9 +60,11 @@ class Vector {
     final __result_handle = _validate_ffi(__lib.LibraryContext.isolateId, _x_handle, _y_handle);
     (_x_handle);
     (_y_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   static Vector _create(double x, double y) {
     final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_StructsWithMethods_Vector_create__Double_Double');
@@ -67,9 +73,11 @@ class Vector {
     final __result_handle = _create_ffi(__lib.LibraryContext.isolateId, _x_handle, _y_handle);
     (_x_handle);
     (_y_handle);
-    final _result = smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
+    } finally {
+      smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
+    }
   }
   static Vector _copy(Vector other) {
     final _copy_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_create__Vector');
@@ -79,15 +87,19 @@ class Vector {
     if (_copy_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _copy_return_get_error(__call_result_handle);
         _copy_return_release_handle(__call_result_handle);
-        final _error_value = smoke_ValidationUtils_ValidationErrorCode_fromFfi(__error_handle);
-        smoke_ValidationUtils_ValidationErrorCode_releaseFfiHandle(__error_handle);
-        throw ValidationException(_error_value);
+        try {
+          throw ValidationException(smoke_ValidationUtils_ValidationErrorCode_fromFfi(__error_handle));
+        } finally {
+          smoke_ValidationUtils_ValidationErrorCode_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _copy_return_get_result(__call_result_handle);
     _copy_return_release_handle(__call_result_handle);
-    final _result = smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_StructsWithMethods_Vector_fromFfi(__result_handle);
+    } finally {
+      smoke_StructsWithMethods_Vector_releaseFfiHandle(__result_handle);
+    }
   }
 }
 // Vector "private" section, not exported.
@@ -118,13 +130,15 @@ Pointer<Void> smoke_StructsWithMethods_Vector_toFfi(Vector value) {
 Vector smoke_StructsWithMethods_Vector_fromFfi(Pointer<Void> handle) {
   final _x_handle = _smoke_StructsWithMethods_Vector_get_field_x(handle);
   final _y_handle = _smoke_StructsWithMethods_Vector_get_field_y(handle);
-  final _result = Vector._(
-    (_x_handle),
-    (_y_handle)
-  );
-  (_x_handle);
-  (_y_handle);
-  return _result;
+  try {
+    return Vector._(
+      (_x_handle),
+      (_y_handle)
+    );
+  } finally {
+    (_x_handle);
+    (_y_handle);
+  }
 }
 void smoke_StructsWithMethods_Vector_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructsWithMethods_Vector_release_handle(handle);
 // Nullable Vector

@@ -14,9 +14,11 @@ class FreePoint {
     final _handle = smoke_FreePoint_toFfi(this);
     final __result_handle = _flip_ffi(_handle, __lib.LibraryContext.isolateId);
     smoke_FreePoint_releaseFfiHandle(_handle);
-    final _result = smoke_FreePoint_fromFfi(__result_handle);
-    smoke_FreePoint_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_FreePoint_fromFfi(__result_handle);
+    } finally {
+      smoke_FreePoint_releaseFfiHandle(__result_handle);
+    }
   }
 }
 // FreePoint "private" section, not exported.
@@ -47,13 +49,15 @@ Pointer<Void> smoke_FreePoint_toFfi(FreePoint value) {
 FreePoint smoke_FreePoint_fromFfi(Pointer<Void> handle) {
   final _x_handle = _smoke_FreePoint_get_field_x(handle);
   final _y_handle = _smoke_FreePoint_get_field_y(handle);
-  final _result = FreePoint(
-    (_x_handle),
-    (_y_handle)
-  );
-  (_x_handle);
-  (_y_handle);
-  return _result;
+  try {
+    return FreePoint(
+      (_x_handle),
+      (_y_handle)
+    );
+  } finally {
+    (_x_handle);
+    (_y_handle);
+  }
 }
 void smoke_FreePoint_releaseFfiHandle(Pointer<Void> handle) => _smoke_FreePoint_release_handle(handle);
 // Nullable FreePoint

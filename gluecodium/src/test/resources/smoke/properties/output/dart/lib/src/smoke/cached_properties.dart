@@ -46,8 +46,11 @@ class CachedProperties$Impl implements CachedProperties {
     if (!_is_cached_cachedProperty) {
       final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get');
       final __result_handle = _get_ffi(this.handle, __lib.LibraryContext.isolateId);
-      _cache_cachedProperty = ListOf_String_fromFfi(__result_handle);
-      ListOf_String_releaseFfiHandle(__result_handle);
+      try {
+        _cache_cachedProperty = ListOf_String_fromFfi(__result_handle);
+      } finally {
+        ListOf_String_releaseFfiHandle(__result_handle);
+      }
       _is_cached_cachedProperty = true;
     }
     return _cache_cachedProperty;
@@ -58,8 +61,11 @@ class CachedProperties$Impl implements CachedProperties {
     if (!_is_cached_staticCachedProperty) {
       final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get');
       final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
-      _cache_staticCachedProperty = Blob_fromFfi(__result_handle);
-      Blob_releaseFfiHandle(__result_handle);
+      try {
+        _cache_staticCachedProperty = Blob_fromFfi(__result_handle);
+      } finally {
+        Blob_releaseFfiHandle(__result_handle);
+      }
       _is_cached_staticCachedProperty = true;
     }
     return _cache_staticCachedProperty;

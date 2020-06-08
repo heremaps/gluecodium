@@ -44,36 +44,44 @@ class SpecialNames$Impl implements SpecialNames {
     final _create_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create');
     final _handle = this.handle;
     final __result_handle = _create_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   reallyRelease() {
     final _reallyRelease_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_release');
     final _handle = this.handle;
     final __result_handle = _reallyRelease_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   createProxy() {
     final _createProxy_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_createProxy');
     final _handle = this.handle;
     final __result_handle = _createProxy_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   Uppercase() {
     final _Uppercase_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase');
     final _handle = this.handle;
     final __result_handle = _Uppercase_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) =>

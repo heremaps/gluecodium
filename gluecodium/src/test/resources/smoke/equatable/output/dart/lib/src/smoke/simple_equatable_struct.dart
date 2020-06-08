@@ -74,17 +74,19 @@ SimpleEquatableStruct smoke_SimpleEquatableStruct_fromFfi(Pointer<Void> handle) 
   final _interfaceField_handle = _smoke_SimpleEquatableStruct_get_field_interfaceField(handle);
   final _nullableClassField_handle = _smoke_SimpleEquatableStruct_get_field_nullableClassField(handle);
   final _nullableInterfaceField_handle = _smoke_SimpleEquatableStruct_get_field_nullableInterfaceField(handle);
-  final _result = SimpleEquatableStruct(
-    smoke_NonEquatableClass_fromFfi(_classField_handle),
-    smoke_NonEquatableInterface_fromFfi(_interfaceField_handle),
-    smoke_NonEquatableClass_fromFfi_nullable(_nullableClassField_handle),
-    smoke_NonEquatableInterface_fromFfi_nullable(_nullableInterfaceField_handle)
-  );
-  smoke_NonEquatableClass_releaseFfiHandle(_classField_handle);
-  smoke_NonEquatableInterface_releaseFfiHandle(_interfaceField_handle);
-  smoke_NonEquatableClass_releaseFfiHandle_nullable(_nullableClassField_handle);
-  smoke_NonEquatableInterface_releaseFfiHandle_nullable(_nullableInterfaceField_handle);
-  return _result;
+  try {
+    return SimpleEquatableStruct(
+      smoke_NonEquatableClass_fromFfi(_classField_handle),
+      smoke_NonEquatableInterface_fromFfi(_interfaceField_handle),
+      smoke_NonEquatableClass_fromFfi_nullable(_nullableClassField_handle),
+      smoke_NonEquatableInterface_fromFfi_nullable(_nullableInterfaceField_handle)
+    );
+  } finally {
+    smoke_NonEquatableClass_releaseFfiHandle(_classField_handle);
+    smoke_NonEquatableInterface_releaseFfiHandle(_interfaceField_handle);
+    smoke_NonEquatableClass_releaseFfiHandle_nullable(_nullableClassField_handle);
+    smoke_NonEquatableInterface_releaseFfiHandle_nullable(_nullableInterfaceField_handle);
+  }
 }
 void smoke_SimpleEquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_SimpleEquatableStruct_release_handle(handle);
 // Nullable SimpleEquatableStruct

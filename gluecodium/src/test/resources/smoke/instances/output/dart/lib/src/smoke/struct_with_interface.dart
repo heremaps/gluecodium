@@ -28,11 +28,13 @@ Pointer<Void> smoke_StructWithInterface_toFfi(StructWithInterface value) {
 }
 StructWithInterface smoke_StructWithInterface_fromFfi(Pointer<Void> handle) {
   final _interfaceInstance_handle = _smoke_StructWithInterface_get_field_interfaceInstance(handle);
-  final _result = StructWithInterface(
-    smoke_SimpleInterface_fromFfi(_interfaceInstance_handle)
-  );
-  smoke_SimpleInterface_releaseFfiHandle(_interfaceInstance_handle);
-  return _result;
+  try {
+    return StructWithInterface(
+      smoke_SimpleInterface_fromFfi(_interfaceInstance_handle)
+    );
+  } finally {
+    smoke_SimpleInterface_releaseFfiHandle(_interfaceInstance_handle);
+  }
 }
 void smoke_StructWithInterface_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructWithInterface_release_handle(handle);
 // Nullable StructWithInterface

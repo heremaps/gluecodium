@@ -43,18 +43,22 @@ class InternalClassWithStaticProperty$Impl implements InternalClassWithStaticPro
   static String get internal_fooBar {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get');
     final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   static set internal_fooBar(String value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String');
     final _value_handle = String_toFfi(value);
     final __result_handle = _set_ffi(__lib.LibraryContext.isolateId, _value_handle);
     String_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_InternalClassWithStaticProperty_toFfi(InternalClassWithStaticProperty value) =>

@@ -28,11 +28,13 @@ Pointer<Void> smoke_StructWithClass_toFfi(StructWithClass value) {
 }
 StructWithClass smoke_StructWithClass_fromFfi(Pointer<Void> handle) {
   final _classInstance_handle = _smoke_StructWithClass_get_field_classInstance(handle);
-  final _result = StructWithClass(
-    smoke_SimpleClass_fromFfi(_classInstance_handle)
-  );
-  smoke_SimpleClass_releaseFfiHandle(_classInstance_handle);
-  return _result;
+  try {
+    return StructWithClass(
+      smoke_SimpleClass_fromFfi(_classInstance_handle)
+    );
+  } finally {
+    smoke_SimpleClass_releaseFfiHandle(_classInstance_handle);
+  }
 }
 void smoke_StructWithClass_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructWithClass_release_handle(handle);
 // Nullable StructWithClass

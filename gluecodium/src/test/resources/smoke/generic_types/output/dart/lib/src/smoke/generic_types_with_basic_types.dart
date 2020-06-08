@@ -65,15 +65,17 @@ GenericTypesWithBasicTypes_StructWithGenerics smoke_GenericTypesWithBasicTypes_S
   final _numbersList_handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList(handle);
   final _numbersMap_handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap(handle);
   final _numbersSet_handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet(handle);
-  final _result = GenericTypesWithBasicTypes_StructWithGenerics(
-    foobar_ListOf_UByte_fromFfi(_numbersList_handle),
-    foobar_MapOf_UByte_to_String_fromFfi(_numbersMap_handle),
-    foobar_SetOf_UByte_fromFfi(_numbersSet_handle)
-  );
-  foobar_ListOf_UByte_releaseFfiHandle(_numbersList_handle);
-  foobar_MapOf_UByte_to_String_releaseFfiHandle(_numbersMap_handle);
-  foobar_SetOf_UByte_releaseFfiHandle(_numbersSet_handle);
-  return _result;
+  try {
+    return GenericTypesWithBasicTypes_StructWithGenerics(
+      foobar_ListOf_UByte_fromFfi(_numbersList_handle),
+      foobar_MapOf_UByte_to_String_fromFfi(_numbersMap_handle),
+      foobar_SetOf_UByte_fromFfi(_numbersSet_handle)
+    );
+  } finally {
+    foobar_ListOf_UByte_releaseFfiHandle(_numbersList_handle);
+    foobar_MapOf_UByte_to_String_releaseFfiHandle(_numbersMap_handle);
+    foobar_SetOf_UByte_releaseFfiHandle(_numbersSet_handle);
+  }
 }
 void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle(handle);
 // Nullable GenericTypesWithBasicTypes_StructWithGenerics
@@ -137,9 +139,11 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _methodWithList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_Int_releaseFfiHandle(_input_handle);
-    final _result = foobar_ListOf_Int_fromFfi(__result_handle);
-    foobar_ListOf_Int_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_Int_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_Int_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<int, bool> methodWithMap(Map<int, bool> input) {
@@ -148,9 +152,11 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _methodWithMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_Int_to_Boolean_fromFfi(__result_handle);
-    foobar_MapOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_Int_to_Boolean_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_Int_to_Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Set<int> methodWithSet(Set<int> input) {
@@ -159,9 +165,11 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _methodWithSet_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_SetOf_Int_releaseFfiHandle(_input_handle);
-    final _result = foobar_SetOf_Int_fromFfi(__result_handle);
-    foobar_SetOf_Int_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_Int_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_Int_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   List<String> methodWithListTypeAlias(List<String> input) {
@@ -170,9 +178,11 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _methodWithListTypeAlias_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_ListOf_String_releaseFfiHandle(_input_handle);
-    final _result = foobar_ListOf_String_fromFfi(__result_handle);
-    foobar_ListOf_String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_String_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Map<String, String> methodWithMapTypeAlias(Map<String, String> input) {
@@ -181,9 +191,11 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _methodWithMapTypeAlias_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_MapOf_String_to_String_releaseFfiHandle(_input_handle);
-    final _result = foobar_MapOf_String_to_String_fromFfi(__result_handle);
-    foobar_MapOf_String_to_String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_String_to_String_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_String_to_String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   Set<String> methodWithSetTypeAlias(Set<String> input) {
@@ -192,18 +204,22 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _methodWithSetTypeAlias_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     foobar_SetOf_String_releaseFfiHandle(_input_handle);
-    final _result = foobar_SetOf_String_fromFfi(__result_handle);
-    foobar_SetOf_String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_String_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_String_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   List<double> get listProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_listProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = foobar_ListOf_Float_fromFfi(__result_handle);
-    foobar_ListOf_Float_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_ListOf_Float_fromFfi(__result_handle);
+    } finally {
+      foobar_ListOf_Float_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set listProperty(List<double> value) {
@@ -212,18 +228,22 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     foobar_ListOf_Float_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   Map<double, double> get mapProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_mapProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = foobar_MapOf_Float_to_Double_fromFfi(__result_handle);
-    foobar_MapOf_Float_to_Double_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_MapOf_Float_to_Double_fromFfi(__result_handle);
+    } finally {
+      foobar_MapOf_Float_to_Double_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set mapProperty(Map<double, double> value) {
@@ -232,18 +252,22 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     foobar_MapOf_Float_to_Double_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   @override
   Set<double> get setProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_setProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = foobar_SetOf_Float_fromFfi(__result_handle);
-    foobar_SetOf_Float_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return foobar_SetOf_Float_fromFfi(__result_handle);
+    } finally {
+      foobar_SetOf_Float_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   set setProperty(Set<double> value) {
@@ -252,9 +276,11 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     foobar_SetOf_Float_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes value) =>

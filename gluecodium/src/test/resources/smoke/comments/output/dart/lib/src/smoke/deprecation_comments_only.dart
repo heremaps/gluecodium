@@ -114,11 +114,13 @@ Pointer<Void> smoke_DeprecationCommentsOnly_SomeStruct_toFfi(DeprecationComments
 }
 DeprecationCommentsOnly_SomeStruct smoke_DeprecationCommentsOnly_SomeStruct_fromFfi(Pointer<Void> handle) {
   final _someField_handle = _smoke_DeprecationCommentsOnly_SomeStruct_get_field_someField(handle);
-  final _result = DeprecationCommentsOnly_SomeStruct(
-    Boolean_fromFfi(_someField_handle)
-  );
-  Boolean_releaseFfiHandle(_someField_handle);
-  return _result;
+  try {
+    return DeprecationCommentsOnly_SomeStruct(
+      Boolean_fromFfi(_someField_handle)
+    );
+  } finally {
+    Boolean_releaseFfiHandle(_someField_handle);
+  }
 }
 void smoke_DeprecationCommentsOnly_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_DeprecationCommentsOnly_SomeStruct_release_handle(handle);
 // Nullable DeprecationCommentsOnly_SomeStruct
@@ -213,18 +215,22 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
     final _handle = this.handle;
     final __result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @Deprecated("Unfortunately, this property's getter is deprecated.")
   bool get isSomeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DeprecationCommentsOnly_isSomeProperty_get');
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @Deprecated("Unfortunately, this property's setter is deprecated.")
   set isSomeProperty(bool value) {
@@ -233,16 +239,21 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
     Boolean_releaseFfiHandle(_value_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 int _DeprecationCommentsOnly_someMethodWithAllComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  final __input = String_fromFfi(input);
-  String_releaseFfiHandle(input);
-  final _result_object = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(__input);
-  _result.value = Boolean_toFfi(_result_object);
+  bool _result_object = null;
+  try {
+    _result_object = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(String_fromFfi(input));
+    _result.value = Boolean_toFfi(_result_object);
+  } finally {
+    String_releaseFfiHandle(input);
+  }
   return 0;
 }
 int _DeprecationCommentsOnly_isSomeProperty_get_static(int _token, Pointer<Uint8> _result) {
@@ -250,9 +261,12 @@ int _DeprecationCommentsOnly_isSomeProperty_get_static(int _token, Pointer<Uint8
   return 0;
 }
 int _DeprecationCommentsOnly_isSomeProperty_set_static(int _token, int _value) {
-  final __value = Boolean_fromFfi(_value);
-  Boolean_releaseFfiHandle(_value);
-  (__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty = __value;
+  try {
+    (__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty =
+      Boolean_fromFfi(_value);
+  } finally {
+    Boolean_releaseFfiHandle(_value);
+  }
   return 0;
 }
 Pointer<Void> smoke_DeprecationCommentsOnly_toFfi(DeprecationCommentsOnly value) {

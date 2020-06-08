@@ -252,15 +252,19 @@ class Errors$Impl implements Errors {
     if (_methodWithErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrors_return_get_error(__call_result_handle);
         _methodWithErrors_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Errors_InternalErrorCode_fromFfi(__error_handle);
-        smoke_Errors_InternalErrorCode_releaseFfiHandle(__error_handle);
-        throw Errors_InternalException(_error_value);
+        try {
+          throw Errors_InternalException(smoke_Errors_InternalErrorCode_fromFfi(__error_handle));
+        } finally {
+          smoke_Errors_InternalErrorCode_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithErrors_return_get_result(__call_result_handle);
     _methodWithErrors_return_release_handle(__call_result_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   static methodWithExternalErrors() {
     final _methodWithExternalErrors_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithExternalErrors');
@@ -268,15 +272,19 @@ class Errors$Impl implements Errors {
     if (_methodWithExternalErrors_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithExternalErrors_return_get_error(__call_result_handle);
         _methodWithExternalErrors_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Errors_ExternalErrors_fromFfi(__error_handle);
-        smoke_Errors_ExternalErrors_releaseFfiHandle(__error_handle);
-        throw Errors_ExternalException(_error_value);
+        try {
+          throw Errors_ExternalException(smoke_Errors_ExternalErrors_fromFfi(__error_handle));
+        } finally {
+          smoke_Errors_ExternalErrors_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithExternalErrors_return_get_result(__call_result_handle);
     _methodWithExternalErrors_return_release_handle(__call_result_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   static String methodWithErrorsAndReturnValue() {
     final _methodWithErrorsAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrorsAndReturnValue');
@@ -284,15 +292,19 @@ class Errors$Impl implements Errors {
     if (_methodWithErrorsAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithErrorsAndReturnValue_return_get_error(__call_result_handle);
         _methodWithErrorsAndReturnValue_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Errors_InternalErrorCode_fromFfi(__error_handle);
-        smoke_Errors_InternalErrorCode_releaseFfiHandle(__error_handle);
-        throw Errors_InternalException(_error_value);
+        try {
+          throw Errors_InternalException(smoke_Errors_InternalErrorCode_fromFfi(__error_handle));
+        } finally {
+          smoke_Errors_InternalErrorCode_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithErrorsAndReturnValue_return_get_result(__call_result_handle);
     _methodWithErrorsAndReturnValue_return_release_handle(__call_result_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
   static methodWithPayloadError() {
     final _methodWithPayloadError_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadError');
@@ -300,15 +312,19 @@ class Errors$Impl implements Errors {
     if (_methodWithPayloadError_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithPayloadError_return_get_error(__call_result_handle);
         _methodWithPayloadError_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Payload_fromFfi(__error_handle);
-        smoke_Payload_releaseFfiHandle(__error_handle);
-        throw WithPayloadException(_error_value);
+        try {
+          throw WithPayloadException(smoke_Payload_fromFfi(__error_handle));
+        } finally {
+          smoke_Payload_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithPayloadError_return_get_result(__call_result_handle);
     _methodWithPayloadError_return_release_handle(__call_result_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
   static String methodWithPayloadErrorAndReturnValue() {
     final _methodWithPayloadErrorAndReturnValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadErrorAndReturnValue');
@@ -316,15 +332,19 @@ class Errors$Impl implements Errors {
     if (_methodWithPayloadErrorAndReturnValue_return_has_error(__call_result_handle) != 0) {
         final __error_handle = _methodWithPayloadErrorAndReturnValue_return_get_error(__call_result_handle);
         _methodWithPayloadErrorAndReturnValue_return_release_handle(__call_result_handle);
-        final _error_value = smoke_Payload_fromFfi(__error_handle);
-        smoke_Payload_releaseFfiHandle(__error_handle);
-        throw WithPayloadException(_error_value);
+        try {
+          throw WithPayloadException(smoke_Payload_fromFfi(__error_handle));
+        } finally {
+          smoke_Payload_releaseFfiHandle(__error_handle);
+        }
     }
     final __result_handle = _methodWithPayloadErrorAndReturnValue_return_get_result(__call_result_handle);
     _methodWithPayloadErrorAndReturnValue_return_release_handle(__call_result_handle);
-    final _result = String_fromFfi(__result_handle);
-    String_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_Errors_toFfi(Errors value) =>

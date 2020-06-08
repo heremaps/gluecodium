@@ -285,13 +285,15 @@ Pointer<Void> smoke_Enums_ErrorStruct_toFfi(Enums_ErrorStruct value) {
 Enums_ErrorStruct smoke_Enums_ErrorStruct_fromFfi(Pointer<Void> handle) {
   final _type_handle = _smoke_Enums_ErrorStruct_get_field_type(handle);
   final _message_handle = _smoke_Enums_ErrorStruct_get_field_message(handle);
-  final _result = Enums_ErrorStruct(
-    smoke_Enums_InternalErrorCode_fromFfi(_type_handle),
-    String_fromFfi(_message_handle)
-  );
-  smoke_Enums_InternalErrorCode_releaseFfiHandle(_type_handle);
-  String_releaseFfiHandle(_message_handle);
-  return _result;
+  try {
+    return Enums_ErrorStruct(
+      smoke_Enums_InternalErrorCode_fromFfi(_type_handle),
+      String_fromFfi(_message_handle)
+    );
+  } finally {
+    smoke_Enums_InternalErrorCode_releaseFfiHandle(_type_handle);
+    String_releaseFfiHandle(_message_handle);
+  }
 }
 void smoke_Enums_ErrorStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Enums_ErrorStruct_release_handle(handle);
 // Nullable Enums_ErrorStruct
@@ -353,27 +355,33 @@ class Enums$Impl implements Enums {
     final _input_handle = smoke_Enums_SimpleEnum_toFfi(input);
     final __result_handle = _methodWithEnumeration_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Enums_SimpleEnum_releaseFfiHandle(_input_handle);
-    final _result = smoke_Enums_SimpleEnum_fromFfi(__result_handle);
-    smoke_Enums_SimpleEnum_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Enums_SimpleEnum_fromFfi(__result_handle);
+    } finally {
+      smoke_Enums_SimpleEnum_releaseFfiHandle(__result_handle);
+    }
   }
   static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) {
     final _flipEnumValue_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_Enums_flipEnumValue__InternalErrorCode');
     final _input_handle = smoke_Enums_InternalErrorCode_toFfi(input);
     final __result_handle = _flipEnumValue_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Enums_InternalErrorCode_releaseFfiHandle(_input_handle);
-    final _result = smoke_Enums_InternalErrorCode_fromFfi(__result_handle);
-    smoke_Enums_InternalErrorCode_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Enums_InternalErrorCode_fromFfi(__result_handle);
+    } finally {
+      smoke_Enums_InternalErrorCode_releaseFfiHandle(__result_handle);
+    }
   }
   static Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) {
     final _extractEnumFromStruct_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Pointer<Void>), int Function(int, Pointer<Void>)>('library_smoke_Enums_extractEnumFromStruct__ErrorStruct');
     final _input_handle = smoke_Enums_ErrorStruct_toFfi(input);
     final __result_handle = _extractEnumFromStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Enums_ErrorStruct_releaseFfiHandle(_input_handle);
-    final _result = smoke_Enums_InternalErrorCode_fromFfi(__result_handle);
-    smoke_Enums_InternalErrorCode_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Enums_InternalErrorCode_fromFfi(__result_handle);
+    } finally {
+      smoke_Enums_InternalErrorCode_releaseFfiHandle(__result_handle);
+    }
   }
   static Enums_ErrorStruct createStructWithEnumInside(Enums_InternalErrorCode type, String message) {
     final _createStructWithEnumInside_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint32, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_Enums_createStructWithEnumInside__InternalErrorCode_String');
@@ -382,18 +390,22 @@ class Enums$Impl implements Enums {
     final __result_handle = _createStructWithEnumInside_ffi(__lib.LibraryContext.isolateId, _type_handle, _message_handle);
     smoke_Enums_InternalErrorCode_releaseFfiHandle(_type_handle);
     String_releaseFfiHandle(_message_handle);
-    final _result = smoke_Enums_ErrorStruct_fromFfi(__result_handle);
-    smoke_Enums_ErrorStruct_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_Enums_ErrorStruct_fromFfi(__result_handle);
+    } finally {
+      smoke_Enums_ErrorStruct_releaseFfiHandle(__result_handle);
+    }
   }
   static methodWithExternalEnum(Enums_ExternalEnum input) {
     final _methodWithExternalEnum_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_1Enum');
     final _input_handle = smoke_Enums_ExternalEnum_toFfi(input);
     final __result_handle = _methodWithExternalEnum_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Enums_ExternalEnum_releaseFfiHandle(_input_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_Enums_toFfi(Enums value) =>

@@ -71,15 +71,19 @@ class weeListener$Impl implements weeListener {
     final _handle = this.handle;
     final __result_handle = _WeeMethod_ffi(_handle, __lib.LibraryContext.isolateId, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
-    final _result = (__result_handle);
-    (__result_handle);
-    return _result;
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 int _weeListener_WeeMethod_static(int _token, Pointer<Void> WeeParameter) {
-  final __WeeParameter = String_fromFfi(WeeParameter);
-  String_releaseFfiHandle(WeeParameter);
-  (__lib.instanceCache[_token] as weeListener).WeeMethod(__WeeParameter);
+  try {
+    (__lib.instanceCache[_token] as weeListener).WeeMethod(String_fromFfi(WeeParameter));
+  } finally {
+    String_releaseFfiHandle(WeeParameter);
+  }
   return 0;
 }
 Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {

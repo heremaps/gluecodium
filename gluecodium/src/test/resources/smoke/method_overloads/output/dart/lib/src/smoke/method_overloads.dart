@@ -55,13 +55,15 @@ Pointer<Void> smoke_MethodOverloads_Point_toFfi(MethodOverloads_Point value) {
 MethodOverloads_Point smoke_MethodOverloads_Point_fromFfi(Pointer<Void> handle) {
   final _x_handle = _smoke_MethodOverloads_Point_get_field_x(handle);
   final _y_handle = _smoke_MethodOverloads_Point_get_field_y(handle);
-  final _result = MethodOverloads_Point(
-    (_x_handle),
-    (_y_handle)
-  );
-  (_x_handle);
-  (_y_handle);
-  return _result;
+  try {
+    return MethodOverloads_Point(
+      (_x_handle),
+      (_y_handle)
+    );
+  } finally {
+    (_x_handle);
+    (_y_handle);
+  }
 }
 void smoke_MethodOverloads_Point_releaseFfiHandle(Pointer<Void> handle) => _smoke_MethodOverloads_Point_release_handle(handle);
 // Nullable MethodOverloads_Point
@@ -125,9 +127,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isBoolean_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     Boolean_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanByte(int input) {
@@ -136,9 +140,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isBooleanByte_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     (_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanString(String input) {
@@ -147,9 +153,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isBooleanString_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanPoint(MethodOverloads_Point input) {
@@ -158,9 +166,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isBooleanPoint_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     smoke_MethodOverloads_Point_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanMulti(bool input1, int input2, String input3, MethodOverloads_Point input4) {
@@ -175,9 +185,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     (_input2_handle);
     String_releaseFfiHandle(_input3_handle);
     smoke_MethodOverloads_Point_releaseFfiHandle(_input4_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanStringArray(List<String> input) {
@@ -186,9 +198,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isBooleanStringArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     ListOf_String_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanIntArray(List<int> input) {
@@ -197,18 +211,22 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isBooleanIntArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     ListOf_Byte_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isBooleanConst() {
     final _isBooleanConst_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_MethodOverloads_isBoolean');
     final _handle = this.handle;
     final __result_handle = _isBooleanConst_ffi(_handle, __lib.LibraryContext.isolateId);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isFloatString(String input) {
@@ -217,9 +235,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isFloatString_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
   @override
   bool isFloatList(List<int> input) {
@@ -228,9 +248,11 @@ class MethodOverloads$Impl implements MethodOverloads {
     final _handle = this.handle;
     final __result_handle = _isFloatList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
     ListOf_Byte_releaseFfiHandle(_input_handle);
-    final _result = Boolean_fromFfi(__result_handle);
-    Boolean_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>

@@ -214,25 +214,27 @@ DefaultValues_StructWithDefaults smoke_DefaultValues_StructWithDefaults_fromFfi(
   final _stringField_handle = _smoke_DefaultValues_StructWithDefaults_get_field_stringField(handle);
   final _enumField_handle = _smoke_DefaultValues_StructWithDefaults_get_field_enumField(handle);
   final _externalEnumField_handle = _smoke_DefaultValues_StructWithDefaults_get_field_externalEnumField(handle);
-  final _result = DefaultValues_StructWithDefaults(
-    (_intField_handle),
-    (_uintField_handle),
-    (_floatField_handle),
-    (_doubleField_handle),
-    Boolean_fromFfi(_boolField_handle),
-    String_fromFfi(_stringField_handle),
-    smoke_DefaultValues_SomeEnum_fromFfi(_enumField_handle),
-    smoke_DefaultValues_ExternalEnum_fromFfi(_externalEnumField_handle)
-  );
-  (_intField_handle);
-  (_uintField_handle);
-  (_floatField_handle);
-  (_doubleField_handle);
-  Boolean_releaseFfiHandle(_boolField_handle);
-  String_releaseFfiHandle(_stringField_handle);
-  smoke_DefaultValues_SomeEnum_releaseFfiHandle(_enumField_handle);
-  smoke_DefaultValues_ExternalEnum_releaseFfiHandle(_externalEnumField_handle);
-  return _result;
+  try {
+    return DefaultValues_StructWithDefaults(
+      (_intField_handle),
+      (_uintField_handle),
+      (_floatField_handle),
+      (_doubleField_handle),
+      Boolean_fromFfi(_boolField_handle),
+      String_fromFfi(_stringField_handle),
+      smoke_DefaultValues_SomeEnum_fromFfi(_enumField_handle),
+      smoke_DefaultValues_ExternalEnum_fromFfi(_externalEnumField_handle)
+    );
+  } finally {
+    (_intField_handle);
+    (_uintField_handle);
+    (_floatField_handle);
+    (_doubleField_handle);
+    Boolean_releaseFfiHandle(_boolField_handle);
+    String_releaseFfiHandle(_stringField_handle);
+    smoke_DefaultValues_SomeEnum_releaseFfiHandle(_enumField_handle);
+    smoke_DefaultValues_ExternalEnum_releaseFfiHandle(_externalEnumField_handle);
+  }
 }
 void smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithDefaults
@@ -332,21 +334,23 @@ DefaultValues_NullableStructWithDefaults smoke_DefaultValues_NullableStructWithD
   final _boolField_handle = _smoke_DefaultValues_NullableStructWithDefaults_get_field_boolField(handle);
   final _stringField_handle = _smoke_DefaultValues_NullableStructWithDefaults_get_field_stringField(handle);
   final _enumField_handle = _smoke_DefaultValues_NullableStructWithDefaults_get_field_enumField(handle);
-  final _result = DefaultValues_NullableStructWithDefaults(
-    Int_fromFfi_nullable(_intField_handle),
-    UInt_fromFfi_nullable(_uintField_handle),
-    Float_fromFfi_nullable(_floatField_handle),
-    Boolean_fromFfi_nullable(_boolField_handle),
-    String_fromFfi_nullable(_stringField_handle),
-    smoke_DefaultValues_SomeEnum_fromFfi_nullable(_enumField_handle)
-  );
-  Int_releaseFfiHandle_nullable(_intField_handle);
-  UInt_releaseFfiHandle_nullable(_uintField_handle);
-  Float_releaseFfiHandle_nullable(_floatField_handle);
-  Boolean_releaseFfiHandle_nullable(_boolField_handle);
-  String_releaseFfiHandle_nullable(_stringField_handle);
-  smoke_DefaultValues_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-  return _result;
+  try {
+    return DefaultValues_NullableStructWithDefaults(
+      Int_fromFfi_nullable(_intField_handle),
+      UInt_fromFfi_nullable(_uintField_handle),
+      Float_fromFfi_nullable(_floatField_handle),
+      Boolean_fromFfi_nullable(_boolField_handle),
+      String_fromFfi_nullable(_stringField_handle),
+      smoke_DefaultValues_SomeEnum_fromFfi_nullable(_enumField_handle)
+    );
+  } finally {
+    Int_releaseFfiHandle_nullable(_intField_handle);
+    UInt_releaseFfiHandle_nullable(_uintField_handle);
+    Float_releaseFfiHandle_nullable(_floatField_handle);
+    Boolean_releaseFfiHandle_nullable(_boolField_handle);
+    String_releaseFfiHandle_nullable(_stringField_handle);
+    smoke_DefaultValues_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
+  }
 }
 void smoke_DefaultValues_NullableStructWithDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_NullableStructWithDefaults_release_handle(handle);
 // Nullable DefaultValues_NullableStructWithDefaults
@@ -446,21 +450,23 @@ DefaultValues_StructWithSpecialDefaults smoke_DefaultValues_StructWithSpecialDef
   final _doubleNanField_handle = _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNanField(handle);
   final _doubleInfinityField_handle = _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleInfinityField(handle);
   final _doubleNegativeInfinityField_handle = _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNegativeInfinityField(handle);
-  final _result = DefaultValues_StructWithSpecialDefaults(
-    (_floatNanField_handle),
-    (_floatInfinityField_handle),
-    (_floatNegativeInfinityField_handle),
-    (_doubleNanField_handle),
-    (_doubleInfinityField_handle),
-    (_doubleNegativeInfinityField_handle)
-  );
-  (_floatNanField_handle);
-  (_floatInfinityField_handle);
-  (_floatNegativeInfinityField_handle);
-  (_doubleNanField_handle);
-  (_doubleInfinityField_handle);
-  (_doubleNegativeInfinityField_handle);
-  return _result;
+  try {
+    return DefaultValues_StructWithSpecialDefaults(
+      (_floatNanField_handle),
+      (_floatInfinityField_handle),
+      (_floatNegativeInfinityField_handle),
+      (_doubleNanField_handle),
+      (_doubleInfinityField_handle),
+      (_doubleNegativeInfinityField_handle)
+    );
+  } finally {
+    (_floatNanField_handle);
+    (_floatInfinityField_handle);
+    (_floatNegativeInfinityField_handle);
+    (_doubleNanField_handle);
+    (_doubleInfinityField_handle);
+    (_doubleNegativeInfinityField_handle);
+  }
 }
 void smoke_DefaultValues_StructWithSpecialDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithSpecialDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithSpecialDefaults
@@ -552,19 +558,21 @@ DefaultValues_StructWithEmptyDefaults smoke_DefaultValues_StructWithEmptyDefault
   final _mapField_handle = _smoke_DefaultValues_StructWithEmptyDefaults_get_field_mapField(handle);
   final _structField_handle = _smoke_DefaultValues_StructWithEmptyDefaults_get_field_structField(handle);
   final _setTypeField_handle = _smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField(handle);
-  final _result = DefaultValues_StructWithEmptyDefaults(
-    ListOf_Int_fromFfi(_intsField_handle),
-    ListOf_Float_fromFfi(_floatsField_handle),
-    MapOf_UInt_to_String_fromFfi(_mapField_handle),
-    smoke_DefaultValues_StructWithDefaults_fromFfi(_structField_handle),
-    SetOf_String_fromFfi(_setTypeField_handle)
-  );
-  ListOf_Int_releaseFfiHandle(_intsField_handle);
-  ListOf_Float_releaseFfiHandle(_floatsField_handle);
-  MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
-  smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_structField_handle);
-  SetOf_String_releaseFfiHandle(_setTypeField_handle);
-  return _result;
+  try {
+    return DefaultValues_StructWithEmptyDefaults(
+      ListOf_Int_fromFfi(_intsField_handle),
+      ListOf_Float_fromFfi(_floatsField_handle),
+      MapOf_UInt_to_String_fromFfi(_mapField_handle),
+      smoke_DefaultValues_StructWithDefaults_fromFfi(_structField_handle),
+      SetOf_String_fromFfi(_setTypeField_handle)
+    );
+  } finally {
+    ListOf_Int_releaseFfiHandle(_intsField_handle);
+    ListOf_Float_releaseFfiHandle(_floatsField_handle);
+    MapOf_UInt_to_String_releaseFfiHandle(_mapField_handle);
+    smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_structField_handle);
+    SetOf_String_releaseFfiHandle(_setTypeField_handle);
+  }
 }
 void smoke_DefaultValues_StructWithEmptyDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithEmptyDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithEmptyDefaults
@@ -648,17 +656,19 @@ DefaultValues_StructWithTypedefDefaults smoke_DefaultValues_StructWithTypedefDef
   final _boolField_handle = _smoke_DefaultValues_StructWithTypedefDefaults_get_field_boolField(handle);
   final _stringField_handle = _smoke_DefaultValues_StructWithTypedefDefaults_get_field_stringField(handle);
   final _enumField_handle = _smoke_DefaultValues_StructWithTypedefDefaults_get_field_enumField(handle);
-  final _result = DefaultValues_StructWithTypedefDefaults(
-    (_longField_handle),
-    Boolean_fromFfi(_boolField_handle),
-    String_fromFfi(_stringField_handle),
-    smoke_DefaultValues_SomeEnum_fromFfi(_enumField_handle)
-  );
-  (_longField_handle);
-  Boolean_releaseFfiHandle(_boolField_handle);
-  String_releaseFfiHandle(_stringField_handle);
-  smoke_DefaultValues_SomeEnum_releaseFfiHandle(_enumField_handle);
-  return _result;
+  try {
+    return DefaultValues_StructWithTypedefDefaults(
+      (_longField_handle),
+      Boolean_fromFfi(_boolField_handle),
+      String_fromFfi(_stringField_handle),
+      smoke_DefaultValues_SomeEnum_fromFfi(_enumField_handle)
+    );
+  } finally {
+    (_longField_handle);
+    Boolean_releaseFfiHandle(_boolField_handle);
+    String_releaseFfiHandle(_stringField_handle);
+    smoke_DefaultValues_SomeEnum_releaseFfiHandle(_enumField_handle);
+  }
 }
 void smoke_DefaultValues_StructWithTypedefDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithTypedefDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithTypedefDefaults
@@ -720,9 +730,11 @@ class DefaultValues$Impl implements DefaultValues {
     final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
     final __result_handle = _processStructWithDefaults_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_input_handle);
-    final _result = smoke_DefaultValues_StructWithDefaults_fromFfi(__result_handle);
-    smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(__result_handle);
-    return _result;
+    try {
+      return smoke_DefaultValues_StructWithDefaults_fromFfi(__result_handle);
+    } finally {
+      smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>

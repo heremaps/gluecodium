@@ -40,11 +40,13 @@ Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi(PublicInterface_Interna
 }
 PublicInterface_InternalStruct smoke_PublicInterface_InternalStruct_fromFfi(Pointer<Void> handle) {
   final _fieldOfInternalType_handle = _smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType(handle);
-  final _result = PublicInterface_InternalStruct(
-    smoke_PublicClass_InternalStruct_fromFfi(_fieldOfInternalType_handle)
-  );
-  smoke_PublicClass_InternalStruct_releaseFfiHandle(_fieldOfInternalType_handle);
-  return _result;
+  try {
+    return PublicInterface_InternalStruct(
+      smoke_PublicClass_InternalStruct_fromFfi(_fieldOfInternalType_handle)
+    );
+  } finally {
+    smoke_PublicClass_InternalStruct_releaseFfiHandle(_fieldOfInternalType_handle);
+  }
 }
 void smoke_PublicInterface_InternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicInterface_InternalStruct_release_handle(handle);
 // Nullable PublicInterface_InternalStruct

@@ -50,8 +50,11 @@ List<DateTime> ListOf_Nullable_Date_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _ListOf_Nullable_Date_iterator(handle);
   while (_ListOf_Nullable_Date_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _ListOf_Nullable_Date_iterator_get(_iterator_handle);
-    result.add(Date_fromFfi_nullable(_element_handle));
-    Date_releaseFfiHandle_nullable(_element_handle);
+    try {
+      result.add(Date_fromFfi_nullable(_element_handle));
+    } finally {
+      Date_releaseFfiHandle_nullable(_element_handle);
+    }
     _ListOf_Nullable_Date_iterator_increment(_iterator_handle);
   }
   _ListOf_Nullable_Date_iterator_release_handle(_iterator_handle);
@@ -132,8 +135,11 @@ List<String> ListOf_String_fromFfi(Pointer<Void> handle) {
   final _iterator_handle = _ListOf_String_iterator(handle);
   while (_ListOf_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _ListOf_String_iterator_get(_iterator_handle);
-    result.add(String_fromFfi(_element_handle));
-    String_releaseFfiHandle(_element_handle);
+    try {
+      result.add(String_fromFfi(_element_handle));
+    } finally {
+      String_releaseFfiHandle(_element_handle);
+    }
     _ListOf_String_iterator_increment(_iterator_handle);
   }
   _ListOf_String_iterator_release_handle(_iterator_handle);
@@ -221,10 +227,13 @@ Map<int, Nullable_SomeStruct> MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_fr
   while (_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_get_key(_iterator_handle);
     final _value_handle = _MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      smoke_Nullable_SomeStruct_fromFfi_nullable(_value_handle);
-    (_key_handle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_value_handle);
+    try {
+      result[(_key_handle)] =
+        smoke_Nullable_SomeStruct_fromFfi_nullable(_value_handle);
+    } finally {
+      (_key_handle);
+      smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_value_handle);
+    }
     _MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_increment(_iterator_handle);
   }
   _MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_release_handle(_iterator_handle);
@@ -312,10 +321,13 @@ Map<int, String> MapOf_Long_to_String_fromFfi(Pointer<Void> handle) {
   while (_MapOf_Long_to_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _MapOf_Long_to_String_iterator_get_key(_iterator_handle);
     final _value_handle = _MapOf_Long_to_String_iterator_get_value(_iterator_handle);
-    result[(_key_handle)] =
-      String_fromFfi(_value_handle);
-    (_key_handle);
-    String_releaseFfiHandle(_value_handle);
+    try {
+      result[(_key_handle)] =
+        String_fromFfi(_value_handle);
+    } finally {
+      (_key_handle);
+      String_releaseFfiHandle(_value_handle);
+    }
     _MapOf_Long_to_String_iterator_increment(_iterator_handle);
   }
   _MapOf_Long_to_String_iterator_release_handle(_iterator_handle);
