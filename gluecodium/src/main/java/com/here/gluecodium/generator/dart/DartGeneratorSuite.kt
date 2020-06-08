@@ -307,8 +307,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val templateData = mapOf(
             "libraryName" to libraryName,
             "builtInTypes" to
-                LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID }
-                    .filterNot { it == LimeBasicType.TypeId.LOCALE /* TODO */ },
+                LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID },
             "typeRepositories" to typeRepositories,
             "imports" to
                 typeRepositories.flatMap { importResolver.resolveImports(it) }.distinct().sorted()
@@ -352,13 +351,14 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     ): List<GeneratedFile> {
         val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
         val headerAndImpl = listOf(
-            "StringHandle",
             "BlobHandle",
-            "NullableHandles",
-            "IsolateContext",
             "CallbacksQueue",
             "CallbacksHandle",
-            "ProxyCache"
+            "IsolateContext",
+            "LocaleHandle",
+            "NullableHandles",
+            "ProxyCache",
+            "StringHandle"
         )
         val data = mapOf(
             "libraryName" to libraryName,
@@ -366,7 +366,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "internalNamespace" to internalNamespace,
             "builtInTypes" to
                 LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID }
-                    .filterNot { it == LimeBasicType.TypeId.LOCALE /* TODO */ }
         )
 
         return headerOnly.map {

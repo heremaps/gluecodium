@@ -23,6 +23,7 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
+import 'package:intl/locale.dart';
 
 import 'package:{{libraryName}}/src/_library_context.dart' as __lib;
 
@@ -53,7 +54,6 @@ Pointer<Void> Blob_toFfi(Uint8List list) {
 
 Uint8List Blob_fromFfi(Pointer<Void> handle) =>
   Uint8List.fromList(_Blob_get_data_pointer(handle).asTypedList(_Blob_get_length(handle)));
-
 
 void Blob_releaseFfiHandle(Pointer<Void> handle) => _Blob_release_handle(handle);
 
@@ -98,6 +98,71 @@ Pointer<Void> String_toFfi(String value) {
 String String_fromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_String_get_value(handle));
 
 void String_releaseFfiHandle(Pointer<Void> handle) => _String_release_handle(handle);
+
+// Locale
+
+final _Locale_create_handle = __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>),
+    Pointer<Void> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>)
+  >('{{libraryName}}_locale_create_handle');
+final _Locale_release_handle = __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('{{libraryName}}_locale_release_handle');
+final _Locale_get_language_code = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('{{libraryName}}_locale_get_language_code');
+final _Locale_get_country_code = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('{{libraryName}}_locale_get_country_code');
+final _Locale_get_script_code = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('{{libraryName}}_locale_get_script_code');
+final _Locale_get_language_tag = __lib.nativeLibrary.lookupFunction<
+    Pointer<Utf8> Function(Pointer<Void>),
+    Pointer<Utf8> Function(Pointer<Void>)
+>('{{libraryName}}_locale_get_language_tag');
+
+Pointer<Void> Locale_toFfi(Locale locale) {
+  final cLanguageCode = Utf8.toUtf8(locale.languageCode);
+  final cCountryCode =
+    locale.countryCode != null ? Utf8.toUtf8(locale.countryCode) : Pointer<Utf8>.fromAddress(0);
+  final cScriptCode =
+    locale.scriptCode != null ? Utf8.toUtf8(locale.scriptCode) : Pointer<Utf8>.fromAddress(0);
+  final cLanguageTag = Utf8.toUtf8(locale.toLanguageTag());
+
+  final result = _Locale_create_handle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
+
+  free(cLanguageCode);
+  if (cCountryCode.address != 0) free(cCountryCode);
+  if (cScriptCode.address != 0) free(cScriptCode);
+  free(cLanguageTag);
+
+  return result;
+}
+
+Locale Locale_fromFfi(Pointer<Void> handle) {
+  final languageTagCstring = _Locale_get_language_tag(handle);
+  if (languageTagCstring.address != 0) {
+    // BCP 47 language tag takes precedence if present.
+    return Locale.parse(Utf8.fromUtf8(languageTagCstring));
+  }
+
+  final languageCodeCstring = _Locale_get_language_code(handle);
+  final countryCodeCstring = _Locale_get_country_code(handle);
+  final scriptCodeCstring = _Locale_get_script_code(handle);
+
+  return Locale.fromSubtags(
+    languageCode: languageCodeCstring.address != 0 ? Utf8.fromUtf8(languageCodeCstring) : null,
+    countryCode: countryCodeCstring.address != 0 ? Utf8.fromUtf8(countryCodeCstring) : null,
+    scriptCode: scriptCodeCstring.address != 0 ? Utf8.fromUtf8(scriptCodeCstring) : null
+  );
+}
+
+void Locale_releaseFfiHandle(Pointer<Void> handle) => _Locale_release_handle(handle);
 
 {{#builtInTypes}}
 // Nullable {{this}}

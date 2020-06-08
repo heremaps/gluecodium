@@ -58,21 +58,17 @@ Locales::get_locale_with_malformed_tag() {
 
 lorem_ipsum::test::Locale
 Locales::get_locale_with_malformed_language() {
-    return lorem_ipsum::test::Locale(lorem_ipsum::test::optional<std::string>(nonsense),
-                                     lorem_ipsum::test::optional<std::string>());
+    return lorem_ipsum::test::Locale(nonsense, "bar", "baz");
 }
 
 lorem_ipsum::test::Locale
 Locales::get_locale_with_malformed_country() {
-    return lorem_ipsum::test::Locale(lorem_ipsum::test::optional<std::string>(),
-                                     lorem_ipsum::test::optional<std::string>(nonsense));
+    return lorem_ipsum::test::Locale("foo", nonsense, "baz");
 }
 
 lorem_ipsum::test::Locale
 Locales::get_locale_with_malformed_script() {
-    return lorem_ipsum::test::Locale(lorem_ipsum::test::optional<std::string>(),
-                                     lorem_ipsum::test::optional<std::string>(),
-                                     lorem_ipsum::test::optional<std::string>(nonsense));
+    return lorem_ipsum::test::Locale("foo", "bar", nonsense);
 }
 
 }  // namespace test

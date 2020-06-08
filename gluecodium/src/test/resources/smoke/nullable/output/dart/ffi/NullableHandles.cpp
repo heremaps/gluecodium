@@ -1,5 +1,6 @@
 #include "NullableHandles.h"
 #include "ConversionBase.h"
+#include "gluecodium/Locale.h"
 #include "gluecodium/Optional.h"
 #include <chrono>
 #include <memory>
@@ -301,6 +302,27 @@ library_Date_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toFfi(
         **reinterpret_cast<gluecodium::optional<std::chrono::system_clock::time_point>*>(handle)
+    );
+}
+FfiOpaqueHandle
+library_Locale_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<gluecodium::Locale>(
+            gluecodium::ffi::Conversion<gluecodium::Locale>::toCpp(value)
+        )
+    );
+}
+void
+library_Locale_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<gluecodium::Locale>*>(handle);
+}
+FfiOpaqueHandle
+library_Locale_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<gluecodium::Locale>::toFfi(
+        **reinterpret_cast<gluecodium::optional<gluecodium::Locale>*>(handle)
     );
 }
 #ifdef __cplusplus

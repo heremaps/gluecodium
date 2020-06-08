@@ -70,7 +70,7 @@ internal class FfiDartTypeNameResolver : NameResolver {
             TypeId.STRING -> OPAQUE_HANDLE_TYPE
             TypeId.BLOB -> OPAQUE_HANDLE_TYPE
             TypeId.DATE -> "int"
-            TypeId.LOCALE -> TODO()
+            TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
         }
 
     companion object {
