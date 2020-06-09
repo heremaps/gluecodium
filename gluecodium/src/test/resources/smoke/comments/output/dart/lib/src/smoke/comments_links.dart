@@ -30,7 +30,7 @@ abstract class CommentsLinks {
   /// * method: [someMethodWithAllComments]
   /// * method with signature: [oneParameterCommentOnly]
   /// * method with signature with no spaces: [oneParameterCommentOnly]
-  /// * parameter: [inputParameter]
+  /// * parameter: [CommentsLinks.randomMethod.inputParameter]
   /// * top level constant: [CommentsTypeCollection.typeCollectionConstant]
   /// * top level struct: [TypeCollectionStruct]
   /// * top level struct field: [TypeCollectionStruct.field]

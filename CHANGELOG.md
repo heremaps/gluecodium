@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for system Locale type in Java/Swift/Dart.
+### Bug fixes:
+  * Fixed resolution of doc comment links to method parameters of overloaded methods in Dart.
 
 ## 7.0.5
 Release date: 2020-06-04

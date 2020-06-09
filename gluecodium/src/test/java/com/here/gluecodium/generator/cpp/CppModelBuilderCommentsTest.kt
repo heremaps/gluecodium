@@ -46,6 +46,7 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
@@ -157,7 +158,7 @@ class CppModelBuilderCommentsTest {
     fun finishBuildingParameterReadsComment() {
         contextStack.injectResult(CppPrimitiveTypeRef.BOOL)
         val limeElement = LimeParameter(
-            EMPTY_PATH,
+            LimePath(emptyList(), listOf("foo")),
             typeRef = LimeBasicTypeRef.DOUBLE,
             comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
@@ -173,7 +174,8 @@ class CppModelBuilderCommentsTest {
     @Test
     fun finishBuildingParameterReadsNotNull() {
         contextStack.injectResult(CppPrimitiveTypeRef.BOOL)
-        val limeElement = LimeParameter(EMPTY_PATH, typeRef = limeContainerTypeRef)
+        val limeElement =
+            LimeParameter(LimePath(emptyList(), listOf("foo")), typeRef = limeContainerTypeRef)
 
         modelBuilder.finishBuilding(limeElement)
 

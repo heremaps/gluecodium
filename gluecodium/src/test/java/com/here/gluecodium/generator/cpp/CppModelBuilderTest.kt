@@ -272,7 +272,8 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingParameterReadsNameAndType() {
         contextStack.injectResult(cppTypeRef)
-        val limeParameter = LimeParameter(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeParameter =
+            LimeParameter(LimePath(emptyList(), listOf("foo")), typeRef = LimeBasicTypeRef.DOUBLE)
 
         modelBuilder.finishBuilding(limeParameter)
 

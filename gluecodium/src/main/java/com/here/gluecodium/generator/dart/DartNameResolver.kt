@@ -34,6 +34,8 @@ import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
@@ -163,25 +165,33 @@ internal class DartNameResolver(
         var commentText = limeComment.getFor("Dart")
         if (commentText.isBlank()) return ""
 
-        val pathKey = limeComment.path.toString()
-        val limeElement = limeReferenceMap[pathKey] as? LimeNamedElement
-        if (limeElement is LimeType || limeElement is LimeFunction) {
+        val exactElement = limeReferenceMap[limeComment.path.toString()] as? LimeNamedElement
+        if (exactElement is LimeType || exactElement is LimeFunction) {
             // For functions and types, separate first sentence with double line break.
             commentText = commentText.replaceFirst(END_OF_SENTENCE, ".\n\n")
         }
 
-        return commentsProcessor.process(pathKey, commentText, limeToDartNames, limeLogger)
+        val commentedElement = exactElement ?: getParentElement(limeComment.path)
+        return commentsProcessor.process(commentedElement.fullName, commentText, limeToDartNames, limeLogger)
     }
 
     private fun getPlatformName(element: LimeNamedElement) =
         element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
             ?: nameRules.getName(element)
 
-    private fun getParentElement(limeElement: LimeNamedElement) =
-        (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
-                ?: throw GluecodiumExecutionException(
-                    "Failed to resolve parent for element ${limeElement.fullName}"
-                ))
+    private fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
+        getParentElement(limeElement.path, limeElement is LimeParameter)
+
+    private fun getParentElement(limePath: LimePath, withSuffix: Boolean = false): LimeNamedElement {
+        val parentPath = when {
+            withSuffix -> limePath.parent.withSuffix(limePath.disambiguator)
+            else -> limePath.parent
+        }
+        return (limeReferenceMap[parentPath.toString()] as? LimeNamedElement
+            ?: throw GluecodiumExecutionException(
+                "Failed to resolve parent for element $limePath"
+            ))
+    }
 
     private fun resolveFullName(limeElement: LimeNamedElement): String {
         if (limeElement is LimeType || !limeElement.path.hasParent) {
