@@ -24,16 +24,27 @@
 
 #include "CallbacksQueue.h"
 
+namespace {
+// Due to the bug in Flutter (https://github.com/flutter/flutter/issues/58987)
+// any hot restart which follows the first hangs if isolate is waiting
+// for event in C++. This workaround makes waiting for callback non blocking
+// so execution periodically returns to Flutter and the issue is eliminated.
+std::chrono::milliseconds g_wait_timeout = std::chrono::milliseconds::zero();
+bool g_is_first_init = true;
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 int32_t
 {{libraryName}}_library_callbacks_queue_init(bool is_main_isolate) {
-    if (is_main_isolate) {
+    if (is_main_isolate && !g_is_first_init) {
         // This is required to clean up after hot restart.
         {{>ffi/FfiInternal}}::cbqm.closeAllQueues();
+        g_wait_timeout = std::chrono::seconds(1);
     }
+    g_is_first_init = false;
     return {{>ffi/FfiInternal}}::cbqm.createQueue();
 }
 
@@ -42,10 +53,12 @@ void
     {{>ffi/FfiInternal}}::cbqm.closeQueue(isolate_id);
 }
 
-bool
+uint8_t
 {{libraryName}}_library_wait_for_callbacks(int32_t isolate_id) {
-    auto queue = {{>ffi/FfiInternal}}::cbqm.getQueue(isolate_id);
-    return queue && queue->waitForIncoming();
+    if (auto queue = {{>ffi/FfiInternal}}::cbqm.getQueue(isolate_id)) {
+      return static_cast<uint8_t>(queue->waitForIncoming(g_wait_timeout));
+    }
+    return static_cast<uint8_t>({{>ffi/FfiInternal}}::CallbackQueue::WaitResult::Stopped);
 }
 
 void

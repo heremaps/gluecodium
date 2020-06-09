@@ -71,6 +71,12 @@ enum IsolateOrigin {
   spawned
 }
 
+enum WaitCallbackResult {
+  stopped,
+  hasIncoming,
+  timedOut
+}
+
 class LibraryContext {
   static int get isolateId => _isolateId;
 
@@ -96,9 +102,14 @@ class LibraryContext {
 
   static void _slaveIsolate(_SlaveIsolateMessage message) {
     _loadCustomLibrary(message.nativeLibraryPath);
-    while (_library_wait_for_callbacks(message.isolateId) != 0) {
-      message.port.send(1);
-    }
+
+    WaitCallbackResult waitResult = WaitCallbackResult.stopped;
+    do {
+      waitResult = WaitCallbackResult.values[_library_wait_for_callbacks(message.isolateId)];
+      if (waitResult == WaitCallbackResult.hasIncoming) {
+        message.port.send(1);
+      }
+    } while (waitResult != WaitCallbackResult.stopped);
     message.port.send(0);
   }
 
