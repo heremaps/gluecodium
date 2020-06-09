@@ -1,11 +1,15 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 7.1.0
+Release date: 2020-06-10
 ### Features:
   * Added support for system Locale type in Java/Swift/Dart.
 ### Bug fixes:
   * Fixed resolution of doc comment links to method parameters of overloaded methods in Dart.
+  * Fixed links resolution and character escaping for deprecation messages in Dart.
   * Fixed runtime issue with stale cache entries in Dart.
+  * Fixed runtime issue with error handling in calling Dart code from C++.
+  * Added workaround for a Flutter hot restart issue in Dart.
 
 ## 7.0.5
 Release date: 2020-06-04
