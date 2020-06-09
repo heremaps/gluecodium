@@ -47,6 +47,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -282,10 +283,7 @@ class JavaModelBuilder(
         }
         val propertyComment = limeProperty.comment.getFor(PLATFORM_TAG)
 
-        val getterComments = Comments(
-            limeProperty.getter.comment.getFor(PLATFORM_TAG),
-            limeProperty.getter.attributes.get(DEPRECATED, MESSAGE)
-        )
+        val getterComments = createComments(limeProperty.getter, PLATFORM_TAG)
         val getterMethod = JavaMethod(
             name = nameRules.getGetterName(limeProperty),
             comment = getterComments,
@@ -307,10 +305,7 @@ class JavaModelBuilder(
         if (limeSetter != null) {
             val setterParameter = JavaParameter("value", javaType)
             setterParameter.comment = Comments(propertyComment)
-            val setterComments = Comments(
-                limeSetter.comment.getFor(PLATFORM_TAG),
-                limeSetter.attributes.get(DEPRECATED, MESSAGE)
-            )
+            val setterComments = createComments(limeSetter, PLATFORM_TAG)
             val setterMethod = JavaMethod(
                 name = nameRules.getSetterName(limeProperty),
                 comment = setterComments,
@@ -533,7 +528,7 @@ class JavaModelBuilder(
     private fun createComments(limeLambdaParameter: LimeLambdaParameter) =
         Comments(
             limeLambdaParameter.comment.getFor(PLATFORM_TAG),
-            limeLambdaParameter.attributes.get(DEPRECATED, MESSAGE)
+            limeLambdaParameter.attributes.get(DEPRECATED, MESSAGE, LimeComment::class.java)?.getFor(PLATFORM_TAG)
         )
 
     companion object {

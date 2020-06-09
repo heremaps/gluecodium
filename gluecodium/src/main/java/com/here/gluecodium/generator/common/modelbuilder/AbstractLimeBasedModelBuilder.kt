@@ -24,6 +24,7 @@ import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.gluecodium.model.lime.LimeAttributeValueType.MESSAGE
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
@@ -75,6 +76,6 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     protected fun createComments(limeElement: LimeNamedElement, platform: String) =
         Comments(
             limeElement.comment.getFor(platform),
-            limeElement.attributes.get(DEPRECATED, MESSAGE)
+            limeElement.attributes.get(DEPRECATED, MESSAGE, LimeComment::class.java)?.getFor(platform)
         )
 }

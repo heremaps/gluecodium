@@ -58,7 +58,6 @@ internal class DartNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is String -> element
             is LimeComment -> resolveComment(element)
             is TypeId -> resolveBasicType(element)
             is LimeVisibility -> resolveVisibility(element)

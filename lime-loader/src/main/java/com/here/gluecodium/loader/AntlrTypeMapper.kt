@@ -46,7 +46,7 @@ internal class AntlrTypeMapper(
         typeRef: LimeParser.SimpleTypeRefContext,
         isOptional: Boolean = false
     ): LimeTypeRef {
-        val attributes = AntlrLimeConverter.convertAnnotations(typeRef.annotation())
+        val attributes = AntlrLimeConverter.convertAnnotations(currentPath, typeRef.annotation())
         return when {
             typeRef.predefinedType() != null -> LimeBasicTypeRef(
                 mapPredefinedType(typeRef.predefinedType()),

@@ -39,14 +39,12 @@ import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.cpp.CppValue
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CSTRING
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.gluecodium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -307,10 +305,7 @@ class CppModelBuilder(
             else -> EnumSet.of(CppMethod.Qualifier.CONST, CppMethod.Qualifier.PURE_VIRTUAL)
         }
 
-        val getterComments = Comments(
-            limeProperty.getter.comment.getFor(PLATFORM_TAG),
-            limeProperty.getter.attributes.get(DEPRECATED, MESSAGE)
-        )
+        val getterComments = createComments(limeProperty.getter, PLATFORM_TAG)
         val getterMethod = CppMethod(
             name = nameResolver.getGetterName(limeProperty),
             fullyQualifiedName = nameResolver.getFullyQualifiedGetterName(limeProperty),
@@ -334,10 +329,7 @@ class CppModelBuilder(
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)
                 else -> EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL)
             }
-            val setterComments = Comments(
-                limeSetter.comment.getFor(PLATFORM_TAG),
-                limeSetter.attributes.get(DEPRECATED, MESSAGE)
-            )
+            val setterComments = createComments(limeSetter, PLATFORM_TAG)
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),
                 fullyQualifiedName = nameResolver.getFullyQualifiedSetterName(limeProperty),

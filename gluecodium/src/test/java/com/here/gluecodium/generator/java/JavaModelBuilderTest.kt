@@ -91,7 +91,7 @@ class JavaModelBuilderTest {
         LimeAttributes.Builder().addAttribute(
             LimeAttributeType.DEPRECATED,
             LimeAttributeValueType.MESSAGE,
-            "Bar"
+            LimeComment("Bar")
         ).build()
 
     private val contextStack = MockContextStack<JavaElement>()

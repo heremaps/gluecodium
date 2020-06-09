@@ -73,6 +73,7 @@ class LimeAttributes private constructor(
         when (value) {
             null, true -> ""
             is String -> StringHelper.escapeStringLiteral(value)
+            is LimeComment -> StringHelper.escapeStringLiteral(value.toString())
             is List<*> -> {
                 val listLiteral = value.joinToString(", ") { createValueLiteral(it) }
                 "[$listLiteral]"
