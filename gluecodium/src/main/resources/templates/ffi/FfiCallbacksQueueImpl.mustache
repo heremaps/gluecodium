@@ -51,19 +51,25 @@ CallbackQueue::enqueueIncoming(std::function<void()> func)
     return m_queue.back().done.get_future();
 }
 
-bool
-CallbackQueue::waitForIncoming()
+CallbackQueue::WaitResult
+CallbackQueue::waitForIncoming(const std::chrono::milliseconds& timeout)
 {
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    m_notified.wait(lock, [this] { return m_has_incoming || m_is_closed; });
+    auto check_condition = [this] { return m_has_incoming || m_is_closed; };
+
+    if (timeout == std::chrono::milliseconds::zero()) {
+        m_notified.wait(lock, check_condition);
+    } else if (!m_notified.wait_for(lock, timeout, check_condition)) {
+        return WaitResult::TimedOut;
+    }
 
     if (m_is_closed) {
-        return false;
+        return WaitResult::Stopped;
     }
 
     m_has_incoming = false;
-    return true;
+    return WaitResult::HasIncoming;
 }
 
 void
