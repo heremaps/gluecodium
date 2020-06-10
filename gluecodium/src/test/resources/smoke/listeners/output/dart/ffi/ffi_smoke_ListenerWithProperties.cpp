@@ -17,7 +17,7 @@ public:
     smoke_ListenerWithProperties_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s)
         : token(token), isolate_id(isolate_id), deleter(deleter), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s), p2g(p2g), p2s(p2s), p3g(p3g), p3s(p3s), p4g(p4g), p4s(p4s), p5g(p5g), p5s(p5s), p6g(p6g), p6s(p6s) { }
     ~smoke_ListenerWithProperties_Proxy() {
-        gluecodium::ffi::remove_cached_proxy(token, "smoke_ListenerWithProperties");
+        gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ListenerWithProperties");
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
         gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
@@ -270,7 +270,7 @@ library_smoke_ListenerWithProperties_get_raw_pointer(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s) {
-    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ListenerWithProperties_Proxy>(token, "smoke_ListenerWithProperties");
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ListenerWithProperties_Proxy>(token, isolate_id, "smoke_ListenerWithProperties");
     std::shared_ptr<smoke_ListenerWithProperties_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ListenerWithProperties_Proxy>(cached_proxy);
@@ -278,7 +278,7 @@ library_smoke_ListenerWithProperties_create_proxy(uint64_t token, int32_t isolat
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ListenerWithProperties_Proxy>(
             new (std::nothrow) smoke_ListenerWithProperties_Proxy(token, isolate_id, deleter, p0g, p0s, p1g, p1s, p2g, p2s, p3g, p3s, p4g, p4s, p5g, p5s, p6g, p6s)
         );
-        gluecodium::ffi::cache_proxy(token, "smoke_ListenerWithProperties", *proxy_ptr);
+        gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_ListenerWithProperties", *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

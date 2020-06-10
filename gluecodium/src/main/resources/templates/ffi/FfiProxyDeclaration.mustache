@@ -33,7 +33,7 @@ public:
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}} { }
 
     ~{{resolveName}}_Proxy() {
-        {{>ffi/FfiInternal}}::remove_cached_proxy(token, "{{resolveName}}");
+        {{>ffi/FfiInternal}}::remove_cached_proxy(token, isolate_id, "{{resolveName}}");
 
         auto token_local = token;
         auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);

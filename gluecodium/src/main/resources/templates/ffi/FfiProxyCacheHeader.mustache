@@ -36,11 +36,12 @@ namespace ffi
 struct ProxyCacheKey
 {
     uint64_t token;
+    int32_t isolate_id;
     std::string type_key;
 
     bool
     operator==(const ProxyCacheKey& other) const {
-        return token == other.token && type_key == other.type_key;
+        return token == other.token && isolate_id == other.isolate_id && type_key == other.type_key;
     }
 };
 
@@ -50,6 +51,7 @@ struct ProxyCacheKeyHash
     operator()(const ProxyCacheKey& key) const {
         size_t result = 7;
         result = 31 * result + key.token;
+        result = 31 * result + key.isolate_id;
         result = 31 * result + std::hash<::std::string>{}(key.type_key);
         return result;
     }
@@ -60,9 +62,9 @@ extern std::mutex _cache_mutex;
 
 template<class T>
 std::shared_ptr<T>
-get_cached_proxy(uint64_t token, const std::string& type_key) {
+get_cached_proxy(uint64_t token, int32_t isolate_id, const std::string& type_key) {
     const std::lock_guard<std::mutex> lock(_cache_mutex);
-    auto iter = _proxy_cache.find({token, type_key});
+    auto iter = _proxy_cache.find({token, isolate_id, type_key});
     return (iter != _proxy_cache.end())
         ? std::static_pointer_cast<T>(iter->second.lock())
         : std::shared_ptr<T>{};
@@ -70,12 +72,13 @@ get_cached_proxy(uint64_t token, const std::string& type_key) {
 
 template<class T>
 void
-cache_proxy(uint64_t token, const std::string& type_key, std::shared_ptr<T> proxy) {
+cache_proxy(uint64_t token, int32_t isolate_id, const std::string& type_key, std::shared_ptr<T> proxy) {
     const std::lock_guard<std::mutex> lock(_cache_mutex);
-    _proxy_cache[{token, type_key}] = std::weak_ptr<void>(std::static_pointer_cast<void>(proxy));
+    _proxy_cache[{token, isolate_id, type_key}] =
+        std::weak_ptr<void>(std::static_pointer_cast<void>(proxy));
 }
 
-void remove_cached_proxy(uint64_t token, const std::string& type_key);
+void remove_cached_proxy(uint64_t token, int32_t isolate_id, const std::string& type_key);
 
 }
 {{#internalNamespace}}
