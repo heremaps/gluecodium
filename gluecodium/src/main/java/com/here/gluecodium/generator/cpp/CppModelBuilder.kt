@@ -417,7 +417,7 @@ class CppModelBuilder(
             definition = typeMapper.mapLambda(limeLambda)
         )
 
-        storeResult(cppElement)
+        storeNamedResult(limeLambda, cppElement)
         closeContext()
     }
 

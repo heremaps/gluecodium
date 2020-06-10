@@ -171,6 +171,7 @@ class CommentsLinks {
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
     // * error: [comments.SomethingWrong]
+    // * lambda: [comments.SomeLambda]
     // * type from aux sources, same package: [AuxClass]
     // * type from aux sources, different package: [fire.AuxStruct]
     //   * we can also have

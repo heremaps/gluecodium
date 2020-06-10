@@ -62,6 +62,7 @@ public:
      * * top level enum: ::smoke::TypeCollectionEnum
      * * top level enum item: ::smoke::TypeCollectionEnum::ITEM
      * * error: ::smoke::Comments::SomeEnum
+     * * lambda: ::smoke::Comments::SomeLambda
      * * type from aux sources, same package: ::smoke::AuxClass
      * * type from aux sources, different package: ::fire::AuxStruct
      *   * we can also have

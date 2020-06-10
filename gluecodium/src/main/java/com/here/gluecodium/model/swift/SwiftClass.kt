@@ -59,7 +59,7 @@ class SwiftClass(
         get() = methods.filter { it.isConstructor }
 
     override val childElements
-        get() = properties + methods + structs + enums + typedefs + constants
+        get() = properties + methods + structs + enums + typedefs + constants + closures
 
     override val simpleName: String
         get() = nestedNames.last()

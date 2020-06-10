@@ -53,6 +53,7 @@ public class CommentsLinks {
     /// * top level enum: `TypeCollectionEnum`
     /// * top level enum item: `TypeCollectionEnum.item`
     /// * error: `Comments.SomethingWrongError`
+    /// * lambda: `Comments.SomeLambda`
     /// * type from aux sources, same package: `AuxClass`
     /// * type from aux sources, different package: `AuxStruct`
     ///     * we can also have

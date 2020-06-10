@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed resolution of doc comment links to lambdas in C++ and Swift.
+
 ## 7.1.0
 Release date: 2020-06-10
 ### Features:
