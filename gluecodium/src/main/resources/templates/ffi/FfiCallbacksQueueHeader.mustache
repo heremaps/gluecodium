@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <functional>
 #include <future>
 #include <memory>
@@ -56,13 +57,21 @@ private:
     std::condition_variable m_notified;
 
 public:
+    enum class WaitResult {
+        Stopped,      // Queue is stopped
+        HasIncoming,  // Queue has incomming messages
+        TimedOut      // Wait operation is timed out
+    };
+
     /**
-     * Block until there is a callback in incoming or the queue is closed.
+     * Block until there is a callback in incoming or the queue is closed
+     * or given timeout is over.
      * The incoming callbacks are moved to scheduled.
      *
-     * Returns false if queue was closed.
+     * Returns result of operation as value of WaitResult enumeration.  
      */
-    bool waitForIncoming();
+
+    WaitResult waitForIncoming(const std::chrono::milliseconds& timeout);
 
     /**
      * Execute scheduled callbacks on current thread.
