@@ -74,7 +74,7 @@ class CppModelBuilderCommentsTest {
     private val limeContainer = LimeInterface(EMPTY_PATH)
     private val limeContainerTypeRef = LimeDirectTypeRef(limeContainer)
     private val deprecatedAttributes =
-        LimeAttributes.Builder().addAttribute(DEPRECATED, MESSAGE, "Bar").build()
+        LimeAttributes.Builder().addAttribute(DEPRECATED, MESSAGE, LimeComment("Bar")).build()
 
     private val contextStack = MockContextStack<CppElement>()
 

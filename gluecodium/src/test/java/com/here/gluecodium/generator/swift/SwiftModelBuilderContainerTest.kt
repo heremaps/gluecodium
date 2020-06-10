@@ -74,7 +74,7 @@ class SwiftModelBuilderContainerTest {
         LimeAttributes.Builder().addAttribute(
             LimeAttributeType.DEPRECATED,
             LimeAttributeValueType.MESSAGE,
-            "Bar"
+            LimeComment("Bar")
         ).build()
 
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))

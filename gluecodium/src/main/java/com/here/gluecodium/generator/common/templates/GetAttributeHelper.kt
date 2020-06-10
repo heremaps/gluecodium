@@ -31,7 +31,8 @@ import org.trimou.handlebars.Options
  * Usage: {{getAttribute \[limeElement\] "attributeType" \["attributeValueType"\]}}<br/>
  * Example: {{getAttribute "equatable"}}<br/>
  * Example: {{getAttribute type "equatable"}}<br/>
- * Example: {{getAttribute type "cpp" "accessors"}}
+ * Example: {{getAttribute type "cpp" "accessors"}}<br/>
+ * Also can be used as a section helper, e.g. {{#getAttribute "Deprecated"}}...{{/getAttribute}}
  */
 internal class GetAttributeHelper : BasicHelper() {
     override fun execute(options: Options) {
@@ -55,7 +56,16 @@ internal class GetAttributeHelper : BasicHelper() {
         val attributeValueType = attributeValueTypeName?.let { resolveAttributeValueType(it) }
             ?: attributeType.defaultValueType
             ?: return
-        limeElement.attributes.get(attributeType, attributeValueType)?.let { options.append(it) }
+        val value =
+            limeElement.attributes.get(attributeType, attributeValueType, Any::class.java) ?: return
+
+        if (isSection(options)) {
+            options.push(value)
+            options.fn()
+            options.pop()
+        } else {
+            options.append(value.toString())
+        }
     }
 
     private fun resolveAttributeType(attributeTypeName: String) =

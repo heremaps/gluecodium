@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// This is some very useful interface.
-@Deprecated("Unfortunately, this interface is deprecated. Use [comments] instead.")
+@Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
 abstract class DeprecationComments {
   DeprecationComments() {}
   factory DeprecationComments.fromLambdas({
@@ -24,29 +24,25 @@ abstract class DeprecationComments {
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release() {}
   /// This is some very useful constant.
-  @Deprecated("Unfortunately, this constant is deprecated. Use [comments.VeryUseful] instead.")
+  @Deprecated("Unfortunately, this constant is deprecated. Use [Comments.veryUseful] instead.")
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
   /// [input] Very useful input parameter
   /// Returns [bool]. Usefulness of the input
-  @Deprecated("Unfortunately, this method is deprecated.
-  Use [comments.someMethodWithAllComments] instead.")
+  @Deprecated("Unfortunately, this method is deprecated.\nUse [someMethodWithAllComments] instead.")
   bool someMethodWithAllComments(String input);
   /// Gets some very useful property.
-  @Deprecated("Unfortunately, this property's getter is deprecated.
-  Use [comments.SomeProperty.get] instead.")
+  @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [isSomeProperty] instead.")
   bool get isSomeProperty;
   /// Sets some very useful property.
-  @Deprecated("Unfortunately, this property's setter is deprecated.
-  Use [comments.SomeProperty.set] instead.")
+  @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [isSomeProperty] instead.")
   set isSomeProperty(bool value);
 }
 /// This is some very useful enum.
-@Deprecated("Unfortunately, this enum is deprecated. Use [comments.SomeEnum] instead.")
+@Deprecated("Unfortunately, this enum is deprecated. Use [Comments_SomeEnum] instead.")
 enum DeprecationComments_SomeEnum {
     /// Not quite useful
-    @Deprecated("Unfortunately, this item is deprecated.
-    Use [comments.SomeEnum.Useless] instead.")
+    @Deprecated("Unfortunately, this item is deprecated.\nUse [Comments_SomeEnum.useless] instead.")
     useless
 }
 // DeprecationComments_SomeEnum "private" section, not exported.
@@ -98,17 +94,16 @@ DeprecationComments_SomeEnum smoke_DeprecationComments_SomeEnum_fromFfi_nullable
 void smoke_DeprecationComments_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_DeprecationComments_SomeEnum_release_handle_nullable(handle);
 // End of DeprecationComments_SomeEnum "private" section.
-@Deprecated("Unfortunately, this exception is deprecated, please use [comments.SomethingWrong] instead.")
+@Deprecated("Unfortunately, this exception is deprecated, please use [Comments_SomethingWrongException] instead.")
 class DeprecationComments_SomethingWrongException implements Exception {
   final DeprecationComments_SomeEnum error;
   DeprecationComments_SomethingWrongException(this.error);
 }
 /// This is some very useful struct.
-@Deprecated("Unfortunately, this struct is deprecated. Use [comments.SomeStruct] instead.")
+@Deprecated("Unfortunately, this struct is deprecated. Use [Comments_SomeStruct] instead.")
 class DeprecationComments_SomeStruct {
   /// How useful this struct is.
-  @Deprecated("Unfortunately, this field is deprecated.
-  Use [comments.SomeStruct.someField] instead.")
+  @Deprecated("Unfortunately, this field is deprecated.\nUse [Comments_SomeStruct.someField] instead.")
   bool someField;
   DeprecationComments_SomeStruct(this.someField);
 }
@@ -241,8 +236,7 @@ class DeprecationComments$Impl implements DeprecationComments {
     }
   }
   /// Gets some very useful property.
-  @Deprecated("Unfortunately, this property's getter is deprecated.
-  Use [comments.SomeProperty.get] instead.")
+  @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [isSomeProperty] instead.")
   bool get isSomeProperty {
     final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DeprecationComments_isSomeProperty_get');
     final _handle = this.handle;
@@ -254,8 +248,7 @@ class DeprecationComments$Impl implements DeprecationComments {
     }
   }
   /// Sets some very useful property.
-  @Deprecated("Unfortunately, this property's setter is deprecated.
-  Use [comments.SomeProperty.set] instead.")
+  @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [isSomeProperty] instead.")
   set isSomeProperty(bool value) {
     final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean');
     final _value_handle = Boolean_toFfi(value);

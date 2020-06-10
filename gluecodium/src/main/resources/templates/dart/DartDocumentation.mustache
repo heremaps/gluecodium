@@ -24,5 +24,5 @@
 /// @nodoc
 {{/if}}{{!!
 }}{{#ifHasAttribute "Deprecated"}}
-@Deprecated("{{getAttribute "Deprecated"}}")
+@Deprecated("{{#getAttribute "Deprecated"}}{{#resolveName this}}{{escape this}}{{/resolveName}}{{/getAttribute}}")
 {{/ifHasAttribute}}

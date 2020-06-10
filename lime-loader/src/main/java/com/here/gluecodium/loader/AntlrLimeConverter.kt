@@ -23,23 +23,43 @@ import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimePath
 
 internal object AntlrLimeConverter {
 
-    fun convertAnnotations(annotations: List<LimeParser.AnnotationContext>): LimeAttributes {
+    fun convertAnnotations(
+        limePath: LimePath,
+        annotations: List<LimeParser.AnnotationContext>
+    ): LimeAttributes {
         val attributes = LimeAttributes.Builder()
-        annotations.forEach {
-            val attributeType = convertAnnotationType(it)
-            attributes.addAttribute(attributeType)
-            it.annotationValue().forEach { valueContext ->
-                attributes.addAttribute(
-                    attributeType,
-                    convertAnnotationValueType(valueContext, attributeType),
-                    convertAnnotationValue(valueContext)
-                )
-            }
-        }
+        annotations.forEach { convertAnnotation(it, attributes, limePath) }
         return attributes.build()
+    }
+
+    private fun convertAnnotation(
+        annotationContext: LimeParser.AnnotationContext,
+        attributes: LimeAttributes.Builder,
+        limePath: LimePath
+    ) {
+        val attributeType = convertAnnotationType(annotationContext)
+        attributes.addAttribute(attributeType)
+        annotationContext.annotationValue().forEach {
+            val rawValue = convertAnnotationValue(it)
+            val value = when (attributeType) {
+                LimeAttributeType.DEPRECATED -> {
+                    val stringValue = rawValue as? String
+                        ?: throw LimeLoadingException("Unsupported attribute value: '$rawValue'")
+                    LimeComment(stringValue, limePath.child("@deprecated"))
+                }
+                else -> rawValue
+            }
+            attributes.addAttribute(
+                attributeType,
+                convertAnnotationValueType(it, attributeType),
+                value
+            )
+        }
     }
 
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
@@ -54,7 +74,7 @@ internal object AntlrLimeConverter {
             "PointerEquatable" -> LimeAttributeType.POINTER_EQUATABLE
             "Swift" -> LimeAttributeType.SWIFT
             "Serializable" -> LimeAttributeType.SERIALIZABLE
-            else -> throw LimeLoadingException("Unsupported annotation: '$id'")
+            else -> throw LimeLoadingException("Unsupported attribute: '$id'")
         }
 
     private fun convertAnnotationValueType(
@@ -63,7 +83,7 @@ internal object AntlrLimeConverter {
     ): LimeAttributeValueType {
         val id = ctx.simpleId()?.text ?: return (
             attributeType.defaultValueType ?: throw LimeLoadingException(
-                "Annotation type $attributeType does not support values"
+                "Attribute type $attributeType does not support values"
             )
         )
         return when (id) {
@@ -83,7 +103,7 @@ internal object AntlrLimeConverter {
             "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
             "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER
             "ExternalSetter" -> LimeAttributeValueType.EXTERNAL_SETTER
-            else -> throw LimeLoadingException("Unsupported annotation value: '$id'")
+            else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
         }
     }
 
