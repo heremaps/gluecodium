@@ -398,16 +398,16 @@ Initializes an enumeration-type constant or field with the given enumerator valu
 ### Attributes
 
 Most elements can be prefixed by attributes:
-* Syntax: __@__*AttributeName*\[__(__*list-of-attribute-properties*__)__\]
-* where *list-of-attribute-properties* is a comma-separated list of properties, each optionally with
-a value: *PropertyName* \[**=** *PropertyValue*\]
+* Syntax: __@__*AttributeName*\[__(__*list-of-attribute-specs*__)__\]
+* where *list-of-attribute-specs* is a comma-separated list of specifications, each optionally with
+a value: *PropertySpecName* \[**=** *PropertySpecValue*\]
 * Example: `fun process(mode: Mode, @Swift(Label = "_") input: String): GenericResult`
-* Description: each attributes specifies some additional behavior for the element, most often some
+* Description: each attributes defines some additional behavior for the element, most often some
 behavior specific to a single output language.
   * an element can be prefixed by any number of attributes.
-  * an attribute can have any number of properties associated with it (optionally).
-  * an attribute can have a "default" property that can have its name omitted and specified only by
-  value instead, e.g. `@Deprecated("DeprecationMessage")`.
+  * an attribute can have any number of specifications associated with it (optionally).
+  * an attribute can have a "default" specification that can have its name omitted and specified
+    only by value instead, e.g. `@Deprecated("DeprecationMessage")`.
 
 Here's the list of currently supported attributes:
 * **@Immutable**: marks a struct type as immutable.
@@ -420,16 +420,16 @@ Please note that this attribute is not supported for interfaces.
 deprecated, takes a string literal value as a deprecation message.
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
 access and cached in Java/Swift/Dart afterwards). Currently only supported for read-only properties.
-* **@Java**: marks an element with Java-specific properties:
+* **@Java**: marks an element with Java-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
-  This is the default property for this attribute.
+  This is the default specification for this attribute.
   * **Builder**: marks a struct type to have a "builder" pattern generated in Java.
   * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Java (instead of a default name).
   * **Skip**: marks an element to be skipped (not generated) in Java.
-* **@Swift**: marks an element with Swift-specific properties:
+* **@Swift**: marks an element with Swift-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Swift.
-  This is the default property for this attribute.
+  This is the default specification for this attribute.
   * **Label** **=** **"**_LabelName_**"**: marks a function parameter to have a distinct argument
   label in Swift.
   * **ObjC**: marks a class as Objective-C compatible in Swift.
@@ -438,14 +438,14 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
   * **Skip**: marks an element to be skipped (not generated) in Swift.
-* **@Dart**: marks an element with Dart-specific properties:
+* **@Dart**: marks an element with Dart-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
-  This is the default property for this attribute.
+  This is the default specification for this attribute.
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
   * **Skip**: marks an element to be skipped (not generated) in Dart.
-* **@Cpp**: marks an element with C++-specific properties:
+* **@Cpp**: marks an element with C++-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
-  This is the default property for this attribute.
+  This is the default specification for this attribute.
   * **Const**: marks a function with a `const` qualifier in C++ generated code.
   * **CString**: marks a function parameter of `String` type to accept `const char*` in C++ (in
   addition to usual `std::string`). This produces one additional overload for the function.
