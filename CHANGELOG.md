@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue for interfaces containing a lambda declaration in Java.
+
 ## 7.1.2
 Release date: 2020-06-16
 ### Bug fixes:

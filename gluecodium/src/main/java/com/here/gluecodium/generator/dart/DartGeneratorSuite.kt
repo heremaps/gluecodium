@@ -308,7 +308,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "libraryName" to libraryName,
             "builtInTypes" to
                 LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID },
-            "typeRepositories" to typeRepositories,
+            "typeRepositories" to typeRepositories.sortedBy { it.fullName },
             "imports" to
                 typeRepositories.flatMap { importResolver.resolveImports(it) }.distinct().sorted()
         )

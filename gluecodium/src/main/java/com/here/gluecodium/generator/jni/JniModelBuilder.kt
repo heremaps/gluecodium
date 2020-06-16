@@ -37,6 +37,7 @@ import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppTypeRef
 import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.java.JavaClass
+import com.here.gluecodium.model.java.JavaComplexTypeRef
 import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.java.JavaEnum
 import com.here.gluecodium.model.java.JavaEnumItem
@@ -60,6 +61,7 @@ import com.here.gluecodium.model.jni.JniStruct
 import com.here.gluecodium.model.jni.JniTopLevelElement
 import com.here.gluecodium.model.jni.JniType
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
@@ -122,8 +124,16 @@ class JniModelBuilder(
             hasInterfaceParent = limeParent is LimeInterface
         )
 
-        limeParent?.let {
-            val transientParent = buildTransientModel(it).first()
+        val javaParent = when (limeParent) {
+            is LimeClass -> javaClass.extendedClass
+            is LimeInterface -> javaTopLevelElement.parentInterfaces.firstOrNull()
+            else -> null
+        } as? JavaComplexTypeRef
+        if (limeParent != null && javaParent != null) {
+            val javaParentNames = javaParent.packageNames + javaParent.classNames
+            val transientParent = buildTransientModel(limeParent).first {
+                (it.javaPackage.packageNames + it.javaInterfaceNames) == javaParentNames
+            }
             jniContainer.parentMethods += transientParent.parentMethods
             jniContainer.parentMethods += transientParent.methods
         }
