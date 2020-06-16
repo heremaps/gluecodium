@@ -284,6 +284,7 @@ feature(Inheritance cpp android swift dart SOURCES
     lime/test/Inheritance.lime
     lime/test/ListenerInheritance.lime
     lime/test/ListenerInheritanceArrays.lime
+    lime/test/CrossPackageInheritance.lime
 )
 
 feature(Serialization android swift SOURCES

@@ -33,6 +33,11 @@ JNIEXPORT {{returnType.name}} JNICALL
 {{>jni/FunctionSignature}};
 
 {{/methods}}
+{{#if hasInterfaceParent}}{{#parentMethods}}
+JNIEXPORT {{returnType.name}} JNICALL
+{{>jni/FunctionSignature}};
+
+{{/parentMethods}}{{/if}}
 {{#hasNativeEquatable}}
 JNIEXPORT jboolean JNICALL
 {{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs);

@@ -3,8 +3,9 @@
  */
 package com.example.package;
 import android.support.annotation.NonNull;
+import com.example.NativeBase;
 import java.util.List;
-public final class Class extends InterfaceImpl {
+public final class Class extends NativeBase implements Interface {
     public Class() {
         this(constructor());
         cacheThisInstance();
@@ -14,8 +15,14 @@ public final class Class extends InterfaceImpl {
      * @exclude
      */
     protected Class(final long nativeHandle) {
-        super(nativeHandle);
+        super(nativeHandle, new Disposer() {
+            @Override
+            public void disposeNative(long handle) {
+                disposeNativeHandle(handle);
+            }
+        });
     }
+    private static native void disposeNativeHandle(long nativeHandle);
     private native void cacheThisInstance();
     private static native long constructor();
     @NonNull

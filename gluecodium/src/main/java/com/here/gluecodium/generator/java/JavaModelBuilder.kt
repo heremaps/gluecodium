@@ -74,7 +74,8 @@ class JavaModelBuilder(
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
     private val nameRules: JavaNameRules,
-    private val nameResolver: JavaNameResolver
+    private val nameResolver: JavaNameResolver,
+    private val buildTransientModel: (LimeNamedElement) -> List<JavaElement>
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
     private val nativeBase: JavaTypeRef = typeMapper.nativeBase
 
@@ -392,10 +393,14 @@ class JavaModelBuilder(
     }
 
     private fun createJavaInterface(limeInterface: LimeInterface): JavaInterface {
+        val parentMethods = (limeInterface.parent?.type as? LimeInterface)?.let {
+            (buildTransientModel(it).first() as JavaInterface).run { methods + parentMethods }
+        } ?: emptySet()
 
         val javaInterface = JavaInterface(
             name = nameRules.getName(limeInterface),
-            classNames = nameResolver.getClassNames(limeInterface)
+            classNames = nameResolver.getClassNames(limeInterface),
+            parentMethods = parentMethods
         )
         javaInterface.visibility = getVisibility(limeInterface)
         javaInterface.javaPackage = rootPackage
@@ -441,23 +446,17 @@ class JavaModelBuilder(
     }
 
     private fun finishBuildingClass(limeClass: LimeClass) {
-        var extendedClass = nativeBase
         val parentContainer = limeClass.parent?.type as? LimeContainerWithInheritance
-        parentContainer?.let {
-            val parentClassName = when (it) {
-                is LimeInterface -> nameRules.getImplementationClassName(it)
-                else -> nameRules.getName(it)
-            }
-            extendedClass = typeMapper.mapInheritanceParent(it, parentClassName)
-        }
+        val javaParent =
+            parentContainer?.let { typeMapper.mapInheritanceParent(it, nameRules.getName(it)) }
 
         val javaClass = JavaClass(
             name = nameRules.getName(limeClass),
             classNames = nameResolver.getClassNames(limeClass),
-            extendedClass = extendedClass,
+            extendedClass = if (parentContainer is LimeClass) javaParent else nativeBase,
             fields = getPreviousResults(JavaField::class.java),
             isImplClass = true,
-            needsDisposer = parentContainer == null,
+            needsDisposer = parentContainer !is LimeClass,
             hasNativeEquatable = limeClass.attributes.have(LimeAttributeType.EQUATABLE) ||
                     limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
@@ -469,7 +468,14 @@ class JavaModelBuilder(
         javaClass.comment = createComments(limeClass)
         addDeprecatedAnnotationIfNeeded(javaClass)
 
-        javaClass.methods.addAll(getPreviousResults(JavaMethod::class.java))
+        javaClass.methods += getPreviousResults(JavaMethod::class.java)
+        if (parentContainer is LimeInterface) {
+            javaClass.parentInterfaces += javaParent!!
+            val transientParent = buildTransientModel(parentContainer).first() as JavaInterface
+            val parentMethods = transientParent.methods + transientParent.parentMethods
+            parentMethods.forEach { it.annotations.add(overrideAnnotation) }
+            javaClass.methods += parentMethods
+        }
         javaClass.methods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
 
         addMembers(javaClass)
@@ -536,5 +542,6 @@ class JavaModelBuilder(
 
         internal val deprecatedAnnotation = JavaCustomTypeRef("Deprecated")
         internal val functionalInterfaceAnnotation = JavaCustomTypeRef("FunctionalInterface")
+        private val overrideAnnotation = JavaCustomTypeRef("Override")
     }
 }

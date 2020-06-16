@@ -101,6 +101,7 @@ class JniModelBuilder(
         val cppClass = cppBuilder.getFinalResult(CppClass::class.java)
         val javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement::class.java)
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
+        val limeParent = limeContainer.parent?.type
 
         val jniContainer = JniContainer(
             javaPackage = javaTopLevelElement.javaPackage,
@@ -117,10 +118,11 @@ class JniModelBuilder(
             isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
             isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
             hasTypeRepository = cppClass.isInheritable || cppClass.inheritances.isNotEmpty(),
-            hasConstructors = limeContainer.constructors.isNotEmpty()
+            hasConstructors = limeContainer.constructors.isNotEmpty(),
+            hasInterfaceParent = limeParent is LimeInterface
         )
 
-        limeContainer.parent?.type?.let {
+        limeParent?.let {
             val transientParent = buildTransientModel(it).first()
             jniContainer.parentMethods += transientParent.parentMethods
             jniContainer.parentMethods += transientParent.methods

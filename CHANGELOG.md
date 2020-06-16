@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue for cross-package inheritance from an interface in Java.
+
 ## 7.1.1
 Release date: 2020-06-11
 ### Bug fixes:
