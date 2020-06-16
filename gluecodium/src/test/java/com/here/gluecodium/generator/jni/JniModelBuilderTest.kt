@@ -265,20 +265,6 @@ class JniModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingInterfaceReadsParentMethods() {
-        val parentContainer = JniContainer()
-        parentContainer.parentMethods.add(JniMethod())
-        parentContainer.methods.add(JniMethod())
-        transientModel += parentContainer
-        val limeElement = LimeInterface(fooPath, parent = LimeBasicTypeRef.INT)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertEquals(2, jniContainer.parentMethods.size)
-    }
-
-    @Test
     fun finishBuildingInterfaceReadsInterfaceInclude() {
         modelBuilder.finishBuilding(limeInterface)
 
