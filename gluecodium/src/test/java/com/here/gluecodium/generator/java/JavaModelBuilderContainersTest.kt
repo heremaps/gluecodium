@@ -99,7 +99,8 @@ class JavaModelBuilderContainersTest {
             valueMapper = valueMapper,
             nameRules = nameRules,
             nameResolver = JavaNameResolver(nameRules, emptyMap()),
-            contextStack = contextStack
+            contextStack = contextStack,
+            buildTransientModel = { listOf(JavaInterface("")) }
         )
     }
 
@@ -382,13 +383,14 @@ class JavaModelBuilderContainersTest {
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaTypeRef("") {}
-        every { typeMapper.mapInheritanceParent(parentContainer, "BarImpl") } returns javaType
+        every { typeMapper.mapInheritanceParent(any(), any()) } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
-        assertEquals(javaType, result.extendedClass)
-        assertFalse(result.needsDisposer)
+        assertEquals(typeMapper.nativeBase, result.extendedClass)
+        assertEquals(javaType, result.parentInterfaces.first())
+        assertTrue(result.needsDisposer)
     }
 
     @Test

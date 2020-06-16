@@ -31,35 +31,13 @@
 extern "C" {
 
 {{#container}}{{#methods}}
-{{returnType.name}}
-{{>jni/FunctionSignature}}
-
-{
-{{#parameters}}
-{{#if type.isComplex}}
-    {{type.cppName}} {{name}} = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
-            {{>common/InternalNamespace}}jni::make_non_releasing_ref(j{{name}}),
-            ({{type.cppName}}*)nullptr);
-{{/if}}
-{{#unless type.isComplex}}
-    {{type.cppName}} {{name}} = j{{name}};
-{{/unless}}
-{{/parameters}}
-{{#unless isStatic}}{{#instanceOf container "JniContainer"}}{{#unless isFunctionalInterface}}
-    auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
-{{/unless}}{{#if isFunctionalInterface}}
-    auto pInstanceSharedPointer = reinterpret_cast<{{cppFullyQualifiedName}}*>(
-{{#set jobjectName="_jinstance"}}{{>getNativeHandle}}{{/set}});
-{{/if}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf container "JniContainer"}}
-    auto _ninstance = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
-        {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
-        ({{container.cppFullyQualifiedName}}*)nullptr);
-{{/notInstanceOf}}{{/unless}}
-{{>jni/ReturnTypeConversion}}
-}
+{{>jniMethod}}
 
 {{/methods}}
+{{#if hasInterfaceParent}}{{#parentMethods}}
+{{>jniMethod}}
+
+{{/parentMethods}}{{/if}}
 {{#instanceOf container "JniContainer"}}
 JNIEXPORT void JNICALL
 Java_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
@@ -132,4 +110,34 @@ jint
             {{>common/InternalNamespace}}jni::make_non_releasing_ref({{jobjectName}}),
             "nativeHandle",
             (int64_t*)nullptr){{!!
-}}{{/getNativeHandle}}
+}}{{/getNativeHandle}}{{!!
+
+}}{{+jniMethod}}
+{{returnType.name}}
+{{>jni/FunctionSignature}}
+
+{
+{{#parameters}}
+{{#if type.isComplex}}
+    {{type.cppName}} {{name}} = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
+            {{>common/InternalNamespace}}jni::make_non_releasing_ref(j{{name}}),
+            ({{type.cppName}}*)nullptr);
+{{/if}}
+{{#unless type.isComplex}}
+    {{type.cppName}} {{name}} = j{{name}};
+{{/unless}}
+{{/parameters}}
+{{#unless isStatic}}{{#instanceOf container "JniContainer"}}{{#unless isFunctionalInterface}}
+    auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
+{{/unless}}{{#if isFunctionalInterface}}
+    auto pInstanceSharedPointer = reinterpret_cast<{{cppFullyQualifiedName}}*>(
+{{#set jobjectName="_jinstance"}}{{>getNativeHandle}}{{/set}});
+{{/if}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf container "JniContainer"}}
+    auto _ninstance = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
+        {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
+        ({{container.cppFullyQualifiedName}}*)nullptr);
+{{/notInstanceOf}}{{/unless}}
+{{>jni/ReturnTypeConversion}}
+}
+{{/jniMethod}}

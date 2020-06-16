@@ -74,7 +74,8 @@ class JniGenerator(
             typeMapper = javaTypeMapper,
             valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules, javaTypeMapper),
             nameRules = javaNameRules,
-            nameResolver = javaNameResolver
+            nameResolver = javaNameResolver,
+            buildTransientModel = { generateModel(it).javaElements }
         )
 
         val includeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)

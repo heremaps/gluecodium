@@ -21,5 +21,6 @@ package com.here.gluecodium.model.java
 
 class JavaInterface(
     name: String,
-    classNames: List<String> = listOf(name)
+    classNames: List<String> = listOf(name),
+    val parentMethods: Set<JavaMethod> = emptySet()
 ) : JavaTopLevelElement(name, classNames)

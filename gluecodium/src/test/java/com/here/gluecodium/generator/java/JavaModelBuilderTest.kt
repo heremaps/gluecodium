@@ -112,7 +112,8 @@ class JavaModelBuilderTest {
             typeMapper = typeMapper,
             valueMapper = valueMapper,
             nameRules = nameRules,
-            nameResolver = JavaNameResolver(nameRules, emptyMap())
+            nameResolver = JavaNameResolver(nameRules, emptyMap()),
+            buildTransientModel = { emptyList() }
         )
     }
 
