@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Slightly improved logging for unhandled exceptions when calling Java code from C++.
+
 ## 7.1.3
 Release date: 2020-06-16
 ### Bug fixes:

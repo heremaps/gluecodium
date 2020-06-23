@@ -22,7 +22,9 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result( const 
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 void
@@ -33,7 +35,9 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_const( 
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 void
@@ -44,7 +48,9 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_struct(
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 void
@@ -55,7 +61,9 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_array( 
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 void
@@ -66,7 +74,9 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_map( co
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 void
@@ -77,7 +87,9 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_instanc
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 }
