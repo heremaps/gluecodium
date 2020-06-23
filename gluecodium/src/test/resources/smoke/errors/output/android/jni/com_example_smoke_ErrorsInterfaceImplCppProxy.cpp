@@ -22,6 +22,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors(  ) {
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
+        jniEnv->ExceptionClear( );
         auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
@@ -31,7 +32,6 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors(  ) {
             jniEnv,
             jErrorValue,
             (::smoke::ErrorsInterface::InternalError*)nullptr );
-        jniEnv->ExceptionClear( );
         return ::std::error_code{nErrorValue};
     }
     else
@@ -46,6 +46,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_external_errors(  ) 
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
+        jniEnv->ExceptionClear( );
         auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
@@ -55,7 +56,6 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_external_errors(  ) 
             jniEnv,
             jErrorValue,
             (::smoke::ErrorsInterface::ExternalErrors*)nullptr );
-        jniEnv->ExceptionClear( );
         return ::std::error_code{nErrorValue};
     }
     else
@@ -70,6 +70,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_va
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
+        jniEnv->ExceptionClear( );
         auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
@@ -79,7 +80,6 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_va
             jniEnv,
             jErrorValue,
             (::smoke::ErrorsInterface::InternalError*)nullptr );
-        jniEnv->ExceptionClear( );
         return ::std::error_code{nErrorValue};
     }
     else
@@ -94,6 +94,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error(  ) {
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
+        jniEnv->ExceptionClear( );
         auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
@@ -103,7 +104,6 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error(  ) {
             jniEnv,
             jErrorValue,
             (::smoke::Payload*)nullptr );
-        jniEnv->ExceptionClear( );
         return ::smoke::Payload{nErrorValue};
     }
     else
@@ -118,6 +118,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error_and_re
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
+        jniEnv->ExceptionClear( );
         auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
@@ -127,7 +128,6 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error_and_re
             jniEnv,
             jErrorValue,
             (::smoke::Payload*)nullptr );
-        jniEnv->ExceptionClear( );
         return ::smoke::Payload{nErrorValue};
     }
     else

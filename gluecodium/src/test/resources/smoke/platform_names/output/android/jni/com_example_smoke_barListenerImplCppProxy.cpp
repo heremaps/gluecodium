@@ -20,7 +20,9 @@ com_example_smoke_barListenerImpl_CppProxy::FooMethod( const ::std::string& nBar
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 }

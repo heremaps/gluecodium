@@ -22,7 +22,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_double(  ) 
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return result;
 }
@@ -33,7 +35,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_string(  ) 
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
 }
@@ -44,7 +48,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_struct(  ) 
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::ResultStruct*)nullptr );
 }
@@ -55,7 +61,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_enum(  ) {
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::ResultEnum*)nullptr );
 }
@@ -66,7 +74,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_array(  ) {
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::std::vector< double >*)nullptr );
 }
@@ -77,7 +87,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_map(  ) {
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::StringToDouble*)nullptr );
 }
@@ -88,7 +100,9 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_instance(  
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
 }
