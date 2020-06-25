@@ -111,6 +111,7 @@ public:
     struct StructWithOverloads {
         const std::string& overloadedMethod( );
         std::string overloadedMethod( const std::string& input );
+        std::string overloadedMethod( const std::string&, const bool );
 
         void overloadedAccessors( int32_t value );
         const int32_t& overloadedAccessors( ) const;
@@ -123,6 +124,7 @@ public:
 
     virtual const std::string& allOverloadsExposed( const std::string& ) = 0;
     virtual std::string allOverloadsExposed( const std::vector<std::string>& ) = 0;
+    virtual std::string allOverloadsExposed( const std::string&, const bool ) = 0;
 };
 
 class external_Interface

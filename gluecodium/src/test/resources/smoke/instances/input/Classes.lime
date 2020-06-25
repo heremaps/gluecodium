@@ -43,3 +43,13 @@ class ExternalClass {
         get
     }
 }
+
+@Cpp(ExternalType = "include/ExternalTypes.h")
+class ClassWithOverloads {
+    fun oneOverloadNotExposed(): String
+    fun allOverloadsExposed(input: String): String
+    @Dart("allOverloadsExposedList")
+    fun allOverloadsExposed(inputList: List<String>): String
+    @Dart("allOverloadsExposedTwo")
+    fun allOverloadsExposed(inputString: String, inputBool: Boolean): String
+}
