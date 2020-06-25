@@ -73,7 +73,7 @@ internal class NameResolverHelper : BasicHelper() {
             "getter" -> resolver.resolveGetterName(element)
             "setter" -> resolver.resolveSetterName(element)
             else -> resolver.resolveName(element)
-        }
+        } ?: return
 
         if (isSection(options)) {
             options.push(name)
