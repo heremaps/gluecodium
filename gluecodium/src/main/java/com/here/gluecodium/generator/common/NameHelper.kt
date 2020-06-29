@@ -24,7 +24,7 @@ import com.google.common.base.CharMatcher
 import com.google.common.base.Strings
 import org.apache.commons.text.WordUtils.capitalizeFully
 
-@Suppress("UnstableApiUsage")
+@Suppress("UnstableApiUsage", "DEPRECATION")
 object NameHelper {
     private const val UNDERSCORE = "_"
 
