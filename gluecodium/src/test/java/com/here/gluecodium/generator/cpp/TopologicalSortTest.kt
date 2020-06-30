@@ -27,12 +27,15 @@ import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createTypeAli
 import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createTypeRef
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -209,6 +212,21 @@ class TopologicalSortTest(
                                             createPath("x"),
                                             typeRef = createTypeRef(SECOND_STRUCT_NAME)
                                         ))
+                                )
+                            )
+                        ),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "sortStructsDependentThroughMethodThrownType", listOf(
+                        LimeStruct(
+                            path = createPath(FIRST_STRUCT_NAME),
+                            functions = listOf(
+                                LimeFunction(
+                                    createPath("x"),
+                                    thrownType = LimeThrownType(LimeDirectTypeRef(LimeException(
+                                        LimePath.EMPTY_PATH, errorType = createTypeRef(SECOND_STRUCT_NAME)
+                                    )))
                                 )
                             )
                         ),
