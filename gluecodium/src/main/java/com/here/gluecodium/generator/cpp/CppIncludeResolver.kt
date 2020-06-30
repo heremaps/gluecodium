@@ -51,7 +51,7 @@ class CppIncludeResolver(
                         .filterIsInstance<String>()
                         .map { Include.createInternalInclude(it.trim()) }
                 !limeNamedElement.path.hasParent -> listOf(Include.createInternalInclude(
-                    nameRules.getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
+                    nameRules.getOutputFilePath(limeNamedElement) + ".h"
                 ))
                 else -> {
                     val parentElementKey = limeNamedElement.path.parent.toString()

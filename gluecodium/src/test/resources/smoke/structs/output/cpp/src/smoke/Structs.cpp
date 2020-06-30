@@ -2,7 +2,12 @@
 //
 //
 // -------------------------------------------------------------------------------------------------
+#include "foo/Bar.h"
+#include "foo/Bazz.h"
+#include "non/Sense.h"
 #include "smoke/Structs.h"
+#include <type_traits>
+#include <utility>
 namespace smoke {
 Structs::Structs() {
 }

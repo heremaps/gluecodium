@@ -37,9 +37,9 @@ hash< ::smoke::SimpleEquatableStruct >::operator( )( const ::smoke::SimpleEquata
 {
     size_t hash_value = 43;
     hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::class_field ) >( )( t.class_field ) ) << 1;
-hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::interface_field ) >( )( t.interface_field ) ) << 1;
-hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::nullable_class_field ) >( )( t.nullable_class_field ) ) << 1;
-hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::nullable_interface_field ) >( )( t.nullable_interface_field ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::interface_field ) >( )( t.interface_field ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::nullable_class_field ) >( )( t.nullable_class_field ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::SimpleEquatableStruct::nullable_interface_field ) >( )( t.nullable_interface_field ) ) << 1;
     return hash_value;
 }
 }

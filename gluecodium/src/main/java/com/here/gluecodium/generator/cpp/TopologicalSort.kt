@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,68 +20,66 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.model.cpp.CppElement
-import com.here.gluecodium.model.cpp.CppFunctionTypeRef
-import com.here.gluecodium.model.cpp.CppMethod
-import com.here.gluecodium.model.cpp.CppStruct
-import com.here.gluecodium.model.cpp.CppTemplateTypeRef
-import com.here.gluecodium.model.cpp.CppTypeDefRef
-import com.here.gluecodium.model.cpp.CppTypeRef
-import com.here.gluecodium.model.cpp.CppTypedElement
-import com.here.gluecodium.model.cpp.CppUsing
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
 
-class TopologicalSort(private val elements: List<CppElement>) {
+internal class TopologicalSort(private val elements: List<LimeNamedElement>) {
 
-    private val fullyQualifiedNames = elements.map { it.fullyQualifiedName }.toSet()
+    private val fullNames = elements.map { it.fullName }.toSet()
 
     /**
      * Do a topological sort based on Kahn's algorithm
      * https://en.wikipedia.org/wiki/Topological_sorting on the given structs and assign priorities
      * to structs so the most-basic structs are defined first to avoid compilation errors on C++.
      */
-    fun sort(): List<CppElement> {
+    fun sort(): List<LimeNamedElement> {
         val dependencies = elements.associateBy(
-            { it.fullyQualifiedName },
+            { it.fullName },
             { getElementDependencies(it).toMutableSet() }
         )
 
-        val sortedElements = mutableListOf<CppElement>()
+        val sortedElements = mutableListOf<LimeNamedElement>()
         while (sortedElements.size < elements.size) {
             // Find the first element with no dependency needed which is not in the sorted elements.
             val nextElement = elements.firstOrNull {
-                val dependencySet = dependencies[it.fullyQualifiedName]
+                val dependencySet = dependencies[it.fullName]
                 dependencySet != null && dependencySet.isEmpty() && !sortedElements.contains(it)
-            } ?: throw GluecodiumExecutionException("Cycle detected in CPP elements dependencies.")
+            } ?: throw GluecodiumExecutionException("Cycle detected in C++ elements dependencies.")
 
             sortedElements.add(nextElement)
 
             // As dependency to "nextElement" is now fulfilled we must remove it from elements
             // dependencies.
-            for (name in fullyQualifiedNames) {
-                dependencies[name]?.remove(nextElement.fullyQualifiedName)
+            for (name in fullNames) {
+                dependencies[name]?.remove(nextElement.fullName)
             }
         }
 
         return sortedElements
     }
 
-    private fun getTypeDependencies(typeRef: CppTypeRef): List<String> =
-        when (typeRef) {
-            is CppTemplateTypeRef -> typeRef.templateParameters
-            is CppTypeDefRef -> listOf(typeRef.actualType)
-            is CppFunctionTypeRef -> typeRef.parameters + typeRef.returnType
+    private fun getTypeRefDependencies(limeTypeRef: LimeTypeRef): List<String> =
+        when (val limeType = limeTypeRef.type) {
+            is LimeGenericType -> limeType.childTypes.flatMap { getTypeRefDependencies(it) }
             else -> emptyList()
-        }.flatMap { getTypeDependencies(it) } +
-            listOfNotNull(typeRef.name.takeIf { fullyQualifiedNames.contains(it) })
+        } + listOfNotNull(limeTypeRef.type.fullName.takeIf { fullNames.contains(it) })
 
-    private fun getElementDependencies(cppElement: CppElement): Set<String> =
-        when (cppElement) {
-            is CppTypedElement -> getTypeDependencies(cppElement.type) +
-                listOfNotNull(cppElement.type.name.takeIf { fullyQualifiedNames.contains(it) })
-            is CppStruct -> cppElement.childElements.flatMap { getElementDependencies(it) }
-            is CppUsing -> getTypeDependencies(cppElement.definition)
-            is CppMethod -> (cppElement.parameters.map { it.type } + cppElement.returnType)
-                .flatMap { getTypeDependencies(it) }
+    private fun getElementDependencies(limeElement: LimeNamedElement): Set<String> =
+        when (limeElement) {
+            is LimeTypedElement -> getTypeRefDependencies(limeElement.typeRef)
+            is LimeStruct -> (limeElement.fields + limeElement.functions + limeElement.constants)
+                .flatMap { getElementDependencies(it) }
+            is LimeTypeAlias -> getTypeRefDependencies(limeElement.typeRef)
+            is LimeFunction -> (limeElement.parameters.map { it.typeRef } + limeElement.returnType.typeRef)
+                .flatMap { getTypeRefDependencies(it) }
+            is LimeLambda -> (limeElement.parameters.map { it.typeRef } + limeElement.returnType.typeRef)
+                .flatMap { getTypeRefDependencies(it) }
             else -> emptyList()
-        }.toSet() - cppElement.fullyQualifiedName
+        }.toSet() - limeElement.fullName
 }

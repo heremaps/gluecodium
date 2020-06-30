@@ -3,6 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/StructsWithConstantsInterface.h"
+#include <utility>
 namespace smoke {
 StructsWithConstantsInterface::StructsWithConstantsInterface() {
 }

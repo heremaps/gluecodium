@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -19,16 +19,17 @@
   !
   !}}
 std::size_t
-hash< {{fullyQualifiedName}} >::operator( )( const {{fullyQualifiedName}}& t ) const
+hash< {{resolveName "FQN"}} >::operator( )( const {{resolveName "FQN"}}& t ) const
 {
     size_t hash_value = 43;
-{{#if hasAccessors}}
-    {{#set structName=fullyQualifiedName}}{{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype{{!!
-    }}( ( ( const {{structName}}* )nullptr )->{{getterName}}( ) ) >( )( t.{{getterName}}( ) ) ) << 1;
-    {{/fields}}{{/set}}
-{{/if}}{{#unless hasAccessors}}
-    {{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype( {{fullyQualifiedName}} ) >( )( t.{{name}} ) ) << 1;
-    {{/fields}}
-{{/unless}}
+{{#ifHasAttribute "Cpp" "Accessors"}}
+    {{#resolveName "FQN"}}{{#set structName=this}}{{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype{{!!
+    }}( ( ( const {{structName}}* )nullptr )->{{resolveName this "" "getter"}}( ) ) >( )( t.{{resolveName this "" "getter"}}( ) ) ) << 1;
+    {{/fields}}{{/set}}{{/resolveName}}
+{{/ifHasAttribute}}{{#unlessHasAttribute "Cpp" "Accessors"}}
+{{#fields}}
+    hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype( {{resolveName "FQN"}} ) >( )( t.{{resolveName}} ) ) << 1;
+{{/fields}}
+{{/unlessHasAttribute}}
     return hash_value;
 }

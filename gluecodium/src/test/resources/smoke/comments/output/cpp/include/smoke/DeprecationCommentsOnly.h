@@ -20,6 +20,9 @@ public:
      * \deprecated Unfortunately, this enum is deprecated.
      */
     enum class SomeEnum {
+        /**
+         * \deprecated Unfortunately, this item is deprecated.
+         */
         USELESS
     };
     /**

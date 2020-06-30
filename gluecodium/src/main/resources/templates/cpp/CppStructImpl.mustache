@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,80 +18,82 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}{{!!
-}}{{#set structName=name}}{{#constants}}
-const {{type.name}} {{#parentName}}{{.}}::{{/parentName}}{{structName}}::{{name}} = {{value.name}};
+{{#unlessHasAttribute "Cpp" "ExternalType"}}{{!!
+}}{{#set structElement=this}}{{#constants}}
+const {{resolveName typeRef}} {{#parentName}}{{.}}::{{/parentName}}{{resolveName structElement}}::{{resolveName}} = {{resolveName value}};
 {{/constants}}{{/set}}{{!!
 }}{{#if fields}}
-{{#if hasDefaultConstructor}}{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( ){{#if uninitializedFields}}
-    : {{#uninitializedFields}}{{name}}{ }{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}{{/if}}
+{{#ifPredicate "hasDefaultConstructor"}}{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}( ){{!!
+}}{{#if uninitializedFields}}
+    : {{#uninitializedFields}}{{resolveName}}{ }{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}{{/if}}
 {
-}{{/if}}
-{{#if hasPartialDefaults}}
+}{{/ifPredicate}}
+{{#ifPredicate "hasPartialDefaults"}}
 
-{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial uninitializedFields "structConstructorParameter" ", "}} )
-    : {{#uninitializedFields}}{{name}}{{#initializer}}( std::move( {{name}} ) ){{/initializer}}{{!!
-}}{{^initializer}}( std::move( {{name}} ) ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
+{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}( {{!!
+}}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}} )
+    : {{#uninitializedFields}}{{resolveName}}{{#initializer}}( std::move( {{resolveName}} ) ){{/initializer}}{{!!
+}}{{^initializer}}( std::move( {{resolveName}} ) ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
 {
-}{{/if}}
+}{{/ifPredicate}}
 
-{{#parentName}}{{.}}::{{/parentName}}{{name}}::{{name}}( {{joinPartial fields "structConstructorParameter" ", "}} )
-    : {{#fields}}{{name}}( std::move( {{name}} ) ){{#if iter.hasNext}}, {{/if}}{{/fields}}
+{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}( {{!!
+}}{{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} )
+    : {{#fields}}{{resolveName}}( std::move( {{resolveName}} ) ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 
 {{/if}}{{!!
-}}{{#if isEquatable}}
-bool {{#parentName}}{{.}}::{{/parentName}}{{name}}::operator==( const {{name}}& rhs ) const
+}}{{#ifHasAttribute "Equatable"}}
+bool {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::operator==( const {{resolveName}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&
         " }};
 }
 
-bool {{#parentName}}{{.}}::{{/parentName}}{{name}}::operator!=( const {{name}}& rhs ) const
+bool {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::operator!=( const {{resolveName}}& rhs ) const
 {
     return !( *this == rhs );
 }
 
-{{/if}}{{/unless}}{{!!
+{{/ifHasAttribute}}{{/unlessHasAttribute}}{{!!
 
-}}{{#if isExternal}}
-{{#set structName=fullyQualifiedName}}{{#fields}}
-{{#if getterName}}
+}}{{#ifHasAttribute "Cpp" "ExternalType"}}
+{{#set structElement=this}}{{#resolveName structElement "FQN"}}{{#set structName=this}}{{#fields}}
+{{#resolveName this "" "getter"}}
 static_assert(
     std::is_same<
-        {{type.name}},
-        std::remove_cv<std::remove_reference<decltype(((const {{structName}}*)nullptr)->{{getterName}}())>::type>::type
+        {{resolveName typeRef}},
+        std::remove_cv<std::remove_reference<decltype(((const {{structName}}*)nullptr)->{{this}}())>::type>::type
     >::value,
-    "Expected '{{type.name}}' return type for '{{structName}}::{{getterName}}'."
+    "Expected '{{resolveName typeRef}}' return type for '{{structName}}::{{this}}'."
 );
-{{/if}}
-{{#if setterName}}
+{{/resolveName}}
+{{#resolveName this "" "setter"}}
 static_assert(
     std::is_same<
         void,
-        decltype((({{structName}}*)nullptr)->{{setterName}}(*(({{type.name}}*)nullptr)))
+        decltype((({{structName}}*)nullptr)->{{this}}(*(({{resolveName typeRef}}*)nullptr)))
     >::value,
-    "Expected 'void' return type for '{{structName}}::{{setterName}}'."
+    "Expected 'void' return type for '{{structName}}::{{this}}'."
 );
-{{/if}}
-{{#unless getterName setterName}}
+{{/resolveName}}
+{{#unlessHasAttribute structElement "Cpp" "Accessors"}}{{!!
+}}{{#unlessHasAttribute "Cpp" "ExternalGetter"}}{{#unlessHasAttribute "Cpp" "ExternalSetter"}}
 static_assert(
-    std::is_same<{{type.name}}, decltype({{structName}}::{{name}})>::value,
-    "Expected '{{type.name}}' type for '{{structName}}::{{name}}'."
+    std::is_same<{{resolveName typeRef}}, decltype({{structName}}::{{resolveName}})>::value,
+    "Expected '{{resolveName typeRef}}' type for '{{structName}}::{{resolveName}}'."
 );
-{{/unless}}
-{{/fields}}{{/set}}
-{{#set className=fullyQualifiedName}}{{#methods}}
-{{>cpp/CppMethodStaticCheck}}
-{{/methods}}{{/set}}
-{{/if}}{{!!
+{{/unlessHasAttribute}}{{/unlessHasAttribute}}{{/unlessHasAttribute}}
+{{/fields}}
+{{#set className=structName}}{{#functions}}
+{{>cpp/CppFunctionStaticCheck}}
+{{/functions}}{{/set}}{{!!
+}}{{/set}}{{/resolveName}}{{/set}}{{/ifHasAttribute}}{{!!
 
-}}{{+fieldEq}}{{#if needsPointerValueEqual}}( ( {{name}} && rhs.{{name}} )
-            ? {{#if needsRawPointerEqual}}( &*{{name}} == &*rhs.{{name}} ){{/if}}{{!!
-            }}{{#unless needsRawPointerEqual}}( *{{name}} == *rhs.{{name}} ){{/unless}}
-            : ( static_cast< bool >( {{name}} ) == static_cast< bool >( rhs.{{name}} ) ) ){{!!
-}}{{/if}}{{#unless needsPointerValueEqual}}{{!!
-}}{{name}} == rhs.{{name}}{{/unless}}{{/fieldEq}}{{!!
-
-}}{{+structConstructorParameter}}{{type.name}} {{name}}{{/structConstructorParameter}}
+}}{{+fieldEq}}{{#ifPredicate "needsPointerValueEqual"}}( ( {{resolveName}} && rhs.{{resolveName}} )
+            ? {{#ifPredicate "needsRawPointerEqual"}}( &*{{resolveName}} == &*rhs.{{resolveName}} ){{/ifPredicate}}{{!!
+            }}{{#unlessPredicate "needsRawPointerEqual"}}( *{{resolveName}} == *rhs.{{resolveName}} ){{/unlessPredicate}}
+            : ( static_cast< bool >( {{resolveName}} ) == static_cast< bool >( rhs.{{resolveName}} ) ) ){{!!
+}}{{/ifPredicate}}{{#unlessPredicate "needsPointerValueEqual"}}{{!!
+}}{{resolveName}} == rhs.{{resolveName}}{{/unlessPredicate}}{{/fieldEq}}

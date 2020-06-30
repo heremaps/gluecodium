@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -36,66 +36,56 @@
 {{/if}}
 {{#namespace}}
 namespace {{.}} {
-
 {{/namespace}}
-{{#if members}}
-{{#sortedMembers}}
-{{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
-{{#instanceOf this "CppConstant"}}{{#set storageQualifier="extern"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
-{{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
-{{#instanceOf this "CppStruct"}}{{>cpp/CppStruct}}{{/instanceOf}}
-{{/sortedMembers}}
-{{#classes}}
-{{>cpp/CppClass}}
-{{/classes}}
-
-{{/if}}
+{{#model}}
+{{include contentTemplate}}
+{{/model}}
 
 {{#errorEnums}}
-{{>cpp/CppExportMacro}}::std::error_code make_error_code( {{fullyQualifiedName}} value ) noexcept;
+{{>cpp/CppExportMacro}}::std::error_code make_error_code( {{resolveName "FQN"}} value ) noexcept;
 {{/errorEnums}}
 {{#namespace}}
 }
 {{/namespace}}
-
 {{#if errorEnums}}
 
 namespace std
 {
 {{#errorEnums}}
 template <>
-struct is_error_code_enum< {{fullyQualifiedName}} > : public std::true_type { };
+struct is_error_code_enum< {{resolveName "FQN"}} > : public std::true_type { };
 {{/errorEnums}}
 }
 {{/if}}
 {{#if equatables}}
+
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 {{#equatables}}
 template<>
-struct hash< {{fullyQualifiedName}} > {
-    {{>cpp/CppExportMacro}}std::size_t operator( )( const {{fullyQualifiedName}}& t ) const;
+struct hash< {{resolveName "FQN"}} > {
+    {{>cpp/CppExportMacro}}std::size_t operator( )( const {{resolveName "FQN"}}& t ) const;
 };
-{{#instanceOf this "CppClass"}}
+{{#notInstanceOf this "LimeStruct"}}
 template <>
-struct EqualityHash< std::shared_ptr< {{fullyQualifiedName}} > >
+struct EqualityHash< std::shared_ptr< {{resolveName "FQN"}} > >
 {
-    {{>cpp/CppExportMacro}}std::size_t operator( )( const std::shared_ptr< {{fullyQualifiedName}} >& t ) const;
+    {{>cpp/CppExportMacro}}std::size_t operator( )( const std::shared_ptr< {{resolveName "FQN"}} >& t ) const;
 };
-{{/instanceOf}}
+{{/notInstanceOf}}
 {{/equatables}}
 {{#internalNamespace}}
 }
 {{/internalNamespace}}
 {{/if}}
-
 {{#if typeRegisteredClasses}}
+
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 {{#typeRegisteredClasses}}
-{{>cpp/CppExportMacro}}TypeRepository& get_type_repository(const {{fullyQualifiedName}}*);
+{{>cpp/CppExportMacro}}TypeRepository& get_type_repository(const {{resolveName "FQN"}}*);
 {{/typeRegisteredClasses}}
 {{#internalNamespace}}
 }
@@ -105,7 +95,7 @@ namespace {{.}} {
 }}{{+forwardDeclarationGroup}}
 namespace {{namespace}} {
 {{#types}}
-    class {{.}};
+    class {{this}};
 {{/types}}
 {{#subGroups}}
 {{>forwardDeclarationGroup}}

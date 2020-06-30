@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.model.cpp
 
-import com.here.gluecodium.generator.cpp.TopologicalSort
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.common.Include
 
@@ -35,10 +34,6 @@ class CppClass(
     val isEquatable: Boolean = false,
     @Suppress("unused") val isInheritable: Boolean = false
 ) : CppExternableElement(name, fullyQualifiedName, includes, comment, isExternal) {
-
-    @Suppress("unused")
-    val sortedMembers
-        get() = TopologicalSort(members).sort()
 
     override val childElements
         get() = methods + members + inheritances
