@@ -59,8 +59,8 @@ final _library_execute_callbacks = nativeLibrary.lookupFunction<
     void Function(int)
   >('{{libraryName}}_library_execute_callbacks');
 
-class _SlaveIsolateMessage {
-  _SlaveIsolateMessage(this.port, this.isolateId, this.nativeLibraryPath);
+class _SentryIsolateMessage {
+  _SentryIsolateMessage(this.port, this.isolateId, this.nativeLibraryPath);
   final SendPort port;
   final int isolateId;
   final String nativeLibraryPath;
@@ -91,7 +91,7 @@ class LibraryContext {
     _isolateId = _library_callbacks_queue_init(isolateOrigin == IsolateOrigin.main ? 1 : 0);
 
     final receivePort = ReceivePort();
-    Isolate.spawn(_slaveIsolate, _SlaveIsolateMessage(receivePort.sendPort, isolateId, nativeLibraryPath));
+    Isolate.spawn(_sentryIsolate, _SentryIsolateMessage(receivePort.sendPort, isolateId, nativeLibraryPath));
     _callbackStream = receivePort.listen((dynamic _) { _library_execute_callbacks(isolateId); });
   }
 
@@ -100,7 +100,7 @@ class LibraryContext {
     _library_callbacks_queue_release(isolateId);
   }
 
-  static void _slaveIsolate(_SlaveIsolateMessage message) {
+  static void _sentryIsolate(_SentryIsolateMessage message) {
     _loadCustomLibrary(message.nativeLibraryPath);
 
     WaitCallbackResult waitResult = WaitCallbackResult.stopped;
