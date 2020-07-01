@@ -24,6 +24,12 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimePath
 
 internal object AntlrLimeConverter {
@@ -35,6 +41,27 @@ internal object AntlrLimeConverter {
         val attributes = LimeAttributes.Builder()
         annotations.forEach { convertAnnotation(it, attributes, limePath) }
         return attributes.build()
+    }
+
+    // TODO: #408: add validation warnings about EXTERNAL_* attributes being deprecated
+    // Convert external descriptor from legacy attributes
+    @Suppress("DEPRECATION")
+    fun convertExternalDescriptor(attributes: LimeAttributes): LimeExternalDescriptor? {
+        val builder = LimeExternalDescriptor.Builder()
+        val externalType =
+            attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_TYPE, Any::class.java)
+        if (externalType != null) {
+            val value = (externalType as? List<*>)?.joinToString() ?: externalType.toString()
+            builder.addValue(CPP_TAG, INCLUDE_NAME, value)
+        }
+        attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_NAME)
+            ?.let { builder.addValue(CPP_TAG, NAME_NAME, it) }
+        attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_GETTER)
+            ?.let { builder.addValue(CPP_TAG, GETTER_NAME_NAME, it) }
+        attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_SETTER)
+            ?.let { builder.addValue(CPP_TAG, SETTER_NAME_NAME, it) }
+
+        return builder.build().let { if (it.cpp.isNullOrEmpty()) null else it }
     }
 
     private fun convertAnnotation(
@@ -77,6 +104,7 @@ internal object AntlrLimeConverter {
             else -> throw LimeLoadingException("Unsupported attribute: '$id'")
         }
 
+    @Suppress("DEPRECATION")
     private fun convertAnnotationValueType(
         ctx: LimeParser.AnnotationValueContext,
         attributeType: LimeAttributeType

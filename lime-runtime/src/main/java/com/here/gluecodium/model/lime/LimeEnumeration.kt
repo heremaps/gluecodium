@@ -24,5 +24,6 @@ class LimeEnumeration(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
+    external: LimeExternalDescriptor? = null,
     val enumerators: List<LimeEnumerator> = emptyList()
-) : LimeType(path, visibility, comment, attributes)
+) : LimeType(path, visibility, comment, attributes, external)

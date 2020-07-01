@@ -20,9 +20,8 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
@@ -61,11 +60,7 @@ class CppIncludeResolver(
         }
 
     private fun inferExternalType(limeNamedElement: LimeNamedElement): Any? {
-        val externalType = limeNamedElement.attributes.get(
-            LimeAttributeType.CPP,
-            LimeAttributeValueType.EXTERNAL_TYPE,
-            Object::class.java
-        )
+        val externalType = limeNamedElement.external?.cpp?.get(INCLUDE_NAME)
         if (externalType != null) {
             return externalType
         }

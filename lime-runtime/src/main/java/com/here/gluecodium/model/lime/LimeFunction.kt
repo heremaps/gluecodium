@@ -24,12 +24,13 @@ class LimeFunction(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
+    external: LimeExternalDescriptor? = null,
     val returnType: LimeReturnType = LimeReturnType.VOID,
     val parameters: List<LimeParameter> = emptyList(),
     val thrownType: LimeThrownType? = null,
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false
-) : LimeNamedElement(path, visibility, comment, attributes) {
+) : LimeNamedElement(path, visibility, comment, attributes, external) {
     val exception: LimeException?
         get() = thrownType?.typeRef?.type?.let { it.actualType as? LimeException }
 }

@@ -26,13 +26,13 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -129,9 +129,8 @@ internal class FfiCppNameResolver(
         when {
             getParentElement(limeField).attributes.have(CPP, ACCESSORS) ->
                 cppNameResolver.getGetterName(limeField) + "()"
-            limeField.attributes.have(CPP, EXTERNAL_GETTER) ->
-                limeField.attributes.get(CPP, EXTERNAL_GETTER) + "()"
-            else -> cppNameResolver.getName(limeField)
+            else -> limeField.external?.cpp?.get(GETTER_NAME_NAME)?.let { "$it()" }
+                ?: cppNameResolver.getName(limeField)
         }
 
     private fun getFunctionName(limeFunction: LimeFunction): String {

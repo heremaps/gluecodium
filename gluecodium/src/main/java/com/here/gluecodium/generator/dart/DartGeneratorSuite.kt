@@ -39,9 +39,7 @@ import com.here.gluecodium.generator.ffi.FfiCppParameterTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
@@ -227,7 +225,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val enums = types.filterIsInstance<LimeEnumeration>()
 
         val structs = types.filterIsInstance<LimeStruct>()
-        val externalTypes = types.filter { it.attributes.have(CPP, EXTERNAL_TYPE) }
+        val externalTypes = types.filter { it.external?.cpp != null }
         val externalStructs = externalTypes.filterIsInstance<LimeStruct>() +
             externalTypes.filterIsInstance<LimeContainer>().flatMap { it.structs }
         val nonExternalStructs = structs - externalStructs

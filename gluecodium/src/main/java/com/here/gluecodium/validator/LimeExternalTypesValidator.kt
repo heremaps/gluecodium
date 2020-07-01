@@ -22,13 +22,12 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 
+// TODO: #408: change documentation to refer to external descriptor
 /**
  * Validate each element with "@Cpp(ExternalName)", "@Cpp(ExternalGetter)" or "@Cpp(ExternalSetter)"
  * property set against the following conditions:
@@ -40,9 +39,9 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values.filterIsInstance<LimeNamedElement>()
         val validationResults =
-            validateExternalNames(allElements, limeModel.referenceMap, EXTERNAL_NAME) +
-                validateExternalNames(allElements, limeModel.referenceMap, EXTERNAL_GETTER) +
-                validateExternalNames(allElements, limeModel.referenceMap, EXTERNAL_SETTER)
+            validateExternalNames(allElements, limeModel.referenceMap, "name") +
+                validateExternalNames(allElements, limeModel.referenceMap, "getterName") +
+                validateExternalNames(allElements, limeModel.referenceMap, "setterName")
 
         return !validationResults.contains(false)
     }
@@ -50,10 +49,10 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
     private fun validateExternalNames(
         allElements: List<LimeNamedElement>,
         referenceMap: Map<String, LimeElement>,
-        attributeValueType: LimeAttributeValueType
+        valueName: String
     ) = allElements
-        .filter { it.attributes.have(CPP, attributeValueType) }
-        .map { validateExternalElement(it, referenceMap, attributeValueType.toString()) }
+        .filter { it.external?.cpp?.get(valueName) != null }
+        .map { validateExternalElement(it, referenceMap, valueName) }
 
     private fun validateExternalElement(
         limeElement: LimeNamedElement,
@@ -61,11 +60,13 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
         propertyName: String
     ) = when {
         !isInExternalType(limeElement, referenceMap) -> {
+            // TODO: #408: change message to refer to external descriptor
             logger.error(limeElement, "an element with '$propertyName' also" +
                     " needs to have 'ExternalType' set for itself or one of its enclosing elements")
             false
         }
         limeElement.attributes.have(CPP, LimeAttributeValueType.NAME) -> {
+            // TODO: #408: change message to refer to external descriptor
             logger.error(limeElement, "an element with '@Cpp($propertyName)' cannot" +
                     " have '@Cpp(Name)' set at the same time")
             false
@@ -81,5 +82,5 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
             it.path.tail.isNotEmpty() -> referenceMap[it.path.parent.toString()] as? LimeNamedElement
             else -> null
         }
-    }.any { it.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE) }
+    }.any { it.external?.cpp?.get(INCLUDE_NAME) != null }
 }

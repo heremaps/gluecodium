@@ -24,8 +24,6 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
@@ -33,6 +31,8 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -85,7 +85,7 @@ internal class Cpp2NameResolver(
         when (element) {
             is LimeProperty -> cachingNameResolver.getGetterName(element)
             is LimeField -> when {
-                element.attributes.have(CPP, EXTERNAL_GETTER) ->
+                element.external?.cpp?.get(GETTER_NAME_NAME) != null ->
                     cachingNameResolver.getGetterName(element)
                 getParentElement(element).attributes.have(CPP, ACCESSORS) ->
                     cachingNameResolver.getGetterName(element)
@@ -99,7 +99,7 @@ internal class Cpp2NameResolver(
         when (element) {
             is LimeProperty -> cachingNameResolver.getSetterName(element)
             is LimeField -> when {
-                element.attributes.have(CPP, EXTERNAL_SETTER) ->
+                element.external?.cpp?.get(SETTER_NAME_NAME) != null ->
                     cachingNameResolver.getSetterName(element)
                 getParentElement(element).attributes.have(CPP, ACCESSORS) ->
                     cachingNameResolver.getSetterName(element)
