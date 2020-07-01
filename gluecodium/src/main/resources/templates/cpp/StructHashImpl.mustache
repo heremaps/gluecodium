@@ -22,14 +22,14 @@ std::size_t
 hash< {{resolveName "FQN"}} >::operator( )( const {{resolveName "FQN"}}& t ) const
 {
     size_t hash_value = 43;
-{{#ifHasAttribute "Cpp" "Accessors"}}
+{{#if attributes.cpp.accessors}}
     {{#resolveName "FQN"}}{{#set structName=this}}{{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype{{!!
     }}( ( ( const {{structName}}* )nullptr )->{{resolveName this "" "getter"}}( ) ) >( )( t.{{resolveName this "" "getter"}}( ) ) ) << 1;
     {{/fields}}{{/set}}{{/resolveName}}
-{{/ifHasAttribute}}{{#unlessHasAttribute "Cpp" "Accessors"}}
+{{/if}}{{#unless attributes.cpp.accessors}}
 {{#fields}}
     hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype( {{resolveName "FQN"}} ) >( )( t.{{resolveName}} ) ) << 1;
 {{/fields}}
-{{/unlessHasAttribute}}
+{{/unless}}
     return hash_value;
 }

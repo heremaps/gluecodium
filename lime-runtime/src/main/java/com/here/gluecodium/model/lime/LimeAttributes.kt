@@ -19,11 +19,13 @@
 
 package com.here.gluecodium.model.lime
 
+import com.here.gluecodium.common.CaseInsensitiveMap
 import com.here.gluecodium.common.StringHelper
+import java.lang.UnsupportedOperationException
 
 class LimeAttributes private constructor(
     private val attributes: Map<LimeAttributeType, Map<LimeAttributeValueType, Any>>
-) {
+) : Map<String, Any> {
     fun have(type: LimeAttributeType) = attributes[type] != null
 
     fun have(attributeType: LimeAttributeType, valueType: LimeAttributeValueType) =
@@ -45,8 +47,6 @@ class LimeAttributes private constructor(
     fun get(attributeType: LimeAttributeType, valueType: LimeAttributeValueType) =
         get(attributeType, valueType, String::class.java)
 
-    fun isEmpty() = attributes.isEmpty()
-
     override fun toString() = attributes.entries.sortedBy { it.key }.joinToString("\n") {
         val attributeType = it.key
         if (it.value.isEmpty()) {
@@ -57,6 +57,33 @@ class LimeAttributes private constructor(
         }
         "@$attributeType($valuesString)"
     }
+
+    override val entries
+        get() = throw UnsupportedOperationException()
+
+    override val keys
+        get() = attributes.keys.map { it.toString().toLowerCase() }.toSet()
+
+    override val size
+        get() = attributes.size
+
+    override val values
+        get() = throw UnsupportedOperationException()
+
+    override fun containsKey(key: String): Boolean {
+        if (attributes.isEmpty()) return false
+        return LimeAttributeType.fromString[key]?.let { attributes.containsKey(it) } ?: false
+    }
+
+    override fun containsValue(value: Any) = throw UnsupportedOperationException()
+
+    override fun get(key: String): Any? {
+        if (attributes.isEmpty()) return null
+        val attributeKey = LimeAttributeType.fromString[key] ?: return null
+        return attributes[attributeKey]?.mapKeysTo(CaseInsensitiveMap()) { it.key.toString() }
+    }
+
+    override fun isEmpty() = attributes.isEmpty()
 
     private fun createValueString(
         attributeType: LimeAttributeType,

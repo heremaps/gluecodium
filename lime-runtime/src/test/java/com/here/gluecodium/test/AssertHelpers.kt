@@ -19,33 +19,10 @@
 
 package com.here.gluecodium.test
 
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeNamedElement
-import org.junit.Assert
 import org.junit.Assert.assertTrue
 
 object AssertHelpers {
     fun <T> assertContains(expected: T, actual: Collection<T>) {
         assertTrue(actual.contains(expected))
     }
-
-    fun assertHasAttribute(expected: LimeAttributeType, actual: LimeNamedElement) =
-        assertTrue(actual.attributes.have(expected))
-
-    fun assertHasAttribute(
-        expectedType: LimeAttributeType,
-        expectedValueType: LimeAttributeValueType,
-        actual: LimeNamedElement
-    ) = assertTrue(actual.attributes.have(expectedType, expectedValueType))
-
-    fun assertAttributeValueEquals(
-        expectedValue: String,
-        expectedType: LimeAttributeType,
-        expectedValueType: LimeAttributeValueType,
-        actual: LimeNamedElement
-    ) = Assert.assertEquals(
-        expectedValue,
-        actual.attributes.get(expectedType, expectedValueType)
-    )
 }

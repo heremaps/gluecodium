@@ -21,8 +21,8 @@
 {{#ifPredicate "hasAnyComment"}}
 /**{{#unless comment.isEmpty}}{{#resolveName comment}}
 {{prefix this " * "}}{{/resolveName}}{{/unless}}{{!!
-}}{{#ifHasAttribute "Deprecated"}}
- * \deprecated {{#getAttribute "Deprecated"}}{{#resolveName this}}{{!!
-}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/getAttribute}}{{/ifHasAttribute}}
+}}{{#if attributes.deprecated}}
+ * \deprecated {{#attributes.deprecated.message}}{{#resolveName this}}{{!!
+}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/attributes.deprecated.message}}{{/if}}
  */
 {{/ifPredicate}}

@@ -51,7 +51,7 @@ class {{resolveName}} {
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
-{{#ifHasAttribute "Equatable"}}
+{{#if attributes.equatable}}
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
@@ -69,7 +69,7 @@ class {{resolveName}} {
 {{/fields}}
     return result;
   }
-{{/ifHasAttribute}}
+{{/if}}
 }
 
 // {{resolveName}} "private" section, not exported.
@@ -123,9 +123,9 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+dartConstructor}}{{resolveName parent}}{{#unlessHasAttribute this "Dart" "Default"}}{{!!
+}}{{+dartConstructor}}{{resolveName parent}}{{#unless attributes.dart.default}}{{!!
 }}{{#isNotEq constructors.size 1}}.{{resolveName visibility}}{{resolveName}}{{/isNotEq}}{{!!
-}}{{/unlessHasAttribute}}({{!!
+}}{{/unless}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}this._copy(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
 {{/dartConstructor}}{{!!
