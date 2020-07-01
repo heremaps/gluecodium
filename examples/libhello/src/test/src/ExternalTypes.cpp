@@ -79,6 +79,13 @@ ClassWithOverloads::StructWithOverloads::overloadedMethod( const std::string& in
     return input;
 }
 
+std::string
+ClassWithOverloads::StructWithOverloads::overloadedMethod(
+    const std::string& input_string, const bool input_bool )
+{
+    return input_string;
+}
+
 void
 ClassWithOverloads::StructWithOverloads::overloadedAccessors( int32_t value ) {
     m_someField = value;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,11 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.model.cpp.CppComplexTypeRef
-import com.here.gluecodium.model.cpp.CppField
-import com.here.gluecodium.model.cpp.CppStruct
-import com.here.gluecodium.model.cpp.CppUsing
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createPath
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createTypeRef
+import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,27 +45,27 @@ class TopologicalSortCycleTest {
 
     @Test
     fun cycleWithStructs() {
-        val fooField = CppField("fooField", "fooField", type = CppComplexTypeRef("foo"))
-        val barField = CppField("barField", "barField", type = CppComplexTypeRef("bar"))
-        val fooStruct = CppStruct("foo", fields = listOf(barField))
-        val barStruct = CppStruct("bar", fields = listOf(fooField))
+        val fooField = LimeField(createPath("fooField"), typeRef = createTypeRef("foo"))
+        val barField = LimeField(createPath("barField"), typeRef = createTypeRef("bar"))
+        val fooStruct = LimeStruct(createPath("foo"), fields = listOf(barField))
+        val barStruct = LimeStruct(createPath("bar"), fields = listOf(fooField))
 
         TopologicalSort(listOf(fooStruct, barStruct)).sort()
     }
 
     @Test
     fun cycleWithUsings() {
-        val fooUsing = CppUsing("foo", "foo", definition = CppComplexTypeRef("bar"))
-        val barUsing = CppUsing("bar", "bar", definition = CppComplexTypeRef("foo"))
+        val fooUsing = LimeTypeAlias(createPath("foo"), typeRef = createTypeRef("bar"))
+        val barUsing = LimeTypeAlias(createPath("bar"), typeRef = createTypeRef("foo"))
 
         TopologicalSort(listOf(fooUsing, barUsing)).sort()
     }
 
     @Test
     fun cycleWithStructAndUsing() {
-        val barField = CppField("barField", "barField", type = CppComplexTypeRef("bar"))
-        val fooStruct = CppStruct("foo", fields = listOf(barField))
-        val barUsing = CppUsing("bar", "bar", definition = CppComplexTypeRef("foo"))
+        val barField = LimeField(createPath("barField"), typeRef = createTypeRef("bar"))
+        val fooStruct = LimeStruct(createPath("foo"), fields = listOf(barField))
+        val barUsing = LimeTypeAlias(createPath("bar"), typeRef = createTypeRef("foo"))
 
         TopologicalSort(listOf(fooStruct, barUsing)).sort()
     }

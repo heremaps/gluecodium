@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,13 +18,12 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isExternal}}
-{{#set enumName=fullyQualifiedName}}
-static_assert(std::is_enum<{{enumName}}>::value, "Expected '{{enumName}}' to be an enumeration'.");
-{{#items}}
-static_assert(
-    {{inferredValue.name}} == static_cast<int64_t>({{enumName}}::{{name}}),
-    "Expected '{{inferredValue.name}}' value for '{{enumName}}::{{name}}'."
-);
-{{/items}}{{/set}}
-{{/if}}
+{{#unlessHasAttribute "Cpp" "ExternalType"}}
+{{>cpp/CppDocComment}}
+enum class {{resolveName}} {
+{{#enumerators}}
+{{prefixPartial "cpp/CppDocComment" "    "}}{{!!
+}}    {{resolveName}}{{#explicitValue}} = {{resolveName}}{{/explicitValue}}{{#if iter.hasNext}},{{/if}}
+{{/enumerators}}
+};
+{{/unlessHasAttribute}}

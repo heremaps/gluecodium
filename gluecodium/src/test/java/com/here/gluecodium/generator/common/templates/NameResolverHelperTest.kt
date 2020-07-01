@@ -170,4 +170,34 @@ class NameResolverHelperTest {
 
         verify(exactly = 1) { options.append("baz") }
     }
+
+    @Test
+    fun executeThreeParametersGetterSubKeyReturnsNull() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("getter")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) = throw IllegalArgumentException()
+            override fun resolveGetterName(element: Any): String? = null
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 0) { options.append(any()) }
+    }
+
+    @Test
+    fun executeThreeParametersSetterSubKeyReturnsNull() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("setter")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) = throw IllegalArgumentException()
+            override fun resolveSetterName(element: Any): String? = null
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 0) { options.append(any()) }
+    }
 }

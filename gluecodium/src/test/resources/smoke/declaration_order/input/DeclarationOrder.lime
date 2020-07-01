@@ -38,3 +38,25 @@ types DeclarationOrder {
     typealias ErrorCodeToMessageMap = Map<Int, NestedStructArray>
     typealias NestedStructArray = List<NestedStruct>
 }
+
+types DeclarationOrderWithFunctions {
+    struct MainStructWithFunctions {
+        structField: FieldStruct
+        fun withParameter(input: ParameterStruct)
+        fun withReturn(): ReturnStruct
+        fun withThrown() throws FooBar
+    }
+    struct FieldStruct {
+        someField: String
+    }
+    struct ParameterStruct {
+        someField: String
+    }
+    struct ReturnStruct {
+        someField: String
+    }
+    struct ThrownStruct {
+        someField: String
+    }
+    exception FooBar(ThrownStruct)
+}

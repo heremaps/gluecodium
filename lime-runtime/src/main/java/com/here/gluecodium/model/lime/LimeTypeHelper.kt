@@ -50,6 +50,19 @@ object LimeTypeHelper {
             (nestedContainerTypes + nestedClassInterfaceTypes).flatMap { getAllTypes(it) }
     }
 
+    fun getAllValues(limeElement: LimeNamedElement): List<LimeValue> =
+        when (limeElement) {
+            is LimeConstant -> listOf(limeElement.value)
+            is LimeField -> listOfNotNull(limeElement.defaultValue)
+            is LimeContainerWithInheritance -> (limeElement.constants + limeElement.structs +
+                limeElement.classes + limeElement.interfaces).flatMap { getAllValues(it) }
+            is LimeTypesCollection ->
+                (limeElement.constants + limeElement.structs).flatMap { getAllValues(it) }
+            is LimeStruct ->
+                (limeElement.constants + limeElement.fields).flatMap { getAllValues(it) }
+            else -> emptyList()
+        }
+
     /**
      * Backtick-escape the given identifier if at least one of the following is true:
      * * identifier exactly matches a LimeIDL keyword

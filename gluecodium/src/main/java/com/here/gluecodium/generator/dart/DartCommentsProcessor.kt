@@ -24,6 +24,7 @@ import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
+@Suppress("DEPRECATION")
 internal class DartCommentsProcessor(werror: Boolean) :
     CommentsProcessor(Formatter.builder().build(), werror) {
 
@@ -31,6 +32,6 @@ internal class DartCommentsProcessor(werror: Boolean) :
         linkNode.reference = BasedSequenceImpl.of(linkReference)
         linkNode.referenceOpeningMarker = BasedSequenceImpl.of("[")
         linkNode.referenceClosingMarker = BasedSequenceImpl.of("]")
-        linkNode.firstChild.unlink()
+        linkNode.firstChild?.unlink()
     }
 }

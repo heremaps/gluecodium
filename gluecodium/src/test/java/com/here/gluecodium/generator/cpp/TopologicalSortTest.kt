@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,23 @@
 
 package com.here.gluecodium.generator.cpp
 
-import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.cpp.CppComplexTypeRef
-import com.here.gluecodium.model.cpp.CppConstant
-import com.here.gluecodium.model.cpp.CppElement
-import com.here.gluecodium.model.cpp.CppEnum
-import com.here.gluecodium.model.cpp.CppField
-import com.here.gluecodium.model.cpp.CppFunctionTypeRef
-import com.here.gluecodium.model.cpp.CppMethod
-import com.here.gluecodium.model.cpp.CppParameter
-import com.here.gluecodium.model.cpp.CppStruct
-import com.here.gluecodium.model.cpp.CppTypeDefRef
-import com.here.gluecodium.model.cpp.CppTypeRef
-import com.here.gluecodium.model.cpp.CppUsing
-import com.here.gluecodium.model.cpp.CppValue
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createConstant
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createConstantWithAliasType
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createPath
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createStruct
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createTypeAlias
+import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createTypeRef
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeReturnType
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeThrownType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,7 +44,7 @@ import org.junit.runners.Parameterized
 @RunWith(Parameterized::class)
 class TopologicalSortTest(
     @Suppress("UNUSED_PARAMETER") testName: String,
-    private val elements: List<CppElement>,
+    private val elements: List<LimeNamedElement>,
     private val expectedOrder: List<Int>
 ) {
 
@@ -68,8 +71,12 @@ class TopologicalSortTest(
         private const val ENUM_NAME = "Kind"
         private const val TYPE_DEF_NAME = "shortcut"
 
-        private val CPP_ENUM = CppEnum(ENUM_NAME, ENUM_NAME, emptyList(), false, emptyList())
-        private val CPP_USING = createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_A))
+        private val LIME_ENUM = LimeEnumeration(createPath(ENUM_NAME))
+
+        private val LIME_ALIAS = createTypeAlias(
+            TYPE_DEF_NAME, createTypeRef(
+                TYPE_A
+            ))
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
@@ -77,193 +84,167 @@ class TopologicalSortTest(
             listOf(
                 arrayOf(
                     "sortIndependentStructsKeepsSameOrder", listOf(
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
                     ), listOf(0, 1)
                 ), arrayOf(
                     "sortDependentStructs", listOf(
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, SECOND_STRUCT_NAME),
-                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, SECOND_STRUCT_NAME),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
                     ), listOf(1, 0)
                 ), arrayOf(
                     "sortSortedDependentStructsKeepsSameOrder", listOf(
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, FIRST_STRUCT_NAME)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, FIRST_STRUCT_NAME)
                     ), listOf(0, 1)
                 ), arrayOf(
                     "sortMultipleStructsWithDependencies", listOf(
-                        createCppStruct(
-                            FIRST_STRUCT_NAME,
-                            SECOND_STRUCT_NAME,
-                            THIRD_STRUCT_NAME
-                        ),
-                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, THIRD_STRUCT_NAME),
-                        createCppStruct(THIRD_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, SECOND_STRUCT_NAME, THIRD_STRUCT_NAME),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, THIRD_STRUCT_NAME),
+                        createStruct(THIRD_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(2, 1, 0)
                 ), arrayOf(
                     "sortEnumWithStructDependingOnIt",
-                    listOf(
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, ENUM_NAME),
-                        CPP_ENUM
-                    ),
+                    listOf(createStruct(FIRST_STRUCT_NAME, TYPE_A, ENUM_NAME), LIME_ENUM),
                     listOf(1, 0)
                 ), arrayOf(
                     "enumWithStructNotDependingOnItKeepsSameOrder",
-                    listOf(createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B), CPP_ENUM),
+                    listOf(createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B), LIME_ENUM),
                     listOf(0, 1)
                 ), arrayOf(
                     "enumWithUsingDependingOnIt",
-                    listOf(
-                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(ENUM_NAME)),
-                        CPP_ENUM
-                    ),
+                    listOf(createTypeAlias(TYPE_DEF_NAME, createTypeRef(ENUM_NAME)), LIME_ENUM),
                     listOf(1, 0)
                 ), arrayOf(
                     "enumWithUsingNotDependingOnItKeepsSameOrder",
-                    listOf(CPP_USING, CPP_ENUM),
+                    listOf(LIME_ALIAS, LIME_ENUM),
                     listOf(0, 1)
                 ), arrayOf(
                     "enumWithConstantDependingOnIt",
-                    listOf(createConstant(ENUM_NAME), CPP_ENUM),
+                    listOf(createConstant(ENUM_NAME), LIME_ENUM),
                     listOf(1, 0)
                 ), arrayOf(
                     "enumWithConstantNotDependingOnItKeepsSameOrder",
-                    listOf(createConstant(TYPE_A), CPP_ENUM),
+                    listOf(createConstant(TYPE_A), LIME_ENUM),
                     listOf(0, 1)
                 ), arrayOf(
                     "constantDependingOnStruct", listOf(
                         createConstant(FIRST_STRUCT_NAME),
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(1, 0)
                 ), arrayOf(
                     "constantNotDependingOnStructKeepsSameOrder", listOf(
                         createConstant(TYPE_A),
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(0, 1)
                 ), arrayOf(
                     "constantDependingOnDefinition",
-                    listOf(createConstantWithUsing(TYPE_DEF_NAME), CPP_USING),
+                    listOf(createConstantWithAliasType(), LIME_ALIAS),
                     listOf(1, 0)
                 ), arrayOf(
                     "constantNotDependingOnDefinitionKeepsSameOrder",
-                    listOf(createConstant(TYPE_B), CPP_USING),
+                    listOf(createConstant(TYPE_B), LIME_ALIAS),
                     listOf(0, 1)
                 ), arrayOf(
                     "usingDependingOnUsing", listOf(
-                        createUsing(
+                        createTypeAlias(
                             "anotherShortcut",
-                            CppTypeDefRef(
-                                TYPE_DEF_NAME,
-                                listOf(Include.createInternalInclude("foo")),
-                                CppComplexTypeRef(TYPE_A)
-                            )
+                            LimeDirectTypeRef(createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_A)))
                         ),
-                        CPP_USING
+                        LIME_ALIAS
                     ), listOf(1, 0)
                 ), arrayOf(
                     "usingNotDependingOnUsingKeepsSameOrder",
-                    listOf(
-                        CPP_USING,
-                        createUsing("anotherShortcut", CppComplexTypeRef(TYPE_B))
-                    ),
+                    listOf(LIME_ALIAS, createTypeAlias("anotherShortcut", createTypeRef(TYPE_B))),
                     listOf(0, 1)
                 ), arrayOf(
                     "usingDependingOnStruct", listOf(
-                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(FIRST_STRUCT_NAME)),
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createTypeAlias(TYPE_DEF_NAME, createTypeRef(FIRST_STRUCT_NAME)),
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(1, 0)
                 ), arrayOf(
                     "usingNotDependingOnStructKeepsSameOrder", listOf(
-                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_C)),
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_C)),
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(0, 1)
                 ), arrayOf(
                     "usingFunctionTypeRefDependingOnStruct", listOf(
-                        createUsing(
+                        createTypeAlias(
                             TYPE_DEF_NAME,
-                            CppFunctionTypeRef(emptyList(), CppComplexTypeRef(FIRST_STRUCT_NAME))
+                            LimeDirectTypeRef(LimeLambda(createPath(FIRST_STRUCT_NAME)))
                         ),
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
                     ), listOf(1, 0)
                 ), arrayOf(
                     "structDependingOnDefinition",
                     listOf(
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_DEF_NAME, TYPE_B),
-                        CPP_USING
+                        createStruct(FIRST_STRUCT_NAME, TYPE_DEF_NAME, TYPE_B),
+                        LIME_ALIAS
                     ),
                     listOf(1, 0)
                 ), arrayOf(
                     "structNotDependingOnDefinitionKeepsSameOrder", listOf(
-                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_C))
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
+                        createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_C))
                     ), listOf(0, 1)
                 ), arrayOf(
                     "sortStructsDependentThroughMethodReturnType", listOf(
-                        CppStruct(
-                            name = FIRST_STRUCT_NAME,
-                            fullyQualifiedName = FIRST_STRUCT_NAME,
-                            methods = listOf(
-                                CppMethod("x", returnType = CppComplexTypeRef(SECOND_STRUCT_NAME))
-                            )
-                        ),
-                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
-                    ), listOf(1, 0)
-                ), arrayOf(
-                    "sortStructsDependentThroughMethodParameter", listOf(
-                        CppStruct(
-                            name = FIRST_STRUCT_NAME,
-                            fullyQualifiedName = FIRST_STRUCT_NAME,
-                            methods = listOf(
-                                CppMethod(
-                                    "x",
-                                    parameters = listOf(CppParameter(
-                                        "foo",
-                                        CppComplexTypeRef(SECOND_STRUCT_NAME)
-                                    ))
+                        LimeStruct(
+                            path = createPath(FIRST_STRUCT_NAME),
+                            functions = listOf(
+                                LimeFunction(
+                                    createPath("x"),
+                                    returnType = LimeReturnType(createTypeRef(SECOND_STRUCT_NAME))
                                 )
                             )
                         ),
-                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "sortStructsDependentThroughMethodParameter", listOf(
+                        LimeStruct(
+                            path = createPath(FIRST_STRUCT_NAME),
+                            functions = listOf(
+                                LimeFunction(
+                                    createPath("x"),
+                                    parameters = listOf(
+                                        LimeParameter(
+                                            createPath("x"),
+                                            typeRef = createTypeRef(SECOND_STRUCT_NAME)
+                                        ))
+                                )
+                            )
+                        ),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "sortStructsDependentThroughMethodThrownType", listOf(
+                        LimeStruct(
+                            path = createPath(FIRST_STRUCT_NAME),
+                            functions = listOf(
+                                LimeFunction(
+                                    createPath("x"),
+                                    thrownType = LimeThrownType(LimeDirectTypeRef(LimeException(
+                                        LimePath.EMPTY_PATH, errorType = createTypeRef(SECOND_STRUCT_NAME)
+                                    )))
+                                )
+                            )
+                        ),
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
                     ), listOf(1, 0)
                 ), arrayOf(
                     "sortStructDependentOnSelfDoesNotCrash", listOf(
-                        CppStruct(
-                            name = FIRST_STRUCT_NAME,
-                            fullyQualifiedName = FIRST_STRUCT_NAME,
-                            methods = listOf(
-                                CppMethod("x", returnType = CppComplexTypeRef(FIRST_STRUCT_NAME))
+                        LimeStruct(
+                            path = createPath(FIRST_STRUCT_NAME),
+                            functions = listOf(
+                                LimeFunction(
+                                    createPath("x"),
+                                    returnType = LimeReturnType(createTypeRef(FIRST_STRUCT_NAME))
+                                )
                             )
                         )
                     ), listOf(0)
                 )
-            )
-
-        private fun createCppStruct(name: String, firstType: String, secondType: String) =
-            CppStruct(
-                name = name,
-                fullyQualifiedName = name,
-                fields = listOf(
-                    CppField("x", "z::x", CppComplexTypeRef(firstType)),
-                    CppField("y", "z::y", CppComplexTypeRef(secondType))
-                )
-            )
-
-        private fun createUsing(name: String, typeRef: CppTypeRef) =
-            CppUsing(name = name, fullyQualifiedName = name, definition = typeRef)
-
-        private fun createConstant(typeName: String) =
-            CppConstant("fixed", "fixed", CppComplexTypeRef(typeName), CppValue(""))
-
-        private fun createConstantWithUsing(typeName: String) =
-            CppConstant(
-                "fixed",
-                "fixed",
-                CppTypeDefRef(
-                    typeName,
-                    listOf(Include.createInternalInclude("foo")),
-                    CppComplexTypeRef("nonsense")
-                ),
-                CppValue("")
             )
     }
 }

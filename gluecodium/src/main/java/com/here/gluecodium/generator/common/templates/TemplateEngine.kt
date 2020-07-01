@@ -32,6 +32,9 @@ object TemplateEngine {
     private var copyrightHeaderInitialized = false
 
     private val nameResolverHelper = NameResolverHelper()
+    private val ifPredicateHelper = PredicateHelper(true)
+    private val unlessPredicateHelper = PredicateHelper(false)
+    private val sortHelper = SortHelper()
 
     init {
         engine = MustacheEngineBuilder.newBuilder()
@@ -52,6 +55,9 @@ object TemplateEngine {
             .registerHelper("ifHasAttribute", IfHasAttributeHelper(true))
             .registerHelper("unlessHasAttribute", IfHasAttributeHelper(false))
             .registerHelper("getAttribute", GetAttributeHelper())
+            .registerHelper("ifPredicate", ifPredicateHelper)
+            .registerHelper("unlessPredicate", unlessPredicateHelper)
+            .registerHelper("sort", sortHelper)
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()
@@ -72,15 +78,24 @@ object TemplateEngine {
         }
     }
 
-    fun render(templateName: String, data: Any, nameResolver: NameResolver? = null): String {
-        val nameResolvers = nameResolver?.let { mapOf("" to it) } ?: emptyMap()
-        return render(templateName, data, nameResolvers)
-    }
-
-    fun render(templateName: String, data: Any, nameResolvers: Map<String, NameResolver>): String {
+    fun render(
+        templateName: String,
+        data: Any,
+        nameResolvers: Map<String, NameResolver> = emptyMap(),
+        predicates: Map<String, (Any)-> Boolean> = emptyMap(),
+        sorters: Map<String, (List<Any>)-> List<Any>> = emptyMap()
+    ): String {
         nameResolverHelper.nameResolvers += nameResolvers
+        ifPredicateHelper.predicates += predicates
+        unlessPredicateHelper.predicates += predicates
+        sortHelper.sorters += sorters
+
         val result = engine.getMustache(templateName).render(data)
+
         nameResolverHelper.nameResolvers.clear()
+        ifPredicateHelper.predicates.clear()
+        unlessPredicateHelper.predicates.clear()
+        sortHelper.sorters.clear()
 
         return result
     }

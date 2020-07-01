@@ -4,7 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/Export.h"
-#include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>

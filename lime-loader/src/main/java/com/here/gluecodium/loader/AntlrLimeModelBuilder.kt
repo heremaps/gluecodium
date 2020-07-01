@@ -283,6 +283,7 @@ internal class AntlrLimeModelBuilder(
         val propertyType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         val propertyVisibility = currentVisibility
         val propertyIsStatic = ctx.Static() != null
+        val propertyComment = structuredCommentsStack.peek().description
 
         val getter: LimeFunction
         val setter: LimeFunction?
@@ -293,15 +294,18 @@ internal class AntlrLimeModelBuilder(
                 path = getterPath,
                 comment = getComment("get", emptyList(), ctx),
                 visibility = propertyVisibility,
-                returnType = LimeReturnType(propertyType),
+                returnType = LimeReturnType(propertyType, propertyComment),
                 isStatic = propertyIsStatic
             )
             setter = LimeFunction(
                 path = currentPath.child("set"),
                 comment = getComment("set", emptyList(), ctx),
                 visibility = propertyVisibility,
-                parameters =
-                    listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType)),
+                parameters = listOf(LimeParameter(
+                    getterPath.child("value"),
+                    propertyComment,
+                    typeRef = propertyType
+                )),
                 isStatic = propertyIsStatic
             )
         } else {
@@ -310,7 +314,7 @@ internal class AntlrLimeModelBuilder(
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
                 comment = getComment("get", getterContext.docComment(), getterContext),
                 attributes = AntlrLimeConverter.convertAnnotations(currentPath, getterContext.annotation()),
-                returnType = LimeReturnType(propertyType),
+                returnType = LimeReturnType(propertyType, propertyComment),
                 isStatic = propertyIsStatic
             )
             setter = ctx.setter()?.let {
@@ -319,8 +323,11 @@ internal class AntlrLimeModelBuilder(
                     visibility = convertVisibility(it.visibility(), propertyVisibility),
                     comment = getComment("set", it.docComment(), it),
                     attributes = AntlrLimeConverter.convertAnnotations(currentPath, it.annotation()),
-                    parameters =
-                        listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType)),
+                    parameters = listOf(LimeParameter(
+                        getterPath.child("value"),
+                        propertyComment,
+                        typeRef = propertyType
+                    )),
                     isStatic = propertyIsStatic
                 )
             }
@@ -329,7 +336,7 @@ internal class AntlrLimeModelBuilder(
         val limeElement = LimeProperty(
             path = currentPath,
             visibility = propertyVisibility,
-            comment = structuredCommentsStack.peek().description,
+            comment = propertyComment,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             typeRef = propertyType,
             getter = getter,

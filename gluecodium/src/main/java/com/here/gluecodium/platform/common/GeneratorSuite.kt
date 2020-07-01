@@ -22,12 +22,12 @@ package com.here.gluecodium.platform.common
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.cpp.CppGeneratorSuite
 import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import com.here.gluecodium.platform.android.JavaGeneratorSuite
-import com.here.gluecodium.platform.baseapi.BaseApiGeneratorSuite
 import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import java.io.File
 import java.io.IOException
@@ -51,7 +51,9 @@ interface GeneratorSuite {
             when (shortName) {
                 AndroidGeneratorSuite.GENERATOR_NAME -> AndroidGeneratorSuite(options)
                 JavaGeneratorSuite.GENERATOR_NAME -> JavaGeneratorSuite(options)
-                BaseApiGeneratorSuite.GENERATOR_NAME -> BaseApiGeneratorSuite(options)
+                CppGeneratorSuite.GENERATOR_NAME -> CppGeneratorSuite(
+                    options
+                )
                 SwiftGeneratorSuite.GENERATOR_NAME -> SwiftGeneratorSuite(options)
                 LimeGeneratorSuite.GENERATOR_NAME -> LimeGeneratorSuite()
                 DartGeneratorSuite.GENERATOR_NAME -> DartGeneratorSuite(options)
@@ -62,7 +64,7 @@ interface GeneratorSuite {
         fun generatorShortNames() = setOf(
                 AndroidGeneratorSuite.GENERATOR_NAME,
                 JavaGeneratorSuite.GENERATOR_NAME,
-                BaseApiGeneratorSuite.GENERATOR_NAME,
+                CppGeneratorSuite.GENERATOR_NAME,
                 SwiftGeneratorSuite.GENERATOR_NAME,
                 LimeGeneratorSuite.GENERATOR_NAME,
                 DartGeneratorSuite.GENERATOR_NAME

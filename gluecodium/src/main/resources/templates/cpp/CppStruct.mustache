@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,89 +18,87 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}
-{{>cpp/DocComment}}
-struct {{>cpp/CppExportMacro}}{{name}} {
-{{#if hasAccessors}}
+{{#unlessHasAttribute "Cpp" "ExternalType"}}
+{{>cpp/CppDocComment}}
+struct {{>cpp/CppExportMacro}}{{resolveName}} {
+{{#ifHasAttribute "Cpp" "Accessors"}}
 private:
 {{#fields}}
-    {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
+    {{resolveName typeRef}} {{resolveName}}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
 {{/fields}}
 public:
-{{/if}}{{!!
-}}{{#unless hasAccessors}}
-{{#fields}}
-{{#if hasComment}}{{prefixPartial "cpp/CppFieldComment" "    "}}{{/if}}{{!!
-}}    {{#if isImmutable}}const {{/if}}{{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
-{{/fields}}
-{{/unless}}{{!!
+{{/ifHasAttribute}}{{!!
+}}{{#unlessHasAttribute "Cpp" "Accessors"}}
+{{#set structElement=this}}{{#fields}}
+{{prefixPartial "cpp/CppFieldDoc" "    "}}{{!!
+}}    {{#ifHasAttribute structElement "Immutable"}}const {{/ifHasAttribute}}{{resolveName typeRef}} {{resolveName}}{{!!
+}}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
+{{/fields}}{{/set}}
+{{/unlessHasAttribute}}{{!!
 }}{{#if fields}}
 
-{{#if hasDefaultConstructor}}
-{{#if constructorComment}}
+{{#ifPredicate "hasDefaultConstructor"}}
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
     /**
-{{prefix constructorComment "     * "}}
+{{prefix this "     * "}}
      */
-{{/if}}
-    {{name}}( );{{/if}}{{!!
-}}{{#if hasPartialDefaults}}
-{{#if constructorComment}}
+{{/unless}}{{/resolveName}}
+    {{resolveName}}( );{{/ifPredicate}}{{!!
+}}{{#ifPredicate "hasPartialDefaults"}}
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
     /**
-{{prefix constructorComment "     * "}}
+{{prefix this "     * "}}
 {{#uninitializedFields}}
-     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}
-{{#if isNotNull}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{#ifPredicate typeRef "needsNotNullComment"}}
      * \warning @NotNull
-{{/if}}
+{{/ifPredicate}}
 {{/uninitializedFields}}
      */
-{{/if}}
-    {{name}}( {{joinPartial uninitializedFields "structConstructorParameter" ", "}} );{{/if}}
-{{#if constructorComment}}
+{{/unless}}{{/resolveName}}
+    {{resolveName}}( {{#uninitializedFields}}{{!!
+    }}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}} );{{/ifPredicate}}
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
     /**
-{{prefix constructorComment "     * "}}
+{{prefix this "     * "}}
 {{#fields}}
-     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}
-{{#if isNotNull}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{#ifPredicate typeRef "needsNotNullComment"}}
      * \warning @NotNull
-{{/if}}
+{{/ifPredicate}}
 {{/fields}}
      */
-{{/if}}
-    {{name}}( {{joinPartial fields "structConstructorParameter" ", "}} );
+{{/unless}}{{/resolveName}}
+    {{resolveName}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );
 
 {{/if}}{{!!
-}}{{#if hasAccessors}}
-{{#fields}}
-{{#if hasComment}}
-{{prefixPartial "cpp/CppFieldComment" "    "}}
-{{/if}}
-    {{type.name}} {{getterName}}( ) const { return {{name}}; }{{#unless isImmutable}}
-{{#if hasComment}}
-{{prefixPartial "cpp/CppFieldComment" "    "}}
-{{/if}}
-    void {{setterName}}( {{type.name}} value_ ) { {{name}} = value_; }{{/unless}}
-{{/fields}}
+}}{{#ifHasAttribute "Cpp" "Accessors"}}
+{{#set structElement=this}}{{#fields}}
+{{prefixPartial "cpp/CppFieldDoc" "    "}}
+    {{resolveName typeRef}} {{resolveName this "" "getter"}}( ) const { return {{resolveName}}; }{{!!
+}}{{#unlessHasAttribute structElement "Immutable"}}
+{{prefixPartial "cpp/CppFieldDoc" "    "}}
+    void {{resolveName this "" "setter"}}( {{resolveName typeRef}} value_ ) { {{resolveName}} = value_; }{{!!
+}}{{/unlessHasAttribute}}
+{{/fields}}{{/set}}
 
-{{/if}}{{!!
-}}{{#if methods}}
-{{#methods}}
-{{prefixPartial "cpp/CppMethodSignature" "    "}};
-{{/methods}}
+{{/ifHasAttribute}}{{!!
+}}{{#if functions}}
+{{#set isConst=true}}{{#functions}}
+{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/functions}}{{/set}}
 
 {{/if}}{{!!
 }}{{#if constants}}
-{{#constants}}
-{{#set storageQualifier="static"}}{{prefixPartial "cpp/CppConstant" "    "}}{{/set}}
-{{/constants}}
+{{#set storageQualifier="static"}}{{#constants}}
+{{prefixPartial "cpp/CppConstant" "    "}}
+{{/constants}}{{/set}}
 
 {{/if}}{{!!
-}}{{#if isEquatable}}
-    bool operator==( const {{name}}& rhs ) const;
-    bool operator!=( const {{name}}& rhs ) const;
+}}{{#ifHasAttribute "Equatable"}}
+    bool operator==( const {{resolveName}}& rhs ) const;
+    bool operator!=( const {{resolveName}}& rhs ) const;
 
-{{/if}}
+{{/ifHasAttribute}}
 };
-{{/unless}}{{!!
-
-}}{{+structConstructorParameter}}{{type.name}} {{name}}{{/structConstructorParameter}}
+{{/unlessHasAttribute}}

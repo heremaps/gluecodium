@@ -17,14 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.baseapi
+package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.platform.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
-class DoxygenCommentsProcessor(werror: Boolean) :
+@Suppress("DEPRECATION")
+internal class DoxygenCommentsProcessor(werror: Boolean) :
     CommentsProcessor(Formatter.builder().build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String) {

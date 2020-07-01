@@ -70,6 +70,7 @@ namespace jni
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
+        jniEnv->ExceptionClear( );
         auto jErrorValue = get_object_field_value(
             jniEnv,
             jException,
@@ -80,7 +81,6 @@ namespace jni
             jErrorValue,
             ({{errorType.cppFullyQualifiedName}}*)nullptr );
 
-        jniEnv->ExceptionClear( );
 {{#if cppTypeIsErrorCode}}
         return ::std::error_code{nErrorValue};
 {{/if}}{{#unless cppTypeIsErrorCode}}
@@ -94,7 +94,9 @@ namespace jni
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 {{/exception}}{{!!
 }}{{#unless returnType.isJavaVoid}}

@@ -19,7 +19,9 @@ com_example_smoke_ChildInterfaceImpl_CppProxy::root_method(  ) {
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 ::std::string
@@ -29,7 +31,9 @@ com_example_smoke_ChildInterfaceImpl_CppProxy::get_root_property(  ) const {
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
     return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
 }
@@ -41,7 +45,9 @@ com_example_smoke_ChildInterfaceImpl_CppProxy::set_root_property( const ::std::s
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 void
@@ -51,7 +57,9 @@ com_example_smoke_ChildInterfaceImpl_CppProxy::child_method(  ) {
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
-        jniEnv->FatalError( "Unhandled exception" );
+        jniEnv->ExceptionClear( );
+        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
+            "See the log for more information about the exception (including Java stack trace)." );
     }
 }
 }

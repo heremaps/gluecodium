@@ -4,6 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/EquatableClass.h"
 #include "smoke/PointerEquatableClass.h"
+#include <utility>
 namespace smoke {
 EquatableClass::EquatableClass() {
 }
@@ -49,9 +50,9 @@ hash< ::smoke::EquatableClass::EquatableStruct >::operator( )( const ::smoke::Eq
 {
     size_t hash_value = 43;
     hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::int_field ) >( )( t.int_field ) ) << 1;
-hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::string_field ) >( )( t.string_field ) ) << 1;
-hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::nested_equatable_instance ) >( )( t.nested_equatable_instance ) ) << 1;
-hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::nested_pointer_equatable_instance ) >( )( t.nested_pointer_equatable_instance ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::string_field ) >( )( t.string_field ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::nested_equatable_instance ) >( )( t.nested_equatable_instance ) ) << 1;
+    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ::smoke::EquatableClass::EquatableStruct::nested_pointer_equatable_instance ) >( )( t.nested_pointer_equatable_instance ) ) << 1;
     return hash_value;
 }
 }

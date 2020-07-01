@@ -1,5 +1,21 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Slightly improved logging for unhandled exceptions when calling Java code from C++.
+### Bug fixes:
+  * Fixed dependency sorting logic for thrown types in C++.
+
+## 7.1.3
+Release date: 2020-06-16
+### Bug fixes:
+  * Fixed compilation issue for interfaces containing a lambda declaration in Java.
+
+## 7.1.2
+Release date: 2020-06-16
+### Bug fixes:
+  * Fixed compilation issue for cross-package inheritance from an interface in Java.
+
 ## 7.1.1
 Release date: 2020-06-11
 ### Bug fixes:
