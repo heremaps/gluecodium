@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Slightly improved logging for unhandled exceptions when calling Java code from C++.
+### Bug fixes:
+  * Fixed dependency sorting logic for thrown types in C++.
 
 ## 7.1.3
 Release date: 2020-06-16

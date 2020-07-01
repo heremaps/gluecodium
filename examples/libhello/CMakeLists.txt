@@ -353,9 +353,11 @@ feature(Dates cpp android swift dart SOURCES
 feature(StructsWithCompanion cpp android swift dart SOURCES
     src/test/StructsWithMethods.cpp
     src/test/StructsWithConstants.cpp
+    src/test/StructsWithMethodsDeclarationOrder.cpp
 
     lime/test/StructsWithMethods.lime
     lime/test/StructsWithConstants.lime
+    lime/test/StructsWithMethodsDeclarationOrder.lime
 )
 
 feature(Comments cpp android swift dart SOURCES
