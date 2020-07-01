@@ -22,8 +22,8 @@
 abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
 {{#set parent=this}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-  factory {{resolveName parent}}{{#unlessHasAttribute this "Dart" "Default"}}{{!!
-  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unlessHasAttribute}}({{!!
+  factory {{resolveName parent}}{{#unless attributes.dart.default}}{{!!
+  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unless}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
   }}){{>dartImplRedirect}};
 {{/constructors}}{{/set}}
@@ -76,8 +76,8 @@ final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunctio
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
     >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
-{{#ifHasAttribute "Equatable"}}{{>dart/DartFfiEqualityFunction}}{{/ifHasAttribute}}{{!!
-}}{{#ifHasAttribute "PointerEquatable"}}{{>dart/DartFfiEqualityFunction}}{{/ifHasAttribute}}
+{{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}{{!!
+}}{{#if attributes.pointerEquatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
 {{#if parent visibility.isOpen logic="or"}}
 final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -120,16 +120,16 @@ class {{resolveName}}$Impl{{!!
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/inheritedFunctions}}{{/instanceOf}}{{/if}}{{/set}}
-{{#set override=true skipDocs=true}}{{#properties}}{{#ifHasAttribute "Cached"}}
+{{#set override=true skipDocs=true}}{{#properties}}{{#if attributes.cached}}
 {{prefixPartial "dartCachedProperty" "  "}}
-{{/ifHasAttribute}}{{#unlessHasAttribute "Cached"}}
+{{/if}}{{#unless attributes.cached}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/unlessHasAttribute}}{{/properties}}
+{{/unless}}{{/properties}}
 {{#inheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/inheritedProperties}}{{/set}}
-{{#ifHasAttribute "Equatable"}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/ifHasAttribute}}{{!!
-}}{{#ifHasAttribute "PointerEquatable"}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/ifHasAttribute}}
+{{#if attributes.equatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}{{!!
+}}{{#if attributes.pointerEquatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}
 }
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>

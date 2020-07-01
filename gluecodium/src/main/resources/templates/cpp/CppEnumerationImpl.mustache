@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#ifHasAttribute "Cpp" "ExternalType"}}
+{{#if attributes.cpp.externalType}}
 {{#resolveName}}{{#set enumName=this}}
 static_assert(std::is_enum<{{enumName}}>::value, "Expected '{{enumName}}' to be an enumeration'.");
 {{#enumerators}}
@@ -27,4 +27,4 @@ static_assert(
     "Expected '{{resolveName value}}' value for '{{enumName}}::{{resolveName}}'."
 );
 {{/enumerators}}{{/set}}{{/resolveName}}
-{{/ifHasAttribute}}
+{{/if}}

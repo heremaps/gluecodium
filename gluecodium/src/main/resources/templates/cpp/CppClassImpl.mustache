@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessHasAttribute "Cpp" "ExternalType"}}
+{{#unless attributes.cpp.externalType}}
 {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}() {
 {{#if parent}}
     {{>common/InternalNamespace}}get_type_repository(this).add_type(this, "{{#namespace}}{{.}}_{{/namespace}}{{resolveName}}");
@@ -30,13 +30,13 @@
 {{/if}}
 }
 
-{{#ifHasAttribute "Equatable"}}
+{{#if attributes.equatable}}
 bool
 {{resolveName}}::operator!=( const {{resolveName}}& rhs ) {
     return !( *this == rhs );
 }
-{{/ifHasAttribute}}{{/unlessHasAttribute}}
-{{#unlessHasAttribute "Cpp" "ExternalType"}}{{#resolveName}}{{#setJoin "parentName" parentName this delimiter="::"}}
+{{/if}}{{/unless}}
+{{#unless attributes.cpp.externalType}}{{#resolveName}}{{#setJoin "parentName" parentName this delimiter="::"}}
 {{#enumerations}}
 {{>cpp/CppEnumerationImpl}}
 {{/enumerations}}
@@ -49,7 +49,7 @@ const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName va
 {{#each classes interfaces}}
 {{>cpp/CppClassImpl}}
 {{/each}}
-{{/setJoin}}{{/resolveName}}{{/unlessHasAttribute}}
-{{#ifHasAttribute "Cpp" "ExternalType"}}{{#resolveName "FQN"}}{{#set className=this}}{{#functions}}
+{{/setJoin}}{{/resolveName}}{{/unless}}
+{{#if attributes.cpp.externalType}}{{#resolveName "FQN"}}{{#set className=this}}{{#functions}}
 {{>cpp/CppFunctionStaticCheck}}
-{{/functions}}{{/set}}{{/resolveName}}{{/ifHasAttribute}}
+{{/functions}}{{/set}}{{/resolveName}}{{/if}}

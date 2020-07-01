@@ -22,11 +22,11 @@
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}{{#if isVirtual}}virtual {{/if}}{{/unless}}{{!!
 }}{{>resolveReturnType}} {{resolveName}}{{!!
 }}( {{#parameters}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
-}}{{#unless isStatic}}{{#ifHasAttribute "Cpp" "Const"}} const{{/ifHasAttribute}}{{#if isConst}} const{{/if}}{{!!
+}}{{#unless isStatic}}{{#if attributes.cpp.Const}} const{{/if}}{{#if isConst}} const{{/if}}{{!!
 }}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{!!
 
-}}{{+resolveTypeRef}}{{#if useCstring}}{{#ifHasAttribute "Cpp" "Cstring"}}char*{{/ifHasAttribute}}{{!!
-}}{{#unlessHasAttribute "Cpp" "Cstring"}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unlessHasAttribute}}{{/if}}{{!!
+}}{{+resolveTypeRef}}{{#if useCstring}}{{#if attributes.cpp.cstring}}char*{{/if}}{{!!
+}}{{#unless attributes.cpp.cstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/if}}{{!!
 }}{{#unless useCstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/resolveTypeRef}}{{!!
 
 }}{{+resolveReturnType}}{{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!

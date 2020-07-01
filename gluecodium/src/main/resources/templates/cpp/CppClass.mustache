@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessHasAttribute "Cpp" "ExternalType"}}{{!!
+{{#unless attributes.cpp.externalType}}{{!!
 }}{{>cpp/CppDocComment}}
 class {{>cpp/CppExportMacro}}{{resolveName}}{{#if parent}}: public {{resolveName parent.type "FQN"}}{{/if}} {
 public:
@@ -51,10 +51,10 @@ public:
 {{/properties}}
 
 {{/if}}
-{{#ifHasAttribute "Equatable"}}
+{{#if attributes.equatable}}
 public:
     bool operator==( const {{resolveName}}& rhs );
     bool operator!=( const {{resolveName}}& rhs );
-{{/ifHasAttribute}}
+{{/if}}
 };{{!!
-}}{{/unlessHasAttribute}}
+}}{{/unless}}
