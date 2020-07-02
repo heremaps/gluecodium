@@ -43,25 +43,18 @@ internal object AntlrLimeConverter {
         return attributes.build()
     }
 
-    // TODO: #408: add validation warnings about EXTERNAL_* attributes being deprecated
     // Convert external descriptor from legacy attributes
-    @Suppress("DEPRECATION")
-    fun convertExternalDescriptor(attributes: LimeAttributes): LimeExternalDescriptor? {
-        val builder = LimeExternalDescriptor.Builder()
-        val externalType =
-            attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_TYPE, Any::class.java)
-        if (externalType != null) {
-            val value = (externalType as? List<*>)?.joinToString() ?: externalType.toString()
-            builder.addValue(CPP_TAG, INCLUDE_NAME, value)
+    fun convertExternalDescriptor(
+        annotations: List<LimeParser.AnnotationContext>
+    ): LimeExternalDescriptor? {
+        val values = annotations.filter { it.simpleId().text == "Cpp" }.flatMap { annotation ->
+            annotation.annotationValue().mapNotNull { convertDescriptorValue(it) }
         }
-        attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_NAME)
-            ?.let { builder.addValue(CPP_TAG, NAME_NAME, it) }
-        attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_GETTER)
-            ?.let { builder.addValue(CPP_TAG, GETTER_NAME_NAME, it) }
-        attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_SETTER)
-            ?.let { builder.addValue(CPP_TAG, SETTER_NAME_NAME, it) }
+        if (values.isEmpty()) return null
 
-        return builder.build().let { if (it.cpp.isNullOrEmpty()) null else it }
+        val builder = LimeExternalDescriptor.Builder()
+        values.forEach { builder.addValue(CPP_TAG, it.first, it.second) }
+        return builder.build()
     }
 
     private fun convertAnnotation(
@@ -70,8 +63,13 @@ internal object AntlrLimeConverter {
         limePath: LimePath
     ) {
         val attributeType = convertAnnotationType(annotationContext)
-        attributes.addAttribute(attributeType)
-        annotationContext.annotationValue().forEach {
+        val annotationValues = annotationContext.annotationValue()
+        if (annotationValues.isEmpty()) {
+            attributes.addAttribute(attributeType)
+        }
+
+        annotationValues.forEach {
+            val valueType = convertAnnotationValueType(it, attributeType) ?: return@forEach
             val rawValue = convertAnnotationValue(it)
             val value = when (attributeType) {
                 LimeAttributeType.DEPRECATED -> {
@@ -81,11 +79,7 @@ internal object AntlrLimeConverter {
                 }
                 else -> rawValue
             }
-            attributes.addAttribute(
-                attributeType,
-                convertAnnotationValueType(it, attributeType),
-                value
-            )
+            attributes.addAttribute(attributeType, valueType, value)
         }
     }
 
@@ -104,11 +98,10 @@ internal object AntlrLimeConverter {
             else -> throw LimeLoadingException("Unsupported attribute: '$id'")
         }
 
-    @Suppress("DEPRECATION")
     private fun convertAnnotationValueType(
         ctx: LimeParser.AnnotationValueContext,
         attributeType: LimeAttributeType
-    ): LimeAttributeValueType {
+    ): LimeAttributeValueType? {
         val id = ctx.simpleId()?.text ?: return (
             attributeType.defaultValueType ?: throw LimeLoadingException(
                 "Attribute type $attributeType does not support values"
@@ -127,10 +120,7 @@ internal object AntlrLimeConverter {
             "ObjC" -> LimeAttributeValueType.OBJC
             "Message" -> LimeAttributeValueType.MESSAGE
             "Skip" -> LimeAttributeValueType.SKIP
-            "ExternalType" -> LimeAttributeValueType.EXTERNAL_TYPE
-            "ExternalName" -> LimeAttributeValueType.EXTERNAL_NAME
-            "ExternalGetter" -> LimeAttributeValueType.EXTERNAL_GETTER
-            "ExternalSetter" -> LimeAttributeValueType.EXTERNAL_SETTER
+            "ExternalType", "ExternalName", "ExternalGetter", "ExternalSetter" -> null
             else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
         }
     }
@@ -173,4 +163,23 @@ internal object AntlrLimeConverter {
         ctx.multiLineStringContent().joinToString(separator = "") {
             it.MultiLineStrText()?.text ?: it.MultiLineStringQuote().text
         }
+
+    private fun convertDescriptorValue(
+        annotationValue: LimeParser.AnnotationValueContext
+    ): Pair<String, String>? {
+        val valueName = when (annotationValue.simpleId()?.text) {
+            "ExternalType" -> INCLUDE_NAME
+            "ExternalName" -> NAME_NAME
+            "ExternalGetter" -> GETTER_NAME_NAME
+            "ExternalSetter" -> SETTER_NAME_NAME
+            else -> return null
+        }
+        val literals = annotationValue.stringLiteral()
+        val value = when (literals.size) {
+            0 -> ""
+            1 -> convertStringLiteral(literals.first())
+            else -> literals.joinToString { convertStringLiteral(it) }
+        }
+        return Pair(valueName, value)
+    }
 }

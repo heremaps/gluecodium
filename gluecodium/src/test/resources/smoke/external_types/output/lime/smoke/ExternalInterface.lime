@@ -1,6 +1,8 @@
 package smoke
-@Cpp(ExternalType = "foo/Bar.h")
 interface ExternalInterface {
+    external {
+        cpp include "foo/Bar.h"
+    }
     enum some_Enum {
         some_Value
     }
@@ -11,7 +13,8 @@ interface ExternalInterface {
         some_Parameter: Byte
     )
     property some_Property: String {
-        @Cpp(ExternalName = "get_Me")
-        get
+        get external {
+            cpp name "get_Me"
+        }
     }
 }

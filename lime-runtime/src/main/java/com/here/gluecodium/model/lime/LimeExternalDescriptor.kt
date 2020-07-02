@@ -27,6 +27,14 @@ class LimeExternalDescriptor private constructor(
     val cpp
         get() = descriptors[CPP_TAG]
 
+    operator fun plus(other: LimeExternalDescriptor) =
+        LimeExternalDescriptor(descriptors + other.descriptors)
+
+    override fun toString() =
+        descriptors.entries.flatMap { entry ->
+            entry.value.map { "${entry.key} ${it.key} \"${it.value}\"" }
+        }.sorted().joinToString("\n")
+
     class Builder {
         private val descriptors = CaseInsensitiveMap<CaseInsensitiveMap<String>>()
 

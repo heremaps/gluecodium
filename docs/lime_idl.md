@@ -290,6 +290,29 @@ struct Options {
 return type for a lambda is required. For declaring lambdas with no return type, `Void` type should
 be used (like in the example above).
 
+#### External descriptor
+
+* Syntax: **external** **{** *descriptors-list* **}**
+* where *descriptors-list* is a newline-separated list of one or more descriptors, each declared as
+*PlatformTag* *ValueName* **"**_Value_**"**
+* Example: `external { cpp include "other/MoreTypes.h" }`
+* Can be placed in: class, interface, struct, enum. If present, it must be the first child element.
+* Can be used as a trailing declaration for: field, property getter, property setter.
+* Description: describes "external" behavior for the element. "External type" is a type that does
+not use generated code for the specified output language, but uses a pre-existing type instead
+(manually written, from a system library, or from a third-party library). Platform tags and value
+names are case-insensitive. Supported platform tags:
+  * **cpp**: describes "external" behavior for C++. Supported value names:
+    * **include**: *mandatory value*. Specifies include path(s) for the pre-existing type. Can be
+    either a single path or a comma-separated list of paths.
+    * **name**: specifies a distinct C++ name (i.e. to have a name that is not derived automatically
+    from the element's name declared in IDL declaration). For types the name should be fully
+    qualified. This value is also supported for property accessors (within a type already marked as
+    "external"). For accessors the name does not have to be fully-qualified. Please note that only
+    one-to-one correspondence between IDL types and "external" C++ types is supported.
+    * **getterName**, **setterName**: marks a field in a struct type that is already marked as
+    external to be accessed through given getter/setter functions instead of directly in C++.
+
 ### Type references
 
 A type reference is a mention of a type anywhere, as opposed to a type declaration. A type reference
@@ -451,19 +474,14 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   addition to usual `std::string`). This produces one additional overload for the function.
   * **Accessors**: marks a struct to have accessor functions generated for fields and to generate
   struct fields as "private" in C++ generated code. Intended for use with `@Immutable` attribute.
-  * **ExternalType** **=** **"**_HeaderPaths_**"**: marks a class, interface, struct type or
-  enumeration as an "external" type. This skips the generation of C++ code for this type and the
-  given (pre-existing) header file(s) is used instead. `HeaderPaths` could either be a single string
-  literal or a comma-separated list of strings in square brackets:
-  __\[__*HeaderPath* \[**,** *HeaderPath*\]*__\]__.
-  * **ExternalName** **=** **"**_FullyQualifiedName_**"**: marks a type that is already marked with
-  `ExternalType` to have a distinct fully-qualified name in C++ generated code (i.e. to have a name
-  that is not derived automatically from the element's name given in the declaration). Please note
-  that only one-to-one correspondence between IDL types and "external" C++ types is supported.
-  * **ExternalGetter** **=** **"**_FunctionName_**"**,
-  **ExternalSetter** **=** **"**_FunctionName_**"**: marks a field in a struct type that is already
-  marked with `ExternalType` to have be accessed through given getter/setter functions instead of
-  directly in C++ generated code.
+  * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
+  include` in the `External Descriptor` (see above).
+  * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp
+  name` in the `External Descriptor` (see above).
+  * ~~**ExternalGetter** **=** **"**_FunctionName_**"**~~: legacy attribute, superseded by `cpp
+  getterName` in the `External Descriptor` (see above).
+  * ~~**ExternalSetter** **=** **"**_FunctionName_**"**~~: legacy attribute, superseded by `cpp
+  setterName` in the `External Descriptor` (see above).
 
 ### Comments
 

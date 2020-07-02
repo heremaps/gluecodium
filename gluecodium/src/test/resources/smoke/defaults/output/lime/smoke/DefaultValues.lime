@@ -11,8 +11,11 @@ class DefaultValues {
         FooValue,
         BarValue
     }
-    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeVeryExternalEnum")
     enum ExternalEnum {
+        external {
+            cpp include "foo/Bar.h"
+            cpp name "::fire::SomeVeryExternalEnum"
+        }
         One_Value,
         Another_Value
     }

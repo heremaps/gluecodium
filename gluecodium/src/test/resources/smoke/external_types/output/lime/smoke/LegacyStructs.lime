@@ -1,5 +1,5 @@
 package smoke
-class Structs {
+class LegacyStructs {
     struct ExternalStruct {
         external {
             cpp include "foo/Bar.h"

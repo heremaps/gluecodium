@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Introduced "external descriptors", new IDL syntax for declaring "external" types. This syntax
+    replaces `@Cpp(External*)` group of IDL attributes.
+
 ## 7.1.5
 Release date: 2020-07-07
 ### Bug fixes:

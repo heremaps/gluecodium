@@ -40,8 +40,9 @@ importStatement
 
 container
     : docComment* annotation* visibility? ('class' | 'interface') NewLine* simpleId NewLine*
-      (':' NewLine* identifier NewLine*)? '{' NewLine* ((function | constructor | property |
-      struct | enumeration | constant | typealias | exception | lambda | container) NewLine*)* '}' NewLine+
+      (':' NewLine* identifier NewLine*)? '{' NewLine* externalDescriptor?
+      ((function | constructor | property | struct | enumeration | constant | typealias |
+      exception | lambda | container) NewLine*)* '}' NewLine+
     ;
 
 types
@@ -78,26 +79,26 @@ property
     ;
 
 getter
-    : docComment* annotation* visibility? 'get' NewLine*
+    : docComment* annotation* visibility? 'get' NewLine* externalDescriptor?
     ;
 
 setter
-    : docComment* annotation* visibility? 'set' NewLine*
+    : docComment* annotation* visibility? 'set' NewLine* externalDescriptor?
     ;
 
 struct
     : docComment* annotation* visibility? 'struct' NewLine* simpleId NewLine*
-      '{' NewLine* ((field | function | constructor | constant) NewLine*)+ '}' NewLine+
+      '{' NewLine* externalDescriptor? ((field | function | constructor | constant) NewLine*)+ '}' NewLine+
     ;
 
 field
     : docComment* annotation* visibility? NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
-      ('=' NewLine* literalConstant NewLine*)? NewLine+
+      ('=' NewLine* literalConstant NewLine*)? (externalDescriptor? | NewLine+)
     ;
 
 enumeration
     : docComment* annotation* visibility? 'enum' NewLine* simpleId NewLine*
-      '{' NewLine* enumerator NewLine* (',' NewLine* enumerator NewLine*)* '}' NewLine+
+      '{' NewLine* externalDescriptor? enumerator NewLine* (',' NewLine* enumerator NewLine*)* '}' NewLine+
     ;
 
 enumerator
@@ -128,7 +129,7 @@ lambdaParameter
     : typeRef NewLine*
     ;
 
-// Comments and annotations
+// Comments, annotations, and descriptors
 
 docComment
     : DelimitedCommentOpen DelimitedCommentText NewLine*
@@ -143,6 +144,14 @@ annotationValue
     : simpleId NewLine* ('=' NewLine* stringLiteral NewLine*)?
     | simpleId NewLine* '=' NewLine* '[' NewLine* stringLiteral NewLine* (',' NewLine* stringLiteral NewLine*)* ']' NewLine*
     | stringLiteral NewLine*
+    ;
+
+externalDescriptor
+    : 'external' NewLine* '{' NewLine* externalDescriptorValue+ '}' NewLine+
+    ;
+
+externalDescriptorValue
+    : simpleId simpleId singleLineStringLiteral NewLine*
     ;
 
 // Type references

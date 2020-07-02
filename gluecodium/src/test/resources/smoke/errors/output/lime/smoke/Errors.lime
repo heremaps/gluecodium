@@ -4,8 +4,11 @@ class Errors {
         ERROR_NONE,
         ERROR_FATAL
     }
-    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeEnum")
     enum ExternalErrors {
+        external {
+            cpp include "foo/Bar.h"
+            cpp name "::fire::SomeEnum"
+        }
         NONE,
         BOOM,
         BUST

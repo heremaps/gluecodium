@@ -20,4 +20,5 @@
   !}}
 {{#if attributes.toString}}{{attributes}}
 {{/if}}
-{{visibility}}set
+{{visibility}}set{{!!
+}}{{#if this.external}} {{>lime/LimeExternalDescriptor}}{{/if}}

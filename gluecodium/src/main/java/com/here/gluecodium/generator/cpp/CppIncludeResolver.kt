@@ -43,12 +43,8 @@ class CppIncludeResolver(
         resolvedIncludes.getOrPut(limeNamedElement.fullName) {
             val externalType = inferExternalType(limeNamedElement)
             when {
-                externalType is String ->
+                externalType != null ->
                     externalType.split(',').map { Include.createInternalInclude(it.trim()) }
-                externalType is List<*> ->
-                    externalType
-                        .filterIsInstance<String>()
-                        .map { Include.createInternalInclude(it.trim()) }
                 !limeNamedElement.path.hasParent -> listOf(Include.createInternalInclude(
                     nameRules.getOutputFilePath(limeNamedElement) + ".h"
                 ))
@@ -59,7 +55,7 @@ class CppIncludeResolver(
             }
         }
 
-    private fun inferExternalType(limeNamedElement: LimeNamedElement): Any? {
+    private fun inferExternalType(limeNamedElement: LimeNamedElement): String? {
         val externalType = limeNamedElement.external?.cpp?.get(INCLUDE_NAME)
         if (externalType != null) {
             return externalType
