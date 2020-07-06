@@ -12,6 +12,22 @@
 extern "C" {
 #endif
 FfiOpaqueHandle
+library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterInterface::InnerClass>>::toFfi(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>::toCpp(_self)).foo(
+            gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass::InnerInterface>>::toCpp(input)
+        )
+    );
+}
+FfiOpaqueHandle
+library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory(int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toFfi(
+        ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour::foo_factory()
+    );
+}
+FfiOpaqueHandle
 library_smoke_LevelOne_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::LevelOne>(

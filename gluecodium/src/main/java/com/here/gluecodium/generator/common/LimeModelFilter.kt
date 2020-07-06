@@ -46,6 +46,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             visibility = visibility,
             comment = comment,
             attributes = attributes,
+            external = external,
             structs = structs.filter(predicate).map { filterStruct(it) },
             enumerations = enumerations.filter(predicate).map { filterEnum(it) },
             constants = constants.filter(predicate),
@@ -65,6 +66,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             visibility = visibility,
             comment = comment,
             attributes = attributes,
+            external = external,
             structs = structs.filter(predicate).map { filterStruct(it) },
             enumerations = enumerations.filter(predicate).map { filterEnum(it) },
             constants = constants.filter(predicate),
@@ -97,6 +99,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             visibility = visibility,
             comment = comment,
             attributes = attributes,
+            external = external,
             functions = functions.filter(predicate),
             constants = constants.filter(predicate),
             fields = fields.filter(predicate),
@@ -109,6 +112,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             visibility = visibility,
             comment = comment,
             attributes = attributes,
+            external = external,
             enumerators = enumerators.filter(predicate)
         ) }
 }

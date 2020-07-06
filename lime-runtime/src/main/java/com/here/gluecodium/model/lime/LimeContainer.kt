@@ -27,6 +27,7 @@ abstract class LimeContainer(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
+    external: LimeExternalDescriptor? = null,
     val structs: List<LimeStruct> = emptyList(),
     val enumerations: List<LimeEnumeration> = emptyList(),
     val constants: List<LimeConstant> = emptyList(),
@@ -34,7 +35,7 @@ abstract class LimeContainer(
     val functions: List<LimeFunction> = emptyList(),
     val properties: List<LimeProperty> = emptyList(),
     val exceptions: List<LimeException> = emptyList()
-) : LimeType(path, visibility, comment, attributes) {
+) : LimeType(path, visibility, comment, attributes, external) {
 
     val constructors
         get() = functions.filter { it.isConstructor }

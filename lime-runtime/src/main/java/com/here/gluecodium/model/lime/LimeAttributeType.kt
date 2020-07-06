@@ -19,6 +19,8 @@
 
 package com.here.gluecodium.model.lime
 
+import com.here.gluecodium.common.CaseInsensitiveMap
+
 enum class LimeAttributeType(
     private val tag: String,
     val defaultValueType: LimeAttributeValueType? = null
@@ -35,4 +37,8 @@ enum class LimeAttributeType(
     SERIALIZABLE("Serializable");
 
     override fun toString() = tag
+
+    companion object {
+        val fromString = values().associateByTo(CaseInsensitiveMap()) { it.tag }
+    }
 }

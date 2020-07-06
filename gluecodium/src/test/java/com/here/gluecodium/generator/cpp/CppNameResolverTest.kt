@@ -21,10 +21,9 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypesCollection
@@ -58,9 +57,9 @@ class CppNameResolverTest(
 
     @Test
     fun getNameForExternalElement() {
-        val limeAttributes =
-            LimeAttributes.Builder().addAttribute(CPP, EXTERNAL_TYPE).build()
-        val limeElement = object : LimeType(elementPath, attributes = limeAttributes) { }
+        val externalDescriptor =
+            LimeExternalDescriptor.Builder().addValue(CPP_TAG, "foobar", "").build()
+        val limeElement = object : LimeType(elementPath, external = externalDescriptor) { }
 
         val result = nameResolver.getFullyQualifiedName(limeElement)
 
@@ -69,11 +68,10 @@ class CppNameResolverTest(
 
     @Test
     fun getNameForExternalElementWithExternalName() {
-        val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(CPP, EXTERNAL_TYPE)
-            .addAttribute(CPP, EXTERNAL_NAME, "EXTERNAL_NAME")
+        val externalDescriptor = LimeExternalDescriptor.Builder()
+            .addValue(CPP_TAG, NAME_NAME, "EXTERNAL_NAME")
             .build()
-        val limeElement = object : LimeType(elementPath, attributes = limeAttributes) { }
+        val limeElement = object : LimeType(elementPath, external = externalDescriptor) { }
 
         val result = nameResolver.getFullyQualifiedName(limeElement)
 
@@ -86,13 +84,10 @@ class CppNameResolverTest(
         @JvmStatic
         @Parameterized.Parameters
         fun testData(): Collection<Array<Any?>> {
-            val limeExternalAttributes =
-                LimeAttributes.Builder().addAttribute(CPP, EXTERNAL_TYPE).build()
-            val limeExternalAttributesWithName =
-                LimeAttributes.Builder()
-                    .addAttribute(CPP, EXTERNAL_TYPE)
-                    .addAttribute(CPP, EXTERNAL_NAME, "ALIEN_PARENT")
-                    .build()
+            val externalDescriptor =
+                LimeExternalDescriptor.Builder().addValue(CPP_TAG, "foobar", "").build()
+            val externalDescriptorWithName =
+                LimeExternalDescriptor.Builder().addValue(CPP_TAG, NAME_NAME, "ALIEN_PARENT").build()
 
             @Suppress("RemoveExplicitTypeArguments")
             return listOf(
@@ -111,14 +106,14 @@ class CppNameResolverTest(
                 ), arrayOf<Any?>(
                     object : LimeType(
                         LIME_ROOT_PATH.child("parent_Element"),
-                        attributes = limeExternalAttributes
+                        external = externalDescriptor
                     ) {},
                     "::ro::ot::mo::del::parent_Element::an_Element",
                     "::ro::ot::mo::del::parent_Element::an_Element"
                 ), arrayOf<Any?>(
                     object : LimeType(
                         LIME_ROOT_PATH.child("parent_Element"),
-                        attributes = limeExternalAttributesWithName
+                        external = externalDescriptorWithName
                     ) {},
                     "ALIEN_PARENT::an_Element",
                     "ALIEN_PARENT::an_Element"

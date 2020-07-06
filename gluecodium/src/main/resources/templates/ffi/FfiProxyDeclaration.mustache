@@ -48,7 +48,7 @@ public:
 {{#each inheritedFunctions functions}}
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-    }}{{#ifHasAttribute this "Cpp" "Const"}} const{{/ifHasAttribute}}{{#unless isLambda}} override{{/unless}} {
+    }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
         {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}} _result_handle;{{/isNotEq}}
         {{#if thrownType}}{{resolveName  exception.errorType}} _error_handle;
         bool _error_flag;{{/if}}

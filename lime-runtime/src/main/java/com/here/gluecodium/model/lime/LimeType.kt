@@ -23,8 +23,9 @@ abstract class LimeType protected constructor(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
-    attributes: LimeAttributes? = null
-) : LimeNamedElement(path, visibility, comment, attributes) {
+    attributes: LimeAttributes? = null,
+    external: LimeExternalDescriptor? = null
+) : LimeNamedElement(path, visibility, comment, attributes, external) {
     open val childTypes = emptyList<LimeTypeRef>()
 
     open val actualType

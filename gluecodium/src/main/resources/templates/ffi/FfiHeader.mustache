@@ -31,31 +31,15 @@ extern "C" {
 #endif
 
 {{#model}}
-{{#functions}}
-{{>ffiFunctionDeclaration}}
-{{/functions}}
-{{#properties}}{{#getter}}
-{{>ffiFunctionDeclaration}}
-{{/getter}}{{#setter}}
-{{>ffiFunctionDeclaration}}
-{{/setter}}
-{{/properties}}
-{{#structs}}
-{{#functions}}
-{{>ffiFunctionDeclaration}}
-{{/functions}}
-{{/structs}}
-{{#this.lambdas}}{{#asFunction}}
-{{>ffiFunctionDeclaration}}
-{{/asFunction}}{{/this.lambdas}}
+{{>ffiClassHeader}}
 {{/model}}
 
 {{#classes}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
-{{#ifHasAttribute "Equatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}{{!!
-}}{{#ifHasAttribute "PointerEquatable"}}{{>ffiEqualityFunctionDeclaration}}{{/ifHasAttribute}}
+{{#if attributes.equatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
+}}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}
 {{/classes}}
 
 {{#lambdas}}
@@ -110,4 +94,27 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle{{/if}}{{!!
 
 }}{{+ffiEqualityFunctionDeclaration}}
 _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2);
-{{/ffiEqualityFunctionDeclaration}}
+{{/ffiEqualityFunctionDeclaration}}{{!!
+
+}}{{+ffiClassHeader}}
+{{#functions}}
+{{>ffiFunctionDeclaration}}
+{{/functions}}
+{{#properties}}{{#getter}}
+{{>ffiFunctionDeclaration}}
+{{/getter}}{{#setter}}
+{{>ffiFunctionDeclaration}}
+{{/setter}}
+{{/properties}}
+{{#structs}}
+{{#functions}}
+{{>ffiFunctionDeclaration}}
+{{/functions}}
+{{/structs}}
+{{#this.lambdas}}{{#asFunction}}
+{{>ffiFunctionDeclaration}}
+{{/asFunction}}{{/this.lambdas}}
+{{#each classes interfaces}}
+{{>ffiClassHeader}}
+{{/each}}
+{{/ffiClassHeader}}

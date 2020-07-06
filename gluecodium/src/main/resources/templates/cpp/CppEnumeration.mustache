@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessHasAttribute "Cpp" "ExternalType"}}
+{{#unless external.cpp}}
 {{>cpp/CppDocComment}}
 enum class {{resolveName}} {
 {{#enumerators}}
@@ -26,4 +26,4 @@ enum class {{resolveName}} {
 }}    {{resolveName}}{{#explicitValue}} = {{resolveName}}{{/explicitValue}}{{#if iter.hasNext}},{{/if}}
 {{/enumerators}}
 };
-{{/unlessHasAttribute}}
+{{/unless}}

@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessHasAttribute "Cpp" "ExternalType"}}{{!!
+{{#unless external.cpp}}{{!!
 }}{{#set structElement=this}}{{#constants}}
 const {{resolveName typeRef}} {{#parentName}}{{.}}::{{/parentName}}{{resolveName structElement}}::{{resolveName}} = {{resolveName value}};
 {{/constants}}{{/set}}{{!!
@@ -44,7 +44,7 @@ const {{resolveName typeRef}} {{#parentName}}{{.}}::{{/parentName}}{{resolveName
 }
 
 {{/if}}{{!!
-}}{{#ifHasAttribute "Equatable"}}
+}}{{#if attributes.equatable}}
 bool {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::operator==( const {{resolveName}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&
@@ -56,9 +56,9 @@ bool {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::operator!=( const {{r
     return !( *this == rhs );
 }
 
-{{/ifHasAttribute}}{{/unlessHasAttribute}}{{!!
+{{/if}}{{/unless}}{{!!
 
-}}{{#ifHasAttribute "Cpp" "ExternalType"}}
+}}{{#if external.cpp}}
 {{#set structElement=this}}{{#resolveName structElement "FQN"}}{{#set structName=this}}{{#fields}}
 {{#resolveName this "" "getter"}}
 static_assert(
@@ -78,18 +78,18 @@ static_assert(
     "Expected 'void' return type for '{{structName}}::{{this}}'."
 );
 {{/resolveName}}
-{{#unlessHasAttribute structElement "Cpp" "Accessors"}}{{!!
-}}{{#unlessHasAttribute "Cpp" "ExternalGetter"}}{{#unlessHasAttribute "Cpp" "ExternalSetter"}}
+{{#unless structElement.attributes.cpp.accessors}}{{!!
+}}{{#unless attributes.cpp.externalGetter}}{{#unless attributes.cpp.externalSetter}}
 static_assert(
     std::is_same<{{resolveName typeRef}}, decltype({{structName}}::{{resolveName}})>::value,
     "Expected '{{resolveName typeRef}}' type for '{{structName}}::{{resolveName}}'."
 );
-{{/unlessHasAttribute}}{{/unlessHasAttribute}}{{/unlessHasAttribute}}
+{{/unless}}{{/unless}}{{/unless}}
 {{/fields}}
 {{#set className=structName}}{{#functions}}
 {{>cpp/CppFunctionStaticCheck}}
 {{/functions}}{{/set}}{{!!
-}}{{/set}}{{/resolveName}}{{/set}}{{/ifHasAttribute}}{{!!
+}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
 
 }}{{+fieldEq}}{{#ifPredicate "needsPointerValueEqual"}}( ( {{resolveName}} && rhs.{{resolveName}} )
             ? {{#ifPredicate "needsRawPointerEqual"}}( &*{{resolveName}} == &*rhs.{{resolveName}} ){{/ifPredicate}}{{!!

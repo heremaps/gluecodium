@@ -19,10 +19,13 @@
 
 package com.here.gluecodium.validator
 
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
@@ -36,7 +39,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttributeValueType) {
+class LimeExternalTypesValidatorTest(private val valueName: String) {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
@@ -47,9 +50,9 @@ class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttribu
     fun validateAsExternalType() {
         allElements[""] = object : LimeType(
             EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_TYPE)
-                .addAttribute(CPP, attributeValueType)
+            external = LimeExternalDescriptor.Builder()
+                .addValue(CPP_TAG, INCLUDE_NAME, "")
+                .addValue(CPP_TAG, valueName, "")
                 .build()
         ) {}
 
@@ -60,15 +63,11 @@ class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttribu
     fun validateInExternalType() {
         allElements[""] = object : LimeType(
             EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_TYPE)
-                .build()
+            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, INCLUDE_NAME, "").build()
         ) {}
         allElements["foo"] = object : LimeNamedElement(
             LimePath(emptyList(), listOf("foo")),
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, attributeValueType)
-                .build()
+            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, valueName, "").build()
         ) {}
 
         assertTrue(validator.validate(limeModel))
@@ -79,23 +78,7 @@ class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttribu
         allElements[""] = object : LimeType(EMPTY_PATH) {}
         allElements["foo"] = object : LimeNamedElement(
             LimePath(emptyList(), listOf("foo")),
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, attributeValueType)
-                .build()
-        ) {}
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateWithCppName() {
-        allElements[""] = object : LimeType(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_TYPE)
-                .addAttribute(CPP, LimeAttributeValueType.NAME)
-                .addAttribute(CPP, attributeValueType)
-                .build()
+            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, valueName, "").build()
         ) {}
 
         assertFalse(validator.validate(limeModel))
@@ -105,9 +88,9 @@ class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttribu
         @JvmStatic
         @Parameterized.Parameters
         fun testData() = listOf(
-            arrayOf(LimeAttributeValueType.EXTERNAL_NAME),
-            arrayOf(LimeAttributeValueType.EXTERNAL_GETTER),
-            arrayOf(LimeAttributeValueType.EXTERNAL_SETTER)
+            arrayOf(NAME_NAME),
+            arrayOf(GETTER_NAME_NAME),
+            arrayOf(SETTER_NAME_NAME)
         )
     }
 }

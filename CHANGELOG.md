@@ -1,8 +1,14 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 7.1.4
+Release date: 2020-07-06
 ### Features:
   * Slightly improved logging for unhandled exceptions when calling Java code from C++.
+### Bug fixes:
+  * Improved includes resolution logic in C++, resulting in minor corrections to both some missing
+    and some extraneous includes.
+  * Fixed dependency sorting logic for thrown types in C++.
+  * Fixed runtime error for nested classes in Dart.
 
 ## 7.1.3
 Release date: 2020-06-16

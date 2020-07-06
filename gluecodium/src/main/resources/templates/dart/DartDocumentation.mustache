@@ -23,6 +23,6 @@
 }}{{#if visibility.isInternal}}
 /// @nodoc
 {{/if}}{{!!
-}}{{#ifHasAttribute "Deprecated"}}
-@Deprecated("{{#getAttribute "Deprecated"}}{{#resolveName this}}{{escape this}}{{/resolveName}}{{/getAttribute}}")
-{{/ifHasAttribute}}
+}}{{#if attributes.deprecated}}
+@Deprecated("{{#attributes.deprecated.message}}{{#resolveName this}}{{escape this}}{{/resolveName}}{{/attributes.deprecated.message}}")
+{{/if}}

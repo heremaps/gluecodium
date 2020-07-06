@@ -26,4 +26,4 @@ class LimeConstant(
     attributes: LimeAttributes? = null,
     typeRef: LimeTypeRef,
     val value: LimeValue
-) : LimeTypedElement(path, visibility, comment, attributes, typeRef)
+) : LimeTypedElement(path, visibility, comment, attributes, typeRef = typeRef)

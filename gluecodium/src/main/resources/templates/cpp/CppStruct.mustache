@@ -18,23 +18,23 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessHasAttribute "Cpp" "ExternalType"}}
+{{#unless external.cpp}}
 {{>cpp/CppDocComment}}
 struct {{>cpp/CppExportMacro}}{{resolveName}} {
-{{#ifHasAttribute "Cpp" "Accessors"}}
+{{#if attributes.cpp.accessors}}
 private:
 {{#fields}}
     {{resolveName typeRef}} {{resolveName}}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
 {{/fields}}
 public:
-{{/ifHasAttribute}}{{!!
-}}{{#unlessHasAttribute "Cpp" "Accessors"}}
+{{/if}}{{!!
+}}{{#unless attributes.cpp.accessors}}
 {{#set structElement=this}}{{#fields}}
 {{prefixPartial "cpp/CppFieldDoc" "    "}}{{!!
-}}    {{#ifHasAttribute structElement "Immutable"}}const {{/ifHasAttribute}}{{resolveName typeRef}} {{resolveName}}{{!!
+}}    {{#if structElement.attributes.immutable}}const {{/if}}{{resolveName typeRef}} {{resolveName}}{{!!
 }}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
 {{/fields}}{{/set}}
-{{/unlessHasAttribute}}{{!!
+{{/unless}}{{!!
 }}{{#if fields}}
 
 {{#ifPredicate "hasDefaultConstructor"}}
@@ -72,17 +72,17 @@ public:
     {{resolveName}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );
 
 {{/if}}{{!!
-}}{{#ifHasAttribute "Cpp" "Accessors"}}
+}}{{#if attributes.cpp.accessors}}
 {{#set structElement=this}}{{#fields}}
 {{prefixPartial "cpp/CppFieldDoc" "    "}}
     {{resolveName typeRef}} {{resolveName this "" "getter"}}( ) const { return {{resolveName}}; }{{!!
-}}{{#unlessHasAttribute structElement "Immutable"}}
+}}{{#unless structElement.attributes.immutable}}
 {{prefixPartial "cpp/CppFieldDoc" "    "}}
     void {{resolveName this "" "setter"}}( {{resolveName typeRef}} value_ ) { {{resolveName}} = value_; }{{!!
-}}{{/unlessHasAttribute}}
+}}{{/unless}}
 {{/fields}}{{/set}}
 
-{{/ifHasAttribute}}{{!!
+{{/if}}{{!!
 }}{{#if functions}}
 {{#set isConst=true}}{{#functions}}
 {{prefixPartial "cpp/CppFunctionSignature" "    "}};
@@ -95,10 +95,10 @@ public:
 {{/constants}}{{/set}}
 
 {{/if}}{{!!
-}}{{#ifHasAttribute "Equatable"}}
+}}{{#if attributes.equatable}}
     bool operator==( const {{resolveName}}& rhs ) const;
     bool operator!=( const {{resolveName}}& rhs ) const;
 
-{{/ifHasAttribute}}
+{{/if}}
 };
-{{/unlessHasAttribute}}
+{{/unless}}

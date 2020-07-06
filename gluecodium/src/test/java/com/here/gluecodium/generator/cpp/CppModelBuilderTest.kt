@@ -36,8 +36,6 @@ import com.here.gluecodium.model.cpp.CppStruct
 import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.cpp.CppValue
 import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
@@ -47,6 +45,8 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -95,6 +95,8 @@ class CppModelBuilderTest {
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeMethod = LimeFunction(EMPTY_PATH)
     private val limeInterface = LimeInterface(EMPTY_PATH)
+    private val limeExternalDescriptor =
+        LimeExternalDescriptor.Builder().addValue(CPP_TAG, "foobar", "").build()
 
     private val cppEnum = CppEnum("", "", emptyList(), false, emptyList())
     private val cppUsing = CppUsing("", "", Comments(), CppPrimitiveTypeRef.BOOL)
@@ -189,12 +191,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsExternalType() {
-        val limeElement = LimeInterface(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, EXTERNAL_TYPE)
-                .build()
-        )
+        val limeElement = LimeInterface(EMPTY_PATH, external = limeExternalDescriptor)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -333,12 +330,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingClassTypeReadsExternalType() {
-        val limeElement = LimeClass(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, EXTERNAL_TYPE)
-                .build()
-        )
+        val limeElement = LimeClass(EMPTY_PATH, external = limeExternalDescriptor)
         val externalInclude = Include.createInternalInclude("foo.h")
         every { includeResolver.resolveIncludes(limeElement) } returns listOf(externalInclude)
 
@@ -351,12 +343,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingStructTypeReadsExternalType() {
-        val limeElement = LimeStruct(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, EXTERNAL_TYPE)
-                .build()
-        )
+        val limeElement = LimeStruct(EMPTY_PATH, external = limeExternalDescriptor)
         val externalInclude = Include.createInternalInclude("foo.h")
         every { includeResolver.resolveIncludes(limeElement) } returns listOf(externalInclude)
 
@@ -370,12 +357,7 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingStructTypeReadsParentExternalType() {
         val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
-        limeReferenceMap["foo"] = LimeClass(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, EXTERNAL_TYPE)
-                .build()
-        )
+        limeReferenceMap["foo"] = LimeClass(EMPTY_PATH, external = limeExternalDescriptor)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -633,12 +615,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerationReadsExternalType() {
-        val limeElement = LimeEnumeration(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, EXTERNAL_TYPE)
-                .build()
-        )
+        val limeElement = LimeEnumeration(EMPTY_PATH, external = limeExternalDescriptor)
         val externalInclude = Include.createInternalInclude("foo.h")
         every { includeResolver.resolveIncludes(limeElement) } returns listOf(externalInclude)
 
@@ -652,12 +629,7 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingEnumerationTypeReadsParentExternalType() {
         val limeElement = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
-        limeReferenceMap["foo"] = LimeClass(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(CPP, EXTERNAL_TYPE)
-                .build()
-        )
+        limeReferenceMap["foo"] = LimeClass(EMPTY_PATH, external = limeExternalDescriptor)
 
         modelBuilder.finishBuilding(limeElement)
 

@@ -19,5 +19,5 @@
   !
   !}}
 {{>dart/DartDocumentation}}
-{{#ifHasAttribute parent "Immutable"}}final {{/ifHasAttribute}}{{!!
+{{#if parent.attributes.immutable}}final {{/if}}{{!!
 }}{{resolveName typeRef}} {{resolveName visibility}}{{resolveName}};

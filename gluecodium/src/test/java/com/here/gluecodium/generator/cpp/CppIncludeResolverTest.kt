@@ -21,10 +21,10 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
-import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeTypesCollection
@@ -66,10 +66,9 @@ class CppIncludeResolverTest {
 
     @Test
     fun resolveExternalType() {
-        val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(CPP, EXTERNAL_TYPE, "bar/Baz.h")
-            .build()
-        val limeElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
+        val externalDescriptor =
+            LimeExternalDescriptor.Builder().addValue(CPP_TAG, INCLUDE_NAME, "bar/Baz.h").build()
+        val limeElement = object : LimeNamedElement(limeRootPath, external = externalDescriptor) {}
 
         val result = includeResolver.resolveIncludes(limeElement)
 
@@ -78,10 +77,9 @@ class CppIncludeResolverTest {
 
     @Test
     fun resolveExternalTypeMultipleIncludes() {
-        val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(CPP, EXTERNAL_TYPE, "bar/Baz.h, non/Sense.h")
-            .build()
-        val limeElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
+        val externalDescriptor =
+            LimeExternalDescriptor.Builder().addValue(CPP_TAG, INCLUDE_NAME, "bar/Baz.h, non/Sense.h").build()
+        val limeElement = object : LimeNamedElement(limeRootPath, external = externalDescriptor) {}
 
         val result = includeResolver.resolveIncludes(limeElement)
 
@@ -92,10 +90,9 @@ class CppIncludeResolverTest {
 
     @Test
     fun resolveExternalParent() {
-        val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(CPP, EXTERNAL_TYPE, "bar/Baz.h")
-            .build()
-        val parentElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
+        val externalDescriptor =
+            LimeExternalDescriptor.Builder().addValue(CPP_TAG, INCLUDE_NAME, "bar/Baz.h").build()
+        val parentElement = object : LimeNamedElement(limeRootPath, external = externalDescriptor) {}
         val limeElement = object : LimeNamedElement(limeRootPath.child("bar")) {}
         limeReferenceMap[parentElement.path.toString()] = parentElement
 

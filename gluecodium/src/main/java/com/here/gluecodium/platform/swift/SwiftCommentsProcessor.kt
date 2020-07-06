@@ -23,12 +23,13 @@ import com.here.gluecodium.platform.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.parser.ParserEmulationProfile
-import com.vladsch.flexmark.util.options.MutableDataSet
+import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
  * Parse markdown comments and process links
  */
+@Suppress("DEPRECATION")
 class SwiftCommentsProcessor(werror: Boolean) :
     CommentsProcessor(Formatter.builder(FORMATTER_OPTIONS).build(), werror) {
 
@@ -36,7 +37,7 @@ class SwiftCommentsProcessor(werror: Boolean) :
         linkNode.reference = BasedSequenceImpl.of(linkReference)
         linkNode.referenceOpeningMarker = BasedSequenceImpl.of("`")
         linkNode.referenceClosingMarker = BasedSequenceImpl.of("`")
-        linkNode.firstChild.unlink()
+        linkNode.firstChild?.unlink()
     }
 
     override val nullReference = "nil"

@@ -24,14 +24,13 @@ import com.here.gluecodium.model.cpp.CppComplexTypeRef
 import com.here.gluecodium.model.cpp.CppPrimitiveTypeRef
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef
 import com.here.gluecodium.model.cpp.CppTypeDefRef
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -174,9 +173,7 @@ class CppTypeMapperTest {
     fun mapExternalInstanceRef() {
         val limeType = LimeClass(
             EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_TYPE)
-                .build()
+            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, "foobar", "").build()
         )
         val limeTypeRef = LimeDirectTypeRef(limeType)
 
