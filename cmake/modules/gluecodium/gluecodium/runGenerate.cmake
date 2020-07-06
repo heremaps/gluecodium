@@ -27,9 +27,18 @@ include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
 include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
 
+if (APIGEN_GLUECODIUM_AUXINPUT_FILE)
+    set (APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME "${APIGEN_GLUECODIUM_AUXINPUT_FILE}.only-lime")
+endif ()
+
 function(_main)
     apigen_set_generated_files(${APIGEN_TARGET})
     _merge_aux_file_with_options()
+    _check_generation_necessary(_is_generation_necessary)
+    if (NOT _is_generation_necessary)
+        message (STATUS "Generated files are up to date")
+        return ()
+    endif ()
     _generate()
     _collect_all_files_in_single_compilation_units()
 endfunction()
@@ -53,10 +62,38 @@ function(_merge_aux_file_with_options)
           set (_comma ",")
         endforeach()
         file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "\n")
+
+        # List of lime files in this file will be used to check if any lime file is newer
+        # than any of known generated file.
+        file(WRITE "${APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME}" "${APIGEN_AUX_FILES}")
     endif()
 
     file(REMOVE "${APIGEN_GLUECODIUM_AUXINPUT_FILE}")
 endfunction()
+
+# Function for CMake < 3.15 to check if any of lime files is newer than known generated.
+function (_check_generation_necessary result)
+    if (NOT APIGEN_GENERATED_FILES OR NOT EXISTS "${APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME}")
+        # This branch should work for CMake >= 3.15. If runGenerate is executed it means that
+        # some lime file (not source code) is changed.
+        set (${result} YES PARENT_SCOPE)
+        return ()
+    endif ()
+
+    string(REPLACE "," ";" _generated_files "${APIGEN_GENERATED_FILES}")
+    file(READ "${APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME}" APIGEN_AUX_FILES)
+
+    foreach (_aux_lime IN LISTS APIGEN_AUX_FILES)
+        foreach (_generated_file IN LISTS _generated_files)
+            if ("${_aux_lime}" IS_NEWER_THAN "${_generated_file}")
+                set (${result} YES PARENT_SCOPE)
+                return ()
+            endif ()
+        endforeach ()
+    endforeach ()
+
+    set (${result} NO PARENT_SCOPE)
+endfunction ()
 
 function(_generate)
     if(DEFINED ENV{GLUECODIUM_PATH})

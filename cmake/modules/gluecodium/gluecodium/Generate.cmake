@@ -196,14 +196,17 @@ cache=true\n")
     set (_lime_target_sources "$<REMOVE_DUPLICATES:${_lime_target_sources}>")
     string(APPEND APIGEN_GLUECODIUM_PROPERTIES "auxinput=$<JOIN:${_lime_target_sources},$<COMMA>>\n")
   else()
-    message (WARNING "CMake < 3.15 is obsolete and may work incorrectly with Gluecodium")
-
     # There is no $<FILTER: ... > in old CMake, so it's not possible to filter out other sources, so:
-    # 1. custom command can't depend on _lime_target_sources
+    # 1. custom command depends on all _lime_target_sources (which includes lime files)
     # 2. _lime_target_sources must be written to separate file and then filtered and merged into options file during compilation
+    # 3. Also filtered lime files are written to another file.
+    # 4. Now when any of sources or lime files are changed runGenerate.cmake checks if any of filtered lime file
+    #    is newer than any of known generated and regenerates sources if it's true.
     set (_lime_target_sources "${_target_interface_sources}")
     set (_gluecodium_auxinput_file "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-auxinput-${APIGEN_TARGET}.txt")
-    set (_lime_dependencies "${apigen_generate_LIME_SOURCES}")
+    set (_lime_dependencies "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
+    set (_escaped_generated_files "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
+    string(REPLACE ";" "," _escaped_generated_files "${_generated_files}")
     file (GENERATE OUTPUT "${_gluecodium_auxinput_file}" CONTENT "${_lime_target_sources}")
   endif()
 
@@ -222,6 +225,7 @@ cache=true\n")
         -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
         -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
+        -DAPIGEN_GENERATED_FILES=${_escaped_generated_files}
         -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
         VERBATIM
