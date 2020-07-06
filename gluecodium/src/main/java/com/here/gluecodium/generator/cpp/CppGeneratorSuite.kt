@@ -29,9 +29,7 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppGeneratorPredicates.predicates
 import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.cpp.CppForwardDeclarationGroup
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -91,7 +89,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             .filterIsInstance<LimeException>()
             .map { it.errorType.type }
             .filterIsInstance<LimeEnumeration>()
-            .filterNot { it.attributes.have(CPP, EXTERNAL_TYPE) }
+            .filter { it.external?.cpp == null }
             .toSet()
 
         val generatedFiles = limeModel.topElements.flatMap {
@@ -131,13 +129,13 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val allTypes = LimeTypeHelper.getAllTypes(rootElement)
         val allValues = LimeTypeHelper.getAllValues(rootElement)
         val equatableTypes = allTypes.filter {
-            !it.attributes.have(CPP, EXTERNAL_TYPE) && it.attributes.have(EQUATABLE)
+            it.external?.cpp == null && it.attributes.have(EQUATABLE)
         }
         val errorEnums = allTypes.intersect(allErrorEnums)
 
         val hasConstants = limeElements.any { it is LimeConstant }
         val needsHeader = hasConstants ||
-            limeElements.any { it !is LimeException && !it.attributes.have(CPP, EXTERNAL_TYPE) }
+            limeElements.any { it !is LimeException && it.external?.cpp == null }
         val needsImplementation = hasConstants || errorEnums.isNotEmpty() ||
             limeElements.any { it is LimeContainer } || limeElements.any { it is LimeEnumeration }
         if (!needsHeader && !needsImplementation) {
@@ -146,12 +144,12 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
         val typeRegisteredClasses =
             allTypes.filterIsInstance<LimeContainerWithInheritance>()
-                .filter { !it.attributes.have(CPP, EXTERNAL_TYPE) && it.parent == null &&
+                .filter { it.external?.cpp == null && it.parent == null &&
                     (it is LimeInterface || it.visibility.isOpen) }
         val allTypeRefs = collectTypeRefs(allTypes)
         val forwardDeclaredTypes = allTypeRefs.map { it.type }
             .filterIsInstance<LimeContainerWithInheritance>()
-            .filterNot { it.path.hasParent || it.attributes.have(CPP, EXTERNAL_TYPE) }
+            .filter { !it.path.hasParent && it.external?.cpp == null }
             .toSet()
 
         val additionalIncludes = collectAdditionalIncludes(
@@ -234,8 +232,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         generalData: Map<String, Any>,
         fileName: String
     ): GeneratedFile {
-        val externalContainers =
-            allTypes.filter { it is LimeContainer && it.attributes.have(CPP, EXTERNAL_TYPE) }
+        val externalContainers = allTypes.filter { it is LimeContainer && it.external?.cpp != null }
         if (externalContainers.isNotEmpty()) {
             implementationIncludes += CppLibraryIncludes.TYPE_TRAITS
             implementationIncludes +=

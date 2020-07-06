@@ -24,6 +24,7 @@ class LimeField(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
+    external: LimeExternalDescriptor? = null,
     typeRef: LimeTypeRef,
     val defaultValue: LimeValue? = null
-) : LimeTypedElement(path, visibility, comment, attributes, typeRef)
+) : LimeTypedElement(path, visibility, comment, attributes, external, typeRef)

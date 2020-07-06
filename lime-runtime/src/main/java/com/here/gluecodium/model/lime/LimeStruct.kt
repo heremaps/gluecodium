@@ -24,6 +24,7 @@ class LimeStruct(
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
+    external: LimeExternalDescriptor? = null,
     functions: List<LimeFunction> = emptyList(),
     constants: List<LimeConstant> = emptyList(),
     val fields: List<LimeField> = emptyList(),
@@ -33,6 +34,7 @@ class LimeStruct(
     visibility = visibility,
     comment = comment,
     attributes = attributes,
+    external = external,
     functions = functions,
     constants = constants
 ) {

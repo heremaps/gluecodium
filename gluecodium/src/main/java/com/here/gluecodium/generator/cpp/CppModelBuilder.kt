@@ -42,9 +42,6 @@ import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CSTRING
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -52,6 +49,8 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -89,7 +88,7 @@ class CppModelBuilder(
             CppInheritance(parentType, CppInheritance.Type.Public)
         })
 
-        val isExternal = limeContainer.attributes.have(CPP, EXTERNAL_TYPE)
+        val isExternal = limeContainer.external?.cpp != null
         val isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
         val isInheritable = limeContainer is LimeInterface || limeContainer.visibility.isOpen
         val includes = mutableListOf<Include>()
@@ -108,7 +107,7 @@ class CppModelBuilder(
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
             includes = includes,
             comment = createComments(limeContainer),
-            isExternal = limeContainer.attributes.have(CPP, EXTERNAL_TYPE),
+            isExternal = isExternal,
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
             inheritances = inheritances,
@@ -194,9 +193,8 @@ class CppModelBuilder(
 
     override fun finishBuilding(limeStruct: LimeStruct) {
         val parentIsExternal = limeStruct.path.hasParent &&
-            (limeReferenceMap[limeStruct.path.parent.toString()] as? LimeNamedElement)
-                ?.attributes?.have(CPP, EXTERNAL_TYPE) ?: false
-        val isExternal = parentIsExternal || limeStruct.attributes.have(CPP, EXTERNAL_TYPE)
+            (limeReferenceMap[limeStruct.path.parent.toString()] as? LimeNamedElement)?.external?.cpp != null
+        val isExternal = parentIsExternal || limeStruct.external?.cpp != null
         val isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE)
         val includes = mutableListOf<Include>()
         if (isEquatable) {
@@ -244,8 +242,8 @@ class CppModelBuilder(
         val allTypes = LimeTypeHelper.getAllFieldTypes(limeField.typeRef.type)
         val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
 
-        val externalGetter = limeField.attributes.get(CPP, EXTERNAL_GETTER)
-        val externalSetter = limeField.attributes.get(CPP, EXTERNAL_SETTER)
+        val externalGetter = limeField.external?.cpp?.get(GETTER_NAME_NAME)
+        val externalSetter = limeField.external?.cpp?.get(SETTER_NAME_NAME)
         val getterName = when {
             externalGetter != null -> externalGetter
             parentHasAccessors -> nameResolver.getGetterName(limeField)
@@ -349,9 +347,8 @@ class CppModelBuilder(
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val parentIsExternal = limeEnumeration.path.hasParent &&
-                (limeReferenceMap[limeEnumeration.path.parent.toString()] as? LimeNamedElement)
-                    ?.attributes?.have(CPP, EXTERNAL_TYPE) ?: false
-        val isExternal = parentIsExternal || limeEnumeration.attributes.have(CPP, EXTERNAL_TYPE)
+            (limeReferenceMap[limeEnumeration.path.parent.toString()] as? LimeNamedElement) ?.external?.cpp != null
+        val isExternal = parentIsExternal || limeEnumeration.external?.cpp != null
         val includes = mutableListOf<Include>()
         if (isExternal) {
             includes += includeResolver.resolveIncludes(limeEnumeration)

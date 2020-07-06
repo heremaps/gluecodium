@@ -20,12 +20,11 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
@@ -51,20 +50,20 @@ class CppNameResolver(
     fun getFullyQualifiedName(limeElement: LimeNamedElement) = getCachedEntry(limeElement).fullName
 
     fun getGetterName(limeProperty: LimeProperty) =
-        limeProperty.getter.attributes.get(CPP, EXTERNAL_NAME)
+        limeProperty.getter.external?.cpp?.get(NAME_NAME)
             ?: limeProperty.getter.attributes.get(CPP, NAME)
             ?: nameRules.getGetterName(limeProperty)
 
     fun getSetterName(limeProperty: LimeProperty) =
-        limeProperty.setter?.attributes?.get(CPP, EXTERNAL_NAME)
+        limeProperty.setter?.external?.cpp?.get(NAME_NAME)
             ?: limeProperty.setter?.attributes?.get(CPP, NAME)
             ?: nameRules.getSetterName(limeProperty)
 
     fun getGetterName(limeField: LimeField) =
-        limeField.attributes.get(CPP, EXTERNAL_GETTER) ?: nameRules.getGetterName(limeField)
+        limeField.external?.cpp?.get(GETTER_NAME_NAME) ?: nameRules.getGetterName(limeField)
 
     fun getSetterName(limeField: LimeField) =
-        limeField.attributes.get(CPP, EXTERNAL_SETTER) ?: nameRules.getSetterName(limeField)
+        limeField.external?.cpp?.get(SETTER_NAME_NAME) ?: nameRules.getSetterName(limeField)
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
         getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)
@@ -102,8 +101,8 @@ class CppNameResolver(
             parentFullName = rootPrefix + parentPath.head.joinToString(separator = "::")
         }
 
-        val isExternal = parentIsExternal || limeElement.attributes.have(CPP, EXTERNAL_TYPE)
-        val externalName = limeElement.attributes.get(CPP, EXTERNAL_NAME)
+        val isExternal = parentIsExternal || limeElement.external?.cpp != null
+        val externalName = limeElement.external?.cpp?.get(NAME_NAME)
         val platformName = limeElement.attributes.get(CPP, NAME)
 
         val name = when {

@@ -27,8 +27,6 @@ import com.here.gluecodium.model.cpp.CppTemplateTypeRef
 import com.here.gluecodium.model.cpp.CppTemplateTypeRef.TemplateClass
 import com.here.gluecodium.model.cpp.CppTypeDefRef
 import com.here.gluecodium.model.cpp.CppTypeRef
-import com.here.gluecodium.model.lime.LimeAttributeType.CPP
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -160,12 +158,11 @@ class CppTypeMapper(
             }
             is LimeContainerWithInheritance -> {
                 val isTopLevel = !limeType.path.hasParent
-                val isExternal = limeType.attributes.have(CPP, EXTERNAL_TYPE)
                 val instanceType = mapInstanceType(
                     limeContainer = limeType,
                     // C++ does not allow forward declarations for nested classes, so only top-level
                     // classes are considered here.
-                    needsForwardDeclaration = isTopLevel && !isExternal
+                    needsForwardDeclaration = isTopLevel && (limeType.external?.cpp == null)
                 )
                 createTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
             }
