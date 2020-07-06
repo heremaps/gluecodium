@@ -5,6 +5,7 @@
   * Slightly improved logging for unhandled exceptions when calling Java code from C++.
 ### Bug fixes:
   * Fixed dependency sorting logic for thrown types in C++.
+  * Fixed runtime error for nested classes in Dart.
 
 ## 7.1.3
 Release date: 2020-06-16

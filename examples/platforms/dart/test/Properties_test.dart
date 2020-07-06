@@ -96,4 +96,14 @@ void main() {
 
     expect(result, "foo");
   });
+  _testSuite.test("Property in a nested class", () {
+    final geometry = VenueGeometry();
+    final internalAddress = geometry.internalAddress;
+    final result = internalAddress.longAddress;
+
+    expect(result, "foobar");
+
+    geometry.release();
+    internalAddress.release();
+  });
 }

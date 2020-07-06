@@ -43,23 +43,7 @@ extern "C" {
 #endif
 
 {{#model}}
-{{#set parent=this}}{{#functions}}
-{{>ffiFunction}}
-{{/functions}}
-{{#properties}}{{#getter}}
-{{>ffiFunction}}
-{{/getter}}{{#setter}}
-{{>ffiFunction}}
-{{/setter}}
-{{/properties}}{{/set}}
-{{#structs}}
-{{#set parent=this}}{{#functions}}
-{{>ffiFunction}}
-{{/functions}}{{/set}}
-{{/structs}}
-{{#this.lambdas}}{{#set parent=this}}{{#asFunction}}
-{{>ffiFunction}}
-{{/asFunction}}{{/set}}{{/this.lambdas}}
+{{>ffiClassImpl}}
 {{/model}}
 
 {{#classes}}
@@ -323,4 +307,27 @@ bool
     return {{#if attributes.equatable}}*{{/if}}*reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle1) ==
         {{#if attributes.equatable}}*{{/if}}*reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle2);
 }
-{{/ffiEqualityFunction}}
+{{/ffiEqualityFunction}}{{!!
+
+}}{{+ffiClassImpl}}
+{{#set parent=this}}{{#functions}}
+{{>ffiFunction}}
+{{/functions}}
+{{#properties}}{{#getter}}
+{{>ffiFunction}}
+{{/getter}}{{#setter}}
+{{>ffiFunction}}
+{{/setter}}
+{{/properties}}{{/set}}
+{{#structs}}
+{{#set parent=this}}{{#functions}}
+{{>ffiFunction}}
+{{/functions}}{{/set}}
+{{/structs}}
+{{#this.lambdas}}{{#set parent=this}}{{#asFunction}}
+{{>ffiFunction}}
+{{/asFunction}}{{/set}}{{/this.lambdas}}
+{{#each classes interfaces}}
+{{>ffiClassImpl}}
+{{/each}}
+{{/ffiClassImpl}}
