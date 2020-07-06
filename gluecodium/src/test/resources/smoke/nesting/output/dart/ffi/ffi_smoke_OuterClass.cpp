@@ -58,6 +58,24 @@ library_smoke_OuterClass_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id,
     );
 }
 FfiOpaqueHandle
+library_smoke_OuterClass_InnerClass_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<std::string>::toFfi(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass::InnerClass>>::toCpp(_self)).foo(
+            gluecodium::ffi::Conversion<std::string>::toCpp(input)
+        )
+    );
+}
+FfiOpaqueHandle
+library_smoke_OuterClass_InnerInterface_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<std::string>::toFfi(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass::InnerInterface>>::toCpp(_self)).foo(
+            gluecodium::ffi::Conversion<std::string>::toCpp(input)
+        )
+    );
+}
+FfiOpaqueHandle
 library_smoke_OuterClass_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::OuterClass>(
