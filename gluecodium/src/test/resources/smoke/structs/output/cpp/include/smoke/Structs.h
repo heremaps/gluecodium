@@ -3,11 +3,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "foo/Bar.h"
-#include "foo/Bazz.h"
 #include "gluecodium/Export.h"
 #include "gluecodium/VectorHash.h"
-#include "non/Sense.h"
 #include "smoke/TypeCollection.h"
 #include <cstdint>
 #include <memory>
@@ -84,9 +81,6 @@ public:
 public:
     static ::smoke::Structs::Point swap_point_coordinates( const ::smoke::Structs::Point& input );
     static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
-    static ::smoke::Structs::ExternalStruct get_external_struct(  );
-    static ::fire::SomeVeryExternalStruct get_another_external_struct(  );
-    static ::smoke::Structs::Yet_Another_External_Struct get_yet_another_external_struct(  );
     static ::smoke::Point create_point( const double x, const double y );
     static ::smoke::AllTypesStruct modify_all_types_struct( const ::smoke::AllTypesStruct& input );
 };

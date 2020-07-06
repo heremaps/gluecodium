@@ -1,0 +1,16 @@
+package smoke
+class Enums {
+    @Cpp(ExternalType = "foo/Bar.h")
+    enum External_Enum {
+        Foo_Value,
+        Bar_Value
+    }
+    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeVeryExternalEnum")
+    enum VeryExternalEnum {
+        FOO,
+        BAR
+    }
+    static fun methodWithExternalEnum(
+        input: External_Enum
+    )
+}

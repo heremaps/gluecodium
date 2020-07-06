@@ -22,14 +22,6 @@ public class Enums {
         case errorNone
         case errorFatal = 999
     }
-    public enum ExternalEnum : UInt32, CaseIterable, Codable {
-        case fooValue
-        case barValue
-    }
-    public enum VeryExternalEnum : UInt32, CaseIterable, Codable {
-        case foo
-        case bar
-    }
     public struct ErrorStruct {
         public var type: Enums.InternalErrorCode
         public var message: String
@@ -58,10 +50,6 @@ public class Enums {
         let c_type = moveToCType(type)
         let c_message = moveToCType(message)
         return moveFromCType(smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref))
-    }
-    public static func methodWithExternalEnum(input: Enums.ExternalEnum) -> Void {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_methodWithExternalEnum(c_input.ref))
     }
 }
 internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
@@ -214,66 +202,6 @@ internal func copyFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
     return Enums.InternalErrorCode(rawValue: uint32_t_value_get(handle))!
 }
 internal func moveFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftEnum: Enums.ExternalEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: Enums.ExternalEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: Enums.ExternalEnum?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: Enums.ExternalEnum?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> Enums.ExternalEnum {
-    return Enums.ExternalEnum(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> Enums.ExternalEnum {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Enums.ExternalEnum? {
-    guard handle != 0 else {
-        return nil
-    }
-    return Enums.ExternalEnum(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> Enums.ExternalEnum? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftEnum: Enums.VeryExternalEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: Enums.VeryExternalEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: Enums.VeryExternalEnum?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: Enums.VeryExternalEnum?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> Enums.VeryExternalEnum {
-    return Enums.VeryExternalEnum(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> Enums.VeryExternalEnum {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Enums.VeryExternalEnum? {
-    guard handle != 0 else {
-        return nil
-    }
-    return Enums.VeryExternalEnum(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> Enums.VeryExternalEnum? {
     defer {
         uint32_t_release_handle(handle)
     }

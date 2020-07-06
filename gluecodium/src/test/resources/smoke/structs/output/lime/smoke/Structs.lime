@@ -33,24 +33,6 @@ class Structs {
         bytesField: Blob
         pointField: Point
     }
-    @Cpp(ExternalType = "foo/Bar.h")
-    struct ExternalStruct {
-        stringField: String
-        @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
-        externalStringField: String
-        @Cpp(ExternalGetter = "get_some_array", ExternalSetter = "set_some_array")
-        externalArrayField: List<Byte>
-        @Cpp(ExternalGetter = "get_some_struct", ExternalSetter = "set_some_struct")
-        externalStructField: AnotherExternalStruct
-    }
-    @Cpp(ExternalType = ["foo/Bazz.h", "non/Sense.h"], ExternalName = "::fire::SomeVeryExternalStruct")
-    struct AnotherExternalStruct {
-        intField: Byte
-    }
-    @Cpp(ExternalType = "foo/Bazz.h")
-    struct Yet_Another_External_Struct {
-        string_Field: String
-    }
     struct NestingImmutableStruct {
         structField: AllTypesStruct
     }
@@ -75,9 +57,6 @@ class Structs {
     static fun returnAllTypesStruct(
         input: AllTypesStruct
     ): AllTypesStruct
-    static fun getExternalStruct(): ExternalStruct
-    static fun getAnotherExternalStruct(): AnotherExternalStruct
-    static fun getYetAnotherExternalStruct(): Yet_Another_External_Struct
     static fun createPoint(
         x: Double,
         y: Double
