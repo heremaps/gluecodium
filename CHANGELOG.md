@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 7.1.5
+Release date: 2020-07-07
 ### Bug fixes:
   * Fixed compilation issue in C++ caused by redundant "const" modifiers on methods.
 
