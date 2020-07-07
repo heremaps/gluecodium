@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/StructWithConstMethod.h"
 #include "test/StructsWithMethods.h"
 #include "test/StructsWithMethodsInterface.h"
 #include "test/ValidationUtils.h"
@@ -101,6 +102,12 @@ StructsWithMethodsInterface::Vector3::create( const StructsWithMethodsInterface:
 void
 StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff( )
 {
+}
+
+double
+StructWithConstMethod::double_const( ) const
+{
+    return 0;
 }
 
 }  // namespace test
