@@ -22,7 +22,7 @@
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}{{#if isVirtual}}virtual {{/if}}{{/unless}}{{!!
 }}{{>resolveReturnType}} {{resolveName}}{{!!
 }}( {{#parameters}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
-}}{{#unless isStatic}}{{#if attributes.cpp.Const}} const{{/if}}{{#if isConst}} const{{/if}}{{!!
+}}{{#unless isStatic}}{{#if isConst attributes.cpp.const logic="or"}} const{{/if}}{{!!
 }}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{!!
 
 }}{{+resolveTypeRef}}{{#if useCstring}}{{#if attributes.cpp.cstring}}char*{{/if}}{{!!

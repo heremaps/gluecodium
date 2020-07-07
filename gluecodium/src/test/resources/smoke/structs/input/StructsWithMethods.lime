@@ -72,6 +72,12 @@ class StructsWithMethodsInterface {
     }
 }
 
+struct StructWithConstMethod {
+    stringField: String
+    @Cpp(Const)
+    fun doubleConst(): Double
+}
+
 @Cpp(
     ExternalType = "include/ExternalTypes.h",
     ExternalName = "external::ClassWithOverloads::StructWithOverloads"
