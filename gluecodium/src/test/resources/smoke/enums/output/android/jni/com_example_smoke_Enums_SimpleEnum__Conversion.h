@@ -2,7 +2,6 @@
  *
  */
 #pragma once
-#include "foo/Bar.h"
 #include "smoke/Enums.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"

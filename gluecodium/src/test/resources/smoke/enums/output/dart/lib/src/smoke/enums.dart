@@ -14,7 +14,6 @@ abstract class Enums {
   static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) => Enums$Impl.flipEnumValue(input);
   static Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) => Enums$Impl.extractEnumFromStruct(input);
   static Enums_ErrorStruct createStructWithEnumInside(Enums_InternalErrorCode type, String message) => Enums$Impl.createStructWithEnumInside(type, message);
-  static methodWithExternalEnum(Enums_ExternalEnum input) => Enums$Impl.methodWithExternalEnum(input);
 }
 enum Enums_SimpleEnum {
     first,
@@ -134,124 +133,6 @@ Enums_InternalErrorCode smoke_Enums_InternalErrorCode_fromFfi_nullable(Pointer<V
 void smoke_Enums_InternalErrorCode_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Enums_InternalErrorCode_release_handle_nullable(handle);
 // End of Enums_InternalErrorCode "private" section.
-enum Enums_ExternalEnum {
-    fooValue,
-    barValue
-}
-// Enums_ExternalEnum "private" section, not exported.
-int smoke_Enums_ExternalEnum_toFfi(Enums_ExternalEnum value) {
-  switch (value) {
-  case Enums_ExternalEnum.fooValue:
-    return 0;
-  break;
-  case Enums_ExternalEnum.barValue:
-    return 1;
-  break;
-  default:
-    throw StateError("Invalid enum value $value for Enums_ExternalEnum enum.");
-  }
-}
-Enums_ExternalEnum smoke_Enums_ExternalEnum_fromFfi(int handle) {
-  switch (handle) {
-  case 0:
-    return Enums_ExternalEnum.fooValue;
-  break;
-  case 1:
-    return Enums_ExternalEnum.barValue;
-  break;
-  default:
-    throw StateError("Invalid numeric value $handle for Enums_ExternalEnum enum.");
-  }
-}
-void smoke_Enums_ExternalEnum_releaseFfiHandle(int handle) {}
-final _smoke_Enums_ExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint32),
-    Pointer<Void> Function(int)
-  >('library_smoke_Enums_ExternalEnum_create_handle_nullable');
-final _smoke_Enums_ExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_Enums_ExternalEnum_release_handle_nullable');
-final _smoke_Enums_ExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_Enums_ExternalEnum_get_value_nullable');
-Pointer<Void> smoke_Enums_ExternalEnum_toFfi_nullable(Enums_ExternalEnum value) {
-  if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Enums_ExternalEnum_toFfi(value);
-  final result = _smoke_Enums_ExternalEnum_create_handle_nullable(_handle);
-  smoke_Enums_ExternalEnum_releaseFfiHandle(_handle);
-  return result;
-}
-Enums_ExternalEnum smoke_Enums_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
-  if (handle.address == 0) return null;
-  final _handle = _smoke_Enums_ExternalEnum_get_value_nullable(handle);
-  final result = smoke_Enums_ExternalEnum_fromFfi(_handle);
-  smoke_Enums_ExternalEnum_releaseFfiHandle(_handle);
-  return result;
-}
-void smoke_Enums_ExternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Enums_ExternalEnum_release_handle_nullable(handle);
-// End of Enums_ExternalEnum "private" section.
-enum Enums_VeryExternalEnum {
-    foo,
-    bar
-}
-// Enums_VeryExternalEnum "private" section, not exported.
-int smoke_Enums_VeryExternalEnum_toFfi(Enums_VeryExternalEnum value) {
-  switch (value) {
-  case Enums_VeryExternalEnum.foo:
-    return 0;
-  break;
-  case Enums_VeryExternalEnum.bar:
-    return 1;
-  break;
-  default:
-    throw StateError("Invalid enum value $value for Enums_VeryExternalEnum enum.");
-  }
-}
-Enums_VeryExternalEnum smoke_Enums_VeryExternalEnum_fromFfi(int handle) {
-  switch (handle) {
-  case 0:
-    return Enums_VeryExternalEnum.foo;
-  break;
-  case 1:
-    return Enums_VeryExternalEnum.bar;
-  break;
-  default:
-    throw StateError("Invalid numeric value $handle for Enums_VeryExternalEnum enum.");
-  }
-}
-void smoke_Enums_VeryExternalEnum_releaseFfiHandle(int handle) {}
-final _smoke_Enums_VeryExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint32),
-    Pointer<Void> Function(int)
-  >('library_smoke_Enums_VeryExternalEnum_create_handle_nullable');
-final _smoke_Enums_VeryExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_Enums_VeryExternalEnum_release_handle_nullable');
-final _smoke_Enums_VeryExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_Enums_VeryExternalEnum_get_value_nullable');
-Pointer<Void> smoke_Enums_VeryExternalEnum_toFfi_nullable(Enums_VeryExternalEnum value) {
-  if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Enums_VeryExternalEnum_toFfi(value);
-  final result = _smoke_Enums_VeryExternalEnum_create_handle_nullable(_handle);
-  smoke_Enums_VeryExternalEnum_releaseFfiHandle(_handle);
-  return result;
-}
-Enums_VeryExternalEnum smoke_Enums_VeryExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
-  if (handle.address == 0) return null;
-  final _handle = _smoke_Enums_VeryExternalEnum_get_value_nullable(handle);
-  final result = smoke_Enums_VeryExternalEnum_fromFfi(_handle);
-  smoke_Enums_VeryExternalEnum_releaseFfiHandle(_handle);
-  return result;
-}
-void smoke_Enums_VeryExternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Enums_VeryExternalEnum_release_handle_nullable(handle);
-// End of Enums_VeryExternalEnum "private" section.
 class Enums_ErrorStruct {
   Enums_InternalErrorCode type;
   String message;
@@ -394,17 +275,6 @@ class Enums$Impl implements Enums {
       return smoke_Enums_ErrorStruct_fromFfi(__result_handle);
     } finally {
       smoke_Enums_ErrorStruct_releaseFfiHandle(__result_handle);
-    }
-  }
-  static methodWithExternalEnum(Enums_ExternalEnum input) {
-    final _methodWithExternalEnum_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_1Enum');
-    final _input_handle = smoke_Enums_ExternalEnum_toFfi(input);
-    final __result_handle = _methodWithExternalEnum_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    smoke_Enums_ExternalEnum_releaseFfiHandle(_input_handle);
-    try {
-      return (__result_handle);
-    } finally {
-      (__result_handle);
     }
   }
 }

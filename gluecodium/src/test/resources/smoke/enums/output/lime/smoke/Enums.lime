@@ -1,8 +1,6 @@
 package smoke
-
 class Enums {
     typealias ExampleMap = Map<SimpleEnum, ULong>
-
     enum SimpleEnum {
         First,
         SECOND
@@ -11,22 +9,10 @@ class Enums {
         ERROR_NONE,
         ERROR_FATAL = 999
     }
-    @Cpp(ExternalType = "foo/Bar.h")
-    enum External_Enum {
-        Foo_Value,
-        Bar_Value
-    }
-    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeVeryExternalEnum")
-    enum VeryExternalEnum {
-        FOO,
-        BAR
-    }
-
     struct ErrorStruct {
         type: InternalErrorCode
         message: String
     }
-
     static fun methodWithEnumeration(
         input: SimpleEnum
     ): SimpleEnum
@@ -40,7 +26,4 @@ class Enums {
         type: InternalErrorCode,
         message: String
     ): ErrorStruct
-    static fun methodWithExternalEnum(
-        input: External_Enum
-    )
 }

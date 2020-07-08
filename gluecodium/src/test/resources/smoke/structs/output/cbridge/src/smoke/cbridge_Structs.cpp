@@ -4,11 +4,8 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "foo/Bar.h"
-#include "foo/Bazz.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
-#include "non/Sense.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
 #include <memory>
@@ -220,117 +217,6 @@ _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->point_field);
 }
 _baseRef
-smoke_Structs_ExternalStruct_create_handle( _baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField )
-{
-    ::smoke::Structs::ExternalStruct* _struct = new ( std::nothrow ) ::smoke::Structs::ExternalStruct();
-    _struct->stringField = Conversion<std::string>::toCpp( stringField );
-    _struct->set_some_string( Conversion<std::string>::toCpp( externalStringField ) );
-    _struct->set_some_array( Conversion<std::vector<int8_t>>::toCpp( externalArrayField ) );
-    _struct->set_some_struct( Conversion<::fire::SomeVeryExternalStruct>::toCpp( externalStructField ) );
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_Structs_ExternalStruct_release_handle( _baseRef handle )
-{
-    delete get_pointer<::smoke::Structs::ExternalStruct>( handle );
-}
-_baseRef
-smoke_Structs_ExternalStruct_create_optional_handle(_baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField)
-{
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::Structs::ExternalStruct>( ::smoke::Structs::ExternalStruct( ) );
-    (*_struct)->stringField = Conversion<std::string>::toCpp( stringField );
-    (*_struct)->set_some_string( Conversion<std::string>::toCpp( externalStringField ) );
-    (*_struct)->set_some_array( Conversion<std::vector<int8_t>>::toCpp( externalArrayField ) );
-    (*_struct)->set_some_struct( Conversion<::fire::SomeVeryExternalStruct>::toCpp( externalStructField ) );
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_Structs_ExternalStruct_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::ExternalStruct>*>( handle ) );
-}
-void smoke_Structs_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::ExternalStruct>*>( handle );
-}
-_baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->stringField);
-}
-_baseRef smoke_Structs_ExternalStruct_externalStringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->get_some_string());
-}
-_baseRef smoke_Structs_ExternalStruct_externalArrayField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<std::vector<int8_t>>::toBaseRef(struct_pointer->get_some_array());
-}
-_baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(struct_pointer->get_some_struct());
-}
-_baseRef
-smoke_Structs_AnotherExternalStruct_create_handle( int8_t intField )
-{
-    ::fire::SomeVeryExternalStruct* _struct = new ( std::nothrow ) ::fire::SomeVeryExternalStruct();
-    _struct->intField = intField;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_Structs_AnotherExternalStruct_release_handle( _baseRef handle )
-{
-    delete get_pointer<::fire::SomeVeryExternalStruct>( handle );
-}
-_baseRef
-smoke_Structs_AnotherExternalStruct_create_optional_handle(int8_t intField)
-{
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::fire::SomeVeryExternalStruct>( ::fire::SomeVeryExternalStruct( ) );
-    (*_struct)->intField = intField;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_Structs_AnotherExternalStruct_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::fire::SomeVeryExternalStruct>*>( handle ) );
-}
-void smoke_Structs_AnotherExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::fire::SomeVeryExternalStruct>*>( handle );
-}
-int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::fire::SomeVeryExternalStruct>(handle);
-return struct_pointer->intField;
-}
-_baseRef
-smoke_Structs_YetAnotherExternalStruct_create_handle( _baseRef stringField )
-{
-    ::smoke::Structs::Yet_Another_External_Struct* _struct = new ( std::nothrow ) ::smoke::Structs::Yet_Another_External_Struct();
-    _struct->string_Field = Conversion<std::string>::toCpp( stringField );
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_Structs_YetAnotherExternalStruct_release_handle( _baseRef handle )
-{
-    delete get_pointer<::smoke::Structs::Yet_Another_External_Struct>( handle );
-}
-_baseRef
-smoke_Structs_YetAnotherExternalStruct_create_optional_handle(_baseRef stringField)
-{
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::Structs::Yet_Another_External_Struct>( ::smoke::Structs::Yet_Another_External_Struct( ) );
-    (*_struct)->string_Field = Conversion<std::string>::toCpp( stringField );
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_Structs_YetAnotherExternalStruct_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle ) );
-}
-void smoke_Structs_YetAnotherExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle );
-}
-_baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::Structs::Yet_Another_External_Struct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->string_Field);
-}
-_baseRef
 smoke_Structs_NestingImmutableStruct_create_handle( _baseRef structField )
 {
     auto _structField = Conversion<::smoke::Structs::AllTypesStruct>::toCpp( structField );
@@ -490,15 +376,6 @@ _baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {
 }
 _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input) {
     return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)));
-}
-_baseRef smoke_Structs_getExternalStruct() {
-    return Conversion<::smoke::Structs::ExternalStruct>::toBaseRef(::smoke::Structs::get_external_struct());
-}
-_baseRef smoke_Structs_getAnotherExternalStruct() {
-    return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(::smoke::Structs::get_another_external_struct());
-}
-_baseRef smoke_Structs_getYetAnotherExternalStruct() {
-    return Conversion<::smoke::Structs::Yet_Another_External_Struct>::toBaseRef(::smoke::Structs::get_yet_another_external_struct());
 }
 _baseRef smoke_Structs_createPoint(double x, double y) {
     return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y));

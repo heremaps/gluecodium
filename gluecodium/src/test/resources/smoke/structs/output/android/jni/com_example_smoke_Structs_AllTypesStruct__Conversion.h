@@ -2,9 +2,6 @@
  *
  */
 #pragma once
-#include "foo/Bar.h"
-#include "foo/Bazz.h"
-#include "non/Sense.h"
 #include "smoke/Structs.h"
 #include "com_example_smoke_Structs_Point__Conversion.h"
 #include "JniReference.h"

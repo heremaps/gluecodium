@@ -77,18 +77,3 @@ struct StructWithConstMethod {
     @Cpp(Const)
     fun doubleConst(): Double
 }
-
-@Cpp(
-    ExternalType = "include/ExternalTypes.h",
-    ExternalName = "external::ClassWithOverloads::StructWithOverloads"
-)
-struct StructWithOverloads {
-    fun overloadedMethod(): String
-    @Dart("overloadedMethodString")
-    fun overloadedMethod(input: String): String
-    @Dart("overloadedMethodTwo")
-    fun overloadedMethod(inputString: String, inputBool: Boolean): String
-
-    @Cpp(ExternalGetter = "overloadedAccessors", ExternalSetter = "overloadedAccessors")
-    overloadedAccessors: Int
-}
