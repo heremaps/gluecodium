@@ -22,8 +22,9 @@ package com.here.gluecodium.model.java
 class JavaEnum(
     name: String,
     classNames: List<String> = listOf(name),
-    val items: List<JavaEnumItem> = emptyList()
-) : JavaTopLevelElement(name, classNames) {
+    val items: List<JavaEnumItem> = emptyList(),
+    isExternal: Boolean = false
+) : JavaTopLevelElement(name, classNames, isExternal) {
 
     override val childElements
         get() = super.childElements + items

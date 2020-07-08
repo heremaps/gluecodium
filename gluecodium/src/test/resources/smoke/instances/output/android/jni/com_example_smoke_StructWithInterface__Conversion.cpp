@@ -5,6 +5,7 @@
 #include "com_example_smoke_StructWithInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
+#include "JniCallJavaMethod.h"
 #include "JniClassCache.h"
 namespace gluecodium
 {

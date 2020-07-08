@@ -27,6 +27,9 @@ import com.here.android.RobolectricApplication;
 import com.here.android.external.AnotherExternalStruct;
 import com.here.android.external.ExternalEnum;
 import com.here.android.external.ExternalStruct;
+import java.time.Month;
+import java.util.Currency;
+import java.util.SimpleTimeZone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -70,5 +73,34 @@ public final class ExternalTypesTest {
 
     assertNotNull(resultEnum);
     assertEquals(ExternalEnum.BAR, resultEnum);
+  }
+
+  @Test
+  public void useJavaExternalStructCurrency() {
+    Currency currency = Currency.getInstance("EUR");
+
+    Currency result = UseJavaExternalTypes.currencyRoundTrip(currency);
+
+    assertEquals(currency.getCurrencyCode(), result.getCurrencyCode());
+    assertEquals(currency.getNumericCode(), result.getNumericCode());
+  }
+
+  @Test
+  public void useJavaExternalStructTimeZone() {
+    SimpleTimeZone timeZone = new SimpleTimeZone(2, "foobar");
+    timeZone.setRawOffset(42);
+
+    SimpleTimeZone result = UseJavaExternalTypes.timeZoneRoundTrip(timeZone);
+
+    assertEquals(timeZone.getRawOffset(), result.getRawOffset());
+  }
+
+  @Test
+  public void useJavaExternalEnum() {
+    Month month = Month.of(2);
+
+    Month result = UseJavaExternalTypes.monthRoundTrip(month);
+
+    assertEquals(month, result);
   }
 }

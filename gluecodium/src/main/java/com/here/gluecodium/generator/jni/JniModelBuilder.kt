@@ -65,6 +65,8 @@ import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -252,7 +254,9 @@ class JniModelBuilder(
                 (javaField.type as? JavaCustomTypeRef)?.let { JniNameRules.getFullClassName(it) },
             cppField = cppField,
             cppGetterName = cppField.getterName,
-            cppSetterName = cppField.setterName
+            cppSetterName = cppField.setterName,
+            javaGetterName = limeField.external?.java?.get(GETTER_NAME_NAME),
+            javaSetterName = limeField.external?.java?.get(SETTER_NAME_NAME)
         )
 
         storeResult(jniField)
@@ -266,7 +270,8 @@ class JniModelBuilder(
             javaName = javaEnum.classNames.joinToString("$"),
             cppFullyQualifiedName = cppEnum.fullyQualifiedName,
             javaPackage = javaEnum.javaPackage,
-            enumerators = getPreviousResults(JniEnumerator::class.java)
+            enumerators = getPreviousResults(JniEnumerator::class.java),
+            isExternal = javaEnum.isExternal
         )
 
         storeNamedResult(limeEnumeration, jniEnum)

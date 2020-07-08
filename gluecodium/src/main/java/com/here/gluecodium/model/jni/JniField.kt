@@ -27,5 +27,7 @@ class JniField(
     val javaCustomType: String?,
     val cppField: CppField,
     val cppGetterName: String? = null,
-    val cppSetterName: String? = null
+    val cppSetterName: String? = null,
+    val javaGetterName: String? = null,
+    val javaSetterName: String? = null
 ) : JniElement

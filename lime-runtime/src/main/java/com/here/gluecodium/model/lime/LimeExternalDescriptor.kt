@@ -26,6 +26,8 @@ class LimeExternalDescriptor private constructor(
 ) {
     val cpp
         get() = descriptors[CPP_TAG]
+    val java
+        get() = descriptors[JAVA_TAG]
 
     operator fun plus(other: LimeExternalDescriptor) =
         LimeExternalDescriptor(descriptors + other.descriptors)
@@ -48,6 +50,8 @@ class LimeExternalDescriptor private constructor(
 
     companion object {
         const val CPP_TAG = "cpp"
+        const val JAVA_TAG = "java"
+
         const val INCLUDE_NAME = "include"
         const val NAME_NAME = "name"
         const val GETTER_NAME_NAME = "getterName"

@@ -25,6 +25,7 @@
 {{/includes}}
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
+#include "JniCallJavaMethod.h"
 #include "JniClassCache.h"
 
 {{#internalNamespace}}
@@ -38,7 +39,13 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}*)
 {
     {{#unless hasImmutableFields}}{{cppFullyQualifiedName}} _nout{};{{/unless}}
-{{#fields}}{{#if javaCustomType}}
+{{#fields}}{{#if javaGetterName}}{{#if type.isComplex}}
+    auto j_{{cppField.name}} = call_java_method<{{type.name}}>(_jenv, _jinput, "{{javaGetterName}}", "(){{type.jniTypeSignature}}");
+    auto n_{{cppField.name}} = convert_from_jni(_jenv, j_{{cppField.name}}, ({{cppField.type.name}}*)nullptr);
+{{/if}}{{#unless type.isComplex}}
+    auto n_{{cppField.name}} = call_java_method<{{type.name}}>(_jenv, _jinput, "{{javaGetterName}}", "(){{type.jniTypeSignature}}");
+{{/unless}}{{/if}}{{!!
+}}{{#unless javaGetterName}}{{#if javaCustomType}}
     {{cppField.type.name}} n_{{cppField.name}} = convert_from_jni(
         _jenv,
         {{>common/InternalNamespace}}jni::get_object_field_value(_jenv, _jinput, "{{javaName}}", "L{{javaCustomType}};"),
@@ -49,7 +56,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFully
         _jinput,
         "{{javaName}}",
         ({{cppField.type.name}}*)nullptr );
-{{/unless}}
+{{/unless}}{{/unless}}
     {{#unless hasImmutableFields}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}
     {{#if hasImmutableFields}}return {{cppFullyQualifiedName}}({{#fields}}std::move(n_{{cppField.name}}){{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
@@ -71,12 +78,18 @@ convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput)
 {
     auto& javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
     auto _jresult = {{>common/InternalNamespace}}jni::alloc_object(_jenv, javaClass);
-{{#fields}}{{#if javaCustomType}}
+{{#fields}}{{#if javaSetterName}}{{#if type.isComplex}}
+    auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
+    call_java_method<void>(_jenv, _jresult, "{{javaSetterName}}", "({{type.jniTypeSignature}})V", j{{cppField.name}});
+{{/if}}{{#unless type.isComplex}}
+    call_java_method<void>(_jenv, _jresult, "{{javaSetterName}}", "({{type.jniTypeSignature}})V", {{>getCppFieldValue}});
+{{/unless}}{{/if}}{{!!
+}}{{#unless javaSetterName}}{{#if javaCustomType}}
     auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
     {{>common/InternalNamespace}}jni::set_object_field_value(_jenv, _jresult, "{{javaName}}", "L{{javaCustomType}};", j{{cppField.name}});
 {{/if}}{{#unless javaCustomType}}
     {{>common/InternalNamespace}}jni::set_field_value(_jenv, _jresult, "{{javaName}}", {{>getCppFieldValue}});
-{{/unless}}{{/fields}}
+{{/unless}}{{/unless}}{{/fields}}
     return _jresult;
 }
 

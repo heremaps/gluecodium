@@ -312,6 +312,13 @@ names are case-insensitive. Supported platform tags:
     one-to-one correspondence between IDL types and "external" C++ types is supported.
     * **getterName**, **setterName**: marks a field in a struct type that is already marked as
     external to be accessed through given getter/setter functions instead of directly in C++.
+  * **java**: describes "external" behavior for Java. Currently only supported for structs and
+  enums. Supported value names:
+    * **name**: *mandatory value*. Specifies a full Java name for the pre-existing type (i.e.
+    including package names and names of outer classes, as it would appear in an `import`
+    statement).
+    * **getterName**, **setterName**: marks a field in a struct type that is already marked as
+    external to be accessed through given getter/setter functions instead of directly in Java.
 
 ### Type references
 

@@ -53,6 +53,7 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -177,9 +178,16 @@ class JavaModelBuilder(
         val isSerializable =
             serializationBase != null && limeStruct.attributes.have(LimeAttributeType.SERIALIZABLE)
 
+        val externalImport = limeStruct.external?.java?.get(NAME_NAME)
+        val javaPackage = externalImport?.let {
+            JavaPackage(JavaNameRules.getPackageFromImportString(it))
+        } ?: rootPackage
+        val classNames = externalImport?.let { JavaNameRules.getClassNamesFromImportString(it) }
+            ?: nameResolver.getClassNames(limeStruct)
+
         val javaClass = JavaClass(
-            name = nameRules.getName(limeStruct),
-            classNames = nameResolver.getClassNames(limeStruct),
+            name = classNames.last(),
+            classNames = classNames,
             fields = getPreviousResults(JavaField::class.java),
             methods = methods,
             constants = getPreviousResults(JavaConstant::class.java),
@@ -187,11 +195,12 @@ class JavaModelBuilder(
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             needsBuilder = limeStruct.attributes.have(JAVA, BUILDER),
-            generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
+            generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG),
+            isExternal = externalImport != null
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
-        javaClass.javaPackage = rootPackage
+        javaClass.javaPackage = javaPackage
         javaClass.comment = createComments(limeStruct)
         addDeprecatedAnnotationIfNeeded(javaClass)
 
@@ -227,13 +236,21 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
+        val externalImport = limeEnumeration.external?.java?.get(NAME_NAME)
+        val javaPackage = externalImport?.let {
+            JavaPackage(JavaNameRules.getPackageFromImportString(it))
+        } ?: rootPackage
+        val classNames = externalImport?.let { JavaNameRules.getClassNamesFromImportString(it) }
+            ?: nameResolver.getClassNames(limeEnumeration)
+
         val javaEnum = JavaEnum(
-            name = nameRules.getName(limeEnumeration),
-            classNames = nameResolver.getClassNames(limeEnumeration),
-            items = getPreviousResults(JavaEnumItem::class.java)
+            name = classNames.last(),
+            classNames = classNames,
+            items = getPreviousResults(JavaEnumItem::class.java),
+            isExternal = externalImport != null
         )
         javaEnum.visibility = getVisibility(limeEnumeration)
-        javaEnum.javaPackage = rootPackage
+        javaEnum.javaPackage = javaPackage
         javaEnum.comment = createComments(limeEnumeration)
         addDeprecatedAnnotationIfNeeded(javaEnum)
 
