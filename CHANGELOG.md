@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 7.1.6
+Release date: 2020-07-08
+### Bug fixes:
+  * Updated the workaround for Flutter hot restart issue in Dart.
+
 ## 7.1.5
 Release date: 2020-07-07
 ### Bug fixes:
