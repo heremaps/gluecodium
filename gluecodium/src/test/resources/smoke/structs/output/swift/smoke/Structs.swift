@@ -90,42 +90,6 @@ public class Structs {
             pointField = moveFromCType(smoke_Structs_AllTypesStruct_pointField_get(cHandle))
         }
     }
-    public struct ExternalStruct {
-        public var stringField: String
-        public var externalStringField: String
-        public var externalArrayField: [Int8]
-        public var externalStructField: Structs.AnotherExternalStruct
-        public init(stringField: String, externalStringField: String, externalArrayField: [Int8], externalStructField: Structs.AnotherExternalStruct) {
-            self.stringField = stringField
-            self.externalStringField = externalStringField
-            self.externalArrayField = externalArrayField
-            self.externalStructField = externalStructField
-        }
-        internal init(cHandle: _baseRef) {
-            stringField = moveFromCType(smoke_Structs_ExternalStruct_stringField_get(cHandle))
-            externalStringField = moveFromCType(smoke_Structs_ExternalStruct_externalStringField_get(cHandle))
-            externalArrayField = moveFromCType(smoke_Structs_ExternalStruct_externalArrayField_get(cHandle))
-            externalStructField = moveFromCType(smoke_Structs_ExternalStruct_externalStructField_get(cHandle))
-        }
-    }
-    public struct AnotherExternalStruct {
-        public var intField: Int8
-        public init(intField: Int8) {
-            self.intField = intField
-        }
-        internal init(cHandle: _baseRef) {
-            intField = moveFromCType(smoke_Structs_AnotherExternalStruct_intField_get(cHandle))
-        }
-    }
-    public struct YetAnotherExternalStruct {
-        public var stringField: String
-        public init(stringField: String) {
-            self.stringField = stringField
-        }
-        internal init(cHandle: _baseRef) {
-            stringField = moveFromCType(smoke_Structs_YetAnotherExternalStruct_stringField_get(cHandle))
-        }
-    }
     public struct NestingImmutableStruct {
         public var structField: Structs.AllTypesStruct
         public init(structField: Structs.AllTypesStruct) {
@@ -178,15 +142,6 @@ public class Structs {
     public static func returnAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_returnAllTypesStruct(c_input.ref))
-    }
-    public static func getExternalStruct() -> Structs.ExternalStruct {
-        return moveFromCType(smoke_Structs_getExternalStruct())
-    }
-    public static func getAnotherExternalStruct() -> Structs.AnotherExternalStruct {
-        return moveFromCType(smoke_Structs_getAnotherExternalStruct())
-    }
-    public static func getYetAnotherExternalStruct() -> Structs.YetAnotherExternalStruct {
-        return moveFromCType(smoke_Structs_getYetAnotherExternalStruct())
     }
     public static func createPoint(x: Double, y: Double) -> Point {
         let c_x = moveToCType(x)
@@ -398,129 +353,6 @@ internal func copyToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AllTypesStruct_release_optional_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.ExternalStruct {
-    return Structs.ExternalStruct(cHandle: handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.ExternalStruct {
-    defer {
-        smoke_Structs_ExternalStruct_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.ExternalStruct) -> RefHolder {
-    let c_stringField = moveToCType(swiftType.stringField)
-    let c_externalStringField = moveToCType(swiftType.externalStringField)
-    let c_externalArrayField = moveToCType(swiftType.externalArrayField)
-    let c_externalStructField = moveToCType(swiftType.externalStructField)
-    return RefHolder(smoke_Structs_ExternalStruct_create_handle(c_stringField.ref, c_externalStringField.ref, c_externalArrayField.ref, c_externalStructField.ref))
-}
-internal func moveToCType(_ swiftType: Structs.ExternalStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ExternalStruct_release_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.ExternalStruct? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = smoke_Structs_ExternalStruct_unwrap_optional_handle(handle)
-    return Structs.ExternalStruct(cHandle: unwrappedHandle) as Structs.ExternalStruct
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.ExternalStruct? {
-    defer {
-        smoke_Structs_ExternalStruct_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.ExternalStruct?) -> RefHolder {
-    guard let swiftType = swiftType else {
-        return RefHolder(0)
-    }
-    let c_stringField = moveToCType(swiftType.stringField)
-    let c_externalStringField = moveToCType(swiftType.externalStringField)
-    let c_externalArrayField = moveToCType(swiftType.externalArrayField)
-    let c_externalStructField = moveToCType(swiftType.externalStructField)
-    return RefHolder(smoke_Structs_ExternalStruct_create_optional_handle(c_stringField.ref, c_externalStringField.ref, c_externalArrayField.ref, c_externalStructField.ref))
-}
-internal func moveToCType(_ swiftType: Structs.ExternalStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ExternalStruct_release_optional_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct {
-    return Structs.AnotherExternalStruct(cHandle: handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct {
-    defer {
-        smoke_Structs_AnotherExternalStruct_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.AnotherExternalStruct) -> RefHolder {
-    let c_intField = moveToCType(swiftType.intField)
-    return RefHolder(smoke_Structs_AnotherExternalStruct_create_handle(c_intField.ref))
-}
-internal func moveToCType(_ swiftType: Structs.AnotherExternalStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AnotherExternalStruct_release_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = smoke_Structs_AnotherExternalStruct_unwrap_optional_handle(handle)
-    return Structs.AnotherExternalStruct(cHandle: unwrappedHandle) as Structs.AnotherExternalStruct
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct? {
-    defer {
-        smoke_Structs_AnotherExternalStruct_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.AnotherExternalStruct?) -> RefHolder {
-    guard let swiftType = swiftType else {
-        return RefHolder(0)
-    }
-    let c_intField = moveToCType(swiftType.intField)
-    return RefHolder(smoke_Structs_AnotherExternalStruct_create_optional_handle(c_intField.ref))
-}
-internal func moveToCType(_ swiftType: Structs.AnotherExternalStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AnotherExternalStruct_release_optional_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct {
-    return Structs.YetAnotherExternalStruct(cHandle: handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct {
-    defer {
-        smoke_Structs_YetAnotherExternalStruct_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.YetAnotherExternalStruct) -> RefHolder {
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_Structs_YetAnotherExternalStruct_create_handle(c_stringField.ref))
-}
-internal func moveToCType(_ swiftType: Structs.YetAnotherExternalStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_YetAnotherExternalStruct_release_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = smoke_Structs_YetAnotherExternalStruct_unwrap_optional_handle(handle)
-    return Structs.YetAnotherExternalStruct(cHandle: unwrappedHandle) as Structs.YetAnotherExternalStruct
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct? {
-    defer {
-        smoke_Structs_YetAnotherExternalStruct_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.YetAnotherExternalStruct?) -> RefHolder {
-    guard let swiftType = swiftType else {
-        return RefHolder(0)
-    }
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_Structs_YetAnotherExternalStruct_create_optional_handle(c_stringField.ref))
-}
-internal func moveToCType(_ swiftType: Structs.YetAnotherExternalStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_YetAnotherExternalStruct_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruct {
     return Structs.NestingImmutableStruct(cHandle: handle)

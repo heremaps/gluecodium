@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -366,35 +365,6 @@ public final class Structs extends NativeBase {
             }
         }
     }
-    public final static class ExternalStruct {
-        @NonNull
-        public String stringField;
-        @NonNull
-        public String externalStringField;
-        @NonNull
-        public List<Byte> externalArrayField;
-        @NonNull
-        public Structs.AnotherExternalStruct externalStructField;
-        public ExternalStruct(@NonNull final String stringField, @NonNull final String externalStringField, @NonNull final List<Byte> externalArrayField, @NonNull final Structs.AnotherExternalStruct externalStructField) {
-            this.stringField = stringField;
-            this.externalStringField = externalStringField;
-            this.externalArrayField = externalArrayField;
-            this.externalStructField = externalStructField;
-        }
-    }
-    public final static class AnotherExternalStruct {
-        public byte intField;
-        public AnotherExternalStruct(final byte intField) {
-            this.intField = intField;
-        }
-    }
-    public final static class YetAnotherExternalStruct {
-        @NonNull
-        public String stringField;
-        public YetAnotherExternalStruct(@NonNull final String stringField) {
-            this.stringField = stringField;
-        }
-    }
     public final static class NestingImmutableStruct {
         @NonNull
         public Structs.AllTypesStruct structField;
@@ -447,12 +417,6 @@ public final class Structs extends NativeBase {
     public static native Structs.Point swapPointCoordinates(@NonNull final Structs.Point input);
     @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
-    @NonNull
-    public static native Structs.ExternalStruct getExternalStruct();
-    @NonNull
-    public static native Structs.AnotherExternalStruct getAnotherExternalStruct();
-    @NonNull
-    public static native Structs.YetAnotherExternalStruct getYetAnotherExternalStruct();
     @NonNull
     public static native Point createPoint(final double x, final double y);
     @NonNull

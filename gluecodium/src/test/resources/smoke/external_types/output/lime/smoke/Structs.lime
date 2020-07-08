@@ -1,0 +1,19 @@
+package smoke
+class Structs {
+    @Cpp(ExternalType = "foo/Bar.h")
+    struct ExternalStruct {
+        stringField: String
+        @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
+        externalStringField: String
+        @Cpp(ExternalGetter = "get_some_array", ExternalSetter = "set_some_array")
+        externalArrayField: List<Byte>
+        @Cpp(ExternalGetter = "get_some_struct", ExternalSetter = "set_some_struct")
+        externalStructField: AnotherExternalStruct
+    }
+    @Cpp(ExternalType = ["foo/Bazz.h", "non/Sense.h"], ExternalName = "::fire::SomeVeryExternalStruct")
+    struct AnotherExternalStruct {
+        intField: Byte
+    }
+    static fun getExternalStruct(): ExternalStruct
+    static fun getAnotherExternalStruct(): AnotherExternalStruct
+}

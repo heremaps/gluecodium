@@ -3,7 +3,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "foo/Bar.h"
 #include "gluecodium/Export.h"
 #include "gluecodium/Hash.h"
 #include "gluecodium/UnorderedMapHash.h"
@@ -36,6 +35,5 @@ public:
     static ::smoke::Enums::InternalErrorCode flip_enum_value( const ::smoke::Enums::InternalErrorCode input );
     static ::smoke::Enums::InternalErrorCode extract_enum_from_struct( const ::smoke::Enums::ErrorStruct& input );
     static ::smoke::Enums::ErrorStruct create_struct_with_enum_inside( const ::smoke::Enums::InternalErrorCode type, const ::std::string& message );
-    static void method_with_external_enum( const ::smoke::Enums::External_Enum input );
 };
 }
