@@ -26,11 +26,10 @@
 
 namespace {
 // Due to the bug in Flutter (https://github.com/flutter/flutter/issues/58987)
-// any hot restart which follows the first hangs if isolate is waiting
-// for event in C++. This workaround makes waiting for callback non blocking
+// hot restart may hangs if isolate is waiting for event in C++.
+// This workaround makes waiting for callback non blocking
 // so execution periodically returns to Flutter and the issue is eliminated.
-std::chrono::milliseconds g_wait_timeout = std::chrono::milliseconds::zero();
-bool g_is_first_init = true;
+const std::chrono::milliseconds g_wait_timeout = std::chrono::seconds(1);
 }
 
 #ifdef __cplusplus
@@ -39,12 +38,10 @@ extern "C" {
 
 int32_t
 {{libraryName}}_library_callbacks_queue_init(bool is_main_isolate) {
-    if (is_main_isolate && !g_is_first_init) {
+    if (is_main_isolate) {
         // This is required to clean up after hot restart.
         {{>ffi/FfiInternal}}::cbqm.closeAllQueues();
-        g_wait_timeout = std::chrono::seconds(1);
     }
-    g_is_first_init = false;
     return {{>ffi/FfiInternal}}::cbqm.createQueue();
 }
 
