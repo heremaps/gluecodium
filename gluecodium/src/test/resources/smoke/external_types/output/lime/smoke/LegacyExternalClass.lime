@@ -1,5 +1,5 @@
 package smoke
-class ExternalClass {
+class LegacyExternalClass {
     external {
         cpp include "foo/Bar.h"
         cpp name "::fire::Baz"

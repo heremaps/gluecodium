@@ -1,24 +1,27 @@
 package smoke
-
 class GenericTypesWithCompoundTypes {
     enum SomeEnum {
         FOO,
         BAR
     }
-    @Cpp(ExternalType = "alien/FooEnum.h", ExternalName = "::alien::FooEnum")
     enum ExternalEnum {
+        external {
+            cpp include "alien/FooEnum.h"
+            cpp name "::alien::FooEnum"
+        }
         ON,
         OFF
     }
-
     struct BasicStruct {
         value: Double
     }
-    @Cpp(ExternalType = "alien/FooStruct.h", ExternalName = "::alien::FooStruct")
     struct ExternalStruct {
+        external {
+            cpp include "alien/FooStruct.h"
+            cpp name "::alien::FooStruct"
+        }
         string: String
     }
-
     fun methodWithStructList(
         input: List<BasicStruct>
     ): List<ExternalStruct>

@@ -20,4 +20,5 @@
   !}}
 {{>lime/LimeDocumentation}}
 {{#isEq visibility.toString "internal "}}{{#isNotEq parentVisibility.toString "internal "}}internal {{/isNotEq}}{{/isEq}}{{!!
-}}{{escapedName}}: {{typeRef.escapedName}} {{#defaultValue}}= {{escapedValue}}{{/defaultValue}}
+}}{{escapedName}}: {{typeRef.escapedName}}{{#defaultValue}} = {{escapedValue}}{{/defaultValue}}{{!!
+}}{{#if this.external}} {{>lime/LimeExternalDescriptor}}{{/if}}

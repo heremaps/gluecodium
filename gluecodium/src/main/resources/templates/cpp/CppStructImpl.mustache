@@ -79,7 +79,7 @@ static_assert(
 );
 {{/resolveName}}
 {{#unless structElement.attributes.cpp.accessors}}{{!!
-}}{{#unless attributes.cpp.externalGetter}}{{#unless attributes.cpp.externalSetter}}
+}}{{#unless external.cpp.getterName}}{{#unless external.cpp.setterName}}
 static_assert(
     std::is_same<{{resolveName typeRef}}, decltype({{structName}}::{{resolveName}})>::value,
     "Expected '{{resolveName typeRef}}' type for '{{structName}}::{{resolveName}}'."

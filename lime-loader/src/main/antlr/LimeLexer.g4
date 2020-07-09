@@ -63,6 +63,7 @@ Constructor: 'constructor' ;
 Fun: 'fun' ;
 Enum: 'enum' ;
 Exception: 'exception' ;
+External: 'external' ;
 Get: 'get' ;
 Import: 'import' ;
 Interface: 'interface' ;

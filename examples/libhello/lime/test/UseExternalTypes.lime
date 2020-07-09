@@ -17,9 +17,9 @@
 
 package test
 
-import external.ExternalTypes.ExternalStruct
-import external.ExternalTypes.ExternalEnum
-import external.ExternalTypes.AnotherExternalStruct
+import `external`.ExternalTypes.ExternalStruct
+import `external`.ExternalTypes.ExternalEnum
+import `external`.ExternalTypes.AnotherExternalStruct
 class UseExternalTypes {
     struct StructWithExternalTypes {
         structField: ExternalStruct

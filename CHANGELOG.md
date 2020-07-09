@@ -1,7 +1,12 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Introduced "external descriptors", new IDL syntax for declaring "external" types. This syntax
+    replaces `@Cpp(External*)` group of IDL attributes.
+
 ## 7.1.6
-Release date: 2020-07-08
+Release date: 2020-07-09
 ### Bug fixes:
   * Updated the workaround for Flutter hot restart issue in Dart.
 

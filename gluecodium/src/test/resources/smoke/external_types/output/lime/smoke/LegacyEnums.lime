@@ -1,5 +1,5 @@
 package smoke
-class Enums {
+class LegacyEnums {
     enum External_Enum {
         external {
             cpp include "foo/Bar.h"

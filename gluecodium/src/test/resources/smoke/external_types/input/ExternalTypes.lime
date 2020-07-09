@@ -18,79 +18,90 @@
 package smoke
 
 class Structs {
-    @Cpp(ExternalType = "foo/Bar.h")
     struct ExternalStruct {
-        stringField: String
-        @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
-        externalStringField: String
-        @Cpp(ExternalGetter = "get_some_array", ExternalSetter = "set_some_array")
-        externalArrayField: List<Byte>
-        @Cpp(ExternalGetter = "get_some_struct", ExternalSetter = "set_some_struct")
-        externalStructField: AnotherExternalStruct
-    }
+        external { cpp include "foo/Bar.h" }
 
-    @Cpp(ExternalType = ["foo/Bazz.h", "non/Sense.h"], ExternalName = "::fire::SomeVeryExternalStruct")
+        stringField: String
+        externalStringField: String external {
+            cpp getterName "get_some_string"
+            cpp setterName "set_some_string"
+        }
+        externalArrayField: List<Byte> external {
+            cpp getterName "get_some_array"
+            cpp setterName "set_some_array"
+        }
+        externalStructField: AnotherExternalStruct external {
+            cpp getterName "get_some_struct"
+            cpp setterName "set_some_struct"
+        }
+    }
     struct AnotherExternalStruct {
+        external {
+            cpp include "foo/Bazz.h, non/Sense.h"
+            cpp name "::fire::SomeVeryExternalStruct"
+        }
+
         intField: Byte
     }
-
     static fun getExternalStruct(): ExternalStruct
     static fun getAnotherExternalStruct(): AnotherExternalStruct
 }
 
 class Enums {
-    @Cpp(ExternalType = "foo/Bar.h")
     enum External_Enum {
+        external { cpp include "foo/Bar.h" }
+
         Foo_Value,
         Bar_Value
     }
-    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeVeryExternalEnum")
     enum VeryExternalEnum {
+        external {
+            cpp include "foo/Bar.h"
+            cpp name "::fire::SomeVeryExternalEnum"
+        }
+
         FOO,
         BAR
     }
-
     static fun methodWithExternalEnum(input: External_Enum)
 }
 
-@Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::Baz")
 class ExternalClass {
-    struct some_Struct {
-        some_Field: String
+    external {
+        cpp include "foo/Bar.h"
+        cpp name "::fire::Baz"
     }
 
     enum some_Enum {
         some_Value
     }
-
+    struct some_Struct {
+        some_Field: String
+    }
     fun some_Method(some_Parameter: Byte)
-
     property some_Property: String {
-        @Cpp(ExternalName = "get_Me")
-        get
+        get external { cpp name "get_Me" }
     }
 }
 
-@Cpp(ExternalType = "foo/Bar.h")
 interface ExternalInterface {
-    struct some_Struct {
-        some_Field: String
-    }
+    external { cpp include "foo/Bar.h" }
 
     enum some_Enum {
         some_Value
     }
-
+    struct some_Struct {
+        some_Field: String
+    }
     fun some_Method(some_Parameter: Byte)
-
     property some_Property: String {
-        @Cpp(ExternalName = "get_Me")
-        get
+        get external { cpp name "get_Me" }
     }
 }
 
-@Cpp(ExternalType = "include/ExternalTypes.h")
 class ClassWithOverloads {
+    external { cpp include "include/ExternalTypes.h" }
+
     fun oneOverloadNotExposed(): String
     fun allOverloadsExposed(input: String): String
     @Dart("allOverloadsExposedList")
@@ -99,17 +110,20 @@ class ClassWithOverloads {
     fun allOverloadsExposed(inputString: String, inputBool: Boolean): String
 }
 
-@Cpp(
-    ExternalType = "include/ExternalTypes.h",
-    ExternalName = "external::ClassWithOverloads::StructWithOverloads"
-)
 struct StructWithOverloads {
+    external {
+        cpp include "include/ExternalTypes.h"
+        cpp name "external::ClassWithOverloads::StructWithOverloads"
+    }
+
+    overloadedAccessors: Int external {
+        cpp getterName "overloadedAccessors"
+        cpp setterName "overloadedAccessors"
+    }
+
     fun overloadedMethod(): String
     @Dart("overloadedMethodString")
     fun overloadedMethod(input: String): String
     @Dart("overloadedMethodTwo")
     fun overloadedMethod(inputString: String, inputBool: Boolean): String
-
-    @Cpp(ExternalGetter = "overloadedAccessors", ExternalSetter = "overloadedAccessors")
-    overloadedAccessors: Int
 }

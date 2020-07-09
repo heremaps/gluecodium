@@ -1,8 +1,7 @@
 package smoke
-class ExternalClass {
+interface LegacyExternalInterface {
     external {
         cpp include "foo/Bar.h"
-        cpp name "::fire::Baz"
     }
     enum some_Enum {
         some_Value

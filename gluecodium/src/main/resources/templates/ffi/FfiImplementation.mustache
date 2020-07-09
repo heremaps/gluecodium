@@ -157,9 +157,9 @@ FfiOpaqueHandle
 {{#set parent=this}}{{#fields}}
 {{#if parent.attributes.cpp.accessors}}
     _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
-{{/if}}{{#unless parent.attributes.cpp.accessors}}{{#if attributes.cpp.externalSetter}}
+{{/if}}{{#unless parent.attributes.cpp.accessors}}{{#if external.cpp.setterName}}
     _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
-{{/if}}{{#unless attributes.cpp.externalSetter}}
+{{/if}}{{#unless external.cpp.setterName}}
     _result->{{resolveName "C++"}} = {{>ffiFieldToCpp}};
 {{/unless}}{{/unless}}
 {{/fields}}{{/set}}

@@ -31,15 +31,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     LABEL("Label"),
     OBJC("ObjC"),
     MESSAGE("Message"),
-    SKIP("Skip"),
-    @Deprecated("Deprecated. Please use `LimeNamedElement.external` instead.")
-    EXTERNAL_TYPE("ExternalType"),
-    @Deprecated("Deprecated. Please use `LimeNamedElement.external` instead.")
-    EXTERNAL_NAME("ExternalName"),
-    @Deprecated("Deprecated. Please use `LimeNamedElement.external` instead.")
-    EXTERNAL_GETTER("ExternalGetter"),
-    @Deprecated("Deprecated. Please use `LimeNamedElement.external` instead.")
-    EXTERNAL_SETTER("ExternalSetter");
+    SKIP("Skip");
 
     override fun toString() = tag
 }
