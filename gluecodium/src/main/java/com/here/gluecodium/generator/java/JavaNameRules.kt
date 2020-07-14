@@ -48,4 +48,12 @@ class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
         limeElement?.attributes?.get(JAVA, NAME)
+
+    companion object {
+        fun getPackageFromImportString(importString: String) =
+            importString.split('.').takeWhile { it.first().isLowerCase() }
+
+        fun getClassNamesFromImportString(importString: String) =
+            importString.split('.').dropWhile { it.first().isLowerCase() }
+    }
 }

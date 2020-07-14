@@ -4,6 +4,7 @@
 #include "com_example_namerules_NAME_RULES_DROID_EXAMPLE_STRUCT_DROID__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
+#include "JniCallJavaMethod.h"
 #include "JniClassCache.h"
 namespace jni
 {

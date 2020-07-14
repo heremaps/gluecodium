@@ -33,8 +33,9 @@ class JavaClass(
     val hasNativeEquatable: Boolean = false,
     val isImmutable: Boolean = false,
     val needsBuilder: Boolean = false,
-    var generatedConstructorComment: String? = null
-) : JavaTopLevelElement(name, classNames) {
+    var generatedConstructorComment: String? = null,
+    isExternal: Boolean = false
+) : JavaTopLevelElement(name, classNames, isExternal) {
 
     init {
         this.methods += methods

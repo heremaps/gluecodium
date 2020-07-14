@@ -37,8 +37,21 @@ namespace jni
 {{cppFullyQualifiedName}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}*)
 {
+{{#if isExternal}}
+    auto ordinal = call_java_method<jint>(_jenv, _jinput, "ordinal", "()I");
+    switch(ordinal) {
+{{#enumerators}}
+        case {{iter.position}}:
+            return {{cppFullyQualifiedName}}::{{cppName}};
+{{/enumerators}}
+        default:
+            return {};
+    }
+{{/if}}{{!!
+}}{{#unless isExternal}}
     return {{cppFullyQualifiedName}}(
         {{>common/InternalNamespace}}jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+{{/unless}}
 }
 
 {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>

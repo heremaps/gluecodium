@@ -111,7 +111,10 @@ open class JavaGeneratorSuite protected constructor(
         }
 
         val javaTemplates = JavaTemplates(generatorName)
-        val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements).toMutableList()
+        val nonExternalElements = combinedModel.javaElements.filter {
+            it !is JavaTopLevelElement || !it.isExternal
+        }
+        val javaFiles = javaTemplates.generateFiles(nonExternalElements).toMutableList()
 
         val nativeBasePath = listOf(generatorName) + internalPackageList + NATIVE_BASE_JAVA
         javaFiles.add(

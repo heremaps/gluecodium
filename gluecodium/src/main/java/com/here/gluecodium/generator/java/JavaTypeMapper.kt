@@ -37,6 +37,7 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeLazyTypeRef
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -152,8 +153,12 @@ class JavaTypeMapper(
     }
 
     fun mapCustomType(limeType: LimeType): JavaTypeRef {
-        val classNames = nameResolver.getClassNames(limeType)
-        val javaPackage = basePackage.createChildPackage(limeType.path.head)
+        val externalImport = limeType.external?.java?.get(NAME_NAME)
+        val javaPackage = externalImport?.let {
+            JavaPackage(JavaNameRules.getPackageFromImportString(it))
+        } ?: basePackage.createChildPackage(limeType.path.head)
+        val classNames = externalImport?.let { JavaNameRules.getClassNamesFromImportString(it) }
+            ?: nameResolver.getClassNames(limeType)
 
         val javaImport = JavaImport(classNames.first(), javaPackage)
         val typeName = classNames.joinToString(".")

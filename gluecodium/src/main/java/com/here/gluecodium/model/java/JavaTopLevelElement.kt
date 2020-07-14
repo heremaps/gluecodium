@@ -19,7 +19,11 @@
 
 package com.here.gluecodium.model.java
 
-abstract class JavaTopLevelElement(name: String, val classNames: List<String>) : JavaElement(name) {
+abstract class JavaTopLevelElement(
+    name: String,
+    val classNames: List<String>,
+    val isExternal: Boolean = false
+) : JavaElement(name) {
 
     var javaPackage = JavaPackage.DEFAULT
     val methods: MutableSet<JavaMethod> = mutableSetOf()

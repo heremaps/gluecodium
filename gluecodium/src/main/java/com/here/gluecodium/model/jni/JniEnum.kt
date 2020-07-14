@@ -25,7 +25,8 @@ class JniEnum(
     javaName: String,
     cppFullyQualifiedName: String,
     javaPackage: JavaPackage,
-    val enumerators: List<JniEnumerator> = emptyList()
+    val enumerators: List<JniEnumerator> = emptyList(),
+    val isExternal: Boolean = false
 ) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
     @Suppress("unused")
     val jniTypeSignature
