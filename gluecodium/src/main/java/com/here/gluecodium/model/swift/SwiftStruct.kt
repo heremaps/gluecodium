@@ -33,8 +33,9 @@ class SwiftStruct(
     val fields: List<SwiftField> = emptyList(),
     val constants: List<SwiftConstant> = emptyList(),
     val methods: List<SwiftMethod> = emptyList(),
-    var generatedConstructorComment: String? = null
-) : SwiftType(name, cPrefix, visibility, category, publicName ?: name, optional) {
+    var generatedConstructorComment: String? = null,
+    externalFramework: String? = null
+) : SwiftType(name, cPrefix, visibility, category, publicName ?: name, optional, externalFramework) {
 
     @Suppress("unused")
     val constructors
@@ -73,7 +74,9 @@ class SwiftStruct(
             isCodable,
             fields,
             constants,
-            methods
+            methods,
+            generatedConstructorComment,
+            externalFramework
         )
         swiftStruct.comment = this.comment
         return swiftStruct
@@ -97,7 +100,9 @@ class SwiftStruct(
             isCodable,
             fields,
             constants,
-            methods
+            methods,
+            generatedConstructorComment,
+            externalFramework
         )
         swiftStruct.comment = comment
         return swiftStruct

@@ -319,6 +319,11 @@ names are case-insensitive. Supported platform tags:
     statement).
     * **getterName**, **setterName**: marks a field in a struct type that is already marked as
     external to be accessed through given getter/setter functions instead of directly in Java.
+  * **swift**: describes "external" behavior for Swift. Currently only supported for structs and
+  enums. Supported value names:
+    * **framework**: *mandatory value*. Specifies a name of a Swift framework that needs to be
+    imported for the pre-existing type. The value can be an empty string **""** if the type resides
+    in the current framework or in the "Foundation" framework.
 
 ### Type references
 

@@ -19,6 +19,9 @@
   !
   !}}
 import Foundation
+{{#imports}}
+import {{this}}
+{{/imports}}
 
 {{#dictionaries}}
 internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{publicName}} {

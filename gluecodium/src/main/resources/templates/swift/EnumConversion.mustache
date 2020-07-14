@@ -19,21 +19,37 @@
   !
   !}}
 internal func copyToCType(_ swiftEnum: {{name}}) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
+    return PrimitiveHolder({{#if isExternal}}UInt32({{/if}}swiftEnum.rawValue{{#if isExternal}}){{/if}})
 }
 internal func moveToCType(_ swiftEnum: {{name}}) -> PrimitiveHolder<UInt32> {
     return copyToCType(swiftEnum)
 }
 
 internal func copyToCType(_ swiftEnum: {{name}}?) -> RefHolder {
+{{#if isExternal}}
+    if let rawValue = swiftEnum?.rawValue {
+        return copyToCType(UInt32(rawValue) as UInt32?)
+    } else {
+        return RefHolder(0)
+    }
+{{/if}}{{#unless isExternal}}
     return copyToCType(swiftEnum?.rawValue)
+{{/unless}}
 }
 internal func moveToCType(_ swiftEnum: {{name}}?) -> RefHolder {
+{{#if isExternal}}
+    if let rawValue = swiftEnum?.rawValue {
+        return moveToCType(UInt32(rawValue) as UInt32?)
+    } else {
+        return RefHolder(0)
+    }
+{{/if}}{{#unless isExternal}}
     return moveToCType(swiftEnum?.rawValue)
+{{/unless}}
 }
 
 internal func copyFromCType(_ cValue: UInt32) -> {{name}} {
-    return {{name}}(rawValue: cValue)!
+    return {{name}}(rawValue: {{#if isExternal}}UInt({{/if}}cValue{{#if isExternal}}){{/if}})!
 }
 internal func moveFromCType(_ cValue: UInt32) -> {{name}} {
     return copyFromCType(cValue)
@@ -43,7 +59,7 @@ internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{name}}(rawValue: uint32_t_value_get(handle))!
+    return {{name}}(rawValue: {{#if isExternal}}UInt({{/if}}uint32_t_value_get(handle){{#if isExternal}}){{/if}})!
 }
 internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
     defer {

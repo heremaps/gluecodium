@@ -53,7 +53,7 @@ object CBridgeNameRules {
     const val SRC_DIR = "src"
 
     fun getName(limeElement: LimeNamedElement) =
-        getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name)
+        mangleName(getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name))
 
     fun getFunctionTableName(limeElement: LimeNamedElement) =
         getInterfaceName(limeElement) + "_FunctionTable"
@@ -76,11 +76,13 @@ object CBridgeNameRules {
             else -> ""
         }
         val methodName = getPlatformName(limeMethod) ?: NameHelper.toLowerCamelCase(limeMethod.name)
-        return prefix + methodName + suffix
+        return prefix + mangleName(methodName) + suffix
     }
 
     private fun mangleSignature(name: String) =
         name.replace("_", "_1").replace(":", "_2").replace("[", "_3").replace("]", "_4")
+
+    private fun mangleName(name: String) = name.replace(".", "_1")
 
     private fun getNestedNames(limeElement: LimeNamedElement) =
         limeElement.path.head + limeElement.path.tail.map { NameHelper.toUpperCamelCase(it) }

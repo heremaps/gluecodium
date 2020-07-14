@@ -23,6 +23,9 @@
 //
 
 import Foundation
+{{#imports}}
+import {{this}}
+{{/imports}}
 
 {{#arrays}}
 internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{publicName}} {

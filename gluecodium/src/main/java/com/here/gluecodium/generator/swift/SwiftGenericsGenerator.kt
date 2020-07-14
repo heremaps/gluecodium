@@ -25,6 +25,7 @@ import com.here.gluecodium.model.swift.SwiftArray
 import com.here.gluecodium.model.swift.SwiftDictionary
 import com.here.gluecodium.model.swift.SwiftSet
 import com.here.gluecodium.model.swift.SwiftType
+import com.here.gluecodium.platform.swift.SwiftTypeRefsCollector
 import java.util.TreeMap
 
 class SwiftGenericsGenerator(private val internalPrefix: String?) {
@@ -42,7 +43,11 @@ class SwiftGenericsGenerator(private val internalPrefix: String?) {
 
     private fun generateArrays(swiftTypes: Collection<SwiftType>): List<GeneratedFile> {
         val arrays = swiftTypes.filterIsInstance<SwiftArray>()
-        val data = mapOf("arrays" to arrays, "internalPrefix" to internalPrefix)
+        val data = mapOf(
+            "arrays" to arrays,
+            "internalPrefix" to internalPrefix,
+            "imports" to collectImports(arrays)
+        )
         return when {
             arrays.isEmpty() -> emptyList()
             else -> listOf(GeneratedFile(
@@ -54,7 +59,11 @@ class SwiftGenericsGenerator(private val internalPrefix: String?) {
 
     private fun generateDictionaries(swiftTypes: Collection<SwiftType>): List<GeneratedFile> {
         val dictionaries = swiftTypes.filterIsInstance<SwiftDictionary>()
-        val data = mapOf("dictionaries" to dictionaries, "internalPrefix" to internalPrefix)
+        val data = mapOf(
+            "dictionaries" to dictionaries,
+            "internalPrefix" to internalPrefix,
+            "imports" to collectImports(dictionaries)
+        )
         return when {
             dictionaries.isEmpty() -> emptyList()
             else -> listOf(GeneratedFile(
@@ -66,7 +75,11 @@ class SwiftGenericsGenerator(private val internalPrefix: String?) {
 
     private fun generateSets(swiftTypes: Collection<SwiftType>): List<GeneratedFile> {
         val sets = swiftTypes.filterIsInstance<SwiftSet>()
-        val data = mapOf("sets" to sets, "internalPrefix" to internalPrefix)
+        val data = mapOf(
+            "sets" to sets,
+            "internalPrefix" to internalPrefix,
+            "imports" to collectImports(sets)
+        )
         return when {
             sets.isEmpty() -> emptyList()
             else -> listOf(GeneratedFile(
@@ -75,4 +88,11 @@ class SwiftGenericsGenerator(private val internalPrefix: String?) {
             ))
         }
     }
+
+    private fun collectImports(collections: List<SwiftType>) =
+        collections.flatMap { SwiftTypeRefsCollector.expandCollectionTypeRefs(it) }
+            .mapNotNull { it.externalFramework }
+            .filter { it.isNotEmpty() }
+            .distinct()
+            .sorted()
 }

@@ -86,6 +86,7 @@ jobs:
       addons:
         apt:
           packages:
+            - libcurl3
             - ninja-build
             - valgrind
       install:

@@ -38,9 +38,11 @@ import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.swift.SwiftFile
 import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftStruct
+import com.here.gluecodium.model.swift.SwiftType
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
 
@@ -101,20 +103,29 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        return swiftModel.containers.filter { it.childElements.isNotEmpty() }.map {
-            GeneratedFile(
-                TemplateEngine.render(
-                    "swift/File",
-                    mapOf("model" to it, "internalPrefix" to internalPrefix)
-                ),
-                it.fileName
-            )
-        } +
+        val nonEmptyFiles = swiftModel.containers.filter { it.childElements.isNotEmpty() }
+        return nonEmptyFiles.map { generateSwiftFile(it) } +
             filteredElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
             cBridgeGenerator.collectionsGenerator.generate() +
             swiftGenerator.genericsGenerator.generate() +
             swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
+    }
+
+    private fun generateSwiftFile(model: SwiftFile): GeneratedFile {
+        val declaredTypes = model.childElements.filterIsInstance<SwiftType>()
+        val typeReferences = model.childElements
+            .flatMap { SwiftTypeRefsCollector.collectTypeRefs(it) }
+            .flatMap { SwiftTypeRefsCollector.expandCollectionTypeRefs(it) }
+        val imports = (declaredTypes + typeReferences)
+            .mapNotNull { it.externalFramework }
+            .filter { it.isNotEmpty() }
+        val templateData = mapOf(
+            "model" to model,
+            "internalPrefix" to internalPrefix,
+            "imports" to imports.distinct().sorted()
+        )
+        return GeneratedFile(TemplateEngine.render("swift/File", templateData), model.fileName)
     }
 
     private fun resolveFullName(
