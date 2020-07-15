@@ -18,6 +18,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+import "dart:io";
+import "dart:math";
 import "package:test/test.dart";
 import "package:hello/external.dart";
 import "package:hello/test.dart";
@@ -48,5 +50,19 @@ void main() {
     final result = UseExternalTypes.extractExternalEnum(input);
 
     expect(result, equals(ExternalEnum.bar));
+  });
+  _testSuite.test("Use Dart external struct", () {
+    final rectangle = Rectangle<int>(0, 1, 2, 3);
+
+    final result = UseDartExternalTypes.rectangleRoundTrip(rectangle);
+
+    expect(result, rectangle);
+  });
+  _testSuite.test("Use Dart external enum", () {
+    final state = HttpClientResponseCompressionState.decompressed;
+
+    final result = UseDartExternalTypes.compressionStateRoundTrip(state);
+
+    expect(result, state);
   });
 }
