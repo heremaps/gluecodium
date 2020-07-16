@@ -25,7 +25,8 @@ open class SwiftType protected constructor(
     visibility: SwiftVisibility? = null,
     val category: TypeCategory,
     val publicName: String = name,
-    val optional: Boolean = false
+    val optional: Boolean = false,
+    val externalFramework: String? = null
 ) : SwiftModelElement(name, visibility) {
     val className
         get() = if (category == TypeCategory.CLASS) mangledName else ""
@@ -57,13 +58,17 @@ open class SwiftType protected constructor(
     @Suppress("unused")
     fun getcPrefix() = cPrefix
 
+    @Suppress("unused")
+    val isExternal
+        get() = externalFramework != null
+
     open fun withAlias(aliasName: String) =
-        SwiftType(name, cPrefix, visibility, category, aliasName, optional)
+        SwiftType(name, cPrefix, visibility, category, aliasName, optional, externalFramework)
 
     open fun withOptional(optional: Boolean) =
         when (optional) {
             this.optional -> this
-            else -> SwiftType(name, cPrefix, visibility, category, publicName, optional)
+            else -> SwiftType(name, cPrefix, visibility, category, publicName, optional, externalFramework)
         }
 
     companion object {

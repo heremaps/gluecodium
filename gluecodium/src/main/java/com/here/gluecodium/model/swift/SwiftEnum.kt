@@ -22,12 +22,14 @@ package com.here.gluecodium.model.swift
 class SwiftEnum(
     name: String,
     visibility: SwiftVisibility? = null,
-    val items: List<SwiftEnumItem> = emptyList()
+    val items: List<SwiftEnumItem> = emptyList(),
+    externalFramework: String? = null
 ) : SwiftType(
     name = name,
     visibility = visibility,
     category = TypeCategory.ENUM,
-    publicName = name
+    publicName = name,
+    externalFramework = externalFramework
 ) {
     override val childElements
         get() = items

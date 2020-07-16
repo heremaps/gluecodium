@@ -20,6 +20,7 @@
 
 import XCTest
 import hello
+import FoundationNetworking
 
 class ExternalTypesTests: XCTestCase {
 
@@ -53,8 +54,29 @@ class ExternalTypesTests: XCTestCase {
         XCTAssertEqual(ExternalEnum.bar, resultEnum)
     }
 
+    func testSwiftExternalTypeDateInterval() {
+        let interval = DateInterval(start: Date(), duration: 60)
+
+        let result = UseSwiftExternalTypes.dateIntervalRoundTrip(input: interval)
+
+        XCTAssertEqual(interval.start.timeIntervalSinceReferenceDate,
+            result.start.timeIntervalSinceReferenceDate, accuracy: 1e-6)
+        XCTAssertEqual(interval.end.timeIntervalSinceReferenceDate,
+            result.end.timeIntervalSinceReferenceDate, accuracy: 1e-6)
+    }
+
+    func testSwiftExternalTypePersistence() {
+        let persistence = URLCredential.Persistence.forSession
+
+        let result = UseSwiftExternalTypes.persistenceRoundTrip(input: persistence)
+
+        XCTAssertEqual(persistence, result)
+    }
+
     static var allTests = [
         ("testUseExternalTypesExternalStruct", testUseExternalTypesExternalStruct),
-        ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum)
+        ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum),
+        ("testSwiftExternalTypeDateInterval", testSwiftExternalTypeDateInterval),
+        ("testSwiftExternalTypePersistence", testSwiftExternalTypePersistence)
     ]
 }

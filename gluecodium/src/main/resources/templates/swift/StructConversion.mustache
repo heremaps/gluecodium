@@ -20,7 +20,7 @@
   !}}
 {{#if fields}}
 internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
-    return {{name}}(cHandle: handle)
+    return {{name}}(cHandle: handle){{#if isExternal}}!{{/if}}
 }
 internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     defer {
@@ -46,7 +46,7 @@ internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
         return nil
     }
     let unwrappedHandle = {{cPrefix}}_unwrap_optional_handle(handle)
-    return {{name}}(cHandle: unwrappedHandle) as {{name}}
+    return {{name}}(cHandle: unwrappedHandle){{#if isExternal}}!{{/if}} as {{name}}
 }
 internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
     defer {

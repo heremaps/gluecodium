@@ -36,6 +36,7 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.FRAMEWORK_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -262,7 +263,8 @@ class SwiftModelBuilder(
             fields = getPreviousResults(SwiftField::class.java),
             constants = getPreviousResults(SwiftConstant::class.java),
             methods = getPreviousResults(SwiftMethod::class.java),
-            generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
+            generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG),
+            externalFramework = limeStruct.external?.swift?.get(FRAMEWORK_NAME)
         )
         swiftStruct.comment = createComments(limeStruct)
 
@@ -294,9 +296,10 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val swiftEnum = SwiftEnum(
-            nameResolver.getFullName(limeEnumeration),
-            getVisibility(limeEnumeration),
-            getPreviousResults(SwiftEnumItem::class.java)
+            name = nameResolver.getFullName(limeEnumeration),
+            visibility = getVisibility(limeEnumeration),
+            items = getPreviousResults(SwiftEnumItem::class.java),
+            externalFramework = limeEnumeration.external?.swift?.get(FRAMEWORK_NAME)
         )
         swiftEnum.comment = createComments(limeEnumeration)
 

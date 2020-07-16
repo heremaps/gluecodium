@@ -18,12 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/Comment}}
+{{#unless isExternal}}{{>swift/Comment}}
 {{visibility}} enum {{simpleName}} : UInt32, CaseIterable, Codable {
 {{#items}}{{prefixPartial "enumItem" "    "}}
 {{/items}}
 }
-
-{{+enumItem}}{{>swift/Comment}}
+{{/unless}}{{!!
+}}{{+enumItem}}{{>swift/Comment}}
 case {{name}}{{#if value}} = {{value}}{{/if}}{{/enumItem}}
-

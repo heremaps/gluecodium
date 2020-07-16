@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.FRAMEWORK_NAME
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -65,9 +66,13 @@ class SwiftTypeMapper(
             is LimeBasicType -> mapBasicType(limeType)
             is LimeStruct -> SwiftStruct(
                 nameResolver.getFullName(limeType),
-                CBridgeNameRules.getTypeName(limeType)
+                CBridgeNameRules.getTypeName(limeType),
+                externalFramework = limeType.external?.swift?.get(FRAMEWORK_NAME)
             )
-            is LimeEnumeration -> SwiftEnum(nameResolver.getFullName(limeType))
+            is LimeEnumeration -> SwiftEnum(
+                nameResolver.getFullName(limeType),
+                externalFramework = limeType.external?.swift?.get(FRAMEWORK_NAME)
+            )
             is LimeTypeAlias ->
                 mapType(limeType.typeRef.type, collectGenerics)
                     .withAlias(nameResolver.getFullName(limeType))
