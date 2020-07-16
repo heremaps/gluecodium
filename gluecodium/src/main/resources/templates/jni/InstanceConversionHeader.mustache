@@ -27,7 +27,6 @@
 {{/includes}}
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Optional.h"
-#include <functional>
 #include <memory>
 
 {{#internalNamespace}}
@@ -47,5 +46,5 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _nin
 }
 {{/internalNamespace}}{{!!
 
-}}{{+cppTypeName}}{{#if isFunctionalInterface}}{{cppFullyQualifiedName}}{{/if}}{{!!
-}}{{#unless isFunctionalInterface}}std::shared_ptr<{{cppFullyQualifiedName}}>{{/unless}}{{/cppTypeName}}
+}}{{+cppTypeName}}{{#instanceOf this "LimeLambda"}}{{resolveName "C++ FQN"}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++ FQN"}}>{{/notInstanceOf}}{{/cppTypeName}}

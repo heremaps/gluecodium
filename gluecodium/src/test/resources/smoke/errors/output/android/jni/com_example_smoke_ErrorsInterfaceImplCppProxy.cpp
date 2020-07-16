@@ -84,7 +84,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_errors_and_return_va
     }
     else
     {
-    return convert_from_jni( jniEnv, result, (::gluecodium::Return< ::std::string, ::std::error_code >::value_type*)nullptr );
+    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
     }
 }
 ::gluecodium::Return< void, ::smoke::Payload >
@@ -132,7 +132,7 @@ com_example_smoke_ErrorsInterfaceImpl_CppProxy::method_with_payload_error_and_re
     }
     else
     {
-    return convert_from_jni( jniEnv, result, (::gluecodium::Return< ::std::string, ::smoke::Payload >::value_type*)nullptr );
+    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
     }
 }
 }

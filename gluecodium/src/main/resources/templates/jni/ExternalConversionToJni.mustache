@@ -18,13 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-auto& converterClass = CachedJavaClass<Dummy{{mangledExternalConverter}}Type>::java_class;
+auto& converterClass = CachedJavaClass<Dummy{{resolveName external.java.converter "mangled"}}Type>::java_class;
 
 auto convertMethodId = _jenv->GetStaticMethodID(
-    converterClass.get(), "convertFromInternal", "(L{{fullJavaName}};)L{{externalConvertedType}};");
+    converterClass.get(), "convertFromInternal", "(L{{resolveName this "" "ref"}};)L{{resolveName external.java.name ""}};");
 if (convertMethodId == NULL) {
-    throw_runtime_exception(_jenv, "Static method 'convertFromInternal(L{{fullJavaName}};)L{{externalConvertedType}};' not found.");
+    throw_runtime_exception(_jenv, "Static method 'convertFromInternal({{!!
+    }}L{{resolveName this "" "ref"}};)L{{resolveName external.java.name ""}};' not found.");
     return {};
-}
+}{{!!
+    }}
 
 _jresult = make_local_ref(_jenv, _jenv->CallStaticObjectMethod(converterClass.get(), convertMethodId, _jresult.get()));

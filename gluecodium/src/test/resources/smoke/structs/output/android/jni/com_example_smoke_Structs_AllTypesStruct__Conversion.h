@@ -3,7 +3,6 @@
  */
 #pragma once
 #include "smoke/Structs.h"
-#include "com_example_smoke_Structs_Point__Conversion.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
 namespace gluecodium

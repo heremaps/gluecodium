@@ -1,8 +1,8 @@
 /*
  *
  */
-#include "com_example_smoke_Structs_Point__Conversion.h"
 #include "com_example_smoke_Structs_AllTypesStruct__Conversion.h"
+#include "com_example_smoke_Structs_Point__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
 #include "JniCallJavaMethod.h"
