@@ -36,8 +36,11 @@ namespace jni
 {
 {{#struct}}
 {{cppFullyQualifiedName}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if externalConverter}}_ext{{/if}}, {{cppFullyQualifiedName}}*)
 {
+{{#if externalConverter}}
+{{prefixPartial "jni/ExternalConversionFromJni" "    "}}
+{{/if}}
     {{#unless hasImmutableFields}}{{cppFullyQualifiedName}} _nout{};{{/unless}}
 {{#fields}}{{#if javaGetterName}}{{#if type.isComplex}}
     auto j_{{cppField.name}} = call_java_method<{{type.name}}>(_jenv, _jinput, "{{javaGetterName}}", "(){{type.jniTypeSignature}}");
@@ -90,6 +93,9 @@ convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}}& _ninput)
 {{/if}}{{#unless javaCustomType}}
     {{>common/InternalNamespace}}jni::set_field_value(_jenv, _jresult, "{{javaName}}", {{>getCppFieldValue}});
 {{/unless}}{{/unless}}{{/fields}}
+{{#if externalConverter}}
+{{prefixPartial "jni/ExternalConversionToJni" "    "}}
+{{/if}}
     return _jresult;
 }
 

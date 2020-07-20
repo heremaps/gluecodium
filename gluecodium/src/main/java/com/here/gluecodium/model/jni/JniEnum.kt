@@ -26,8 +26,17 @@ class JniEnum(
     cppFullyQualifiedName: String,
     javaPackage: JavaPackage,
     val enumerators: List<JniEnumerator> = emptyList(),
-    val isExternal: Boolean = false
-) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
+    @Suppress("unused")
+    val needsOrdinalConversion: Boolean = false,
+    externalConverter: String? = null,
+    externalConvertedType: String? = null
+) : JniTopLevelElement(
+    javaName,
+    cppFullyQualifiedName,
+    javaPackage,
+    externalConverter,
+    externalConvertedType
+) {
     @Suppress("unused")
     val jniTypeSignature
         get() = (javaPackage.packageNames + javaName)

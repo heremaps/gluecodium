@@ -71,8 +71,7 @@ public:
         auto newProxyInstance = new (::std::nothrow ) ImplType( jenv, std::move(globalRef), jHashCode );
         if ( newProxyInstance == nullptr )
         {
-            auto exceptionClass = find_class(jenv, "java/lang/RuntimeException" );
-            jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
+            throw_runtime_exception( jenv, "Cannot allocate native memory." );
             return;
         }
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );

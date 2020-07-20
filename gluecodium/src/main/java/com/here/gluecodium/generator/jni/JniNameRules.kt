@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.jni
 
+import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.jni.JniContainer
 import com.here.gluecodium.model.jni.JniTopLevelElement
@@ -55,6 +56,11 @@ class JniNameRules(generatorName: String) {
         fun getFullClassName(javaType: JavaCustomTypeRef) =
             (javaType.packageNames + javaType.classNames.joinToString("$")).joinToString("/")
 
+        fun getFullClassName(importString: String) = (
+            JavaNameRules.getPackageFromImportString(importString) +
+                JavaNameRules.getClassNamesFromImportString(importString).joinToString("$")
+        ).joinToString("/")
+
         fun getJniClassFileName(jniContainer: JniContainer) =
             (jniContainer.javaPackage.packageNames + jniContainer.javaNames).joinToString("_")
 
@@ -62,7 +68,12 @@ class JniNameRules(generatorName: String) {
             (jniElement.javaPackage.packageNames + jniElement.javaName.replace("$", "_")).joinToString("_")
 
         fun getConversionFileName(jniElement: JniTopLevelElement) =
-            getConversionFileName(jniElement.javaPackage.packageNames, jniElement.javaName.split("$"))
+            jniElement.externalConvertedType?.let {
+                it.replace('/', '_').replace('$', '_') + JNI_CONVERSION_SUFFIX
+            } ?: getConversionFileName(
+                jniElement.javaPackage.packageNames,
+                jniElement.javaName.split("$")
+            )
 
         fun getConversionFileName(jniContainer: JniContainer) =
             getConversionFileName(jniContainer.javaPackage.packageNames, jniContainer.javaInterfaceNames)
