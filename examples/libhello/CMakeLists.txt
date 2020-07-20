@@ -318,6 +318,12 @@ feature(SwiftExternalTypes swift SOURCES
     lime/test/SwiftExternalTypes.lime
 )
 
+feature(DartExternalTypes dart SOURCES
+    src/test/DartExternalTypes.cpp
+
+    lime/test/DartExternalTypes.lime
+)
+
 feature(UnderscorePackage cpp android swift dart SOURCES
     src/test/UseUnderscorePackage.cpp
 

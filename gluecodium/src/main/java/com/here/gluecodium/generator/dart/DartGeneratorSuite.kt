@@ -26,7 +26,6 @@ import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.LimeModelFilter
-import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -152,13 +151,14 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
-        val fileName = NameHelper.toLowerSnakeCase(dartNameResolver.resolveName(rootElement))
+        val fileName = importResolver.resolveFileName(rootElement)
         val filePath = "$packagePath/$fileName"
         val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
-        val allSymbols = (allTypes + freeConstants)
+        val nonExternalTypes = allTypes.filter { it.external?.dart == null }
+        val allSymbols = (nonExternalTypes + freeConstants)
             .filterNot { it.visibility.isInternal }
             .map { dartNameResolver.resolveName(it) }
         if (allSymbols.isNotEmpty()) {

@@ -18,12 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#unless external.dart}}
 {{>dart/DartDocumentation}}
 enum {{resolveName}} {
 {{#enumerators}}
 {{prefixPartial "dart/DartEnumerator" "    "}}
 {{/enumerators}}
 }
+{{/unless}}
 
 // {{resolveName}} "private" section, not exported.
 
