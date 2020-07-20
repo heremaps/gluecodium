@@ -20,7 +20,9 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeNamedElement
 
@@ -43,10 +45,15 @@ internal class LimeDeprecationsValidator(
     }
 
     private fun validateContainer(limeContainer: LimeContainerWithInheritance) =
-        if (limeContainer.attributes.have(POINTER_EQUATABLE)) {
-            logger.logFunction(limeContainer, "@PointerEquatable attribute is deprecated")
-            false
-        } else {
-            true
+        when {
+            limeContainer.attributes.have(POINTER_EQUATABLE) -> {
+                logger.logFunction(limeContainer, "@PointerEquatable attribute is deprecated")
+                false
+            }
+            limeContainer.attributes.have(JAVA, BUILDER) -> {
+                logger.logFunction(limeContainer, "@Java(Builder) attribute is deprecated")
+                false
+            }
+            else -> true
         }
 }

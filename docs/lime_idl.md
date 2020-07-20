@@ -84,8 +84,8 @@ sequence (in which case it will be explained specifically each time).
 LimeIDL supports two kinds of identifiers (names): simple identifiers and escaped identifiers.
 
 Most of the identifiers are simple ones. They should follow common rules for identifiers:
-* can contain only Latin letters, digits and underscores `_`.
-* cannot begin with a digit.
+* can contain only Latin letters, digits, and underscores `_`.
+* cannot start with a digit.
 
 Escaped identifies are enclosed in '`' backticks. Escaped identifiers support the whole range of
 Unicode characters. The only characters that are not allowed are line breaks and backticks.
@@ -107,7 +107,7 @@ the declaration.
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
 * List of element kinds that can have a visibility prefix: class, interface, types, function,
 constructor, property, property accessor, struct, struct field, enumeration, exception, constant,
-type alias.
+type alias, lambda.
 * List of element kinds that cannot have a visibility prefix: package, import, function parameter,
 enumerator.
 * `open` and `open internal` are currently only supported for classes. Both mean the class can be
@@ -163,7 +163,7 @@ class or interface. `types` declaration can be only placed at file level.
 
 Classes and interfaces support inheritance (optionally, see *ParentName* in the syntax above).
 There are some restrictions on inheritance:
-* multiple inheritance is currently not supported.
+* multiple inheritance is not supported.
 * an interface cannot inherit from a class.
 * an class can only inherit from another ("parent") class if the parent class has "open" visibility
 (see `Visibility` above).
@@ -463,10 +463,11 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
 * **@Java**: marks an element with Java-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
   This is the default specification for this attribute.
-  * **Builder**: marks a struct type to have a "builder" pattern generated in Java.
   * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Java (instead of a default name).
   * **Skip**: marks an element to be skipped (not generated) in Java.
+  * ~~**Builder**~~: **deprecated**. Marks a struct type to have a "builder" pattern generated in
+  Java.
 * **@Swift**: marks an element with Swift-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Swift.
   This is the default specification for this attribute.
