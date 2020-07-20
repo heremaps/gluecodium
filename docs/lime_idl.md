@@ -322,8 +322,13 @@ names are case-insensitive. Supported platform tags:
   * **swift**: describes "external" behavior for Swift. Currently only supported for structs and
   enums. Supported value names:
     * **framework**: *mandatory value*. Specifies a name of a Swift framework that needs to be
-    imported for the pre-existing type. The value can be an empty string **""** if the type resides
+    imported for the pre-existing type. The value can be an empty string `""` if the type resides
     in the current framework or in the "Foundation" framework.
+  * **dart**: describes "external" behavior for Dart. Currently only supported for structs and
+  enums. Supported value names:
+    * **importPath**: *mandatory value*. Specifies a full import path for a Dart `import` directive
+    needed for the pre-existing type (i.e. either `"dart:<library_name>"` or
+    `"package:<path>/<file_name>.dart"`).
 
 ### Type references
 
