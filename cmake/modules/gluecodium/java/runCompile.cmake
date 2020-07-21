@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-set (_required_vars APIGEN_GLUECODIUM_DIR APIGEN_OUTPUT_DIR APIGEN_JAVA_COMPILE_OUTPUT_DIR)
+set (_required_vars APIGEN_GLUECODIUM_DIR APIGEN_JAVA_LOCAL_SOURCES_DIRS APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 foreach(_var ${_required_vars})
     if (NOT ${_var})
         message(FATAL_ERROR "${_var} must be specified")
@@ -26,13 +26,7 @@ endforeach()
 include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
 include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
 
-list(APPEND _java_source_dirs "${APIGEN_OUTPUT_DIR}/android")
-
-if (APIGEN_COMMON_OUTPUT_DIR)
-  list(APPEND _java_source_dirs "${APIGEN_COMMON_OUTPUT_DIR}/android")
-endif ()
-
-string(REPLACE ";" "\;" _java_source_dirs "${_java_source_dirs}")
+string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_SOURCES_DIRS "${APIGEN_JAVA_LOCAL_SOURCES_DIRS}")
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_DEPENDENCIES "${APIGEN_JAVA_LOCAL_DEPENDENCIES}")
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
 string(REPLACE ";" "\;" APIGEN_JAVA_REMOTE_DEPENDENCIES "${APIGEN_JAVA_REMOTE_DEPENDENCIES}")
@@ -42,7 +36,7 @@ execute_process(
   COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
   COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
     -b=compileJava.gradle
-    -PsrcDirs=${_java_source_dirs}
+    -PsrcDirs=${APIGEN_JAVA_LOCAL_SOURCES_DIRS}
     -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
     -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
     -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
