@@ -36,6 +36,7 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_java_compile(TARGET target
 #        LOCAL_DEPENDENCIES jar_name
 #        LOCAL_DEPENDENCIES_DIRS dir_path
+#        LOCAL_SOURCES_DIRS source_path
 #        LOCAL_JARS jar_name
 #        REMOTE_DEPENDENCIES package_name )
 #
@@ -44,6 +45,7 @@ cmake_minimum_required(VERSION 3.5)
 # packages.
 # LOCAL_JARS specifies the path(s) of local JAR file(s) to include as dependencies
 # REMOTE_DEPENDENCIES specifies name(s) of the Gradle packages to include as dependencies through
+# LOCAL_SOURCES_DIRS specifies paths(s) of the local directories with Java sources to compile.
 # the regular dependency resolution process (i.e. fetching them from the remote repository unless
 # an up-to-date version is present in the local Gradle cache).
 #
@@ -111,7 +113,7 @@ endfunction()
 function(apigen_java_compile)
   set(options)
   set(oneValueArgs TARGET)
-  set(multiValueArgs LOCAL_DEPENDENCIES LOCAL_DEPENDENCIES_DIRS LOCAL_JARS REMOTE_DEPENDENCIES)
+  set(multiValueArgs LOCAL_DEPENDENCIES LOCAL_DEPENDENCIES_DIRS LOCAL_JARS REMOTE_DEPENDENCIES LOCAL_SOURCES_DIRS)
   cmake_parse_arguments(apigen_java_compile
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -119,6 +121,11 @@ function(apigen_java_compile)
   get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_OUTPUT_DIR)
   get_target_property(COMMON_OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_COMMON_OUTPUT_DIR)
   get_target_property(BUILD_OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_BUILD_OUTPUT_DIR)
+
+  list(APPEND APIGEN_JAVA_LOCAL_SOURCES_DIRS "${OUTPUT_DIR}/android")
+  if (COMMON_OUTPUT_DIR)
+    list(APPEND APIGEN_JAVA_LOCAL_SOURCES_DIRS "${COMMON_OUTPUT_DIR}/android")
+  endif ()
 
   if(NOT ${GENERATOR} MATCHES "android")
     message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
@@ -141,6 +148,9 @@ function(apigen_java_compile)
   foreach(local_jars ${apigen_java_compile_LOCAL_JARS})
     list(APPEND APIGEN_JAVA_LOCAL_JARS "${local_jars}")
   endforeach()
+  foreach(local_sources_dirs ${apigen_java_compile_LOCAL_SOURCES_DIRS})
+    list(APPEND APIGEN_JAVA_LOCAL_SOURCES_DIRS "${local_sources_dirs}")
+  endforeach()
 
   collect_java_dependencies(${apigen_java_compile_TARGET}
       APIGEN_JAVA_LOCAL_DEPENDENCIES
@@ -154,6 +164,7 @@ function(apigen_java_compile)
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_REMOTE_DEPENDENCIES "${APIGEN_JAVA_REMOTE_DEPENDENCIES}")
   string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_JARS "${APIGEN_JAVA_LOCAL_JARS}")
+  string(REPLACE ";" "$<SEMICOLON>" APIGEN_JAVA_LOCAL_SOURCES_DIRS "${APIGEN_JAVA_LOCAL_SOURCES_DIRS}")
 
   add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND}
@@ -161,9 +172,8 @@ function(apigen_java_compile)
       -DAPIGEN_JAVA_LOCAL_DEPENDENCIES=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
       -DAPIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
       -DAPIGEN_JAVA_REMOTE_DEPENDENCIES=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
+      -DAPIGEN_JAVA_LOCAL_SOURCES_DIRS=${APIGEN_JAVA_LOCAL_SOURCES_DIRS}
       -DAPIGEN_JAVA_LOCAL_JARS=${APIGEN_JAVA_LOCAL_JARS}
-      -DAPIGEN_OUTPUT_DIR=${OUTPUT_DIR}
-      -DAPIGEN_COMMON_OUTPUT_DIR=${COMMON_OUTPUT_DIR}
       -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
       -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
       -P ${APIGEN_COMPILE_DIR}/runCompile.cmake
