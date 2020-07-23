@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,14 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
+package com.here.android.test;
 
-package com.here.gluecodium.model.java
+class SeasonConverter {
+    static String convertFromInternal(Season season) {
+        return season.name();
+    }
 
-class JavaEnum(
-    name: String,
-    classNames: List<String> = listOf(name),
-    val items: List<JavaEnumItem> = emptyList(),
-    skipDeclaration: Boolean = false
-) : JavaTopLevelElement(name, classNames, skipDeclaration) {
-
-    override val childElements
-        get() = super.childElements + items
+    static Season convertToInternal(String seasonString) {
+        return Season.valueOf(Season.class, seasonString);
+    }
 }

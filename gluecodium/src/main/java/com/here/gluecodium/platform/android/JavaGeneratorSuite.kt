@@ -112,7 +112,7 @@ open class JavaGeneratorSuite protected constructor(
 
         val javaTemplates = JavaTemplates(generatorName)
         val nonExternalElements = combinedModel.javaElements.filter {
-            it !is JavaTopLevelElement || !it.isExternal
+            it !is JavaTopLevelElement || !it.skipDeclaration
         }
         val javaFiles = javaTemplates.generateFiles(nonExternalElements).toMutableList()
 

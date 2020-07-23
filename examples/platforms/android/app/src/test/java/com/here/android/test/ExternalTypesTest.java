@@ -103,4 +103,22 @@ public final class ExternalTypesTest {
 
     assertEquals(month, result);
   }
+
+  @Test
+  public void useJavaExternalColor() {
+    Integer color = android.graphics.Color.argb(0, 0, 127, 255);
+
+    Integer result = UseJavaExternalTypes.colorRoundTrip(color);
+
+    assertEquals(color, result);
+  }
+
+  @Test
+  public void useJavaExternalSeason() {
+    String season = "SPRING";
+
+    String result = UseJavaExternalTypes.seasonRoundTrip(season);
+
+    assertEquals(season, result);
+  }
 }

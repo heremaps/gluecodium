@@ -502,6 +502,7 @@ elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL android)
         set(ANDROID_PLATFORM "android-${ANDROID_NATIVE_API_LEVEL}")
     endif()
     apigen_java_compile(TARGET hello
+        LOCAL_SOURCES_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src/android"
         LOCAL_DEPENDENCIES "android"
         LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}"
         REMOTE_DEPENDENCIES "com.android.support:support-annotations:28.0.0")

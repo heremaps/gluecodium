@@ -4,6 +4,8 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+import java.lang.Integer;
+import java.lang.String;
 import java.time.Month;
 import java.util.Currency;
 import java.util.SimpleTimeZone;
@@ -27,4 +29,8 @@ public final class UseJavaExternalTypes extends NativeBase {
     public static native SimpleTimeZone timeZoneRoundTrip(@NonNull final SimpleTimeZone input);
     @NonNull
     public static native Month monthRoundTrip(@NonNull final Month input);
+    @NonNull
+    public static native Integer colorRoundTrip(@NonNull final Integer input);
+    @NonNull
+    public static native String seasonRoundTrip(@NonNull final String input);
 }

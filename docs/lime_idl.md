@@ -319,6 +319,10 @@ names are case-insensitive. Supported platform tags:
     statement).
     * **getterName**, **setterName**: marks a field in a struct type that is already marked as
     external to be accessed through given getter/setter functions instead of directly in Java.
+    * **converter**: specifies a pre-existing converter class (by its full Java name). A converter
+    class should have two static functions named `convertToInternal` and `convertFromInternal`,
+    providing conversion between the "external" type and the generated "internal" type (which has
+    package-private visibility).
   * **swift**: describes "external" behavior for Swift. Currently only supported for structs and
   enums. Supported value names:
     * **framework**: *mandatory value*. Specifies a name of a Swift framework that needs to be

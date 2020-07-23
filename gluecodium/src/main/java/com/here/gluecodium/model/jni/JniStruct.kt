@@ -28,8 +28,16 @@ class JniStruct(
     javaPackage: JavaPackage,
     val fields: List<JniField> = emptyList(),
     val methods: List<JniMethod> = emptyList(),
-    val hasImmutableFields: Boolean = false
-) : JniTopLevelElement(javaName, cppFullyQualifiedName, javaPackage) {
+    val hasImmutableFields: Boolean = false,
+    externalConverter: String? = null,
+    externalConvertedType: String? = null
+) : JniTopLevelElement(
+    javaName,
+    cppFullyQualifiedName,
+    javaPackage,
+    externalConverter,
+    externalConvertedType
+) {
     @Suppress("unused")
     override val mangledName
         get() = JniNameRules.getMangledName((javaPackage.packageNames + javaName).joinToString("/"))

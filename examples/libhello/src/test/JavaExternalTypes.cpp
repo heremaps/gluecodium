@@ -36,4 +36,14 @@ Month
 UseJavaExternalTypes::month_round_trip(const Month input) {
     return input;
 }
+
+SystemColor
+UseJavaExternalTypes::color_round_trip(const SystemColor& input) {
+    return input;
+}
+
+Season
+UseJavaExternalTypes::season_round_trip(const Season input) {
+    return input;
+}
 }

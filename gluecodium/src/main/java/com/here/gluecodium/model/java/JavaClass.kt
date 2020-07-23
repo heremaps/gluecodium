@@ -34,8 +34,8 @@ class JavaClass(
     val isImmutable: Boolean = false,
     val needsBuilder: Boolean = false,
     var generatedConstructorComment: String? = null,
-    isExternal: Boolean = false
-) : JavaTopLevelElement(name, classNames, isExternal) {
+    skipDeclaration: Boolean = false
+) : JavaTopLevelElement(name, classNames, skipDeclaration) {
 
     init {
         this.methods += methods

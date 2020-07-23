@@ -53,6 +53,7 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -179,11 +180,16 @@ class JavaModelBuilder(
             serializationBase != null && limeStruct.attributes.have(LimeAttributeType.SERIALIZABLE)
 
         val externalImport = limeStruct.external?.java?.get(NAME_NAME)
-        val javaPackage = externalImport?.let {
-            JavaPackage(JavaNameRules.getPackageFromImportString(it))
-        } ?: rootPackage
-        val classNames = externalImport?.let { JavaNameRules.getClassNamesFromImportString(it) }
-            ?: nameResolver.getClassNames(limeStruct)
+        val hasConverter = limeStruct.external?.java?.get(CONVERTER_NAME) != null
+        val skipDeclaration = externalImport != null && !hasConverter
+        val javaPackage = when {
+            skipDeclaration -> JavaPackage(JavaNameRules.getPackageFromImportString(externalImport!!))
+            else -> rootPackage
+        }
+        val classNames = when {
+            skipDeclaration -> JavaNameRules.getClassNamesFromImportString(externalImport!!)
+            else -> nameResolver.getClassNames(limeStruct)
+        }
 
         val javaClass = JavaClass(
             name = classNames.last(),
@@ -196,7 +202,7 @@ class JavaModelBuilder(
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             needsBuilder = limeStruct.attributes.have(JAVA, BUILDER),
             generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG),
-            isExternal = externalImport != null
+            skipDeclaration = skipDeclaration
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
@@ -237,17 +243,22 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val externalImport = limeEnumeration.external?.java?.get(NAME_NAME)
-        val javaPackage = externalImport?.let {
-            JavaPackage(JavaNameRules.getPackageFromImportString(it))
-        } ?: rootPackage
-        val classNames = externalImport?.let { JavaNameRules.getClassNamesFromImportString(it) }
-            ?: nameResolver.getClassNames(limeEnumeration)
+        val hasConverter = limeEnumeration.external?.java?.get(CONVERTER_NAME) != null
+        val skipDeclaration = externalImport != null && !hasConverter
+        val javaPackage = when {
+            skipDeclaration -> JavaPackage(JavaNameRules.getPackageFromImportString(externalImport!!))
+            else -> rootPackage
+        }
+        val classNames = when {
+            skipDeclaration -> JavaNameRules.getClassNamesFromImportString(externalImport!!)
+            else -> nameResolver.getClassNames(limeEnumeration)
+        }
 
         val javaEnum = JavaEnum(
             name = classNames.last(),
             classNames = classNames,
             items = getPreviousResults(JavaEnumItem::class.java),
-            isExternal = externalImport != null
+            skipDeclaration = skipDeclaration
         )
         javaEnum.visibility = getVisibility(limeEnumeration)
         javaEnum.javaPackage = javaPackage
@@ -536,6 +547,7 @@ class JavaModelBuilder(
     private fun getVisibility(limeElement: LimeNamedElement) =
         when {
             limeElement.visibility.isInternal -> JavaVisibility.PACKAGE
+            limeElement.external?.java?.get(CONVERTER_NAME) != null -> JavaVisibility.PACKAGE
             else -> JavaVisibility.PUBLIC
         }
 

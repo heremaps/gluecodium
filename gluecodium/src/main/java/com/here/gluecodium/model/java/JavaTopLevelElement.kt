@@ -22,7 +22,7 @@ package com.here.gluecodium.model.java
 abstract class JavaTopLevelElement(
     name: String,
     val classNames: List<String>,
-    val isExternal: Boolean = false
+    val skipDeclaration: Boolean = false
 ) : JavaElement(name) {
 
     var javaPackage = JavaPackage.DEFAULT

@@ -58,6 +58,7 @@ class LimeExternalDescriptor private constructor(
         const val SWIFT_TAG = "swift"
         const val DART_TAG = "dart"
 
+        const val CONVERTER_NAME = "converter"
         const val INCLUDE_NAME = "include"
         const val FRAMEWORK_NAME = "framework"
         const val IMPORT_PATH_NAME = "importPath"

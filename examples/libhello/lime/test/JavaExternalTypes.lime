@@ -38,6 +38,18 @@ struct TimeZone {
     }
 }
 
+struct SystemColor {
+    external {
+        java name "java.lang.Integer"
+        java converter "com.here.android.test.ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+
 enum Month {
     external {
         java name "java.time.Month"
@@ -48,8 +60,22 @@ enum Month {
     MARCH
 }
 
+enum Season {
+    external {
+        java name "java.lang.String"
+        java converter "com.here.android.test.SeasonConverter"
+    }
+
+    WINTER,
+    SPRING,
+    SUMMER,
+    AUTUMN
+}
+
 class UseJavaExternalTypes {
     static fun currencyRoundTrip(input: Currency): Currency
     static fun timeZoneRoundTrip(input: TimeZone): TimeZone
     static fun monthRoundTrip(input: Month): Month
+    static fun colorRoundTrip(input: SystemColor): SystemColor
+    static fun seasonRoundTrip(input: Season): Season
 }

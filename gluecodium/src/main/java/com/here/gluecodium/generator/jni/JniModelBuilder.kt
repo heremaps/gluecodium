@@ -65,7 +65,9 @@ import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -230,13 +232,21 @@ class JniModelBuilder(
     override fun finishBuilding(limeStruct: LimeStruct) {
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
+
+        val externalConverter =
+            limeStruct.external?.java?.get(CONVERTER_NAME)?.let { JniNameRules.getFullClassName(it) }
+        val externalConvertedType = limeStruct.external?.java?.get(NAME_NAME)
+            ?.takeIf { externalConverter != null }?.let { JniNameRules.getFullClassName(it) }
+
         val jniStruct = JniStruct(
             javaName = javaClass.classNames.joinToString("$"),
             cppFullyQualifiedName = cppStruct.fullyQualifiedName,
             javaPackage = javaClass.javaPackage,
             fields = getPreviousResults(JniField::class.java),
             methods = getPreviousResults(JniMethod::class.java),
-            hasImmutableFields = cppStruct.hasImmutableFields
+            hasImmutableFields = cppStruct.hasImmutableFields,
+            externalConverter = externalConverter,
+            externalConvertedType = externalConvertedType
         )
 
         storeNamedResult(limeStruct, jniStruct)
@@ -266,12 +276,21 @@ class JniModelBuilder(
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val javaEnum = javaBuilder.getFinalResult(JavaEnum::class.java)
         val cppEnum = cppBuilder.getFinalResult(CppEnum::class.java)
+
+        val externalConverter =
+            limeEnumeration.external?.java?.get(CONVERTER_NAME)?.let { JniNameRules.getFullClassName(it) }
+        val externalConvertedType = limeEnumeration.external?.java?.get(NAME_NAME)
+            ?.takeIf { externalConverter != null }?.let { JniNameRules.getFullClassName(it) }
+
         val jniEnum = JniEnum(
             javaName = javaEnum.classNames.joinToString("$"),
             cppFullyQualifiedName = cppEnum.fullyQualifiedName,
             javaPackage = javaEnum.javaPackage,
             enumerators = getPreviousResults(JniEnumerator::class.java),
-            isExternal = javaEnum.isExternal
+            needsOrdinalConversion = externalConverter == null &&
+                limeEnumeration.external?.java?.get(NAME_NAME) != null,
+            externalConverter = externalConverter,
+            externalConvertedType = externalConvertedType
         )
 
         storeNamedResult(limeEnumeration, jniEnum)
