@@ -8,6 +8,8 @@
 #include "gluecodium/TypeRepository.h"
 #include "smoke/DateInterval.h"
 #include "smoke/Persistence.h"
+#include "smoke/PseudoColor.h"
+#include "smoke/SwiftSeason.h"
 #include "smoke/UseSwiftExternalTypes.h"
 #include <memory>
 #include <new>
@@ -37,4 +39,10 @@ _baseRef smoke_UseSwiftExternalTypes_dateIntervalRoundTrip(_baseRef input) {
 }
 smoke_URLCredential_1Persistence smoke_UseSwiftExternalTypes_persistenceRoundTrip(smoke_URLCredential_1Persistence input) {
     return static_cast<smoke_URLCredential_1Persistence>(::smoke::UseSwiftExternalTypes::persistence_round_trip(static_cast<::smoke::Persistence>(input)));
+}
+_baseRef smoke_UseSwiftExternalTypes_colorRoundTrip(_baseRef input) {
+    return Conversion<::smoke::PseudoColor>::toBaseRef(::smoke::UseSwiftExternalTypes::color_round_trip(Conversion<::smoke::PseudoColor>::toCpp(input)));
+}
+smoke_SwiftSeason smoke_UseSwiftExternalTypes_seasonRoundTrip(smoke_SwiftSeason input) {
+    return static_cast<smoke_SwiftSeason>(::smoke::UseSwiftExternalTypes::season_round_trip(static_cast<::smoke::SwiftSeason>(input)));
 }

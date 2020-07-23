@@ -34,8 +34,18 @@ class SwiftStruct(
     val constants: List<SwiftConstant> = emptyList(),
     val methods: List<SwiftMethod> = emptyList(),
     var generatedConstructorComment: String? = null,
-    externalFramework: String? = null
-) : SwiftType(name, cPrefix, visibility, category, publicName ?: name, optional, externalFramework) {
+    externalFramework: String? = null,
+    externalConverter: String? = null
+) : SwiftType(
+    name,
+    cPrefix,
+    visibility,
+    category,
+    publicName ?: name,
+    optional,
+    externalFramework,
+    externalConverter
+) {
 
     @Suppress("unused")
     val constructors

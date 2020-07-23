@@ -18,27 +18,23 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/UseSwiftExternalTypes.h"
+internal class SeasonConverter {
+    static func convertFromInternal(_ internalSeason: Season_internal) -> Season {
+        switch (internalSeason) {
+        case .winter: return Season("winter")
+        case .spring: return Season("spring")
+        case .summer: return Season("summer")
+        case .autumn: return Season("autumn")
+        }
+    }
 
-namespace test
-{
-DateInterval
-UseSwiftExternalTypes::date_interval_round_trip(const DateInterval& input) {
-    return input;
-}
-
-Persistence
-UseSwiftExternalTypes::persistence_round_trip(const Persistence input) {
-    return input;
-}
-
-SystemColor
-UseSwiftExternalTypes::color_round_trip(const SystemColor& input) {
-    return input;
-}
-
-Season
-UseSwiftExternalTypes::season_round_trip(const Season input) {
-    return input;
-}
+    static func convertToInternal(_ systemSeason: Season) -> Season_internal {
+        switch (systemSeason.value) {
+        case "winter": return Season_internal.winter
+        case "spring": return Season_internal.spring
+        case "summer": return Season_internal.summer
+        case "autumn": return Season_internal.autumn
+        default: fatalError("Oops! '\(systemSeason.value)'")
+        }
+    }
 }

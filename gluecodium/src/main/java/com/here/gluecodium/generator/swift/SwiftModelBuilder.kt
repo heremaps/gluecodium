@@ -36,6 +36,7 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.FRAMEWORK_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -264,7 +265,8 @@ class SwiftModelBuilder(
             constants = getPreviousResults(SwiftConstant::class.java),
             methods = getPreviousResults(SwiftMethod::class.java),
             generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG),
-            externalFramework = limeStruct.external?.swift?.get(FRAMEWORK_NAME)
+            externalFramework = limeStruct.external?.swift?.get(FRAMEWORK_NAME),
+            externalConverter = limeStruct.external?.swift?.get(CONVERTER_NAME)
         )
         swiftStruct.comment = createComments(limeStruct)
 
@@ -299,7 +301,8 @@ class SwiftModelBuilder(
             name = nameResolver.getFullName(limeEnumeration),
             visibility = getVisibility(limeEnumeration),
             items = getPreviousResults(SwiftEnumItem::class.java),
-            externalFramework = limeEnumeration.external?.swift?.get(FRAMEWORK_NAME)
+            externalFramework = limeEnumeration.external?.swift?.get(FRAMEWORK_NAME),
+            externalConverter = limeEnumeration.external?.swift?.get(CONVERTER_NAME)
         )
         swiftEnum.comment = createComments(limeEnumeration)
 
@@ -476,6 +479,7 @@ class SwiftModelBuilder(
     private fun getVisibility(limeElement: LimeNamedElement) =
         when {
             limeElement.visibility.isInternal -> SwiftVisibility.INTERNAL
+            limeElement.external?.swift?.get(CONVERTER_NAME) != null -> SwiftVisibility.INTERNAL
             else -> SwiftVisibility.PUBLIC
         }
 

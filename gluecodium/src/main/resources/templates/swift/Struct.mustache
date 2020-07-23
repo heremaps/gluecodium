@@ -18,8 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}{{>swift/Comment}}
-{{visibility}} struct {{simpleName}}{{#if isEquatable isCodable logic="or"}}{{!!
+{{#unless skipDeclaration}}{{>swift/Comment}}
+{{visibility}} struct {{simpleName}}{{#if externalConverter}}_internal{{/if}}{{#if isEquatable isCodable logic="or"}}{{!!
 }}:{{#if isEquatable}} Hashable{{/if}}{{#if isEquatable isCodable logic="and"}},{{/if}}{{#if isCodable}} Codable{{/if}}{{!!
 }}{{/if}} {
 {{#constants}}
@@ -115,7 +115,7 @@
 }
 {{/unless}}{{!!
 
-}}{{#if isExternal}}
+}}{{#if skipDeclaration}}
 extension {{name}} {
     internal init?(cHandle: _baseRef) {
         self.init({{#fields}}{{name}}: {{!!

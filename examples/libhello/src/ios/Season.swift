@@ -18,27 +18,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/UseSwiftExternalTypes.h"
-
-namespace test
-{
-DateInterval
-UseSwiftExternalTypes::date_interval_round_trip(const DateInterval& input) {
-    return input;
-}
-
-Persistence
-UseSwiftExternalTypes::persistence_round_trip(const Persistence input) {
-    return input;
-}
-
-SystemColor
-UseSwiftExternalTypes::color_round_trip(const SystemColor& input) {
-    return input;
-}
-
-Season
-UseSwiftExternalTypes::season_round_trip(const Season input) {
-    return input;
-}
+public class Season {
+    public let value: String
+    public init(_ value: String) {
+        self.value = value
+    }
 }

@@ -328,6 +328,10 @@ names are case-insensitive. Supported platform tags:
     * **framework**: *mandatory value*. Specifies a name of a Swift framework that needs to be
     imported for the pre-existing type. The value can be an empty string `""` if the type resides
     in the current framework or in the "Foundation" framework.
+    * **converter**: specifies a pre-existing converter class. A converter class should have two
+    static functions named `convertToInternal` and `convertFromInternal`, providing conversion
+    between the "external" type and the generated "internal" type. The argument of each conversion
+    function has to be anonymous (i.e. with `_` argument label).
   * **dart**: describes "external" behavior for Dart. Currently only supported for structs and
   enums. Supported value names:
     * **importPath**: *mandatory value*. Specifies a full import path for a Dart `import` directive
