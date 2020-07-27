@@ -62,6 +62,7 @@ class LimeExternalDescriptor private constructor(
         const val INCLUDE_NAME = "include"
         const val FRAMEWORK_NAME = "framework"
         const val IMPORT_PATH_NAME = "importPath"
+        const val CONVERTER_IMPORT_NAME = "converterImport"
         const val NAME_NAME = "name"
         const val GETTER_NAME_NAME = "getterName"
         const val SETTER_NAME_NAME = "setterName"

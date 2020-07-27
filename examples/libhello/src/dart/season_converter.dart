@@ -18,27 +18,32 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/UseDartExternalTypes.h"
+import "test/string.dart";
 
-namespace test
-{
-Rectangle
-UseDartExternalTypes::rectangle_round_trip(const Rectangle& input) {
-    return input;
-}
+class SeasonConverter {
+  static String convertFromInternal(String_internal internalSeason) {
+    switch (internalSeason) {
+      case String_internal.winter:
+        return "winter";
+      case String_internal.spring:
+        return "spring";
+      case String_internal.summer:
+        return "summer";
+      case String_internal.autumn:
+        return "autumn";
+    }
+  }
 
-CompressionState
-UseDartExternalTypes::compression_state_round_trip(const CompressionState input) {
-    return input;
-}
-
-SystemColor
-UseDartExternalTypes::color_round_trip(const SystemColor& input) {
-    return input;
-}
-
-Season
-UseDartExternalTypes::season_round_trip(const Season input) {
-    return input;
-}
+  static String_internal convertToInternal(String systemSeason) {
+    switch (systemSeason) {
+      case "winter":
+        return String_internal.winter;
+      case "spring":
+        return String_internal.spring;
+      case "summer":
+        return String_internal.summer;
+      case "autumn":
+        return String_internal.autumn;
+    }
+  }
 }

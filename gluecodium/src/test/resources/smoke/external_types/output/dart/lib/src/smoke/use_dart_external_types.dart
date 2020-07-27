@@ -2,7 +2,9 @@ import 'dart:math';
 import 'package:foo/bar.dart';
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/http_client_response_compression_state.dart';
+import 'package:library/src/smoke/int.dart';
 import 'package:library/src/smoke/rectangle_int_.dart';
+import 'package:library/src/smoke/string.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -15,6 +17,8 @@ abstract class UseDartExternalTypes {
   void release();
   static Rectangle<int> rectangleRoundTrip(Rectangle<int> input) => UseDartExternalTypes$Impl.rectangleRoundTrip(input);
   static HttpClientResponseCompressionState compressionStateRoundTrip(HttpClientResponseCompressionState input) => UseDartExternalTypes$Impl.compressionStateRoundTrip(input);
+  static int colorRoundTrip(int input) => UseDartExternalTypes$Impl.colorRoundTrip(input);
+  static String seasonRoundTrip(String input) => UseDartExternalTypes$Impl.seasonRoundTrip(input);
 }
 // UseDartExternalTypes "private" section, not exported.
 final _smoke_UseDartExternalTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
@@ -60,6 +64,28 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
       return smoke_CompressionState_fromFfi(__result_handle);
     } finally {
       smoke_CompressionState_releaseFfiHandle(__result_handle);
+    }
+  }
+  static int colorRoundTrip(int input) {
+    final _colorRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_colorRoundTrip__DartColor');
+    final _input_handle = smoke_DartColor_toFfi(input);
+    final __result_handle = _colorRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
+    smoke_DartColor_releaseFfiHandle(_input_handle);
+    try {
+      return smoke_DartColor_fromFfi(__result_handle);
+    } finally {
+      smoke_DartColor_releaseFfiHandle(__result_handle);
+    }
+  }
+  static String seasonRoundTrip(String input) {
+    final _seasonRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_seasonRoundTrip__DartSeason');
+    final _input_handle = smoke_DartSeason_toFfi(input);
+    final __result_handle = _seasonRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
+    smoke_DartSeason_releaseFfiHandle(_input_handle);
+    try {
+      return smoke_DartSeason_fromFfi(__result_handle);
+    } finally {
+      smoke_DartSeason_releaseFfiHandle(__result_handle);
     }
   }
 }

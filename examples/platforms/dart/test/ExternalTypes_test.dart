@@ -65,4 +65,18 @@ void main() {
 
     expect(result, state);
   });
+  _testSuite.test("Use Dart external Color", () {
+    final color = 0x007FFF;
+
+    final result = UseDartExternalTypes.colorRoundTrip(color);
+
+    expect(result, color);
+  });
+  _testSuite.test("Use Dart external Season", () {
+    final season = "spring";
+
+    final result = UseDartExternalTypes.seasonRoundTrip(season);
+
+    expect(result, season);
+  });
 }

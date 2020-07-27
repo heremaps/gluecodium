@@ -337,6 +337,13 @@ names are case-insensitive. Supported platform tags:
     * **importPath**: *mandatory value*. Specifies a full import path for a Dart `import` directive
     needed for the pre-existing type (i.e. either `"dart:<library_name>"` or
     `"package:<path>/<file_name>.dart"`).
+    * **converter**: specifies a pre-existing converter class. A converter class should have two
+    static functions named `convertToInternal` and `convertFromInternal`, providing conversion
+    between the "external" type and the generated "internal" type.
+    * **converterImport**: specifies a relative import path for a Dart `import` directive
+    needed for the pre-existing converter class (i.e. `"<path>/<file_name>.dart"`).
+* **Note:** the following features of struct types cannot be combined with "external" behavior:
+custom constructors, field default values, `@Equatable`.
 
 ### Type references
 

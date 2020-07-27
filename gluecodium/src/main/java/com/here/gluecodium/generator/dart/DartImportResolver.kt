@@ -20,10 +20,12 @@
 package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.generator.common.NameHelper
+import com.here.gluecodium.generator.dart.DartImport.ImportType
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_IMPORT_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
@@ -57,7 +59,10 @@ internal class DartImportResolver(
                 listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport)
             limeElement is LimeClass -> listOf(tokenCacheImport)
             else -> emptyList()
-        } + listOfNotNull(resolveExternalImport(limeElement))
+        } + listOfNotNull(
+            resolveExternalImport(limeElement, IMPORT_PATH_NAME),
+            resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME)
+        )
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
@@ -87,7 +92,8 @@ internal class DartImportResolver(
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
         listOf(builtInTypesConversionImport) +
             when (limeType.typeId) {
-                LimeBasicType.TypeId.BLOB -> listOf(DartImport("typed_data", isSystem = true))
+                LimeBasicType.TypeId.BLOB ->
+                    listOf(DartImport("typed_data", importType = ImportType.SYSTEM))
                 LimeBasicType.TypeId.LOCALE -> listOf(DartImport("intl/locale"))
                 else -> emptyList()
             }
@@ -108,19 +114,24 @@ internal class DartImportResolver(
     private fun createConversionImport(filePath: String) =
         DartImport("$srcPath/${filePath}__conversion")
 
-    private fun resolveExternalImport(limeElement: LimeElement): DartImport? {
-        val importPath = (limeElement as? LimeNamedElement)?.external?.dart?.get(IMPORT_PATH_NAME)
-            ?: return null
+    private fun resolveExternalImport(
+        limeElement: LimeElement,
+        key: String = IMPORT_PATH_NAME
+    ): DartImport? {
+        val importPath = (limeElement as? LimeNamedElement)?.external?.dart?.get(key) ?: return null
         val components = importPath.split(':')
         return when (components.first()) {
-            "dart" -> DartImport(components.last(), isSystem = true)
+            "dart" -> DartImport(components.last(), importType = ImportType.SYSTEM)
             "package" -> DartImport(components.last().removeSuffix(".dart"))
-            else -> null
+            else -> DartImport(
+                components.last().removeSuffix(".dart"),
+                importType = ImportType.RELATIVE
+            )
         }
     }
 
     companion object {
-        private val collectionSystemImport = DartImport("collection", isSystem = true)
+        private val collectionSystemImport = DartImport("collection", importType = ImportType.SYSTEM)
         private val collectionPackageImport = DartImport("collection/collection")
     }
 }

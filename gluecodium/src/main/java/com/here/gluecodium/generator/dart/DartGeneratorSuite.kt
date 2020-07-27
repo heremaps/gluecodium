@@ -46,6 +46,7 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
@@ -180,7 +181,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
                 "contentTemplate" to contentTemplateName,
                 "libraryName" to libraryName
             ),
-            nameResolvers
+            nameResolvers,
+            predicates
         )
 
         return GeneratedFile(content, "$LIB_DIR/$relativePath")
@@ -476,5 +478,14 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         private const val SRC_DIR_SUFFIX = "src"
         private const val FFI_DIR = "$ROOT_DIR/ffi"
         private const val OPAQUE_HANDLE_TYPE = "void*"
+
+        private val predicates = mapOf(
+            "skipDeclaration" to { limeType: Any ->
+                limeType is LimeType && skipDeclaration(limeType)
+            }
+        )
+
+        private fun skipDeclaration(limeType: LimeType) = limeType.external?.dart != null &&
+            limeType.external?.dart?.get(CONVERTER_NAME) == null
     }
 }

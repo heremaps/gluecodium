@@ -18,27 +18,22 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/UseDartExternalTypes.h"
+import "test/int.dart";
 
-namespace test
-{
-Rectangle
-UseDartExternalTypes::rectangle_round_trip(const Rectangle& input) {
-    return input;
-}
+class ColorConverter {
+  static int convertFromInternal(int_internal internalColor) {
+    final alpha = (internalColor.alpha * 255).round() << 24;
+    final red = (internalColor.red * 255).round() << 16;
+    final green = (internalColor.green * 255).round() << 8;
+    final blue = (internalColor.blue * 255).round();
+    return alpha + red + green + blue;
+  }
 
-CompressionState
-UseDartExternalTypes::compression_state_round_trip(const CompressionState input) {
-    return input;
-}
-
-SystemColor
-UseDartExternalTypes::color_round_trip(const SystemColor& input) {
-    return input;
-}
-
-Season
-UseDartExternalTypes::season_round_trip(const Season input) {
-    return input;
-}
+  static int_internal convertToInternal(int systemColor) =>
+    int_internal(
+        ((systemColor >> 16) & 0xFF) / 255.0,
+        ((systemColor >> 8) & 0xFF) / 255.0,
+        (systemColor & 0xFF) / 255.0,
+        ((systemColor >> 24) & 0xFF) / 255.0
+    );
 }

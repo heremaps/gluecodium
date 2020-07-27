@@ -29,6 +29,19 @@ struct Rectangle {
     height: Int
 }
 
+@Dart("int")
+struct SystemColor {
+    external {
+       dart converterImport "../color_converter.dart"
+       dart converter "ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+
 @Dart("HttpClientResponseCompressionState")
 enum CompressionState {
     external {
@@ -40,7 +53,22 @@ enum CompressionState {
     notCompressed
 }
 
+@Dart("String")
+enum Season {
+    external {
+       dart converterImport "../season_converter.dart"
+       dart converter "SeasonConverter"
+    }
+
+    WINTER,
+    SPRING,
+    SUMMER,
+    AUTUMN
+}
+
 class UseDartExternalTypes {
     static fun rectangleRoundTrip(input: Rectangle): Rectangle
     static fun compressionStateRoundTrip(input: CompressionState): CompressionState
+    static fun colorRoundTrip(input: SystemColor): SystemColor
+    static fun seasonRoundTrip(input: Season): Season
 }

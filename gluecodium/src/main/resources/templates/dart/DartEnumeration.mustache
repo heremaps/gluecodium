@@ -18,21 +18,24 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless external.dart}}
+{{#unlessPredicate "skipDeclaration"}}
 {{>dart/DartDocumentation}}
-enum {{resolveName}} {
+enum {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{#enumerators}}
 {{prefixPartial "dart/DartEnumerator" "    "}}
 {{/enumerators}}
 }
-{{/unless}}
+{{/unlessPredicate}}
 
 // {{resolveName}} "private" section, not exported.
 
-int {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+int {{resolveName "Ffi"}}_toFfi({{resolveName}} value{{#if external.dart.converter}}_ext{{/if}}) {
+{{#if external.dart.converter}}
+  final value = {{external.dart.converter}}.convertToInternal(value_ext);
+{{/if}}
   switch (value) {
 {{#set parent=this}}{{#enumerators}}
-  case {{resolveName parent}}.{{resolveName}}:
+  case {{resolveName parent}}{{#if external.dart.converter}}_internal{{/if}}.{{resolveName}}:
     return {{value}};
   break;
 {{/enumerators}}{{/set}}
@@ -45,7 +48,11 @@ int {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   switch (handle) {
 {{#set parent=this}}{{#enumerators}}
   case {{value}}:
+{{#if external.dart.converter}}
+    return {{external.dart.converter}}.convertFromInternal({{resolveName parent}}_internal.{{resolveName}});
+{{/if}}{{#unless external.dart.converter}}
     return {{resolveName parent}}.{{resolveName}};
+{{/unless}}
   break;
 {{/enumerators}}{{/set}}
   default:

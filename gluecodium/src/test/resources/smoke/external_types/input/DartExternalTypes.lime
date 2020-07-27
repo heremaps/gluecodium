@@ -40,9 +40,37 @@ enum CompressionState {
     notCompressed
 }
 
+@Dart("int")
+struct DartColor {
+    external {
+       dart converterImport "../color_converter.dart"
+       dart converter "ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+
+@Dart("String")
+enum DartSeason {
+    external {
+       dart converterImport "../season_converter.dart"
+       dart converter "SeasonConverter"
+    }
+
+    WINTER,
+    SPRING,
+    SUMMER,
+    AUTUMN
+}
+
 class UseDartExternalTypes {
     static fun rectangleRoundTrip(input: Rectangle): Rectangle
     static fun compressionStateRoundTrip(input: CompressionState): CompressionState
+    static fun colorRoundTrip(input: DartColor): DartColor
+    static fun seasonRoundTrip(input: DartSeason): DartSeason
 }
 
 @Swift(Skip)

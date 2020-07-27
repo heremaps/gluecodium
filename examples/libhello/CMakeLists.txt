@@ -525,6 +525,15 @@ elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL swift)
         apigen_swift_test(hello SOURCES ${SWIFT_TEST_SOURCES})
     endif()
 elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL dart)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/dart/color_converter.dart"
+        "${CMAKE_CURRENT_BINARY_DIR}/hello/dart/dart/lib/src/color_converter.dart"
+        COPYONLY)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/dart/season_converter.dart"
+        "${CMAKE_CURRENT_BINARY_DIR}/hello/dart/dart/lib/src/season_converter.dart"
+        COPYONLY)
+
     # Install the shared library for Dart
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib
