@@ -22,6 +22,14 @@ public class UseSwiftExternalTypes {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_UseSwiftExternalTypes_persistenceRoundTrip(c_input.ref))
     }
+    public static func colorRoundTrip(input: PseudoColor) -> PseudoColor {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_UseSwiftExternalTypes_colorRoundTrip(c_input.ref))
+    }
+    public static func seasonRoundTrip(input: SwiftSeason) -> SwiftSeason {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_UseSwiftExternalTypes_seasonRoundTrip(c_input.ref))
+    }
 }
 internal func getRef(_ ref: UseSwiftExternalTypes?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {

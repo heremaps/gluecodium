@@ -512,6 +512,12 @@ elseif(HELLO_APIGEN_GLUECODIUM_GENERATOR STREQUAL swift)
     # Swift users want a module...
     include(gluecodium/Swift)
 
+    list(APPEND ADDITIONAL_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/ios/ColorConverter.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/ios/PseudoColor.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/ios/Season.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/ios/SeasonConverter.swift")
+
     apigen_swift_build(hello)
     apigen_swift_framework_info_plist(hello)
     if(HELLO_SWIFT_TESTS)

@@ -26,7 +26,9 @@ open class SwiftType protected constructor(
     val category: TypeCategory,
     val publicName: String = name,
     val optional: Boolean = false,
-    val externalFramework: String? = null
+    val externalFramework: String? = null,
+    @Suppress("unused")
+    val externalConverter: String? = null
 ) : SwiftModelElement(name, visibility) {
     val className
         get() = if (category == TypeCategory.CLASS) mangledName else ""
@@ -59,8 +61,8 @@ open class SwiftType protected constructor(
     fun getcPrefix() = cPrefix
 
     @Suppress("unused")
-    val isExternal
-        get() = externalFramework != null
+    val skipDeclaration
+        get() = externalFramework != null && externalConverter == null
 
     open fun withAlias(aliasName: String) =
         SwiftType(name, cPrefix, visibility, category, aliasName, optional, externalFramework)

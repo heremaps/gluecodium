@@ -23,13 +23,15 @@ class SwiftEnum(
     name: String,
     visibility: SwiftVisibility? = null,
     val items: List<SwiftEnumItem> = emptyList(),
-    externalFramework: String? = null
+    externalFramework: String? = null,
+    externalConverter: String? = null
 ) : SwiftType(
     name = name,
     visibility = visibility,
     category = TypeCategory.ENUM,
     publicName = name,
-    externalFramework = externalFramework
+    externalFramework = externalFramework,
+    externalConverter = externalConverter
 ) {
     override val childElements
         get() = items

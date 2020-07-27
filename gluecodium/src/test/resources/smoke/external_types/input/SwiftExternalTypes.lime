@@ -37,9 +37,35 @@ enum Persistence {
     permanent
 }
 
+struct PseudoColor {
+    external {
+        swift framework ""
+        swift converter "ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+
+enum SwiftSeason {
+    external {
+        swift framework ""
+        swift converter "SeasonConverter"
+    }
+
+    WINTER,
+    SPRING,
+    SUMMER,
+    AUTUMN
+}
+
 class UseSwiftExternalTypes {
     static fun dateIntervalRoundTrip(input: DateInterval): DateInterval
     static fun persistenceRoundTrip(input: Persistence): Persistence
+    static fun colorRoundTrip(input: PseudoColor): PseudoColor
+    static fun seasonRoundTrip(input: SwiftSeason): SwiftSeason
 }
 
 typealias ExternalList = List<DateInterval>

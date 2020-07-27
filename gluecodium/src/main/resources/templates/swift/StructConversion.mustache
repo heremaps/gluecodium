@@ -20,7 +20,11 @@
   !}}
 {{#if fields}}
 internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
-    return {{name}}(cHandle: handle){{#if isExternal}}!{{/if}}
+{{#if externalConverter}}
+    return {{externalConverter}}.convertFromInternal({{name}}_internal(cHandle: handle))
+{{/if}}{{#unless externalConverter}}
+    return {{name}}(cHandle: handle){{#if skipDeclaration}}!{{/if}}
+{{/unless}}
 }
 internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     defer {
@@ -29,7 +33,10 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     return copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftType: {{name}}) -> RefHolder {
+internal func copyToCType(_ swiftType{{#if externalConverter}}_ext{{/if}}: {{name}}) -> RefHolder {
+{{#if externalConverter}}
+    let swiftType = {{externalConverter}}.convertToInternal(swiftType_ext)
+{{/if}}
 {{#fields}}
     let c_{{name}} = {{#type}}{{>swift/ConversionPrefixTo}}{{/type}}moveToCType(swiftType.{{name}})
 {{/fields}}
@@ -46,7 +53,11 @@ internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
         return nil
     }
     let unwrappedHandle = {{cPrefix}}_unwrap_optional_handle(handle)
-    return {{name}}(cHandle: unwrappedHandle){{#if isExternal}}!{{/if}} as {{name}}
+{{#if externalConverter}}
+    return {{externalConverter}}.convertFromInternal({{name}}_internal(cHandle: unwrappedHandle))
+{{/if}}{{#unless externalConverter}}
+    return {{name}}(cHandle: unwrappedHandle){{#if skipDeclaration}}!{{/if}} as {{name}}
+{{/unless}}
 }
 internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
     defer {
@@ -55,10 +66,13 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
     return copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftType: {{name}}?) -> RefHolder {
-    guard let swiftType = swiftType else {
+internal func copyToCType(_ swiftType{{#if externalConverter}}_ext{{/if}}: {{name}}?) -> RefHolder {
+    guard let swiftType{{#if externalConverter}}_ext{{/if}} = swiftType{{#if externalConverter}}_ext{{/if}} else {
         return RefHolder(0)
     }
+{{#if externalConverter}}
+    let swiftType = {{externalConverter}}.convertToInternal(swiftType_ext)
+{{/if}}
 {{#fields}}
     let c_{{name}} = {{#type}}{{>swift/ConversionPrefixTo}}{{/type}}moveToCType(swiftType.{{name}})
 {{/fields}}

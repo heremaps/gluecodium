@@ -73,10 +73,28 @@ class ExternalTypesTests: XCTestCase {
         XCTAssertEqual(persistence, result)
     }
 
+    func testSwiftExternalTypeColor() {
+        let color = PseudoColor(0x007FFF)
+
+        let result = UseSwiftExternalTypes.colorRoundTrip(input: color)
+
+        XCTAssertEqual(color.value, result.value)
+    }
+
+    func testSwiftExternalTypeSeason() {
+        let season = Season("spring")
+
+        let result = UseSwiftExternalTypes.seasonRoundTrip(input: season)
+
+        XCTAssertEqual(season.value, result.value)
+    }
+
     static var allTests = [
         ("testUseExternalTypesExternalStruct", testUseExternalTypesExternalStruct),
         ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum),
         ("testSwiftExternalTypeDateInterval", testSwiftExternalTypeDateInterval),
-        ("testSwiftExternalTypePersistence", testSwiftExternalTypePersistence)
+        ("testSwiftExternalTypePersistence", testSwiftExternalTypePersistence),
+        ("testSwiftExternalTypeColor", testSwiftExternalTypeColor),
+        ("testSwiftExternalTypeSeason", testSwiftExternalTypeSeason)
     ]
 }
