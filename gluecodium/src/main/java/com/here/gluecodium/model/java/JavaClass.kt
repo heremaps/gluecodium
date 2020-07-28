@@ -22,6 +22,8 @@ package com.here.gluecodium.model.java
 class JavaClass(
     name: String,
     classNames: List<String> = listOf(name),
+    isFinal: Boolean = false,
+    skipDeclaration: Boolean = false,
     val extendedClass: JavaTypeRef? = null,
     val fields: List<JavaField> = emptyList(),
     methods: List<JavaMethod> = emptyList(),
@@ -33,9 +35,13 @@ class JavaClass(
     val hasNativeEquatable: Boolean = false,
     val isImmutable: Boolean = false,
     val needsBuilder: Boolean = false,
-    var generatedConstructorComment: String? = null,
-    skipDeclaration: Boolean = false
-) : JavaTopLevelElement(name, classNames, skipDeclaration) {
+    var generatedConstructorComment: String? = null
+) : JavaTopLevelElement(
+    name = name,
+    classNames = classNames,
+    isFinal = isFinal,
+    skipDeclaration = skipDeclaration
+) {
 
     init {
         this.methods += methods

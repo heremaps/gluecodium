@@ -69,7 +69,7 @@ class JavaModelBuilderContainersTest {
     private val javaEnum = JavaEnum("")
     private val javaEnumTypeRef =
         JavaEnumTypeRef("", emptyList(), emptyList(), JavaImport("", JavaPackage.DEFAULT))
-    private val javaException = JavaExceptionClass("", javaEnumTypeRef)
+    private val javaException = JavaExceptionClass("", errorTypeRef = javaEnumTypeRef)
     private val javaMethod = JavaMethod("")
 
     private val limeInterface = LimeInterface(LimePath(emptyList(), listOf("foo")))
@@ -130,7 +130,7 @@ class JavaModelBuilderContainersTest {
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals("Foo", result.name)
         assertEquals(rootPackage, result.javaPackage)
-        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
+        assertTrue(result.isFinal)
         assertEquals("some comment", result.comment.documentation)
         assertEquals("Bar", result.comment.deprecated)
         assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
@@ -207,7 +207,7 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaInterface::class.java)
         assertContains(javaClass, result.innerClasses)
-        assertContains(JavaTopLevelElement.Qualifier.STATIC, javaClass.qualifiers)
+        assertTrue(javaClass.isStatic)
         assertContains(javaInterface, result.innerInterfaces)
     }
 
@@ -233,7 +233,7 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals(1, result.methods.size)
-        assertContains(JavaMethod.MethodQualifier.NATIVE, result.methods.first().qualifiers)
+        assertTrue(result.methods.first().isNative)
     }
 
     @Test
@@ -244,7 +244,7 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals(1, result.methods.size)
-        assertContains(JavaMethod.MethodQualifier.NATIVE, result.methods.first().qualifiers)
+        assertTrue(result.methods.first().isNative)
     }
 
     @Test
@@ -282,7 +282,7 @@ class JavaModelBuilderContainersTest {
         assertEquals("Bar", result.comment.deprecated)
         assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertTrue(result.needsDisposer)
-        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
+        assertTrue(result.isFinal)
     }
 
     @Test
@@ -306,7 +306,7 @@ class JavaModelBuilderContainersTest {
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
-        assertTrue(result.qualifiers.isEmpty())
+        assertFalse(result.isFinal)
     }
 
     @Test
@@ -361,7 +361,7 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertContains(javaClass, result.innerClasses)
-        assertContains(JavaTopLevelElement.Qualifier.STATIC, javaClass.qualifiers)
+        assertTrue(javaClass.isStatic)
     }
 
     @Test
@@ -372,7 +372,7 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals(1, result.methods.size)
-        assertContains(JavaMethod.MethodQualifier.NATIVE, result.methods.first().qualifiers)
+        assertTrue(result.methods.first().isNative)
     }
 
     @Test

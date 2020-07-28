@@ -32,7 +32,6 @@ import com.here.gluecodium.model.java.JavaExceptionClass
 import com.here.gluecodium.model.java.JavaField
 import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaMethod
-import com.here.gluecodium.model.java.JavaMethod.MethodQualifier
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
 import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
@@ -68,7 +67,6 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
-import java.util.EnumSet
 
 class JavaModelBuilder(
     contextStack: ModelBuilderContextStack<JavaElement> = ModelBuilderContextStack(),
@@ -95,9 +93,8 @@ class JavaModelBuilder(
 
         val constants = getPreviousResults(JavaConstant::class.java)
         if (constants.isNotEmpty()) {
-            val javaClass = JavaClass(nameRules.getName(limeTypes))
+            val javaClass = JavaClass(nameRules.getName(limeTypes), isFinal = true)
             javaClass.visibility = getVisibility(limeTypes)
-            javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
             javaClass.javaPackage = rootPackage
             javaClass.comment = createComments(limeTypes)
             addDeprecatedAnnotationIfNeeded(javaClass)
@@ -122,10 +119,6 @@ class JavaModelBuilder(
         }
 
         val javaExceptionType = limeMethod.thrownType?.let { typeMapper.mapExceptionType(it) }
-        val qualifiers = when {
-            limeMethod.isStatic -> setOf(MethodQualifier.STATIC)
-            else -> emptySet()
-        }
         val javaMethod = JavaMethod(
             name = nameRules.getName(limeMethod),
             comment = createComments(limeMethod),
@@ -136,7 +129,7 @@ class JavaModelBuilder(
             throwsComment = limeMethod.thrownType?.comment?.getFor(PLATFORM_TAG),
             parameters = getPreviousResults(JavaParameter::class.java),
             isConstructor = limeMethod.isConstructor,
-            qualifiers = qualifiers
+            isStatic = limeMethod.isStatic
         )
         addDeprecatedAnnotationIfNeeded(javaMethod)
 
@@ -173,7 +166,7 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeStruct: LimeStruct) {
         val methods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
-        methods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+        methods.forEach { it.isNative = true }
 
         val serializationBase = typeMapper.serializationBase
         val isSerializable =
@@ -194,6 +187,7 @@ class JavaModelBuilder(
         val javaClass = JavaClass(
             name = classNames.last(),
             classNames = classNames,
+            isFinal = true,
             fields = getPreviousResults(JavaField::class.java),
             methods = methods,
             constants = getPreviousResults(JavaConstant::class.java),
@@ -205,7 +199,6 @@ class JavaModelBuilder(
             skipDeclaration = skipDeclaration
         )
         javaClass.visibility = getVisibility(limeStruct)
-        javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaClass.javaPackage = javaPackage
         javaClass.comment = createComments(limeStruct)
         addDeprecatedAnnotationIfNeeded(javaClass)
@@ -271,11 +264,11 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeException: LimeException) {
         val javaException = JavaExceptionClass(
-            nameRules.getName(limeException),
-            typeMapper.mapType(limeException.errorType)
+            exceptionName = nameRules.getName(limeException),
+            isFinal = true,
+            errorTypeRef = typeMapper.mapType(limeException.errorType)
         )
         javaException.visibility = getVisibility(limeException)
-        javaException.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaException.comment = createComments(limeException)
         javaException.javaPackage = rootPackage
 
@@ -306,10 +299,6 @@ class JavaModelBuilder(
             getPreviousResult(JavaTypeRef::class.java),
             limeProperty.typeRef.isNullable
         )
-        val qualifiers = when {
-            limeProperty.isStatic -> EnumSet.of(MethodQualifier.STATIC)
-            else -> EnumSet.noneOf(MethodQualifier::class.java)
-        }
         val propertyComment = limeProperty.comment.getFor(PLATFORM_TAG)
 
         val getterComments = createComments(limeProperty.getter, PLATFORM_TAG)
@@ -319,7 +308,7 @@ class JavaModelBuilder(
             visibility = getVisibility(limeProperty.getter),
             returnType = javaType,
             returnComment = propertyComment,
-            qualifiers = qualifiers,
+            isStatic = limeProperty.isStatic,
             isGetter = true,
             isCached = limeProperty.attributes.have(LimeAttributeType.CACHED)
         )
@@ -341,7 +330,7 @@ class JavaModelBuilder(
                 visibility = getVisibility(limeSetter),
                 returnType = JavaPrimitiveTypeRef.VOID,
                 parameters = listOf(setterParameter),
-                qualifiers = qualifiers
+                isStatic = limeProperty.isStatic
             )
             addDeprecatedAnnotationIfNeeded(setterMethod)
 
@@ -397,8 +386,7 @@ class JavaModelBuilder(
             isImplClass = true,
             extendedClass = nativeBase,
             needsDisposer = true,
-            methods =
-                listOf(applyMethod.shallowCopy().also { it.qualifiers.add(MethodQualifier.NATIVE) })
+            methods = listOf(applyMethod.shallowCopy().also { it.isNative = true })
         )
         implClass.visibility = JavaVisibility.PACKAGE
         implClass.javaPackage = rootPackage
@@ -450,7 +438,7 @@ class JavaModelBuilder(
 
         val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
         classMethods.forEach {
-            it.qualifiers.add(MethodQualifier.NATIVE)
+            it.isNative = true
             it.visibility = JavaVisibility.PUBLIC
         }
 
@@ -481,6 +469,7 @@ class JavaModelBuilder(
         val javaClass = JavaClass(
             name = nameRules.getName(limeClass),
             classNames = nameResolver.getClassNames(limeClass),
+            isFinal = limeClass.visibility == LimeVisibility.PUBLIC,
             extendedClass = if (parentContainer is LimeClass) javaParent else nativeBase,
             fields = getPreviousResults(JavaField::class.java),
             isImplClass = true,
@@ -489,9 +478,6 @@ class JavaModelBuilder(
                     limeClass.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
         javaClass.visibility = getVisibility(limeClass)
-        if (limeClass.visibility == LimeVisibility.PUBLIC) {
-            javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
-        }
         javaClass.javaPackage = rootPackage
         javaClass.comment = createComments(limeClass)
         addDeprecatedAnnotationIfNeeded(javaClass)
@@ -504,7 +490,7 @@ class JavaModelBuilder(
             parentMethods.forEach { it.annotations.add(overrideAnnotation) }
             javaClass.methods += parentMethods
         }
-        javaClass.methods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+        javaClass.methods.forEach { it.isNative = true }
 
         addMembers(javaClass)
 
@@ -535,7 +521,7 @@ class JavaModelBuilder(
 
     private fun addMembers(javaTopLevelElement: JavaTopLevelElement) {
         val innerClasses = getPreviousResults(JavaClass::class.java)
-        innerClasses.forEach { it.qualifiers.add(JavaTopLevelElement.Qualifier.STATIC) }
+        innerClasses.forEach { it.isStatic = true }
         javaTopLevelElement.innerClasses.addAll(innerClasses)
         javaTopLevelElement.innerInterfaces.addAll(getPreviousResults(JavaInterface::class.java))
 

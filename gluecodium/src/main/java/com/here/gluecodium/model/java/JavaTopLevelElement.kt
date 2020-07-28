@@ -22,6 +22,8 @@ package com.here.gluecodium.model.java
 abstract class JavaTopLevelElement(
     name: String,
     val classNames: List<String>,
+    var isStatic: Boolean = false,
+    val isFinal: Boolean = false,
     val skipDeclaration: Boolean = false
 ) : JavaElement(name) {
 
@@ -35,7 +37,6 @@ abstract class JavaTopLevelElement(
 
     val innerClasses: MutableSet<JavaClass> = mutableSetOf()
     val innerInterfaces: MutableSet<JavaInterface> = mutableSetOf()
-    val qualifiers: MutableSet<Qualifier> = mutableSetOf()
 
     open val imports: Set<JavaImport>
         get() {
@@ -53,13 +54,6 @@ abstract class JavaTopLevelElement(
 
             return imports.toSortedSet()
         }
-
-    enum class Qualifier(private val value: String) {
-        STATIC("static"),
-        FINAL("final");
-
-        override fun toString() = value
-    }
 
     override val childElements
         get() = super.childElements + methods + constants + parentInterfaces + enums +

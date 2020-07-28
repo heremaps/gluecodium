@@ -22,7 +22,8 @@
 {{#annotations}}
 @{{name}}
 {{/annotations}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isFinal}}final {{/if}}{{#if isStatic}}static {{/if}}{{!!
+}}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#if isParcelable}}{{prefixPartial "java/ParcelableCreator" "    "}}
 
 {{/if}}
