@@ -65,6 +65,7 @@ open class JavaGeneratorSuite protected constructor(
     private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
     private val nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
     private val nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
+    private val generateStubs = options.generateStubs
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -110,7 +111,7 @@ open class JavaGeneratorSuite protected constructor(
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val javaTemplates = JavaTemplates(generatorName)
+        val javaTemplates = JavaTemplates(generatorName, generateStubs)
         val nonExternalElements = combinedModel.javaElements.filter {
             it !is JavaTopLevelElement || !it.skipDeclaration
         }
@@ -128,6 +129,8 @@ open class JavaGeneratorSuite protected constructor(
             val androidManifestGenerator = AndroidManifestGenerator(javaPackageList)
             headers += androidManifestGenerator.generate()
         }
+
+        if (generateStubs) return headers + javaFiles
 
         val jniTemplates =
             JniTemplates(javaPackageList, internalPackage, internalNamespace, generatorName)

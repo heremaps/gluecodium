@@ -223,6 +223,7 @@ class Gluecodium(
         var internalPrefix: String? = null,
         var libraryName: String = "library",
         var werror: Set<String> = emptySet(),
+        var generateStubs: Boolean = false,
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/cpp.properties"

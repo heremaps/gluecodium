@@ -20,11 +20,11 @@
   !}}
 {{>java/DocComment}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#if isStatic static logic="or"}}static {{/if}}{{!!
-}}{{#if isFinal}}final {{/if}}class {{name}} extends Exception {
+}}{{#if isFinal}}{{#unless stubs}}final {{/unless}}{{/if}}class {{name}} extends Exception {
     {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}(final {{errorTypeRef.name}} error) {
         super(error.toString());
         this.error = error;
     }
 
-    {{#if visibility.toString}}{{visibility}} {{/if}}final {{errorTypeRef.name}} error;
+    {{#if visibility.toString}}{{visibility}} {{/if}}{{#unless stubs}}final {{/unless}}{{errorTypeRef.name}} error;
 }

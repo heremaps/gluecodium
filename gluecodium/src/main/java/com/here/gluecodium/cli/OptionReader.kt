@@ -122,6 +122,12 @@ object OptionReader {
                     Gluecodium.Options.WARNING_DART_OVERLOADS
                 ).joinToString()
         )
+        addOption(
+            "stubs",
+            "generate-stubs",
+            false,
+            "Generate methods stubs, suitable for mocking in unit tests. Only supported for Java."
+        )
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
         addOption("swiftnamerules", true, "Swift name rules property file.")
@@ -182,6 +188,7 @@ object OptionReader {
         getStringValue("internalprefix")?.let { options.internalPrefix = it }
         getStringValue("libraryname")?.let { options.libraryName = it }
         getStringListValue("werror")?.let { options.werror = it.toSet() }
+        options.generateStubs = getFlagValue("stubs")
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
         options.javaNameRules =

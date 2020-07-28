@@ -72,7 +72,7 @@ set(APIGEN_GLUECODIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 
 function(apigen_generate)
-  set(options VALIDATE_ONLY VERBOSE)
+  set(options VALIDATE_ONLY VERBOSE STUBS)
   set(oneValueArgs TARGET GENERATOR VERSION
       ANDROID_MERGE_MANIFEST
       JAVA_PACKAGE
@@ -122,13 +122,16 @@ function(apigen_generate)
     APIGEN_BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
   if(NOT apigen_generate_GENERATOR MATCHES cpp)
-    set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
+    if(NOT apigen_generate_STUBS)
+      set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
+    endif()
   endif()
 
   set(APIGEN_GLUECODIUM_PROPERTIES "\
 output=${APIGEN_OUTPUT_DIR}\n\
 generators=${apigen_generate_GENERATOR}\n\
 validate=${validateProperty}\n\
+stubs=${apigen_generate_STUBS}\n\
 cache=true\n")
 
   unset (_apigen_input_list)

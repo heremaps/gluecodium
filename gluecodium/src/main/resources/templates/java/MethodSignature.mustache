@@ -24,5 +24,5 @@
 {{/allAnnotations}}
 {{^isInterface}}{{#if isConstructor}}private {{/if}}{{!!
 }}{{#unless isConstructor}}{{#if visibility.toString}}{{visibility}} {{/if}}{{/unless}}{{/isInterface}}{{!!
-}}{{#if isStatic}}static {{/if}}{{#if isNative}}native {{/if}}{{returnType.name}} {{name}}({{!!
-}}{{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}};
+}}{{#if isStatic}}static {{/if}}{{#if isNative}}{{#unless stubs}}native {{/unless}}{{/if}}{{returnType.name}} {{name}}({{!!
+}}{{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}}

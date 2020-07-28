@@ -28,7 +28,7 @@ import com.here.gluecodium.model.java.JavaExceptionClass
 import com.here.gluecodium.model.java.JavaInterface
 import com.here.gluecodium.model.java.JavaTopLevelElement
 
-class JavaTemplates(generatorName: String) {
+class JavaTemplates(generatorName: String, private val generateStubs: Boolean) {
 
     private val javaFileMapper: JavaFileMapper = JavaFileMapper(generatorName)
 
@@ -47,7 +47,7 @@ class JavaTemplates(generatorName: String) {
 
     private fun generateFileForElement(templateName: String, javaElement: JavaTopLevelElement) =
         GeneratedFile(
-            TemplateEngine.render(templateName, javaElement),
+            TemplateEngine.render(templateName, mapOf("model" to javaElement, "stubs" to generateStubs)),
             javaFileMapper.getFileName(javaElement)
         )
 

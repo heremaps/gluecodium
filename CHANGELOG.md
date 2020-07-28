@@ -1,5 +1,12 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Introduced "stubs" mode for Java generator (`-stubs` command-line parameter). This mode replaces
+    "native" methods in generated Java code with stubs (i.e. empty implementation) and removes
+    "final" qualifier from classes and fields. This makes code generated for classes and structs
+    fully mockable in unit tests.
+
 ## 8.0.1
 Release date: 2020-07-29
 ### Bug fixes:
