@@ -190,6 +190,7 @@ StructWithDefaults smoke_TypesWithDefaults_StructWithDefaults_fromFfi_nullable(P
 void smoke_TypesWithDefaults_StructWithDefaults_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_TypesWithDefaults_StructWithDefaults_release_handle_nullable(handle);
 // End of StructWithDefaults "private" section.
+@immutable
 class ImmutableStructWithDefaults {
   final int intField;
   final int uintField;
@@ -199,8 +200,8 @@ class ImmutableStructWithDefaults {
   final String stringField;
   final SomeEnum enumField;
   final DefaultValues_ExternalEnum externalEnumField;
-  ImmutableStructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField, this.externalEnumField);
-  ImmutableStructWithDefaults.withDefaults(int uintField, bool boolField)
+  const ImmutableStructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField, this.externalEnumField);
+  const ImmutableStructWithDefaults.withDefaults(int uintField, bool boolField)
     : intField = 42, uintField = uintField, floatField = 3.14, doubleField = -1.4142, boolField = boolField, stringField = "\\Jonny \"Magic\" Smith\n", enumField = SomeEnum.barValue, externalEnumField = DefaultValues_ExternalEnum.anotherValue;
 }
 // ImmutableStructWithDefaults "private" section, not exported.

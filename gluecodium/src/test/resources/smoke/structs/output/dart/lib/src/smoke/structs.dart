@@ -225,6 +225,7 @@ Structs_Line smoke_Structs_Line_fromFfi_nullable(Pointer<Void> handle) {
 void smoke_Structs_Line_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Structs_Line_release_handle_nullable(handle);
 // End of Structs_Line "private" section.
+@immutable
 class Structs_AllTypesStruct {
   final int int8Field;
   final int uint8Field;
@@ -240,7 +241,7 @@ class Structs_AllTypesStruct {
   final bool booleanField;
   final Uint8List bytesField;
   final Structs_Point pointField;
-  Structs_AllTypesStruct(this.int8Field, this.uint8Field, this.int16Field, this.uint16Field, this.int32Field, this.uint32Field, this.int64Field, this.uint64Field, this.floatField, this.doubleField, this.stringField, this.booleanField, this.bytesField, this.pointField);
+  const Structs_AllTypesStruct(this.int8Field, this.uint8Field, this.int16Field, this.uint16Field, this.int32Field, this.uint32Field, this.int64Field, this.uint64Field, this.floatField, this.doubleField, this.stringField, this.booleanField, this.bytesField, this.pointField);
 }
 // Structs_AllTypesStruct "private" section, not exported.
 final _smoke_Structs_AllTypesStruct_create_handle = __lib.nativeLibrary.lookupFunction<
@@ -611,9 +612,10 @@ Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_from
 void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable(handle);
 // End of Structs_StructWithArrayOfImmutable "private" section.
+@immutable
 class Structs_ImmutableStructWithCppAccessors {
   final String stringField;
-  Structs_ImmutableStructWithCppAccessors(this.stringField);
+  const Structs_ImmutableStructWithCppAccessors(this.stringField);
 }
 // Structs_ImmutableStructWithCppAccessors "private" section, not exported.
 final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle = __lib.nativeLibrary.lookupFunction<
