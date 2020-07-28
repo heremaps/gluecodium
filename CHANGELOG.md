@@ -5,6 +5,8 @@
   * Introduced "external descriptors", new IDL syntax for declaring "external" types. This syntax
     replaces `@Cpp(External*)` group of IDL attributes.
   * Added support for "external" structs and enums in Java, Swift, and Dart.
+  * Structs marked as `@Immutable` in IDL are now marked as `@immutable` in Dart generated code as
+    well.
 ### Deprecated:
   * `@Java(Builder)` IDL attribute is now deprecated. It still works the same way as before but
     its use is discouraged.
