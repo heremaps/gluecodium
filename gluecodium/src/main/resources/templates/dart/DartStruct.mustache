@@ -18,13 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless external.dart}}
+{{#unlessPredicate "skipDeclaration"}}
 {{#functions}}
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
 }}{{>dart/DartDocumentation}}
-class {{resolveName}} {
+class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
 {{/fields}}{{/set}}
 {{#if fields}}{{#unless constructors}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
@@ -34,7 +34,7 @@ class {{resolveName}} {
   }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
 {{/fields}}
 {{/unless}}{{/resolveName}}{{/unless}}{{!!
-}}  {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+}}  {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
@@ -72,7 +72,7 @@ class {{resolveName}} {
   }
 {{/if}}
 }
-{{/unless}}
+{{/unlessPredicate}}
 
 // {{resolveName}} "private" section, not exported.
 
@@ -91,7 +91,10 @@ final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.nati
   >('{{libraryName}}_{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
 {{/fields}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value{{#if external.dart.converter}}_ext{{/if}}) {
+{{#if external.dart.converter}}
+  final value = {{external.dart.converter}}.convertToInternal(value_ext);
+{{/if}}
 {{#fields}}
   final _{{resolveName}}_handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName visibility}}{{resolveName}});
 {{/fields}}
@@ -107,9 +110,16 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   final _{{resolveName}}_handle = _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
   try {
+{{#if external.dart.converter}}
+    final result_internal = {{resolveName}}_internal{{#if constructors}}._{{/if}}(
+{{#fields}}      {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
+{{/fields}}    );
+    return {{external.dart.converter}}.convertFromInternal(result_internal);
+{{/if}}{{#unless external.dart.converter}}
     return {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}
       {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
     {{/fields}});
+{{/unless}}
   } finally {
 {{#fields}}
     {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle);

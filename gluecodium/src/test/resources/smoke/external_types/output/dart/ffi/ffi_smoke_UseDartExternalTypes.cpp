@@ -2,6 +2,8 @@
 #include "ConversionBase.h"
 #include "IsolateContext.h"
 #include "smoke/CompressionState.h"
+#include "smoke/DartColor.h"
+#include "smoke/DartSeason.h"
 #include "smoke/Rectangle.h"
 #include "smoke/UseDartExternalTypes.h"
 #include <memory>
@@ -25,6 +27,24 @@ library_smoke_UseDartExternalTypes_compressionStateRoundTrip__CompressionState(i
     return gluecodium::ffi::Conversion<::smoke::CompressionState>::toFfi(
         ::smoke::UseDartExternalTypes::compression_state_round_trip(
             gluecodium::ffi::Conversion<::smoke::CompressionState>::toCpp(input)
+        )
+    );
+}
+FfiOpaqueHandle
+library_smoke_UseDartExternalTypes_colorRoundTrip__DartColor(int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<::smoke::DartColor>::toFfi(
+        ::smoke::UseDartExternalTypes::color_round_trip(
+            gluecodium::ffi::Conversion<::smoke::DartColor>::toCpp(input)
+        )
+    );
+}
+uint32_t
+library_smoke_UseDartExternalTypes_seasonRoundTrip__DartSeason(int32_t _isolate_id, uint32_t input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<::smoke::DartSeason>::toFfi(
+        ::smoke::UseDartExternalTypes::season_round_trip(
+            gluecodium::ffi::Conversion<::smoke::DartSeason>::toCpp(input)
         )
     );
 }

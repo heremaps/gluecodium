@@ -18,6 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-import '{{#if isSystem}}dart:{{filePath}}{{/if}}{{!!
-}}{{#unless isSystem}}package:{{filePath}}.dart{{/unless}}'{{!!
-}}{{#asAlias}} as {{.}}{{/asAlias}};
+import '{{#switch importType.toString}}{{!!
+    }}{{#case "SYSTEM"}}dart:{{filePath}}{{/case}}{{!!
+    }}{{#case "PACKAGE"}}package:{{filePath}}.dart{{/case}}{{!!
+    }}{{#case "RELATIVE"}}{{filePath}}.dart{{/case}}{{!!
+}}{{/switch}}'{{#if asAlias}} as {{asAlias}}{{/if}};
