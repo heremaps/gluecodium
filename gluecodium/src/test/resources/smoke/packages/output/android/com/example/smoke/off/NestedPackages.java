@@ -6,7 +6,7 @@ package com.example.smoke.off;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class NestedPackages extends NativeBase {
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         @NonNull
         public String someField;
         public SomeStruct(@NonNull final String someField) {

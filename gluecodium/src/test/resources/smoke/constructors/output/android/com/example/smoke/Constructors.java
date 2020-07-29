@@ -14,7 +14,7 @@ public class Constructors extends NativeBase {
             this.value = value;
         }
     }
-    public final static class ConstructorExplodedException extends Exception {
+    public static final class ConstructorExplodedException extends Exception {
         public ConstructorExplodedException(final Constructors.ErrorEnum error) {
             super(error.toString());
             this.error = error;

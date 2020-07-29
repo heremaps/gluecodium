@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class EquatableClass extends NativeBase {
-    public final static class EquatableStruct {
+    public static final class EquatableStruct {
         public int intField;
         @NonNull
         public String stringField;

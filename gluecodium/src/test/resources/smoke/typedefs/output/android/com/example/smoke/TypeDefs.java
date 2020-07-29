@@ -7,13 +7,13 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 public final class TypeDefs extends NativeBase {
-    public final static class StructHavingAliasFieldDefinedBelow {
+    public static final class StructHavingAliasFieldDefinedBelow {
         public double field;
         public StructHavingAliasFieldDefinedBelow(final double field) {
             this.field = field;
         }
     }
-    public final static class TestStruct {
+    public static final class TestStruct {
         @NonNull
         public String something;
         public TestStruct(@NonNull final String something) {

@@ -14,7 +14,7 @@ public final class Structs extends NativeBase {
             this.value = value;
         }
     }
-    public final static class Point {
+    public static final class Point {
         public double x;
         public double y;
         public Point(final double x, final double y) {
@@ -22,7 +22,7 @@ public final class Structs extends NativeBase {
             this.y = y;
         }
     }
-    public final static class Line {
+    public static final class Line {
         @NonNull
         public Structs.Point a;
         @NonNull
@@ -32,7 +32,7 @@ public final class Structs extends NativeBase {
             this.b = b;
         }
     }
-    public final static class AllTypesStruct {
+    public static final class AllTypesStruct {
         public final byte int8Field;
         public final short uint8Field;
         public final short int16Field;
@@ -365,35 +365,35 @@ public final class Structs extends NativeBase {
             }
         }
     }
-    public final static class NestingImmutableStruct {
+    public static final class NestingImmutableStruct {
         @NonNull
         public Structs.AllTypesStruct structField;
         public NestingImmutableStruct(@NonNull final Structs.AllTypesStruct structField) {
             this.structField = structField;
         }
     }
-    public final static class DoubleNestingImmutableStruct {
+    public static final class DoubleNestingImmutableStruct {
         @NonNull
         public Structs.NestingImmutableStruct nestingStructField;
         public DoubleNestingImmutableStruct(@NonNull final Structs.NestingImmutableStruct nestingStructField) {
             this.nestingStructField = nestingStructField;
         }
     }
-    public final static class StructWithArrayOfImmutable {
+    public static final class StructWithArrayOfImmutable {
         @NonNull
         public List<Structs.AllTypesStruct> arrayField;
         public StructWithArrayOfImmutable(@NonNull final List<Structs.AllTypesStruct> arrayField) {
             this.arrayField = arrayField;
         }
     }
-    public final static class ImmutableStructWithCppAccessors {
+    public static final class ImmutableStructWithCppAccessors {
         @NonNull
         public final String stringField;
         public ImmutableStructWithCppAccessors(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
-    public final static class MutableStructWithCppAccessors {
+    public static final class MutableStructWithCppAccessors {
         @NonNull
         public String stringField;
         public MutableStructWithCppAccessors(@NonNull final String stringField) {

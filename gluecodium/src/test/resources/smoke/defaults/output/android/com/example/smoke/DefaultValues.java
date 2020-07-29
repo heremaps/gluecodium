@@ -29,7 +29,7 @@ public final class DefaultValues extends NativeBase {
             this.value = value;
         }
     }
-    public final static class StructWithDefaults {
+    public static final class StructWithDefaults {
         public int intField;
         public long uintField;
         public float floatField;
@@ -62,7 +62,7 @@ public final class DefaultValues extends NativeBase {
             this.externalEnumField = externalEnumField;
         }
     }
-    public final static class NullableStructWithDefaults {
+    public static final class NullableStructWithDefaults {
         @Nullable
         public Integer intField;
         @Nullable
@@ -92,7 +92,7 @@ public final class DefaultValues extends NativeBase {
             this.enumField = enumField;
         }
     }
-    public final static class StructWithSpecialDefaults {
+    public static final class StructWithSpecialDefaults {
         public float floatNanField;
         public float floatInfinityField;
         public float floatNegativeInfinityField;
@@ -116,7 +116,7 @@ public final class DefaultValues extends NativeBase {
             this.doubleNegativeInfinityField = doubleNegativeInfinityField;
         }
     }
-    public final static class StructWithEmptyDefaults {
+    public static final class StructWithEmptyDefaults {
         @NonNull
         public List<Integer> intsField;
         @NonNull
@@ -142,7 +142,7 @@ public final class DefaultValues extends NativeBase {
             this.setTypeField = setTypeField;
         }
     }
-    public final static class StructWithTypedefDefaults {
+    public static final class StructWithTypedefDefaults {
         public long longField;
         public boolean boolField;
         @NonNull

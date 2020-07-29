@@ -12,7 +12,7 @@ public interface ExternalInterface {
             this.value = value;
         }
     }
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         @NonNull
         public String someField;
         public SomeStruct(@NonNull final String someField) {

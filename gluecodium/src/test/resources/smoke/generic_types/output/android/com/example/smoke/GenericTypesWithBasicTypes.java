@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 public final class GenericTypesWithBasicTypes extends NativeBase {
-    public final static class StructWithGenerics {
+    public static final class StructWithGenerics {
         @NonNull
         public List<Short> numbersList;
         @NonNull

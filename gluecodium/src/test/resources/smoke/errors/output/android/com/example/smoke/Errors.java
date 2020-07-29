@@ -22,14 +22,14 @@ public final class Errors extends NativeBase {
             this.value = value;
         }
     }
-    public final static class InternalException extends Exception {
+    public static final class InternalException extends Exception {
         public InternalException(final Errors.InternalErrorCode error) {
             super(error.toString());
             this.error = error;
         }
         public final Errors.InternalErrorCode error;
     }
-    public final static class ExternalException extends Exception {
+    public static final class ExternalException extends Exception {
         public ExternalException(final Errors.ExternalErrors error) {
             super(error.toString());
             this.error = error;

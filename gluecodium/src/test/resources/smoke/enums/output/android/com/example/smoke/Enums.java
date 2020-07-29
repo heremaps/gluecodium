@@ -21,7 +21,7 @@ public final class Enums extends NativeBase {
             this.value = value;
         }
     }
-    public final static class ErrorStruct {
+    public static final class ErrorStruct {
         @NonNull
         public Enums.InternalErrorCode type;
         @NonNull

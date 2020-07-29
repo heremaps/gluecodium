@@ -32,7 +32,7 @@ public interface CommentsInterface {
     /**
      * <p>This is some very useful struct.</p>
      */
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         /**
          * <p>How useful this struct is</p>
          */

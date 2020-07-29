@@ -17,14 +17,14 @@ public final class Nullable extends NativeBase {
             this.value = value;
         }
     }
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         @NonNull
         public String stringField;
         public SomeStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
-    public final static class NullableStruct {
+    public static final class NullableStruct {
         @Nullable
         public String stringField;
         @Nullable
@@ -55,7 +55,7 @@ public final class Nullable extends NativeBase {
             this.instanceField = instanceField;
         }
     }
-    public final static class NullableIntsStruct {
+    public static final class NullableIntsStruct {
         @Nullable
         public Byte int8Field;
         @Nullable

@@ -33,7 +33,7 @@ public final class Comments extends NativeBase {
     /**
      * <p>This is some very useful exception.</p>
      */
-    public final static class SomethingWrongException extends Exception {
+    public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final Comments.SomeEnum error) {
             super(error.toString());
             this.error = error;
@@ -64,7 +64,7 @@ public final class Comments extends NativeBase {
     /**
      * <p>This is some very useful struct.</p>
      */
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         /**
          * <p>How useful this struct is
          * remains to be seen</p>

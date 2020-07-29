@@ -14,7 +14,7 @@ public final class Properties extends NativeBase {
             this.value = value;
         }
     }
-    public final static class ExampleStruct {
+    public static final class ExampleStruct {
         public double value;
         public ExampleStruct(final double value) {
             this.value = value;
