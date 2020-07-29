@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.0.1
+Release date: 2020-07-29
 ### Bug fixes:
   * Fixed linking issue in Java.
 
