@@ -19,8 +19,8 @@
   !
   !}}
 {{>java/DocComment}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}{{!!
-}}{{#if static}}static {{/if}}class {{name}} extends Exception {
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isFinal}}final {{/if}}{{!!
+}}{{#if isStatic static logic="or"}}static {{/if}}class {{name}} extends Exception {
     {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}(final {{errorTypeRef.name}} error) {
         super(error.toString());
         this.error = error;

@@ -36,7 +36,6 @@ import com.here.gluecodium.model.java.JavaMethod
 import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaParameter
 import com.here.gluecodium.model.java.JavaPrimitiveTypeRef
-import com.here.gluecodium.model.java.JavaTopLevelElement
 import com.here.gluecodium.model.java.JavaTypeRef
 import com.here.gluecodium.model.java.JavaValue
 import com.here.gluecodium.model.java.JavaVisibility
@@ -213,7 +212,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaMethod::class.java)
         assertTrue(result.isConstructor)
-        assertContains(JavaMethod.MethodQualifier.STATIC, result.qualifiers)
+        assertTrue(result.isStatic)
         assertEquals(JavaPrimitiveTypeRef.LONG, result.returnType)
     }
 
@@ -236,7 +235,7 @@ class JavaModelBuilderTest {
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaMethod::class.java)
-        assertContains(JavaMethod.MethodQualifier.STATIC, result.qualifiers)
+        assertTrue(result.isStatic)
     }
 
     @Test
@@ -333,7 +332,7 @@ class JavaModelBuilderTest {
         assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(rootPackage, result.javaPackage)
         assertEquals("other comment", result.generatedConstructorComment)
-        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
+        assertTrue(result.isFinal)
     }
 
     @Test
@@ -369,7 +368,7 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         val resultMethod = result.methods.first()
         assertEquals("bar", resultMethod.name)
-        assertContains(JavaMethod.MethodQualifier.NATIVE, resultMethod.qualifiers)
+        assertTrue(resultMethod.isNative)
     }
 
     @Test
@@ -573,7 +572,7 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaExceptionClass::class.java)
         assertEquals("FooException", result.name)
         assertEquals(javaEnumTypeRef, result.errorTypeRef)
-        assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
+        assertTrue(result.isFinal)
     }
 
     @Test
@@ -693,8 +692,8 @@ class JavaModelBuilderTest {
 
         val results = modelBuilder.finalResults.filterIsInstance<JavaMethod>()
         assertEquals(2, results.size)
-        assertContains(JavaMethod.MethodQualifier.STATIC, results.first().qualifiers)
-        assertContains(JavaMethod.MethodQualifier.STATIC, results.last().qualifiers)
+        assertTrue(results.first().isStatic)
+        assertTrue(results.last().isStatic)
     }
 
     @Test

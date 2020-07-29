@@ -20,7 +20,6 @@
 package com.here.gluecodium.model.java
 
 import com.here.gluecodium.model.common.Comments
-import java.util.EnumSet
 
 class JavaMethod(
     name: String,
@@ -32,13 +31,12 @@ class JavaMethod(
     var throwsComment: String? = null,
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,
+    val isStatic: Boolean = false,
+    var isNative: Boolean = false,
     val isGetter: Boolean = false,
     val isCached: Boolean = false,
-    qualifiers: Set<MethodQualifier> = EnumSet.noneOf(MethodQualifier::class.java),
     annotations: Set<JavaTypeRef> = emptySet()
 ) : JavaElement(name) {
-
-    val qualifiers: MutableSet<MethodQualifier> = LinkedHashSet(qualifiers)
 
     init {
         this.comment = comment
@@ -57,18 +55,8 @@ class JavaMethod(
     val hasComment: Boolean
         get() = !comment.isEmpty || !returnComment.isNullOrBlank() || parameters.any { !it.comment.isEmpty }
 
-    enum class MethodQualifier constructor(private val value: String) {
-        STATIC("static"),
-        NATIVE("native");
-
-        override fun toString() = value
-    }
-
     override val childElements
         get() = listOfNotNull(returnType, exception) + parameters + super.childElements
-
-    val isStatic
-        get() = qualifiers.contains(MethodQualifier.STATIC)
 
     fun shallowCopy() = JavaMethod(
         name = name,
@@ -79,9 +67,10 @@ class JavaMethod(
         exception = exception,
         parameters = parameters,
         isConstructor = isConstructor,
+        isStatic = isStatic,
+        isNative = isNative,
         isGetter = isGetter,
         isCached = isCached,
-        qualifiers = qualifiers,
         annotations = annotations
     )
 }
