@@ -14,21 +14,21 @@ public final class PublicClass extends NativeBase {
             this.value = value;
         }
     }
-    final static class InternalStruct {
+    static final class InternalStruct {
         @NonNull
         String stringField;
         InternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
-    public final static class PublicStruct {
+    public static final class PublicStruct {
         @NonNull
         PublicClass.InternalStruct internalField;
         PublicStruct(@NonNull final PublicClass.InternalStruct internalField) {
             this.internalField = internalField;
         }
     }
-    public final static class PublicStructWithInternalDefaults {
+    public static final class PublicStructWithInternalDefaults {
         @NonNull
         String internalField;
         public float publicField;

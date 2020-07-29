@@ -5,8 +5,8 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class LevelOne extends NativeBase {
-    public final static class LevelTwo extends NativeBase {
-        public final static class LevelThree extends NativeBase {
+    public static final class LevelTwo extends NativeBase {
+        public static final class LevelThree extends NativeBase {
             public enum LevelFourEnum {
                 NONE(0);
                 public final int value;
@@ -14,7 +14,7 @@ public final class LevelOne extends NativeBase {
                     this.value = value;
                 }
             }
-            public final static class LevelFour {
+            public static final class LevelFour {
                 public static final boolean FOO = false;
                 @NonNull
                 public String stringField;

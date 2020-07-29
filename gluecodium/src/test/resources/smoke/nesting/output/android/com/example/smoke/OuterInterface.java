@@ -5,7 +5,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public interface OuterInterface {
-    public final static class InnerClass extends NativeBase {
+    public static final class InnerClass extends NativeBase {
         /**
          * For internal use only.
          * @exclude

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 public final class Structs extends NativeBase {
-    public final static class ExternalStruct {
+    public static final class ExternalStruct {
         @NonNull
         public String stringField;
         @NonNull
@@ -22,7 +22,7 @@ public final class Structs extends NativeBase {
             this.externalStructField = externalStructField;
         }
     }
-    public final static class AnotherExternalStruct {
+    public static final class AnotherExternalStruct {
         public byte intField;
         public AnotherExternalStruct(final byte intField) {
             this.intField = intField;

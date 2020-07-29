@@ -36,7 +36,7 @@ public interface DeprecationComments {
     /**
      * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomethingWrongException} instead.</p>
      */
-    public final static class SomethingWrongException extends Exception {
+    public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final DeprecationComments.SomeEnum error) {
             super(error.toString());
             this.error = error;
@@ -48,7 +48,7 @@ public interface DeprecationComments {
      * @deprecated <p>Unfortunately, this struct is deprecated. Use {@link com.example.smoke.Comments.SomeStruct} instead.</p>
      */
     @Deprecated
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         /**
          * <p>How useful this struct is.</p>
          * @deprecated <p>Unfortunately, this field is deprecated.

@@ -14,7 +14,7 @@ public final class CommentsLinks extends NativeBase {
     /**
      * <p>Links also work in:</p>
      */
-    public final static class RandomStruct {
+    public static final class RandomStruct {
         /**
          * <p>Some random field {@link com.example.smoke.Comments.SomeStruct}</p>
          */

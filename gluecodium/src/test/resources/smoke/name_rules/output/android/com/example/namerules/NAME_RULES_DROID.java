@@ -13,14 +13,14 @@ public final class NAME_RULES_DROID extends NativeBase {
             this.value = value;
         }
     }
-    public final static class example_x extends Exception {
+    public static final class example_x extends Exception {
         public example_x(final NAME_RULES_DROID.EXAMPLE_ERROR_CODE_DROID error) {
             super(error.toString());
             this.error = error;
         }
         public final NAME_RULES_DROID.EXAMPLE_ERROR_CODE_DROID error;
     }
-    public final static class EXAMPLE_STRUCT_DROID {
+    public static final class EXAMPLE_STRUCT_DROID {
         public double j_value;
         public List<Long> j_int_value;
         public EXAMPLE_STRUCT_DROID(final double j_value, final List<Long> j_int_value) {

@@ -16,7 +16,7 @@ public final class PlatformComments extends NativeBase {
     /**
      * <p>An exception when something goes wrong.</p>
      */
-    public final static class SomethingWrongException extends Exception {
+    public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final PlatformComments.SomeEnum error) {
             super(error.toString());
             this.error = error;
@@ -26,7 +26,7 @@ public final class PlatformComments extends NativeBase {
     /**
      * <p>This is a very super struct.</p>
      */
-    public final static class Something {
+    public static final class Something {
         @NonNull
         public String nothing;
         public Something(@NonNull final String nothing) {

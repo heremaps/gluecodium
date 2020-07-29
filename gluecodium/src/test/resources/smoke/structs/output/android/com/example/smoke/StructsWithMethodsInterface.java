@@ -5,7 +5,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class StructsWithMethodsInterface extends NativeBase {
-    public final static class Vector3 {
+    public static final class Vector3 {
         public double x;
         public double y;
         public double z;
@@ -28,7 +28,7 @@ public final class StructsWithMethodsInterface extends NativeBase {
         private static native StructsWithMethodsInterface.Vector3 create(@NonNull final String input);
         private static native StructsWithMethodsInterface.Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationException;
     }
-    public final static class StructWithStaticMethodsOnly {
+    public static final class StructWithStaticMethodsOnly {
         public static native void doStuff();
     }
     /**

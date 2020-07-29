@@ -5,7 +5,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class NestedReferences extends NativeBase {
-    public final static class NestedReferences {
+    public static final class NestedReferences {
         @NonNull
         public String stringField;
         public NestedReferences(@NonNull final String stringField) {

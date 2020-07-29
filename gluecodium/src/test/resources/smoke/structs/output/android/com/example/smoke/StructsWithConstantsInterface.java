@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 public final class StructsWithConstantsInterface extends NativeBase {
-    public final static class MultiRoute {
+    public static final class MultiRoute {
         public static final String DEFAULT_DESCRIPTION = "Foo";
         public static final RouteType DEFAULT_TYPE = RouteType.NONE;
         @NonNull
@@ -19,7 +19,7 @@ public final class StructsWithConstantsInterface extends NativeBase {
             this.type = type;
         }
     }
-    public final static class StructWithConstantsOnly {
+    public static final class StructWithConstantsOnly {
         public static final String DEFAULT_DESCRIPTION = "Foo";
     }
     /**

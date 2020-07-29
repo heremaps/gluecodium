@@ -22,7 +22,7 @@
 {{#annotations}}
 @{{name}}
 {{/annotations}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isFinal}}final {{/if}}{{#if isStatic}}static {{/if}}{{!!
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isStatic}}static {{/if}}{{#if isFinal}}final {{/if}}{{!!
 }}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#if isParcelable}}{{prefixPartial "java/ParcelableCreator" "    "}}
 

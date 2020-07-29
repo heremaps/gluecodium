@@ -33,7 +33,7 @@ public interface DeprecationCommentsOnly {
      * @deprecated <p>Unfortunately, this struct is deprecated.</p>
      */
     @Deprecated
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         /**
          * @deprecated <p>Unfortunately, this field is deprecated.</p>
          */

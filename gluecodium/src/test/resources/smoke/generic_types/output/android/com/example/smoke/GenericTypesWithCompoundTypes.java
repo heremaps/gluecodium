@@ -25,13 +25,13 @@ public final class GenericTypesWithCompoundTypes extends NativeBase {
             this.value = value;
         }
     }
-    public final static class BasicStruct {
+    public static final class BasicStruct {
         public double value;
         public BasicStruct(final double value) {
             this.value = value;
         }
     }
-    public final static class ExternalStruct {
+    public static final class ExternalStruct {
         @NonNull
         public String string;
         public ExternalStruct(@NonNull final String string) {

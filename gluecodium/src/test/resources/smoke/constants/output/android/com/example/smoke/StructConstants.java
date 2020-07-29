@@ -8,7 +8,7 @@ import com.example.NativeBase;
 public final class StructConstants extends NativeBase {
     public static final StructConstants.SomeStruct STRUCT_CONSTANT = new StructConstants.SomeStruct("bar Buzz", 1.41f);
     public static final StructConstants.NestingStruct NESTING_STRUCT_CONSTANT = new StructConstants.NestingStruct(new StructConstants.SomeStruct("nonsense", -2.82f));
-    public final static class SomeStruct {
+    public static final class SomeStruct {
         @NonNull
         public String stringField;
         public float floatField;
@@ -17,7 +17,7 @@ public final class StructConstants extends NativeBase {
             this.floatField = floatField;
         }
     }
-    public final static class NestingStruct {
+    public static final class NestingStruct {
         @NonNull
         public StructConstants.SomeStruct structField;
         public NestingStruct(@NonNull final StructConstants.SomeStruct structField) {

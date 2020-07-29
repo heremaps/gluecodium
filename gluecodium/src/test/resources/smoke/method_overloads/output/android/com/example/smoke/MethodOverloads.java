@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 public final class MethodOverloads extends NativeBase {
-    public final static class Point {
+    public static final class Point {
         public double x;
         public double y;
         public Point(final double x, final double y) {

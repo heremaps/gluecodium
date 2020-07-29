@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.Locale;
 public final class Locales extends NativeBase {
-    public final static class LocaleStruct {
+    public static final class LocaleStruct {
         @NonNull
         public Locale localeField;
         public LocaleStruct(@NonNull final Locale localeField) {
