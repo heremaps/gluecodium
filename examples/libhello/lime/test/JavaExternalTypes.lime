@@ -78,4 +78,14 @@ class UseJavaExternalTypes {
     static fun monthRoundTrip(input: Month): Month
     static fun colorRoundTrip(input: SystemColor): SystemColor
     static fun seasonRoundTrip(input: Season): Season
+
+    static fun structRoundTrip(input: JavaExternalTypesStruct): JavaExternalTypesStruct
+}
+
+struct JavaExternalTypesStruct {
+    currency: Currency
+    timeZone: TimeZone
+    month: Month
+    color: SystemColor
+    season: Season
 }

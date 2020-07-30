@@ -121,4 +121,25 @@ public final class ExternalTypesTest {
 
     assertEquals(season, result);
   }
+
+  @Test
+  public void useJavaExternalTypesInStruct() {
+    SimpleTimeZone timeZone = new SimpleTimeZone(2, "foobar");
+    timeZone.setRawOffset(42);
+    JavaExternalTypesStruct struct =
+        new JavaExternalTypesStruct(
+            Currency.getInstance("EUR"),
+            timeZone,
+            Month.of(2),
+            android.graphics.Color.argb(0, 0, 127, 255),
+            "SPRING");
+
+    JavaExternalTypesStruct result = UseJavaExternalTypes.structRoundTrip(struct);
+
+    assertEquals(struct.currency.getCurrencyCode(), result.currency.getCurrencyCode());
+    assertEquals(struct.timeZone.getRawOffset(), result.timeZone.getRawOffset());
+    assertEquals(struct.month, result.month);
+    assertEquals(struct.color, result.color);
+    assertEquals(struct.season, result.season);
+  }
 }
