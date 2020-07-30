@@ -79,4 +79,19 @@ void main() {
 
     expect(result, season);
   });
+  _testSuite.test("Use Dart struct with external types", () {
+    final struct = DartExternalTypesStruct(
+      Rectangle<int>(0, 1, 2, 3),
+      HttpClientResponseCompressionState.decompressed,
+      0x007FFF,
+      "spring"
+    );
+
+    final result = UseDartExternalTypes.structRoundTrip(struct);
+
+    expect(result.rectangle, struct.rectangle);
+    expect(result.compressionState, struct.compressionState);
+    expect(result.color, struct.color);
+    expect(result.season, struct.season);
+  });
 }

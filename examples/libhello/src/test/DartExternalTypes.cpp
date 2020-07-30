@@ -41,4 +41,9 @@ Season
 UseDartExternalTypes::season_round_trip(const Season input) {
     return input;
 }
+
+DartExternalTypesStruct
+UseDartExternalTypes::struct_round_trip(const DartExternalTypesStruct& input) {
+    return input;
+}
 }

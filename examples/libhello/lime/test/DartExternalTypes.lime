@@ -71,4 +71,13 @@ class UseDartExternalTypes {
     static fun compressionStateRoundTrip(input: CompressionState): CompressionState
     static fun colorRoundTrip(input: SystemColor): SystemColor
     static fun seasonRoundTrip(input: Season): Season
+
+    static fun structRoundTrip(input: DartExternalTypesStruct): DartExternalTypesStruct
+}
+
+struct DartExternalTypesStruct {
+    rectangle: Rectangle
+    compressionState: CompressionState
+    color: SystemColor
+    season: Season
 }

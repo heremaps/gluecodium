@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/SwiftExternalTypesStruct.h"
 #include "test/UseSwiftExternalTypes.h"
 
 namespace test
@@ -39,6 +40,11 @@ UseSwiftExternalTypes::color_round_trip(const SystemColor& input) {
 
 Season
 UseSwiftExternalTypes::season_round_trip(const Season input) {
+    return input;
+}
+
+SwiftExternalTypesStruct
+UseSwiftExternalTypes::struct_round_trip(const SwiftExternalTypesStruct& input) {
     return input;
 }
 }

@@ -344,6 +344,14 @@ names are case-insensitive. Supported platform tags:
     needed for the pre-existing converter class (i.e. `"<path>/<file_name>.dart"`).
 * **Note:** the following features of struct types cannot be combined with "external" behavior:
 custom constructors, field default values, `@Equatable`.
+* **Note:** the way of specifying the name of the external type to use varies slightly between
+output languages. For C++ and Java it needs to be a fully-qualified name and it is specified through
+`cpp name "..."` and `java name "..."` values of the external descriptor. For Swift and Dart a
+regular short name is enough so it can be specified through `@Swift("...")` and `@Dart("...")`
+attributes (or omitted if the name is the name of the type in IDL declaration).
+* **Note:** due to specifics of external type naming mentioned just above, the intermediate internal
+type which is generated when a converter is specified has an additional `_internal` suffix to its
+name in Swift and Dart.
 
 ### Type references
 
