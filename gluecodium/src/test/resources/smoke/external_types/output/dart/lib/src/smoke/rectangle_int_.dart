@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -29,7 +29,7 @@ final _smoke_Rectangle_get_field_height = __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Rectangle_get_field_height');
-Pointer<Void> smoke_Rectangle_toFfi(Rectangle<int> value) {
+Pointer<Void> smoke_Rectangle_toFfi(math.Rectangle<int> value) {
   final _left_handle = (value.left);
   final _top_handle = (value.top);
   final _width_handle = (value.width);
@@ -41,13 +41,13 @@ Pointer<Void> smoke_Rectangle_toFfi(Rectangle<int> value) {
   (_height_handle);
   return _result;
 }
-Rectangle<int> smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+math.Rectangle<int> smoke_Rectangle_fromFfi(Pointer<Void> handle) {
   final _left_handle = _smoke_Rectangle_get_field_left(handle);
   final _top_handle = _smoke_Rectangle_get_field_top(handle);
   final _width_handle = _smoke_Rectangle_get_field_width(handle);
   final _height_handle = _smoke_Rectangle_get_field_height(handle);
   try {
-    return Rectangle<int>(
+    return math.Rectangle<int>(
       (_left_handle),
       (_top_handle),
       (_width_handle),
@@ -74,14 +74,14 @@ final _smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Rectangle_get_value_nullable');
-Pointer<Void> smoke_Rectangle_toFfi_nullable(Rectangle<int> value) {
+Pointer<Void> smoke_Rectangle_toFfi_nullable(math.Rectangle<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Rectangle_toFfi(value);
   final result = _smoke_Rectangle_create_handle_nullable(_handle);
   smoke_Rectangle_releaseFfiHandle(_handle);
   return result;
 }
-Rectangle<int> smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+math.Rectangle<int> smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Rectangle_get_value_nullable(handle);
   final result = smoke_Rectangle_fromFfi(_handle);

@@ -1,5 +1,5 @@
-import 'dart:math';
-import 'package:foo/bar.dart';
+import 'dart:math' as math;
+import 'package:foo/bar.dart' as bar;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/http_client_response_compression_state.dart';
 import 'package:library/src/smoke/int.dart';
@@ -15,8 +15,8 @@ abstract class UseDartExternalTypes {
   /// Call this to free memory when you no longer need this instance.
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
-  static Rectangle<int> rectangleRoundTrip(Rectangle<int> input) => UseDartExternalTypes$Impl.rectangleRoundTrip(input);
-  static HttpClientResponseCompressionState compressionStateRoundTrip(HttpClientResponseCompressionState input) => UseDartExternalTypes$Impl.compressionStateRoundTrip(input);
+  static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) => UseDartExternalTypes$Impl.rectangleRoundTrip(input);
+  static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) => UseDartExternalTypes$Impl.compressionStateRoundTrip(input);
   static int colorRoundTrip(int input) => UseDartExternalTypes$Impl.colorRoundTrip(input);
   static String seasonRoundTrip(String input) => UseDartExternalTypes$Impl.seasonRoundTrip(input);
 }
@@ -44,7 +44,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
     _smoke_UseDartExternalTypes_release_handle(handle);
     handle = null;
   }
-  static Rectangle<int> rectangleRoundTrip(Rectangle<int> input) {
+  static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
     final _rectangleRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle');
     final _input_handle = smoke_Rectangle_toFfi(input);
     final __result_handle = _rectangleRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
@@ -55,7 +55,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
       smoke_Rectangle_releaseFfiHandle(__result_handle);
     }
   }
-  static HttpClientResponseCompressionState compressionStateRoundTrip(HttpClientResponseCompressionState input) {
+  static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) {
     final _compressionStateRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_compressionStateRoundTrip__CompressionState');
     final _input_handle = smoke_CompressionState_toFfi(input);
     final __result_handle = _compressionStateRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);

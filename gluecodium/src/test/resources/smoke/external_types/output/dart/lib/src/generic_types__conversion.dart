@@ -1,5 +1,5 @@
-import 'dart:math';
-import 'package:foo/bar.dart';
+import 'dart:math' as math;
+import 'package:foo/bar.dart' as bar;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/date_interval.dart';
@@ -296,7 +296,7 @@ final _ListOf_smoke_Rectangle_iterator_get = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_ListOf_smoke_Rectangle_iterator_get');
-Pointer<Void> ListOf_smoke_Rectangle_toFfi(List<Rectangle<int>> value) {
+Pointer<Void> ListOf_smoke_Rectangle_toFfi(List<math.Rectangle<int>> value) {
   final _result = _ListOf_smoke_Rectangle_create_handle();
   for (final element in value) {
     final _element_handle = smoke_Rectangle_toFfi(element);
@@ -305,8 +305,8 @@ Pointer<Void> ListOf_smoke_Rectangle_toFfi(List<Rectangle<int>> value) {
   }
   return _result;
 }
-List<Rectangle<int>> ListOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
-  final result = List<Rectangle<int>>();
+List<math.Rectangle<int>> ListOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+  final result = List<math.Rectangle<int>>();
   final _iterator_handle = _ListOf_smoke_Rectangle_iterator(handle);
   while (_ListOf_smoke_Rectangle_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _ListOf_smoke_Rectangle_iterator_get(_iterator_handle);
@@ -333,14 +333,14 @@ final _ListOf_smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFun
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_ListOf_smoke_Rectangle_get_value_nullable');
-Pointer<Void> ListOf_smoke_Rectangle_toFfi_nullable(List<Rectangle<int>> value) {
+Pointer<Void> ListOf_smoke_Rectangle_toFfi_nullable(List<math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = ListOf_smoke_Rectangle_toFfi(value);
   final result = _ListOf_smoke_Rectangle_create_handle_nullable(_handle);
   ListOf_smoke_Rectangle_releaseFfiHandle(_handle);
   return result;
 }
-List<Rectangle<int>> ListOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+List<math.Rectangle<int>> ListOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _ListOf_smoke_Rectangle_get_value_nullable(handle);
   final result = ListOf_smoke_Rectangle_fromFfi(_handle);
@@ -385,7 +385,7 @@ final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value = __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value');
-Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(Map<HttpClientResponseCompressionState, Rectangle<int>> value) {
+Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
   final _result = _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle();
   for (final entry in value.entries) {
     final _key_handle = smoke_CompressionState_toFfi(entry.key);
@@ -396,8 +396,8 @@ Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(Map<HttpClie
   }
   return _result;
 }
-Map<HttpClientResponseCompressionState, Rectangle<int>> MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
-  final result = Map<HttpClientResponseCompressionState, Rectangle<int>>();
+Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+  final result = Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>>();
   final _iterator_handle = _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator(handle);
   while (_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _key_handle = _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_key(_iterator_handle);
@@ -427,14 +427,14 @@ final _MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable = __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable');
-Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi_nullable(Map<HttpClientResponseCompressionState, Rectangle<int>> value) {
+Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi_nullable(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(value);
   final result = _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle_nullable(_handle);
   MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle(_handle);
   return result;
 }
-Map<HttpClientResponseCompressionState, Rectangle<int>> MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable(handle);
   final result = MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi(_handle);
@@ -654,7 +654,7 @@ final _SetOf_smoke_Rectangle_iterator_get = __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_SetOf_smoke_Rectangle_iterator_get');
-Pointer<Void> SetOf_smoke_Rectangle_toFfi(Set<Rectangle<int>> value) {
+Pointer<Void> SetOf_smoke_Rectangle_toFfi(Set<math.Rectangle<int>> value) {
   final _result = _SetOf_smoke_Rectangle_create_handle();
   for (final element in value) {
     final _element_handle = smoke_Rectangle_toFfi(element);
@@ -663,8 +663,8 @@ Pointer<Void> SetOf_smoke_Rectangle_toFfi(Set<Rectangle<int>> value) {
   }
   return _result;
 }
-Set<Rectangle<int>> SetOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
-  final result = Set<Rectangle<int>>();
+Set<math.Rectangle<int>> SetOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+  final result = Set<math.Rectangle<int>>();
   final _iterator_handle = _SetOf_smoke_Rectangle_iterator(handle);
   while (_SetOf_smoke_Rectangle_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _SetOf_smoke_Rectangle_iterator_get(_iterator_handle);
@@ -691,14 +691,14 @@ final _SetOf_smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFunc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_SetOf_smoke_Rectangle_get_value_nullable');
-Pointer<Void> SetOf_smoke_Rectangle_toFfi_nullable(Set<Rectangle<int>> value) {
+Pointer<Void> SetOf_smoke_Rectangle_toFfi_nullable(Set<math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = SetOf_smoke_Rectangle_toFfi(value);
   final result = _SetOf_smoke_Rectangle_create_handle_nullable(_handle);
   SetOf_smoke_Rectangle_releaseFfiHandle(_handle);
   return result;
 }
-Set<Rectangle<int>> SetOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+Set<math.Rectangle<int>> SetOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _SetOf_smoke_Rectangle_get_value_nullable(handle);
   final result = SetOf_smoke_Rectangle_fromFfi(_handle);

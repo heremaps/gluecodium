@@ -72,6 +72,7 @@ internal class NameResolverHelper : BasicHelper() {
         val name = when (subKey?.toLowerCase()) {
             "getter" -> resolver.resolveGetterName(element)
             "setter" -> resolver.resolveSetterName(element)
+            "ref" -> resolver.resolveReferenceName(element)
             else -> resolver.resolveName(element)
         } ?: return
 
