@@ -23,5 +23,5 @@ class JavaEnumTypeRef(
     fullName: String,
     classNames: List<String>,
     packageNames: List<String>,
-    anImport: JavaImport
-) : JavaCustomTypeRef(fullName, setOf(anImport), classNames, packageNames)
+    anImport: JavaImport?
+) : JavaCustomTypeRef(fullName, listOfNotNull(anImport).toSet(), classNames, packageNames)
