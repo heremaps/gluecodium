@@ -10,6 +10,8 @@ class int_internal {
   double blue;
   double alpha;
   int_internal(this.red, this.green, this.blue, this.alpha);
+  int_internal.withDefaults(double red, double green, double blue)
+    : red = red, green = green, blue = blue, alpha = 0;
 }
 // int "private" section, not exported.
 final _smoke_DartColor_create_handle = __lib.nativeLibrary.lookupFunction<
