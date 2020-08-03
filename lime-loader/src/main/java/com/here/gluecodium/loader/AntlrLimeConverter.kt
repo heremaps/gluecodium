@@ -20,10 +20,11 @@
 package com.here.gluecodium.loader
 
 import com.here.gluecodium.antlr.LimeParser
+import com.here.gluecodium.antlr.LimedocLexer
+import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
-import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
@@ -31,6 +32,9 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_N
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimePath
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.tree.ParseTreeWalker
 
 internal object AntlrLimeConverter {
 
@@ -57,6 +61,18 @@ internal object AntlrLimeConverter {
         return builder.build()
     }
 
+    fun parseStructuredComment(commentString: String, lineNumber: Int, limePath: LimePath): LimeStructuredComment {
+        val lexer = LimedocLexer(CharStreams.fromString(commentString))
+        val parser = LimedocParser(CommonTokenStream(lexer))
+        parser.removeErrorListeners()
+        parser.addErrorListener(ThrowingErrorListener(lineNumber - 1))
+
+        val builder = AntlrLimedocBuilder(limePath)
+        ParseTreeWalker.DEFAULT.walk(builder, parser.documentation())
+
+        return builder.result
+    }
+
     private fun convertAnnotation(
         annotationContext: LimeParser.AnnotationContext,
         attributes: LimeAttributes.Builder,
@@ -75,7 +91,11 @@ internal object AntlrLimeConverter {
                 LimeAttributeType.DEPRECATED -> {
                     val stringValue = rawValue as? String
                         ?: throw LimeLoadingException("Unsupported attribute value: '$rawValue'")
-                    LimeComment(stringValue, limePath.child("@deprecated"))
+                    parseStructuredComment(
+                        stringValue,
+                        annotationContext.getStart().line,
+                        limePath.child("@deprecated")
+                    ).description
                 }
                 else -> rawValue
             }

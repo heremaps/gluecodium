@@ -22,7 +22,7 @@
 /**{{#unless comment.isEmpty}}{{#resolveName comment}}
 {{prefix this " * "}}{{/resolveName}}{{/unless}}{{!!
 }}{{#if attributes.deprecated}}
- * \deprecated {{#attributes.deprecated.message}}{{#resolveName this}}{{!!
-}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/attributes.deprecated.message}}{{/if}}
+ * \deprecated {{#resolveName attributes.deprecated.message}}{{!!
+}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/if}}
  */
 {{/ifPredicate}}

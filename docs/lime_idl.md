@@ -480,7 +480,8 @@ was an interim tool for manually ensuring referential equality (which is now ens
 Please note that this attribute is not supported for interfaces.
 * **@Serializable**: marks a struct type as serializable.
 * **@Deprecated(**\[**Message** **=**\] **"**_DeprecationMessage_**"**__)__: marks an element as
-deprecated, takes a string literal value as a deprecation message.
+deprecated, takes a string literal value as a deprecation message. Platform-specific inline tags are supported for
+deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
 access and cached in Java/Swift/Dart afterwards). Currently only supported for read-only properties.
 * **@Java**: marks an element with Java-specific behaviors:

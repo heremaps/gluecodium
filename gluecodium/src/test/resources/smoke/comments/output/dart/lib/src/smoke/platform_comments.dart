@@ -19,6 +19,8 @@ abstract class PlatformComments {
   /// Returns [bool]. Uselessness [PlatformComments_SomeEnum] of the input
   /// Throws [PlatformComments_SomethingWrongException]. Sometimes it happens.
   bool someMethodWithAllComments(String input);
+  @Deprecated("A very useless method that is deprecated.")
+  someDeprecatedMethod();
 }
 enum PlatformComments_SomeEnum {
     useless,
@@ -233,6 +235,17 @@ class PlatformComments$Impl implements PlatformComments {
       return Boolean_fromFfi(__result_handle);
     } finally {
       Boolean_releaseFfiHandle(__result_handle);
+    }
+  }
+  @override
+  someDeprecatedMethod() {
+    final _someDeprecatedMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_someDeprecatedMethod');
+    final _handle = this.handle;
+    final __result_handle = _someDeprecatedMethod_ffi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
     }
   }
 }

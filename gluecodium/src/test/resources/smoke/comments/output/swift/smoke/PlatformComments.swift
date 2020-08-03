@@ -50,6 +50,11 @@ public class PlatformComments {
             return moveFromCType(RESULT.returned_value)
         }
     }
+    ///
+    @available(*, deprecated, message: "A very awesome method that is deprecated.")
+    public func someDeprecatedMethod() -> Void {
+        return moveFromCType(smoke_PlatformComments_someDeprecatedMethod(self.c_instance))
+    }
 }
 internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {

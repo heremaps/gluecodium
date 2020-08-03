@@ -25,7 +25,7 @@
 {{/ifPredicate}}{{!!
 
 }}{{+combinedComment}}{{resolveName comment}}{{#if attributes.deprecated}}
-\deprecated {{#attributes.deprecated.message}}{{resolveName this}}{{/attributes.deprecated.message}}{{/if}}{{!!
+\deprecated {{resolveName attributes.deprecated.message}}{{/if}}{{!!
 }}{{#parameters}}
 \param[in] {{resolveName}} {{#ifPredicate typeRef "needsNotNullComment"}}@NotNull {{/ifPredicate}}{{!!
 }}{{#resolveName comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{/parameters}}{{!!
