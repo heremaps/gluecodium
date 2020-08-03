@@ -28,4 +28,6 @@ public final class UseJavaExternalTypes extends NativeBase {
     public static native java.lang.Integer colorRoundTrip(@NonNull final java.lang.Integer input);
     @NonNull
     public static native java.lang.String seasonRoundTrip(@NonNull final java.lang.String input);
+    @NonNull
+    public static native JavaExternalTypesStruct structRoundTrip(@NonNull final JavaExternalTypesStruct input);
 }
