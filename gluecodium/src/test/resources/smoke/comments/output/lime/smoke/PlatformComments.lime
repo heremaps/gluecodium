@@ -22,4 +22,6 @@ class PlatformComments {
     fun someMethodWithAllComments(
         input: String
     ): Boolean throws SomethingWrong
+    @Deprecated("A very {@Cpp useful}{@Java useless}{@Dart useless}{@Swift awesome} method that is deprecated.")
+    fun someDeprecatedMethod()
 }

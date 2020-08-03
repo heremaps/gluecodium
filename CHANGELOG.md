@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for platform-specific inline tags in `@Deprecated` deprecation messages.
+
 ## 8.0.1
 Release date: 2020-07-29
 ### Bug fixes:

@@ -39,6 +39,9 @@ class PlatformComments {
     // @throws Sometimes it happens{@Swift  but not on iOS [SomethingWrong] \\esc\@pe\{s\} }.
     fun someMethodWithAllComments(input: String): Boolean throws SomethingWrong
 
+    @Deprecated("A very {@Cpp useful}{@Java @Dart useless}{@Swift awesome} method that is deprecated.")
+    fun someDeprecatedMethod()
+
     // This is a{@Cpp @Java  very}{@Java @Swift  super}{@Swift @Cpp  useful}{@Cpp @Java @Swift  struct}.
     struct something {
         nothing: String

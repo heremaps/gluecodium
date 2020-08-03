@@ -45,6 +45,11 @@ public:
      * \retval ::smoke::PlatformComments::SomeEnum Sometimes it happens.
      */
     virtual ::gluecodium::Return< bool, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
+    /**
+     *
+     * \deprecated A very useful method that is deprecated.
+     */
+    virtual void some_deprecated_method(  ) = 0;
 };
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::PlatformComments::SomeEnum value ) noexcept;
 }

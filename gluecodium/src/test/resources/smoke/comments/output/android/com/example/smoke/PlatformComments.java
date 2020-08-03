@@ -61,4 +61,10 @@ public final class PlatformComments extends NativeBase {
      * @throws PlatformComments.SomethingWrongException <p>Sometimes it happens.</p>
      */
     public native boolean someMethodWithAllComments(@NonNull final String input) throws PlatformComments.SomethingWrongException;
+    /**
+     *
+     * @deprecated <p>A very useless method that is deprecated.</p>
+     */
+    @Deprecated
+    public native void someDeprecatedMethod();
 }

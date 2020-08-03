@@ -28,5 +28,5 @@
 }}{{#if visibility.isInternal}}
 /// @nodoc{{/if}}{{!!
 }}{{#if attributes.deprecated}}
-@Deprecated("{{#attributes.deprecated.message}}{{#resolveName this}}{{escape this}}{{/resolveName}}{{/attributes.deprecated.message}}")
+@Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
 {{/if}}
