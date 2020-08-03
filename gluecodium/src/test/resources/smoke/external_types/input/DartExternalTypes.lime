@@ -50,7 +50,7 @@ struct DartColor {
     red: Float
     green: Float
     blue: Float
-    alpha: Float
+    alpha: Float = 0
 }
 
 @Dart("String")
