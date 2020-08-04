@@ -54,7 +54,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
-{{#if attributes.equatable}}
+{{#if attributes.equatable}}{{#unless external.dart.converter}}
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
@@ -72,7 +72,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{/fields}}
     return result;
   }
-{{/if}}
+{{/unless}}{{/if}}
 }
 {{/unlessPredicate}}
 

@@ -37,6 +37,7 @@ enum Persistence {
     permanent
 }
 
+@Equatable
 struct PseudoColor {
     external {
         swift framework ""

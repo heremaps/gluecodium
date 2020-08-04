@@ -19,9 +19,10 @@
   !
   !}}
 {{#unless skipDeclaration}}{{>swift/Comment}}
-{{visibility}} struct {{simpleName}}{{#if externalConverter}}_internal{{/if}}{{#if isEquatable isCodable logic="or"}}{{!!
+{{visibility}} struct {{simpleName}}{{#if externalConverter}}_internal{{/if}}{{#unless externalConverter}}{{!!
+}}{{#if isEquatable isCodable logic="or"}}{{!!
 }}:{{#if isEquatable}} Hashable{{/if}}{{#if isEquatable isCodable logic="and"}},{{/if}}{{#if isCodable}} Codable{{/if}}{{!!
-}}{{/if}} {
+}}{{/if}}{{/unless}} {
 {{#constants}}
 {{prefixPartial "swift/Constant" "    "}}
 {{/constants}}{{!!
