@@ -50,7 +50,8 @@ internal class DartImportResolver(
     fun resolveDeclarationImports(limeElement: LimeElement): List<DartImport> =
         when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
-            limeElement is LimeStruct && limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
+            limeElement is LimeStruct && limeElement.external?.dart == null &&
+                    limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
                 listOf(collectionSystemImport, collectionPackageImport)
             limeElement is LimeInterface ->
                 listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport)
