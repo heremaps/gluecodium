@@ -192,7 +192,7 @@ class JavaModelBuilder(
             methods = methods,
             constants = getPreviousResults(JavaConstant::class.java),
             isParcelable = isSerializable,
-            isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
+            isEquatable = !hasConverter && limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             needsBuilder = limeStruct.attributes.have(JAVA, BUILDER),
             generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG),

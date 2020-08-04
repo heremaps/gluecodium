@@ -48,6 +48,7 @@ enum Month {
     MARCH
 }
 
+@Equatable
 struct SystemColor {
     external {
         java name "java.lang.Integer"

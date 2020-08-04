@@ -6,6 +6,7 @@ Release date: 2020-08-04
   * Added support for platform-specific inline tags in `@Deprecated` deprecation messages.
 ### Bug fixes:
   * Fixed potential name clashes for external types in Java and Dart.
+  * Equality support code is no longer generated for "external" types in Java, Swift, and Dart.
 
 ## 8.0.1
 Release date: 2020-07-29
