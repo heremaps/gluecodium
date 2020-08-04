@@ -67,4 +67,13 @@ class UseSwiftExternalTypes {
     static fun persistenceRoundTrip(input: Persistence): Persistence
     static fun colorRoundTrip(input: SystemColor): SystemColor
     static fun seasonRoundTrip(input: Season): Season
+
+    static fun structRoundTrip(input: SwiftExternalTypesStruct): SwiftExternalTypesStruct
+}
+
+struct SwiftExternalTypesStruct {
+    dateInterval: DateInterval
+    persistence: Persistence
+    color: SystemColor
+    season: Season
 }

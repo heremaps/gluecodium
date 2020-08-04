@@ -20,8 +20,6 @@
 package com.here.gluecodium.loader
 
 import com.here.gluecodium.antlr.LimeParser
-import com.here.gluecodium.antlr.LimedocLexer
-import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.model.lime.LimeAmbiguousEnumeratorRef
 import com.here.gluecodium.model.lime.LimeAmbiguousTypeRef
@@ -55,11 +53,8 @@ import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 import com.here.gluecodium.model.lime.LimeVisibility
 import java.util.LinkedList
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.misc.ParseCancellationException
-import org.antlr.v4.runtime.tree.ParseTreeWalker
 
 internal class AntlrLimeModelBuilder(
     private val referenceResolver: LimeReferenceResolver,
@@ -679,7 +674,7 @@ internal class AntlrLimeModelBuilder(
         commentContexts: List<LimeParser.DocCommentContext>,
         ctx: ParserRuleContext
     ): LimeStructuredComment {
-        val commentString = commentContexts.joinToString(separator = "\n") { it ->
+        val commentString = commentContexts.joinToString(separator = "\n") {
             when {
                 it.DelimitedCommentOpen() != null ->
                     it.DelimitedCommentText()?.text?.dropLast(2) ?: ""
@@ -689,15 +684,7 @@ internal class AntlrLimeModelBuilder(
             }
         }.trimIndent().split('\n').joinToString("\n") { line -> line.trimEnd() }
 
-        val lexer = LimedocLexer(CharStreams.fromString(commentString))
-        val parser = LimedocParser(CommonTokenStream(lexer))
-        parser.removeErrorListeners()
-        parser.addErrorListener(ThrowingErrorListener(ctx.getStart().line - 1))
-
-        val builder = AntlrLimedocBuilder(currentPath)
-        ParseTreeWalker.DEFAULT.walk(builder, parser.documentation())
-
-        return builder.result
+        return AntlrLimeConverter.parseStructuredComment(commentString, ctx.getStart().line, currentPath)
     }
 
     private fun parseExternalDescriptor(

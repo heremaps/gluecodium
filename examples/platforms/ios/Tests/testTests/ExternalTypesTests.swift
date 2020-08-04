@@ -89,12 +89,31 @@ class ExternalTypesTests: XCTestCase {
         XCTAssertEqual(season.value, result.value)
     }
 
+    func testSwiftExternalTypesInStruct() {
+        let typesStruct = SwiftExternalTypesStruct(
+            dateInterval: DateInterval(start: Date(), duration: 60),
+            persistence: URLCredential.Persistence.forSession,
+            color: PseudoColor(0x007FFF),
+            season: Season("spring"))
+
+        let result = UseSwiftExternalTypes.structRoundTrip(input: typesStruct)
+
+        XCTAssertEqual(typesStruct.dateInterval.start.timeIntervalSinceReferenceDate,
+            result.dateInterval.start.timeIntervalSinceReferenceDate, accuracy: 1e-6)
+        XCTAssertEqual(typesStruct.dateInterval.end.timeIntervalSinceReferenceDate,
+            result.dateInterval.end.timeIntervalSinceReferenceDate, accuracy: 1e-6)
+        XCTAssertEqual(typesStruct.persistence, result.persistence)
+        XCTAssertEqual(typesStruct.color.value, result.color.value)
+        XCTAssertEqual(typesStruct.season.value, result.season.value)
+    }
+
     static var allTests = [
         ("testUseExternalTypesExternalStruct", testUseExternalTypesExternalStruct),
         ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum),
         ("testSwiftExternalTypeDateInterval", testSwiftExternalTypeDateInterval),
         ("testSwiftExternalTypePersistence", testSwiftExternalTypePersistence),
         ("testSwiftExternalTypeColor", testSwiftExternalTypeColor),
-        ("testSwiftExternalTypeSeason", testSwiftExternalTypeSeason)
+        ("testSwiftExternalTypeSeason", testSwiftExternalTypeSeason),
+        ("testSwiftExternalTypesInStruct", testSwiftExternalTypesInStruct)
     ]
 }

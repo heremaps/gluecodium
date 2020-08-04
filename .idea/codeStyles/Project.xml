@@ -209,6 +209,9 @@
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="120" />
+    </codeStyleSettings>
     <codeStyleSettings language="ObjectiveC">
       <option name="RIGHT_MARGIN" value="80" />
       <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
@@ -588,6 +591,7 @@
     </codeStyleSettings>
     <codeStyleSettings language="kotlin">
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
+      <option name="RIGHT_MARGIN" value="120" />
     </codeStyleSettings>
     <codeStyleSettings language="protobuf">
       <option name="RIGHT_MARGIN" value="80" />

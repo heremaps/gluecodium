@@ -39,7 +39,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
-  {{#if attributes.immutable}}const {{/if}}{{resolveName}}.withDefaults({{!!
+  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}.withDefaults({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
     }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
@@ -54,7 +54,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/functions}}{{/set}}
-{{#if attributes.equatable}}
+{{#if attributes.equatable}}{{#unless external.dart.converter}}
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
@@ -72,7 +72,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{/fields}}
     return result;
   }
-{{/if}}
+{{/unless}}{{/if}}
 }
 {{/unlessPredicate}}
 
@@ -93,7 +93,7 @@ final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.nati
   >('{{libraryName}}_{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
 {{/fields}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value{{#if external.dart.converter}}_ext{{/if}}) {
+Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}_ext{{/if}}) {
 {{#if external.dart.converter}}
   final value = {{external.dart.converter}}.convertToInternal(value_ext);
 {{/if}}
@@ -107,7 +107,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value{{#if external.da
   return _result;
 }
 
-{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+{{resolveName this "" "ref"}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
 {{#set parent=this}}{{#fields}}
   final _{{resolveName}}_handle = _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
@@ -118,7 +118,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value{{#if external.da
 {{/fields}}    );
     return {{external.dart.converter}}.convertFromInternal(result_internal);
 {{/if}}{{#unless external.dart.converter}}
-    return {{resolveName}}{{#if constructors}}._{{/if}}({{#fields}}
+    return {{resolveName this "" "ref"}}{{#if constructors}}._{{/if}}({{#fields}}
       {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
     {{/fields}});
 {{/unless}}

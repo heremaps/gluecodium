@@ -50,7 +50,8 @@ internal class DartImportResolver(
     fun resolveDeclarationImports(limeElement: LimeElement): List<DartImport> =
         when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
-            limeElement is LimeStruct && limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
+            limeElement is LimeStruct && limeElement.external?.dart == null &&
+                    limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
                 listOf(collectionSystemImport, collectionPackageImport)
             limeElement is LimeInterface ->
                 listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport)
@@ -60,8 +61,8 @@ internal class DartImportResolver(
             limeElement is LimeClass -> listOf(tokenCacheImport)
             else -> emptyList()
         } + listOfNotNull(
-            resolveExternalImport(limeElement, IMPORT_PATH_NAME),
-            resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME)
+            resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
+            resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
         )
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
@@ -80,7 +81,10 @@ internal class DartImportResolver(
         when (val actualType = limeType.actualType) {
             is LimeBasicType -> resolveBasicTypeImports(actualType)
             is LimeGenericType -> resolveGenericTypeImports(actualType)
-            else -> listOfNotNull(createImport(actualType), resolveExternalImport(actualType))
+            else -> listOfNotNull(
+                createImport(actualType),
+                resolveExternalImport(actualType, IMPORT_PATH_NAME, useAlias = true)
+            )
         }
 
     private fun createImport(limeElement: LimeNamedElement): DartImport {
@@ -116,16 +120,19 @@ internal class DartImportResolver(
 
     private fun resolveExternalImport(
         limeElement: LimeElement,
-        key: String = IMPORT_PATH_NAME
+        key: String,
+        useAlias: Boolean
     ): DartImport? {
         val importPath = (limeElement as? LimeNamedElement)?.external?.dart?.get(key) ?: return null
         val components = importPath.split(':')
+        val alias = if (useAlias) computeAlias(importPath) else null
         return when (components.first()) {
-            "dart" -> DartImport(components.last(), importType = ImportType.SYSTEM)
-            "package" -> DartImport(components.last().removeSuffix(".dart"))
+            "dart" -> DartImport(components.last(), importType = ImportType.SYSTEM, asAlias = alias)
+            "package" -> DartImport(components.last().removeSuffix(".dart"), asAlias = alias)
             else -> DartImport(
                 components.last().removeSuffix(".dart"),
-                importType = ImportType.RELATIVE
+                importType = ImportType.RELATIVE,
+                asAlias = alias
             )
         }
     }
@@ -133,5 +140,8 @@ internal class DartImportResolver(
     companion object {
         private val collectionSystemImport = DartImport("collection", importType = ImportType.SYSTEM)
         private val collectionPackageImport = DartImport("collection/collection")
+
+        fun computeAlias(importPath: String) =
+            importPath.split(':').last().split('/').last().split('.').first()
     }
 }

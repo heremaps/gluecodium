@@ -200,4 +200,35 @@ class NameResolverHelperTest {
 
         verify(exactly = 0) { options.append(any()) }
     }
+
+    @Test
+    fun executeThreeParametersRefSubKey() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("ref")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) = throw IllegalArgumentException()
+            override fun resolveReferenceName(element: Any) =
+                if (element === genericElement) "baz" else "fizz"
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 1) { options.append("baz") }
+    }
+
+    @Test
+    fun executeThreeParametersRefSubKeyReturnsNull() {
+        parameters.add(genericElement)
+        parameters.add("nonsense")
+        parameters.add("ref")
+        helper.nameResolvers["nonsense"] = object : NameResolver {
+            override fun resolveName(element: Any) = throw IllegalArgumentException()
+            override fun resolveReferenceName(element: Any): String? = null
+        }
+
+        helper.execute(options)
+
+        verify(exactly = 0) { options.append(any()) }
+    }
 }

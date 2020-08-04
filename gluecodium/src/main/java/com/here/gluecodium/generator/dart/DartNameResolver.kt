@@ -28,7 +28,9 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
@@ -64,12 +66,19 @@ internal class DartNameResolver(
             is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
             is LimeGenericType -> resolveGenericType(element)
-            is LimeTypeRef -> resolveName(element.type)
+            is LimeTypeRef -> resolveTypeRefName(element)
             is LimeTypeAlias -> resolveName(element.typeRef)
             is LimeType -> resolveType(element)
             is LimeNamedElement -> getPlatformName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
+        }
+
+    override fun resolveReferenceName(element: Any) =
+        when (element) {
+            is LimeTypeRef -> resolveTypeRefName(element)
+            is LimeType -> resolveTypeRefName(LimeDirectTypeRef(element))
+            else -> null
         }
 
     private fun resolveVisibility(limeVisibility: LimeVisibility) =
@@ -198,6 +207,14 @@ internal class DartNameResolver(
         }
         val parentElement = getParentElement(limeElement)
         return "${resolveFullName(parentElement)}.${resolveName(limeElement)}"
+    }
+
+    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef): String {
+        val typeName = resolveName(limeTypeRef.type)
+        val alias = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)?.let {
+            DartImportResolver.computeAlias(it)
+        }
+        return listOfNotNull(alias, typeName).joinToString(".")
     }
 
     private fun buildPathMap(): Map<String, String> {

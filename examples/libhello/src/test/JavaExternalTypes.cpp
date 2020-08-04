@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/JavaExternalTypesStruct.h"
 #include "test/UseJavaExternalTypes.h"
 
 namespace test
@@ -44,6 +45,11 @@ UseJavaExternalTypes::color_round_trip(const SystemColor& input) {
 
 Season
 UseJavaExternalTypes::season_round_trip(const Season input) {
+    return input;
+}
+
+JavaExternalTypesStruct
+UseJavaExternalTypes::struct_round_trip(const JavaExternalTypesStruct& input) {
     return input;
 }
 }

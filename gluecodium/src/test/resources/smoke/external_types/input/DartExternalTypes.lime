@@ -41,6 +41,7 @@ enum CompressionState {
 }
 
 @Dart("int")
+@Equatable
 struct DartColor {
     external {
        dart converterImport "../color_converter.dart"
@@ -50,7 +51,7 @@ struct DartColor {
     red: Float
     green: Float
     blue: Float
-    alpha: Float
+    alpha: Float = 0
 }
 
 @Dart("String")

@@ -160,13 +160,19 @@ class JavaTypeMapper(
         val classNames = externalImport?.let { JavaNameRules.getClassNamesFromImportString(it) }
             ?: nameResolver.getClassNames(limeType)
 
-        val javaImport = JavaImport(classNames.first(), javaPackage)
-        val typeName = classNames.joinToString(".")
+        val javaImport =
+            if (externalImport == null) JavaImport(classNames.first(), javaPackage) else null
+        val packagePrefix = if (externalImport != null) javaPackage.packageNames else emptyList()
+        val fullName = (packagePrefix + classNames).joinToString(".")
         return when (limeType) {
             is LimeEnumeration ->
-                JavaEnumTypeRef(typeName, classNames, javaPackage.packageNames, javaImport)
-            else ->
-                JavaCustomTypeRef(typeName, setOf(javaImport), classNames, javaPackage.packageNames)
+                JavaEnumTypeRef(fullName, classNames, javaPackage.packageNames, javaImport)
+            else -> JavaCustomTypeRef(
+                fullName,
+                listOfNotNull(javaImport).toSet(),
+                classNames,
+                javaPackage.packageNames
+            )
         }
     }
 
