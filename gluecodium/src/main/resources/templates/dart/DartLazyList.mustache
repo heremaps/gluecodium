@@ -74,7 +74,7 @@ class LazyList<E> extends Iterable<E> implements List<E> {
   int indexOf(E element, [int start = 0]) => indexWhere((it) => element == it, start);
 
   int indexWhere(bool test(E element), [int start = 0]) {
-    final iterator = _LazyIterator(this, start ?? -1, 1);
+    final iterator = _LazyIterator(this, start - 1, 1);
     while (iterator.moveNext()) {
       if (test(iterator.current)) return iterator.position;
     }

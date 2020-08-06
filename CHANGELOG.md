@@ -1,11 +1,14 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Generated Dart code now supports null safety.
+### Breaking changes:
+  * Generated Dart code now requires minimum Dart version 2.12.0.
 ### Bug fixes:
-  * Fixed missing includes types referenced through type aliases in Dart FFI.
+  * Fixed missing includes for types referenced through type aliases in Dart FFI.
 
 ## 8.13.1
-Release date: 2021-04-28
 ### Bug fixes:
   * Fixed Dart runtime issue when passing a child class of an interface from C++ to Dart and then back to C++.
 
