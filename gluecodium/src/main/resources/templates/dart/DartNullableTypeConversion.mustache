@@ -31,7 +31,7 @@ final _{{resolveName "Ffi"}}_get_value_nullable = __lib.catchArgumentError(() =>
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
   >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_get_value_nullable'));
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName this "" "ref"}} value) {
+Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName this "" "ref"}}? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = {{resolveName "Ffi"}}_toFfi(value);
   final result = _{{resolveName "Ffi"}}_create_handle_nullable(_handle);
@@ -39,7 +39,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName this "" "ref"}}
   return result;
 }
 
-{{resolveName this "" "ref"}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) {
+{{resolveName this "" "ref"}}? {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _{{resolveName "Ffi"}}_get_value_nullable(handle);
   final result = {{resolveName "Ffi"}}_fromFfi(_handle);
