@@ -88,7 +88,9 @@ public final class Structs extends NativeBase {
          *     .setPointField(pointField)
          *     .build();
          * </pre>
+         * @deprecated <p>To create a new instance use one of the available constructors.</p>
          */
+        @Deprecated
         public static class Builder {
             private byte int8Field = (byte)0;
             private short uint8Field = (short)0;

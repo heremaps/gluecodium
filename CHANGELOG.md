@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Deprecated:
+  * Java code for the deprecated `@Java(Builder)` IDL attribute is now generated with a deprecation message of its own.
+
 ## 8.0.2
 Release date: 2020-08-04
 ### Features:
