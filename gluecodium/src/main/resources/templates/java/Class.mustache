@@ -22,7 +22,7 @@
 {{#annotations}}
 @{{name}}
 {{/annotations}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isStatic}}static {{/if}}{{#if isFinal}}final {{/if}}{{!!
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isStatic}}static {{/if}}{{#if isFinal}}{{#unless stubs}}final {{/unless}}{{/if}}{{!!
 }}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#if isParcelable}}{{prefixPartial "java/ParcelableCreator" "    "}}
 
@@ -42,22 +42,22 @@
 {{#set className=name}}{{#constructors}}
 {{prefixPartial "java/MethodComment" "    "}}
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
-{{#if isImplClass}}
+{{#unless stubs}}{{#if isImplClass}}
         this({{name}}({{join parameters delimiter=", " }}));
         cacheThisInstance();
 {{/if}}{{#unless isImplClass}}
         {{className}} _other = {{name}}({{join parameters delimiter=", " }});
 {{#fields}}        this.{{name}} = _other.{{name}};
 {{/fields}}
-{{/unless}}
+{{/unless}}{{/unless}}
     }
 {{/constructors}}{{/set}}
-{{#if isImplClass}}
+{{#unless stubs}}{{#if isImplClass}}
 {{prefixPartial "java/NativeConstructor" "    "}}
 {{#if constructors}}
     private native void cacheThisInstance();
 {{/if}}
-{{/if}}
+{{/if}}{{/unless}}
 {{#if fields}}{{#unless constructors}}
 
 {{#if generatedConstructorComment}}
@@ -93,18 +93,27 @@
 {{/if}}
 {{#if isEquatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
 {{/if}}
-{{#hasNativeEquatable}}
+{{#unless stubs}}{{#hasNativeEquatable}}
     @Override
     public native boolean equals(Object rhs);
 
     @Override
     public native int hashCode();
 
-{{/hasNativeEquatable}}
+{{/hasNativeEquatable}}{{/unless}}
 {{#if needsBuilder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
 {{/unless}}{{/if}}
-{{#methods}}{{#if isCached}}
+{{#methods}}{{#if stubs}}{{#unless isConstructor}}
+{{prefixPartial "java/MethodSignature" "    "}} {
+{{#unless isReturningVoid}}
+        return {{#instanceOf returnType "JavaPrimitiveTypeRef"}}{{!!
+        }}{{#isEq returnType.name "boolean"}}false{{/isEq}}{{!!
+        }}{{#isNotEq returnType.name "boolean"}}0{{/isNotEq}}{{/instanceOf}}{{!!
+        }}{{#notInstanceOf returnType "JavaPrimitiveTypeRef"}}null{{/notInstanceOf}};
+{{/unless}}
+    }
+{{/unless}}{{/if}}{{#unless stubs}}{{#if isCached}}
     private {{#if isStatic}}static {{/if}}{{returnType.name}} cache_{{name}};
     private {{#if isStatic}}static {{/if}}boolean is_cached_{{name}} = false;
 
@@ -124,6 +133,6 @@
     private {{#if isStatic}}static {{/if}}native {{returnType.name}} {{name}}_private{{!!
 }}({{joinPartial parameters "java/Parameter" ", "}});
 {{/if}}{{!!
-}}{{#unless isCached}}{{prefixPartial "java/MethodSignature" "    "}}{{/unless}}
+}}{{#unless isCached}}{{prefixPartial "java/MethodSignature" "    "}};{{/unless}}{{/unless}}
 {{/methods}}
 }

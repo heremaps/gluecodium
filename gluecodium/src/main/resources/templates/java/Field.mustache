@@ -27,4 +27,5 @@
 {{#allAnnotations}}
 @{{name}}
 {{/allAnnotations}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isImmutable}}final {{/if}}{{type.name}} {{name}};
+{{#if visibility.toString}}{{visibility}} {{/if}}{{!!
+}}{{#if isImmutable}}{{#unless stubs}}final {{/unless}}{{/if}}{{type.name}} {{name}};
