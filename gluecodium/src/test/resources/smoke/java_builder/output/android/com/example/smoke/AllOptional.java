@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 /**
@@ -47,7 +46,9 @@ public final class AllOptional {
     }
     /**
      * Allows to construct a new AllOptional instance by calling the desired setters one after the other in any order.
+     * @deprecated <p>To create a new instance use one of the available constructors.</p>
      */
+    @Deprecated
     public static class Builder {
         private int field0 = 0;
         private int field1 = 1;

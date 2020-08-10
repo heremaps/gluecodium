@@ -41,7 +41,9 @@
  * </ul>
 {{/if}}
 {{/if}}
+ * @deprecated <p>To create a new instance use one of the available constructors.</p>
  */
+@Deprecated
 {{>visible}}static class Builder {
 {{#fields}}
     private {{type.name}} {{name}}{{#if initial}} = {{initial.name}}{{/if}};

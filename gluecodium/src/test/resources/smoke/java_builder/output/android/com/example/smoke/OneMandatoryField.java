@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 public final class OneMandatoryField {
@@ -17,7 +16,9 @@ public final class OneMandatoryField {
      *     .setMandatory(mandatory)
      *     .build();
      * </pre>
+     * @deprecated <p>To create a new instance use one of the available constructors.</p>
      */
+    @Deprecated
     public static class Builder {
         private int mandatory = 0;
         public Builder() { }

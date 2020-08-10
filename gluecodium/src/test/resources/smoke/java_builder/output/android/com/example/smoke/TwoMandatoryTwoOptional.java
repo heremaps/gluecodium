@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 /**
@@ -62,7 +61,9 @@ public final class TwoMandatoryTwoOptional {
      *     <li>{@link FinalBuilder#setOptional setOptional(optional)}</li>
      *     <li>{@link FinalBuilder#setAlsoOptional setAlsoOptional(alsoOptional)}</li>
      * </ul>
+     * @deprecated <p>To create a new instance use one of the available constructors.</p>
      */
+    @Deprecated
     public static class Builder {
         private boolean mandatory = false;
         private boolean optional = true;

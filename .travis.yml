@@ -126,7 +126,7 @@ jobs:
         - export DART_LIB=${HOME}/dart_sdk/lib
         - export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
       install:
-        - DART_VERSION=2.8.2
+        - DART_VERSION=2.9.0
         - source ./scripts/install-cmake.sh 
         - |
           if [ ! -d "${HOME}/dart_sdk/bin" ]; then
