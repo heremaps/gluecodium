@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 public final class ManyMandatoryAndOptionalFields {
@@ -47,7 +46,9 @@ public final class ManyMandatoryAndOptionalFields {
      *     <li>{@link FinalBuilder#setAlsoOptional setAlsoOptional(alsoOptional)}</li>
      *     <li>{@link FinalBuilder#setStillOptional setStillOptional(stillOptional)}</li>
      * </ul>
+     * @deprecated <p>To create a new instance use one of the available constructors.</p>
      */
+    @Deprecated
     public static class Builder {
         private int mandatory = 0;
         private int alsoMandatory = 0;
