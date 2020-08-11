@@ -1,11 +1,14 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.1.0
+Release date: 2020-08-11
 ### Features:
   * Introduced "stubs" mode for Java generator (`-stubs` command-line parameter). This mode replaces
     "native" methods in generated Java code with stubs (i.e. empty implementation) and removes
     "final" qualifier from classes and fields. This makes code generated for classes and structs
     fully mockable in unit tests.
+### Bug fixes:
+  * Fixed runtime issue for external type converters in Java.
 ### Deprecated:
   * Java code for the deprecated `@Java(Builder)` IDL attribute is now generated with a deprecation message of its own.
 
