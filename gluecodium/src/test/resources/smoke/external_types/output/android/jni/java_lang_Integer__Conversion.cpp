@@ -10,14 +10,15 @@ namespace gluecodium
 {
 namespace jni
 {
+namespace
+{
+struct Dummycom_here_android_test_ColorConverterType {};
+}
+REGISTER_JNI_CLASS_CACHE("com/here/android/test/ColorConverter", com_here_android_test_ColorConverter, Dummycom_here_android_test_ColorConverterType)
 ::smoke::SystemColor
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smoke::SystemColor*)
 {
-    auto converterClass = find_class(_jenv, "com/here/android/test/ColorConverter");
-    if (converterClass.get() == NULL) {
-        throw_runtime_exception(_jenv, "Converter class 'com/here/android/test/ColorConverter' not found.");
-        return {};
-    }
+    auto& converterClass = CachedJavaClass<Dummycom_here_android_test_ColorConverterType>::java_class;
     auto convertMethodId = _jenv->GetStaticMethodID(
         converterClass.get(), "convertToInternal", "(Ljava/lang/Integer;)Lcom/example/smoke/SystemColor;");
     if (convertMethodId == NULL) {
@@ -70,11 +71,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::SystemColor& _ninput)
     ::gluecodium::jni::set_field_value(_jenv, _jresult, "green", _ninput.green);
     ::gluecodium::jni::set_field_value(_jenv, _jresult, "blue", _ninput.blue);
     ::gluecodium::jni::set_field_value(_jenv, _jresult, "alpha", _ninput.alpha);
-    auto converterClass = find_class(_jenv, "com/here/android/test/ColorConverter");
-    if (converterClass.get() == NULL) {
-        throw_runtime_exception(_jenv, "Converter class 'com/here/android/test/ColorConverter' not found.");
-        return {};
-    }
+    auto& converterClass = CachedJavaClass<Dummycom_here_android_test_ColorConverterType>::java_class;
     auto convertMethodId = _jenv->GetStaticMethodID(
         converterClass.get(), "convertFromInternal", "(Lcom/example/smoke/SystemColor;)Ljava/lang/Integer;");
     if (convertMethodId == NULL) {

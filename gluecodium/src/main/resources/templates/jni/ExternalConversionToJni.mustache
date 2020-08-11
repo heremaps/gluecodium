@@ -18,11 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-auto converterClass = find_class(_jenv, "{{externalConverter}}");
-if (converterClass.get() == NULL) {
-    throw_runtime_exception(_jenv, "Converter class '{{externalConverter}}' not found.");
-    return {};
-}
+auto& converterClass = CachedJavaClass<Dummy{{mangledExternalConverter}}Type>::java_class;
 
 auto convertMethodId = _jenv->GetStaticMethodID(
     converterClass.get(), "convertFromInternal", "(L{{fullJavaName}};)L{{externalConvertedType}};");

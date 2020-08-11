@@ -35,6 +35,10 @@ namespace {{.}}
 namespace jni
 {
 {{#struct}}
+{{#if externalConverter}}
+{{>jni/ExternalConversionClassCache}}
+{{/if}}
+
 {{cppFullyQualifiedName}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if externalConverter}}_ext{{/if}}, {{cppFullyQualifiedName}}*)
 {

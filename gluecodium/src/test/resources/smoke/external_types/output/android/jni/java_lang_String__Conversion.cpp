@@ -9,14 +9,15 @@ namespace gluecodium
 {
 namespace jni
 {
+namespace
+{
+struct Dummycom_here_android_test_SeasonConverterType {};
+}
+REGISTER_JNI_CLASS_CACHE("com/here/android/test/SeasonConverter", com_here_android_test_SeasonConverter, Dummycom_here_android_test_SeasonConverterType)
 ::smoke::Season
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smoke::Season*)
 {
-    auto converterClass = find_class(_jenv, "com/here/android/test/SeasonConverter");
-    if (converterClass.get() == NULL) {
-        throw_runtime_exception(_jenv, "Converter class 'com/here/android/test/SeasonConverter' not found.");
-        return {};
-    }
+    auto& converterClass = CachedJavaClass<Dummycom_here_android_test_SeasonConverterType>::java_class;
     auto convertMethodId = _jenv->GetStaticMethodID(
         converterClass.get(), "convertToInternal", "(Ljava/lang/String;)Lcom/example/smoke/Season;");
     if (convertMethodId == NULL) {
@@ -57,11 +58,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Season _ninput)
     }
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/Season;");
     auto _jresult = make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
-    auto converterClass = find_class(_jenv, "com/here/android/test/SeasonConverter");
-    if (converterClass.get() == NULL) {
-        throw_runtime_exception(_jenv, "Converter class 'com/here/android/test/SeasonConverter' not found.");
-        return {};
-    }
+    auto& converterClass = CachedJavaClass<Dummycom_here_android_test_SeasonConverterType>::java_class;
     auto convertMethodId = _jenv->GetStaticMethodID(
         converterClass.get(), "convertFromInternal", "(Lcom/example/smoke/Season;)Ljava/lang/String;");
     if (convertMethodId == NULL) {
