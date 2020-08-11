@@ -34,4 +34,5 @@ abstract class JniTopLevelElement(
     @Suppress("MemberVisibilityCanBePrivate")
     val fullJavaName = (javaPackage.packageNames + javaName).joinToString("/")
     open val mangledName = JniNameRules.getMangledName(fullJavaName)
+    val mangledExternalConverter = externalConverter?.let { JniNameRules.getMangledName(it) }
 }

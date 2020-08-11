@@ -18,14 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-auto& converterClass = CachedJavaClass<Dummy{{mangledExternalConverter}}Type>::java_class;
-
-auto convertMethodId = _jenv->GetStaticMethodID(
-    converterClass.get(), "convertToInternal", "(L{{externalConvertedType}};)L{{fullJavaName}};");
-if (convertMethodId == NULL) {
-    throw_runtime_exception(_jenv, "Static method 'convertToInternal(L{{externalConvertedType}};)L{{fullJavaName}};' not found.");
-    return {};
+namespace
+{
+struct Dummy{{mangledExternalConverter}}Type {};
 }
 
-auto _jinput = make_local_ref(
-    _jenv, _jenv->CallStaticObjectMethod(converterClass.get(), convertMethodId, _jinput_ext.get()));
+REGISTER_JNI_CLASS_CACHE("{{externalConverter}}", {{mangledExternalConverter}}, Dummy{{mangledExternalConverter}}Type)
