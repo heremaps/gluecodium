@@ -8,19 +8,21 @@ public class StructWithMethods {
         this.field = field;
     }
     public void voidFunction() {
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
     public boolean boolFunction() {
-        return false;
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
     public int intFunction() {
-        return 0;
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
     public String stringFunction() {
-        return null;
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
     public StructWithMethods structFunction() {
-        return null;
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
     public static void staticFunction() {
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
 }
