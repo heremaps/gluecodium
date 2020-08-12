@@ -44,6 +44,7 @@ internal func CachedProperties_copyFromCType(_ handle: _baseRef) -> CachedProper
 internal func CachedProperties_moveFromCType(_ handle: _baseRef) -> CachedProperties {
     if let swift_pointer = smoke_CachedProperties_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CachedProperties {
+        smoke_CachedProperties_release_handle(handle)
         return re_constructed
     }
     let result = CachedProperties(cCachedProperties: handle)

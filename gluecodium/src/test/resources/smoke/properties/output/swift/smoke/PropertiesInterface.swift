@@ -86,6 +86,7 @@ internal func PropertiesInterface_moveFromCType(_ handle: _baseRef) -> Propertie
     }
     if let swift_pointer = smoke_PropertiesInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PropertiesInterface {
+        smoke_PropertiesInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_PropertiesInterface_get_typed(handle),

@@ -70,6 +70,7 @@ internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineCo
 internal func MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments {
     if let swift_pointer = smoke_MultiLineComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultiLineComments {
+        smoke_MultiLineComments_release_handle(handle)
         return re_constructed
     }
     let result = MultiLineComments(cMultiLineComments: handle)

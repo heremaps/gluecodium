@@ -59,6 +59,7 @@ internal func ExternalClass_copyFromCType(_ handle: _baseRef) -> ExternalClass {
 internal func ExternalClass_moveFromCType(_ handle: _baseRef) -> ExternalClass {
     if let swift_pointer = smoke_ExternalClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalClass {
+        smoke_ExternalClass_release_handle(handle)
         return re_constructed
     }
     let result = ExternalClass(cExternalClass: handle)

@@ -61,6 +61,7 @@ internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstan
 internal func StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants {
     if let swift_pointer = smoke_StructConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructConstants {
+        smoke_StructConstants_release_handle(handle)
         return re_constructed
     }
     let result = StructConstants(cStructConstants: handle)

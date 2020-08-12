@@ -87,6 +87,7 @@ internal func ExternalInterface_moveFromCType(_ handle: _baseRef) -> ExternalInt
     }
     if let swift_pointer = smoke_ExternalInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalInterface {
+        smoke_ExternalInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ExternalInterface_get_typed(handle),

@@ -50,6 +50,7 @@ internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums {
 internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums {
     if let swift_pointer = smoke_Enums_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Enums {
+        smoke_Enums_release_handle(handle)
         return re_constructed
     }
     let result = Enums(cEnums: handle)

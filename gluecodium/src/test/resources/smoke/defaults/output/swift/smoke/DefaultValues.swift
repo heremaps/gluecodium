@@ -174,6 +174,7 @@ internal func DefaultValues_copyFromCType(_ handle: _baseRef) -> DefaultValues {
 internal func DefaultValues_moveFromCType(_ handle: _baseRef) -> DefaultValues {
     if let swift_pointer = smoke_DefaultValues_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DefaultValues {
+        smoke_DefaultValues_release_handle(handle)
         return re_constructed
     }
     let result = DefaultValues(cDefaultValues: handle)

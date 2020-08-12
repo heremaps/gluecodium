@@ -52,6 +52,7 @@ internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedRefere
 internal func NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences {
     if let swift_pointer = smoke_NestedReferences_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedReferences {
+        smoke_NestedReferences_release_handle(handle)
         return re_constructed
     }
     let result = NestedReferences(cNestedReferences: handle)

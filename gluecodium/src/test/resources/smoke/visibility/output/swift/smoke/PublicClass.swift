@@ -101,6 +101,7 @@ internal func PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass {
 internal func PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass {
     if let swift_pointer = smoke_PublicClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicClass {
+        smoke_PublicClass_release_handle(handle)
         return re_constructed
     }
     let result = PublicClass(cPublicClass: handle)

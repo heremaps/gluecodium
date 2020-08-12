@@ -75,6 +75,7 @@ internal func Class_copyFromCType(_ handle: _baseRef) -> Class {
 internal func Class_moveFromCType(_ handle: _baseRef) -> Class {
     if let swift_pointer = package_Class_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Class {
+        package_Class_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = package_Class_get_typed(handle),

@@ -33,6 +33,16 @@
    fun:*
 }
 {
+   getGenericMetadata2
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:_Znam
+   fun:swift_allocateGenericClassMetadata
+   fun:swift_getGenericMetadata
+   fun:*
+}
+{
    getTupleTypeMetadata
 
    Memcheck:Leak
@@ -94,9 +104,8 @@
 
    Memcheck:Cond
    fun:swift_initStructMetadata
+   fun:$s*
    ...
-   fun:_ZN5swift22MetadataCacheEntryBaseIN12_GLOBAL__N_117GenericCacheEntryEJPKvEE16doInitializationERNS_18ConcurrencyControlEPNS_28MetadataCompletionQueueEntryENS_15MetadataRequestE
-   fun:*
 }
 {
    relocateClassMetadata
@@ -157,5 +166,57 @@
    fun:_Znam
    fun:_ZN5swift17MetadataAllocator8AllocateEmm
    fun:swift_getWitnessTable
+   fun:*
+}
+{
+   invalid read in std::shared_ptr
+
+   Memcheck:Addr8
+   ...
+   fun:_ZNSt12__shared_ptr*
+   fun:*
+}
+{
+   invalid read 1 in std::string
+
+   Memcheck:Addr1
+   ...
+   fun:_ZNSt7__cxx1112basic_string*
+   fun:*
+}
+{
+   invalid read 2 in std::string
+
+   Memcheck:Addr2
+   ...
+   fun:_ZNSt7__cxx1112basic_string*
+   fun:*
+}
+{
+   invalid read 8 in std::string
+
+   Memcheck:Addr8
+   fun:_ZN*St7__cxx1112basic_string*
+   fun:*
+}
+{
+   invalid read 16 in std::string
+
+   Memcheck:Addr16
+   fun:_ZNSt7__cxx1112basic_string*
+   fun:*
+}
+{
+   invalid read 1 in std::hash
+
+   Memcheck:Addr1
+   fun:_ZSt11_Hash_bytesPKvmm
+   fun:*
+}
+{
+   invalid read 1 in OptionalBase
+
+   Memcheck:Addr1
+   fun:_ZN11lorem_ipsum4test12OptionalBase*
    fun:*
 }

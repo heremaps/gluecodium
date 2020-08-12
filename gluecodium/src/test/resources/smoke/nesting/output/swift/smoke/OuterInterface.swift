@@ -77,6 +77,7 @@ internal func OuterInterface_moveFromCType(_ handle: _baseRef) -> OuterInterface
     }
     if let swift_pointer = smoke_OuterInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterInterface {
+        smoke_OuterInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_OuterInterface_get_typed(handle),
@@ -151,6 +152,7 @@ internal func InnerClass_copyFromCType(_ handle: _baseRef) -> InnerClass {
 internal func InnerClass_moveFromCType(_ handle: _baseRef) -> InnerClass {
     if let swift_pointer = smoke_OuterInterface_InnerClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InnerClass {
+        smoke_OuterInterface_InnerClass_release_handle(handle)
         return re_constructed
     }
     let result = InnerClass(cInnerClass: handle)
@@ -257,6 +259,7 @@ internal func InnerInterface_moveFromCType(_ handle: _baseRef) -> InnerInterface
     }
     if let swift_pointer = smoke_OuterInterface_InnerInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InnerInterface {
+        smoke_OuterInterface_InnerInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_OuterInterface_InnerInterface_get_typed(handle),

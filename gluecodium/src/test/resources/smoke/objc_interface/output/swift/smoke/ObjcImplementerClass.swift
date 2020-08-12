@@ -47,6 +47,7 @@ internal func ObjcImplementerClass_copyFromCType(_ handle: _baseRef) -> ObjcImpl
 internal func ObjcImplementerClass_moveFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
     if let swift_pointer = smoke_ObjcImplementerClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcImplementerClass {
+        smoke_ObjcImplementerClass_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ObjcImplementerClass_get_typed(handle),

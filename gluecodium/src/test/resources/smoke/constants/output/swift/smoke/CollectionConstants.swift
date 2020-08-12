@@ -42,6 +42,7 @@ internal func CollectionConstants_copyFromCType(_ handle: _baseRef) -> Collectio
 internal func CollectionConstants_moveFromCType(_ handle: _baseRef) -> CollectionConstants {
     if let swift_pointer = smoke_CollectionConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CollectionConstants {
+        smoke_CollectionConstants_release_handle(handle)
         return re_constructed
     }
     let result = CollectionConstants(cCollectionConstants: handle)

@@ -55,6 +55,7 @@ internal func UseSwiftExternalTypes_copyFromCType(_ handle: _baseRef) -> UseSwif
 internal func UseSwiftExternalTypes_moveFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes {
     if let swift_pointer = smoke_UseSwiftExternalTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseSwiftExternalTypes {
+        smoke_UseSwiftExternalTypes_release_handle(handle)
         return re_constructed
     }
     let result = UseSwiftExternalTypes(cUseSwiftExternalTypes: handle)

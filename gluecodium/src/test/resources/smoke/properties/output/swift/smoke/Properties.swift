@@ -133,6 +133,7 @@ internal func Properties_copyFromCType(_ handle: _baseRef) -> Properties {
 internal func Properties_moveFromCType(_ handle: _baseRef) -> Properties {
     if let swift_pointer = smoke_Properties_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Properties {
+        smoke_Properties_release_handle(handle)
         return re_constructed
     }
     let result = Properties(cProperties: handle)

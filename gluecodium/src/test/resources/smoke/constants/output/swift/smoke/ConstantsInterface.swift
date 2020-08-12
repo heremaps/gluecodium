@@ -49,6 +49,7 @@ internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsI
 internal func ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsInterface {
     if let swift_pointer = smoke_ConstantsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ConstantsInterface {
+        smoke_ConstantsInterface_release_handle(handle)
         return re_constructed
     }
     let result = ConstantsInterface(cConstantsInterface: handle)

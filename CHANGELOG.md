@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features
   * Updated method stubs generated "stubs" mode of Java generator to uncondionally throw `RuntimeException`.
+### Bug fixes:
+  * Fixed several memory leaks in Swift.
 
 ## 8.1.0
 Release date: 2020-08-11

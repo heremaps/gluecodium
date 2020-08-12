@@ -50,6 +50,7 @@ internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
 internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames {
     if let swift_pointer = smoke_SpecialNames_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialNames {
+        smoke_SpecialNames_release_handle(handle)
         return re_constructed
     }
     let result = SpecialNames(cSpecialNames: handle)

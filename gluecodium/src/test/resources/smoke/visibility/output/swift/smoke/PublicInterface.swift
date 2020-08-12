@@ -68,6 +68,7 @@ internal func PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterfa
     }
     if let swift_pointer = smoke_PublicInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
+        smoke_PublicInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_PublicInterface_get_typed(handle),

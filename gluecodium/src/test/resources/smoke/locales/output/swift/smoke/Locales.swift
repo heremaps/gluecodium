@@ -63,6 +63,7 @@ internal func Locales_copyFromCType(_ handle: _baseRef) -> Locales {
 internal func Locales_moveFromCType(_ handle: _baseRef) -> Locales {
     if let swift_pointer = smoke_Locales_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Locales {
+        smoke_Locales_release_handle(handle)
         return re_constructed
     }
     let result = Locales(cLocales: handle)

@@ -47,6 +47,7 @@ internal func ObjcClass_copyFromCType(_ handle: _baseRef) -> ObjcClass {
 internal func ObjcClass_moveFromCType(_ handle: _baseRef) -> ObjcClass {
     if let swift_pointer = smoke_ObjcClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcClass {
+        smoke_ObjcClass_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ObjcClass_get_typed(handle),

@@ -79,6 +79,7 @@ internal func OuterClass_copyFromCType(_ handle: _baseRef) -> OuterClass {
 internal func OuterClass_moveFromCType(_ handle: _baseRef) -> OuterClass {
     if let swift_pointer = smoke_OuterClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass {
+        smoke_OuterClass_release_handle(handle)
         return re_constructed
     }
     let result = OuterClass(cOuterClass: handle)
@@ -133,6 +134,7 @@ internal func OuterClass_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterCl
 internal func OuterClass_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterClass.InnerClass {
     if let swift_pointer = smoke_OuterClass_InnerClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerClass {
+        smoke_OuterClass_InnerClass_release_handle(handle)
         return re_constructed
     }
     let result = OuterClass.InnerClass(cInnerClass: handle)
@@ -219,6 +221,7 @@ internal func OuterClass_InnerInterface_moveFromCType(_ handle: _baseRef) -> Out
     }
     if let swift_pointer = smoke_OuterClass_InnerInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass.InnerInterface {
+        smoke_OuterClass_InnerInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_OuterClass_InnerInterface_get_typed(handle),

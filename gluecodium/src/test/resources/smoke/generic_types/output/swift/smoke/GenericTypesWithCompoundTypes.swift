@@ -96,6 +96,7 @@ internal func GenericTypesWithCompoundTypes_copyFromCType(_ handle: _baseRef) ->
 internal func GenericTypesWithCompoundTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
     if let swift_pointer = smoke_GenericTypesWithCompoundTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithCompoundTypes {
+        smoke_GenericTypesWithCompoundTypes_release_handle(handle)
         return re_constructed
     }
     let result = GenericTypesWithCompoundTypes(cGenericTypesWithCompoundTypes: handle)

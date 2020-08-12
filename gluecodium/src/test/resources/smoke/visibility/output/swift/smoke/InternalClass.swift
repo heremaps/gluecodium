@@ -38,6 +38,7 @@ internal func InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass {
 internal func InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass {
     if let swift_pointer = smoke_InternalClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalClass {
+        smoke_InternalClass_release_handle(handle)
         return re_constructed
     }
     let result = InternalClass(cInternalClass: handle)
