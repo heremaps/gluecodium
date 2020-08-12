@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features
+  * Updated method stubs generated "stubs" mode of Java generator to uncondionally throw `RuntimeException`.
+
 ## 8.1.0
 Release date: 2020-08-11
 ### Features:

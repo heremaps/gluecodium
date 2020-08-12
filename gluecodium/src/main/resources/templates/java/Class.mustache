@@ -106,12 +106,7 @@
 {{/unless}}{{/if}}
 {{#methods}}{{#if stubs}}{{#unless isConstructor}}
 {{prefixPartial "java/MethodSignature" "    "}} {
-{{#unless isReturningVoid}}
-        return {{#instanceOf returnType "JavaPrimitiveTypeRef"}}{{!!
-        }}{{#isEq returnType.name "boolean"}}false{{/isEq}}{{!!
-        }}{{#isNotEq returnType.name "boolean"}}0{{/isNotEq}}{{/instanceOf}}{{!!
-        }}{{#notInstanceOf returnType "JavaPrimitiveTypeRef"}}null{{/notInstanceOf}};
-{{/unless}}
+        throw RuntimeException("This method is a stub and has to be mocked.");
     }
 {{/unless}}{{/if}}{{#unless stubs}}{{#if isCached}}
     private {{#if isStatic}}static {{/if}}{{returnType.name}} cache_{{name}};
