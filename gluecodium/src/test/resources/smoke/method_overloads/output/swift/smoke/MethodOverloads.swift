@@ -94,6 +94,7 @@ internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloa
 internal func MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads {
     if let swift_pointer = smoke_MethodOverloads_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MethodOverloads {
+        smoke_MethodOverloads_release_handle(handle)
         return re_constructed
     }
     let result = MethodOverloads(cMethodOverloads: handle)

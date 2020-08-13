@@ -63,6 +63,7 @@ internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface {
 internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface {
     if let swift_pointer = smoke_PlatformNamesInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazInterface {
+        smoke_PlatformNamesInterface_release_handle(handle)
         return re_constructed
     }
     let result = bazInterface(cbazInterface: handle)

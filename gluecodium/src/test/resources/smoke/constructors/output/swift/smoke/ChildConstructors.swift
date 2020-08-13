@@ -52,6 +52,7 @@ internal func ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstr
 internal func ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors {
     if let swift_pointer = smoke_ChildConstructors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildConstructors {
+        smoke_ChildConstructors_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ChildConstructors_get_typed(handle),

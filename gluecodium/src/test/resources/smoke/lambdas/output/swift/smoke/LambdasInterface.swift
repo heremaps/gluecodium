@@ -78,6 +78,7 @@ internal func LambdasInterface_moveFromCType(_ handle: _baseRef) -> LambdasInter
     }
     if let swift_pointer = smoke_LambdasInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasInterface {
+        smoke_LambdasInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_LambdasInterface_get_typed(handle),

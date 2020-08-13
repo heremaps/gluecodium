@@ -165,6 +165,7 @@ internal func ErrorsInterface_moveFromCType(_ handle: _baseRef) -> ErrorsInterfa
     }
     if let swift_pointer = smoke_ErrorsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ErrorsInterface {
+        smoke_ErrorsInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ErrorsInterface_get_typed(handle),

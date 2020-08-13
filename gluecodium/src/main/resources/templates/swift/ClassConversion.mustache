@@ -99,6 +99,7 @@ internal func {{mangledName}}moveFromCType(_ handle: _baseRef) -> {{name}} {
 {{/if}}
     if let swift_pointer = {{cInstance}}_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{name}} {
+        {{cInstance}}_release_handle(handle)
         return re_constructed
     }
 {{#if hasTypeRepository}}

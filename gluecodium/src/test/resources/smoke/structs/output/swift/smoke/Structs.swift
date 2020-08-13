@@ -177,6 +177,7 @@ internal func Structs_copyFromCType(_ handle: _baseRef) -> Structs {
 internal func Structs_moveFromCType(_ handle: _baseRef) -> Structs {
     if let swift_pointer = smoke_Structs_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Structs {
+        smoke_Structs_release_handle(handle)
         return re_constructed
     }
     let result = Structs(cStructs: handle)

@@ -36,6 +36,7 @@ internal func ObjcChildClass_copyFromCType(_ handle: _baseRef) -> ObjcChildClass
 internal func ObjcChildClass_moveFromCType(_ handle: _baseRef) -> ObjcChildClass {
     if let swift_pointer = smoke_ObjcChildClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcChildClass {
+        smoke_ObjcChildClass_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ObjcChildClass_get_typed(handle),

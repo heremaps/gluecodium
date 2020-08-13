@@ -42,6 +42,7 @@ internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -
 internal func EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
     if let swift_pointer = smoke_EnumsInTypeCollectionInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EnumsInTypeCollectionInterface {
+        smoke_EnumsInTypeCollectionInterface_release_handle(handle)
         return re_constructed
     }
     let result = EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: handle)

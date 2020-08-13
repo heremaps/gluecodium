@@ -48,6 +48,7 @@ internal func UseFreeTypes_copyFromCType(_ handle: _baseRef) -> UseFreeTypes {
 internal func UseFreeTypes_moveFromCType(_ handle: _baseRef) -> UseFreeTypes {
     if let swift_pointer = smoke_UseFreeTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseFreeTypes {
+        smoke_UseFreeTypes_release_handle(handle)
         return re_constructed
     }
     let result = UseFreeTypes(cUseFreeTypes: handle)

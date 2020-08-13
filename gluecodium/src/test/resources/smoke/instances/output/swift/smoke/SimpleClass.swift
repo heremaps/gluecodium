@@ -45,6 +45,7 @@ internal func SimpleClass_copyFromCType(_ handle: _baseRef) -> SimpleClass {
 internal func SimpleClass_moveFromCType(_ handle: _baseRef) -> SimpleClass {
     if let swift_pointer = smoke_SimpleClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleClass {
+        smoke_SimpleClass_release_handle(handle)
         return re_constructed
     }
     let result = SimpleClass(cSimpleClass: handle)

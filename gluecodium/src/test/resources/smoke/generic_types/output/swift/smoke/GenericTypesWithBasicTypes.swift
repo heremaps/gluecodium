@@ -107,6 +107,7 @@ internal func GenericTypesWithBasicTypes_copyFromCType(_ handle: _baseRef) -> Ge
 internal func GenericTypesWithBasicTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes {
     if let swift_pointer = smoke_GenericTypesWithBasicTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithBasicTypes {
+        smoke_GenericTypesWithBasicTypes_release_handle(handle)
         return re_constructed
     }
     let result = GenericTypesWithBasicTypes(cGenericTypesWithBasicTypes: handle)

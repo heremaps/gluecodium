@@ -56,6 +56,7 @@ internal func SkipTypes_copyFromCType(_ handle: _baseRef) -> SkipTypes {
 internal func SkipTypes_moveFromCType(_ handle: _baseRef) -> SkipTypes {
     if let swift_pointer = smoke_SkipTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SkipTypes {
+        smoke_SkipTypes_release_handle(handle)
         return re_constructed
     }
     let result = SkipTypes(cSkipTypes: handle)

@@ -125,6 +125,7 @@ internal func ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> Lis
     }
     if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
+        smoke_ListenersWithReturnValues_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_ListenersWithReturnValues_get_typed(handle),

@@ -49,6 +49,7 @@ internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
 internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
     if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
+        smoke_LongComments_release_handle(handle)
         return re_constructed
     }
     let result = LongComments(cLongComments: handle)

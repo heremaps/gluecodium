@@ -255,7 +255,11 @@ internal func copyToCType(_ swiftType: Locale?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(locale_create_optional_handle(copyToCType(swiftType).ref))
+    let handle = copyToCType(swiftType).ref
+    defer {
+        locale_release_handle(handle)
+    }
+    return RefHolder(locale_create_optional_handle(handle))
 }
 
 internal func moveToCType(_ swiftType: Locale?) -> RefHolder {

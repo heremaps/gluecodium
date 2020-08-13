@@ -114,6 +114,7 @@ internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks {
 internal func CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks {
     if let swift_pointer = smoke_CommentsLinks_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsLinks {
+        smoke_CommentsLinks_release_handle(handle)
         return re_constructed
     }
     let result = CommentsLinks(cCommentsLinks: handle)

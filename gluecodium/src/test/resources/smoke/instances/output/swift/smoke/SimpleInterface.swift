@@ -85,6 +85,7 @@ internal func SimpleInterface_moveFromCType(_ handle: _baseRef) -> SimpleInterfa
     }
     if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+        smoke_SimpleInterface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_SimpleInterface_get_typed(handle),

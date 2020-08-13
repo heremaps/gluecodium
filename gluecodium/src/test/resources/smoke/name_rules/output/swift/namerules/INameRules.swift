@@ -103,6 +103,7 @@ internal func INameRules_copyFromCType(_ handle: _baseRef) -> INameRules {
 internal func INameRules_moveFromCType(_ handle: _baseRef) -> INameRules {
     if let swift_pointer = namerules_NameRules_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? INameRules {
+        namerules_NameRules_release_handle(handle)
         return re_constructed
     }
     let result = INameRules(cINameRules: handle)

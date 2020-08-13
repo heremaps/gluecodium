@@ -83,6 +83,7 @@ internal func Errors_copyFromCType(_ handle: _baseRef) -> Errors {
 internal func Errors_moveFromCType(_ handle: _baseRef) -> Errors {
     if let swift_pointer = smoke_Errors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Errors {
+        smoke_Errors_release_handle(handle)
         return re_constructed
     }
     let result = Errors(cErrors: handle)

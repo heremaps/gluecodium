@@ -102,6 +102,7 @@ internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> S
 internal func StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
     if let swift_pointer = smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithMethodsInterface {
+        smoke_StructsWithMethodsInterface_release_handle(handle)
         return re_constructed
     }
     let result = StructsWithMethodsInterface(cStructsWithMethodsInterface: handle)

@@ -110,6 +110,7 @@ internal func DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> Depre
     }
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationCommentsOnly {
+        smoke_DeprecationCommentsOnly_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_typed(handle),

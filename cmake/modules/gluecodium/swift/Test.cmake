@@ -79,6 +79,7 @@ function(apigen_swift_test target)
       -L$<TARGET_FILE_DIR:${target}>
       -I$<TARGET_FILE_DIR:${target}>
       -l${target}
+      -lstdc++
       "${swift_link_libraries}"
       -enable-testing
       -Xlinker -rpath -Xlinker "'$$ORIGIN'")

@@ -120,8 +120,6 @@ _baseRef
 locale_unwrap_optional_handle(_baseRef handle)
 {
     return reinterpret_cast<_baseRef>(
-        new (std::nothrow) {{>common/InternalNamespace}}Locale(
-            **reinterpret_cast<{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*>(handle)
-        )
+        &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*>(handle)
     );
 }

@@ -95,6 +95,7 @@ internal func TypeDefs_copyFromCType(_ handle: _baseRef) -> TypeDefs {
 internal func TypeDefs_moveFromCType(_ handle: _baseRef) -> TypeDefs {
     if let swift_pointer = smoke_TypeDefs_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? TypeDefs {
+        smoke_TypeDefs_release_handle(handle)
         return re_constructed
     }
     let result = TypeDefs(cTypeDefs: handle)

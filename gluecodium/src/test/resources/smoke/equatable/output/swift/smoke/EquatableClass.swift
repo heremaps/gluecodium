@@ -64,6 +64,7 @@ internal func EquatableClass_copyFromCType(_ handle: _baseRef) -> EquatableClass
 internal func EquatableClass_moveFromCType(_ handle: _baseRef) -> EquatableClass {
     if let swift_pointer = smoke_EquatableClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EquatableClass {
+        smoke_EquatableClass_release_handle(handle)
         return re_constructed
     }
     let result = EquatableClass(cEquatableClass: handle)

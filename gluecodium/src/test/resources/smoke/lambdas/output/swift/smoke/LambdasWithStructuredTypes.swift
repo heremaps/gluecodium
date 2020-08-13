@@ -48,6 +48,7 @@ internal func LambdasWithStructuredTypes_copyFromCType(_ handle: _baseRef) -> La
 internal func LambdasWithStructuredTypes_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes {
     if let swift_pointer = smoke_LambdasWithStructuredTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasWithStructuredTypes {
+        smoke_LambdasWithStructuredTypes_release_handle(handle)
         return re_constructed
     }
     let result = LambdasWithStructuredTypes(cLambdasWithStructuredTypes: handle)

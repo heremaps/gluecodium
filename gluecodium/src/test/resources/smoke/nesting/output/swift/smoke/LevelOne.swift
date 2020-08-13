@@ -84,6 +84,7 @@ internal func LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne {
 internal func LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne {
     if let swift_pointer = smoke_LevelOne_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne {
+        smoke_LevelOne_release_handle(handle)
         return re_constructed
     }
     let result = LevelOne(cLevelOne: handle)
@@ -138,6 +139,7 @@ internal func LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.Le
 internal func LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
     if let swift_pointer = smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo {
+        smoke_LevelOne_LevelTwo_release_handle(handle)
         return re_constructed
     }
     let result = LevelOne.LevelTwo(cLevelTwo: handle)
@@ -192,6 +194,7 @@ internal func LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> 
 internal func LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
     if let swift_pointer = smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo.LevelThree {
+        smoke_LevelOne_LevelTwo_LevelThree_release_handle(handle)
         return re_constructed
     }
     let result = LevelOne.LevelTwo.LevelThree(cLevelThree: handle)

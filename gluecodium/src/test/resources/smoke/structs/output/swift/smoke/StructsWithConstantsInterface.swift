@@ -55,6 +55,7 @@ internal func StructsWithConstantsInterface_copyFromCType(_ handle: _baseRef) ->
 internal func StructsWithConstantsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
     if let swift_pointer = smoke_StructsWithConstantsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithConstantsInterface {
+        smoke_StructsWithConstantsInterface_release_handle(handle)
         return re_constructed
     }
     let result = StructsWithConstantsInterface(cStructsWithConstantsInterface: handle)

@@ -63,6 +63,7 @@ internal func Dates_copyFromCType(_ handle: _baseRef) -> Dates {
 internal func Dates_moveFromCType(_ handle: _baseRef) -> Dates {
     if let swift_pointer = smoke_Dates_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Dates {
+        smoke_Dates_release_handle(handle)
         return re_constructed
     }
     let result = Dates(cDates: handle)

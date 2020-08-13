@@ -68,6 +68,7 @@ internal func Interface_moveFromCType(_ handle: _baseRef) -> Interface {
     }
     if let swift_pointer = package_Interface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Interface {
+        package_Interface_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = package_Interface_get_typed(handle),

@@ -46,6 +46,7 @@ internal func InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent
 internal func InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent {
     if let swift_pointer = smoke_InternalParent_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalParent {
+        smoke_InternalParent_release_handle(handle)
         return re_constructed
     }
     if let swift_pointer = smoke_InternalParent_get_typed(handle),

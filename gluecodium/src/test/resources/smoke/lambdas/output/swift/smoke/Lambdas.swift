@@ -54,6 +54,7 @@ internal func Lambdas_copyFromCType(_ handle: _baseRef) -> Lambdas {
 internal func Lambdas_moveFromCType(_ handle: _baseRef) -> Lambdas {
     if let swift_pointer = smoke_Lambdas_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Lambdas {
+        smoke_Lambdas_release_handle(handle)
         return re_constructed
     }
     let result = Lambdas(cLambdas: handle)
