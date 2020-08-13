@@ -33,6 +33,7 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.swift.SwiftGenerator
 import com.here.gluecodium.generator.swift.SwiftModel
 import com.here.gluecodium.generator.swift.SwiftNameRules
+import com.here.gluecodium.generator.swift.SwiftWeakPropertiesValidator
 import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
@@ -74,8 +75,16 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             swiftNameRules = swiftNameRules,
             internalPrefix = internalPrefix
         )
+
         val filteredElements =
             LimeModelFilter { !it.attributes.have(SWIFT, SKIP) }.filter(limeModel.topElements)
+        val validationResult =
+            SwiftWeakPropertiesValidator(LimeLogger(logger, limeModel.fileNameMap))
+                .validate(filteredElements)
+        if (!validationResult) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
+
         val swiftModel =
             filteredElements.fold(SwiftModel()) { model, rootElement ->
                 model.merge(swiftGenerator.generateModel(rootElement))

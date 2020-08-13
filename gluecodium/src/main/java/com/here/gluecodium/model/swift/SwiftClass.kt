@@ -30,7 +30,8 @@ class SwiftClass(
     val useParentCInstance: Boolean = false,
     val hasEquatableType: Boolean = false,
     @Suppress("unused") val isObjcInterface: Boolean = false,
-    @Suppress("unused") val hasTypeRepository: Boolean = false
+    @Suppress("unused") val hasTypeRepository: Boolean = false,
+    @Suppress("unused") val hasWeakSupport: Boolean = false
 ) : SwiftType(
     name = nestedNames.joinToString("."),
     visibility = visibility,

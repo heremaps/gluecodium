@@ -24,7 +24,7 @@
     {{#getter}}{{>swift/ParametersConversion}}{{/getter}}
 }(){{!!
 }}{{/if}}{{#unless isCached}}{{!!
-}}{{^isInterface}}{{visibility}} {{/isInterface}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}{{!!
+}}{{^isInterface}}{{visibility}} {{/isInterface}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}{{#if isWeak}}weak {{/if}}{{!!
 }}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} {
 {{#getter}}
     get {

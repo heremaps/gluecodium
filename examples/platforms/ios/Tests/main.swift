@@ -70,7 +70,8 @@ let allTests = [
     testCase(StructWithConstantsTests.allTests),
     testCase(StructsWithMethodsTests.allTests),
     testCase(StructWithInstanceTests.allTests),
-    testCase(TypeDefTests.allTests)
+    testCase(TypeDefTests.allTests),
+    testCase(WeakListenersTests.allTests)
 ]
 
 XCTMain(allTests)

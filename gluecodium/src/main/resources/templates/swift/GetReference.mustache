@@ -18,7 +18,17 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
+{{#if hasWeakSupport}}
+internal class {{name}}_WeakHolder {
+    weak var value: {{name}}?
+
+    init(_ value: {{name}}) {
+        self.value = value
+    }
+}
+
+{{/if}}
+internal func getRef(_ ref: {{name}}?, owning: Bool = true{{#if hasWeakSupport}}, isWeak: Bool = false{{/if}}) -> RefHolder {
 
     guard let reference = ref else {
         return RefHolder(0)
@@ -32,7 +42,12 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }
 
     var functions = {{functionTableName}}()
+{{#if hasWeakSupport}}
+    let strongRef: AnyObject = isWeak ? {{name}}_WeakHolder(reference) : reference
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(strongRef).toOpaque()
+{{/if}}{{#unless hasWeakSupport}}
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+{{/unless}}
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
@@ -50,10 +65,39 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     let proxy = {{cInstance}}_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release_handle) : RefHolder(proxy)
 }
-{{/set}}{{!!
+{{/set}}
+{{#if hasWeakSupport}}
+
+internal func weakToCType(_ swiftClass: {{name}}?) -> RefHolder {
+    return getRef(swiftClass, owning: true, isWeak: true)
+}
+{{/if}}{{!!
+
 }}{{+functionTableEntry}}
     functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+{{#if hasWeakSupport}}
+        let unretained_value = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue()
+        let swift_class: {{className}}
+        if (unretained_value is {{className}}_WeakHolder) {
+            if let weak_value = (unretained_value as! {{className}}_WeakHolder).value {
+                swift_class = weak_value
+            } else {
+{{#if error}}{{#if isReturningVoid}}
+                return {{cBaseName}}_result(has_value: true, error_value: 0)
+{{/if}}{{#unless isReturningVoid}}
+                return {{cBaseName}}_result(has_value: true, .init(returned_value: 0))
+{{/unless}}{{/if}}{{#unless error}}{{#if isReturningVoid}}
+                return
+{{/if}}{{#unless isReturningVoid}}
+                return 0
+{{/unless}}{{/unless}}
+            }
+        } else {
+            swift_class = unretained_value as! {{className}}
+        }
+{{/if}}{{#unless hasWeakSupport}}
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
+{{/unless}}
         {{#if error}}do { {{#if isReturningVoid}}
             try {{include delegateToCall}}
             return {{cBaseName}}_result(has_value: true, error_value: 0)

@@ -140,6 +140,7 @@ internal object AntlrLimeConverter {
             "ObjC" -> LimeAttributeValueType.OBJC
             "Message" -> LimeAttributeValueType.MESSAGE
             "Skip" -> LimeAttributeValueType.SKIP
+            "Weak" -> LimeAttributeValueType.WEAK
             "ExternalType", "ExternalName", "ExternalGetter", "ExternalSetter" -> null
             else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
         }
