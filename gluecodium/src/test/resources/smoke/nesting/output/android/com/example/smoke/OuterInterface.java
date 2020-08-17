@@ -10,7 +10,7 @@ public interface OuterInterface {
          * For internal use only.
          * @exclude
          */
-        protected InnerClass(final long nativeHandle) {
+        protected InnerClass(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -23,7 +23,7 @@ public interface OuterInterface {
         public native String foo(@NonNull final String input);
     }
     static class InnerInterfaceImpl extends NativeBase implements InnerInterface {
-        protected InnerInterfaceImpl(final long nativeHandle) {
+        protected InnerInterfaceImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {

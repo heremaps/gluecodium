@@ -23,7 +23,7 @@ public final class MultiLineComments extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected MultiLineComments(final long nativeHandle) {
+    protected MultiLineComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

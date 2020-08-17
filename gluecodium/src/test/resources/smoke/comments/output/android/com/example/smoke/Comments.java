@@ -44,7 +44,7 @@ public final class Comments extends NativeBase {
      * @exclude
      */
     static class SomeLambdaImpl extends NativeBase implements SomeLambda {
-        protected SomeLambdaImpl(final long nativeHandle) {
+        protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -103,7 +103,7 @@ public final class Comments extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Comments(final long nativeHandle) {
+    protected Comments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

@@ -10,7 +10,7 @@ public final class UnderscorePackage extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected UnderscorePackage(final long nativeHandle) {
+    protected UnderscorePackage(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

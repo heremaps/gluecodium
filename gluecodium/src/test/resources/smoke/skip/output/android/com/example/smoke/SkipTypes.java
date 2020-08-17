@@ -23,7 +23,7 @@ public final class SkipTypes extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected SkipTypes(final long nativeHandle) {
+    protected SkipTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

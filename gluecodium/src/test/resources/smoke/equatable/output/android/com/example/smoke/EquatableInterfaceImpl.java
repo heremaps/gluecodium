@@ -4,7 +4,7 @@
 package com.example.smoke;
 import com.example.NativeBase;
 class EquatableInterfaceImpl extends NativeBase implements EquatableInterface {
-    protected EquatableInterfaceImpl(final long nativeHandle) {
+    protected EquatableInterfaceImpl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

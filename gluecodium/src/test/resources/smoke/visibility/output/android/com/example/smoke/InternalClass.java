@@ -9,7 +9,7 @@ import com.example.NativeBase;
 
 class InternalClass extends NativeBase {
 
-    protected InternalClass(final long nativeHandle) {
+    protected InternalClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

@@ -9,7 +9,7 @@ public final class BasicTypes extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected BasicTypes(final long nativeHandle) {
+    protected BasicTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

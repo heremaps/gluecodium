@@ -44,7 +44,7 @@ public final class EquatableClass extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected EquatableClass(final long nativeHandle) {
+    protected EquatableClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

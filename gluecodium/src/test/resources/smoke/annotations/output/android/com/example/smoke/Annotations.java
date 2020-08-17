@@ -11,7 +11,7 @@ public final class Annotations extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Annotations(final long nativeHandle) {
+    protected Annotations(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

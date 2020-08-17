@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 class barListenerImpl extends NativeBase implements barListener {
-    protected barListenerImpl(final long nativeHandle) {
+    protected barListenerImpl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

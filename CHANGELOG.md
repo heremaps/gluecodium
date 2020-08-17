@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Java compilation issue for class constructors with a single `Long` or `ULong` parameter.
+
 ## 8.1.1
 Release date: 2020-08-13
 ### Features

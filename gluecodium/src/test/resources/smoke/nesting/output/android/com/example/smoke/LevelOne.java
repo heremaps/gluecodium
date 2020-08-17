@@ -28,7 +28,7 @@ public final class LevelOne extends NativeBase {
              * For internal use only.
              * @exclude
              */
-            protected LevelThree(final long nativeHandle) {
+            protected LevelThree(final long nativeHandle, final Object dummy) {
                 super(nativeHandle, new Disposer() {
                     @Override
                     public void disposeNative(long handle) {
@@ -44,7 +44,7 @@ public final class LevelOne extends NativeBase {
          * For internal use only.
          * @exclude
          */
-        protected LevelTwo(final long nativeHandle) {
+        protected LevelTwo(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -58,7 +58,7 @@ public final class LevelOne extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected LevelOne(final long nativeHandle) {
+    protected LevelOne(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

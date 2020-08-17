@@ -10,7 +10,7 @@ public final class CachedProperties extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected CachedProperties(final long nativeHandle) {
+    protected CachedProperties(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

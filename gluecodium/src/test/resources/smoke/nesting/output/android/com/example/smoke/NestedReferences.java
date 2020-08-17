@@ -16,7 +16,7 @@ public final class NestedReferences extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected NestedReferences(final long nativeHandle) {
+    protected NestedReferences(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

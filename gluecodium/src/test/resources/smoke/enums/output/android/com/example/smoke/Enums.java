@@ -35,7 +35,7 @@ public final class Enums extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Enums(final long nativeHandle) {
+    protected Enums(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

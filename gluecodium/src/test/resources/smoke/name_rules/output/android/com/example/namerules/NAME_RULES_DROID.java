@@ -29,14 +29,14 @@ public final class NAME_RULES_DROID extends NativeBase {
         }
     }
     public NAME_RULES_DROID() {
-        this(create());
+        this(create(), (Object)null);
         cacheThisInstance();
     }
     /**
      * For internal use only.
      * @exclude
      */
-    protected NAME_RULES_DROID(final long nativeHandle) {
+    protected NAME_RULES_DROID(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

@@ -5,7 +5,7 @@
 package com.example.smoke;
 import com.example.NativeBase;
 class InternalParent extends NativeBase {
-    protected InternalParent(final long nativeHandle) {
+    protected InternalParent(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

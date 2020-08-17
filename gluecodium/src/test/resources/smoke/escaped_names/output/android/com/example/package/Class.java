@@ -7,14 +7,14 @@ import com.example.NativeBase;
 import java.util.List;
 public final class Class extends NativeBase implements Interface {
     public Class() {
-        this(constructor());
+        this(constructor(), (Object)null);
         cacheThisInstance();
     }
     /**
      * For internal use only.
      * @exclude
      */
-    protected Class(final long nativeHandle) {
+    protected Class(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

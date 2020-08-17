@@ -43,7 +43,7 @@
 {{prefixPartial "java/MethodComment" "    "}}
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
 {{#unless stubs}}{{#if isImplClass}}
-        this({{name}}({{join parameters delimiter=", " }}));
+        this({{name}}({{join parameters delimiter=", " }}), (Object)null);
         cacheThisInstance();
 {{/if}}{{#unless isImplClass}}
         {{className}} _other = {{name}}({{join parameters delimiter=", " }});

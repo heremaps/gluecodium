@@ -22,7 +22,7 @@ public final class CollectionConstants extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected CollectionConstants(final long nativeHandle) {
+    protected CollectionConstants(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
