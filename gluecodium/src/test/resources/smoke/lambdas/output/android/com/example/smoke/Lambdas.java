@@ -12,7 +12,7 @@ public final class Lambdas extends NativeBase {
      * @exclude
      */
     static class ProducerImpl extends NativeBase implements Producer {
-        protected ProducerImpl(final long nativeHandle) {
+        protected ProducerImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -28,7 +28,7 @@ public final class Lambdas extends NativeBase {
      * @exclude
      */
     static class ConfounderImpl extends NativeBase implements Confounder {
-        protected ConfounderImpl(final long nativeHandle) {
+        protected ConfounderImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -49,7 +49,7 @@ public final class Lambdas extends NativeBase {
      * @exclude
      */
     static class ConsumerImpl extends NativeBase implements Consumer {
-        protected ConsumerImpl(final long nativeHandle) {
+        protected ConsumerImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -64,7 +64,7 @@ public final class Lambdas extends NativeBase {
      * @exclude
      */
     static class IndexerImpl extends NativeBase implements Indexer {
-        protected IndexerImpl(final long nativeHandle) {
+        protected IndexerImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -79,7 +79,7 @@ public final class Lambdas extends NativeBase {
      * @exclude
      */
     static class NullableConfuserImpl extends NativeBase implements NullableConfuser {
-        protected NullableConfuserImpl(final long nativeHandle) {
+        protected NullableConfuserImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
                 @Override
                 public void disposeNative(long handle) {
@@ -126,7 +126,7 @@ public final class Lambdas extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Lambdas(final long nativeHandle) {
+    protected Lambdas(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

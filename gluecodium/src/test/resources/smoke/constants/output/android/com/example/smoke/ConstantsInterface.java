@@ -24,7 +24,7 @@ public final class ConstantsInterface extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected ConstantsInterface(final long nativeHandle) {
+    protected ConstantsInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

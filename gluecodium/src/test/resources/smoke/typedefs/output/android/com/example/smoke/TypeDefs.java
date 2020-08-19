@@ -24,7 +24,7 @@ public final class TypeDefs extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected TypeDefs(final long nativeHandle) {
+    protected TypeDefs(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

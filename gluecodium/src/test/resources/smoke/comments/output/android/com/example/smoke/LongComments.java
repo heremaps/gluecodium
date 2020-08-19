@@ -13,7 +13,7 @@ public final class LongComments extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected LongComments(final long nativeHandle) {
+    protected LongComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

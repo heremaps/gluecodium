@@ -218,7 +218,8 @@ convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue
     auto time_ms_epoch =
         std::chrono::duration_cast< std::chrono::milliseconds >( nvalue.time_since_epoch( ) ).count( );
 
-    return create_instance_object( env, javaDateClass, time_ms_epoch );
+    auto constructorMethodId = env->GetMethodID(javaDateClass.get(), "<init>", "(J)V");
+    return new_object(env, javaDateClass, constructorMethodId, time_ms_epoch);
 }
 
 JniReference<jobject>

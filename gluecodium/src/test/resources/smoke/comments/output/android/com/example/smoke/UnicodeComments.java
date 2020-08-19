@@ -9,7 +9,7 @@ public final class UnicodeComments extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected UnicodeComments(final long nativeHandle) {
+    protected UnicodeComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

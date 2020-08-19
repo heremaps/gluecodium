@@ -17,7 +17,7 @@ public final class NestedPackages extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected NestedPackages(final long nativeHandle) {
+    protected NestedPackages(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

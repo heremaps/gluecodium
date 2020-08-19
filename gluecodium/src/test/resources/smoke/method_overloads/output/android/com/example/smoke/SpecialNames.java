@@ -9,7 +9,7 @@ public final class SpecialNames extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected SpecialNames(final long nativeHandle) {
+    protected SpecialNames(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

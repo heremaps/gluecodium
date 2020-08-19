@@ -9,7 +9,7 @@ public final class ChildClassFromInterface extends NativeBase implements ParentI
      * For internal use only.
      * @exclude
      */
-    protected ChildClassFromInterface(final long nativeHandle) {
+    protected ChildClassFromInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

@@ -23,13 +23,13 @@
  * For internal use only.
  * @exclude
  */
-{{/if}}protected {{name}}(final long nativeHandle) {
-    super(nativeHandle{{#if needsDisposer}}, new Disposer() {
+{{/if}}protected {{name}}(final long nativeHandle, final Object dummy) {
+    super(nativeHandle, {{#if needsDisposer}}new Disposer() {
         @Override
         public void disposeNative(long handle) {
             disposeNativeHandle(handle);
         }
-    }{{/if}});
+    }{{/if}}{{#unless needsDisposer}}dummy{{/unless}});
 }{{#if needsDisposer}}
 
 private static native void disposeNativeHandle(long nativeHandle);{{/if}}

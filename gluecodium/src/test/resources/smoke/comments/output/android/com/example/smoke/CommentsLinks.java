@@ -32,7 +32,7 @@ public final class CommentsLinks extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected CommentsLinks(final long nativeHandle) {
+    protected CommentsLinks(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

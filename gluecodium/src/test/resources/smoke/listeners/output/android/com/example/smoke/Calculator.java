@@ -10,7 +10,7 @@ public final class Calculator extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Calculator(final long nativeHandle) {
+    protected Calculator(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

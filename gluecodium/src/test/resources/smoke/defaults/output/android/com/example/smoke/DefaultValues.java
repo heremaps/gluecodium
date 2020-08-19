@@ -166,7 +166,7 @@ public final class DefaultValues extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected DefaultValues(final long nativeHandle) {
+    protected DefaultValues(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

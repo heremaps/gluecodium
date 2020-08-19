@@ -6,14 +6,14 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class barInterface extends NativeBase {
     public barInterface(@NonNull final String makeParameter) {
-        this(make(makeParameter));
+        this(make(makeParameter), (Object)null);
         cacheThisInstance();
     }
     /**
      * For internal use only.
      * @exclude
      */
-    protected barInterface(final long nativeHandle) {
+    protected barInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
