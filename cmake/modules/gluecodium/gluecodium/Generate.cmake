@@ -98,7 +98,6 @@ function(apigen_generate)
 
   _apigen_set_option(GENERATOR)
   _apigen_set_option(TARGET)
-  _apigen_set_option_or_default(VERBOSE OFF)
   _apigen_set_option_or_default(BUILD_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/build")
   _apigen_set_option_or_default(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/${APIGEN_GENERATOR}")
   _apigen_set_option_or_default(COMMON_OUTPUT_DIR "")
@@ -230,6 +229,7 @@ cache=true\n")
         -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
         -DAPIGEN_GENERATED_FILES=${_escaped_generated_files}
         -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
+        -DAPIGEN_VERBOSE=${apigen_generate_VERBOSE}
         -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
         VERBATIM
     DEPENDS

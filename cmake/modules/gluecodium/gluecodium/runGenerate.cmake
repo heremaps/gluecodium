@@ -31,12 +31,18 @@ if (APIGEN_GLUECODIUM_AUXINPUT_FILE)
     set (APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME "${APIGEN_GLUECODIUM_AUXINPUT_FILE}.only-lime")
 endif ()
 
+function(_print_status)
+    if(APIGEN_VERBOSE)
+        message(${ARGN})
+    endif()
+endfunction()
+
 function(_main)
     apigen_set_generated_files(${APIGEN_TARGET})
     _merge_aux_file_with_options()
     _check_generation_necessary(_is_generation_necessary)
     if (NOT _is_generation_necessary)
-        message (STATUS "Generated files are up to date")
+        _print_status ("Generated files are up to date")
         return ()
     endif ()
     _generate()
@@ -97,7 +103,7 @@ endfunction ()
 
 function(_generate)
     if(DEFINED ENV{GLUECODIUM_PATH})
-        message("Using local Gluecodium from " $ENV{GLUECODIUM_PATH})
+        _print_status ("Using local Gluecodium from $ENV{GLUECODIUM_PATH}")
         set(_build_local_gluecodium --include-build $ENV{GLUECODIUM_PATH})
     else()
         unset(_build_local_gluecodium)
@@ -114,7 +120,7 @@ function(_generate)
     endif()
 
     file(READ "${APIGEN_GLUECODIUM_OPTIONS_FILE}" _options_content)
-    message(STATUS "Gluecodium options (stored in file ${APIGEN_GLUECODIUM_OPTIONS_FILE}):\n${_options_content}\n")
+    _print_status("Gluecodium options (stored in file ${APIGEN_GLUECODIUM_OPTIONS_FILE}):\n${_options_content}\n")
 
     # All options are listed in file, gluecodium needs only path to this file
     set (APIGEN_GLUECODIUM_ARGS "-options \"${APIGEN_GLUECODIUM_OPTIONS_FILE}\"")
@@ -127,15 +133,22 @@ function(_generate)
         set(_make_common_output_dir ${CMAKE_COMMAND} -E echo "No common directory specified")
     endif()
 
+    if (NOT APIGEN_VERBOSE)
+        set (_redirect_output
+            OUTPUT_VARIABLE GENERATE_OUTPUT
+            ERROR_VARIABLE GENERATE_OUTPUT)
+    endif ()
+
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
         COMMAND ${_make_common_output_dir}
         COMMAND ${_gluecodium_command}
         WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
-        RESULT_VARIABLE GENERATE_RESULT)
+        RESULT_VARIABLE GENERATE_RESULT
+        ${_redirect_output})
 
     if(GENERATE_RESULT)
-        message(FATAL_ERROR "Failed to generate from given LimeIDL files")
+        message(FATAL_ERROR "${GENERATE_OUTPUT}\nFailed to generate from given LimeIDL files")
     endif()
 endfunction()
 

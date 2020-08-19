@@ -41,7 +41,8 @@ apigen_generate(TARGET namerules
         JAVA_NAMERULES input/namerules/java.properties
         CPP_INTERNAL_NAMESPACE lorem_ipsum.test
         CPP_NAMERULES input/namerules/cpp.properties
-        SWIFT_NAMERULES input/namerules/swift.properties)
+        SWIFT_NAMERULES input/namerules/swift.properties
+        VERBOSE)
 apigen_target_include_directories(namerules)
 apigen_target_sources(namerules)
 
