@@ -21,5 +21,7 @@ endif ()
 
 set(_lock_file "${APIGEN_GRADLE_SYNCHRONISATION_DIR}/gluecodium-gradle-lock.cmake")
 
-message ("Using locking file to invocate gradle: ${_lock_file}")
+if(APIGEN_VERBOSE)
+    message ("Using locking file to invocate gradle: ${_lock_file}")
+endif()
 file (LOCK ${_lock_file} TIMEOUT 600)
