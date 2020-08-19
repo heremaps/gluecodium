@@ -36,6 +36,8 @@ open class Constructors {
     constructor create(input: String) throws ConstructorExploded
     @Dart("fromList")
     constructor create(input: List<Double>)
+    @Java(Skip) @Swift(Skip)
+    constructor create(input: ULong)
 
     exception ConstructorExploded(ErrorEnum)
 }

@@ -23,5 +23,10 @@ types StructsWithMethods {
         constructor create(
             other: Vector
         ) throws Validation
+        @Java(Skip)
+        @Swift(Skip)
+        constructor create(
+            input: ULong
+        )
     }
 }

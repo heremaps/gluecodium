@@ -57,6 +57,12 @@ public:
      * \return @NotNull
      */
     static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::vector< double >& input );
+    /**
+     *
+     * \param[in] input
+     * \return @NotNull
+     */
+    static ::std::shared_ptr< ::smoke::Constructors > create( const uint64_t input );
 };
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Constructors::ErrorEnum value ) noexcept;
 }
