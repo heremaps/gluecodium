@@ -22,30 +22,30 @@ public class Constructors extends NativeBase {
         public final Constructors.ErrorEnum error;
     }
     public Constructors() {
-        this(create());
+        this(create(), (Object)null);
         cacheThisInstance();
     }
     public Constructors(@NonNull final Constructors other) {
-        this(create(other));
+        this(create(other), (Object)null);
         cacheThisInstance();
     }
     public Constructors(@NonNull final String foo, final long bar) {
-        this(create(foo, bar));
+        this(create(foo, bar), (Object)null);
         cacheThisInstance();
     }
     public Constructors(@NonNull final String input) throws Constructors.ConstructorExplodedException {
-        this(create(input));
+        this(create(input), (Object)null);
         cacheThisInstance();
     }
     public Constructors(@NonNull final List<Double> input) {
-        this(create(input));
+        this(create(input), (Object)null);
         cacheThisInstance();
     }
     /**
      * For internal use only.
      * @exclude
      */
-    protected Constructors(final long nativeHandle) {
+    protected Constructors(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

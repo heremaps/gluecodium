@@ -5,7 +5,7 @@
 package com.example.smoke;
 import com.example.NativeBase;
 class InternalListenerImpl extends NativeBase implements InternalListener {
-    protected InternalListenerImpl(final long nativeHandle) {
+    protected InternalListenerImpl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

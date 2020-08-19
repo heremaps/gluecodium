@@ -6,7 +6,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 class ExternalInterfaceImpl extends NativeBase implements ExternalInterface {
-    protected ExternalInterfaceImpl(final long nativeHandle) {
+    protected ExternalInterfaceImpl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

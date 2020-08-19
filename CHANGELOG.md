@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Bug fixes:
+  * Fixed Java compilation issue for class constructors with a single `Long` or `ULong` parameter.
   * Fixed compilation issue in Dart caused by `@Dart(Default)` constructors.
 
 ## 8.1.1

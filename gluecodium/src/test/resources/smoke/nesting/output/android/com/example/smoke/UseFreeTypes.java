@@ -10,7 +10,7 @@ public final class UseFreeTypes extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected UseFreeTypes(final long nativeHandle) {
+    protected UseFreeTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

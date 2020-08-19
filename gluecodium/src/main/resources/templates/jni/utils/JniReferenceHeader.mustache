@@ -186,10 +186,10 @@ inline JniReference<jobject>
 create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlong instancePointer )
 {
     const char* name = "<init>";
-    const char* signature = "(J)V";
+    const char* signature = "(JLjava/lang/Object;)V";
     auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
 
-    return new_object(env, javaClass, theConstructor, instancePointer );
+    return new_object(env, javaClass, theConstructor, instancePointer, NULL );
 }
 
 inline JniReference<jobject>

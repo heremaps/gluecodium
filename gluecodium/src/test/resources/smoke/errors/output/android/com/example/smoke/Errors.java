@@ -40,7 +40,7 @@ public final class Errors extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Errors(final long nativeHandle) {
+    protected Errors(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

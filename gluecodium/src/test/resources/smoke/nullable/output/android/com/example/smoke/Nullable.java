@@ -87,7 +87,7 @@ public final class Nullable extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Nullable(final long nativeHandle) {
+    protected Nullable(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

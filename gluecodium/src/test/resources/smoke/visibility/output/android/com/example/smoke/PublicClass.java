@@ -45,7 +45,7 @@ public final class PublicClass extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected PublicClass(final long nativeHandle) {
+    protected PublicClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

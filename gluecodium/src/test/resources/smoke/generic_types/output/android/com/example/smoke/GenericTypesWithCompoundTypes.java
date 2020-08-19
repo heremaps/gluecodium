@@ -42,7 +42,7 @@ public final class GenericTypesWithCompoundTypes extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected GenericTypesWithCompoundTypes(final long nativeHandle) {
+    protected GenericTypesWithCompoundTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

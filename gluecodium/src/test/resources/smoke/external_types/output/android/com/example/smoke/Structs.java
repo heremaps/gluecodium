@@ -32,7 +32,7 @@ public final class Structs extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Structs(final long nativeHandle) {
+    protected Structs(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

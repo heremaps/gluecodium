@@ -17,7 +17,7 @@ public final class Locales extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected Locales(final long nativeHandle) {
+    protected Locales(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

@@ -9,7 +9,7 @@ public final class UseJavaExternalTypes extends NativeBase {
      * For internal use only.
      * @exclude
      */
-    protected UseJavaExternalTypes(final long nativeHandle) {
+    protected UseJavaExternalTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
