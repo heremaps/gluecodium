@@ -5,6 +5,7 @@
 #pragma once
 #include "gluecodium/Export.h"
 #include "gluecodium/Return.h"
+#include <cstdint>
 #include <system_error>
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT Vector {
@@ -17,5 +18,6 @@ struct _GLUECODIUM_CPP_EXPORT Vector {
     static bool validate( const double x, const double y );
     static ::smoke::Vector create( const double x, const double y );
     static ::gluecodium::Return< ::smoke::Vector, ::std::error_code > create( const ::smoke::Vector& other );
+    static ::smoke::Vector create( const uint64_t input );
 };
 }

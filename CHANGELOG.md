@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue in Dart caused by `@Dart(Default)` constructors.
+
 ## 8.1.1
 Release date: 2020-08-13
 ### Features

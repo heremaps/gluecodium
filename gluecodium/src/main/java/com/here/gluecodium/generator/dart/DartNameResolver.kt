@@ -184,8 +184,11 @@ internal class DartNameResolver(
     }
 
     private fun getPlatformName(element: LimeNamedElement) =
-        element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
-            ?: nameRules.getName(element)
+        when {
+            element.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> "\$init"
+            else -> element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
+                ?: nameRules.getName(element)
+        }
 
     private fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
         getParentElement(limeElement.path, limeElement is LimeParameter)

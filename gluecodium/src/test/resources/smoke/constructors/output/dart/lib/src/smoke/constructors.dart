@@ -7,11 +7,12 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Constructors {
-  factory Constructors() => Constructors$Impl.create();
+  factory Constructors() => Constructors$Impl.$init();
   factory Constructors.fromOther(Constructors other) => Constructors$Impl.fromOther(other);
   factory Constructors.fromMulti(String foo, int bar) => Constructors$Impl.fromMulti(foo, bar);
   factory Constructors.fromString(String input) => Constructors$Impl.fromString(input);
   factory Constructors.fromList(List<double> input) => Constructors$Impl.fromList(input);
+  factory Constructors.create(int input) => Constructors$Impl.create(input);
   /// Destroys the underlying native object.
   ///
   /// Call this to free memory when you no longer need this instance.
@@ -125,7 +126,7 @@ class Constructors$Impl implements Constructors {
     _smoke_Constructors_release_handle(handle);
     handle = null;
   }
-  Constructors$Impl.create() : handle = _create() {
+  Constructors$Impl.$init() : handle = _$init() {
     __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
   }
   Constructors$Impl.fromOther(Constructors other) : handle = _fromOther(other) {
@@ -140,9 +141,12 @@ class Constructors$Impl implements Constructors {
   Constructors$Impl.fromList(List<double> input) : handle = _fromList(input) {
     __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
   }
-  static Pointer<Void> _create() {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create');
-    final __result_handle = _create_ffi(__lib.LibraryContext.isolateId);
+  Constructors$Impl.create(int input) : handle = _create(input) {
+    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+  }
+  static Pointer<Void> _$init() {
+    final _$init_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create');
+    final __result_handle = _$init_ffi(__lib.LibraryContext.isolateId);
     return __result_handle;
   }
   static Pointer<Void> _fromOther(Constructors other) {
@@ -184,6 +188,13 @@ class Constructors$Impl implements Constructors {
     final _input_handle = ListOf_Double_toFfi(input);
     final __result_handle = _fromList_ffi(__lib.LibraryContext.isolateId, _input_handle);
     ListOf_Double_releaseFfiHandle(_input_handle);
+    return __result_handle;
+  }
+  static Pointer<Void> _create(int input) {
+    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_Constructors_create__ULong');
+    final _input_handle = (input);
+    final __result_handle = _create_ffi(__lib.LibraryContext.isolateId, _input_handle);
+    (_input_handle);
     return __result_handle;
   }
 }

@@ -81,6 +81,8 @@ MethodOverloads::is_boolean( const MethodOverloads::IntSet& input )
     return false;
 }
 
+// ConstructorOverloads
+
 class ConstructorOverloadsImpl : public ConstructorOverloads
 {
 public:
@@ -117,6 +119,14 @@ ConstructorOverloads::create( const std::vector< double >& input )
     return std::make_shared< ConstructorOverloadsImpl >( );
 }
 
+std::shared_ptr< ConstructorOverloads >
+ConstructorOverloads::create( const uint64_t input )
+{
+    return std::make_shared< ConstructorOverloadsImpl >( );
+}
+
+// StructConstructorOverloads
+
 StructConstructorOverloads
 StructConstructorOverloads::create()
 {
@@ -127,6 +137,12 @@ StructConstructorOverloads
 StructConstructorOverloads::create(const std::string& input)
 {
     return StructConstructorOverloads(input);
+}
+
+StructConstructorOverloads
+StructConstructorOverloads::create(const std::string& input1, const std::string& input2)
+{
+    return StructConstructorOverloads(input1 + input2);
 }
 
 }  // namespace test

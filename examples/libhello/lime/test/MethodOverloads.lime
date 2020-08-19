@@ -97,6 +97,8 @@ open class ConstructorOverloads {
     constructor create(
         input: List<Double>
     )
+
+    constructor create(input: ULong)
 }
 
 struct StructConstructorOverloads {
@@ -106,4 +108,6 @@ struct StructConstructorOverloads {
     constructor create()
     @Dart(Default)
     constructor create(input: String)
+
+    constructor create(input1: String, input2: String)
 }
