@@ -102,7 +102,7 @@ abstract class AcceptanceTestBase protected constructor(
 
     companion object {
         internal const val FEATURE_INPUT_FOLDER = "input"
-        private const val FEATURE_AUX_FOLDER = "aux"
+        private const val FEATURE_AUX_FOLDER = "auxiliary"
         private const val FEATURE_OUTPUT_FOLDER = "output"
         private const val IGNORE_PREFIX = "ignore"
         private val GENERATOR_NAMES = listOf(
