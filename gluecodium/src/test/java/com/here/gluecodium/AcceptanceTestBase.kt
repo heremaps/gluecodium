@@ -93,8 +93,8 @@ abstract class AcceptanceTestBase protected constructor(
                 val expected = it.readText()
                 errorCollector.checkEquals(
                     "File content differs for file: $relativePath",
-                    ignoreWhitespace(expected),
-                    ignoreWhitespace(generatedContent)
+                    ignoreUnimportantDifferences(expected),
+                    ignoreUnimportantDifferences(generatedContent)
                 )
             }
         }
@@ -176,11 +176,14 @@ abstract class AcceptanceTestBase protected constructor(
         }
 
         private fun getRelativePath(directory: File, file: File) =
-            directory.toURI().relativize(file.toURI()).path
+            directory.toPath().relativize(file.toPath()).toString()
 
-        private fun ignoreWhitespace(text: String) =
-            text.replace("( *\n)+".toRegex(), "\n") // ignore repeating empty lines
+        private fun ignoreUnimportantDifferences(text: String) =
+            text
+                .replace("( *[\r\n])+".toRegex(), "\n") // ignore repeating empty lines
                 .trim { it <= ' ' } // ignore leading and trailing whitespace
+                // treat Windows path separators as if they were Unix ones
+                .split('\n').joinToString("\n") { if (it.startsWith("#include")) it.replace('/', '\\') else it }
 
         private fun getFeatureName(parentDirectory: File, featureDirectory: File) =
             getRelativePath(parentDirectory, featureDirectory).replace("/", "")
