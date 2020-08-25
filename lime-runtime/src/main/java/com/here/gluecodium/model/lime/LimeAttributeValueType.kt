@@ -31,7 +31,8 @@ enum class LimeAttributeValueType(private val tag: String) {
     LABEL("Label"),
     OBJC("ObjC"),
     MESSAGE("Message"),
-    SKIP("Skip");
+    SKIP("Skip"),
+    WEAK("Weak");
 
     override fun toString() = tag
 }

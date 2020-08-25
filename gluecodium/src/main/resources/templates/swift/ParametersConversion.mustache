@@ -20,7 +20,8 @@
   !}}
 {{#selfIsStruct}}{{^isStatic}}let c_self_handle = moveToCType(self){{/isStatic}}{{/selfIsStruct}}
 {{#parameters}}
-let c_{{name}} = {{#type}}{{>swift/ConversionPrefixTo}}{{/type}}moveToCType({{name}})
+let c_{{name}} = {{#type}}{{>swift/ConversionPrefixTo}}{{/type}}{{!!
+}}{{#if isWeak}}weak{{/if}}{{#unless isWeak}}move{{/unless}}ToCType({{name}})
 {{/parameters}}
 {{#if error}}
 let RESULT = {{>swift/DelegateCall}}

@@ -4,6 +4,8 @@
 ### Bug fixes:
   * Fixed Java compilation issue for class constructors with a single `Long` or `ULong` parameter.
   * Fixed compilation issue in Dart caused by `@Dart(Default)` constructors.
+### Features
+  * Added `@Swift(Weak)` attributes for marking properties as `weak` in Swift.
 
 ## 8.1.1
 Release date: 2020-08-13

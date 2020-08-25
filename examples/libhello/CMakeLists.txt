@@ -234,6 +234,13 @@ feature(ListenersWithReturnValues cpp android swift dart SOURCES
     lime/test/ListenerInternal.lime
 )
 
+# This is a Swift-only feature
+feature(WeakListeners swift SOURCES
+    src/test/WeakListeners.cpp
+
+    lime/test/WeakListeners.lime
+)
+
 feature(GenericTypes cpp android swift dart SOURCES
     src/hello/HelloWorldArrays.cpp
     src/hello/HelloWorldMaps.cpp

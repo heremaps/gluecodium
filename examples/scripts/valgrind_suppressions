@@ -26,19 +26,7 @@
 
    Memcheck:Leak
    match-leak-kinds: possible
-   fun:_Znam
-   fun:_ZN5swift17MetadataAllocator8AllocateEmm
    ...
-   fun:swift_getGenericMetadata
-   fun:*
-}
-{
-   getGenericMetadata2
-
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:_Znam
-   fun:swift_allocateGenericClassMetadata
    fun:swift_getGenericMetadata
    fun:*
 }
@@ -163,8 +151,7 @@
 
    Memcheck:Leak
    match-leak-kinds: possible
-   fun:_Znam
-   fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   ...
    fun:swift_getWitnessTable
    fun:*
 }

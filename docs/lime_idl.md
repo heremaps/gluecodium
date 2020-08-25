@@ -503,6 +503,9 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
   * **Skip**: marks an element to be skipped (not generated) in Swift.
+  * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
+  that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
+  interface type is used for such property, that interface can only have methods that return nullable values or `void`.
 * **@Dart**: marks an element with Dart-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default specification for this attribute.
