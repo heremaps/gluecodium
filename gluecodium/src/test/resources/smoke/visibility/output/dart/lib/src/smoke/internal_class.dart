@@ -12,18 +12,18 @@ abstract class InternalClass {
   void release();
 }
 // InternalClass "private" section, not exported.
-final _smoke_InternalClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_InternalClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_InternalClass_copy_handle');
-final _smoke_InternalClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClass_copy_handle'));
+final _smoke_InternalClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_InternalClass_release_handle');
-final _smoke_InternalClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClass_release_handle'));
+final _smoke_InternalClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalClass_get_raw_pointer');
+    >('library_smoke_InternalClass_get_raw_pointer'));
 class InternalClass$Impl implements InternalClass {
   @protected
   Pointer<Void> handle;

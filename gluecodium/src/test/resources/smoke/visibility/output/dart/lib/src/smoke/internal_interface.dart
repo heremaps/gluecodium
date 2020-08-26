@@ -14,26 +14,26 @@ abstract class InternalInterface {
   void release() {}
 }
 // InternalInterface "private" section, not exported.
-final _smoke_InternalInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_InternalInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_InternalInterface_copy_handle');
-final _smoke_InternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalInterface_copy_handle'));
+final _smoke_InternalInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_InternalInterface_release_handle');
-final _smoke_InternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalInterface_release_handle'));
+final _smoke_InternalInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer),
     Pointer<Void> Function(int, int, Pointer)
-  >('library_smoke_InternalInterface_create_proxy');
-final _smoke_InternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalInterface_create_proxy'));
+final _smoke_InternalInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalInterface_get_raw_pointer');
-final _smoke_InternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_InternalInterface_get_raw_pointer'));
+final _smoke_InternalInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_InternalInterface_get_type_id');
+  >('library_smoke_InternalInterface_get_type_id'));
 class InternalInterface$Impl implements InternalInterface {
   @protected
   Pointer<Void> handle;

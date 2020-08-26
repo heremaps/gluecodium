@@ -14,18 +14,18 @@ abstract class SimpleClass {
   SimpleClass useSimpleClass(SimpleClass input);
 }
 // SimpleClass "private" section, not exported.
-final _smoke_SimpleClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SimpleClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SimpleClass_copy_handle');
-final _smoke_SimpleClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SimpleClass_copy_handle'));
+final _smoke_SimpleClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SimpleClass_release_handle');
-final _smoke_SimpleClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SimpleClass_release_handle'));
+final _smoke_SimpleClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SimpleClass_get_raw_pointer');
+    >('library_smoke_SimpleClass_get_raw_pointer'));
 class SimpleClass$Impl implements SimpleClass {
   @protected
   Pointer<Void> handle;
@@ -39,7 +39,7 @@ class SimpleClass$Impl implements SimpleClass {
   }
   @override
   String getStringValue() {
-    final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue');
+    final _getStringValue_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue'));
     final _handle = this.handle;
     final __result_handle = _getStringValue_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -50,7 +50,7 @@ class SimpleClass$Impl implements SimpleClass {
   }
   @override
   SimpleClass useSimpleClass(SimpleClass input) {
-    final _useSimpleClass_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleClass_useSimpleClass__SimpleClass');
+    final _useSimpleClass_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleClass_useSimpleClass__SimpleClass'));
     final _input_handle = smoke_SimpleClass_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _useSimpleClass_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);

@@ -222,6 +222,8 @@ class Gluecodium(
         var cppExport: String = DEFAULT_CPP_EXPORT_MACRO_NAME,
         var internalPrefix: String? = null,
         var libraryName: String = "library",
+        var dartLookupErrorMessage: String =
+            "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",
         var werror: Set<String> = emptySet(),
         var generateStubs: Boolean = false,
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(

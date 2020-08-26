@@ -68,18 +68,18 @@ class CommentsLinks_RandomStruct {
   CommentsLinks_RandomStruct(this.randomField);
 }
 // CommentsLinks_RandomStruct "private" section, not exported.
-final _smoke_CommentsLinks_RandomStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_CommentsLinks_RandomStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_RandomStruct_create_handle');
-final _smoke_CommentsLinks_RandomStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_RandomStruct_create_handle'));
+final _smoke_CommentsLinks_RandomStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_RandomStruct_release_handle');
-final _smoke_CommentsLinks_RandomStruct_get_field_randomField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_RandomStruct_release_handle'));
+final _smoke_CommentsLinks_RandomStruct_get_field_randomField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_RandomStruct_get_field_randomField');
+  >('library_smoke_CommentsLinks_RandomStruct_get_field_randomField'));
 Pointer<Void> smoke_CommentsLinks_RandomStruct_toFfi(CommentsLinks_RandomStruct value) {
   final _randomField_handle = smoke_Comments_SomeStruct_toFfi(value.randomField);
   final _result = _smoke_CommentsLinks_RandomStruct_create_handle(_randomField_handle);
@@ -98,18 +98,18 @@ CommentsLinks_RandomStruct smoke_CommentsLinks_RandomStruct_fromFfi(Pointer<Void
 }
 void smoke_CommentsLinks_RandomStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_CommentsLinks_RandomStruct_release_handle(handle);
 // Nullable CommentsLinks_RandomStruct
-final _smoke_CommentsLinks_RandomStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_CommentsLinks_RandomStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_RandomStruct_create_handle_nullable');
-final _smoke_CommentsLinks_RandomStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_RandomStruct_create_handle_nullable'));
+final _smoke_CommentsLinks_RandomStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_RandomStruct_release_handle_nullable');
-final _smoke_CommentsLinks_RandomStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_RandomStruct_release_handle_nullable'));
+final _smoke_CommentsLinks_RandomStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_RandomStruct_get_value_nullable');
+  >('library_smoke_CommentsLinks_RandomStruct_get_value_nullable'));
 Pointer<Void> smoke_CommentsLinks_RandomStruct_toFfi_nullable(CommentsLinks_RandomStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CommentsLinks_RandomStruct_toFfi(value);
@@ -128,34 +128,34 @@ void smoke_CommentsLinks_RandomStruct_releaseFfiHandle_nullable(Pointer<Void> ha
   _smoke_CommentsLinks_RandomStruct_release_handle_nullable(handle);
 // End of CommentsLinks_RandomStruct "private" section.
 // CommentsLinks "private" section, not exported.
-final _smoke_CommentsLinks_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_CommentsLinks_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_copy_handle');
-final _smoke_CommentsLinks_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_copy_handle'));
+final _smoke_CommentsLinks_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_release_handle');
-final _smoke_CommentsLinks_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_release_handle'));
+final _smoke_CommentsLinks_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_CommentsLinks_get_raw_pointer');
-final _randomMethod_return_release_handle = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_CommentsLinks_get_raw_pointer'));
+final _randomMethod_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_release_handle');
-final _randomMethod_return_get_result = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_release_handle'));
+final _randomMethod_return_get_result = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_get_result');
-final _randomMethod_return_get_error = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_get_result'));
+final _randomMethod_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_get_error');
-final _randomMethod_return_has_error = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_get_error'));
+final _randomMethod_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error');
+  >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
 class CommentsLinks$Impl implements CommentsLinks {
   @protected
   Pointer<Void> handle;
@@ -169,7 +169,7 @@ class CommentsLinks$Impl implements CommentsLinks {
   }
   @override
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
-    final _randomMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum');
+    final _randomMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum'));
     final _inputParameter_handle = smoke_Comments_SomeEnum_toFfi(inputParameter);
     final _handle = this.handle;
     final __call_result_handle = _randomMethod_ffi(_handle, __lib.LibraryContext.isolateId, _inputParameter_handle);
@@ -193,7 +193,7 @@ class CommentsLinks$Impl implements CommentsLinks {
   }
   @override
   randomMethod2(String text, bool flag) {
-    final _randomMethod2_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Uint8), void Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_CommentsLinks_randomMethod__String_Boolean');
+    final _randomMethod2_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Uint8), void Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_CommentsLinks_randomMethod__String_Boolean'));
     final _text_handle = String_toFfi(text);
     final _flag_handle = Boolean_toFfi(flag);
     final _handle = this.handle;

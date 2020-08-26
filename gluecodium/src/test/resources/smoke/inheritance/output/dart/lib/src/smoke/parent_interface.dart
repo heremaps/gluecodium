@@ -26,26 +26,26 @@ abstract class ParentInterface {
   set rootProperty(String value);
 }
 // ParentInterface "private" section, not exported.
-final _smoke_ParentInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ParentInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ParentInterface_copy_handle');
-final _smoke_ParentInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ParentInterface_copy_handle'));
+final _smoke_ParentInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ParentInterface_release_handle');
-final _smoke_ParentInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ParentInterface_release_handle'));
+final _smoke_ParentInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
-  >('library_smoke_ParentInterface_create_proxy');
-final _smoke_ParentInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ParentInterface_create_proxy'));
+final _smoke_ParentInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ParentInterface_get_raw_pointer');
-final _smoke_ParentInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_ParentInterface_get_raw_pointer'));
+final _smoke_ParentInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ParentInterface_get_type_id');
+  >('library_smoke_ParentInterface_get_type_id'));
 class ParentInterface$Lambdas implements ParentInterface {
   void Function() lambda_rootMethod;
   String Function() lambda_rootProperty_get;
@@ -82,7 +82,7 @@ class ParentInterface$Impl implements ParentInterface {
   }
   @override
   rootMethod() {
-    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod');
+    final _rootMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
     final _handle = this.handle;
     final __result_handle = _rootMethod_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -92,7 +92,7 @@ class ParentInterface$Impl implements ParentInterface {
     }
   }
   String get rootProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -102,7 +102,7 @@ class ParentInterface$Impl implements ParentInterface {
     }
   }
   set rootProperty(String value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String'));
     final _value_handle = String_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);

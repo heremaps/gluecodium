@@ -15,22 +15,22 @@ abstract class ChildClassFromClass implements ParentClass {
   childClassMethod();
 }
 // ChildClassFromClass "private" section, not exported.
-final _smoke_ChildClassFromClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ChildClassFromClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ChildClassFromClass_copy_handle');
-final _smoke_ChildClassFromClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ChildClassFromClass_copy_handle'));
+final _smoke_ChildClassFromClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ChildClassFromClass_release_handle');
-final _smoke_ChildClassFromClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ChildClassFromClass_release_handle'));
+final _smoke_ChildClassFromClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ChildClassFromClass_get_raw_pointer');
-final _smoke_ChildClassFromClass_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_ChildClassFromClass_get_raw_pointer'));
+final _smoke_ChildClassFromClass_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ChildClassFromClass_get_type_id');
+  >('library_smoke_ChildClassFromClass_get_type_id'));
 class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFromClass {
   ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -42,7 +42,7 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   }
   @override
   childClassMethod() {
-    final _childClassMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod');
+    final _childClassMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod'));
     final _handle = this.handle;
     final __result_handle = _childClassMethod_ffi(_handle, __lib.LibraryContext.isolateId);
     try {

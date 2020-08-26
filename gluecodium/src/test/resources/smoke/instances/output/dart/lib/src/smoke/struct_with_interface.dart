@@ -8,18 +8,18 @@ class StructWithInterface {
   StructWithInterface(this.interfaceInstance);
 }
 // StructWithInterface "private" section, not exported.
-final _smoke_StructWithInterface_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructWithInterface_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructWithInterface_create_handle');
-final _smoke_StructWithInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructWithInterface_create_handle'));
+final _smoke_StructWithInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructWithInterface_release_handle');
-final _smoke_StructWithInterface_get_field_interfaceInstance = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructWithInterface_release_handle'));
+final _smoke_StructWithInterface_get_field_interfaceInstance = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructWithInterface_get_field_interfaceInstance');
+  >('library_smoke_StructWithInterface_get_field_interfaceInstance'));
 Pointer<Void> smoke_StructWithInterface_toFfi(StructWithInterface value) {
   final _interfaceInstance_handle = smoke_SimpleInterface_toFfi(value.interfaceInstance);
   final _result = _smoke_StructWithInterface_create_handle(_interfaceInstance_handle);
@@ -38,18 +38,18 @@ StructWithInterface smoke_StructWithInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_StructWithInterface_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructWithInterface_release_handle(handle);
 // Nullable StructWithInterface
-final _smoke_StructWithInterface_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructWithInterface_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructWithInterface_create_handle_nullable');
-final _smoke_StructWithInterface_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructWithInterface_create_handle_nullable'));
+final _smoke_StructWithInterface_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructWithInterface_release_handle_nullable');
-final _smoke_StructWithInterface_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructWithInterface_release_handle_nullable'));
+final _smoke_StructWithInterface_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructWithInterface_get_value_nullable');
+  >('library_smoke_StructWithInterface_get_value_nullable'));
 Pointer<Void> smoke_StructWithInterface_toFfi_nullable(StructWithInterface value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructWithInterface_toFfi(value);

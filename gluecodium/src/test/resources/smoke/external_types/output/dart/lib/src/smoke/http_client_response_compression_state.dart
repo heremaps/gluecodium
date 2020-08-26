@@ -35,18 +35,18 @@ bar.HttpClientResponseCompressionState smoke_CompressionState_fromFfi(int handle
   }
 }
 void smoke_CompressionState_releaseFfiHandle(int handle) {}
-final _smoke_CompressionState_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_CompressionState_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_CompressionState_create_handle_nullable');
-final _smoke_CompressionState_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CompressionState_create_handle_nullable'));
+final _smoke_CompressionState_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CompressionState_release_handle_nullable');
-final _smoke_CompressionState_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CompressionState_release_handle_nullable'));
+final _smoke_CompressionState_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_CompressionState_get_value_nullable');
+  >('library_smoke_CompressionState_get_value_nullable'));
 Pointer<Void> smoke_CompressionState_toFfi_nullable(bar.HttpClientResponseCompressionState value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CompressionState_toFfi(value);

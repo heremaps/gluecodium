@@ -17,18 +17,18 @@ abstract class weeInterface {
   set WEE_PROPERTY(int value);
 }
 // weeInterface "private" section, not exported.
-final _smoke_PlatformNamesInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformNamesInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PlatformNamesInterface_copy_handle');
-final _smoke_PlatformNamesInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNamesInterface_copy_handle'));
+final _smoke_PlatformNamesInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PlatformNamesInterface_release_handle');
-final _smoke_PlatformNamesInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNamesInterface_release_handle'));
+final _smoke_PlatformNamesInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_PlatformNamesInterface_get_raw_pointer');
+    >('library_smoke_PlatformNamesInterface_get_raw_pointer'));
 class weeInterface$Impl implements weeInterface {
   @protected
   Pointer<Void> handle;
@@ -45,7 +45,7 @@ class weeInterface$Impl implements weeInterface {
   }
   @override
   weeStruct WeeMethod(String WeeParameter) {
-    final _WeeMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_basicMethod__String');
+    final _WeeMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_basicMethod__String'));
     final _WeeParameter_handle = String_toFfi(WeeParameter);
     final _handle = this.handle;
     final __result_handle = _WeeMethod_ffi(_handle, __lib.LibraryContext.isolateId, _WeeParameter_handle);
@@ -57,7 +57,7 @@ class weeInterface$Impl implements weeInterface {
     }
   }
   static Pointer<Void> _make(String makeParameter) {
-    final _make_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_create__String');
+    final _make_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_create__String'));
     final _makeParameter_handle = String_toFfi(makeParameter);
     final __result_handle = _make_ffi(__lib.LibraryContext.isolateId, _makeParameter_handle);
     String_releaseFfiHandle(_makeParameter_handle);
@@ -65,7 +65,7 @@ class weeInterface$Impl implements weeInterface {
   }
   @override
   int get WEE_PROPERTY {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_PlatformNamesInterface_basicProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_PlatformNamesInterface_basicProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -76,7 +76,7 @@ class weeInterface$Impl implements weeInterface {
   }
   @override
   set WEE_PROPERTY(int value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_PlatformNamesInterface_basicProperty_set__UInt');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_PlatformNamesInterface_basicProperty_set__UInt'));
     final _value_handle = (value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);

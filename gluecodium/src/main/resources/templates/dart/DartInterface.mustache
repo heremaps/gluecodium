@@ -82,27 +82,27 @@ abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle');
-final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle'));
+final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
-final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
+final _{{resolveName "Ffi"}}_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer{{>ffiFunctionPointers}}),
     Pointer<Void> Function(int, int, Pointer{{>ffiFunctionPointers}})
-  >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy');
-final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy'));
+final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
+    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
-final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id'));
 
 {{#functions}}
 {{>dart/DartFunctionException}}

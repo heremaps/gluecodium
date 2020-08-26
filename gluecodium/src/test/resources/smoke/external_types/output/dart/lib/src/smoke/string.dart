@@ -48,18 +48,18 @@ String smoke_DartSeason_fromFfi(int handle) {
   }
 }
 void smoke_DartSeason_releaseFfiHandle(int handle) {}
-final _smoke_DartSeason_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DartSeason_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_DartSeason_create_handle_nullable');
-final _smoke_DartSeason_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartSeason_create_handle_nullable'));
+final _smoke_DartSeason_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DartSeason_release_handle_nullable');
-final _smoke_DartSeason_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartSeason_release_handle_nullable'));
+final _smoke_DartSeason_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DartSeason_get_value_nullable');
+  >('library_smoke_DartSeason_get_value_nullable'));
 Pointer<Void> smoke_DartSeason_toFfi_nullable(String value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DartSeason_toFfi(value);

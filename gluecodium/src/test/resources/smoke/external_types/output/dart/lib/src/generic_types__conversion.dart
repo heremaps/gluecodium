@@ -9,38 +9,38 @@ import 'package:library/src/smoke/rectangle_int_.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-final _ListOf_Byte_create_handle = __lib.nativeLibrary.lookupFunction<
+final _ListOf_Byte_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_ListOf_Byte_create_handle');
-final _ListOf_Byte_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_Byte_create_handle'));
+final _ListOf_Byte_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_Byte_release_handle');
-final _ListOf_Byte_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_Byte_release_handle'));
+final _ListOf_Byte_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int8),
     void Function(Pointer<Void>, int)
-  >('library_ListOf_Byte_insert');
-final _ListOf_Byte_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_Byte_insert'));
+final _ListOf_Byte_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_Byte_iterator');
-final _ListOf_Byte_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_Byte_iterator'));
+final _ListOf_Byte_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_Byte_iterator_release_handle');
-final _ListOf_Byte_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_Byte_iterator_release_handle'));
+final _ListOf_Byte_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_ListOf_Byte_iterator_is_valid');
-final _ListOf_Byte_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_Byte_iterator_is_valid'));
+final _ListOf_Byte_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_Byte_iterator_increment');
-final _ListOf_Byte_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_Byte_iterator_increment'));
+final _ListOf_Byte_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_ListOf_Byte_iterator_get');
+>('library_ListOf_Byte_iterator_get'));
 Pointer<Void> ListOf_Byte_toFfi(List<int> value) {
   final _result = _ListOf_Byte_create_handle();
   for (final element in value) {
@@ -66,18 +66,18 @@ List<int> ListOf_Byte_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void ListOf_Byte_releaseFfiHandle(Pointer<Void> handle) => _ListOf_Byte_release_handle(handle);
-final _ListOf_Byte_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _ListOf_Byte_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_Byte_create_handle_nullable');
-final _ListOf_Byte_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_Byte_create_handle_nullable'));
+final _ListOf_Byte_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_Byte_release_handle_nullable');
-final _ListOf_Byte_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_Byte_release_handle_nullable'));
+final _ListOf_Byte_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_Byte_get_value_nullable');
+  >('library_ListOf_Byte_get_value_nullable'));
 Pointer<Void> ListOf_Byte_toFfi_nullable(List<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = ListOf_Byte_toFfi(value);
@@ -94,38 +94,38 @@ List<int> ListOf_Byte_fromFfi_nullable(Pointer<Void> handle) {
 }
 void ListOf_Byte_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _ListOf_Byte_release_handle_nullable(handle);
-final _ListOf_String_create_handle = __lib.nativeLibrary.lookupFunction<
+final _ListOf_String_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_ListOf_String_create_handle');
-final _ListOf_String_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_String_create_handle'));
+final _ListOf_String_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_String_release_handle');
-final _ListOf_String_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_String_release_handle'));
+final _ListOf_String_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_ListOf_String_insert');
-final _ListOf_String_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_String_insert'));
+final _ListOf_String_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_String_iterator');
-final _ListOf_String_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_String_iterator'));
+final _ListOf_String_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_String_iterator_release_handle');
-final _ListOf_String_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_String_iterator_release_handle'));
+final _ListOf_String_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_ListOf_String_iterator_is_valid');
-final _ListOf_String_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_String_iterator_is_valid'));
+final _ListOf_String_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_String_iterator_increment');
-final _ListOf_String_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_String_iterator_increment'));
+final _ListOf_String_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_String_iterator_get');
+>('library_ListOf_String_iterator_get'));
 Pointer<Void> ListOf_String_toFfi(List<String> value) {
   final _result = _ListOf_String_create_handle();
   for (final element in value) {
@@ -151,18 +151,18 @@ List<String> ListOf_String_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void ListOf_String_releaseFfiHandle(Pointer<Void> handle) => _ListOf_String_release_handle(handle);
-final _ListOf_String_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _ListOf_String_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_String_create_handle_nullable');
-final _ListOf_String_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_String_create_handle_nullable'));
+final _ListOf_String_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_String_release_handle_nullable');
-final _ListOf_String_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_String_release_handle_nullable'));
+final _ListOf_String_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_String_get_value_nullable');
+  >('library_ListOf_String_get_value_nullable'));
 Pointer<Void> ListOf_String_toFfi_nullable(List<String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = ListOf_String_toFfi(value);
@@ -179,38 +179,38 @@ List<String> ListOf_String_fromFfi_nullable(Pointer<Void> handle) {
 }
 void ListOf_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _ListOf_String_release_handle_nullable(handle);
-final _ListOf_smoke_DateInterval_create_handle = __lib.nativeLibrary.lookupFunction<
+final _ListOf_smoke_DateInterval_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_ListOf_smoke_DateInterval_create_handle');
-final _ListOf_smoke_DateInterval_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_DateInterval_create_handle'));
+final _ListOf_smoke_DateInterval_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_smoke_DateInterval_release_handle');
-final _ListOf_smoke_DateInterval_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_DateInterval_release_handle'));
+final _ListOf_smoke_DateInterval_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_ListOf_smoke_DateInterval_insert');
-final _ListOf_smoke_DateInterval_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_DateInterval_insert'));
+final _ListOf_smoke_DateInterval_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_smoke_DateInterval_iterator');
-final _ListOf_smoke_DateInterval_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_DateInterval_iterator'));
+final _ListOf_smoke_DateInterval_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_smoke_DateInterval_iterator_release_handle');
-final _ListOf_smoke_DateInterval_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_DateInterval_iterator_release_handle'));
+final _ListOf_smoke_DateInterval_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_ListOf_smoke_DateInterval_iterator_is_valid');
-final _ListOf_smoke_DateInterval_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_DateInterval_iterator_is_valid'));
+final _ListOf_smoke_DateInterval_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_smoke_DateInterval_iterator_increment');
-final _ListOf_smoke_DateInterval_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_DateInterval_iterator_increment'));
+final _ListOf_smoke_DateInterval_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_smoke_DateInterval_iterator_get');
+>('library_ListOf_smoke_DateInterval_iterator_get'));
 Pointer<Void> ListOf_smoke_DateInterval_toFfi(List<DateInterval> value) {
   final _result = _ListOf_smoke_DateInterval_create_handle();
   for (final element in value) {
@@ -236,18 +236,18 @@ List<DateInterval> ListOf_smoke_DateInterval_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void ListOf_smoke_DateInterval_releaseFfiHandle(Pointer<Void> handle) => _ListOf_smoke_DateInterval_release_handle(handle);
-final _ListOf_smoke_DateInterval_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _ListOf_smoke_DateInterval_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_smoke_DateInterval_create_handle_nullable');
-final _ListOf_smoke_DateInterval_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_DateInterval_create_handle_nullable'));
+final _ListOf_smoke_DateInterval_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_smoke_DateInterval_release_handle_nullable');
-final _ListOf_smoke_DateInterval_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_DateInterval_release_handle_nullable'));
+final _ListOf_smoke_DateInterval_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_smoke_DateInterval_get_value_nullable');
+  >('library_ListOf_smoke_DateInterval_get_value_nullable'));
 Pointer<Void> ListOf_smoke_DateInterval_toFfi_nullable(List<DateInterval> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = ListOf_smoke_DateInterval_toFfi(value);
@@ -264,38 +264,38 @@ List<DateInterval> ListOf_smoke_DateInterval_fromFfi_nullable(Pointer<Void> hand
 }
 void ListOf_smoke_DateInterval_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _ListOf_smoke_DateInterval_release_handle_nullable(handle);
-final _ListOf_smoke_Rectangle_create_handle = __lib.nativeLibrary.lookupFunction<
+final _ListOf_smoke_Rectangle_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_ListOf_smoke_Rectangle_create_handle');
-final _ListOf_smoke_Rectangle_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_Rectangle_create_handle'));
+final _ListOf_smoke_Rectangle_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_smoke_Rectangle_release_handle');
-final _ListOf_smoke_Rectangle_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_Rectangle_release_handle'));
+final _ListOf_smoke_Rectangle_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_ListOf_smoke_Rectangle_insert');
-final _ListOf_smoke_Rectangle_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_Rectangle_insert'));
+final _ListOf_smoke_Rectangle_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_smoke_Rectangle_iterator');
-final _ListOf_smoke_Rectangle_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_Rectangle_iterator'));
+final _ListOf_smoke_Rectangle_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_smoke_Rectangle_iterator_release_handle');
-final _ListOf_smoke_Rectangle_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_Rectangle_iterator_release_handle'));
+final _ListOf_smoke_Rectangle_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_ListOf_smoke_Rectangle_iterator_is_valid');
-final _ListOf_smoke_Rectangle_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_Rectangle_iterator_is_valid'));
+final _ListOf_smoke_Rectangle_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_ListOf_smoke_Rectangle_iterator_increment');
-final _ListOf_smoke_Rectangle_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_ListOf_smoke_Rectangle_iterator_increment'));
+final _ListOf_smoke_Rectangle_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_ListOf_smoke_Rectangle_iterator_get');
+>('library_ListOf_smoke_Rectangle_iterator_get'));
 Pointer<Void> ListOf_smoke_Rectangle_toFfi(List<math.Rectangle<int>> value) {
   final _result = _ListOf_smoke_Rectangle_create_handle();
   for (final element in value) {
@@ -321,18 +321,18 @@ List<math.Rectangle<int>> ListOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void ListOf_smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _ListOf_smoke_Rectangle_release_handle(handle);
-final _ListOf_smoke_Rectangle_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _ListOf_smoke_Rectangle_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_smoke_Rectangle_create_handle_nullable');
-final _ListOf_smoke_Rectangle_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_Rectangle_create_handle_nullable'));
+final _ListOf_smoke_Rectangle_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_ListOf_smoke_Rectangle_release_handle_nullable');
-final _ListOf_smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_ListOf_smoke_Rectangle_release_handle_nullable'));
+final _ListOf_smoke_Rectangle_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_ListOf_smoke_Rectangle_get_value_nullable');
+  >('library_ListOf_smoke_Rectangle_get_value_nullable'));
 Pointer<Void> ListOf_smoke_Rectangle_toFfi_nullable(List<math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = ListOf_smoke_Rectangle_toFfi(value);
@@ -349,42 +349,42 @@ List<math.Rectangle<int>> ListOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> 
 }
 void ListOf_smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _ListOf_smoke_Rectangle_release_handle_nullable(handle);
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle = __lib.nativeLibrary.lookupFunction<
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_put = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_put');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_put'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_release_handle');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_release_handle'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_is_valid');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_is_valid'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_increment');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_increment'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_key');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_key'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value');
+>('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value'));
 Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
   final _result = _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle();
   for (final entry in value.entries) {
@@ -415,18 +415,18 @@ Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> MapOf_smoke_Com
   return result;
 }
 void MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle(handle);
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle_nullable');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle_nullable'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable');
-final _MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable'));
+final _MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable');
+  >('library_MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable'));
 Pointer<Void> MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi_nullable(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(value);
@@ -443,42 +443,42 @@ Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> MapOf_smoke_Com
 }
 void MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable(handle);
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle = __lib.nativeLibrary.lookupFunction<
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_put = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_put');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_put'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_release_handle');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_release_handle'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_is_valid');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_is_valid'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_increment');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_increment'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_key');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_key'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_value');
+>('library_MapOf_smoke_Persistence_to_smoke_DateInterval_iterator_get_value'));
 Pointer<Void> MapOf_smoke_Persistence_to_smoke_DateInterval_toFfi(Map<Persistence, DateInterval> value) {
   final _result = _MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle();
   for (final entry in value.entries) {
@@ -509,18 +509,18 @@ Map<Persistence, DateInterval> MapOf_smoke_Persistence_to_smoke_DateInterval_fro
   return result;
 }
 void MapOf_smoke_Persistence_to_smoke_DateInterval_releaseFfiHandle(Pointer<Void> handle) => _MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle(handle);
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle_nullable');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_create_handle_nullable'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle_nullable');
-final _MapOf_smoke_Persistence_to_smoke_DateInterval_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle_nullable'));
+final _MapOf_smoke_Persistence_to_smoke_DateInterval_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_get_value_nullable');
+  >('library_MapOf_smoke_Persistence_to_smoke_DateInterval_get_value_nullable'));
 Pointer<Void> MapOf_smoke_Persistence_to_smoke_DateInterval_toFfi_nullable(Map<Persistence, DateInterval> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = MapOf_smoke_Persistence_to_smoke_DateInterval_toFfi(value);
@@ -537,38 +537,38 @@ Map<Persistence, DateInterval> MapOf_smoke_Persistence_to_smoke_DateInterval_fro
 }
 void MapOf_smoke_Persistence_to_smoke_DateInterval_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _MapOf_smoke_Persistence_to_smoke_DateInterval_release_handle_nullable(handle);
-final _SetOf_smoke_DateInterval_create_handle = __lib.nativeLibrary.lookupFunction<
+final _SetOf_smoke_DateInterval_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_SetOf_smoke_DateInterval_create_handle');
-final _SetOf_smoke_DateInterval_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_DateInterval_create_handle'));
+final _SetOf_smoke_DateInterval_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_SetOf_smoke_DateInterval_release_handle');
-final _SetOf_smoke_DateInterval_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_DateInterval_release_handle'));
+final _SetOf_smoke_DateInterval_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_SetOf_smoke_DateInterval_insert');
-final _SetOf_smoke_DateInterval_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_DateInterval_insert'));
+final _SetOf_smoke_DateInterval_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_SetOf_smoke_DateInterval_iterator');
-final _SetOf_smoke_DateInterval_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_DateInterval_iterator'));
+final _SetOf_smoke_DateInterval_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_SetOf_smoke_DateInterval_iterator_release_handle');
-final _SetOf_smoke_DateInterval_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_DateInterval_iterator_release_handle'));
+final _SetOf_smoke_DateInterval_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_SetOf_smoke_DateInterval_iterator_is_valid');
-final _SetOf_smoke_DateInterval_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_DateInterval_iterator_is_valid'));
+final _SetOf_smoke_DateInterval_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_SetOf_smoke_DateInterval_iterator_increment');
-final _SetOf_smoke_DateInterval_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_DateInterval_iterator_increment'));
+final _SetOf_smoke_DateInterval_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_SetOf_smoke_DateInterval_iterator_get');
+>('library_SetOf_smoke_DateInterval_iterator_get'));
 Pointer<Void> SetOf_smoke_DateInterval_toFfi(Set<DateInterval> value) {
   final _result = _SetOf_smoke_DateInterval_create_handle();
   for (final element in value) {
@@ -594,18 +594,18 @@ Set<DateInterval> SetOf_smoke_DateInterval_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void SetOf_smoke_DateInterval_releaseFfiHandle(Pointer<Void> handle) => _SetOf_smoke_DateInterval_release_handle(handle);
-final _SetOf_smoke_DateInterval_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _SetOf_smoke_DateInterval_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_SetOf_smoke_DateInterval_create_handle_nullable');
-final _SetOf_smoke_DateInterval_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_DateInterval_create_handle_nullable'));
+final _SetOf_smoke_DateInterval_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_SetOf_smoke_DateInterval_release_handle_nullable');
-final _SetOf_smoke_DateInterval_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_DateInterval_release_handle_nullable'));
+final _SetOf_smoke_DateInterval_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_SetOf_smoke_DateInterval_get_value_nullable');
+  >('library_SetOf_smoke_DateInterval_get_value_nullable'));
 Pointer<Void> SetOf_smoke_DateInterval_toFfi_nullable(Set<DateInterval> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = SetOf_smoke_DateInterval_toFfi(value);
@@ -622,38 +622,38 @@ Set<DateInterval> SetOf_smoke_DateInterval_fromFfi_nullable(Pointer<Void> handle
 }
 void SetOf_smoke_DateInterval_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _SetOf_smoke_DateInterval_release_handle_nullable(handle);
-final _SetOf_smoke_Rectangle_create_handle = __lib.nativeLibrary.lookupFunction<
+final _SetOf_smoke_Rectangle_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_SetOf_smoke_Rectangle_create_handle');
-final _SetOf_smoke_Rectangle_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_Rectangle_create_handle'));
+final _SetOf_smoke_Rectangle_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_release_handle');
-final _SetOf_smoke_Rectangle_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_Rectangle_release_handle'));
+final _SetOf_smoke_Rectangle_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_insert');
-final _SetOf_smoke_Rectangle_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_Rectangle_insert'));
+final _SetOf_smoke_Rectangle_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator');
-final _SetOf_smoke_Rectangle_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_Rectangle_iterator'));
+final _SetOf_smoke_Rectangle_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_release_handle');
-final _SetOf_smoke_Rectangle_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_Rectangle_iterator_release_handle'));
+final _SetOf_smoke_Rectangle_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_is_valid');
-final _SetOf_smoke_Rectangle_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_Rectangle_iterator_is_valid'));
+final _SetOf_smoke_Rectangle_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_increment');
-final _SetOf_smoke_Rectangle_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_Rectangle_iterator_increment'));
+final _SetOf_smoke_Rectangle_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_get');
+>('library_SetOf_smoke_Rectangle_iterator_get'));
 Pointer<Void> SetOf_smoke_Rectangle_toFfi(Set<math.Rectangle<int>> value) {
   final _result = _SetOf_smoke_Rectangle_create_handle();
   for (final element in value) {
@@ -679,18 +679,18 @@ Set<math.Rectangle<int>> SetOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void SetOf_smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _SetOf_smoke_Rectangle_release_handle(handle);
-final _SetOf_smoke_Rectangle_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _SetOf_smoke_Rectangle_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_create_handle_nullable');
-final _SetOf_smoke_Rectangle_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_Rectangle_create_handle_nullable'));
+final _SetOf_smoke_Rectangle_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_release_handle_nullable');
-final _SetOf_smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_Rectangle_release_handle_nullable'));
+final _SetOf_smoke_Rectangle_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_get_value_nullable');
+  >('library_SetOf_smoke_Rectangle_get_value_nullable'));
 Pointer<Void> SetOf_smoke_Rectangle_toFfi_nullable(Set<math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = SetOf_smoke_Rectangle_toFfi(value);

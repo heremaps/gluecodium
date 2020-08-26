@@ -17,18 +17,18 @@ class NestedPackages_SomeStruct {
   NestedPackages_SomeStruct(this.someField);
 }
 // NestedPackages_SomeStruct "private" section, not exported.
-final _smoke_off_NestedPackages_SomeStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_off_NestedPackages_SomeStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_SomeStruct_create_handle');
-final _smoke_off_NestedPackages_SomeStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_off_NestedPackages_SomeStruct_create_handle'));
+final _smoke_off_NestedPackages_SomeStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_SomeStruct_release_handle');
-final _smoke_off_NestedPackages_SomeStruct_get_field_someField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_off_NestedPackages_SomeStruct_release_handle'));
+final _smoke_off_NestedPackages_SomeStruct_get_field_someField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_SomeStruct_get_field_someField');
+  >('library_smoke_off_NestedPackages_SomeStruct_get_field_someField'));
 Pointer<Void> smoke_off_NestedPackages_SomeStruct_toFfi(NestedPackages_SomeStruct value) {
   final _someField_handle = String_toFfi(value.someField);
   final _result = _smoke_off_NestedPackages_SomeStruct_create_handle(_someField_handle);
@@ -47,18 +47,18 @@ NestedPackages_SomeStruct smoke_off_NestedPackages_SomeStruct_fromFfi(Pointer<Vo
 }
 void smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_off_NestedPackages_SomeStruct_release_handle(handle);
 // Nullable NestedPackages_SomeStruct
-final _smoke_off_NestedPackages_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_off_NestedPackages_SomeStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_SomeStruct_create_handle_nullable');
-final _smoke_off_NestedPackages_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_off_NestedPackages_SomeStruct_create_handle_nullable'));
+final _smoke_off_NestedPackages_SomeStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_SomeStruct_release_handle_nullable');
-final _smoke_off_NestedPackages_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_off_NestedPackages_SomeStruct_release_handle_nullable'));
+final _smoke_off_NestedPackages_SomeStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_SomeStruct_get_value_nullable');
+  >('library_smoke_off_NestedPackages_SomeStruct_get_value_nullable'));
 Pointer<Void> smoke_off_NestedPackages_SomeStruct_toFfi_nullable(NestedPackages_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_off_NestedPackages_SomeStruct_toFfi(value);
@@ -77,18 +77,18 @@ void smoke_off_NestedPackages_SomeStruct_releaseFfiHandle_nullable(Pointer<Void>
   _smoke_off_NestedPackages_SomeStruct_release_handle_nullable(handle);
 // End of NestedPackages_SomeStruct "private" section.
 // NestedPackages "private" section, not exported.
-final _smoke_off_NestedPackages_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_off_NestedPackages_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_copy_handle');
-final _smoke_off_NestedPackages_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_off_NestedPackages_copy_handle'));
+final _smoke_off_NestedPackages_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_off_NestedPackages_release_handle');
-final _smoke_off_NestedPackages_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_off_NestedPackages_release_handle'));
+final _smoke_off_NestedPackages_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_off_NestedPackages_get_raw_pointer');
+    >('library_smoke_off_NestedPackages_get_raw_pointer'));
 class NestedPackages$Impl implements NestedPackages {
   @protected
   Pointer<Void> handle;
@@ -101,7 +101,7 @@ class NestedPackages$Impl implements NestedPackages {
     handle = null;
   }
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
-    final _basicMethod_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct');
+    final _basicMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct'));
     final _input_handle = smoke_off_NestedPackages_SomeStruct_toFfi(input);
     final __result_handle = _basicMethod_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_off_NestedPackages_SomeStruct_releaseFfiHandle(_input_handle);

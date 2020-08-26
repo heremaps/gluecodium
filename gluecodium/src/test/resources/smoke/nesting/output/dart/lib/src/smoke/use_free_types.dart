@@ -16,34 +16,34 @@ abstract class UseFreeTypes {
   DateTime doStuff(FreePoint point, FreeEnum mode);
 }
 // UseFreeTypes "private" section, not exported.
-final _smoke_UseFreeTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_UseFreeTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_UseFreeTypes_copy_handle');
-final _smoke_UseFreeTypes_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseFreeTypes_copy_handle'));
+final _smoke_UseFreeTypes_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_UseFreeTypes_release_handle');
-final _smoke_UseFreeTypes_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseFreeTypes_release_handle'));
+final _smoke_UseFreeTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_UseFreeTypes_get_raw_pointer');
-final _doStuff_return_release_handle = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_UseFreeTypes_get_raw_pointer'));
+final _doStuff_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_release_handle');
-final _doStuff_return_get_result = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_release_handle'));
+final _doStuff_return_get_result = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_result');
-final _doStuff_return_get_error = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_result'));
+final _doStuff_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_error');
-final _doStuff_return_has_error = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_error'));
+final _doStuff_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error');
+  >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error'));
 class UseFreeTypes$Impl implements UseFreeTypes {
   @protected
   Pointer<Void> handle;
@@ -57,7 +57,7 @@ class UseFreeTypes$Impl implements UseFreeTypes {
   }
   @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
-    final _doStuff_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum');
+    final _doStuff_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum'));
     final _point_handle = smoke_FreePoint_toFfi(point);
     final _mode_handle = smoke_FreeEnum_toFfi(mode);
     final _handle = this.handle;

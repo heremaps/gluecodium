@@ -14,18 +14,18 @@ abstract class SkipFunctions {
   static bool notInSwift(bool input) => SkipFunctions$Impl.notInSwift(input);
 }
 // SkipFunctions "private" section, not exported.
-final _smoke_SkipFunctions_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SkipFunctions_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipFunctions_copy_handle');
-final _smoke_SkipFunctions_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipFunctions_copy_handle'));
+final _smoke_SkipFunctions_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SkipFunctions_release_handle');
-final _smoke_SkipFunctions_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipFunctions_release_handle'));
+final _smoke_SkipFunctions_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SkipFunctions_get_raw_pointer');
+    >('library_smoke_SkipFunctions_get_raw_pointer'));
 class SkipFunctions$Impl implements SkipFunctions {
   @protected
   Pointer<Void> handle;
@@ -38,7 +38,7 @@ class SkipFunctions$Impl implements SkipFunctions {
     handle = null;
   }
   static String notInJava(String input) {
-    final _notInJava_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String');
+    final _notInJava_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
     final _input_handle = String_toFfi(input);
     final __result_handle = _notInJava_ffi(__lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
@@ -49,7 +49,7 @@ class SkipFunctions$Impl implements SkipFunctions {
     }
   }
   static bool notInSwift(bool input) {
-    final _notInSwift_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_SkipFunctions_notInSwift__Boolean');
+    final _notInSwift_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_SkipFunctions_notInSwift__Boolean'));
     final _input_handle = Boolean_toFfi(input);
     final __result_handle = _notInSwift_ffi(__lib.LibraryContext.isolateId, _input_handle);
     Boolean_releaseFfiHandle(_input_handle);

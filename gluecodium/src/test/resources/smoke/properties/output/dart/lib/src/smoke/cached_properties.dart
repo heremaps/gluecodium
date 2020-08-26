@@ -16,18 +16,18 @@ abstract class CachedProperties {
   static Uint8List get staticCachedProperty => CachedProperties$Impl.staticCachedProperty;
 }
 // CachedProperties "private" section, not exported.
-final _smoke_CachedProperties_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_CachedProperties_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CachedProperties_copy_handle');
-final _smoke_CachedProperties_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CachedProperties_copy_handle'));
+final _smoke_CachedProperties_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CachedProperties_release_handle');
-final _smoke_CachedProperties_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CachedProperties_release_handle'));
+final _smoke_CachedProperties_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_CachedProperties_get_raw_pointer');
+    >('library_smoke_CachedProperties_get_raw_pointer'));
 class CachedProperties$Impl implements CachedProperties {
   @protected
   Pointer<Void> handle;
@@ -44,7 +44,7 @@ class CachedProperties$Impl implements CachedProperties {
   @override
   List<String> get cachedProperty {
     if (!_is_cached_cachedProperty) {
-      final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get');
+      final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
       final __result_handle = _get_ffi(this.handle, __lib.LibraryContext.isolateId);
       try {
         _cache_cachedProperty = ListOf_String_fromFfi(__result_handle);
@@ -59,7 +59,7 @@ class CachedProperties$Impl implements CachedProperties {
   static bool _is_cached_staticCachedProperty = false;
   static Uint8List get staticCachedProperty {
     if (!_is_cached_staticCachedProperty) {
-      final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get');
+      final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
       final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
       try {
         _cache_staticCachedProperty = Blob_fromFfi(__result_handle);

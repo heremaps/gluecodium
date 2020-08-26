@@ -5,30 +5,30 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 // Rectangle<int> "private" section, not exported.
-final _smoke_Rectangle_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Rectangle_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int32, Int32, Int32, Int32),
     Pointer<Void> Function(int, int, int, int)
-  >('library_smoke_Rectangle_create_handle');
-final _smoke_Rectangle_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_create_handle'));
+final _smoke_Rectangle_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Rectangle_release_handle');
-final _smoke_Rectangle_get_field_left = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_release_handle'));
+final _smoke_Rectangle_get_field_left = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Rectangle_get_field_left');
-final _smoke_Rectangle_get_field_top = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_get_field_left'));
+final _smoke_Rectangle_get_field_top = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Rectangle_get_field_top');
-final _smoke_Rectangle_get_field_width = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_get_field_top'));
+final _smoke_Rectangle_get_field_width = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Rectangle_get_field_width');
-final _smoke_Rectangle_get_field_height = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_get_field_width'));
+final _smoke_Rectangle_get_field_height = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Rectangle_get_field_height');
+  >('library_smoke_Rectangle_get_field_height'));
 Pointer<Void> smoke_Rectangle_toFfi(math.Rectangle<int> value) {
   final _left_handle = (value.left);
   final _top_handle = (value.top);
@@ -62,18 +62,18 @@ math.Rectangle<int> smoke_Rectangle_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _smoke_Rectangle_release_handle(handle);
 // Nullable Rectangle<int>
-final _smoke_Rectangle_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Rectangle_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Rectangle_create_handle_nullable');
-final _smoke_Rectangle_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_create_handle_nullable'));
+final _smoke_Rectangle_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Rectangle_release_handle_nullable');
-final _smoke_Rectangle_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Rectangle_release_handle_nullable'));
+final _smoke_Rectangle_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Rectangle_get_value_nullable');
+  >('library_smoke_Rectangle_get_value_nullable'));
 Pointer<Void> smoke_Rectangle_toFfi_nullable(math.Rectangle<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Rectangle_toFfi(value);

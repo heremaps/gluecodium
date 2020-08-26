@@ -49,18 +49,18 @@ Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi(int handle) {
   }
 }
 void smoke_Constructors_ErrorEnum_releaseFfiHandle(int handle) {}
-final _smoke_Constructors_ErrorEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Constructors_ErrorEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_Constructors_ErrorEnum_create_handle_nullable');
-final _smoke_Constructors_ErrorEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_ErrorEnum_create_handle_nullable'));
+final _smoke_Constructors_ErrorEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Constructors_ErrorEnum_release_handle_nullable');
-final _smoke_Constructors_ErrorEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_ErrorEnum_release_handle_nullable'));
+final _smoke_Constructors_ErrorEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Constructors_ErrorEnum_get_value_nullable');
+  >('library_smoke_Constructors_ErrorEnum_get_value_nullable'));
 Pointer<Void> smoke_Constructors_ErrorEnum_toFfi_nullable(Constructors_ErrorEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Constructors_ErrorEnum_toFfi(value);
@@ -83,38 +83,38 @@ class Constructors_ConstructorExplodedException implements Exception {
   Constructors_ConstructorExplodedException(this.error);
 }
 // Constructors "private" section, not exported.
-final _smoke_Constructors_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Constructors_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Constructors_copy_handle');
-final _smoke_Constructors_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_copy_handle'));
+final _smoke_Constructors_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Constructors_release_handle');
-final _smoke_Constructors_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_release_handle'));
+final _smoke_Constructors_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Constructors_get_raw_pointer');
-final _smoke_Constructors_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_Constructors_get_raw_pointer'));
+final _smoke_Constructors_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Constructors_get_type_id');
-final _fromString_return_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_get_type_id'));
+final _fromString_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Constructors_create__String_return_release_handle');
-final _fromString_return_get_result = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_create__String_return_release_handle'));
+final _fromString_return_get_result = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Constructors_create__String_return_get_result');
-final _fromString_return_get_error = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_create__String_return_get_result'));
+final _fromString_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Constructors_create__String_return_get_error');
-final _fromString_return_has_error = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Constructors_create__String_return_get_error'));
+final _fromString_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Constructors_create__String_return_has_error');
+  >('library_smoke_Constructors_create__String_return_has_error'));
 class Constructors$Impl implements Constructors {
   @protected
   Pointer<Void> handle;
@@ -145,19 +145,19 @@ class Constructors$Impl implements Constructors {
     __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
   }
   static Pointer<Void> _$init() {
-    final _$init_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create');
+    final _$init_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create'));
     final __result_handle = _$init_ffi(__lib.LibraryContext.isolateId);
     return __result_handle;
   }
   static Pointer<Void> _fromOther(Constructors other) {
-    final _fromOther_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__Constructors');
+    final _fromOther_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__Constructors'));
     final _other_handle = smoke_Constructors_toFfi(other);
     final __result_handle = _fromOther_ffi(__lib.LibraryContext.isolateId, _other_handle);
     smoke_Constructors_releaseFfiHandle(_other_handle);
     return __result_handle;
   }
   static Pointer<Void> _fromMulti(String foo, int bar) {
-    final _fromMulti_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Uint64), Pointer<Void> Function(int, Pointer<Void>, int)>('library_smoke_Constructors_create__String_ULong');
+    final _fromMulti_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Uint64), Pointer<Void> Function(int, Pointer<Void>, int)>('library_smoke_Constructors_create__String_ULong'));
     final _foo_handle = String_toFfi(foo);
     final _bar_handle = (bar);
     final __result_handle = _fromMulti_ffi(__lib.LibraryContext.isolateId, _foo_handle, _bar_handle);
@@ -166,7 +166,7 @@ class Constructors$Impl implements Constructors {
     return __result_handle;
   }
   static Pointer<Void> _fromString(String input) {
-    final _fromString_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__String');
+    final _fromString_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__String'));
     final _input_handle = String_toFfi(input);
     final __call_result_handle = _fromString_ffi(__lib.LibraryContext.isolateId, _input_handle);
     String_releaseFfiHandle(_input_handle);
@@ -184,14 +184,14 @@ class Constructors$Impl implements Constructors {
     return __result_handle;
   }
   static Pointer<Void> _fromList(List<double> input) {
-    final _fromList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double');
+    final _fromList_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double'));
     final _input_handle = ListOf_Double_toFfi(input);
     final __result_handle = _fromList_ffi(__lib.LibraryContext.isolateId, _input_handle);
     ListOf_Double_releaseFfiHandle(_input_handle);
     return __result_handle;
   }
   static Pointer<Void> _create(int input) {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_Constructors_create__ULong');
+    final _create_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_Constructors_create__ULong'));
     final _input_handle = (input);
     final __result_handle = _create_ffi(__lib.LibraryContext.isolateId, _input_handle);
     (_input_handle);

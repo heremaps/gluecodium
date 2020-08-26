@@ -90,6 +90,7 @@ function(apigen_generate)
       COMMON_OUTPUT_DIR
       BUILD_OUTPUT_DIR
       DART_LIBRARY_NAME
+      DART_FUNCTION_LOOKUP_ERROR_MESSAGE
       DART_NAMERULES)
   set(multiValueArgs LIME_SOURCES FRANCA_SOURCES WERROR)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
@@ -164,6 +165,7 @@ cache=true\n")
   _apigen_parse_path_option(dartnamerules DART_NAMERULES)
   _apigen_parse_path_option(commonoutput COMMON_OUTPUT_DIR)
   _apigen_parse_option(libraryname DART_LIBRARY_NAME)
+  _apigen_parse_option(dartlookuperrormessage DART_FUNCTION_LOOKUP_ERROR_MESSAGE)
   _apigen_parse_option(internalprefix INTERNAL_PREFIX)
   _apigen_parse_option(cppexport CPP_EXPORT)
 

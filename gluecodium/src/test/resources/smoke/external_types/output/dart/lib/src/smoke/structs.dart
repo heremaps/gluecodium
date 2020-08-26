@@ -22,30 +22,30 @@ class Structs_ExternalStruct {
   Structs_ExternalStruct(this.stringField, this.externalStringField, this.externalArrayField, this.externalStructField);
 }
 // Structs_ExternalStruct "private" section, not exported.
-final _smoke_Structs_ExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_ExternalStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_create_handle');
-final _smoke_Structs_ExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_create_handle'));
+final _smoke_Structs_ExternalStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_release_handle');
-final _smoke_Structs_ExternalStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_release_handle'));
+final _smoke_Structs_ExternalStruct_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_get_field_stringField');
-final _smoke_Structs_ExternalStruct_get_field_externalStringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_get_field_stringField'));
+final _smoke_Structs_ExternalStruct_get_field_externalStringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_get_field_externalStringField');
-final _smoke_Structs_ExternalStruct_get_field_externalArrayField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_get_field_externalStringField'));
+final _smoke_Structs_ExternalStruct_get_field_externalArrayField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_get_field_externalArrayField');
-final _smoke_Structs_ExternalStruct_get_field_externalStructField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_get_field_externalArrayField'));
+final _smoke_Structs_ExternalStruct_get_field_externalStructField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_get_field_externalStructField');
+  >('library_smoke_Structs_ExternalStruct_get_field_externalStructField'));
 Pointer<Void> smoke_Structs_ExternalStruct_toFfi(Structs_ExternalStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _externalStringField_handle = String_toFfi(value.externalStringField);
@@ -79,18 +79,18 @@ Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi(Pointer<Void> handle
 }
 void smoke_Structs_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_ExternalStruct_release_handle(handle);
 // Nullable Structs_ExternalStruct
-final _smoke_Structs_ExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_ExternalStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_create_handle_nullable');
-final _smoke_Structs_ExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_create_handle_nullable'));
+final _smoke_Structs_ExternalStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_release_handle_nullable');
-final _smoke_Structs_ExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ExternalStruct_release_handle_nullable'));
+final _smoke_Structs_ExternalStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ExternalStruct_get_value_nullable');
+  >('library_smoke_Structs_ExternalStruct_get_value_nullable'));
 Pointer<Void> smoke_Structs_ExternalStruct_toFfi_nullable(Structs_ExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_ExternalStruct_toFfi(value);
@@ -113,18 +113,18 @@ class Structs_AnotherExternalStruct {
   Structs_AnotherExternalStruct(this.intField);
 }
 // Structs_AnotherExternalStruct "private" section, not exported.
-final _smoke_Structs_AnotherExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_AnotherExternalStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int8),
     Pointer<Void> Function(int)
-  >('library_smoke_Structs_AnotherExternalStruct_create_handle');
-final _smoke_Structs_AnotherExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AnotherExternalStruct_create_handle'));
+final _smoke_Structs_AnotherExternalStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_AnotherExternalStruct_release_handle');
-final _smoke_Structs_AnotherExternalStruct_get_field_intField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AnotherExternalStruct_release_handle'));
+final _smoke_Structs_AnotherExternalStruct_get_field_intField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AnotherExternalStruct_get_field_intField');
+  >('library_smoke_Structs_AnotherExternalStruct_get_field_intField'));
 Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi(Structs_AnotherExternalStruct value) {
   final _intField_handle = (value.intField);
   final _result = _smoke_Structs_AnotherExternalStruct_create_handle(_intField_handle);
@@ -143,18 +143,18 @@ Structs_AnotherExternalStruct smoke_Structs_AnotherExternalStruct_fromFfi(Pointe
 }
 void smoke_Structs_AnotherExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_AnotherExternalStruct_release_handle(handle);
 // Nullable Structs_AnotherExternalStruct
-final _smoke_Structs_AnotherExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_AnotherExternalStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AnotherExternalStruct_create_handle_nullable');
-final _smoke_Structs_AnotherExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AnotherExternalStruct_create_handle_nullable'));
+final _smoke_Structs_AnotherExternalStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_AnotherExternalStruct_release_handle_nullable');
-final _smoke_Structs_AnotherExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AnotherExternalStruct_release_handle_nullable'));
+final _smoke_Structs_AnotherExternalStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AnotherExternalStruct_get_value_nullable');
+  >('library_smoke_Structs_AnotherExternalStruct_get_value_nullable'));
 Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi_nullable(Structs_AnotherExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_AnotherExternalStruct_toFfi(value);
@@ -173,18 +173,18 @@ void smoke_Structs_AnotherExternalStruct_releaseFfiHandle_nullable(Pointer<Void>
   _smoke_Structs_AnotherExternalStruct_release_handle_nullable(handle);
 // End of Structs_AnotherExternalStruct "private" section.
 // Structs "private" section, not exported.
-final _smoke_Structs_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_copy_handle');
-final _smoke_Structs_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_copy_handle'));
+final _smoke_Structs_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_release_handle');
-final _smoke_Structs_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_release_handle'));
+final _smoke_Structs_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Structs_get_raw_pointer');
+    >('library_smoke_Structs_get_raw_pointer'));
 class Structs$Impl implements Structs {
   @protected
   Pointer<Void> handle;
@@ -197,7 +197,7 @@ class Structs$Impl implements Structs {
     handle = null;
   }
   static Structs_ExternalStruct getExternalStruct() {
-    final _getExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct');
+    final _getExternalStruct_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
     final __result_handle = _getExternalStruct_ffi(__lib.LibraryContext.isolateId);
     try {
       return smoke_Structs_ExternalStruct_fromFfi(__result_handle);
@@ -206,7 +206,7 @@ class Structs$Impl implements Structs {
     }
   }
   static Structs_AnotherExternalStruct getAnotherExternalStruct() {
-    final _getAnotherExternalStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct');
+    final _getAnotherExternalStruct_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct'));
     final __result_handle = _getAnotherExternalStruct_ffi(__lib.LibraryContext.isolateId);
     try {
       return smoke_Structs_AnotherExternalStruct_fromFfi(__result_handle);

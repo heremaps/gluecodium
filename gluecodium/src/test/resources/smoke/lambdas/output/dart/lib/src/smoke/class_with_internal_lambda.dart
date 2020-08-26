@@ -15,29 +15,29 @@ abstract class ClassWithInternalLambda {
 /// @nodoc
 typedef ClassWithInternalLambda_InternalLambda = bool Function(String);
 // ClassWithInternalLambda_InternalLambda "private" section, not exported.
-final _smoke_ClassWithInternalLambda_InternalLambda_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ClassWithInternalLambda_InternalLambda_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_InternalLambda_copy_handle');
-final _smoke_ClassWithInternalLambda_InternalLambda_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_copy_handle'));
+final _smoke_ClassWithInternalLambda_InternalLambda_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_InternalLambda_release_handle');
-final _smoke_ClassWithInternalLambda_InternalLambda_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_release_handle'));
+final _smoke_ClassWithInternalLambda_InternalLambda_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
-  >('library_smoke_ClassWithInternalLambda_InternalLambda_create_proxy');
-final _smoke_ClassWithInternalLambda_InternalLambda_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_create_proxy'));
+final _smoke_ClassWithInternalLambda_InternalLambda_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ClassWithInternalLambda_InternalLambda_get_raw_pointer');
+    >('library_smoke_ClassWithInternalLambda_InternalLambda_get_raw_pointer'));
 class ClassWithInternalLambda_InternalLambda$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   ClassWithInternalLambda_InternalLambda$Impl(this.handle);
   void release() => _smoke_ClassWithInternalLambda_InternalLambda_release_handle(handle);
   bool internal_call(String p0) {
-    final _call_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_InternalLambda_call__String');
+    final _call_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_InternalLambda_call__String'));
     final _p0_handle = String_toFfi(p0);
     final _handle = this.handle;
     final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle);
@@ -82,18 +82,18 @@ ClassWithInternalLambda_InternalLambda smoke_ClassWithInternalLambda_InternalLam
 void smoke_ClassWithInternalLambda_InternalLambda_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ClassWithInternalLambda_InternalLambda_release_handle(handle);
 // Nullable ClassWithInternalLambda_InternalLambda
-final _smoke_ClassWithInternalLambda_InternalLambda_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_ClassWithInternalLambda_InternalLambda_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_InternalLambda_create_handle_nullable');
-final _smoke_ClassWithInternalLambda_InternalLambda_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_create_handle_nullable'));
+final _smoke_ClassWithInternalLambda_InternalLambda_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_InternalLambda_release_handle_nullable');
-final _smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_release_handle_nullable'));
+final _smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable');
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable'));
 Pointer<Void> smoke_ClassWithInternalLambda_InternalLambda_toFfi_nullable(ClassWithInternalLambda_InternalLambda value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ClassWithInternalLambda_InternalLambda_toFfi(value);
@@ -112,18 +112,18 @@ void smoke_ClassWithInternalLambda_InternalLambda_releaseFfiHandle_nullable(Poin
   _smoke_ClassWithInternalLambda_InternalLambda_release_handle_nullable(handle);
 // End of ClassWithInternalLambda_InternalLambda "private" section.
 // ClassWithInternalLambda "private" section, not exported.
-final _smoke_ClassWithInternalLambda_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ClassWithInternalLambda_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_copy_handle');
-final _smoke_ClassWithInternalLambda_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_copy_handle'));
+final _smoke_ClassWithInternalLambda_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ClassWithInternalLambda_release_handle');
-final _smoke_ClassWithInternalLambda_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ClassWithInternalLambda_release_handle'));
+final _smoke_ClassWithInternalLambda_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ClassWithInternalLambda_get_raw_pointer');
+    >('library_smoke_ClassWithInternalLambda_get_raw_pointer'));
 class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
   @protected
   Pointer<Void> handle;
@@ -136,7 +136,7 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
     handle = null;
   }
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
-    final _invokeInternalLambda_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String');
+    final _invokeInternalLambda_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String'));
     final _lambda_handle = smoke_ClassWithInternalLambda_InternalLambda_toFfi(lambda);
     final _value_handle = String_toFfi(value);
     final __result_handle = _invokeInternalLambda_ffi(__lib.LibraryContext.isolateId, _lambda_handle, _value_handle);

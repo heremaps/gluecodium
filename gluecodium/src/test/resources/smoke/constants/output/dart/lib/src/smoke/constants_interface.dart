@@ -47,18 +47,18 @@ ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi(int hand
   }
 }
 void smoke_ConstantsInterface_StateEnum_releaseFfiHandle(int handle) {}
-final _smoke_ConstantsInterface_StateEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_ConstantsInterface_StateEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_ConstantsInterface_StateEnum_create_handle_nullable');
-final _smoke_ConstantsInterface_StateEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ConstantsInterface_StateEnum_create_handle_nullable'));
+final _smoke_ConstantsInterface_StateEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ConstantsInterface_StateEnum_release_handle_nullable');
-final _smoke_ConstantsInterface_StateEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ConstantsInterface_StateEnum_release_handle_nullable'));
+final _smoke_ConstantsInterface_StateEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_ConstantsInterface_StateEnum_get_value_nullable');
+  >('library_smoke_ConstantsInterface_StateEnum_get_value_nullable'));
 Pointer<Void> smoke_ConstantsInterface_StateEnum_toFfi_nullable(ConstantsInterface_StateEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ConstantsInterface_StateEnum_toFfi(value);
@@ -77,18 +77,18 @@ void smoke_ConstantsInterface_StateEnum_releaseFfiHandle_nullable(Pointer<Void> 
   _smoke_ConstantsInterface_StateEnum_release_handle_nullable(handle);
 // End of ConstantsInterface_StateEnum "private" section.
 // ConstantsInterface "private" section, not exported.
-final _smoke_ConstantsInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ConstantsInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ConstantsInterface_copy_handle');
-final _smoke_ConstantsInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ConstantsInterface_copy_handle'));
+final _smoke_ConstantsInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ConstantsInterface_release_handle');
-final _smoke_ConstantsInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ConstantsInterface_release_handle'));
+final _smoke_ConstantsInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ConstantsInterface_get_raw_pointer');
+    >('library_smoke_ConstantsInterface_get_raw_pointer'));
 class ConstantsInterface$Impl implements ConstantsInterface {
   @protected
   Pointer<Void> handle;

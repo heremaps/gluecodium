@@ -15,18 +15,18 @@ abstract class CollectionConstants {
   static final Map<List<String>, Set<String>> mixedConstant = {["foo"]: {"bar"}};
 }
 // CollectionConstants "private" section, not exported.
-final _smoke_CollectionConstants_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_CollectionConstants_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_CollectionConstants_copy_handle');
-final _smoke_CollectionConstants_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CollectionConstants_copy_handle'));
+final _smoke_CollectionConstants_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_CollectionConstants_release_handle');
-final _smoke_CollectionConstants_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_CollectionConstants_release_handle'));
+final _smoke_CollectionConstants_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_CollectionConstants_get_raw_pointer');
+    >('library_smoke_CollectionConstants_get_raw_pointer'));
 class CollectionConstants$Impl implements CollectionConstants {
   @protected
   Pointer<Void> handle;

@@ -17,18 +17,18 @@ abstract class InternalClassWithStaticProperty {
   static set internal_fooBar(String value) { InternalClassWithStaticProperty$Impl.internal_fooBar = value; }
 }
 // InternalClassWithStaticProperty "private" section, not exported.
-final _smoke_InternalClassWithStaticProperty_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_InternalClassWithStaticProperty_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_InternalClassWithStaticProperty_copy_handle');
-final _smoke_InternalClassWithStaticProperty_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClassWithStaticProperty_copy_handle'));
+final _smoke_InternalClassWithStaticProperty_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_InternalClassWithStaticProperty_release_handle');
-final _smoke_InternalClassWithStaticProperty_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClassWithStaticProperty_release_handle'));
+final _smoke_InternalClassWithStaticProperty_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalClassWithStaticProperty_get_raw_pointer');
+    >('library_smoke_InternalClassWithStaticProperty_get_raw_pointer'));
 class InternalClassWithStaticProperty$Impl implements InternalClassWithStaticProperty {
   @protected
   Pointer<Void> handle;
@@ -41,7 +41,7 @@ class InternalClassWithStaticProperty$Impl implements InternalClassWithStaticPro
     handle = null;
   }
   static String get internal_fooBar {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
     final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
     try {
       return String_fromFfi(__result_handle);
@@ -50,7 +50,7 @@ class InternalClassWithStaticProperty$Impl implements InternalClassWithStaticPro
     }
   }
   static set internal_fooBar(String value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String'));
     final _value_handle = String_toFfi(value);
     final __result_handle = _set_ffi(__lib.LibraryContext.isolateId, _value_handle);
     String_releaseFfiHandle(_value_handle);

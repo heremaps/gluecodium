@@ -31,26 +31,26 @@ class GenericTypesWithBasicTypes_StructWithGenerics {
   GenericTypesWithBasicTypes_StructWithGenerics(this.numbersList, this.numbersMap, this.numbersSet);
 }
 // GenericTypesWithBasicTypes_StructWithGenerics "private" section, not exported.
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle');
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle'));
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle');
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle'));
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList');
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersList'));
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap');
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersMap'));
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet');
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_field_numbersSet'));
 Pointer<Void> smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi(GenericTypesWithBasicTypes_StructWithGenerics value) {
   final _numbersList_handle = foobar_ListOf_UByte_toFfi(value.numbersList);
   final _numbersMap_handle = foobar_MapOf_UByte_to_String_toFfi(value.numbersMap);
@@ -79,18 +79,18 @@ GenericTypesWithBasicTypes_StructWithGenerics smoke_GenericTypesWithBasicTypes_S
 }
 void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(Pointer<Void> handle) => _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle(handle);
 // Nullable GenericTypesWithBasicTypes_StructWithGenerics
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable');
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable'));
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable');
-final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable'));
+final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable');
+  >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable'));
 Pointer<Void> smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi_nullable(GenericTypesWithBasicTypes_StructWithGenerics value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi(value);
@@ -109,18 +109,18 @@ void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle_nullab
   _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable(handle);
 // End of GenericTypesWithBasicTypes_StructWithGenerics "private" section.
 // GenericTypesWithBasicTypes "private" section, not exported.
-final _smoke_GenericTypesWithBasicTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_GenericTypesWithBasicTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_copy_handle');
-final _smoke_GenericTypesWithBasicTypes_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_copy_handle'));
+final _smoke_GenericTypesWithBasicTypes_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_GenericTypesWithBasicTypes_release_handle');
-final _smoke_GenericTypesWithBasicTypes_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_GenericTypesWithBasicTypes_release_handle'));
+final _smoke_GenericTypesWithBasicTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_GenericTypesWithBasicTypes_get_raw_pointer');
+    >('library_smoke_GenericTypesWithBasicTypes_get_raw_pointer'));
 class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   @protected
   Pointer<Void> handle;
@@ -134,7 +134,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   List<int> methodWithList(List<int> input) {
-    final _methodWithList_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithList__ListOf_1Int');
+    final _methodWithList_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithList__ListOf_1Int'));
     final _input_handle = foobar_ListOf_Int_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _methodWithList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -147,7 +147,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   Map<int, bool> methodWithMap(Map<int, bool> input) {
-    final _methodWithMap_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithMap__MapOf_1Int_1to_1Boolean');
+    final _methodWithMap_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithMap__MapOf_1Int_1to_1Boolean'));
     final _input_handle = foobar_MapOf_Int_to_Boolean_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _methodWithMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -160,7 +160,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   Set<int> methodWithSet(Set<int> input) {
-    final _methodWithSet_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithSet__SetOf_1Int');
+    final _methodWithSet_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithSet__SetOf_1Int'));
     final _input_handle = foobar_SetOf_Int_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _methodWithSet_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -173,7 +173,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   List<String> methodWithListTypeAlias(List<String> input) {
-    final _methodWithListTypeAlias_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias__ListOf_1String');
+    final _methodWithListTypeAlias_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias__ListOf_1String'));
     final _input_handle = foobar_ListOf_String_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _methodWithListTypeAlias_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -186,7 +186,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   Map<String, String> methodWithMapTypeAlias(Map<String, String> input) {
-    final _methodWithMapTypeAlias_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias__MapOf_1String_1to_1String');
+    final _methodWithMapTypeAlias_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias__MapOf_1String_1to_1String'));
     final _input_handle = foobar_MapOf_String_to_String_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _methodWithMapTypeAlias_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -199,7 +199,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   Set<String> methodWithSetTypeAlias(Set<String> input) {
-    final _methodWithSetTypeAlias_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias__SetOf_1String');
+    final _methodWithSetTypeAlias_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias__SetOf_1String'));
     final _input_handle = foobar_SetOf_String_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _methodWithSetTypeAlias_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -212,7 +212,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   List<double> get listProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_listProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_listProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -223,7 +223,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   set listProperty(List<double> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_listProperty_set__ListOf_1Float');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_listProperty_set__ListOf_1Float'));
     final _value_handle = foobar_ListOf_Float_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -236,7 +236,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   Map<double, double> get mapProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_mapProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_mapProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -247,7 +247,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   set mapProperty(Map<double, double> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_mapProperty_set__MapOf_1Float_1to_1Double');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_mapProperty_set__MapOf_1Float_1to_1Double'));
     final _value_handle = foobar_MapOf_Float_to_Double_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -260,7 +260,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   Set<double> get setProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_setProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_GenericTypesWithBasicTypes_setProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -271,7 +271,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
   @override
   set setProperty(Set<double> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_setProperty_set__SetOf_1Float');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_setProperty_set__SetOf_1Float'));
     final _value_handle = foobar_SetOf_Float_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);

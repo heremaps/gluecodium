@@ -25,18 +25,18 @@ Enum package_Types_Enum_fromFfi(int handle) {
   }
 }
 void package_Types_Enum_releaseFfiHandle(int handle) {}
-final _package_Types_Enum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _package_Types_Enum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_package_Types_Enum_create_handle_nullable');
-final _package_Types_Enum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Types_Enum_create_handle_nullable'));
+final _package_Types_Enum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Types_Enum_release_handle_nullable');
-final _package_Types_Enum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Types_Enum_release_handle_nullable'));
+final _package_Types_Enum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_package_Types_Enum_get_value_nullable');
+  >('library_package_Types_Enum_get_value_nullable'));
 Pointer<Void> package_Types_Enum_toFfi_nullable(Enum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = package_Types_Enum_toFfi(value);
@@ -65,18 +65,18 @@ class Struct {
     : null = Enum.naN;
 }
 // Struct "private" section, not exported.
-final _package_Types_Struct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _package_Types_Struct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_package_Types_Struct_create_handle');
-final _package_Types_Struct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Types_Struct_create_handle'));
+final _package_Types_Struct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Types_Struct_release_handle');
-final _package_Types_Struct_get_field_null = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Types_Struct_release_handle'));
+final _package_Types_Struct_get_field_null = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_package_Types_Struct_get_field_null');
+  >('library_package_Types_Struct_get_field_null'));
 Pointer<Void> package_Types_Struct_toFfi(Struct value) {
   final _null_handle = package_Types_Enum_toFfi(value.null);
   final _result = _package_Types_Struct_create_handle(_null_handle);
@@ -95,18 +95,18 @@ Struct package_Types_Struct_fromFfi(Pointer<Void> handle) {
 }
 void package_Types_Struct_releaseFfiHandle(Pointer<Void> handle) => _package_Types_Struct_release_handle(handle);
 // Nullable Struct
-final _package_Types_Struct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _package_Types_Struct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Types_Struct_create_handle_nullable');
-final _package_Types_Struct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Types_Struct_create_handle_nullable'));
+final _package_Types_Struct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Types_Struct_release_handle_nullable');
-final _package_Types_Struct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Types_Struct_release_handle_nullable'));
+final _package_Types_Struct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Types_Struct_get_value_nullable');
+  >('library_package_Types_Struct_get_value_nullable'));
 Pointer<Void> package_Types_Struct_toFfi_nullable(Struct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = package_Types_Struct_toFfi(value);

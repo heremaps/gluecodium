@@ -8,38 +8,38 @@ import 'package:library/src/smoke/yet_another_dummy_class.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-final _foobar_ListOf_Float_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_Float_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_Float_create_handle');
-final _foobar_ListOf_Float_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Float_create_handle'));
+final _foobar_ListOf_Float_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_Float_release_handle');
-final _foobar_ListOf_Float_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Float_release_handle'));
+final _foobar_ListOf_Float_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Float),
     void Function(Pointer<Void>, double)
-  >('library_foobar_ListOf_Float_insert');
-final _foobar_ListOf_Float_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Float_insert'));
+final _foobar_ListOf_Float_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_Float_iterator');
-final _foobar_ListOf_Float_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Float_iterator'));
+final _foobar_ListOf_Float_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_Float_iterator_release_handle');
-final _foobar_ListOf_Float_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Float_iterator_release_handle'));
+final _foobar_ListOf_Float_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_Float_iterator_is_valid');
-final _foobar_ListOf_Float_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Float_iterator_is_valid'));
+final _foobar_ListOf_Float_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_Float_iterator_increment');
-final _foobar_ListOf_Float_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Float_iterator_increment'));
+final _foobar_ListOf_Float_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
->('library_foobar_ListOf_Float_iterator_get');
+>('library_foobar_ListOf_Float_iterator_get'));
 Pointer<Void> foobar_ListOf_Float_toFfi(List<double> value) {
   final _result = _foobar_ListOf_Float_create_handle();
   for (final element in value) {
@@ -65,18 +65,18 @@ List<double> foobar_ListOf_Float_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_Float_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_Float_release_handle(handle);
-final _foobar_ListOf_Float_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_Float_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_Float_create_handle_nullable');
-final _foobar_ListOf_Float_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Float_create_handle_nullable'));
+final _foobar_ListOf_Float_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_Float_release_handle_nullable');
-final _foobar_ListOf_Float_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Float_release_handle_nullable'));
+final _foobar_ListOf_Float_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_Float_get_value_nullable');
+  >('library_foobar_ListOf_Float_get_value_nullable'));
 Pointer<Void> foobar_ListOf_Float_toFfi_nullable(List<double> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_Float_toFfi(value);
@@ -93,38 +93,38 @@ List<double> foobar_ListOf_Float_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_ListOf_Float_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_Float_release_handle_nullable(handle);
-final _foobar_ListOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_Int_create_handle');
-final _foobar_ListOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Int_create_handle'));
+final _foobar_ListOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_Int_release_handle');
-final _foobar_ListOf_Int_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Int_release_handle'));
+final _foobar_ListOf_Int_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32),
     void Function(Pointer<Void>, int)
-  >('library_foobar_ListOf_Int_insert');
-final _foobar_ListOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Int_insert'));
+final _foobar_ListOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_Int_iterator');
-final _foobar_ListOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Int_iterator'));
+final _foobar_ListOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_Int_iterator_release_handle');
-final _foobar_ListOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Int_iterator_release_handle'));
+final _foobar_ListOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_Int_iterator_is_valid');
-final _foobar_ListOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Int_iterator_is_valid'));
+final _foobar_ListOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_Int_iterator_increment');
-final _foobar_ListOf_Int_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Int_iterator_increment'));
+final _foobar_ListOf_Int_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_ListOf_Int_iterator_get');
+>('library_foobar_ListOf_Int_iterator_get'));
 Pointer<Void> foobar_ListOf_Int_toFfi(List<int> value) {
   final _result = _foobar_ListOf_Int_create_handle();
   for (final element in value) {
@@ -150,18 +150,18 @@ List<int> foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_Int_release_handle(handle);
-final _foobar_ListOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_Int_create_handle_nullable');
-final _foobar_ListOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Int_create_handle_nullable'));
+final _foobar_ListOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_Int_release_handle_nullable');
-final _foobar_ListOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Int_release_handle_nullable'));
+final _foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_Int_get_value_nullable');
+  >('library_foobar_ListOf_Int_get_value_nullable'));
 Pointer<Void> foobar_ListOf_Int_toFfi_nullable(List<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_Int_toFfi(value);
@@ -178,38 +178,38 @@ List<int> foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_ListOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_Int_release_handle_nullable(handle);
-final _foobar_ListOf_String_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_String_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_String_create_handle');
-final _foobar_ListOf_String_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_String_create_handle'));
+final _foobar_ListOf_String_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_String_release_handle');
-final _foobar_ListOf_String_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_String_release_handle'));
+final _foobar_ListOf_String_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_String_insert');
-final _foobar_ListOf_String_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_String_insert'));
+final _foobar_ListOf_String_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_String_iterator');
-final _foobar_ListOf_String_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_String_iterator'));
+final _foobar_ListOf_String_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_String_iterator_release_handle');
-final _foobar_ListOf_String_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_String_iterator_release_handle'));
+final _foobar_ListOf_String_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_String_iterator_is_valid');
-final _foobar_ListOf_String_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_String_iterator_is_valid'));
+final _foobar_ListOf_String_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_String_iterator_increment');
-final _foobar_ListOf_String_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_String_iterator_increment'));
+final _foobar_ListOf_String_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_String_iterator_get');
+>('library_foobar_ListOf_String_iterator_get'));
 Pointer<Void> foobar_ListOf_String_toFfi(List<String> value) {
   final _result = _foobar_ListOf_String_create_handle();
   for (final element in value) {
@@ -235,18 +235,18 @@ List<String> foobar_ListOf_String_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_String_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_String_release_handle(handle);
-final _foobar_ListOf_String_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_String_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_String_create_handle_nullable');
-final _foobar_ListOf_String_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_String_create_handle_nullable'));
+final _foobar_ListOf_String_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_String_release_handle_nullable');
-final _foobar_ListOf_String_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_String_release_handle_nullable'));
+final _foobar_ListOf_String_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_String_get_value_nullable');
+  >('library_foobar_ListOf_String_get_value_nullable'));
 Pointer<Void> foobar_ListOf_String_toFfi_nullable(List<String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_String_toFfi(value);
@@ -263,38 +263,38 @@ List<String> foobar_ListOf_String_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_ListOf_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_String_release_handle_nullable(handle);
-final _foobar_ListOf_UByte_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_UByte_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_UByte_create_handle');
-final _foobar_ListOf_UByte_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_UByte_create_handle'));
+final _foobar_ListOf_UByte_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_UByte_release_handle');
-final _foobar_ListOf_UByte_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_UByte_release_handle'));
+final _foobar_ListOf_UByte_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint8),
     void Function(Pointer<Void>, int)
-  >('library_foobar_ListOf_UByte_insert');
-final _foobar_ListOf_UByte_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_UByte_insert'));
+final _foobar_ListOf_UByte_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_UByte_iterator');
-final _foobar_ListOf_UByte_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_UByte_iterator'));
+final _foobar_ListOf_UByte_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_UByte_iterator_release_handle');
-final _foobar_ListOf_UByte_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_UByte_iterator_release_handle'));
+final _foobar_ListOf_UByte_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_UByte_iterator_is_valid');
-final _foobar_ListOf_UByte_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_UByte_iterator_is_valid'));
+final _foobar_ListOf_UByte_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_UByte_iterator_increment');
-final _foobar_ListOf_UByte_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_UByte_iterator_increment'));
+final _foobar_ListOf_UByte_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_ListOf_UByte_iterator_get');
+>('library_foobar_ListOf_UByte_iterator_get'));
 Pointer<Void> foobar_ListOf_UByte_toFfi(List<int> value) {
   final _result = _foobar_ListOf_UByte_create_handle();
   for (final element in value) {
@@ -320,18 +320,18 @@ List<int> foobar_ListOf_UByte_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_UByte_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_UByte_release_handle(handle);
-final _foobar_ListOf_UByte_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_UByte_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_UByte_create_handle_nullable');
-final _foobar_ListOf_UByte_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_UByte_create_handle_nullable'));
+final _foobar_ListOf_UByte_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_UByte_release_handle_nullable');
-final _foobar_ListOf_UByte_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_UByte_release_handle_nullable'));
+final _foobar_ListOf_UByte_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_UByte_get_value_nullable');
+  >('library_foobar_ListOf_UByte_get_value_nullable'));
 Pointer<Void> foobar_ListOf_UByte_toFfi_nullable(List<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_UByte_toFfi(value);
@@ -348,38 +348,38 @@ List<int> foobar_ListOf_UByte_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_ListOf_UByte_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_UByte_release_handle_nullable(handle);
-final _foobar_ListOf_foobar_ListOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_foobar_ListOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_foobar_ListOf_Int_create_handle');
-final _foobar_ListOf_foobar_ListOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_ListOf_Int_create_handle'));
+final _foobar_ListOf_foobar_ListOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_ListOf_Int_release_handle');
-final _foobar_ListOf_foobar_ListOf_Int_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_ListOf_Int_release_handle'));
+final _foobar_ListOf_foobar_ListOf_Int_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_foobar_ListOf_Int_insert');
-final _foobar_ListOf_foobar_ListOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_ListOf_Int_insert'));
+final _foobar_ListOf_foobar_ListOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_ListOf_Int_iterator');
-final _foobar_ListOf_foobar_ListOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_ListOf_Int_iterator'));
+final _foobar_ListOf_foobar_ListOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_ListOf_Int_iterator_release_handle');
-final _foobar_ListOf_foobar_ListOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_ListOf_Int_iterator_release_handle'));
+final _foobar_ListOf_foobar_ListOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_foobar_ListOf_Int_iterator_is_valid');
-final _foobar_ListOf_foobar_ListOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_ListOf_Int_iterator_is_valid'));
+final _foobar_ListOf_foobar_ListOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_ListOf_Int_iterator_increment');
-final _foobar_ListOf_foobar_ListOf_Int_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_ListOf_Int_iterator_increment'));
+final _foobar_ListOf_foobar_ListOf_Int_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_ListOf_Int_iterator_get');
+>('library_foobar_ListOf_foobar_ListOf_Int_iterator_get'));
 Pointer<Void> foobar_ListOf_foobar_ListOf_Int_toFfi(List<List<int>> value) {
   final _result = _foobar_ListOf_foobar_ListOf_Int_create_handle();
   for (final element in value) {
@@ -405,18 +405,18 @@ List<List<int>> foobar_ListOf_foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_foobar_ListOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_foobar_ListOf_Int_release_handle(handle);
-final _foobar_ListOf_foobar_ListOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_foobar_ListOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_ListOf_Int_create_handle_nullable');
-final _foobar_ListOf_foobar_ListOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_ListOf_Int_create_handle_nullable'));
+final _foobar_ListOf_foobar_ListOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_ListOf_Int_release_handle_nullable');
-final _foobar_ListOf_foobar_ListOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_ListOf_Int_release_handle_nullable'));
+final _foobar_ListOf_foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_ListOf_Int_get_value_nullable');
+  >('library_foobar_ListOf_foobar_ListOf_Int_get_value_nullable'));
 Pointer<Void> foobar_ListOf_foobar_ListOf_Int_toFfi_nullable(List<List<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_foobar_ListOf_Int_toFfi(value);
@@ -433,38 +433,38 @@ List<List<int>> foobar_ListOf_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> h
 }
 void foobar_ListOf_foobar_ListOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_foobar_ListOf_Int_release_handle_nullable(handle);
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_insert');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_insert'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_increment');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_increment'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get');
+>('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get'));
 Pointer<Void> foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi(List<Map<int, bool>> value) {
   final _result = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle();
   for (final element in value) {
@@ -490,18 +490,18 @@ List<Map<int, bool>> foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<V
   return result;
 }
 void foobar_ListOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle(handle);
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable');
-final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable'));
+final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable');
+  >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi_nullable(List<Map<int, bool>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi(value);
@@ -518,38 +518,38 @@ List<Map<int, bool>> foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(
 }
 void foobar_ListOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable(handle);
-final _foobar_ListOf_foobar_SetOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_foobar_SetOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_foobar_SetOf_Int_create_handle');
-final _foobar_ListOf_foobar_SetOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_SetOf_Int_create_handle'));
+final _foobar_ListOf_foobar_SetOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_SetOf_Int_release_handle');
-final _foobar_ListOf_foobar_SetOf_Int_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_SetOf_Int_release_handle'));
+final _foobar_ListOf_foobar_SetOf_Int_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_foobar_SetOf_Int_insert');
-final _foobar_ListOf_foobar_SetOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_SetOf_Int_insert'));
+final _foobar_ListOf_foobar_SetOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_SetOf_Int_iterator');
-final _foobar_ListOf_foobar_SetOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_SetOf_Int_iterator'));
+final _foobar_ListOf_foobar_SetOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_SetOf_Int_iterator_release_handle');
-final _foobar_ListOf_foobar_SetOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_SetOf_Int_iterator_release_handle'));
+final _foobar_ListOf_foobar_SetOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_foobar_SetOf_Int_iterator_is_valid');
-final _foobar_ListOf_foobar_SetOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_SetOf_Int_iterator_is_valid'));
+final _foobar_ListOf_foobar_SetOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_SetOf_Int_iterator_increment');
-final _foobar_ListOf_foobar_SetOf_Int_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_foobar_SetOf_Int_iterator_increment'));
+final _foobar_ListOf_foobar_SetOf_Int_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_foobar_SetOf_Int_iterator_get');
+>('library_foobar_ListOf_foobar_SetOf_Int_iterator_get'));
 Pointer<Void> foobar_ListOf_foobar_SetOf_Int_toFfi(List<Set<int>> value) {
   final _result = _foobar_ListOf_foobar_SetOf_Int_create_handle();
   for (final element in value) {
@@ -575,18 +575,18 @@ List<Set<int>> foobar_ListOf_foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_foobar_SetOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_foobar_SetOf_Int_release_handle(handle);
-final _foobar_ListOf_foobar_SetOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_foobar_SetOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_SetOf_Int_create_handle_nullable');
-final _foobar_ListOf_foobar_SetOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_SetOf_Int_create_handle_nullable'));
+final _foobar_ListOf_foobar_SetOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_SetOf_Int_release_handle_nullable');
-final _foobar_ListOf_foobar_SetOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_foobar_SetOf_Int_release_handle_nullable'));
+final _foobar_ListOf_foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_foobar_SetOf_Int_get_value_nullable');
+  >('library_foobar_ListOf_foobar_SetOf_Int_get_value_nullable'));
 Pointer<Void> foobar_ListOf_foobar_SetOf_Int_toFfi_nullable(List<Set<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_foobar_SetOf_Int_toFfi(value);
@@ -603,38 +603,38 @@ List<Set<int>> foobar_ListOf_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> han
 }
 void foobar_ListOf_foobar_SetOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_foobar_SetOf_Int_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_AnotherDummyClass_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_AnotherDummyClass_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_AnotherDummyClass_create_handle');
-final _foobar_ListOf_smoke_AnotherDummyClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_AnotherDummyClass_create_handle'));
+final _foobar_ListOf_smoke_AnotherDummyClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_AnotherDummyClass_release_handle');
-final _foobar_ListOf_smoke_AnotherDummyClass_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_AnotherDummyClass_release_handle'));
+final _foobar_ListOf_smoke_AnotherDummyClass_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_smoke_AnotherDummyClass_insert');
-final _foobar_ListOf_smoke_AnotherDummyClass_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_AnotherDummyClass_insert'));
+final _foobar_ListOf_smoke_AnotherDummyClass_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_AnotherDummyClass_iterator');
-final _foobar_ListOf_smoke_AnotherDummyClass_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_AnotherDummyClass_iterator'));
+final _foobar_ListOf_smoke_AnotherDummyClass_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_release_handle');
-final _foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_release_handle'));
+final _foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid');
-final _foobar_ListOf_smoke_AnotherDummyClass_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid'));
+final _foobar_ListOf_smoke_AnotherDummyClass_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_increment');
-final _foobar_ListOf_smoke_AnotherDummyClass_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_increment'));
+final _foobar_ListOf_smoke_AnotherDummyClass_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_get');
+>('library_foobar_ListOf_smoke_AnotherDummyClass_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_AnotherDummyClass_toFfi(List<AnotherDummyClass> value) {
   final _result = _foobar_ListOf_smoke_AnotherDummyClass_create_handle();
   for (final element in value) {
@@ -660,18 +660,18 @@ List<AnotherDummyClass> foobar_ListOf_smoke_AnotherDummyClass_fromFfi(Pointer<Vo
   return result;
 }
 void foobar_ListOf_smoke_AnotherDummyClass_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_AnotherDummyClass_release_handle(handle);
-final _foobar_ListOf_smoke_AnotherDummyClass_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_AnotherDummyClass_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_AnotherDummyClass_create_handle_nullable');
-final _foobar_ListOf_smoke_AnotherDummyClass_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_AnotherDummyClass_create_handle_nullable'));
+final _foobar_ListOf_smoke_AnotherDummyClass_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_AnotherDummyClass_release_handle_nullable');
-final _foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_AnotherDummyClass_release_handle_nullable'));
+final _foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable');
+  >('library_foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_AnotherDummyClass_toFfi_nullable(List<AnotherDummyClass> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_AnotherDummyClass_toFfi(value);
@@ -688,38 +688,38 @@ List<AnotherDummyClass> foobar_ListOf_smoke_AnotherDummyClass_fromFfi_nullable(P
 }
 void foobar_ListOf_smoke_AnotherDummyClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_AnotherDummyClass_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_DummyClass_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_DummyClass_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_DummyClass_create_handle');
-final _foobar_ListOf_smoke_DummyClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyClass_create_handle'));
+final _foobar_ListOf_smoke_DummyClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyClass_release_handle');
-final _foobar_ListOf_smoke_DummyClass_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyClass_release_handle'));
+final _foobar_ListOf_smoke_DummyClass_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyClass_insert');
-final _foobar_ListOf_smoke_DummyClass_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyClass_insert'));
+final _foobar_ListOf_smoke_DummyClass_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyClass_iterator');
-final _foobar_ListOf_smoke_DummyClass_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyClass_iterator'));
+final _foobar_ListOf_smoke_DummyClass_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyClass_iterator_release_handle');
-final _foobar_ListOf_smoke_DummyClass_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyClass_iterator_release_handle'));
+final _foobar_ListOf_smoke_DummyClass_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyClass_iterator_is_valid');
-final _foobar_ListOf_smoke_DummyClass_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyClass_iterator_is_valid'));
+final _foobar_ListOf_smoke_DummyClass_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyClass_iterator_increment');
-final _foobar_ListOf_smoke_DummyClass_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyClass_iterator_increment'));
+final _foobar_ListOf_smoke_DummyClass_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyClass_iterator_get');
+>('library_foobar_ListOf_smoke_DummyClass_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_DummyClass_toFfi(List<DummyClass> value) {
   final _result = _foobar_ListOf_smoke_DummyClass_create_handle();
   for (final element in value) {
@@ -745,18 +745,18 @@ List<DummyClass> foobar_ListOf_smoke_DummyClass_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_ListOf_smoke_DummyClass_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_DummyClass_release_handle(handle);
-final _foobar_ListOf_smoke_DummyClass_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_DummyClass_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyClass_create_handle_nullable');
-final _foobar_ListOf_smoke_DummyClass_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyClass_create_handle_nullable'));
+final _foobar_ListOf_smoke_DummyClass_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyClass_release_handle_nullable');
-final _foobar_ListOf_smoke_DummyClass_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyClass_release_handle_nullable'));
+final _foobar_ListOf_smoke_DummyClass_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyClass_get_value_nullable');
+  >('library_foobar_ListOf_smoke_DummyClass_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_DummyClass_toFfi_nullable(List<DummyClass> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_DummyClass_toFfi(value);
@@ -773,38 +773,38 @@ List<DummyClass> foobar_ListOf_smoke_DummyClass_fromFfi_nullable(Pointer<Void> h
 }
 void foobar_ListOf_smoke_DummyClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_DummyClass_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_DummyInterface_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_DummyInterface_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_DummyInterface_create_handle');
-final _foobar_ListOf_smoke_DummyInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyInterface_create_handle'));
+final _foobar_ListOf_smoke_DummyInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyInterface_release_handle');
-final _foobar_ListOf_smoke_DummyInterface_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyInterface_release_handle'));
+final _foobar_ListOf_smoke_DummyInterface_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyInterface_insert');
-final _foobar_ListOf_smoke_DummyInterface_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyInterface_insert'));
+final _foobar_ListOf_smoke_DummyInterface_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyInterface_iterator');
-final _foobar_ListOf_smoke_DummyInterface_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyInterface_iterator'));
+final _foobar_ListOf_smoke_DummyInterface_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyInterface_iterator_release_handle');
-final _foobar_ListOf_smoke_DummyInterface_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyInterface_iterator_release_handle'));
+final _foobar_ListOf_smoke_DummyInterface_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyInterface_iterator_is_valid');
-final _foobar_ListOf_smoke_DummyInterface_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyInterface_iterator_is_valid'));
+final _foobar_ListOf_smoke_DummyInterface_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyInterface_iterator_increment');
-final _foobar_ListOf_smoke_DummyInterface_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_DummyInterface_iterator_increment'));
+final _foobar_ListOf_smoke_DummyInterface_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_DummyInterface_iterator_get');
+>('library_foobar_ListOf_smoke_DummyInterface_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_DummyInterface_toFfi(List<DummyInterface> value) {
   final _result = _foobar_ListOf_smoke_DummyInterface_create_handle();
   for (final element in value) {
@@ -830,18 +830,18 @@ List<DummyInterface> foobar_ListOf_smoke_DummyInterface_fromFfi(Pointer<Void> ha
   return result;
 }
 void foobar_ListOf_smoke_DummyInterface_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_DummyInterface_release_handle(handle);
-final _foobar_ListOf_smoke_DummyInterface_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_DummyInterface_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyInterface_create_handle_nullable');
-final _foobar_ListOf_smoke_DummyInterface_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyInterface_create_handle_nullable'));
+final _foobar_ListOf_smoke_DummyInterface_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyInterface_release_handle_nullable');
-final _foobar_ListOf_smoke_DummyInterface_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_DummyInterface_release_handle_nullable'));
+final _foobar_ListOf_smoke_DummyInterface_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_DummyInterface_get_value_nullable');
+  >('library_foobar_ListOf_smoke_DummyInterface_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_DummyInterface_toFfi_nullable(List<DummyInterface> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_DummyInterface_toFfi(value);
@@ -858,38 +858,38 @@ List<DummyInterface> foobar_ListOf_smoke_DummyInterface_fromFfi_nullable(Pointer
 }
 void foobar_ListOf_smoke_DummyInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_DummyInterface_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_insert');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_insert'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get');
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(List<GenericTypesWithCompoundTypes_BasicStruct> value) {
   final _result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle();
   for (final element in value) {
@@ -915,18 +915,18 @@ List<GenericTypesWithCompoundTypes_BasicStruct> foobar_ListOf_smoke_GenericTypes
   return result;
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable');
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(List<GenericTypesWithCompoundTypes_BasicStruct> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(value);
@@ -943,38 +943,38 @@ List<GenericTypesWithCompoundTypes_BasicStruct> foobar_ListOf_smoke_GenericTypes
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32),
     void Function(Pointer<Void>, int)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get');
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(List<GenericTypesWithCompoundTypes_ExternalEnum> value) {
   final _result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle();
   for (final element in value) {
@@ -1000,18 +1000,18 @@ List<GenericTypesWithCompoundTypes_ExternalEnum> foobar_ListOf_smoke_GenericType
   return result;
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable');
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(List<GenericTypesWithCompoundTypes_ExternalEnum> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
@@ -1028,38 +1028,38 @@ List<GenericTypesWithCompoundTypes_ExternalEnum> foobar_ListOf_smoke_GenericType
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_insert');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_insert'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get');
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(List<GenericTypesWithCompoundTypes_ExternalStruct> value) {
   final _result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle();
   for (final element in value) {
@@ -1085,18 +1085,18 @@ List<GenericTypesWithCompoundTypes_ExternalStruct> foobar_ListOf_smoke_GenericTy
   return result;
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable');
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(List<GenericTypesWithCompoundTypes_ExternalStruct> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(value);
@@ -1113,38 +1113,38 @@ List<GenericTypesWithCompoundTypes_ExternalStruct> foobar_ListOf_smoke_GenericTy
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32),
     void Function(Pointer<Void>, int)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get');
+>('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(List<GenericTypesWithCompoundTypes_SomeEnum> value) {
   final _result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle();
   for (final element in value) {
@@ -1170,18 +1170,18 @@ List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWit
   return result;
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(handle);
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable');
-final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable'));
+final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable');
+  >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(List<GenericTypesWithCompoundTypes_SomeEnum> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);
@@ -1198,38 +1198,38 @@ List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWit
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(handle);
-final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_insert');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_insert'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get');
+>('library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get'));
 Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi(List<YetAnotherDummyClass> value) {
   final _result = _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle();
   for (final element in value) {
@@ -1255,18 +1255,18 @@ List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi(Poin
   return result;
 }
 void foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle(handle);
-final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable');
-final _foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable'));
+final _foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable');
+  >('library_foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable'));
 Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi_nullable(List<YetAnotherDummyClass> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_YetAnotherDummyClass_toFfi(value);
@@ -1283,42 +1283,42 @@ List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi_null
 }
 void foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable(handle);
-final _foobar_MapOf_Float_to_Double_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Float_to_Double_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Float_to_Double_create_handle');
-final _foobar_MapOf_Float_to_Double_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Float_to_Double_create_handle'));
+final _foobar_MapOf_Float_to_Double_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Float_to_Double_release_handle');
-final _foobar_MapOf_Float_to_Double_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Float_to_Double_release_handle'));
+final _foobar_MapOf_Float_to_Double_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Float, Double),
     void Function(Pointer<Void>, double, double)
-  >('library_foobar_MapOf_Float_to_Double_put');
-final _foobar_MapOf_Float_to_Double_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Float_to_Double_put'));
+final _foobar_MapOf_Float_to_Double_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Float_to_Double_iterator');
-final _foobar_MapOf_Float_to_Double_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Float_to_Double_iterator'));
+final _foobar_MapOf_Float_to_Double_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Float_to_Double_iterator_release_handle');
-final _foobar_MapOf_Float_to_Double_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Float_to_Double_iterator_release_handle'));
+final _foobar_MapOf_Float_to_Double_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Float_to_Double_iterator_is_valid');
-final _foobar_MapOf_Float_to_Double_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Float_to_Double_iterator_is_valid'));
+final _foobar_MapOf_Float_to_Double_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Float_to_Double_iterator_increment');
-final _foobar_MapOf_Float_to_Double_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Float_to_Double_iterator_increment'));
+final _foobar_MapOf_Float_to_Double_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
->('library_foobar_MapOf_Float_to_Double_iterator_get_key');
-final _foobar_MapOf_Float_to_Double_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Float_to_Double_iterator_get_key'));
+final _foobar_MapOf_Float_to_Double_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
->('library_foobar_MapOf_Float_to_Double_iterator_get_value');
+>('library_foobar_MapOf_Float_to_Double_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Float_to_Double_toFfi(Map<double, double> value) {
   final _result = _foobar_MapOf_Float_to_Double_create_handle();
   for (final entry in value.entries) {
@@ -1349,18 +1349,18 @@ Map<double, double> foobar_MapOf_Float_to_Double_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_MapOf_Float_to_Double_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Float_to_Double_release_handle(handle);
-final _foobar_MapOf_Float_to_Double_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Float_to_Double_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Float_to_Double_create_handle_nullable');
-final _foobar_MapOf_Float_to_Double_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Float_to_Double_create_handle_nullable'));
+final _foobar_MapOf_Float_to_Double_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Float_to_Double_release_handle_nullable');
-final _foobar_MapOf_Float_to_Double_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Float_to_Double_release_handle_nullable'));
+final _foobar_MapOf_Float_to_Double_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Float_to_Double_get_value_nullable');
+  >('library_foobar_MapOf_Float_to_Double_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Float_to_Double_toFfi_nullable(Map<double, double> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Float_to_Double_toFfi(value);
@@ -1377,42 +1377,42 @@ Map<double, double> foobar_MapOf_Float_to_Double_fromFfi_nullable(Pointer<Void> 
 }
 void foobar_MapOf_Float_to_Double_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Float_to_Double_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_Boolean_create_handle');
-final _foobar_MapOf_Int_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_Boolean_create_handle'));
+final _foobar_MapOf_Int_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_Boolean_release_handle');
-final _foobar_MapOf_Int_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_Boolean_release_handle'));
+final _foobar_MapOf_Int_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Uint8),
     void Function(Pointer<Void>, int, int)
-  >('library_foobar_MapOf_Int_to_Boolean_put');
-final _foobar_MapOf_Int_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_Boolean_put'));
+final _foobar_MapOf_Int_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_Boolean_iterator');
-final _foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_Boolean_iterator'));
+final _foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_Boolean_iterator_increment');
-final _foobar_MapOf_Int_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_Boolean_iterator_increment'));
+final _foobar_MapOf_Int_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_Boolean_iterator_get_key');
-final _foobar_MapOf_Int_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_Int_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_Int_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_Boolean_toFfi(Map<int, bool> value) {
   final _result = _foobar_MapOf_Int_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -1443,18 +1443,18 @@ Map<int, bool> foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_MapOf_Int_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_Boolean_release_handle(handle);
-final _foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_Boolean_toFfi_nullable(Map<int, bool> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_Boolean_toFfi(value);
@@ -1471,42 +1471,42 @@ Map<int, bool> foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle
 }
 void foobar_MapOf_Int_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_Boolean_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_put');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_put'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_release_handle');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_release_handle'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_is_valid');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_is_valid'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_increment');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_increment'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_key');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_key'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_value');
+>('library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_foobar_ListOf_Int_toFfi(Map<int, List<int>> value) {
   final _result = _foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle();
   for (final entry in value.entries) {
@@ -1537,18 +1537,18 @@ Map<int, List<int>> foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi(Pointer<Void> 
   return result;
 }
 void foobar_MapOf_Int_to_foobar_ListOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle(handle);
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle_nullable');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle_nullable'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle_nullable');
-final _foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle_nullable'));
+final _foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_foobar_ListOf_Int_toFfi_nullable(Map<int, List<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_foobar_ListOf_Int_toFfi(value);
@@ -1565,42 +1565,42 @@ Map<int, List<int>> foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi_nullable(Point
 }
 void foobar_MapOf_Int_to_foobar_ListOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_put');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_put'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_increment');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_increment'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_key');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_toFfi(Map<int, Map<int, bool>> value) {
   final _result = _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -1631,18 +1631,18 @@ Map<int, Map<int, bool>> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_fromFfi
   return result;
 }
 void foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle(handle);
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_toFfi_nullable(Map<int, Map<int, bool>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_toFfi(value);
@@ -1659,42 +1659,42 @@ Map<int, Map<int, bool>> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_fromFfi
 }
 void foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_put');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_put'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_release_handle');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_release_handle'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_is_valid');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_is_valid'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_increment');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_increment'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_key');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_key'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_value');
+>('library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_foobar_SetOf_Int_toFfi(Map<int, Set<int>> value) {
   final _result = _foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle();
   for (final entry in value.entries) {
@@ -1725,18 +1725,18 @@ Map<int, Set<int>> foobar_MapOf_Int_to_foobar_SetOf_Int_fromFfi(Pointer<Void> ha
   return result;
 }
 void foobar_MapOf_Int_to_foobar_SetOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle(handle);
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle_nullable');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle_nullable'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle_nullable');
-final _foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle_nullable'));
+final _foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_foobar_SetOf_Int_toFfi_nullable(Map<int, Set<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_foobar_SetOf_Int_toFfi(value);
@@ -1753,42 +1753,42 @@ Map<int, Set<int>> foobar_MapOf_Int_to_foobar_SetOf_Int_fromFfi_nullable(Pointer
 }
 void foobar_MapOf_Int_to_foobar_SetOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_smoke_DummyClass_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_DummyClass_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_smoke_DummyClass_create_handle');
-final _foobar_MapOf_Int_to_smoke_DummyClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyClass_create_handle'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyClass_release_handle');
-final _foobar_MapOf_Int_to_smoke_DummyClass_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyClass_release_handle'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyClass_put');
-final _foobar_MapOf_Int_to_smoke_DummyClass_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyClass_put'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator');
-final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_release_handle');
-final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_release_handle'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_is_valid');
-final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_is_valid'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_increment');
-final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_increment'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_key');
-final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_key'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_value');
+>('library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_DummyClass_toFfi(Map<int, DummyClass> value) {
   final _result = _foobar_MapOf_Int_to_smoke_DummyClass_create_handle();
   for (final entry in value.entries) {
@@ -1819,18 +1819,18 @@ Map<int, DummyClass> foobar_MapOf_Int_to_smoke_DummyClass_fromFfi(Pointer<Void> 
   return result;
 }
 void foobar_MapOf_Int_to_smoke_DummyClass_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_smoke_DummyClass_release_handle(handle);
-final _foobar_MapOf_Int_to_smoke_DummyClass_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_DummyClass_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyClass_create_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_DummyClass_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyClass_create_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyClass_release_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyClass_release_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_DummyClass_toFfi_nullable(Map<int, DummyClass> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_DummyClass_toFfi(value);
@@ -1847,42 +1847,42 @@ Map<int, DummyClass> foobar_MapOf_Int_to_smoke_DummyClass_fromFfi_nullable(Point
 }
 void foobar_MapOf_Int_to_smoke_DummyClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_smoke_DummyClass_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_smoke_DummyInterface_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_DummyInterface_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_create_handle');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_create_handle'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_release_handle');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_release_handle'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_put');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_put'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_release_handle');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_release_handle'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_is_valid');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_is_valid'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_increment');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_increment'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_key');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_key'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_value');
+>('library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_DummyInterface_toFfi(Map<int, DummyInterface> value) {
   final _result = _foobar_MapOf_Int_to_smoke_DummyInterface_create_handle();
   for (final entry in value.entries) {
@@ -1913,18 +1913,18 @@ Map<int, DummyInterface> foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi(Pointe
   return result;
 }
 void foobar_MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_smoke_DummyInterface_release_handle(handle);
-final _foobar_MapOf_Int_to_smoke_DummyInterface_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_DummyInterface_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_create_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_create_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_release_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_release_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_DummyInterface_toFfi_nullable(Map<int, DummyInterface> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_DummyInterface_toFfi(value);
@@ -1941,42 +1941,42 @@ Map<int, DummyInterface> foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi_nullab
 }
 void foobar_MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_smoke_DummyInterface_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Uint32),
     void Function(Pointer<Void>, int, int)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value');
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(Map<int, GenericTypesWithCompoundTypes_ExternalEnum> value) {
   final _result = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle();
   for (final entry in value.entries) {
@@ -2007,18 +2007,18 @@ Map<int, GenericTypesWithCompoundTypes_ExternalEnum> foobar_MapOf_Int_to_smoke_G
   return result;
 }
 void foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(handle);
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(Map<int, GenericTypesWithCompoundTypes_ExternalEnum> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
@@ -2035,42 +2035,42 @@ Map<int, GenericTypesWithCompoundTypes_ExternalEnum> foobar_MapOf_Int_to_smoke_G
 }
 void foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(handle);
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Uint32),
     void Function(Pointer<Void>, int, int)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value');
+>('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(Map<int, GenericTypesWithCompoundTypes_SomeEnum> value) {
   final _result = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle();
   for (final entry in value.entries) {
@@ -2101,18 +2101,18 @@ Map<int, GenericTypesWithCompoundTypes_SomeEnum> foobar_MapOf_Int_to_smoke_Gener
   return result;
 }
 void foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(handle);
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable');
-final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable'));
+final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable');
+  >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable'));
 Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(Map<int, GenericTypesWithCompoundTypes_SomeEnum> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);
@@ -2129,42 +2129,42 @@ Map<int, GenericTypesWithCompoundTypes_SomeEnum> foobar_MapOf_Int_to_smoke_Gener
 }
 void foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(handle);
-final _foobar_MapOf_String_to_String_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_String_to_String_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_String_to_String_create_handle');
-final _foobar_MapOf_String_to_String_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_String_create_handle'));
+final _foobar_MapOf_String_to_String_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_String_release_handle');
-final _foobar_MapOf_String_to_String_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_String_release_handle'));
+final _foobar_MapOf_String_to_String_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_foobar_MapOf_String_to_String_put');
-final _foobar_MapOf_String_to_String_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_String_put'));
+final _foobar_MapOf_String_to_String_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_String_iterator');
-final _foobar_MapOf_String_to_String_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_String_iterator'));
+final _foobar_MapOf_String_to_String_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_String_iterator_release_handle');
-final _foobar_MapOf_String_to_String_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_String_iterator_release_handle'));
+final _foobar_MapOf_String_to_String_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_String_to_String_iterator_is_valid');
-final _foobar_MapOf_String_to_String_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_String_iterator_is_valid'));
+final _foobar_MapOf_String_to_String_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_String_iterator_increment');
-final _foobar_MapOf_String_to_String_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_String_iterator_increment'));
+final _foobar_MapOf_String_to_String_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_String_iterator_get_key');
-final _foobar_MapOf_String_to_String_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_String_iterator_get_key'));
+final _foobar_MapOf_String_to_String_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_String_iterator_get_value');
+>('library_foobar_MapOf_String_to_String_iterator_get_value'));
 Pointer<Void> foobar_MapOf_String_to_String_toFfi(Map<String, String> value) {
   final _result = _foobar_MapOf_String_to_String_create_handle();
   for (final entry in value.entries) {
@@ -2195,18 +2195,18 @@ Map<String, String> foobar_MapOf_String_to_String_fromFfi(Pointer<Void> handle) 
   return result;
 }
 void foobar_MapOf_String_to_String_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_String_to_String_release_handle(handle);
-final _foobar_MapOf_String_to_String_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_String_to_String_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_String_create_handle_nullable');
-final _foobar_MapOf_String_to_String_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_String_create_handle_nullable'));
+final _foobar_MapOf_String_to_String_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_String_release_handle_nullable');
-final _foobar_MapOf_String_to_String_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_String_release_handle_nullable'));
+final _foobar_MapOf_String_to_String_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_String_get_value_nullable');
+  >('library_foobar_MapOf_String_to_String_get_value_nullable'));
 Pointer<Void> foobar_MapOf_String_to_String_toFfi_nullable(Map<String, String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_String_to_String_toFfi(value);
@@ -2223,42 +2223,42 @@ Map<String, String> foobar_MapOf_String_to_String_fromFfi_nullable(Pointer<Void>
 }
 void foobar_MapOf_String_to_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_String_to_String_release_handle_nullable(handle);
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_put');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_put'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value');
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value'));
 Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(Map<String, GenericTypesWithCompoundTypes_BasicStruct> value) {
   final _result = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle();
   for (final entry in value.entries) {
@@ -2289,18 +2289,18 @@ Map<String, GenericTypesWithCompoundTypes_BasicStruct> foobar_MapOf_String_to_sm
   return result;
 }
 void foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(handle);
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable');
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable'));
 Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(Map<String, GenericTypesWithCompoundTypes_BasicStruct> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(value);
@@ -2317,42 +2317,42 @@ Map<String, GenericTypesWithCompoundTypes_BasicStruct> foobar_MapOf_String_to_sm
 }
 void foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable(handle);
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value');
+>('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value'));
 Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(Map<String, GenericTypesWithCompoundTypes_ExternalStruct> value) {
   final _result = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle();
   for (final entry in value.entries) {
@@ -2383,18 +2383,18 @@ Map<String, GenericTypesWithCompoundTypes_ExternalStruct> foobar_MapOf_String_to
   return result;
 }
 void foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(handle);
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable');
-final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable'));
+final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable');
+  >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable'));
 Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(Map<String, GenericTypesWithCompoundTypes_ExternalStruct> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(value);
@@ -2411,42 +2411,42 @@ Map<String, GenericTypesWithCompoundTypes_ExternalStruct> foobar_MapOf_String_to
 }
 void foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable(handle);
-final _foobar_MapOf_UByte_to_String_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_UByte_to_String_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_UByte_to_String_create_handle');
-final _foobar_MapOf_UByte_to_String_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_UByte_to_String_create_handle'));
+final _foobar_MapOf_UByte_to_String_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_UByte_to_String_release_handle');
-final _foobar_MapOf_UByte_to_String_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_UByte_to_String_release_handle'));
+final _foobar_MapOf_UByte_to_String_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint8, Pointer<Void>),
     void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_UByte_to_String_put');
-final _foobar_MapOf_UByte_to_String_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_UByte_to_String_put'));
+final _foobar_MapOf_UByte_to_String_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_UByte_to_String_iterator');
-final _foobar_MapOf_UByte_to_String_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_UByte_to_String_iterator'));
+final _foobar_MapOf_UByte_to_String_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_UByte_to_String_iterator_release_handle');
-final _foobar_MapOf_UByte_to_String_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_UByte_to_String_iterator_release_handle'));
+final _foobar_MapOf_UByte_to_String_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_UByte_to_String_iterator_is_valid');
-final _foobar_MapOf_UByte_to_String_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_UByte_to_String_iterator_is_valid'));
+final _foobar_MapOf_UByte_to_String_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_UByte_to_String_iterator_increment');
-final _foobar_MapOf_UByte_to_String_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_UByte_to_String_iterator_increment'));
+final _foobar_MapOf_UByte_to_String_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_UByte_to_String_iterator_get_key');
-final _foobar_MapOf_UByte_to_String_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_UByte_to_String_iterator_get_key'));
+final _foobar_MapOf_UByte_to_String_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_UByte_to_String_iterator_get_value');
+>('library_foobar_MapOf_UByte_to_String_iterator_get_value'));
 Pointer<Void> foobar_MapOf_UByte_to_String_toFfi(Map<int, String> value) {
   final _result = _foobar_MapOf_UByte_to_String_create_handle();
   for (final entry in value.entries) {
@@ -2477,18 +2477,18 @@ Map<int, String> foobar_MapOf_UByte_to_String_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_MapOf_UByte_to_String_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_UByte_to_String_release_handle(handle);
-final _foobar_MapOf_UByte_to_String_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_UByte_to_String_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_UByte_to_String_create_handle_nullable');
-final _foobar_MapOf_UByte_to_String_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_UByte_to_String_create_handle_nullable'));
+final _foobar_MapOf_UByte_to_String_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_UByte_to_String_release_handle_nullable');
-final _foobar_MapOf_UByte_to_String_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_UByte_to_String_release_handle_nullable'));
+final _foobar_MapOf_UByte_to_String_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_UByte_to_String_get_value_nullable');
+  >('library_foobar_MapOf_UByte_to_String_get_value_nullable'));
 Pointer<Void> foobar_MapOf_UByte_to_String_toFfi_nullable(Map<int, String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_UByte_to_String_toFfi(value);
@@ -2505,42 +2505,42 @@ Map<int, String> foobar_MapOf_UByte_to_String_fromFfi_nullable(Pointer<Void> han
 }
 void foobar_MapOf_UByte_to_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_UByte_to_String_release_handle_nullable(handle);
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>, Uint8),
     void Function(Pointer<Void>, Pointer<Void>, int)
-  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_put');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_put'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_increment');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_increment'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_key');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_foobar_ListOf_Int_to_Boolean_toFfi(Map<List<int>, bool> value) {
   final _result = _foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -2571,18 +2571,18 @@ Map<List<int>, bool> foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi(Pointer<V
   return result;
 }
 void foobar_MapOf_foobar_ListOf_Int_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle(handle);
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_foobar_ListOf_Int_to_Boolean_toFfi_nullable(Map<List<int>, bool> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_foobar_ListOf_Int_to_Boolean_toFfi(value);
@@ -2599,42 +2599,42 @@ Map<List<int>, bool> foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi_nullable(
 }
 void foobar_MapOf_foobar_ListOf_Int_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle_nullable(handle);
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>, Uint8),
     void Function(Pointer<Void>, Pointer<Void>, int)
-  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_put');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_put'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_increment');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_increment'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_key');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_toFfi(Map<Map<int, bool>, bool> value) {
   final _result = _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -2665,18 +2665,18 @@ Map<Map<int, bool>, bool> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fr
   return result;
 }
 void foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle(handle);
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_toFfi_nullable(Map<Map<int, bool>, bool> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_toFfi(value);
@@ -2693,42 +2693,42 @@ Map<Map<int, bool>, bool> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fr
 }
 void foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle_nullable(handle);
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>, Uint8),
     void Function(Pointer<Void>, Pointer<Void>, int)
-  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_put');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_put'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_increment');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_increment'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_key');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_foobar_SetOf_Int_to_Boolean_toFfi(Map<Set<int>, bool> value) {
   final _result = _foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -2759,18 +2759,18 @@ Map<Set<int>, bool> foobar_MapOf_foobar_SetOf_Int_to_Boolean_fromFfi(Pointer<Voi
   return result;
 }
 void foobar_MapOf_foobar_SetOf_Int_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle(handle);
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_foobar_SetOf_Int_to_Boolean_toFfi_nullable(Map<Set<int>, bool> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_foobar_SetOf_Int_to_Boolean_toFfi(value);
@@ -2787,42 +2787,42 @@ Map<Set<int>, bool> foobar_MapOf_foobar_SetOf_Int_to_Boolean_fromFfi_nullable(Po
 }
 void foobar_MapOf_foobar_SetOf_Int_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle_nullable(handle);
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32, Uint8),
     void Function(Pointer<Void>, int, int)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_put');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_put'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_toFfi(Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> value) {
   final _result = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -2853,18 +2853,18 @@ Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> foobar_MapOf_smoke_Generic
   return result;
 }
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle(handle);
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_toFfi_nullable(Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_toFfi(value);
@@ -2881,42 +2881,42 @@ Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> foobar_MapOf_smoke_Generic
 }
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle_nullable(handle);
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32, Uint8),
     void Function(Pointer<Void>, int, int)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value');
+>('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value'));
 Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> value) {
   final _result = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle();
   for (final entry in value.entries) {
@@ -2947,18 +2947,18 @@ Map<GenericTypesWithCompoundTypes_SomeEnum, bool> foobar_MapOf_smoke_GenericType
   return result;
 }
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle(handle);
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle_nullable');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle_nullable'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle_nullable');
-final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle_nullable'));
+final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable');
+  >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi_nullable(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi(value);
@@ -2975,38 +2975,38 @@ Map<GenericTypesWithCompoundTypes_SomeEnum, bool> foobar_MapOf_smoke_GenericType
 }
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle_nullable(handle);
-final _foobar_SetOf_Float_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_Float_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_Float_create_handle');
-final _foobar_SetOf_Float_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Float_create_handle'));
+final _foobar_SetOf_Float_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_Float_release_handle');
-final _foobar_SetOf_Float_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Float_release_handle'));
+final _foobar_SetOf_Float_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Float),
     void Function(Pointer<Void>, double)
-  >('library_foobar_SetOf_Float_insert');
-final _foobar_SetOf_Float_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Float_insert'));
+final _foobar_SetOf_Float_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_Float_iterator');
-final _foobar_SetOf_Float_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Float_iterator'));
+final _foobar_SetOf_Float_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_Float_iterator_release_handle');
-final _foobar_SetOf_Float_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Float_iterator_release_handle'));
+final _foobar_SetOf_Float_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_Float_iterator_is_valid');
-final _foobar_SetOf_Float_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Float_iterator_is_valid'));
+final _foobar_SetOf_Float_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_Float_iterator_increment');
-final _foobar_SetOf_Float_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Float_iterator_increment'));
+final _foobar_SetOf_Float_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
->('library_foobar_SetOf_Float_iterator_get');
+>('library_foobar_SetOf_Float_iterator_get'));
 Pointer<Void> foobar_SetOf_Float_toFfi(Set<double> value) {
   final _result = _foobar_SetOf_Float_create_handle();
   for (final element in value) {
@@ -3032,18 +3032,18 @@ Set<double> foobar_SetOf_Float_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_SetOf_Float_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_Float_release_handle(handle);
-final _foobar_SetOf_Float_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_Float_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_Float_create_handle_nullable');
-final _foobar_SetOf_Float_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Float_create_handle_nullable'));
+final _foobar_SetOf_Float_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_Float_release_handle_nullable');
-final _foobar_SetOf_Float_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Float_release_handle_nullable'));
+final _foobar_SetOf_Float_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_Float_get_value_nullable');
+  >('library_foobar_SetOf_Float_get_value_nullable'));
 Pointer<Void> foobar_SetOf_Float_toFfi_nullable(Set<double> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_Float_toFfi(value);
@@ -3060,38 +3060,38 @@ Set<double> foobar_SetOf_Float_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_SetOf_Float_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_Float_release_handle_nullable(handle);
-final _foobar_SetOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_Int_create_handle');
-final _foobar_SetOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Int_create_handle'));
+final _foobar_SetOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_Int_release_handle');
-final _foobar_SetOf_Int_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Int_release_handle'));
+final _foobar_SetOf_Int_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32),
     void Function(Pointer<Void>, int)
-  >('library_foobar_SetOf_Int_insert');
-final _foobar_SetOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Int_insert'));
+final _foobar_SetOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_Int_iterator');
-final _foobar_SetOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Int_iterator'));
+final _foobar_SetOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_Int_iterator_release_handle');
-final _foobar_SetOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Int_iterator_release_handle'));
+final _foobar_SetOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_Int_iterator_is_valid');
-final _foobar_SetOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Int_iterator_is_valid'));
+final _foobar_SetOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_Int_iterator_increment');
-final _foobar_SetOf_Int_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_Int_iterator_increment'));
+final _foobar_SetOf_Int_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_SetOf_Int_iterator_get');
+>('library_foobar_SetOf_Int_iterator_get'));
 Pointer<Void> foobar_SetOf_Int_toFfi(Set<int> value) {
   final _result = _foobar_SetOf_Int_create_handle();
   for (final element in value) {
@@ -3117,18 +3117,18 @@ Set<int> foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_SetOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_Int_release_handle(handle);
-final _foobar_SetOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_Int_create_handle_nullable');
-final _foobar_SetOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Int_create_handle_nullable'));
+final _foobar_SetOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_Int_release_handle_nullable');
-final _foobar_SetOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_Int_release_handle_nullable'));
+final _foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_Int_get_value_nullable');
+  >('library_foobar_SetOf_Int_get_value_nullable'));
 Pointer<Void> foobar_SetOf_Int_toFfi_nullable(Set<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_Int_toFfi(value);
@@ -3145,38 +3145,38 @@ Set<int> foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_SetOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_Int_release_handle_nullable(handle);
-final _foobar_SetOf_String_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_String_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_String_create_handle');
-final _foobar_SetOf_String_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_String_create_handle'));
+final _foobar_SetOf_String_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_String_release_handle');
-final _foobar_SetOf_String_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_String_release_handle'));
+final _foobar_SetOf_String_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_SetOf_String_insert');
-final _foobar_SetOf_String_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_String_insert'));
+final _foobar_SetOf_String_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_String_iterator');
-final _foobar_SetOf_String_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_String_iterator'));
+final _foobar_SetOf_String_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_String_iterator_release_handle');
-final _foobar_SetOf_String_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_String_iterator_release_handle'));
+final _foobar_SetOf_String_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_String_iterator_is_valid');
-final _foobar_SetOf_String_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_String_iterator_is_valid'));
+final _foobar_SetOf_String_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_String_iterator_increment');
-final _foobar_SetOf_String_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_String_iterator_increment'));
+final _foobar_SetOf_String_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_String_iterator_get');
+>('library_foobar_SetOf_String_iterator_get'));
 Pointer<Void> foobar_SetOf_String_toFfi(Set<String> value) {
   final _result = _foobar_SetOf_String_create_handle();
   for (final element in value) {
@@ -3202,18 +3202,18 @@ Set<String> foobar_SetOf_String_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_SetOf_String_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_String_release_handle(handle);
-final _foobar_SetOf_String_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_String_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_String_create_handle_nullable');
-final _foobar_SetOf_String_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_String_create_handle_nullable'));
+final _foobar_SetOf_String_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_String_release_handle_nullable');
-final _foobar_SetOf_String_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_String_release_handle_nullable'));
+final _foobar_SetOf_String_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_String_get_value_nullable');
+  >('library_foobar_SetOf_String_get_value_nullable'));
 Pointer<Void> foobar_SetOf_String_toFfi_nullable(Set<String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_String_toFfi(value);
@@ -3230,38 +3230,38 @@ Set<String> foobar_SetOf_String_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_SetOf_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_String_release_handle_nullable(handle);
-final _foobar_SetOf_UByte_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_UByte_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_UByte_create_handle');
-final _foobar_SetOf_UByte_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_UByte_create_handle'));
+final _foobar_SetOf_UByte_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_UByte_release_handle');
-final _foobar_SetOf_UByte_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_UByte_release_handle'));
+final _foobar_SetOf_UByte_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint8),
     void Function(Pointer<Void>, int)
-  >('library_foobar_SetOf_UByte_insert');
-final _foobar_SetOf_UByte_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_UByte_insert'));
+final _foobar_SetOf_UByte_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_UByte_iterator');
-final _foobar_SetOf_UByte_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_UByte_iterator'));
+final _foobar_SetOf_UByte_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_UByte_iterator_release_handle');
-final _foobar_SetOf_UByte_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_UByte_iterator_release_handle'));
+final _foobar_SetOf_UByte_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_UByte_iterator_is_valid');
-final _foobar_SetOf_UByte_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_UByte_iterator_is_valid'));
+final _foobar_SetOf_UByte_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_UByte_iterator_increment');
-final _foobar_SetOf_UByte_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_UByte_iterator_increment'));
+final _foobar_SetOf_UByte_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_SetOf_UByte_iterator_get');
+>('library_foobar_SetOf_UByte_iterator_get'));
 Pointer<Void> foobar_SetOf_UByte_toFfi(Set<int> value) {
   final _result = _foobar_SetOf_UByte_create_handle();
   for (final element in value) {
@@ -3287,18 +3287,18 @@ Set<int> foobar_SetOf_UByte_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_SetOf_UByte_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_UByte_release_handle(handle);
-final _foobar_SetOf_UByte_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_UByte_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_UByte_create_handle_nullable');
-final _foobar_SetOf_UByte_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_UByte_create_handle_nullable'));
+final _foobar_SetOf_UByte_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_UByte_release_handle_nullable');
-final _foobar_SetOf_UByte_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_UByte_release_handle_nullable'));
+final _foobar_SetOf_UByte_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_UByte_get_value_nullable');
+  >('library_foobar_SetOf_UByte_get_value_nullable'));
 Pointer<Void> foobar_SetOf_UByte_toFfi_nullable(Set<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_UByte_toFfi(value);
@@ -3315,38 +3315,38 @@ Set<int> foobar_SetOf_UByte_fromFfi_nullable(Pointer<Void> handle) {
 }
 void foobar_SetOf_UByte_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_UByte_release_handle_nullable(handle);
-final _foobar_SetOf_foobar_ListOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_foobar_ListOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_foobar_ListOf_Int_create_handle');
-final _foobar_SetOf_foobar_ListOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_ListOf_Int_create_handle'));
+final _foobar_SetOf_foobar_ListOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_ListOf_Int_release_handle');
-final _foobar_SetOf_foobar_ListOf_Int_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_ListOf_Int_release_handle'));
+final _foobar_SetOf_foobar_ListOf_Int_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_SetOf_foobar_ListOf_Int_insert');
-final _foobar_SetOf_foobar_ListOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_ListOf_Int_insert'));
+final _foobar_SetOf_foobar_ListOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_ListOf_Int_iterator');
-final _foobar_SetOf_foobar_ListOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_ListOf_Int_iterator'));
+final _foobar_SetOf_foobar_ListOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_ListOf_Int_iterator_release_handle');
-final _foobar_SetOf_foobar_ListOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_ListOf_Int_iterator_release_handle'));
+final _foobar_SetOf_foobar_ListOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_foobar_ListOf_Int_iterator_is_valid');
-final _foobar_SetOf_foobar_ListOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_ListOf_Int_iterator_is_valid'));
+final _foobar_SetOf_foobar_ListOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_ListOf_Int_iterator_increment');
-final _foobar_SetOf_foobar_ListOf_Int_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_ListOf_Int_iterator_increment'));
+final _foobar_SetOf_foobar_ListOf_Int_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_ListOf_Int_iterator_get');
+>('library_foobar_SetOf_foobar_ListOf_Int_iterator_get'));
 Pointer<Void> foobar_SetOf_foobar_ListOf_Int_toFfi(Set<List<int>> value) {
   final _result = _foobar_SetOf_foobar_ListOf_Int_create_handle();
   for (final element in value) {
@@ -3372,18 +3372,18 @@ Set<List<int>> foobar_SetOf_foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_SetOf_foobar_ListOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_foobar_ListOf_Int_release_handle(handle);
-final _foobar_SetOf_foobar_ListOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_foobar_ListOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_ListOf_Int_create_handle_nullable');
-final _foobar_SetOf_foobar_ListOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_ListOf_Int_create_handle_nullable'));
+final _foobar_SetOf_foobar_ListOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_ListOf_Int_release_handle_nullable');
-final _foobar_SetOf_foobar_ListOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_ListOf_Int_release_handle_nullable'));
+final _foobar_SetOf_foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_ListOf_Int_get_value_nullable');
+  >('library_foobar_SetOf_foobar_ListOf_Int_get_value_nullable'));
 Pointer<Void> foobar_SetOf_foobar_ListOf_Int_toFfi_nullable(Set<List<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_foobar_ListOf_Int_toFfi(value);
@@ -3400,38 +3400,38 @@ Set<List<int>> foobar_SetOf_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> han
 }
 void foobar_SetOf_foobar_ListOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_foobar_ListOf_Int_release_handle_nullable(handle);
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_insert');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_insert'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_increment');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_increment'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_get');
+>('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_get'));
 Pointer<Void> foobar_SetOf_foobar_MapOf_Int_to_Boolean_toFfi(Set<Map<int, bool>> value) {
   final _result = _foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle();
   for (final element in value) {
@@ -3457,18 +3457,18 @@ Set<Map<int, bool>> foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<Voi
   return result;
 }
 void foobar_SetOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle(handle);
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable');
-final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable'));
+final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable');
+  >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
 Pointer<Void> foobar_SetOf_foobar_MapOf_Int_to_Boolean_toFfi_nullable(Set<Map<int, bool>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_foobar_MapOf_Int_to_Boolean_toFfi(value);
@@ -3485,38 +3485,38 @@ Set<Map<int, bool>> foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Po
 }
 void foobar_SetOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable(handle);
-final _foobar_SetOf_foobar_SetOf_Int_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_foobar_SetOf_Int_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_foobar_SetOf_Int_create_handle');
-final _foobar_SetOf_foobar_SetOf_Int_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_SetOf_Int_create_handle'));
+final _foobar_SetOf_foobar_SetOf_Int_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_SetOf_Int_release_handle');
-final _foobar_SetOf_foobar_SetOf_Int_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_SetOf_Int_release_handle'));
+final _foobar_SetOf_foobar_SetOf_Int_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Pointer<Void>),
     void Function(Pointer<Void>, Pointer<Void>)
-  >('library_foobar_SetOf_foobar_SetOf_Int_insert');
-final _foobar_SetOf_foobar_SetOf_Int_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_SetOf_Int_insert'));
+final _foobar_SetOf_foobar_SetOf_Int_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_SetOf_Int_iterator');
-final _foobar_SetOf_foobar_SetOf_Int_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_SetOf_Int_iterator'));
+final _foobar_SetOf_foobar_SetOf_Int_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_SetOf_Int_iterator_release_handle');
-final _foobar_SetOf_foobar_SetOf_Int_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_SetOf_Int_iterator_release_handle'));
+final _foobar_SetOf_foobar_SetOf_Int_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_foobar_SetOf_Int_iterator_is_valid');
-final _foobar_SetOf_foobar_SetOf_Int_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_SetOf_Int_iterator_is_valid'));
+final _foobar_SetOf_foobar_SetOf_Int_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_SetOf_Int_iterator_increment');
-final _foobar_SetOf_foobar_SetOf_Int_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_foobar_SetOf_Int_iterator_increment'));
+final _foobar_SetOf_foobar_SetOf_Int_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_foobar_SetOf_Int_iterator_get');
+>('library_foobar_SetOf_foobar_SetOf_Int_iterator_get'));
 Pointer<Void> foobar_SetOf_foobar_SetOf_Int_toFfi(Set<Set<int>> value) {
   final _result = _foobar_SetOf_foobar_SetOf_Int_create_handle();
   for (final element in value) {
@@ -3542,18 +3542,18 @@ Set<Set<int>> foobar_SetOf_foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
   return result;
 }
 void foobar_SetOf_foobar_SetOf_Int_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_foobar_SetOf_Int_release_handle(handle);
-final _foobar_SetOf_foobar_SetOf_Int_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_foobar_SetOf_Int_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_SetOf_Int_create_handle_nullable');
-final _foobar_SetOf_foobar_SetOf_Int_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_SetOf_Int_create_handle_nullable'));
+final _foobar_SetOf_foobar_SetOf_Int_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_SetOf_Int_release_handle_nullable');
-final _foobar_SetOf_foobar_SetOf_Int_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_foobar_SetOf_Int_release_handle_nullable'));
+final _foobar_SetOf_foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_foobar_SetOf_Int_get_value_nullable');
+  >('library_foobar_SetOf_foobar_SetOf_Int_get_value_nullable'));
 Pointer<Void> foobar_SetOf_foobar_SetOf_Int_toFfi_nullable(Set<Set<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_foobar_SetOf_Int_toFfi(value);
@@ -3570,38 +3570,38 @@ Set<Set<int>> foobar_SetOf_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handl
 }
 void foobar_SetOf_foobar_SetOf_Int_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_foobar_SetOf_Int_release_handle_nullable(handle);
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32),
     void Function(Pointer<Void>, int)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get');
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get'));
 Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(Set<GenericTypesWithCompoundTypes_ExternalEnum> value) {
   final _result = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle();
   for (final element in value) {
@@ -3627,18 +3627,18 @@ Set<GenericTypesWithCompoundTypes_ExternalEnum> foobar_SetOf_smoke_GenericTypesW
   return result;
 }
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(handle);
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable');
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable'));
 Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(Set<GenericTypesWithCompoundTypes_ExternalEnum> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
@@ -3655,38 +3655,38 @@ Set<GenericTypesWithCompoundTypes_ExternalEnum> foobar_SetOf_smoke_GenericTypesW
 }
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(handle);
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Uint32),
     void Function(Pointer<Void>, int)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get = __lib.nativeLibrary.lookupFunction<
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get');
+>('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get'));
 Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(Set<GenericTypesWithCompoundTypes_SomeEnum> value) {
   final _result = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle();
   for (final element in value) {
@@ -3712,18 +3712,18 @@ Set<GenericTypesWithCompoundTypes_SomeEnum> foobar_SetOf_smoke_GenericTypesWithC
   return result;
 }
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(Pointer<Void> handle) => _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(handle);
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable');
-final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable'));
+final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable');
+  >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable'));
 Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(Set<GenericTypesWithCompoundTypes_SomeEnum> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);

@@ -16,18 +16,18 @@ abstract class SpecialNames {
   Uppercase();
 }
 // SpecialNames "private" section, not exported.
-final _smoke_SpecialNames_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SpecialNames_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SpecialNames_copy_handle');
-final _smoke_SpecialNames_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SpecialNames_copy_handle'));
+final _smoke_SpecialNames_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SpecialNames_release_handle');
-final _smoke_SpecialNames_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SpecialNames_release_handle'));
+final _smoke_SpecialNames_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SpecialNames_get_raw_pointer');
+    >('library_smoke_SpecialNames_get_raw_pointer'));
 class SpecialNames$Impl implements SpecialNames {
   @protected
   Pointer<Void> handle;
@@ -41,7 +41,7 @@ class SpecialNames$Impl implements SpecialNames {
   }
   @override
   create() {
-    final _create_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create');
+    final _create_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create'));
     final _handle = this.handle;
     final __result_handle = _create_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -52,7 +52,7 @@ class SpecialNames$Impl implements SpecialNames {
   }
   @override
   reallyRelease() {
-    final _reallyRelease_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_release');
+    final _reallyRelease_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_release'));
     final _handle = this.handle;
     final __result_handle = _reallyRelease_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -63,7 +63,7 @@ class SpecialNames$Impl implements SpecialNames {
   }
   @override
   createProxy() {
-    final _createProxy_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_createProxy');
+    final _createProxy_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_createProxy'));
     final _handle = this.handle;
     final __result_handle = _createProxy_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -74,7 +74,7 @@ class SpecialNames$Impl implements SpecialNames {
   }
   @override
   Uppercase() {
-    final _Uppercase_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase');
+    final _Uppercase_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase'));
     final _handle = this.handle;
     final __result_handle = _Uppercase_ffi(_handle, __lib.LibraryContext.isolateId);
     try {

@@ -21,18 +21,18 @@ abstract class UseDartExternalTypes {
   static String seasonRoundTrip(String input) => UseDartExternalTypes$Impl.seasonRoundTrip(input);
 }
 // UseDartExternalTypes "private" section, not exported.
-final _smoke_UseDartExternalTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_UseDartExternalTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_UseDartExternalTypes_copy_handle');
-final _smoke_UseDartExternalTypes_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseDartExternalTypes_copy_handle'));
+final _smoke_UseDartExternalTypes_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_UseDartExternalTypes_release_handle');
-final _smoke_UseDartExternalTypes_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_UseDartExternalTypes_release_handle'));
+final _smoke_UseDartExternalTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_UseDartExternalTypes_get_raw_pointer');
+    >('library_smoke_UseDartExternalTypes_get_raw_pointer'));
 class UseDartExternalTypes$Impl implements UseDartExternalTypes {
   @protected
   Pointer<Void> handle;
@@ -45,7 +45,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
     handle = null;
   }
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
-    final _rectangleRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle');
+    final _rectangleRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
     final _input_handle = smoke_Rectangle_toFfi(input);
     final __result_handle = _rectangleRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Rectangle_releaseFfiHandle(_input_handle);
@@ -56,7 +56,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
     }
   }
   static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) {
-    final _compressionStateRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_compressionStateRoundTrip__CompressionState');
+    final _compressionStateRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_compressionStateRoundTrip__CompressionState'));
     final _input_handle = smoke_CompressionState_toFfi(input);
     final __result_handle = _compressionStateRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_CompressionState_releaseFfiHandle(_input_handle);
@@ -67,7 +67,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
     }
   }
   static int colorRoundTrip(int input) {
-    final _colorRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_colorRoundTrip__DartColor');
+    final _colorRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_colorRoundTrip__DartColor'));
     final _input_handle = smoke_DartColor_toFfi(input);
     final __result_handle = _colorRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_DartColor_releaseFfiHandle(_input_handle);
@@ -78,7 +78,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
     }
   }
   static String seasonRoundTrip(String input) {
-    final _seasonRoundTrip_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_seasonRoundTrip__DartSeason');
+    final _seasonRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_seasonRoundTrip__DartSeason'));
     final _input_handle = smoke_DartSeason_toFfi(input);
     final __result_handle = _seasonRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_DartSeason_releaseFfiHandle(_input_handle);
