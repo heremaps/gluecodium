@@ -19,22 +19,22 @@ class StructConstants_SomeStruct {
   StructConstants_SomeStruct(this.stringField, this.floatField);
 }
 // StructConstants_SomeStruct "private" section, not exported.
-final _smoke_StructConstants_SomeStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructConstants_SomeStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Float),
     Pointer<Void> Function(Pointer<Void>, double)
-  >('library_smoke_StructConstants_SomeStruct_create_handle');
-final _smoke_StructConstants_SomeStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_SomeStruct_create_handle'));
+final _smoke_StructConstants_SomeStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructConstants_SomeStruct_release_handle');
-final _smoke_StructConstants_SomeStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_SomeStruct_release_handle'));
+final _smoke_StructConstants_SomeStruct_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_SomeStruct_get_field_stringField');
-final _smoke_StructConstants_SomeStruct_get_field_floatField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_SomeStruct_get_field_stringField'));
+final _smoke_StructConstants_SomeStruct_get_field_floatField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_StructConstants_SomeStruct_get_field_floatField');
+  >('library_smoke_StructConstants_SomeStruct_get_field_floatField'));
 Pointer<Void> smoke_StructConstants_SomeStruct_toFfi(StructConstants_SomeStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _floatField_handle = (value.floatField);
@@ -58,18 +58,18 @@ StructConstants_SomeStruct smoke_StructConstants_SomeStruct_fromFfi(Pointer<Void
 }
 void smoke_StructConstants_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructConstants_SomeStruct_release_handle(handle);
 // Nullable StructConstants_SomeStruct
-final _smoke_StructConstants_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructConstants_SomeStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_SomeStruct_create_handle_nullable');
-final _smoke_StructConstants_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_SomeStruct_create_handle_nullable'));
+final _smoke_StructConstants_SomeStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructConstants_SomeStruct_release_handle_nullable');
-final _smoke_StructConstants_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_SomeStruct_release_handle_nullable'));
+final _smoke_StructConstants_SomeStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_SomeStruct_get_value_nullable');
+  >('library_smoke_StructConstants_SomeStruct_get_value_nullable'));
 Pointer<Void> smoke_StructConstants_SomeStruct_toFfi_nullable(StructConstants_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructConstants_SomeStruct_toFfi(value);
@@ -92,18 +92,18 @@ class StructConstants_NestingStruct {
   StructConstants_NestingStruct(this.structField);
 }
 // StructConstants_NestingStruct "private" section, not exported.
-final _smoke_StructConstants_NestingStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructConstants_NestingStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_NestingStruct_create_handle');
-final _smoke_StructConstants_NestingStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_NestingStruct_create_handle'));
+final _smoke_StructConstants_NestingStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructConstants_NestingStruct_release_handle');
-final _smoke_StructConstants_NestingStruct_get_field_structField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_NestingStruct_release_handle'));
+final _smoke_StructConstants_NestingStruct_get_field_structField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_NestingStruct_get_field_structField');
+  >('library_smoke_StructConstants_NestingStruct_get_field_structField'));
 Pointer<Void> smoke_StructConstants_NestingStruct_toFfi(StructConstants_NestingStruct value) {
   final _structField_handle = smoke_StructConstants_SomeStruct_toFfi(value.structField);
   final _result = _smoke_StructConstants_NestingStruct_create_handle(_structField_handle);
@@ -122,18 +122,18 @@ StructConstants_NestingStruct smoke_StructConstants_NestingStruct_fromFfi(Pointe
 }
 void smoke_StructConstants_NestingStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_StructConstants_NestingStruct_release_handle(handle);
 // Nullable StructConstants_NestingStruct
-final _smoke_StructConstants_NestingStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructConstants_NestingStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_NestingStruct_create_handle_nullable');
-final _smoke_StructConstants_NestingStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_NestingStruct_create_handle_nullable'));
+final _smoke_StructConstants_NestingStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructConstants_NestingStruct_release_handle_nullable');
-final _smoke_StructConstants_NestingStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_NestingStruct_release_handle_nullable'));
+final _smoke_StructConstants_NestingStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_NestingStruct_get_value_nullable');
+  >('library_smoke_StructConstants_NestingStruct_get_value_nullable'));
 Pointer<Void> smoke_StructConstants_NestingStruct_toFfi_nullable(StructConstants_NestingStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructConstants_NestingStruct_toFfi(value);
@@ -152,18 +152,18 @@ void smoke_StructConstants_NestingStruct_releaseFfiHandle_nullable(Pointer<Void>
   _smoke_StructConstants_NestingStruct_release_handle_nullable(handle);
 // End of StructConstants_NestingStruct "private" section.
 // StructConstants "private" section, not exported.
-final _smoke_StructConstants_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_StructConstants_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_StructConstants_copy_handle');
-final _smoke_StructConstants_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_copy_handle'));
+final _smoke_StructConstants_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_StructConstants_release_handle');
-final _smoke_StructConstants_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_StructConstants_release_handle'));
+final _smoke_StructConstants_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_StructConstants_get_raw_pointer');
+    >('library_smoke_StructConstants_get_raw_pointer'));
 class StructConstants$Impl implements StructConstants {
   @protected
   Pointer<Void> handle;

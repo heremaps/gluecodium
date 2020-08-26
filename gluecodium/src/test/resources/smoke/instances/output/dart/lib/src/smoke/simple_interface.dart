@@ -23,26 +23,26 @@ abstract class SimpleInterface {
   SimpleInterface useSimpleInterface(SimpleInterface input);
 }
 // SimpleInterface "private" section, not exported.
-final _smoke_SimpleInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SimpleInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SimpleInterface_copy_handle');
-final _smoke_SimpleInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SimpleInterface_copy_handle'));
+final _smoke_SimpleInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SimpleInterface_release_handle');
-final _smoke_SimpleInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SimpleInterface_release_handle'));
+final _smoke_SimpleInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
-  >('library_smoke_SimpleInterface_create_proxy');
-final _smoke_SimpleInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SimpleInterface_create_proxy'));
+final _smoke_SimpleInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SimpleInterface_get_raw_pointer');
-final _smoke_SimpleInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_SimpleInterface_get_raw_pointer'));
+final _smoke_SimpleInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SimpleInterface_get_type_id');
+  >('library_smoke_SimpleInterface_get_type_id'));
 class SimpleInterface$Lambdas implements SimpleInterface {
   String Function() lambda_getStringValue;
   SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface;
@@ -75,7 +75,7 @@ class SimpleInterface$Impl implements SimpleInterface {
   }
   @override
   String getStringValue() {
-    final _getStringValue_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue');
+    final _getStringValue_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue'));
     final _handle = this.handle;
     final __result_handle = _getStringValue_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -86,7 +86,7 @@ class SimpleInterface$Impl implements SimpleInterface {
   }
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) {
-    final _useSimpleInterface_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface');
+    final _useSimpleInterface_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface'));
     final _input_handle = smoke_SimpleInterface_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _useSimpleInterface_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);

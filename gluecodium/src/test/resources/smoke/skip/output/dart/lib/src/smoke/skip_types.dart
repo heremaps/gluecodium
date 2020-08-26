@@ -16,18 +16,18 @@ class SkipTypes_NotInJava {
   SkipTypes_NotInJava(this.fooField);
 }
 // SkipTypes_NotInJava "private" section, not exported.
-final _smoke_SkipTypes_NotInJava_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SkipTypes_NotInJava_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInJava_create_handle');
-final _smoke_SkipTypes_NotInJava_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInJava_create_handle'));
+final _smoke_SkipTypes_NotInJava_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInJava_release_handle');
-final _smoke_SkipTypes_NotInJava_get_field_fooField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInJava_release_handle'));
+final _smoke_SkipTypes_NotInJava_get_field_fooField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInJava_get_field_fooField');
+  >('library_smoke_SkipTypes_NotInJava_get_field_fooField'));
 Pointer<Void> smoke_SkipTypes_NotInJava_toFfi(SkipTypes_NotInJava value) {
   final _fooField_handle = String_toFfi(value.fooField);
   final _result = _smoke_SkipTypes_NotInJava_create_handle(_fooField_handle);
@@ -46,18 +46,18 @@ SkipTypes_NotInJava smoke_SkipTypes_NotInJava_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SkipTypes_NotInJava_releaseFfiHandle(Pointer<Void> handle) => _smoke_SkipTypes_NotInJava_release_handle(handle);
 // Nullable SkipTypes_NotInJava
-final _smoke_SkipTypes_NotInJava_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_SkipTypes_NotInJava_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInJava_create_handle_nullable');
-final _smoke_SkipTypes_NotInJava_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInJava_create_handle_nullable'));
+final _smoke_SkipTypes_NotInJava_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInJava_release_handle_nullable');
-final _smoke_SkipTypes_NotInJava_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInJava_release_handle_nullable'));
+final _smoke_SkipTypes_NotInJava_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInJava_get_value_nullable');
+  >('library_smoke_SkipTypes_NotInJava_get_value_nullable'));
 Pointer<Void> smoke_SkipTypes_NotInJava_toFfi_nullable(SkipTypes_NotInJava value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_SkipTypes_NotInJava_toFfi(value);
@@ -80,18 +80,18 @@ class SkipTypes_NotInSwift {
   SkipTypes_NotInSwift(this.fooField);
 }
 // SkipTypes_NotInSwift "private" section, not exported.
-final _smoke_SkipTypes_NotInSwift_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SkipTypes_NotInSwift_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInSwift_create_handle');
-final _smoke_SkipTypes_NotInSwift_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInSwift_create_handle'));
+final _smoke_SkipTypes_NotInSwift_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInSwift_release_handle');
-final _smoke_SkipTypes_NotInSwift_get_field_fooField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInSwift_release_handle'));
+final _smoke_SkipTypes_NotInSwift_get_field_fooField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInSwift_get_field_fooField');
+  >('library_smoke_SkipTypes_NotInSwift_get_field_fooField'));
 Pointer<Void> smoke_SkipTypes_NotInSwift_toFfi(SkipTypes_NotInSwift value) {
   final _fooField_handle = String_toFfi(value.fooField);
   final _result = _smoke_SkipTypes_NotInSwift_create_handle(_fooField_handle);
@@ -110,18 +110,18 @@ SkipTypes_NotInSwift smoke_SkipTypes_NotInSwift_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SkipTypes_NotInSwift_releaseFfiHandle(Pointer<Void> handle) => _smoke_SkipTypes_NotInSwift_release_handle(handle);
 // Nullable SkipTypes_NotInSwift
-final _smoke_SkipTypes_NotInSwift_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_SkipTypes_NotInSwift_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInSwift_create_handle_nullable');
-final _smoke_SkipTypes_NotInSwift_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInSwift_create_handle_nullable'));
+final _smoke_SkipTypes_NotInSwift_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInSwift_release_handle_nullable');
-final _smoke_SkipTypes_NotInSwift_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_NotInSwift_release_handle_nullable'));
+final _smoke_SkipTypes_NotInSwift_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_NotInSwift_get_value_nullable');
+  >('library_smoke_SkipTypes_NotInSwift_get_value_nullable'));
 Pointer<Void> smoke_SkipTypes_NotInSwift_toFfi_nullable(SkipTypes_NotInSwift value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_SkipTypes_NotInSwift_toFfi(value);
@@ -140,18 +140,18 @@ void smoke_SkipTypes_NotInSwift_releaseFfiHandle_nullable(Pointer<Void> handle) 
   _smoke_SkipTypes_NotInSwift_release_handle_nullable(handle);
 // End of SkipTypes_NotInSwift "private" section.
 // SkipTypes "private" section, not exported.
-final _smoke_SkipTypes_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_SkipTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_copy_handle');
-final _smoke_SkipTypes_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_copy_handle'));
+final _smoke_SkipTypes_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_SkipTypes_release_handle');
-final _smoke_SkipTypes_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_SkipTypes_release_handle'));
+final _smoke_SkipTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SkipTypes_get_raw_pointer');
+    >('library_smoke_SkipTypes_get_raw_pointer'));
 class SkipTypes$Impl implements SkipTypes {
   @protected
   Pointer<Void> handle;

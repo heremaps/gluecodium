@@ -68,6 +68,7 @@ import java.util.logging.Logger
 class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     private val libraryName = options.libraryName
+    private val lookupErrorMessage = options.dartLookupErrorMessage
     private val nameRules = NameRules(nameRuleSetFromConfig(options.dartNameRules))
     private val cppNameRules =
         CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
@@ -306,6 +307,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         }
         val templateData = mapOf(
             "libraryName" to libraryName,
+            "lookupErrorMessage" to lookupErrorMessage,
             "builtInTypes" to
                 LimeBasicType.TypeId.values().filterNot { it == LimeBasicType.TypeId.VOID },
             "typeRepositories" to typeRepositories.sortedBy { it.fullName },

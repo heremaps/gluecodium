@@ -23,22 +23,22 @@ typedef {{resolveName}} = {{>dart/DartLambdaType}};
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle');
-final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle'));
+final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
-final _{{resolveName "Ffi"}}_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
+final _{{resolveName "Ffi"}}_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy');
-final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy'));
+final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
+    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer'));
 
 class {{resolveName}}$Impl {
   Pointer<Void> get _handle => handle;

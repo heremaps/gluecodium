@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-final __are_equal = __lib.nativeLibrary.lookupFunction<
+final __are_equal = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_are_equal');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_are_equal'));

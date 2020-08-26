@@ -64,25 +64,25 @@ abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "Ffi"}}_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle');
-final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle'));
+final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
-final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
+final _{{resolveName "Ffi"}}_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer');
+    >('{{libraryName}}_{{resolveName "Ffi"}}_get_raw_pointer'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
 {{#if parent visibility.isOpen logic="or"}}
-final _{{resolveName "Ffi"}}_get_type_id = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id'));
 {{/if}}
 
 {{#functions}}
@@ -201,10 +201,10 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 {{/unless}}
 {{#if isStatic}}static {{/if}}{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
   if (!_is_cached_{{resolveName}}) {
-    final _{{resolveName getter}}_ffi = __lib.nativeLibrary.lookupFunction<{{!!
+    final _{{resolveName getter}}_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!
     }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!
     }}{{resolveName typeRef "FfiDartTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}int)>{{!!
-    }}('{{libraryName}}_{{resolveName getter "Ffi"}}');
+    }}('{{libraryName}}_{{resolveName getter "Ffi"}}'));
     final __result_handle = _{{resolveName getter}}_ffi({{!!
     }}{{#unless isStatic}}this.handle, {{/unless}}__lib.LibraryContext.isolateId);
     try {

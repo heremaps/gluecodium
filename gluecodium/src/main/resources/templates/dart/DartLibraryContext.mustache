@@ -42,22 +42,30 @@ String _getLibraryPath(String nativeLibraryName) {
   return 'lib${nativeLibraryName}.so';
 }
 
-final _library_callbacks_queue_init = nativeLibrary.lookupFunction<
+dynamic catchArgumentError(Function f) {
+  try {
+    return f();
+  } on ArgumentError catch (e) {
+    throw ArgumentError("{{lookupErrorMessage}}\n" + e.message);
+  }
+}
+
+final _library_callbacks_queue_init = catchArgumentError(() => nativeLibrary.lookupFunction<
     Int32 Function(Uint8),
     int Function(int)
-  >('{{libraryName}}_library_callbacks_queue_init');
-final _library_callbacks_queue_release = nativeLibrary.lookupFunction<
+  >('{{libraryName}}_library_callbacks_queue_init'));
+final _library_callbacks_queue_release = catchArgumentError(() => nativeLibrary.lookupFunction<
     Void Function(Int32),
     void Function(int)
-  >('{{libraryName}}_library_callbacks_queue_release');
-final _library_wait_for_callbacks = nativeLibrary.lookupFunction<
+  >('{{libraryName}}_library_callbacks_queue_release'));
+final _library_wait_for_callbacks = catchArgumentError(() => nativeLibrary.lookupFunction<
     Uint8 Function(Int32),
     int Function(int)
-  >('{{libraryName}}_library_wait_for_callbacks');
-final _library_execute_callbacks = nativeLibrary.lookupFunction<
+  >('{{libraryName}}_library_wait_for_callbacks'));
+final _library_execute_callbacks = catchArgumentError(() => nativeLibrary.lookupFunction<
     Void Function(Int32),
     void Function(int)
-  >('{{libraryName}}_library_execute_callbacks');
+  >('{{libraryName}}_library_execute_callbacks'));
 
 class _SentryIsolateMessage {
   _SentryIsolateMessage(this.port, this.isolateId, this.nativeLibraryPath);

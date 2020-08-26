@@ -19,18 +19,18 @@ abstract class InternalClassWithFunctions {
   internal_fooBar();
 }
 // InternalClassWithFunctions "private" section, not exported.
-final _smoke_InternalClassWithFunctions_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_InternalClassWithFunctions_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_InternalClassWithFunctions_copy_handle');
-final _smoke_InternalClassWithFunctions_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClassWithFunctions_copy_handle'));
+final _smoke_InternalClassWithFunctions_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_InternalClassWithFunctions_release_handle');
-final _smoke_InternalClassWithFunctions_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClassWithFunctions_release_handle'));
+final _smoke_InternalClassWithFunctions_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalClassWithFunctions_get_raw_pointer');
+    >('library_smoke_InternalClassWithFunctions_get_raw_pointer'));
 class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
   @protected
   Pointer<Void> handle;
@@ -50,7 +50,7 @@ class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
   }
   @override
   internal_fooBar() {
-    final _fooBar_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar');
+    final _fooBar_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar'));
     final _handle = this.handle;
     final __result_handle = _fooBar_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -60,12 +60,12 @@ class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
     }
   }
   static Pointer<Void> _make() {
-    final _make_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithFunctions_make');
+    final _make_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithFunctions_make'));
     final __result_handle = _make_ffi(__lib.LibraryContext.isolateId);
     return __result_handle;
   }
   static Pointer<Void> _remake(String foo) {
-    final _remake_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_InternalClassWithFunctions_make__String');
+    final _remake_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_InternalClassWithFunctions_make__String'));
     final _foo_handle = String_toFfi(foo);
     final __result_handle = _remake_ffi(__lib.LibraryContext.isolateId, _foo_handle);
     String_releaseFfiHandle(_foo_handle);

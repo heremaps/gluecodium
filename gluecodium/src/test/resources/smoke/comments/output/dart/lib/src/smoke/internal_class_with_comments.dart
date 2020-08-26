@@ -17,18 +17,18 @@ abstract class InternalClassWithComments {
   internal_doNothing();
 }
 // InternalClassWithComments "private" section, not exported.
-final _smoke_InternalClassWithComments_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_InternalClassWithComments_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_InternalClassWithComments_copy_handle');
-final _smoke_InternalClassWithComments_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClassWithComments_copy_handle'));
+final _smoke_InternalClassWithComments_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_InternalClassWithComments_release_handle');
-final _smoke_InternalClassWithComments_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_InternalClassWithComments_release_handle'));
+final _smoke_InternalClassWithComments_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalClassWithComments_get_raw_pointer');
+    >('library_smoke_InternalClassWithComments_get_raw_pointer'));
 class InternalClassWithComments$Impl implements InternalClassWithComments {
   @protected
   Pointer<Void> handle;
@@ -42,7 +42,7 @@ class InternalClassWithComments$Impl implements InternalClassWithComments {
   }
   @override
   internal_doNothing() {
-    final _doNothing_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing');
+    final _doNothing_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
     final _handle = this.handle;
     final __result_handle = _doNothing_ffi(_handle, __lib.LibraryContext.isolateId);
     try {

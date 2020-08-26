@@ -20,38 +20,38 @@ abstract class Class implements Interface {
   set property(Enum value);
 }
 // Class "private" section, not exported.
-final _package_Class_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _package_Class_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Class_copy_handle');
-final _package_Class_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Class_copy_handle'));
+final _package_Class_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Class_release_handle');
-final _package_Class_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Class_release_handle'));
+final _package_Class_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_package_Class_get_raw_pointer');
-final _package_Class_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_package_Class_get_raw_pointer'));
+final _package_Class_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Class_get_type_id');
-final _fun_return_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Class_get_type_id'));
+final _fun_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_release_handle');
-final _fun_return_get_result = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_release_handle'));
+final _fun_return_get_result = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_get_result');
-final _fun_return_get_error = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_get_result'));
+final _fun_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_get_error');
-final _fun_return_has_error = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_get_error'));
+final _fun_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_has_error');
+  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_has_error'));
 class Class$Impl implements Class {
   @protected
   Pointer<Void> handle;
@@ -67,13 +67,13 @@ class Class$Impl implements Class {
     __lib.reverseCache[_package_Class_get_raw_pointer(handle)] = this;
   }
   static Pointer<Void> _constructor() {
-    final _constructor_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor');
+    final _constructor_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));
     final __result_handle = _constructor_ffi(__lib.LibraryContext.isolateId);
     return __result_handle;
   }
   @override
   Struct fun(List<Struct> double) {
-    final _fun_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_1package_1Types_1Struct');
+    final _fun_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_1package_1Types_1Struct'));
     final _double_handle = ListOf_package_Types_Struct_toFfi(double);
     final _handle = this.handle;
     final __call_result_handle = _fun_ffi(_handle, __lib.LibraryContext.isolateId, _double_handle);
@@ -97,7 +97,7 @@ class Class$Impl implements Class {
   }
   @override
   Enum get property {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_package_Class_property_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_package_Class_property_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -108,7 +108,7 @@ class Class$Impl implements Class {
   }
   @override
   set property(Enum value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_package_Class_property_set__enum');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_package_Class_property_set__enum'));
     final _value_handle = package_Types_Enum_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);

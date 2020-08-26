@@ -26,18 +26,18 @@ werrEnum smoke_PlatformNames_BasicEnum_fromFfi(int handle) {
   }
 }
 void smoke_PlatformNames_BasicEnum_releaseFfiHandle(int handle) {}
-final _smoke_PlatformNames_BasicEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformNames_BasicEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_PlatformNames_BasicEnum_create_handle_nullable');
-final _smoke_PlatformNames_BasicEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNames_BasicEnum_create_handle_nullable'));
+final _smoke_PlatformNames_BasicEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicEnum_release_handle_nullable');
-final _smoke_PlatformNames_BasicEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNames_BasicEnum_release_handle_nullable'));
+final _smoke_PlatformNames_BasicEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicEnum_get_value_nullable');
+  >('library_smoke_PlatformNames_BasicEnum_get_value_nullable'));
 Pointer<Void> smoke_PlatformNames_BasicEnum_toFfi_nullable(werrEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformNames_BasicEnum_toFfi(value);
@@ -61,7 +61,7 @@ class weeStruct {
   weeStruct._copy(weeStruct _other) : this._(_other.WEE_FIELD);
   weeStruct(String WeeParameter) : this._copy(_WeeCreate(WeeParameter));
   static weeStruct _WeeCreate(String WeeParameter) {
-    final _WeeCreate_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String');
+    final _WeeCreate_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String'));
     final _WeeParameter_handle = String_toFfi(WeeParameter);
     final __result_handle = _WeeCreate_ffi(__lib.LibraryContext.isolateId, _WeeParameter_handle);
     String_releaseFfiHandle(_WeeParameter_handle);
@@ -73,18 +73,18 @@ class weeStruct {
   }
 }
 // weeStruct "private" section, not exported.
-final _smoke_PlatformNames_BasicStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformNames_BasicStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicStruct_create_handle');
-final _smoke_PlatformNames_BasicStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNames_BasicStruct_create_handle'));
+final _smoke_PlatformNames_BasicStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicStruct_release_handle');
-final _smoke_PlatformNames_BasicStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNames_BasicStruct_release_handle'));
+final _smoke_PlatformNames_BasicStruct_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicStruct_get_field_stringField');
+  >('library_smoke_PlatformNames_BasicStruct_get_field_stringField'));
 Pointer<Void> smoke_PlatformNames_BasicStruct_toFfi(weeStruct value) {
   final _WEE_FIELD_handle = String_toFfi(value.WEE_FIELD);
   final _result = _smoke_PlatformNames_BasicStruct_create_handle(_WEE_FIELD_handle);
@@ -103,18 +103,18 @@ weeStruct smoke_PlatformNames_BasicStruct_fromFfi(Pointer<Void> handle) {
 }
 void smoke_PlatformNames_BasicStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PlatformNames_BasicStruct_release_handle(handle);
 // Nullable weeStruct
-final _smoke_PlatformNames_BasicStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformNames_BasicStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicStruct_create_handle_nullable');
-final _smoke_PlatformNames_BasicStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNames_BasicStruct_create_handle_nullable'));
+final _smoke_PlatformNames_BasicStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicStruct_release_handle_nullable');
-final _smoke_PlatformNames_BasicStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PlatformNames_BasicStruct_release_handle_nullable'));
+final _smoke_PlatformNames_BasicStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PlatformNames_BasicStruct_get_value_nullable');
+  >('library_smoke_PlatformNames_BasicStruct_get_value_nullable'));
 Pointer<Void> smoke_PlatformNames_BasicStruct_toFfi_nullable(weeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformNames_BasicStruct_toFfi(value);

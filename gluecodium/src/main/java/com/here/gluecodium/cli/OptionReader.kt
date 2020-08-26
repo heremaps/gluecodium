@@ -111,6 +111,7 @@ object OptionReader {
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
         addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
         addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
+        addOption("dartlookuperrormessage", true, "Custom error message for when Dart FFI function lookup fails.")
         addOption(
             "werror",
             "warning-as-error",
@@ -187,6 +188,7 @@ object OptionReader {
         getStringValue("cppexport")?.let { options.cppExport = it }
         getStringValue("internalprefix")?.let { options.internalPrefix = it }
         getStringValue("libraryname")?.let { options.libraryName = it }
+        getStringValue("dartlookuperrormessage")?.let { options.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { options.werror = it.toSet() }
         options.generateStubs = getFlagValue("stubs")
 

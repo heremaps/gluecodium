@@ -15,22 +15,22 @@ abstract class ChildClassFromInterface implements ParentInterface {
   childClassMethod();
 }
 // ChildClassFromInterface "private" section, not exported.
-final _smoke_ChildClassFromInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ChildClassFromInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ChildClassFromInterface_copy_handle');
-final _smoke_ChildClassFromInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ChildClassFromInterface_copy_handle'));
+final _smoke_ChildClassFromInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ChildClassFromInterface_release_handle');
-final _smoke_ChildClassFromInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ChildClassFromInterface_release_handle'));
+final _smoke_ChildClassFromInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ChildClassFromInterface_get_raw_pointer');
-final _smoke_ChildClassFromInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_ChildClassFromInterface_get_raw_pointer'));
+final _smoke_ChildClassFromInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ChildClassFromInterface_get_type_id');
+  >('library_smoke_ChildClassFromInterface_get_type_id'));
 class ChildClassFromInterface$Impl implements ChildClassFromInterface {
   @protected
   Pointer<Void> handle;
@@ -44,7 +44,7 @@ class ChildClassFromInterface$Impl implements ChildClassFromInterface {
   }
   @override
   childClassMethod() {
-    final _childClassMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromInterface_childClassMethod');
+    final _childClassMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromInterface_childClassMethod'));
     final _handle = this.handle;
     final __result_handle = _childClassMethod_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -55,7 +55,7 @@ class ChildClassFromInterface$Impl implements ChildClassFromInterface {
   }
   @override
   rootMethod() {
-    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod');
+    final _rootMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
     final _handle = this.handle;
     final __result_handle = _rootMethod_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -66,7 +66,7 @@ class ChildClassFromInterface$Impl implements ChildClassFromInterface {
   }
   @override
   String get rootProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -77,7 +77,7 @@ class ChildClassFromInterface$Impl implements ChildClassFromInterface {
   }
   @override
   set rootProperty(String value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String'));
     final _value_handle = String_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);

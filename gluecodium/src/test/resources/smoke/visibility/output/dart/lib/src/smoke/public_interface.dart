@@ -20,18 +20,18 @@ class PublicInterface_InternalStruct {
   PublicInterface_InternalStruct(this.internal_fieldOfInternalType);
 }
 // PublicInterface_InternalStruct "private" section, not exported.
-final _smoke_PublicInterface_InternalStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_PublicInterface_InternalStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_InternalStruct_create_handle');
-final _smoke_PublicInterface_InternalStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_InternalStruct_create_handle'));
+final _smoke_PublicInterface_InternalStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_InternalStruct_release_handle');
-final _smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_InternalStruct_release_handle'));
+final _smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType');
+  >('library_smoke_PublicInterface_InternalStruct_get_field_fieldOfInternalType'));
 Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi(PublicInterface_InternalStruct value) {
   final _fieldOfInternalType_handle = smoke_PublicClass_InternalStruct_toFfi(value.internal_fieldOfInternalType);
   final _result = _smoke_PublicInterface_InternalStruct_create_handle(_fieldOfInternalType_handle);
@@ -50,18 +50,18 @@ PublicInterface_InternalStruct smoke_PublicInterface_InternalStruct_fromFfi(Poin
 }
 void smoke_PublicInterface_InternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_PublicInterface_InternalStruct_release_handle(handle);
 // Nullable PublicInterface_InternalStruct
-final _smoke_PublicInterface_InternalStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_PublicInterface_InternalStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_InternalStruct_create_handle_nullable');
-final _smoke_PublicInterface_InternalStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_InternalStruct_create_handle_nullable'));
+final _smoke_PublicInterface_InternalStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_InternalStruct_release_handle_nullable');
-final _smoke_PublicInterface_InternalStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_InternalStruct_release_handle_nullable'));
+final _smoke_PublicInterface_InternalStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_InternalStruct_get_value_nullable');
+  >('library_smoke_PublicInterface_InternalStruct_get_value_nullable'));
 Pointer<Void> smoke_PublicInterface_InternalStruct_toFfi_nullable(PublicInterface_InternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PublicInterface_InternalStruct_toFfi(value);
@@ -80,26 +80,26 @@ void smoke_PublicInterface_InternalStruct_releaseFfiHandle_nullable(Pointer<Void
   _smoke_PublicInterface_InternalStruct_release_handle_nullable(handle);
 // End of PublicInterface_InternalStruct "private" section.
 // PublicInterface "private" section, not exported.
-final _smoke_PublicInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_PublicInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_copy_handle');
-final _smoke_PublicInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_copy_handle'));
+final _smoke_PublicInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_release_handle');
-final _smoke_PublicInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_release_handle'));
+final _smoke_PublicInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer),
     Pointer<Void> Function(int, int, Pointer)
-  >('library_smoke_PublicInterface_create_proxy');
-final _smoke_PublicInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_PublicInterface_create_proxy'));
+final _smoke_PublicInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_PublicInterface_get_raw_pointer');
-final _smoke_PublicInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_PublicInterface_get_raw_pointer'));
+final _smoke_PublicInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_PublicInterface_get_type_id');
+  >('library_smoke_PublicInterface_get_type_id'));
 class PublicInterface$Impl implements PublicInterface {
   @protected
   Pointer<Void> handle;

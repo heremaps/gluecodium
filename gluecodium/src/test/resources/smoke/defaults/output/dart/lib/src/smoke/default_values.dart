@@ -43,18 +43,18 @@ DefaultValues_SomeEnum smoke_DefaultValues_SomeEnum_fromFfi(int handle) {
   }
 }
 void smoke_DefaultValues_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_DefaultValues_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_DefaultValues_SomeEnum_create_handle_nullable');
-final _smoke_DefaultValues_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_SomeEnum_create_handle_nullable'));
+final _smoke_DefaultValues_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_SomeEnum_release_handle_nullable');
-final _smoke_DefaultValues_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_SomeEnum_release_handle_nullable'));
+final _smoke_DefaultValues_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_SomeEnum_get_value_nullable');
+  >('library_smoke_DefaultValues_SomeEnum_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_SomeEnum_toFfi_nullable(DefaultValues_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_SomeEnum_toFfi(value);
@@ -102,18 +102,18 @@ DefaultValues_ExternalEnum smoke_DefaultValues_ExternalEnum_fromFfi(int handle) 
   }
 }
 void smoke_DefaultValues_ExternalEnum_releaseFfiHandle(int handle) {}
-final _smoke_DefaultValues_ExternalEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_ExternalEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_DefaultValues_ExternalEnum_create_handle_nullable');
-final _smoke_DefaultValues_ExternalEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_ExternalEnum_create_handle_nullable'));
+final _smoke_DefaultValues_ExternalEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_ExternalEnum_release_handle_nullable');
-final _smoke_DefaultValues_ExternalEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_ExternalEnum_release_handle_nullable'));
+final _smoke_DefaultValues_ExternalEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_ExternalEnum_get_value_nullable');
+  >('library_smoke_DefaultValues_ExternalEnum_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_ExternalEnum_toFfi_nullable(DefaultValues_ExternalEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_ExternalEnum_toFfi(value);
@@ -145,46 +145,46 @@ class DefaultValues_StructWithDefaults {
     : intField = 42, uintField = 4294967295, floatField = 3.14, doubleField = -1.4142, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n", enumField = DefaultValues_SomeEnum.barValue, externalEnumField = DefaultValues_ExternalEnum.anotherValue;
 }
 // DefaultValues_StructWithDefaults "private" section, not exported.
-final _smoke_DefaultValues_StructWithDefaults_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithDefaults_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>, Uint32, Uint32),
     Pointer<Void> Function(int, int, double, double, int, Pointer<Void>, int, int)
-  >('library_smoke_DefaultValues_StructWithDefaults_create_handle');
-final _smoke_DefaultValues_StructWithDefaults_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_create_handle'));
+final _smoke_DefaultValues_StructWithDefaults_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_release_handle');
-final _smoke_DefaultValues_StructWithDefaults_get_field_intField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_release_handle'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_intField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_intField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_uintField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_intField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_uintField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_uintField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_floatField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_uintField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_floatField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_floatField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_doubleField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_floatField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_doubleField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_doubleField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_boolField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_doubleField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_boolField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_boolField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_boolField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_stringField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_enumField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_stringField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_enumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_enumField');
-final _smoke_DefaultValues_StructWithDefaults_get_field_externalEnumField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_enumField'));
+final _smoke_DefaultValues_StructWithDefaults_get_field_externalEnumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_field_externalEnumField');
+  >('library_smoke_DefaultValues_StructWithDefaults_get_field_externalEnumField'));
 Pointer<Void> smoke_DefaultValues_StructWithDefaults_toFfi(DefaultValues_StructWithDefaults value) {
   final _intField_handle = (value.intField);
   final _uintField_handle = (value.uintField);
@@ -238,18 +238,18 @@ DefaultValues_StructWithDefaults smoke_DefaultValues_StructWithDefaults_fromFfi(
 }
 void smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithDefaults
-final _smoke_DefaultValues_StructWithDefaults_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithDefaults_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_create_handle_nullable');
-final _smoke_DefaultValues_StructWithDefaults_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_create_handle_nullable'));
+final _smoke_DefaultValues_StructWithDefaults_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_release_handle_nullable');
-final _smoke_DefaultValues_StructWithDefaults_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithDefaults_release_handle_nullable'));
+final _smoke_DefaultValues_StructWithDefaults_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithDefaults_get_value_nullable');
+  >('library_smoke_DefaultValues_StructWithDefaults_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_StructWithDefaults_toFfi_nullable(DefaultValues_StructWithDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_StructWithDefaults_toFfi(value);
@@ -279,38 +279,38 @@ class DefaultValues_NullableStructWithDefaults {
     : intField = null, uintField = null, floatField = null, boolField = null, stringField = null, enumField = null;
 }
 // DefaultValues_NullableStructWithDefaults "private" section, not exported.
-final _smoke_DefaultValues_NullableStructWithDefaults_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_NullableStructWithDefaults_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_create_handle');
-final _smoke_DefaultValues_NullableStructWithDefaults_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_create_handle'));
+final _smoke_DefaultValues_NullableStructWithDefaults_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_release_handle');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_field_intField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_release_handle'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_field_intField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_intField');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_field_uintField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_intField'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_field_uintField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_uintField');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_field_floatField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_uintField'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_field_floatField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_floatField');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_field_boolField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_floatField'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_field_boolField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_boolField');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_boolField'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_stringField');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_field_enumField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_stringField'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_field_enumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_enumField');
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_field_enumField'));
 Pointer<Void> smoke_DefaultValues_NullableStructWithDefaults_toFfi(DefaultValues_NullableStructWithDefaults value) {
   final _intField_handle = Int_toFfi_nullable(value.intField);
   final _uintField_handle = UInt_toFfi_nullable(value.uintField);
@@ -354,18 +354,18 @@ DefaultValues_NullableStructWithDefaults smoke_DefaultValues_NullableStructWithD
 }
 void smoke_DefaultValues_NullableStructWithDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_NullableStructWithDefaults_release_handle(handle);
 // Nullable DefaultValues_NullableStructWithDefaults
-final _smoke_DefaultValues_NullableStructWithDefaults_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_NullableStructWithDefaults_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_create_handle_nullable');
-final _smoke_DefaultValues_NullableStructWithDefaults_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_create_handle_nullable'));
+final _smoke_DefaultValues_NullableStructWithDefaults_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_release_handle_nullable');
-final _smoke_DefaultValues_NullableStructWithDefaults_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_release_handle_nullable'));
+final _smoke_DefaultValues_NullableStructWithDefaults_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_value_nullable');
+  >('library_smoke_DefaultValues_NullableStructWithDefaults_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_NullableStructWithDefaults_toFfi_nullable(DefaultValues_NullableStructWithDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_NullableStructWithDefaults_toFfi(value);
@@ -395,38 +395,38 @@ class DefaultValues_StructWithSpecialDefaults {
     : floatNanField = double.nan, floatInfinityField = double.infinity, floatNegativeInfinityField = double.negativeInfinity, doubleNanField = double.nan, doubleInfinityField = double.infinity, doubleNegativeInfinityField = double.negativeInfinity;
 }
 // DefaultValues_StructWithSpecialDefaults "private" section, not exported.
-final _smoke_DefaultValues_StructWithSpecialDefaults_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithSpecialDefaults_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Float, Float, Float, Double, Double, Double),
     Pointer<Void> Function(double, double, double, double, double, double)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_create_handle');
-final _smoke_DefaultValues_StructWithSpecialDefaults_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_create_handle'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_release_handle');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNanField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_release_handle'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNanField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNanField');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatInfinityField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNanField'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatInfinityField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatInfinityField');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNegativeInfinityField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatInfinityField'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNegativeInfinityField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNegativeInfinityField');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNanField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_floatNegativeInfinityField'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNanField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNanField');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleInfinityField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNanField'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleInfinityField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleInfinityField');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNegativeInfinityField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleInfinityField'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNegativeInfinityField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNegativeInfinityField');
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_field_doubleNegativeInfinityField'));
 Pointer<Void> smoke_DefaultValues_StructWithSpecialDefaults_toFfi(DefaultValues_StructWithSpecialDefaults value) {
   final _floatNanField_handle = (value.floatNanField);
   final _floatInfinityField_handle = (value.floatInfinityField);
@@ -470,18 +470,18 @@ DefaultValues_StructWithSpecialDefaults smoke_DefaultValues_StructWithSpecialDef
 }
 void smoke_DefaultValues_StructWithSpecialDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithSpecialDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithSpecialDefaults
-final _smoke_DefaultValues_StructWithSpecialDefaults_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithSpecialDefaults_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_create_handle_nullable');
-final _smoke_DefaultValues_StructWithSpecialDefaults_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_create_handle_nullable'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_release_handle_nullable');
-final _smoke_DefaultValues_StructWithSpecialDefaults_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_release_handle_nullable'));
+final _smoke_DefaultValues_StructWithSpecialDefaults_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_value_nullable');
+  >('library_smoke_DefaultValues_StructWithSpecialDefaults_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_StructWithSpecialDefaults_toFfi_nullable(DefaultValues_StructWithSpecialDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_StructWithSpecialDefaults_toFfi(value);
@@ -510,34 +510,34 @@ class DefaultValues_StructWithEmptyDefaults {
     : intsField = [], floatsField = [], mapField = {}, structField = DefaultValues_StructWithDefaults.withDefaults(), setTypeField = {};
 }
 // DefaultValues_StructWithEmptyDefaults "private" section, not exported.
-final _smoke_DefaultValues_StructWithEmptyDefaults_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithEmptyDefaults_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_create_handle');
-final _smoke_DefaultValues_StructWithEmptyDefaults_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_create_handle'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_release_handle');
-final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_intsField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_release_handle'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_intsField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_intsField');
-final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_floatsField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_intsField'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_floatsField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_floatsField');
-final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_mapField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_floatsField'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_mapField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_mapField');
-final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_structField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_mapField'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_structField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_structField');
-final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_structField'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField');
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_field_setTypeField'));
 Pointer<Void> smoke_DefaultValues_StructWithEmptyDefaults_toFfi(DefaultValues_StructWithEmptyDefaults value) {
   final _intsField_handle = ListOf_Int_toFfi(value.intsField);
   final _floatsField_handle = ListOf_Float_toFfi(value.floatsField);
@@ -576,18 +576,18 @@ DefaultValues_StructWithEmptyDefaults smoke_DefaultValues_StructWithEmptyDefault
 }
 void smoke_DefaultValues_StructWithEmptyDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithEmptyDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithEmptyDefaults
-final _smoke_DefaultValues_StructWithEmptyDefaults_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithEmptyDefaults_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_create_handle_nullable');
-final _smoke_DefaultValues_StructWithEmptyDefaults_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_create_handle_nullable'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_release_handle_nullable');
-final _smoke_DefaultValues_StructWithEmptyDefaults_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_release_handle_nullable'));
+final _smoke_DefaultValues_StructWithEmptyDefaults_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_value_nullable');
+  >('library_smoke_DefaultValues_StructWithEmptyDefaults_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_StructWithEmptyDefaults_toFfi_nullable(DefaultValues_StructWithEmptyDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_StructWithEmptyDefaults_toFfi(value);
@@ -615,30 +615,30 @@ class DefaultValues_StructWithTypedefDefaults {
     : longField = 42, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n", enumField = DefaultValues_SomeEnum.barValue;
 }
 // DefaultValues_StructWithTypedefDefaults "private" section, not exported.
-final _smoke_DefaultValues_StructWithTypedefDefaults_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithTypedefDefaults_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int64, Uint8, Pointer<Void>, Uint32),
     Pointer<Void> Function(int, int, Pointer<Void>, int)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_create_handle');
-final _smoke_DefaultValues_StructWithTypedefDefaults_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_create_handle'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_release_handle');
-final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_longField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_release_handle'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_longField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_longField');
-final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_boolField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_longField'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_boolField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_boolField');
-final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_boolField'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_stringField');
-final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_enumField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_stringField'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_get_field_enumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_enumField');
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_field_enumField'));
 Pointer<Void> smoke_DefaultValues_StructWithTypedefDefaults_toFfi(DefaultValues_StructWithTypedefDefaults value) {
   final _longField_handle = (value.longField);
   final _boolField_handle = Boolean_toFfi(value.boolField);
@@ -672,18 +672,18 @@ DefaultValues_StructWithTypedefDefaults smoke_DefaultValues_StructWithTypedefDef
 }
 void smoke_DefaultValues_StructWithTypedefDefaults_releaseFfiHandle(Pointer<Void> handle) => _smoke_DefaultValues_StructWithTypedefDefaults_release_handle(handle);
 // Nullable DefaultValues_StructWithTypedefDefaults
-final _smoke_DefaultValues_StructWithTypedefDefaults_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_StructWithTypedefDefaults_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_create_handle_nullable');
-final _smoke_DefaultValues_StructWithTypedefDefaults_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_create_handle_nullable'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_release_handle_nullable');
-final _smoke_DefaultValues_StructWithTypedefDefaults_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_release_handle_nullable'));
+final _smoke_DefaultValues_StructWithTypedefDefaults_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_value_nullable');
+  >('library_smoke_DefaultValues_StructWithTypedefDefaults_get_value_nullable'));
 Pointer<Void> smoke_DefaultValues_StructWithTypedefDefaults_toFfi_nullable(DefaultValues_StructWithTypedefDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DefaultValues_StructWithTypedefDefaults_toFfi(value);
@@ -702,18 +702,18 @@ void smoke_DefaultValues_StructWithTypedefDefaults_releaseFfiHandle_nullable(Poi
   _smoke_DefaultValues_StructWithTypedefDefaults_release_handle_nullable(handle);
 // End of DefaultValues_StructWithTypedefDefaults "private" section.
 // DefaultValues "private" section, not exported.
-final _smoke_DefaultValues_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DefaultValues_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_copy_handle');
-final _smoke_DefaultValues_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_copy_handle'));
+final _smoke_DefaultValues_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DefaultValues_release_handle');
-final _smoke_DefaultValues_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DefaultValues_release_handle'));
+final _smoke_DefaultValues_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_DefaultValues_get_raw_pointer');
+    >('library_smoke_DefaultValues_get_raw_pointer'));
 class DefaultValues$Impl implements DefaultValues {
   @protected
   Pointer<Void> handle;
@@ -726,7 +726,7 @@ class DefaultValues$Impl implements DefaultValues {
     handle = null;
   }
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
-    final _processStructWithDefaults_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults');
+    final _processStructWithDefaults_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
     final _input_handle = smoke_DefaultValues_StructWithDefaults_toFfi(input);
     final __result_handle = _processStructWithDefaults_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_DefaultValues_StructWithDefaults_releaseFfiHandle(_input_handle);

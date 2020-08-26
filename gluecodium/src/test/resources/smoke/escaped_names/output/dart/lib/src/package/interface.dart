@@ -13,26 +13,26 @@ abstract class Interface {
   void release() {}
 }
 // Interface "private" section, not exported.
-final _package_Interface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _package_Interface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Interface_copy_handle');
-final _package_Interface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Interface_copy_handle'));
+final _package_Interface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Interface_release_handle');
-final _package_Interface_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Interface_release_handle'));
+final _package_Interface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer),
     Pointer<Void> Function(int, int, Pointer)
-  >('library_package_Interface_create_proxy');
-final _package_Interface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_package_Interface_create_proxy'));
+final _package_Interface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_package_Interface_get_raw_pointer');
-final _package_Interface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_package_Interface_get_raw_pointer'));
+final _package_Interface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Interface_get_type_id');
+  >('library_package_Interface_get_type_id'));
 class Interface$Impl implements Interface {
   @protected
   Pointer<Void> handle;

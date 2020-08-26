@@ -19,18 +19,18 @@ class Dates_DateStruct {
   Dates_DateStruct(this.dateField);
 }
 // Dates_DateStruct "private" section, not exported.
-final _smoke_Dates_DateStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Dates_DateStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64),
     Pointer<Void> Function(int)
-  >('library_smoke_Dates_DateStruct_create_handle');
-final _smoke_Dates_DateStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Dates_DateStruct_create_handle'));
+final _smoke_Dates_DateStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Dates_DateStruct_release_handle');
-final _smoke_Dates_DateStruct_get_field_dateField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Dates_DateStruct_release_handle'));
+final _smoke_Dates_DateStruct_get_field_dateField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Dates_DateStruct_get_field_dateField');
+  >('library_smoke_Dates_DateStruct_get_field_dateField'));
 Pointer<Void> smoke_Dates_DateStruct_toFfi(Dates_DateStruct value) {
   final _dateField_handle = Date_toFfi(value.dateField);
   final _result = _smoke_Dates_DateStruct_create_handle(_dateField_handle);
@@ -49,18 +49,18 @@ Dates_DateStruct smoke_Dates_DateStruct_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Dates_DateStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Dates_DateStruct_release_handle(handle);
 // Nullable Dates_DateStruct
-final _smoke_Dates_DateStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Dates_DateStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Dates_DateStruct_create_handle_nullable');
-final _smoke_Dates_DateStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Dates_DateStruct_create_handle_nullable'));
+final _smoke_Dates_DateStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Dates_DateStruct_release_handle_nullable');
-final _smoke_Dates_DateStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Dates_DateStruct_release_handle_nullable'));
+final _smoke_Dates_DateStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Dates_DateStruct_get_value_nullable');
+  >('library_smoke_Dates_DateStruct_get_value_nullable'));
 Pointer<Void> smoke_Dates_DateStruct_toFfi_nullable(Dates_DateStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Dates_DateStruct_toFfi(value);
@@ -79,18 +79,18 @@ void smoke_Dates_DateStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Dates_DateStruct_release_handle_nullable(handle);
 // End of Dates_DateStruct "private" section.
 // Dates "private" section, not exported.
-final _smoke_Dates_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Dates_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Dates_copy_handle');
-final _smoke_Dates_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Dates_copy_handle'));
+final _smoke_Dates_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Dates_release_handle');
-final _smoke_Dates_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Dates_release_handle'));
+final _smoke_Dates_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Dates_get_raw_pointer');
+    >('library_smoke_Dates_get_raw_pointer'));
 class Dates$Impl implements Dates {
   @protected
   Pointer<Void> handle;
@@ -104,7 +104,7 @@ class Dates$Impl implements Dates {
   }
   @override
   DateTime dateMethod(DateTime input) {
-    final _dateMethod_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date');
+    final _dateMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date'));
     final _input_handle = Date_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _dateMethod_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -117,7 +117,7 @@ class Dates$Impl implements Dates {
   }
   @override
   DateTime get dateProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -128,7 +128,7 @@ class Dates$Impl implements Dates {
   }
   @override
   set dateProperty(DateTime value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateProperty_set__Date');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateProperty_set__Date'));
     final _value_handle = Date_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);

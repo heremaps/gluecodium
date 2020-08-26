@@ -45,18 +45,18 @@ ExternalInterface_SomeEnum smoke_ExternalInterface_SomeEnum_fromFfi(int handle) 
   }
 }
 void smoke_ExternalInterface_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_ExternalInterface_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_ExternalInterface_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_ExternalInterface_SomeEnum_create_handle_nullable');
-final _smoke_ExternalInterface_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_SomeEnum_create_handle_nullable'));
+final _smoke_ExternalInterface_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeEnum_release_handle_nullable');
-final _smoke_ExternalInterface_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_SomeEnum_release_handle_nullable'));
+final _smoke_ExternalInterface_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeEnum_get_value_nullable');
+  >('library_smoke_ExternalInterface_SomeEnum_get_value_nullable'));
 Pointer<Void> smoke_ExternalInterface_SomeEnum_toFfi_nullable(ExternalInterface_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ExternalInterface_SomeEnum_toFfi(value);
@@ -79,18 +79,18 @@ class ExternalInterface_SomeStruct {
   ExternalInterface_SomeStruct(this.someField);
 }
 // ExternalInterface_SomeStruct "private" section, not exported.
-final _smoke_ExternalInterface_SomeStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ExternalInterface_SomeStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeStruct_create_handle');
-final _smoke_ExternalInterface_SomeStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_SomeStruct_create_handle'));
+final _smoke_ExternalInterface_SomeStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeStruct_release_handle');
-final _smoke_ExternalInterface_SomeStruct_get_field_someField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_SomeStruct_release_handle'));
+final _smoke_ExternalInterface_SomeStruct_get_field_someField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeStruct_get_field_someField');
+  >('library_smoke_ExternalInterface_SomeStruct_get_field_someField'));
 Pointer<Void> smoke_ExternalInterface_SomeStruct_toFfi(ExternalInterface_SomeStruct value) {
   final _someField_handle = String_toFfi(value.someField);
   final _result = _smoke_ExternalInterface_SomeStruct_create_handle(_someField_handle);
@@ -109,18 +109,18 @@ ExternalInterface_SomeStruct smoke_ExternalInterface_SomeStruct_fromFfi(Pointer<
 }
 void smoke_ExternalInterface_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExternalInterface_SomeStruct_release_handle(handle);
 // Nullable ExternalInterface_SomeStruct
-final _smoke_ExternalInterface_SomeStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_ExternalInterface_SomeStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeStruct_create_handle_nullable');
-final _smoke_ExternalInterface_SomeStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_SomeStruct_create_handle_nullable'));
+final _smoke_ExternalInterface_SomeStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeStruct_release_handle_nullable');
-final _smoke_ExternalInterface_SomeStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_SomeStruct_release_handle_nullable'));
+final _smoke_ExternalInterface_SomeStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_SomeStruct_get_value_nullable');
+  >('library_smoke_ExternalInterface_SomeStruct_get_value_nullable'));
 Pointer<Void> smoke_ExternalInterface_SomeStruct_toFfi_nullable(ExternalInterface_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ExternalInterface_SomeStruct_toFfi(value);
@@ -139,26 +139,26 @@ void smoke_ExternalInterface_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> 
   _smoke_ExternalInterface_SomeStruct_release_handle_nullable(handle);
 // End of ExternalInterface_SomeStruct "private" section.
 // ExternalInterface "private" section, not exported.
-final _smoke_ExternalInterface_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ExternalInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_copy_handle');
-final _smoke_ExternalInterface_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_copy_handle'));
+final _smoke_ExternalInterface_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_release_handle');
-final _smoke_ExternalInterface_create_proxy = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_release_handle'));
+final _smoke_ExternalInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
-  >('library_smoke_ExternalInterface_create_proxy');
-final _smoke_ExternalInterface_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ExternalInterface_create_proxy'));
+final _smoke_ExternalInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ExternalInterface_get_raw_pointer');
-final _smoke_ExternalInterface_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_ExternalInterface_get_raw_pointer'));
+final _smoke_ExternalInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ExternalInterface_get_type_id');
+  >('library_smoke_ExternalInterface_get_type_id'));
 class ExternalInterface$Lambdas implements ExternalInterface {
   void Function(int) lambda_someMethod;
   String Function() lambda_someProperty_get;
@@ -190,7 +190,7 @@ class ExternalInterface$Impl implements ExternalInterface {
   }
   @override
   someMethod(int someParameter) {
-    final _someMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte');
+    final _someMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte'));
     final _someParameter_handle = (someParameter);
     final _handle = this.handle;
     final __result_handle = _someMethod_ffi(_handle, __lib.LibraryContext.isolateId, _someParameter_handle);
@@ -202,7 +202,7 @@ class ExternalInterface$Impl implements ExternalInterface {
     }
   }
   String get someProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {

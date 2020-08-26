@@ -36,18 +36,18 @@ SomeEnum smoke_Equatable_SomeEnum_fromFfi(int handle) {
   }
 }
 void smoke_Equatable_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_Equatable_SomeEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_Equatable_SomeEnum_create_handle_nullable');
-final _smoke_Equatable_SomeEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_SomeEnum_create_handle_nullable'));
+final _smoke_Equatable_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_SomeEnum_release_handle_nullable');
-final _smoke_Equatable_SomeEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_SomeEnum_release_handle_nullable'));
+final _smoke_Equatable_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Equatable_SomeEnum_get_value_nullable');
+  >('library_smoke_Equatable_SomeEnum_get_value_nullable'));
 Pointer<Void> smoke_Equatable_SomeEnum_toFfi_nullable(SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Equatable_SomeEnum_toFfi(value);
@@ -110,54 +110,54 @@ class EquatableStruct {
   }
 }
 // EquatableStruct "private" section, not exported.
-final _smoke_Equatable_EquatableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_EquatableStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint8, Int32, Int64, Float, Double, Pointer<Void>, Pointer<Void>, Uint32, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(int, int, int, double, double, Pointer<Void>, Pointer<Void>, int, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_create_handle');
-final _smoke_Equatable_EquatableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_create_handle'));
+final _smoke_Equatable_EquatableStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_release_handle');
-final _smoke_Equatable_EquatableStruct_get_field_boolField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_release_handle'));
+final _smoke_Equatable_EquatableStruct_get_field_boolField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_boolField');
-final _smoke_Equatable_EquatableStruct_get_field_intField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_boolField'));
+final _smoke_Equatable_EquatableStruct_get_field_intField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_intField');
-final _smoke_Equatable_EquatableStruct_get_field_longField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_intField'));
+final _smoke_Equatable_EquatableStruct_get_field_longField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_longField');
-final _smoke_Equatable_EquatableStruct_get_field_floatField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_longField'));
+final _smoke_Equatable_EquatableStruct_get_field_floatField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_floatField');
-final _smoke_Equatable_EquatableStruct_get_field_doubleField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_floatField'));
+final _smoke_Equatable_EquatableStruct_get_field_doubleField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_doubleField');
-final _smoke_Equatable_EquatableStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_doubleField'));
+final _smoke_Equatable_EquatableStruct_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_stringField');
-final _smoke_Equatable_EquatableStruct_get_field_structField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_stringField'));
+final _smoke_Equatable_EquatableStruct_get_field_structField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_structField');
-final _smoke_Equatable_EquatableStruct_get_field_enumField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_structField'));
+final _smoke_Equatable_EquatableStruct_get_field_enumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_enumField');
-final _smoke_Equatable_EquatableStruct_get_field_arrayField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_enumField'));
+final _smoke_Equatable_EquatableStruct_get_field_arrayField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_arrayField');
-final _smoke_Equatable_EquatableStruct_get_field_mapField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_get_field_arrayField'));
+final _smoke_Equatable_EquatableStruct_get_field_mapField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_field_mapField');
+  >('library_smoke_Equatable_EquatableStruct_get_field_mapField'));
 Pointer<Void> smoke_Equatable_EquatableStruct_toFfi(EquatableStruct value) {
   final _boolField_handle = Boolean_toFfi(value.boolField);
   final _intField_handle = (value.intField);
@@ -221,18 +221,18 @@ EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Equatable_EquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_EquatableStruct_release_handle(handle);
 // Nullable EquatableStruct
-final _smoke_Equatable_EquatableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_EquatableStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_create_handle_nullable');
-final _smoke_Equatable_EquatableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_create_handle_nullable'));
+final _smoke_Equatable_EquatableStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_release_handle_nullable');
-final _smoke_Equatable_EquatableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableStruct_release_handle_nullable'));
+final _smoke_Equatable_EquatableStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableStruct_get_value_nullable');
+  >('library_smoke_Equatable_EquatableStruct_get_value_nullable'));
 Pointer<Void> smoke_Equatable_EquatableStruct_toFfi_nullable(EquatableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Equatable_EquatableStruct_toFfi(value);
@@ -292,50 +292,50 @@ class EquatableNullableStruct {
   }
 }
 // EquatableNullableStruct "private" section, not exported.
-final _smoke_Equatable_EquatableNullableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_EquatableNullableStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_create_handle');
-final _smoke_Equatable_EquatableNullableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_create_handle'));
+final _smoke_Equatable_EquatableNullableStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_release_handle');
-final _smoke_Equatable_EquatableNullableStruct_get_field_boolField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_release_handle'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_boolField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_boolField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_intField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_boolField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_intField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_intField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_uintField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_intField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_uintField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_uintField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_floatField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_uintField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_floatField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_floatField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_floatField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_stringField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_structField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_stringField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_structField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_structField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_enumField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_structField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_enumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_enumField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_arrayField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_enumField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_arrayField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_arrayField');
-final _smoke_Equatable_EquatableNullableStruct_get_field_mapField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_arrayField'));
+final _smoke_Equatable_EquatableNullableStruct_get_field_mapField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_field_mapField');
+  >('library_smoke_Equatable_EquatableNullableStruct_get_field_mapField'));
 Pointer<Void> smoke_Equatable_EquatableNullableStruct_toFfi(EquatableNullableStruct value) {
   final _boolField_handle = Boolean_toFfi_nullable(value.boolField);
   final _intField_handle = Int_toFfi_nullable(value.intField);
@@ -394,18 +394,18 @@ EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<
 }
 void smoke_Equatable_EquatableNullableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_EquatableNullableStruct_release_handle(handle);
 // Nullable EquatableNullableStruct
-final _smoke_Equatable_EquatableNullableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_EquatableNullableStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_create_handle_nullable');
-final _smoke_Equatable_EquatableNullableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_create_handle_nullable'));
+final _smoke_Equatable_EquatableNullableStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_release_handle_nullable');
-final _smoke_Equatable_EquatableNullableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_EquatableNullableStruct_release_handle_nullable'));
+final _smoke_Equatable_EquatableNullableStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_EquatableNullableStruct_get_value_nullable');
+  >('library_smoke_Equatable_EquatableNullableStruct_get_value_nullable'));
 Pointer<Void> smoke_Equatable_EquatableNullableStruct_toFfi_nullable(EquatableNullableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Equatable_EquatableNullableStruct_toFfi(value);
@@ -441,18 +441,18 @@ class NestedEquatableStruct {
   }
 }
 // NestedEquatableStruct "private" section, not exported.
-final _smoke_Equatable_NestedEquatableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_NestedEquatableStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_NestedEquatableStruct_create_handle');
-final _smoke_Equatable_NestedEquatableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_NestedEquatableStruct_create_handle'));
+final _smoke_Equatable_NestedEquatableStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_NestedEquatableStruct_release_handle');
-final _smoke_Equatable_NestedEquatableStruct_get_field_fooField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_NestedEquatableStruct_release_handle'));
+final _smoke_Equatable_NestedEquatableStruct_get_field_fooField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_NestedEquatableStruct_get_field_fooField');
+  >('library_smoke_Equatable_NestedEquatableStruct_get_field_fooField'));
 Pointer<Void> smoke_Equatable_NestedEquatableStruct_toFfi(NestedEquatableStruct value) {
   final _fooField_handle = String_toFfi(value.fooField);
   final _result = _smoke_Equatable_NestedEquatableStruct_create_handle(_fooField_handle);
@@ -471,18 +471,18 @@ NestedEquatableStruct smoke_Equatable_NestedEquatableStruct_fromFfi(Pointer<Void
 }
 void smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Equatable_NestedEquatableStruct_release_handle(handle);
 // Nullable NestedEquatableStruct
-final _smoke_Equatable_NestedEquatableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Equatable_NestedEquatableStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_NestedEquatableStruct_create_handle_nullable');
-final _smoke_Equatable_NestedEquatableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_NestedEquatableStruct_create_handle_nullable'));
+final _smoke_Equatable_NestedEquatableStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Equatable_NestedEquatableStruct_release_handle_nullable');
-final _smoke_Equatable_NestedEquatableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Equatable_NestedEquatableStruct_release_handle_nullable'));
+final _smoke_Equatable_NestedEquatableStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Equatable_NestedEquatableStruct_get_value_nullable');
+  >('library_smoke_Equatable_NestedEquatableStruct_get_value_nullable'));
 Pointer<Void> smoke_Equatable_NestedEquatableStruct_toFfi_nullable(NestedEquatableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Equatable_NestedEquatableStruct_toFfi(value);

@@ -14,30 +14,30 @@ class int_internal {
     : red = red, green = green, blue = blue, alpha = 0;
 }
 // int "private" section, not exported.
-final _smoke_DartColor_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_DartColor_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Float, Float, Float, Float),
     Pointer<Void> Function(double, double, double, double)
-  >('library_smoke_DartColor_create_handle');
-final _smoke_DartColor_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_create_handle'));
+final _smoke_DartColor_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DartColor_release_handle');
-final _smoke_DartColor_get_field_red = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_release_handle'));
+final _smoke_DartColor_get_field_red = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DartColor_get_field_red');
-final _smoke_DartColor_get_field_green = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_get_field_red'));
+final _smoke_DartColor_get_field_green = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DartColor_get_field_green');
-final _smoke_DartColor_get_field_blue = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_get_field_green'));
+final _smoke_DartColor_get_field_blue = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DartColor_get_field_blue');
-final _smoke_DartColor_get_field_alpha = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_get_field_blue'));
+final _smoke_DartColor_get_field_alpha = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_DartColor_get_field_alpha');
+  >('library_smoke_DartColor_get_field_alpha'));
 Pointer<Void> smoke_DartColor_toFfi(int value_ext) {
   final value = ColorConverter.convertToInternal(value_ext);
   final _red_handle = (value.red);
@@ -73,18 +73,18 @@ int smoke_DartColor_fromFfi(Pointer<Void> handle) {
 }
 void smoke_DartColor_releaseFfiHandle(Pointer<Void> handle) => _smoke_DartColor_release_handle(handle);
 // Nullable int
-final _smoke_DartColor_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_DartColor_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DartColor_create_handle_nullable');
-final _smoke_DartColor_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_create_handle_nullable'));
+final _smoke_DartColor_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_DartColor_release_handle_nullable');
-final _smoke_DartColor_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_DartColor_release_handle_nullable'));
+final _smoke_DartColor_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_DartColor_get_value_nullable');
+  >('library_smoke_DartColor_get_value_nullable'));
 Pointer<Void> smoke_DartColor_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DartColor_toFfi(value);

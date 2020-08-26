@@ -48,18 +48,18 @@ Structs_FooBar smoke_Structs_FooBar_fromFfi(int handle) {
   }
 }
 void smoke_Structs_FooBar_releaseFfiHandle(int handle) {}
-final _smoke_Structs_FooBar_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_FooBar_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_Structs_FooBar_create_handle_nullable');
-final _smoke_Structs_FooBar_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_FooBar_create_handle_nullable'));
+final _smoke_Structs_FooBar_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_FooBar_release_handle_nullable');
-final _smoke_Structs_FooBar_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_FooBar_release_handle_nullable'));
+final _smoke_Structs_FooBar_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_FooBar_get_value_nullable');
+  >('library_smoke_Structs_FooBar_get_value_nullable'));
 Pointer<Void> smoke_Structs_FooBar_toFfi_nullable(Structs_FooBar value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_FooBar_toFfi(value);
@@ -83,22 +83,22 @@ class Structs_Point {
   Structs_Point(this.x, this.y);
 }
 // Structs_Point "private" section, not exported.
-final _smoke_Structs_Point_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_Point_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Double, Double),
     Pointer<Void> Function(double, double)
-  >('library_smoke_Structs_Point_create_handle');
-final _smoke_Structs_Point_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Point_create_handle'));
+final _smoke_Structs_Point_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_Point_release_handle');
-final _smoke_Structs_Point_get_field_x = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Point_release_handle'));
+final _smoke_Structs_Point_get_field_x = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Structs_Point_get_field_x');
-final _smoke_Structs_Point_get_field_y = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Point_get_field_x'));
+final _smoke_Structs_Point_get_field_y = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Structs_Point_get_field_y');
+  >('library_smoke_Structs_Point_get_field_y'));
 Pointer<Void> smoke_Structs_Point_toFfi(Structs_Point value) {
   final _x_handle = (value.x);
   final _y_handle = (value.y);
@@ -122,18 +122,18 @@ Structs_Point smoke_Structs_Point_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Structs_Point_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_Point_release_handle(handle);
 // Nullable Structs_Point
-final _smoke_Structs_Point_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_Point_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_Point_create_handle_nullable');
-final _smoke_Structs_Point_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Point_create_handle_nullable'));
+final _smoke_Structs_Point_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_Point_release_handle_nullable');
-final _smoke_Structs_Point_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Point_release_handle_nullable'));
+final _smoke_Structs_Point_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_Point_get_value_nullable');
+  >('library_smoke_Structs_Point_get_value_nullable'));
 Pointer<Void> smoke_Structs_Point_toFfi_nullable(Structs_Point value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_Point_toFfi(value);
@@ -157,22 +157,22 @@ class Structs_Line {
   Structs_Line(this.a, this.b);
 }
 // Structs_Line "private" section, not exported.
-final _smoke_Structs_Line_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_Line_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>)
-  >('library_smoke_Structs_Line_create_handle');
-final _smoke_Structs_Line_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Line_create_handle'));
+final _smoke_Structs_Line_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_Line_release_handle');
-final _smoke_Structs_Line_get_field_a = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Line_release_handle'));
+final _smoke_Structs_Line_get_field_a = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_Line_get_field_a');
-final _smoke_Structs_Line_get_field_b = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Line_get_field_a'));
+final _smoke_Structs_Line_get_field_b = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_Line_get_field_b');
+  >('library_smoke_Structs_Line_get_field_b'));
 Pointer<Void> smoke_Structs_Line_toFfi(Structs_Line value) {
   final _a_handle = smoke_Structs_Point_toFfi(value.a);
   final _b_handle = smoke_Structs_Point_toFfi(value.b);
@@ -196,18 +196,18 @@ Structs_Line smoke_Structs_Line_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Structs_Line_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_Line_release_handle(handle);
 // Nullable Structs_Line
-final _smoke_Structs_Line_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_Line_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_Line_create_handle_nullable');
-final _smoke_Structs_Line_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Line_create_handle_nullable'));
+final _smoke_Structs_Line_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_Line_release_handle_nullable');
-final _smoke_Structs_Line_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_Line_release_handle_nullable'));
+final _smoke_Structs_Line_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_Line_get_value_nullable');
+  >('library_smoke_Structs_Line_get_value_nullable'));
 Pointer<Void> smoke_Structs_Line_toFfi_nullable(Structs_Line value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_Line_toFfi(value);
@@ -244,70 +244,70 @@ class Structs_AllTypesStruct {
   const Structs_AllTypesStruct(this.int8Field, this.uint8Field, this.int16Field, this.uint16Field, this.int32Field, this.uint32Field, this.int64Field, this.uint64Field, this.floatField, this.doubleField, this.stringField, this.booleanField, this.bytesField, this.pointField);
 }
 // Structs_AllTypesStruct "private" section, not exported.
-final _smoke_Structs_AllTypesStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_AllTypesStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int8, Uint8, Int16, Uint16, Int32, Uint32, Int64, Uint64, Float, Double, Pointer<Void>, Uint8, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(int, int, int, int, int, int, int, int, double, double, Pointer<Void>, int, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_create_handle');
-final _smoke_Structs_AllTypesStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_create_handle'));
+final _smoke_Structs_AllTypesStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_release_handle');
-final _smoke_Structs_AllTypesStruct_get_field_int8Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_release_handle'));
+final _smoke_Structs_AllTypesStruct_get_field_int8Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_int8Field');
-final _smoke_Structs_AllTypesStruct_get_field_uint8Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_int8Field'));
+final _smoke_Structs_AllTypesStruct_get_field_uint8Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_uint8Field');
-final _smoke_Structs_AllTypesStruct_get_field_int16Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint8Field'));
+final _smoke_Structs_AllTypesStruct_get_field_int16Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_int16Field');
-final _smoke_Structs_AllTypesStruct_get_field_uint16Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_int16Field'));
+final _smoke_Structs_AllTypesStruct_get_field_uint16Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_uint16Field');
-final _smoke_Structs_AllTypesStruct_get_field_int32Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint16Field'));
+final _smoke_Structs_AllTypesStruct_get_field_int32Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_int32Field');
-final _smoke_Structs_AllTypesStruct_get_field_uint32Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_int32Field'));
+final _smoke_Structs_AllTypesStruct_get_field_uint32Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_uint32Field');
-final _smoke_Structs_AllTypesStruct_get_field_int64Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint32Field'));
+final _smoke_Structs_AllTypesStruct_get_field_int64Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_int64Field');
-final _smoke_Structs_AllTypesStruct_get_field_uint64Field = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_int64Field'));
+final _smoke_Structs_AllTypesStruct_get_field_uint64Field = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_uint64Field');
-final _smoke_Structs_AllTypesStruct_get_field_floatField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_uint64Field'));
+final _smoke_Structs_AllTypesStruct_get_field_floatField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_floatField');
-final _smoke_Structs_AllTypesStruct_get_field_doubleField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_floatField'));
+final _smoke_Structs_AllTypesStruct_get_field_doubleField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_doubleField');
-final _smoke_Structs_AllTypesStruct_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_doubleField'));
+final _smoke_Structs_AllTypesStruct_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_stringField');
-final _smoke_Structs_AllTypesStruct_get_field_booleanField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_stringField'));
+final _smoke_Structs_AllTypesStruct_get_field_booleanField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_booleanField');
-final _smoke_Structs_AllTypesStruct_get_field_bytesField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_booleanField'));
+final _smoke_Structs_AllTypesStruct_get_field_bytesField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_bytesField');
-final _smoke_Structs_AllTypesStruct_get_field_pointField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_get_field_bytesField'));
+final _smoke_Structs_AllTypesStruct_get_field_pointField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_field_pointField');
+  >('library_smoke_Structs_AllTypesStruct_get_field_pointField'));
 Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
   final _int8Field_handle = (value.int8Field);
   final _uint8Field_handle = (value.uint8Field);
@@ -391,18 +391,18 @@ Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle
 }
 void smoke_Structs_AllTypesStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_AllTypesStruct_release_handle(handle);
 // Nullable Structs_AllTypesStruct
-final _smoke_Structs_AllTypesStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_AllTypesStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_create_handle_nullable');
-final _smoke_Structs_AllTypesStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_create_handle_nullable'));
+final _smoke_Structs_AllTypesStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_release_handle_nullable');
-final _smoke_Structs_AllTypesStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_AllTypesStruct_release_handle_nullable'));
+final _smoke_Structs_AllTypesStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_AllTypesStruct_get_value_nullable');
+  >('library_smoke_Structs_AllTypesStruct_get_value_nullable'));
 Pointer<Void> smoke_Structs_AllTypesStruct_toFfi_nullable(Structs_AllTypesStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_AllTypesStruct_toFfi(value);
@@ -425,18 +425,18 @@ class Structs_NestingImmutableStruct {
   Structs_NestingImmutableStruct(this.structField);
 }
 // Structs_NestingImmutableStruct "private" section, not exported.
-final _smoke_Structs_NestingImmutableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_NestingImmutableStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_NestingImmutableStruct_create_handle');
-final _smoke_Structs_NestingImmutableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_NestingImmutableStruct_create_handle'));
+final _smoke_Structs_NestingImmutableStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_NestingImmutableStruct_release_handle');
-final _smoke_Structs_NestingImmutableStruct_get_field_structField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_NestingImmutableStruct_release_handle'));
+final _smoke_Structs_NestingImmutableStruct_get_field_structField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_NestingImmutableStruct_get_field_structField');
+  >('library_smoke_Structs_NestingImmutableStruct_get_field_structField'));
 Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi(Structs_NestingImmutableStruct value) {
   final _structField_handle = smoke_Structs_AllTypesStruct_toFfi(value.structField);
   final _result = _smoke_Structs_NestingImmutableStruct_create_handle(_structField_handle);
@@ -455,18 +455,18 @@ Structs_NestingImmutableStruct smoke_Structs_NestingImmutableStruct_fromFfi(Poin
 }
 void smoke_Structs_NestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_NestingImmutableStruct_release_handle(handle);
 // Nullable Structs_NestingImmutableStruct
-final _smoke_Structs_NestingImmutableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_NestingImmutableStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_NestingImmutableStruct_create_handle_nullable');
-final _smoke_Structs_NestingImmutableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_NestingImmutableStruct_create_handle_nullable'));
+final _smoke_Structs_NestingImmutableStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_NestingImmutableStruct_release_handle_nullable');
-final _smoke_Structs_NestingImmutableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_NestingImmutableStruct_release_handle_nullable'));
+final _smoke_Structs_NestingImmutableStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_NestingImmutableStruct_get_value_nullable');
+  >('library_smoke_Structs_NestingImmutableStruct_get_value_nullable'));
 Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi_nullable(Structs_NestingImmutableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_NestingImmutableStruct_toFfi(value);
@@ -489,18 +489,18 @@ class Structs_DoubleNestingImmutableStruct {
   Structs_DoubleNestingImmutableStruct(this.nestingStructField);
 }
 // Structs_DoubleNestingImmutableStruct "private" section, not exported.
-final _smoke_Structs_DoubleNestingImmutableStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_DoubleNestingImmutableStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle');
-final _smoke_Structs_DoubleNestingImmutableStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle'));
+final _smoke_Structs_DoubleNestingImmutableStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle');
-final _smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle'));
+final _smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField'));
 Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi(Structs_DoubleNestingImmutableStruct value) {
   final _nestingStructField_handle = smoke_Structs_NestingImmutableStruct_toFfi(value.nestingStructField);
   final _result = _smoke_Structs_DoubleNestingImmutableStruct_create_handle(_nestingStructField_handle);
@@ -519,18 +519,18 @@ Structs_DoubleNestingImmutableStruct smoke_Structs_DoubleNestingImmutableStruct_
 }
 void smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_DoubleNestingImmutableStruct_release_handle(handle);
 // Nullable Structs_DoubleNestingImmutableStruct
-final _smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable');
-final _smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable'));
+final _smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable');
-final _smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable'));
+final _smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable');
+  >('library_smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable'));
 Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi_nullable(Structs_DoubleNestingImmutableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_DoubleNestingImmutableStruct_toFfi(value);
@@ -553,18 +553,18 @@ class Structs_StructWithArrayOfImmutable {
   Structs_StructWithArrayOfImmutable(this.arrayField);
 }
 // Structs_StructWithArrayOfImmutable "private" section, not exported.
-final _smoke_Structs_StructWithArrayOfImmutable_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_StructWithArrayOfImmutable_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle');
-final _smoke_Structs_StructWithArrayOfImmutable_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle'));
+final _smoke_Structs_StructWithArrayOfImmutable_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle');
-final _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle'));
+final _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField'));
 Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi(Structs_StructWithArrayOfImmutable value) {
   final _arrayField_handle = ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
   final _result = _smoke_Structs_StructWithArrayOfImmutable_create_handle(_arrayField_handle);
@@ -583,18 +583,18 @@ Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_from
 }
 void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_StructWithArrayOfImmutable_release_handle(handle);
 // Nullable Structs_StructWithArrayOfImmutable
-final _smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable');
-final _smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable'));
+final _smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable');
-final _smoke_Structs_StructWithArrayOfImmutable_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable'));
+final _smoke_Structs_StructWithArrayOfImmutable_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_StructWithArrayOfImmutable_get_value_nullable');
+  >('library_smoke_Structs_StructWithArrayOfImmutable_get_value_nullable'));
 Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi_nullable(Structs_StructWithArrayOfImmutable value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_StructWithArrayOfImmutable_toFfi(value);
@@ -618,18 +618,18 @@ class Structs_ImmutableStructWithCppAccessors {
   const Structs_ImmutableStructWithCppAccessors(this.stringField);
 }
 // Structs_ImmutableStructWithCppAccessors "private" section, not exported.
-final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle');
-final _smoke_Structs_ImmutableStructWithCppAccessors_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle'));
+final _smoke_Structs_ImmutableStructWithCppAccessors_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle');
-final _smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle'));
+final _smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField'));
 Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi(Structs_ImmutableStructWithCppAccessors value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_Structs_ImmutableStructWithCppAccessors_create_handle(_stringField_handle);
@@ -648,18 +648,18 @@ Structs_ImmutableStructWithCppAccessors smoke_Structs_ImmutableStructWithCppAcce
 }
 void smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_ImmutableStructWithCppAccessors_release_handle(handle);
 // Nullable Structs_ImmutableStructWithCppAccessors
-final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable');
-final _smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable'));
+final _smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable');
-final _smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable'));
+final _smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable');
+  >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable'));
 Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi_nullable(Structs_ImmutableStructWithCppAccessors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_ImmutableStructWithCppAccessors_toFfi(value);
@@ -682,18 +682,18 @@ class Structs_MutableStructWithCppAccessors {
   Structs_MutableStructWithCppAccessors(this.stringField);
 }
 // Structs_MutableStructWithCppAccessors "private" section, not exported.
-final _smoke_Structs_MutableStructWithCppAccessors_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_MutableStructWithCppAccessors_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle');
-final _smoke_Structs_MutableStructWithCppAccessors_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle'));
+final _smoke_Structs_MutableStructWithCppAccessors_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle');
-final _smoke_Structs_MutableStructWithCppAccessors_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle'));
+final _smoke_Structs_MutableStructWithCppAccessors_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_MutableStructWithCppAccessors_get_field_stringField');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_get_field_stringField'));
 Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi(Structs_MutableStructWithCppAccessors value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_Structs_MutableStructWithCppAccessors_create_handle(_stringField_handle);
@@ -712,18 +712,18 @@ Structs_MutableStructWithCppAccessors smoke_Structs_MutableStructWithCppAccessor
 }
 void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_MutableStructWithCppAccessors_release_handle(handle);
 // Nullable Structs_MutableStructWithCppAccessors
-final _smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable');
-final _smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable'));
+final _smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable');
-final _smoke_Structs_MutableStructWithCppAccessors_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable'));
+final _smoke_Structs_MutableStructWithCppAccessors_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_MutableStructWithCppAccessors_get_value_nullable');
+  >('library_smoke_Structs_MutableStructWithCppAccessors_get_value_nullable'));
 Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi_nullable(Structs_MutableStructWithCppAccessors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_MutableStructWithCppAccessors_toFfi(value);
@@ -742,18 +742,18 @@ void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle_nullable(Point
   _smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable(handle);
 // End of Structs_MutableStructWithCppAccessors "private" section.
 // Structs "private" section, not exported.
-final _smoke_Structs_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Structs_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Structs_copy_handle');
-final _smoke_Structs_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_copy_handle'));
+final _smoke_Structs_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Structs_release_handle');
-final _smoke_Structs_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Structs_release_handle'));
+final _smoke_Structs_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Structs_get_raw_pointer');
+    >('library_smoke_Structs_get_raw_pointer'));
 class Structs$Impl implements Structs {
   @protected
   Pointer<Void> handle;
@@ -766,7 +766,7 @@ class Structs$Impl implements Structs {
     handle = null;
   }
   static Structs_Point swapPointCoordinates(Structs_Point input) {
-    final _swapPointCoordinates_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point');
+    final _swapPointCoordinates_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
     final _input_handle = smoke_Structs_Point_toFfi(input);
     final __result_handle = _swapPointCoordinates_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Structs_Point_releaseFfiHandle(_input_handle);
@@ -777,7 +777,7 @@ class Structs$Impl implements Structs {
     }
   }
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
-    final _returnAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct');
+    final _returnAllTypesStruct_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct'));
     final _input_handle = smoke_Structs_AllTypesStruct_toFfi(input);
     final __result_handle = _returnAllTypesStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_Structs_AllTypesStruct_releaseFfiHandle(_input_handle);
@@ -788,7 +788,7 @@ class Structs$Impl implements Structs {
     }
   }
   static Point createPoint(double x, double y) {
-    final _createPoint_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double');
+    final _createPoint_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double'));
     final _x_handle = (x);
     final _y_handle = (y);
     final __result_handle = _createPoint_ffi(__lib.LibraryContext.isolateId, _x_handle, _y_handle);
@@ -801,7 +801,7 @@ class Structs$Impl implements Structs {
     }
   }
   static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
-    final _modifyAllTypesStruct_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct');
+    final _modifyAllTypesStruct_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct'));
     final _input_handle = smoke_TypeCollection_AllTypesStruct_toFfi(input);
     final __result_handle = _modifyAllTypesStruct_ffi(__lib.LibraryContext.isolateId, _input_handle);
     smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(_input_handle);

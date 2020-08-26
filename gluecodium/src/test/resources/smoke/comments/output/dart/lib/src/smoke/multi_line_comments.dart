@@ -41,18 +41,18 @@ abstract class MultiLineComments {
   double someMethodWithLongComment(String input, double ratio);
 }
 // MultiLineComments "private" section, not exported.
-final _smoke_MultiLineComments_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_MultiLineComments_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_MultiLineComments_copy_handle');
-final _smoke_MultiLineComments_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_MultiLineComments_copy_handle'));
+final _smoke_MultiLineComments_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_MultiLineComments_release_handle');
-final _smoke_MultiLineComments_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_MultiLineComments_release_handle'));
+final _smoke_MultiLineComments_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_MultiLineComments_get_raw_pointer');
+    >('library_smoke_MultiLineComments_get_raw_pointer'));
 class MultiLineComments$Impl implements MultiLineComments {
   @protected
   Pointer<Void> handle;
@@ -66,7 +66,7 @@ class MultiLineComments$Impl implements MultiLineComments {
   }
   @override
   double someMethodWithLongComment(String input, double ratio) {
-    final _someMethodWithLongComment_ffi = __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double');
+    final _someMethodWithLongComment_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double'));
     final _input_handle = String_toFfi(input);
     final _ratio_handle = (ratio);
     final _handle = this.handle;

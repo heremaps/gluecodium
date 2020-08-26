@@ -51,18 +51,18 @@ LevelOne_LevelTwo_LevelThree_LevelFourEnum smoke_LevelOne_LevelTwo_LevelThree_Le
   }
 }
 void smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_releaseFfiHandle(int handle) {}
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_create_handle_nullable');
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_create_handle_nullable'));
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_release_handle_nullable');
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_release_handle_nullable'));
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_get_value_nullable');
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_get_value_nullable'));
 Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_toFfi_nullable(LevelOne_LevelTwo_LevelThree_LevelFourEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_toFfi(value);
@@ -85,7 +85,7 @@ class LevelOne_LevelTwo_LevelThree_LevelFour {
   LevelOne_LevelTwo_LevelThree_LevelFour(this.stringField);
   static final bool foo = false;
   static LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() {
-    final _fooFactory_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory');
+    final _fooFactory_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory'));
     final __result_handle = _fooFactory_ffi(__lib.LibraryContext.isolateId);
     try {
       return smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fromFfi(__result_handle);
@@ -95,18 +95,18 @@ class LevelOne_LevelTwo_LevelThree_LevelFour {
   }
 }
 // LevelOne_LevelTwo_LevelThree_LevelFour "private" section, not exported.
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle');
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle'));
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle');
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_field_stringField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle'));
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_field_stringField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_field_stringField');
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_field_stringField'));
 Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_LevelFour_toFfi(LevelOne_LevelTwo_LevelThree_LevelFour value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _result = _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle(_stringField_handle);
@@ -125,18 +125,18 @@ LevelOne_LevelTwo_LevelThree_LevelFour smoke_LevelOne_LevelTwo_LevelThree_LevelF
 }
 void smoke_LevelOne_LevelTwo_LevelThree_LevelFour_releaseFfiHandle(Pointer<Void> handle) => _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle(handle);
 // Nullable LevelOne_LevelTwo_LevelThree_LevelFour
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle_nullable');
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle_nullable'));
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle_nullable');
-final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle_nullable'));
+final _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_value_nullable');
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_value_nullable'));
 Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_LevelFour_toFfi_nullable(LevelOne_LevelTwo_LevelThree_LevelFour value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_LevelOne_LevelTwo_LevelThree_LevelFour_toFfi(value);
@@ -155,18 +155,18 @@ void smoke_LevelOne_LevelTwo_LevelThree_LevelFour_releaseFfiHandle_nullable(Poin
   _smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle_nullable(handle);
 // End of LevelOne_LevelTwo_LevelThree_LevelFour "private" section.
 // LevelOne_LevelTwo_LevelThree "private" section, not exported.
-final _smoke_LevelOne_LevelTwo_LevelThree_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_LevelOne_LevelTwo_LevelThree_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_copy_handle');
-final _smoke_LevelOne_LevelTwo_LevelThree_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_copy_handle'));
+final _smoke_LevelOne_LevelTwo_LevelThree_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_LevelThree_release_handle');
-final _smoke_LevelOne_LevelTwo_LevelThree_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_release_handle'));
+final _smoke_LevelOne_LevelTwo_LevelThree_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_LevelOne_LevelTwo_LevelThree_get_raw_pointer');
+    >('library_smoke_LevelOne_LevelTwo_LevelThree_get_raw_pointer'));
 class LevelOne_LevelTwo_LevelThree$Impl implements LevelOne_LevelTwo_LevelThree {
   @protected
   Pointer<Void> handle;
@@ -180,7 +180,7 @@ class LevelOne_LevelTwo_LevelThree$Impl implements LevelOne_LevelTwo_LevelThree 
   }
   @override
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input) {
-    final _foo_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface');
+    final _foo_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface'));
     final _input_handle = smoke_OuterClass_InnerInterface_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _foo_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
@@ -213,18 +213,18 @@ void smoke_LevelOne_LevelTwo_LevelThree_releaseFfiHandle_nullable(Pointer<Void> 
   _smoke_LevelOne_LevelTwo_LevelThree_release_handle(handle);
 // End of LevelOne_LevelTwo_LevelThree "private" section.
 // LevelOne_LevelTwo "private" section, not exported.
-final _smoke_LevelOne_LevelTwo_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_LevelOne_LevelTwo_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_copy_handle');
-final _smoke_LevelOne_LevelTwo_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_copy_handle'));
+final _smoke_LevelOne_LevelTwo_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_LevelOne_LevelTwo_release_handle');
-final _smoke_LevelOne_LevelTwo_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_LevelTwo_release_handle'));
+final _smoke_LevelOne_LevelTwo_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_LevelOne_LevelTwo_get_raw_pointer');
+    >('library_smoke_LevelOne_LevelTwo_get_raw_pointer'));
 class LevelOne_LevelTwo$Impl implements LevelOne_LevelTwo {
   @protected
   Pointer<Void> handle;
@@ -258,18 +258,18 @@ void smoke_LevelOne_LevelTwo_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_LevelOne_LevelTwo_release_handle(handle);
 // End of LevelOne_LevelTwo "private" section.
 // LevelOne "private" section, not exported.
-final _smoke_LevelOne_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_LevelOne_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_LevelOne_copy_handle');
-final _smoke_LevelOne_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_copy_handle'));
+final _smoke_LevelOne_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_LevelOne_release_handle');
-final _smoke_LevelOne_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_LevelOne_release_handle'));
+final _smoke_LevelOne_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_LevelOne_get_raw_pointer');
+    >('library_smoke_LevelOne_get_raw_pointer'));
 class LevelOne$Impl implements LevelOne {
   @protected
   Pointer<Void> handle;

@@ -78,19 +78,19 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "Ffi"}}_create_handle = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}}),
     Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
-  >('{{libraryName}}_{{resolveName "Ffi"}}_create_handle');
-final _{{resolveName "Ffi"}}_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "Ffi"}}_create_handle'));
+final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle');
+  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
 {{#set parent=this}}{{#fields}}
-final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.nativeLibrary.lookupFunction<
+final _{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}} = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName typeRef "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName typeRef "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}');
+  >('{{libraryName}}_{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}'));
 {{/fields}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}_ext{{/if}}) {

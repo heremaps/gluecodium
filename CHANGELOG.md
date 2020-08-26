@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features
+  * Added customizable additional error message in Dart for when FFI function lookup fails.
+
 ## 8.2.1
 Release date: 2020-08-26
 ### Bug fixes:

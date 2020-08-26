@@ -14,22 +14,22 @@ abstract class ParentClass {
   rootMethod();
 }
 // ParentClass "private" section, not exported.
-final _smoke_ParentClass_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_ParentClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ParentClass_copy_handle');
-final _smoke_ParentClass_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ParentClass_copy_handle'));
+final _smoke_ParentClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_ParentClass_release_handle');
-final _smoke_ParentClass_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_ParentClass_release_handle'));
+final _smoke_ParentClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ParentClass_get_raw_pointer');
-final _smoke_ParentClass_get_type_id = __lib.nativeLibrary.lookupFunction<
+    >('library_smoke_ParentClass_get_raw_pointer'));
+final _smoke_ParentClass_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_ParentClass_get_type_id');
+  >('library_smoke_ParentClass_get_type_id'));
 class ParentClass$Impl implements ParentClass {
   @protected
   Pointer<Void> handle;
@@ -43,7 +43,7 @@ class ParentClass$Impl implements ParentClass {
   }
   @override
   rootMethod() {
-    final _rootMethod_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod');
+    final _rootMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod'));
     final _handle = this.handle;
     final __result_handle = _rootMethod_ffi(_handle, __lib.LibraryContext.isolateId);
     try {

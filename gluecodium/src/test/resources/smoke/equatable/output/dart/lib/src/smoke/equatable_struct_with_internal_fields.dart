@@ -40,34 +40,34 @@ class EquatableStructWithInternalFields {
   }
 }
 // EquatableStructWithInternalFields "private" section, not exported.
-final _smoke_EquatableStructWithInternalFields_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_EquatableStructWithInternalFields_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_create_handle');
-final _smoke_EquatableStructWithInternalFields_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_create_handle'));
+final _smoke_EquatableStructWithInternalFields_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_release_handle');
-final _smoke_EquatableStructWithInternalFields_get_field_publicField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_release_handle'));
+final _smoke_EquatableStructWithInternalFields_get_field_publicField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_get_field_publicField');
-final _smoke_EquatableStructWithInternalFields_get_field_internalField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_get_field_publicField'));
+final _smoke_EquatableStructWithInternalFields_get_field_internalField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_get_field_internalField');
-final _smoke_EquatableStructWithInternalFields_get_field_internalListField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_get_field_internalField'));
+final _smoke_EquatableStructWithInternalFields_get_field_internalListField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_get_field_internalListField');
-final _smoke_EquatableStructWithInternalFields_get_field_internalMapField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_get_field_internalListField'));
+final _smoke_EquatableStructWithInternalFields_get_field_internalMapField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_get_field_internalMapField');
-final _smoke_EquatableStructWithInternalFields_get_field_internalSetField = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_get_field_internalMapField'));
+final _smoke_EquatableStructWithInternalFields_get_field_internalSetField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_get_field_internalSetField');
+  >('library_smoke_EquatableStructWithInternalFields_get_field_internalSetField'));
 Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi(EquatableStructWithInternalFields value) {
   final _publicField_handle = String_toFfi(value.publicField);
   final _internalField_handle = String_toFfi(value.internal_internalField);
@@ -106,18 +106,18 @@ EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFf
 }
 void smoke_EquatableStructWithInternalFields_releaseFfiHandle(Pointer<Void> handle) => _smoke_EquatableStructWithInternalFields_release_handle(handle);
 // Nullable EquatableStructWithInternalFields
-final _smoke_EquatableStructWithInternalFields_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_EquatableStructWithInternalFields_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_create_handle_nullable');
-final _smoke_EquatableStructWithInternalFields_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_create_handle_nullable'));
+final _smoke_EquatableStructWithInternalFields_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_release_handle_nullable');
-final _smoke_EquatableStructWithInternalFields_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_EquatableStructWithInternalFields_release_handle_nullable'));
+final _smoke_EquatableStructWithInternalFields_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EquatableStructWithInternalFields_get_value_nullable');
+  >('library_smoke_EquatableStructWithInternalFields_get_value_nullable'));
 Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi_nullable(EquatableStructWithInternalFields value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_EquatableStructWithInternalFields_toFfi(value);

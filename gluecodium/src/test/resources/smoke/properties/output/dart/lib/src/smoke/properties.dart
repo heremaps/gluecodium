@@ -62,18 +62,18 @@ Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi(int hand
   }
 }
 void smoke_Properties_InternalErrorCode_releaseFfiHandle(int handle) {}
-final _smoke_Properties_InternalErrorCode_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Properties_InternalErrorCode_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
-  >('library_smoke_Properties_InternalErrorCode_create_handle_nullable');
-final _smoke_Properties_InternalErrorCode_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_InternalErrorCode_create_handle_nullable'));
+final _smoke_Properties_InternalErrorCode_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Properties_InternalErrorCode_release_handle_nullable');
-final _smoke_Properties_InternalErrorCode_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_InternalErrorCode_release_handle_nullable'));
+final _smoke_Properties_InternalErrorCode_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_smoke_Properties_InternalErrorCode_get_value_nullable');
+  >('library_smoke_Properties_InternalErrorCode_get_value_nullable'));
 Pointer<Void> smoke_Properties_InternalErrorCode_toFfi_nullable(Properties_InternalErrorCode value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Properties_InternalErrorCode_toFfi(value);
@@ -96,18 +96,18 @@ class Properties_ExampleStruct {
   Properties_ExampleStruct(this.value);
 }
 // Properties_ExampleStruct "private" section, not exported.
-final _smoke_Properties_ExampleStruct_create_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Properties_ExampleStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Double),
     Pointer<Void> Function(double)
-  >('library_smoke_Properties_ExampleStruct_create_handle');
-final _smoke_Properties_ExampleStruct_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_ExampleStruct_create_handle'));
+final _smoke_Properties_ExampleStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Properties_ExampleStruct_release_handle');
-final _smoke_Properties_ExampleStruct_get_field_value = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_ExampleStruct_release_handle'));
+final _smoke_Properties_ExampleStruct_get_field_value = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
-  >('library_smoke_Properties_ExampleStruct_get_field_value');
+  >('library_smoke_Properties_ExampleStruct_get_field_value'));
 Pointer<Void> smoke_Properties_ExampleStruct_toFfi(Properties_ExampleStruct value) {
   final _value_handle = (value.value);
   final _result = _smoke_Properties_ExampleStruct_create_handle(_value_handle);
@@ -126,18 +126,18 @@ Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi(Pointer<Void> ha
 }
 void smoke_Properties_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_Properties_ExampleStruct_release_handle(handle);
 // Nullable Properties_ExampleStruct
-final _smoke_Properties_ExampleStruct_create_handle_nullable = __lib.nativeLibrary.lookupFunction<
+final _smoke_Properties_ExampleStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Properties_ExampleStruct_create_handle_nullable');
-final _smoke_Properties_ExampleStruct_release_handle_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_ExampleStruct_create_handle_nullable'));
+final _smoke_Properties_ExampleStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Properties_ExampleStruct_release_handle_nullable');
-final _smoke_Properties_ExampleStruct_get_value_nullable = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_ExampleStruct_release_handle_nullable'));
+final _smoke_Properties_ExampleStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Properties_ExampleStruct_get_value_nullable');
+  >('library_smoke_Properties_ExampleStruct_get_value_nullable'));
 Pointer<Void> smoke_Properties_ExampleStruct_toFfi_nullable(Properties_ExampleStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Properties_ExampleStruct_toFfi(value);
@@ -156,18 +156,18 @@ void smoke_Properties_ExampleStruct_releaseFfiHandle_nullable(Pointer<Void> hand
   _smoke_Properties_ExampleStruct_release_handle_nullable(handle);
 // End of Properties_ExampleStruct "private" section.
 // Properties "private" section, not exported.
-final _smoke_Properties_copy_handle = __lib.nativeLibrary.lookupFunction<
+final _smoke_Properties_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_Properties_copy_handle');
-final _smoke_Properties_release_handle = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_copy_handle'));
+final _smoke_Properties_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_Properties_release_handle');
-final _smoke_Properties_get_raw_pointer = __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_Properties_release_handle'));
+final _smoke_Properties_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Pointer<Void> Function(Pointer<Void>),
       Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Properties_get_raw_pointer');
+    >('library_smoke_Properties_get_raw_pointer'));
 class Properties$Impl implements Properties {
   @protected
   Pointer<Void> handle;
@@ -181,7 +181,7 @@ class Properties$Impl implements Properties {
   }
   @override
   int get builtInTypeProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_builtInTypeProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_builtInTypeProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -192,7 +192,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set builtInTypeProperty(int value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_builtInTypeProperty_set__UInt');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_builtInTypeProperty_set__UInt'));
     final _value_handle = (value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -205,7 +205,7 @@ class Properties$Impl implements Properties {
   }
   @override
   double get readonlyProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_Properties_readonlyProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_Properties_readonlyProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -216,7 +216,7 @@ class Properties$Impl implements Properties {
   }
   @override
   Properties_ExampleStruct get structProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_structProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_structProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -227,7 +227,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set structProperty(Properties_ExampleStruct value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_structProperty_set__ExampleStruct');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_structProperty_set__ExampleStruct'));
     final _value_handle = smoke_Properties_ExampleStruct_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -240,7 +240,7 @@ class Properties$Impl implements Properties {
   }
   @override
   List<String> get arrayProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_arrayProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_arrayProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -251,7 +251,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set arrayProperty(List<String> value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_1String');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_1String'));
     final _value_handle = ListOf_String_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -264,7 +264,7 @@ class Properties$Impl implements Properties {
   }
   @override
   Properties_InternalErrorCode get complexTypeProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_complexTypeProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_complexTypeProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -275,7 +275,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set complexTypeProperty(Properties_InternalErrorCode value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_complexTypeProperty_set__InternalErrorCode');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_complexTypeProperty_set__InternalErrorCode'));
     final _value_handle = smoke_Properties_InternalErrorCode_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -288,7 +288,7 @@ class Properties$Impl implements Properties {
   }
   @override
   Uint8List get byteBufferProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_byteBufferProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_byteBufferProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -299,7 +299,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set byteBufferProperty(Uint8List value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_byteBufferProperty_set__Blob');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_byteBufferProperty_set__Blob'));
     final _value_handle = Blob_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -312,7 +312,7 @@ class Properties$Impl implements Properties {
   }
   @override
   PropertiesInterface get instanceProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_instanceProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_instanceProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -323,7 +323,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set instanceProperty(PropertiesInterface value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_instanceProperty_set__PropertiesInterface');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_instanceProperty_set__PropertiesInterface'));
     final _value_handle = smoke_PropertiesInterface_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -336,7 +336,7 @@ class Properties$Impl implements Properties {
   }
   @override
   bool get isBooleanProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_isBooleanProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_isBooleanProperty_get'));
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -347,7 +347,7 @@ class Properties$Impl implements Properties {
   }
   @override
   set isBooleanProperty(bool value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_isBooleanProperty_set__Boolean');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_isBooleanProperty_set__Boolean'));
     final _value_handle = Boolean_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
@@ -359,7 +359,7 @@ class Properties$Impl implements Properties {
     }
   }
   static String get staticProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticProperty_get'));
     final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
     try {
       return String_fromFfi(__result_handle);
@@ -368,7 +368,7 @@ class Properties$Impl implements Properties {
     }
   }
   static set staticProperty(String value) {
-    final _set_ffi = __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_Properties_staticProperty_set__String');
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_Properties_staticProperty_set__String'));
     final _value_handle = String_toFfi(value);
     final __result_handle = _set_ffi(__lib.LibraryContext.isolateId, _value_handle);
     String_releaseFfiHandle(_value_handle);
@@ -379,7 +379,7 @@ class Properties$Impl implements Properties {
     }
   }
   static Properties_ExampleStruct get staticReadonlyProperty {
-    final _get_ffi = __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticReadonlyProperty_get');
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticReadonlyProperty_get'));
     final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
     try {
       return smoke_Properties_ExampleStruct_fromFfi(__result_handle);
