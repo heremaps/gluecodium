@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.2.1
+Release date: 2020-08-26
+### Bug fixes:
+  * Fixed Java compilation issue for Date type conversion.
+
 ## 8.2.0
 Release date: 2020-08-25
 ### Features
