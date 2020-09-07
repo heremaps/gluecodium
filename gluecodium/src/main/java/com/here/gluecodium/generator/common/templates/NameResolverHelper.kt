@@ -57,7 +57,7 @@ internal class NameResolverHelper : BasicHelper() {
                     element = options.peek()
                     key = parameter
                 } else {
-                    element = parameter
+                    element = parameter ?: return
                     key = ""
                 }
             }

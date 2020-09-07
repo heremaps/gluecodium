@@ -89,3 +89,8 @@ interface DeprecationCommentsOnly {
         set
     }
 }
+
+@Deprecated
+struct DeprecatedWithNoMessage {
+    field: String
+}
