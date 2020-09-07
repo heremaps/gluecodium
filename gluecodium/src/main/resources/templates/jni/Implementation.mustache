@@ -30,14 +30,14 @@
 
 extern "C" {
 
-{{#container}}{{#methods}}
+{{#container}}{{#methods}}{{#unless isSkipped}}
 {{>jniMethod}}
 
-{{/methods}}
-{{#if hasInterfaceParent}}{{#parentMethods}}
+{{/unless}}{{/methods}}
+{{#if hasInterfaceParent}}{{#parentMethods}}{{#unless isSkipped}}
 {{>jniMethod}}
 
-{{/parentMethods}}{{/if}}
+{{/unless}}{{/parentMethods}}{{/if}}
 {{#instanceOf container "JniContainer"}}
 JNIEXPORT void JNICALL
 Java_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

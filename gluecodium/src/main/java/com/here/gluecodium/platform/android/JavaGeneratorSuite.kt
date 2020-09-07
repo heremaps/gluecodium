@@ -41,7 +41,9 @@ import com.here.gluecodium.model.java.JavaPackage
 import com.here.gluecodium.model.java.JavaTopLevelElement
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
 
@@ -90,7 +92,8 @@ open class JavaGeneratorSuite protected constructor(
         )
 
         val filteredElements =
-            LimeModelFilter { !it.attributes.have(JAVA, SKIP) }.filter(limeModel.topElements)
+            LimeModelFilter { it is LimeFunction || it is LimeProperty || !it.attributes.have(JAVA, SKIP) }
+                .filter(limeModel.topElements)
         val combinedModel =
             filteredElements.fold(JavaModel()) { model, rootElement ->
                 model.merge(jniGenerator.generateModel(rootElement))

@@ -54,6 +54,9 @@ namespace jni
 }}{{+proxyMethod}}
 {{returnType.cppName}}
 {{mangledName}}_CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
+{{#if isSkipped}}
+    {{#unless returnType.isJavaVoid}}return {};{{/unless}}
+{{/if}}{{#unless isSkipped}}
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#if type.isComplex}}
@@ -110,5 +113,6 @@ namespace jni
 {{/unless}}{{/if}}
     }
 {{/exception}}
+{{/unless}}
 }
 {{/proxyMethod}}

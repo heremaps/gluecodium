@@ -35,6 +35,7 @@ class JavaMethod(
     var isNative: Boolean = false,
     val isGetter: Boolean = false,
     val isCached: Boolean = false,
+    val isSkipped: Boolean = false,
     annotations: Set<JavaTypeRef> = emptySet()
 ) : JavaElement(name) {
 
@@ -71,6 +72,7 @@ class JavaMethod(
         isNative = isNative,
         isGetter = isGetter,
         isCached = isCached,
+        isSkipped = isSkipped,
         annotations = annotations
     )
 }

@@ -15,31 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package smoke
-
-class SkipFunctions {
-    @Java(Skip)
-    static fun notInJava(input: String): String
-    @Swift(Skip)
-    static fun notInSwift(input: Boolean): Boolean
-    @Dart(Skip)
-    static fun notInDart(input: Float): Float
-}
-
-class SkipTypes {
-    @Java(Skip)
-    struct NotInJava {
-        fooField: String
-    }
-    @Swift(Skip)
-    struct NotInSwift {
-        fooField: String
-    }
-    @Dart(Skip)
-    struct NotInDart {
-        fooField: String
-    }
-}
+package test
 
 interface SkipProxy {
     @Java(Skip)

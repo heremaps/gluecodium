@@ -61,6 +61,8 @@ import com.here.gluecodium.model.jni.JniStruct
 import com.here.gluecodium.model.jni.JniTopLevelElement
 import com.here.gluecodium.model.jni.JniType
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -208,7 +210,8 @@ class JniModelBuilder(
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = javaSignatureResolver.isOverloaded(limeMethod),
             returnsOpaqueHandle = javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveTypeRef.LONG,
-            exception = jniException
+            exception = jniException,
+            isSkipped = limeMethod.attributes.have(JAVA, SKIP)
         )
         jniMethod.parameters.addAll(getPreviousResults(JniParameter::class.java))
 
@@ -323,7 +326,8 @@ class JniModelBuilder(
                     JniIncludeResolver.getConversionIncludes(getterTypeRef, javaGetter.returnType)
                 ),
                 isConst = true,
-                isStatic = limeProperty.isStatic
+                isStatic = limeProperty.isStatic,
+                isSkipped = limeProperty.attributes.have(JAVA, SKIP)
             )
         )
         val limeSetter = limeProperty.setter
@@ -334,7 +338,8 @@ class JniModelBuilder(
                 javaMethodName = getMangledName(javaSetter.name),
                 cppMethodName = cppSetter.name,
                 returnType = JniType.VOID,
-                isStatic = limeProperty.isStatic
+                isStatic = limeProperty.isStatic,
+                isSkipped = limeProperty.attributes.have(JAVA, SKIP)
             )
 
             val javaParameter = javaSetter.parameters.first()

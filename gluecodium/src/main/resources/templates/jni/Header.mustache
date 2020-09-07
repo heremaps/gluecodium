@@ -28,16 +28,16 @@
 extern "C" {
 #endif
 
-{{#container}}{{#methods}}
+{{#container}}{{#methods}}{{#unless isSkipped}}
 JNIEXPORT {{returnType.name}} JNICALL
 {{>jni/FunctionSignature}};
 
-{{/methods}}
-{{#if hasInterfaceParent}}{{#parentMethods}}
+{{/unless}}{{/methods}}
+{{#if hasInterfaceParent}}{{#parentMethods}}{{#unless isSkipped}}
 JNIEXPORT {{returnType.name}} JNICALL
 {{>jni/FunctionSignature}};
 
-{{/parentMethods}}{{/if}}
+{{/unless}}{{/parentMethods}}{{/if}}
 {{#hasNativeEquatable}}
 JNIEXPORT jboolean JNICALL
 {{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs);
