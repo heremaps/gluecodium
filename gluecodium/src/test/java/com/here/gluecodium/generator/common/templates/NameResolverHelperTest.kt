@@ -32,7 +32,7 @@ import org.trimou.handlebars.Options
 
 @RunWith(JUnit4::class)
 class NameResolverHelperTest {
-    private val parameters = mutableListOf<Any>()
+    private val parameters = mutableListOf<Any?>()
     private val options = spyk<Options>()
     private val genericElement = object : Any() {}
 
@@ -65,6 +65,16 @@ class NameResolverHelperTest {
         helper.execute(options)
 
         verify(exactly = 1) { options.append("foo") }
+    }
+
+    @Test
+    fun executeNullParameter() {
+        every { options.peek() } returns genericElement
+        parameters.add(null)
+
+        helper.execute(options)
+
+        verify(exactly = 0) { options.append(any()) }
     }
 
     @Test
