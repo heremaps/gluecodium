@@ -39,7 +39,7 @@
 {{/innerClasses}}
 {{#innerInterfaces}}{{prefixPartial "java/Interface" "    "}}
 {{/innerInterfaces}}
-{{#set className=name}}{{#constructors}}
+{{#set className=name}}{{#constructors}}{{#unless isSkipped}}
 {{prefixPartial "java/MethodComment" "    "}}
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
 {{#unless stubs}}{{#if isImplClass}}
@@ -51,7 +51,7 @@
 {{/fields}}
 {{/unless}}{{/unless}}
     }
-{{/constructors}}{{/set}}
+{{/unless}}{{/constructors}}{{/set}}
 {{#unless stubs}}{{#if isImplClass}}
 {{prefixPartial "java/NativeConstructor" "    "}}
 {{#if constructors}}
@@ -104,7 +104,7 @@
 {{#if needsBuilder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
 {{/unless}}{{/if}}
-{{#methods}}{{#if stubs}}{{#unless isConstructor}}
+{{#methods}}{{#unless isSkipped}}{{#if stubs}}{{#unless isConstructor}}
 {{prefixPartial "java/MethodSignature" "    "}} {
         throw RuntimeException("This method is a stub and has to be mocked.");
     }
@@ -129,5 +129,5 @@
 }}({{joinPartial parameters "java/Parameter" ", "}});
 {{/if}}{{!!
 }}{{#unless isCached}}{{prefixPartial "java/MethodSignature" "    "}};{{/unless}}{{/unless}}
-{{/methods}}
+{{/unless}}{{/methods}}
 }

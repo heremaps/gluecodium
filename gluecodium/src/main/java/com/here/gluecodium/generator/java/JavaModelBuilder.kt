@@ -45,6 +45,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
 import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.MESSAGE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeConstant
@@ -129,7 +130,8 @@ class JavaModelBuilder(
             throwsComment = limeMethod.thrownType?.comment?.getFor(PLATFORM_TAG),
             parameters = getPreviousResults(JavaParameter::class.java),
             isConstructor = limeMethod.isConstructor,
-            isStatic = limeMethod.isStatic
+            isStatic = limeMethod.isStatic,
+            isSkipped = limeMethod.attributes.have(JAVA, SKIP)
         )
         addDeprecatedAnnotationIfNeeded(javaMethod)
 
@@ -310,7 +312,8 @@ class JavaModelBuilder(
             returnComment = propertyComment,
             isStatic = limeProperty.isStatic,
             isGetter = true,
-            isCached = limeProperty.attributes.have(LimeAttributeType.CACHED)
+            isCached = limeProperty.attributes.have(LimeAttributeType.CACHED),
+            isSkipped = limeProperty.attributes.have(JAVA, SKIP)
         )
         addDeprecatedAnnotationIfNeeded(getterMethod)
 
@@ -330,7 +333,8 @@ class JavaModelBuilder(
                 visibility = getVisibility(limeSetter),
                 returnType = JavaPrimitiveTypeRef.VOID,
                 parameters = listOf(setterParameter),
-                isStatic = limeProperty.isStatic
+                isStatic = limeProperty.isStatic,
+                isSkipped = limeProperty.attributes.have(JAVA, SKIP)
             )
             addDeprecatedAnnotationIfNeeded(setterMethod)
 

@@ -45,7 +45,7 @@ abstract class JavaTopLevelElement(
                 .flatMap { it.imports }
                 .toMutableList()
             imports += parentInterfaces.flatMap { it.imports }
-            imports += methods.mapNotNull { it.exception }.flatMap { it.imports }
+            imports += methods.filterNot { it.isSkipped }.mapNotNull { it.exception }.flatMap { it.imports }
             imports += innerClasses.flatMap { it.imports }
             imports += innerInterfaces.flatMap { it.imports }
 
@@ -56,6 +56,6 @@ abstract class JavaTopLevelElement(
         }
 
     override val childElements
-        get() = super.childElements + methods + constants + parentInterfaces + enums +
+        get() = super.childElements + methods.filterNot { it.isSkipped } + constants + parentInterfaces + enums +
                 innerClasses + exceptions
 }

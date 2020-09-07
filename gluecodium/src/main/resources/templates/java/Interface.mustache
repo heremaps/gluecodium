@@ -33,6 +33,6 @@
 {{/innerClasses}}
 {{#innerInterfaces}}{{prefixPartial "java/Interface" "    "}}
 {{/innerInterfaces}}
-{{#set isInterface=true}}{{#methods}}{{prefixPartial "java/MethodSignature" "    "}};
-{{/methods}}{{/set}}
+{{#set isInterface=true}}{{#methods}}{{#unless isSkipped}}{{prefixPartial "java/MethodSignature" "    "}};
+{{/unless}}{{/methods}}{{/set}}
 }
