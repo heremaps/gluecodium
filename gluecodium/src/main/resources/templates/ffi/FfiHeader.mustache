@@ -51,11 +51,11 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_p
 
 {{#each interfaces lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
-}}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
-}}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
-}}{{#if inheritedProperties properties logic="or"}}, {{!!
-}}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
-}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}});
+}}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
+}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+}}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
+}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}});
 {{/each}}
 
 {{#each nonExternalStructs externalStructs}}
@@ -97,19 +97,19 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueH
 {{/ffiEqualityFunctionDeclaration}}{{!!
 
 }}{{+ffiClassHeader}}
-{{#functions}}
+{{#functions}}{{#unless attributes.dart.skip}}
 {{>ffiFunctionDeclaration}}
-{{/functions}}
-{{#properties}}{{#getter}}
+{{/unless}}{{/functions}}
+{{#properties}}{{#unless attributes.dart.skip}}{{#getter}}
 {{>ffiFunctionDeclaration}}
 {{/getter}}{{#setter}}
 {{>ffiFunctionDeclaration}}
 {{/setter}}
-{{/properties}}
+{{/unless}}{{/properties}}
 {{#structs}}
-{{#functions}}
+{{#functions}}{{#unless attributes.dart.skip}}
 {{>ffiFunctionDeclaration}}
-{{/functions}}
+{{/unless}}{{/functions}}
 {{/structs}}
 {{#this.lambdas}}{{#asFunction}}
 {{>ffiFunctionDeclaration}}

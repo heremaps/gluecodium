@@ -5,7 +5,7 @@
   * Added customizable additional error message in Dart for when FFI function lookup fails.
 ### Bug fixes:
   * Fixed generator failures for `@Deprecated` attribute without a message (C++, Dart).
-  * Fixed compilation issues for `@Java(Skip)` and `@Swift(Skip)` on functions and properties in an interface.
+  * Fixed compilation issues for `@Java(Skip)`, `@Swift(Skip)`, and `@Dart(Skip)` on functions and properties in an interface.
 
 ## 8.2.1
 Release date: 2020-08-26
@@ -30,9 +30,9 @@ Release date: 2020-08-13
 ## 8.1.0
 Release date: 2020-08-11
 ### Features:
-  * Introduced "stubs" mode for Java generator (`-stubs` command-line parameter). This mode replaces
+  * Introduced "stubs" mode for the Java generator (`-stubs` command-line parameter). This mode replaces
     "native" methods in generated Java code with stubs (i.e. empty implementation) and removes
-    "final" qualifier from classes and fields. This makes code generated for classes and structs
+    "final" qualifier from classes and fields. This mode makes code generated for classes and structs
     fully mockable in unit tests.
 ### Bug fixes:
   * Fixed runtime issue for external type converters in Java.
@@ -108,7 +108,7 @@ Release date: 2020-06-10
   * Fixed links resolution and character escaping for deprecation messages in Dart.
   * Fixed runtime issue with stale cache entries in Dart.
   * Fixed runtime issue with error handling in calling Dart code from C++.
-  * Added workaround for a Flutter hot restart issue in Dart.
+  * Added a workaround for a Flutter hot restart issue in Dart.
 
 ## 7.0.5
 Release date: 2020-06-04
@@ -144,7 +144,7 @@ Release date: 2020-05-19
   * Added referential integrity for classes and interfaces in generated platform code. Meaning, when
     the same C++ object is passed twice to platform (Java/Swift/Dart) side, it is now guaranteed to
     be the same object on platform side as well.
-  * Relaxed restrictions on `@Equatable` structs in IDL. Such structs now can contains fields of
+  * Relaxed restrictions on `@Equatable` structs in IDL. Such structs now can contain fields of
     any class or interface types (not just those that are `@Equatable` themselves).
   * Added support for arbitrary exception payload when calling a throwing Dart method from C++.
   * Added doc comments for `release()` methods in Dart generated code.
@@ -240,14 +240,14 @@ Release date: 2020-04-06
 ## 6.4.7
 Release date: 2020-04-02
 ### Bug fixes:
-  * Fixed validation for parameter types in lambda IDL declarations.
+  * Fixed validation for parameter types in IDL declarations of lambdas.
   * Fixed Dart runtime issue for cross-platform handles.
 
 ## 6.4.6
 Release date: 2020-04-02
 ### Bug fixes:
   * Fixed compilation issue in Dart for internal constructors.
-  * Fixed validation for return types in lambda IDL declarations.
+  * Fixed validation for return types in IDL declarations of lambdas.
   * Fixed compilation issue in Dart for collection type references in lambdas.
 
 ## 6.4.5
@@ -333,7 +333,7 @@ Release date: 2020-03-02
 ## 6.3.0
 Release date: 2020-02-28
 ### Features:
-  * Added "-swiftinternalprefix" optional command line parameter, to help resolving name clashes in
+  * Added "-swiftinternalprefix" optional command line parameter, to help resolve name clashes in
     case of modularized Swift builds.
 ### Bug fixes:
   * Fixed two compilation issues for Dart FFI bindings.
@@ -454,7 +454,7 @@ Release date: 2019-10-09
   * Allow Unicode white-space characters in LimeIDL.
 
 ### Breaking changes:
-  * Renamed Genium to Gluecodium.
+  * Renamed Gluecodium to Gluecodium.
 
 ## 5.5.0
 Release date: 2019-09-23
@@ -501,7 +501,7 @@ Release date: 2019-09-03
   * Subclasses are now passed as their actual type from C++ to Java/Swift.
   * Added compile-time validation for "external" types in C++.
   * Added support for `open` visibility modifier in LimeIDL.
-  * Genium options can now be loaded from file with "-options" command line parameter.
+  * Gluecodium options can now be loaded from file with "-options" command line parameter.
 
 ### Breaking changes:
   * Classes can now only inherit from other classes in LimeIDL if the "parent" class has `open`
@@ -557,10 +557,8 @@ Release date: 2019-07-31
   * New input language: LimeIDL. See [LimeIDL documentation](docs/lime_idl.md) for details.
   * Hash functions are generated for all Equatable and PointerEquatable types in C++.
   * Added support for Equatable and PointerEquatable types in sets and map keys.
-
 ### Bug fixes:
   * Fixed Swift 5 compilation warning.
-
 ### Breaking changes:
   * Franca FIDL/FDEPL input is no longer supported. See [LimeIDL documentation](docs/lime_idl.md)
   for the migration guide.
@@ -701,7 +699,7 @@ Release date: 2019-05-06
 ## 4.0.2
 Release date: 2019-04-17
 ### Features:
-  * Added a command line parameter to specify package for Genium-internal classes (e.g. NativeBase).
+  * Added a command line parameter to specify package for Gluecodium-internal classes (e.g. NativeBase).
 
 ## 4.0.1
 Release date: 2019-04-16
@@ -927,7 +925,7 @@ Release date: 2018-10-10
 
 ### Removed:
   * "-listGenerators" command line parameter was removed. All available generators are listed in the
-    help message for "generator" parameter. Use "-help" to view the help message for all Genium
+    help message for "generator" parameter. Use "-help" to view the help message for all Gluecodium
     command line parameters.
 
 ## 3.10.0
@@ -955,7 +953,7 @@ Release date: 2018-09-06
 ## 3.8.0
 Release date: 2018-08-20
 ### Breaking changes:
-  * Moved "External*" FDEPL properties from "GeniumExtensions" FDEPL specification into a dedicated
+  * Moved "External*" FDEPL properties from "GluecodiumExtensions" FDEPL specification into a dedicated
     FDEPL specification "ExternalTypes".
   * Fixed instance-type attributes in Swift to be generated as properties with an optional type.
 
@@ -978,7 +976,7 @@ Release date: 2018-08-09
     C++ and conversion code.
 
 ### Features:
-  * The *Genium* class can be instantiated directly now and serves as a high-level entry point for
+  * The *Gluecodium* class can be instantiated directly now and serves as a high-level entry point for
   * The *Gluecodium* class can be instantiated directly now and serves as a high-level entry point for
     usage as a library.
 
@@ -1046,7 +1044,7 @@ Release date: 2018-04-20
 ## 3.0.0
 Release date: 2018-04-13
 ### Breaking changes:
-  * Renamed Transpiler to Genium.
+  * Renamed Transpiler to Gluecodium.
 
 ### Features:
   * Added FDEPL property "ExternalType" for marking struct types as "external" in C++ and providing

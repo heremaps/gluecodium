@@ -93,22 +93,22 @@ void
 
 {{#interfaces}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
-}}{{#each inheritedFunctions functions}}FfiOpaqueHandle f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
-}}{{#if inheritedProperties properties logic="or"}}, {{!!
-}}{{#each inheritedProperties properties}}FfiOpaqueHandle p{{iter.position}}g{{!!
-}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}) {
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
+}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+}}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
+}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}}) {
     auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, isolate_id, "{{resolveName}}");
     std::shared_ptr<{{resolveName}}_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(
-            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, deleter{{#if inheritedFunctions functions logic="or"}}, {{!!
-            }}{{#each inheritedFunctions functions}}f{{iter.position}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
-            }}{{#if inheritedProperties properties logic="or"}}, {{!!
-            }}{{#each inheritedProperties properties}}p{{iter.position}}g{{!!
-            }}{{#if setter}}, p{{iter.position}}s{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}})
+            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, deleter{{!!
+            }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+            }}, f{{iter.position}}{{/unless}}{{/each}}{{!!
+            }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, p{{iter.position}}g{{!!
+            }}{{#if setter}}, p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
         );
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", *proxy_ptr);
     }
@@ -310,19 +310,19 @@ bool
 {{/ffiEqualityFunction}}{{!!
 
 }}{{+ffiClassImpl}}
-{{#set parent=this}}{{#functions}}
+{{#set parent=this}}{{#functions}}{{#unless attributes.dart.skip}}
 {{>ffiFunction}}
-{{/functions}}
-{{#properties}}{{#getter}}
+{{/unless}}{{/functions}}
+{{#properties}}{{#unless attributes.dart.skip}}{{#getter}}
 {{>ffiFunction}}
 {{/getter}}{{#setter}}
 {{>ffiFunction}}
 {{/setter}}
-{{/properties}}{{/set}}
+{{/unless}}{{/properties}}{{/set}}
 {{#structs}}
-{{#set parent=this}}{{#functions}}
+{{#set parent=this}}{{#functions}}{{#unless attributes.dart.skip}}
 {{>ffiFunction}}
-{{/functions}}{{/set}}
+{{/unless}}{{/functions}}{{/set}}
 {{/structs}}
 {{#this.lambdas}}{{#set parent=this}}{{#asFunction}}
 {{>ffiFunction}}
