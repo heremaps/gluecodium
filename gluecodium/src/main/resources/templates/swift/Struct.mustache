@@ -74,7 +74,7 @@
 {{/fields}}
     }
 {{/if}}{{!!
-}}{{#set className=name}}{{#constructors}}
+}}{{#set className=name}}{{#constructors}}{{#unless isSkipped}}
 {{prefixPartial "swift/MethodComment" "    "}}
     {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
         let _result_handle = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
@@ -89,7 +89,7 @@
 {{/fields}}
     }
 
-{{/constructors}}{{/set}}{{!!
+{{/unless}}{{/constructors}}{{/set}}{{!!
 }}{{#if needsExplicitHashable}}
     public static func == (lhs: {{simpleName}}, rhs: {{simpleName}}) -> Bool {
         return
@@ -110,9 +110,9 @@
 {{/if}}{{!!
 }}{{#if methods}}
 
-{{#set selfIsStruct=true}}{{#methods}}
+{{#set selfIsStruct=true}}{{#methods}}{{#unless isSkipped}}
 {{prefixPartial 'swift/Method' '    '}}
-{{/methods}}{{/set}}{{/if}}
+{{/unless}}{{/methods}}{{/set}}{{/if}}
 }
 {{/unless}}{{!!
 

@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.WEAK
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
@@ -236,9 +237,8 @@ class SwiftModelBuilder(
             error = error,
             isStatic = limeMethod.isStatic,
             isConstructor = limeMethod.isConstructor,
-            isOverriding = limeMethod.isConstructor && signatureResolver.hasSignatureClash(
-                limeMethod
-            ),
+            isOverriding = limeMethod.isConstructor && signatureResolver.hasSignatureClash(limeMethod),
+            isSkipped = limeMethod.attributes.have(SWIFT, SKIP),
             parameters = getPreviousResults(SwiftParameter::class.java)
         )
 
@@ -398,7 +398,8 @@ class SwiftModelBuilder(
             setter = swiftSetter,
             isStatic = limeProperty.isStatic,
             isCached = limeProperty.attributes.have(CACHED),
-            isWeak = limeProperty.attributes.have(SWIFT, WEAK)
+            isWeak = limeProperty.attributes.have(SWIFT, WEAK),
+            isSkipped = limeProperty.attributes.have(SWIFT, SKIP)
         )
         property.comment = createComments(limeProperty)
 

@@ -32,9 +32,6 @@ object CBridgeComponents {
     val WRAPPER_CACHE_HEADER = Paths.get(
         CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "WrapperCache.h"
     ).toString()
-    val WRAPPER_CACHE_IMPL = Paths.get(
-        CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.SRC_DIR, "WrapperCache.cpp"
-    ).toString()
 
     fun collectImplementationIncludes(cInterface: CInterface): List<Include> {
         val includes = mutableListOf<Include>()
@@ -42,7 +39,7 @@ object CBridgeComponents {
         val functions = mutableListOf<CFunction>()
         functions.addAll(cInterface.functions)
         functions.addAll(cInterface.inheritedFunctions)
-        for (function in functions) {
+        for (function in functions.filter { !it.isSkipped }) {
             includes.addAll(collectFunctionBodyIncludes(function))
         }
         for (struct in cInterface.structs) {
@@ -83,7 +80,7 @@ object CBridgeComponents {
     fun collectHeaderIncludes(cInterface: CInterface): List<Include> {
         val includes = mutableListOf<Include>()
 
-        for (function in cInterface.functions) {
+        for (function in cInterface.functions.filter { !it.isSkipped }) {
             includes.addAll(collectFunctionSignatureIncludes(function))
         }
         for (struct in cInterface.structs) {
@@ -98,7 +95,7 @@ object CBridgeComponents {
         for (enumType in cInterface.enums) {
             includes.addAll(enumType.includes)
         }
-        if (cInterface.hasEquatableType || cInterface.functions.any { it.error != null }) {
+        if (cInterface.hasEquatableType || cInterface.functions.filter { !it.isSkipped }.any { it.error != null }) {
             includes.add(CType.BOOL_INCLUDE)
         }
         includes += cInterface.interfaces.flatMap { collectHeaderIncludes(it) }

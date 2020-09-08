@@ -32,7 +32,7 @@
 {{/typedefs}}{{!!
 }}{{#closures}}
 {{prefixPartial "swift/Closure" "    "}}
-{{/closures}}{{#set className=simpleName}}{{#constructors}}
+{{/closures}}{{#set className=simpleName}}{{#constructors}}{{#unless isSkipped}}
 {{prefixPartial "swift/MethodComment" "    "}}
     {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
         let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
@@ -46,7 +46,7 @@
         {{cInstance}}_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
 
-{{/constructors}}{{/set}}{{!!
+{{/unless}}{{/constructors}}{{/set}}{{!!
 
 }}{{>CommonClassParts}}
 }
@@ -61,12 +61,12 @@
 }}{{#closures}}
 {{prefixPartial "swift/Closure" "    "}}
 {{/closures}}
-{{#properties}}
+{{#properties}}{{#unless isSkipped}}
 {{prefixPartial "swift/Comment" "    "}}
     {{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} { get {{#setter}}set {{/setter}}}
-{{/properties}}
-{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
-{{/methods}}
+{{/unless}}{{/properties}}
+{{#methods}}{{#unless isSkipped}}{{prefixPartial 'swift/MethodSignature' '    '}}
+{{/unless}}{{/methods}}
 }
 
 internal class _{{simpleName}}: {{simpleName}} {
@@ -79,9 +79,9 @@ internal class _{{simpleName}}: {{simpleName}} {
 }}{{#constants}}
 {{prefixPartial "swift/Constant" "    "}}
 {{/constants}}{{!!
-}}{{#properties}}
+}}{{#properties}}{{#unless isSkipped}}
 {{prefixPartial 'swift/Property' '    '}}
-{{/properties}}{{!!
+{{/unless}}{{/properties}}{{!!
 
 }}{{prefixPartial 'swift/Constructor' '    '}}{{!!
 
@@ -97,7 +97,7 @@ internal class _{{simpleName}}: {{simpleName}} {
 {{prefixPartial 'swift/Struct' '    '}}
 {{/structs}}{{!!
 
-}}{{#methods}}
+}}{{#methods}}{{#unless isSkipped}}
 {{prefixPartial 'swift/Method' '    '}}
-{{/methods}}{{!!
+{{/unless}}{{/methods}}{{!!
 }}{{/CommonClassParts}}

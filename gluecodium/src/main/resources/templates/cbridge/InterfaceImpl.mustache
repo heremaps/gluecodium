@@ -90,14 +90,14 @@ uint64_t {{name}}_hash(_baseRef handle) {
 {{#structs}}
 {{>cbridge/StructImplementation}}
 
-{{#set selfIsStruct=true}}{{#methods}}
+{{#set selfIsStruct=true}}{{#methods}}{{#unless isSkipped}}
 {{>cbridge/FunctionDefinition}}
-{{/methods}}{{/set}}
+{{/unless}}{{/methods}}{{/set}}
 {{/structs}}
 
-{{#functions}}
+{{#functions}}{{#unless isSkipped}}
 {{>cbridge/FunctionDefinition}}
-{{/functions}}
+{{/unless}}{{/functions}}
 
 {{#isInterface}}
 {{>cbridge/CppProxy}}

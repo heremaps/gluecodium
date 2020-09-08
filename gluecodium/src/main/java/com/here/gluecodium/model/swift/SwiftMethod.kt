@@ -35,6 +35,7 @@ class SwiftMethod(
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false,
     val isOverriding: Boolean = false,
+    val isSkipped: Boolean = false,
     val parameters: List<SwiftParameter> = emptyList()
 ) : SwiftModelElement(name, visibility) {
 

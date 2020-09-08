@@ -42,7 +42,9 @@ import com.here.gluecodium.model.cpp.CppTypeRef
 import com.here.gluecodium.model.cpp.CppUsing
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -171,7 +173,8 @@ class CBridgeModelBuilder(
             cppReturnTypeName = cppMethod.returnType.fullyQualifiedName,
             isConst = limeMethod.attributes.have(CPP, LimeAttributeValueType.CONST),
             error = errorType,
-            errorTypeIsEnum = errorTypeIsEnum
+            errorTypeIsEnum = errorTypeIsEnum,
+            isSkipped = limeMethod.attributes.have(SWIFT, SKIP)
         )
 
         storeResult(result)
@@ -258,16 +261,17 @@ class CBridgeModelBuilder(
 
         val getterSwiftMethod = swiftProperty.getter
         val getterFunction = CFunction(
-            getterSwiftMethod.cShortName,
-            getterSwiftMethod.cNestedSpecifier,
-            attributeTypeInfo,
-            emptyList(),
-            selfParameter,
-            cppGetterMethod.fullyQualifiedName,
-            cppIncludeResolver.resolveIncludes(limeProperty).toSet(),
-            cppGetterMethod.name,
-            cppGetterMethod.returnType.fullyQualifiedName,
-            true
+            shortName = getterSwiftMethod.cShortName,
+            nestedSpecifier = getterSwiftMethod.cNestedSpecifier,
+            returnType = attributeTypeInfo,
+            parameters = emptyList(),
+            selfParameter = selfParameter,
+            delegateCall = cppGetterMethod.fullyQualifiedName,
+            delegateCallIncludes = cppIncludeResolver.resolveIncludes(limeProperty).toSet(),
+            functionName = cppGetterMethod.name,
+            cppReturnTypeName = cppGetterMethod.returnType.fullyQualifiedName,
+            isConst = true,
+            isSkipped = limeProperty.attributes.have(SWIFT, SKIP)
         )
         storeResult(getterFunction)
 
@@ -275,15 +279,16 @@ class CBridgeModelBuilder(
             val setterSwiftMethod = swiftProperty.setter
             val cppSetterMethod = cppMethods[1]
             val setterFunction = CFunction(
-                setterSwiftMethod?.cShortName,
-                setterSwiftMethod?.cNestedSpecifier,
-                CppTypeInfo(CType.VOID),
-                listOf(CParameter("newValue", attributeTypeInfo)),
-                selfParameter,
-                cppSetterMethod.fullyQualifiedName,
-                cppIncludeResolver.resolveIncludes(limeProperty).toSet(),
-                cppSetterMethod.name,
-                cppSetterMethod.returnType.fullyQualifiedName
+                shortName = setterSwiftMethod?.cShortName,
+                nestedSpecifier = setterSwiftMethod?.cNestedSpecifier,
+                returnType = CppTypeInfo(CType.VOID),
+                parameters = listOf(CParameter("newValue", attributeTypeInfo)),
+                selfParameter = selfParameter,
+                delegateCall = cppSetterMethod.fullyQualifiedName,
+                delegateCallIncludes = cppIncludeResolver.resolveIncludes(limeProperty).toSet(),
+                functionName = cppSetterMethod.name,
+                cppReturnTypeName = cppSetterMethod.returnType.fullyQualifiedName,
+                isSkipped = limeProperty.attributes.have(SWIFT, SKIP)
             )
             storeResult(setterFunction)
         }

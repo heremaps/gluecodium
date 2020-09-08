@@ -55,13 +55,13 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true{{#if hasWeakSupport}}
     }
 
 {{#set className=name}}
-{{#methods}}
+{{#methods}}{{#unless isSkipped}}
 {{#set delegateToCall="delegateCall2"}}{{>functionTableEntry}}{{/set}}
-{{/methods}}
-{{#properties}}
+{{/unless}}{{/methods}}
+{{#properties}}{{#unless isSkipped}}
 {{#set propertyName=name}}{{#getter}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/getter}}
 {{#setter}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/setter}}{{/set}}
-{{/properties}}
+{{/unless}}{{/properties}}
     let proxy = {{cInstance}}_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release_handle) : RefHolder(proxy)
 }

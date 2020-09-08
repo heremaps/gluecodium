@@ -432,7 +432,7 @@ feature(SkipAttribute android swift dart SOURCES
 )
 
 # TODO: #489: merge with use case above when done
-feature(SkipAttributeProxies android SOURCES
+feature(SkipAttributeProxies android swift SOURCES
     lime/test/SkipProxy.lime
 )
 
