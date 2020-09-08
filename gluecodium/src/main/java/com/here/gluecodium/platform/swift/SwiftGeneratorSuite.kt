@@ -38,7 +38,9 @@ import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.swift.SwiftFile
 import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
@@ -77,7 +79,8 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         )
 
         val filteredElements =
-            LimeModelFilter { !it.attributes.have(SWIFT, SKIP) }.filter(limeModel.topElements)
+            LimeModelFilter { it is LimeFunction || it is LimeProperty || !it.attributes.have(SWIFT, SKIP) }
+                .filter(limeModel.topElements)
         val validationResult =
             SwiftWeakPropertiesValidator(LimeLogger(logger, limeModel.fileNameMap))
                 .validate(filteredElements)

@@ -36,7 +36,9 @@ public:
     {{#if selfParameter}}
     {{cppReturnTypeName}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{!!
     }}{{#if isConst}} const{{/if}}{{#unless isFunctionalInterface}} override{{/unless}} {
-        {{#if error}}
+{{#if isSkipped}}
+        {{#if isReturningVoid error}}return {};{{/if}}{{#unless isReturningVoid}}return {};{{/unless}}
+{{/if}}{{#unless isSkipped}}{{#if error}}
         auto _result_with_error = {{>swiftDelegateCall}};
         if (!_result_with_error.has_value)
         {
@@ -47,7 +49,7 @@ public:
         {{/if}}{{#unless error}}
         {{#unless isReturningVoid}}auto _call_result = {{/unless}}{{>swiftDelegateCall}};
         {{/unless}}
-        {{#unless isReturningVoid}}{{>returnConversion}}{{/unless}}
+        {{#unless isReturningVoid}}{{>returnConversion}}{{/unless}}{{/unless}}
     }
     {{/if}}
     {{/each}}

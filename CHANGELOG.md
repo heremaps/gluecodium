@@ -5,6 +5,7 @@
   * Added customizable additional error message in Dart for when FFI function lookup fails.
 ### Bug fixes:
   * Fixed generator failures for `@Deprecated` attribute without a message (C++, Dart).
+  * Fixed compilation issues for `@Java(Skip)` and `@Swift(Skip)` on functions and properties in an interface.
 
 ## 8.2.1
 Release date: 2020-08-26

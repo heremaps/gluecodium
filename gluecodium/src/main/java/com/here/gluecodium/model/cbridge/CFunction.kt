@@ -36,7 +36,8 @@ class CFunction(
     val cppReturnTypeName: String? = null,
     @Suppress("unused") val isConst: Boolean = false,
     val error: CppTypeInfo? = null,
-    @Suppress("unused") val errorTypeIsEnum: Boolean = false
+    @Suppress("unused") val errorTypeIsEnum: Boolean = false,
+    val isSkipped: Boolean = false
 ) : CElement(
     NameHelper.joinNames(
         nestedSpecifier,
