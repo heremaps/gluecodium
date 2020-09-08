@@ -286,6 +286,7 @@ feature(Inheritance cpp android swift dart SOURCES
     src/test/Talker.cpp
     src/test/Teacher.cpp
     src/test/Inheritance.cpp
+    src/test/CrossPackageInheritance.cpp
 
     lime/hello/HelloWorldInheritance.lime
     lime/test/Inheritance.lime

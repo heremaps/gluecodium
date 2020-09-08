@@ -1,11 +1,16 @@
 /*
  *
  */
-package com.example.smoke;
+package com.example.foobar;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-class ChildInterfaceImpl extends NativeBase implements ChildInterface {
-    protected ChildInterfaceImpl(final long nativeHandle, final Object dummy) {
+import com.example.smoke.ParentInterface;
+public final class CrossPackageChildClass extends NativeBase implements ParentInterface {
+    /**
+     * For internal use only.
+     * @exclude
+     */
+    protected CrossPackageChildClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
@@ -14,7 +19,6 @@ class ChildInterfaceImpl extends NativeBase implements ChildInterface {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public native void childMethod();
     @Override
     public native void rootMethod();
     @NonNull
