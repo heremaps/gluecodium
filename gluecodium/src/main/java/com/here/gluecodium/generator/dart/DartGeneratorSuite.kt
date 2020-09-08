@@ -55,6 +55,7 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -85,10 +86,12 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             DartNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
-        val filteredElements =
-            LimeModelFilter { !it.attributes.have(DART, SKIP) }.filter(limeModel.topElements)
+        val ffiFilteredElements =
+            LimeModelFilter { it is LimeFunction || it is LimeProperty || !it.attributes.have(DART, SKIP) }
+                .filter(limeModel.topElements)
+        val dartFilteredElements = LimeModelFilter { !it.attributes.have(DART, SKIP) }.filter(limeModel.topElements)
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
-            .validate(filteredElements)
+            .validate(dartFilteredElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -127,10 +130,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        val generatedFiles = filteredElements.flatMap {
+        val generatedFiles = dartFilteredElements.flatMap {
             listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
-                exportsCollector, typeRepositoriesCollector)) + generateFfi(it, ffiResolvers, includeResolver)
-        } + generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
+                exportsCollector, typeRepositoriesCollector))
+        } + ffiFilteredElements.flatMap { generateFfi(it, ffiResolvers, includeResolver) } +
+            generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
             generateDartCommonFiles(exportsCollector, typeRepositoriesCollector, dartResolvers, importResolver) +
             generateFfiCommonFiles(ffiResolvers)

@@ -40,3 +40,19 @@ class SkipTypes {
         fooField: String
     }
 }
+
+interface SkipProxy {
+    @Java(Skip)
+    fun notInJava(input: String): String
+    @Swift(Skip)
+    fun notInSwift(input: Boolean): Boolean
+    @Dart(Skip)
+    fun notInDart(input: Float): Float
+
+    @Java(Skip)
+    property skippedInJava: String
+    @Swift(Skip)
+    property skippedInSwift: Boolean
+    @Dart(Skip)
+    property skippedInDart: Float
+}
