@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Java compilation issue with extraneous includes for `@Java(Skip)` on functions and properties in an interface.
+
 ## 8.2.2
 Release date: 2020-09-09
 ### Features
