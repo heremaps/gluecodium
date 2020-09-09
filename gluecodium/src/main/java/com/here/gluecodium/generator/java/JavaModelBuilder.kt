@@ -434,13 +434,16 @@ class JavaModelBuilder(
         return javaInterface
     }
 
-    private fun createJavaImplementationClass(
-        limeInterface: LimeInterface,
-        javaInterface: JavaInterface,
-        extendedClass: JavaTypeRef
-    ): JavaClass {
+    private fun createJavaImplementationClass(limeInterface: LimeInterface, javaInterface: JavaInterface): JavaClass {
 
-        val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
+        val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }.toMutableList()
+        val parentContainer = limeInterface.parent?.type as? LimeInterface
+        if (parentContainer != null) {
+            val transientParent = buildTransientModel(parentContainer).first() as JavaInterface
+            val parentMethods = transientParent.methods + transientParent.parentMethods
+            parentMethods.forEach { it.annotations.add(overrideAnnotation) }
+            classMethods += parentMethods
+        }
         classMethods.forEach {
             it.isNative = true
             it.visibility = JavaVisibility.PUBLIC
@@ -450,10 +453,10 @@ class JavaModelBuilder(
         val javaClass = JavaClass(
             name = implClassName,
             classNames = nameResolver.getClassNames(limeInterface).dropLast(1) + implClassName,
-            extendedClass = extendedClass,
+            extendedClass = nativeBase,
             methods = classMethods,
             isImplClass = true,
-            needsDisposer = nativeBase == extendedClass,
+            needsDisposer = true,
             hasNativeEquatable = limeInterface.attributes.have(LimeAttributeType.EQUATABLE)
         )
         javaClass.visibility = JavaVisibility.PACKAGE
@@ -504,20 +507,14 @@ class JavaModelBuilder(
     private fun finishBuildingInterface(limeInterface: LimeInterface) {
         val javaInterface = createJavaInterface(limeInterface)
 
-        var extendedClass = nativeBase
         val parentContainer = limeInterface.parent?.type as? LimeContainerWithInheritance
         if (parentContainer != null) {
             val javaParent =
                 typeMapper.mapInheritanceParent(parentContainer, nameRules.getName(parentContainer))
             javaInterface.parentInterfaces.add(javaParent)
-            extendedClass = typeMapper.mapInheritanceParent(
-                parentContainer,
-                nameRules.getImplementationClassName(parentContainer)
-            )
         }
 
-        val javaImplementationClass =
-            createJavaImplementationClass(limeInterface, javaInterface, extendedClass)
+        val javaImplementationClass = createJavaImplementationClass(limeInterface, javaInterface)
 
         storeNamedResult(limeInterface, javaInterface)
         storeResult(javaImplementationClass)

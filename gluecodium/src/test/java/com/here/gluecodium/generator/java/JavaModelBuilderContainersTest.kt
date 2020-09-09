@@ -248,24 +248,6 @@ class JavaModelBuilderContainersTest {
     }
 
     @Test
-    fun finishBuildingInterfaceReadsParentInterface() {
-        val parentContainer = LimeInterface(LimePath(emptyList(), listOf("bar")))
-        val limeElement = LimeInterface(
-            LimePath(emptyList(), listOf("foo")),
-            parent = LimeDirectTypeRef(parentContainer)
-        )
-        val javaType = object : JavaTypeRef("") {}
-        every { typeMapper.mapInheritanceParent(parentContainer, any()) } returns javaType
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val resultInterface = modelBuilder.getFinalResult(JavaInterface::class.java)
-        assertContains(javaType, resultInterface.parentInterfaces)
-        val resultClass = modelBuilder.getFinalResult(JavaClass::class.java)
-        assertFalse(resultClass.needsDisposer)
-    }
-
-    @Test
     fun finishBuildingClass() {
         val javaElement = LimeClass(
             LimePath(emptyList(), listOf("foo")),

@@ -17,15 +17,12 @@
 
 package foobar
 
-import test.ParentInterface
+import smoke.ParentInterface
 
+@Dart(Skip)
 class CrossPackageChildClass : ParentInterface {
 }
 
+@Dart(Skip)
 interface CrossPackageChildInterface : ParentInterface {
-}
-
-class CrossPackageInheritanceFactory {
-    static fun createChildClass(): CrossPackageChildClass
-    static fun createChildInterface(): CrossPackageChildInterface
 }

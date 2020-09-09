@@ -6,6 +6,7 @@
 ### Bug fixes:
   * Fixed generator failures for `@Deprecated` attribute without a message (C++, Dart).
   * Fixed compilation issues for `@Java(Skip)`, `@Swift(Skip)`, and `@Dart(Skip)` on functions and properties in an interface.
+  * Fixed compilation issue for cross-package inheritance of interfaces in Java.
 
 ## 8.2.1
 Release date: 2020-08-26
