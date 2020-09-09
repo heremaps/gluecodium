@@ -126,7 +126,7 @@ attribute name that follows.
 
 There are three kinds of file-level declarations: package, import or element declaration. The
 following element types can be placed at the top level: `class`, `interface`, `types`, `struct`,
-`enum`, `exception`, `typealias`. All other declarations can only be placed as child elements to
+`enum`, `exception`, `typealias`, `lambda`. All other declarations can only be placed as child elements to
 some other element.
 
 #### Package declaration
@@ -157,7 +157,7 @@ immediately after the package declaration.
   * **types** declares a loose collection of elements, most of which become free-standing elements
   in the output languages.
 * Classes and interfaces can be free-standing elements at file level or can be placed in another
-class or interface. `types` declaration can be only placed at file level.
+class, interface, or struct. `types` declaration can be only placed at file level.
 
 #### Inheritance
 
@@ -236,7 +236,7 @@ struct Options {
     additionalOptions: List<String> = {}
 }
 ```
-* Can be a free-standing element at file level or can be placed in: class, interface, types
+* Can be a free-standing element at file level or can be placed in: class, interface, types, struct
 * Description: declares a struct type (data type) in the parent type:
   * a struct can have any number of fields, but at least one field is required.
   * a struct field can have a default value associated with it (optionally). For more details on
