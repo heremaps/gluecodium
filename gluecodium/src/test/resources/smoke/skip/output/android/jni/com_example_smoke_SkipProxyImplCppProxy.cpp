@@ -103,5 +103,12 @@ com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_in_dart( const float nvalu
             "See the log for more information about the exception (including Java stack trace)." );
     }
 }
+::smoke::SkippedEverywhere
+com_example_smoke_SkipProxyImpl_CppProxy::get_skipped_everywhere(  ) const {
+    return {};
+}
+void
+com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_everywhere( const ::smoke::SkippedEverywhere& nvalue ) {
+}
 }
 }

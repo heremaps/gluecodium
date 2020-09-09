@@ -4,6 +4,7 @@
 #include "IsolateContext.h"
 #include "ProxyCache.h"
 #include "smoke\SkipProxy.h"
+#include "smoke\SkippedEverywhere.h"
 #include <memory>
 #include <string>
 #include <memory>
@@ -82,6 +83,13 @@ public:
     }
     void
     set_skipped_in_dart(const float value) override {
+    }
+    ::smoke::SkippedEverywhere
+    get_skipped_everywhere() const override {
+        return {};
+    }
+    void
+    set_skipped_everywhere(const ::smoke::SkippedEverywhere& value) override {
     }
 private:
     const uint64_t token;

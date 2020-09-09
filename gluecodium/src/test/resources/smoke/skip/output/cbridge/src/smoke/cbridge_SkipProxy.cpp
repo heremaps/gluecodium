@@ -106,6 +106,11 @@ public:
     void set_skipped_in_dart(float newValue) override {
         mFunctions.smoke_SkipProxy_skippedInDart_set(mFunctions.swift_pointer, newValue);
     }
+    ::smoke::SkippedEverywhere get_skipped_everywhere() const override {
+        return {};
+    }
+    void set_skipped_everywhere(const ::smoke::SkippedEverywhere& newValue) override {
+    }
 private:
     smoke_SkipProxy_FunctionTable mFunctions;
 };

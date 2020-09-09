@@ -55,4 +55,12 @@ interface SkipProxy {
     property skippedInSwift: Boolean
     @Dart(Skip)
     property skippedInDart: Float
+
+    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    property skippedEverywhere: SkippedEverywhere
+}
+
+@Java(Skip) @Swift(Skip) @Dart(Skip)
+struct SkippedEverywhere {
+    nothingToSeeHere: String
 }
