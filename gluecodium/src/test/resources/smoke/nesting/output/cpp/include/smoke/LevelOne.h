@@ -3,9 +3,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
-#include "smoke/OuterClass.h"
-#include "smoke/OuterInterface.h"
+#include "gluecodium\Export.h"
+#include "smoke\OuterClass.h"
+#include "smoke\OuterInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -32,8 +32,8 @@ public:
                 ::std::string string_field;
                 LevelFour( );
                 LevelFour( ::std::string string_field );
-                static ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour foo_factory(  );
                 _GLUECODIUM_CPP_EXPORT static const bool FOO;
+                static ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour foo_factory(  );
             };
         public:
             /**

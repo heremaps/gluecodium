@@ -413,6 +413,13 @@ feature(Nesting cpp android swift dart SOURCES
     lime/test/NestedClassWithProperty.lime
 )
 
+# TODO: #487: merge with Nesting above when done
+feature(NestingInStruct cpp SOURCES
+    lime/test/NestingInStruct.lime
+
+    src/test/NestingInStruct.cpp
+)
+
 feature(Lambdas cpp android swift dart SOURCES
     lime/test/Lambdas.lime
 

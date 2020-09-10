@@ -83,16 +83,18 @@ public:
 {{/fields}}{{/set}}
 
 {{/if}}{{!!
-}}{{#if functions}}
+}}{{#sort structs constants}}
+{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="static"}}{{#constant}}{{!!
+}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}
+{{/sort}}
+{{#each classes interfaces}}
+{{prefixPartial "cpp/CppClass" "    "}}
+{{/each}}
+{{#if functions}}
 {{#set isConst=true}}{{#functions}}
 {{prefixPartial "cpp/CppFunctionSignature" "    "}};
 {{/functions}}{{/set}}
-
-{{/if}}{{!!
-}}{{#if constants}}
-{{#set storageQualifier="static"}}{{#constants}}
-{{prefixPartial "cpp/CppConstant" "    "}}
-{{/constants}}{{/set}}
 
 {{/if}}{{!!
 }}{{#if attributes.equatable}}
