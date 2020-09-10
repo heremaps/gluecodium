@@ -32,9 +32,9 @@ abstract class LimeContainerWithInheritance(
     functions: List<LimeFunction> = emptyList(),
     properties: List<LimeProperty> = emptyList(),
     exceptions: List<LimeException> = emptyList(),
-    val classes: List<LimeClass> = emptyList(),
-    val interfaces: List<LimeInterface> = emptyList(),
-    val lambdas: List<LimeLambda> = emptyList(),
+    classes: List<LimeClass> = emptyList(),
+    interfaces: List<LimeInterface> = emptyList(),
+    lambdas: List<LimeLambda> = emptyList(),
     val parent: LimeTypeRef? = null
 ) : LimeContainer(
     path = path,
@@ -48,7 +48,10 @@ abstract class LimeContainerWithInheritance(
     typeAliases = typeAliases,
     functions = functions,
     properties = properties,
-    exceptions = exceptions
+    exceptions = exceptions,
+    classes = classes,
+    interfaces = interfaces,
+    lambdas = lambdas
 ) {
     @Suppress("unused")
     val inheritedFunctions: List<LimeFunction>

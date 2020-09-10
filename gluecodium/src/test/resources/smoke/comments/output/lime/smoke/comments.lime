@@ -23,9 +23,6 @@ class comments {
         someField: Usefulness
         // Can be `null`
         nullableField: String?
-        // This is some very useful lambda that does it.
-        @Java(FunctionName = "doIt")
-        lambda SomeLambda = (String, @Java("index") Int) -> Double
     }
     // This is some very useful constant.
     const VeryUseful: Usefulness = true

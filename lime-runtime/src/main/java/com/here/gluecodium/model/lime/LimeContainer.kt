@@ -34,7 +34,10 @@ abstract class LimeContainer(
     val typeAliases: List<LimeTypeAlias> = emptyList(),
     val functions: List<LimeFunction> = emptyList(),
     val properties: List<LimeProperty> = emptyList(),
-    val exceptions: List<LimeException> = emptyList()
+    val exceptions: List<LimeException> = emptyList(),
+    val classes: List<LimeClass> = emptyList(),
+    val interfaces: List<LimeInterface> = emptyList(),
+    val lambdas: List<LimeLambda> = emptyList()
 ) : LimeType(path, visibility, comment, attributes, external) {
 
     val constructors
