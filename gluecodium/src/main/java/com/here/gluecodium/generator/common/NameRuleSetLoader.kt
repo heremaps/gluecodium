@@ -43,10 +43,10 @@ private object NameRuleSetLoader {
 
     @Suppress("EnumEntryName", "unused")
     enum class NameFormat(val apply: (String) -> String, val joinApply: (List<String?>) -> String) {
-        UPPER_SNAKE_CASE(NameHelper::toUpperSnakeCase, NameHelper::joinToUpperSnakeCase),
-        lower_snake_case(NameHelper::toLowerSnakeCase, NameHelper::joinToLowerSnakeCase),
-        UpperCamelCase(NameHelper::toUpperCamelCase, NameHelper::joinToUpperCamelCase),
-        lowerCamelCase(NameHelper::toLowerCamelCase, NameHelper::joinToLowerCamelCase)
+        UPPER_SNAKE_CASE({ NameHelper.toUpperSnakeCase(it) }, { NameHelper.joinToUpperSnakeCase(it) }),
+        lower_snake_case({ NameHelper.toLowerSnakeCase(it) }, { NameHelper.joinToLowerSnakeCase(it) }),
+        UpperCamelCase({ NameHelper.toUpperCamelCase(it) }, { NameHelper.joinToUpperCamelCase(it) }),
+        lowerCamelCase({ NameHelper.toLowerCamelCase(it) }, { NameHelper.joinToLowerCamelCase(it) })
     }
 
     enum class NameTypes {
@@ -71,7 +71,7 @@ private object NameRuleSetLoader {
         val suffixKey = Key("$key.suffix", stringType)
 
         if (!config.contains(formattingKey)) {
-            return ignore2(::illegal)
+            return ignore2 { illegal(it) }
         }
 
         val prefix = config.getOrNull(prefixKey)
@@ -94,7 +94,7 @@ private object NameRuleSetLoader {
         val suffixKey = Key("$key.suffix", stringType)
 
         if (!config.contains(formattingKey)) {
-            return ::illegal
+            return { name: String -> illegal(name) }
         }
 
         if (config.contains(prefixKey) || config.contains(suffixKey)) {
