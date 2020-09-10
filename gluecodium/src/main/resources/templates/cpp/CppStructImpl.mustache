@@ -18,26 +18,33 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless external.cpp}}{{!!
-}}{{#set structElement=this}}{{#constants}}
-const {{resolveName typeRef}} {{#parentName}}{{.}}::{{/parentName}}{{resolveName structElement}}::{{resolveName}} = {{resolveName value}};
-{{/constants}}{{/set}}{{!!
-}}{{#if fields}}
-{{#ifPredicate "hasDefaultConstructor"}}{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}( ){{!!
+{{#set structElement=this}}{{#unless external.cpp}}{{!!
+}}{{#resolveName structElement}}{{#setJoin "parentName" parentName this delimiter="::"}}{{#structElement}}
+{{#structs}}
+{{>cpp/CppStructImpl}}
+{{/structs}}
+{{#constants}}
+const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName value}};
+{{/constants}}
+{{#each classes interfaces}}
+{{>cpp/CppClassImpl}}
+{{/each}}
+{{#if fields}}
+{{#ifPredicate "hasDefaultConstructor"}}{{parentName}}::{{resolveName}}( ){{!!
 }}{{#if uninitializedFields}}
     : {{#uninitializedFields}}{{resolveName}}{ }{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}{{/if}}
 {
 }{{/ifPredicate}}
 {{#ifPredicate "hasPartialDefaults"}}
 
-{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}( {{!!
+{{parentName}}::{{resolveName}}( {{!!
 }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}} )
     : {{#uninitializedFields}}{{resolveName}}{{#initializer}}( std::move( {{resolveName}} ) ){{/initializer}}{{!!
 }}{{^initializer}}( std::move( {{resolveName}} ) ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
 {
 }{{/ifPredicate}}
 
-{{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}( {{!!
+{{parentName}}::{{resolveName}}( {{!!
 }}{{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} )
     : {{#fields}}{{resolveName}}( std::move( {{resolveName}} ) ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
@@ -45,21 +52,22 @@ const {{resolveName typeRef}} {{#parentName}}{{.}}::{{/parentName}}{{resolveName
 
 {{/if}}{{!!
 }}{{#if attributes.equatable}}
-bool {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::operator==( const {{resolveName}}& rhs ) const
+bool {{parentName}}::operator==( const {{resolveName}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&
         " }};
 }
 
-bool {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::operator!=( const {{resolveName}}& rhs ) const
+bool {{parentName}}::operator!=( const {{resolveName}}& rhs ) const
 {
     return !( *this == rhs );
 }
 
-{{/if}}{{/unless}}{{!!
+{{/if}}{{!!
+}}{{/structElement}}{{/setJoin}}{{/resolveName}}{{/unless}}{{!!
 
 }}{{#if external.cpp}}
-{{#set structElement=this}}{{#resolveName structElement "FQN"}}{{#set structName=this}}{{#fields}}
+{{#resolveName structElement "FQN"}}{{#set structName=this}}{{#fields}}
 {{#resolveName this "" "getter"}}
 static_assert(
     std::is_same<
@@ -89,7 +97,7 @@ static_assert(
 {{#set className=structName}}{{#functions}}
 {{>cpp/CppFunctionStaticCheck}}
 {{/functions}}{{/set}}{{!!
-}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
+}}{{/set}}{{/resolveName}}{{/if}}{{/set}}{{!!
 
 }}{{+fieldEq}}{{#ifPredicate "needsPointerValueEqual"}}( ( {{resolveName}} && rhs.{{resolveName}} )
             ? {{#ifPredicate "needsRawPointerEqual"}}( &*{{resolveName}} == &*rhs.{{resolveName}} ){{/ifPredicate}}{{!!

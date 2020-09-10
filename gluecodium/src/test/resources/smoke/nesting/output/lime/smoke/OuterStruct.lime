@@ -1,0 +1,13 @@
+package smoke
+struct OuterStruct {
+    field: String
+    class InnerClass {
+        fun fooBar()
+    }
+    interface InnerInterface {
+        fun barBaz()
+    }
+    struct InnerStruct {
+        otherField: String
+    }
+}

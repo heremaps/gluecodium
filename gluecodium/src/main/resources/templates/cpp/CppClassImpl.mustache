@@ -35,8 +35,9 @@ bool
 {{resolveName}}::operator!=( const {{resolveName}}& rhs ) {
     return !( *this == rhs );
 }
-{{/if}}{{/unless}}
-{{#unless external.cpp}}{{#resolveName}}{{#setJoin "parentName" parentName this delimiter="::"}}
+
+{{/if}}
+{{#resolveName}}{{#setJoin "parentName" parentName this delimiter="::"}}
 {{#enumerations}}
 {{>cpp/CppEnumerationImpl}}
 {{/enumerations}}
@@ -49,7 +50,8 @@ const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName va
 {{#each classes interfaces}}
 {{>cpp/CppClassImpl}}
 {{/each}}
-{{/setJoin}}{{/resolveName}}{{/unless}}
-{{#if external.cpp}}{{#resolveName "FQN"}}{{#set className=this}}{{#functions}}
+{{/setJoin}}{{/resolveName}}{{/unless}}{{!!
+
+}}{{#if external.cpp}}{{#resolveName "FQN"}}{{#set className=this}}{{#functions}}
 {{>cpp/CppFunctionStaticCheck}}
 {{/functions}}{{/set}}{{/resolveName}}{{/if}}
