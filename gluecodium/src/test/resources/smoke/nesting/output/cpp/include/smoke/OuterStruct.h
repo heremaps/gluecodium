@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium\Export.h"
 #include <string>
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT OuterStruct {
@@ -14,6 +14,7 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
         ::std::string other_field;
         InnerStruct( );
         InnerStruct( ::std::string other_field );
+        void do_something(  ) const;
     };
     class _GLUECODIUM_CPP_EXPORT InnerClass {
     public:
@@ -29,5 +30,6 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     public:
         virtual void bar_baz(  ) = 0;
     };
+    void do_nothing(  ) const;
 };
 }

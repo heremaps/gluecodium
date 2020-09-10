@@ -192,7 +192,6 @@ class JavaModelBuilder(
             isFinal = true,
             fields = getPreviousResults(JavaField::class.java),
             methods = methods,
-            constants = getPreviousResults(JavaConstant::class.java),
             isParcelable = isSerializable,
             isEquatable = !hasConverter && limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
@@ -204,6 +203,7 @@ class JavaModelBuilder(
         javaClass.javaPackage = javaPackage
         javaClass.comment = createComments(limeStruct)
         addDeprecatedAnnotationIfNeeded(javaClass)
+        addMembers(javaClass)
 
         if (isSerializable) {
             serializationBase?.let { javaClass.parentInterfaces.add(it) }

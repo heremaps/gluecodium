@@ -249,8 +249,10 @@ class JniModelBuilder(
             methods = getPreviousResults(JniMethod::class.java),
             hasImmutableFields = cppStruct.hasImmutableFields,
             externalConverter = externalConverter,
-            externalConvertedType = externalConvertedType
+            externalConvertedType = externalConvertedType,
+            structs = getPreviousResults(JniStruct::class.java)
         )
+        getPreviousResults(JniContainer::class.java).forEach { storeResult(it) }
 
         storeNamedResult(limeStruct, jniStruct)
         closeContext()

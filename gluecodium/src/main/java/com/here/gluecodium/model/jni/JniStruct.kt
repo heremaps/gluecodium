@@ -30,7 +30,8 @@ class JniStruct(
     val methods: List<JniMethod> = emptyList(),
     val hasImmutableFields: Boolean = false,
     externalConverter: String? = null,
-    externalConvertedType: String? = null
+    externalConvertedType: String? = null,
+    val structs: List<JniStruct> = emptyList()
 ) : JniTopLevelElement(
     javaName,
     cppFullyQualifiedName,

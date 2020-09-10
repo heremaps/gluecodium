@@ -19,9 +19,11 @@ package smoke
 
 struct OuterStruct {
     field: String
+    fun doNothing()
 
     struct InnerStruct {
         otherField: String
+        fun doSomething()
     }
 
     class InnerClass {

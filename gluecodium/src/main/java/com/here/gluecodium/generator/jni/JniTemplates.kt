@@ -48,7 +48,7 @@ class JniTemplates(
                 JniNameRules.getJniClassFileName(jniContainer)
             )
         }
-        results += jniContainer.structs
+        results += jniContainer.allStructsRecursive
             .filter { it.methods.isNotEmpty() }
             .flatMap {
                 generateFilesForElement(
@@ -123,7 +123,7 @@ class JniTemplates(
         )
 
     private fun generateStructConversionFiles(jniContainer: JniContainer) =
-        jniContainer.structs.flatMap {
+        jniContainer.allStructsRecursive.flatMap {
             val mustacheData = mutableMapOf(
                 "struct" to it,
                 INCLUDES_NAME to jniContainer.includes.sorted() +
