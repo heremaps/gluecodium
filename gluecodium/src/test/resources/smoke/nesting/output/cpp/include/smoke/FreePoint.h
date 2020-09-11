@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium\Export.h"
-#include "smoke\FreeEnum.h"
+#include "smoke/FreeEnum.h"
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT FreePoint {
     double x;

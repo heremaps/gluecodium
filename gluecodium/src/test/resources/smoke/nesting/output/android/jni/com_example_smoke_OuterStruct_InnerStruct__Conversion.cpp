@@ -14,11 +14,10 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::OuterStruct::InnerStruct*)
 {
     ::smoke::OuterStruct::InnerStruct _nout{};
-    ::std::string n_other_field = ::gluecodium::jni::get_field_value(
+    ::std::vector< ::std::chrono::system_clock::time_point > n_other_field = convert_from_jni(
         _jenv,
-        _jinput,
-        "otherField",
-        (::std::string*)nullptr );
+        ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "otherField", "Ljava/util/List;"),
+        (::std::vector< ::std::chrono::system_clock::time_point >*)nullptr );
     _nout.other_field = n_other_field;
     return _nout;
 }
@@ -35,7 +34,8 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::OuterStruct::InnerStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::OuterStruct::InnerStruct>::java_class;
     auto _jresult = ::gluecodium::jni::alloc_object(_jenv, javaClass);
-    ::gluecodium::jni::set_field_value(_jenv, _jresult, "otherField", _ninput.other_field);
+    auto jother_field = convert_to_jni(_jenv, _ninput.other_field);
+    ::gluecodium::jni::set_object_field_value(_jenv, _jresult, "otherField", "Ljava/util/List;", jother_field);
     return _jresult;
 }
 JniReference<jobject>

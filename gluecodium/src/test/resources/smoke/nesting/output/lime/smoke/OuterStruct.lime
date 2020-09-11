@@ -2,13 +2,22 @@ package smoke
 struct OuterStruct {
     field: String
     class InnerClass {
-        fun fooBar()
+        fun fooBar(): Set<Locale>
+    }
+    @Swift(Skip)
+    @Dart(Skip)
+    class Builder {
+        constructor create()
+        fun field(
+            value: String
+        ): Builder
+        fun build(): OuterStruct
     }
     interface InnerInterface {
-        fun barBaz()
+        fun barBaz(): Map<String, Blob>
     }
     struct InnerStruct {
-        otherField: String
+        otherField: List<Date>
         fun doSomething()
     }
     fun doNothing()

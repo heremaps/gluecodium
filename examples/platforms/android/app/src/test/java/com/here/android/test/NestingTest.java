@@ -37,8 +37,16 @@ public class NestingTest {
 
   @Test
   public void nestedClassMethod() {
-    int result = OuterStruct.InnerClass.fooBar();
+    java.util.Set<Integer> result = OuterStruct.InnerClass.fooBar();
 
-    assertEquals(42, result);
+    assertEquals(42, result.toArray()[0]);
+  }
+
+  @Test
+  public void nestedBuilder() {
+    OuterStruct.Builder builder = new OuterStruct.Builder();
+    OuterStruct result = builder.field("nonsense").build();
+
+    assertEquals("nonsense", result.field);
   }
 }

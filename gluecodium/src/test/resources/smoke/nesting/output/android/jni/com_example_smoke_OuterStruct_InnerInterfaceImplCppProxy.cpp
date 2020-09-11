@@ -12,10 +12,10 @@ namespace jni
 com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy::com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
     : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_OuterStruct_00024InnerInterfaceImpl" ) {
 }
-void
+::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >
 com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy::bar_baz(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    callJavaMethod<void>( "barBaz", "()V", jniEnv  );
+    auto result = callJavaMethod<jobject>( "barBaz", "()Ljava/util/Map;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -23,6 +23,7 @@ com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy::bar_baz(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
+    return convert_from_jni( jniEnv, result, (::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >*)nullptr );
 }
 }
 }

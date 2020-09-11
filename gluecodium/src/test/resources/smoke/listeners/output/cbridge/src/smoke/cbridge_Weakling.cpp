@@ -1,15 +1,15 @@
 //
 //
-#include "cbridge\include\smoke\cbridge_ListenerInterface.h"
-#include "cbridge\include\smoke\cbridge_Weakling.h"
-#include "cbridge_internal\include\BaseHandleImpl.h"
-#include "cbridge_internal\include\CachedProxyBase.h"
-#include "cbridge_internal\include\TypeInitRepository.h"
-#include "cbridge_internal\include\WrapperCache.h"
+#include "cbridge/include/smoke/cbridge_ListenerInterface.h"
+#include "cbridge/include/smoke/cbridge_Weakling.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
+#include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
+#include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium\Optional.h"
 #include "gluecodium\TypeRepository.h"
-#include "smoke\ListenerInterface.h"
-#include "smoke\Weakling.h"
+#include "smoke/ListenerInterface.h"
+#include "smoke/Weakling.h"
 #include <memory>
 #include <new>
 void smoke_Weakling_release_handle(_baseRef handle) {
