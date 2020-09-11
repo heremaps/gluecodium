@@ -22,13 +22,38 @@
 
 namespace test
 {
+namespace
+{
+class OuterStructBuilderImpl: public OuterStruct::Builder,
+                              public std::enable_shared_from_this<OuterStructBuilderImpl> {
+public:
+    OuterStructBuilderImpl() {}
+    virtual ~OuterStructBuilderImpl() = default;
+
+    std::shared_ptr<OuterStruct::Builder>
+    field(const std::string& value) override {
+        m_field = value;
+        return shared_from_this();
+    }
+
+    OuterStruct
+    build() { return OuterStruct(m_field); }
+
+private:
+    std::string m_field;
+};
+}
+
 void
 OuterStruct::do_nothing() { }
 
 void
 OuterStruct::InnerStruct::do_something() { }
 
-int32_t
-OuterStruct::InnerClass::foo_bar() { return 42; }
+std::unordered_set<int32_t>
+OuterStruct::InnerClass::foo_bar() { return {42}; }
+
+std::shared_ptr<OuterStruct::Builder>
+OuterStruct::Builder::create() { return std::make_shared<OuterStructBuilderImpl>(); }
 
 }

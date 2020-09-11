@@ -8,7 +8,7 @@
 #include "JniReference.h"
 #include "JniWrapperCache.h"
 extern "C" {
-void
+jobject
 Java_com_example_smoke_OuterStruct_00024InnerClass_fooBar(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::OuterStruct::InnerClass>*> (
@@ -17,7 +17,8 @@ Java_com_example_smoke_OuterStruct_00024InnerClass_fooBar(JNIEnv* _jenv, jobject
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    (*pInstanceSharedPointer)->foo_bar();
+    auto result = (*pInstanceSharedPointer)->foo_bar();
+    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_OuterStruct_00024InnerClass_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

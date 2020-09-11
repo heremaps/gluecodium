@@ -40,14 +40,10 @@ object LimeTypeHelper {
         val limeType = limeElement as? LimeType ?: return emptyList()
 
         val nestedContainerTypes = (limeType as? LimeContainer)?.let {
-            it.structs + it.enumerations + it.exceptions + it.typeAliases
-        } ?: emptyList()
-        val nestedClassInterfaceTypes = (limeType as? LimeContainerWithInheritance)?.let {
-            it.classes + it.interfaces + it.lambdas
+            it.structs + it.enumerations + it.exceptions + it.typeAliases + it.classes + it.interfaces + it.lambdas
         } ?: emptyList()
 
-        return listOf(limeType) +
-            (nestedContainerTypes + nestedClassInterfaceTypes).flatMap { getAllTypes(it) }
+        return listOf(limeType) + nestedContainerTypes.flatMap { getAllTypes(it) }
     }
 
     fun getAllValues(limeElement: LimeNamedElement): List<LimeValue> =

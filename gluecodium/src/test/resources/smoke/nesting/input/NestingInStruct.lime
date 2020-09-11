@@ -22,15 +22,22 @@ struct OuterStruct {
     fun doNothing()
 
     struct InnerStruct {
-        otherField: String
+        otherField: List<Date>
         fun doSomething()
     }
 
     class InnerClass {
-        fun fooBar()
+        fun fooBar(): Set<Locale>
     }
 
     interface InnerInterface {
-        fun barBaz()
+        fun barBaz(): Map<String, Blob>
+    }
+
+    @Swift(Skip) @Dart(Skip)
+    class Builder {
+        constructor create()
+        fun field(value: String): Builder
+        fun build(): OuterStruct
     }
 }

@@ -4,8 +4,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium\Export.h"
-#include "smoke\OuterClass.h"
-#include "smoke\OuterInterface.h"
+#include "smoke/OuterClass.h"
+#include "smoke/OuterInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>
