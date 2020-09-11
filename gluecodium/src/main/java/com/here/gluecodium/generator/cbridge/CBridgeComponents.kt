@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.model.cbridge.CFunction
 import com.here.gluecodium.model.cbridge.CInterface
+import com.here.gluecodium.model.cbridge.CStruct
 import com.here.gluecodium.model.cbridge.CType
 import com.here.gluecodium.model.common.Include
 import java.nio.file.Paths
@@ -34,100 +35,49 @@ object CBridgeComponents {
     ).toString()
 
     fun collectImplementationIncludes(cInterface: CInterface): List<Include> {
-        val includes = mutableListOf<Include>()
-
-        val functions = mutableListOf<CFunction>()
-        functions.addAll(cInterface.functions)
-        functions.addAll(cInterface.inheritedFunctions)
-        for (function in functions.filter { !it.isSkipped }) {
-            includes.addAll(collectFunctionBodyIncludes(function))
-        }
-        for (struct in cInterface.structs) {
-            includes.addAll(struct.mappedType.includes)
-            for (field in struct.fields) {
-                includes.addAll(field.type.includes)
-            }
-            for (function in struct.methods) {
-                includes.addAll(collectFunctionBodyIncludes(function))
-            }
-        }
-        if (cInterface.selfType != null) {
-            includes.addAll(cInterface.selfType.includes)
-        }
-        for (enumeration in cInterface.enums) {
-            includes.addAll(enumeration.mappedType.includes)
-        }
-        includes += cInterface.interfaces.flatMap {
-            collectImplementationIncludes(it) + it.implementationIncludes
-        }
-
-        return includes
+        val functions = (cInterface.functions + cInterface.inheritedFunctions).filter { !it.isSkipped }
+        return functions.flatMap { collectFunctionBodyIncludes(it) } +
+            cInterface.structs.flatMap { collectImplementationIncludes(it) } +
+            cInterface.enums.flatMap { it.mappedType.includes } +
+            cInterface.interfaces.flatMap { collectImplementationIncludes(it) + it.implementationIncludes } +
+            (cInterface.selfType?.includes ?: emptyList())
     }
 
-    fun collectPrivateHeaderIncludes(cInterface: CInterface): List<Include> {
-        val includes = mutableListOf<Include>()
-        for (struct in cInterface.structs) {
-            includes.addAll(struct.mappedType.includes)
-        }
-        if (cInterface.selfType != null) {
-            includes.addAll(cInterface.selfType.includes)
-        }
-        includes += cInterface.interfaces.flatMap { collectPrivateHeaderIncludes(it) }
+    private fun collectImplementationIncludes(cStruct: CStruct): List<Include> =
+        cStruct.mappedType.includes + cStruct.fields.flatMap { it.type.includes } +
+            cStruct.methods.flatMap { collectFunctionBodyIncludes(it) } +
+            cStruct.structs.flatMap { collectImplementationIncludes(it) } +
+            cStruct.interfaces.flatMap { collectImplementationIncludes(it) }
 
-        return includes
-    }
+    fun collectPrivateHeaderIncludes(cInterface: CInterface): List<Include> =
+        cInterface.structs.flatMap { it.mappedType.includes } +
+            cInterface.interfaces.flatMap { collectPrivateHeaderIncludes(it) } +
+            (cInterface.selfType?.includes ?: emptyList())
 
     fun collectHeaderIncludes(cInterface: CInterface): List<Include> {
-        val includes = mutableListOf<Include>()
+        val functions = cInterface.functions.filter { !it.isSkipped }
+        val includes = functions.flatMap { collectFunctionSignatureIncludes(it) } +
+            cInterface.structs.flatMap { collectHeaderIncludes(it) } + cInterface.enums.flatMap { it.includes } +
+            cInterface.interfaces.flatMap { collectHeaderIncludes(it) }
 
-        for (function in cInterface.functions.filter { !it.isSkipped }) {
-            includes.addAll(collectFunctionSignatureIncludes(function))
+        return when {
+            cInterface.hasEquatableType || functions.any { it.error != null } -> includes + CType.BOOL_INCLUDE
+            else -> includes
         }
-        for (struct in cInterface.structs) {
-            for (field in struct.fields) {
-                includes.addAll(field.type.functionReturnType.includes)
-                includes.addAll(field.type.cType.includes)
-            }
-            for (function in struct.methods) {
-                includes.addAll(collectFunctionSignatureIncludes(function))
-            }
-        }
-        for (enumType in cInterface.enums) {
-            includes.addAll(enumType.includes)
-        }
-        if (cInterface.hasEquatableType || cInterface.functions.filter { !it.isSkipped }.any { it.error != null }) {
-            includes.add(CType.BOOL_INCLUDE)
-        }
-        includes += cInterface.interfaces.flatMap { collectHeaderIncludes(it) }
-
-        return includes
     }
 
-    private fun collectFunctionSignatureIncludes(function: CFunction): List<Include> {
-        val includes = mutableListOf<Include>()
-        for (parameter in function.parameters) {
-            includes.addAll(parameter.signatureIncludes)
-        }
-        includes.addAll(function.returnType.functionReturnType.includes)
-        if (function.error != null) {
-            includes.addAll(function.error.functionReturnType.includes)
-        }
-        return includes
-    }
+    private fun collectHeaderIncludes(cStruct: CStruct): List<Include> =
+        cStruct.fields.flatMap { it.type.functionReturnType.includes + it.type.cType.includes } +
+            cStruct.methods.flatMap { collectFunctionSignatureIncludes(it) } +
+            cStruct.structs.flatMap { collectHeaderIncludes(it) } +
+            cStruct.interfaces.flatMap { collectHeaderIncludes(it) }
 
-    private fun collectFunctionBodyIncludes(function: CFunction): Collection<Include> {
-        val includes = mutableListOf<Include>()
-        for (parameter in function.parameters) {
-            includes.addAll(parameter.mappedType.includes)
-        }
-        includes.addAll(function.returnType.includes)
-        includes.addAll(function.delegateCallIncludes)
-        if (function.selfParameter != null) {
-            includes.addAll(function.selfParameter.mappedType.includes)
-        }
-        if (function.error != null) {
-            includes.addAll(function.error.includes)
-        }
-        return includes
-    }
+    private fun collectFunctionSignatureIncludes(function: CFunction) =
+        function.parameters.flatMap { it.signatureIncludes } + function.returnType.functionReturnType.includes +
+            (function.error?.functionReturnType?.includes ?: emptyList())
+
+    private fun collectFunctionBodyIncludes(function: CFunction) =
+        function.parameters.flatMap { it.mappedType.includes } + function.returnType.includes +
+            function.delegateCallIncludes + (function.selfParameter?.mappedType?.includes ?: emptyList()) +
+            (function.error?.includes ?: emptyList())
 }

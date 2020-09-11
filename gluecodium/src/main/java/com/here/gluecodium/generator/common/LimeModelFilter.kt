@@ -104,9 +104,9 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             constants = constants.filter(predicate),
             fields = fields.filter(predicate),
             constructorComment = constructorComment,
-            structs = structs,
-            classes = classes,
-            interfaces = interfaces
+            structs = structs.filter(predicate),
+            classes = classes.filter(predicate),
+            interfaces = interfaces.filter(predicate)
         ) }
 
     private fun filterEnum(limeEnum: LimeEnumeration) =

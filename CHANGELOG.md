@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Swift compilation issue for collections of `Locale` type elements.
+  * Fixed Swift compilation issue for interface declarations nested inside classes.
+
 ## 8.2.3
 Release date: 2020-09-09
 ### Bug fixes:

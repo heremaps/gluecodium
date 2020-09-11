@@ -53,7 +53,7 @@ public class LevelOne {
                     return moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory())
                 }
             }
-            public func foo(input: OuterClass.InnerInterface) -> InnerClass {
+            public func foo(input: InnerInterface) -> InnerClass {
                 let c_input = moveToCType(input)
                 return InnerClass_moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_foo(self.c_instance, c_input.ref))
             }

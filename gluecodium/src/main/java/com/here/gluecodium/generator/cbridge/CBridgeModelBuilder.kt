@@ -197,12 +197,14 @@ class CBridgeModelBuilder(
     override fun finishBuilding(limeStruct: LimeStruct) {
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
         val cStruct = CStruct(
-            CBridgeNameRules.getTypeName(limeStruct),
-            cppStruct.fullyQualifiedName,
-            currentContext.currentResults.filterIsInstance<CppTypeInfo>().first(),
-            cppStruct.hasImmutableFields,
-            getPreviousResults(CField::class.java),
-            getPreviousResults(CFunction::class.java)
+            name = CBridgeNameRules.getTypeName(limeStruct),
+            baseApiName = cppStruct.fullyQualifiedName,
+            mappedType = currentContext.currentResults.filterIsInstance<CppTypeInfo>().first(),
+            hasImmutableFields = cppStruct.hasImmutableFields,
+            fields = getPreviousResults(CField::class.java),
+            methods = getPreviousResults(CFunction::class.java),
+            structs = getPreviousResults(CStruct::class.java),
+            interfaces = getPreviousResults(CInterface::class.java)
         )
 
         storeResult(cStruct)

@@ -31,6 +31,15 @@
    fun:*
 }
 {
+   allocateMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:_ZN5swift16allocateMetadataEmm
+   fun:*
+}
+{
    getTupleTypeMetadata
 
    Memcheck:Leak
