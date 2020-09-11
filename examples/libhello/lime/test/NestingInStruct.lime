@@ -19,13 +19,15 @@ package test
 
 struct OuterStruct {
     field: String
+    static fun doNothing()
 
     struct InnerStruct {
         otherField: String
+        static fun doSomething()
     }
 
     class InnerClass {
-        static fun fooBar()
+        static fun fooBar(): Int
     }
 
     interface InnerInterface {

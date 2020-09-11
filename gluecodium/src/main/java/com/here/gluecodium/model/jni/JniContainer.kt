@@ -58,9 +58,15 @@ class JniContainer(
     @Suppress("unused")
     val mangledName = JniNameRules.getMangledName(fullJavaName)
 
+    val allStructsRecursive
+        get() = getAllStructs(structs)
+
     enum class ContainerType {
         TYPE_COLLECTION,
         INTERFACE,
         CLASS
     }
+
+    private fun getAllStructs(structs: List<JniStruct>): List<JniStruct> =
+        structs + structs.flatMap { getAllStructs(it.structs) }
 }

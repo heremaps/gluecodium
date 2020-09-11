@@ -9,5 +9,7 @@ struct OuterStruct {
     }
     struct InnerStruct {
         otherField: String
+        fun doSomething()
     }
+    fun doNothing()
 }

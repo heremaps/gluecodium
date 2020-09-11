@@ -46,13 +46,6 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         walk(rootElement)
     }
 
-    private fun walkChildNodes(limeContainer: LimeContainerWithInheritance) {
-        walkCollection(limeContainer.classes)
-        walkCollection(limeContainer.interfaces)
-        walkCollection(limeContainer.lambdas)
-        walkChildNodes(limeContainer as LimeContainer)
-    }
-
     private fun walkChildNodes(limeTypes: LimeTypesCollection) {
         walkChildNodes(limeTypes as LimeContainer)
     }
@@ -63,6 +56,9 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     }
 
     private fun walkChildNodes(limeContainer: LimeContainer) {
+        walkCollection(limeContainer.classes)
+        walkCollection(limeContainer.interfaces)
+        walkCollection(limeContainer.lambdas)
         walkCollection(limeContainer.functions)
         walkCollection(limeContainer.structs)
         walkCollection(limeContainer.typeAliases)

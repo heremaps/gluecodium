@@ -92,9 +92,10 @@ internal object JniIncludeResolver {
         )
 
     fun collectImplementationIncludes(jniContainer: JniContainer): List<Include> {
+        val structs = jniContainer.allStructsRecursive
         val methods = jniContainer.methods + jniContainer.parentMethods +
-                jniContainer.structs.flatMap { it.methods }
-        val types = jniContainer.structs.flatMap { it.fields }.map { it.type } +
+                structs.flatMap { it.methods }
+        val types = structs.flatMap { it.fields }.map { it.type } +
                 methods.filterNot { it.isSkipped }.flatMap { collectMethodTypes(it) }
         return types.flatMap { it.conversionIncludes } + createConversionSelfInclude(jniContainer)
     }

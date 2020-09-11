@@ -23,6 +23,12 @@
 namespace test
 {
 void
-OuterStruct::InnerClass::foo_bar() { }
+OuterStruct::do_nothing() { }
+
+void
+OuterStruct::InnerStruct::do_something() { }
+
+int32_t
+OuterStruct::InnerClass::foo_bar() { return 42; }
 
 }
