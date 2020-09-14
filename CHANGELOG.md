@@ -1,8 +1,10 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features
+  * Added support for nesting struct, class, or interface type declarations inside a struct declaration in IDL.
 ### Bug fixes:
-  * Fixed Swift compilation issue for collections of `Locale` type elements.
+  * Fixed Swift and Dart compilation issues for collections of `Locale` type elements.
   * Fixed Swift compilation issue for interface declarations nested inside classes.
 
 ## 8.2.3

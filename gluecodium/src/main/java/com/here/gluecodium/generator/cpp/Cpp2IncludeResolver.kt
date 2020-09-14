@@ -34,7 +34,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
-import java.io.File
 
 /**
  * Resolves includes for C++ types. Resolves all types of includes: system includes, Gluecodium
@@ -43,22 +42,21 @@ import java.io.File
 internal class Cpp2IncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
-    private val internalNamespace: List<String>
+    internalNamespace: List<String>
 ) {
-    val hashInclude = createInternalNamespaceInclude("Hash.h")
+    private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
 
-    private val returnInclude = createInternalNamespaceInclude("Return.h")
-    private val timePointHashInclude = createInternalNamespaceInclude("TimePointHash.h")
-    private val vectorHashInclude = createInternalNamespaceInclude("VectorHash.h")
-    private val unorderedMapHashInclude = createInternalNamespaceInclude("UnorderedMapHash.h")
-    private val unorderedSetHashInclude = createInternalNamespaceInclude("UnorderedSetHash.h")
-    private val optionalInclude = createInternalNamespaceInclude("Optional.h")
-    private val localeInclude = createInternalNamespaceInclude("Locale.h")
+    val hashInclude = cppIncludeResolver.createInternalNamespaceInclude("Hash.h")
 
-    val typeRepositoryInclude = createInternalNamespaceInclude("TypeRepository.h")
+    private val returnInclude = cppIncludeResolver.createInternalNamespaceInclude("Return.h")
+    private val timePointHashInclude = cppIncludeResolver.createInternalNamespaceInclude("TimePointHash.h")
+    private val vectorHashInclude = cppIncludeResolver.createInternalNamespaceInclude("VectorHash.h")
+    private val unorderedMapHashInclude = cppIncludeResolver.createInternalNamespaceInclude("UnorderedMapHash.h")
+    private val unorderedSetHashInclude = cppIncludeResolver.createInternalNamespaceInclude("UnorderedSetHash.h")
+    private val optionalInclude = cppIncludeResolver.createInternalNamespaceInclude("Optional.h")
+    private val localeInclude = cppIncludeResolver.createInternalNamespaceInclude("Locale.h")
 
-    private val cppIncludeResolver =
-        CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
+    val typeRepositoryInclude = cppIncludeResolver.createInternalNamespaceInclude("TypeRepository.h")
 
     fun resolveIncludes(limeElement: LimeElement): List<Include> =
         when (limeElement) {
@@ -67,8 +65,7 @@ internal class Cpp2IncludeResolver(
             is LimeBasicType -> resolveBasicTypeIncludes(limeElement)
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
             is LimeFunction -> resolveExceptionIncludes(limeElement)
-            is LimeLambda ->
-                cppIncludeResolver.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
+            is LimeLambda -> cppIncludeResolver.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
             is LimeNamedElement -> cppIncludeResolver.resolveIncludes(limeElement)
             else -> emptyList()
         }
@@ -135,7 +132,4 @@ internal class Cpp2IncludeResolver(
             is LimeBasicType, is LimeGenericType -> emptyList()
             else -> listOf(hashInclude)
         }
-
-    private fun createInternalNamespaceInclude(fileName: String) =
-        Include.createInternalInclude((internalNamespace + fileName).joinToString(File.separator))
 }

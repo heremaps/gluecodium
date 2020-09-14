@@ -1,8 +1,8 @@
 #include "ffi_smoke_Locales.h"
 #include "ConversionBase.h"
 #include "IsolateContext.h"
+#include "gluecodium/Locale.h"
 #include "smoke/Locales.h"
-#include <cstdint>
 #include <memory>
 #include <memory>
 #include <new>
