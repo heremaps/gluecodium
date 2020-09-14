@@ -1,9 +1,9 @@
 //
 //
-#include "cbridge\include\smoke\cbridge_OuterStruct.h"
-#include "cbridge_internal\include\BaseHandleImpl.h"
-#include "gluecodium\Optional.h"
-#include "smoke\OuterStruct.h"
+#include "cbridge/include/smoke/cbridge_OuterStruct.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
+#include "gluecodium/Optional.h"
+#include "smoke/OuterStruct.h"
 #include <memory>
 #include <new>
 #include <string>

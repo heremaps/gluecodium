@@ -407,17 +407,12 @@ feature(Nesting cpp android swift dart SOURCES
     src/test/TopLevelTypes.cpp
     src/test/NestedContainers.cpp
     src/test/NestedClassWithProperty.cpp
+    src/test/NestingInStruct.cpp
 
     lime/test/TopLevelTypes.lime
     lime/test/NestedContainers.lime
     lime/test/NestedClassWithProperty.lime
-)
-
-# TODO: #487: merge with Nesting above when done
-feature(NestingInStruct cpp android swift SOURCES
     lime/test/NestingInStruct.lime
-
-    src/test/NestingInStruct.cpp
 )
 
 feature(Lambdas cpp android swift dart SOURCES

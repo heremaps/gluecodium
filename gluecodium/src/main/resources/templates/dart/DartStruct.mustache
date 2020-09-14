@@ -76,6 +76,16 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 }
 {{/unlessPredicate}}
 
+{{#structs}}
+{{>dart/DartStruct}}
+{{/structs}}
+{{#classes}}
+{{>dart/DartClass}}
+{{/classes}}
+{{#interfaces}}
+{{>dart/DartInterface}}
+{{/interfaces}}
+
 // {{resolveName}} "private" section, not exported.
 
 final _{{resolveName "Ffi"}}_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

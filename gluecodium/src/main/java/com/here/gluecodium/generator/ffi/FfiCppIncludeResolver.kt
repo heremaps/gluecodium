@@ -41,8 +41,7 @@ internal class FfiCppIncludeResolver(
     nameRules: CppNameRules,
     internalNamespace: List<String>
 ) {
-    private val cppIncludeResolver =
-        CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
+    private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
 
     fun resolveIncludes(limeElement: LimeElement): List<Include> =
         when (limeElement) {
@@ -95,6 +94,7 @@ internal class FfiCppIncludeResolver(
                 CppLibraryIncludes.CHRONO,
                 cppIncludeResolver.createInternalNamespaceInclude("TimePointHash.h")
             )
+            TypeId.LOCALE -> listOf(cppIncludeResolver.createInternalNamespaceInclude("Locale.h"))
             else -> listOf(CppLibraryIncludes.INT_TYPES)
         }
 }
