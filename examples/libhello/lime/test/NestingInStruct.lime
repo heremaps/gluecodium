@@ -30,7 +30,7 @@ struct OuterStruct {
         static fun fooBar(): Set<Int>
     }
 
-    interface InnerInterface {
+    interface InnerInterfaceInStruct {
         fun barBaz(): Map<String, Locale>
     }
 

@@ -29,4 +29,20 @@ _GLUECODIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
 {{#fields}}
 _GLUECODIUM_C_EXPORT {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
 {{/fields}}
+
+{{#structs}}
+{{>cbridge/StructHeader}}
+{{#if methods}}
+
+{{#methods}}{{#if error}}{{>cbridge/ThrowingFunctionReturnType}}
+{{/if}}{{/methods}}
+
+{{#methods}}{{#unless isSkipped}}
+_GLUECODIUM_C_EXPORT {{>cbridge/FunctionSignature}};
+{{/unless}}{{/methods}}
+{{/if}}{{/structs}}
+
+{{#interfaces}}
+{{>cbridge/InterfaceHeader}}
+{{/interfaces}}
 {{/set}}

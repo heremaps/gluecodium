@@ -83,7 +83,21 @@ void {{name}}_release_optional_handle(_baseRef handle) {
 }
 {{/fields}}
 {{/set}}
-{{/if}}{{!!
+
+{{/if}}
+{{#structs}}
+{{>cbridge/StructImplementation}}
+
+{{#set selfIsStruct=true}}{{#methods}}{{#unless isSkipped}}
+{{>cbridge/FunctionDefinition}}
+{{/unless}}{{/methods}}{{/set}}
+
+{{/structs}}
+
+{{#interfaces}}
+{{>cbridge/InterfaceImpl}}
+
+{{/interfaces}}{{!!
 
 }}{{+getBaseLayerFieldValue}}struct_pointer->{{#if baseLayerGetterName}}{{baseLayerGetterName}}(){{/if}}{{!!
 }}{{#unless baseLayerGetterName}}{{baseLayerName}}{{/unless}}{{/getBaseLayerFieldValue}}

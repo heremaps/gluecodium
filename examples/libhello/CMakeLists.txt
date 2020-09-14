@@ -414,7 +414,7 @@ feature(Nesting cpp android swift dart SOURCES
 )
 
 # TODO: #487: merge with Nesting above when done
-feature(NestingInStruct cpp android SOURCES
+feature(NestingInStruct cpp android swift SOURCES
     lime/test/NestingInStruct.lime
 
     src/test/NestingInStruct.cpp

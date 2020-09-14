@@ -28,6 +28,17 @@ interface OuterInterface {
     fun foo(input: String): String
 }
 
+class OuterClass {
+    class InnerClass {
+        fun foo(input: String): String
+    }
+    interface InnerInterfaceInClass {
+        fun foo(input: String): String
+    }
+
+    fun foo(input: String): String
+}
+
 class LevelOne {
     class LevelTwo {
         class LevelThree {

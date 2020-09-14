@@ -27,7 +27,9 @@ class CStruct(
     val mappedType: CppTypeInfo,
     val hasImmutableFields: Boolean = false,
     val fields: List<CField> = emptyList(),
-    val methods: List<CFunction> = emptyList()
+    val methods: List<CFunction> = emptyList(),
+    val structs: List<CStruct> = emptyList(),
+    val interfaces: List<CInterface> = emptyList()
 ) : CType(name) {
 
     val type = mappedType.functionReturnType.toString()

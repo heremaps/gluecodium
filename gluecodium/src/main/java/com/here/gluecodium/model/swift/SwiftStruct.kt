@@ -35,7 +35,9 @@ class SwiftStruct(
     val methods: List<SwiftMethod> = emptyList(),
     var generatedConstructorComment: String? = null,
     externalFramework: String? = null,
-    externalConverter: String? = null
+    externalConverter: String? = null,
+    val structs: List<SwiftStruct> = emptyList(),
+    val classes: List<SwiftClass> = emptyList()
 ) : SwiftType(
     name,
     cPrefix,

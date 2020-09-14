@@ -89,8 +89,14 @@
 {{/fields}}
     }
 
-{{/unless}}{{/constructors}}{{/set}}{{!!
-}}{{#if needsExplicitHashable}}
+{{/unless}}{{/constructors}}{{/set}}
+{{#structs}}
+{{prefixPartial "swift/Struct" "    "}}
+{{/structs}}
+{{#classes}}{{#unless isInterface}}
+{{prefixPartial "swift/ClassDefinition" "    "}}
+{{/unless}}{{/classes}}
+{{#if needsExplicitHashable}}
     public static func == (lhs: {{simpleName}}, rhs: {{simpleName}}) -> Bool {
         return
 {{#fields}}
@@ -114,6 +120,10 @@
 {{prefixPartial 'swift/Method' '    '}}
 {{/unless}}{{/methods}}{{/set}}{{/if}}
 }
+
+{{#classes}}{{#if isInterface}}
+{{>swift/ClassDefinition}}
+{{/if}}{{/classes}}
 {{/unless}}{{!!
 
 }}{{#if skipDeclaration}}

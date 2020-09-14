@@ -152,7 +152,10 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass, parentClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
-        swiftClass.classes.addAll(getPreviousResults(SwiftClass::class.java))
+
+        val nestedClasses = getPreviousResults(SwiftClass::class.java)
+        swiftClass.classes.addAll(nestedClasses.filterNot { it.isInterface })
+        swiftFile.classes.addAll(nestedClasses.filter { it.isInterface })
 
         storeNamedResult(limeClass, swiftClass)
         storeResult(swiftFile)
@@ -271,7 +274,9 @@ class SwiftModelBuilder(
             methods = getPreviousResults(SwiftMethod::class.java),
             generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG),
             externalFramework = limeStruct.external?.swift?.get(FRAMEWORK_NAME),
-            externalConverter = limeStruct.external?.swift?.get(CONVERTER_NAME)
+            externalConverter = limeStruct.external?.swift?.get(CONVERTER_NAME),
+            structs = getPreviousResults(SwiftStruct::class.java),
+            classes = getPreviousResults(SwiftClass::class.java)
         )
         swiftStruct.comment = createComments(limeStruct)
 

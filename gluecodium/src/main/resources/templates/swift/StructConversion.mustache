@@ -83,3 +83,9 @@ internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
 }
 
 {{/if}}
+{{#classes}}
+{{>swift/ClassConversion}}{{!!
+}}{{/classes}}
+{{#structs}}
+{{>swift/StructConversion}}{{!!
+}}{{/structs}}

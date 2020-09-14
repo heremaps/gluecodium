@@ -47,6 +47,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
+import java.io.File
 
 class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,
@@ -68,7 +69,7 @@ class CBridgeTypeMapper(
         "${internalNamespace.joinToString("::")}::Locale",
         CType(BASE_REF_NAME),
         CType(BASE_REF_NAME),
-        listOf(BASE_HANDLE_IMPL_INCLUDE)
+        listOf(BASE_HANDLE_IMPL_INCLUDE, createInternalNamespaceInclude("Locale.h"))
     )
 
     fun mapType(limeTypeRef: LimeTypeRef, cppTypeRef: CppTypeRef): CppTypeInfo {
@@ -82,8 +83,7 @@ class CBridgeTypeMapper(
     private fun mapType(limeType: LimeType, cppTypeRef: CppTypeRef): CppTypeInfo =
         when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
-            is LimeTypeAlias ->
-                mapType(limeType.actualType, cppTypeRef.actualType)
+            is LimeTypeAlias -> mapType(limeType.actualType, cppTypeRef.actualType)
             is LimeContainerWithInheritance -> createCustomTypeInfo(limeType, isClass = true)
             is LimeStruct -> createCustomTypeInfo(limeType)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
@@ -244,6 +244,9 @@ class CBridgeTypeMapper(
         CType(BASE_REF_NAME),
         baseTypeInfo.includes + cppTypeRef.includes + cppIncludeResolver.optionalInclude
     )
+
+    private fun createInternalNamespaceInclude(fileName: String) =
+        Include.createInternalInclude((internalNamespace + fileName).joinToString(File.separator))
 
     companion object {
         val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(BASE_HANDLE_IMPL_FILE)

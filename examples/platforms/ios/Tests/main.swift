@@ -51,6 +51,7 @@ let allTests = [
     testCase(MapsTests.allTests),
     testCase(MethodOverloadsTests.allTests),
     testCase(MultiListenerTests.allTests),
+    testCase(NestingTests.allTests),
     testCase(NullableAttributesTests.allTests),
     testCase(NullableInstancesTests.allTests),
     testCase(NullableListenersTests.allTests),

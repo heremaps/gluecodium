@@ -18,42 +18,18 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/OuterStruct.h"
+import XCTest
+import hello
 
-namespace test
-{
-namespace
-{
-class OuterStructBuilderImpl: public OuterStruct::Builder,
-                              public std::enable_shared_from_this<OuterStructBuilderImpl> {
-public:
-    OuterStructBuilderImpl() {}
-    virtual ~OuterStructBuilderImpl() = default;
+class NestingTests: XCTestCase {
 
-    std::shared_ptr<OuterStruct::Builder>
-    field(const std::string& value) override {
-        m_field = value;
-        return shared_from_this();
+    func testNestedClassMethod() {
+        let result = OuterStruct.InnerClass.fooBar()
+
+        XCTAssertEqual(result.first, 42)
     }
 
-    OuterStruct
-    build() override { return OuterStruct(m_field); }
-
-private:
-    std::string m_field;
-};
-}
-
-void
-OuterStruct::do_nothing() { }
-
-void
-OuterStruct::InnerStruct::do_something() { }
-
-std::unordered_set<int32_t>
-OuterStruct::InnerClass::foo_bar() { return {42}; }
-
-std::shared_ptr<OuterStruct::Builder>
-OuterStruct::Builder::create() { return std::make_shared<OuterStructBuilderImpl>(); }
-
+    static var allTests = [
+        ("testNestedClassMethod", testNestedClassMethod)
+    ]
 }
