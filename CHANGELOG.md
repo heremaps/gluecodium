@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.3.0
+Release date: 2020-09-14
 ### Features
   * Added support for nesting struct, class, or interface type declarations inside a struct declaration in IDL.
 ### Bug fixes:
