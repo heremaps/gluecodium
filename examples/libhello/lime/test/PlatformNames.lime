@@ -115,3 +115,20 @@ interface PlatformNamesListener {
         basicParameter: String
     )
 }
+
+@Java(Skip) @Dart(Skip)
+interface PlatformNamesEngine {
+    @Swift("addFooBarListener")
+    fun addListener(listener: PlatformNamesListener)
+    fun notify()
+}
+
+@Java(Skip) @Dart(Skip)
+lambda PlatformNamesEngineFactory = () -> PlatformNamesEngine
+
+@Java(Skip) @Dart(Skip)
+class PlatformNamesNotifier {
+    static fun notifyDirectly(listener: PlatformNamesListener)
+    static fun setFactory(factory: PlatformNamesEngineFactory)
+    static fun getEngine(): PlatformNamesEngine
+}

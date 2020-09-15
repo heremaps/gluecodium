@@ -19,9 +19,18 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/fooInterface.h"
+#include "test/fooListener.h"
+#include "test/PlatformNamesNotifier.h"
+#include "test/PlatformNamesEngine.h"
+#include "test/PlatformNamesEngineFactory.h"
 
 namespace test
 {
+namespace
+{
+PlatformNamesEngineFactory s_factory;
+}
+
 fooStruct
 fooInterface::FooMethod( const std::string& FooParameter )
 {
@@ -40,4 +49,17 @@ fooStruct::create( const std::string& FooParameter )
     return {};
 }
 
-}  // namespace test
+void
+PlatformNamesNotifier::notify_directly(const std::shared_ptr<fooListener>& listener) {
+    listener->FooMethod("42");
+}
+
+void
+PlatformNamesNotifier::set_factory(const PlatformNamesEngineFactory& factory) {
+    s_factory = factory;
+}
+
+std::shared_ptr<PlatformNamesEngine>
+PlatformNamesNotifier::get_engine() { return s_factory(); }
+
+}
