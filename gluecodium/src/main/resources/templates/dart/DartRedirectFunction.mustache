@@ -18,11 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{!!
-}}{{#if isConstructor}}{{#if isStruct}}{{>ffiReturnDeclaration}}{{/if}}{{!!
-}}{{#unless isStruct}}Pointer<Void> {{/unless}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{>ffiReturnDeclaration}}{{/unless}}{{!!
-}}{{#if isConstructor}}_{{/if}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
-}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-
-}}{{+ffiReturnDeclaration}}{{#returnType}}{{#unless isVoid}}{{resolveName typeRef}} {{/unless}}{{/returnType}}{{/ffiReturnDeclaration}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+{{prefixPartial "dart/DartFunctionSignature" "  "}}{{#if isStatic}}{{>dart/DartRedirectImpl}}{{/if}};
