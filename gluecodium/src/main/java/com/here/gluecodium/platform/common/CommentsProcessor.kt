@@ -46,7 +46,7 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         limeFullName: String,
         comment: String,
         limeToLanguage: Map<String, String>,
-        logger: LimeLogger
+        logger: LimeLogger?
     ): String {
         val document = parser.parse(comment.trim())
         val path = limeFullName.split(".")
@@ -61,7 +61,7 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
                     return@VisitHandler
                 }
             }
-            logger.logFunction(limeFullName, "Failed to resolve documentation reference [$reference]")
+            logger?.logFunction(limeFullName, "Failed to resolve documentation reference [$reference]")
             hasErrorFlag = true
         }
         val codeBlockHandler = VisitHandler(Code::class.java) {

@@ -42,6 +42,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
@@ -57,9 +58,9 @@ import com.here.gluecodium.platform.common.CommentsProcessor
 internal class Cpp2NameResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     internalNamespace: List<String>,
-    private val limeLogger: LimeLogger,
-    private val commentsProcessor: CommentsProcessor,
-    private val cachingNameResolver: CppNameResolver
+    private val cachingNameResolver: CppNameResolver,
+    private val limeLogger: LimeLogger? = null,
+    private val commentsProcessor: CommentsProcessor? = null
 ) : NameResolver {
 
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
@@ -76,6 +77,7 @@ internal class Cpp2NameResolver(
             is LimeValue -> resolveValue(element)
             is LimeType -> resolveTypeName(element, isFullName = false)
             is LimeTypeRef -> resolveTypeRef(element)
+            is LimeReturnType -> resolveTypeRef(element.typeRef)
             is LimeNamedElement -> cachingNameResolver.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -199,12 +201,12 @@ internal class Cpp2NameResolver(
         if (CppLibraryIncludes.hasStdHash(limeTypeRef)) "" else ", $hashTypeName< $resolvedName >"
 
     private fun resolveComment(limeComment: LimeComment) =
-        commentsProcessor.process(
+        commentsProcessor?.process(
             limeComment.path.toString(),
             limeComment.getFor("Cpp"),
             limeToCppNames,
             limeLogger
-        )
+        ) ?: ""
 
     private fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
         getParentElement(limeElement.path, limeElement is LimeParameter)

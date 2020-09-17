@@ -85,7 +85,7 @@ abstract class AcceptanceTestBase protected constructor(
             val relativePath = getRelativePath(outputDirectory, it)
             val generatedContent = generatedContents[relativePath]
             errorCollector.checkNotNull(
-                "File was not generated: $relativePath, generated files: ${generatedContents.keys}",
+                "File was not generated: $relativePath, generated files:\n${generatedContents.keys.joinToString("\n")}",
                 generatedContent
             )
 

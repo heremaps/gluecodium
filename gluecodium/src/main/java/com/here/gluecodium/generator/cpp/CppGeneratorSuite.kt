@@ -77,9 +77,9 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val nameResolver = Cpp2NameResolver(
             limeModel.referenceMap,
             internalNamespace,
+            cachingNameResolver,
             limeLogger,
-            commentsProcessor,
-            cachingNameResolver
+            commentsProcessor
         )
 
         val allErrorEnums = limeModel.topElements
@@ -179,7 +179,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "forwardDeclarations" to forwardDeclarations
         )
 
-        val nameResolvers = mapOf("" to nameResolver, "FQN" to fullNameResolver)
+        val nameResolvers = mapOf("" to nameResolver, "FQN" to fullNameResolver, "C++" to nameResolver)
         val result = mutableListOf<GeneratedFile>()
         if (needsHeader) {
             result +=
