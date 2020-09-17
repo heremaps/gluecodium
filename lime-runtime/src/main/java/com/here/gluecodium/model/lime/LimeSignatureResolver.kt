@@ -45,7 +45,8 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         hasSignatureClash(limeFunction, getAllConstructorOverloads(limeFunction))
 
     private fun getAllOverloads(limeFunction: LimeFunction): List<LimeFunction> {
-        val parentElement = referenceMap[limeFunction.path.parent.toString()] as LimeContainer
+        val parentElement = referenceMap[limeFunction.path.parent.toString()] as? LimeContainer
+            ?: return listOf(limeFunction)
         val functionName = getFunctionName(limeFunction)
         return getAllFunctions(parentElement).filter { getFunctionName(it) == functionName }
     }

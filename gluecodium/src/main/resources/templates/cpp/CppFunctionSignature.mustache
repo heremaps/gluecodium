@@ -20,20 +20,11 @@
   !}}
 {{>cpp/CppFunctionDoc}}
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}{{#if isVirtual}}virtual {{/if}}{{/unless}}{{!!
-}}{{>resolveReturnType}} {{resolveName}}{{!!
+}}{{>cpp/CppReturnType}} {{resolveName}}{{!!
 }}( {{#parameters}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
 }}{{#unless isStatic}}{{#if isConst attributes.cpp.const logic="or"}} const{{/if}}{{!!
 }}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{!!
 
 }}{{+resolveTypeRef}}{{#if useCstring}}{{#if attributes.cpp.cstring}}char*{{/if}}{{!!
 }}{{#unless attributes.cpp.cstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/if}}{{!!
-}}{{#unless useCstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/resolveTypeRef}}{{!!
-
-}}{{+resolveReturnType}}{{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
-}}{{#if returnType.isVoid}}::std::error_code{{/if}}{{!!
-}}{{#unless returnType.isVoid}}{{#internalNamespace}}::{{.}}{{/internalNamespace}}::Return{{!!
-}}< {{resolveName returnType.typeRef}}, ::std::error_code >{{/unless}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
-}}{{#internalNamespace}}::{{.}}{{/internalNamespace}}::Return{{!!
-}}< {{resolveName returnType.typeRef}}, {{resolveName exception.errorType}} >{{/notInstanceOf}}{{/if}}{{!!
-}}{{#unless thrownType}}{{resolveName returnType.typeRef}}{{/unless}}{{/resolveReturnType}}
+}}{{#unless useCstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/resolveTypeRef}}
