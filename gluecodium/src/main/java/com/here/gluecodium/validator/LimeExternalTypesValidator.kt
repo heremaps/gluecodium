@@ -27,12 +27,11 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_N
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 
-// TODO: #408: change documentation to refer to external descriptor
 /**
- * Validate each element with "@Cpp(ExternalName)", "@Cpp(ExternalGetter)" or "@Cpp(ExternalSetter)"
- * property set against the following conditions:
- *  * Should have "@Cpp(ExternalType)" property set on itself or on one it enclosing elements.
- *  * Should not have "@Cpp(Name)" property set.
+ * Validate each element with "cpp: externalName", "cpp: externalGetter" or "cpp: externalSetter" external descriptor
+ * set against the following conditions:
+ *  * Should have "cpp: externalType" descriptor set on itself or on one it enclosing elements.
+ *  * Should not have "@Cpp(Name)" attribute.
  */
 internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
 
@@ -60,14 +59,12 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
         propertyName: String
     ) = when {
         !isInExternalType(limeElement, referenceMap) -> {
-            // TODO: #408: change message to refer to external descriptor
             logger.error(limeElement, "an element with '$propertyName' also" +
-                    " needs to have 'ExternalType' set for itself or one of its enclosing elements")
+                    " needs to have 'cpp: externalType' set for itself or one of its enclosing elements")
             false
         }
         limeElement.attributes.have(CPP, LimeAttributeValueType.NAME) -> {
-            // TODO: #408: change message to refer to external descriptor
-            logger.error(limeElement, "an element with '@Cpp($propertyName)' cannot" +
+            logger.error(limeElement, "an element with 'cpp: $propertyName' cannot" +
                     " have '@Cpp(Name)' set at the same time")
             false
         }
