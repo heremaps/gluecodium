@@ -127,7 +127,7 @@ object OptionReader {
             "stubs",
             "generate-stubs",
             false,
-            "Generate methods stubs, suitable for mocking in unit tests. Only supported for Java."
+            "Generate stubs for classes and methods, enabling mocking in unit tests. Only supported for Java and Dart."
         )
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
