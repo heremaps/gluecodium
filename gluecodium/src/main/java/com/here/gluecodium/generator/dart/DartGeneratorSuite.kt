@@ -79,6 +79,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private val commentsProcessor =
         DartCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
     private val overloadsWerror = options.werror.contains(Gluecodium.Options.WARNING_DART_OVERLOADS)
+    private val testableMode = options.generateStubs
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
@@ -184,7 +185,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
                 "imports" to imports.distinct().sorted().filterNot { it.filePath.endsWith(filePath) },
                 "model" to rootElement,
                 "contentTemplate" to contentTemplateName,
-                "libraryName" to libraryName
+                "libraryName" to libraryName,
+                "testableMode" to testableMode
             ),
             nameResolvers,
             predicates

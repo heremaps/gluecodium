@@ -23,30 +23,30 @@
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
-}}{{>dart/DartDocumentation}}{{#if attributes.immutable}}
+}}{{#if testableMode}}
+{{>dart/DartDocumentation}}
+{{#if attributes.immutable}}
 @immutable{{/if}}
 class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
-{{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
-{{/fields}}{{/set}}
-{{#if fields}}{{#unless constructors}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
-}}{{prefix this "  /// "}}
-{{#fields}}
-  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
-  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/fields}}
-{{/unless}}{{/resolveName}}{{/unless}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
-}}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{/if}}{{#unless constructors}}{{#if initializedFields}}
-  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}.withDefaults({{!!
-  }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
-    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
-    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
-{{/if}}{{/unless}}{{/if}}
-{{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}{{/set}}
+{{>dartFieldsAndConstants}}
 {{#set parent=this isStruct=true}}{{#constructors}}
+{{>dart/DartRedirectConstructor}}
+{{/constructors}}
+{{#functions}}{{#unless isConstructor}}
+{{>dart/DartRedirectFunction}}
+{{/unless}}{{/functions}}{{/set}}
+
+  static var $class = {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}$Impl();
+}
+
+{{/if}}{{!!
+
+}}{{>dart/DartDocumentation}}
+{{#if attributes.immutable}}
+@immutable{{/if}}
+class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if testableMode}}$Impl{{/if}} {
+{{>dartFieldsAndConstants}}
+{{#set parent=this isStruct=true ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
@@ -168,4 +168,27 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 }}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
 }}{{resolveName visibility}}{{resolveName}}.hashCode{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
-}}{{/dartFieldHash}}
+}}{{/dartFieldHash}}{{!!
+
+}}{{+dartFieldsAndConstants}}{{!!
+}}{{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
+{{/fields}}{{/set}}
+{{#if fields}}{{#unless constructors}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// "}}
+{{#fields}}
+  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}
+{{/unless}}{{/resolveName}}{{/unless}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
+}}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{/if}}{{#unless constructors}}{{#if initializedFields}}
+  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}.withDefaults({{!!
+  }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
+    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+{{/if}}{{/unless}}{{/if}}
+{{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
+{{/constants}}{{/set}}{{!!
+}}{{/dartFieldsAndConstants}}

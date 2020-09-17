@@ -19,13 +19,9 @@
   !
   !}}
 {{>dart/DartDocumentation}}
-abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
+{{#unless testableMode}}abstract {{/unless}}class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
 {{#set parent=this}}{{#constructors}}
-{{prefixPartial "dart/DartFunctionDocs" "  "}}
-  factory {{resolveName parent}}{{#unless attributes.dart.default}}{{!!
-  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unless}}({{!!
-  }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-  }}){{>dartImplRedirect}};
+{{>dart/DartRedirectConstructor}}
 {{/constructors}}{{/set}}
 
 {{prefixPartial "dart/DartReleaseDocs" "  "}}
@@ -35,12 +31,15 @@ abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}{{/set}}
 {{#set parent=this}}{{#functions}}{{#unless isConstructor}}
-{{prefixPartial "dart/DartFunctionDocs" "  "}}
-{{prefixPartial "dart/DartFunctionSignature" "  "}}{{#if isStatic}}{{>dartImplRedirect}}{{/if}};
+{{>dart/DartRedirectFunction}}
 {{/unless}}{{/functions}}{{/set}}
 {{#set parent=this}}{{#properties}}
 {{#set property=this}}{{prefixPartial "dartPropertyRedirect" "  "}}{{/set}}
-{{/properties}}{{/set}}
+{{/properties}}{{/set}}{{!!
+}}{{#if testableMode}}
+
+  static var $class = {{resolveName}}$Impl();
+{{/if}}
 }
 
 {{#enumerations}}
@@ -107,7 +106,7 @@ class {{resolveName}}$Impl{{!!
     handle = null;
   }
 
-{{#set inheritanceParent=parent parent=this}}{{#constructors}}
+{{#set inheritanceParent=parent parent=this ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
 {{#functions}}
@@ -168,38 +167,49 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+dartConstructor}}{{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
+}}{{+dartConstructor}}{{#if testableMode}}
+{{resolveName parent}} {{resolveName visibility}}{{resolveName}}({{!!
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
+  final result = {{resolveName parent}}$Impl({{!!
+  }}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
+  __lib.reverseCache[_{{resolveName parent "Ffi"}}_get_raw_pointer(handle)] = result;
+  return result;
+}
+{{/if}}{{!!
+}}{{#unless testableMode}}
+{{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}{{#unless hasClassParent}}handle = {{/unless}}{{#if hasClassParent}}super({{/if}}{{!!
 }}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
 }}{{#if hasClassParent}}){{/if}} {
   __lib.reverseCache[_{{resolveName parent "Ffi"}}_get_raw_pointer(handle)] = this;
 }
-{{/dartConstructor}}{{!!
-
-}}{{+dartImplRedirect}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
-    }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-}}{{/dartImplRedirect}}{{!!
+{{/unless}}{{/dartConstructor}}{{!!
 
 }}{{+dartPropertyRedirect}}
 {{#getter}}
 {{>dart/DartDocumentation}}{{!!
-}}{{#if isStatic}}static {{/if}}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
-}}{{#if isStatic}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName property}}{{/if}};
+}}{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{!!
+}}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
+}}{{#if isStatic}} => {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}.{{!!
+}}{{resolveName visibility}}{{resolveName property}}{{/if}};
 {{/getter}}
 {{#setter}}
 {{>dart/DartDocumentation}}{{!!
-}}{{#if isStatic}}static {{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
-}}{{#if isStatic}} { {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
+}}{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{!!
+}}{{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
+}}{{#if isStatic}} { {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}{{!!
+}}.{{resolveName visibility}}{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
 {{/setter}}
 {{/dartPropertyRedirect}}{{!!
 
 }}{{+dartCachedProperty}}
-{{#if isStatic}}static {{/if}}{{resolveName typeRef}} _cache_{{resolveName}};
-{{#if isStatic}}static {{/if}}bool _is_cached_{{resolveName}} = false;
+{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{resolveName typeRef}} _cache_{{resolveName}};
+{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}bool _is_cached_{{resolveName}} = false;
 {{#unless isStatic}}@override
 {{/unless}}
-{{#if isStatic}}static {{/if}}{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
+{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{!!
+}}{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
   if (!_is_cached_{{resolveName}}) {
     final _{{resolveName getter}}_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!
     }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!
