@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.3.1
+Release date: 2020-09-17
 ### Features:
   * Introduced "testable" mode for the Dart generator (`-stubs` command-line parameter). This mode exposes an additional
     `$class` property from each generated class, allowing for injection of mock class objects.
