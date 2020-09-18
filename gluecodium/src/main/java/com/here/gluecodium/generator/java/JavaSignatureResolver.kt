@@ -25,7 +25,7 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-class JavaSignatureResolver(
+internal class JavaSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: NameRules
 ) : LimeSignatureResolver(limeReferenceMap) {

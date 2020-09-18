@@ -38,6 +38,18 @@ public final class ExcludedCommentsOnly extends NativeBase {
     /**
      * @exclude
      */
+    public static final class SomeStruct {
+        /**
+         * @exclude
+         */
+        public boolean someField;
+        public SomeStruct(final boolean someField) {
+            this.someField = someField;
+        }
+    }
+    /**
+     * @exclude
+     */
     static class SomeLambdaImpl extends NativeBase implements SomeLambda {
         protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -56,18 +68,6 @@ public final class ExcludedCommentsOnly extends NativeBase {
          * @return
          */
         public native double doIt(@NonNull final String p0, final int index);
-    }
-    /**
-     * @exclude
-     */
-    public static final class SomeStruct {
-        /**
-         * @exclude
-         */
-        public boolean someField;
-        public SomeStruct(final boolean someField) {
-            this.someField = someField;
-        }
     }
     /**
      * @exclude

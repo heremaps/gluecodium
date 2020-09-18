@@ -22,6 +22,9 @@ public final class OuterClass extends NativeBase {
         @NonNull
         public native String foo(@NonNull final String input);
     }
+    /**
+     * @exclude
+     */
     static class InnerInterfaceImpl extends NativeBase implements InnerInterface {
         protected InnerInterfaceImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {

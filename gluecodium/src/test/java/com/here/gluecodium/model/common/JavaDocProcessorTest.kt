@@ -20,7 +20,7 @@
 package com.here.gluecodium.model.common
 
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.platform.android.JavaDocProcessor
+import com.here.gluecodium.generator.java.JavaDocProcessor
 import java.util.logging.Logger
 import org.junit.Assert.assertEquals
 import org.junit.Test

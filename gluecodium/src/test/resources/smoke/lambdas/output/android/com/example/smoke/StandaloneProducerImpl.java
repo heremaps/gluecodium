@@ -2,9 +2,10 @@
  *
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
-class InternalLambdaImpl extends NativeBase implements InternalLambda {
-    protected InternalLambdaImpl(final long nativeHandle, final Object dummy) {
+class StandaloneProducerImpl extends NativeBase implements StandaloneProducer {
+    protected StandaloneProducerImpl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
@@ -13,5 +14,6 @@ class InternalLambdaImpl extends NativeBase implements InternalLambda {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public native void apply();
+    @NonNull
+    public native String apply();
 }

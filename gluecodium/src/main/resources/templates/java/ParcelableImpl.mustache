@@ -18,9 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-private {{name}}(final Parcel in_parcel) {
+private {{resolveName}}(final Parcel in_parcel) {
 {{#fields}}
-{{prefixPartial "parcelRead" "    "}}
+{{#set type=typeRef.type.actualType field=this}}{{prefixPartial "parcelRead" "    "}}{{/set}}
 {{/fields}}
 }
 
@@ -32,44 +32,41 @@ public int describeContents() {
 @Override
 public void writeToParcel(final Parcel out_parcel, final int flags) {
 {{#fields}}
-    out_parcel.write{{>parcelWriteSuffix}};
+    out_parcel.write{{#set type=typeRef.type.actualType field=this}}{{>parcelWriteSuffix}}{{/set}};
 {{/fields}}
 }{{!!
 
 }}{{+parcelRead}}{{!!
-    }}{{#instanceOf type "JavaArrayTypeRef"}}this.{{name}} = in_parcel.create{{capitalize type.type.value}}Array();{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaTemplateTypeRef"}}{{#isNotEq type.templateClass.interfaceName "Set"}}this.{{name}} = new {{type.implementationType}}();
-{{!!}}in_parcel.read{{capitalize type.classNames.0}}(this.{{name}}, Thread.currentThread().getContextClassLoader());{{/isNotEq}}{{!!
-}}{{#isEq type.templateClass.interfaceName "Set"}}java.util.ArrayList<{{type.templateParameters.0.name}}> __{{name}} = new java.util.ArrayList<>();
-in_parcel.readList(__{{name}}, Thread.currentThread().getContextClassLoader());
-{{#isEq type.implementationType.name "EnumSet<>"}}this.{{name}} = EnumSet.copyOf(__{{name}});{{/isEq}}{{!!
-}}{{#isNotEq type.implementationType.name "EnumSet<>"}}this.{{name}} = new {{type.implementationType}}(__{{name}});{{/isNotEq}}
-{{/isEq}}{{/instanceOf}}{{!!
-
-    }}{{#instanceOf type "JavaCustomTypeRef"}}this.{{name}} = in_parcel.readParcelable(Thread.currentThread().getContextClassLoader());{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaEnumTypeRef"}}this.{{name}} = {{type.name}}.values()[in_parcel.readInt()];{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
-        }}{{#switch type.name}}{{!!
-        }}{{#case "boolean"}}this.{{name}} = in_parcel.readByte() != 0;{{/case}}{{!!
-        }}{{#case "short"}}this.{{name}} = (short)in_parcel.readInt();{{/case}}{{!!
-        }}{{#default}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/default}}{{!!
-        }}{{/switch}}{{!!
-    }}{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaReferenceTypeRef"}}this.{{name}} = in_parcel.read{{capitalize type.name}}();{{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeList"}}this.{{resolveName field}} = new ArrayList<>();
+in_parcel.readList(this.{{resolveName field}}, Thread.currentThread().getContextClassLoader());{{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeMap"}}this.{{resolveName field}} = new HashMap<>();
+in_parcel.readMap(this.{{resolveName field}}, Thread.currentThread().getContextClassLoader());{{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeSet"}}java.util.ArrayList<{{resolveName type.elementType}}> __{{resolveName field}} = new java.util.ArrayList<>();
+in_parcel.readList(__{{resolveName field}}, Thread.currentThread().getContextClassLoader());
+{{#instanceOf type.elementType.type.actualType "LimeEnumeration"}}this.{{resolveName field}} = EnumSet.copyOf(__{{resolveName field}});{{/instanceOf}}{{!!
+}}{{#notInstanceOf type.elementType.type.actualType "LimeEnumeration"}}this.{{resolveName field}} = new HashSet<>(__{{resolveName field}});{{/notInstanceOf}}{{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeStruct"}}this.{{resolveName field}} = in_parcel.readParcelable(Thread.currentThread().getContextClassLoader());{{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeEnumeration"}}this.{{resolveName field}} = {{resolveName typeRef}}.values()[in_parcel.readInt()];{{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeBasicType"}}{{#switch type.typeId.toString}}{{!!
+}}{{#case "Boolean"}}this.{{resolveName field}} = in_parcel.readByte() != 0;{{/case}}{{!!
+}}{{#case "Short"}}this.{{resolveName field}} = (short)in_parcel.readInt();{{/case}}{{!!
+}}{{#case "String"}}this.{{resolveName field}} = in_parcel.readString();{{/case}}{{!!
+}}{{#case "Blob"}}this.{{resolveName field}} = in_parcel.createByteArray();{{/case}}{{!!
+}}{{#default}}this.{{resolveName field}} = in_parcel.read{{#resolveName type}}{{capitalize this}}{{/resolveName}}();{{/default}}{{!!
+}}{{/switch}}{{/instanceOf}}{{!!
 }}{{/parcelRead}}{{!!
 
 }}{{+parcelWriteSuffix}}{{!!
-    }}{{#instanceOf type "JavaArrayTypeRef"}}{{capitalize type.type.value}}Array({{name}}){{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaTemplateTypeRef"}}{{#isNotEq type.templateClass.interfaceName "Set"}}{{capitalize type.classNames.0}}({{name}}){{/isNotEq}}{{!!
-    }}{{#isEq type.templateClass.interfaceName "Set"}}List(java.util.Arrays.asList({{name}}.toArray())){{/isEq}}{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaCustomTypeRef"}}Parcelable({{name}}, 0){{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaEnumTypeRef"}}Int({{name}}.ordinal()){{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
-        }}{{#switch type.name}}{{!!
-        }}{{#case "boolean"}}Byte((byte)({{name}} ? 1 : 0)){{/case}}{{!!
-        }}{{#case "short"}}Int({{name}}){{/case}}{{!!
-        }}{{#default}}{{capitalize type.name}}({{name}}){{/default}}{{!!
-        }}{{/switch}}{{!!
-    }}{{/instanceOf}}{{!!
-    }}{{#instanceOf type "JavaReferenceTypeRef"}}{{capitalize type.name}}({{name}}){{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeList"}}List({{resolveName field}}){{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeMap"}}Map({{resolveName field}}){{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeSet"}}List(java.util.Arrays.asList({{resolveName field}}.toArray())){{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeStruct"}}Parcelable({{resolveName field}}, 0){{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeEnumeration"}}Int({{resolveName field}}.ordinal()){{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeBasicType"}}{{#switch type.typeId.toString}}{{!!
+}}{{#case "Boolean"}}Byte((byte)({{resolveName field}} ? 1 : 0)){{/case}}{{!!
+}}{{#case "Short"}}Int({{resolveName field}}){{/case}}{{!!
+}}{{#case "String"}}String({{resolveName field}}){{/case}}{{!!
+}}{{#case "Blob"}}ByteArray({{resolveName field}}){{/case}}{{!!
+}}{{#default}}{{#resolveName type}}{{capitalize this}}{{/resolveName}}({{resolveName field}}){{/default}}{{!!
+}}{{/switch}}{{/instanceOf}}{{!!
 }}{{/parcelWriteSuffix}}

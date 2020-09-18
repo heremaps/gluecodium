@@ -18,42 +18,45 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#set classVisibility=visibility}}
+{{#set structVisibility=visibility struct=this}}{{#struct}}
 /**
 {{#unless uninitializedFields}}
- * Allows to construct a new {{name}} instance by calling the desired setters one after the other in any order.
+ * Allows to construct a new {{resolveName}} instance by calling the desired setters one after the other in any order.
 {{/unless}}
 {{#if uninitializedFields}}
- * Allows to construct a new {{name}} instance by calling the following setters for mandatory fields in the
+ * Allows to construct a new {{resolveName}} instance by calling the following setters for mandatory fields in the
  * following order before {@link FinalBuilder#build build} can be called:
  * <pre>
  *
- * {{name}} instance = new {{name}}.Builder(){{#uninitializedFields}}
- *     .set{{capitalize name}}({{name}}){{/uninitializedFields}}
+ * {{resolveName}} instance = new {{resolveName}}.Builder(){{#uninitializedFields}}
+ *     .set{{#resolveName}}{{capitalize this}}{{/resolveName}}({{resolveName}}){{/uninitializedFields}}
  *     .build();
  * </pre>
-{{#if defaultedFields}}
- * Setters for optional fields that already have a default value assigned can be chained in any desired order. The following setters are optional:
+{{#if initializedFields}}
+ * Setters for optional fields that already have a default value assigned can be chained in any desired order. {{!!
+ }}The following setters are optional:
  * <ul>
-{{#defaultedFields}}
- *     <li>{@link FinalBuilder#set{{capitalize name}} set{{capitalize name}}({{name}})}</li>
-{{/defaultedFields}}
+{{#initializedFields}}
+ *     <li>{@link FinalBuilder#set{{#resolveName}}{{capitalize this}}{{/resolveName}} {{!!
+ }}set{{#resolveName}}{{capitalize this}}{{/resolveName}}({{resolveName}})}</li>
+{{/initializedFields}}
  * </ul>
 {{/if}}
 {{/if}}
  * @deprecated <p>To create a new instance use one of the available constructors.</p>
  */
 @Deprecated
-{{>visible}}static class Builder {
+{{resolveName structVisibility}}static class Builder {
 {{#fields}}
-    private {{type.name}} {{name}}{{#if initial}} = {{initial.name}}{{/if}};
+    private {{resolveName typeRef}} {{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#unless defaultValue}}{{resolveName "empty"}}{{/unless}};
 {{/fields}}
 
-    {{>visible}}Builder() { }
+    {{resolveName structVisibility}}Builder() { }
 {{#if uninitializedFields}}{{>mandatoryFieldsBuilder}}{{/if}}
 {{#unless uninitializedFields}}{{>allFieldSetters}}{{/unless}}
 }
-{{/set}}{{!!
+{{/struct}}{{/set}}{{!!
 
 }}{{+mandatoryFieldsBuilder}}
 {{#uninitializedFields}}
@@ -62,7 +65,7 @@
 {{/if}}{{!!
 }}{{#unless iter.isFirst}}
     /** @exclude */
-    {{>visible}}class {{>currentBuilder}} {
+    {{resolveName structVisibility}}class {{>currentBuilder}} {
         {{>currentBuilder}}() { }
         {{prefixPartial "mandatoryFieldSetter" "    "}}
     }
@@ -70,18 +73,19 @@
 {{/uninitializedFields}}
     /**
      * After all mandatory fields are set, this builder is returned which allows
-     * setting all fields and constructing a new {{name}} instance by calling {@link #build build}.
+     * setting all fields and constructing a new {{resolveName}} instance by calling {@link #build build}.
      */
-    {{>visible}}class FinalBuilder {
+    {{resolveName structVisibility}}class FinalBuilder {
         FinalBuilder() { }
-        {{#set Prefix="Final"}}{{prefixPartial "allFieldSetters" "    "}}{{/set}}
+        {{#set Prefix="Final"}}{{#struct}}{{prefixPartial "allFieldSetters" "    "}}{{/struct}}{{/set}}
     }
 {{/mandatoryFieldsBuilder}}{{!!
 
 }}{{+mandatoryFieldSetter}}
     {{>setterComment}}
-    {{>visible}}{{>nextBuilder}} set{{capitalize name}}({{type}} {{name}}) {
-        Builder.this.{{name}} = {{name}};
+    {{resolveName structVisibility}}{{>nextBuilder}} set{{#resolveName}}{{capitalize this}}{{/resolveName}}{{!!
+    }}({{resolveName typeRef}} {{resolveName}}) {
+        Builder.this.{{resolveName}} = {{resolveName}};
         return new {{>nextBuilder}}();
     }
 {{/mandatoryFieldSetter}}{{!!
@@ -89,17 +93,18 @@
 }}{{+allFieldSetters}}
 {{#fields}}
     {{>setterComment}}
-    {{>visible}}{{Prefix}}Builder set{{capitalize name}}({{type}} {{name}}) {
-        Builder.this.{{name}} = {{name}};
+    {{resolveName structVisibility}}{{Prefix}}Builder set{{#resolveName}}{{capitalize this}}{{/resolveName}}{{!!
+    }}({{resolveName typeRef}} {{resolveName}}) {
+        Builder.this.{{resolveName}} = {{resolveName}};
         return this;
     }
 {{/fields}}
-{{#if generatedConstructorComment}}
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
     /**
-{{prefix generatedConstructorComment "     * "}}
-     */{{/if}}
-    {{>visible}}{{name}} build() {
-        return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{prefix this "     * "}}
+     */{{/unless}}{{/resolveName}}
+    {{resolveName structVisibility}}{{resolveName}} build() {
+        return new {{resolveName}}({{#fields}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
     }
 {{/allFieldSetters}}{{!!
 
@@ -113,10 +118,9 @@
 }}{{#unless iter.hasNext}}FinalBuilder{{/unless}}{{!!
 }}{{/nextBuilder}}{{!!
 
-}}{{+visible}}{{#if classVisibility.toString}}{{classVisibility}} {{/if}}{{/visible}}{{!!
 }}{{+setterComment}}
     /**
-     * Sets {{name}}.{{#if comment.documentation}}
-     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}{{/if}}
+     * Sets {{resolveName}}.{{#unless comment.isEmpty}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}{{/unless}}
      */
 {{/setterComment}}

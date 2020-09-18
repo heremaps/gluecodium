@@ -20,7 +20,6 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.java.JavaNameRules
-import com.here.gluecodium.model.java.JavaCustomTypeRef
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -57,25 +56,5 @@ internal class JniFileNameRules(generatorName: String, private val nameResolver:
     companion object {
         // Conversion suffix has a double underscore "__" to avoid name collisions.
         private const val JNI_CONVERSION_SUFFIX = "__Conversion"
-
-        /**
-         * JNI name mangling. See
-         * https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/design.html#wp641
-         */
-        fun getMangledName(name: String): String {
-            return name.replace("_", "_1")
-                .replace(";", "_2")
-                .replace("[", "_3")
-                .replace("$", "_00024")
-                .replace("/", "_")
-        }
-
-        fun getFullClassName(javaType: JavaCustomTypeRef) =
-            (javaType.packageNames + javaType.classNames.joinToString("$")).joinToString("/")
-
-        fun getFullClassName(importString: String) = (
-            JavaNameRules.getPackageFromImportString(importString) +
-                JavaNameRules.getClassNamesFromImportString(importString).joinToString("$")
-        ).joinToString("/")
     }
 }

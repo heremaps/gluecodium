@@ -18,13 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-public static final Parcelable.Creator<{{resolveName}}> CREATOR = new Parcelable.Creator<{{resolveName}}>() {
-
-    public {{resolveName}} createFromParcel(final Parcel in_parcel) {
-        return new {{resolveName}}(in_parcel);
-    }
-
-    public {{resolveName}}[] newArray(final int size) {
-        return new {{resolveName}}[size];
-    }
-};
+{{#ifPredicate "hasAnyComment"}}
+/**
+{{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this " * "}}{{/unless}}{{/resolveName}}{{#if comment.isExcluded}}
+ * @exclude{{/if}}{{#if attributes.deprecated}}
+ * @deprecated {{#resolveName attributes.deprecated.message}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/if}}
+ */{{#if attributes.deprecated}}
+@Deprecated{{/if}}
+{{/ifPredicate}}

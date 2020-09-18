@@ -18,13 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-public static final Parcelable.Creator<{{resolveName}}> CREATOR = new Parcelable.Creator<{{resolveName}}>() {
-
-    public {{resolveName}} createFromParcel(final Parcel in_parcel) {
-        return new {{resolveName}}(in_parcel);
-    }
-
-    public {{resolveName}}[] newArray(final int size) {
-        return new {{resolveName}}[size];
-    }
-};
+{{>java/JavaDocComment}}
+{{resolveName visibility}}static final {{resolveName typeRef}} {{resolveName}} = {{resolveName value}};

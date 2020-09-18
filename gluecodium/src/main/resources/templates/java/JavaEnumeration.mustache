@@ -18,13 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-public static final Parcelable.Creator<{{resolveName}}> CREATOR = new Parcelable.Creator<{{resolveName}}>() {
+{{>java/JavaDocComment}}
+{{resolveName visibility}}enum {{resolveName}} {
+{{joinPartial enumerators "java/JavaEnumerator" ",
+"}}{{#if enumerators}};{{/if}}
 
-    public {{resolveName}} createFromParcel(final Parcel in_parcel) {
-        return new {{resolveName}}(in_parcel);
-    }
+    {{resolveName visibility}}final int value;
 
-    public {{resolveName}}[] newArray(final int size) {
-        return new {{resolveName}}[size];
+    {{resolveName}}(final int value) {
+        this.value = value;
     }
-};
+}

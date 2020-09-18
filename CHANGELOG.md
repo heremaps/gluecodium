@@ -3,6 +3,8 @@
 ## Unreleased
 ### Bug fixes:
   * Enabled validation against applying `Skip` attributes to struct fields.
+  * Fixed an issue when empty documentation comment was generated in C++ instead of no documentation comment.
+  * Updated HTML formatting of generated JavaDoc to be more consistent.
 
 ## 8.4.5
 Release date: 2020-10-08

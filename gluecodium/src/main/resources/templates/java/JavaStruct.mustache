@@ -1,0 +1,88 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>java/JavaDocComment}}
+{{>structVisibility}}{{#if forceStatic}}static {{/if}}{{#unless stubs}}final {{/unless}}class {{resolveName}} {{!!
+}}{{#if attributes.serializable}}implements Parcelable {{/if}}{
+{{#if attributes.serializable}}{{prefixPartial "java/ParcelableCreator" "    "}}
+
+{{/if}}
+{{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
+{{/constants}}
+{{#set isImmutable=attributes.immutable}}{{#fields}}{{prefixPartial "java/JavaField" "    "}}
+{{/fields}}{{/set}}
+{{>java/JavaContainerContents}}
+{{#set classElement=this}}{{#constructors}}{{#unless attributes.java.skip}}
+{{prefixPartial "java/JavaMethodComment" "    "}}
+    {{>structVisibility}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
+    }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
+{{#unless stubs}}
+        {{resolveName classElement}} _other = {{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+{{#fields}}        this.{{resolveName}} = _other.{{resolveName}};
+{{/fields}}
+{{/unless}}
+    }
+{{/unless}}{{/constructors}}{{/set}}
+{{#if fields}}{{#unless constructors}}
+
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#uninitializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/uninitializedFields}}
+     */
+{{/unless}}
+    {{#unlessPredicate "hasInternalFreeArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
+    }}({{joinPartial uninitializedFields "java/JavaParameter" ", "}}) {
+{{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+                   }}{{#unless defaultValue}}{{resolveName}}{{/unless}};
+{{/fields}}
+    }{{#if initializedFields}}
+
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#fields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/fields}}
+     */
+{{/unless}}
+    {{#unlessPredicate "hasInternalAllArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
+    }}({{joinPartial fields "java/JavaParameter" ", "}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}};
+{{/fields}}
+    }{{/if}}
+{{/unless}}{{/if}}
+{{#unless external.java.name}}{{#if attributes.serializable}}{{prefixPartial "java/ParcelableImpl" "    "}}
+
+{{/if}}
+{{#if attributes.equatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
+{{/if}}
+{{#if attributes.java.builder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
+
+{{/unless}}{{/if}}{{/unless}}
+
+{{#functions}}{{#unless attributes.java.skip}}
+{{prefixPartial "java/JavaFunction" "    "}}
+{{/unless}}{{/functions}}
+}{{!!
+
+}}{{+structVisibility}}{{#unless external.java.converter}}{{resolveName visibility}}{{/unless}}{{/structVisibility}}
