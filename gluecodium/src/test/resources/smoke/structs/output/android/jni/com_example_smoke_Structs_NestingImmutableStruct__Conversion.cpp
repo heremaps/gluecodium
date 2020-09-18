@@ -1,7 +1,6 @@
 /*
  *
  */
-#include "com_example_smoke_Structs_AllTypesStruct__Conversion.h"
 #include "com_example_smoke_Structs_NestingImmutableStruct__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"

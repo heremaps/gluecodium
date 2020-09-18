@@ -5,7 +5,6 @@
 #include "foo/Bar.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
-#include <functional>
 #include <memory>
 namespace gluecodium
 {

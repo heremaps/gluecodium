@@ -1,7 +1,6 @@
 /*
  *
  */
-#include "com_example_smoke_SimpleInterface__Conversion.h"
 #include "com_example_smoke_StructWithInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"

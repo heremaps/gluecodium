@@ -41,7 +41,8 @@ Java_com_example_smoke_EquatableClass_equals(JNIEnv* _jenv, jobject _jinstance, 
     return **lhs == **rhs;
 }
 jint
-Java_com_example_smoke_EquatableClass_hashCode(JNIEnv* _jenv, jobject _jinstance){
+Java_com_example_smoke_EquatableClass_hashCode(JNIEnv* _jenv, jobject _jinstance)
+{
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::EquatableClass>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
