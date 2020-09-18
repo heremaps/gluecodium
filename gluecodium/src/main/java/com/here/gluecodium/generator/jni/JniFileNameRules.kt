@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,25 +21,42 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.java.JavaCustomTypeRef
-import com.here.gluecodium.model.jni.JniContainer
-import com.here.gluecodium.model.jni.JniTopLevelElement
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
-class JniNameRules(generatorName: String) {
+internal class JniFileNameRules(generatorName: String, private val nameResolver: JniNameResolver) {
 
     private val jniPathPrefix = generatorName + File.separator + "jni" + File.separator
 
-    fun getHeaderFilePath(fileName: String) = jniPathPrefix + getHeaderFileName(fileName)
+    fun getHeaderFilePath(fileName: String) = "$jniPathPrefix$fileName.h"
 
     fun getImplementationFilePath(fileName: String) = "$jniPathPrefix$fileName.cpp"
 
+    fun getConversionFileName(limeElement: LimeNamedElement): String {
+        val externalName = limeElement.external?.java?.get(NAME_NAME)
+        return when {
+            externalName != null -> {
+                val packageNames = JavaNameRules.getPackageFromImportString(externalName)
+                val classNames = JavaNameRules.getClassNamesFromImportString(externalName)
+                (packageNames + classNames).joinToString("_")
+            }
+            else -> getElementFileNamePrefix(limeElement)
+        } + JNI_CONVERSION_SUFFIX
+    }
+
+    fun getElementFileName(limeElement: LimeNamedElement) =
+        getElementFileNamePrefix(limeElement) +
+            if (limeElement is LimeInterface || limeElement is LimeLambda) "Impl" else ""
+
+    private fun getElementFileNamePrefix(limeElement: LimeNamedElement) =
+        nameResolver.resolveName(limeElement).replace('/', '_').replace('$', '_')
+
     companion object {
-        const val JNI_HEADER_FILE_SUFFIX = ".h"
-        const val JNI_CPP_PROXY_SUFFIX = "CppProxy"
         // Conversion suffix has a double underscore "__" to avoid name collisions.
         private const val JNI_CONVERSION_SUFFIX = "__Conversion"
-
-        fun getHeaderFileName(fileName: String) = fileName + JNI_HEADER_FILE_SUFFIX
 
         /**
          * JNI name mangling. See
@@ -60,25 +77,5 @@ class JniNameRules(generatorName: String) {
             JavaNameRules.getPackageFromImportString(importString) +
                 JavaNameRules.getClassNamesFromImportString(importString).joinToString("$")
         ).joinToString("/")
-
-        fun getJniClassFileName(jniContainer: JniContainer) =
-            (jniContainer.javaPackage.packageNames + jniContainer.javaNames).joinToString("_")
-
-        fun getJniStructFileName(jniElement: JniTopLevelElement) =
-            (jniElement.javaPackage.packageNames + jniElement.javaName.replace("$", "_")).joinToString("_")
-
-        fun getConversionFileName(jniElement: JniTopLevelElement) =
-            jniElement.externalConvertedType?.let {
-                it.replace('/', '_').replace('$', '_') + JNI_CONVERSION_SUFFIX
-            } ?: getConversionFileName(
-                jniElement.javaPackage.packageNames,
-                jniElement.javaName.split("$")
-            )
-
-        fun getConversionFileName(jniContainer: JniContainer) =
-            getConversionFileName(jniContainer.javaPackage.packageNames, jniContainer.javaInterfaceNames)
-
-        fun getConversionFileName(packageNames: List<String>, classNames: List<String>) =
-            (packageNames + classNames).joinToString("_") + JNI_CONVERSION_SUFFIX
     }
 }

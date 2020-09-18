@@ -74,7 +74,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
         return 0;
     }
     auto result = nativeCallResult.unsafe_value();
-    auto nSharedPtr = new (::std::nothrow) ::gluecodium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::error_code >::value_type(result);
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");

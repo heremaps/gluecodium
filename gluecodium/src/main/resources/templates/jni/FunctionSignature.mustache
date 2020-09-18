@@ -18,4 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>jni/FunctionSignaturePrefix}}{{#parameters}}, {{>jni/Parameter}}{{/parameters}})
+{{>jni/FunctionSignaturePrefix}}_{{resolveName "mangled"}}{{#ifPredicate "isOverloaded"}}__{{#parameters}}{{!!
+}}{{#resolveName typeRef "signature"}}{{resolveName "mangled"}}{{/resolveName}}{{/parameters}}{{/ifPredicate}}{{!!
+}}(JNIEnv* _jenv, jobject _jinstance{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}})

@@ -3,7 +3,6 @@
  */
 #pragma once
 #include "package/Types.h"
-#include "com_example_package_Enum__Conversion.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
 namespace gluecodium

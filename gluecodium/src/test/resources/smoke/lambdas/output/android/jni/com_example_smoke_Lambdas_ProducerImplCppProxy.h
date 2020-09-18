@@ -3,6 +3,7 @@
  */
 #pragma once
 #include "smoke/Lambdas.h"
+#include <functional>
 #include "CppProxyBase.h"
 #include "JniReference.h"
 namespace gluecodium

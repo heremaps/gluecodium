@@ -21,235 +21,209 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
+import com.here.gluecodium.generator.cpp.Cpp2NameResolver
+import com.here.gluecodium.generator.cpp.CppFullNameResolver
+import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.jni.JniContainer
-import com.here.gluecodium.model.jni.JniContainer.ContainerType
-import com.here.gluecodium.model.jni.JniElement
-import com.here.gluecodium.model.jni.JniStruct
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 
-class JniTemplates(
+internal class JniTemplates(
+    limeReferenceMap: Map<String, LimeElement>,
+    javaNameRules: JavaNameRules,
     private val basePackages: List<String>,
     private val internalPackages: List<String>,
     private val internalNamespace: List<String>,
+    cppNameRules: CppNameRules,
+    rootNamespace: List<String>,
     generatorName: String
 ) {
-    private val jniNameRules = JniNameRules(generatorName)
+    private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
+    private val cachingNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
+    private val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, cachingNameResolver)
+    private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
+    private val nameResolvers = mapOf(
+        "" to jniNameResolver,
+        "signature" to JniTypeSignatureNameResolver(jniNameResolver),
+        "mangled" to JniMangledNameResolver(jniNameResolver),
+        "C++" to cppNameResolver,
+        "C++ FQN" to CppFullNameResolver(cachingNameResolver)
+    )
+    private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver).predicates
 
-    fun generateFiles(jniContainer: JniContainer?): List<GeneratedFile> {
-        val results = mutableListOf<GeneratedFile>()
-        if (jniContainer == null) {
-            return results
-        }
+    private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
+    private val cppIncludeResolver = Cpp2IncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
 
-        if (jniContainer.containerType != ContainerType.TYPE_COLLECTION) {
-            results += generateFilesForElement(
-                jniContainer,
-                jniContainer,
-                JniNameRules.getJniClassFileName(jniContainer)
-            )
-        }
-        results += jniContainer.allStructsRecursive
-            .filter { it.methods.isNotEmpty() }
-            .flatMap {
-                generateFilesForElement(
-                    it,
-                    jniContainer,
-                    JniNameRules.getJniStructFileName(it)
-                )
-            }
-
-        return results
-    }
-
-    private fun generateFilesForElement(
-        jniElement: JniElement,
-        jniContainer: JniContainer,
-        fileName: String
-    ): List<GeneratedFile> {
-        val containerData =
-            mutableMapOf(
-                CONTAINER_NAME to jniElement,
-                INCLUDES_NAME to jniContainer.includes,
-                INTERNAL_NAMESPACE_NAME to internalNamespace
-            )
-        val headerFile =
-            generateFile("jni/Header", containerData, jniNameRules.getHeaderFilePath(fileName))
-
-        val includes = when (jniElement) {
-            is JniContainer -> JniIncludeResolver.collectImplementationIncludes(jniElement)
-            is JniStruct -> JniIncludeResolver.collectMethodImplementationIncludes(jniElement)
+    fun generateFiles(limeElement: LimeNamedElement) =
+        when (limeElement) {
+            is LimeStruct ->
+                if (limeElement.functions.isNotEmpty()) generateFilesForElement(limeElement) else emptyList()
+            is LimeContainerWithInheritance, is LimeLambda -> generateFilesForElement(limeElement)
             else -> emptyList()
-        } + Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName))
-        containerData[INCLUDES_NAME] = includes.distinct().sorted()
+        }
 
-        val implFile = generateFile(
-            "jni/Implementation",
-            containerData,
-            jniNameRules.getImplementationFilePath(fileName)
+    private fun generateFilesForElement(limeElement: LimeNamedElement): List<GeneratedFile> {
+        val containerData = mutableMapOf("container" to limeElement, "internalNamespace" to internalNamespace)
+        val fileName = fileNameRules.getElementFileName(limeElement)
+
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("jni/Header", containerData, nameResolvers, predicates),
+            fileNameRules.getHeaderFilePath(fileName)
+        )
+
+        val implIncludes = when (limeElement) {
+            is LimeStruct -> jniIncludeResolver.collectFunctionImplementationIncludes(limeElement)
+            else -> jniIncludeResolver.collectImplementationIncludes(limeElement)
+        } + Include.createInternalInclude("$fileName.h")
+        containerData["includes"] = implIncludes.distinct().sorted()
+
+        val implFile = GeneratedFile(
+            TemplateEngine.render("jni/Implementation", containerData, nameResolvers, predicates),
+            fileNameRules.getImplementationFilePath(fileName)
         )
 
         return listOf(headerFile, implFile)
     }
 
-    fun generateConversionFiles(combinedModel: JavaModel): List<GeneratedFile> {
-        val jniContainers = combinedModel.jniContainers
-        return jniContainers.flatMap { generateStructConversionFiles(it) } +
-                jniContainers.flatMap { generateEnumConversionFiles(it) } +
-                jniContainers
-                    .filter { it.containerType != ContainerType.TYPE_COLLECTION }
-                    .flatMap { generateInstanceConversionFiles(it) } +
-                jniContainers
-                    .filter { it.containerType == ContainerType.INTERFACE }
-                    .flatMap { generateCppProxyFiles(it) }
+    fun generateConversionFiles(allTypes: List<LimeType>): List<GeneratedFile> {
+        val lambdas = allTypes.filterIsInstance<LimeLambda>()
+        return allTypes.filterIsInstance<LimeStruct>().flatMap { generateStructConversionFiles(it) } +
+            allTypes.filterIsInstance<LimeEnumeration>().flatMap { generateEnumConversionFiles(it) } +
+            (lambdas + allTypes.filterIsInstance<LimeContainerWithInheritance>()).flatMap {
+                generateInstanceConversionFiles(it)
+            } + (lambdas + allTypes.filterIsInstance<LimeInterface>()).flatMap { generateCppProxyFiles(it) }
     }
 
     fun generateConversionUtilsHeaderFile(fileName: String) =
-        generateFile(
-            JNI_UTILS_TEMPLATE_PREFIX + fileName + "Header",
-            mapOf(INTERNAL_NAMESPACE_NAME to internalNamespace),
-            jniNameRules.getHeaderFilePath(fileName),
+        GeneratedFile(
+            TemplateEngine.render(
+                "jni/utils/${fileName}Header",
+                mapOf("internalNamespace" to internalNamespace)
+            ),
+            fileNameRules.getHeaderFilePath(fileName),
             GeneratedFile.SourceSet.COMMON
         )
 
     fun generateConversionUtilsImplementationFile(fileName: String) =
-        generateFile(
-            JNI_UTILS_TEMPLATE_PREFIX + fileName + "Implementation",
-            mapOf(
-                INTERNAL_NAMESPACE_NAME to internalNamespace,
-                INTERNAL_PACKAGES_NAME to basePackages + internalPackages
+        GeneratedFile(
+            TemplateEngine.render(
+                "jni/utils/${fileName}Implementation",
+                mapOf(
+                    "internalNamespace" to internalNamespace,
+                    "internalPackages" to basePackages + internalPackages
+                )
             ),
-            jniNameRules.getImplementationFilePath(fileName),
+            fileNameRules.getImplementationFilePath(fileName),
             GeneratedFile.SourceSet.COMMON
         )
 
-    private fun generateStructConversionFiles(jniContainer: JniContainer) =
-        jniContainer.allStructsRecursive.flatMap {
-            val mustacheData = mutableMapOf(
-                "struct" to it,
-                INCLUDES_NAME to jniContainer.includes.sorted() +
-                        JniIncludeResolver.collectConversionImplementationIncludes(it),
-                INTERNAL_NAMESPACE_NAME to internalNamespace
-            )
-
-            val fileName = JniNameRules.getConversionFileName(it)
-            val headerFile = generateFile(
-                "jni/StructConversionHeader",
-                mustacheData,
-                jniNameRules.getHeaderFilePath(fileName)
-            )
-
-            mustacheData[INCLUDES_NAME] =
-                JniIncludeResolver.collectConversionImplementationIncludes(it) +
-                        JniIncludeResolver.createConversionSelfInclude(it)
-            val implFile = generateFile(
-                "jni/StructConversionImplementation",
-                mustacheData,
-                jniNameRules.getImplementationFilePath(fileName)
-            )
-
-            listOf(headerFile, implFile)
-        }
-
-    private fun generateEnumConversionFiles(jniContainer: JniContainer) =
-        jniContainer.enums.flatMap {
-            val mustacheData = mutableMapOf(
-                "enum" to it,
-                INCLUDES_NAME to jniContainer.includes.sorted(),
-                INTERNAL_NAMESPACE_NAME to internalNamespace
-            )
-
-            val fileName = JniNameRules.getConversionFileName(it)
-            val headerFile = generateFile(
-                "jni/EnumConversionHeader",
-                mustacheData,
-                jniNameRules.getHeaderFilePath(fileName)
-            )
-
-            mustacheData[INCLUDES_NAME] =
-                listOf(JniIncludeResolver.createConversionSelfInclude(it))
-            val implFile = generateFile(
-                "jni/EnumConversionImplementation",
-                mustacheData,
-                jniNameRules.getImplementationFilePath(fileName)
-            )
-
-            listOf(headerFile, implFile)
-        }
-
-    private fun generateInstanceConversionFiles(jniContainer: JniContainer): List<GeneratedFile> {
-        val conversionSelfInclude = JniIncludeResolver.createConversionSelfInclude(jniContainer)
-        val conversionIncludes = JniIncludeResolver.collectImplementationIncludes(jniContainer)
-            .toSet().minus(conversionSelfInclude).sorted()
+    private fun generateStructConversionFiles(limeStruct: LimeStruct): List<GeneratedFile> {
         val mustacheData = mutableMapOf(
-            "model" to jniContainer,
-            INCLUDES_NAME to jniContainer.includes.sorted() + conversionIncludes,
+            "struct" to limeStruct,
+            "includes" to cppIncludeResolver.resolveIncludes(limeStruct).distinct().sorted(),
+            "internalNamespace" to internalNamespace
+        )
+
+        val fileName = fileNameRules.getConversionFileName(limeStruct)
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("jni/StructConversionHeader", mustacheData, nameResolvers),
+            fileNameRules.getHeaderFilePath(fileName)
+        )
+
+        val includes = jniIncludeResolver.collectConversionImplementationIncludes(limeStruct) +
+                Include.createInternalInclude("$fileName.h")
+        mustacheData["includes"] = includes.distinct().sorted()
+        val implFile = GeneratedFile(
+            TemplateEngine.render("jni/StructConversionImplementation", mustacheData, nameResolvers, predicates),
+            fileNameRules.getImplementationFilePath(fileName)
+        )
+
+        return listOf(headerFile, implFile)
+    }
+
+    private fun generateEnumConversionFiles(limeEnumeration: LimeEnumeration): List<GeneratedFile> {
+        val mustacheData = mutableMapOf(
+            "enum" to limeEnumeration,
+            "includes" to cppIncludeResolver.resolveIncludes(limeEnumeration).distinct().sorted(),
+            "internalNamespace" to internalNamespace
+        )
+
+        val fileName = fileNameRules.getConversionFileName(limeEnumeration)
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("jni/EnumConversionHeader", mustacheData, nameResolvers),
+            fileNameRules.getHeaderFilePath(fileName)
+        )
+
+        mustacheData["includes"] = listOf(Include.createInternalInclude("$fileName.h"))
+        val implFile = GeneratedFile(
+            TemplateEngine.render("jni/EnumConversionImplementation", mustacheData, nameResolvers, predicates),
+            fileNameRules.getImplementationFilePath(fileName)
+        )
+
+        return listOf(headerFile, implFile)
+    }
+
+    private fun generateInstanceConversionFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
+        val mustacheData = mutableMapOf(
+            "model" to limeElement,
+            "includes" to cppIncludeResolver.resolveIncludes(limeElement).distinct().sorted(),
             "basePackages" to basePackages,
-            INTERNAL_PACKAGES_NAME to basePackages + internalPackages,
-            INTERNAL_NAMESPACE_NAME to internalNamespace
+            "internalPackages" to basePackages + internalPackages,
+            "internalNamespace" to internalNamespace
         )
 
-        val fileName = JniNameRules.getConversionFileName(jniContainer)
-        val headerFile = generateFile(
-            "jni/InstanceConversionHeader",
-            mustacheData,
-            jniNameRules.getHeaderFilePath(fileName)
+        val fileName = fileNameRules.getConversionFileName(limeElement)
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("jni/InstanceConversionHeader", mustacheData, nameResolvers),
+            fileNameRules.getHeaderFilePath(fileName)
         )
 
-        val includes = mutableListOf(conversionSelfInclude)
-        if (jniContainer.containerType == ContainerType.INTERFACE) {
-            val proxyFileName =
-                JniNameRules.getJniClassFileName(jniContainer) + JniNameRules.JNI_CPP_PROXY_SUFFIX
-            includes += Include.createInternalInclude(JniNameRules.getHeaderFileName(proxyFileName))
-        }
-        mustacheData[INCLUDES_NAME] = includes
+        val includes = listOf(Include.createInternalInclude("$fileName.h")) +
+            if (limeElement is LimeInterface || limeElement is LimeLambda) {
+                val proxyFileName = fileNameRules.getElementFileName(limeElement) + "CppProxy"
+                listOf(Include.createInternalInclude("$proxyFileName.h"))
+            } else emptyList()
 
-        val implFile = generateFile(
-            "jni/InstanceConversionImplementation",
-            mustacheData,
-            jniNameRules.getImplementationFilePath(fileName)
+        mustacheData["includes"] = includes.distinct().sorted()
+        val implFile = GeneratedFile(
+            TemplateEngine.render("jni/InstanceConversionImplementation", mustacheData, nameResolvers, predicates),
+            fileNameRules.getImplementationFilePath(fileName)
         )
 
         return listOf(headerFile, implFile)
     }
 
-    private fun generateCppProxyFiles(jniContainer: JniContainer): List<GeneratedFile> {
+    private fun generateCppProxyFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
         val mustacheData = mutableMapOf(
-            CONTAINER_NAME to jniContainer,
-            INTERNAL_NAMESPACE_NAME to internalNamespace
+            "container" to limeElement,
+            "includes" to cppIncludeResolver.resolveIncludes(limeElement).distinct().sorted(),
+            "internalNamespace" to internalNamespace
         )
 
-        val fileName =
-            JniNameRules.getJniClassFileName(jniContainer) + JniNameRules.JNI_CPP_PROXY_SUFFIX
-        val headerFile = generateFile(
-            "jni/CppProxyHeader", mustacheData, jniNameRules.getHeaderFilePath(fileName)
+        val fileName = fileNameRules.getElementFileName(limeElement) + "CppProxy"
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("jni/CppProxyHeader", mustacheData, nameResolvers, predicates),
+            fileNameRules.getHeaderFilePath(fileName)
         )
 
-        val conversionIncludes = JniIncludeResolver.collectImplementationIncludes(jniContainer) +
-                Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName))
-        mustacheData[INCLUDES_NAME] = conversionIncludes.distinct().sorted()
+        val includes = jniIncludeResolver.collectImplementationIncludes(limeElement) +
+                Include.createInternalInclude("$fileName.h")
 
-        val implFile = generateFile(
-            "jni/CppProxyImplementation",
-            mustacheData,
-            jniNameRules.getImplementationFilePath(fileName)
+        mustacheData["includes"] = includes.distinct().sorted()
+        val implFile = GeneratedFile(
+            TemplateEngine.render("jni/CppProxyImplementation", mustacheData, nameResolvers, predicates),
+            fileNameRules.getImplementationFilePath(fileName)
         )
 
         return listOf(headerFile, implFile)
-    }
-
-    companion object {
-        private const val INCLUDES_NAME = "includes"
-        private const val INTERNAL_PACKAGES_NAME = "internalPackages"
-        private const val CONTAINER_NAME = "container"
-        private const val INTERNAL_NAMESPACE_NAME = "internalNamespace"
-        private const val JNI_UTILS_TEMPLATE_PREFIX = "jni/utils/"
-
-        private fun generateFile(
-            templateName: String,
-            data: Any,
-            fileName: String,
-            sourceSet: GeneratedFile.SourceSet = GeneratedFile.SourceSet.MAIN
-        ) =
-            GeneratedFile(TemplateEngine.render(templateName, data), fileName, sourceSet)
     }
 }
