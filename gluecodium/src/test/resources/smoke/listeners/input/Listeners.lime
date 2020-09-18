@@ -43,3 +43,17 @@ interface CalculationResult {}
 internal interface InternalListener {
     internal fun onEvent()
 }
+
+interface ListenerWithNullable {
+    fun methodWithByte(input: Byte?): Byte?
+    fun methodWithUByte(input: UByte?): UByte?
+    fun methodWithShort(input: Short?): Short?
+    fun methodWithUShort(input: UShort?): UShort?
+    fun methodWithInt(input: Int?): Int?
+    fun methodWithUInt(input: UInt?): UInt?
+    fun methodWithLong(input: Long?): Long?
+    fun methodWithULong(input: ULong?): ULong?
+    fun methodWithDouble(input: Boolean?): Boolean?
+    fun methodWithFloat(input: Float?): Float?
+    fun methodWithDouble(input: Double?): Double?
+}
