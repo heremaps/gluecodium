@@ -19,9 +19,11 @@
   !
   !}}
 {{#ifPredicate "hasAnyComment"}}
-/**{{#unless comment.isEmpty}}{{#resolveName comment}}
-{{prefix this " * "}}{{/resolveName}}{{/unless}}{{!!
-}}{{#if attributes.deprecated}}
+/**
+{{#unless comment.isEmpty}}{{#resolveName comment}}{{prefix this " * "}}{{/resolveName}}
+{{/unless}}{{#if comment.isExcluded}}
+ * \private
+{{/if}}{{#if attributes.deprecated}}
  * \deprecated {{#resolveName attributes.deprecated.message}}{{!!
 }}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/if}}
 {{#ifPredicate typeRef "needsNotNullComment"}}

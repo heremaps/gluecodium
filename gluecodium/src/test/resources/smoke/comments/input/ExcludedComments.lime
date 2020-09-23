@@ -1,0 +1,117 @@
+# Copyright (C) 2016-2020 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package smoke
+
+// This is some very useful class.
+// @exclude
+class ExcludedComments {
+    // This is some very useful struct.
+    // @constructor This is how easy it is to construct.
+    // @exclude
+    struct SomeStruct {
+        // How useful this struct is
+        // remains to be seen
+        // @exclude
+        someField: Usefulness
+    }
+
+    // This is some very useful enum.
+    // @exclude
+    enum SomeEnum {
+        // Not quite useful
+        // @exclude
+        Useless
+    }
+
+    // This is some very useful typealias.
+    // @exclude
+    typealias Usefulness = Boolean
+
+    // This is some very useful constant.
+    // @exclude
+    const VeryUseful: Usefulness = true
+
+    // This is some very useful method that measures the usefulness of its input.
+    // @param[input_parameter] Very useful input parameter
+    // @return Usefulness of the input
+    // @throws Sometimes it happens.
+    // @exclude
+    fun someMethodWithAllComments(input_parameter: String): Usefulness throws SomethingWrong
+    // This is some very useful method that does nothing.
+    // @exclude
+    fun someMethodWithoutReturnTypeOrInputParameters()
+
+    // Some very useful property.
+    // @get Gets some very useful property.
+    // @set Sets some very useful property.
+    // @exclude
+    property SomeProperty: Usefulness
+
+    // This is some very useful exception.
+    // @exclude
+    exception SomethingWrong(SomeEnum)
+
+    // This is some very useful lambda that does it.
+    // @param[p0] Very useful input parameter
+    // @param[p1] Slightly less useful input parameter
+    // @return Usefulness of the input
+    // @exclude
+    @Java(FunctionName = "doIt")
+    lambda SomeLambda = (String, @Java("index") Int) -> Double
+}
+
+// @exclude
+class ExcludedCommentsOnly {
+    // @exclude
+    struct SomeStruct {
+        // @exclude
+        someField: Usefulness
+    }
+
+    // @exclude
+    enum SomeEnum {
+        // @exclude
+        Useless
+    }
+
+    // @exclude
+    typealias Usefulness = Boolean
+
+    // @exclude
+    const VeryUseful: Usefulness = true
+
+    // @exclude
+    fun someMethodWithAllComments(input_parameter: String): Usefulness throws SomethingWrong
+    // @exclude
+    fun someMethodWithoutReturnTypeOrInputParameters()
+
+    // @exclude
+    property SomeProperty: Usefulness
+
+    // @exclude
+    exception SomethingWrong(SomeEnum)
+
+    // @exclude
+    @Java(FunctionName = "doIt")
+    lambda SomeLambda = (String, @Java("index") Int) -> Double
+}
+
+// This is some very useful interface.
+// @exclude
+interface ExcludedCommentsInterface {
+}

@@ -29,11 +29,12 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
     private val commentsCollector = mutableMapOf<Pair<String, String>, LimeComment>()
     private val contentCollector = mutableListOf<Pair<String, String>>()
 
-    val result
-        get() = LimeStructuredComment(
-            commentsCollector[Pair("", "")] ?: LimeComment(currentPath),
-            commentsCollector
-        )
+    val result: LimeStructuredComment
+        get() {
+            val description = commentsCollector[Pair("", "")] ?: LimeComment(currentPath)
+            val isExcluded = commentsCollector.containsKey(excludeKey)
+            return LimeStructuredComment(description.withExcluded(isExcluded), commentsCollector)
+        }
 
     // Overrides
 
@@ -86,6 +87,9 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
         return inlineTag.tagName().map { it.text to tagContent }
     }
 
-    private fun unescapeText(text: String) =
-        text.replace("""\\(@|\{|\}|\\)""".toRegex()) { it.groupValues[1] }
+    private fun unescapeText(text: String) = text.replace("""\\([@{}\\])""".toRegex()) { it.groupValues[1] }
+
+    companion object {
+        private val excludeKey = Pair("exclude", "")
+    }
 }

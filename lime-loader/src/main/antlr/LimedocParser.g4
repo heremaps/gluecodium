@@ -60,7 +60,7 @@ tagSection
     ;
 
 blockTag
-    : WhiteSpace* '@' tagName ('[' blockTagParameter ']')? WhiteSpace blockTagContent*
+    : WhiteSpace* '@' tagName ('[' blockTagParameter ']')? (WhiteSpace blockTagContent*)?
     ;
 
 tagName
