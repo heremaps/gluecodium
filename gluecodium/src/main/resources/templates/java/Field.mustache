@@ -20,7 +20,8 @@
   !}}
 {{#unless comment.isEmpty}}
 /**
-{{#if comment.documentation}}{{prefix comment.documentation " * "}}{{/if}}{{#if comment.deprecated}}
+{{#if comment.documentation}}{{prefix comment.documentation " * "}}{{/if}}{{#if comment.isExcluded}}
+ * @exclude{{/if}}{{#if comment.deprecated}}
  * @deprecated {{prefix comment.deprecated " * " skipFirstLine=true}}{{/if}}
  */
 {{/unless}}

@@ -211,7 +211,7 @@ open class JavaGeneratorSuite protected constructor(
         val deprecationMessage = element.comment.deprecated?.let {
             commentsProcessor.process(limeName, it, limeToJavaName, limeLogger)
         }
-        element.comment = Comments(documentation, deprecationMessage)
+        element.comment = Comments(documentation, deprecationMessage, element.comment.isExcluded)
 
         if (element is JavaMethod) {
             element.returnComment = element.returnComment?.let {
