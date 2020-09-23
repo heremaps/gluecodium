@@ -292,14 +292,14 @@ internal class AntlrLimeModelBuilder(
         if (getterContext == null) {
             getter = LimeFunction(
                 path = getterPath,
-                comment = getComment("get", emptyList(), ctx),
+                comment = getComment("get", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
                 visibility = propertyVisibility,
                 returnType = LimeReturnType(propertyType, propertyComment),
                 isStatic = propertyIsStatic
             )
             setter = LimeFunction(
                 path = currentPath.child("set"),
-                comment = getComment("set", emptyList(), ctx),
+                comment = getComment("set", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
                 visibility = propertyVisibility,
                 parameters = listOf(LimeParameter(
                     getterPath.child("value"),
@@ -313,10 +313,11 @@ internal class AntlrLimeModelBuilder(
                 AntlrLimeConverter.convertAnnotations(currentPath, getterContext.annotation())
             val getterExternalDescriptor =
                 parseExternalDescriptor(getterContext.externalDescriptor(), getterContext.annotation())
+            val getterComment = getComment("get", getterContext.docComment(), getterContext)
             getter = LimeFunction(
                 path = getterPath,
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
-                comment = getComment("get", getterContext.docComment(), getterContext),
+                comment = getterComment.withExcluded(propertyComment.isExcluded),
                 attributes = getterAttributes,
                 external = getterExternalDescriptor,
                 returnType = LimeReturnType(propertyType, propertyComment),
@@ -327,10 +328,11 @@ internal class AntlrLimeModelBuilder(
                     AntlrLimeConverter.convertAnnotations(currentPath, it.annotation())
                 val setterExternalDescriptor =
                     parseExternalDescriptor(it.externalDescriptor(), it.annotation())
+                val setterComment = getComment("set", it.docComment(), it)
                 LimeFunction(
                     path = currentPath.child("set"),
                     visibility = convertVisibility(it.visibility(), propertyVisibility),
-                    comment = getComment("set", it.docComment(), it),
+                    comment = setterComment.withExcluded(propertyComment.isExcluded),
                     attributes = setterAttributes,
                     external = setterExternalDescriptor,
                     parameters = listOf(LimeParameter(

@@ -24,7 +24,9 @@
  */
 {{/ifPredicate}}{{!!
 
-}}{{+combinedComment}}{{resolveName comment}}{{#if attributes.deprecated}}
+}}{{+combinedComment}}{{resolveName comment}}{{#if comment.isExcluded}}
+\private{{/if}}{{!!
+}}{{#if attributes.deprecated}}
 \deprecated {{resolveName attributes.deprecated.message}}{{/if}}{{!!
 }}{{#parameters}}
 \param[in] {{resolveName}} {{#ifPredicate typeRef "needsNotNullComment"}}@NotNull {{/ifPredicate}}{{!!
