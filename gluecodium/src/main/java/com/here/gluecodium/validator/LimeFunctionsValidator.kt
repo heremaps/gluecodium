@@ -20,8 +20,12 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 
@@ -31,32 +35,37 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger) {
         val signatureResolver = LimeSignatureResolver(limeModel.referenceMap)
         val validationResults = limeModel.referenceMap.values
             .filterIsInstance<LimeFunction>()
-            .map { validateFunction(it, signatureResolver) }
+            .map { validateFunction(it, signatureResolver, limeModel.referenceMap) }
 
         return !validationResults.contains(false)
     }
 
     private fun validateFunction(
         limeFunction: LimeFunction,
-        signatureResolver: LimeSignatureResolver
+        signatureResolver: LimeSignatureResolver,
+        referenceMap: Map<String, LimeElement>
     ): Boolean {
-        val thrownType =
-            limeFunction.thrownType?.typeRef?.type?.actualType
-        return when {
-            limeFunction.isConstructor &&
-                    signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
-                logger.error(limeFunction, "constructor has conflicting overloads")
-                false
-            }
-            !limeFunction.isConstructor && signatureResolver.hasSignatureClash(limeFunction) -> {
-                logger.error(limeFunction, "function has conflicting overloads")
-                false
-            }
-            thrownType != null && thrownType !is LimeException -> {
-                logger.error(limeFunction, "function throws a non-exception type ${thrownType.fullName}")
-                false
-            }
-            else -> true
+        var result = true
+        if (limeFunction.isConstructor && signatureResolver.hasConstructorSignatureClash(limeFunction)) {
+            logger.error(limeFunction, "constructor has conflicting overloads")
+            result = false
         }
+        if (!limeFunction.isConstructor && signatureResolver.hasSignatureClash(limeFunction)) {
+            logger.error(limeFunction, "function has conflicting overloads")
+            result = false
+        }
+        val thrownType = limeFunction.thrownType?.typeRef?.type?.actualType
+        if (thrownType != null && thrownType !is LimeException) {
+            logger.error(limeFunction, "function throws a non-exception type ${thrownType.fullName}")
+            result = false
+        }
+        if (limeFunction.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.REF)) {
+            val parentElement = referenceMap[limeFunction.path.parent.toString()]
+            if (parentElement is LimeInterface) {
+                logger.error(limeFunction, "function in an interface cannot be marked with @Cpp(Ref)")
+                result = false
+            }
+        }
+        return result
     }
 }

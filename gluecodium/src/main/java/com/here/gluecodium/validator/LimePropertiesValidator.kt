@@ -21,7 +21,10 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.REF
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeProperty
 
@@ -36,28 +39,30 @@ internal class LimePropertiesValidator(private val logger: LimeLogger) {
     }
 
     private fun validateProperties(limeContainer: LimeContainerWithInheritance): Boolean {
-        val allPropertyNames =
-            (limeContainer.properties + limeContainer.inheritedProperties).map { it.name }
+        val allPropertyNames = (limeContainer.properties + limeContainer.inheritedProperties).map { it.name }
         return !limeContainer.properties
-            .map { validateProperty(it, allPropertyNames) }
+            .map { validateProperty(it, allPropertyNames, limeContainer) }
             .contains(false)
     }
 
-    private fun validateProperty(limeProperty: LimeProperty, allPropertyNames: List<String>): Boolean {
-        val overloadsValidationResult = when {
-            allPropertyNames.filter { it == limeProperty.name }.size > 1 -> {
-                logger.error(limeProperty, "property has conflicting overloads")
-                false
-            }
-            else -> true
+    private fun validateProperty(
+        limeProperty: LimeProperty,
+        allPropertyNames: List<String>,
+        parentElement: LimeContainerWithInheritance
+    ): Boolean {
+        var result = true
+        if (allPropertyNames.filter { it == limeProperty.name }.size > 1) {
+            logger.error(limeProperty, "property has conflicting overloads")
+            result = false
         }
-        val attributesValidationResult = when {
-            limeProperty.attributes.have(CACHED) && limeProperty.setter != null -> {
-                logger.error(limeProperty, "read-write property cannot be @Cached")
-                false
-            }
-            else -> true
+        if (limeProperty.attributes.have(CACHED) && limeProperty.setter != null) {
+            logger.error(limeProperty, "read-write property cannot be @Cached")
+            result = false
         }
-        return overloadsValidationResult && attributesValidationResult
+        if (limeProperty.attributes.have(CPP, REF) && parentElement is LimeInterface) {
+            logger.error(limeProperty, "property in an interface cannot be marked with @Cpp(Ref)")
+            result = false
+        }
+        return result
     }
 }

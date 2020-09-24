@@ -48,11 +48,21 @@ class StaticStringMethodsTests: XCTestCase {
         XCTAssertEqual(StaticStringMethods.returnEmpty(), "")
     }
 
+    func testStringRef() {
+        XCTAssertEqual(CppRefReturnType.stringRef(), "nonsense")
+    }
+
+    func testStringProperty() {
+        XCTAssertEqual(CppRefReturnType.stringProperty, "nonsense")
+    }
+
     static var allTests = [
         ("testPassEmptyString", testPassEmptyString),
         ("testTwoStringParameters", testTwoStringParameters),
         ("testTwoStringParametersOneEmpty", testTwoStringParametersOneEmpty),
         ("testStringReturnString", testStringReturnString),
-        ("testEmptyReturnString", testEmptyReturnString)
+        ("testEmptyReturnString", testEmptyReturnString),
+        ("testStringRef", testStringRef),
+        ("testStringProperty", testStringProperty)
     ]
 }
