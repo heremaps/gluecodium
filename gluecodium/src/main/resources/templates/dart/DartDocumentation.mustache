@@ -20,7 +20,7 @@
   !}}
 {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
 {{/unless}}{{/resolveName}}{{!!
-}}{{#if visibility.isInternal}}
+}}{{#if visibility.isInternal comment.isExcluded logic="or"}}
 /// @nodoc
 {{/if}}{{!!
 }}{{#if attributes.deprecated}}
