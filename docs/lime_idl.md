@@ -633,3 +633,9 @@ Multiple platform tags can be combined in a single `{@ }` section, if necessary:
 
 Special characters `@`, `{`, `}`, and `\` can be used in documentation comments only if they are
 "escaped" with an additional backslash (i.e. `\@`, `\{`, `\}`, and `\\` respectively).
+
+#### Excluding an element from documentation
+
+Documentation comments support a special `@exclude` tag. This tag is converted into a language-appropriate "exclude from
+the documentation" tag in the generated code. When using this tag, it should be placed on a separate line of its own
+within the IDL documentation comment.

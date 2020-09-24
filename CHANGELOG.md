@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@exclude` tag in documentation comments. This tag is converted into a language-appropriate
+    "exclude from the documentation" tag in the generated code.
+
 ## 8.3.1
 Release date: 2020-09-17
 ### Features:
