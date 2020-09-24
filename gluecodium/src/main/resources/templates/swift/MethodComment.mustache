@@ -19,7 +19,8 @@
   !
   !}}
 {{#if hasComment}}
-{{prefixPartial "combinedComment" "/// "}}{{#if comment.deprecated}}
+{{prefixPartial "combinedComment" "/// "}}{{#if comment.isExcluded}}
+/// :nodoc:{{/if}}{{#if comment.deprecated}}
 @available(*, deprecated, message: "{{comment.deprecated}}"){{/if}}
 {{/if}}{{!!
 
