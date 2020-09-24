@@ -176,7 +176,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val deprecationMessage = element.comment.deprecated?.let {
             commentsProcessor.process(limeName, it, limeToSwiftName, limeLogger)
         }
-        element.comment = Comments(documentation, deprecationMessage)
+        element.comment = Comments(documentation, deprecationMessage, element.comment.isExcluded)
 
         if (element is SwiftMethod) {
             element.returnComment = element.returnComment?.let {
