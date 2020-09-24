@@ -21,7 +21,8 @@ package com.here.gluecodium.model.common
 
 class Comments(
     @Suppress("unused") val documentation: String? = null,
-    @Suppress("unused") val deprecated: String? = null
+    @Suppress("unused") val deprecated: String? = null,
+    @Suppress("unused") val isExcluded: Boolean = false
 ) {
-    val isEmpty = documentation.isNullOrEmpty() && deprecated.isNullOrEmpty()
+    val isEmpty = documentation.isNullOrEmpty() && deprecated.isNullOrEmpty() && !isExcluded
 }

@@ -24,7 +24,8 @@
  */
 {{/if}}{{!!
 
-}}{{+combinedComment}}{{comment.documentation}}{{#if comment.deprecated}}
+}}{{+combinedComment}}{{comment.documentation}}{{#if comment.isExcluded}}
+@exclude{{/if}}{{#if comment.deprecated}}
 @deprecated {{comment.deprecated}}{{/if}}{{!!
 }}{{#parameters}}
 @param {{name}} {{prefix this.comment.documentation "    " skipFirstLine=true}}{{/parameters}}{{!!
