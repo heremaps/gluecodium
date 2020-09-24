@@ -59,10 +59,25 @@ class EnumsTests: XCTestCase {
         XCTAssertEqual([.errorNone, .errorFatal], Enums.InternalError.allCases)
     }
 
+    func testCaseIterableWithDeprecated() {
+        XCTAssertEqual([.foo, .bar, .baz], EnumWithDeprecatedItems.allCases)
+    }
+
+    func testCodableWithDeprecated() {
+        let value = EnumWithDeprecatedItems.baz
+
+        let data = try! JSONEncoder().encode(value)
+        let result = try! JSONDecoder().decode(EnumWithDeprecatedItems.self, from: data)
+
+        XCTAssertEqual(result, value)
+    }
+
     static var allTests = [
         ("testFlipEnumValue", testFlipEnumValue),
         ("testExtractEnumFromStruct", testExtractEnumFromStruct),
         ("testCreateStructWithEnumInside", testCreateStructWithEnumInside),
-        ("testCaseIterable", testCaseIterable)
+        ("testCaseIterable", testCaseIterable),
+        ("testCaseIterableWithDeprecated", testCaseIterableWithDeprecated),
+        ("testCodableWithDeprecated", testCodableWithDeprecated)
     ]
 }

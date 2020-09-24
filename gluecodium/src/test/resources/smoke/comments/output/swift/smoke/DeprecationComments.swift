@@ -164,6 +164,32 @@ public enum SomeEnum : UInt32, CaseIterable, Codable {
     @available(*, deprecated, message: "Unfortunately, this item is deprecated.
     Use `Comments.SomeEnum.useless` instead.")
     case useless
+    public static var allCases: [SomeEnum] {
+        return [.useless]
+    }
+    public enum Key: CodingKey {
+        case rawValue
+    }
+    public enum CodingError: Error {
+        case unknownValue
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        let rawValue = try container.decode(Int.self, forKey: .rawValue)
+        switch rawValue {
+        case 0:
+            self = .useless
+        default:
+            throw CodingError.unknownValue
+        }
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: Key.self)
+        switch self {
+        case .useless:
+            try container.encode(0, forKey: .rawValue)
+        }
+    }
 }
 internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

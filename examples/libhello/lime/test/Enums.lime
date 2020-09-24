@@ -54,3 +54,11 @@ enum EnumStartsWithOne {
     FIRST = 1,
     SECOND
 }
+
+@Java(Skip) @Dart(Skip)
+enum EnumWithDeprecatedItems {
+    foo,
+    @Deprecated("Hi there!")
+    bar,
+    baz
+}

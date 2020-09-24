@@ -45,7 +45,6 @@
    Memcheck:Leak
    match-leak-kinds: possible
    fun:_Znam
-   fun:_ZN5swift17MetadataAllocator8AllocateEmm
    ...
    fun:swift_getTupleTypeMetadata
    fun:swift_getTupleTypeMetadata2
