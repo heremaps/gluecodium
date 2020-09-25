@@ -519,6 +519,9 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   addition to usual `std::string`). This produces one additional overload for the function.
   * **Accessors**: marks a struct to have accessor functions generated for fields and to generate
   struct fields as "private" in C++ generated code. Intended for use with `@Immutable` attribute.
+  * **Ref**: marks a function or a property to return their value by const reference in C++
+  generated code (instead of default "by value"). Can be applied to functions and properties in
+  classes or structs. Currently not supported inside interfaces.
   * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
   include` in the `External Descriptor` (see above).
   * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp
