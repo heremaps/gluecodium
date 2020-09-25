@@ -20,12 +20,15 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -63,8 +66,15 @@ class LimePropertiesValidatorTest {
         EMPTY_PATH,
         properties = listOf(limePropertyFoo, limePropertyFoo2)
     ) {}
-    private val cachedAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.CACHED).build()
+    private val cachedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.CACHED).build()
+    private val cppRefAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.REF).build()
+    private val cppRefProperty = LimeProperty(
+        fooPath.child("bar"),
+        typeRef = LimeBasicTypeRef.INT,
+        getter = limeFunction,
+        attributes = cppRefAttributes
+    )
 
     private val validator = LimePropertiesValidator(mockk(relaxed = true))
 
@@ -149,6 +159,20 @@ class LimePropertiesValidatorTest {
         )
         allElements[""] =
             object : LimeContainerWithInheritance(EMPTY_PATH, properties = listOf(limeProperty)) {}
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateRefsAttributeInClass() {
+        allElements["foo"] = LimeClass(EMPTY_PATH, properties = listOf(cppRefProperty))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateRefsAttributeInInterface() {
+        allElements["foo"] = LimeInterface(EMPTY_PATH, properties = listOf(cppRefProperty))
 
         assertFalse(validator.validate(limeModel))
     }

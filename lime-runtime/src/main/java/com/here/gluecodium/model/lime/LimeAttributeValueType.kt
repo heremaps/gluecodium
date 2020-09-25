@@ -31,6 +31,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     LABEL("Label"),
     OBJC("ObjC"),
     MESSAGE("Message"),
+    REF("Ref"),
     SKIP("Skip"),
     WEAK("Weak");
 

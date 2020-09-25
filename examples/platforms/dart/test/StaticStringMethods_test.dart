@@ -50,4 +50,14 @@ void main() {
 
     expect(result, equals(""));
   });
+  _testSuite.test("String ref", () {
+    final result = CppRefReturnType.stringRef();
+
+    expect(result, "nonsense");
+  });
+  _testSuite.test("String property", () {
+    final result = CppRefReturnType.stringProperty;
+
+    expect(result, "nonsense");
+  });
 }

@@ -21,8 +21,14 @@
 {{#if thrownType}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
 }}{{#if returnType.isVoid}}::std::error_code{{/if}}{{!!
 }}{{#unless returnType.isVoid}}{{#internalNamespace}}::{{.}}{{/internalNamespace}}::Return{{!!
-}}< {{resolveName returnType.typeRef "C++"}}, ::std::error_code >{{/unless}}{{/instanceOf}}{{!!
+}}< {{>returnTypeRef}}, ::std::error_code >{{/unless}}{{/instanceOf}}{{!!
 }}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
 }}{{#internalNamespace}}::{{.}}{{/internalNamespace}}::Return{{!!
-}}< {{resolveName returnType.typeRef "C++"}}, {{resolveName exception.errorType "C++"}} >{{/notInstanceOf}}{{/if}}{{!!
-}}{{#unless thrownType}}{{resolveName returnType.typeRef "C++"}}{{/unless}}
+}}< {{>returnTypeRef}}, {{resolveName exception.errorType "C++"}} >{{/notInstanceOf}}{{/if}}{{!!
+}}{{#unless thrownType}}{{>returnTypeRef}}{{/unless}}{{!!
+
+}}{{+returnTypeRef}}{{!!
+}}{{#if attributes.cpp.ref}}{{#if returnType.isVoid}}void{{/if}}{{!!
+}}{{#unless returnType.isVoid}}const {{resolveName returnType.typeRef "C++"}}&{{/unless}}{{/if}}{{!!
+}}{{#unless attributes.cpp.ref}}{{resolveName returnType.typeRef "C++"}}{{/unless}}{{!!
+}}{{/returnTypeRef}}

@@ -77,4 +77,18 @@ public final class StaticStringMethodsTest {
     // Assert
     assertTrue(returnedString.isEmpty());
   }
+
+  @Test
+  public void stringRef() {
+    String result = CppRefReturnType.stringRef();
+
+    assertEquals("nonsense", result);
+  }
+
+  @Test
+  public void stringProperty() {
+    String result = CppRefReturnType.getStringProperty();
+
+    assertEquals("nonsense", result);
+  }
 }

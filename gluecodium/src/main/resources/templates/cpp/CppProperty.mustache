@@ -18,9 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#set propertyElement=this}}{{#getter}}
+{{#set propertyElement=this cppRef=attributes.cpp.ref}}{{#getter}}
 {{>cpp/CppFunctionDoc}}
-{{#if isStatic}}static {{/if}}{{#unless isStatic}}virtual {{/unless}}{{resolveName returnType.typeRef}} {{!!
+{{#if isStatic}}static {{/if}}{{#unless isStatic}}virtual {{/unless}}{{!!
+}}{{#if cppRef}}const {{/if}}{{resolveName returnType.typeRef}}{{#if cppRef}}&{{/if}} {{!!
 }}{{resolveName propertyElement "" "getter"}}(  ){{#unless isStatic}} const = 0{{/unless}};
 {{/getter}}
 {{#setter}}
