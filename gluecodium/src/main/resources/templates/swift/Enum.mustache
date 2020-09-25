@@ -21,7 +21,43 @@
 {{#unless skipDeclaration}}{{>swift/Comment}}
 {{visibility}} enum {{simpleName}}{{#if externalConverter}}_internal{{/if}} : UInt32, CaseIterable, Codable {
 {{#items}}{{prefixPartial "enumItem" "    "}}
+{{/items}}{{!!
+}}{{#if hasDeprecatedItems}}
+    {{visibility}} static var allCases: [{{simpleName}}] {
+        return [{{#items}}.{{name}}{{#if iter.hasNext}}, {{/if}}{{/items}}]
+    }
+
+    {{visibility}} enum Key: CodingKey {
+        case rawValue
+    }
+
+    {{visibility}} enum CodingError: Error {
+        case unknownValue
+    }
+
+    {{visibility}} init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        let rawValue = try container.decode(Int.self, forKey: .rawValue)
+        switch rawValue {
+{{#items}}
+        case {{iter.position}}:
+            self = .{{name}}
 {{/items}}
+        default:
+            throw CodingError.unknownValue
+        }
+    }
+
+    {{visibility}} func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: Key.self)
+        switch self {
+{{#items}}
+        case .{{name}}:
+            try container.encode({{iter.position}}, forKey: .rawValue)
+{{/items}}
+        }
+    }
+{{/if}}
 }
 {{/unless}}{{!!
 }}{{+enumItem}}{{>swift/Comment}}

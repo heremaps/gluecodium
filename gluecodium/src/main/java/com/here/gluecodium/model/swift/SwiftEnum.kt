@@ -33,6 +33,10 @@ class SwiftEnum(
     externalFramework = externalFramework,
     externalConverter = externalConverter
 ) {
+    @Suppress("unused")
+    val hasDeprecatedItems
+        get() = items.any { !it.comment.deprecated.isNullOrEmpty() }
+
     override val childElements
         get() = items
 }
