@@ -1,8 +1,8 @@
 /*
  *
  */
-#include "com_example_smoke_NullableCollectionsStruct__Conversion.h"
 #include "com_example_smoke_Nullable_SomeStruct__Conversion.h"
+#include "com_example_smoke_NullableCollectionsStruct__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
 #include "JniCallJavaMethod.h"

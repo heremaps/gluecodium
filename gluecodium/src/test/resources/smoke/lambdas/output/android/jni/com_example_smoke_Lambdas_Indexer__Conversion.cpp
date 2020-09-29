@@ -1,8 +1,8 @@
 /*
  *
  */
-#include "com_example_smoke_Lambdas_IndexerImplCppProxy.h"
 #include "com_example_smoke_Lambdas_Indexer__Conversion.h"
+#include "com_example_smoke_Lambdas_IndexerImplCppProxy.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"

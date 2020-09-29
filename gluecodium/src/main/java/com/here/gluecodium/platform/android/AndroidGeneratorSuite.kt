@@ -21,9 +21,10 @@ package com.here.gluecodium.platform.android
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
+import com.here.gluecodium.generator.jni.JniGenerator
 
 /**
- * Combines generators [AndroidManifestGenerator], JNI generator, and [JavaGeneratorSuite] to
+ * Combines generators [AndroidManifestGenerator], [JniGenerator], and [JavaGeneratorSuite] to
  * generate Java code and bindings to BaseAPI layer for Android.
  */
 class AndroidGeneratorSuite(options: Gluecodium.Options) : JavaGeneratorSuite(options, true) {

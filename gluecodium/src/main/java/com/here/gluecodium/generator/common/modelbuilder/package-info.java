@@ -30,7 +30,7 @@
  *
  * <h1>Rationale</h1>
  *
- * The bridging layers for {@link com.here.gluecodium.generator.jni.JavaGenerator Java} and {@link
+ * The bridging layers for {@link com.here.gluecodium.generator.jni.JniGenerator Java} and {@link
  * com.here.gluecodium.generator.cbridge.CBridgeGenerator Swift} code generation need to forward
  * function calls and convert data types between C++ BaseAPI and Java or C++ BaseAPI and Swift. The
  * specifics of how the C++, Java and Swift code is defined by their generators. To be able to
