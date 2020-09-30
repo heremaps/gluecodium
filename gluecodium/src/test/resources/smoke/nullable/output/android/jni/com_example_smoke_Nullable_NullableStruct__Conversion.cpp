@@ -1,10 +1,10 @@
 /*
  *
  */
-#include "com_example_smoke_Nullable_NullableStruct__Conversion.h"
-#include "com_example_smoke_Nullable_SomeEnum__Conversion.h"
 #include "com_example_smoke_Nullable_SomeStruct__Conversion.h"
+#include "com_example_smoke_Nullable_SomeEnum__Conversion.h"
 #include "com_example_smoke_SomeInterface__Conversion.h"
+#include "com_example_smoke_Nullable_NullableStruct__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
 #include "JniCallJavaMethod.h"

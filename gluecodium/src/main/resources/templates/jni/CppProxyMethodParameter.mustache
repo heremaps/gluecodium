@@ -18,4 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-const {{resolveName typeRef "C++"}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}} n{{resolveName}}
+const {{type.cppName}}{{^type.refersToValueType}}&{{/type.refersToValueType}} n{{name}}

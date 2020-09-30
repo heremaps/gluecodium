@@ -3,9 +3,10 @@
  */
 #pragma once
 #include "smoke/Lambdas.h"
-#include <functional>
+#include "com_example_smoke_Lambdas_Producer__Conversion.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
+#include <functional>
 #include <memory>
 namespace gluecodium
 {

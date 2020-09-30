@@ -34,59 +34,59 @@ namespace {{.}}
 namespace jni
 {
 {{#enum}}
-{{#if external.java.converter}}
+{{#if externalConverter}}
 {{>jni/ExternalConversionClassCache}}
 {{/if}}
 
-{{resolveName "C++ FQN"}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if external.java.converter}}_ext{{/if}}, {{resolveName "C++ FQN"}}*)
+{{cppFullyQualifiedName}}
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if externalConverter}}_ext{{/if}}, {{cppFullyQualifiedName}}*)
 {
-{{#if external.java.converter}}
+{{#if externalConverter}}
 {{prefixPartial "jni/ExternalConversionFromJni" "    "}}
 {{/if}}
-{{#ifPredicate "needsOrdinalConversion"}}
+{{#if needsOrdinalConversion}}
     auto ordinal = call_java_method<jint>(_jenv, _jinput, "ordinal", "()I");
     switch(ordinal) {
 {{#enumerators}}
         case {{iter.position}}:
-            return {{resolveName enum "C++ FQN"}}::{{resolveName "C++"}};
+            return {{cppFullyQualifiedName}}::{{cppName}};
 {{/enumerators}}
         default:
             return {};
     }
-{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "needsOrdinalConversion"}}
-    return {{resolveName "C++ FQN"}}(
+{{/if}}{{!!
+}}{{#unless needsOrdinalConversion}}
+    return {{cppFullyQualifiedName}}(
         {{>common/InternalNamespace}}jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
-{{/unlessPredicate}}
+{{/unless}}
 }
 
-{{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>*)
+{{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>*)
 {
     return _jinput
-        ? {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>(convert_from_jni(_jenv, _jinput, ({{resolveName "C++ FQN"}}*)nullptr))
-        : {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>{};
+        ? {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppFullyQualifiedName}}*)nullptr))
+        : {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{resolveName this "" "ref"}}", {{resolveName this "mangled" "ref"}}, {{resolveName "C++ FQN"}})
+REGISTER_JNI_CLASS_CACHE("{{javaPackage.toJniString}}/{{javaName}}", {{mangledName}}, {{cppFullyQualifiedName}})
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}} _ninput)
 {
-    auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;
+    auto& javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
     const char* enumeratorName = nullptr;
     switch(_ninput) {
 {{#enumerators}}
-        case({{resolveName enum "C++ FQN"}}::{{resolveName "C++"}}):
-            enumeratorName = "{{resolveName}}";
+        case({{cppFullyQualifiedName}}::{{cppName}}):
+            enumeratorName = "{{javaName}}";
             break;
 {{/enumerators}}
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{resolveName this "" "ref"}};");
-{{#unless external.java.converter}}
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{javaPackage.toJniString}}/{{javaName}};");
+{{#unless externalConverter}}
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
-{{/unless}}{{#if external.java.converter}}
+{{/unless}}{{#if externalConverter}}
     auto _jresult = make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 {{prefixPartial "jni/ExternalConversionToJni" "    "}}
     return _jresult;
@@ -94,7 +94,7 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

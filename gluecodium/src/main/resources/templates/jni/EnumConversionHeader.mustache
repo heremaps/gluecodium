@@ -35,10 +35,10 @@ namespace {{.}}
 namespace jni
 {
 {{#enum}}
-{{resolveName "C++ FQN"}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{resolveName "C++ FQN"}}*);
-{{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>*);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> _ninput);
+{{cppFullyQualifiedName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppFullyQualifiedName}}*);
+{{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}>*);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppFullyQualifiedName}} _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppFullyQualifiedName}}> _ninput);
 {{/enum}}
 }
 {{#internalNamespace}}

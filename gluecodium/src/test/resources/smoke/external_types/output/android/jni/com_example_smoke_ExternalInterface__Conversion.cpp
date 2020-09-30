@@ -1,8 +1,8 @@
 /*
  *
  */
-#include "com_example_smoke_ExternalInterfaceImplCppProxy.h"
 #include "com_example_smoke_ExternalInterface__Conversion.h"
+#include "com_example_smoke_ExternalInterfaceImplCppProxy.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"

@@ -29,8 +29,8 @@ import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaTemplates
-import com.here.gluecodium.generator.jni.JavaGenerator
 import com.here.gluecodium.generator.jni.JavaModel
+import com.here.gluecodium.generator.jni.JniGenerator
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.java.JavaClass
@@ -44,12 +44,11 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
 
 /**
- * Combines generators [JavaGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
+ * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
  * bindings to BaseAPI layer for Java.
  */
 open class JavaGeneratorSuite protected constructor(
@@ -79,13 +78,16 @@ open class JavaGeneratorSuite protected constructor(
             if (rootPackage.isNotEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
         val internalPackageList = javaPackageList + internalPackage
 
-        val jniGenerator = JavaGenerator(
+        val jniGenerator = JniGenerator(
             limeReferenceMap = limeModel.referenceMap,
             basePackages = javaPackageList,
             internalPackageList = internalPackage,
             enableAndroidFeatures = enableAndroidFeatures,
+            internalNamespace = internalNamespace,
+            rootNamespace = rootNamespace,
             nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation,
+            cppNameRules = cppNameRules,
             javaNameRules = javaNameRules
         )
 
@@ -133,16 +135,8 @@ open class JavaGeneratorSuite protected constructor(
 
         if (generateStubs) return headers + javaFiles
 
-        val jniTemplates = JniTemplates(
-            limeReferenceMap = limeModel.referenceMap,
-            javaNameRules = javaNameRules,
-            basePackages = javaPackageList,
-            internalPackages = internalPackage,
-            internalNamespace = internalNamespace,
-            cppNameRules = cppNameRules,
-            rootNamespace = rootNamespace,
-            generatorName = generatorName
-        )
+        val jniTemplates =
+            JniTemplates(javaPackageList, internalPackage, internalNamespace, generatorName)
         for (fileName in UTILS_FILES) {
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
             headers += jniTemplates.generateConversionUtilsImplementationFile(fileName)
@@ -151,10 +145,9 @@ open class JavaGeneratorSuite protected constructor(
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
         }
 
-        val allTypes = filteredElements.flatMap { LimeTypeHelper.getAllTypes(it) }
         return headers + javaFiles +
-                allTypes.flatMap { jniTemplates.generateFiles(it) } +
-                jniTemplates.generateConversionFiles(allTypes)
+                combinedModel.jniContainers.flatMap { jniTemplates.generateFiles(it) } +
+                jniTemplates.generateConversionFiles(combinedModel)
     }
 
     private fun processCommentLinks(

@@ -30,90 +30,77 @@
 
 extern "C" {
 
-{{#container}}{{#functions}}{{#unless attributes.java.skip}}
-{{>jniMethodImpl}}
+{{#container}}{{#methods}}{{#unless isSkipped}}
+{{>jniMethod}}
 
-{{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.java.skip}}
-{{>jniPropertyImpl}}
-{{/unless}}{{/properties}}
+{{/unless}}{{/methods}}
+{{#if hasInterfaceParent}}{{#parentMethods}}{{#unless isSkipped}}
+{{>jniMethod}}
 
-{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
-{{#inheritedFunctions}}
-{{>jniMethodImpl}}
-
-{{/inheritedFunctions}}
-{{#inheritedProperties}}
-{{>jniPropertyImpl}}
-{{/inheritedProperties}}
-{{/instanceOf}}{{/if}}
-
-{{#notInstanceOf container "LimeStruct"}}
+{{/unless}}{{/parentMethods}}{{/if}}
+{{#instanceOf container "JniContainer"}}
 JNIEXPORT void JNICALL
-{{>jni/FunctionSignaturePrefix}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
+Java_{{mangledName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-{{#notInstanceOf container "LimeLambda"}}
-    auto p_nobj = reinterpret_cast<std::shared_ptr<{{resolveName "C++ FQN"}}>*>(_jpointerRef);
+{{#unless isFunctionalInterface}}
+    auto p_nobj = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*>(_jpointerRef);
     {{>common/InternalNamespace}}jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
     delete p_nobj;
-{{/notInstanceOf}}{{#instanceOf container "LimeLambda"}}
-    delete reinterpret_cast<{{resolveName "C++ FQN"}}*>(_jpointerRef);
-{{/instanceOf}}
+{{/unless}}{{#if isFunctionalInterface}}
+    delete reinterpret_cast<{{cppFullyQualifiedName}}*>(_jpointerRef);
+{{/if}}
 }
 
-{{#ifPredicate "hasConstructors"}}
+{{#if hasConstructors}}
 JNIEXPORT void JNICALL
-{{>jni/FunctionSignaturePrefix}}_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
+Java_{{mangledName}}_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
 {
     auto jobj = {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance);
     auto long_ptr = {{>common/InternalNamespace}}jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
-    auto nobj = *reinterpret_cast<std::shared_ptr<{{resolveName "C++ FQN"}}>*>(long_ptr);
+    auto nobj = *reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*>(long_ptr);
     {{>common/InternalNamespace}}jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);
 }
-{{/ifPredicate}}
-{{/notInstanceOf}}
-{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
+{{/if}}
+{{/instanceOf}}
+{{#hasNativeEquatable}}
 jboolean
-{{>jni/FunctionSignaturePrefix}}_equals(JNIEnv* _jenv, jobject _jinstance, jobject jrhs)
+{{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs)
 {
     if (_jinstance == nullptr || jrhs == nullptr) {
         return _jinstance == jrhs;
     }
-{{#if attributes.pointerEquatable}}
+{{#isPointerEquatable}}
     auto jclass = {{>common/InternalNamespace}}jni::get_object_class(_jenv, _jinstance);
-{{/if}}{{#if attributes.equatable}}
+{{/isPointerEquatable}}
+{{#isEquatable}}
     auto& jclass = {{>common/InternalNamespace}}jni::get_cached_native_base_class();
-{{/if}}
+{{/isEquatable}}
     if (!_jenv->IsInstanceOf(jrhs, jclass.get())) {
         return false;
     }
     auto lhs = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
-{{#if attributes.pointerEquatable}}
-    auto rhs = {{#set jobjectName="jrhs"}}reinterpret_cast<std::shared_ptr<void>*> (
-{{>getNativeHandle}});{{/set}}
+{{#isPointerEquatable}}
+    auto rhs = {{#set jobjectName="jrhs" cppFullyQualifiedName="void"}}{{>sharedInstance}}{{/set}}
     return *lhs == *rhs;
-{{/if}}{{#if attributes.equatable}}
+{{/isPointerEquatable}}
+{{#isEquatable}}
     auto rhs = {{#set jobjectName="jrhs"}}{{>sharedInstance}}{{/set}}
     return **lhs == **rhs;
-{{/if}}
+{{/isEquatable}}
 }
 
 jint
-{{>jni/FunctionSignaturePrefix}}_hashCode(JNIEnv* _jenv, jobject _jinstance)
+{{#set javaMethodName="hashCode"}}{{>jni/FunctionSignature}}{{/set}}
 {
     auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
-    return {{>common/InternalNamespace}}hash<std::shared_ptr<{{resolveName "C++ FQN"}}> >()(*pInstanceSharedPointer);
+    return {{>common/InternalNamespace}}hash<std::shared_ptr<{{cppFullyQualifiedName}}> >()(*pInstanceSharedPointer);
 }
-{{/if}}
+{{/hasNativeEquatable}}
 }
 {{/container}}{{!!
 
 }}{{+sharedInstance}}{{!!
-}}reinterpret_cast<{{#instanceOf container "LimeLambda"}}{{!!
-}}{{resolveName container "C++ FQN"}}{{!!
-}}{{/instanceOf}}{{#notInstanceOf container "LimeLambda"}}{{!!
-}}std::shared_ptr<{{resolveName container "C++ FQN"}}>{{!!
-}}{{/notInstanceOf}}*> (
+}}reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (
 {{>getNativeHandle}});
 {{/sharedInstance}}{{!!
 
@@ -125,99 +112,31 @@ jint
             (int64_t*)nullptr){{!!
 }}{{/getNativeHandle}}{{!!
 
-}}{{+jniMethodBody}}
+}}{{+jniMethod}}
+{{returnType.name}}
+{{>jni/FunctionSignature}}
 {
 {{#parameters}}
-{{#unlessPredicate typeRef "isJniPrimitive"}}
-    {{resolveName typeRef "C++"}} {{resolveName}} = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
-            {{>common/InternalNamespace}}jni::make_non_releasing_ref(j{{resolveName}}),
-            ({{resolveName typeRef "C++"}}*)nullptr);
-{{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
-    {{resolveName typeRef "C++"}} {{resolveName}} = j{{resolveName}};
-{{/ifPredicate}}
+{{#if type.isComplex}}
+    {{type.cppName}} {{name}} = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
+            {{>common/InternalNamespace}}jni::make_non_releasing_ref(j{{name}}),
+            ({{type.cppName}}*)nullptr);
+{{/if}}
+{{#unless type.isComplex}}
+    {{type.cppName}} {{name}} = j{{name}};
+{{/unless}}
 {{/parameters}}
-{{#unless isStatic}}{{#notInstanceOf container "LimeStruct"}}{{#notInstanceOf container "LimeLambda"}}
+{{#unless isStatic}}{{#instanceOf container "JniContainer"}}{{#unless isFunctionalInterface}}
     auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
-{{/notInstanceOf}}{{#instanceOf container "LimeLambda"}}
-    auto pInstanceSharedPointer = reinterpret_cast<{{resolveName container "C++ FQN"}}*>(
+{{/unless}}{{#if isFunctionalInterface}}
+    auto pInstanceSharedPointer = reinterpret_cast<{{cppFullyQualifiedName}}*>(
 {{#set jobjectName="_jinstance"}}{{>getNativeHandle}}{{/set}});
-{{/instanceOf}}{{/notInstanceOf}}{{!!
-}}{{#instanceOf container "LimeStruct"}}
+{{/if}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf container "JniContainer"}}
     auto _ninstance = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
         {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
-        ({{resolveName container "C++ FQN"}}*)nullptr);
-{{/instanceOf}}{{/unless}}
-
-{{#if thrownType}}
-    auto nativeCallResult = {{>cppMethodCall}}
-{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}
-    auto errorCode = nativeCallResult{{#unless returnType.isVoid}}.error(){{/unless}};
-    if ({{#unless returnType.isVoid}}!nativeCallResult.has_value(){{/unless}}{{#if returnType.isVoid}}errorCode{{/if}})
-    {
-        auto nErrorValue = static_cast<{{resolveName exception.errorType "C++ FQN"}}>(errorCode.value());
-        auto jErrorValue = {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, nErrorValue);
-{{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}
-    if (!nativeCallResult.has_value())
-    {
-        auto jErrorValue = {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, nativeCallResult.error());
-{{/notInstanceOf}}
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "{{resolveName exception}}");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{resolveName exception.errorType "signature"}})V");
-        auto exception = {{>common/InternalNamespace}}jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));{{#unless returnType.isVoid}}
-        return {{#ifPredicate "returnsOpaqueHandle"}}0{{/ifPredicate}}{{#unlessPredicate "returnsOpaqueHandle"}}{{!!
-        }}{{#unlessPredicate returnType.typeRef "isJniPrimitive"}}nullptr{{/unlessPredicate}}{{!!
-        }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}nativeCallResult.unsafe_value(){{/ifPredicate}}{{/unlessPredicate}};{{/unless}}
-    }{{#unless returnType.isVoid}}
-    auto result = nativeCallResult.unsafe_value();{{/unless}}
-{{/if}}
-{{#unless thrownType}}    {{#unless returnType.isVoid}}auto result = {{/unless}}{{>cppMethodCall}}{{/unless}}{{!!
-}}{{#unless returnType.isVoid}}
-    {{#ifPredicate "returnsOpaqueHandle"}}auto nSharedPtr = new (::std::nothrow) {{!!
-    }}::std::shared_ptr< {{resolveName returnType "C++ FQN"}} >(result);
-    if (nSharedPtr == nullptr)
-    {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "java/lang/OutOfMemoryError");
-        _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
-        return 0;
-    }
-    return reinterpret_cast<jlong>(nSharedPtr);{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "returnsOpaqueHandle"}}return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{!!
-}}{{>common/InternalNamespace}}jni::convert_to_jni(_jenv, result).release(){{/unlessPredicate}}{{!!
-}}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}result{{/ifPredicate}};{{/unlessPredicate}}{{/unless}}
+        ({{container.cppFullyQualifiedName}}*)nullptr);
+{{/notInstanceOf}}{{/unless}}
+{{>jni/ReturnTypeConversion}}
 }
-{{/jniMethodBody}}{{!!
-
-}}{{+cppMethodCall}}{{!!
-}}{{#notInstanceOf container "LimeLambda"}}{{#if isStatic}}{{resolveName container "C++ FQN"}}::{{/if}}{{!!
-}}{{#unless isStatic}}{{#notInstanceOf container "LimeStruct"}}(*pInstanceSharedPointer)->{{/notInstanceOf}}{{!!
-}}{{#instanceOf container "LimeStruct"}}_ninstance.{{/instanceOf}}{{/unless}}{{!!
-}}{{cppMethodName}}{{/notInstanceOf}}{{#instanceOf container "LimeLambda"}}(*pInstanceSharedPointer){{/instanceOf}}{{!!
-}}({{#parameters}}{{resolveName}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});
-{{/cppMethodCall}}{{!!
-
-}}{{+jniMethodImpl}}{{!!
-}}{{#ifPredicate "returnsOpaqueHandle"}}jlong{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "returnsOpaqueHandle"}}{{resolveName returnType}}{{/unlessPredicate}}
-{{>jni/FunctionSignature}}
-{{#set function=this}}{{#resolveName function "C++"}}{{#set cppMethodName=this}}{{#function}}{{!!
-}}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}{{!!
-}}{{/jniMethodImpl}}{{!!
-
-}}{{+jniPropertyImpl}}{{!!
-}}{{#set property=this}}{{#getter}}
-{{resolveName returnType}}
-{{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "getter"}}{{!!
-}}(JNIEnv* _jenv, jobject _jinstance)
-{{#set function=this}}{{#resolveName property "C++" "getter"}}{{#set cppMethodName=this}}{{#function}}{{!!
-}}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}
-
-{{/getter}}{{#setter}}
-void
-{{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "setter"}}{{!!
-}}(JNIEnv* _jenv, jobject _jinstance{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}})
-{{#set function=this}}{{#resolveName property "C++" "setter"}}{{#set cppMethodName=this}}{{#function}}{{!!
-}}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}
-
-{{/setter}}{{/set}}{{!!
-}}{{/jniPropertyImpl}}
+{{/jniMethod}}
