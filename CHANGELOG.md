@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.4.1
+Release date: 2020-09-30
+### Bug fixes:
+  * Fixed JNI compilation issue for unity builds.
+
 ## 8.4.0
 Release date: 2020-09-25
 ### Features:
