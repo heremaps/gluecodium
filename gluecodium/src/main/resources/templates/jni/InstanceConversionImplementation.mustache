@@ -37,27 +37,31 @@ namespace jni
 {
 
 {{#model}}
-{{#if hasTypeRepository}}
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{fullJavaName}}", {{mangledName}}, "{{#cppNameSpaces}}{{.}}_{{/cppNameSpaces}}{{cppName}}", {{cppFullyQualifiedName}})
-{{/if}}{{#unless hasTypeRepository}}
-REGISTER_JNI_CLASS_CACHE("{{fullJavaName}}", {{mangledName}}, {{cppFullyQualifiedName}})
-{{/unless}}
+{{#ifPredicate "hasTypeRepository"}}
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}", {{!!
+}}{{resolveName "mangled"}}, "{{#path.head}}{{.}}_{{/path.head}}{{resolveName "C++"}}", {{resolveName "C++ FQN"}})
+{{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
+REGISTER_JNI_CLASS_CACHE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}", {{!!
+}}{{resolveName "mangled"}}, {{resolveName "C++ FQN"}})
+{{/unlessPredicate}}
 
-{{#isEq containerType.toString "INTERFACE"}}{{#if isFunctionalInterface}}
-void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{cppFullyQualifiedName}}& result)
+{{#notInstanceOf this "LimeClass"}}{{#instanceOf this "LimeLambda"}}
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{resolveName "C++ FQN"}}& result)
 {
-    std::shared_ptr<{{mangledName}}_CppProxy> _nproxy{};
-    CppProxyBase::createProxy<{{mangledName}}_CppProxy, {{mangledName}}_CppProxy>(env, obj, "{{mangledName}}", _nproxy);
-    result = std::bind(&{{mangledName}}_CppProxy::operator(), _nproxy{{!!
-            }}{{#methods.0.parameters}}, std::placeholders::_{{iter.index}}{{/methods.0.parameters}});
+    std::shared_ptr<{{resolveName "mangled"}}_CppProxy> _nproxy{};
+    CppProxyBase::createProxy<{{resolveName "mangled"}}_CppProxy, {{resolveName "mangled"}}_CppProxy>({{!!
+    }}env, obj, "{{resolveName "mangled"}}", _nproxy);
+    result = std::bind(&{{resolveName "mangled"}}_CppProxy::operator(), _nproxy{{!!
+            }}{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}});
 }
-{{/if}}{{#unless isFunctionalInterface}}
+{{/instanceOf}}{{#notInstanceOf this "LimeLambda"}}
 template<>
-void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result)
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{resolveName "C++ FQN"}}>& result)
 {
-    CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{mangledName}}_CppProxy>(env, obj, "{{mangledName}}", result);
+    CppProxyBase::createProxy<{{resolveName "C++ FQN"}}, {{resolveName "mangled"}}_CppProxy>({{!!
+    }}env, obj, "{{resolveName "mangled"}}", result);
 }
-{{/unless}}{{/isEq}}
+{{/notInstanceOf}}{{/notInstanceOf}}
 
 {{>cppTypeName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
 {
@@ -90,22 +94,22 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
         return {};
     }
 
-{{#if isFunctionalInterface}}
+{{#instanceOf this "LimeLambda"}}
     JniReference<jobject> jResult;
-{{/if}}{{#unless isFunctionalInterface}}
+{{/instanceOf}}{{#notInstanceOf this "LimeLambda"}}
     auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if (jResult) return jResult;
 
     jResult = {{>common/InternalNamespace}}jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
     if (jResult) return jResult;
-{{/unless}}
+{{/notInstanceOf}}
 
-{{#if hasTypeRepository}}
-    const auto& id = {{>common/InternalNamespace}}get_type_repository(static_cast< {{cppFullyQualifiedName}}* >(nullptr)).get_id(_ninput.get());
-    const auto& javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::get_java_class(id);
-{{/if}}{{#unless hasTypeRepository}}
-    auto &javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
-{{/unless}}
+{{#ifPredicate "hasTypeRepository"}}
+    const auto& id = {{>common/InternalNamespace}}get_type_repository(static_cast< {{resolveName "C++ FQN"}}* >(nullptr)).get_id(_ninput.get());
+    const auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::get_java_class(id);
+{{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
+    auto &javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;
+{{/unlessPredicate}}
     auto pInstanceSharedPointer = new (::std::nothrow) {{>cppTypeName}}(_ninput);
     if ( pInstanceSharedPointer == nullptr )
     {
@@ -114,9 +118,9 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
     }
     jResult = {{>common/InternalNamespace}}jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
-{{#unless isFunctionalInterface}}
+{{#notInstanceOf this "LimeLambda"}}
     {{>common/InternalNamespace}}jni::JniWrapperCache::cache_wrapper(_jenv, _ninput, jResult);
-{{/unless}}
+{{/notInstanceOf}}
 
     return jResult;
 }
@@ -127,5 +131,5 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
 }
 {{/internalNamespace}}{{!!
 
-}}{{+cppTypeName}}{{#if isFunctionalInterface}}{{cppFullyQualifiedName}}{{/if}}{{!!
-}}{{#unless isFunctionalInterface}}std::shared_ptr<{{cppFullyQualifiedName}}>{{/unless}}{{/cppTypeName}}
+}}{{+cppTypeName}}{{#instanceOf this "LimeLambda"}}{{resolveName "C++ FQN"}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++ FQN"}}>{{/notInstanceOf}}{{/cppTypeName}}

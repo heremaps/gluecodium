@@ -20,7 +20,9 @@
   !}}
 namespace
 {
-struct Dummy{{mangledExternalConverter}}Type {};
+struct Dummy{{resolveName external.java.converter "mangled"}}Type {};
 }
 
-REGISTER_JNI_CLASS_CACHE("{{externalConverter}}", {{mangledExternalConverter}}, Dummy{{mangledExternalConverter}}Type)
+REGISTER_JNI_CLASS_CACHE("{{resolveName external.java.converter ""}}", {{!!
+}}{{resolveName external.java.converter "mangled"}}, {{!!
+}}Dummy{{resolveName external.java.converter "mangled"}}Type)

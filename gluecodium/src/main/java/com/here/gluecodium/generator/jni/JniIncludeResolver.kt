@@ -20,91 +20,68 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.java.JavaCustomTypeRef
-import com.here.gluecodium.model.java.JavaTemplateTypeRef
-import com.here.gluecodium.model.java.JavaTypeRef
-import com.here.gluecodium.model.jni.JniContainer
-import com.here.gluecodium.model.jni.JniMethod
-import com.here.gluecodium.model.jni.JniStruct
-import com.here.gluecodium.model.jni.JniTopLevelElement
-import com.here.gluecodium.model.jni.JniType
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal object JniIncludeResolver {
+internal class JniIncludeResolver(private val fileNameRules: JniFileNameRules) {
 
-    fun getConversionIncludes(
-        limeTypeRef: LimeTypeRef,
-        javaType: JavaTypeRef
-    ): List<Include> =
+    private fun getConversionIncludes(limeTypeRef: LimeTypeRef): List<Include> =
         when (val limeType = limeTypeRef.type.actualType) {
-            is LimeStruct, is LimeEnumeration, is LimeContainerWithInheritance, is LimeLambda -> {
-                listOfNotNull((javaType as? JavaCustomTypeRef)?.let {
-                    createConversionInclude(it.packageNames, it.classNames)
-                })
-            }
-            is LimeList -> {
-                val templateType = javaType as JavaTemplateTypeRef
-                getConversionIncludes(limeType.elementType, templateType.templateParameters.first())
-            }
-            is LimeSet -> {
-                val templateType = javaType as JavaTemplateTypeRef
-                getConversionIncludes(limeType.elementType, templateType.templateParameters.first())
-            }
-            is LimeMap -> {
-                val templateType = javaType as JavaTemplateTypeRef
-                getConversionIncludes(limeType.keyType, templateType.templateParameters.first()) +
-                        getConversionIncludes(
-                            limeType.valueType,
-                            templateType.templateParameters.last()
-                        )
-            }
+            is LimeStruct, is LimeEnumeration, is LimeContainerWithInheritance, is LimeLambda ->
+                listOf(createConversionInclude(limeType))
+            is LimeList -> getConversionIncludes(limeType.elementType)
+            is LimeSet -> getConversionIncludes(limeType.elementType)
+            is LimeMap -> getConversionIncludes(limeType.keyType) + getConversionIncludes(limeType.valueType)
             else -> emptyList()
         }
 
-    private fun createConversionInclude(
-        packageNames: List<String>,
-        classNames: List<String>
-    ): Include {
-        val fileName = JniNameRules.getConversionFileName(packageNames, classNames)
-        return Include.createInternalInclude(fileName + JniNameRules.JNI_HEADER_FILE_SUFFIX)
+    private fun createConversionInclude(limeType: LimeType): Include {
+        val fileName = fileNameRules.getConversionFileName(limeType)
+        return Include.createInternalInclude("$fileName.h")
     }
 
-    private fun collectMethodTypes(jniMethod: JniMethod): List<JniType> {
-        return jniMethod.parameters.map { it.type } + jniMethod.returnType +
-                listOfNotNull(jniMethod.exception?.errorType)
+    private fun collectFunctionTypes(limeFunction: LimeFunction) =
+        limeFunction.parameters.map { it.typeRef } + limeFunction.returnType.typeRef +
+                listOfNotNull(limeFunction.exception?.errorType)
+
+    fun collectImplementationIncludes(limeElement: LimeNamedElement): List<Include> {
+        if (limeElement is LimeLambda) {
+            return collectFunctionTypes(limeElement.asFunction()).flatMap { getConversionIncludes(it) } +
+                createConversionInclude(limeElement)
+        }
+        val limeContainer = limeElement as? LimeContainer ?: return emptyList()
+
+        val properties = limeContainer.properties +
+            ((limeContainer as? LimeContainerWithInheritance)?.inheritedProperties ?: emptyList())
+        val functions = limeContainer.functions +
+            ((limeContainer as? LimeContainerWithInheritance)?.inheritedFunctions ?: emptyList())
+        val allFunctions = properties
+            .filterNot { it.attributes.have(JAVA, SKIP) }
+            .flatMap { listOfNotNull(it.getter, it.setter) } + functions +
+            limeContainer.structs.flatMap { it.functions }
+        val types = limeContainer.structs.flatMap { it.fields }.map { it.typeRef } +
+            allFunctions.filterNot { it.attributes.have(JAVA, SKIP) }.flatMap { collectFunctionTypes(it) }
+        return types.flatMap { getConversionIncludes(it) } + createConversionInclude(limeContainer)
     }
 
-    fun createConversionSelfInclude(jniElement: JniTopLevelElement) =
-        Include.createInternalInclude(
-            JniNameRules.getConversionFileName(jniElement) + JniNameRules.JNI_HEADER_FILE_SUFFIX
-        )
-
-    fun createConversionSelfInclude(jniContainer: JniContainer) =
-        Include.createInternalInclude(
-            JniNameRules.getConversionFileName(jniContainer) + JniNameRules.JNI_HEADER_FILE_SUFFIX
-        )
-
-    fun collectImplementationIncludes(jniContainer: JniContainer): List<Include> {
-        val structs = jniContainer.allStructsRecursive
-        val methods = jniContainer.methods + jniContainer.parentMethods +
-                structs.flatMap { it.methods }
-        val types = structs.flatMap { it.fields }.map { it.type } +
-                methods.filterNot { it.isSkipped }.flatMap { collectMethodTypes(it) }
-        return types.flatMap { it.conversionIncludes } + createConversionSelfInclude(jniContainer)
+    fun collectFunctionImplementationIncludes(limeStruct: LimeStruct): List<Include> {
+        val types =
+            limeStruct.functions.filterNot { it.attributes.have(JAVA, SKIP) }.flatMap { collectFunctionTypes(it) }
+        return types.flatMap { getConversionIncludes(it) } + createConversionInclude(limeStruct)
     }
 
-    fun collectMethodImplementationIncludes(jniStruct: JniStruct): List<Include> {
-        val types = jniStruct.methods.filterNot { it.isSkipped }.flatMap { collectMethodTypes(it) }
-        return types.flatMap { it.conversionIncludes } + createConversionSelfInclude(jniStruct)
-    }
-
-    fun collectConversionImplementationIncludes(jniStruct: JniStruct) =
-        jniStruct.fields.map { it.type }.flatMap { it.conversionIncludes }
+    fun collectConversionIncludes(limeStruct: LimeStruct) =
+        limeStruct.fields.flatMap { getConversionIncludes(it.typeRef) }
 }

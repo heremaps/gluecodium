@@ -40,7 +40,8 @@ Java_com_example_smoke_EquatableInterfaceImpl_equals(JNIEnv* _jenv, jobject _jin
     return **lhs == **rhs;
 }
 jint
-Java_com_example_smoke_EquatableInterfaceImpl_hashCode(JNIEnv* _jenv, jobject _jinstance){
+Java_com_example_smoke_EquatableInterfaceImpl_hashCode(JNIEnv* _jenv, jobject _jinstance)
+{
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,

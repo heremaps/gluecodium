@@ -34,16 +34,21 @@ namespace jni
 {
 
 {{#container}}
-{{mangledName}}_CppProxy::{{mangledName}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "{{mangledName}}" ) {
+{{resolveName "mangled"}}_CppProxy::{{resolveName "mangled"}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "{{resolveName "mangled"}}" ) {
 }
-{{#parentMethods}}
-{{>proxyMethod}}
-{{/parentMethods}}{{!!
-
-}}{{#methods}}
-{{>proxyMethod}}
-{{/methods}}
+{{#inheritedFunctions}}
+{{>proxyMethodImpl}}
+{{/inheritedFunctions}}
+{{#inheritedProperties}}
+{{>proxyPropertyImpl}}
+{{/inheritedProperties}}
+{{#functions}}
+{{>proxyMethodImpl}}
+{{/functions}}
+{{#properties}}
+{{>proxyPropertyImpl}}
+{{/properties}}
 {{/container}}
 
 }
@@ -51,25 +56,30 @@ namespace jni
 }
 {{/internalNamespace}}{{!!
 
-}}{{+proxyMethod}}
-{{returnType.cppName}}
-{{mangledName}}_CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
-{{#if isSkipped}}
-    {{#unless returnType.isJavaVoid}}return {};{{/unless}}
-{{/if}}{{#unless isSkipped}}
+}}{{+proxyMethodImpl}}
+{{>cpp/CppReturnType}}
+{{resolveName container "mangled"}}_CppProxy::{{#if cppName}}{{cppName}}{{/if}}{{!!
+}}{{#unless cppName}}{{#instanceOf container "LimeLambda"}}operator(){{/instanceOf}}{{!!
+}}{{#notInstanceOf container "LimeLambda"}}{{resolveName "C++"}}{{/notInstanceOf}}{{/unless}}( {{!!
+}}{{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} {{!!
+}}){{#if attributes.cpp.const isConst logic="or"}} const{{/if}} {
+{{#if attributes.java.skip isSkipped logic="or"}}
+    {{#unless returnType.isVoid}}return {};{{/unless}}
+{{/if}}{{#unless attributes.java.skip isSkipped logic="and"}}
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
-}}{{#if type.isComplex}}
-    auto j{{name}} = convert_to_jni( jniEnv, n{{name}} );{{!!
-}}{{/if}}{{!!
-}}{{#unless type.isComplex}}
-    j{{type.javaName}} j{{name}} = n{{name}};{{!!
-}}{{/unless}}{{!!
+}}{{#unlessPredicate typeRef "isJniPrimitive"}}
+    auto j{{resolveName}} = convert_to_jni( jniEnv, n{{resolveName}} );{{!!
+}}{{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
+    {{resolveName typeRef}} j{{resolveName}} = n{{resolveName}};{{!!
+}}{{/ifPredicate}}{{!!
 }}{{/parameters}}
-    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}callJavaMethod<{{returnType.name}}>( "{{javaMethodName}}", {{!!
-    }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
-    }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{#exception}}
+    {{#unless returnType.isVoid}}auto result = {{/unless}}callJavaMethod<{{resolveName returnType}}>( {{!!
+    }}"{{#if javaName}}{{javaName}}{{/if}}{{#unless javaName}}{{resolveName}}{{/unless}}", {{!!
+    }}"({{#parameters}}{{resolveName typeRef "signature"}}{{/parameters}}){{!!
+    }}{{resolveName returnType "signature"}}", jniEnv {{#if parameters}},{{/if}} {{!!
+    }}{{#parameters}}j{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+{{#if thrownType}}
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
@@ -78,22 +88,21 @@ namespace jni
             jniEnv,
             jException,
             "error",
-            "{{errorType.jniTypeSignature}}" );
+            "{{resolveName exception.errorType "signature"}}" );
         auto nErrorValue = convert_from_jni(
             jniEnv,
             jErrorValue,
-            ({{errorType.cppFullyQualifiedName}}*)nullptr );
+            ({{resolveName exception.errorType "C++ FQN"}}*)nullptr );
 
-{{#if cppTypeIsErrorCode}}
+{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}
         return ::std::error_code{nErrorValue};
-{{/if}}{{#unless cppTypeIsErrorCode}}
-        return {{errorType.cppFullyQualifiedName}}{nErrorValue};
-{{/unless}}
+{{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}
+        return {{resolveName exception.errorType "C++ FQN"}}{nErrorValue};
+{{/notInstanceOf}}
     }
     else
     {
-{{/exception}}{{!!
-}}{{^exception}}
+{{/if}}{{#unless thrownType}}
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -101,18 +110,32 @@ namespace jni
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-{{/exception}}{{!!
-}}{{#unless returnType.isJavaVoid}}
-    return {{#if returnType.isComplex}}convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
-    }}{{#unless returnType.isComplex}}result{{/unless}};
+{{/unless}}{{!!
+}}{{#unless returnType.isVoid}}
+    return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}convert_from_jni( jniEnv, result, {{!!
+    }}({{resolveName returnType "C++"}}*)nullptr ){{/unlessPredicate}}{{!!
+    }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}result{{/ifPredicate}};
 {{/unless}}
-{{#exception}}{{#if returnType.isJavaVoid}}{{#if cppTypeIsErrorCode}}
+{{#if thrownType}}{{#if returnType.isVoid}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}
         return ::std::error_code{};
-{{/if}}{{#unless exception.cppTypeIsErrorCode}}
+{{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}
         return {true};
-{{/unless}}{{/if}}
+{{/notInstanceOf}}{{/if}}
     }
-{{/exception}}
+{{/if}}
 {{/unless}}
 }
-{{/proxyMethod}}
+{{/proxyMethodImpl}}{{!!
+
+}}{{+proxyPropertyImpl}}{{!!
+}}{{#if getter}}{{#set property=this function=getter isConst=true isSkipped=attributes.java.skip}}{{!!
+}}{{#resolveName property "C++" "getter"}}{{#set cppName=this}}{{!!
+}}{{#resolveName property "" "getter"}}{{#set javaName=this}}{{#function}}
+{{>proxyMethodImpl}}
+{{/function}}{{/set}}{{/resolveName}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
+}}{{#if setter}}{{#set property=this function=setter isSkipped=attributes.java.skip}}{{!!
+}}{{#resolveName property "C++" "setter"}}{{#set cppName=this}}{{!!
+}}{{#resolveName property "" "setter"}}{{#set javaName=this}}{{#function}}
+{{>proxyMethodImpl}}
+{{/function}}{{/set}}{{/resolveName}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
+}}{{/proxyPropertyImpl}}

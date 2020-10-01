@@ -7,7 +7,6 @@
 #include "com_example_smoke_CalculatorListener_ResultStruct__Conversion.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
-#include <functional>
 #include <memory>
 namespace gluecodium
 {

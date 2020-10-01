@@ -28,25 +28,52 @@
 extern "C" {
 #endif
 
-{{#container}}{{#methods}}{{#unless isSkipped}}
-JNIEXPORT {{returnType.name}} JNICALL
-{{>jni/FunctionSignature}};
+{{#container}}{{#functions}}{{#unless attributes.java.skip}}
+{{>jniFunctionHeader}}
 
-{{/unless}}{{/methods}}
-{{#if hasInterfaceParent}}{{#parentMethods}}{{#unless isSkipped}}
-JNIEXPORT {{returnType.name}} JNICALL
-{{>jni/FunctionSignature}};
+{{/unless}}{{/functions}}
+{{#properties}}{{#unless attributes.java.skip}}
+{{>jniPropertyHeader}}
 
-{{/unless}}{{/parentMethods}}{{/if}}
-{{#hasNativeEquatable}}
+{{/unless}}{{/properties}}
+
+{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
+{{#inheritedFunctions}}{{#unless attributes.java.skip}}
+{{>jniFunctionHeader}}
+
+{{/unless}}{{/inheritedFunctions}}
+{{#inheritedProperties}}{{#unless attributes.java.skip}}
+{{>jniPropertyHeader}}
+
+{{/unless}}{{/inheritedProperties}}
+{{/instanceOf}}{{/if}}
+
+{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
 JNIEXPORT jboolean JNICALL
-{{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs);
+{{>jni/FunctionSignaturePrefix}}_equals(JNIEnv* _jenv, jobject _jinstance, jobject jrhs);
 
 JNIEXPORT jint JNICALL
-{{#set javaMethodName="hashCode"}}{{>jni/FunctionSignature}}{{/set}};
-{{/hasNativeEquatable}}
+{{>jni/FunctionSignaturePrefix}}_hashCode(JNIEnv* _jenv, jobject _jinstance);
+{{/if}}
 {{/container}}
 
 #ifdef __cplusplus
 }
-#endif
+#endif{{!!
+
+}}{{+jniFunctionHeader}}{{!!
+}}JNIEXPORT {{#ifPredicate "returnsOpaqueHandle"}}jlong{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "returnsOpaqueHandle"}}{{resolveName returnType}}{{/unlessPredicate}} JNICALL
+{{>jni/FunctionSignature}};{{!!
+}}{{/jniFunctionHeader}}{{!!
+
+}}{{+jniPropertyHeader}}{{!!
+}}{{#set property=this}}{{#getter}}
+JNIEXPORT {{resolveName returnType}} JNICALL
+Java_{{resolveName container "mangled"}}_{{resolveName property "mangled" "getter"}}(JNIEnv* _jenv, jobject _jinstance);
+{{/getter}}{{#setter}}
+JNIEXPORT void JNICALL
+Java_{{resolveName container "mangled"}}_{{resolveName property "mangled" "setter"}}(JNIEnv* _jenv, jobject _jinstance{{!!
+}}{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}});
+{{/setter}}{{/set}}{{!!
+}}{{/jniPropertyHeader}}

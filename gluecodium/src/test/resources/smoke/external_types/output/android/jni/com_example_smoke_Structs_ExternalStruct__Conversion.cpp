@@ -1,7 +1,6 @@
 /*
  *
  */
-#include "com_example_smoke_Structs_AnotherExternalStruct__Conversion.h"
 #include "com_example_smoke_Structs_ExternalStruct__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "FieldAccessMethods.h"
