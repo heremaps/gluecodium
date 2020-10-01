@@ -21,6 +21,10 @@ struct IncludableStruct {
     field: String
 }
 
+struct ShouldNotInclude {
+    field: String
+}
+
 enum IncludableEnum {
     foo
 }
@@ -33,6 +37,10 @@ lambda IncludableLambda = () -> Void
 interface ParentInterfaceWithIncludes {
     fun rootMethod(input1: IncludableStruct, input2: IncludableEnum): IncludableClass
     property rootProperty: IncludableLambda
+    @Java(Skip)
+    fun notInJava(): ShouldNotInclude
+    @Java(Skip)
+    property notInJavaProperty: ShouldNotInclude
 }
 
 @Dart(Skip)
