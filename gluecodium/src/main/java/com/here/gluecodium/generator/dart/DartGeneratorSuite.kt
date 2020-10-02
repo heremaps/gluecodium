@@ -120,8 +120,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             dartNameResolver,
             "$libraryName/$SRC_DIR_SUFFIX"
         )
-        val includeResolver =
-            FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
+        val includeResolver = FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
@@ -474,7 +473,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
                 else -> emptyList()
             }
 
-        fun getAllTypeRefs(limeModel: LimeModel) = traverseModel(limeModel).flatten()
+        fun getAllTypeRefs(limeModel: LimeModel) =
+            traverseModel(limeModel.referenceMap.values.filterNot { it.attributes.have(DART, SKIP) }).flatten()
     }
 
     companion object {

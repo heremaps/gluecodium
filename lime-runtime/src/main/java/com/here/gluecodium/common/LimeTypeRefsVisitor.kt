@@ -20,6 +20,7 @@
 package com.here.gluecodium.common
 
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
@@ -30,8 +31,9 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 
 abstract class LimeTypeRefsVisitor<T> {
-    protected fun traverseModel(limeModel: LimeModel): List<T> {
-        val allElements = limeModel.referenceMap.values
+    protected fun traverseModel(limeModel: LimeModel) = traverseModel(limeModel.referenceMap.values)
+
+    protected fun traverseModel(allElements: Collection<LimeElement>): List<T> {
         val allLambdasAsFunctions = allElements.filterIsInstance<LimeLambda>().map { it.asFunction() }
         val allFunctions = allElements.filterIsInstance<LimeFunction>() + allLambdasAsFunctions
         val allTypedElements = allElements.filterIsInstance<LimeTypedElement>() +
