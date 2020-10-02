@@ -39,6 +39,9 @@ class SkipTypes {
     struct NotInDart {
         fooField: String
     }
+
+    @Dart(Skip) @Java(Skip) @Swift(Skip)
+    fun useListInDart(): List<NotInDart>
 }
 
 interface SkipProxy {
