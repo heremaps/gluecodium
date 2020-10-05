@@ -66,4 +66,8 @@ interface SkipProxy {
 @Java(Skip) @Swift(Skip) @Dart(Skip)
 struct SkippedEverywhere {
     nothingToSeeHere: String
+
+    fun useMapInDart(foo: Map<Int, SkipTypes.NotInDart>)
 }
+
+interface InheritFromSkipped: SkipProxy { }

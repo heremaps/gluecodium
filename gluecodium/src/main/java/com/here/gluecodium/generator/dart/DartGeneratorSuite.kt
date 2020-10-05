@@ -473,9 +473,21 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
                 else -> emptyList()
             }
 
-        fun getAllTypeRefs(limeModel: LimeModel) =
-            traverseModel(limeModel.referenceMap.values.filterNot { it.attributes.have(DART, SKIP) }).flatten()
-    }
+        fun getAllTypeRefs(limeModel: LimeModel): List<LimeTypeRef> {
+            val allElements = limeModel.referenceMap.values
+                .filterIsInstance<LimeNamedElement>()
+                .filterNot { isSkipped(it, limeModel) }
+            return traverseModel(allElements).flatten()
+        }
+
+        private fun isSkipped(element: LimeNamedElement, limeModel: LimeModel) =
+            generateSequence(element) {
+                when {
+                    it.path.hasParent -> limeModel.referenceMap[it.path.parent.toString()] as? LimeNamedElement
+                    else -> null
+                }
+            }.any { it.attributes.have(DART, SKIP) }
+        }
 
     companion object {
         const val GENERATOR_NAME = "dart"
