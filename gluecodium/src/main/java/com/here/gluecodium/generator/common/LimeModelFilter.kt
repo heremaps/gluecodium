@@ -20,10 +20,12 @@
 package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
 class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
@@ -57,7 +59,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             classes = classes.filter(predicate).map { filterClass(it) },
             interfaces = interfaces.filter(predicate).map { filterInterface(it) },
             lambdas = lambdas.filter(predicate),
-            parent = parent
+            parent = parent?.let { LimeDirectTypeRef(filterElement(it.type.actualType) as LimeType) }
         ) }
 
     private fun filterInterface(limeInterface: LimeInterface): LimeInterface =
@@ -77,7 +79,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             classes = classes.filter(predicate).map { filterClass(it) },
             interfaces = interfaces.filter(predicate).map { filterInterface(it) },
             lambdas = lambdas.filter(predicate),
-            parent = parent
+            parent = parent?.let { LimeDirectTypeRef(filterElement(it.type.actualType) as LimeType) }
         ) }
 
     private fun filterTypesCollection(limeTypes: LimeTypesCollection) =
