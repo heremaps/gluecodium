@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.4.2
+Release date: 2020-10-05
+### Bug fixes:
+  * Fixed Dart compilation issue related to items skipped with `@Dart(Skip)`.
+
 ## 8.4.1
 Release date: 2020-09-30
 ### Bug fixes:
