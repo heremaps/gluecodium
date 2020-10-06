@@ -9,9 +9,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 /// possible to references other interfaces like [CommentsInterface] or other members
 /// [someMethodWithAllComments].
 ///
-/// Weblinks are not modified like this [example] or [www.example.com].
+/// Weblinks are not modified like this [example1], [example2](http://www.example.com/2) or <https://www.example.com/3>.
 ///
-/// [example]: http://example.com
+/// [example1]: http://example.com/1
 abstract class CommentsLinks {
   /// Destroys the underlying native object.
   ///

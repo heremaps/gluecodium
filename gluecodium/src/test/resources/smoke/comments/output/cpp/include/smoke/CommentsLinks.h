@@ -14,9 +14,9 @@ namespace smoke {
  * possible to references other interfaces like ::smoke::CommentsInterface or other members
  * ::smoke::Comments::some_method_with_all_comments.
  *
- * Weblinks are not modified like this [example] or [www.example.com].
+ * Weblinks are not modified like this [example1], [example2](http://www.example.com/2) or <https://www.example.com/3>.
  *
- * [example]: http://example.com
+ * [example1]: http://example.com/1
  */
 class _GLUECODIUM_CPP_EXPORT CommentsLinks {
 public:

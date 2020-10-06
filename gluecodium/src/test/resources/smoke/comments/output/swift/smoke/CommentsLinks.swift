@@ -5,9 +5,9 @@ import Foundation
 /// possible to references other interfaces like `CommentsInterface` or other members
 /// `Comments.someMethodWithAllComments(...)`.
 ///
-/// Weblinks are not modified like this [example] or [www.example.com].
+/// Weblinks are not modified like this [example1], [example2](http://www.example.com/2) or https://www.example.com/3.
 ///
-/// [example]: http://example.com
+/// [example1]: http://example.com/1
 public class CommentsLinks {
     let c_instance : _baseRef
     init(cCommentsLinks: _baseRef) {
