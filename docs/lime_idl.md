@@ -621,7 +621,7 @@ fun process(mode: Mode, input: String): GenericResult
 ```
 
 There are three ways to specify web links:
-1. reference web link, e.g. `[example]` with `[example]: https://www.example.com/details2` listed at the end of the comment.
+1. reference web link, e.g. `[example]` with `[example]: https://www.example.com/details1` listed at the end of the comment.
 2. inline web link, e.g. `[another example](https://www.example.com/details2)`.
 3. automatic web link, e.g. `<https://www.example.com/details3>`.
 
