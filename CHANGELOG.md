@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.4.4
+Release date: 2020-10-07
 ### Features:
   * Added support for web links in documentation comments. Reference web links, inline web links, and automatic web
     links are supported per Markdown specification.
