@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.swift
 
 import com.here.gluecodium.platform.common.CommentsProcessor
+import com.vladsch.flexmark.ast.AutoLink
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.parser.ParserEmulationProfile
@@ -38,6 +39,10 @@ class SwiftCommentsProcessor(werror: Boolean) :
         linkNode.referenceOpeningMarker = BasedSequenceImpl.of("`")
         linkNode.referenceClosingMarker = BasedSequenceImpl.of("`")
         linkNode.firstChild?.unlink()
+    }
+
+    override fun processAutoLink(linkNode: AutoLink) {
+        linkNode.chars = BasedSequenceImpl.of(linkNode.chars.trim('<', '>'))
     }
 
     override val nullReference = "nil"

@@ -20,6 +20,7 @@
 package com.here.gluecodium.platform.common
 
 import com.here.gluecodium.common.LimeLogger
+import com.vladsch.flexmark.ast.AutoLink
 import com.vladsch.flexmark.ast.Code
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.parser.Parser
@@ -52,6 +53,8 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         val path = limeFullName.split(".")
 
         val linkRefHandler = VisitHandler(LinkRef::class.java) {
+            if (it.isDefined) return@VisitHandler
+
             val reference = it.reference.toString().replace(" ", "")
             for (i in path.size downTo 0) {
                 val child = (path.take(i) + reference).joinToString(".")
@@ -69,12 +72,14 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
                 it.text = BasedSequenceImpl.of(nullReference)
             }
         }
-        NodeVisitor(linkRefHandler, codeBlockHandler).visit(document)
+        val autoLinkHandler = VisitHandler(AutoLink::class.java) { processAutoLink(it) }
+        NodeVisitor(linkRefHandler, codeBlockHandler, autoLinkHandler).visit(document)
 
         return renderer.render(document).trim()
     }
 
     abstract fun processLink(linkNode: LinkRef, linkReference: String)
+    open fun processAutoLink(linkNode: AutoLink) {}
     open val nullReference = standardNullReference
 
     companion object {

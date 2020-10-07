@@ -8,7 +8,7 @@ import com.example.NativeBase;
  * <p>The nested types like {@link com.example.smoke.CommentsLinks#randomMethod(String, boolean)} don't need full name prefix, but it's
  * possible to references other interfaces like {@link com.example.smoke.CommentsInterface} or other members
  * {@link com.example.smoke.Comments#someMethodWithAllComments}.</p>
- * <p>Weblinks are not modified like this <a href="http://example.com">example</a> or [www.example.com].</p>
+ * <p>Weblinks are not modified like this <a href="http://example.com/1">example1</a>, <a href="http://www.example.com/2">example2</a> or <a href="https://www.example.com/3">https://www.example.com/3</a>.</p>
  */
 public final class CommentsLinks extends NativeBase {
     /**

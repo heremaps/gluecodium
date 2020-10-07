@@ -609,6 +609,24 @@ struct Options {
 }
 ```
 
+#### Links in documentation comments
+
+Markdown-style links are supported in documentation comments. Example:
+```
+// Process the input in the given mode, based on [Mode]. For more details, see [example],
+// [another example](https://www.example.com/details2), or <https://www.example.com/details3>.
+//
+// [example]: https://www.example.com/details1
+fun process(mode: Mode, input: String): GenericResult
+```
+
+There are three ways to specify web links:
+1. reference web link, e.g. `[example]` with `[example]: https://www.example.com/details1` listed at the end of the comment.
+2. inline web link, e.g. `[another example](https://www.example.com/details2)`.
+3. automatic web link, e.g. `<https://www.example.com/details3>`.
+
+Any square-brackets link that does not resolve into a web link is treated as a link to some IDL element, e.g. `[Mode]`.
+
 #### Platform-specific comments
 
 Parts of documentation comments can be varied per platform (i.e. per output language). Example:
