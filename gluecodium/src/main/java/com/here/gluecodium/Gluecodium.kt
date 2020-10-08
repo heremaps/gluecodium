@@ -32,7 +32,7 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.output.FileOutput
-import com.here.gluecodium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import com.here.gluecodium.platform.common.GeneratorSuite
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
@@ -103,9 +103,7 @@ class Gluecodium(
         val fileNamesCache = hashMapOf<String, String>()
         var executionSucceeded = false
         try {
-            executionSucceeded = discoverGenerators().all {
-                executeGenerator(it, limeModel, fileNamesCache)
-            }
+            executionSucceeded = discoverGenerators().all { executeGenerator(it, limeModel, fileNamesCache) }
         } finally {
             // cache has to be updated in any case
             executionSucceeded = cache.write(executionSucceeded)
@@ -134,16 +132,14 @@ class Gluecodium(
         }
 
         val outputSuccessful = output(generatorName, outputFiles)
-        val processedWithoutCollisions =
-            checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)
+        val processedWithoutCollisions = checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)
 
-        if (AndroidGeneratorSuite.GENERATOR_NAME == generatorName &&
+        if (generatorName == JavaGeneratorSuite.GENERATOR_NAME &&
             options.androidMergeManifestPath != null &&
             outputSuccessful &&
             processedWithoutCollisions
         ) {
-            val baseManifestPath =
-                Paths.get(options.outputDir, "android", "AndroidManifest.xml").toString()
+            val baseManifestPath = Paths.get(options.outputDir, "android", "AndroidManifest.xml").toString()
             return mergeAndroidManifests(
                 baseManifestPath, options.androidMergeManifestPath.toString(), baseManifestPath
             )
@@ -167,10 +163,7 @@ class Gluecodium(
         val mainFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.MAIN }
         val commonFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.COMMON }
 
-        return saveToDirectory(
-            options.outputDir,
-            mainFiles
-        ) && saveToDirectory(options.commonOutputDir, commonFiles)
+        return saveToDirectory(options.outputDir, mainFiles) && saveToDirectory(options.commonOutputDir, commonFiles)
     }
 
     private fun validateModel(limeModel: LimeModel): Boolean {

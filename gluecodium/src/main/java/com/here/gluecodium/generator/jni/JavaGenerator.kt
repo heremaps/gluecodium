@@ -35,7 +35,6 @@ class JavaGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
     private val internalPackageList: List<String>,
-    private val enableAndroidFeatures: Boolean,
     private val nonNullAnnotation: JavaCustomTypeRef?,
     private val nullableAnnotation: JavaCustomTypeRef?,
     private val javaNameRules: JavaNameRules
@@ -49,7 +48,7 @@ class JavaGenerator(
             limeReferenceMap = limeReferenceMap,
             basePackage = basePackage,
             internalPackage = internalPackage,
-            serializationBase = if (enableAndroidFeatures) PARCELABLE else null,
+            serializationBase = PARCELABLE,
             nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation,
             nameResolver = javaNameResolver

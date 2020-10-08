@@ -26,7 +26,6 @@ import com.here.gluecodium.generator.cpp.CppGeneratorSuite
 import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
-import com.here.gluecodium.platform.android.AndroidGeneratorSuite
 import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import java.io.File
@@ -49,11 +48,8 @@ interface GeneratorSuite {
         /** Creates a new instance of a generator suite by its short identifier  */
         fun instantiateByShortName(shortName: String, options: Gluecodium.Options) =
             when (shortName) {
-                AndroidGeneratorSuite.GENERATOR_NAME -> AndroidGeneratorSuite(options)
                 JavaGeneratorSuite.GENERATOR_NAME -> JavaGeneratorSuite(options)
-                CppGeneratorSuite.GENERATOR_NAME -> CppGeneratorSuite(
-                    options
-                )
+                CppGeneratorSuite.GENERATOR_NAME -> CppGeneratorSuite(options)
                 SwiftGeneratorSuite.GENERATOR_NAME -> SwiftGeneratorSuite(options)
                 LimeGeneratorSuite.GENERATOR_NAME -> LimeGeneratorSuite()
                 DartGeneratorSuite.GENERATOR_NAME -> DartGeneratorSuite(options)
@@ -62,7 +58,6 @@ interface GeneratorSuite {
 
         /** @return all available generators */
         fun generatorShortNames() = setOf(
-                AndroidGeneratorSuite.GENERATOR_NAME,
                 JavaGeneratorSuite.GENERATOR_NAME,
                 CppGeneratorSuite.GENERATOR_NAME,
                 SwiftGeneratorSuite.GENERATOR_NAME,

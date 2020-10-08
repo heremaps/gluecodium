@@ -21,13 +21,13 @@ package com.here.gluecodium.generator.androidmanifest
 
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import java.io.File
 
 class AndroidManifestGenerator(private val basePackages: List<String>) {
     fun generate(): GeneratedFile =
         GeneratedFile(
             TemplateEngine.render("android/AndroidManifest", basePackages.joinToString(".")),
-            AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "AndroidManifest.xml"
+            JavaGeneratorSuite.GENERATOR_NAME + File.separator + "AndroidManifest.xml"
         )
 }
