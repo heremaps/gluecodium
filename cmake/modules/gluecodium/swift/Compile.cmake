@@ -115,6 +115,7 @@ function(apigen_swift_compile target architecture)
 
   set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
   get_target_property(TARGET_TYPE ${target} TYPE)
+  get_target_property(additional_swift_flags ${target} APIGEN_SWIFT_FLAGS)
   if(APPLE)
     if(NOT CMAKE_Swift_COMPILER_LOADED)
       message(FATAL_ERROR "Swift language must be enabled on top level")
@@ -126,6 +127,9 @@ function(apigen_swift_compile target architecture)
     foreach(FRAMEWORK_DIR ${APIGEN_SWIFT_COMPILE_FRAMEWORK_DIRS})
       set(SWIFT_FLAGS "${SWIFT_FLAGS} -F${FRAMEWORK_DIR}")
     endforeach()
+    if(additional_swift_flags)
+      set(SWIFT_FLAGS "${SWIFT_FLAGS} ${additional_swift_flags}")
+    endif()
     set(SWIFT_DEBUG_FLAG "-D DEBUG")
     set_target_properties(${target} PROPERTIES
       FRAMEWORK TRUE
@@ -144,7 +148,6 @@ function(apigen_swift_compile target architecture)
 
     get_swiftc_arguments(${target} swift_link_libraries)
 
-    get_target_property(additional_swift_flags ${target} APIGEN_SWIFT_FLAGS)
     if(additional_swift_flags)
       list(APPEND swift_target_flag ${additional_swift_flags})
     endif()
