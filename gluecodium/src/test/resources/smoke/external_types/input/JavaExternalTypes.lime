@@ -17,6 +17,7 @@
 
 package smoke
 
+@Swift(Skip) @Dart(Skip)
 @Immutable
 struct Currency {
     external {
@@ -27,6 +28,7 @@ struct Currency {
     numericCode: Int external { java getterName "getNumericCode" }
 }
 
+@Swift(Skip) @Dart(Skip)
 struct TimeZone {
     external {
         java name "java.util.SimpleTimeZone"
@@ -38,6 +40,7 @@ struct TimeZone {
     }
 }
 
+@Swift(Skip) @Dart(Skip)
 enum Month {
     external {
         java name "java.time.Month"
@@ -48,6 +51,7 @@ enum Month {
     MARCH
 }
 
+@Swift(Skip) @Dart(Skip)
 @Equatable
 struct SystemColor {
     external {
@@ -61,6 +65,7 @@ struct SystemColor {
     alpha: Float
 }
 
+@Swift(Skip) @Dart(Skip)
 enum Season {
     external {
         java name "java.lang.String"
@@ -73,6 +78,7 @@ enum Season {
     AUTUMN
 }
 
+@Swift(Skip) @Dart(Skip)
 class UseJavaExternalTypes {
     static fun currencyRoundTrip(input: Currency): Currency
     static fun timeZoneRoundTrip(input: TimeZone): TimeZone
@@ -83,6 +89,7 @@ class UseJavaExternalTypes {
     static fun structRoundTrip(input: JavaExternalTypesStruct): JavaExternalTypesStruct
 }
 
+@Swift(Skip) @Dart(Skip)
 struct JavaExternalTypesStruct {
     currency: Currency
     timeZone: TimeZone

@@ -1,5 +1,11 @@
 # Gluecodium project Release Notes
 
+## 8.4.5
+Release date: 2020-10-08
+### Bug fixes:
+  * Added validation against applying `Skip` attributes to struct fields.
+  * Fixed handling of Swift flags in CMake helpers.
+
 ## 8.4.4
 Release date: 2020-10-07
 ### Features:

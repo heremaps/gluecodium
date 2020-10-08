@@ -193,7 +193,8 @@ class Gluecodium(
             { LimeDeprecationsValidator(
                 limeLogger,
                 options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
-            ).validate(it.topElements) }
+            ).validate(it.topElements) },
+            { LimeFunctionsValidator(limeLogger).validate(it) }
         )
 
     data class Options(
