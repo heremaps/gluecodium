@@ -17,7 +17,7 @@
 
 package smoke
 
-@Dart("Rectangle<int>")
+@Dart("Rectangle<int>") @Java(Skip) @Swift(Skip)
 struct Rectangle {
     external {
         dart importPath "dart:math"
@@ -29,7 +29,7 @@ struct Rectangle {
     height: Int
 }
 
-@Dart("HttpClientResponseCompressionState")
+@Dart("HttpClientResponseCompressionState") @Java(Skip) @Swift(Skip)
 enum CompressionState {
     external {
         dart importPath "package:foo/bar.dart"
@@ -40,7 +40,7 @@ enum CompressionState {
     notCompressed
 }
 
-@Dart("int")
+@Dart("int") @Java(Skip) @Swift(Skip)
 @Equatable
 struct DartColor {
     external {
@@ -54,7 +54,7 @@ struct DartColor {
     alpha: Float = 0
 }
 
-@Dart("String")
+@Dart("String") @Java(Skip) @Swift(Skip)
 enum DartSeason {
     external {
        dart converterImport "../season_converter.dart"
@@ -67,6 +67,7 @@ enum DartSeason {
     AUTUMN
 }
 
+@Java(Skip) @Swift(Skip)
 class UseDartExternalTypes {
     static fun rectangleRoundTrip(input: Rectangle): Rectangle
     static fun compressionStateRoundTrip(input: CompressionState): CompressionState
@@ -74,7 +75,7 @@ class UseDartExternalTypes {
     static fun seasonRoundTrip(input: DartSeason): DartSeason
 }
 
-@Swift(Skip)
+@Java(Skip) @Swift(Skip)
 class UseDartExternalGenerics {
     fun useGenerics(list: List<Rectangle>, `set`: Set<Rectangle>): Map<CompressionState, Rectangle>
 }
