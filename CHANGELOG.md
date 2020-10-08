@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Added validation against applying `Skip` attributes to struct fields.
+
 ## 8.4.4
 Release date: 2020-10-07
 ### Features:
