@@ -25,7 +25,7 @@ import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModelLoader
-import com.here.gluecodium.platform.android.AndroidGeneratorSuite
+import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
@@ -107,7 +107,7 @@ abstract class AcceptanceTestBase protected constructor(
         private const val IGNORE_PREFIX = "ignore"
         private val GENERATOR_NAMES = listOf(
             CppGeneratorSuite.GENERATOR_NAME,
-            AndroidGeneratorSuite.GENERATOR_NAME,
+            JavaGeneratorSuite.GENERATOR_NAME,
             SwiftGeneratorSuite.GENERATOR_NAME,
             LimeGeneratorSuite.GENERATOR_NAME,
             DartGeneratorSuite.GENERATOR_NAME
@@ -119,8 +119,8 @@ abstract class AcceptanceTestBase protected constructor(
         init {
             GENERATOR_DIRECTORIES[CppGeneratorSuite.GENERATOR_NAME] =
                     listOf(CppGeneratorSuite.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[AndroidGeneratorSuite.GENERATOR_NAME] =
-                    listOf(AndroidGeneratorSuite.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[JavaGeneratorSuite.GENERATOR_NAME] =
+                    listOf(JavaGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[SwiftGeneratorSuite.GENERATOR_NAME] =
                     listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
             GENERATOR_DIRECTORIES[LimeGeneratorSuite.GENERATOR_NAME] =

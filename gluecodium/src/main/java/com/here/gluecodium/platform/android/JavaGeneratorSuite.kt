@@ -52,10 +52,7 @@ import java.util.logging.Logger
  * Combines generators [JavaGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
  * bindings to BaseAPI layer for Java.
  */
-open class JavaGeneratorSuite protected constructor(
-    options: Gluecodium.Options,
-    private val enableAndroidFeatures: Boolean
-) : GeneratorSuite {
+internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     private val rootPackage = options.javaPackages
     private val internalPackage = options.javaInternalPackages
@@ -70,10 +67,6 @@ open class JavaGeneratorSuite protected constructor(
     private val nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
     private val generateStubs = options.generateStubs
 
-    protected open val generatorName = GENERATOR_NAME
-
-    constructor(options: Gluecodium.Options) : this(options, false)
-
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val javaPackageList =
             if (rootPackage.isNotEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
@@ -83,7 +76,6 @@ open class JavaGeneratorSuite protected constructor(
             limeReferenceMap = limeModel.referenceMap,
             basePackages = javaPackageList,
             internalPackageList = internalPackage,
-            enableAndroidFeatures = enableAndroidFeatures,
             nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation,
             javaNameRules = javaNameRules
@@ -112,24 +104,22 @@ open class JavaGeneratorSuite protected constructor(
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val javaTemplates = JavaTemplates(generatorName, generateStubs)
+        val javaTemplates = JavaTemplates(GENERATOR_NAME, generateStubs)
         val nonExternalElements = combinedModel.javaElements.filter {
             it !is JavaTopLevelElement || !it.skipDeclaration
         }
         val javaFiles = javaTemplates.generateFiles(nonExternalElements).toMutableList()
 
-        val nativeBasePath = listOf(generatorName) + internalPackageList + NATIVE_BASE_JAVA
+        val nativeBasePath = listOf(GENERATOR_NAME) + internalPackageList + NATIVE_BASE_JAVA
         javaFiles.add(
             JavaTemplates.generateNativeBase(nativeBasePath.joinToString("/"), internalPackageList)
         )
 
         val headers = mutableListOf<GeneratedFile>()
-        if (enableAndroidFeatures) {
-            // This generator is special in that it generates only one file
-            // At the moment it does not need to iterate over all interfaces
-            val androidManifestGenerator = AndroidManifestGenerator(javaPackageList)
-            headers += androidManifestGenerator.generate()
-        }
+
+        // Android manifest generator is special in that it generates only one file.
+        val androidManifestGenerator = AndroidManifestGenerator(javaPackageList)
+        headers += androidManifestGenerator.generate()
 
         if (generateStubs) return headers + javaFiles
 
@@ -141,7 +131,7 @@ open class JavaGeneratorSuite protected constructor(
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             rootNamespace = rootNamespace,
-            generatorName = generatorName
+            generatorName = GENERATOR_NAME
         )
         for (fileName in UTILS_FILES) {
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
@@ -247,7 +237,7 @@ open class JavaGeneratorSuite protected constructor(
 
     companion object {
         private val logger = Logger.getLogger(JavaGeneratorSuite::class.java.name)
-        const val GENERATOR_NAME = "java"
+        const val GENERATOR_NAME = "android"
 
         private const val ARRAY_CONVERSION_UTILS = "ArrayConversionUtils"
         private const val CPP_PROXY_BASE = "CppProxyBase"
