@@ -82,6 +82,14 @@ class GenericTypesWithCompoundTypes {
     fun methodWithInstancesMap(input: Map<Int, DummyClass>): Map<Int, DummyInterface>
 }
 
+struct EnumSets {
+    const enumSetConst: Set<GenericTypesWithCompoundTypes.SomeEnum> = [
+        GenericTypesWithCompoundTypes.SomeEnum.FOO,
+        GenericTypesWithCompoundTypes.SomeEnum.BAR
+    ]
+    enumSetField: Set<GenericTypesWithCompoundTypes.SomeEnum> = []
+}
+
 class DummyClass {}
 
 interface DummyInterface {}
