@@ -44,13 +44,16 @@ internal object CppGeneratorPredicates {
         "hasAnyComment" to { limeElement: Any ->
             when (limeElement) {
                 is LimeFunction -> limeElement.run {
-                    !comment.isEmpty() || comment.isExcluded || !returnType.comment.isEmpty() ||
-                    needsNotNullComment(returnType.typeRef) ||
-                    (thrownType?.comment?.isEmpty() == false) || attributes.have(LimeAttributeType.DEPRECATED) ||
-                    parameters.any { !it.comment.isEmpty() || needsNotNullComment(it.typeRef) }
+                    comment.getFor("Cpp").isNotBlank() || comment.isExcluded ||
+                        returnType.comment.getFor("Cpp").isNotBlank() ||
+                        needsNotNullComment(returnType.typeRef) ||
+                        (thrownType?.comment?.getFor("Cpp")?.isBlank() == false) ||
+                        attributes.have(LimeAttributeType.DEPRECATED) ||
+                        parameters.any { it.comment.getFor("Cpp").isNotBlank() || needsNotNullComment(it.typeRef) }
                 }
                 is LimeNamedElement -> limeElement.run {
-                    !comment.isEmpty() || comment.isExcluded || attributes.have(LimeAttributeType.DEPRECATED)
+                    comment.getFor("Cpp").isNotBlank() || comment.isExcluded ||
+                        attributes.have(LimeAttributeType.DEPRECATED)
                 }
                 else -> false
             }

@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class PlatformComments extends NativeBase {
     public enum SomeEnum {
+        /**
+         * <p>Maybe useful.</p>
+         */
         USELESS(0),
         USEFUL(1);
         public final int value;
