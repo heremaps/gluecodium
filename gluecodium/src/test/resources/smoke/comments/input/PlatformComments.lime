@@ -20,6 +20,7 @@ package smoke
 class PlatformComments {
     // {@Cpp An error code when something goes wrong.}
     enum SomeEnum {
+        // {@Java Maybe useful.}
         Useless,
         Useful
     }
