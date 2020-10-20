@@ -37,6 +37,7 @@ import com.here.gluecodium.platform.common.GeneratorSuite
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
+import com.here.gluecodium.validator.LimeFieldsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
@@ -166,7 +167,7 @@ class Gluecodium(
         return saveToDirectory(options.outputDir, mainFiles) && saveToDirectory(options.commonOutputDir, commonFiles)
     }
 
-    private fun validateModel(limeModel: LimeModel): Boolean {
+    internal fun validateModel(limeModel: LimeModel): Boolean {
         val limeLogger = LimeLogger(LOGGER, limeModel.fileNameMap)
         val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)
         val validators = getIndependentValidators(limeLogger) +
@@ -194,7 +195,8 @@ class Gluecodium(
                 limeLogger,
                 options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
             ).validate(it.topElements) },
-            { LimeFunctionsValidator(limeLogger).validate(it) }
+            { LimeFunctionsValidator(limeLogger).validate(it) },
+            { LimeFieldsValidator(limeLogger).validate(it) }
         )
 
     data class Options(

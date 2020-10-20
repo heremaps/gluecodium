@@ -356,88 +356,88 @@ Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> MapOf_smoke_Com
 }
 void MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable(handle);
-final _SetOf_smoke_Rectangle_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _SetOf_smoke_CompressionState_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_SetOf_smoke_Rectangle_create_handle'));
-final _SetOf_smoke_Rectangle_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_CompressionState_create_handle'));
+final _SetOf_smoke_CompressionState_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_release_handle'));
-final _SetOf_smoke_Rectangle_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>, Pointer<Void>),
-    void Function(Pointer<Void>, Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_insert'));
-final _SetOf_smoke_Rectangle_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_CompressionState_release_handle'));
+final _SetOf_smoke_CompressionState_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Uint32),
+    void Function(Pointer<Void>, int)
+  >('library_SetOf_smoke_CompressionState_insert'));
+final _SetOf_smoke_CompressionState_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator'));
-final _SetOf_smoke_Rectangle_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_CompressionState_iterator'));
+final _SetOf_smoke_CompressionState_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_release_handle'));
-final _SetOf_smoke_Rectangle_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_CompressionState_iterator_release_handle'));
+final _SetOf_smoke_CompressionState_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_is_valid'));
-final _SetOf_smoke_Rectangle_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_SetOf_smoke_CompressionState_iterator_is_valid'));
+final _SetOf_smoke_CompressionState_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_increment'));
-final _SetOf_smoke_Rectangle_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
->('library_SetOf_smoke_Rectangle_iterator_get'));
-Pointer<Void> SetOf_smoke_Rectangle_toFfi(Set<math.Rectangle<int>> value) {
-  final _result = _SetOf_smoke_Rectangle_create_handle();
+>('library_SetOf_smoke_CompressionState_iterator_increment'));
+final _SetOf_smoke_CompressionState_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+>('library_SetOf_smoke_CompressionState_iterator_get'));
+Pointer<Void> SetOf_smoke_CompressionState_toFfi(Set<bar.HttpClientResponseCompressionState> value) {
+  final _result = _SetOf_smoke_CompressionState_create_handle();
   for (final element in value) {
-    final _element_handle = smoke_Rectangle_toFfi(element);
-    _SetOf_smoke_Rectangle_insert(_result, _element_handle);
-    smoke_Rectangle_releaseFfiHandle(_element_handle);
+    final _element_handle = smoke_CompressionState_toFfi(element);
+    _SetOf_smoke_CompressionState_insert(_result, _element_handle);
+    smoke_CompressionState_releaseFfiHandle(_element_handle);
   }
   return _result;
 }
-Set<math.Rectangle<int>> SetOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
-  final result = Set<math.Rectangle<int>>();
-  final _iterator_handle = _SetOf_smoke_Rectangle_iterator(handle);
-  while (_SetOf_smoke_Rectangle_iterator_is_valid(handle, _iterator_handle) != 0) {
-    final _element_handle = _SetOf_smoke_Rectangle_iterator_get(_iterator_handle);
+Set<bar.HttpClientResponseCompressionState> SetOf_smoke_CompressionState_fromFfi(Pointer<Void> handle) {
+  final result = Set<bar.HttpClientResponseCompressionState>();
+  final _iterator_handle = _SetOf_smoke_CompressionState_iterator(handle);
+  while (_SetOf_smoke_CompressionState_iterator_is_valid(handle, _iterator_handle) != 0) {
+    final _element_handle = _SetOf_smoke_CompressionState_iterator_get(_iterator_handle);
     try {
-      result.add(smoke_Rectangle_fromFfi(_element_handle));
+      result.add(smoke_CompressionState_fromFfi(_element_handle));
     } finally {
-      smoke_Rectangle_releaseFfiHandle(_element_handle);
+      smoke_CompressionState_releaseFfiHandle(_element_handle);
     }
-    _SetOf_smoke_Rectangle_iterator_increment(_iterator_handle);
+    _SetOf_smoke_CompressionState_iterator_increment(_iterator_handle);
   }
-  _SetOf_smoke_Rectangle_iterator_release_handle(_iterator_handle);
+  _SetOf_smoke_CompressionState_iterator_release_handle(_iterator_handle);
   return result;
 }
-void SetOf_smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _SetOf_smoke_Rectangle_release_handle(handle);
-final _SetOf_smoke_Rectangle_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void SetOf_smoke_CompressionState_releaseFfiHandle(Pointer<Void> handle) => _SetOf_smoke_CompressionState_release_handle(handle);
+final _SetOf_smoke_CompressionState_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_create_handle_nullable'));
-final _SetOf_smoke_Rectangle_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_CompressionState_create_handle_nullable'));
+final _SetOf_smoke_CompressionState_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_release_handle_nullable'));
-final _SetOf_smoke_Rectangle_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_SetOf_smoke_CompressionState_release_handle_nullable'));
+final _SetOf_smoke_CompressionState_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_SetOf_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> SetOf_smoke_Rectangle_toFfi_nullable(Set<math.Rectangle<int>> value) {
+  >('library_SetOf_smoke_CompressionState_get_value_nullable'));
+Pointer<Void> SetOf_smoke_CompressionState_toFfi_nullable(Set<bar.HttpClientResponseCompressionState> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = SetOf_smoke_Rectangle_toFfi(value);
-  final result = _SetOf_smoke_Rectangle_create_handle_nullable(_handle);
-  SetOf_smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = SetOf_smoke_CompressionState_toFfi(value);
+  final result = _SetOf_smoke_CompressionState_create_handle_nullable(_handle);
+  SetOf_smoke_CompressionState_releaseFfiHandle(_handle);
   return result;
 }
-Set<math.Rectangle<int>> SetOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+Set<bar.HttpClientResponseCompressionState> SetOf_smoke_CompressionState_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _SetOf_smoke_Rectangle_get_value_nullable(handle);
-  final result = SetOf_smoke_Rectangle_fromFfi(_handle);
-  SetOf_smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = _SetOf_smoke_CompressionState_get_value_nullable(handle);
+  final result = SetOf_smoke_CompressionState_fromFfi(_handle);
+  SetOf_smoke_CompressionState_releaseFfiHandle(_handle);
   return result;
 }
-void SetOf_smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _SetOf_smoke_Rectangle_release_handle_nullable(handle);
+void SetOf_smoke_CompressionState_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _SetOf_smoke_CompressionState_release_handle_nullable(handle);
