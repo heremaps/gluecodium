@@ -1,4 +1,4 @@
 package smoke
-
 internal interface InternalInterface {
+    internal fun fooBar()
 }

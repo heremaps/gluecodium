@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 internal struct InternalStruct {
     internal var stringField: String
@@ -9,6 +8,10 @@ internal struct InternalStruct {
     }
     internal init(cHandle: _baseRef) {
         stringField = moveFromCType(smoke_PublicTypeCollection_InternalStruct_stringField_get(cHandle))
+    }
+    internal func fooBar() -> Void {
+        let c_self_handle = moveToCType(self)
+        return moveFromCType(smoke_PublicTypeCollection_InternalStruct_fooBar(c_self_handle.ref))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {

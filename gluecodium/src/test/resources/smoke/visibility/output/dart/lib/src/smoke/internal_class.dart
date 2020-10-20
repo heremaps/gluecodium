@@ -1,4 +1,5 @@
 import 'package:library/src/_token_cache.dart' as __lib;
+import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
@@ -10,6 +11,8 @@ abstract class InternalClass {
   /// Call this to free memory when you no longer need this instance.
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
+  /// @nodoc
+  internal_fooBar();
 }
 // InternalClass "private" section, not exported.
 final _smoke_InternalClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -34,6 +37,17 @@ class InternalClass$Impl implements InternalClass {
     __lib.reverseCache.remove(_smoke_InternalClass_get_raw_pointer(handle));
     _smoke_InternalClass_release_handle(handle);
     handle = null;
+  }
+  @override
+  internal_fooBar() {
+    final _fooBar_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
+    final _handle = this.handle;
+    final __result_handle = _fooBar_ffi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 Pointer<Void> smoke_InternalClass_toFfi(InternalClass value) =>

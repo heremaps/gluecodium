@@ -17,9 +17,15 @@
 
 package smoke
 
-internal interface InternalInterface {}
+internal interface InternalInterface {
+    fun fooBar()
+}
 
-internal class InternalClass {}
+internal class InternalClass {
+    fun fooBar()
+}
+
+internal lambda InternalLambda = () -> Void
 
 interface PublicInterface {
     internal struct InternalStruct {
@@ -62,6 +68,7 @@ class PublicClass {
 types PublicTypeCollection {
     internal struct InternalStruct {
         internal stringField: String
+        fun fooBar()
     }
 }
 

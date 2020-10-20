@@ -3,8 +3,8 @@
  */
 package com.example.smoke;
 import com.example.NativeBase;
-class InternalClass extends NativeBase {
-    protected InternalClass(final long nativeHandle, final Object dummy) {
+class InternalInterfaceImpl extends NativeBase implements InternalInterface {
+    protected InternalInterfaceImpl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
@@ -13,5 +13,5 @@ class InternalClass extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    native void fooBar();
+    public native void fooBar();
 }
