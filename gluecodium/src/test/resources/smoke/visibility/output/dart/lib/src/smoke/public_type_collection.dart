@@ -8,6 +8,18 @@ class InternalStruct {
   /// @nodoc
   String internal_stringField;
   InternalStruct(this.internal_stringField);
+  /// @nodoc
+  internal_fooBar() {
+    final _fooBar_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
+    final _handle = smoke_PublicTypeCollection_InternalStruct_toFfi(this);
+    final __result_handle = _fooBar_ffi(_handle, __lib.LibraryContext.isolateId);
+    smoke_PublicTypeCollection_InternalStruct_releaseFfiHandle(_handle);
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
+  }
 }
 // InternalStruct "private" section, not exported.
 final _smoke_PublicTypeCollection_InternalStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

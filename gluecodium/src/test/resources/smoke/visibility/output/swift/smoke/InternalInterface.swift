@@ -2,6 +2,7 @@
 //
 import Foundation
 internal protocol InternalInterface : AnyObject {
+    func fooBar() -> Void
 }
 internal class _InternalInterface: InternalInterface {
     let c_instance : _baseRef
@@ -14,6 +15,9 @@ internal class _InternalInterface: InternalInterface {
     deinit {
         smoke_InternalInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_InternalInterface_release_handle(c_instance)
+    }
+    internal func fooBar() -> Void {
+        return moveFromCType(smoke_InternalInterface_fooBar(self.c_instance))
     }
 }
 @_cdecl("_CBridgeInitsmoke_InternalInterface")
@@ -37,6 +41,10 @@ internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolde
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
+    }
+    functions.smoke_InternalInterface_fooBar = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InternalInterface
+        swift_class.fooBar()
     }
     let proxy = smoke_InternalInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InternalInterface_release_handle) : RefHolder(proxy)

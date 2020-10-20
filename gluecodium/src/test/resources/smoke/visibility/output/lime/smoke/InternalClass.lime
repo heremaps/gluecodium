@@ -1,4 +1,4 @@
 package smoke
-
 internal class InternalClass {
+    internal fun fooBar()
 }

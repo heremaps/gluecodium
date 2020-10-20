@@ -1,7 +1,7 @@
 package smoke
-
 types PublicTypeCollection {
     internal struct InternalStruct {
         stringField: String
+        internal fun fooBar()
     }
 }
