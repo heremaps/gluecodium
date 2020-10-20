@@ -75,8 +75,8 @@ abstract class AcceptanceTestBase protected constructor(
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
-        val limeModel =
-            LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
+        val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
+        assertTrue(gluecodium.validateModel(limeModel))
         assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
