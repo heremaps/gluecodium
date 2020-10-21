@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Locales.h"
+#include "test/LocalesStruct.h"
 
 namespace test
 {
@@ -71,4 +72,9 @@ Locales::get_locale_with_malformed_script() {
     return lorem_ipsum::test::Locale("foo", "bar", nonsense);
 }
 
-}  // namespace test
+LocalesStruct
+LocalesStruct::locales_struct_round_trip(const LocalesStruct& input) {
+    return input;
+}
+
+}

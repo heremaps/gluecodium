@@ -26,6 +26,7 @@
 
 #include "JniCppConversionUtils.h"
 #include "JniReference.h"
+#include "{{>common/InternalInclude}}Locale.h"
 #include "{{>common/InternalInclude}}Optional.h"
 
 #include <chrono>
@@ -138,6 +139,17 @@ double get_field_value(
     const char* fieldName,
     {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point >* );
 
+{{>common/InternalNamespace}}Locale get_field_value(
+    JNIEnv* env,
+    const JniReference< jobject >& object,
+    const char* fieldName,
+    {{>common/InternalNamespace}}Locale* );
+{{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > get_field_value(
+    JNIEnv* env,
+    const JniReference< jobject >& object,
+    const char* fieldName,
+    {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale* > );
+
 JniReference< jobject > get_object_field_value( JNIEnv* env,
                                        const JniReference<jobject>& object,
                                        const char* fieldName,
@@ -238,6 +250,15 @@ void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > fieldValue );
+
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      const {{>common/InternalNamespace}}Locale& fieldValue );
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > fieldValue );
 
 void set_object_field_value( JNIEnv* env,
                              const JniReference<jobject>& object,

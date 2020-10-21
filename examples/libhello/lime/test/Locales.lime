@@ -28,3 +28,11 @@ class Locales {
     static property localeWithMalformedCountry: Locale { get }
     static property localeWithMalformedScript: Locale { get }
 }
+
+@Equatable
+struct LocalesStruct {
+    primaryLocale: Locale
+    secondaryLocale: Locale?
+
+    static fun localesStructRoundTrip(input: LocalesStruct): LocalesStruct
+}

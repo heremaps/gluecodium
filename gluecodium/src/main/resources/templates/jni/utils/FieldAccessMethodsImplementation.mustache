@@ -345,6 +345,30 @@ get_field_value( JNIEnv* env,
         env, fieldValue, ({{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >*)nullptr );
 }
 
+{{>common/InternalNamespace}}Locale
+get_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 {{>common/InternalNamespace}}Locale* )
+{
+    auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/util/Locale;" );
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(
+        env, fieldValue, ({{>common/InternalNamespace}}Locale*)nullptr );
+}
+
+{{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale >
+get_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale >* )
+{
+    auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/util/Locale;" );
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(
+        env, fieldValue, ({{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale >*)nullptr );
+}
+
 JniReference<jobject>
 get_object_field_value( JNIEnv* env,
                         const JniReference<jobject>& object,
@@ -652,6 +676,28 @@ set_field_value( JNIEnv* env,
                  {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point > fieldValue )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/util/Date;" );
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni( env, fieldValue );
+    env->SetObjectField( object.get(), fieldId, jValue.get() );
+}
+
+void
+set_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 const {{>common/InternalNamespace}}Locale& fieldValue )
+{
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/util/Locale;" );
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni( env, fieldValue );
+    env->SetObjectField( object.get(), fieldId, jValue.get() );
+}
+
+void
+set_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > fieldValue )
+{
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/util/Locale;" );
     auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni( env, fieldValue );
     env->SetObjectField( object.get(), fieldId, jValue.get() );
 }

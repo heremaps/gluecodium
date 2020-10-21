@@ -73,4 +73,13 @@ void main() {
   _testSuite.test("Locale with malformed script", () {
     expect(() => Locales.localeWithMalformedScript, throwsFormatException);
   });
+  _testSuite.test("LocalesStruct method round trip", () {
+    final locale = Locale.parse(Intl.systemLocale);
+    final localesStruct = LocalesStruct(locale, locale);
+
+    final result = LocalesStruct.localesStructRoundTrip(localesStruct);
+
+    expect(result, localesStruct);
+    expect(result.hashCode == localesStruct.hashCode, isTrue);
+  });
 }

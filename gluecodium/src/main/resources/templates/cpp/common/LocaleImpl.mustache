@@ -115,7 +115,6 @@ Locale::operator!=(const Locale& rhs) const
     return !(*this == rhs);
 }
 
-template<>
 std::size_t
 hash<Locale>::operator()(const Locale& t) const noexcept {
     size_t hash_value = 43;
