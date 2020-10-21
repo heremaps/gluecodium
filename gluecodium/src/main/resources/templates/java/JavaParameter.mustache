@@ -18,13 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-public static final Parcelable.Creator<{{resolveName}}> CREATOR = new Parcelable.Creator<{{resolveName}}>() {
-
-    public {{resolveName}} createFromParcel(final Parcel in_parcel) {
-        return new {{resolveName}}(in_parcel);
-    }
-
-    public {{resolveName}}[] newArray(final int size) {
-        return new {{resolveName}}[size];
-    }
-};
+{{#if attributes.deprecated}}@Deprecated {{/if}}{{#if nullableAnnotation typeRef.isNullable}}@{{nullableAnnotation.className}} {{/if}}{{!!
+}}{{#if nonNullAnnotation}}{{#ifPredicate typeRef "needsNonNullAnnotation"}}@{{nonNullAnnotation.className}} {{/ifPredicate}}{{/if}}{{!!
+}}final {{resolveName typeRef}} {{resolveName}}

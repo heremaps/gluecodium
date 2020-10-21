@@ -96,7 +96,7 @@ public interface CommentsInterface {
     boolean isSomeProperty();
     /**
      * <p>Sets some very useful property.</p>
-     * @param value Some very useful property.
+     * @param value <p>Some very useful property.</p>
      */
     void setSomeProperty(final boolean value);
 }

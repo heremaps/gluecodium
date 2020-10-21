@@ -27,12 +27,12 @@ import com.here.gluecodium.cli.OptionReaderException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
+import com.here.gluecodium.generator.java.JavaGeneratorSuite
 import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.output.FileOutput
-import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import com.here.gluecodium.platform.common.GeneratorSuite
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator

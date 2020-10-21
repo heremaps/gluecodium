@@ -41,28 +41,6 @@ public final class ExcludedComments extends NativeBase {
         public final ExcludedComments.SomeEnum error;
     }
     /**
-     * @exclude
-     */
-    static class SomeLambdaImpl extends NativeBase implements SomeLambda {
-        protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
-            super(nativeHandle, new Disposer() {
-                @Override
-                public void disposeNative(long handle) {
-                    disposeNativeHandle(handle);
-                }
-            });
-        }
-        private static native void disposeNativeHandle(long nativeHandle);
-        /**
-         * This is some very useful lambda that does it.
-         * @exclude
-         * @param p0 Very useful input parameter
-         * @param index Slightly less useful input parameter
-         * @return Usefulness of the input
-         */
-        public native double doIt(@NonNull final String p0, final int index);
-    }
-    /**
      * <p>This is some very useful struct.</p>
      * @exclude
      */
@@ -83,17 +61,39 @@ public final class ExcludedComments extends NativeBase {
         }
     }
     /**
-     * This is some very useful lambda that does it.
+     * @exclude
+     */
+    static class SomeLambdaImpl extends NativeBase implements SomeLambda {
+        protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+        private static native void disposeNativeHandle(long nativeHandle);
+        /**
+         * <p>This is some very useful lambda that does it.</p>
+         * @exclude
+         * @param p0 <p>Very useful input parameter</p>
+         * @param index <p>Slightly less useful input parameter</p>
+         * @return <p>Usefulness of the input</p>
+         */
+        public native double doIt(@NonNull final String p0, final int index);
+    }
+    /**
+     * <p>This is some very useful lambda that does it.</p>
      * @exclude
      */
     @FunctionalInterface
     public interface SomeLambda {
         /**
-         * This is some very useful lambda that does it.
+         * <p>This is some very useful lambda that does it.</p>
          * @exclude
-         * @param p0 Very useful input parameter
-         * @param index Slightly less useful input parameter
-         * @return Usefulness of the input
+         * @param p0 <p>Very useful input parameter</p>
+         * @param index <p>Slightly less useful input parameter</p>
+         * @return <p>Usefulness of the input</p>
          */
         double doIt(@NonNull final String p0, final int index);
     }
@@ -131,7 +131,7 @@ public final class ExcludedComments extends NativeBase {
     /**
      * <p>Sets some very useful property.</p>
      * @exclude
-     * @param value Some very useful property.
+     * @param value <p>Some very useful property.</p>
      */
     public native void setSomeProperty(final boolean value);
 }

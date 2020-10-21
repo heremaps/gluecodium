@@ -62,7 +62,7 @@ public final class CommentsLinks extends NativeBase {
      * <li>top level enum: {@link com.example.smoke.TypeCollectionEnum}</li>
      * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
      * <li>error: {@link com.example.smoke.Comments.SomethingWrongException}</li>
-     * <li>lambda: {@link com.example.smoke.SomeLambda}</li>
+     * <li>lambda: {@link com.example.smoke.Comments.SomeLambda}</li>
      * <li>type from aux sources, same package: {@link com.example.smoke.AuxClass}</li>
      * <li>type from aux sources, different package: {@link com.example.fire.AuxStruct}
      * <ul>

@@ -36,6 +36,7 @@ public interface DeprecationComments {
     /**
      * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomethingWrongException} instead.</p>
      */
+    @Deprecated
     public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final DeprecationComments.SomeEnum error) {
             super(error.toString());
@@ -80,7 +81,7 @@ public interface DeprecationComments {
      * <p>Sets some very useful property.</p>
      * @deprecated <p>Unfortunately, this property's setter is deprecated.
      * Use {@link com.example.smoke.Comments#setSomeProperty} instead.</p>
-     * @param value Some very useful property.
+     * @param value <p>Some very useful property.</p>
      */
     @Deprecated
     void setSomeProperty(final boolean value);

@@ -18,13 +18,22 @@
   ! License-Filename: LICENSE
   !
   !}}
-public static final Parcelable.Creator<{{resolveName}}> CREATOR = new Parcelable.Creator<{{resolveName}}>() {
-
-    public {{resolveName}} createFromParcel(final Parcel in_parcel) {
-        return new {{resolveName}}(in_parcel);
-    }
-
-    public {{resolveName}}[] newArray(final int size) {
-        return new {{resolveName}}[size];
-    }
-};
+{{>java/JavaDocComment}}
+{{resolveName visibility}}interface {{resolveName}} {{#if this.parent}}extends {{resolveName parent "" ref}} {{/if}}{
+{{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
+{{/constants}}
+{{>java/JavaContainerContents}}
+{{#set isInterface=true}}
+{{#functions}}{{#unless attributes.java.skip}}
+{{prefixPartial "java/JavaMethodSignature" "    "}};
+{{/unless}}{{/functions}}
+{{#properties}}{{#unless attributes.java.skip}}
+{{#set isGetter=true}}{{#getter}}
+{{prefixPartial "java/JavaMethodSignature" "    "}};
+{{/getter}}{{/set}}
+{{#setter}}
+{{prefixPartial "java/JavaMethodSignature" "    "}};
+{{/setter}}
+{{/unless}}{{/properties}}
+{{/set}}
+}

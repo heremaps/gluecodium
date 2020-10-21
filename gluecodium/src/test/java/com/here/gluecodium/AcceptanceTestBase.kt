@@ -22,10 +22,10 @@ package com.here.gluecodium
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.cpp.CppGeneratorSuite
 import com.here.gluecodium.generator.dart.DartGeneratorSuite
+import com.here.gluecodium.generator.java.JavaGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModelLoader
-import com.here.gluecodium.platform.android.JavaGeneratorSuite
 import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every

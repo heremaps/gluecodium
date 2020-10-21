@@ -54,3 +54,19 @@ class LevelOne {
         }
     }
 }
+
+open class ParentClass {
+    fun parentFun()
+    property parentProperty: String
+}
+
+class OuterClassWithInheritance : ParentClass {
+    class InnerClass {
+        fun foo(input: String): String
+    }
+    interface InnerInterface {
+        fun foo(input: String): String
+    }
+
+    fun foo(input: String): String
+}

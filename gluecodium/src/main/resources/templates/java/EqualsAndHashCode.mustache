@@ -21,8 +21,8 @@
 @Override
 public boolean equals(Object obj) {
     if (obj == this) return true;
-    if (!(obj instanceof {{name}})) return false;
-    final {{name}} other = ({{name}}) obj;
+    if (!(obj instanceof {{resolveName}})) return false;
+    final {{resolveName}} other = ({{resolveName}}) obj;
     return {{joinPartial fields "fieldEq" " &&
             " }};
 }
@@ -37,25 +37,40 @@ public int hashCode() {
 }{{!!
 
 }}{{+fieldEq}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
-        }}{{#switch type.name}}{{!!
-        }}{{#case "float"}}Float.compare(this.{{name}}, other.{{name}}) == 0{{/case}}{{!!
-        }}{{#case "double"}}Double.compare(this.{{name}}, other.{{name}}) == 0{{/case}}{{!!
-        }}{{#default}}this.{{name}} == other.{{name}}{{/default}}{{!!
+    }}{{#set field=this type=typeRef.type.actualType}}{{#instanceOf type "LimeBasicType"}}{{!!
+    }}{{#if typeRef.isNullable}}{{>instanceEquals}}{{/if}}{{!!
+    }}{{#unless typeRef.isNullable}}{{!!
+        }}{{#switch type.typeId.toString}}{{!!
+        }}{{#case "Float"}}Float.compare(this.{{resolveName field}}, other.{{resolveName field}}) == 0{{/case}}{{!!
+        }}{{#case "Double"}}Double.compare(this.{{resolveName field}}, other.{{resolveName field}}) == 0{{/case}}{{!!
+        }}{{#case "Boolean"}}this.{{resolveName field}} == other.{{resolveName field}}{{/case}}{{!!
+        }}{{#default}}{{#if type.typeId.isNumericType}}this.{{resolveName field}} == other.{{resolveName field}}{{/if}}{{!!
+        }}{{#unless type.typeId.isNumericType}}{{>instanceEquals}}{{/unless}}{{/default}}{{!!
         }}{{/switch}}{{!!
-    }}{{/instanceOf}}{{!!
-    }}{{#notInstanceOf type "JavaPrimitiveTypeRef"}}java.util.Objects.equals(this.{{name}}, other.{{name}}){{/notInstanceOf}}{{!!
+    }}{{/unless}}{{/instanceOf}}{{!!
+    }}{{#notInstanceOf type "LimeBasicType"}}{{>instanceEquals}}{{/notInstanceOf}}{{/set}}{{!!
 }}{{/fieldEq}}{{!!
 
 }}{{+fieldHash}}{{!!
-    }}{{#instanceOf type "JavaPrimitiveTypeRef"}}{{!!
-        }}{{#switch type.name}}{{!!
-        }}{{#case "boolean"}}(this.{{name}} ? 79 : 97){{/case}}{{!!
-        }}{{#case "long"}}(int) (this.{{name}} ^ (this.{{name}} >>> 32)){{/case}}{{!!
-        }}{{#case "float"}}Float.floatToIntBits(this.{{name}}){{/case}}{{!!
-        }}{{#case "double"}}(int) (Double.doubleToLongBits(this.{{name}}) ^ (Double.doubleToLongBits(this.{{name}}) >>> 32)){{/case}}{{!!
-        }}{{#default}}this.{{name}}{{/default}}{{!!
+    }}{{#set field=this type=typeRef.type.actualType}}{{#instanceOf type "LimeBasicType"}}{{!!
+    }}{{#if typeRef.isNullable}}{{>instanceHash}}{{/if}}{{!!
+    }}{{#unless typeRef.isNullable}}{{!!
+        }}{{#switch type.typeId.toString}}{{!!
+        }}{{#case "Boolean"}}(this.{{resolveName field}} ? 79 : 97){{/case}}{{!!
+        }}{{#case "UInt"}}{{>longHash}}{{/case}}{{!!
+        }}{{#case "Long"}}{{>longHash}}{{/case}}{{!!
+        }}{{#case "ULong"}}{{>longHash}}{{/case}}{{!!
+        }}{{#case "Float"}}Float.floatToIntBits(this.{{resolveName field}}){{/case}}{{!!
+        }}{{#case "Double"}}(int) (Double.doubleToLongBits(this.{{resolveName field}}) ^ (Double.doubleToLongBits(this.{{resolveName field}}) >>> 32)){{/case}}{{!!
+        }}{{#default}}{{#if type.typeId.isNumericType}}this.{{resolveName field}}{{/if}}{{!!
+        }}{{#unless type.typeId.isNumericType}}{{>instanceHash}}{{/unless}}{{/default}}{{!!
         }}{{/switch}}{{!!
-    }}{{/instanceOf}}{{!!
-    }}{{#notInstanceOf type "JavaPrimitiveTypeRef"}}(this.{{name}} != null ? this.{{name}}.hashCode() : 0){{/notInstanceOf}}{{!!
-}}{{/fieldHash}}
+    }}{{/unless}}{{/instanceOf}}{{!!
+    }}{{#notInstanceOf type "LimeBasicType"}}{{>instanceHash}}{{/notInstanceOf}}{{/set}}{{!!
+}}{{/fieldHash}}{{!!
+
+}}{{+instanceEquals}}java.util.Objects.equals(this.{{resolveName field}}, other.{{resolveName field}}){{/instanceEquals}}{{!!
+
+}}{{+longHash}}(int) (this.{{resolveName field}} ^ (this.{{resolveName field}} >>> 32)){{/longHash}}{{!!
+
+}}{{+instanceHash}}(this.{{resolveName field}} != null ? this.{{resolveName field}}.hashCode() : 0){{/instanceHash}}

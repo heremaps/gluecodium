@@ -17,17 +17,22 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.generator.androidmanifest
+package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.java.JavaGeneratorSuite
-import java.io.File
+import com.here.gluecodium.platform.common.CommentsProcessor
+import com.vladsch.flexmark.ast.LinkRef
+import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
-class AndroidManifestGenerator(private val basePackages: List<String>) {
-    fun generate(): GeneratedFile =
-        GeneratedFile(
-            TemplateEngine.render("android/AndroidManifest", basePackages.joinToString(".")),
-            JavaGeneratorSuite.GENERATOR_NAME + File.separator + "AndroidManifest.xml"
-        )
+/**
+ * Parse Markdown comments and output JavaDoc
+ */
+@Suppress("DEPRECATION")
+internal class JavaDocProcessor(werror: Boolean) :
+    CommentsProcessor(HtmlRenderer.builder().build(), werror) {
+
+    override fun processLink(linkNode: LinkRef, linkReference: String) {
+        linkNode.chars = BasedSequenceImpl.of("{@link $linkReference}")
+        linkNode.firstChild?.unlink()
+    }
 }

@@ -29,7 +29,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeTypedElement
 
-class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
+internal class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     override fun getName(limeElement: LimeElement) =
         getPlatformName(limeElement as? LimeNamedElement) ?: super.getName(limeElement)
 
@@ -40,8 +40,6 @@ class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     override fun getSetterName(limeElement: LimeTypedElement) =
         (limeElement as? LimeProperty)?.let { getPlatformName(it.setter) }
             ?: super.getSetterName(limeElement)
-
-    fun getImplementationClassName(limeElement: LimeNamedElement) = getName(limeElement) + "Impl"
 
     fun getName(limeLambdaParameter: LimeLambdaParameter, index: Int) =
         limeLambdaParameter.attributes.get(JAVA, NAME) ?: "p$index"

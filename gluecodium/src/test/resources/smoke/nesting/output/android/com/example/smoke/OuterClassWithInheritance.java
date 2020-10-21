@@ -4,8 +4,8 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-public interface OuterInterface {
-    public static final class InnerClass extends NativeBase {
+public final class OuterClassWithInheritance extends ParentClass {
+    public static final class InnerClass  {
         /**
          * For internal use only.
          * @exclude
@@ -42,6 +42,13 @@ public interface OuterInterface {
         @NonNull
         String foo(@NonNull final String input);
     }
+    /**
+     * For internal use only.
+     * @exclude
+     */
+    protected OuterClassWithInheritance(final long nativeHandle, final Object dummy) {
+        super(nativeHandle, dummy);
+    }
     @NonNull
-    String foo(@NonNull final String input);
+    public native String foo(@NonNull final String input);
 }

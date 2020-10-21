@@ -44,11 +44,10 @@ internal class JniTemplates(
     private val internalPackages: List<String>,
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
-    rootNamespace: List<String>,
-    generatorName: String
+    generatorName: String,
+    cachingNameResolver: CppNameResolver
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
-    private val cachingNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
     private val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, cachingNameResolver)
     private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
     private val nameResolvers = mapOf(

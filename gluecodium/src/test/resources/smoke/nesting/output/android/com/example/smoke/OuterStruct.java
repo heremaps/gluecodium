@@ -12,6 +12,14 @@ import java.util.Set;
 public final class OuterStruct {
     @NonNull
     public String field;
+    public static final class InnerStruct {
+        @NonNull
+        public List<Date> otherField;
+        public InnerStruct(@NonNull final List<Date> otherField) {
+            this.otherField = otherField;
+        }
+        public native void doSomething();
+    }
     public static final class InnerClass extends NativeBase {
         /**
          * For internal use only.
@@ -54,6 +62,9 @@ public final class OuterStruct {
         @NonNull
         public native OuterStruct build();
     }
+    /**
+     * @exclude
+     */
     static class InnerInterfaceImpl extends NativeBase implements InnerInterface {
         protected InnerInterfaceImpl(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -66,14 +77,6 @@ public final class OuterStruct {
         private static native void disposeNativeHandle(long nativeHandle);
         @NonNull
         public native Map<String, byte[]> barBaz();
-    }
-    public static final class InnerStruct {
-        @NonNull
-        public List<Date> otherField;
-        public InnerStruct(@NonNull final List<Date> otherField) {
-            this.otherField = otherField;
-        }
-        public native void doSomething();
     }
     public interface InnerInterface {
         @NonNull
