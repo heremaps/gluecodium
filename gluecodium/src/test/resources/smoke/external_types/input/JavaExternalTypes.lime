@@ -79,17 +79,6 @@ enum Season {
 }
 
 @Swift(Skip) @Dart(Skip)
-class UseJavaExternalTypes {
-    static fun currencyRoundTrip(input: Currency): Currency
-    static fun timeZoneRoundTrip(input: TimeZone): TimeZone
-    static fun monthRoundTrip(input: Month): Month
-    static fun colorRoundTrip(input: SystemColor): SystemColor
-    static fun seasonRoundTrip(input: Season): Season
-
-    static fun structRoundTrip(input: JavaExternalTypesStruct): JavaExternalTypesStruct
-}
-
-@Swift(Skip) @Dart(Skip)
 struct JavaExternalTypesStruct {
     currency: Currency
     timeZone: TimeZone

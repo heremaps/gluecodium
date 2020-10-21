@@ -1,9 +1,10 @@
 /*
  *
  */
-package com.example.smoke;
+package com.example.dontsmoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+import com.example.smoke.JavaExternalTypesStruct;
 public final class UseJavaExternalTypes extends NativeBase {
     /**
      * For internal use only.
