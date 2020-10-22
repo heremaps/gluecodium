@@ -40,6 +40,7 @@
 
 #pragma once
 
+#include "Hash.h"
 #include "Optional.h"
 #include <string>
 
@@ -82,6 +83,12 @@ struct Locale {
 
     bool operator==(const Locale& rhs) const;
     bool operator!=(const Locale& rhs) const;
+};
+
+template<>
+struct hash<Locale>
+{
+    size_t operator()(const Locale& t) const noexcept;
 };
 
 {{#internalNamespace}}

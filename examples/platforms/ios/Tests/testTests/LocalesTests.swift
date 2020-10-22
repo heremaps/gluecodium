@@ -86,6 +86,22 @@ class LocalesTests: XCTestCase {
         XCTAssertEqual(result.identifier, "foo_")
     }
 
+    func testLocalesStructRoundTrip() {
+        let locale = Locale.current
+        let localesStruct = LocalesStruct(primaryLocale: locale, secondaryLocale: locale)
+
+        let result = LocalesStruct.localesStructRoundTrip(input: localesStruct)
+
+        XCTAssertEqual(result, localesStruct)
+        XCTAssertEqual(hash(result), hash(localesStruct))
+    }
+
+    func hash<H>(_ value: H) -> Int where H: Hashable {
+        var hasher = Hasher()
+        value.hash(into: &hasher)
+        return hasher.finalize()
+    }
+
     static var allTests = [
         ("testLocaleRoundTrip", testLocaleRoundTrip),
         ("testLocaleRoundTripStripTag", testLocaleRoundTripStripTag),
@@ -95,6 +111,7 @@ class LocalesTests: XCTestCase {
         ("testLocaleWithMalformedTag", testLocaleWithMalformedTag),
         ("testLocaleWithMalformedLanguage", testLocaleWithMalformedLanguage),
         ("testLocaleWithMalformedCountry", testLocaleWithMalformedCountry),
-        ("testLocaleWithMalformedScript", testLocaleWithMalformedScript)
+        ("testLocaleWithMalformedScript", testLocaleWithMalformedScript),
+        ("testLocalesStructRoundTrip", testLocalesStructRoundTrip)
     ]
 }

@@ -113,4 +113,15 @@ public class LocalesTest {
 
     Locales.getLocaleWithMalformedScript();
   }
+
+  @Test
+  public void localesStructRoundTrip() {
+    Locale locale = Locale.getDefault();
+    LocalesStruct localesStruct = new LocalesStruct(locale, locale);
+
+    LocalesStruct result = LocalesStruct.localesStructRoundTrip(localesStruct);
+
+    assertEquals(localesStruct, result);
+    assertEquals(localesStruct.hashCode(), result.hashCode());
+  }
 }
