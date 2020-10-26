@@ -87,8 +87,8 @@ internal object AntlrLimeConverter {
         annotationValues.forEach {
             val valueType = convertAnnotationValueType(it, attributeType) ?: return@forEach
             val rawValue = convertAnnotationValue(it)
-            val value = when (attributeType) {
-                LimeAttributeType.DEPRECATED -> {
+            val value = when {
+                attributeType == LimeAttributeType.DEPRECATED -> {
                     val stringValue = rawValue as? String
                         ?: throw LimeLoadingException("Unsupported attribute value: '$rawValue'")
                     parseStructuredComment(
@@ -97,6 +97,7 @@ internal object AntlrLimeConverter {
                         limePath.child("@deprecated")
                     ).description
                 }
+                rawValue is String -> makeSafeString(rawValue)
                 else -> rawValue
             }
             attributes.addAttribute(attributeType, valueType, value)
@@ -130,6 +131,7 @@ internal object AntlrLimeConverter {
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME
             "Accessors" -> LimeAttributeValueType.ACCESSORS
+            "Attribute" -> LimeAttributeValueType.ATTRIBUTE
             "Builder" -> LimeAttributeValueType.BUILDER
             "Const" -> LimeAttributeValueType.CONST
             "CString" -> LimeAttributeValueType.CSTRING
@@ -148,22 +150,13 @@ internal object AntlrLimeConverter {
     }
 
     private fun convertAnnotationValue(valueContext: LimeParser.AnnotationValueContext): Any {
-        val literals = valueContext.stringLiteral()
+        val literals = valueContext.singleLineStringLiteral()
         return when {
             literals.isEmpty() -> true
-            literals.size == 1 -> convertStringLiteral(literals.first())
-            else -> literals.map { convertStringLiteral(it) }
+            literals.size == 1 -> convertSingleLineStringLiteral(literals.first())
+            else -> literals.map { convertSingleLineStringLiteral(it) }
         }
     }
-
-    private fun convertStringLiteral(ctx: LimeParser.StringLiteralContext) =
-        when {
-            ctx.singleLineStringLiteral() != null ->
-                convertSingleLineStringLiteral(ctx.singleLineStringLiteral())
-            ctx.multiLineStringLiteral() != null ->
-                convertMultiLineStringLiteral(ctx.multiLineStringLiteral())
-            else -> throw LimeLoadingException("Unsupported string literal: '$ctx'")
-        }
 
     fun convertSingleLineStringLiteral(ctx: LimeParser.SingleLineStringLiteralContext) =
         ctx.singleLineStringContent().joinToString(separator = "") {
@@ -181,7 +174,7 @@ internal object AntlrLimeConverter {
             else -> throw LimeLoadingException("Unsupported escape sequence: '$escapedChar'")
         }
 
-    private fun convertMultiLineStringLiteral(ctx: LimeParser.MultiLineStringLiteralContext) =
+    fun convertMultiLineStringLiteral(ctx: LimeParser.MultiLineStringLiteralContext) =
         ctx.multiLineStringContent().joinToString(separator = "") {
             it.MultiLineStrText()?.text ?: it.MultiLineStringQuote().text
         }
@@ -196,12 +189,14 @@ internal object AntlrLimeConverter {
             "ExternalSetter" -> SETTER_NAME_NAME
             else -> return null
         }
-        val literals = annotationValue.stringLiteral()
+        val literals = annotationValue.singleLineStringLiteral()
         val value = when (literals.size) {
             0 -> ""
-            1 -> convertStringLiteral(literals.first())
-            else -> literals.joinToString { convertStringLiteral(it) }
+            1 -> convertSingleLineStringLiteral(literals.first())
+            else -> literals.joinToString { convertSingleLineStringLiteral(it) }
         }
         return Pair(valueName, value)
     }
+
+    private fun makeSafeString(str: String) = str.trim().replace("\n", "").replace("\r", "")
 }

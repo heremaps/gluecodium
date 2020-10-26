@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/JavaDocComment}}
+{{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{>structVisibility}}{{#if forceStatic}}static {{/if}}{{#unless stubs}}final {{/unless}}class {{resolveName}} {{!!
 }}{{#if attributes.serializable}}implements Parcelable {{/if}}{
 {{#if attributes.serializable}}{{prefixPartial "java/ParcelableCreator" "    "}}
@@ -31,7 +31,7 @@
 {{>java/JavaContainerContents}}
 {{#set classElement=this}}{{#constructors}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaMethodComment" "    "}}
-    {{>structVisibility}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
+    {{>structVisibility}}{{resolveName classElement}}({{#set noAttributes=true}}{{joinPartial parameters "java/JavaParameter" ", "}}{{/set}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
 {{#unless stubs}}
         {{resolveName classElement}} _other = {{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
@@ -51,7 +51,7 @@
      */
 {{/unless}}
     {{#unlessPredicate "hasInternalFreeArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
-    }}({{joinPartial uninitializedFields "java/JavaParameter" ", "}}) {
+    }}({{#set noAttributes=true}}{{joinPartial uninitializedFields "java/JavaParameter" ", "}}{{/set}}) {
 {{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
                    }}{{#unless defaultValue}}{{resolveName}}{{/unless}};
 {{/fields}}
