@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.4.6
+Release date: 2020-10-26
 ### Bug fixes:
   * Enabled validation against applying `Skip` attributes to struct fields.
   * Fixed an issue when empty documentation comment was generated in C++ instead of no documentation comment.
