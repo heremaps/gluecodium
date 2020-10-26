@@ -14,7 +14,7 @@ bindings for modern languages like Swift or Dart.
 
 ## Getting started
 
-The easiest way to get started is by running the [Examples](examples/README.md).
+The easiest way to run Gluecodium is by using the [Launcher tool](tools/README.md).
 For a list of features and how to get started writing IDL, see [User guide](./docs/guide.md).
 
 ## Building and testing
@@ -24,14 +24,6 @@ the entire project:
 ```bash
 ./gradlew build
 ```
-
-To run the Gluecodium tool and generate some output based on the current set of
-HelloWorld project's \*.lime files:
-
-```bash
-./generate -input ${PWD}/examples/libhello/lime -output ${PWD}/generated -nostdout
-```
-If the paths are not absolute, they will be interpreted relative to the gluecodium source directory.
 
 ## Command line parameters
 For information on Gluecodium command line parameters run it with "-help":
@@ -51,11 +43,11 @@ Boolean flag is also possible but does nothing.
 Activation of caching feature in Gluecodium tool is done by passing the command line option, like:
 
 ```bash
-./generate -enableCaching -input <input folder> -output <output folder>
+./generate -cache -input <input folder> -output <output folder>
 ```
 
 Running Gluecodium tool with this option will generate a directory called `.cache` inside `<output folder>`
-(regardless of `-enableCaching` option, caching gets automatically deactivated in case no valid output
+(regardless of `-cache` option, caching gets automatically deactivated in case no valid output
 directory is given). Inside this folder Gluecodium creates the cache index files (`cpp`, `android` and
 `swift`) which contain hash values of all output files written in current run by the corresponding
 generator. By utilizing the hash values, Gluecodium is able to prevent files from being overwritten
