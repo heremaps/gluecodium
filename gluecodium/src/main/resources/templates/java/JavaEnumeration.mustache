@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/JavaDocComment}}
+{{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}enum {{resolveName}} {
 {{joinPartial enumerators "java/JavaEnumerator" ",
 "}}{{#if enumerators}};{{/if}}

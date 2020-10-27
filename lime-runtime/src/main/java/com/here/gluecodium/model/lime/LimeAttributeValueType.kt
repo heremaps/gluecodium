@@ -22,6 +22,7 @@ package com.here.gluecodium.model.lime
 enum class LimeAttributeValueType(private val tag: String) {
     NAME("Name"),
     ACCESSORS("Accessors"),
+    ATTRIBUTE("Attribute"),
     BUILDER("Builder"),
     CONST("Const"),
     CSTRING("CString"),

@@ -18,10 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/JavaDocComment}}{{>java/JavaAttributes}}
-@FunctionalInterface
-{{resolveName visibility}}interface {{resolveName}} {
-{{#set isInterface=true noAttributes=true}}{{#asFunction}}
-{{prefixPartial "java/JavaMethodSignature" "    "}};
-{{/asFunction}}{{/set}}
-}
+{{#unless noAttributes}}{{#if attributes.java.attribute}}
+{{#attributes.java.attribute}}
+@{{this}}
+{{/attributes.java.attribute}}
+{{/if}}{{!!
+}}{{#if property.attributes.java.attribute}}
+{{#property.attributes.java.attribute}}
+@{{this}}
+{{/property.attributes.java.attribute}}
+{{/if}}{{/unless}}

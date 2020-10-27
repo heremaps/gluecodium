@@ -142,9 +142,9 @@ annotation
     ;
 
 annotationValue
-    : simpleId NewLine* ('=' NewLine* stringLiteral NewLine*)?
-    | simpleId NewLine* '=' NewLine* '[' NewLine* stringLiteral NewLine* (',' NewLine* stringLiteral NewLine*)* ']' NewLine*
-    | stringLiteral NewLine*
+    : simpleId NewLine* ('=' NewLine* singleLineStringLiteral NewLine*)?
+    | simpleId NewLine* '=' NewLine* '[' NewLine* singleLineStringLiteral NewLine* (',' NewLine* singleLineStringLiteral NewLine*)* ']' NewLine*
+    | singleLineStringLiteral NewLine*
     ;
 
 externalDescriptor

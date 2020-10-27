@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/JavaDocComment}}
+{{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
 }}{{#unless visibility.isOpen visibility.isInternal stubs logic="and"}}final {{/unless}}{{!!
 }}class {{resolveName}} {{#if this.parent}}{{#instanceOf parent.type.actualType "LimeClass"}}extends{{/instanceOf}}{{!!
@@ -70,7 +70,7 @@
 {{#set isClass=true}}{{#functions}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/unless}}{{/functions}}{{/set}}
-{{#properties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached}}
+{{#properties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}{{/set}}
@@ -83,7 +83,7 @@
 {{#set isClass=true}}{{#classElement.inheritedFunctions}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/unless}}{{/classElement.inheritedFunctions}}{{/set}}
-{{#classElement.inheritedProperties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached}}
+{{#classElement.inheritedProperties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}{{/set}}

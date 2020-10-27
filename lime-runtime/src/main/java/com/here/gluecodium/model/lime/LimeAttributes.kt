@@ -109,8 +109,7 @@ class LimeAttributes private constructor(
         }
 
     class Builder {
-        private val attributes =
-            mutableMapOf<LimeAttributeType, MutableMap<LimeAttributeValueType, Any>>()
+        private val attributes = mutableMapOf<LimeAttributeType, MutableMap<LimeAttributeValueType, Any>>()
 
         fun addAttribute(type: LimeAttributeType): Builder {
             attributes.putIfAbsent(type, mutableMapOf())
@@ -120,9 +119,19 @@ class LimeAttributes private constructor(
         fun addAttribute(
             attributeType: LimeAttributeType,
             valueType: LimeAttributeValueType,
-            value: Any? = true
+            newValue: Any? = true
         ): Builder {
-            value?.let { attributes.getOrPut(attributeType, { mutableMapOf() })[valueType] = it }
+            if (newValue == null) return this
+            attributes.getOrPut(attributeType, { mutableMapOf() }).compute(valueType) { _, oldValue ->
+                when {
+                    oldValue == null -> newValue
+                    oldValue == true -> newValue
+                    oldValue is List<*> && newValue is List<*> -> oldValue + newValue
+                    oldValue is List<*> -> oldValue + listOf(newValue)
+                    newValue is List<*> -> listOf(oldValue) + newValue
+                    else -> listOf(oldValue, newValue)
+                }
+            }
             return this
         }
 
