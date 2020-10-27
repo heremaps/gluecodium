@@ -81,7 +81,7 @@ jobs:
         - ./scripts/build-android --publish
         - popd
         - pushd cmake
-        - GLUECODIUM_BUILD_ENVIRONMENT=android-x86_64 cmake -P run-cmake-unit-test.cmake
+        - GLUECODIUM_BUILD_ENVIRONMENT=android-host cmake -P run-cmake-unit-test.cmake
         - popd
 
     - name: "Swift functional tests"
