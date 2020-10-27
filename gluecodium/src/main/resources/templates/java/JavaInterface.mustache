@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/JavaDocComment}}
+{{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}interface {{resolveName}} {{#if this.parent}}extends {{resolveName parent "" ref}} {{/if}}{
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
@@ -27,13 +27,13 @@
 {{#functions}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.java.skip}}
+{{#properties}}{{#unless attributes.java.skip}}{{#set property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/getter}}{{/set}}
 {{#setter}}
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/setter}}
-{{/unless}}{{/properties}}
+{{/set}}{{/unless}}{{/properties}}
 {{/set}}
 }
