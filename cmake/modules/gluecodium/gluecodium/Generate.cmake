@@ -96,6 +96,7 @@ function(apigen_generate)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
   list(APPEND apigen_generate_LIME_SOURCES ${apigen_generate_FRANCA_SOURCES})
+  _check_option_is_set(LIME_SOURCES)
 
   _apigen_set_option(GENERATOR)
   _apigen_set_option(TARGET)
@@ -158,7 +159,7 @@ cache=true\n")
   _apigen_parse_option(javanonnullannotation JAVA_NONNULL_ANNOTATION)
   _apigen_parse_option(javanullableannotation JAVA_NULLABLE_ANNOTATION)
   _apigen_parse_path_option(copyright COPYRIGHT_HEADER)
-  _apigen_parse_option(intnamespace CPP_INTERNAL_NAMESPACE)
+  _apigen_parse_required_option(intnamespace CPP_INTERNAL_NAMESPACE)
   _apigen_parse_path_option(cppnamerules CPP_NAMERULES)
   _apigen_parse_path_option(javanamerules JAVA_NAMERULES)
   _apigen_parse_path_option(swiftnamerules SWIFT_NAMERULES)
@@ -223,7 +224,7 @@ cache=true\n")
         -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
         -DAPIGEN_GLUECODIUM_OPTIONS_FILE=${_gluecodium_options_file}
         -DAPIGEN_GLUECODIUM_AUXINPUT_FILE=${_gluecodium_auxinput_file} # CMake < 3.15
-        -DAPIGEN_GLUECODIUM_VERSION=${apigen_generate_VERSION}
+        -DAPIGEN_GLUECODIUM_VERSION=${APIGEN_VERSION}
         -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
         -DAPIGEN_GENERATOR=${APIGEN_GENERATOR}
         -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
@@ -257,6 +258,11 @@ macro(_apigen_parse_option GLUECODIUM_PROPERTY CMAKE_OPTION)
   endif()
 endmacro()
 
+macro(_apigen_parse_required_option GLUECODIUM_PROPERTY CMAKE_OPTION)
+  _check_option_is_set(${CMAKE_OPTION})
+  _apigen_parse_option(${GLUECODIUM_PROPERTY} ${CMAKE_OPTION})
+endmacro()
+
 macro(_apigen_set_option_or_default _option _default)
   if(apigen_generate_${_option})
     set(APIGEN_${_option} "${apigen_generate_${_option}}")
@@ -267,14 +273,17 @@ macro(_apigen_set_option_or_default _option _default)
 endmacro()
 
 macro(_apigen_set_option _option)
-  if(apigen_generate_${_option})
-    set(APIGEN_${_option} "${apigen_generate_${_option}}")
-  else()
-    message(FATAL_ERROR "Mandatory option ${_option} was not set")
-  endif()
+  _check_option_is_set(${_option})
+  set(APIGEN_${_option} "${apigen_generate_${_option}}")
 endmacro()
 
 macro(_pass_option _option)
   string(REPLACE ";" "$<SEMICOLON>" _escaped_option "${${_option}}")
   list(APPEND APIGEN_COMMAND_OPTIONS -DAPIGEN_${_option}=${_escaped_option}})
+endmacro()
+
+macro(_check_option_is_set _option)
+  if(NOT apigen_generate_${_option})
+    message(FATAL_ERROR "Mandatory option ${_option} was not set")
+  endif()
 endmacro()
