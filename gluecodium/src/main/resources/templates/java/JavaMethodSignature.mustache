@@ -20,8 +20,9 @@
   !}}
 {{#if isConstructor}}private static {{#unless stubs}}native {{/unless}}{{!!
 }}{{#if isClass}}long{{/if}}{{#unless isClass}}{{resolveName returnType}}{{/unless}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{>java/JavaMethodComment}}
-{{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}{{#if override}}
+}}{{#unless isConstructor}}{{>java/JavaMethodComment}}{{>java/JavaAttributes}}{{!!
+}}{{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}{{!!
+}}{{#if override}}
 @Override
 {{/if}}
 {{#unless isInterface}}{{#if isImpl}}public {{/if}}{{#unless isImpl}}{{resolveName visibility}}{{/unless}}{{/unless}}{{!!
