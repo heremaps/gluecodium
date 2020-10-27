@@ -103,6 +103,11 @@ function (get_parameters_for_build_environment result)
             -DANDROID_HOME=$ENV{ANDROID_HOME}
             -DANDROID_STL=c++_shared
             -DCMAKE_TOOLCHAIN_FILE=$ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake)
+    elseif(GLUECODIUM_BUILD_ENVIRONMENT STREQUAL "android-host")
+        # Almost the same as if GLUECODIUM_BUILD_ENVIRONMENT is not set.
+        # Perhaps some additional parameters are still necessary, check with
+        # examples/scripts/build-android (--hostOnly option)
+        list (APPEND _params "-GNinja")
     else ()
         message(FATAL_ERROR "Unknown build environment: ${GLUECODIUM_BUILD_ENVIRONMENT}")
     endif ()
