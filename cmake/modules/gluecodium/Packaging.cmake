@@ -112,11 +112,11 @@ function(apigen_create_package)
   cmake_parse_arguments(ARG "" "${single_args}" "${multi_args}" ${ARGN})
 
   if(NOT ARG_TARGET)
-    here_message(FATAL_ERROR "No TARGET argument passed to apigen_create_package().")
+    message(FATAL_ERROR "No TARGET argument passed to apigen_create_package().")
   endif()
 
   if(NOT ARG_NAME)
-    here_message(FATAL_ERROR "No NAME argument passed to apigen_create_package().")
+    message(FATAL_ERROR "No NAME argument passed to apigen_create_package().")
   endif()
 
   get_target_property(generator ${ARG_TARGET} APIGEN_GENERATOR)
