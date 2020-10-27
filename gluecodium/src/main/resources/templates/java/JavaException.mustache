@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>java/JavaDocComment}}
+{{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
 }}{{#unless stubs}}final {{/unless}}class {{resolveName}} extends Exception {
     {{resolveName visibility}}{{resolveName}}(final {{resolveName errorType}} error) {
