@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for free-form attributes in C++ and Java.
+
 ## 8.4.6
 Release date: 2020-10-26
 ### Bug fixes:

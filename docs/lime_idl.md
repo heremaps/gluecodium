@@ -491,6 +491,10 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   name in the generated functional interface in Java (instead of a default name).
   * **Skip**: marks an element to be skipped (not generated) in Java. Can be applied to any element except for struct
   fields.
+  * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Java
+  generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
+  `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
+  quotes need to be backslash-escaped, as in the example.
   * ~~**Builder**~~: **deprecated**. Marks a struct type to have a "builder" pattern generated in
   Java.
 * **@Swift**: marks an element with Swift-specific behaviors:
@@ -525,6 +529,10 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   * **Ref**: marks a function or a property to return their value by const reference in C++
   generated code (instead of default "by value"). Can be applied to functions and properties in
   classes or structs. Currently not supported inside interfaces.
+  * **Attribute** **=** **"**_Attribute_**"**: marks an element to be marked with the given attribute in C++
+  generated code. _Attribute_ does not need to be enclosed in `[[]]`. _Attribute_ can contain parameters, e.g.
+  `@Cpp(Attribute="deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
+  quotes need to be backslash-escaped, as in the example.
   * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
   include` in the `External Descriptor` (see above).
   * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp

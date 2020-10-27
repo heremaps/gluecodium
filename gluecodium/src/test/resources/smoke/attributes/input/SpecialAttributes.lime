@@ -18,8 +18,10 @@
 package smoke
 
 class SpecialAttributes {
+    @Cpp(Attribute = "Deprecated(\"foo\\nbar\")")
     @Java(Attribute = "Deprecated(\"foo\\nbar\")")
     fun withEscaping()
+    @Cpp(Attribute = "HackMe\nrm -rf *")
     @Java(Attribute = "HackMe\nrm -rf *")
     fun withLineBreak()
 }

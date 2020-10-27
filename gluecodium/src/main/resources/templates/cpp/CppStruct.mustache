@@ -20,7 +20,7 @@
   !}}
 {{#unless external.cpp}}
 {{>cpp/CppDocComment}}
-struct {{>cpp/CppExportMacro}}{{resolveName}} {
+struct {{>cpp/CppExportMacro}}{{>cpp/CppAttributesInline}}{{resolveName}} {
 {{#if attributes.cpp.accessors}}
 private:
 {{#fields}}
@@ -30,7 +30,7 @@ public:
 {{/if}}{{!!
 }}{{#unless attributes.cpp.accessors}}
 {{#set structElement=this}}{{#fields}}
-{{prefixPartial "cpp/CppFieldDoc" "    "}}{{!!
+{{prefixPartial "cpp/CppFieldDoc" "    "}}{{prefixPartial "cpp/CppAttributes" "    "}}{{!!
 }}    {{#if structElement.attributes.immutable}}const {{/if}}{{resolveName typeRef}} {{resolveName}}{{!!
 }}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
 {{/fields}}{{/set}}

@@ -18,42 +18,52 @@
 package smoke
 
 // Class comment
+@Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
 class AttributesWithComments {
    // Function comment
+   @Cpp(Attribute = "OnFunctionInClass")
    @Java(Attribute = "OnFunctionInClass")
    fun veryFun()
    // Property comment
    // @get Getter comment
    // @set Setter comment
+   @Cpp(Attribute = "OnPropertyInClass")
    @Java(Attribute = "OnPropertyInClass")
    property prop: String
    // Const comment
+   @Cpp(Attribute = "OnConstInClass")
    @Java(Attribute = "OnConstInClass")
    const pi: Boolean = false
 
    struct SomeStruct {
       // Field comment
+      @Cpp(Attribute = "OnField")
       @Java(Attribute = "OnField")
       field: String
    }
 }
 
 @Deprecated
+@Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
 class AttributesWithDeprecated {
    @Deprecated
+   @Cpp(Attribute = "OnFunctionInClass")
    @Java(Attribute = "OnFunctionInClass")
    fun veryFun()
    @Deprecated
+   @Cpp(Attribute = "OnPropertyInClass")
    @Java(Attribute = "OnPropertyInClass")
    property prop: String
    @Deprecated
+   @Cpp(Attribute = "OnConstInClass")
    @Java(Attribute = "OnConstInClass")
    const pi: Boolean = false
 
    struct SomeStruct {
       @Deprecated
+      @Cpp(Attribute = "OnField")
       @Java(Attribute = "OnField")
       field: String
    }

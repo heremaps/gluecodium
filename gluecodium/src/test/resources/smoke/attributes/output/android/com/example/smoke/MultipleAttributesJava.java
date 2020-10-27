@@ -3,12 +3,12 @@
  */
 package com.example.smoke;
 import com.example.NativeBase;
-public final class MultipleAttributes extends NativeBase {
+public final class MultipleAttributesJava extends NativeBase {
     /**
      * For internal use only.
      * @exclude
      */
-    protected MultipleAttributes(final long nativeHandle, final Object dummy) {
+    protected MultipleAttributesJava(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
