@@ -623,6 +623,8 @@ internal class AntlrLimeModelBuilder(
         val literalString = when {
             ctx.singleLineStringLiteral() != null ->
                 AntlrLimeConverter.convertSingleLineStringLiteral(ctx.singleLineStringLiteral())
+            ctx.multiLineStringLiteral() != null ->
+                AntlrLimeConverter.convertMultiLineStringLiteral(ctx.multiLineStringLiteral())
             ctx.BooleanLiteral() != null -> ctx.BooleanLiteral().text
             ctx.IntegerLiteral() != null -> ctx.IntegerLiteral().text
             ctx.DoubleLiteral() != null -> ctx.DoubleLiteral().text

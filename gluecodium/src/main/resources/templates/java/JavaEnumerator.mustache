@@ -19,6 +19,6 @@
   !
   !}}
 {{#if comment}}
-{{prefixPartial "java/JavaDocComment" "    "}}
-{{/if}}
-    {{resolveName}}({{resolveName value}})
+{{prefixPartial "java/JavaDocComment" "    "}}{{/if}}{{!!
+}}{{prefixPartial "java/JavaAttributes" "    "}}{{!!
+}}    {{resolveName}}({{resolveName value}})
