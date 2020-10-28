@@ -17,44 +17,75 @@
 
 package smoke
 
+@Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
 class AttributesClass {
-   @Java(Attribute = "OnFunctionInClass")
-   fun veryFun(@Java(Attribute = "OnParameterInClass") param: String)
-   @Java(Attribute = "OnPropertyInClass")
-   property prop: String
-   @Java(Attribute = "OnConstInClass")
-   const pi: Boolean = false
+    @Cpp(Attribute = "OnFunctionInClass")
+    @Java(Attribute = "OnFunctionInClass")
+    fun veryFun(
+        @Cpp(Attribute = "OnParameterInClass")
+        @Java(Attribute = "OnParameterInClass")
+        param: String
+    )
+    @Cpp(Attribute = "OnPropertyInClass")
+    @Java(Attribute = "OnPropertyInClass")
+    property prop: String
+    @Cpp(Attribute = "OnConstInClass")
+    @Java(Attribute = "OnConstInClass")
+    const pi: Boolean = false
 }
 
+@Cpp(Attribute = "OnInterface")
 @Java(Attribute = "OnInterface")
 interface AttributesInterface {
-   @Java(Attribute = "OnFunctionInInterface")
-   fun veryFun(@Java(Attribute = "OnParameterInInterface") param: String)
-   @Java(Attribute = "OnPropertyInInterface")
-   property prop: String
-   @Java(Attribute = "OnConstInInterface")
-   const pi: Boolean = false
+    @Cpp(Attribute = "OnFunctionInInterface")
+    @Java(Attribute = "OnFunctionInInterface")
+    fun veryFun(
+        @Cpp(Attribute = "OnParameterInInterface")
+        @Java(Attribute = "OnParameterInInterface")
+        param: String
+    )
+    @Cpp(Attribute = "OnPropertyInInterface")
+    @Java(Attribute = "OnPropertyInInterface")
+    property prop: String
+    @Cpp(Attribute = "OnConstInInterface")
+    @Java(Attribute = "OnConstInInterface")
+    const pi: Boolean = false
 }
 
+@Cpp(Attribute = "OnStruct")
 @Java(Attribute = "OnStruct")
 struct AttributesStruct {
-   @Java(Attribute = "OnField")
-   field: String
-   @Java(Attribute = "OnFunctionInStruct")
-   fun veryFun(@Java(Attribute = "OnParameterInStruct") param: String)
-   @Java(Attribute = "OnConstInStruct")
-   const pi: Boolean = false
+    @Cpp(Attribute = "OnField")
+    @Java(Attribute = "OnField")
+    field: String
+    @Cpp(Attribute = "OnFunctionInStruct")
+    @Java(Attribute = "OnFunctionInStruct")
+    fun veryFun(
+        @Cpp(Attribute = "OnParameterInStruct")
+        @Java(Attribute = "OnParameterInStruct")
+        param: String
+    )
+    @Cpp(Attribute = "OnConstInStruct")
+    @Java(Attribute = "OnConstInStruct")
+    const pi: Boolean = false
 }
 
+@Cpp(Attribute = "OnEnumeration")
 @Java(Attribute = "OnEnumeration")
 enum AttributesEnum {
-   @Java(Attribute = "OnEnumerator")
-   NOPE
+    @Cpp(Attribute = "OnEnumerator")
+    @Java(Attribute = "OnEnumerator")
+    NOPE
 }
 
+@Cpp(Attribute = "OnLambda")
 @Java(Attribute = "OnLambda")
 lambda AttributesLambda = () -> Void
 
+@Cpp(Attribute = "OnException")
 @Java(Attribute = "OnException")
 exception AttributesCrash(String)
+
+@Cpp(Attribute = "OnTypeAlias")
+typealias AttributesAlias = String

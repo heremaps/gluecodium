@@ -17,7 +17,28 @@
 
 package smoke
 
-class MultipleAttributes {
+@Java(Skip) @Swift(Skip) @Dart(Skip)
+class MultipleAttributesCpp {
+    @Cpp(Attribute = "Foo")
+    @Cpp(Attribute = "Bar")
+    fun noLists2()
+    @Cpp(Attribute = "Foo")
+    @Cpp(Attribute = "Bar")
+    @Cpp(Attribute = "Baz")
+    fun noLists3()
+    @Cpp(Attribute = ["Foo", "Bar"])
+    @Cpp(Attribute = "Baz")
+    fun listFirst()
+    @Cpp(Attribute = "Foo")
+    @Cpp(Attribute = ["Bar", "Baz"])
+    fun listSecond()
+    @Cpp(Attribute = ["Foo", "Bar"])
+    @Cpp(Attribute = ["Baz", "Fizz"])
+    fun twoLists()
+}
+
+@Swift(Skip) @Dart(Skip)
+class MultipleAttributesJava {
     @Java(Attribute = "Foo")
     @Java(Attribute = "Bar")
     fun noLists2()

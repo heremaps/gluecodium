@@ -20,9 +20,9 @@
   !}}
 {{#unless external.cpp}}
 {{>cpp/CppDocComment}}
-enum class {{resolveName}} {
+enum class {{>cpp/CppAttributesInline}}{{resolveName}} {
 {{#enumerators}}
-{{prefixPartial "cpp/CppDocComment" "    "}}{{!!
+{{prefixPartial "cpp/CppDocComment" "    "}}{{prefixPartial "cpp/CppAttributes" "    "}}{{!!
 }}    {{resolveName}}{{#explicitValue}} = {{resolveName}}{{/explicitValue}}{{#if iter.hasNext}},{{/if}}
 {{/enumerators}}
 };

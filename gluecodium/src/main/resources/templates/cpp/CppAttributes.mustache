@@ -18,5 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppDocComment}}{{>cpp/CppAttributes}}
-{{>cpp/CppExportMacro}}{{storageQualifier}} const {{resolveName typeRef}} {{resolveName}};
+{{#if attributes.cpp.attribute}}
+[[{{join attributes.cpp.attribute delimiter=", "}}]]
+{{/if}}{{!!
+}}{{#if propertyElement.attributes.cpp.attribute}}
+[[{{join propertyElement.attributes.cpp.attribute delimiter=", "}}]]
+{{/if}}
