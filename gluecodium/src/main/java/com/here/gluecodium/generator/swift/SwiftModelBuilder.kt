@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.ATTRIBUTE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.WEAK
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -147,6 +148,7 @@ class SwiftModelBuilder(
             hasTypeRepository = parentClass != null || limeClass.visibility.isOpen
         )
         swiftClass.comment = createComments(limeClass)
+        propagateAttributes(limeClass, swiftClass)
 
         val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeClass))
         addMembersAndParent(swiftFile, swiftClass, parentClass)
@@ -181,6 +183,7 @@ class SwiftModelBuilder(
             hasWeakSupport = hasWeakSupport
         )
         swiftClass.comment = createComments(limeContainer)
+        propagateAttributes(limeContainer, swiftClass)
 
         val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
         addMembersAndParent(swiftFile, swiftClass, parentClass)
@@ -229,7 +232,7 @@ class SwiftModelBuilder(
             limeMethod = limeMethod,
             isOverloaded = signatureResolver.isOverloaded(limeMethod)
         )
-        val method = SwiftMethod(
+        val swiftMethod = SwiftMethod(
             name = nameRules.getName(limeMethod),
             visibility = getVisibility(limeMethod),
             comment = createComments(limeMethod),
@@ -244,8 +247,9 @@ class SwiftModelBuilder(
             isSkipped = limeMethod.attributes.have(SWIFT, SKIP),
             parameters = getPreviousResults(SwiftParameter::class.java)
         )
+        propagateAttributes(limeMethod, swiftMethod)
 
-        storeNamedResult(limeMethod, method)
+        storeNamedResult(limeMethod, swiftMethod)
         closeContext()
     }
 
@@ -256,6 +260,7 @@ class SwiftModelBuilder(
             limeParameter.attributes.get(SWIFT, LimeAttributeValueType.LABEL)
         )
         swiftParameter.comment = createComments(limeParameter)
+        propagateAttributes(limeParameter, swiftParameter)
 
         storeNamedResult(limeParameter, swiftParameter)
         closeContext()
@@ -279,6 +284,7 @@ class SwiftModelBuilder(
             classes = getPreviousResults(SwiftClass::class.java)
         )
         swiftStruct.comment = createComments(limeStruct)
+        propagateAttributes(limeStruct, swiftStruct)
 
         storeNamedResult(limeStruct, swiftStruct)
         closeContext()
@@ -301,6 +307,7 @@ class SwiftModelBuilder(
             isRefEquatable = isRefEquatable
         )
         swiftField.comment = createComments(limeField)
+        propagateAttributes(limeField, swiftField)
 
         storeNamedResult(limeField, swiftField)
         closeContext()
@@ -315,6 +322,7 @@ class SwiftModelBuilder(
             externalConverter = limeEnumeration.external?.swift?.get(CONVERTER_NAME)
         )
         swiftEnum.comment = createComments(limeEnumeration)
+        propagateAttributes(limeEnumeration, swiftEnum)
 
         storeNamedResult(limeEnumeration, swiftEnum)
         closeContext()
@@ -326,20 +334,22 @@ class SwiftModelBuilder(
             getPreviousResultOrNull(SwiftValue::class.java)
         )
         swiftEnumItem.comment = createComments(limeEnumerator)
+        propagateAttributes(limeEnumerator, swiftEnumItem)
 
         storeNamedResult(limeEnumerator, swiftEnumItem)
         closeContext()
     }
 
     override fun finishBuilding(limeException: LimeException) {
-        val error = SwiftError(
+        val swiftError = SwiftError(
             nameRules.getName(limeException),
             getVisibility(limeException),
             getPreviousResult(SwiftType::class.java)
         )
-        error.comment = createComments(limeException)
+        swiftError.comment = createComments(limeException)
+        propagateAttributes(limeException, swiftError)
 
-        storeNamedResult(limeException, error)
+        storeNamedResult(limeException, swiftError)
         closeContext()
     }
 
@@ -350,6 +360,7 @@ class SwiftModelBuilder(
             getPreviousResult(SwiftType::class.java)
         )
         swiftTypeDef.comment = createComments(limeTypeDef)
+        propagateAttributes(limeTypeDef, swiftTypeDef)
 
         storeNamedResult(limeTypeDef, swiftTypeDef)
         closeContext()
@@ -363,6 +374,7 @@ class SwiftModelBuilder(
             getPreviousResult(SwiftValue::class.java)
         )
         swiftConstant.comment = createComments(limeConstant)
+        propagateAttributes(limeConstant, swiftConstant)
 
         storeNamedResult(limeConstant, swiftConstant)
         closeContext()
@@ -395,7 +407,7 @@ class SwiftModelBuilder(
                 )
             } else null
 
-        val property = SwiftProperty(
+        val swiftProperty = SwiftProperty(
             propertyName = nameRules.getPropertyName(limeProperty),
             visibility = propertyVisibility,
             type = swiftType,
@@ -406,11 +418,12 @@ class SwiftModelBuilder(
             isWeak = limeProperty.attributes.have(SWIFT, WEAK),
             isSkipped = limeProperty.attributes.have(SWIFT, SKIP)
         )
-        property.comment = createComments(limeProperty)
+        swiftProperty.comment = createComments(limeProperty)
+        propagateAttributes(limeProperty, swiftProperty)
 
-        storeNamedResult(limeProperty, property)
-        referenceMap["${limeProperty.fullName}.get"] = property
-        referenceMap["${limeProperty.fullName}.set"] = property
+        storeNamedResult(limeProperty, swiftProperty)
+        referenceMap["${limeProperty.fullName}.get"] = swiftProperty
+        referenceMap["${limeProperty.fullName}.set"] = swiftProperty
         closeContext()
     }
 
@@ -478,6 +491,7 @@ class SwiftModelBuilder(
             parameters = limeLambda.parameters.map { typeMapper.mapType(it.typeRef) },
             returnType = typeMapper.mapType(limeLambda.returnType.typeRef)
         )
+        propagateAttributes(limeLambda, swiftElement)
 
         storeNamedResult(limeLambda, swiftElement)
         closeContext()
@@ -497,6 +511,14 @@ class SwiftModelBuilder(
 
     private fun createComments(limeElement: LimeNamedElement) =
         createComments(limeElement, PLATFORM_TAG)
+
+    private fun propagateAttributes(limeElement: LimeNamedElement, swiftElement: SwiftModelElement) {
+        val attribute = limeElement.attributes.get(SWIFT, ATTRIBUTE, Any::class.java)
+        when {
+            attribute is List<*> -> swiftElement.attributes = attribute.map { it.toString() }
+            attribute != null -> swiftElement.attributes = listOf(attribute.toString())
+        }
+    }
 
     companion object {
         const val PLATFORM_TAG = "Swift"

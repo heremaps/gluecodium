@@ -20,6 +20,6 @@
   !}}
 {{#unless this.comment.isEmpty}}
 {{#if this.comment.documentation}}{{prefix this.comment.documentation '/// '}}{{/if}}{{#if this.comment.isExcluded}}
-/// :nodoc:{{/if}}{{#if this.comment.deprecated}}
-@available(*, deprecated, message: "{{this.comment.deprecated}}"){{/if}}
+/// :nodoc:{{/if}}{{#this.comment.deprecated}}
+@available(*, deprecated{{#if this}}, message: "{{this}}"{{/if}}){{/this.comment.deprecated}}
 {{/unless}}

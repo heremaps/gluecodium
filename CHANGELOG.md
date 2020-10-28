@@ -2,7 +2,9 @@
 
 ## Unreleased
 ### Features:
-  * Added support for free-form attributes in C++ and Java.
+  * Added support for free-form attributes in C++, Java, and Swift.
+### Bug fixes:
+  * Fixed support for no-message `@Deprecated` attribute in Swift.
 
 ## 8.4.6
 Release date: 2020-10-26

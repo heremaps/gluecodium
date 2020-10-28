@@ -19,6 +19,6 @@
   !
   !}}
 {{#isNotEq simpleName type.publicName}}
-{{>swift/Comment}}
+{{>swift/Comment}}{{>swift/SwiftAttributes}}
 {{^isInterface}}{{visibility}} {{/isInterface}}typealias {{simpleName}} = {{type.publicName}}
 {{/isNotEq}}
