@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#parameters}}{{#argumentLabel}}{{.}} {{/argumentLabel}}{{name}}: {{!!
+{{#parameters}}{{>swift/SwiftAttributesInline}}{{#argumentLabel}}{{.}} {{/argumentLabel}}{{name}}: {{!!
 }}{{#isEq type.category.toString "CLOSURE"}}{{#unless type.optional}}@escaping {{/unless}}{{/isEq}}{{type.publicName}}{{!!
 }}{{#if type.optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}

@@ -512,6 +512,10 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
   that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
+  * **Attribute** **=** **"**_Attribute_**"**: marks an element to be marked with the given attribute in Swift
+  generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ can contain parameters, e.g.
+  `@Swift(Attribute="@available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string
+  literals, their enclosing quotes need to be backslash-escaped, as in the example.
 * **@Dart**: marks an element with Dart-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default specification for this attribute.

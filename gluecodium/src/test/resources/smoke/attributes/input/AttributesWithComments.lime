@@ -20,26 +20,31 @@ package smoke
 // Class comment
 @Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
+@Swift(Attribute = "OnClass")
 class AttributesWithComments {
    // Function comment
    @Cpp(Attribute = "OnFunctionInClass")
    @Java(Attribute = "OnFunctionInClass")
+   @Swift(Attribute = "OnFunctionInClass")
    fun veryFun()
    // Property comment
    // @get Getter comment
    // @set Setter comment
    @Cpp(Attribute = "OnPropertyInClass")
    @Java(Attribute = "OnPropertyInClass")
+   @Swift(Attribute = "OnPropertyInClass")
    property prop: String
    // Const comment
    @Cpp(Attribute = "OnConstInClass")
    @Java(Attribute = "OnConstInClass")
+   @Swift(Attribute = "OnConstInClass")
    const pi: Boolean = false
 
    struct SomeStruct {
       // Field comment
       @Cpp(Attribute = "OnField")
       @Java(Attribute = "OnField")
+      @Swift(Attribute = "OnField")
       field: String
    }
 }
@@ -47,24 +52,29 @@ class AttributesWithComments {
 @Deprecated
 @Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
+@Swift(Attribute = "OnClass")
 class AttributesWithDeprecated {
    @Deprecated
    @Cpp(Attribute = "OnFunctionInClass")
    @Java(Attribute = "OnFunctionInClass")
+   @Swift(Attribute = "OnFunctionInClass")
    fun veryFun()
    @Deprecated
    @Cpp(Attribute = "OnPropertyInClass")
    @Java(Attribute = "OnPropertyInClass")
+   @Swift(Attribute = "OnPropertyInClass")
    property prop: String
    @Deprecated
    @Cpp(Attribute = "OnConstInClass")
    @Java(Attribute = "OnConstInClass")
+   @Swift(Attribute = "OnConstInClass")
    const pi: Boolean = false
 
    struct SomeStruct {
       @Deprecated
       @Cpp(Attribute = "OnField")
       @Java(Attribute = "OnField")
+      @Swift(Attribute = "OnField")
       field: String
    }
 }

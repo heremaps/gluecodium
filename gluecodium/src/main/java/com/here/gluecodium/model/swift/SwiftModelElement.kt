@@ -29,6 +29,7 @@ abstract class SwiftModelElement(
 ) : Hierarchical<SwiftModelElement> {
     val visibility = visibility ?: SwiftVisibility.PUBLIC
     var comment = Comments()
+    var attributes: List<String>? = null
 
     open val simpleName: String
         get() {

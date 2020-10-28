@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/Comment}}{{!!
+{{>swift/Comment}}{{>swift/SwiftAttributes}}{{!!
 }}{{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
 {{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
 
@@ -62,7 +62,7 @@
 {{prefixPartial "swift/Closure" "    "}}
 {{/closures}}
 {{#properties}}{{#unless isSkipped}}
-{{prefixPartial "swift/Comment" "    "}}
+{{prefixPartial "swift/Comment" "    "}}{{prefixPartial "swift/SwiftAttributes" "    "}}
     {{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} { get {{#setter}}set {{/setter}}}
 {{/unless}}{{/properties}}
 {{#methods}}{{#unless isSkipped}}{{prefixPartial 'swift/MethodSignature' '    '}}

@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/Comment}}
+{{>swift/Comment}}{{>swift/SwiftAttributes}}
 {{^isInterface}}{{visibility}} {{/isInterface}}typealias {{simpleName}} = {{!!
 }}({{#parameters}}{{#isEq category.toString "CLOSURE"}}{{#unless optional}}@escaping {{/unless}}{{/isEq}}{{!!
 }}{{publicName}}{{#if optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}

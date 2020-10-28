@@ -19,73 +19,93 @@ package smoke
 
 @Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
+@Swift(Attribute = "OnClass")
 class AttributesClass {
     @Cpp(Attribute = "OnFunctionInClass")
     @Java(Attribute = "OnFunctionInClass")
+    @Swift(Attribute = "OnFunctionInClass")
     fun veryFun(
         @Cpp(Attribute = "OnParameterInClass")
         @Java(Attribute = "OnParameterInClass")
+        @Swift(Attribute = "OnParameterInClass")
         param: String
     )
     @Cpp(Attribute = "OnPropertyInClass")
     @Java(Attribute = "OnPropertyInClass")
+    @Swift(Attribute = "OnPropertyInClass")
     property prop: String
     @Cpp(Attribute = "OnConstInClass")
     @Java(Attribute = "OnConstInClass")
+    @Swift(Attribute = "OnConstInClass")
     const pi: Boolean = false
 }
 
 @Cpp(Attribute = "OnInterface")
 @Java(Attribute = "OnInterface")
+@Swift(Attribute = "OnInterface")
 interface AttributesInterface {
     @Cpp(Attribute = "OnFunctionInInterface")
     @Java(Attribute = "OnFunctionInInterface")
+    @Swift(Attribute = "OnFunctionInInterface")
     fun veryFun(
         @Cpp(Attribute = "OnParameterInInterface")
         @Java(Attribute = "OnParameterInInterface")
+        @Swift(Attribute = "OnParameterInInterface")
         param: String
     )
     @Cpp(Attribute = "OnPropertyInInterface")
     @Java(Attribute = "OnPropertyInInterface")
+    @Swift(Attribute = "OnPropertyInInterface")
     property prop: String
     @Cpp(Attribute = "OnConstInInterface")
     @Java(Attribute = "OnConstInInterface")
+    @Swift(Attribute = "OnConstInInterface")
     const pi: Boolean = false
 }
 
 @Cpp(Attribute = "OnStruct")
 @Java(Attribute = "OnStruct")
+@Swift(Attribute = "OnStruct")
 struct AttributesStruct {
     @Cpp(Attribute = "OnField")
     @Java(Attribute = "OnField")
+    @Swift(Attribute = "OnField")
     field: String
     @Cpp(Attribute = "OnFunctionInStruct")
     @Java(Attribute = "OnFunctionInStruct")
+    @Swift(Attribute = "OnFunctionInStruct")
     fun veryFun(
         @Cpp(Attribute = "OnParameterInStruct")
         @Java(Attribute = "OnParameterInStruct")
+        @Swift(Attribute = "OnParameterInStruct")
         param: String
     )
     @Cpp(Attribute = "OnConstInStruct")
     @Java(Attribute = "OnConstInStruct")
+    @Swift(Attribute = "OnConstInStruct")
     const pi: Boolean = false
 }
 
 @Cpp(Attribute = "OnEnumeration")
 @Java(Attribute = "OnEnumeration")
+@Swift(Attribute = "OnEnumeration")
 enum AttributesEnum {
     @Cpp(Attribute = "OnEnumerator")
     @Java(Attribute = "OnEnumerator")
+    @Swift(Attribute = "OnEnumerator")
     NOPE
 }
 
 @Cpp(Attribute = "OnLambda")
 @Java(Attribute = "OnLambda")
+@Swift(Attribute = "OnLambda")
 lambda AttributesLambda = () -> Void
 
 @Cpp(Attribute = "OnException")
 @Java(Attribute = "OnException")
+@Swift(Attribute = "OnException")
 exception AttributesCrash(String)
 
 @Cpp(Attribute = "OnTypeAlias")
+@Swift(Attribute = "OnTypeAlias")
 typealias AttributesAlias = String

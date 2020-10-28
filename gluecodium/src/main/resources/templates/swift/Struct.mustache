@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless skipDeclaration}}{{>swift/Comment}}
+{{#unless skipDeclaration}}{{>swift/Comment}}{{>swift/SwiftAttributes}}
 {{visibility}} struct {{simpleName}}{{#if externalConverter}}_internal{{/if}}{{#unless externalConverter}}{{!!
 }}{{#if isEquatable isCodable logic="or"}}{{!!
 }}:{{#if isEquatable}} Hashable{{/if}}{{#if isEquatable isCodable logic="and"}},{{/if}}{{#if isCodable}} Codable{{/if}}{{!!
@@ -28,13 +28,13 @@
 {{/constants}}{{!!
 }}{{#if fields}}{{#fields}}
 {{#if this.comment}}
-{{prefixPartial "swift/Comment" '    '}}
+{{prefixPartial "swift/Comment" "    "}}{{prefixPartial "swift/SwiftAttributes" "    "}}
 {{/if}}
     {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}{{#unless constructors}}{{#if needsReducedConstructor}}
 
 {{#if generatedConstructorComment}}
-{{prefix generatedConstructorComment '    /// '}}
+{{prefix generatedConstructorComment "    /// "}}
 {{#if publicFields}}
     /// - Parameters
 {{#publicFields}}

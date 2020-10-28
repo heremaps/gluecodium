@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/Comment}}{{#if isCached}}{{!!
+{{>swift/Comment}}{{>swift/SwiftAttributes}}{{#if isCached}}{{!!
 }}{{visibility}} private(set) {{#if isStatic}}static {{/if}}{{#unless isStatic}}lazy {{/unless}}{{!!
 }}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} = {
     {{#getter}}{{>swift/ParametersConversion}}{{/getter}}
