@@ -2,7 +2,7 @@
 
 ## Unreleased
 ### Features:
-  * Added support for free-form attributes in C++ and Java.
+  * Added support for free-form attributes in C++, Java, and Swift.
 ### Bug fixes:
   * Fixed support for no-message `@Deprecated` attribute in Swift.
 

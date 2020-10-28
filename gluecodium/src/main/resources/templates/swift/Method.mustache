@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#set visibilityPrefix=visibility}}{{>swift/MethodSignature}}{{/set}} {
+{{#set visibilityPrefix=visibility method=this}}{{#method}}{{>swift/MethodSignature}}{{/method}}{{/set}} {
 {{prefixPartial 'swift/ParametersConversion' '    '}}
 }
