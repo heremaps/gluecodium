@@ -24,7 +24,7 @@
 
 {{/functions}}{{!!
 }}{{#if testableMode}}
-{{>dart/DartDocumentation}}
+{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 {{#if attributes.immutable}}
 @immutable{{/if}}
 class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
@@ -41,7 +41,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 
 {{/if}}{{!!
 
-}}{{>dart/DartDocumentation}}
+}}{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 {{#if attributes.immutable}}
 @immutable{{/if}}
 class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if testableMode}}$Impl{{/if}} {

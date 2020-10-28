@@ -19,7 +19,7 @@
   !
   !}}
 {{#unlessPredicate "skipDeclaration"}}
-{{>dart/DartDocumentation}}
+{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 enum {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{#enumerators}}
 {{prefixPartial "dart/DartEnumerator" "    "}}

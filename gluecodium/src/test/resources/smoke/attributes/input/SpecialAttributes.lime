@@ -21,9 +21,11 @@ class SpecialAttributes {
     @Cpp(Attribute = "Deprecated(\"foo\\nbar\")")
     @Java(Attribute = "Deprecated(\"foo\\nbar\")")
     @Swift(Attribute = "Deprecated(\"foo\\nbar\")")
+    @Dart(Attribute = "Deprecated(\"foo\\nbar\")")
     fun withEscaping()
     @Cpp(Attribute = "HackMe\nrm -rf *")
     @Java(Attribute = "HackMe\nrm -rf *")
     @Swift(Attribute = "HackMe\nrm -rf *")
+    @Dart(Attribute = "HackMe\nrm -rf *")
     fun withLineBreak()
 }
