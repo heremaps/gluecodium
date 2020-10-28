@@ -1,1 +1,1 @@
-Mandatory option TARGET was not set
+Mandatory argument TARGET was not passed to function apigen_generate

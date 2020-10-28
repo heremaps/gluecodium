@@ -1,1 +1,1 @@
-Mandatory option GENERATOR was not set
+Mandatory argument GENERATOR was not passed to function apigen_generate

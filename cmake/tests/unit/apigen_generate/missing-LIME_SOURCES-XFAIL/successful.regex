@@ -1,1 +1,1 @@
-Mandatory option LIME_SOURCES was not set
+Mandatory argument LIME_SOURCES was not passed to function apigen_generate

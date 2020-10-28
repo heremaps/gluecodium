@@ -1,0 +1,3 @@
+Argument TEST_ARGUMENT_NAME which is passed to function test_function_name
+is deprecated and might be removed in future versions\.
+Deprecation succeed
