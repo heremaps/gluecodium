@@ -73,10 +73,14 @@ abstract class AbstractLimeBasedModelBuilder<E>(
         reverseReferenceMap[element] = ambiguousKey
     }
 
-    protected fun createComments(limeElement: LimeNamedElement, platform: String) =
-        Comments(
+    protected fun createComments(limeElement: LimeNamedElement, platform: String): Comments {
+        val hasDeprecated = limeElement.attributes.have(DEPRECATED)
+        val deprecatedMessage =
+            limeElement.attributes.get(DEPRECATED, MESSAGE, LimeComment::class.java)?.getFor(platform) ?: ""
+        return Comments(
             limeElement.comment.getFor(platform),
-            limeElement.attributes.get(DEPRECATED, MESSAGE, LimeComment::class.java)?.getFor(platform),
+            if (hasDeprecated) deprecatedMessage else null,
             limeElement.comment.isExcluded
         )
+    }
 }

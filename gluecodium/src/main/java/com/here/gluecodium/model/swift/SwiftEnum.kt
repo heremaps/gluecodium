@@ -35,7 +35,7 @@ class SwiftEnum(
 ) {
     @Suppress("unused")
     val hasDeprecatedItems
-        get() = items.any { !it.comment.deprecated.isNullOrEmpty() }
+        get() = items.any { it.comment.deprecated != null }
 
     override val childElements
         get() = items

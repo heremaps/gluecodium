@@ -24,5 +24,5 @@ class Comments(
     @Suppress("unused") val deprecated: String? = null,
     @Suppress("unused") val isExcluded: Boolean = false
 ) {
-    val isEmpty = documentation.isNullOrEmpty() && deprecated.isNullOrEmpty() && !isExcluded
+    val isEmpty = documentation.isNullOrEmpty() && deprecated == null && !isExcluded
 }
