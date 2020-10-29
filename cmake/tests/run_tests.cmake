@@ -15,6 +15,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
+set (TEST_ANDROID_API_LEVEL_VERSION 28)
+
 function (
     prepare_detailed_information
     result
@@ -99,7 +101,7 @@ function (get_parameters_for_build_environment result)
         list (APPEND _params
             -GNinja
             -DANDROID_ABI=x86_64
-            -DANDROID_PLATFORM=android-21
+            -DANDROID_PLATFORM=android-${TEST_ANDROID_API_LEVEL_VERSION}
             -DANDROID_HOME=$ENV{ANDROID_HOME}
             -DANDROID_STL=c++_shared
             -DCMAKE_TOOLCHAIN_FILE=$ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake)
