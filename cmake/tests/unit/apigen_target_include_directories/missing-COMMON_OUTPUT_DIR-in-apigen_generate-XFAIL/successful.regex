@@ -1,0 +1,2 @@
+COMMON include directoriy is necessary, but apigen_target was called
+without COMMON_OUTPUT_DIR argument\. Please specify this argument\.

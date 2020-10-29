@@ -22,6 +22,8 @@ set(includeguard_gluecodium_TargetSources ON)
 
 cmake_minimum_required(VERSION 3.5)
 
+include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
+
 #.rst:
 # Generated target_sources module
 # -------------------------------
@@ -56,6 +58,8 @@ function(apigen_target_sources target)
   set(options MAIN COMMON SKIP_SWIFT)
   cmake_parse_arguments(apigen_target_sources "${options}" "" "" ${ARGN})
 
+  apigen_check_no_unparsed_arguments(apigen_target_sources apigen_target_sources)
+
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
   get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
   get_target_property(BUILD_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
@@ -71,6 +75,11 @@ function(apigen_target_sources target)
     list(APPEND _source_sets MAIN)
   endif()
   if(apigen_target_sources_COMMON)
+    if(NOT COMMON_OUTPUT_DIR)
+      message(FATAL_ERROR "COMMON source set is specified, but apigen_target was "
+                          "called without COMMON_OUTPUT_DIR argument. "
+                          "Please specify this argument.")
+    endif()
     list(APPEND _source_sets COMMON)
   endif()
 
