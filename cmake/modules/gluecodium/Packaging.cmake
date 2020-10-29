@@ -21,6 +21,7 @@ endif()
 set(includeguardapigen_packaging_Packaging ON)
 
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/PackagingUtils.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/CheckArguments.cmake)
 # NOTE: We need to include the platform-specific files inside the function, otherwise certain
 # checks (e.g. using clang of a new enough version for Swift) will fail when otherwise unused.
 # Need to cache the value of CMAKE_CURRENT_LIST_DIR, otherwise it will use the value of the file
@@ -111,13 +112,9 @@ function(apigen_create_package)
     ANDROID_REMOTE_DEPENDENCIES ANDROID_LIBRARY_LIST)
   cmake_parse_arguments(ARG "" "${single_args}" "${multi_args}" ${ARGN})
 
-  if(NOT ARG_TARGET)
-    message(FATAL_ERROR "No TARGET argument passed to apigen_create_package().")
-  endif()
-
-  if(NOT ARG_NAME)
-    message(FATAL_ERROR "No NAME argument passed to apigen_create_package().")
-  endif()
+  apigen_require_argument(ARG TARGET apigen_create_package)
+  apigen_require_argument(ARG NAME apigen_create_package)
+  apigen_check_no_unparsed_arguments(ARG apigen_create_package)
 
   get_target_property(generator ${ARG_TARGET} APIGEN_GENERATOR)
   apigen_packaging_find_shared_library_dependencies(all_dependencies dependencies
