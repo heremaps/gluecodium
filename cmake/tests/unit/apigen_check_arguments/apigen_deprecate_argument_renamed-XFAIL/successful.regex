@@ -1,0 +1,4 @@
+Argument TEST_ARGUMENT_NAME which is passed to function test_function_name
+is deprecated and might be removed in future versions. Please use
+TEST_NEW_ARGUMENT_NAME instead\.
+Deprecation succeed

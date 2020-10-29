@@ -70,6 +70,7 @@ endif()
 set(APIGEN_GLUECODIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
+include(${APIGEN_GLUECODIUM_DIR}/CheckArguments.cmake)
 
 function(apigen_generate)
   set(options VALIDATE_ONLY VERBOSE STUBS)
@@ -95,8 +96,10 @@ function(apigen_generate)
   set(multiValueArgs LIME_SOURCES FRANCA_SOURCES WERROR)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
+  apigen_check_no_unparsed_arguments(apigen_generate apigen_generate)
+  apigen_deprecate_argument_renamed(apigen_generate FRANCA_SOURCES LIME_SOURCES apigen_generate)
   list(APPEND apigen_generate_LIME_SOURCES ${apigen_generate_FRANCA_SOURCES})
-  _check_option_is_set(LIME_SOURCES)
+  apigen_require_argument(apigen_generate LIME_SOURCES apigen_generate)
 
   _apigen_set_option(GENERATOR)
   _apigen_set_option(TARGET)
@@ -259,7 +262,7 @@ macro(_apigen_parse_option GLUECODIUM_PROPERTY CMAKE_OPTION)
 endmacro()
 
 macro(_apigen_parse_required_option GLUECODIUM_PROPERTY CMAKE_OPTION)
-  _check_option_is_set(${CMAKE_OPTION})
+  apigen_require_argument(apigen_generate ${CMAKE_OPTION} apigen_generate)
   _apigen_parse_option(${GLUECODIUM_PROPERTY} ${CMAKE_OPTION})
 endmacro()
 
@@ -273,17 +276,11 @@ macro(_apigen_set_option_or_default _option _default)
 endmacro()
 
 macro(_apigen_set_option _option)
-  _check_option_is_set(${_option})
+  apigen_require_argument(apigen_generate ${_option} apigen_generate)
   set(APIGEN_${_option} "${apigen_generate_${_option}}")
 endmacro()
 
 macro(_pass_option _option)
   string(REPLACE ";" "$<SEMICOLON>" _escaped_option "${${_option}}")
   list(APPEND APIGEN_COMMAND_OPTIONS -DAPIGEN_${_option}=${_escaped_option}})
-endmacro()
-
-macro(_check_option_is_set _option)
-  if(NOT apigen_generate_${_option})
-    message(FATAL_ERROR "Mandatory option ${_option} was not set")
-  endif()
 endmacro()
