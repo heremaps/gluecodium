@@ -7,7 +7,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
 #include <stdint.h>
 typedef uint32_t smoke_PlatformNames_bazEnum;
 _GLUECODIUM_C_EXPORT _baseRef smoke_PlatformNames_bazStruct_create_handle(_baseRef BAZ_FIELD);

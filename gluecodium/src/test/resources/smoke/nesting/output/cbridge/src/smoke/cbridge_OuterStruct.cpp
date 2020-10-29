@@ -1,9 +1,23 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_OuterStruct.h"
+#include "cbridge/include/ByteArrayHandle.h"
+#include "cbridge/include/DateHandle.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "cbridge_internal/include/CachedProxyBase.h"
+#include "cbridge_internal/include/TypeInitRepository.h"
+#include "cbridge_internal/include/WrapperCache.h"
+#include "gluecodium/Locale.h"
 #include "gluecodium/Optional.h"
+#include "gluecodium/TimePointHash.h"
+#include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/UnorderedSetHash.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/OuterStruct.h"
+#include <chrono>
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <string>
@@ -97,7 +111,7 @@ void smoke_OuterStruct_InnerClass_remove_swift_object_from_wrapper_cache(_baseRe
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerClass >>(handle)->get());
 }
 _baseRef smoke_OuterStruct_InnerClass_fooBar(_baseRef _instance) {
-    return Conversion<::std::unordered_set< gluecodium::Locale >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerClass >>(_instance)->get()->foo_bar());
+    return Conversion<::std::unordered_set< ::gluecodium::Locale >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerClass >>(_instance)->get()->foo_bar());
 }
 void smoke_OuterStruct_InnerInterface_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(handle);
@@ -138,7 +152,7 @@ void* smoke_OuterStruct_InnerInterface_get_typed(_baseRef handle) {
 _baseRef smoke_OuterStruct_InnerInterface_barBaz(_baseRef _instance) {
     return Conversion<::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(_instance)->get()->bar_baz());
 }
-class smoke_OuterStruct_InnerInterfaceProxy : public ::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >::element_type, public CachedProxyBase<smoke_OuterStruct_InnerInterfaceProxy> {
+class smoke_OuterStruct_InnerInterfaceProxy : public ::smoke::OuterStruct::InnerInterface, public CachedProxyBase<smoke_OuterStruct_InnerInterfaceProxy> {
 public:
     smoke_OuterStruct_InnerInterfaceProxy(smoke_OuterStruct_InnerInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))

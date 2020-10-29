@@ -1,12 +1,15 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_ListenersWithReturnValues.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/ListenersWithReturnValues.h"
 #include <memory>
@@ -50,37 +53,6 @@ void* smoke_ListenersWithReturnValues_get_typed(_baseRef handle) {
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ListenersWithReturnValues(handle);
 }
-_baseRef
-smoke_ListenersWithReturnValues_ResultStruct_create_handle( double result )
-{
-    ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ( ::std::nothrow ) ::smoke::ListenersWithReturnValues::ResultStruct();
-    _struct->result = result;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
-{
-    delete get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>( handle );
-}
-_baseRef
-smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(double result)
-{
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
-    (*_struct)->result = result;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
-}
-void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
-}
-double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::ListenersWithReturnValues::ResultStruct>(handle);
-    return struct_pointer->result;
-}
 double smoke_ListenersWithReturnValues_fetchDataDouble(_baseRef _instance) {
     return get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(_instance)->get()->fetch_data_double();
 }
@@ -102,7 +74,7 @@ _baseRef smoke_ListenersWithReturnValues_fetchDataMap(_baseRef _instance) {
 _baseRef smoke_ListenersWithReturnValues_fetchDataInstance(_baseRef _instance) {
     return Conversion<::std::shared_ptr< ::smoke::CalculationResult >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(_instance)->get()->fetch_data_instance());
 }
-class smoke_ListenersWithReturnValuesProxy : public ::std::shared_ptr< ::smoke::ListenersWithReturnValues >::element_type, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
+class smoke_ListenersWithReturnValuesProxy : public ::smoke::ListenersWithReturnValues, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
 public:
     smoke_ListenersWithReturnValuesProxy(smoke_ListenersWithReturnValues_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -133,7 +105,7 @@ public:
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataArray(mFunctions.swift_pointer);
         return Conversion<::std::vector< double >>::toCppReturn(_call_result);
     }
-    ::smoke::ListenersWithReturnValues::StringToDouble fetch_data_map() override {
+    ::std::unordered_map< ::std::string, double > fetch_data_map() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataMap(mFunctions.swift_pointer);
         return Conversion<::std::unordered_map< ::std::string, double >>::toCppReturn(_call_result);
     }
@@ -150,4 +122,35 @@ _baseRef smoke_ListenersWithReturnValues_create_proxy(smoke_ListenersWithReturnV
 }
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(handle)->get()) : nullptr;
+}
+_baseRef
+smoke_ListenersWithReturnValues_ResultStruct_create_handle( double result )
+{
+    ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ( ::std::nothrow ) ::smoke::ListenersWithReturnValues::ResultStruct();
+    _struct->result = result;
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>( handle );
+}
+_baseRef
+smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(double result)
+{
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
+    (*_struct)->result = result;
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
+}
+void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
+}
+double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<const ::smoke::ListenersWithReturnValues::ResultStruct>(handle);
+    return struct_pointer->result;
 }

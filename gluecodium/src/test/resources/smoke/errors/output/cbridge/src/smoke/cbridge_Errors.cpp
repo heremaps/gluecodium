@@ -1,12 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Errors.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "foo/Bar.h"
-#include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "smoke/Errors.h"
 #include "smoke/Payload.h"
 #include <memory>

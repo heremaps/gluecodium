@@ -5,7 +5,6 @@
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/EquatableInterface.h"
 #include <memory>
@@ -50,9 +49,9 @@ bool smoke_EquatableInterface_equal(_baseRef lhs, _baseRef rhs) {
     return **get_pointer<::std::shared_ptr< ::smoke::EquatableInterface >>(lhs) == **get_pointer<::std::shared_ptr< ::smoke::EquatableInterface >>(rhs);
 }
 uint64_t smoke_EquatableInterface_hash(_baseRef handle) {
-    return ::gluecodium::hash<::std::shared_ptr< ::smoke::EquatableInterface >::element_type>()(**get_pointer<::std::shared_ptr< ::smoke::EquatableInterface >>(handle));
+    return ::gluecodium::hash<::smoke::EquatableInterface>()(**get_pointer<::std::shared_ptr< ::smoke::EquatableInterface >>(handle));
 }
-class smoke_EquatableInterfaceProxy : public ::std::shared_ptr< ::smoke::EquatableInterface >::element_type, public CachedProxyBase<smoke_EquatableInterfaceProxy> {
+class smoke_EquatableInterfaceProxy : public ::smoke::EquatableInterface, public CachedProxyBase<smoke_EquatableInterfaceProxy> {
 public:
     smoke_EquatableInterfaceProxy(smoke_EquatableInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))

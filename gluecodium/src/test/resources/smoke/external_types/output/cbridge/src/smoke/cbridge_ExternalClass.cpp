@@ -1,12 +1,13 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_ExternalClass.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "foo/Bar.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <string>
@@ -30,6 +31,12 @@ void smoke_ExternalClass_cache_swift_object_wrapper(_baseRef handle, const void*
 void smoke_ExternalClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::fire::Baz >>(handle)->get());
+}
+void smoke_ExternalClass_someMethod(_baseRef _instance, int8_t someParameter) {
+    return get_pointer<::std::shared_ptr< ::fire::Baz >>(_instance)->get()->some_Method(someParameter);
+}
+_baseRef smoke_ExternalClass_someProperty_get(_baseRef _instance) {
+    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::fire::Baz >>(_instance)->get()->get_Me());
 }
 _baseRef
 smoke_ExternalClass_SomeStruct_create_handle( _baseRef someField )
@@ -61,10 +68,4 @@ void smoke_ExternalClass_SomeStruct_release_optional_handle(_baseRef handle) {
 _baseRef smoke_ExternalClass_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::fire::Baz::some_Struct>(handle);
     return Conversion<::std::string>::toBaseRef(struct_pointer->some_Field);
-}
-void smoke_ExternalClass_someMethod(_baseRef _instance, int8_t someParameter) {
-    return get_pointer<::std::shared_ptr< ::fire::Baz >>(_instance)->get()->some_Method(someParameter);
-}
-_baseRef smoke_ExternalClass_someProperty_get(_baseRef _instance) {
-    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::fire::Baz >>(_instance)->get()->get_Me());
 }

@@ -1,11 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_LevelOne.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "smoke/LevelOne.h"
 #include "smoke/OuterClass.h"
 #include "smoke/OuterInterface.h"
@@ -75,6 +75,9 @@ void smoke_LevelOne_LevelTwo_LevelThree_remove_swift_object_from_wrapper_cache(_
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::LevelOne::LevelTwo::LevelThree >>(handle)->get());
 }
+_baseRef smoke_LevelOne_LevelTwo_LevelThree_foo(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::shared_ptr< ::smoke::OuterInterface::InnerClass >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::LevelOne::LevelTwo::LevelThree >>(_instance)->get()->foo(Conversion<::std::shared_ptr< ::smoke::OuterClass::InnerInterface >>::toCpp(input)));
+}
 _baseRef
 smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle( _baseRef stringField )
 {
@@ -108,7 +111,4 @@ _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_stringField_get(_baseRef h
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory() {
     return Conversion<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toBaseRef(::smoke::LevelOne::LevelTwo::LevelThree::LevelFour::foo_factory());
-}
-_baseRef smoke_LevelOne_LevelTwo_LevelThree_foo(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::shared_ptr< ::smoke::OuterInterface::InnerClass >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::LevelOne::LevelTwo::LevelThree >>(_instance)->get()->foo(Conversion<::std::shared_ptr< ::smoke::OuterClass::InnerInterface >>::toCpp(input)));
 }

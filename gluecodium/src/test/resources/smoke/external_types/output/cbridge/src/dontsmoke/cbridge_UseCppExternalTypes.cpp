@@ -7,8 +7,6 @@
 #include "dontsmoke/UseCppExternalTypes.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
-#include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "include/ExternalTypes.h"
 #include "non/Sense.h"
 #include <memory>

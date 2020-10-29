@@ -16,12 +16,12 @@ typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);
     _baseRef(*smoke_Weakling_listener_get)(void* swift_pointer);
-    void(*smoke_Weakling_listener_set)(void* swift_pointer, _baseRef newValue);
+    void(*smoke_Weakling_listener_set)(void* swift_pointer, _baseRef value);
 } smoke_Weakling_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_Weakling_create_proxy(smoke_Weakling_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_Weakling_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Weakling_listener_get(_baseRef _instance);
-_GLUECODIUM_C_EXPORT void smoke_Weakling_listener_set(_baseRef _instance, _baseRef newValue);
+_GLUECODIUM_C_EXPORT void smoke_Weakling_listener_set(_baseRef _instance, _baseRef value);
 #ifdef __cplusplus
 }
 #endif

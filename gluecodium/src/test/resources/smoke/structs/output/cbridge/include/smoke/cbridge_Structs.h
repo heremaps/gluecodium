@@ -6,9 +6,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/ByteArrayHandle.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/cbridge_TypeCollection.h"
 #include <stdbool.h>
 #include <stdint.h>
 typedef uint32_t smoke_Structs_FooBar;

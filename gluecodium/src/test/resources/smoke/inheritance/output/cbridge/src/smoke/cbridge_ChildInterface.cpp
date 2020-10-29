@@ -1,13 +1,11 @@
 //
 //
-#include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_ChildInterface.h"
-#include "cbridge/include/smoke/cbridge_ParentInterface.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/ChildInterface.h"
 #include "smoke/ParentInterface.h"
@@ -53,7 +51,7 @@ void* smoke_ChildInterface_get_typed(_baseRef handle) {
 void smoke_ChildInterface_childMethod(_baseRef _instance) {
     return get_pointer<::std::shared_ptr< ::smoke::ChildInterface >>(_instance)->get()->child_method();
 }
-class smoke_ChildInterfaceProxy : public ::std::shared_ptr< ::smoke::ChildInterface >::element_type, public CachedProxyBase<smoke_ChildInterfaceProxy> {
+class smoke_ChildInterfaceProxy : public ::smoke::ChildInterface, public CachedProxyBase<smoke_ChildInterfaceProxy> {
 public:
     smoke_ChildInterfaceProxy(smoke_ChildInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -67,15 +65,15 @@ public:
     void root_method() override {
         mFunctions.smoke_ParentInterface_rootMethod(mFunctions.swift_pointer);
     }
+    void child_method() override {
+        mFunctions.smoke_ChildInterface_childMethod(mFunctions.swift_pointer);
+    }
     ::std::string get_root_property() const override {
         auto _call_result = mFunctions.smoke_ParentInterface_rootProperty_get(mFunctions.swift_pointer);
         return Conversion<::std::string>::toCppReturn(_call_result);
     }
-    void set_root_property(const ::std::string& newValue) override {
-        mFunctions.smoke_ParentInterface_rootProperty_set(mFunctions.swift_pointer, Conversion<::std::string>::toBaseRef(newValue));
-    }
-    void child_method() override {
-        mFunctions.smoke_ChildInterface_childMethod(mFunctions.swift_pointer);
+    void set_root_property(const ::std::string& value) override {
+        mFunctions.smoke_ParentInterface_rootProperty_set(mFunctions.swift_pointer, Conversion<::std::string>::toBaseRef(value));
     }
 private:
     smoke_ChildInterface_FunctionTable mFunctions;

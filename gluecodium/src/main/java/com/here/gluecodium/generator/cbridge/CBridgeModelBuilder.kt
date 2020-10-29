@@ -63,7 +63,7 @@ import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftParameter
 import com.here.gluecodium.model.swift.SwiftProperty
 
-class CBridgeModelBuilder(
+internal class CBridgeModelBuilder(
     contextStack: ModelBuilderContextStack<CElement> = ModelBuilderContextStack(),
     private val limeReferenceMap: Map<String, LimeElement>,
     private val cppIncludeResolver: CppIncludeResolver,
@@ -118,8 +118,6 @@ class CBridgeModelBuilder(
             )
         }
         cInterface.implementationIncludes.add(cppIncludeResolver.typeRepositoryInclude)
-        cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeNameRules.TYPE_INIT_REPOSITORY))
-        cInterface.implementationIncludes.add(Include.createInternalInclude(CBridgeComponents.WRAPPER_CACHE_HEADER))
 
         storeResult(cInterface)
         closeContext()

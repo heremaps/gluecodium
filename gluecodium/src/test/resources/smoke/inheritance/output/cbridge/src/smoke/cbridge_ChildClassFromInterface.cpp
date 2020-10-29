@@ -1,18 +1,13 @@
 //
 //
-#include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_ChildClassFromInterface.h"
-#include "cbridge/include/smoke/cbridge_ParentInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/ChildClassFromInterface.h"
-#include "smoke/ParentInterface.h"
 #include <memory>
 #include <new>
-#include <string>
 void smoke_ChildClassFromInterface_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::ChildClassFromInterface >>(handle);
 }

@@ -1,12 +1,12 @@
 //
 //
-#include "cbridge/include/DateHandle.h"
 #include "cbridge/include/smoke/cbridge_Dates.h"
+#include "cbridge/include/DateHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
+#include "gluecodium/TimePointHash.h"
 #include "smoke/Dates.h"
 #include <chrono>
 #include <memory>
@@ -31,6 +31,15 @@ void smoke_Dates_cache_swift_object_wrapper(_baseRef handle, const void* swift_p
 void smoke_Dates_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Dates >>(handle)->get());
+}
+double smoke_Dates_dateMethod(_baseRef _instance, double input) {
+    return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->date_method(Conversion<::std::chrono::system_clock::time_point>::toCpp(input)));
+}
+double smoke_Dates_dateProperty_get(_baseRef _instance) {
+    return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->get_date_property());
+}
+void smoke_Dates_dateProperty_set(_baseRef _instance, double value) {
+    return get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->set_date_property(Conversion<::std::chrono::system_clock::time_point>::toCpp(value));
 }
 _baseRef
 smoke_Dates_DateStruct_create_handle( double dateField )
@@ -62,13 +71,4 @@ void smoke_Dates_DateStruct_release_optional_handle(_baseRef handle) {
 double smoke_Dates_DateStruct_dateField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Dates::DateStruct>(handle);
     return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(struct_pointer->date_field);
-}
-double smoke_Dates_dateMethod(_baseRef _instance, double input) {
-    return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->date_method(Conversion<::std::chrono::system_clock::time_point>::toCpp(input)));
-}
-double smoke_Dates_dateProperty_get(_baseRef _instance) {
-    return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->get_date_property());
-}
-void smoke_Dates_dateProperty_set(_baseRef _instance, double newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->set_date_property(Conversion<::std::chrono::system_clock::time_point>::toCpp(newValue));
 }

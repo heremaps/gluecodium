@@ -16,9 +16,9 @@ typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);
     void(*smoke_ParentInterface_rootMethod)(void* swift_pointer);
-    _baseRef(*smoke_ParentInterface_rootProperty_get)(void* swift_pointer);
-    void(*smoke_ParentInterface_rootProperty_set)(void* swift_pointer, _baseRef newValue);
     void(*smoke_ChildInterface_childMethod)(void* swift_pointer);
+    _baseRef(*smoke_ParentInterface_rootProperty_get)(void* swift_pointer);
+    void(*smoke_ParentInterface_rootProperty_set)(void* swift_pointer, _baseRef value);
 } smoke_ChildInterface_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_ChildInterface_create_proxy(smoke_ChildInterface_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_ChildInterface_get_swift_object_from_cache(_baseRef handle);

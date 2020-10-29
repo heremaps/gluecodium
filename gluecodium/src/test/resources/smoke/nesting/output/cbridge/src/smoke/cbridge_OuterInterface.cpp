@@ -1,11 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_OuterInterface.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/OuterInterface.h"
 #include <memory>
@@ -50,7 +50,7 @@ void* smoke_OuterInterface_get_typed(_baseRef handle) {
 _baseRef smoke_OuterInterface_foo(_baseRef _instance, _baseRef input) {
     return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterInterface >>(_instance)->get()->foo(Conversion<::std::string>::toCpp(input)));
 }
-class smoke_OuterInterfaceProxy : public ::std::shared_ptr< ::smoke::OuterInterface >::element_type, public CachedProxyBase<smoke_OuterInterfaceProxy> {
+class smoke_OuterInterfaceProxy : public ::smoke::OuterInterface, public CachedProxyBase<smoke_OuterInterfaceProxy> {
 public:
     smoke_OuterInterfaceProxy(smoke_OuterInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -138,7 +138,7 @@ void* smoke_OuterInterface_InnerInterface_get_typed(_baseRef handle) {
 _baseRef smoke_OuterInterface_InnerInterface_foo(_baseRef _instance, _baseRef input) {
     return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterInterface::InnerInterface >>(_instance)->get()->foo(Conversion<::std::string>::toCpp(input)));
 }
-class smoke_OuterInterface_InnerInterfaceProxy : public ::std::shared_ptr< ::smoke::OuterInterface::InnerInterface >::element_type, public CachedProxyBase<smoke_OuterInterface_InnerInterfaceProxy> {
+class smoke_OuterInterface_InnerInterfaceProxy : public ::smoke::OuterInterface::InnerInterface, public CachedProxyBase<smoke_OuterInterface_InnerInterfaceProxy> {
 public:
     smoke_OuterInterface_InnerInterfaceProxy(smoke_OuterInterface_InnerInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))

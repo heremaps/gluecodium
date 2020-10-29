@@ -43,10 +43,10 @@ class CBridgeIncludeResolver(
         }
 
     fun getHeaderFileNameWithPath(limeElement: LimeNamedElement) =
-        createPath(limeElement, CBridgeNameRules.INCLUDE_DIR, CBridgeNameRules.PUBLIC_HEADER_SUFFIX)
+        createPath(limeElement, CBridgeNameRules.INCLUDE_DIR, ".h")
 
     fun getImplementationFileNameWithPath(limeElement: LimeNamedElement) =
-        createPath(limeElement, CBridgeNameRules.SRC_DIR, CBridgeNameRules.IMPL_SUFFIX)
+        createPath(limeElement, CBridgeNameRules.SRC_DIR, ".cpp")
 
     private fun createPath(
         limeElement: LimeNamedElement,

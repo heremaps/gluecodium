@@ -19,61 +19,104 @@
 
 package com.here.gluecodium.generator.cbridge
 
+import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.SRC_DIR
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.CppIncludeResolver
-import com.here.gluecodium.generator.cpp.CppModelBuilder
+import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
+import com.here.gluecodium.generator.cpp.Cpp2NameResolver
+import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppNameResolver
-import com.here.gluecodium.generator.cpp.CppTypeMapper
-import com.here.gluecodium.generator.swift.SwiftModelBuilder
-import com.here.gluecodium.generator.swift.SwiftNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.swift.SwiftNameRules
-import com.here.gluecodium.generator.swift.SwiftTypeMapper
-import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
-import com.here.gluecodium.model.cbridge.CElement
-import com.here.gluecodium.model.cbridge.CEnum
-import com.here.gluecodium.model.cbridge.CInterface
-import com.here.gluecodium.model.cbridge.CStruct
 import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeSignatureResolver
-import com.here.gluecodium.model.swift.SwiftFile
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.nio.file.Paths
 
-class CBridgeGenerator(
-    private val limeReferenceMap: Map<String, LimeElement>,
-    private val cppIncludeResolver: CppIncludeResolver,
-    private val includeResolver: CBridgeIncludeResolver,
-    private val cppNameResolver: CppNameResolver,
+internal class CBridgeGenerator(
+    limeReferenceMap: Map<String, LimeElement>,
+    rootNamespace: List<String>,
+    cachingNameResolver: CppNameResolver,
     private val internalNamespace: List<String>,
-    private val swiftNameRules: SwiftNameRules,
-    internalPrefix: String?
+    swiftNameRules: SwiftNameRules,
+    internalPrefix: String?,
+    cppNameRules: CppNameRules
 ) {
-    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
-    private val swiftNameResolver = SwiftNameResolver(limeReferenceMap, swiftNameRules)
-    private val nameResolver = CBridgeNameResolver(internalPrefix ?: "")
-    private val swiftTypeMapper = SwiftTypeMapper(swiftNameResolver, nameResolver)
-
-    val collectionsGenerator = CCollectionsGenerator(internalNamespace)
+    private val nameResolver = CBridgeNameResolver(limeReferenceMap, swiftNameRules, internalPrefix ?: "")
+    private val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, cachingNameResolver)
+    private val cppRefNameResolver =
+        CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(cachingNameResolver), cppNameResolver)
+    private val headerIncludeResolver = CBridgeHeaderIncludeResolver(limeReferenceMap, rootNamespace)
+    private val cppIncludeResolver = Cpp2IncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
+    private val implIncludeResolver = CBridgeImplIncludeResolver(rootNamespace, cppIncludeResolver)
+    private val predicates = CBridgeGeneratorPredicates(cppNameResolver).predicates
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
-        val cModel = buildCBridgeModel(rootElement)
-        return (cModel.map {
-            GeneratedFile(
-                generateHeaderContent(it),
-                includeResolver.getHeaderFileNameWithPath(rootElement)
-            ) } +
-            cModel.map { GeneratedFile(
-                generateImplementationContent(it),
-                includeResolver.getImplementationFileNameWithPath(rootElement)
-            ) }
-        ).filterNot { it.content.isEmpty() }
+        val templateData = mutableMapOf("model" to rootElement, "internalNamespace" to internalNamespace)
+        val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
+
+        val headerFilePath = headerIncludeResolver.getHeaderFilePath(rootElement)
+        val selfInclude = Include.createInternalInclude(headerFilePath)
+        templateData["includes"] = headerIncludeResolver.resolveIncludes(rootElement).distinct().sorted() - selfInclude
+        templateData["contentTemplate"] = (selectHeaderTemplate(rootElement) ?: return emptyList())
+        val headerFileContent = TemplateEngine.render("cbridge/CBridgeHeader", templateData, nameResolvers, predicates)
+        val headerFile = GeneratedFile(headerFileContent, headerFilePath)
+
+        templateData["includes"] =
+            listOf(selfInclude) + implIncludeResolver.resolveIncludes(rootElement).distinct().sorted()
+        templateData["contentTemplate"] = (selectImplTemplate(rootElement) ?: return listOf(headerFile))
+        val implFileContent =
+            TemplateEngine.render("cbridge/CBridgeImplementation", templateData, nameResolvers, predicates)
+        val implFile = GeneratedFile(implFileContent, implIncludeResolver.getImplFilePath(rootElement))
+
+        return listOf(headerFile, implFile)
+    }
+
+    fun generateCollections(limeModel: List<LimeNamedElement>): List<GeneratedFile> {
+        val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
+        val allParentTypes = getAllParentTypes(allTypes)
+        val genericTypes = GenericTypesCollector(nameResolver).getAllGenericTypes(allTypes + allParentTypes)
+        val templateData = mutableMapOf<String, Any>(
+            "lists" to genericTypes.filterIsInstance<LimeList>(),
+            "maps" to genericTypes.filterIsInstance<LimeMap>(),
+            "sets" to genericTypes.filterIsInstance<LimeSet>(),
+            "internalNamespace" to internalNamespace
+        )
+        val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
+
+        templateData["includes"] =
+            genericTypes.flatMap { headerIncludeResolver.resolveIncludes(it) }.distinct().sorted()
+        val headerFileContent =
+            TemplateEngine.render("cbridge/CBridgeCollectionsHeader", templateData, nameResolvers, predicates)
+        val headerFile = GeneratedFile(headerFileContent, CBRIDGE_COLLECTIONS_HEADER)
+
+        templateData["includes"] = listOf(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER)) +
+            (genericTypes.flatMap { implIncludeResolver.resolveIncludes(it) } +
+                    CBridgeImplIncludeResolver.BASE_HANDLE_IMPL_INCLUDE +
+                    cppIncludeResolver.optionalInclude).distinct().sorted()
+        val implFileContent =
+            TemplateEngine.render("cbridge/CBridgeCollectionsImpl", templateData, nameResolvers, predicates)
+        val implFile = GeneratedFile(implFileContent, CBRIDGE_COLLECTIONS_IMPL)
+
+        return listOf(headerFile, implFile)
     }
 
     fun generateHelpers() =
@@ -97,12 +140,17 @@ class CBridgeGenerator(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString()
             ),
-            generateHelperContent("TypeInitRepository", CBridgeNameRules.TYPE_INIT_REPOSITORY),
+            generateHelperContent("TypeInitRepository",
+                Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "TypeInitRepository.h").toString()
+            ),
             generateHelperContent(
                 "TypeInitRepositoryImpl",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "TypeInitRepository.cpp").toString()
             ),
-            generateHelperContent("WrapperCacheHeader", CBridgeComponents.WRAPPER_CACHE_HEADER),
+            generateHelperContent("WrapperCacheHeader", Paths.get(
+                CBRIDGE_INTERNAL, INCLUDE_DIR, "WrapperCache.h"
+            ).toString()
+            ),
             generateHelperContent(
                 "WrapperCacheImpl",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "WrapperCache.cpp").toString()
@@ -111,112 +159,52 @@ class CBridgeGenerator(
 
     private fun generateHelperContent(template: String, path: String): GeneratedFile {
         val content = TemplateEngine.render(
-            "cbridge/$template",
+            "cbridge/common/$template",
             mapOf("internalNamespace" to internalNamespace)
         )
         return GeneratedFile(content, path, GeneratedFile.SourceSet.COMMON)
     }
 
-    private fun buildCBridgeModel(rootElement: LimeNamedElement): List<CInterface> {
-        val cppTypeMapper = CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
-        val cppBuilder = CppModelBuilder(
-            typeMapper = cppTypeMapper,
-            nameResolver = cppNameResolver,
-            includeResolver = cppIncludeResolver,
-            limeReferenceMap = limeReferenceMap
-        )
-        val swiftBuilder =
-            SwiftModelBuilder(
-                limeReferenceMap = limeReferenceMap,
-                signatureResolver = signatureResolver,
-                nameResolver = swiftNameResolver,
-                typeMapper = swiftTypeMapper,
-                nameRules = swiftNameRules,
-                buildTransientModel = { buildTransientSwiftModel(it) }
-            )
-        val typeMapper = CBridgeTypeMapper(
-            cppIncludeResolver,
-            cppNameResolver,
-            includeResolver,
-            nameResolver,
-            internalNamespace
-        )
-
-        val modelBuilder = CBridgeModelBuilder(
-            limeReferenceMap = limeReferenceMap,
-            cppIncludeResolver = cppIncludeResolver,
-            cppBuilder = cppBuilder,
-            swiftBuilder = swiftBuilder,
-            typeMapper = typeMapper,
-            internalNamespace = internalNamespace,
-            buildTransientModel = { buildCBridgeModel(it) }
-        )
-        val treeWalker = LimeTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
-        treeWalker.walkTree(rootElement)
-
-        val cModel = modelBuilder.finalResults.mapNotNull { wrapInInterface(it, rootElement) }
-        cModel.forEach { removeRedundantIncludes(rootElement, it) }
-        collectionsGenerator.collect(typeMapper.generics)
-
-        return cModel
-    }
-
-    private fun buildTransientSwiftModel(rootElement: LimeNamedElement): List<SwiftFile> {
-        val swiftBuilder =
-            SwiftModelBuilder(
-                limeReferenceMap = limeReferenceMap,
-                signatureResolver = signatureResolver,
-                nameResolver = swiftNameResolver,
-                typeMapper = swiftTypeMapper,
-                nameRules = swiftNameRules,
-                buildTransientModel = { buildTransientSwiftModel(it) }
-            )
-        LimeTreeWalker(listOf(swiftBuilder)).walkTree(rootElement)
-
-        return swiftBuilder.finalResults.filterIsInstance<SwiftFile>()
-    }
-
-    private fun wrapInInterface(cElement: CElement, limeElement: LimeNamedElement): CInterface? {
-        val result = when (cElement) {
-            is CInterface -> cElement
-            is CStruct -> CInterface(
-                name = cElement.name,
-                selfType = null,
-                internalNamespace = internalNamespace,
-                structs = listOf(cElement)
-            )
-            is CEnum -> CInterface(
-                name = cElement.name,
-                selfType = null,
-                internalNamespace = internalNamespace,
-                enums = listOf(cElement)
-            )
-            else -> return null
+    private fun selectHeaderTemplate(limeElement: LimeNamedElement) =
+        when (limeElement) {
+            is LimeStruct -> "cbridge/CBridgeStructHeader"
+            is LimeContainer -> "cbridge/CBridgeClassHeader"
+            is LimeLambda -> "cbridge/CBridgeLambdaHeader"
+            is LimeEnumeration -> "cbridge/CBridgeEnumeration"
+            else -> null
         }
-        addInterfaceIncludes(result, limeElement)
-        return result
+
+    private fun selectImplTemplate(limeElement: LimeNamedElement) =
+        when (limeElement) {
+            is LimeStruct -> "cbridge/CBridgeStructImpl"
+            is LimeContainer -> "cbridge/CBridgeClassImpl"
+            is LimeLambda -> "cbridge/CBridgeLambdaImpl"
+            is LimeEnumeration -> null
+            else -> null
+        }
+
+    private fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
+        if (allTypes.isEmpty()) return emptyList()
+        val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().mapNotNull { it.parent?.type }
+        return parents + getAllParentTypes(parents)
     }
 
-    private fun addInterfaceIncludes(cInterface: CInterface, limeElement: LimeNamedElement) {
+    private class GenericTypesCollector(private val nameResolver: CBridgeNameResolver) :
+        LimeTypeRefsVisitor<List<LimeGenericType>>() {
 
-        cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface))
-        cInterface.implementationIncludes.addAll(
-            CBridgeComponents.collectImplementationIncludes(cInterface)
-        )
-        cInterface.implementationIncludes.add(includeResolver.resolveInclude(limeElement))
-        cInterface.privateHeaderIncludes.addAll(
-            CBridgeComponents.collectPrivateHeaderIncludes(cInterface)
-        )
-    }
+        override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeGenericType> {
+            val limeType = limeTypeRef?.type?.actualType as? LimeGenericType ?: return emptyList()
+            return listOf(limeType) + when (limeType) {
+                is LimeList -> visitTypeRef(parentElement, limeType.elementType)
+                is LimeSet -> visitTypeRef(parentElement, limeType.elementType)
+                is LimeMap -> visitTypeRef(parentElement, limeType.keyType) +
+                        visitTypeRef(parentElement, limeType.valueType)
+                else -> emptyList()
+            }
+        }
 
-    private fun removeRedundantIncludes(rootElement: LimeNamedElement, cModel: CInterface) {
-        cModel.headerIncludes.remove(
-            Include.createInternalInclude(
-                includeResolver.getHeaderFileNameWithPath(rootElement)
-            )
-        )
-        cModel.implementationIncludes.removeAll(cModel.headerIncludes)
-        cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes)
+        fun getAllGenericTypes(allTypes: List<LimeType>) =
+            traverseTypes(allTypes).flatten().associateBy { nameResolver.resolveName(it) }.toSortedMap().values
     }
 
     companion object {
@@ -237,10 +225,9 @@ class CBridgeGenerator(
             GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, "")
         )
 
-        private fun generateHeaderContent(model: CInterface) =
-            TemplateEngine.render("cbridge/Header", model)
-
-        private fun generateImplementationContent(model: CInterface) =
-            TemplateEngine.render("cbridge/Implementation", model)
+        private val CBRIDGE_COLLECTIONS_HEADER =
+            Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "GenericCollections.h").toString()
+        private val CBRIDGE_COLLECTIONS_IMPL =
+            Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "GenericCollections.cpp").toString()
     }
 }

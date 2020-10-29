@@ -69,7 +69,7 @@ class CBridgeTypeMapperTest {
             cppIncludeResolver,
             cppNameResolver,
             includeResolver,
-            CBridgeNameResolver(""),
+            CBridgeCollectionNameResolver(""),
             emptyList()
         )
     }

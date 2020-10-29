@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,22 +19,135 @@
 
 package com.here.gluecodium.generator.cbridge
 
+import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.NameHelper
+import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
+import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeRef
 
-class CBridgeNameResolver(private val internalPrefix: String) {
-    fun getCollectionName(limeType: LimeType): String = when (limeType) {
-        is LimeTypeAlias -> getCollectionName(limeType.typeRef.type)
-        is LimeList -> "${internalPrefix}ArrayOf_${getCollectionName(limeType.elementType.type)}"
-        is LimeMap -> {
-            val keyTypeName = getCollectionName(limeType.keyType.type)
-            val valueTypeName = getCollectionName(limeType.valueType.type)
-            "${internalPrefix}MapOf_${keyTypeName}_To_$valueTypeName"
+internal class CBridgeNameResolver(
+    limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: NameRules,
+    private val internalPrefix: String
+) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
+
+    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
+
+    override fun resolveName(element: Any): String =
+        when (element) {
+            is LimeGenericType -> resolveGenericTypeName(element)
+
+            // TODO: #592: normalize this mess
+            is LimeContainerWithInheritance -> CBridgeNameRules.getNestedNames(element).joinToString("_")
+            is LimeLambda -> CBridgeNameRules.getNestedNames(element).joinToString("_")
+            is LimeType ->
+                (CBridgeNameRules.getNestedNames(element).dropLast(1) + getPlatformName(element)).joinToString("_")
+
+            is LimeFunction -> resolveFunctionName(element)
+            is LimeReturnType -> resolveTypeRef(element.typeRef)
+            is LimeTypeRef -> resolveTypeRef(element)
+
+            // TODO: review and remove after all tests are passing
+            is TypeId -> resolveBasicType(element)
+            is LimeTypeAlias -> resolveName(element.typeRef)
+            is LimeNamedElement -> nameRules.getName(element)
+            is LinkedHashMap<*, *> -> "" // TODO: remove
+            else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
-        is LimeSet -> "${internalPrefix}SetOf_${getCollectionName(limeType.elementType.type)}"
-        else -> CBridgeNameRules.getTypeName(limeType)
+
+    private fun resolveFunctionName(limeFunction: LimeFunction): String {
+        val parentElement = getParentElement(limeFunction)
+        // TODO: #592: normalize this mess
+        val prefix = when (parentElement) {
+            is LimeProperty -> CBridgeNameRules.getNestedNames(limeFunction).dropLast(2) +
+                    NameHelper.toLowerCamelCase(parentElement.name)
+            is LimeContainerWithInheritance -> CBridgeNameRules.getNestedNames(limeFunction).dropLast(2) +
+                    getPlatformName(parentElement)
+            else -> listOf(resolveName(parentElement))
+        }
+
+        // TODO: #592: normalize this mess
+        val platformName = if (parentElement !is LimeLambda) limeFunction.attributes.get(SWIFT, NAME) else null
+        val methodName = platformName ?: NameHelper.toLowerCamelCase(limeFunction.name)
+
+        val suffix = when {
+            !signatureResolver.isOverloaded(limeFunction) -> emptyList()
+            limeFunction.parameters.isEmpty() -> listOf("")
+            else -> signatureResolver.getSignature(limeFunction).map { CBridgeNameRules.mangleSignature(it) }
+        }
+        return (prefix + CBridgeNameRules.mangleName(methodName) + suffix).joinToString("_")
+    }
+
+    private fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
+        if (limeTypeRef.isNullable) return HANDLE
+        return when (val limeType = limeTypeRef.type.actualType) {
+            is LimeBasicType -> resolveBasicType(limeType.typeId)
+            is LimeEnumeration -> resolveName(limeType)
+            else -> HANDLE
+        }
+    }
+
+    private fun resolveBasicType(typeId: TypeId) =
+        when (typeId) {
+            TypeId.VOID -> "void"
+            TypeId.INT8 -> "int8_t"
+            TypeId.UINT8 -> "uint8_t"
+            TypeId.INT16 -> "int16_t"
+            TypeId.UINT16 -> "uint16_t"
+            TypeId.INT32 -> "int32_t"
+            TypeId.UINT32 -> "uint32_t"
+            TypeId.INT64 -> "int64_t"
+            TypeId.UINT64 -> "uint64_t"
+            TypeId.BOOLEAN -> "bool"
+            TypeId.FLOAT -> "float"
+            TypeId.DOUBLE -> "double"
+            TypeId.DATE -> "double"
+            else -> HANDLE
+        }
+
+    private fun resolveGenericTypeName(limeType: LimeGenericType) =
+        when (limeType) {
+            is LimeList -> "${internalPrefix}ArrayOf_${resolveElementTypeName(limeType.elementType)}"
+            is LimeMap -> {
+                val keyTypeName = resolveElementTypeName(limeType.keyType)
+                val valueTypeName = resolveElementTypeName(limeType.valueType)
+                "${internalPrefix}MapOf_${keyTypeName}_To_$valueTypeName"
+            }
+            is LimeSet -> "${internalPrefix}SetOf_${resolveElementTypeName(limeType.elementType)}"
+            else -> throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
+        }
+
+    private fun resolveElementTypeName(limeTypeRef: LimeTypeRef): String {
+        val limeType = limeTypeRef.type.actualType
+        val prefix = if (limeType is LimeBasicType) "_" else ""
+        return prefix + resolveName(limeType)
+    }
+
+    private fun getPlatformName(limeType: LimeType) =
+        limeType.attributes.get(SWIFT, NAME)?.let { CBridgeNameRules.mangleName(it) }
+            ?: NameHelper.toUpperCamelCase(limeType.name)
+
+    companion object {
+        private const val HANDLE = "_baseRef"
     }
 }

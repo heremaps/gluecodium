@@ -1,16 +1,20 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_CalculatorListener.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
 #include <new>
+#include <string>
 #include <unordered_map>
 #include <vector>
 void smoke_CalculatorListener_release_handle(_baseRef handle) {
@@ -49,37 +53,6 @@ void* smoke_CalculatorListener_get_typed(_baseRef handle) {
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_CalculatorListener(handle);
 }
-_baseRef
-smoke_CalculatorListener_ResultStruct_create_handle( double result )
-{
-    ::smoke::CalculatorListener::ResultStruct* _struct = new ( ::std::nothrow ) ::smoke::CalculatorListener::ResultStruct();
-    _struct->result = result;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_CalculatorListener_ResultStruct_release_handle( _baseRef handle )
-{
-    delete get_pointer<::smoke::CalculatorListener::ResultStruct>( handle );
-}
-_baseRef
-smoke_CalculatorListener_ResultStruct_create_optional_handle(double result)
-{
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::CalculatorListener::ResultStruct>( ::smoke::CalculatorListener::ResultStruct( ) );
-    (*_struct)->result = result;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_CalculatorListener_ResultStruct_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle ) );
-}
-void smoke_CalculatorListener_ResultStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle );
-}
-double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<const ::smoke::CalculatorListener::ResultStruct>(handle);
-    return struct_pointer->result;
-}
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<::std::shared_ptr< ::smoke::CalculatorListener >>(_instance)->get()->on_calculation_result(calculationResult);
 }
@@ -98,7 +71,7 @@ void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRe
 void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult) {
     return get_pointer<::std::shared_ptr< ::smoke::CalculatorListener >>(_instance)->get()->on_calculation_result_instance(Conversion<::std::shared_ptr< ::smoke::CalculationResult >>::toCpp(calculationResult));
 }
-class smoke_CalculatorListenerProxy : public ::std::shared_ptr< ::smoke::CalculatorListener >::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
+class smoke_CalculatorListenerProxy : public ::smoke::CalculatorListener, public CachedProxyBase<smoke_CalculatorListenerProxy> {
 public:
     smoke_CalculatorListenerProxy(smoke_CalculatorListener_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -136,4 +109,35 @@ _baseRef smoke_CalculatorListener_create_proxy(smoke_CalculatorListener_Function
 }
 const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_CalculatorListenerProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::CalculatorListener >>(handle)->get()) : nullptr;
+}
+_baseRef
+smoke_CalculatorListener_ResultStruct_create_handle( double result )
+{
+    ::smoke::CalculatorListener::ResultStruct* _struct = new ( ::std::nothrow ) ::smoke::CalculatorListener::ResultStruct();
+    _struct->result = result;
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_CalculatorListener_ResultStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::CalculatorListener::ResultStruct>( handle );
+}
+_baseRef
+smoke_CalculatorListener_ResultStruct_create_optional_handle(double result)
+{
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::CalculatorListener::ResultStruct>( ::smoke::CalculatorListener::ResultStruct( ) );
+    (*_struct)->result = result;
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_CalculatorListener_ResultStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle ) );
+}
+void smoke_CalculatorListener_ResultStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle );
+}
+double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<const ::smoke::CalculatorListener::ResultStruct>(handle);
+    return struct_pointer->result;
 }

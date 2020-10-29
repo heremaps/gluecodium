@@ -1,11 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Enums.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "smoke/Enums.h"
 #include <memory>
 #include <new>
@@ -30,6 +30,18 @@ void smoke_Enums_cache_swift_object_wrapper(_baseRef handle, const void* swift_p
 void smoke_Enums_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Enums >>(handle)->get());
+}
+smoke_Enums_SimpleEnum smoke_Enums_methodWithEnumeration(smoke_Enums_SimpleEnum input) {
+    return static_cast<smoke_Enums_SimpleEnum>(::smoke::Enums::method_with_enumeration(static_cast<::smoke::Enums::SimpleEnum>(input)));
+}
+smoke_Enums_InternalErrorCode smoke_Enums_flipEnumValue(smoke_Enums_InternalErrorCode input) {
+    return static_cast<smoke_Enums_InternalErrorCode>(::smoke::Enums::flip_enum_value(static_cast<::smoke::Enums::InternalErrorCode>(input)));
+}
+smoke_Enums_InternalErrorCode smoke_Enums_extractEnumFromStruct(_baseRef input) {
+    return static_cast<smoke_Enums_InternalErrorCode>(::smoke::Enums::extract_enum_from_struct(Conversion<::smoke::Enums::ErrorStruct>::toCpp(input)));
+}
+_baseRef smoke_Enums_createStructWithEnumInside(smoke_Enums_InternalErrorCode type, _baseRef message) {
+    return Conversion<::smoke::Enums::ErrorStruct>::toBaseRef(::smoke::Enums::create_struct_with_enum_inside(static_cast<::smoke::Enums::InternalErrorCode>(type), Conversion<::std::string>::toCpp(message)));
 }
 _baseRef
 smoke_Enums_ErrorStruct_create_handle( smoke_Enums_InternalErrorCode type, _baseRef message )
@@ -67,16 +79,4 @@ smoke_Enums_InternalErrorCode smoke_Enums_ErrorStruct_type_get(_baseRef handle) 
 _baseRef smoke_Enums_ErrorStruct_message_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Enums::ErrorStruct>(handle);
     return Conversion<::std::string>::toBaseRef(struct_pointer->message);
-}
-smoke_Enums_SimpleEnum smoke_Enums_methodWithEnumeration(smoke_Enums_SimpleEnum input) {
-    return static_cast<smoke_Enums_SimpleEnum>(::smoke::Enums::method_with_enumeration(static_cast<::smoke::Enums::SimpleEnum>(input)));
-}
-smoke_Enums_InternalErrorCode smoke_Enums_flipEnumValue(smoke_Enums_InternalErrorCode input) {
-    return static_cast<smoke_Enums_InternalErrorCode>(::smoke::Enums::flip_enum_value(static_cast<::smoke::Enums::InternalErrorCode>(input)));
-}
-smoke_Enums_InternalErrorCode smoke_Enums_extractEnumFromStruct(_baseRef input) {
-    return static_cast<smoke_Enums_InternalErrorCode>(::smoke::Enums::extract_enum_from_struct(Conversion<::smoke::Enums::ErrorStruct>::toCpp(input)));
-}
-_baseRef smoke_Enums_createStructWithEnumInside(smoke_Enums_InternalErrorCode type, _baseRef message) {
-    return Conversion<::smoke::Enums::ErrorStruct>::toBaseRef(::smoke::Enums::create_struct_with_enum_inside(static_cast<::smoke::Enums::InternalErrorCode>(type), Conversion<::std::string>::toCpp(message)));
 }

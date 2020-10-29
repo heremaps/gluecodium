@@ -18,73 +18,72 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>baseApi}}() );
+_baseRef {{resolveName}}_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{resolveName "C++"}}() );
 }
 
-void {{name}}_release_handle(_baseRef handle) {
-    delete get_pointer<{{>baseApi}}>(handle);
+void {{resolveName}}_release_handle(_baseRef handle) {
+    delete get_pointer<{{resolveName "C++"}}>(handle);
 }
 
-_baseRef {{name}}_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
+_baseRef {{resolveName}}_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{resolveName "C++"}}::iterator( get_pointer<{{resolveName "C++"}}>(handle)->begin() ) );
 }
 
-void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+void {{resolveName}}_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle );
 }
 
-void {{name}}_put(_baseRef handle, {{keyType.functionReturnType}} key, {{valueType.functionReturnType}} value) {
-    (*get_pointer<{{>baseApi}}>(handle)).emplace({{#set variableName="key" variableType=keyType}}{{>ConvertToCpp}}{{/set}},{{!!
-       }} {{#set variableName="value" variableType=valueType}}{{>ConvertToCpp}}{{/set}});
+void {{resolveName}}_put(_baseRef handle, {{resolveName keyType}} key, {{resolveName valueType}} value) {
+    (*get_pointer<{{resolveName "C++"}}>(handle)).emplace({{!!
+    }}{{#set variableName="key" variableType=keyType map=this}}{{>ConvertToCpp}}{{/set}}, {{!!
+    }}{{#set variableName="value" variableType=valueType map=this}}{{>ConvertToCpp}}{{/set}});
 }
 
-bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ) != get_pointer<{{>baseApi}}>(handle)->end();
+bool {{resolveName}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle ) != get_pointer<{{resolveName "C++"}}>(handle)->end();
 }
 
-void {{name}}_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+void {{resolveName}}_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle );
 }
 
-{{keyType.functionReturnType}} {{name}}_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ))->first;
-    return {{#set variableName="key" variableType=keyType}}{{>ConvertFromCpp}}{{/set}};
+{{resolveName keyType}} {{resolveName}}_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle ))->first;
+    return {{#set variableName="key" variableType=keyType map=this}}{{>ConvertFromCpp}}{{/set}};
 }
 
-{{valueType.functionReturnType}} {{name}}_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ))->second;
-    return {{#set variableName="value" variableType=valueType}}{{>ConvertFromCpp}}{{/set}};
+{{resolveName valueType}} {{resolveName}}_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle ))->second;
+    return {{#set variableName="value" variableType=valueType map=this}}{{>ConvertFromCpp}}{{/set}};
 }
 
-_baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
+_baseRef {{resolveName}}_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) ) );
 }
 
-void {{name}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{>baseApi}}>*>( handle );
+void {{resolveName}}_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle );
 }
 
-_baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{>baseApi}}>*>( handle ) );
-}
-
-{{!!
-
-}}{{+baseApi}}::std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#unless hasStdHash}}, {{>common/InternalNamespace}}hash<{{keyType.name}}>{{/unless}}>{{/baseApi}}{{!!
+_baseRef {{resolveName}}_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle ) );
+}{{!!
 
 }}{{+ConvertToCpp}}{{!!
-}}{{#switch variableType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_SIMPLE"}}{{variableName}}{{/case}}{{!!
-    }}{{#case "ENUM"}}static_cast<{{variableType.name}}>({{variableName}}){{/case}}{{!!
-    }}{{#default}}Conversion<{{variableType}}>::toCpp({{variableName}}){{/default}}{{!!
-}}{{/switch}}{{!!
+}}{{#set typeRef=variableType}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName typeRef "C++"}}>::toCpp({{variableName}}){{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}{{!!
+}}static_cast<{{resolveName typeRef "C++"}}>({{variableName}}){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{variableName}}{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}{{!!
 }}{{/ConvertToCpp}}{{!!
 
 }}{{+ConvertFromCpp}}{{!!
-}}{{#switch variableType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_SIMPLE"}}{{variableName}}{{/case}}{{!!
-    }}{{#case "ENUM"}}static_cast<{{variableType.functionReturnType}}>({{variableName}}){{/case}}{{!!
-    }}{{#default}}Conversion<{{variableType}}>::toBaseRef({{variableName}}){{/default}}{{!!
-}}{{/switch}}{{!!
+}}{{#set typeRef=variableType}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName typeRef "C++"}}>::toBaseRef({{variableName}}){{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}{{!!
+}}static_cast<{{resolveName typeRef}}>({{variableName}}){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{variableName}}{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}{{!!
 }}{{/ConvertFromCpp}}

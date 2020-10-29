@@ -1,0 +1,134 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+class {{resolveName}}Proxy :{{#notInstanceOf this "LimeLambda"}} public {{resolveName this "C++"}},{{/notInstanceOf}} {{!!
+}}public CachedProxyBase<{{resolveName}}Proxy> {
+public:
+    {{resolveName}}Proxy({{resolveName}}_FunctionTable&& functions)
+     : mFunctions(::std::move(functions))
+    {
+    }
+
+    virtual ~{{resolveName}}Proxy() {
+        mFunctions.release(mFunctions.swift_pointer);
+    }
+
+    {{resolveName}}Proxy(const {{resolveName}}Proxy&) = delete;
+    {{resolveName}}Proxy& operator=(const {{resolveName}}Proxy&) = delete;
+
+{{#each this.inheritedFunctions this.functions}}{{#unless isStatic}}
+    {{>cpp/CppReturnType}} {{resolveName "C++"}}({{joinPartial parameters "cppParameter" ", "}}){{!!
+    }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
+{{#if attributes.swift.skip}}
+        {{#if returnType.isVoid error}}return {};{{/if}}{{#unless returnType.isVoid}}return {};{{/unless}}
+{{/if}}{{#unless attributes.swift.skip}}{{#if thrownType}}
+        auto _result_with_error = {{>swiftDelegateCall}};
+        if (!_result_with_error.has_value)
+        {
+            return {{>errorConversion}}
+        }
+        {{#if returnType.isVoid}}return {};{{/if}}{{!!
+        }}{{#unless returnType.isVoid}}auto _call_result = _result_with_error.returned_value;{{/unless}}
+        {{/if}}{{#unless thrownType}}
+        {{#unless returnType.isVoid}}auto _call_result = {{/unless}}{{>swiftDelegateCall}};
+        {{/unless}}
+        {{#unless returnType.isVoid}}{{>returnConversion}}{{/unless}}{{/unless}}
+    }
+{{/unless}}{{/each}}
+{{#each this.inheritedProperties this.properties}}{{#unless isStatic}}
+    {{resolveName typeRef "C++"}} {{resolveName this "C++" "getter"}}() const override {
+{{#if attributes.swift.skip}}
+        return {};
+{{/if}}{{#unless attributes.swift.skip}}
+        auto _call_result = mFunctions.{{resolveName getter}}(mFunctions.swift_pointer);
+        {{#set returnType=getter.returnType}}{{>returnConversion}}{{/set}}
+{{/unless}}
+    }
+{{#if setter}}
+    void {{resolveName this "C++" "setter"}}({{#setter.parameters.0}}{{>cppParameter}}{{/setter.parameters.0}}) override {
+{{#unless attributes.swift.skip}}
+        mFunctions.{{resolveName setter}}({{!!
+        }}mFunctions.swift_pointer, {{#setter.parameters.0}}{{>swiftParameter}}{{/setter.parameters.0}});
+{{/unless}}
+    }
+{{/if}}
+{{/unless}}{{/each}}
+
+private:
+    {{resolveName}}_FunctionTable mFunctions;
+};
+
+_baseRef {{resolveName}}_create_proxy({{resolveName}}_FunctionTable functionTable) {
+    auto proxy = {{resolveName}}Proxy::get_proxy(::std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new {{resolveName this "C++" "ref"}}({{!!
+    }}{{#notInstanceOf this "LimeLambda"}}proxy{{/notInstanceOf}}{{!!
+    }}{{#instanceOf this "LimeLambda"}}::std::bind(&{{resolveName}}Proxy::operator(), proxy{{!!
+    }}{{#functions.0.parameters}}, ::std::placeholders::_{{iter.index}}{{/functions.0.parameters}}){{/instanceOf}})) : 0;
+}
+{{#instanceOf this "LimeLambda"}}
+
+_baseRef {{resolveName}}_create_optional_proxy({{resolveName}}_FunctionTable functionTable) {
+    auto proxy = {{resolveName}}Proxy::get_proxy(::std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) {{>common/InternalNamespace}}optional<{{resolveName this "C++"}}>({{!!
+    }}::std::bind(&{{resolveName}}Proxy::operator(), proxy{{!!
+    }}{{#functions.0.parameters}}, ::std::placeholders::_{{iter.index}}{{/functions.0.parameters}}))) : 0;
+}
+{{/instanceOf}}
+
+const void* {{resolveName}}_get_swift_object_from_cache(_baseRef handle) {
+    return handle ? {{resolveName}}Proxy::get_swift_object(get_pointer<{{resolveName this "C++" "ref"}}>(handle){{!!
+    }}{{#notInstanceOf this "LimeLambda"}}->get(){{/notInstanceOf}}) : nullptr;
+}
+
+{{+cppParameter}}{{!!
+}}{{#ifPredicate typeRef "isComplexType"}}const {{resolveName typeRef "C++"}}&{{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}const {{resolveName typeRef "C++"}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{resolveName typeRef "C++"}}{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}} {{resolveName}}{{/cppParameter}}{{!!
+
+}}{{+swiftParameter}}{{#set parameter=this}}{{!!
+}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName typeRef "C++"}}>::toBaseRef({{resolveName parameter}}){{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}static_cast<uint32_t>({{resolveName parameter}}){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{resolveName parameter}}{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}{{/swiftParameter}}{{!!
+
+}}{{+returnConversion}}{{#set typeRef=returnType.typeRef}}{{!!
+}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}return Conversion<{{resolveName typeRef "C++"}}>::toCppReturn(_call_result);{{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}return static_cast<{{resolveName typeRef "C++"}}>(_call_result);{{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}return _call_result;{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}
+{{/returnConversion}}{{!!
+
+}}{{+errorConversion}}{{#set typeRef=exception.errorType}}{{!!
+}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName typeRef "C++"}}>::toCppReturn(_result_with_error.error_value);{{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}{{!!
+}}::std::error_code{static_cast<{{resolveName typeRef "C++"}}>(_result_with_error.error_value)};{{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}_result_with_error.error_value;{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}
+{{/errorConversion}}{{!!
+
+}}{{+swiftDelegateCall}}mFunctions.{{resolveName}}(mFunctions.swift_pointer{{!!
+}}{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}
