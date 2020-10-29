@@ -15,6 +15,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
+set (TEST_ANDROID_API_LEVEL_VERSION 28)
+
 function (
     prepare_detailed_information
     result
@@ -99,15 +101,17 @@ function (get_parameters_for_build_environment result)
         list (APPEND _params
             -GNinja
             -DANDROID_ABI=x86_64
-            -DANDROID_PLATFORM=android-21
+            -DANDROID_PLATFORM=android-${TEST_ANDROID_API_LEVEL_VERSION}
             -DANDROID_HOME=$ENV{ANDROID_HOME}
             -DANDROID_STL=c++_shared
             -DCMAKE_TOOLCHAIN_FILE=$ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake)
     elseif(GLUECODIUM_BUILD_ENVIRONMENT STREQUAL "android-host")
-        # Almost the same as if GLUECODIUM_BUILD_ENVIRONMENT is not set.
-        # Perhaps some additional parameters are still necessary, check with
-        # examples/scripts/build-android (--hostOnly option)
-        list (APPEND _params "-GNinja")
+        # Pretend as if we really going to build for Android
+        list (APPEND _params
+            -GNinja
+            -DANDROID=ON
+            -DANDROID_PLATFORM=android-${TEST_ANDROID_API_LEVEL_VERSION}
+            -DANDROID_HOME=$ENV{ANDROID_HOME})
     else ()
         message(FATAL_ERROR "Unknown build environment: ${GLUECODIUM_BUILD_ENVIRONMENT}")
     endif ()
