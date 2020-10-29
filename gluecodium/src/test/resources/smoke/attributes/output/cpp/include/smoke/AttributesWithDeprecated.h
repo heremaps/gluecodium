@@ -35,8 +35,18 @@ public:
      */
     [[OnFunctionInClass]]
     virtual void very_fun(  ) = 0;
+    /**
+     *
+     * \deprecated
+     * \return
+     */
     [[OnPropertyInClass]]
     virtual ::std::string get_prop(  ) const = 0;
+    /**
+     *
+     * \deprecated
+     * \param[in] value
+     */
     [[OnPropertyInClass]]
     virtual void set_prop( const ::std::string& value ) = 0;
 };

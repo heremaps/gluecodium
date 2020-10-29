@@ -21,60 +21,70 @@ package smoke
 @Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
 @Swift(Attribute = "OnClass")
+@Dart(Attribute = "OnClass")
 class AttributesWithComments {
-   // Function comment
-   @Cpp(Attribute = "OnFunctionInClass")
-   @Java(Attribute = "OnFunctionInClass")
-   @Swift(Attribute = "OnFunctionInClass")
-   fun veryFun()
-   // Property comment
-   // @get Getter comment
-   // @set Setter comment
-   @Cpp(Attribute = "OnPropertyInClass")
-   @Java(Attribute = "OnPropertyInClass")
-   @Swift(Attribute = "OnPropertyInClass")
-   property prop: String
-   // Const comment
-   @Cpp(Attribute = "OnConstInClass")
-   @Java(Attribute = "OnConstInClass")
-   @Swift(Attribute = "OnConstInClass")
-   const pi: Boolean = false
+    // Function comment
+    @Cpp(Attribute = "OnFunctionInClass")
+    @Java(Attribute = "OnFunctionInClass")
+    @Swift(Attribute = "OnFunctionInClass")
+    @Dart(Attribute = "OnFunctionInClass")
+    fun veryFun()
+    // Property comment
+    // @get Getter comment
+    // @set Setter comment
+    @Cpp(Attribute = "OnPropertyInClass")
+    @Java(Attribute = "OnPropertyInClass")
+    @Swift(Attribute = "OnPropertyInClass")
+    @Dart(Attribute = "OnPropertyInClass")
+    property prop: String
+    // Const comment
+    @Cpp(Attribute = "OnConstInClass")
+    @Java(Attribute = "OnConstInClass")
+    @Swift(Attribute = "OnConstInClass")
+    @Dart(Attribute = "OnConstInClass")
+    const pi: Boolean = false
 
-   struct SomeStruct {
-      // Field comment
-      @Cpp(Attribute = "OnField")
-      @Java(Attribute = "OnField")
-      @Swift(Attribute = "OnField")
-      field: String
-   }
+    struct SomeStruct {
+        // Field comment
+        @Cpp(Attribute = "OnField")
+        @Java(Attribute = "OnField")
+        @Swift(Attribute = "OnField")
+        @Dart(Attribute = "OnField")
+        field: String
+    }
 }
 
 @Deprecated
 @Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
 @Swift(Attribute = "OnClass")
+@Dart(Attribute = "OnClass")
 class AttributesWithDeprecated {
-   @Deprecated
-   @Cpp(Attribute = "OnFunctionInClass")
-   @Java(Attribute = "OnFunctionInClass")
-   @Swift(Attribute = "OnFunctionInClass")
-   fun veryFun()
-   @Deprecated
-   @Cpp(Attribute = "OnPropertyInClass")
-   @Java(Attribute = "OnPropertyInClass")
-   @Swift(Attribute = "OnPropertyInClass")
-   property prop: String
-   @Deprecated
-   @Cpp(Attribute = "OnConstInClass")
-   @Java(Attribute = "OnConstInClass")
-   @Swift(Attribute = "OnConstInClass")
-   const pi: Boolean = false
+    @Deprecated
+    @Cpp(Attribute = "OnFunctionInClass")
+    @Java(Attribute = "OnFunctionInClass")
+    @Swift(Attribute = "OnFunctionInClass")
+    @Dart(Attribute = "OnFunctionInClass")
+    fun veryFun()
+    @Deprecated
+    @Cpp(Attribute = "OnPropertyInClass")
+    @Java(Attribute = "OnPropertyInClass")
+    @Swift(Attribute = "OnPropertyInClass")
+    @Dart(Attribute = "OnPropertyInClass")
+    property prop: String { @Deprecated get @Deprecated set }
+    @Deprecated
+    @Cpp(Attribute = "OnConstInClass")
+    @Java(Attribute = "OnConstInClass")
+    @Swift(Attribute = "OnConstInClass")
+    @Dart(Attribute = "OnConstInClass")
+    const pi: Boolean = false
 
-   struct SomeStruct {
-      @Deprecated
-      @Cpp(Attribute = "OnField")
-      @Java(Attribute = "OnField")
-      @Swift(Attribute = "OnField")
-      field: String
-   }
+    struct SomeStruct {
+        @Deprecated
+        @Cpp(Attribute = "OnField")
+        @Java(Attribute = "OnField")
+        @Swift(Attribute = "OnField")
+        @Dart(Attribute = "OnField")
+        field: String
+    }
 }

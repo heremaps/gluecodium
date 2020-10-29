@@ -29,4 +29,10 @@
 /// @nodoc{{/if}}{{!!
 }}{{#if attributes.deprecated}}
 @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
-{{/if}}
+{{/if}}{{!!
+}}{{#if attributes.dart.attribute}}
+
+{{#attributes.dart.attribute}}
+@{{this}}{{#if iter.hasNext}}
+
+{{/if}}{{/attributes.dart.attribute}}{{/if}}
