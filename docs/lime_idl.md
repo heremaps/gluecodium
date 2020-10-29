@@ -514,7 +514,7 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
   * **Attribute** **=** **"**_Attribute_**"**: marks an element to be marked with the given attribute in Swift
   generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ can contain parameters, e.g.
-  `@Swift(Attribute="@available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string
+  `@Swift(Attribute="available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string
   literals, their enclosing quotes need to be backslash-escaped, as in the example.
 * **@Dart**: marks an element with Dart-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
@@ -522,6 +522,10 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
   * **Skip**: marks an element to be skipped (not generated) in Dart. Can be applied to any element except for struct
   fields.
+  * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
+  generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
+  `@Dart(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
+  quotes need to be backslash-escaped, as in the example.
 * **@Cpp**: marks an element with C++-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
   This is the default specification for this attribute.

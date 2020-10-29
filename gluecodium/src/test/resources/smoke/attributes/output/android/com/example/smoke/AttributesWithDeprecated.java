@@ -48,9 +48,20 @@ public final class AttributesWithDeprecated extends NativeBase {
     @Deprecated
     @OnFunctionInClass
     public native void veryFun();
+    /**
+     *
+     * @deprecated
+     */
+    @Deprecated
     @OnPropertyInClass
     @NonNull
     public native String getProp();
+    /**
+     *
+     * @deprecated
+     * @param value
+     */
+    @Deprecated
     @OnPropertyInClass
     public native void setProp(@NonNull final String value);
 }

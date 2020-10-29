@@ -76,3 +76,23 @@ class MultipleAttributesSwift {
     @Swift(Attribute = ["Baz", "Fizz"])
     fun twoLists()
 }
+
+@Java(Skip) @Swift(Skip)
+class MultipleAttributesDart {
+    @Dart(Attribute = "Foo")
+    @Dart(Attribute = "Bar")
+    fun noLists2()
+    @Dart(Attribute = "Foo")
+    @Dart(Attribute = "Bar")
+    @Dart(Attribute = "Baz")
+    fun noLists3()
+    @Dart(Attribute = ["Foo", "Bar"])
+    @Dart(Attribute = "Baz")
+    fun listFirst()
+    @Dart(Attribute = "Foo")
+    @Dart(Attribute = ["Bar", "Baz"])
+    fun listSecond()
+    @Dart(Attribute = ["Foo", "Bar"])
+    @Dart(Attribute = ["Baz", "Fizz"])
+    fun twoLists()
+}
