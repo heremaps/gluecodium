@@ -22,6 +22,8 @@ set(includeguard_gluecodium_TargetIncludeDirectories ON)
 
 cmake_minimum_required(VERSION 3.5)
 
+include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
+
 #.rst:
 # Generated target_include_directories module
 # -------------------------------------------
@@ -77,12 +79,19 @@ function(apigen_get_target_include_directories target)
   set(single_args PUBLIC_RESULT_VARIABLE PRIVATE_RESULT_VARIABLE)
   cmake_parse_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES "${options}" "${single_args}" "" ${ARGN})
 
+  apigen_check_no_unparsed_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES apigen_target_include_directories)
+
   unset (_properties_out_dir)
   if (APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN)
     list (APPEND _properties_out_dir APIGEN_OUTPUT_DIR)
   endif ()
 
   if (APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON)
+    get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
+    if(NOT COMMON_OUTPUT_DIR)
+      message(FATAL_ERROR "COMMON include directoriy is necessary, but apigen_target was called "
+                          "without COMMON_OUTPUT_DIR argument. Please specify this argument.")
+    endif()
     list (APPEND _properties_out_dir APIGEN_COMMON_OUTPUT_DIR)
   endif ()
 
