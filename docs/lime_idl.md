@@ -502,7 +502,6 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   This is the default specification for this attribute.
   * **Label** **=** **"**_LabelName_**"**: marks a function parameter to have a distinct argument
   label in Swift.
-  * **ObjC**: marks a class as Objective-C compatible in Swift.
   * **Extension**: marks a type collection (`types`) to be generated as Swift extension. The primary
   use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
@@ -516,6 +515,7 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ can contain parameters, e.g.
   `@Swift(Attribute="available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string
   literals, their enclosing quotes need to be backslash-escaped, as in the example.
+  * ~~**ObjC**~~: **deprecated**. Marks a class as Objective-C compatible in Swift.
 * **@Dart**: marks an element with Dart-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default specification for this attribute.
