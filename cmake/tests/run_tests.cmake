@@ -138,9 +138,12 @@ function (base_devel_run_test test_file builddir)
 
     execute_process (
         COMMAND
-            ${CMAKE_COMMAND} ${maybe_trace} "-DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}"
-            "-DGLUECODIUM_CMAKE_TESTS_DIR=${CMAKE_CURRENT_LIST_DIR}"
-            "-DGLUECODIUM_CMAKE_DIR=${CMAKE_CURRENT_LIST_DIR}/.."
+            ${CMAKE_COMMAND} ${maybe_trace}
+                "-DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}"
+                "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
+                "-DGLUECODIUM_CMAKE_TESTS_DIR=${CMAKE_CURRENT_LIST_DIR}"
+                "-DGLUECODIUM_CMAKE_DIR=${CMAKE_CURRENT_LIST_DIR}/.."
+                "-DGLUECODIUM_BUILD_ENVIRONMENT=${GLUECODIUM_BUILD_ENVIRONMENT}"
             ${_env_params}
             ${test_file}
         WORKING_DIRECTORY "${builddir}"
