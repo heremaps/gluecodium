@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Deprecated:
+  * `@Swift(ObjC)` IDL attribute is now deprecated. `@Swift(Attribute="objc")` or `@Swift(Attribute="objcMembers")`
+    should be used instead.
+
 ## 8.5.0
 Release date: 2020-10-29
 ### Features:
