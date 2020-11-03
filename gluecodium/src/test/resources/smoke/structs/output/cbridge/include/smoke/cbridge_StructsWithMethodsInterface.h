@@ -1,0 +1,45 @@
+//
+//
+#pragma once
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
+#include "cbridge/include/StringHandle.h"
+#include "cbridge/include/smoke/cbridge_ValidationUtils.h"
+#include <stdbool.h>
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_handle(double x, double y, double z);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_Vector3_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, double y, double z);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_unwrap_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_Vector3_release_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT double smoke_StructsWithMethodsInterface_Vector3_x_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT double smoke_StructsWithMethodsInterface_Vector3_y_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT double smoke_StructsWithMethodsInterface_Vector3_z_get(_baseRef handle);
+typedef struct {
+    bool has_value;
+    union {
+        smoke_ValidationUtils_ValidationErrorCode error_value;
+        _baseRef returned_value;
+    };
+} smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result;
+_GLUECODIUM_C_EXPORT double smoke_StructsWithMethodsInterface_Vector3_distanceTo(_baseRef _instance, _baseRef other);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_add(_baseRef _instance, _baseRef other);
+_GLUECODIUM_C_EXPORT bool smoke_StructsWithMethodsInterface_Vector3_validate(double x, double y, double z);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_String(_baseRef input);
+_GLUECODIUM_C_EXPORT smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWithMethodsInterface_Vector3_create_Vector3(_baseRef other);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_create_handle();
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_create_optional_handle();
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_unwrap_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_release_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff();
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT const void* smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_remove_swift_object_from_wrapper_cache(_baseRef handle);
+#ifdef __cplusplus
+}
+#endif
