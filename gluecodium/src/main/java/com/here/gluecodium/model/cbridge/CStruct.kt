@@ -29,7 +29,8 @@ class CStruct(
     val fields: List<CField> = emptyList(),
     val methods: List<CFunction> = emptyList(),
     val structs: List<CStruct> = emptyList(),
-    val interfaces: List<CInterface> = emptyList()
+    val interfaces: List<CInterface> = emptyList(),
+    val enums: List<CEnum> = emptyList()
 ) : CType(name) {
 
     val type = mappedType.functionReturnType.toString()

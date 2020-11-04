@@ -90,6 +90,9 @@
     }
 
 {{/unless}}{{/constructors}}{{/set}}
+{{#enums}}
+{{prefixPartial "swift/Enum" "    "}}
+{{/enums}}
 {{#structs}}
 {{prefixPartial "swift/Struct" "    "}}
 {{/structs}}

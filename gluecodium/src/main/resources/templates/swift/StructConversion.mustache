@@ -89,3 +89,6 @@ internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
 {{#structs}}
 {{>swift/StructConversion}}{{!!
 }}{{/structs}}
+{{#enums}}
+{{>swift/EnumConversion}}{{!!
+}}{{/enums}}
