@@ -1,6 +1,13 @@
 package smoke
 struct OuterStruct {
     field: String
+    @Java(Skip)
+    @Swift(Skip)
+    @Dart(Skip)
+    enum InnerEnum {
+        FOO,
+        BAR
+    }
     class InnerClass {
         fun fooBar(): Set<Locale>
     }

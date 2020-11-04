@@ -379,7 +379,8 @@ internal class AntlrLimeModelBuilder(
             constructorComment = structuredCommentsStack.peek().getTagBlock("constructor"),
             structs = getPreviousResults(LimeStruct::class.java),
             classes = getPreviousResults(LimeClass::class.java),
-            interfaces = getPreviousResults(LimeInterface::class.java)
+            interfaces = getPreviousResults(LimeInterface::class.java),
+            enumerations = getPreviousResults(LimeEnumeration::class.java)
         )
 
         storeResultAndPopStacks(limeElement)

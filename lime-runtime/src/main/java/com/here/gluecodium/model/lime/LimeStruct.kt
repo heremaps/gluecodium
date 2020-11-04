@@ -30,6 +30,7 @@ class LimeStruct(
     structs: List<LimeStruct> = emptyList(),
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
+    enumerations: List<LimeEnumeration> = emptyList(),
     val fields: List<LimeField> = emptyList(),
     val constructorComment: LimeComment = LimeComment()
 ) : LimeContainer(
@@ -42,7 +43,8 @@ class LimeStruct(
     constants = constants,
     structs = structs,
     classes = classes,
-    interfaces = interfaces
+    interfaces = interfaces,
+    enumerations = enumerations
 ) {
     override val childTypes
         get() = fields.map { it.typeRef }
