@@ -3,13 +3,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium\Export.h"
-#include "gluecodium\Locale.h"
-#include "gluecodium\TimePointHash.h"
-#include "gluecodium\TypeRepository.h"
-#include "gluecodium\UnorderedMapHash.h"
-#include "gluecodium\UnorderedSetHash.h"
-#include "gluecodium\VectorHash.h"
+#include "gluecodium/Export.h"
+#include "gluecodium/Locale.h"
+#include "gluecodium/TimePointHash.h"
+#include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/UnorderedSetHash.h"
+#include "gluecodium/VectorHash.h"
 #include <chrono>
 #include <cstdint>
 #include <memory>
@@ -27,6 +27,10 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
         InnerStruct( );
         InnerStruct( ::std::vector< ::std::chrono::system_clock::time_point > other_field );
         void do_something(  ) const;
+    };
+    enum class InnerEnum {
+        FOO,
+        BAR
     };
     class _GLUECODIUM_CPP_EXPORT InnerClass {
     public:
