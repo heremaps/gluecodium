@@ -34,8 +34,6 @@ struct OuterStruct {
         fun barBaz(): Map<String, Blob>
     }
 
-    # Skip those until full support is added.
-    @Swift(Skip)
     enum InnerEnum {
         FOO,
         BAR

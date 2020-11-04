@@ -9,6 +9,10 @@ public struct OuterStruct {
     internal init(cHandle: _baseRef) {
         field = moveFromCType(smoke_OuterStruct_field_get(cHandle))
     }
+    public enum InnerEnum : UInt32, CaseIterable, Codable {
+        case foo
+        case bar
+    }
     public struct InnerStruct {
         public var otherField: [Date]
         public init(otherField: [Date]) {
@@ -284,4 +288,34 @@ internal func copyToCType(_ swiftType: OuterStruct.InnerStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: OuterStruct.InnerStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_OuterStruct_InnerStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: OuterStruct.InnerEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: OuterStruct.InnerEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: OuterStruct.InnerEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: OuterStruct.InnerEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
+internal func copyFromCType(_ cValue: UInt32) -> OuterStruct.InnerEnum {
+    return OuterStruct.InnerEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> OuterStruct.InnerEnum {
+    return copyFromCType(cValue)
+}
+internal func copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return OuterStruct.InnerEnum(rawValue: uint32_t_value_get(handle))!
+}
+internal func moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

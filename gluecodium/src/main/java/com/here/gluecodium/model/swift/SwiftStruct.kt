@@ -37,7 +37,8 @@ class SwiftStruct(
     externalFramework: String? = null,
     externalConverter: String? = null,
     val structs: List<SwiftStruct> = emptyList(),
-    val classes: List<SwiftClass> = emptyList()
+    val classes: List<SwiftClass> = emptyList(),
+    val enums: List<SwiftEnum> = emptyList()
 ) : SwiftType(
     name,
     cPrefix,
