@@ -20,6 +20,9 @@
   !}}
 {{#set structElement=this}}{{#unless external.cpp}}{{!!
 }}{{#resolveName structElement}}{{#setJoin "parentName" parentName this delimiter="::"}}{{#structElement}}
+{{#enumerations}}
+{{>cpp/CppEnumerationImpl}}
+{{/enumerations}}
 {{#structs}}
 {{>cpp/CppStructImpl}}
 {{/structs}}
