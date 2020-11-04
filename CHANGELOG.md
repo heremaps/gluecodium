@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for nesting enumeration type declarations inside a struct declaration in IDL.
 ### Deprecated:
   * `@Swift(ObjC)` IDL attribute is now deprecated. `@Swift(Attribute="objc")` or `@Swift(Attribute="objcMembers")`
     should be used instead.

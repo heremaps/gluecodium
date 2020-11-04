@@ -34,6 +34,11 @@ struct OuterStruct {
         fun barBaz(): Map<String, Locale>
     }
 
+    enum InnerEnum {
+        FOO,
+        BAR
+    }
+
     @Swift(Skip) @Dart(Skip)
     class Builder {
         constructor create()
