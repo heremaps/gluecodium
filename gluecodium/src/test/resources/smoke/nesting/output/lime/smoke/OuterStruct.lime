@@ -1,7 +1,6 @@
 package smoke
 struct OuterStruct {
     field: String
-    @Java(Skip)
     @Swift(Skip)
     @Dart(Skip)
     enum InnerEnum {
