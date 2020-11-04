@@ -27,6 +27,11 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ExternalTypes");
 
+class MyDartClass extends MyClass {
+  @override
+  int foo() => 77;
+}
+
 void main() {
   _testSuite.test("Use external struct", () {
     final externalStruct =
@@ -93,5 +98,14 @@ void main() {
     expect(result.compressionState, struct.compressionState);
     expect(result.color, struct.color);
     expect(result.season, struct.season);
+  });
+  _testSuite.test("Use MyClass", () {
+    final useMyClass = UseMyClass();
+
+    final result = useMyClass.callBar(MyDartClass());
+
+    expect(result, 77);
+
+    useMyClass.release(); // No automatic finalizers in Dart's own FFI API yet.
   });
 }
