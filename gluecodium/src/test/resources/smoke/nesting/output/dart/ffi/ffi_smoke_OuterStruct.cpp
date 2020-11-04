@@ -3,12 +3,12 @@
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
-#include "gluecodium/Locale.h"
-#include "gluecodium/TimePointHash.h"
-#include "gluecodium/UnorderedMapHash.h"
-#include "gluecodium/UnorderedSetHash.h"
-#include "gluecodium/VectorHash.h"
-#include "smoke/OuterStruct.h"
+#include "gluecodium\Locale.h"
+#include "gluecodium\TimePointHash.h"
+#include "gluecodium\UnorderedMapHash.h"
+#include "gluecodium\UnorderedSetHash.h"
+#include "gluecodium\VectorHash.h"
+#include "smoke\OuterStruct.h"
 #include <chrono>
 #include <cstdint>
 #include <memory>
@@ -201,6 +201,27 @@ library_smoke_OuterStruct_InnerStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<::smoke::OuterStruct::InnerStruct>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::OuterStruct::InnerStruct>*>(handle)
+    );
+}
+FfiOpaqueHandle
+library_smoke_OuterStruct_InnerEnum_create_handle_nullable(uint32_t value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<::smoke::OuterStruct::InnerEnum>(
+            gluecodium::ffi::Conversion<::smoke::OuterStruct::InnerEnum>::toCpp(value)
+        )
+    );
+}
+void
+library_smoke_OuterStruct_InnerEnum_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<::smoke::OuterStruct::InnerEnum>*>(handle);
+}
+uint32_t
+library_smoke_OuterStruct_InnerEnum_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<::smoke::OuterStruct::InnerEnum>::toFfi(
+        **reinterpret_cast<gluecodium::optional<::smoke::OuterStruct::InnerEnum>*>(handle)
     );
 }
 FfiOpaqueHandle
