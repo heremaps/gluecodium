@@ -34,6 +34,13 @@ struct OuterStruct {
         fun barBaz(): Map<String, Blob>
     }
 
+    # Skip those until full support is added.
+    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    enum InnerEnum {
+        FOO,
+        BAR
+    }
+
     @Swift(Skip) @Dart(Skip)
     class Builder {
         constructor create()

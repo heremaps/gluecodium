@@ -236,7 +236,7 @@ struct Options {
     additionalOptions: List<String> = {}
 }
 ```
-* Can be a free-standing element at file level or can be placed in: class, interface, types, struct
+* Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
 * Description: declares a struct type (data type) in the parent type:
   * a struct can have any number of fields, but at least one field is required.
   * a struct field can have a default value associated with it (optionally). For more details on
@@ -250,7 +250,7 @@ struct Options {
 * where *enumerators-list* is a comma-separated list of enumerators, each enumerator declared as
 *EnumeratorName* \[**=** *EnumeratorValue*\]
 * Example: `enum Mode { SLOW, FAST, CHEAP }`
-* Can be a free-standing element at file level or can be placed in: class, interface, types
+* Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
 * Description: declares an enumeration type in the parent type:
   * an enumeration can have any number of enumerators, but at least one enumerators is required.
   * an enumerator can have a default value associated with it (optionally). Only integer values are

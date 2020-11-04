@@ -89,7 +89,7 @@ setter
 struct
     : docComment* annotation* visibility? 'struct' NewLine* simpleId NewLine*
       '{' NewLine* externalDescriptor?
-      ((field | function | constructor | constant | container | struct) NewLine*)+ '}' NewLine+
+      ((field | function | constructor | constant | container | struct | enumeration) NewLine*)+ '}' NewLine+
     ;
 
 field
