@@ -35,7 +35,7 @@ struct OuterStruct {
     }
 
     # Skip those until full support is added.
-    @Swift(Skip) @Dart(Skip)
+    @Swift(Skip)
     enum InnerEnum {
         FOO,
         BAR

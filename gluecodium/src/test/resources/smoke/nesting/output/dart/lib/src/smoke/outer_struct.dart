@@ -23,6 +23,65 @@ class OuterStruct {
     }
   }
 }
+enum OuterStruct_InnerEnum {
+    foo,
+    bar
+}
+// OuterStruct_InnerEnum "private" section, not exported.
+int smoke_OuterStruct_InnerEnum_toFfi(OuterStruct_InnerEnum value) {
+  switch (value) {
+  case OuterStruct_InnerEnum.foo:
+    return 0;
+  break;
+  case OuterStruct_InnerEnum.bar:
+    return 1;
+  break;
+  default:
+    throw StateError("Invalid enum value $value for OuterStruct_InnerEnum enum.");
+  }
+}
+OuterStruct_InnerEnum smoke_OuterStruct_InnerEnum_fromFfi(int handle) {
+  switch (handle) {
+  case 0:
+    return OuterStruct_InnerEnum.foo;
+  break;
+  case 1:
+    return OuterStruct_InnerEnum.bar;
+  break;
+  default:
+    throw StateError("Invalid numeric value $handle for OuterStruct_InnerEnum enum.");
+  }
+}
+void smoke_OuterStruct_InnerEnum_releaseFfiHandle(int handle) {}
+final _smoke_OuterStruct_InnerEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Uint32),
+    Pointer<Void> Function(int)
+  >('library_smoke_OuterStruct_InnerEnum_create_handle_nullable'));
+final _smoke_OuterStruct_InnerEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_OuterStruct_InnerEnum_release_handle_nullable'));
+final _smoke_OuterStruct_InnerEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_OuterStruct_InnerEnum_get_value_nullable'));
+Pointer<Void> smoke_OuterStruct_InnerEnum_toFfi_nullable(OuterStruct_InnerEnum value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smoke_OuterStruct_InnerEnum_toFfi(value);
+  final result = _smoke_OuterStruct_InnerEnum_create_handle_nullable(_handle);
+  smoke_OuterStruct_InnerEnum_releaseFfiHandle(_handle);
+  return result;
+}
+OuterStruct_InnerEnum smoke_OuterStruct_InnerEnum_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smoke_OuterStruct_InnerEnum_get_value_nullable(handle);
+  final result = smoke_OuterStruct_InnerEnum_fromFfi(_handle);
+  smoke_OuterStruct_InnerEnum_releaseFfiHandle(_handle);
+  return result;
+}
+void smoke_OuterStruct_InnerEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _smoke_OuterStruct_InnerEnum_release_handle_nullable(handle);
+// End of OuterStruct_InnerEnum "private" section.
 class OuterStruct_InnerStruct {
   List<DateTime> otherField;
   OuterStruct_InnerStruct(this.otherField);
