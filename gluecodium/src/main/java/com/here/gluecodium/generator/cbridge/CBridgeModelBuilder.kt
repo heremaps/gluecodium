@@ -204,7 +204,8 @@ class CBridgeModelBuilder(
             fields = getPreviousResults(CField::class.java),
             methods = getPreviousResults(CFunction::class.java),
             structs = getPreviousResults(CStruct::class.java),
-            interfaces = getPreviousResults(CInterface::class.java)
+            interfaces = getPreviousResults(CInterface::class.java),
+            enums = getPreviousResults(CEnum::class.java)
         )
 
         storeResult(cStruct)

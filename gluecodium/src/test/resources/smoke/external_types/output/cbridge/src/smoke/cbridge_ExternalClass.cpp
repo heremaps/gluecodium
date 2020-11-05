@@ -60,7 +60,7 @@ void smoke_ExternalClass_SomeStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_ExternalClass_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::fire::Baz::some_Struct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
+    return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_ExternalClass_someMethod(_baseRef _instance, int8_t someParameter) {
     return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(someParameter);

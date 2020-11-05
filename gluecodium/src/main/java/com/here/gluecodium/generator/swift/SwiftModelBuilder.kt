@@ -281,7 +281,8 @@ class SwiftModelBuilder(
             externalFramework = limeStruct.external?.swift?.get(FRAMEWORK_NAME),
             externalConverter = limeStruct.external?.swift?.get(CONVERTER_NAME),
             structs = getPreviousResults(SwiftStruct::class.java),
-            classes = getPreviousResults(SwiftClass::class.java)
+            classes = getPreviousResults(SwiftClass::class.java),
+            enums = getPreviousResults(SwiftEnum::class.java)
         )
         swiftStruct.comment = createComments(limeStruct)
         propagateAttributes(limeStruct, swiftStruct)

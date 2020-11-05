@@ -79,7 +79,7 @@ void smoke_ListenerWithProperties_ResultStruct_release_optional_handle(_baseRef 
 }
 double smoke_ListenerWithProperties_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::ListenerWithProperties::ResultStruct>(handle);
-return struct_pointer->result;
+    return struct_pointer->result;
 }
 _baseRef smoke_ListenerWithProperties_message_get(_baseRef _instance) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_message());

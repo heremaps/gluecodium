@@ -66,15 +66,15 @@ void smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_optional_handle
 }
 _baseRef smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersList_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(handle);
-return Conversion<std::vector<uint8_t>>::toBaseRef(struct_pointer->numbers_list);
+    return Conversion<std::vector<uint8_t>>::toBaseRef(struct_pointer->numbers_list);
 }
 _baseRef smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersMap_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(handle);
-return Conversion<std::unordered_map<uint8_t, std::string>>::toBaseRef(struct_pointer->numbers_map);
+    return Conversion<std::unordered_map<uint8_t, std::string>>::toBaseRef(struct_pointer->numbers_map);
 }
 _baseRef smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersSet_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(handle);
-return Conversion<std::unordered_set<uint8_t>>::toBaseRef(struct_pointer->numbers_set);
+    return Conversion<std::unordered_set<uint8_t>>::toBaseRef(struct_pointer->numbers_set);
 }
 _baseRef smoke_GenericTypesWithBasicTypes_methodWithList(_baseRef _instance, _baseRef input) {
     return Conversion<std::vector<int32_t>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>>(_instance)->get()->method_with_list(Conversion<std::vector<int32_t>>::toCpp(input)));

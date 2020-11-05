@@ -61,7 +61,7 @@ void smoke_Dates_DateStruct_release_optional_handle(_baseRef handle) {
 }
 double smoke_Dates_DateStruct_dateField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Dates::DateStruct>(handle);
-return Conversion<std::chrono::system_clock::time_point>::toBaseRef(struct_pointer->date_field);
+    return Conversion<std::chrono::system_clock::time_point>::toBaseRef(struct_pointer->date_field);
 }
 double smoke_Dates_dateMethod(_baseRef _instance, double input) {
     return Conversion<std::chrono::system_clock::time_point>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Dates>>(_instance)->get()->date_method(Conversion<std::chrono::system_clock::time_point>::toCpp(input)));

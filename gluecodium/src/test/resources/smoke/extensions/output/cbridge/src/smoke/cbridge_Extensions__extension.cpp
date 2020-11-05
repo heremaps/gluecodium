@@ -36,5 +36,5 @@ void smoke_Extensions_FooStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_Extensions_FooStruct_fooField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::FooStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->foo_field);
+    return Conversion<std::string>::toBaseRef(struct_pointer->foo_field);
 }

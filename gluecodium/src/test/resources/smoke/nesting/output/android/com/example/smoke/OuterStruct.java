@@ -12,6 +12,14 @@ import java.util.Set;
 public final class OuterStruct {
     @NonNull
     public String field;
+    public enum InnerEnum {
+        FOO(0),
+        BAR(1);
+        public final int value;
+        InnerEnum(final int value) {
+            this.value = value;
+        }
+    }
     public static final class InnerStruct {
         @NonNull
         public List<Date> otherField;

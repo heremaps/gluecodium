@@ -39,7 +39,7 @@ void smoke_OuterStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_OuterStruct_field_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::OuterStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->field);
+    return Conversion<std::string>::toBaseRef(struct_pointer->field);
 }
 _baseRef
 smoke_OuterStruct_InnerStruct_create_handle( _baseRef otherField )
@@ -70,7 +70,7 @@ void smoke_OuterStruct_InnerStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_OuterStruct_InnerStruct_otherField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::OuterStruct::InnerStruct>(handle);
-return Conversion<std::vector<std::chrono::system_clock::time_point>>::toBaseRef(struct_pointer->other_field);
+    return Conversion<std::vector<std::chrono::system_clock::time_point>>::toBaseRef(struct_pointer->other_field);
 }
 void smoke_OuterStruct_InnerStruct_doSomething(_baseRef _instance) {
     return get_pointer<::smoke::OuterStruct::InnerStruct>(_instance)->do_something();

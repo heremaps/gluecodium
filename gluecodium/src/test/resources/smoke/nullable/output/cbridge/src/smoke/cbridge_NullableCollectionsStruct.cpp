@@ -39,9 +39,9 @@ void smoke_NullableCollectionsStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_NullableCollectionsStruct_dates_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::NullableCollectionsStruct>(handle);
-return Conversion<std::vector<::gluecodium::optional< ::std::chrono::system_clock::time_point >>>::toBaseRef(struct_pointer->dates);
+    return Conversion<std::vector<::gluecodium::optional< ::std::chrono::system_clock::time_point >>>::toBaseRef(struct_pointer->dates);
 }
 _baseRef smoke_NullableCollectionsStruct_structs_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::NullableCollectionsStruct>(handle);
-return Conversion<std::unordered_map<int32_t, ::gluecodium::optional< ::smoke::Nullable::SomeStruct >>>::toBaseRef(struct_pointer->structs);
+    return Conversion<std::unordered_map<int32_t, ::gluecodium::optional< ::smoke::Nullable::SomeStruct >>>::toBaseRef(struct_pointer->structs);
 }
