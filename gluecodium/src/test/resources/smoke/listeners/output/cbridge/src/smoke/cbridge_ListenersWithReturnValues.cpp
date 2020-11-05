@@ -79,7 +79,7 @@ void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseR
 }
 double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::ListenersWithReturnValues::ResultStruct>(handle);
-return struct_pointer->result;
+    return struct_pointer->result;
 }
 double smoke_ListenersWithReturnValues_fetchDataDouble(_baseRef _instance) {
     return get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_double();

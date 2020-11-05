@@ -73,17 +73,17 @@ void smoke_EquatableClass_EquatableStruct_release_optional_handle(_baseRef handl
 }
 int32_t smoke_EquatableClass_EquatableStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::EquatableClass::EquatableStruct>(handle);
-return struct_pointer->int_field;
+    return struct_pointer->int_field;
 }
 _baseRef smoke_EquatableClass_EquatableStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::EquatableClass::EquatableStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
+    return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
 }
 _baseRef smoke_EquatableClass_EquatableStruct_nestedEquatableInstance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::EquatableClass::EquatableStruct>(handle);
-return Conversion<std::shared_ptr<::smoke::EquatableClass>>::toBaseRef(struct_pointer->nested_equatable_instance);
+    return Conversion<std::shared_ptr<::smoke::EquatableClass>>::toBaseRef(struct_pointer->nested_equatable_instance);
 }
 _baseRef smoke_EquatableClass_EquatableStruct_nestedPointerEquatableInstance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::EquatableClass::EquatableStruct>(handle);
-return Conversion<std::shared_ptr<::smoke::PointerEquatableClass>>::toBaseRef(struct_pointer->nested_pointer_equatable_instance);
+    return Conversion<std::shared_ptr<::smoke::PointerEquatableClass>>::toBaseRef(struct_pointer->nested_pointer_equatable_instance);
 }

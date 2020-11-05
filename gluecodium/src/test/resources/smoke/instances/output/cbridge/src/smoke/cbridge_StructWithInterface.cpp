@@ -36,5 +36,5 @@ void smoke_StructWithInterface_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_StructWithInterface_interfaceInstance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructWithInterface>(handle);
-return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(struct_pointer->interface_instance);
+    return Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toBaseRef(struct_pointer->interface_instance);
 }

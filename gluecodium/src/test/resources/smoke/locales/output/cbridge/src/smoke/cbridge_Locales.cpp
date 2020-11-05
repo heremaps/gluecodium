@@ -60,7 +60,7 @@ void smoke_Locales_LocaleStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_Locales_LocaleStruct_localeField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Locales::LocaleStruct>(handle);
-return Conversion<gluecodium::Locale>::toBaseRef(struct_pointer->locale_field);
+    return Conversion<gluecodium::Locale>::toBaseRef(struct_pointer->locale_field);
 }
 _baseRef smoke_Locales_localeMethod(_baseRef _instance, _baseRef input) {
     return Conversion<gluecodium::Locale>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Locales>>(_instance)->get()->locale_method(Conversion<gluecodium::Locale>::toCpp(input)));

@@ -65,7 +65,7 @@ void smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_ba
 }
 double smoke_GenericTypesWithCompoundTypes_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithCompoundTypes::BasicStruct>(handle);
-return struct_pointer->value;
+    return struct_pointer->value;
 }
 _baseRef
 smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle( _baseRef string )
@@ -96,7 +96,7 @@ void smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_ExternalStruct_string_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::alien::FooStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->string);
+    return Conversion<std::string>::toBaseRef(struct_pointer->string);
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_methodWithStructList(_baseRef _instance, _baseRef input) {
     return Conversion<std::vector<::alien::FooStruct>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>>(_instance)->get()->method_with_struct_list(Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(input)));
