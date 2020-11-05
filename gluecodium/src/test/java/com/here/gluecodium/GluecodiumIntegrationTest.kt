@@ -36,8 +36,7 @@ class GluecodiumIntegrationTest {
     @JvmField
     val outputFolder = TemporaryFolder()
 
-    private val mainFile =
-        GeneratedFile("I'm a main file", "mainsubdir/mainfile", GeneratedFile.SourceSet.MAIN)
+    private val mainFile = GeneratedFile("I'm a main file", "mainsubdir/mainfile", GeneratedFile.SourceSet.MAIN)
     private val commonFile = GeneratedFile(
         "I'm a common file",
         "commonsubdir/commonfile",
@@ -48,16 +47,16 @@ class GluecodiumIntegrationTest {
     fun `output with common code in subdirectory writes all files`() {
         val mainDir = outputFolder.root.path
         val commonDir = "$mainDir/common"
-        val generatedFiles = listOf(mainFile, commonFile)
         val expectedMainFile = File("$mainDir/${mainFile.targetFile}")
         val expectedCommonFile = File("$commonDir/${commonFile.targetFile}")
-        var options = Gluecodium.testOptions()
+
+        val options = Gluecodium.testOptions()
         options.outputDir = mainDir
         options.commonOutputDir = commonDir
         options.isEnableCaching = true
         val gluecodium = Gluecodium(options)
 
-        gluecodium.output("cpp", generatedFiles)
+        gluecodium.output("cpp", listOf(mainFile, commonFile))
         gluecodium.cache.write(true)
 
         assertTrue(expectedMainFile.exists())
