@@ -104,7 +104,7 @@ void smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_optional_handle(_baseR
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
+    return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
 }
 _baseRef smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory() {
     return Conversion<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toBaseRef(::smoke::LevelOne::LevelTwo::LevelThree::LevelFour::foo_factory());

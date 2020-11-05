@@ -78,7 +78,7 @@ void smoke_CalculatorListener_ResultStruct_release_optional_handle(_baseRef hand
 }
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::CalculatorListener::ResultStruct>(handle);
-return struct_pointer->result;
+    return struct_pointer->result;
 }
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);

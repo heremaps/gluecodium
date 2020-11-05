@@ -62,11 +62,11 @@ void namerules_NameRules_ExampleStruct_release_optional_handle(_baseRef handle) 
 }
 double namerules_NameRules_ExampleStruct_iValue_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::namerules::NameRules::ExampleStruct>(handle);
-return struct_pointer->m_value;
+    return struct_pointer->m_value;
 }
 _baseRef namerules_NameRules_ExampleStruct_iIntValue_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::namerules::NameRules::ExampleStruct>(handle);
-return Conversion<std::vector<int64_t>>::toBaseRef(struct_pointer->m_int_value);
+    return Conversion<std::vector<int64_t>>::toBaseRef(struct_pointer->m_int_value);
 }
 _baseRef namerules_NameRules_create() {
     return Conversion<std::shared_ptr<::namerules::NameRules>>::toBaseRef(::namerules::NameRules::create());
