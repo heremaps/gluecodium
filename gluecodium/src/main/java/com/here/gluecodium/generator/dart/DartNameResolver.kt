@@ -21,8 +21,8 @@ package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.generator.common.ReferenceMapNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -36,8 +36,6 @@ import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeParameter
-import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
@@ -49,11 +47,11 @@ import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class DartNameResolver(
-    private val limeReferenceMap: Map<String, LimeElement>,
+    limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: NameRules,
     private val limeLogger: LimeLogger,
     private val commentsProcessor: DartCommentsProcessor
-) : NameResolver {
+) : ReferenceMapNameResolver(limeReferenceMap) {
 
     private val joinInfix = nameRules.ruleSet.joinInfix ?: ""
     private val limeToDartNames = buildPathMap()
@@ -189,20 +187,6 @@ internal class DartNameResolver(
             else -> element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
                 ?: nameRules.getName(element)
         }
-
-    private fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
-        getParentElement(limeElement.path, limeElement is LimeParameter)
-
-    private fun getParentElement(limePath: LimePath, withSuffix: Boolean = false): LimeNamedElement {
-        val parentPath = when {
-            withSuffix -> limePath.parent.withSuffix(limePath.disambiguator)
-            else -> limePath.parent
-        }
-        return (limeReferenceMap[parentPath.toString()] as? LimeNamedElement
-            ?: throw GluecodiumExecutionException(
-                "Failed to resolve parent for element $limePath"
-            ))
-    }
 
     private fun resolveFullName(limeElement: LimeNamedElement): String {
         if (limeElement is LimeType || !limeElement.path.hasParent) {
