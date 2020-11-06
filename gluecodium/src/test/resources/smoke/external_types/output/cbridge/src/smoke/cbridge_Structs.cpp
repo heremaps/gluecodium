@@ -70,19 +70,19 @@ void smoke_Structs_ExternalStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->stringField);
+    return Conversion<std::string>::toBaseRef(struct_pointer->stringField);
 }
 _baseRef smoke_Structs_ExternalStruct_externalStringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<std::string>::toBaseRef(struct_pointer->get_some_string());
+    return Conversion<std::string>::toBaseRef(struct_pointer->get_some_string());
 }
 _baseRef smoke_Structs_ExternalStruct_externalArrayField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<std::vector<int8_t>>::toBaseRef(struct_pointer->get_some_array());
+    return Conversion<std::vector<int8_t>>::toBaseRef(struct_pointer->get_some_array());
 }
 _baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::ExternalStruct>(handle);
-return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(struct_pointer->get_some_struct());
+    return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(struct_pointer->get_some_struct());
 }
 _baseRef
 smoke_Structs_AnotherExternalStruct_create_handle( int8_t intField )
@@ -113,7 +113,7 @@ void smoke_Structs_AnotherExternalStruct_release_optional_handle(_baseRef handle
 }
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::fire::SomeVeryExternalStruct>(handle);
-return struct_pointer->intField;
+    return struct_pointer->intField;
 }
 _baseRef smoke_Structs_getExternalStruct() {
     return Conversion<::smoke::Structs::ExternalStruct>::toBaseRef(::smoke::Structs::get_external_struct());

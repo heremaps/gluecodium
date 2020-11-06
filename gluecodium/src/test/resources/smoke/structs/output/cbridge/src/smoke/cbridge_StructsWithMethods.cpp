@@ -38,11 +38,11 @@ void smoke_StructsWithMethods_Vector_release_optional_handle(_baseRef handle) {
 }
 double smoke_StructsWithMethods_Vector_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Vector>(handle);
-return struct_pointer->x;
+    return struct_pointer->x;
 }
 double smoke_StructsWithMethods_Vector_y_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Vector>(handle);
-return struct_pointer->y;
+    return struct_pointer->y;
 }
 double smoke_StructsWithMethods_Vector_distanceTo(_baseRef _instance, _baseRef other) {
     return get_pointer<::smoke::Vector>(_instance)->distance_to(Conversion<::smoke::Vector>::toCpp(other));

@@ -75,7 +75,7 @@ void {{name}}_release_optional_handle(_baseRef handle) {
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const {{mappedType.name}}>(handle);
-{{#switch type.typeCategory.toString}}{{!!
+    {{#switch type.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}return {{>getBaseLayerFieldValue}};{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>({{>getBaseLayerFieldValue}});{{/case}}{{!!
     }}{{#default}}return Conversion<{{type}}>::toBaseRef({{>getBaseLayerFieldValue}});{{/default}}

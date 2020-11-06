@@ -36,5 +36,5 @@ void smoke_StructWithClass_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_StructWithClass_classInstance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructWithClass>(handle);
-return Conversion<std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(struct_pointer->class_instance);
+    return Conversion<std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(struct_pointer->class_instance);
 }

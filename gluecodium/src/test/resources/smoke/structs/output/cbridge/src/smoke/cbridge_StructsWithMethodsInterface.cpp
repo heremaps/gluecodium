@@ -65,15 +65,15 @@ void smoke_StructsWithMethodsInterface_Vector3_release_optional_handle(_baseRef 
 }
 double smoke_StructsWithMethodsInterface_Vector3_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);
-return struct_pointer->x;
+    return struct_pointer->x;
 }
 double smoke_StructsWithMethodsInterface_Vector3_y_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);
-return struct_pointer->y;
+    return struct_pointer->y;
 }
 double smoke_StructsWithMethodsInterface_Vector3_z_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);
-return struct_pointer->z;
+    return struct_pointer->z;
 }
 double smoke_StructsWithMethodsInterface_Vector3_distanceTo(_baseRef _instance, _baseRef other) {
     return get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->distance_to(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));

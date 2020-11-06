@@ -37,11 +37,11 @@ void smoke_FreePoint_release_optional_handle(_baseRef handle) {
 }
 double smoke_FreePoint_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::FreePoint>(handle);
-return struct_pointer->x;
+    return struct_pointer->x;
 }
 double smoke_FreePoint_y_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::FreePoint>(handle);
-return struct_pointer->y;
+    return struct_pointer->y;
 }
 _baseRef smoke_FreePoint_flip(_baseRef _instance) {
     return Conversion<::smoke::FreePoint>::toBaseRef(get_pointer<::smoke::FreePoint>(_instance)->flip());
