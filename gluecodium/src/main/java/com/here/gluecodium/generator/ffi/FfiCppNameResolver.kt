@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.ffi
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapNameResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -46,11 +46,11 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiCppNameResolver(
-    private val limeReferenceMap: Map<String, LimeElement>,
+    limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
     rootNamespace: List<String>,
     internalNamespace: List<String>
-) : NameResolver {
+) : ReferenceMapNameResolver(limeReferenceMap) {
 
     private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
     private val internalNamespace = internalNamespace.joinToString("::")
@@ -144,12 +144,6 @@ internal class FfiCppNameResolver(
                 throw GluecodiumExecutionException("Invalid property accessor ${limeFunction.path}")
         }
     }
-
-    private fun getParentElement(limeElement: LimeNamedElement) =
-        (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
-                ?: throw GluecodiumExecutionException(
-                    "Failed to resolve parent for element ${limeElement.fullName}"
-                ))
 
     private fun getGenericTypeName(limeType: LimeGenericType): String {
         val templateName: String
