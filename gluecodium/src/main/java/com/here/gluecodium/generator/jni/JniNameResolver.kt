@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapNameResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
@@ -44,10 +44,10 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class JniNameResolver(
-    private val limeReferenceMap: Map<String, LimeElement>,
+    limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
     private val javaNameRules: JavaNameRules
-) : NameResolver {
+) : ReferenceMapNameResolver(limeReferenceMap) {
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -145,8 +145,4 @@ internal class JniNameResolver(
             TypeId.BLOB -> "jbyteArray"
             TypeId.DATE, TypeId.LOCALE -> "jobject"
         }
-
-    private fun getParentElement(limeElement: LimeNamedElement) =
-        (limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
-            ?: throw GluecodiumExecutionException("Failed to resolve parent for element ${limeElement.path}"))
 }

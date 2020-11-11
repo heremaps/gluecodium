@@ -21,7 +21,7 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -40,7 +40,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
-import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
@@ -56,12 +55,12 @@ import com.here.gluecodium.platform.common.CommentsProcessor
  * Type names are resolved as own names (unqualified names, without namespaces or outer types).
  */
 internal class Cpp2NameResolver(
-    private val limeReferenceMap: Map<String, LimeElement>,
+    limeReferenceMap: Map<String, LimeElement>,
     internalNamespace: List<String>,
     private val cachingNameResolver: CppNameResolver,
     private val limeLogger: LimeLogger? = null,
     private val commentsProcessor: CommentsProcessor? = null
-) : NameResolver {
+) : ReferenceMapNameResolver(limeReferenceMap) {
 
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
     private val limeToCppNames = buildPathMap()
@@ -207,20 +206,6 @@ internal class Cpp2NameResolver(
             limeToCppNames,
             limeLogger
         ) ?: ""
-
-    private fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
-        getParentElement(limeElement.path, limeElement is LimeParameter)
-
-    private fun getParentElement(limePath: LimePath, withSuffix: Boolean = false): LimeNamedElement {
-        val parentPath = when {
-            withSuffix -> limePath.parent.withSuffix(limePath.disambiguator)
-            else -> limePath.parent
-        }
-        return (limeReferenceMap[parentPath.toString()] as? LimeNamedElement
-            ?: throw GluecodiumExecutionException(
-                "Failed to resolve parent for element $limePath"
-            ))
-    }
 
     private fun getFullyQualifiedReference(limeElement: LimeNamedElement) =
         cachingNameResolver.getFullyQualifiedName(limeElement) +
