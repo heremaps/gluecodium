@@ -309,10 +309,13 @@ feature(CircularDependencies cpp android swift dart SOURCES
 
 feature(ExternalTypes cpp android swift dart SOURCES
     src/test/include/ExternalTypes.h
+    src/test/include/MyClass.h
     src/test/src/ExternalTypes.cpp
     src/test/UseExternalTypes.cpp
+    src/test/UseMyClass.cpp
 
     lime/test/ExternalTypes.lime
+    lime/test/ExternalClassAsInterface.lime
     lime/test/UseExternalTypes.lime
 )
 

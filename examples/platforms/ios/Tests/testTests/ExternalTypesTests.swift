@@ -24,6 +24,12 @@ import FoundationNetworking
 
 class ExternalTypesTests: XCTestCase {
 
+    class MySwiftClass: MyClass {
+        public func foo() -> Int32 {
+            return 77
+        }
+    }
+
     let externalStruct = ExternalStruct(stringField: "foo",
                                         externalStringField: "bar",
                                         externalArrayField: [7, 11],
@@ -107,6 +113,12 @@ class ExternalTypesTests: XCTestCase {
         XCTAssertEqual(typesStruct.season.value, result.season.value)
     }
 
+    func testMyClass() {
+        let result = UseMyClass().callBar(on: MySwiftClass())
+
+        XCTAssertEqual(result, 77)
+    }
+
     static var allTests = [
         ("testUseExternalTypesExternalStruct", testUseExternalTypesExternalStruct),
         ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum),
@@ -114,6 +126,7 @@ class ExternalTypesTests: XCTestCase {
         ("testSwiftExternalTypePersistence", testSwiftExternalTypePersistence),
         ("testSwiftExternalTypeColor", testSwiftExternalTypeColor),
         ("testSwiftExternalTypeSeason", testSwiftExternalTypeSeason),
-        ("testSwiftExternalTypesInStruct", testSwiftExternalTypesInStruct)
+        ("testSwiftExternalTypesInStruct", testSwiftExternalTypesInStruct),
+        ("testMyClass", testMyClass)
     ]
 }

@@ -42,6 +42,13 @@ import org.robolectric.annotation.Config;
     constants = BuildConfig.class)
 public final class ExternalTypesTest {
 
+  public static class MyJavaClass implements MyClass {
+    @Override
+    public int foo() {
+      return 77;
+    }
+  }
+
   @Test
   public void useExternalTypes() {
     ExternalStruct externalStruct =
@@ -141,5 +148,12 @@ public final class ExternalTypesTest {
     assertEquals(struct.month, result.month);
     assertEquals(struct.color, result.color);
     assertEquals(struct.season, result.season);
+  }
+
+  @Test
+  public void useMyClass() {
+    int result = (new UseMyClass()).callBar(new MyJavaClass());
+
+    assertEquals(77, result);
   }
 }
