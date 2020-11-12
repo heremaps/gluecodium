@@ -12,25 +12,25 @@
 #include <new>
 #include <string>
 void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle);
+    delete get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle);
 }
 _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)))
         : 0;
 }
 const void* smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)->get())
         : nullptr;
 }
 void smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)->get(), swift_pointer);
 }
 void smoke_StructsWithMethodsInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)->get());
 }
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_handle( double x, double y, double z )

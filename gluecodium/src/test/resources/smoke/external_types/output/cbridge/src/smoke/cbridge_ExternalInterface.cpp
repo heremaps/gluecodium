@@ -12,25 +12,25 @@
 #include <new>
 #include <string>
 void smoke_ExternalInterface_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle);
+    delete get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle);
 }
 _baseRef smoke_ExternalInterface_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle)))
         : 0;
 }
 const void* smoke_ExternalInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle)->get())
         : nullptr;
 }
 void smoke_ExternalInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle)->get(), swift_pointer);
 }
 void smoke_ExternalInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ExternalInterface(_baseRef handle);
@@ -43,7 +43,7 @@ struct smoke_ExternalInterfaceRegisterInit {
 } s_smoke_ExternalInterface_register_init;
 }
 void* smoke_ExternalInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr<::smoke::ExternalInterface>::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr< ::smoke::ExternalInterface >::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ExternalInterface(handle);
 }
@@ -79,12 +79,12 @@ _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     return Conversion<::std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t someParameter) {
-    return get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(someParameter);
+    return get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(_instance)->get()->some_Method(someParameter);
 }
 _baseRef smoke_ExternalInterface_someProperty_get(_baseRef _instance) {
-    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->get_Me());
+    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(_instance)->get()->get_Me());
 }
-class smoke_ExternalInterfaceProxy : public ::std::shared_ptr<::smoke::ExternalInterface>::element_type, public CachedProxyBase<smoke_ExternalInterfaceProxy> {
+class smoke_ExternalInterfaceProxy : public ::std::shared_ptr< ::smoke::ExternalInterface >::element_type, public CachedProxyBase<smoke_ExternalInterfaceProxy> {
 public:
     smoke_ExternalInterfaceProxy(smoke_ExternalInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -107,8 +107,8 @@ private:
 };
 _baseRef smoke_ExternalInterface_create_proxy(smoke_ExternalInterface_FunctionTable functionTable) {
     auto proxy = smoke_ExternalInterfaceProxy::get_proxy(::std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr<::smoke::ExternalInterface>(proxy)) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr< ::smoke::ExternalInterface >(proxy)) : 0;
 }
 const void* smoke_ExternalInterface_get_swift_object_from_cache(_baseRef handle) {
-    return handle ? smoke_ExternalInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr<::smoke::ExternalInterface>>(handle)->get()) : nullptr;
+    return handle ? smoke_ExternalInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::ExternalInterface >>(handle)->get()) : nullptr;
 }

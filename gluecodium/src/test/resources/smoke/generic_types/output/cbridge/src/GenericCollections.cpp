@@ -23,424 +23,424 @@
 #include <unordered_set>
 #include <vector>
 _baseRef foobar_ArrayOf__Float_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<float>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< float >( ) );
 }
 _baseRef foobar_ArrayOf__Float_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<float>( *reinterpret_cast<::std::vector<float>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< float >( *reinterpret_cast<::std::vector< float >*>( handle ) ) );
 }
 void foobar_ArrayOf__Float_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<float>*>( handle );
+    delete reinterpret_cast<::std::vector< float >*>( handle );
 }
 uint64_t foobar_ArrayOf__Float_count(_baseRef handle) {
-    return Conversion<::std::vector<float>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< float >>::toCpp( handle ).size( );
 }
 float foobar_ArrayOf__Float_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::vector<float>>::toCpp(handle)[ index ];
+    return Conversion<::std::vector< float >>::toCpp(handle)[ index ];
 }
 void foobar_ArrayOf__Float_append( _baseRef handle, float item )
 {
-    Conversion<::std::vector<float>>::toCpp(handle).push_back( item );
+    Conversion<::std::vector< float >>::toCpp(handle).push_back( item );
 }
 _baseRef foobar_ArrayOf__Float_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<float>>( ::std::vector<float>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< float >>( ::std::vector< float >( ) ) );
 }
 void foobar_ArrayOf__Float_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<float>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< float >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Float_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<float>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< float >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<int32_t>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< int32_t >( ) );
 }
 _baseRef foobar_ArrayOf__Int_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<int32_t>( *reinterpret_cast<::std::vector<int32_t>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< int32_t >( *reinterpret_cast<::std::vector< int32_t >*>( handle ) ) );
 }
 void foobar_ArrayOf__Int_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<int32_t>*>( handle );
+    delete reinterpret_cast<::std::vector< int32_t >*>( handle );
 }
 uint64_t foobar_ArrayOf__Int_count(_baseRef handle) {
-    return Conversion<::std::vector<int32_t>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< int32_t >>::toCpp( handle ).size( );
 }
 int32_t foobar_ArrayOf__Int_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::vector<int32_t>>::toCpp(handle)[ index ];
+    return Conversion<::std::vector< int32_t >>::toCpp(handle)[ index ];
 }
 void foobar_ArrayOf__Int_append( _baseRef handle, int32_t item )
 {
-    Conversion<::std::vector<int32_t>>::toCpp(handle).push_back( item );
+    Conversion<::std::vector< int32_t >>::toCpp(handle).push_back( item );
 }
 _baseRef foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<int32_t>>( ::std::vector<int32_t>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< int32_t >>( ::std::vector< int32_t >( ) ) );
 }
 void foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<int32_t>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< int32_t >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<int32_t>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< int32_t >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__String_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::string>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::string >( ) );
 }
 _baseRef foobar_ArrayOf__String_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::string>( *reinterpret_cast<::std::vector<::std::string>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::string >( *reinterpret_cast<::std::vector< ::std::string >*>( handle ) ) );
 }
 void foobar_ArrayOf__String_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::string>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::string >*>( handle );
 }
 uint64_t foobar_ArrayOf__String_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::string>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::string >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf__String_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::string>::referenceBaseRef(Conversion<::std::vector<::std::string>>::toCpp( handle )[index]);
+    return Conversion<::std::string>::referenceBaseRef(Conversion<::std::vector< ::std::string >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf__String_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::string>>::toCpp(handle).push_back(Conversion<::std::string>::toCpp(item));
+    Conversion<::std::vector< ::std::string >>::toCpp(handle).push_back(Conversion<::std::string>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::string>>( ::std::vector<::std::string>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::string >>( ::std::vector< ::std::string >( ) ) );
 }
 void foobar_ArrayOf__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::string>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::string >>*>( handle );
 }
 _baseRef foobar_ArrayOf__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::string>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::string >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__UByte_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<uint8_t>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >( ) );
 }
 _baseRef foobar_ArrayOf__UByte_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<uint8_t>( *reinterpret_cast<::std::vector<uint8_t>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >( *reinterpret_cast<::std::vector< uint8_t >*>( handle ) ) );
 }
 void foobar_ArrayOf__UByte_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<uint8_t>*>( handle );
+    delete reinterpret_cast<::std::vector< uint8_t >*>( handle );
 }
 uint64_t foobar_ArrayOf__UByte_count(_baseRef handle) {
-    return Conversion<::std::vector<uint8_t>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< uint8_t >>::toCpp( handle ).size( );
 }
 uint8_t foobar_ArrayOf__UByte_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::vector<uint8_t>>::toCpp(handle)[ index ];
+    return Conversion<::std::vector< uint8_t >>::toCpp(handle)[ index ];
 }
 void foobar_ArrayOf__UByte_append( _baseRef handle, uint8_t item )
 {
-    Conversion<::std::vector<uint8_t>>::toCpp(handle).push_back( item );
+    Conversion<::std::vector< uint8_t >>::toCpp(handle).push_back( item );
 }
 _baseRef foobar_ArrayOf__UByte_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<uint8_t>>( ::std::vector<uint8_t>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< uint8_t >>( ::std::vector< uint8_t >( ) ) );
 }
 void foobar_ArrayOf__UByte_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<uint8_t>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< uint8_t >>*>( handle );
 }
 _baseRef foobar_ArrayOf__UByte_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<uint8_t>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< uint8_t >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::vector<int32_t>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::vector< int32_t > >( ) );
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::vector<int32_t>>( *reinterpret_cast<::std::vector<::std::vector<int32_t>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::vector< int32_t > >( *reinterpret_cast<::std::vector< ::std::vector< int32_t > >*>( handle ) ) );
 }
 void foobar_ArrayOf_foobar_ArrayOf__Int_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::vector<int32_t>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::vector< int32_t > >*>( handle );
 }
 uint64_t foobar_ArrayOf_foobar_ArrayOf__Int_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::vector<int32_t>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::vector< int32_t > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::vector<int32_t>>::referenceBaseRef(Conversion<::std::vector<::std::vector<int32_t>>>::toCpp( handle )[index]);
+    return Conversion<::std::vector< int32_t >>::referenceBaseRef(Conversion<::std::vector< ::std::vector< int32_t > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_foobar_ArrayOf__Int_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::vector<int32_t>>>::toCpp(handle).push_back(Conversion<::std::vector<int32_t>>::toCpp(item));
+    Conversion<::std::vector< ::std::vector< int32_t > >>::toCpp(handle).push_back(Conversion<::std::vector< int32_t >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::vector<int32_t>>>( ::std::vector<::std::vector<int32_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::vector< int32_t > >>( ::std::vector< ::std::vector< int32_t > >( ) ) );
 }
 void foobar_ArrayOf_foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::vector<int32_t>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::vector< int32_t > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::vector<int32_t>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::vector< int32_t > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::unordered_map<int32_t, bool>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::unordered_map< int32_t, bool > >( ) );
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::unordered_map<int32_t, bool>>( *reinterpret_cast<::std::vector<::std::unordered_map<int32_t, bool>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::unordered_map< int32_t, bool > >( *reinterpret_cast<::std::vector< ::std::unordered_map< int32_t, bool > >*>( handle ) ) );
 }
 void foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::unordered_map<int32_t, bool>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::unordered_map< int32_t, bool > >*>( handle );
 }
 uint64_t foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::unordered_map<int32_t, bool>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::unordered_map< int32_t, bool > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::unordered_map<int32_t, bool>>::referenceBaseRef(Conversion<::std::vector<::std::unordered_map<int32_t, bool>>>::toCpp( handle )[index]);
+    return Conversion<::std::unordered_map< int32_t, bool >>::referenceBaseRef(Conversion<::std::vector< ::std::unordered_map< int32_t, bool > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::unordered_map<int32_t, bool>>>::toCpp(handle).push_back(Conversion<::std::unordered_map<int32_t, bool>>::toCpp(item));
+    Conversion<::std::vector< ::std::unordered_map< int32_t, bool > >>::toCpp(handle).push_back(Conversion<::std::unordered_map< int32_t, bool >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::unordered_map<int32_t, bool>>>( ::std::vector<::std::unordered_map<int32_t, bool>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>( ::std::vector< ::std::unordered_map< int32_t, bool > >( ) ) );
 }
 void foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::unordered_map<int32_t, bool>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::unordered_map<int32_t, bool>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::unordered_set<int32_t>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::unordered_set< int32_t > >( ) );
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::unordered_set<int32_t>>( *reinterpret_cast<::std::vector<::std::unordered_set<int32_t>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::unordered_set< int32_t > >( *reinterpret_cast<::std::vector< ::std::unordered_set< int32_t > >*>( handle ) ) );
 }
 void foobar_ArrayOf_foobar_SetOf__Int_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::unordered_set<int32_t>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::unordered_set< int32_t > >*>( handle );
 }
 uint64_t foobar_ArrayOf_foobar_SetOf__Int_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::unordered_set<int32_t>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::unordered_set< int32_t > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::unordered_set<int32_t>>::referenceBaseRef(Conversion<::std::vector<::std::unordered_set<int32_t>>>::toCpp( handle )[index]);
+    return Conversion<::std::unordered_set< int32_t >>::referenceBaseRef(Conversion<::std::vector< ::std::unordered_set< int32_t > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_foobar_SetOf__Int_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::unordered_set<int32_t>>>::toCpp(handle).push_back(Conversion<::std::unordered_set<int32_t>>::toCpp(item));
+    Conversion<::std::vector< ::std::unordered_set< int32_t > >>::toCpp(handle).push_back(Conversion<::std::unordered_set< int32_t >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::unordered_set<int32_t>>>( ::std::vector<::std::unordered_set<int32_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::unordered_set< int32_t > >>( ::std::vector< ::std::unordered_set< int32_t > >( ) ) );
 }
 void foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::unordered_set<int32_t>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_set< int32_t > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::unordered_set<int32_t>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_set< int32_t > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>( *reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >( *reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_AnotherDummyClass_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_AnotherDummyClass_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::shared_ptr<::smoke::AnotherDummyClass>>::referenceBaseRef(Conversion<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>>::toCpp( handle )[index]);
+    return Conversion<::std::shared_ptr< ::smoke::AnotherDummyClass >>::referenceBaseRef(Conversion<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_smoke_AnotherDummyClass_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>>::toCpp(handle).push_back(Conversion<::std::shared_ptr<::smoke::AnotherDummyClass>>::toCpp(item));
+    Conversion<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::AnotherDummyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>>( ::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::AnotherDummyClass>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::DummyClass>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::DummyClass>>( *reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::DummyClass>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( *reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_DummyClass_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::DummyClass>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_DummyClass_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::shared_ptr<::smoke::DummyClass>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::shared_ptr<::smoke::DummyClass>>::referenceBaseRef(Conversion<::std::vector<::std::shared_ptr<::smoke::DummyClass>>>::toCpp( handle )[index]);
+    return Conversion<::std::shared_ptr< ::smoke::DummyClass >>::referenceBaseRef(Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_smoke_DummyClass_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::shared_ptr<::smoke::DummyClass>>>::toCpp(handle).push_back(Conversion<::std::shared_ptr<::smoke::DummyClass>>::toCpp(item));
+    Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::DummyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::DummyClass>>>( ::std::vector<::std::shared_ptr<::smoke::DummyClass>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_DummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::DummyClass>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::DummyClass>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::DummyInterface>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::DummyInterface>>( *reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >( *reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_DummyInterface_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_DummyInterface_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::shared_ptr<::smoke::DummyInterface>>::referenceBaseRef(Conversion<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>>::toCpp( handle )[index]);
+    return Conversion<::std::shared_ptr< ::smoke::DummyInterface >>::referenceBaseRef(Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_smoke_DummyInterface_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>>::toCpp(handle).push_back(Conversion<::std::shared_ptr<::smoke::DummyInterface>>::toCpp(item));
+    Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::DummyInterface >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>>( ::std::vector<::std::shared_ptr<::smoke::DummyInterface>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>( ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >( ) ) );
 }
 void foobar_ArrayOf_smoke_DummyInterface_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::DummyInterface>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( *reinterpret_cast<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( *reinterpret_cast<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle );
+    delete reinterpret_cast<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_count(_baseRef handle) {
-    return Conversion<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::referenceBaseRef(Conversion<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp( handle )[index]);
+    return Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::referenceBaseRef(Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(handle).push_back(Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(item));
+    Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>::toCpp(handle).push_back(Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>( ::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>( ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::alien::FooEnum>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::alien::FooEnum >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::alien::FooEnum>( *reinterpret_cast<::std::vector<::alien::FooEnum>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::alien::FooEnum >( *reinterpret_cast<::std::vector< ::alien::FooEnum >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::alien::FooEnum>*>( handle );
+    delete reinterpret_cast<::std::vector< ::alien::FooEnum >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_count(_baseRef handle) {
-    return Conversion<::std::vector<::alien::FooEnum>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::alien::FooEnum >>::toCpp( handle ).size( );
 }
 smoke_GenericTypesWithCompoundTypes_ExternalEnum foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get( _baseRef handle, uint64_t index ) {
-    return static_cast<smoke_GenericTypesWithCompoundTypes_ExternalEnum>(Conversion<::std::vector<::alien::FooEnum>>::toCpp(handle)[ index ]);
+    return static_cast<smoke_GenericTypesWithCompoundTypes_ExternalEnum>(Conversion<::std::vector< ::alien::FooEnum >>::toCpp(handle)[ index ]);
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append( _baseRef handle, smoke_GenericTypesWithCompoundTypes_ExternalEnum item )
 {
-    Conversion<::std::vector<::alien::FooEnum>>::toCpp(handle).push_back( static_cast<::alien::FooEnum>( item ) );
+    Conversion<::std::vector< ::alien::FooEnum >>::toCpp(handle).push_back( static_cast<::alien::FooEnum>( item ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::alien::FooEnum>>( ::std::vector<::alien::FooEnum>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::alien::FooEnum >>( ::std::vector< ::alien::FooEnum >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::alien::FooEnum>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooEnum >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::alien::FooEnum>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooEnum >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::alien::FooStruct>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::alien::FooStruct >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::alien::FooStruct>( *reinterpret_cast<::std::vector<::alien::FooStruct>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::alien::FooStruct >( *reinterpret_cast<::std::vector< ::alien::FooStruct >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::alien::FooStruct>*>( handle );
+    delete reinterpret_cast<::std::vector< ::alien::FooStruct >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_count(_baseRef handle) {
-    return Conversion<::std::vector<::alien::FooStruct>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::alien::FooStruct >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::alien::FooStruct>::referenceBaseRef(Conversion<::std::vector<::alien::FooStruct>>::toCpp( handle )[index]);
+    return Conversion<::alien::FooStruct>::referenceBaseRef(Conversion<::std::vector< ::alien::FooStruct >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::alien::FooStruct>>::toCpp(handle).push_back(Conversion<::alien::FooStruct>::toCpp(item));
+    Conversion<::std::vector< ::alien::FooStruct >>::toCpp(handle).push_back(Conversion<::alien::FooStruct>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::alien::FooStruct>>( ::std::vector<::alien::FooStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::alien::FooStruct >>( ::std::vector< ::alien::FooStruct >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::alien::FooStruct>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooStruct >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::alien::FooStruct>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( *reinterpret_cast<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( *reinterpret_cast<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>*>( handle );
+    delete reinterpret_cast<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_count(_baseRef handle) {
-    return Conversion<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp( handle ).size( );
 }
 smoke_GenericTypesWithCompoundTypes_SomeEnum foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get( _baseRef handle, uint64_t index ) {
-    return static_cast<smoke_GenericTypesWithCompoundTypes_SomeEnum>(Conversion<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(handle)[ index ]);
+    return static_cast<smoke_GenericTypesWithCompoundTypes_SomeEnum>(Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp(handle)[ index ]);
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append( _baseRef handle, smoke_GenericTypesWithCompoundTypes_SomeEnum item )
 {
-    Conversion<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(handle).push_back( static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( item ) );
+    Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp(handle).push_back( static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( item ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>( ::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>( ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_create_handle() {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>( ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( ) );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>( *reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>*>( handle ) ) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( *reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >*>( handle ) ) );
 }
 void foobar_ArrayOf_smoke_YetAnotherDummyClass_release_handle(_baseRef handle) {
-    delete reinterpret_cast<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>*>( handle );
+    delete reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >*>( handle );
 }
 uint64_t foobar_ArrayOf_smoke_YetAnotherDummyClass_count(_baseRef handle) {
-    return Conversion<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>>::toCpp( handle ).size( );
+    return Conversion<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>::toCpp( handle ).size( );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_get( _baseRef handle, uint64_t index ) {
-    return Conversion<::std::shared_ptr<::smoke::YetAnotherDummyClass>>::referenceBaseRef(Conversion<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>>::toCpp( handle )[index]);
+    return Conversion<::std::shared_ptr< ::smoke::YetAnotherDummyClass >>::referenceBaseRef(Conversion<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>::toCpp( handle )[index]);
 }
 void foobar_ArrayOf_smoke_YetAnotherDummyClass_append( _baseRef handle, _baseRef item )
 {
-    Conversion<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>>::toCpp(handle).push_back(Conversion<::std::shared_ptr<::smoke::YetAnotherDummyClass>>::toCpp(item));
+    Conversion<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::YetAnotherDummyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>>( ::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_YetAnotherDummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector<::std::shared_ptr<::smoke::YetAnotherDummyClass>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Float_To__Double_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<float, double>() );
@@ -519,194 +519,194 @@ _baseRef foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, bool>>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::vector<int32_t>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::vector< int32_t >>() );
 }
 void foobar_MapOf__Int_To_foobar_ArrayOf__Int_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<int32_t, ::std::vector<int32_t>>>(handle);
+    delete get_pointer<::std::unordered_map<int32_t, ::std::vector< int32_t >>>(handle);
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::vector<int32_t>>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::vector<int32_t>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::vector< int32_t >>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::vector< int32_t >>>(handle)->begin() ) );
 }
 void foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::vector<int32_t>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::vector< int32_t >>::iterator*>( iterator_handle );
 }
 void foobar_MapOf__Int_To_foobar_ArrayOf__Int_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<::std::unordered_map<int32_t, ::std::vector<int32_t>>>(handle)).emplace(key, Conversion<::std::vector<int32_t>>::toCpp(value));
+    (*get_pointer<::std::unordered_map<int32_t, ::std::vector< int32_t >>>(handle)).emplace(key, Conversion<::std::vector< int32_t >>::toCpp(value));
 }
 bool foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::vector<int32_t>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::vector<int32_t>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::vector< int32_t >>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::vector< int32_t >>>(handle)->end();
 }
 void foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::vector<int32_t>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::vector< int32_t >>::iterator*>( iterator_handle );
 }
 int32_t foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::vector<int32_t>>::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::vector< int32_t >>::iterator*>( iterator_handle ))->first;
     return key;
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::vector<int32_t>>::iterator*>( iterator_handle ))->second;
-    return Conversion<::std::vector<int32_t>>::toBaseRef(value);
+    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::vector< int32_t >>::iterator*>( iterator_handle ))->second;
+    return Conversion<::std::vector< int32_t >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::vector<int32_t>>>( ::std::unordered_map<int32_t, ::std::vector<int32_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::vector< int32_t >>>( ::std::unordered_map<int32_t, ::std::vector< int32_t >>( ) ) );
 }
 void foobar_MapOf__Int_To_foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::vector<int32_t>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::vector< int32_t >>>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::vector<int32_t>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::vector< int32_t >>>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>() );
 }
 void foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>(handle);
+    delete get_pointer<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>(handle);
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>(handle)->begin() ) );
 }
 void foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>::iterator*>( iterator_handle );
 }
 void foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>(handle)).emplace(key, Conversion<::std::unordered_map<int32_t, bool>>::toCpp(value));
+    (*get_pointer<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>(handle)).emplace(key, Conversion<::std::unordered_map< int32_t, bool >>::toCpp(value));
 }
 bool foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>(handle)->end();
 }
 void foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>::iterator*>( iterator_handle );
 }
 int32_t foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>::iterator*>( iterator_handle ))->first;
     return key;
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>::iterator*>( iterator_handle ))->second;
-    return Conversion<::std::unordered_map<int32_t, bool>>::toBaseRef(value);
+    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>::iterator*>( iterator_handle ))->second;
+    return Conversion<::std::unordered_map< int32_t, bool >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>( ::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>( ::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>( ) ) );
 }
 void foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_map<int32_t, bool>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_map< int32_t, bool >>>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>() );
 }
 void foobar_MapOf__Int_To_foobar_SetOf__Int_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>(handle);
+    delete get_pointer<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>(handle);
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>(handle)->begin() ) );
 }
 void foobar_MapOf__Int_To_foobar_SetOf__Int_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>::iterator*>( iterator_handle );
 }
 void foobar_MapOf__Int_To_foobar_SetOf__Int_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>(handle)).emplace(key, Conversion<::std::unordered_set<int32_t>>::toCpp(value));
+    (*get_pointer<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>(handle)).emplace(key, Conversion<::std::unordered_set< int32_t >>::toCpp(value));
 }
 bool foobar_MapOf__Int_To_foobar_SetOf__Int_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>(handle)->end();
 }
 void foobar_MapOf__Int_To_foobar_SetOf__Int_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>::iterator*>( iterator_handle );
 }
 int32_t foobar_MapOf__Int_To_foobar_SetOf__Int_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>::iterator*>( iterator_handle ))->first;
     return key;
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>::iterator*>( iterator_handle ))->second;
-    return Conversion<::std::unordered_set<int32_t>>::toBaseRef(value);
+    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>::iterator*>( iterator_handle ))->second;
+    return Conversion<::std::unordered_set< int32_t >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>( ::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>( ::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>( ) ) );
 }
 void foobar_MapOf__Int_To_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_set<int32_t>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::unordered_set< int32_t >>>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>() );
 }
 void foobar_MapOf__Int_To_smoke_DummyClass_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>(handle);
+    delete get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>(handle);
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>(handle)->begin() ) );
 }
 void foobar_MapOf__Int_To_smoke_DummyClass_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>::iterator*>( iterator_handle );
 }
 void foobar_MapOf__Int_To_smoke_DummyClass_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>(handle)).emplace(key, Conversion<::std::shared_ptr<::smoke::DummyClass>>::toCpp(value));
+    (*get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>(handle)).emplace(key, Conversion<::std::shared_ptr< ::smoke::DummyClass >>::toCpp(value));
 }
 bool foobar_MapOf__Int_To_smoke_DummyClass_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>(handle)->end();
 }
 void foobar_MapOf__Int_To_smoke_DummyClass_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>::iterator*>( iterator_handle );
 }
 int32_t foobar_MapOf__Int_To_smoke_DummyClass_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>::iterator*>( iterator_handle ))->first;
     return key;
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>::iterator*>( iterator_handle ))->second;
-    return Conversion<::std::shared_ptr<::smoke::DummyClass>>::toBaseRef(value);
+    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>::iterator*>( iterator_handle ))->second;
+    return Conversion<::std::shared_ptr< ::smoke::DummyClass >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>( ::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>( ::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>( ) ) );
 }
 void foobar_MapOf__Int_To_smoke_DummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyClass>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyClass >>>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>() );
 }
 void foobar_MapOf__Int_To_smoke_DummyInterface_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>(handle);
+    delete get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>(handle);
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>::iterator( get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>(handle)->begin() ) );
 }
 void foobar_MapOf__Int_To_smoke_DummyInterface_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>::iterator*>( iterator_handle );
 }
 void foobar_MapOf__Int_To_smoke_DummyInterface_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>(handle)).emplace(key, Conversion<::std::shared_ptr<::smoke::DummyInterface>>::toCpp(value));
+    (*get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>(handle)).emplace(key, Conversion<::std::shared_ptr< ::smoke::DummyInterface >>::toCpp(value));
 }
 bool foobar_MapOf__Int_To_smoke_DummyInterface_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>(handle)->end();
 }
 void foobar_MapOf__Int_To_smoke_DummyInterface_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>::iterator*>( iterator_handle );
 }
 int32_t foobar_MapOf__Int_To_smoke_DummyInterface_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>::iterator*>( iterator_handle ))->first;
     return key;
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>::iterator*>( iterator_handle ))->second;
-    return Conversion<::std::shared_ptr<::smoke::DummyInterface>>::toBaseRef(value);
+    auto& value = (*reinterpret_cast<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>::iterator*>( iterator_handle ))->second;
+    return Conversion<::std::shared_ptr< ::smoke::DummyInterface >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>( ::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>( ::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>( ) ) );
 }
 void foobar_MapOf__Int_To_smoke_DummyInterface_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr<::smoke::DummyInterface>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<int32_t, ::std::shared_ptr< ::smoke::DummyInterface >>>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<int32_t, ::alien::FooEnum>() );
@@ -937,118 +937,118 @@ _baseRef foobar_MapOf__UByte_To__String_unwrap_optional_handle(_baseRef handle) 
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<uint8_t, ::std::string>>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>() );
 }
 void foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>(handle);
+    delete get_pointer<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>(handle);
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>::iterator( get_pointer<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>::iterator( get_pointer<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>(handle)->begin() ) );
 }
 void foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle );
 }
 void foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_put(_baseRef handle, _baseRef key, bool value) {
-    (*get_pointer<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>(handle)).emplace(Conversion<::std::vector<int32_t>>::toCpp(key), value);
+    (*get_pointer<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>(handle)).emplace(Conversion<::std::vector< int32_t >>::toCpp(key), value);
 }
 bool foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>(handle)->end();
 }
 void foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle ))->first;
-    return Conversion<::std::vector<int32_t>>::toBaseRef(key);
+    auto& key = (*reinterpret_cast<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle ))->first;
+    return Conversion<::std::vector< int32_t >>::toBaseRef(key);
 }
 bool foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle ))->second;
+    auto& value = (*reinterpret_cast<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle ))->second;
     return value;
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>( ::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>( ::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>( ) ) );
 }
 void foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::vector<int32_t>, bool, ::gluecodium::hash<::std::vector<int32_t>>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::vector< int32_t >, bool, ::gluecodium::hash<::std::vector< int32_t >>>>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>() );
 }
 void foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle);
+    delete get_pointer<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle);
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator( get_pointer<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator( get_pointer<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle)->begin() ) );
 }
 void foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle );
 }
 void foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_put(_baseRef handle, _baseRef key, bool value) {
-    (*get_pointer<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle)).emplace(Conversion<::std::unordered_map<int32_t, bool>>::toCpp(key), value);
+    (*get_pointer<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle)).emplace(Conversion<::std::unordered_map< int32_t, bool >>::toCpp(key), value);
 }
 bool foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle)->end();
 }
 void foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle );
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle ))->first;
-    return Conversion<::std::unordered_map<int32_t, bool>>::toBaseRef(key);
+    auto& key = (*reinterpret_cast<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle ))->first;
+    return Conversion<::std::unordered_map< int32_t, bool >>::toBaseRef(key);
 }
 bool foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle ))->second;
+    auto& value = (*reinterpret_cast<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle ))->second;
     return value;
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>( ::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>( ::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>( ) ) );
 }
 void foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_map<int32_t, bool>, bool, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>() );
 }
 void foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle);
+    delete get_pointer<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle);
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator( get_pointer<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator( get_pointer<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle)->begin() ) );
 }
 void foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle );
 }
 void foobar_MapOf_foobar_SetOf__Int_To__Boolean_put(_baseRef handle, _baseRef key, bool value) {
-    (*get_pointer<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle)).emplace(Conversion<::std::unordered_set<int32_t>>::toCpp(key), value);
+    (*get_pointer<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle)).emplace(Conversion<::std::unordered_set< int32_t >>::toCpp(key), value);
 }
 bool foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle)->end();
 }
 void foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle );
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle ))->first;
-    return Conversion<::std::unordered_set<int32_t>>::toBaseRef(key);
+    auto& key = (*reinterpret_cast<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle ))->first;
+    return Conversion<::std::unordered_set< int32_t >>::toBaseRef(key);
 }
 bool foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle ))->second;
+    auto& value = (*reinterpret_cast<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle ))->second;
     return value;
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>( ::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>( ::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>( ) ) );
 }
 void foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_set<int32_t>, bool, ::gluecodium::hash<::std::unordered_set<int32_t>>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map<::std::unordered_set< int32_t >, bool, ::gluecodium::hash<::std::unordered_set< int32_t >>>>*>( handle ) );
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map<::alien::FooEnum, bool, ::gluecodium::hash<::alien::FooEnum>>() );
@@ -1263,106 +1263,106 @@ _baseRef foobar_SetOf__UByte_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<uint8_t>>*>( handle ) );
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>() );
 }
 void foobar_SetOf_foobar_ArrayOf__Int_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>(handle);
+    delete get_pointer<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>(handle);
 }
 void foobar_SetOf_foobar_ArrayOf__Int_insert(_baseRef handle, _baseRef value) {
-    (*get_pointer<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>(handle)).insert(::std::move(Conversion<::std::vector<int32_t>>::toCpp(value)));
+    (*get_pointer<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>(handle)).insert(::std::move(Conversion<::std::vector< int32_t >>::toCpp(value)));
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>::iterator( get_pointer<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>::iterator( get_pointer<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>(handle)->begin() ) );
 }
 void foobar_SetOf_foobar_ArrayOf__Int_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle );
 }
 bool foobar_SetOf_foobar_ArrayOf__Int_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>(handle)->end();
 }
 void foobar_SetOf_foobar_ArrayOf__Int_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle );
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_iterator_get(_baseRef iterator_handle) {
-    auto& value = **reinterpret_cast<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>::iterator*>( iterator_handle );
-    return Conversion<::std::vector<int32_t>>::referenceBaseRef(value);
+    auto& value = **reinterpret_cast<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>::iterator*>( iterator_handle );
+    return Conversion<::std::vector< int32_t >>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>( ::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>( ::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>( ) ) );
 }
 void foobar_SetOf_foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>*>( handle );
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::vector<int32_t>, ::gluecodium::hash<::std::vector<int32_t>>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::vector< int32_t >, ::gluecodium::hash<::std::vector< int32_t >>>>*>( handle ) );
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>() );
 }
 void foobar_SetOf_foobar_MapOf__Int_To__Boolean_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle);
+    delete get_pointer<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle);
 }
 void foobar_SetOf_foobar_MapOf__Int_To__Boolean_insert(_baseRef handle, _baseRef value) {
-    (*get_pointer<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle)).insert(::std::move(Conversion<::std::unordered_map<int32_t, bool>>::toCpp(value)));
+    (*get_pointer<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle)).insert(::std::move(Conversion<::std::unordered_map< int32_t, bool >>::toCpp(value)));
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator( get_pointer<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator( get_pointer<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle)->begin() ) );
 }
 void foobar_SetOf_foobar_MapOf__Int_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle );
 }
 bool foobar_SetOf_foobar_MapOf__Int_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>(handle)->end();
 }
 void foobar_SetOf_foobar_MapOf__Int_To__Boolean_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle );
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_iterator_get(_baseRef iterator_handle) {
-    auto& value = **reinterpret_cast<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>::iterator*>( iterator_handle );
-    return Conversion<::std::unordered_map<int32_t, bool>>::referenceBaseRef(value);
+    auto& value = **reinterpret_cast<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>::iterator*>( iterator_handle );
+    return Conversion<::std::unordered_map< int32_t, bool >>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>( ::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>( ::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>( ) ) );
 }
 void foobar_SetOf_foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>*>( handle );
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_map<int32_t, bool>, ::gluecodium::hash<::std::unordered_map<int32_t, bool>>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_map< int32_t, bool >, ::gluecodium::hash<::std::unordered_map< int32_t, bool >>>>*>( handle ) );
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>() );
 }
 void foobar_SetOf_foobar_SetOf__Int_release_handle(_baseRef handle) {
-    delete get_pointer<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle);
+    delete get_pointer<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle);
 }
 void foobar_SetOf_foobar_SetOf__Int_insert(_baseRef handle, _baseRef value) {
-    (*get_pointer<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle)).insert(::std::move(Conversion<::std::unordered_set<int32_t>>::toCpp(value)));
+    (*get_pointer<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle)).insert(::std::move(Conversion<::std::unordered_set< int32_t >>::toCpp(value)));
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator( get_pointer<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator( get_pointer<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle)->begin() ) );
 }
 void foobar_SetOf_foobar_SetOf__Int_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle );
+    delete reinterpret_cast<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle );
 }
 bool foobar_SetOf_foobar_SetOf__Int_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>(handle)->end();
+    return *reinterpret_cast<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>(handle)->end();
 }
 void foobar_SetOf_foobar_SetOf__Int_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle );
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_iterator_get(_baseRef iterator_handle) {
-    auto& value = **reinterpret_cast<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>::iterator*>( iterator_handle );
-    return Conversion<::std::unordered_set<int32_t>>::referenceBaseRef(value);
+    auto& value = **reinterpret_cast<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>::iterator*>( iterator_handle );
+    return Conversion<::std::unordered_set< int32_t >>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>( ::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>( ::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>( ) ) );
 }
 void foobar_SetOf_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>*>( handle );
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_set<int32_t>, ::gluecodium::hash<::std::unordered_set<int32_t>>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>*>( handle ) );
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::alien::FooEnum, ::gluecodium::hash<::alien::FooEnum>>() );

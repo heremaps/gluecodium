@@ -13,25 +13,25 @@
 #include <string>
 #include <vector>
 void smoke_Structs_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::smoke::Structs>>(handle);
+    delete get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle);
 }
 _baseRef smoke_Structs_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::Structs>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle)))
         : 0;
 }
 const void* smoke_Structs_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::Structs>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle)->get())
         : nullptr;
 }
 void smoke_Structs_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::Structs>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle)->get(), swift_pointer);
 }
 void smoke_Structs_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::Structs>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle)->get());
 }
 _baseRef
 smoke_Structs_Point_create_handle( double x, double y )
@@ -281,7 +281,7 @@ _baseRef smoke_Structs_DoubleNestingImmutableStruct_nestingStructField_get(_base
 _baseRef
 smoke_Structs_StructWithArrayOfImmutable_create_handle( _baseRef arrayField )
 {
-    auto _arrayField = Conversion<::std::vector<::smoke::Structs::AllTypesStruct>>::toCpp( arrayField );
+    auto _arrayField = Conversion<::std::vector< ::smoke::Structs::AllTypesStruct >>::toCpp( arrayField );
     ::smoke::Structs::StructWithArrayOfImmutable* _struct = new ( ::std::nothrow ) ::smoke::Structs::StructWithArrayOfImmutable( _arrayField );
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -293,7 +293,7 @@ smoke_Structs_StructWithArrayOfImmutable_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(_baseRef arrayField)
 {
-    auto _arrayField = Conversion<::std::vector<::smoke::Structs::AllTypesStruct>>::toCpp( arrayField );
+    auto _arrayField = Conversion<::std::vector< ::smoke::Structs::AllTypesStruct >>::toCpp( arrayField );
     auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::StructWithArrayOfImmutable>( ::smoke::Structs::StructWithArrayOfImmutable( _arrayField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -307,7 +307,7 @@ void smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(_baseRef h
 }
 _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::StructWithArrayOfImmutable>(handle);
-    return Conversion<::std::vector<::smoke::Structs::AllTypesStruct>>::toBaseRef(struct_pointer->array_field);
+    return Conversion<::std::vector< ::smoke::Structs::AllTypesStruct >>::toBaseRef(struct_pointer->array_field);
 }
 _baseRef
 smoke_Structs_ImmutableStructWithCppAccessors_create_handle( _baseRef stringField )

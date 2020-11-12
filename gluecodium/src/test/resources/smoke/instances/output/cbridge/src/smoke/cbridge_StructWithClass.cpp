@@ -11,7 +11,7 @@ _baseRef
 smoke_StructWithClass_create_handle( _baseRef classInstance )
 {
     ::smoke::StructWithClass* _struct = new ( ::std::nothrow ) ::smoke::StructWithClass();
-    _struct->class_instance = Conversion<::std::shared_ptr<::smoke::SimpleClass>>::toCpp( classInstance );
+    _struct->class_instance = Conversion<::std::shared_ptr< ::smoke::SimpleClass >>::toCpp( classInstance );
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
@@ -23,7 +23,7 @@ _baseRef
 smoke_StructWithClass_create_optional_handle(_baseRef classInstance)
 {
     auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::StructWithClass>( ::smoke::StructWithClass( ) );
-    (*_struct)->class_instance = Conversion<::std::shared_ptr<::smoke::SimpleClass>>::toCpp( classInstance );
+    (*_struct)->class_instance = Conversion<::std::shared_ptr< ::smoke::SimpleClass >>::toCpp( classInstance );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
@@ -36,5 +36,5 @@ void smoke_StructWithClass_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_StructWithClass_classInstance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructWithClass>(handle);
-    return Conversion<::std::shared_ptr<::smoke::SimpleClass>>::toBaseRef(struct_pointer->class_instance);
+    return Conversion<::std::shared_ptr< ::smoke::SimpleClass >>::toBaseRef(struct_pointer->class_instance);
 }
