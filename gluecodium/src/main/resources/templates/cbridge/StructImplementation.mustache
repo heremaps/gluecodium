@@ -22,7 +22,7 @@
 _baseRef
 {{name}}_create_handle( {{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} )
 {
-{{#unless hasImmutableFields}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}();{{/unless}}
+{{#unless hasImmutableFields}}    {{baseApiName}}* _struct = new ( ::std::nothrow ) {{baseApiName}}();{{/unless}}
 {{#fields}}
 {{#if hasImmutableFields}}    auto _{{name}} = {{/if}}{{!!
 }}{{#unless hasImmutableFields}}    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}( {{/if}}{{!!
@@ -33,7 +33,7 @@ _baseRef
     }}{{#default}}Conversion<{{type}}>::toCpp( {{name}} ){{/default}}{{!!
 }}{{/switch}}{{#unless hasImmutableFields}}{{#if baseLayerSetterName}} ){{/if}}{{/unless}};
 {{/fields}}
-{{#if hasImmutableFields}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{/if}}
+{{#if hasImmutableFields}}    {{baseApiName}}* _struct = new ( ::std::nothrow ) {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{/if}}
     return reinterpret_cast<_baseRef>( _struct );
 }
 
@@ -46,7 +46,7 @@ void
 _baseRef
 {{name}}_create_optional_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
 {
-{{#unless hasImmutableFields}}    auto _struct = new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{baseApiName}}>( {{baseApiName}}( ) );{{/unless}}
+{{#unless hasImmutableFields}}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{baseApiName}}>( {{baseApiName}}( ) );{{/unless}}
 {{#fields}}
 {{#if hasImmutableFields}}    auto _{{name}} = {{/if}}{{!!
 }}{{#unless hasImmutableFields}}    (*_struct)->{{#if baseLayerSetterName}}{{baseLayerSetterName}}( {{/if}}{{!!
@@ -57,7 +57,7 @@ _baseRef
     }}{{#default}}Conversion<{{type}}>::toCpp( {{name}} ){{/default}}{{!!
 }}{{/switch}}{{#unless hasImmutableFields}}{{#if baseLayerSetterName}} ){{/if}}{{/unless}};
 {{/fields}}
-{{#if hasImmutableFields}}    auto _struct = new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{baseApiName}}>( {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} ) );{{/if}}
+{{#if hasImmutableFields}}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{baseApiName}}>( {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} ) );{{/if}}
     return reinterpret_cast<_baseRef>( _struct );
 }
 

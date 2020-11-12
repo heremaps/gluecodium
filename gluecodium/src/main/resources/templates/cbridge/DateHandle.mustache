@@ -45,13 +45,13 @@
 #include <memory>
 #include <new>
 
-using namespace std::chrono;
+using namespace ::std::chrono;
 
 _baseRef
 chrono_time_point_create_optional_handle( double seconds_since_epoch )
 {
     return reinterpret_cast< _baseRef >(
-        new ( std::nothrow ) {{>common/InternalNamespace}}optional< system_clock::time_point >(
+        new ( ::std::nothrow ) {{>common/InternalNamespace}}optional< system_clock::time_point >(
             seconds_since_epoch_to_time_point( seconds_since_epoch ) ) );
 }
 

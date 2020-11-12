@@ -53,8 +53,8 @@ public:
     ~TypeInitRepository();
 
     using InitFunction = void*(_baseRef);
-    void add_init(const std::string& id, InitFunction* init);
-    InitFunction* get_init(const std::string& id) const;
+    void add_init(const ::std::string& id, InitFunction* init);
+    InitFunction* get_init(const ::std::string& id) const;
 
 private:
     struct Impl;

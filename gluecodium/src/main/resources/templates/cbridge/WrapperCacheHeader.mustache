@@ -49,7 +49,7 @@ namespace {{.}} {
 {{/internalNamespace}}
 class WrapperCache {
 public:
-    static std::atomic<bool> is_alive;
+    static ::std::atomic<bool> is_alive;
 
     using CppPtr = const void*;
     using SwiftPtr = const void*;
@@ -62,8 +62,8 @@ public:
     void remove_cached_wrapper(CppPtr cpp_ptr);
 
 private:
-    std::mutex mutex;
-    std::unordered_map<CppPtr, SwiftPtr> cache;
+    ::std::mutex mutex;
+    ::std::unordered_map<CppPtr, SwiftPtr> cache;
 };
 
 WrapperCache& get_wrapper_cache();

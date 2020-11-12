@@ -53,7 +53,7 @@ locale_create_handle(_baseRef language_code_handle,
                      _baseRef language_tag_handle)
 {
     return reinterpret_cast<_baseRef>(
-        new (std::nothrow) {{>common/InternalNamespace}}Locale(
+        new (::std::nothrow) {{>common/InternalNamespace}}Locale(
             Conversion<{{>common/InternalNamespace}}optional<std::string>>::toCpp(language_code_handle),
             Conversion<{{>common/InternalNamespace}}optional<std::string>>::toCpp(country_code_handle),
             Conversion<{{>common/InternalNamespace}}optional<std::string>>::toCpp(script_code_handle),
@@ -104,7 +104,7 @@ _baseRef
 locale_create_optional_handle(_baseRef locale_handle)
 {
     return reinterpret_cast<_baseRef>(
-        new (std::nothrow) {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>(
+        new (::std::nothrow) {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>(
             *get_pointer<{{>common/InternalNamespace}}Locale>(locale_handle)
         )
     );

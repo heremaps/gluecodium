@@ -10,7 +10,7 @@
 _baseRef
 smoke_StructsWithMethods_Vector_create_handle( double x, double y )
 {
-    ::smoke::Vector* _struct = new ( std::nothrow ) ::smoke::Vector();
+    ::smoke::Vector* _struct = new ( ::std::nothrow ) ::smoke::Vector();
     _struct->x = x;
     _struct->y = y;
     return reinterpret_cast<_baseRef>( _struct );
@@ -23,7 +23,7 @@ smoke_StructsWithMethods_Vector_release_handle( _baseRef handle )
 _baseRef
 smoke_StructsWithMethods_Vector_create_optional_handle(double x, double y)
 {
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::Vector>( ::smoke::Vector( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Vector>( ::smoke::Vector( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     return reinterpret_cast<_baseRef>( _struct );

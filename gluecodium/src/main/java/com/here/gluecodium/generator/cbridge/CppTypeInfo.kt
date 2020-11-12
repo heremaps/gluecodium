@@ -52,7 +52,7 @@ open class CppTypeInfo(
 
     companion object {
         val STRING = CppTypeInfo(
-            name = "std::string",
+            name = "::std::string",
             cType = CType.STRING_REF,
             functionReturnType = CType.STRING_REF,
             includes = listOf(
@@ -63,7 +63,7 @@ open class CppTypeInfo(
             )
         )
         val DATE = CppTypeInfo(
-            name = "std::chrono::system_clock::time_point",
+            name = "::std::chrono::system_clock::time_point",
             cType = CType.DOUBLE,
             functionReturnType = CType.DOUBLE,
             includes = listOf(

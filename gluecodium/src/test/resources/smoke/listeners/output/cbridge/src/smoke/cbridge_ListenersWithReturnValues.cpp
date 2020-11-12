@@ -15,25 +15,25 @@
 #include <unordered_map>
 #include <vector>
 void smoke_ListenersWithReturnValues_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle);
+    delete get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle);
 }
 _baseRef smoke_ListenersWithReturnValues_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)))
         : 0;
 }
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get())
         : nullptr;
 }
 void smoke_ListenersWithReturnValues_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get(), swift_pointer);
 }
 void smoke_ListenersWithReturnValues_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ListenersWithReturnValues(_baseRef handle);
@@ -46,14 +46,14 @@ struct smoke_ListenersWithReturnValuesRegisterInit {
 } s_smoke_ListenersWithReturnValues_register_init;
 }
 void* smoke_ListenersWithReturnValues_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ListenersWithReturnValues(handle);
 }
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_create_handle( double result )
 {
-    ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ( std::nothrow ) ::smoke::ListenersWithReturnValues::ResultStruct();
+    ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ( ::std::nothrow ) ::smoke::ListenersWithReturnValues::ResultStruct();
     _struct->result = result;
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -65,7 +65,7 @@ smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(double result)
 {
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
     (*_struct)->result = result;
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -82,30 +82,30 @@ double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) 
     return struct_pointer->result;
 }
 double smoke_ListenersWithReturnValues_fetchDataDouble(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_double();
+    return get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_double();
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataString(_baseRef _instance) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_string());
+    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_string());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataStruct(_baseRef _instance) {
-    return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_struct());
+    return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_struct());
 }
 smoke_ListenersWithReturnValues_ResultEnum smoke_ListenersWithReturnValues_fetchDataEnum(_baseRef _instance) {
-    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_enum());
+    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_enum());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataArray(_baseRef _instance) {
-    return Conversion<std::vector<double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_array());
+    return Conversion<::std::vector<double>>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_array());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataMap(_baseRef _instance) {
-    return Conversion<std::unordered_map<std::string, double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map());
+    return Conversion<::std::unordered_map<::std::string, double>>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataInstance(_baseRef _instance) {
-    return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_instance());
+    return Conversion<::std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_instance());
 }
-class smoke_ListenersWithReturnValuesProxy : public std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
+class smoke_ListenersWithReturnValuesProxy : public ::std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
 public:
     smoke_ListenersWithReturnValuesProxy(smoke_ListenersWithReturnValues_FunctionTable&& functions)
-     : mFunctions(std::move(functions))
+     : mFunctions(::std::move(functions))
     {
     }
     virtual ~smoke_ListenersWithReturnValuesProxy() {
@@ -119,7 +119,7 @@ public:
     }
     ::std::string fetch_data_string() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataString(mFunctions.swift_pointer);
-        return Conversion<std::string>::toCppReturn(_call_result);
+        return Conversion<::std::string>::toCppReturn(_call_result);
     }
     ::smoke::ListenersWithReturnValues::ResultStruct fetch_data_struct() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataStruct(mFunctions.swift_pointer);
@@ -131,23 +131,23 @@ public:
     }
     ::std::vector< double > fetch_data_array() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataArray(mFunctions.swift_pointer);
-        return Conversion<std::vector<double>>::toCppReturn(_call_result);
+        return Conversion<::std::vector<double>>::toCppReturn(_call_result);
     }
     ::smoke::ListenersWithReturnValues::StringToDouble fetch_data_map() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataMap(mFunctions.swift_pointer);
-        return Conversion<std::unordered_map<std::string, double>>::toCppReturn(_call_result);
+        return Conversion<::std::unordered_map<::std::string, double>>::toCppReturn(_call_result);
     }
     ::std::shared_ptr< ::smoke::CalculationResult > fetch_data_instance() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataInstance(mFunctions.swift_pointer);
-        return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCppReturn(_call_result);
+        return Conversion<::std::shared_ptr<::smoke::CalculationResult>>::toCppReturn(_call_result);
     }
 private:
     smoke_ListenersWithReturnValues_FunctionTable mFunctions;
 };
 _baseRef smoke_ListenersWithReturnValues_create_proxy(smoke_ListenersWithReturnValues_FunctionTable functionTable) {
-    auto proxy = smoke_ListenersWithReturnValuesProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ListenersWithReturnValues>(proxy)) : 0;
+    auto proxy = smoke_ListenersWithReturnValuesProxy::get_proxy(::std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr<::smoke::ListenersWithReturnValues>(proxy)) : 0;
 }
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef handle) {
-    return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;
+    return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<::std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;
 }

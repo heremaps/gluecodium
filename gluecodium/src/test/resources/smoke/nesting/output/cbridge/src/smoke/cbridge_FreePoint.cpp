@@ -9,7 +9,7 @@
 _baseRef
 smoke_FreePoint_create_handle( double x, double y )
 {
-    ::smoke::FreePoint* _struct = new ( std::nothrow ) ::smoke::FreePoint();
+    ::smoke::FreePoint* _struct = new ( ::std::nothrow ) ::smoke::FreePoint();
     _struct->x = x;
     _struct->y = y;
     return reinterpret_cast<_baseRef>( _struct );
@@ -22,7 +22,7 @@ smoke_FreePoint_release_handle( _baseRef handle )
 _baseRef
 smoke_FreePoint_create_optional_handle(double x, double y)
 {
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::FreePoint>( ::smoke::FreePoint( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::FreePoint>( ::smoke::FreePoint( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     return reinterpret_cast<_baseRef>( _struct );
