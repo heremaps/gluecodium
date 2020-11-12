@@ -14,31 +14,31 @@
 #include <unordered_map>
 #include <vector>
 void smoke_Lambdas_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::smoke::Lambdas>>(handle);
+    delete get_pointer<::std::shared_ptr< ::smoke::Lambdas >>(handle);
 }
 _baseRef smoke_Lambdas_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::Lambdas>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::Lambdas >>(handle)))
         : 0;
 }
 const void* smoke_Lambdas_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::Lambdas>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Lambdas >>(handle)->get())
         : nullptr;
 }
 void smoke_Lambdas_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::Lambdas>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::Lambdas >>(handle)->get(), swift_pointer);
 }
 void smoke_Lambdas_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::Lambdas>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Lambdas >>(handle)->get());
 }
 _baseRef smoke_Lambdas_deconfuse(_baseRef _instance, _baseRef value, _baseRef confuser) {
-    return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::Lambdas>>(_instance)->get()->deconfuse(Conversion<::std::string>::toCpp(value), Conversion<::smoke::Lambdas::Confuser>::toCpp(confuser)));
+    return Conversion<::smoke::Lambdas::Producer>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Lambdas >>(_instance)->get()->deconfuse(Conversion<::std::string>::toCpp(value), Conversion<::smoke::Lambdas::Confuser>::toCpp(confuser)));
 }
 _baseRef smoke_Lambdas_fuse(_baseRef items, _baseRef callback) {
-    return Conversion<::std::unordered_map<int32_t, ::std::string>>::toBaseRef(::smoke::Lambdas::fuse(Conversion<::std::vector<::std::string>>::toCpp(items), Conversion<::smoke::Lambdas::Indexer>::toCpp(callback)));
+    return Conversion<::std::unordered_map< int32_t, ::std::string >>::toBaseRef(::smoke::Lambdas::fuse(Conversion<::std::vector< ::std::string >>::toCpp(items), Conversion<::smoke::Lambdas::Indexer>::toCpp(callback)));
 }
 void smoke_Lambdas_Producer_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::Lambdas::Producer>(handle);

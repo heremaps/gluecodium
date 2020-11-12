@@ -11,25 +11,25 @@
 #include <new>
 #include <string>
 void smoke_ExternalClass_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::fire::Baz>>(handle);
+    delete get_pointer<::std::shared_ptr< ::fire::Baz >>(handle);
 }
 _baseRef smoke_ExternalClass_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::fire::Baz>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::fire::Baz >>(handle)))
         : 0;
 }
 const void* smoke_ExternalClass_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::fire::Baz>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::fire::Baz >>(handle)->get())
         : nullptr;
 }
 void smoke_ExternalClass_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::fire::Baz>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::fire::Baz >>(handle)->get(), swift_pointer);
 }
 void smoke_ExternalClass_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::fire::Baz>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::fire::Baz >>(handle)->get());
 }
 _baseRef
 smoke_ExternalClass_SomeStruct_create_handle( _baseRef someField )
@@ -63,8 +63,8 @@ _baseRef smoke_ExternalClass_SomeStruct_someField_get(_baseRef handle) {
     return Conversion<::std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_ExternalClass_someMethod(_baseRef _instance, int8_t someParameter) {
-    return get_pointer<::std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(someParameter);
+    return get_pointer<::std::shared_ptr< ::fire::Baz >>(_instance)->get()->some_Method(someParameter);
 }
 _baseRef smoke_ExternalClass_someProperty_get(_baseRef _instance) {
-    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr<::fire::Baz>>(_instance)->get()->get_Me());
+    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::fire::Baz >>(_instance)->get()->get_Me());
 }

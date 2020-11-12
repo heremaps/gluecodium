@@ -13,25 +13,25 @@
 #include <new>
 #include <string>
 void smoke_ErrorsInterface_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle);
+    delete get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle);
 }
 _baseRef smoke_ErrorsInterface_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle)))
         : 0;
 }
 const void* smoke_ErrorsInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle)->get())
         : nullptr;
 }
 void smoke_ErrorsInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle)->get(), swift_pointer);
 }
 void smoke_ErrorsInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ErrorsInterface(_baseRef handle);
@@ -44,20 +44,20 @@ struct smoke_ErrorsInterfaceRegisterInit {
 } s_smoke_ErrorsInterface_register_init;
 }
 void* smoke_ErrorsInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr<::smoke::ErrorsInterface>::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr< ::smoke::ErrorsInterface >::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ErrorsInterface(handle);
 }
 smoke_ErrorsInterface_methodWithErrors_result smoke_ErrorsInterface_methodWithErrors(_baseRef _instance) {
-    auto&& ERROR_VALUE = get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(_instance)->get()->method_with_errors().value();
+    auto&& ERROR_VALUE = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_errors().value();
     return {ERROR_VALUE == 0, static_cast< smoke_ErrorsInterface_InternalError >(ERROR_VALUE)};
 }
 smoke_ErrorsInterface_methodWithExternalErrors_result smoke_ErrorsInterface_methodWithExternalErrors(_baseRef _instance) {
-    auto&& ERROR_VALUE = get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(_instance)->get()->method_with_external_errors().value();
+    auto&& ERROR_VALUE = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_external_errors().value();
     return {ERROR_VALUE == 0, static_cast< smoke_ErrorsInterface_ExternalErrors >(ERROR_VALUE)};
 }
 smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result smoke_ErrorsInterface_methodWithErrorsAndReturnValue(_baseRef _instance) {
-    auto&& RESULT = get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(_instance)->get()->method_with_errors_and_return_value();
+    auto&& RESULT = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_errors_and_return_value();
     if (RESULT.has_value()) {
         return {true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
@@ -80,7 +80,7 @@ smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result smoke_ErrorsIn
         return {false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
     }
 }
-class smoke_ErrorsInterfaceProxy : public ::std::shared_ptr<::smoke::ErrorsInterface>::element_type, public CachedProxyBase<smoke_ErrorsInterfaceProxy> {
+class smoke_ErrorsInterfaceProxy : public ::std::shared_ptr< ::smoke::ErrorsInterface >::element_type, public CachedProxyBase<smoke_ErrorsInterfaceProxy> {
 public:
     smoke_ErrorsInterfaceProxy(smoke_ErrorsInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -121,8 +121,8 @@ private:
 };
 _baseRef smoke_ErrorsInterface_create_proxy(smoke_ErrorsInterface_FunctionTable functionTable) {
     auto proxy = smoke_ErrorsInterfaceProxy::get_proxy(::std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr<::smoke::ErrorsInterface>(proxy)) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr< ::smoke::ErrorsInterface >(proxy)) : 0;
 }
 const void* smoke_ErrorsInterface_get_swift_object_from_cache(_baseRef handle) {
-    return handle ? smoke_ErrorsInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr<::smoke::ErrorsInterface>>(handle)->get()) : nullptr;
+    return handle ? smoke_ErrorsInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(handle)->get()) : nullptr;
 }

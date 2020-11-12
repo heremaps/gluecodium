@@ -15,25 +15,25 @@
 #include <unordered_map>
 #include <vector>
 void smoke_ListenerWithProperties_release_handle(_baseRef handle) {
-    delete get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle);
+    delete get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle);
 }
 _baseRef smoke_ListenerWithProperties_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle)))
         : 0;
 }
 const void* smoke_ListenerWithProperties_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle)->get())
         : nullptr;
 }
 void smoke_ListenerWithProperties_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle)->get(), swift_pointer);
 }
 void smoke_ListenerWithProperties_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ListenerWithProperties(_baseRef handle);
@@ -46,7 +46,7 @@ struct smoke_ListenerWithPropertiesRegisterInit {
 } s_smoke_ListenerWithProperties_register_init;
 }
 void* smoke_ListenerWithProperties_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr<::smoke::ListenerWithProperties>::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr< ::smoke::ListenerWithProperties >::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ListenerWithProperties(handle);
 }
@@ -82,48 +82,48 @@ double smoke_ListenerWithProperties_ResultStruct_result_get(_baseRef handle) {
     return struct_pointer->result;
 }
 _baseRef smoke_ListenerWithProperties_message_get(_baseRef _instance) {
-    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_message());
+    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_message());
 }
 void smoke_ListenerWithProperties_message_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_message(Conversion<::std::string>::toCpp(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_message(Conversion<::std::string>::toCpp(newValue));
 }
 _baseRef smoke_ListenerWithProperties_packedMessage_get(_baseRef _instance) {
-    return Conversion<::std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_packed_message());
+    return Conversion<::std::shared_ptr< ::smoke::CalculationResult >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_packed_message());
 }
 void smoke_ListenerWithProperties_packedMessage_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_packed_message(Conversion<::std::shared_ptr<::smoke::CalculationResult>>::toCpp(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_packed_message(Conversion<::std::shared_ptr< ::smoke::CalculationResult >>::toCpp(newValue));
 }
 _baseRef smoke_ListenerWithProperties_structuredMessage_get(_baseRef _instance) {
-    return Conversion<::smoke::ListenerWithProperties::ResultStruct>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_structured_message());
+    return Conversion<::smoke::ListenerWithProperties::ResultStruct>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_structured_message());
 }
 void smoke_ListenerWithProperties_structuredMessage_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_structured_message(Conversion<::smoke::ListenerWithProperties::ResultStruct>::toCpp(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_structured_message(Conversion<::smoke::ListenerWithProperties::ResultStruct>::toCpp(newValue));
 }
 smoke_ListenerWithProperties_ResultEnum smoke_ListenerWithProperties_enumeratedMessage_get(_baseRef _instance) {
-    return static_cast<smoke_ListenerWithProperties_ResultEnum>(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_enumerated_message());
+    return static_cast<smoke_ListenerWithProperties_ResultEnum>(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_enumerated_message());
 }
 void smoke_ListenerWithProperties_enumeratedMessage_set(_baseRef _instance, smoke_ListenerWithProperties_ResultEnum newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_enumerated_message(static_cast<::smoke::ListenerWithProperties::ResultEnum>(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_enumerated_message(static_cast<::smoke::ListenerWithProperties::ResultEnum>(newValue));
 }
 _baseRef smoke_ListenerWithProperties_arrayedMessage_get(_baseRef _instance) {
-    return Conversion<::std::vector<::std::string>>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_arrayed_message());
+    return Conversion<::std::vector< ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_arrayed_message());
 }
 void smoke_ListenerWithProperties_arrayedMessage_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_arrayed_message(Conversion<::std::vector<::std::string>>::toCpp(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_arrayed_message(Conversion<::std::vector< ::std::string >>::toCpp(newValue));
 }
 _baseRef smoke_ListenerWithProperties_mappedMessage_get(_baseRef _instance) {
-    return Conversion<::std::unordered_map<::std::string, double>>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_mapped_message());
+    return Conversion<::std::unordered_map< ::std::string, double >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_mapped_message());
 }
 void smoke_ListenerWithProperties_mappedMessage_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_mapped_message(Conversion<::std::unordered_map<::std::string, double>>::toCpp(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_mapped_message(Conversion<::std::unordered_map< ::std::string, double >>::toCpp(newValue));
 }
 _baseRef smoke_ListenerWithProperties_bufferedMessage_get(_baseRef _instance) {
-    return Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toBaseRef(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->get_buffered_message());
+    return Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_buffered_message());
 }
 void smoke_ListenerWithProperties_bufferedMessage_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(_instance)->get()->set_buffered_message(Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp(newValue));
+    return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_buffered_message(Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp(newValue));
 }
-class smoke_ListenerWithPropertiesProxy : public ::std::shared_ptr<::smoke::ListenerWithProperties>::element_type, public CachedProxyBase<smoke_ListenerWithPropertiesProxy> {
+class smoke_ListenerWithPropertiesProxy : public ::std::shared_ptr< ::smoke::ListenerWithProperties >::element_type, public CachedProxyBase<smoke_ListenerWithPropertiesProxy> {
 public:
     smoke_ListenerWithPropertiesProxy(smoke_ListenerWithProperties_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -143,10 +143,10 @@ public:
     }
     ::std::shared_ptr< ::smoke::CalculationResult > get_packed_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithProperties_packedMessage_get(mFunctions.swift_pointer);
-        return Conversion<::std::shared_ptr<::smoke::CalculationResult>>::toCppReturn(_call_result);
+        return Conversion<::std::shared_ptr< ::smoke::CalculationResult >>::toCppReturn(_call_result);
     }
-    void set_packed_message(const ::std::shared_ptr<::smoke::CalculationResult>& newValue) override {
-        mFunctions.smoke_ListenerWithProperties_packedMessage_set(mFunctions.swift_pointer, Conversion<::std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(newValue));
+    void set_packed_message(const ::std::shared_ptr< ::smoke::CalculationResult >& newValue) override {
+        mFunctions.smoke_ListenerWithProperties_packedMessage_set(mFunctions.swift_pointer, Conversion<::std::shared_ptr< ::smoke::CalculationResult >>::toBaseRef(newValue));
     }
     ::smoke::ListenerWithProperties::ResultStruct get_structured_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithProperties_structuredMessage_get(mFunctions.swift_pointer);
@@ -164,17 +164,17 @@ public:
     }
     ::std::vector< ::std::string > get_arrayed_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithProperties_arrayedMessage_get(mFunctions.swift_pointer);
-        return Conversion<::std::vector<::std::string>>::toCppReturn(_call_result);
+        return Conversion<::std::vector< ::std::string >>::toCppReturn(_call_result);
     }
-    void set_arrayed_message(const ::std::vector<::std::string>& newValue) override {
-        mFunctions.smoke_ListenerWithProperties_arrayedMessage_set(mFunctions.swift_pointer, Conversion<::std::vector<::std::string>>::toBaseRef(newValue));
+    void set_arrayed_message(const ::std::vector< ::std::string >& newValue) override {
+        mFunctions.smoke_ListenerWithProperties_arrayedMessage_set(mFunctions.swift_pointer, Conversion<::std::vector< ::std::string >>::toBaseRef(newValue));
     }
     ::smoke::ListenerWithProperties::StringToDouble get_mapped_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithProperties_mappedMessage_get(mFunctions.swift_pointer);
-        return Conversion<::std::unordered_map<::std::string, double>>::toCppReturn(_call_result);
+        return Conversion<::std::unordered_map< ::std::string, double >>::toCppReturn(_call_result);
     }
-    void set_mapped_message(const ::std::unordered_map<::std::string, double>& newValue) override {
-        mFunctions.smoke_ListenerWithProperties_mappedMessage_set(mFunctions.swift_pointer, Conversion<::std::unordered_map<::std::string, double>>::toBaseRef(newValue));
+    void set_mapped_message(const ::std::unordered_map< ::std::string, double >& newValue) override {
+        mFunctions.smoke_ListenerWithProperties_mappedMessage_set(mFunctions.swift_pointer, Conversion<::std::unordered_map< ::std::string, double >>::toBaseRef(newValue));
     }
     ::std::shared_ptr< ::std::vector< uint8_t > > get_buffered_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithProperties_bufferedMessage_get(mFunctions.swift_pointer);
@@ -188,8 +188,8 @@ private:
 };
 _baseRef smoke_ListenerWithProperties_create_proxy(smoke_ListenerWithProperties_FunctionTable functionTable) {
     auto proxy = smoke_ListenerWithPropertiesProxy::get_proxy(::std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr<::smoke::ListenerWithProperties>(proxy)) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr< ::smoke::ListenerWithProperties >(proxy)) : 0;
 }
 const void* smoke_ListenerWithProperties_get_swift_object_from_cache(_baseRef handle) {
-    return handle ? smoke_ListenerWithPropertiesProxy::get_swift_object(get_pointer<::std::shared_ptr<::smoke::ListenerWithProperties>>(handle)->get()) : nullptr;
+    return handle ? smoke_ListenerWithPropertiesProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(handle)->get()) : nullptr;
 }
