@@ -10,8 +10,8 @@
 _baseRef
 smoke_Extensions_FooStruct_create_handle( _baseRef fooField )
 {
-    ::smoke::FooStruct* _struct = new ( std::nothrow ) ::smoke::FooStruct();
-    _struct->foo_field = Conversion<std::string>::toCpp( fooField );
+    ::smoke::FooStruct* _struct = new ( ::std::nothrow ) ::smoke::FooStruct();
+    _struct->foo_field = Conversion<::std::string>::toCpp( fooField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
@@ -22,8 +22,8 @@ smoke_Extensions_FooStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Extensions_FooStruct_create_optional_handle(_baseRef fooField)
 {
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::smoke::FooStruct>( ::smoke::FooStruct( ) );
-    (*_struct)->foo_field = Conversion<std::string>::toCpp( fooField );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::FooStruct>( ::smoke::FooStruct( ) );
+    (*_struct)->foo_field = Conversion<::std::string>::toCpp( fooField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
@@ -36,5 +36,5 @@ void smoke_Extensions_FooStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_Extensions_FooStruct_fooField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::FooStruct>(handle);
-    return Conversion<std::string>::toBaseRef(struct_pointer->foo_field);
+    return Conversion<::std::string>::toBaseRef(struct_pointer->foo_field);
 }

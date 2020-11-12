@@ -19,7 +19,7 @@
   !
   !}}
 _baseRef {{name}}_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>baseApi}}() );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>baseApi}}() );
 }
 
 void {{name}}_release_handle(_baseRef handle) {
@@ -27,11 +27,11 @@ void {{name}}_release_handle(_baseRef handle) {
 }
 
 void {{name}}_insert(_baseRef handle, {{elementType.functionReturnType}} value) {
-    (*get_pointer<{{>baseApi}}>(handle)).insert(std::move({{>ConvertToCpp}}));
+    (*get_pointer<{{>baseApi}}>(handle)).insert(::std::move({{>ConvertToCpp}}));
 }
 
 _baseRef {{name}}_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
 }
 
 void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
@@ -52,7 +52,7 @@ void {{name}}_iterator_increment(_baseRef iterator_handle) {
 }
 
 _baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
 }
 
 void {{name}}_release_optional_handle(_baseRef handle) {
@@ -65,7 +65,7 @@ _baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
 
 {{!!
 
-}}{{+baseApi}}std::unordered_set<{{elementType.name}}{{#unless hasStdHash}}, {{>common/InternalNamespace}}hash<{{elementType.name}}>{{/unless}}>{{/baseApi}}{{!!
+}}{{+baseApi}}::std::unordered_set<{{elementType.name}}{{#unless hasStdHash}}, {{>common/InternalNamespace}}hash<{{elementType.name}}>{{/unless}}>{{/baseApi}}{{!!
 
 }}{{+ConvertToCpp}}{{!!
 }}{{#switch elementType.typeCategory.toString}}{{!!

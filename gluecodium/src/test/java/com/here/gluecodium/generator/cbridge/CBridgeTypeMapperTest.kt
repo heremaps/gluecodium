@@ -90,13 +90,13 @@ class CBridgeTypeMapperTest {
 
         val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
-        assertEquals("std::unordered_map<std::string, double>", result.name)
+        assertEquals("::std::unordered_map<::std::string, double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
         assertEquals(BASE_REF_NAME, result.functionReturnType.name)
         assertEquals(2, result.includes.size)
         assertEquals(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, result.includes.first().fileName)
         assertEquals(CppLibraryIncludes.MAP, result.includes.last())
-        assertEquals("std::string", (result as CppMapTypeInfo).keyType.name)
+        assertEquals("::std::string", (result as CppMapTypeInfo).keyType.name)
         assertEquals("double", result.valueType.name)
     }
 
@@ -122,7 +122,7 @@ class CBridgeTypeMapperTest {
 
         val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
-        assertEquals("std::unordered_set<double>", result.name)
+        assertEquals("::std::unordered_set<double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
         assertEquals(BASE_REF_NAME, result.functionReturnType.name)
         assertEquals(2, result.includes.size)
@@ -137,7 +137,7 @@ class CBridgeTypeMapperTest {
 
         val result = typeMapper.mapType(LimeDirectTypeRef(limeElement), cppTemplateTypeRef)
 
-        assertEquals("std::vector<float>", result.name)
+        assertEquals("::std::vector<float>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
         assertEquals(BASE_REF_NAME, result.functionReturnType.name)
         assertEquals(2, result.includes.size)

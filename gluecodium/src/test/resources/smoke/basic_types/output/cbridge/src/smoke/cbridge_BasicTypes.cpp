@@ -11,28 +11,28 @@
 #include <new>
 #include <string>
 void smoke_BasicTypes_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::smoke::BasicTypes>>(handle);
+    delete get_pointer<::std::shared_ptr<::smoke::BasicTypes>>(handle);
 }
 _baseRef smoke_BasicTypes_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::BasicTypes>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::BasicTypes>>(handle)))
         : 0;
 }
 const void* smoke_BasicTypes_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::BasicTypes>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::BasicTypes>>(handle)->get())
         : nullptr;
 }
 void smoke_BasicTypes_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::BasicTypes>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::BasicTypes>>(handle)->get(), swift_pointer);
 }
 void smoke_BasicTypes_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::BasicTypes>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::BasicTypes>>(handle)->get());
 }
 _baseRef smoke_BasicTypes_stringFunction(_baseRef input) {
-    return Conversion<std::string>::toBaseRef(::smoke::BasicTypes::string_function(Conversion<std::string>::toCpp(input)));
+    return Conversion<::std::string>::toBaseRef(::smoke::BasicTypes::string_function(Conversion<::std::string>::toCpp(input)));
 }
 bool smoke_BasicTypes_boolFunction(bool input) {
     return ::smoke::BasicTypes::bool_function(input);

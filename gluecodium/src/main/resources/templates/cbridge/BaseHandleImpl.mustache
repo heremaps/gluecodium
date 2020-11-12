@@ -57,24 +57,24 @@ get_pointer( _baseRef handle )
 }
 
 template < typename T >
-inline static std::shared_ptr< T >*
-checked_pointer_copy( std::shared_ptr< T >&& pointer )
+inline static ::std::shared_ptr< T >*
+checked_pointer_copy( ::std::shared_ptr< T >&& pointer )
 {
-    return !pointer ? nullptr : new std::shared_ptr< T >( std::move( pointer ) );
+    return !pointer ? nullptr : new ::std::shared_ptr< T >( ::std::move( pointer ) );
 }
 
 template < typename T >
-inline static std::shared_ptr< T >*
-checked_pointer_copy( const std::shared_ptr< T >& pointer )
+inline static ::std::shared_ptr< T >*
+checked_pointer_copy( const ::std::shared_ptr< T >& pointer )
 {
-    return !pointer ? nullptr : new std::shared_ptr< T >( pointer );
+    return !pointer ? nullptr : new ::std::shared_ptr< T >( pointer );
 }
 
 template<class R, class... Args>
-inline static std::function<R(Args...)>*
-checked_pointer_copy(const std::function<R(Args...)>& pointer)
+inline static ::std::function<R(Args...)>*
+checked_pointer_copy(const ::std::function<R(Args...)>& pointer)
 {
-    return !pointer ? nullptr : new std::function<R(Args...)>(pointer);
+    return !pointer ? nullptr : new ::std::function<R(Args...)>(pointer);
 }
 
 template < typename T >
@@ -89,7 +89,7 @@ struct Conversion
     static _baseRef
     toBaseRef( T&& t )
     {
-        return reinterpret_cast< _baseRef >( new T( std::forward< T >( t ) ) );
+        return reinterpret_cast< _baseRef >( new T( ::std::forward< T >( t ) ) );
     }
 
     static _baseRef
@@ -115,40 +115,40 @@ struct Conversion
 };
 
 template < class T >
-struct Conversion< std::shared_ptr< T > >
+struct Conversion< ::std::shared_ptr< T > >
 {
     static _baseRef
-    toBaseRef( std::shared_ptr< T > ptr )
+    toBaseRef( ::std::shared_ptr< T > ptr )
     {
         return !ptr ? 0
-                    : reinterpret_cast< _baseRef >( new std::shared_ptr< T >( std::move( ptr ) ) );
+                    : reinterpret_cast< _baseRef >( new ::std::shared_ptr< T >( ::std::move( ptr ) ) );
     }
 
     static _baseRef
-    referenceBaseRef( const std::shared_ptr< T >& t )
+    referenceBaseRef( const ::std::shared_ptr< T >& t )
     {
         return reinterpret_cast< _baseRef >( &t );
     }
 
-    static std::shared_ptr< T >
+    static ::std::shared_ptr< T >
     toCpp( _baseRef ref )
     {
         if ( ref == 0 )
         {
             return {};
         }
-        return *reinterpret_cast< std::shared_ptr< T >* >( ref );
+        return *reinterpret_cast< ::std::shared_ptr< T >* >( ref );
     }
 
-    static std::shared_ptr< T >
+    static ::std::shared_ptr< T >
     toCppReturn( _baseRef ref )
     {
         if ( ref == 0 )
         {
             return {};
         }
-        auto ptr_ptr = reinterpret_cast< std::shared_ptr< T >* >( ref );
-        std::shared_ptr< T > ptr( std::move( *ptr_ptr ) );
+        auto ptr_ptr = reinterpret_cast< ::std::shared_ptr< T >* >( ref );
+        ::std::shared_ptr< T > ptr( ::std::move( *ptr_ptr ) );
         delete ptr_ptr;
         return ptr;
     }
@@ -157,16 +157,16 @@ struct Conversion< std::shared_ptr< T > >
 namespace
 {
 double
-time_point_to_seconds_since_epoch( const std::chrono::system_clock::time_point& timestamp )
+time_point_to_seconds_since_epoch( const ::std::chrono::system_clock::time_point& timestamp )
 {
     // Double can represent an integer up to 52 bits without a loss of precision. For big 64-bit
     // integers there is a loss, so those should be divided as integers, not as doubles.
 
-    using namespace std::chrono;
+    using namespace ::std::chrono;
     auto time_since_epoch_scaled =
         timestamp.time_since_epoch( ).count( ) * system_clock::period::num;
 
-    auto division_results = std::lldiv( time_since_epoch_scaled, system_clock::period::den );
+    auto division_results = ::std::lldiv( time_since_epoch_scaled, system_clock::period::den );
     return static_cast< double >( division_results.quot ) +
         static_cast< double >( division_results.rem ) / system_clock::period::den;
 }
@@ -177,14 +177,14 @@ seconds_since_epoch_to_time_point( double seconds_since_epoch )
     // Double can represent an integer up to 52 bits without a loss of precision. For big 64-bit
     // integers there is a loss, so those should be multiplied as integers, not as doubles.
 
-    using namespace std::chrono;
+    using namespace ::std::chrono;
     auto time_since_epoch_scaled = seconds_since_epoch / system_clock::period::num;
-    auto integralPart = std::floor( time_since_epoch_scaled );
+    auto integralPart = ::std::floor( time_since_epoch_scaled );
     auto decimalPart = time_since_epoch_scaled - integralPart;
 
     auto time_since_epoch =
         static_cast< int64_t >( integralPart ) * system_clock::period::den +
-        static_cast< int64_t >( std::round( decimalPart * system_clock::period::den ) );
+        static_cast< int64_t >( ::std::round( decimalPart * system_clock::period::den ) );
     return system_clock::time_point( system_clock::duration( time_since_epoch ) );
 }
 }
@@ -197,7 +197,7 @@ struct Conversion< {{>common/InternalNamespace}}optional< T > >
     {
         return !ptr ? 0
                     : reinterpret_cast< _baseRef >(
-                          new {{>common/InternalNamespace}}optional< T >( std::move( ptr ) ) );
+                          new {{>common/InternalNamespace}}optional< T >( ::std::move( ptr ) ) );
     }
 
     static _baseRef
@@ -224,40 +224,40 @@ struct Conversion< {{>common/InternalNamespace}}optional< T > >
             return {};
         }
         auto ptr_ptr = reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( ref );
-        {{>common/InternalNamespace}}optional< T > ptr( std::move( *ptr_ptr ) );
+        {{>common/InternalNamespace}}optional< T > ptr( ::std::move( *ptr_ptr ) );
         delete ptr_ptr;
         return ptr;
     }
 };
 
 template<>
-struct Conversion< std::chrono::system_clock::time_point >
+struct Conversion< ::std::chrono::system_clock::time_point >
 {
     static double
-    toBaseRef( const std::chrono::system_clock::time_point& timestamp )
+    toBaseRef( const ::std::chrono::system_clock::time_point& timestamp )
     {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 
     static double
-    toBaseRef( std::chrono::system_clock::time_point&& timestamp )
+    toBaseRef( ::std::chrono::system_clock::time_point&& timestamp )
     {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 
     static double
-    referenceBaseRef( std::chrono::system_clock::time_point& timestamp )
+    referenceBaseRef( ::std::chrono::system_clock::time_point& timestamp )
     {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 
-    static std::chrono::system_clock::time_point
+    static ::std::chrono::system_clock::time_point
     toCpp( double seconds_since_epoch )
     {
         return seconds_since_epoch_to_time_point( seconds_since_epoch );
     }
 
-    static std::chrono::system_clock::time_point
+    static ::std::chrono::system_clock::time_point
     toCppReturn( double seconds_since_epoch )
     {
         return seconds_since_epoch_to_time_point( seconds_since_epoch );

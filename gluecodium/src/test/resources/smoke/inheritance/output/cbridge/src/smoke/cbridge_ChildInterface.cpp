@@ -15,25 +15,25 @@
 #include <new>
 #include <string>
 void smoke_ChildInterface_release_handle(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle);
+    delete get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle);
 }
 _baseRef smoke_ChildInterface_copy_handle(_baseRef handle) {
     return handle
-        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)))
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle)))
         : 0;
 }
 const void* smoke_ChildInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
-        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)->get())
+        ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle)->get())
         : nullptr;
 }
 void smoke_ChildInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
-    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)->get(), swift_pointer);
+    ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle)->get(), swift_pointer);
 }
 void smoke_ChildInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
-    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)->get());
+    ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle)->get());
 }
 extern "C" {
 extern void* _CBridgeInitsmoke_ChildInterface(_baseRef handle);
@@ -46,17 +46,17 @@ struct smoke_ChildInterfaceRegisterInit {
 } s_smoke_ChildInterface_register_init;
 }
 void* smoke_ChildInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<std::shared_ptr<::smoke::ChildInterface>::element_type*>(nullptr)).get_id(get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr<::smoke::ChildInterface>::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ChildInterface(handle);
 }
 void smoke_ChildInterface_childMethod(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::smoke::ChildInterface>>(_instance)->get()->child_method();
+    return get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(_instance)->get()->child_method();
 }
-class smoke_ChildInterfaceProxy : public std::shared_ptr<::smoke::ChildInterface>::element_type, public CachedProxyBase<smoke_ChildInterfaceProxy> {
+class smoke_ChildInterfaceProxy : public ::std::shared_ptr<::smoke::ChildInterface>::element_type, public CachedProxyBase<smoke_ChildInterfaceProxy> {
 public:
     smoke_ChildInterfaceProxy(smoke_ChildInterface_FunctionTable&& functions)
-     : mFunctions(std::move(functions))
+     : mFunctions(::std::move(functions))
     {
     }
     virtual ~smoke_ChildInterfaceProxy() {
@@ -69,10 +69,10 @@ public:
     }
     ::std::string get_root_property() const override {
         auto _call_result = mFunctions.smoke_ParentInterface_rootProperty_get(mFunctions.swift_pointer);
-        return Conversion<std::string>::toCppReturn(_call_result);
+        return Conversion<::std::string>::toCppReturn(_call_result);
     }
-    void set_root_property(const std::string& newValue) override {
-        mFunctions.smoke_ParentInterface_rootProperty_set(mFunctions.swift_pointer, Conversion<std::string>::toBaseRef(newValue));
+    void set_root_property(const ::std::string& newValue) override {
+        mFunctions.smoke_ParentInterface_rootProperty_set(mFunctions.swift_pointer, Conversion<::std::string>::toBaseRef(newValue));
     }
     void child_method() override {
         mFunctions.smoke_ChildInterface_childMethod(mFunctions.swift_pointer);
@@ -81,9 +81,9 @@ private:
     smoke_ChildInterface_FunctionTable mFunctions;
 };
 _baseRef smoke_ChildInterface_create_proxy(smoke_ChildInterface_FunctionTable functionTable) {
-    auto proxy = smoke_ChildInterfaceProxy::get_proxy(std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ChildInterface>(proxy)) : 0;
+    auto proxy = smoke_ChildInterfaceProxy::get_proxy(::std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new ::std::shared_ptr<::smoke::ChildInterface>(proxy)) : 0;
 }
 const void* smoke_ChildInterface_get_swift_object_from_cache(_baseRef handle) {
-    return handle ? smoke_ChildInterfaceProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ChildInterface>>(handle)->get()) : nullptr;
+    return handle ? smoke_ChildInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr<::smoke::ChildInterface>>(handle)->get()) : nullptr;
 }

@@ -47,7 +47,7 @@
 #define DEFINE_HANDLE_METHODS( T )                                                                                      \
     _baseRef T##_create_handle( T t )                                                                                   \
     {                                                                                                                   \
-        return reinterpret_cast< _baseRef >( new ( std::nothrow ) {{>common/InternalNamespace}}optional< T >( t ) );    \
+        return reinterpret_cast< _baseRef >( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional< T >( t ) );    \
     }                                                                                                                   \
     void T##_release_handle( _baseRef handle )                                                                          \
     {                                                                                                                   \

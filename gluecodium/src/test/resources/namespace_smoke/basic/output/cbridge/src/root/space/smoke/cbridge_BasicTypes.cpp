@@ -10,8 +10,8 @@
 _baseRef
 smoke_BasicTypes_SomeStruct_create_handle( _baseRef someField )
 {
-    ::root::space::smoke::SomeStruct* _struct = new ( std::nothrow ) ::root::space::smoke::SomeStruct();
-    _struct->some_field = Conversion<std::string>::toCpp( someField );
+    ::root::space::smoke::SomeStruct* _struct = new ( ::std::nothrow ) ::root::space::smoke::SomeStruct();
+    _struct->some_field = Conversion<::std::string>::toCpp( someField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
@@ -22,8 +22,8 @@ smoke_BasicTypes_SomeStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_BasicTypes_SomeStruct_create_optional_handle(_baseRef someField)
 {
-    auto _struct = new ( std::nothrow ) ::gluecodium::optional<::root::space::smoke::SomeStruct>( ::root::space::smoke::SomeStruct( ) );
-    (*_struct)->some_field = Conversion<std::string>::toCpp( someField );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::root::space::smoke::SomeStruct>( ::root::space::smoke::SomeStruct( ) );
+    (*_struct)->some_field = Conversion<::std::string>::toCpp( someField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
@@ -36,5 +36,5 @@ void smoke_BasicTypes_SomeStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_BasicTypes_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::root::space::smoke::SomeStruct>(handle);
-    return Conversion<std::string>::toBaseRef(struct_pointer->some_field);
+    return Conversion<::std::string>::toBaseRef(struct_pointer->some_field);
 }

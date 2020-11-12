@@ -53,7 +53,7 @@ void {{name}}_append( _baseRef handle, {{argument}} item )
 }
 
 _baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{arrayType}}>( {{arrayType}}( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{arrayType}}>( {{arrayType}}( ) ) );
 }
 
 void {{name}}_release_optional_handle(_baseRef handle) {

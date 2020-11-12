@@ -97,7 +97,7 @@ class CBridgeTypeMapper(
     fun createCustomTypeInfo(limeElement: LimeNamedElement, isClass: Boolean = false): CppTypeInfo {
 
         val baseApiName = cppNameResolver.getFullyQualifiedName(limeElement)
-        val baseApiCall = if (isClass) "std::shared_ptr<$baseApiName>" else baseApiName
+        val baseApiCall = if (isClass) "::std::shared_ptr<$baseApiName>" else baseApiName
 
         val publicInclude = includeResolver.resolveInclude(limeElement)
         val structCType = CType(BASE_REF_NAME, publicInclude)
@@ -161,10 +161,10 @@ class CBridgeTypeMapper(
         val keyTypeName = keyType.name
         val valueTypeName = valueType.name
         val cppName = if (hasStdHash) {
-            "std::unordered_map<$keyTypeName, $valueTypeName>"
+            "::std::unordered_map<$keyTypeName, $valueTypeName>"
         } else {
             val namespace = internalNamespace.joinToString("::")
-            "std::unordered_map<$keyTypeName, $valueTypeName, $namespace::hash<$keyTypeName>>"
+            "::std::unordered_map<$keyTypeName, $valueTypeName, $namespace::hash<$keyTypeName>>"
         }
         val result = CppMapTypeInfo(
             cppName,
@@ -194,10 +194,10 @@ class CBridgeTypeMapper(
         val keyTypeName = elementType.name
         val hasStdHash = CppLibraryIncludes.hasStdHash(limeType.elementType)
         val cppName = if (hasStdHash) {
-            "std::unordered_set<$keyTypeName>"
+            "::std::unordered_set<$keyTypeName>"
         } else {
             val namespace = internalNamespace.joinToString("::")
-            "std::unordered_set<$keyTypeName, $namespace::hash<$keyTypeName>>"
+            "::std::unordered_set<$keyTypeName, $namespace::hash<$keyTypeName>>"
         }
         val result = CppSetTypeInfo(
             cppName,
@@ -222,7 +222,7 @@ class CBridgeTypeMapper(
         }
 
         val result = CppArrayTypeInfo(
-            "std::vector<${elementType.name}>",
+            "::std::vector<${elementType.name}>",
             CType(BASE_REF_NAME),
             CType(BASE_REF_NAME),
             listOf(BASE_HANDLE_IMPL_INCLUDE, CppLibraryIncludes.VECTOR),
