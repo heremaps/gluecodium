@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed flaky crash for callbacks being sent from Dart to C++ and then back.
+
 ## 8.6.1
 Release date: 2020-11-18
 ### Bug fixes:

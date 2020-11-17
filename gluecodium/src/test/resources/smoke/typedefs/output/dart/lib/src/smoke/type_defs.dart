@@ -268,8 +268,8 @@ Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) =>
   _smoke_TypeDefs_copy_handle((value as TypeDefs$Impl).handle);
 TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_TypeDefs_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as TypeDefs;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is TypeDefs) return instance as TypeDefs;
   final _copied_handle = _smoke_TypeDefs_copy_handle(handle);
   final result = TypeDefs$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

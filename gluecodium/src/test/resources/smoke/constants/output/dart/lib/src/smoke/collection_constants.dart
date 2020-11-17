@@ -43,8 +43,8 @@ Pointer<Void> smoke_CollectionConstants_toFfi(CollectionConstants value) =>
   _smoke_CollectionConstants_copy_handle((value as CollectionConstants$Impl).handle);
 CollectionConstants smoke_CollectionConstants_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_CollectionConstants_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as CollectionConstants;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is CollectionConstants) return instance as CollectionConstants;
   final _copied_handle = _smoke_CollectionConstants_copy_handle(handle);
   final result = CollectionConstants$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

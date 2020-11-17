@@ -157,8 +157,8 @@ Pointer<Void> smoke_AttributesWithComments_toFfi(AttributesWithComments value) =
   _smoke_AttributesWithComments_copy_handle((value as AttributesWithComments$Impl).handle);
 AttributesWithComments smoke_AttributesWithComments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_AttributesWithComments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as AttributesWithComments;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is AttributesWithComments) return instance as AttributesWithComments;
   final _copied_handle = _smoke_AttributesWithComments_copy_handle(handle);
   final result = AttributesWithComments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

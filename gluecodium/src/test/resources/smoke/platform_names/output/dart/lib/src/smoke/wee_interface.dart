@@ -92,8 +92,8 @@ Pointer<Void> smoke_PlatformNamesInterface_toFfi(weeInterface value) =>
   _smoke_PlatformNamesInterface_copy_handle((value as weeInterface$Impl).handle);
 weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_PlatformNamesInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as weeInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is weeInterface) return instance as weeInterface;
   final _copied_handle = _smoke_PlatformNamesInterface_copy_handle(handle);
   final result = weeInterface$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

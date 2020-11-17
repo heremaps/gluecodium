@@ -741,8 +741,8 @@ Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
   _smoke_DefaultValues_copy_handle((value as DefaultValues$Impl).handle);
 DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_DefaultValues_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as DefaultValues;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is DefaultValues) return instance as DefaultValues;
   final _copied_handle = _smoke_DefaultValues_copy_handle(handle);
   final result = DefaultValues$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

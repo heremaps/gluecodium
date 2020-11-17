@@ -88,8 +88,8 @@ Pointer<Void> smoke_AttributesClass_toFfi(AttributesClass value) =>
   _smoke_AttributesClass_copy_handle((value as AttributesClass$Impl).handle);
 AttributesClass smoke_AttributesClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_AttributesClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as AttributesClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is AttributesClass) return instance as AttributesClass;
   final _copied_handle = _smoke_AttributesClass_copy_handle(handle);
   final result = AttributesClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

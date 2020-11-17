@@ -115,8 +115,8 @@ Pointer<Void> smoke_MultipleAttributesDart_toFfi(MultipleAttributesDart value) =
   _smoke_MultipleAttributesDart_copy_handle((value as MultipleAttributesDart$Impl).handle);
 MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_MultipleAttributesDart_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as MultipleAttributesDart;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is MultipleAttributesDart) return instance as MultipleAttributesDart;
   final _copied_handle = _smoke_MultipleAttributesDart_copy_handle(handle);
   final result = MultipleAttributesDart$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

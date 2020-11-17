@@ -56,8 +56,8 @@ Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
   _smoke_ChildClassFromClass_copy_handle((value as ChildClassFromClass$Impl).handle);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ChildClassFromClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as ChildClassFromClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is ChildClassFromClass) return instance as ChildClassFromClass;
   final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

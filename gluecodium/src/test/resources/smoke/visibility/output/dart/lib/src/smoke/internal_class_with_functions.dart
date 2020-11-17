@@ -76,8 +76,8 @@ Pointer<Void> smoke_InternalClassWithFunctions_toFfi(InternalClassWithFunctions 
   _smoke_InternalClassWithFunctions_copy_handle((value as InternalClassWithFunctions$Impl).handle);
 InternalClassWithFunctions smoke_InternalClassWithFunctions_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_InternalClassWithFunctions_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as InternalClassWithFunctions;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is InternalClassWithFunctions) return instance as InternalClassWithFunctions;
   final _copied_handle = _smoke_InternalClassWithFunctions_copy_handle(handle);
   final result = InternalClassWithFunctions$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

@@ -144,8 +144,8 @@ Pointer<Void> smoke_Dates_toFfi(Dates value) =>
   _smoke_Dates_copy_handle((value as Dates$Impl).handle);
 Dates smoke_Dates_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Dates_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Dates;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Dates) return instance as Dates;
   final _copied_handle = _smoke_Dates_copy_handle(handle);
   final result = Dates$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

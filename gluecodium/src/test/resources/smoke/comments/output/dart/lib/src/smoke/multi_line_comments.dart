@@ -84,8 +84,8 @@ Pointer<Void> smoke_MultiLineComments_toFfi(MultiLineComments value) =>
   _smoke_MultiLineComments_copy_handle((value as MultiLineComments$Impl).handle);
 MultiLineComments smoke_MultiLineComments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_MultiLineComments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as MultiLineComments;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is MultiLineComments) return instance as MultiLineComments;
   final _copied_handle = _smoke_MultiLineComments_copy_handle(handle);
   final result = MultiLineComments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

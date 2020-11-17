@@ -581,8 +581,8 @@ Pointer<Void> smoke_CommentsInterface_toFfi(CommentsInterface value) {
 }
 CommentsInterface smoke_CommentsInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_CommentsInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as CommentsInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is CommentsInterface) return instance as CommentsInterface;
   final _type_id_handle = _smoke_CommentsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

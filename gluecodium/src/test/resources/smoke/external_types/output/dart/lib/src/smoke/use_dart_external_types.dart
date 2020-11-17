@@ -93,8 +93,8 @@ Pointer<Void> smoke_UseDartExternalTypes_toFfi(UseDartExternalTypes value) =>
   _smoke_UseDartExternalTypes_copy_handle((value as UseDartExternalTypes$Impl).handle);
 UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_UseDartExternalTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as UseDartExternalTypes;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is UseDartExternalTypes) return instance as UseDartExternalTypes;
   final _copied_handle = _smoke_UseDartExternalTypes_copy_handle(handle);
   final result = UseDartExternalTypes$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

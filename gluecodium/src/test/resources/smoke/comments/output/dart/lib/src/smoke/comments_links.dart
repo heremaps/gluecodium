@@ -211,8 +211,8 @@ Pointer<Void> smoke_CommentsLinks_toFfi(CommentsLinks value) =>
   _smoke_CommentsLinks_copy_handle((value as CommentsLinks$Impl).handle);
 CommentsLinks smoke_CommentsLinks_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_CommentsLinks_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as CommentsLinks;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is CommentsLinks) return instance as CommentsLinks;
   final _copied_handle = _smoke_CommentsLinks_copy_handle(handle);
   final result = CommentsLinks$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

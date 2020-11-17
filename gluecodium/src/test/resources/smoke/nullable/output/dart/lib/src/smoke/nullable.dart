@@ -843,8 +843,8 @@ Pointer<Void> smoke_Nullable_toFfi(Nullable value) =>
   _smoke_Nullable_copy_handle((value as Nullable$Impl).handle);
 Nullable smoke_Nullable_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Nullable_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Nullable;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Nullable) return instance as Nullable;
   final _copied_handle = _smoke_Nullable_copy_handle(handle);
   final result = Nullable$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

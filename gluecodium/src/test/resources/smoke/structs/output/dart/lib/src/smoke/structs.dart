@@ -816,8 +816,8 @@ Pointer<Void> smoke_Structs_toFfi(Structs value) =>
   _smoke_Structs_copy_handle((value as Structs$Impl).handle);
 Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Structs_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Structs;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Structs) return instance as Structs;
   final _copied_handle = _smoke_Structs_copy_handle(handle);
   final result = Structs$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

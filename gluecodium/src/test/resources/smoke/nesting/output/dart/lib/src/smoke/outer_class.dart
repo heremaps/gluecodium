@@ -63,8 +63,8 @@ Pointer<Void> smoke_OuterClass_InnerClass_toFfi(OuterClass_InnerClass value) =>
   _smoke_OuterClass_InnerClass_copy_handle((value as OuterClass_InnerClass$Impl).handle);
 OuterClass_InnerClass smoke_OuterClass_InnerClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterClass_InnerClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as OuterClass_InnerClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is OuterClass_InnerClass) return instance as OuterClass_InnerClass;
   final _copied_handle = _smoke_OuterClass_InnerClass_copy_handle(handle);
   final result = OuterClass_InnerClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
@@ -175,8 +175,8 @@ Pointer<Void> smoke_OuterClass_InnerInterface_toFfi(OuterClass_InnerInterface va
 }
 OuterClass_InnerInterface smoke_OuterClass_InnerInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterClass_InnerInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as OuterClass_InnerInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is OuterClass_InnerInterface) return instance as OuterClass_InnerInterface;
   final _type_id_handle = _smoke_OuterClass_InnerInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -238,8 +238,8 @@ Pointer<Void> smoke_OuterClass_toFfi(OuterClass value) =>
   _smoke_OuterClass_copy_handle((value as OuterClass$Impl).handle);
 OuterClass smoke_OuterClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as OuterClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is OuterClass) return instance as OuterClass;
   final _copied_handle = _smoke_OuterClass_copy_handle(handle);
   final result = OuterClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

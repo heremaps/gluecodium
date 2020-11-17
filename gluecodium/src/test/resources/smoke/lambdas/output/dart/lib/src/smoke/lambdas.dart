@@ -64,12 +64,9 @@ Pointer<Void> smoke_Lambdas_Producer_toFfi(Lambdas_Producer value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_Lambdas_Producer_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_Lambdas_Producer_get_raw_pointer(result)] = value;
   return result;
 }
 Lambdas_Producer smoke_Lambdas_Producer_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_Lambdas_Producer_get_raw_pointer(handle)] as Lambdas_Producer;
-  if (instance != null) return instance;
   final _impl = Lambdas_Producer$Impl(_smoke_Lambdas_Producer_copy_handle(handle));
   return () {
     final _result =_impl.call();
@@ -163,12 +160,9 @@ Pointer<Void> smoke_Lambdas_Confuser_toFfi(Lambdas_Confuser value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_Confuser_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_Lambdas_Confuser_get_raw_pointer(result)] = value;
   return result;
 }
 Lambdas_Confuser smoke_Lambdas_Confuser_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_Lambdas_Confuser_get_raw_pointer(handle)] as Lambdas_Confuser;
-  if (instance != null) return instance;
   final _impl = Lambdas_Confuser$Impl(_smoke_Lambdas_Confuser_copy_handle(handle));
   return (String p0) {
     final _result =_impl.call(p0);
@@ -259,12 +253,9 @@ Pointer<Void> smoke_Lambdas_Consumer_toFfi(Lambdas_Consumer value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_Lambdas_Consumer_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_Lambdas_Consumer_get_raw_pointer(result)] = value;
   return result;
 }
 Lambdas_Consumer smoke_Lambdas_Consumer_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_Lambdas_Consumer_get_raw_pointer(handle)] as Lambdas_Consumer;
-  if (instance != null) return instance;
   final _impl = Lambdas_Consumer$Impl(_smoke_Lambdas_Consumer_copy_handle(handle));
   return (String p0) {
     final _result =_impl.call(p0);
@@ -360,12 +351,9 @@ Pointer<Void> smoke_Lambdas_Indexer_toFfi(Lambdas_Indexer value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Float, Pointer<Int32>)>(_Lambdas_Indexer_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_Lambdas_Indexer_get_raw_pointer(result)] = value;
   return result;
 }
 Lambdas_Indexer smoke_Lambdas_Indexer_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_Lambdas_Indexer_get_raw_pointer(handle)] as Lambdas_Indexer;
-  if (instance != null) return instance;
   final _impl = Lambdas_Indexer$Impl(_smoke_Lambdas_Indexer_copy_handle(handle));
   return (String p0, double p1) {
     final _result =_impl.call(p0, p1);
@@ -458,12 +446,9 @@ Pointer<Void> smoke_Lambdas_NullableConfuser_toFfi(Lambdas_NullableConfuser valu
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_Lambdas_NullableConfuser_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_Lambdas_NullableConfuser_get_raw_pointer(result)] = value;
   return result;
 }
 Lambdas_NullableConfuser smoke_Lambdas_NullableConfuser_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_Lambdas_NullableConfuser_get_raw_pointer(handle)] as Lambdas_NullableConfuser;
-  if (instance != null) return instance;
   final _impl = Lambdas_NullableConfuser$Impl(_smoke_Lambdas_NullableConfuser_copy_handle(handle));
   return (String p0) {
     final _result =_impl.call(p0);
@@ -560,8 +545,8 @@ Pointer<Void> smoke_Lambdas_toFfi(Lambdas value) =>
   _smoke_Lambdas_copy_handle((value as Lambdas$Impl).handle);
 Lambdas smoke_Lambdas_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Lambdas_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Lambdas;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Lambdas) return instance as Lambdas;
   final _copied_handle = _smoke_Lambdas_copy_handle(handle);
   final result = Lambdas$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

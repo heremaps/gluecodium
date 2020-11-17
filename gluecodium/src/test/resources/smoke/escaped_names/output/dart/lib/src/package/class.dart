@@ -124,8 +124,8 @@ Pointer<Void> package_Class_toFfi(Class value) =>
   _package_Class_copy_handle((value as Class$Impl).handle);
 Class package_Class_fromFfi(Pointer<Void> handle) {
   final raw_handle = _package_Class_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Class;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Class) return instance as Class;
   final _type_id_handle = _package_Class_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

@@ -392,8 +392,8 @@ Pointer<Void> smoke_Properties_toFfi(Properties value) =>
   _smoke_Properties_copy_handle((value as Properties$Impl).handle);
 Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Properties_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Properties;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Properties) return instance as Properties;
   final _copied_handle = _smoke_Properties_copy_handle(handle);
   final result = Properties$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

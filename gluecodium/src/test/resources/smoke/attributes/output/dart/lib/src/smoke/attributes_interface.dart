@@ -160,8 +160,8 @@ Pointer<Void> smoke_AttributesInterface_toFfi(AttributesInterface value) {
 }
 AttributesInterface smoke_AttributesInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_AttributesInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as AttributesInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is AttributesInterface) return instance as AttributesInterface;
   final _type_id_handle = _smoke_AttributesInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

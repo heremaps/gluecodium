@@ -98,8 +98,8 @@ Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
 }
 InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_InternalInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as InternalInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is InternalInterface) return instance as InternalInterface;
   final _type_id_handle = _smoke_InternalInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

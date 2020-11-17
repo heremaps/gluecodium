@@ -56,8 +56,8 @@ Pointer<Void> smoke_InternalClassWithComments_toFfi(InternalClassWithComments va
   _smoke_InternalClassWithComments_copy_handle((value as InternalClassWithComments$Impl).handle);
 InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_InternalClassWithComments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as InternalClassWithComments;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is InternalClassWithComments) return instance as InternalClassWithComments;
   final _copied_handle = _smoke_InternalClassWithComments_copy_handle(handle);
   final result = InternalClassWithComments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

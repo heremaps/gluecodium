@@ -282,8 +282,8 @@ Pointer<Void> smoke_Enums_toFfi(Enums value) =>
   _smoke_Enums_copy_handle((value as Enums$Impl).handle);
 Enums smoke_Enums_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Enums_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Enums;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Enums) return instance as Enums;
   final _copied_handle = _smoke_Enums_copy_handle(handle);
   final result = Enums$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

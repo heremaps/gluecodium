@@ -145,8 +145,8 @@ Pointer<Void> smoke_Locales_toFfi(Locales value) =>
   _smoke_Locales_copy_handle((value as Locales$Impl).handle);
 Locales smoke_Locales_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Locales_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Locales;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Locales) return instance as Locales;
   final _copied_handle = _smoke_Locales_copy_handle(handle);
   final result = Locales$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

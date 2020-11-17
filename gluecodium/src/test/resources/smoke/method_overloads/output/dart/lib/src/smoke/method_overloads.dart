@@ -259,8 +259,8 @@ Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>
   _smoke_MethodOverloads_copy_handle((value as MethodOverloads$Impl).handle);
 MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_MethodOverloads_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as MethodOverloads;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is MethodOverloads) return instance as MethodOverloads;
   final _copied_handle = _smoke_MethodOverloads_copy_handle(handle);
   final result = MethodOverloads$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

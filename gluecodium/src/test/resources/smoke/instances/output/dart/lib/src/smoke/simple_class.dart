@@ -66,8 +66,8 @@ Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
   _smoke_SimpleClass_copy_handle((value as SimpleClass$Impl).handle);
 SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SimpleClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as SimpleClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is SimpleClass) return instance as SimpleClass;
   final _copied_handle = _smoke_SimpleClass_copy_handle(handle);
   final result = SimpleClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
