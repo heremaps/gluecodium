@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unresolved
+### Bug fixes:
+  * Fixed crash caused by "recursive" IDL struct declarations.
+
 ## 8.6.0
 Release date: 2020-11-04
 ### Features:

@@ -20,18 +20,22 @@
 package com.here.gluecodium.model.lime
 
 object LimeTypeHelper {
-    fun getAllFieldTypes(limeType: LimeType): List<LimeType> {
-        val leafType = getLeafType(limeType)
-        return listOf(leafType) + when (leafType) {
-            is LimeStruct -> leafType.fields.flatMap { getAllFieldTypes(it.typeRef.type) }
-            else -> emptyList()
-        }
+
+    fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypes(getLeafType(limeType), mutableSetOf())
+
+    private fun getAllFieldTypes(leafType: LimeType, visitedTypes: MutableSet<LimeType>): List<LimeType> {
+        if (leafType !is LimeStruct) return listOf(leafType)
+
+        visitedTypes += leafType
+        val typesToVisit = leafType.fields.map { getLeafType(it.typeRef.type.actualType) }.distinct() - visitedTypes
+        return typesToVisit.flatMap { getAllFieldTypes(it, visitedTypes) } + leafType
     }
 
     private fun getLeafType(limeType: LimeType): LimeType =
         when (limeType) {
             is LimeTypeAlias -> getLeafType(limeType.typeRef.type)
             is LimeList -> getLeafType(limeType.elementType.type)
+            is LimeSet -> getLeafType(limeType.elementType.type)
             is LimeMap -> getLeafType(limeType.valueType.type)
             else -> limeType
         }
