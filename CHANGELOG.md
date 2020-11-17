@@ -3,6 +3,7 @@
 ## Unresolved
 ### Bug fixes:
   * Fixed crash caused by "recursive" IDL struct declarations.
+  * Fixed compilation issue in C++ related to type declarations nested inside structs.
 
 ## 8.6.0
 Release date: 2020-11-04

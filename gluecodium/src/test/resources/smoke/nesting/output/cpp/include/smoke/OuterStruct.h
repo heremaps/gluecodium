@@ -19,9 +19,6 @@
 #include <vector>
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT OuterStruct {
-    ::std::string field;
-    OuterStruct( );
-    OuterStruct( ::std::string field );
     struct _GLUECODIUM_CPP_EXPORT InnerStruct {
         ::std::vector< ::std::chrono::system_clock::time_point > other_field;
         InnerStruct( );
@@ -64,6 +61,9 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     public:
         virtual ::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > > bar_baz(  ) = 0;
     };
+    ::std::string field;
+    OuterStruct( );
+    OuterStruct( ::std::string field );
     void do_nothing(  ) const;
 };
 }

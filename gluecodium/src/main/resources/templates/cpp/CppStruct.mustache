@@ -21,7 +21,17 @@
 {{#unless external.cpp}}
 {{>cpp/CppDocComment}}
 struct {{>cpp/CppExportMacro}}{{>cpp/CppAttributesInline}}{{resolveName}} {
-{{#if attributes.cpp.accessors}}
+{{#sort structs constants enumerations}}
+{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="static"}}{{#constant}}{{!!
+}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeEnumeration"}}{{prefixPartial "cpp/CppEnumeration" "    "}}{{/instanceOf}}
+{{/sort}}
+{{#each classes interfaces}}
+{{prefixPartial "cpp/CppClass" "    "}}
+{{/each}}{{!!
+
+}}{{#if attributes.cpp.accessors}}
 private:
 {{#fields}}
     {{resolveName typeRef}} {{resolveName}}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
@@ -82,16 +92,7 @@ public:
 }}{{/unless}}
 {{/fields}}{{/set}}
 
-{{/if}}{{!!
-}}{{#sort structs constants enumerations}}
-{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="static"}}{{#constant}}{{!!
-}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeEnumeration"}}{{prefixPartial "cpp/CppEnumeration" "    "}}{{/instanceOf}}
-{{/sort}}
-{{#each classes interfaces}}
-{{prefixPartial "cpp/CppClass" "    "}}
-{{/each}}
+{{/if}}
 {{#if functions}}
 {{#set isConst=true}}{{#functions}}
 {{prefixPartial "cpp/CppFunctionSignature" "    "}};
