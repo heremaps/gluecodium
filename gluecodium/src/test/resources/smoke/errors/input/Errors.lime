@@ -75,3 +75,7 @@ types SomeTypeCollection {
     }
     exception Some(SomeTypeCollectionError)
 }
+
+class UseTcException {
+    fun doNothing() throws SomeTypeCollection.Some
+}
