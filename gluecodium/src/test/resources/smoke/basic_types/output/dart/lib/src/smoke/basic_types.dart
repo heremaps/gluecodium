@@ -184,8 +184,8 @@ Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
   _smoke_BasicTypes_copy_handle((value as BasicTypes$Impl).handle);
 BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_BasicTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as BasicTypes;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is BasicTypes) return instance as BasicTypes;
   final _copied_handle = _smoke_BasicTypes_copy_handle(handle);
   final result = BasicTypes$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

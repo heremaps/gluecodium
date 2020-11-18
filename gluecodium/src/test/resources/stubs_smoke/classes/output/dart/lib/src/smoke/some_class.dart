@@ -122,8 +122,8 @@ Pointer<Void> smoke_SomeClass_toFfi(SomeClass value) =>
   _smoke_SomeClass_copy_handle((value as SomeClass$Impl).handle);
 SomeClass smoke_SomeClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SomeClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as SomeClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is SomeClass) return instance as SomeClass;
   final _copied_handle = _smoke_SomeClass_copy_handle(handle);
   final result = SomeClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

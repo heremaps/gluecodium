@@ -88,8 +88,8 @@ Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) =>
   _smoke_SpecialNames_copy_handle((value as SpecialNames$Impl).handle);
 SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SpecialNames_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as SpecialNames;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is SpecialNames) return instance as SpecialNames;
   final _copied_handle = _smoke_SpecialNames_copy_handle(handle);
   final result = SpecialNames$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

@@ -351,8 +351,8 @@ Pointer<Void> smoke_Errors_toFfi(Errors value) =>
   _smoke_Errors_copy_handle((value as Errors$Impl).handle);
 Errors smoke_Errors_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Errors_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Errors;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Errors) return instance as Errors;
   final _copied_handle = _smoke_Errors_copy_handle(handle);
   final result = Errors$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

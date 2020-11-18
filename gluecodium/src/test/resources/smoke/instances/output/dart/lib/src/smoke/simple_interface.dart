@@ -132,8 +132,8 @@ Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
 }
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SimpleInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as SimpleInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is SimpleInterface) return instance as SimpleInterface;
   final _type_id_handle = _smoke_SimpleInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

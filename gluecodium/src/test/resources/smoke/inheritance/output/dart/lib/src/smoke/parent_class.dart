@@ -57,8 +57,8 @@ Pointer<Void> smoke_ParentClass_toFfi(ParentClass value) =>
   _smoke_ParentClass_copy_handle((value as ParentClass$Impl).handle);
 ParentClass smoke_ParentClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ParentClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as ParentClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is ParentClass) return instance as ParentClass;
   final _type_id_handle = _smoke_ParentClass_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

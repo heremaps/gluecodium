@@ -53,12 +53,9 @@ Pointer<Void> smoke_AttributesLambda_toFfi(AttributesLambda value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64)>(_AttributesLambda_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_AttributesLambda_get_raw_pointer(result)] = value;
   return result;
 }
 AttributesLambda smoke_AttributesLambda_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_AttributesLambda_get_raw_pointer(handle)] as AttributesLambda;
-  if (instance != null) return instance;
   final _impl = AttributesLambda$Impl(_smoke_AttributesLambda_copy_handle(handle));
   return () {
     final _result =_impl.call();

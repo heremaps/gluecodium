@@ -168,8 +168,8 @@ Pointer<Void> smoke_SkipTypes_toFfi(SkipTypes value) =>
   _smoke_SkipTypes_copy_handle((value as SkipTypes$Impl).handle);
 SkipTypes smoke_SkipTypes_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SkipTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as SkipTypes;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is SkipTypes) return instance as SkipTypes;
   final _copied_handle = _smoke_SkipTypes_copy_handle(handle);
   final result = SkipTypes$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

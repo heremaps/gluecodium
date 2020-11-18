@@ -254,12 +254,9 @@ Pointer<Void> smoke_Comments_SomeLambda_toFfi(Comments_SomeLambda value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_Comments_SomeLambda_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_Comments_SomeLambda_get_raw_pointer(result)] = value;
   return result;
 }
 Comments_SomeLambda smoke_Comments_SomeLambda_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_Comments_SomeLambda_get_raw_pointer(handle)] as Comments_SomeLambda;
-  if (instance != null) return instance;
   final _impl = Comments_SomeLambda$Impl(_smoke_Comments_SomeLambda_copy_handle(handle));
   return (String p0, int p1) {
     final _result =_impl.call(p0, p1);
@@ -529,8 +526,8 @@ Pointer<Void> smoke_Comments_toFfi(Comments value) =>
   _smoke_Comments_copy_handle((value as Comments$Impl).handle);
 Comments smoke_Comments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_Comments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Comments;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Comments) return instance as Comments;
   final _copied_handle = _smoke_Comments_copy_handle(handle);
   final result = Comments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

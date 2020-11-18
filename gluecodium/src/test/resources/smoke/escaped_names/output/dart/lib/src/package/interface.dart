@@ -57,8 +57,8 @@ Pointer<Void> package_Interface_toFfi(Interface value) {
 }
 Interface package_Interface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _package_Interface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as Interface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is Interface) return instance as Interface;
   final _type_id_handle = _package_Interface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

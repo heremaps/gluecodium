@@ -54,12 +54,9 @@ Pointer<Void> smoke_StandaloneProducer_toFfi(StandaloneProducer value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducer_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_StandaloneProducer_get_raw_pointer(result)] = value;
   return result;
 }
 StandaloneProducer smoke_StandaloneProducer_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_StandaloneProducer_get_raw_pointer(handle)] as StandaloneProducer;
-  if (instance != null) return instance;
   final _impl = StandaloneProducer$Impl(_smoke_StandaloneProducer_copy_handle(handle));
   return () {
     final _result =_impl.call();

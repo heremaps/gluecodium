@@ -66,8 +66,8 @@ Pointer<Void> smoke_SpecialAttributes_toFfi(SpecialAttributes value) =>
   _smoke_SpecialAttributes_copy_handle((value as SpecialAttributes$Impl).handle);
 SpecialAttributes smoke_SpecialAttributes_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_SpecialAttributes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as SpecialAttributes;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is SpecialAttributes) return instance as SpecialAttributes;
   final _copied_handle = _smoke_SpecialAttributes_copy_handle(handle);
   final result = SpecialAttributes$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

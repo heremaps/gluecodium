@@ -65,8 +65,8 @@ Pointer<Void> smoke_InternalClassWithStaticProperty_toFfi(InternalClassWithStati
   _smoke_InternalClassWithStaticProperty_copy_handle((value as InternalClassWithStaticProperty$Impl).handle);
 InternalClassWithStaticProperty smoke_InternalClassWithStaticProperty_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_InternalClassWithStaticProperty_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as InternalClassWithStaticProperty;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is InternalClassWithStaticProperty) return instance as InternalClassWithStaticProperty;
   final _copied_handle = _smoke_InternalClassWithStaticProperty_copy_handle(handle);
   final result = InternalClassWithStaticProperty$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

@@ -54,8 +54,8 @@ Pointer<Void> smoke_InternalClass_toFfi(InternalClass value) =>
   _smoke_InternalClass_copy_handle((value as InternalClass$Impl).handle);
 InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_InternalClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as InternalClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is InternalClass) return instance as InternalClass;
   final _copied_handle = _smoke_InternalClass_copy_handle(handle);
   final result = InternalClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

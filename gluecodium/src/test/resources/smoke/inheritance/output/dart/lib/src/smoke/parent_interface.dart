@@ -149,8 +149,8 @@ Pointer<Void> smoke_ParentInterface_toFfi(ParentInterface value) {
 }
 ParentInterface smoke_ParentInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ParentInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as ParentInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is ParentInterface) return instance as ParentInterface;
   final _type_id_handle = _smoke_ParentInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

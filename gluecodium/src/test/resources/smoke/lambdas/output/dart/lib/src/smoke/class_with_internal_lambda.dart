@@ -66,12 +66,9 @@ Pointer<Void> smoke_ClassWithInternalLambda_InternalLambda_toFfi(ClassWithIntern
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_ClassWithInternalLambda_InternalLambda_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_ClassWithInternalLambda_InternalLambda_get_raw_pointer(result)] = value;
   return result;
 }
 ClassWithInternalLambda_InternalLambda smoke_ClassWithInternalLambda_InternalLambda_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_ClassWithInternalLambda_InternalLambda_get_raw_pointer(handle)] as ClassWithInternalLambda_InternalLambda;
-  if (instance != null) return instance;
   final _impl = ClassWithInternalLambda_InternalLambda$Impl(_smoke_ClassWithInternalLambda_InternalLambda_copy_handle(handle));
   return (String p0) {
     final _result =_impl.internal_call(p0);
@@ -153,8 +150,8 @@ Pointer<Void> smoke_ClassWithInternalLambda_toFfi(ClassWithInternalLambda value)
   _smoke_ClassWithInternalLambda_copy_handle((value as ClassWithInternalLambda$Impl).handle);
 ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ClassWithInternalLambda_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as ClassWithInternalLambda;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is ClassWithInternalLambda) return instance as ClassWithInternalLambda;
   final _copied_handle = _smoke_ClassWithInternalLambda_copy_handle(handle);
   final result = ClassWithInternalLambda$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

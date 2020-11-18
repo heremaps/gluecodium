@@ -144,8 +144,8 @@ Pointer<Void> smoke_InheritFromSkipped_toFfi(InheritFromSkipped value) {
 }
 InheritFromSkipped smoke_InheritFromSkipped_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_InheritFromSkipped_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as InheritFromSkipped;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is InheritFromSkipped) return instance as InheritFromSkipped;
   final _type_id_handle = _smoke_InheritFromSkipped_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

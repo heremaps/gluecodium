@@ -378,8 +378,8 @@ Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) =>
   _smoke_PublicClass_copy_handle((value as PublicClass$Impl).handle);
 PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_PublicClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as PublicClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is PublicClass) return instance as PublicClass;
   final _copied_handle = _smoke_PublicClass_copy_handle(handle);
   final result = PublicClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

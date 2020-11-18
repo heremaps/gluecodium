@@ -205,8 +205,8 @@ Pointer<Void> smoke_OuterStruct_InnerClass_toFfi(OuterStruct_InnerClass value) =
   _smoke_OuterStruct_InnerClass_copy_handle((value as OuterStruct_InnerClass$Impl).handle);
 OuterStruct_InnerClass smoke_OuterStruct_InnerClass_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterStruct_InnerClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as OuterStruct_InnerClass;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is OuterStruct_InnerClass) return instance as OuterStruct_InnerClass;
   final _copied_handle = _smoke_OuterStruct_InnerClass_copy_handle(handle);
   final result = OuterStruct_InnerClass$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
@@ -314,8 +314,8 @@ Pointer<Void> smoke_OuterStruct_InnerInterface_toFfi(OuterStruct_InnerInterface 
 }
 OuterStruct_InnerInterface smoke_OuterStruct_InnerInterface_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_OuterStruct_InnerInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as OuterStruct_InnerInterface;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is OuterStruct_InnerInterface) return instance as OuterStruct_InnerInterface;
   final _type_id_handle = _smoke_OuterStruct_InnerInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

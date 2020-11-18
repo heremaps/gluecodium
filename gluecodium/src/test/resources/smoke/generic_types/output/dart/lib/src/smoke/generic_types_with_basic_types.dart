@@ -287,8 +287,8 @@ Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes 
   _smoke_GenericTypesWithBasicTypes_copy_handle((value as GenericTypesWithBasicTypes$Impl).handle);
 GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_GenericTypesWithBasicTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as GenericTypesWithBasicTypes;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is GenericTypesWithBasicTypes) return instance as GenericTypesWithBasicTypes;
   final _copied_handle = _smoke_GenericTypesWithBasicTypes_copy_handle(handle);
   final result = GenericTypesWithBasicTypes$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

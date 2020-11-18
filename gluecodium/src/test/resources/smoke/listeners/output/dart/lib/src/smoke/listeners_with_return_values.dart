@@ -404,8 +404,8 @@ Pointer<Void> smoke_ListenersWithReturnValues_toFfi(ListenersWithReturnValues va
 }
 ListenersWithReturnValues smoke_ListenersWithReturnValues_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ListenersWithReturnValues_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as ListenersWithReturnValues;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is ListenersWithReturnValues) return instance as ListenersWithReturnValues;
   final _type_id_handle = _smoke_ListenersWithReturnValues_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);

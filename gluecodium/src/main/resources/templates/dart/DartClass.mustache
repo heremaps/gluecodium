@@ -136,8 +136,8 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
   final raw_handle = _{{resolveName "Ffi"}}_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as {{resolveName}};
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is {{resolveName}}) return instance as {{resolveName}};
 
 {{#if parent visibility.isOpen logic="or"}}
   final _type_id_handle = _{{resolveName "Ffi"}}_get_type_id(handle);

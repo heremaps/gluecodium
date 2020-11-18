@@ -157,8 +157,8 @@ Pointer<Void> smoke_AttributesWithDeprecated_toFfi(AttributesWithDeprecated valu
   _smoke_AttributesWithDeprecated_copy_handle((value as AttributesWithDeprecated$Impl).handle);
 AttributesWithDeprecated smoke_AttributesWithDeprecated_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_AttributesWithDeprecated_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as AttributesWithDeprecated;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is AttributesWithDeprecated) return instance as AttributesWithDeprecated;
   final _copied_handle = _smoke_AttributesWithDeprecated_copy_handle(handle);
   final result = AttributesWithDeprecated$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

@@ -113,3 +113,19 @@ jobs:
         - pushd functional-tests
         - ./scripts/build-swift --valgrind --publish
         - popd
+
+    - stage: test
+      name: "Dart functional tests"
+      language: cpp
+      addons:
+        apt:
+          packages:
+            - ninja-build
+      before_install:
+        - export PATH="${PATH}:/usr/lib/dart/bin"
+      install:
+        - wget -nv https://storage.googleapis.com/dart-archive/channels/stable/release/2.9.0/linux_packages/dart_2.9.0-1_amd64.deb
+        - sudo apt -y install ./dart_2.9.0-1_amd64.deb
+      script:
+        - cd examples
+        - ./scripts/build-dart --buildGluecodium

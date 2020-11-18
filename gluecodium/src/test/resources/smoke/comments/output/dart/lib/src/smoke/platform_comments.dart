@@ -253,8 +253,8 @@ Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
   _smoke_PlatformComments_copy_handle((value as PlatformComments$Impl).handle);
 PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_PlatformComments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as PlatformComments;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is PlatformComments) return instance as PlatformComments;
   final _copied_handle = _smoke_PlatformComments_copy_handle(handle);
   final result = PlatformComments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;

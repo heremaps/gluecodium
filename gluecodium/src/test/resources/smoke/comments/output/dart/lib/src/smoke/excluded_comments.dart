@@ -223,12 +223,9 @@ Pointer<Void> smoke_ExcludedComments_SomeLambda_toFfi(ExcludedComments_SomeLambd
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_ExcludedComments_SomeLambda_call_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_ExcludedComments_SomeLambda_get_raw_pointer(result)] = value;
   return result;
 }
 ExcludedComments_SomeLambda smoke_ExcludedComments_SomeLambda_fromFfi(Pointer<Void> handle) {
-  final instance = __lib.reverseCache[_smoke_ExcludedComments_SomeLambda_get_raw_pointer(handle)] as ExcludedComments_SomeLambda;
-  if (instance != null) return instance;
   final _impl = ExcludedComments_SomeLambda$Impl(_smoke_ExcludedComments_SomeLambda_copy_handle(handle));
   return (String p0, int p1) {
     final _result =_impl.call(p0, p1);
@@ -372,8 +369,8 @@ Pointer<Void> smoke_ExcludedComments_toFfi(ExcludedComments value) =>
   _smoke_ExcludedComments_copy_handle((value as ExcludedComments$Impl).handle);
 ExcludedComments smoke_ExcludedComments_fromFfi(Pointer<Void> handle) {
   final raw_handle = _smoke_ExcludedComments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle] as ExcludedComments;
-  if (instance != null) return instance;
+  final instance = __lib.reverseCache[raw_handle];
+  if (instance is ExcludedComments) return instance as ExcludedComments;
   final _copied_handle = _smoke_ExcludedComments_copy_handle(handle);
   final result = ExcludedComments$Impl(_copied_handle);
   __lib.reverseCache[raw_handle] = result;
