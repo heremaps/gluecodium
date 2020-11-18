@@ -165,4 +165,18 @@ public class ErrorsTest {
 
     assertEquals("bar value", result);
   }
+
+  @Test
+  public void testCrashingConstructor() throws ErrorsNonTrivial.InstantiationException {
+    expectedException.expect(ErrorsNonTrivial.InstantiationException.class);
+
+    new ErrorsNonTrivial(() -> {});
+  }
+
+  @Test
+  public void testCrashingMethod() throws ErrorsNonTrivial.InstantiationException {
+    expectedException.expect(ErrorsNonTrivial.InstantiationException.class);
+
+    ErrorsNonTrivial.factoryMake(() -> {});
+  }
 }

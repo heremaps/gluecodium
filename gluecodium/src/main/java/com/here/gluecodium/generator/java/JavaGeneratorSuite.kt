@@ -235,7 +235,8 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
             "JniWrapperCache",
             "JniCallJavaMethod"
         )
-        private val UTILS_FILES_HEADER_ONLY = listOf("JniTemplateMetainfo", "JniReference", "ArrayConversionUtils")
+        private val UTILS_FILES_HEADER_ONLY =
+            listOf("ArrayConversionUtils", "JniExceptionThrower", "JniReference", "JniTemplateMetainfo")
 
         private fun annotationFromOption(option: Pair<String, List<String>>?) =
             option?.let { JavaImport(option.second, option.first) }

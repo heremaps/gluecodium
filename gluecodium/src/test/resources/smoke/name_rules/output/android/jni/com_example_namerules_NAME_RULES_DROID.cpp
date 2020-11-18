@@ -5,6 +5,7 @@
 #include "com_example_namerules_NAME_RULES_DROID_EXAMPLE_ERROR_CODE_DROID__Conversion.h"
 #include "com_example_namerules_NAME_RULES_DROID_EXAMPLE_STRUCT_DROID__Conversion.h"
 #include "com_example_namerules_NAME_RULES_DROID__Conversion.h"
+#include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
@@ -26,6 +27,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_create(JNIEnv* _jenv, jobject _jin
 jdouble
 Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobject _jinstance, jobject jsome_argument)
 {
+    ::jni::JniExceptionThrower _throw_exception(_jenv);
     ::namerules::NameRules::ExampleStruct some_argument = ::jni::convert_from_jni(_jenv,
             ::jni::make_non_releasing_ref(jsome_argument),
             (::namerules::NameRules::ExampleStruct*)nullptr);
@@ -44,7 +46,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
         auto exceptionClass = ::jni::find_class(_jenv, "com/example/namerules/NAME_RULES_DROID$example_x");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/namerules/NAME_RULES_DROID$EXAMPLE_ERROR_CODE_DROID;)V");
         auto exception = ::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
         return nativeCallResult.unsafe_value();
     }
     auto result = nativeCallResult.unsafe_value();

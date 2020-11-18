@@ -4,6 +4,7 @@
 #include "com_example_smoke_ValidationErrorCode__Conversion.h"
 #include "com_example_smoke_Vector.h"
 #include "com_example_smoke_Vector__Conversion.h"
+#include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
@@ -52,6 +53,7 @@ Java_com_example_smoke_Vector_create__DD(JNIEnv* _jenv, jobject _jinstance, jdou
 jobject
 Java_com_example_smoke_Vector_create__Lcom_example_smoke_Vector_2(JNIEnv* _jenv, jobject _jinstance, jobject jother)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     ::smoke::Vector other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
             (::smoke::Vector*)nullptr);
@@ -64,7 +66,7 @@ Java_com_example_smoke_Vector_create__Lcom_example_smoke_Vector_2(JNIEnv* _jenv,
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/ValidationException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/ValidationErrorCode;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
         return nullptr;
     }
     auto result = nativeCallResult.unsafe_value();

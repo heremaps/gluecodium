@@ -83,7 +83,8 @@ internal class JniTemplates(
             is LimeStruct -> jniIncludeResolver.collectFunctionImplementationIncludes(limeElement)
             else -> jniIncludeResolver.collectImplementationIncludes(limeElement)
         } + Include.createInternalInclude("$fileName.h")
-        containerData["includes"] = implIncludes.distinct().sorted()
+        containerData["includes"] =
+            implIncludes.distinct().sorted() + jniIncludeResolver.collectExceptionIncludes(limeElement)
 
         val implFile = GeneratedFile(
             TemplateEngine.render("jni/Implementation", containerData, nameResolvers, predicates),

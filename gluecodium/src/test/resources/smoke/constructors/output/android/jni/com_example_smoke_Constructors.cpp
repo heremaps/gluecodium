@@ -4,6 +4,7 @@
 #include "com_example_smoke_Constructors.h"
 #include "com_example_smoke_Constructors_ErrorEnum__Conversion.h"
 #include "com_example_smoke_Constructors__Conversion.h"
+#include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
@@ -58,6 +59,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2J(JNIEnv* _jenv, 
 jlong
 Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, jobject _jinstance, jstring jinput)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
             (::std::string*)nullptr);
@@ -70,7 +72,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Constructors$ConstructorExplodedException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Constructors$ErrorEnum;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
         return 0;
     }
     auto result = nativeCallResult.unsafe_value();

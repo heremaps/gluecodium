@@ -127,6 +127,9 @@ jint
 
 }}{{+jniMethodBody}}
 {
+{{#if thrownType}}
+    {{>common/InternalNamespace}}jni::JniExceptionThrower _throw_exception(_jenv);
+{{/if}}
 {{#parameters}}
 {{#unlessPredicate typeRef "isJniPrimitive"}}
     {{resolveName typeRef "C++"}} {{resolveName}} = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
@@ -164,7 +167,7 @@ jint
         auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "{{resolveName exception}}");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{resolveName exception.errorType "signature"}})V");
         auto exception = {{>common/InternalNamespace}}jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));{{#unless returnType.isVoid}}
+        _throw_exception.register_exception(std::move(exception));{{#unless returnType.isVoid}}
         return {{#ifPredicate "returnsOpaqueHandle"}}0{{/ifPredicate}}{{#unlessPredicate "returnsOpaqueHandle"}}{{!!
         }}{{#unlessPredicate returnType.typeRef "isJniPrimitive"}}nullptr{{/unlessPredicate}}{{!!
         }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}nativeCallResult.unsafe_value(){{/ifPredicate}}{{/unlessPredicate}};{{/unless}}
