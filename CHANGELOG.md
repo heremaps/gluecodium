@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unresolved
+## 8.6.1
+Release date: 2020-11-18
 ### Bug fixes:
   * Fixed crash caused by "recursive" IDL struct declarations.
   * Fixed compilation issue in C++ related to type declarations nested inside structs.
