@@ -15,42 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package test
+package smoke
 
-struct OuterStruct {
-    field: String
-    static fun doNothing()
-
-    struct InnerStruct {
-        otherField: List<Date>
-        static fun doSomething()
+class OrderInClass {
+    struct MainStruct {
+        structField: NestedStruct
+        typeDefField: SomeTypeDef
+        structArrayField: NestedStructArray
+        mapField: ErrorCodeToMessageMap
+        enumField: SomeEnum
     }
-
-    class InnerClass {
-        static fun fooBar(): Set<Int>
-    }
-
-    interface InnerInterfaceInStruct {
-        fun barBaz(): Map<String, Locale>
-    }
-
-    enum InnerEnum {
-        FOO,
-        BAR
-    }
-
-    @Swift(Skip) @Dart(Skip)
-    class Builder {
-        constructor create()
-        fun field(value: String): Builder
-        fun build(): OuterStruct
-    }
-}
-
-struct OrderInStruct {
-    structField: NestedStruct
-    enumField: SomeEnum
-
     struct NestedStruct {
         someField: String
     }
@@ -59,4 +33,8 @@ struct OrderInStruct {
         FOO,
         BAR = 7
     }
+
+    typealias SomeTypeDef = Int
+    typealias ErrorCodeToMessageMap = Map<Int, NestedStructArray>
+    typealias NestedStructArray = List<NestedStruct>
 }
