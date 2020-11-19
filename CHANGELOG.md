@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.6.2
+Release date: 2020-11-19
 ### Bug fixes:
   * Fixed flaky crash in Dart for callbacks being sent from Dart to C++ and then back.
   * Fixed compilation error for nullable Locale fields in Java.
