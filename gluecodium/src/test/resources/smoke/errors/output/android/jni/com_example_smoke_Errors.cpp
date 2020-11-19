@@ -6,6 +6,7 @@
 #include "com_example_smoke_Errors_InternalErrorCode__Conversion.h"
 #include "com_example_smoke_Errors__Conversion.h"
 #include "com_example_smoke_Payload__Conversion.h"
+#include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
@@ -14,6 +15,7 @@ extern "C" {
 void
 Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     auto nativeCallResult = ::smoke::Errors::method_with_errors();
     auto errorCode = nativeCallResult;
     if (errorCode)
@@ -23,12 +25,13 @@ Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalErrorCode;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
     }
 }
 void
 Java_com_example_smoke_Errors_methodWithExternalErrors(JNIEnv* _jenv, jobject _jinstance)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     auto nativeCallResult = ::smoke::Errors::method_with_external_errors();
     auto errorCode = nativeCallResult;
     if (errorCode)
@@ -38,12 +41,13 @@ Java_com_example_smoke_Errors_methodWithExternalErrors(JNIEnv* _jenv, jobject _j
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$ExternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$ExternalErrors;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
     }
 }
 jstring
 Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobject _jinstance)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     auto nativeCallResult = ::smoke::Errors::method_with_errors_and_return_value();
     auto errorCode = nativeCallResult.error();
     if (!nativeCallResult.has_value())
@@ -53,7 +57,7 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalErrorCode;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
         return nullptr;
     }
     auto result = nativeCallResult.unsafe_value();
@@ -62,6 +66,7 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
 void
 Java_com_example_smoke_Errors_methodWithPayloadError(JNIEnv* _jenv, jobject _jinstance)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     auto nativeCallResult = ::smoke::Errors::method_with_payload_error();
     if (!nativeCallResult.has_value())
     {
@@ -69,12 +74,13 @@ Java_com_example_smoke_Errors_methodWithPayloadError(JNIEnv* _jenv, jobject _jin
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/WithPayloadException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Payload;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
     }
 }
 jstring
 Java_com_example_smoke_Errors_methodWithPayloadErrorAndReturnValue(JNIEnv* _jenv, jobject _jinstance)
 {
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
     auto nativeCallResult = ::smoke::Errors::method_with_payload_error_and_return_value();
     if (!nativeCallResult.has_value())
     {
@@ -82,7 +88,7 @@ Java_com_example_smoke_Errors_methodWithPayloadErrorAndReturnValue(JNIEnv* _jenv
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/WithPayloadException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Payload;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
-        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+        _throw_exception.register_exception(std::move(exception));
         return nullptr;
     }
     auto result = nativeCallResult.unsafe_value();

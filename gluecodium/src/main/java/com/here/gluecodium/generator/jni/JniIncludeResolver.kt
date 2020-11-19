@@ -84,4 +84,15 @@ internal class JniIncludeResolver(private val fileNameRules: JniFileNameRules) {
 
     fun collectConversionIncludes(limeStruct: LimeStruct) =
         limeStruct.fields.flatMap { getConversionIncludes(it.typeRef) }
+
+    fun collectExceptionIncludes(limeElement: LimeNamedElement): List<Include> {
+        val limeContainer = limeElement as? LimeContainer ?: return emptyList()
+        val allFunctions = limeContainer.functions +
+            ((limeContainer as? LimeContainerWithInheritance)?.inheritedFunctions ?: emptyList())
+        return listOfNotNull(exceptionThrowerInclude.takeIf { allFunctions.any { it.thrownType != null } })
+    }
+
+    companion object {
+        private val exceptionThrowerInclude = Include.createInternalInclude("JniExceptionThrower.h")
+    }
 }

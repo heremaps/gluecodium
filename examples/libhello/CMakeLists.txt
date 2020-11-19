@@ -264,11 +264,13 @@ feature(Errors cpp android swift dart SOURCES
     src/test/Errors.cpp
     src/test/ErrorsInInterface.cpp
     src/test/ErrorsInInterface.h
+    src/test/ErrorsWithNonTrivialType.cpp
 
     lime/hello/HelloWorldErrors.lime
     lime/test/Errors.lime
     lime/test/Errors2.lime
     lime/test/ErrorsInInterface.lime
+    lime/test/ErrorsWithNonTrivialType.lime
 )
 
 feature(Defaults cpp android swift dart SOURCES

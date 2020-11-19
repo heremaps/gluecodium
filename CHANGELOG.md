@@ -2,8 +2,9 @@
 
 ## Unreleased
 ### Bug fixes:
-  * Fixed flaky crash for callbacks being sent from Dart to C++ and then back.
+  * Fixed flaky crash in Dart for callbacks being sent from Dart to C++ and then back.
   * Fixed compilation error for nullable Locale fields in Java.
+  * Fixed runtime error for throwing methods with class/interface parameters in Java.
 
 ## 8.6.1
 Release date: 2020-11-18
