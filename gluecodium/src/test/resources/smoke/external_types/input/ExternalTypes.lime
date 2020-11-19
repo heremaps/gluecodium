@@ -127,3 +127,13 @@ struct StructWithOverloads {
     @Dart("overloadedMethodTwo")
     fun overloadedMethod(inputString: String, inputBool: Boolean): String
 }
+
+types ExternalTypeInTypesCollection {
+    @Cpp(
+        ExternalType = "include/ExternalTypeInTypesCollection.h",
+        ExternalName = "::external::IntStruct"
+    )
+    struct IntStruct {
+        int_field: Int
+    }
+}
