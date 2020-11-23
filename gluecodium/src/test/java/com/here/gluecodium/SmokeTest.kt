@@ -41,13 +41,15 @@ class SmokeTest(
     }
 
     override fun getGluecodiumOptions(): Gluecodium.Options {
-        val featureRoot = File(featureDirectory, FEATURE_INPUT_FOLDER)
-        val commandLineOptions = File(featureRoot, "commandlineoptions.txt")
+        val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
+        val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
+        val commandLineOptions = File(inputDirectory, "commandlineoptions.txt")
         if (commandLineOptions.exists()) {
             // read command line options and replace INPUT_FOLDER with absolute input path from test
-            val commands =
-                commandLineOptions.readText().replace("\$INPUT_FOLDER", featureRoot.toString())
-                    .split("\\s".toRegex())
+            val commands = commandLineOptions.readText()
+                .replace("\$INPUT_FOLDER", inputDirectory.toString())
+                .replace("\$AUX_FOLDER", auxDirectory.toString())
+                .split("\\s".toRegex())
             val options = OptionReader.read(commands.toTypedArray())
             assertNotNull("Failed to read commandlineoptions.txt", options)
             return options!!
