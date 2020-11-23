@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.model.cpp
+package com.here.gluecodium.generator.cpp
 
-class CppForwardDeclarationGroup(
+internal class CppForwardDeclarationGroup(
     val namespace: String,
     @Suppress("unused") val types: List<String>,
     @Suppress("unused") val subGroups: List<CppForwardDeclarationGroup>

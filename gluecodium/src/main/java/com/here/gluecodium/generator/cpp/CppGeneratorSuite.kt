@@ -28,7 +28,6 @@ import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppGeneratorPredicates.predicates
 import com.here.gluecodium.model.common.Include
-import com.here.gluecodium.model.cpp.CppForwardDeclarationGroup
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
