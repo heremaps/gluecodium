@@ -244,6 +244,12 @@ cache=true\n")
       )
 
   add_custom_target(${APIGEN_TARGET}.gluecodium.generate DEPENDS ${_generated_files})
+
+  # This is necessary for CMake 3.19 which enabled support of
+  # "new build system" in Xcode >= 11.x
+  # "New build system" requires for targets which depend on the same generated
+  # files to have dependency between them.
+  add_dependencies(${APIGEN_TARGET} ${APIGEN_TARGET}.gluecodium.generate)
 endfunction()
 
 macro(_apigen_parse_path_option GLUECODIUM_PROPERTY CMAKE_OPTION)
