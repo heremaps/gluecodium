@@ -209,6 +209,58 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [Float]? {
     }
     return foobar_copyFromCType(handle)
 }
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [FreeStruct] {
+    var result: [FreeStruct] = []
+    let count = foobar_ArrayOf_smoke_FreeStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(foobar_ArrayOf_smoke_FreeStruct_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [FreeStruct] {
+    defer {
+        foobar_ArrayOf_smoke_FreeStruct_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [FreeStruct]) -> RefHolder {
+    let handle = foobar_ArrayOf_smoke_FreeStruct_create_handle()
+    for item in swiftArray {
+        let value = moveToCType(item)
+        foobar_ArrayOf_smoke_FreeStruct_append(handle, value.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [FreeStruct]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_FreeStruct_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [FreeStruct]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_smoke_FreeStruct_create_optional_handle()
+    let handle = foobar_ArrayOf_smoke_FreeStruct_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        foobar_ArrayOf_smoke_FreeStruct_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [FreeStruct]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_FreeStruct_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [FreeStruct]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_smoke_FreeStruct_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [FreeStruct]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [FreeStruct]? {
+    defer {
+        foobar_ArrayOf_smoke_FreeStruct_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompoundTypes.BasicStruct] {
     var result: [GenericTypesWithCompoundTypes.BasicStruct] = []
     let count = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_count(handle)

@@ -54,6 +54,59 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<Float>? {
     }
     return foobar_copyFromCType(handle)
 }
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Set<FreeEnum> {
+    var result: Set<FreeEnum> = []
+    let iterator_handle = foobar_SetOf_smoke_FreeEnum_iterator(handle)
+    while foobar_SetOf_smoke_FreeEnum_iterator_is_valid(handle, iterator_handle) {
+        result.insert(copyFromCType(foobar_SetOf_smoke_FreeEnum_iterator_get(iterator_handle)))
+        foobar_SetOf_smoke_FreeEnum_iterator_increment(iterator_handle)
+    }
+    foobar_SetOf_smoke_FreeEnum_iterator_release_handle(iterator_handle)
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<FreeEnum> {
+    defer {
+        foobar_SetOf_smoke_FreeEnum_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftSet: Set<FreeEnum>) -> RefHolder {
+    let handle = foobar_SetOf_smoke_FreeEnum_create_handle()
+    for item in swiftSet {
+        foobar_SetOf_smoke_FreeEnum_insert(handle, moveToCType(item).ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftSet: Set<FreeEnum>) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftSet).ref, release: foobar_SetOf_smoke_FreeEnum_release_handle)
+}
+internal func foobar_copyToCType(_ swiftSet: Set<FreeEnum>?) -> RefHolder {
+    guard let swiftSet = swiftSet else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_SetOf_smoke_FreeEnum_create_optional_handle()
+    let handle = foobar_SetOf_smoke_FreeEnum_unwrap_optional_handle(optionalHandle)
+    for item in swiftSet {
+        foobar_SetOf_smoke_FreeEnum_insert(handle, moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: Set<FreeEnum>?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_SetOf_smoke_FreeEnum_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Set<FreeEnum>? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_SetOf_smoke_FreeEnum_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as Set<FreeEnum>
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<FreeEnum>? {
+    defer {
+        foobar_SetOf_smoke_FreeEnum_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> Set<GenericTypesWithCompoundTypes.ExternalEnum> {
     var result: Set<GenericTypesWithCompoundTypes.ExternalEnum> = []
     let iterator_handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(handle)

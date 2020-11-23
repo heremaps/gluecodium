@@ -7,6 +7,8 @@
 #include "cbridge/include/smoke/cbridge_AnotherDummyClass.h"
 #include "cbridge/include/smoke/cbridge_DummyClass.h"
 #include "cbridge/include/smoke/cbridge_DummyInterface.h"
+#include "cbridge/include/smoke/cbridge_FreeEnum.h"
+#include "cbridge/include/smoke/cbridge_FreeStruct.h"
 #include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
 #include "cbridge/include/smoke/cbridge_YetAnotherDummyClass.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
@@ -14,6 +16,8 @@
 #include "smoke/AnotherDummyClass.h"
 #include "smoke/DummyClass.h"
 #include "smoke/DummyInterface.h"
+#include "smoke/FreeEnum.h"
+#include "smoke/FreeStruct.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
 #include "smoke/YetAnotherDummyClass.h"
 #include <memory>
@@ -301,6 +305,34 @@ void foobar_ArrayOf_smoke_DummyInterface_release_optional_handle(_baseRef handle
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle ) );
+}
+_baseRef foobar_ArrayOf_smoke_FreeStruct_create_handle() {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::FreeStruct >( ) );
+}
+_baseRef foobar_ArrayOf_smoke_FreeStruct_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::FreeStruct >( *reinterpret_cast<::std::vector< ::smoke::FreeStruct >*>( handle ) ) );
+}
+void foobar_ArrayOf_smoke_FreeStruct_release_handle(_baseRef handle) {
+    delete reinterpret_cast<::std::vector< ::smoke::FreeStruct >*>( handle );
+}
+uint64_t foobar_ArrayOf_smoke_FreeStruct_count(_baseRef handle) {
+    return Conversion<::std::vector< ::smoke::FreeStruct >>::toCpp( handle ).size( );
+}
+_baseRef foobar_ArrayOf_smoke_FreeStruct_get( _baseRef handle, uint64_t index ) {
+    return Conversion<::smoke::FreeStruct>::referenceBaseRef(Conversion<::std::vector< ::smoke::FreeStruct >>::toCpp( handle )[index]);
+}
+void foobar_ArrayOf_smoke_FreeStruct_append( _baseRef handle, _baseRef item )
+{
+    Conversion<::std::vector< ::smoke::FreeStruct >>::toCpp(handle).push_back(Conversion<::smoke::FreeStruct>::toCpp(item));
+}
+_baseRef foobar_ArrayOf_smoke_FreeStruct_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::FreeStruct >>( ::std::vector< ::smoke::FreeStruct >( ) ) );
+}
+void foobar_ArrayOf_smoke_FreeStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::FreeStruct >>*>( handle );
+}
+_baseRef foobar_ArrayOf_smoke_FreeStruct_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::FreeStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) );
@@ -1363,6 +1395,40 @@ void foobar_SetOf_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::std::unordered_set< int32_t >, ::gluecodium::hash<::std::unordered_set< int32_t >>>>*>( handle ) );
+}
+_baseRef foobar_SetOf_smoke_FreeEnum_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>() );
+}
+void foobar_SetOf_smoke_FreeEnum_release_handle(_baseRef handle) {
+    delete get_pointer<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>(handle);
+}
+void foobar_SetOf_smoke_FreeEnum_insert(_baseRef handle, smoke_FreeEnum value) {
+    (*get_pointer<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>(handle)).insert(::std::move(static_cast<::smoke::FreeEnum>(value)));
+}
+_baseRef foobar_SetOf_smoke_FreeEnum_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>::iterator( get_pointer<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>(handle)->begin() ) );
+}
+void foobar_SetOf_smoke_FreeEnum_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>::iterator*>( iterator_handle );
+}
+bool foobar_SetOf_smoke_FreeEnum_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>::iterator*>( iterator_handle ) != get_pointer<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>(handle)->end();
+}
+void foobar_SetOf_smoke_FreeEnum_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>::iterator*>( iterator_handle );
+}
+smoke_FreeEnum foobar_SetOf_smoke_FreeEnum_iterator_get(_baseRef iterator_handle) {
+    auto& value = **reinterpret_cast<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>::iterator*>( iterator_handle );
+    return static_cast<smoke_FreeEnum>(value);
+}
+_baseRef foobar_SetOf_smoke_FreeEnum_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>( ::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>( ) ) );
+}
+void foobar_SetOf_smoke_FreeEnum_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>*>( handle );
+}
+_baseRef foobar_SetOf_smoke_FreeEnum_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set<::smoke::FreeEnum, ::gluecodium::hash<::smoke::FreeEnum>>>*>( handle ) );
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set<::alien::FooEnum, ::gluecodium::hash<::alien::FooEnum>>() );
