@@ -47,3 +47,5 @@ enum UnusedTopLevelEnum {
 struct UnusedTopLevelPoint {
     foo: String
 }
+
+lambda FreeLambda = (Date) -> FreeEnum
