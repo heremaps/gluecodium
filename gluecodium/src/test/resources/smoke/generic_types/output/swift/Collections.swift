@@ -53,6 +53,58 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [AnotherDummyClass]? {
     }
     return foobar_copyFromCType(handle)
 }
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [AuxStruct] {
+    var result: [AuxStruct] = []
+    let count = foobar_ArrayOf_smoke_AuxStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(foobar_ArrayOf_smoke_AuxStruct_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [AuxStruct] {
+    defer {
+        foobar_ArrayOf_smoke_AuxStruct_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [AuxStruct]) -> RefHolder {
+    let handle = foobar_ArrayOf_smoke_AuxStruct_create_handle()
+    for item in swiftArray {
+        let value = moveToCType(item)
+        foobar_ArrayOf_smoke_AuxStruct_append(handle, value.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [AuxStruct]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_AuxStruct_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [AuxStruct]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_smoke_AuxStruct_create_optional_handle()
+    let handle = foobar_ArrayOf_smoke_AuxStruct_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        foobar_ArrayOf_smoke_AuxStruct_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [AuxStruct]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_AuxStruct_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [AuxStruct]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_smoke_AuxStruct_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [AuxStruct]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [AuxStruct]? {
+    defer {
+        foobar_ArrayOf_smoke_AuxStruct_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [DummyClass] {
     var result: [DummyClass] = []
     let count = foobar_ArrayOf_smoke_DummyClass_count(handle)

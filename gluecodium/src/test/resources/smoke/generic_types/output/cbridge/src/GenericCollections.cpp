@@ -1,21 +1,23 @@
 //
 //
-#include "alien/FooEnum.h"
-#include "alien/FooStruct.h"
-#include "cbridge/include/GenericCollections.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/cbridge_AnotherDummyClass.h"
-#include "cbridge/include/smoke/cbridge_DummyClass.h"
-#include "cbridge/include/smoke/cbridge_DummyInterface.h"
-#include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
-#include "cbridge/include/smoke/cbridge_YetAnotherDummyClass.h"
-#include "cbridge_internal/include/BaseHandleImpl.h"
-#include "gluecodium/Optional.h"
-#include "smoke/AnotherDummyClass.h"
-#include "smoke/DummyClass.h"
-#include "smoke/DummyInterface.h"
-#include "smoke/GenericTypesWithCompoundTypes.h"
-#include "smoke/YetAnotherDummyClass.h"
+#include "alien\FooEnum.h"
+#include "alien\FooStruct.h"
+#include "cbridge\include\GenericCollections.h"
+#include "cbridge\include\StringHandle.h"
+#include "cbridge\include\smoke\cbridge_AnotherDummyClass.h"
+#include "cbridge\include\smoke\cbridge_AuxStruct.h"
+#include "cbridge\include\smoke\cbridge_DummyClass.h"
+#include "cbridge\include\smoke\cbridge_DummyInterface.h"
+#include "cbridge\include\smoke\cbridge_GenericTypesWithCompoundTypes.h"
+#include "cbridge\include\smoke\cbridge_YetAnotherDummyClass.h"
+#include "cbridge_internal\include\BaseHandleImpl.h"
+#include "gluecodium\Optional.h"
+#include "smoke\AnotherDummyClass.h"
+#include "smoke\AuxStruct.h"
+#include "smoke\DummyClass.h"
+#include "smoke\DummyInterface.h"
+#include "smoke\GenericTypesWithCompoundTypes.h"
+#include "smoke\YetAnotherDummyClass.h"
 #include <memory>
 #include <new>
 #include <string>
@@ -245,6 +247,34 @@ void foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle(_baseRef han
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle ) );
+}
+_baseRef foobar_ArrayOf_smoke_AuxStruct_create_handle() {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::AuxStruct >( ) );
+}
+_baseRef foobar_ArrayOf_smoke_AuxStruct_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::AuxStruct >( *reinterpret_cast<::std::vector< ::smoke::AuxStruct >*>( handle ) ) );
+}
+void foobar_ArrayOf_smoke_AuxStruct_release_handle(_baseRef handle) {
+    delete reinterpret_cast<::std::vector< ::smoke::AuxStruct >*>( handle );
+}
+uint64_t foobar_ArrayOf_smoke_AuxStruct_count(_baseRef handle) {
+    return Conversion<::std::vector< ::smoke::AuxStruct >>::toCpp( handle ).size( );
+}
+_baseRef foobar_ArrayOf_smoke_AuxStruct_get( _baseRef handle, uint64_t index ) {
+    return Conversion<::smoke::AuxStruct>::referenceBaseRef(Conversion<::std::vector< ::smoke::AuxStruct >>::toCpp( handle )[index]);
+}
+void foobar_ArrayOf_smoke_AuxStruct_append( _baseRef handle, _baseRef item )
+{
+    Conversion<::std::vector< ::smoke::AuxStruct >>::toCpp(handle).push_back(Conversion<::smoke::AuxStruct>::toCpp(item));
+}
+_baseRef foobar_ArrayOf_smoke_AuxStruct_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::AuxStruct >>( ::std::vector< ::smoke::AuxStruct >( ) ) );
+}
+void foobar_ArrayOf_smoke_AuxStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::AuxStruct >>*>( handle );
+}
+_baseRef foobar_ArrayOf_smoke_AuxStruct_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::AuxStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( ) );

@@ -99,3 +99,6 @@ lambda LambdaWithClassCollectionReturnType = () -> List<AnotherDummyClass>
 
 class YetAnotherDummyClass {}
 lambda LambdaWithClassCollectionParameterType = (List<YetAnotherDummyClass>) -> Void
+
+@Dart(Skip)
+class GenericsFromParent: AuxParent {}

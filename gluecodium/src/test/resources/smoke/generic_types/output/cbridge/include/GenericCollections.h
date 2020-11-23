@@ -4,14 +4,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "cbridge/include/BaseHandle.h"
-#include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/cbridge_AnotherDummyClass.h"
-#include "cbridge/include/smoke/cbridge_DummyClass.h"
-#include "cbridge/include/smoke/cbridge_DummyInterface.h"
-#include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
-#include "cbridge/include/smoke/cbridge_YetAnotherDummyClass.h"
+#include "cbridge\include\BaseHandle.h"
+#include "cbridge\include\Export.h"
+#include "cbridge\include\StringHandle.h"
+#include "cbridge\include\smoke\cbridge_AnotherDummyClass.h"
+#include "cbridge\include\smoke\cbridge_AuxStruct.h"
+#include "cbridge\include\smoke\cbridge_DummyClass.h"
+#include "cbridge\include\smoke\cbridge_DummyInterface.h"
+#include "cbridge\include\smoke\cbridge_GenericTypesWithCompoundTypes.h"
+#include "cbridge\include\smoke\cbridge_YetAnotherDummyClass.h"
 #include <stdbool.h>
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Float_create_handle();
@@ -86,6 +87,15 @@ _GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_AnotherDummyClass_append(_baseRef
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_optional_handle();
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AuxStruct_create_handle();
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AuxStruct_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_AuxStruct_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT uint64_t foobar_ArrayOf_smoke_AuxStruct_count(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AuxStruct_get(_baseRef handle, uint64_t index);
+_GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_AuxStruct_append(_baseRef handle, _baseRef item);
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AuxStruct_create_optional_handle();
+_GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_AuxStruct_release_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_AuxStruct_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_DummyClass_create_handle();
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_DummyClass_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_DummyClass_release_handle(_baseRef handle);
