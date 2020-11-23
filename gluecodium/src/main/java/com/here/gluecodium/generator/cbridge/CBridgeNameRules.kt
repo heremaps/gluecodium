@@ -25,30 +25,18 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import java.io.File
-import java.nio.file.Paths
 
 internal object CBridgeNameRules {
     const val CBRIDGE_PUBLIC = "cbridge"
     const val CBRIDGE_INTERNAL = "cbridge_internal"
-    const val INCLUDE_DIR = "include"
-    const val SRC_DIR = "src"
-
+    private const val INCLUDE_DIR = "include"
     const val BASE_REF_NAME = "_baseRef"
 
-    const val CBRIDGE_PREFIX = "cbridge_"
-
-    val STRING_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString()
-    val DATE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "DateHandle.h").toString()
-    val BASE_HANDLE_IMPL_FILE = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString()
-    val BASE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString()
-    val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
-
-    fun getName(limeElement: LimeNamedElement) =
+    private fun getName(limeElement: LimeNamedElement) =
         mangleName(getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name))
 
     fun getFunctionTableName(limeElement: LimeNamedElement) =
@@ -83,9 +71,6 @@ internal object CBridgeNameRules {
     fun getNestedNames(limeElement: LimeNamedElement) =
         limeElement.path.head + limeElement.path.tail.map { NameHelper.toUpperCamelCase(it) }
 
-    fun getNestedSpecifierString(limeLambda: LimeLambda) =
-        getNestedNames(limeLambda).joinToString("_")
-
     fun getNestedSpecifierString(limeElement: LimeNamedElement) =
         getNestedNames(limeElement).dropLast(1).joinToString("_")
 
@@ -99,7 +84,7 @@ internal object CBridgeNameRules {
 
     fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"
 
-    fun getPlatformName(limeElement: LimeNamedElement?) = limeElement?.attributes?.get(SWIFT, NAME)
+    private fun getPlatformName(limeElement: LimeNamedElement?) = limeElement?.attributes?.get(SWIFT, NAME)
 
     fun createPath(
         limeElement: LimeNamedElement,
@@ -109,7 +94,7 @@ internal object CBridgeNameRules {
     ): String {
         val isSwiftExtension = limeElement.attributes.have(SWIFT, LimeAttributeValueType.EXTENSION)
         val infix = if (isSwiftExtension) "__extension" else ""
-        val fileName = CBRIDGE_PREFIX + getName(limeElement) + infix + suffix
+        val fileName = "cbridge_" + getName(limeElement) + infix + suffix
         return (listOf(CBRIDGE_PUBLIC, subfolder) + rootNamespace +
                 limeElement.path.head + fileName).joinToString(File.separator)
     }

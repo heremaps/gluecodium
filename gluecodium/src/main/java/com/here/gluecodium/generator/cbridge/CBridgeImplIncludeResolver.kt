@@ -48,7 +48,7 @@ internal class CBridgeImplIncludeResolver(
 ) {
 
     fun getImplFilePath(limeElement: LimeNamedElement) =
-        CBridgeNameRules.createPath(limeElement, rootNamespace, CBridgeNameRules.SRC_DIR, ".cpp")
+        CBridgeNameRules.createPath(limeElement, rootNamespace, "src", ".cpp")
 
     fun resolveIncludes(limeElement: LimeNamedElement): List<Include> =
         when {

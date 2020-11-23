@@ -22,8 +22,6 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
-import com.here.gluecodium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
-import com.here.gluecodium.generator.cbridge.CBridgeNameRules.SRC_DIR
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -121,7 +119,7 @@ internal class CBridgeGenerator(
 
     fun generateHelpers() =
         listOf(
-            generateHelperContent("BaseHandleImpl", CBridgeNameRules.BASE_HANDLE_IMPL_FILE),
+            generateHelperContent("BaseHandleImpl", BASE_HANDLE_IMPL_FILE),
             generateHelperContent(
                 "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()),
             generateHelperContent(
@@ -208,26 +206,29 @@ internal class CBridgeGenerator(
     }
 
     companion object {
-        val STATIC_FILES = listOf(
-            GeneratorSuite.copyCommonFile(CBridgeNameRules.BASE_HANDLE_FILE, ""),
-            GeneratorSuite.copyCommonFile(CBridgeNameRules.STRING_HANDLE_FILE, ""),
-            GeneratorSuite.copyCommonFile(CBridgeNameRules.DATE_HANDLE_FILE, ""),
-            GeneratorSuite.copyCommonFile(CBridgeNameRules.EXPORT_FILE, ""),
-            GeneratorSuite.copyCommonFile(
-                Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""
-            ),
-            GeneratorSuite.copyCommonFile(
-                Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""
-            ),
-            GeneratorSuite.copyCommonFile(
-                Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""
-            ),
-            GeneratorSuite.copyCommonFile(CBridgeComponents.PROXY_CACHE_FILENAME, "")
-        )
+        private const val SRC_DIR = "src"
+        private const val INCLUDE_DIR = "include"
 
         private val CBRIDGE_COLLECTIONS_HEADER =
             Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "GenericCollections.h").toString()
-        private val CBRIDGE_COLLECTIONS_IMPL =
-            Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "GenericCollections.cpp").toString()
+        private val CBRIDGE_COLLECTIONS_IMPL = Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "GenericCollections.cpp").toString()
+        private val BASE_HANDLE_IMPL_FILE = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString()
+
+        private val BASE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString()
+        private val STRING_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString()
+        private val DATE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "DateHandle.h").toString()
+        private val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
+        private val PROXY_CACHE_FILENAME = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString()
+
+        val STATIC_FILES = listOf(
+            GeneratorSuite.copyCommonFile(BASE_HANDLE_FILE, ""),
+            GeneratorSuite.copyCommonFile(STRING_HANDLE_FILE, ""),
+            GeneratorSuite.copyCommonFile(DATE_HANDLE_FILE, ""),
+            GeneratorSuite.copyCommonFile(EXPORT_FILE, ""),
+            GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
+            GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
+            GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
+            GeneratorSuite.copyCommonFile(PROXY_CACHE_FILENAME, "")
+        )
     }
 }
