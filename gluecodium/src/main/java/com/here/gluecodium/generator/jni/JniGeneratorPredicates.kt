@@ -19,24 +19,20 @@
 
 package com.here.gluecodium.generator.jni
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.cpp.Cpp2NameResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
-import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
-import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeInterface
-import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
@@ -59,23 +55,8 @@ internal class JniGeneratorPredicates(
         "hasCppSetter" to { limeField: Any ->
             limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
         },
-        "hasImmutableFields" to { limeStruct: Any ->
-            when {
-                limeStruct !is LimeStruct -> false
-                limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> true
-                else -> limeStruct.fields
-                    .flatMap { LimeTypeHelper.getAllFieldTypes(it.typeRef.type) }
-                    .any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
-            }
-        },
-        "hasTypeRepository" to { limeContainer: Any ->
-            when {
-                limeContainer !is LimeContainerWithInheritance -> false
-                limeContainer is LimeInterface -> true
-                limeContainer.visibility.isOpen -> true
-                else -> limeContainer.parent != null
-            }
-        },
+        "hasImmutableFields" to CommonGeneratorPredicates::hasImmutableFields,
+        "hasTypeRepository" to CommonGeneratorPredicates::hasTypeRepository,
         "isJniPrimitive" to fun(limeTypeRef: Any): Boolean {
             if (limeTypeRef !is LimeTypeRef || limeTypeRef.isNullable) return false
 

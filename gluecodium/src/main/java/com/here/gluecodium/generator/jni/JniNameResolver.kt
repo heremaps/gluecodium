@@ -20,7 +20,8 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.ReferenceMapNameResolver
+import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
@@ -47,7 +48,7 @@ internal class JniNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
     private val javaNameRules: JavaNameRules
-) : ReferenceMapNameResolver(limeReferenceMap) {
+) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {

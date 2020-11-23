@@ -25,9 +25,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 
-internal abstract class ReferenceMapNameResolver(
-    protected val limeReferenceMap: Map<String, LimeElement>
-) : NameResolver {
+internal abstract class ReferenceMapBasedResolver(protected val limeReferenceMap: Map<String, LimeElement>) {
 
     protected fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
         getParentElement(limeElement.path, limeElement is LimeParameter)
@@ -42,4 +40,7 @@ internal abstract class ReferenceMapNameResolver(
                 "Failed to resolve parent for element $limePath"
             ))
     }
+
+    protected fun getTopElement(limeElement: LimeNamedElement) =
+        generateSequence(limeElement) { limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement }.last()
 }

@@ -47,16 +47,15 @@ internal class Cpp2IncludeResolver(
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
 
     val hashInclude = cppIncludeResolver.createInternalNamespaceInclude("Hash.h")
+    val typeRepositoryInclude = cppIncludeResolver.createInternalNamespaceInclude("TypeRepository.h")
+    val optionalInclude = cppIncludeResolver.createInternalNamespaceInclude("Optional.h")
 
     private val returnInclude = cppIncludeResolver.createInternalNamespaceInclude("Return.h")
     private val timePointHashInclude = cppIncludeResolver.createInternalNamespaceInclude("TimePointHash.h")
     private val vectorHashInclude = cppIncludeResolver.createInternalNamespaceInclude("VectorHash.h")
     private val unorderedMapHashInclude = cppIncludeResolver.createInternalNamespaceInclude("UnorderedMapHash.h")
     private val unorderedSetHashInclude = cppIncludeResolver.createInternalNamespaceInclude("UnorderedSetHash.h")
-    private val optionalInclude = cppIncludeResolver.createInternalNamespaceInclude("Optional.h")
     private val localeInclude = cppIncludeResolver.createInternalNamespaceInclude("Locale.h")
-
-    val typeRepositoryInclude = cppIncludeResolver.createInternalNamespaceInclude("TypeRepository.h")
 
     fun resolveIncludes(limeElement: LimeElement): List<Include> =
         when (limeElement) {
