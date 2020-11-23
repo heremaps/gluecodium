@@ -21,7 +21,8 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.generator.common.ReferenceMapNameResolver
+import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -60,7 +61,7 @@ internal class Cpp2NameResolver(
     private val cachingNameResolver: CppNameResolver,
     private val limeLogger: LimeLogger? = null,
     private val commentsProcessor: CommentsProcessor? = null
-) : ReferenceMapNameResolver(limeReferenceMap) {
+) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
     private val limeToCppNames = buildPathMap()

@@ -20,7 +20,8 @@
 package com.here.gluecodium.generator.ffi
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.ReferenceMapNameResolver
+import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -50,7 +51,7 @@ internal class FfiCppNameResolver(
     nameRules: CppNameRules,
     rootNamespace: List<String>,
     internalNamespace: List<String>
-) : ReferenceMapNameResolver(limeReferenceMap) {
+) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
     private val internalNamespace = internalNamespace.joinToString("::")

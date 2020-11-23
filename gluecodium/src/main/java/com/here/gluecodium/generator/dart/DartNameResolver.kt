@@ -21,8 +21,9 @@ package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
-import com.here.gluecodium.generator.common.ReferenceMapNameResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -51,7 +52,7 @@ internal class DartNameResolver(
     private val nameRules: NameRules,
     private val limeLogger: LimeLogger,
     private val commentsProcessor: DartCommentsProcessor
-) : ReferenceMapNameResolver(limeReferenceMap) {
+) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val joinInfix = nameRules.ruleSet.joinInfix ?: ""
     private val limeToDartNames = buildPathMap()
