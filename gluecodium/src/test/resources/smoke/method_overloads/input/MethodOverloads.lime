@@ -70,3 +70,11 @@ class SwiftMethodOverloads {
     @Swift("three")
     fun two(input: List<String>)
 }
+
+@Swift(Skip) @Dart(Skip)
+class JavaMethodOverloads {
+    @Java("three")
+    fun one(input: String)
+    @Java("three")
+    fun two(input: List<String>)
+}
