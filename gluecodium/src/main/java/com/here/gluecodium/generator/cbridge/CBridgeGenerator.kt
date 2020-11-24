@@ -19,10 +19,10 @@
 
 package com.here.gluecodium.generator.cbridge
 
-import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GenericTypesCollector
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
@@ -32,11 +32,11 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
-import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -45,7 +45,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.nio.file.Paths
 
@@ -91,7 +90,8 @@ internal class CBridgeGenerator(
     fun generateCollections(limeModel: List<LimeNamedElement>): List<GeneratedFile> {
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
         val allParentTypes = getAllParentTypes(allTypes)
-        val genericTypes = GenericTypesCollector(nameResolver).getAllGenericTypes(allTypes + allParentTypes)
+        val genericTypesCollector = GenericTypesCollector({ nameResolver.resolveName(it) }, LimeAttributeType.SWIFT)
+        val genericTypes = genericTypesCollector.getAllGenericTypes(allTypes + allParentTypes)
         val templateData = mutableMapOf<String, Any>(
             "lists" to genericTypes.filterIsInstance<LimeList>(),
             "maps" to genericTypes.filterIsInstance<LimeMap>(),
@@ -185,24 +185,6 @@ internal class CBridgeGenerator(
         if (allTypes.isEmpty()) return emptyList()
         val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().mapNotNull { it.parent?.type }
         return parents + getAllParentTypes(parents)
-    }
-
-    private class GenericTypesCollector(private val nameResolver: CBridgeNameResolver) :
-        LimeTypeRefsVisitor<List<LimeGenericType>>() {
-
-        override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeGenericType> {
-            val limeType = limeTypeRef?.type?.actualType as? LimeGenericType ?: return emptyList()
-            return listOf(limeType) + when (limeType) {
-                is LimeList -> visitTypeRef(parentElement, limeType.elementType)
-                is LimeSet -> visitTypeRef(parentElement, limeType.elementType)
-                is LimeMap -> visitTypeRef(parentElement, limeType.keyType) +
-                        visitTypeRef(parentElement, limeType.valueType)
-                else -> emptyList()
-            }
-        }
-
-        fun getAllGenericTypes(allTypes: List<LimeType>) =
-            traverseTypes(allTypes).flatten().associateBy { nameResolver.resolveName(it) }.toSortedMap().values
     }
 
     companion object {
