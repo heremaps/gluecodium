@@ -45,6 +45,19 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return CalculationResult_moveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
     }
 }
+public enum ResultEnum : UInt32, CaseIterable, Codable {
+    case none
+    case result
+}
+public struct ResultStruct {
+    public var result: Double
+    public init(result: Double) {
+        self.result = result
+    }
+    internal init(cHandle: _baseRef) {
+        result = moveFromCType(smoke_ListenersWithReturnValues_ResultStruct_result_get(cHandle))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ListenersWithReturnValues")
 internal func _CBridgeInitsmoke_ListenersWithReturnValues(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ListenersWithReturnValues(cListenersWithReturnValues: handle)
@@ -159,49 +172,6 @@ internal func copyToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder
 internal func moveToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-public enum ResultEnum : UInt32, CaseIterable, Codable {
-    case none
-    case result
-}
-internal func copyToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
-    return ResultEnum(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> ResultEnum? {
-    guard handle != 0 else {
-        return nil
-    }
-    return ResultEnum(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> ResultEnum? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-public struct ResultStruct {
-    public var result: Double
-    public init(result: Double) {
-        self.result = result
-    }
-    internal init(cHandle: _baseRef) {
-        result = moveFromCType(smoke_ListenersWithReturnValues_ResultStruct_result_get(cHandle))
-    }
-}
 internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
     return ResultStruct(cHandle: handle)
 }
@@ -240,4 +210,34 @@ internal func copyToCType(_ swiftType: ResultStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: ResultStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
+internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
+    return ResultEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
+    return copyFromCType(cValue)
+}
+internal func copyFromCType(_ handle: _baseRef) -> ResultEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ResultEnum(rawValue: uint32_t_value_get(handle))!
+}
+internal func moveFromCType(_ handle: _baseRef) -> ResultEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

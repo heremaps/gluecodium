@@ -3,8 +3,6 @@
 import Foundation
 public typealias List = [Struct]
 public typealias ExceptionError = Enum
-extension Enum : Error {
-}
 public enum Enum : UInt32, CaseIterable, Codable {
     case naN
 }
@@ -88,4 +86,6 @@ internal func moveToCType(_ swiftType: Struct?) -> RefHolder {
 }
 public struct Types {
     public static let const: Enum = Enum.naN
+}
+extension Enum : Error {
 }

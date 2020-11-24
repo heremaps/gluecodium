@@ -132,7 +132,7 @@ public class DefaultValues {
         public var boolField: DefaultValues.BooleanTypedef
         public var stringField: DefaultValues.StringTypedef
         public var enumField: DefaultValues.EnumTypedef
-        public init(longField: DefaultValues.LongTypedef = 42, boolField: DefaultValues.BooleanTypedef = true, stringField: DefaultValues.StringTypedef = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.EnumTypedef = DefaultValues.EnumTypedef.barValue) {
+        public init(longField: DefaultValues.LongTypedef = 42, boolField: DefaultValues.BooleanTypedef = true, stringField: DefaultValues.StringTypedef = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.EnumTypedef = DefaultValues.SomeEnum.barValue) {
             self.longField = longField
             self.boolField = boolField
             self.stringField = stringField

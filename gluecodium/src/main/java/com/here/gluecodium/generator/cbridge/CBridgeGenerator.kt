@@ -31,7 +31,6 @@ import com.here.gluecodium.generator.cpp.Cpp2NameResolver
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -54,18 +53,17 @@ internal class CBridgeGenerator(
     rootNamespace: List<String>,
     cachingNameResolver: CppNameResolver,
     private val internalNamespace: List<String>,
-    swiftNameRules: SwiftNameRules,
-    internalPrefix: String?,
-    cppNameRules: CppNameRules
+    cppNameRules: CppNameRules,
+    private val nameResolver: CBridgeNameResolver
 ) {
-    private val nameResolver = CBridgeNameResolver(limeReferenceMap, swiftNameRules, internalPrefix ?: "")
-    private val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, cachingNameResolver)
+    val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, cachingNameResolver)
     private val cppRefNameResolver =
         CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(cachingNameResolver), cppNameResolver)
     private val headerIncludeResolver = CBridgeHeaderIncludeResolver(limeReferenceMap, rootNamespace)
     private val cppIncludeResolver = Cpp2IncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val implIncludeResolver = CBridgeImplIncludeResolver(rootNamespace, cppIncludeResolver)
     private val predicates = CBridgeGeneratorPredicates(cppNameResolver).predicates
+    val genericTypesCollector = GenericTypesCollector(nameResolver)
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
         val templateData = mutableMapOf("model" to rootElement, "internalNamespace" to internalNamespace)
@@ -91,7 +89,7 @@ internal class CBridgeGenerator(
     fun generateCollections(limeModel: List<LimeNamedElement>): List<GeneratedFile> {
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
         val allParentTypes = getAllParentTypes(allTypes)
-        val genericTypes = GenericTypesCollector(nameResolver).getAllGenericTypes(allTypes + allParentTypes)
+        val genericTypes = genericTypesCollector.getAllGenericTypes(allTypes + allParentTypes)
         val templateData = mutableMapOf<String, Any>(
             "lists" to genericTypes.filterIsInstance<LimeList>(),
             "maps" to genericTypes.filterIsInstance<LimeMap>(),
@@ -187,7 +185,7 @@ internal class CBridgeGenerator(
         return parents + getAllParentTypes(parents)
     }
 
-    private class GenericTypesCollector(private val nameResolver: CBridgeNameResolver) :
+    class GenericTypesCollector(private val nameResolver: NameResolver) :
         LimeTypeRefsVisitor<List<LimeGenericType>>() {
 
         override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeGenericType> {
@@ -230,5 +228,11 @@ internal class CBridgeGenerator(
             GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
             GeneratorSuite.copyCommonFile(PROXY_CACHE_FILENAME, "")
         )
+
+        fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
+            if (allTypes.isEmpty()) return emptyList()
+            val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().mapNotNull { it.parent?.type }
+            return parents + getAllParentTypes(parents)
+        }
     }
 }

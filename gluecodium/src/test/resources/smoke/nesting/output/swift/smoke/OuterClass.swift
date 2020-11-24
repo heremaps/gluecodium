@@ -35,6 +35,26 @@ public class OuterClass {
         return moveFromCType(smoke_OuterClass_foo(self.c_instance, c_input.ref))
     }
 }
+public protocol InnerInterface : AnyObject {
+    func foo(input: String) -> String
+}
+internal class _InnerInterface: InnerInterface {
+    let c_instance : _baseRef
+    init(cInnerInterface: _baseRef) {
+        guard cInnerInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cInnerInterface
+    }
+    deinit {
+        smoke_OuterClass_InnerInterface_remove_swift_object_from_wrapper_cache(c_instance)
+        smoke_OuterClass_InnerInterface_release_handle(c_instance)
+    }
+    public func foo(input: String) -> String {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_OuterClass_InnerInterface_foo(self.c_instance, c_input.ref))
+    }
+}
 internal func getRef(_ ref: OuterClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -144,26 +164,6 @@ internal func copyToCType(_ swiftClass: OuterClass.InnerClass?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: OuterClass.InnerClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
-}
-public protocol InnerInterface : AnyObject {
-    func foo(input: String) -> String
-}
-internal class _InnerInterface: InnerInterface {
-    let c_instance : _baseRef
-    init(cInnerInterface: _baseRef) {
-        guard cInnerInterface != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cInnerInterface
-    }
-    deinit {
-        smoke_OuterClass_InnerInterface_remove_swift_object_from_wrapper_cache(c_instance)
-        smoke_OuterClass_InnerInterface_release_handle(c_instance)
-    }
-    public func foo(input: String) -> String {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_OuterClass_InnerInterface_foo(self.c_instance, c_input.ref))
-    }
 }
 @_cdecl("_CBridgeInitsmoke_OuterClass_InnerInterface")
 internal func _CBridgeInitsmoke_OuterClass_InnerInterface(handle: _baseRef) -> UnsafeMutableRawPointer {

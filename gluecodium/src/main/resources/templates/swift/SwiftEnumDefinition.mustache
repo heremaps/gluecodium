@@ -18,47 +18,47 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless skipDeclaration}}{{>swift/Comment}}{{>swift/SwiftAttributes}}
-{{visibility}} enum {{simpleName}}{{#if externalConverter}}_internal{{/if}} : UInt32, CaseIterable, Codable {
-{{#items}}{{prefixPartial "enumItem" "    "}}
-{{/items}}{{!!
-}}{{#if hasDeprecatedItems}}
-    {{visibility}} static var allCases: [{{simpleName}}] {
-        return [{{#items}}.{{name}}{{#if iter.hasNext}}, {{/if}}{{/items}}]
+{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{>swift/TypeVisibility}} enum {{resolveName}}{{#if external.swift.converter}}_internal{{/if}} : UInt32, CaseIterable, Codable {
+{{#enumerators}}{{prefixPartial "enumerator" "    "}}
+{{/enumerators}}{{!!
+}}{{#ifPredicate "hasDeprecatedEnumerators"}}
+    {{resolveName visibility}} static var allCases: [{{resolveName}}] {
+        return [{{#enumerators}}.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/enumerators}}]
     }
 
-    {{visibility}} enum Key: CodingKey {
+    {{resolveName visibility}} enum Key: CodingKey {
         case rawValue
     }
 
-    {{visibility}} enum CodingError: Error {
+    {{resolveName visibility}} enum CodingError: Error {
         case unknownValue
     }
 
-    {{visibility}} init(from decoder: Decoder) throws {
+    {{resolveName visibility}} init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         let rawValue = try container.decode(Int.self, forKey: .rawValue)
         switch rawValue {
-{{#items}}
+{{#enumerators}}
         case {{iter.position}}:
-            self = .{{name}}
-{{/items}}
+            self = .{{resolveName}} 
+{{/enumerators}}
         default:
             throw CodingError.unknownValue
         }
     }
 
-    {{visibility}} func encode(to encoder: Encoder) throws {
+    {{resolveName visibility}} func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Key.self)
         switch self {
-{{#items}}
-        case .{{name}}:
+{{#enumerators}}
+        case .{{resolveName}}:
             try container.encode({{iter.position}}, forKey: .rawValue)
-{{/items}}
+{{/enumerators}}
         }
     }
-{{/if}}
+{{/ifPredicate}}
 }
-{{/unless}}{{!!
-}}{{+enumItem}}{{>swift/Comment}}{{>swift/SwiftAttributes}}
-case {{name}}{{#if value}} = {{value}}{{/if}}{{/enumItem}}
+{{/unlessPredicate}}{{!!
+}}{{+enumerator}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+case {{resolveName}}{{#if explicitValue}} = {{resolveName explicitValue}}{{/if}}{{/enumerator}}

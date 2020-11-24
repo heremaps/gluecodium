@@ -1,0 +1,35 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{#if attributes.cached}}{{!!
+}}{{resolveName visibility}} private(set) {{#if isStatic}}static {{/if}}{{#unless isStatic}}lazy {{/unless}}{{!!
+}}var {{resolveName}}: {{resolveName typeRef}} = {{#getter}}{{>swift/SwiftFunctionBody}}{{/getter}}(){{!!
+}}{{/if}}{{#unless attributes.cached}}{{!!
+}}{{#unless isInterface}}{{resolveName visibility}} {{/unless}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}{{!!
+}}{{#if attributes.swift.weak}}weak {{/if}}var {{resolveName}}: {{resolveName typeRef}} {
+{{#set isWeak=attributes.swift.weak isProperty=true}}{{#getter}}
+    get {{prefixPartial "swift/SwiftFunctionBody" "    " skipFirstLine=true}}
+{{/getter}}
+{{#setter}}
+    set {{prefixPartial "swift/SwiftFunctionBody" "    " skipFirstLine=true}}
+{{/setter}}{{/set}}
+}{{/unless}}{{!!
+
+}}{{+setterVisibility}}{{#if setter}}{{#isNotEq visibility setter.visibility}}{{resolveName setter.visibility}}(set) {{/isNotEq}}{{/if}}{{/setterVisibility}}

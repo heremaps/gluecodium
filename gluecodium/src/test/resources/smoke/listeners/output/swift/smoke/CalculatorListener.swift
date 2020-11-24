@@ -47,6 +47,15 @@ internal class _CalculatorListener: CalculatorListener {
         return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(self.c_instance, c_calculationResult.ref))
     }
 }
+public struct ResultStruct {
+    public var result: Double
+    public init(result: Double) {
+        self.result = result
+    }
+    internal init(cHandle: _baseRef) {
+        result = moveFromCType(smoke_CalculatorListener_ResultStruct_result_get(cHandle))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_CalculatorListener")
 internal func _CBridgeInitsmoke_CalculatorListener(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _CalculatorListener(cCalculatorListener: handle)
@@ -156,15 +165,6 @@ internal func copyToCType(_ swiftClass: CalculatorListener?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: CalculatorListener?) -> RefHolder {
     return getRef(swiftClass, owning: true)
-}
-public struct ResultStruct {
-    public var result: Double
-    public init(result: Double) {
-        self.result = result
-    }
-    internal init(cHandle: _baseRef) {
-        result = moveFromCType(smoke_CalculatorListener_ResultStruct_result_get(cHandle))
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
     return ResultStruct(cHandle: handle)

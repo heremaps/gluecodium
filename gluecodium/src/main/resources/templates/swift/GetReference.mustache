@@ -18,110 +18,111 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if hasWeakSupport}}
-internal class {{name}}_WeakHolder {
-    weak var value: {{name}}?
+{{#ifPredicate "hasWeakSupport"}}
+internal class {{resolveName}}_WeakHolder {
+    weak var value: {{resolveName}}?
 
-    init(_ value: {{name}}) {
+    init(_ value: {{resolveName}}) {
         self.value = value
     }
 }
 
-{{/if}}
-internal func getRef(_ ref: {{name}}?, owning: Bool = true{{#if hasWeakSupport}}, isWeak: Bool = false{{/if}}) -> RefHolder {
+{{/ifPredicate}}
+internal func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{{!!
+}}{{#ifPredicate "hasWeakSupport"}}, isWeak: Bool = false{{/ifPredicate}}) -> RefHolder {
 
     guard let reference = ref else {
         return RefHolder(0)
     }
 
     if let instanceReference = reference as? NativeBase {
-        let handle_copy = {{cInstance}}_copy_handle(instanceReference.c_handle)
+        let handle_copy = {{resolveName "CBridge"}}_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: {{cInstance}}_release_handle)
+            ? RefHolder(ref: handle_copy, release: {{resolveName "CBridge"}}_release_handle)
             : RefHolder(handle_copy)
     }
 
-    var functions = {{functionTableName}}()
-{{#if hasWeakSupport}}
-    let strongRef: AnyObject = isWeak ? {{name}}_WeakHolder(reference) : reference
+    var functions = {{resolveName "CBridge"}}_FunctionTable()
+{{#ifPredicate "hasWeakSupport"}}
+    let strongRef: AnyObject = isWeak ? {{resolveName}}_WeakHolder(reference) : reference
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(strongRef).toOpaque()
-{{/if}}{{#unless hasWeakSupport}}
+{{/ifPredicate}}{{#unlessPredicate "hasWeakSupport"}}
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-{{/unless}}
+{{/unlessPredicate}}
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
-{{#set className=name}}
-{{#methods}}{{#unless isSkipped}}
-{{#set delegateToCall="delegateCall2"}}{{>functionTableEntry}}{{/set}}
-{{/unless}}{{/methods}}
-{{#properties}}{{#unless isSkipped}}
-{{#set propertyName=name}}{{#getter}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/getter}}
-{{#setter}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/setter}}{{/set}}
-{{/unless}}{{/properties}}
-    let proxy = {{cInstance}}_create_proxy(functions)
-    return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release_handle) : RefHolder(proxy)
+{{#set class=this}}{{#class}}
+{{#each inheritedFunctions functions}}{{#unless attributes.swift.skip}}
+{{#set delegateToCall="delegateCall2" function=this}}{{>functionTableEntry}}{{/set}}
+{{/unless}}{{/each}}
+{{#each inheritedProperties properties}}{{#unless attributes.swift.skip}}
+{{#set property=this}}{{#getter}}{{#set delegateToCall="callPropertyGetter" function=this}}{{>functionTableEntry}}{{/set}}{{/getter}}
+{{#setter}}{{#set delegateToCall="callPropertySetter" function=this}}{{>functionTableEntry}}{{/set}}{{/setter}}{{/set}}
+{{/unless}}{{/each}}
+    let proxy = {{resolveName "CBridge"}}_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: {{resolveName "CBridge"}}_release_handle) : RefHolder(proxy)
 }
-{{/set}}
-{{#if hasWeakSupport}}
+{{/class}}{{/set}}
+{{#ifPredicate "hasWeakSupport"}}
 
-internal func weakToCType(_ swiftClass: {{name}}?) -> RefHolder {
+internal func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
-{{/if}}{{!!
+{{/ifPredicate}}{{!!
 
 }}{{+functionTableEntry}}
-    functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
-{{#if hasWeakSupport}}
+    functions.{{resolveName function "CBridge"}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+{{#ifPredicate class "hasWeakSupport"}}
         let unretained_value = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue()
-        let swift_class: {{className}}
-        if (unretained_value is {{className}}_WeakHolder) {
-            if let weak_value = (unretained_value as! {{className}}_WeakHolder).value {
+        let swift_class: {{resolveName class}}
+        if (unretained_value is {{resolveName class}}_WeakHolder) {
+            if let weak_value = (unretained_value as! {{resolveName class}}_WeakHolder).value {
                 swift_class = weak_value
             } else {
-{{#if error}}{{#if isReturningVoid}}
-                return {{cBaseName}}_result(has_value: true, error_value: 0)
-{{/if}}{{#unless isReturningVoid}}
-                return {{cBaseName}}_result(has_value: true, .init(returned_value: 0))
-{{/unless}}{{/if}}{{#unless error}}{{#if isReturningVoid}}
+{{#if thrownType}}{{#if returnType.isVoid}}
+                return {{resolveName function "CBridge"}}_result(has_value: true, error_value: 0)
+{{/if}}{{#unless returnType.isVoid}}
+                return {{resolveName function "CBridge"}}_result(has_value: true, .init(returned_value: 0))
+{{/unless}}{{/if}}{{#unless thrownType}}{{#if returnType.isVoid}}
                 return
-{{/if}}{{#unless isReturningVoid}}
+{{/if}}{{#unless returnType.isVoid}}
                 return 0
 {{/unless}}{{/unless}}
             }
         } else {
-            swift_class = unretained_value as! {{className}}
+            swift_class = unretained_value as! {{resolveName class}}
         }
-{{/if}}{{#unless hasWeakSupport}}
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
-{{/unless}}
-        {{#if error}}do { {{#if isReturningVoid}}
+{{/ifPredicate}}{{#unlessPredicate class "hasWeakSupport"}}
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{resolveName class}}
+{{/unlessPredicate}}
+        {{#if thrownType}}do { {{#if returnType.isVoid}}
             try {{include delegateToCall}}
-            return {{cBaseName}}_result(has_value: true, error_value: 0)
-        } catch let error as {{error}} {
-            return {{cBaseName}}_result(has_value: false, error_value: copyToCType(error).ref){{/if}}{{!!
-        }}{{#unless isReturningVoid}}
+            return {{resolveName function "CBridge"}}_result(has_value: true, error_value: 0)
+        } catch let error as {{resolveName exception "" "ref"}} {
+            return {{resolveName function "CBridge"}}_result(has_value: false, error_value: copyToCType(error).ref){{/if}}{{!!
+        }}{{#unless returnType.isVoid}}
             let call_result = try {{include delegateToCall}}
             {{#set delegateToCall="callResult" returnPrefix="let result_handle ="}}{{>swiftReturn}}{{/set}}
-            return {{cBaseName}}_result(has_value: true, .init(returned_value: result_handle))
-        } catch let error as {{error}} {
-            return {{cBaseName}}_result(has_value: false, .init(error_value: copyToCType(error).ref)){{/unless}}
+            return {{resolveName function "CBridge"}}_result(has_value: true, .init(returned_value: result_handle))
+        } catch let error as {{resolveName exception "" "ref"}} {
+            return {{resolveName function "CBridge"}}_result(has_value: false, .init(error_value: copyToCType(error).ref)){{/unless}}
         } catch {
             fatalError("Unexpected error: \(error)")
         }{{/if}}{{!!
-        }}{{#unless error}}{{#if isReturningVoid}}{{include delegateToCall}}{{/if}}{{!!
-        }}{{#unless isReturningVoid}}{{#set returnPrefix="return"}}{{>swiftReturn}}{{/set}}{{/unless}}{{/unless}}
+        }}{{#unless thrownType}}{{#if returnType.isVoid}}{{include delegateToCall}}{{/if}}{{!!
+        }}{{#unless returnType.isVoid}}{{#set returnPrefix="return"}}{{>swiftReturn}}{{/set}}{{/unless}}{{/unless}}
     }
 {{/functionTableEntry}}{{!!
-}}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
+}}{{+swiftParameter}}{{resolveName}}{{/swiftParameter}}{{!!
 }}{{+swiftReturn}}{{returnPrefix}} {{#returnType}}{{>swift/ConversionPrefixTo}}{{/returnType}}copyToCType({{include delegateToCall}}).ref{{/swiftReturn}}{{!!
-}}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
-}}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
-}}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
+}}{{+delegateCall2}}swift_class.{{resolveName function}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
+}}{{+callPropertyGetter}}swift_class.{{resolveName property}}{{/callPropertyGetter}}{{!!
+}}{{+callPropertySetter}}swift_class.{{resolveName property}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
 }}{{+callResult}}call_result{{/callResult}}{{!!
-}}{{+swiftParameter2}}{{#argumentLabel}}{{#isNotEq . "_"}}{{.}}: {{/isNotEq}}{{/argumentLabel}}{{!!
-}}{{^argumentLabel}}{{name}}: {{/argumentLabel}}{{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
-}}{{+swiftParameterConversion}}{{#type}}{{>swift/ConversionPrefixFrom}}{{/type}}moveFromCType({{name}}){{/swiftParameterConversion}}
+}}{{+swiftParameter2}}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!
+}}{{#unless attributes.swift.label}}{{resolveName}}: {{/unless}}{{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
+}}{{+swiftParameterConversion}}{{>swift/ConversionPrefixFrom}}moveFromCType({{resolveName}}){{/swiftParameterConversion}}

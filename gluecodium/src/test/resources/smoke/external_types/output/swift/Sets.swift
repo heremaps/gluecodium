@@ -1,7 +1,6 @@
 //
 //
 import Foundation
-import Foundation
 internal func copyFromCType(_ handle: _baseRef) -> Set<URLCredential.Persistence> {
     var result: Set<URLCredential.Persistence> = []
     let iterator_handle = SetOf_smoke_URLCredential_1Persistence_iterator(handle)

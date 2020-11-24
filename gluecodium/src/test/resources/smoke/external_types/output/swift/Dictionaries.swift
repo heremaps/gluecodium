@@ -1,5 +1,4 @@
 import Foundation
-import Foundation
 internal func copyFromCType(_ handle: _baseRef) -> [URLCredential.Persistence: DateInterval] {
     var swiftDict: [URLCredential.Persistence: DateInterval] = [:]
     let iterator_handle = MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator(handle)

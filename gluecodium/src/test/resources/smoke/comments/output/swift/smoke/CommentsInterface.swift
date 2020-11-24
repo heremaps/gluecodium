@@ -48,8 +48,8 @@ internal class _CommentsInterface: CommentsInterface {
             return moveFromCType(smoke_CommentsInterface_someProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_CommentsInterface_someProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_CommentsInterface_someProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -121,6 +121,24 @@ internal class _CommentsInterface: CommentsInterface {
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
     }
 }
+/// This is some very useful enum.
+public enum SomeEnum : UInt32, CaseIterable, Codable {
+    /// Not quite useful
+    case useless
+    /// Somewhat useful
+    case useful
+}
+/// This is some very useful struct.
+public struct SomeStruct {
+    /// How useful this struct is
+    public var someField: CommentsInterface.Usefulness
+    public init(someField: CommentsInterface.Usefulness) {
+        self.someField = someField
+    }
+    internal init(cHandle: _baseRef) {
+        someField = moveFromCType(smoke_CommentsInterface_SomeStruct_someField_get(cHandle))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_CommentsInterface")
 internal func _CBridgeInitsmoke_CommentsInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _CommentsInterface(cCommentsInterface: handle)
@@ -187,9 +205,9 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
         return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_CommentsInterface_someProperty_set = {(swift_class_pointer, newValue) in
+    functions.smoke_CommentsInterface_someProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.isSomeProperty = moveFromCType(newValue)
+        swift_class.isSomeProperty = moveFromCType(value)
     }
     let proxy = smoke_CommentsInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
@@ -255,54 +273,6 @@ internal func copyToCType(_ swiftClass: CommentsInterface?) -> RefHolder {
 internal func moveToCType(_ swiftClass: CommentsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-/// This is some very useful enum.
-public enum SomeEnum : UInt32, CaseIterable, Codable {
-    /// Not quite useful
-    case useless
-    /// Somewhat useful
-    case useful
-}
-internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
-    return SomeEnum(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
-    guard handle != 0 else {
-        return nil
-    }
-    return SomeEnum(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-/// This is some very useful struct.
-public struct SomeStruct {
-    /// How useful this struct is
-    public var someField: CommentsInterface.Usefulness
-    public init(someField: CommentsInterface.Usefulness) {
-        self.someField = someField
-    }
-    internal init(cHandle: _baseRef) {
-        someField = moveFromCType(smoke_CommentsInterface_SomeStruct_someField_get(cHandle))
-    }
-}
 internal func copyFromCType(_ handle: _baseRef) -> SomeStruct {
     return SomeStruct(cHandle: handle)
 }
@@ -341,4 +311,34 @@ internal func copyToCType(_ swiftType: SomeStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CommentsInterface_SomeStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
+internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
+    return SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
+    return copyFromCType(cValue)
+}
+internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SomeEnum(rawValue: uint32_t_value_get(handle))!
+}
+internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

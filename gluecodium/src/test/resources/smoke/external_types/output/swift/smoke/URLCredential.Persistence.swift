@@ -1,7 +1,6 @@
 //
 //
 import Foundation
-import Foundation
 internal func copyToCType(_ swiftEnum: URLCredential.Persistence) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(UInt32(swiftEnum.rawValue))
 }

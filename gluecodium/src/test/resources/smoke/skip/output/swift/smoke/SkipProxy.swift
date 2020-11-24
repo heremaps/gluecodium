@@ -13,8 +13,8 @@ internal class _SkipProxy: SkipProxy {
             return moveFromCType(smoke_SkipProxy_skippedInJava_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_SkipProxy_skippedInJava_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_SkipProxy_skippedInJava_set(self.c_instance, c_value.ref))
         }
     }
     var skippedInDart: Float {
@@ -22,8 +22,8 @@ internal class _SkipProxy: SkipProxy {
             return moveFromCType(smoke_SkipProxy_skippedInDart_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_SkipProxy_skippedInDart_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_SkipProxy_skippedInDart_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -80,17 +80,17 @@ internal func getRef(_ ref: SkipProxy?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SkipProxy
         return copyToCType(swift_class.skippedInJava).ref
     }
-    functions.smoke_SkipProxy_skippedInJava_set = {(swift_class_pointer, newValue) in
+    functions.smoke_SkipProxy_skippedInJava_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SkipProxy
-        swift_class.skippedInJava = moveFromCType(newValue)
+        swift_class.skippedInJava = moveFromCType(value)
     }
     functions.smoke_SkipProxy_skippedInDart_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SkipProxy
         return copyToCType(swift_class.skippedInDart).ref
     }
-    functions.smoke_SkipProxy_skippedInDart_set = {(swift_class_pointer, newValue) in
+    functions.smoke_SkipProxy_skippedInDart_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SkipProxy
-        swift_class.skippedInDart = moveFromCType(newValue)
+        swift_class.skippedInDart = moveFromCType(value)
     }
     let proxy = smoke_SkipProxy_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_SkipProxy_release_handle) : RefHolder(proxy)

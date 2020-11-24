@@ -80,3 +80,9 @@ struct NullableCollectionsStruct {
 }
 
 class SomeInterface {}
+
+@Dart(Skip)
+struct MixedCollectionsStruct {
+    almostDates: List<Date?>
+    dates: List<Date>
+}

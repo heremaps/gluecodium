@@ -521,6 +521,58 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [Int32]? {
     }
     return foobar_copyFromCType(handle)
 }
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>] {
+    var result: [Set<Int32>] = []
+    let count = foobar_ArrayOf_foobar_SetOf__Int_count(handle)
+    for idx in 0..<count {
+        result.append(foobar_copyFromCType(foobar_ArrayOf_foobar_SetOf__Int_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>] {
+    defer {
+        foobar_ArrayOf_foobar_SetOf__Int_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [Set<Int32>]) -> RefHolder {
+    let handle = foobar_ArrayOf_foobar_SetOf__Int_create_handle()
+    for item in swiftArray {
+        let value = foobar_moveToCType(item)
+        foobar_ArrayOf_foobar_SetOf__Int_append(handle, value.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [Set<Int32>]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_foobar_SetOf__Int_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [Set<Int32>]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_foobar_SetOf__Int_create_optional_handle()
+    let handle = foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        foobar_ArrayOf_foobar_SetOf__Int_append(handle, foobar_moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [Set<Int32>]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [Set<Int32>]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>]? {
+    defer {
+        foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [String] {
     var result: [String] = []
     let count = foobar_ArrayOf__String_count(handle)
@@ -726,58 +778,6 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [[Int32: Bool]]? {
 internal func foobar_moveFromCType(_ handle: _baseRef) -> [[Int32: Bool]]? {
     defer {
         foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_release_optional_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>] {
-    var result: [Set<Int32>] = []
-    let count = foobar_ArrayOf_foobar_SetOf__Int_count(handle)
-    for idx in 0..<count {
-        result.append(foobar_copyFromCType(foobar_ArrayOf_foobar_SetOf__Int_get(handle, idx)))
-    }
-    return result
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>] {
-    defer {
-        foobar_ArrayOf_foobar_SetOf__Int_release_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyToCType(_ swiftArray: [Set<Int32>]) -> RefHolder {
-    let handle = foobar_ArrayOf_foobar_SetOf__Int_create_handle()
-    for item in swiftArray {
-        let value = foobar_moveToCType(item)
-        foobar_ArrayOf_foobar_SetOf__Int_append(handle, value.ref)
-    }
-    return RefHolder(handle)
-}
-internal func foobar_moveToCType(_ swiftArray: [Set<Int32>]) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_foobar_SetOf__Int_release_handle)
-}
-internal func foobar_copyToCType(_ swiftArray: [Set<Int32>]?) -> RefHolder {
-    guard let swiftArray = swiftArray else {
-        return RefHolder(0)
-    }
-    let optionalHandle = foobar_ArrayOf_foobar_SetOf__Int_create_optional_handle()
-    let handle = foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(optionalHandle)
-    for item in swiftArray {
-        foobar_ArrayOf_foobar_SetOf__Int_append(handle, foobar_moveToCType(item).ref)
-    }
-    return RefHolder(optionalHandle)
-}
-internal func foobar_moveToCType(_ swiftType: [Set<Int32>]?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle)
-}
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>]? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(handle)
-    return foobar_copyFromCType(unwrappedHandle) as [Set<Int32>]
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>]? {
-    defer {
-        foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle(handle)
     }
     return foobar_copyFromCType(handle)
 }
