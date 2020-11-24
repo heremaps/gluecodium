@@ -22,8 +22,8 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GenericTypesCollector
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferredTypesCollector
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.Cpp2NameResolver
@@ -37,6 +37,7 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -90,8 +91,9 @@ internal class CBridgeGenerator(
     fun generateCollections(limeModel: List<LimeNamedElement>): List<GeneratedFile> {
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
         val allParentTypes = getAllParentTypes(allTypes)
-        val genericTypesCollector = GenericTypesCollector({ nameResolver.resolveName(it) }, LimeAttributeType.SWIFT)
-        val genericTypes = genericTypesCollector.getAllGenericTypes(allTypes + allParentTypes)
+        val referredTypesCollector = ReferredTypesCollector({ nameResolver.resolveName(it) }, LimeAttributeType.SWIFT)
+        val genericTypes =
+            referredTypesCollector.getAllReferredTypes(allTypes + allParentTypes).filterIsInstance<LimeGenericType>()
         val templateData = mutableMapOf<String, Any>(
             "lists" to genericTypes.filterIsInstance<LimeList>(),
             "maps" to genericTypes.filterIsInstance<LimeMap>(),
