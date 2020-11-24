@@ -30,12 +30,12 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal class GenericTypesCollector(
-    private val sortingKeyMapper: (LimeGenericType) -> String,
+internal class ReferredTypesCollector(
+    private val sortingKeyMapper: (LimeType) -> String,
     private val platformAttributeType: LimeAttributeType
-) : LimeTypeRefsVisitor<List<LimeGenericType>>() {
+) : LimeTypeRefsVisitor<List<LimeType>>() {
 
-    fun getAllGenericTypes(allTypes: List<LimeType>) =
+    fun getAllReferredTypes(allTypes: List<LimeType>) =
         traverseTypes(allTypes).flatten()
             .filterNot { it.attributes.have(platformAttributeType, SKIP) }
             .associateBy(sortingKeyMapper)
@@ -43,14 +43,14 @@ internal class GenericTypesCollector(
             .values
             .toList()
 
-    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeGenericType> {
-        val limeType = limeTypeRef?.type?.actualType as? LimeGenericType ?: return emptyList()
-        return listOf(limeType) + when (limeType) {
-            is LimeList -> visitTypeRef(parentElement, limeType.elementType)
-            is LimeSet -> visitTypeRef(parentElement, limeType.elementType)
-            is LimeMap -> visitTypeRef(parentElement, limeType.keyType) +
+    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeType> =
+        when (val limeType = limeTypeRef?.type?.actualType) {
+            null -> emptyList()
+            !is LimeGenericType -> listOf(limeType)
+            is LimeList -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
+            is LimeSet -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
+            is LimeMap -> listOf(limeType) + visitTypeRef(parentElement, limeType.keyType) +
                     visitTypeRef(parentElement, limeType.valueType)
             else -> emptyList()
         }
-    }
 }
