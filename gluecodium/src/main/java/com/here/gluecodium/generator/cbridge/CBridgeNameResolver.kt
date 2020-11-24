@@ -22,8 +22,9 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
-import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
+import com.here.gluecodium.generator.swift.SwiftNameRules
+import com.here.gluecodium.generator.swift.SwiftSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -40,18 +41,17 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CBridgeNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: NameRules,
+    private val swiftNameRules: SwiftNameRules,
     private val internalPrefix: String
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
-    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
+    private val signatureResolver = SwiftSignatureResolver(limeReferenceMap, swiftNameRules)
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -70,7 +70,7 @@ internal class CBridgeNameResolver(
             // TODO: review and remove after all tests are passing
             is TypeId -> resolveBasicType(element)
             is LimeTypeAlias -> resolveName(element.typeRef)
-            is LimeNamedElement -> nameRules.getName(element)
+            is LimeNamedElement -> swiftNameRules.getName(element)
             is LinkedHashMap<*, *> -> "" // TODO: remove
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }

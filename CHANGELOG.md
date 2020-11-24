@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue for Swift function overloads with `@Swift(Name)` platform names.
+
 ## 8.6.2
 Release date: 2020-11-19
 ### Bug fixes:

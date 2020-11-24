@@ -62,3 +62,11 @@ class SpecialNames {
     fun createProxy()
     fun _upperCase()
 }
+
+@Java(Skip) @Dart(Skip)
+class SwiftMethodOverloads {
+    @Swift("three")
+    fun one(input: String)
+    @Swift("three")
+    fun two(input: List<String>)
+}

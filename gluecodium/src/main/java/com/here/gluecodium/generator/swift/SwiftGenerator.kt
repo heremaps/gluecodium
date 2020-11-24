@@ -23,7 +23,6 @@ import com.here.gluecodium.generator.cbridge.CBridgeCollectionNameResolver
 import com.here.gluecodium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.swift.SwiftClosure
 import com.here.gluecodium.model.swift.SwiftEnum
 import com.here.gluecodium.model.swift.SwiftFile
@@ -39,7 +38,7 @@ class SwiftGenerator(
 ) {
     val genericsGenerator = SwiftGenericsGenerator(internalPrefix)
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
-    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
+    private val signatureResolver = SwiftSignatureResolver(limeReferenceMap, nameRules)
     private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)
     private val cBridgeNameResolver = CBridgeCollectionNameResolver(internalPrefix ?: "")
 

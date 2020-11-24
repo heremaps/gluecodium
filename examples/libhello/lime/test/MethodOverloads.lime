@@ -111,3 +111,11 @@ struct StructConstructorOverloads {
 
     constructor create(input1: String, input2: String)
 }
+
+@Java(Skip) @Dart(Skip)
+class SwiftMethodOverloads {
+    @Swift("three")
+    fun one(input: String)
+    @Swift("three")
+    fun two(input: List<String>)
+}
