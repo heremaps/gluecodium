@@ -1,12 +1,14 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Constructors.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/Constructors.h"
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <string>

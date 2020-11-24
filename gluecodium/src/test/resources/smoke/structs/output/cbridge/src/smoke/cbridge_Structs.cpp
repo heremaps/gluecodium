@@ -1,13 +1,16 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Structs.h"
+#include "cbridge/include/ByteArrayHandle.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <string>
@@ -32,6 +35,18 @@ void smoke_Structs_cache_swift_object_wrapper(_baseRef handle, const void* swift
 void smoke_Structs_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle)->get());
+}
+_baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {
+    return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::swap_point_coordinates(Conversion<::smoke::Structs::Point>::toCpp(input)));
+}
+_baseRef smoke_Structs_returnAllTypesStruct(_baseRef input) {
+    return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)));
+}
+_baseRef smoke_Structs_createPoint(double x, double y) {
+    return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y));
+}
+_baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
+    return Conversion<::smoke::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::AllTypesStruct>::toCpp(input)));
 }
 _baseRef
 smoke_Structs_Point_create_handle( double x, double y )
@@ -370,16 +385,4 @@ void smoke_Structs_MutableStructWithCppAccessors_release_optional_handle(_baseRe
 _baseRef smoke_Structs_MutableStructWithCppAccessors_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::MutableStructWithCppAccessors>(handle);
     return Conversion<::std::string>::toBaseRef(struct_pointer->get_string_field());
-}
-_baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {
-    return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::swap_point_coordinates(Conversion<::smoke::Structs::Point>::toCpp(input)));
-}
-_baseRef smoke_Structs_returnAllTypesStruct(_baseRef input) {
-    return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)));
-}
-_baseRef smoke_Structs_createPoint(double x, double y) {
-    return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y));
-}
-_baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
-    return Conversion<::smoke::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::AllTypesStruct>::toCpp(input)));
 }

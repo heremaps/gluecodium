@@ -1,9 +1,16 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_NullableCollectionsStruct.h"
+#include "cbridge/include/DateHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/Optional.h"
+#include "gluecodium/TimePointHash.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
+#include "smoke/Nullable.h"
 #include "smoke/NullableCollectionsStruct.h"
+#include <chrono>
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <unordered_map>

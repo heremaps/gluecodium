@@ -1,6 +1,7 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Extensions__extension.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/Optional.h"
 #include "smoke/Extensions.h"

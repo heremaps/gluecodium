@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.common
 
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeException
@@ -26,6 +27,8 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
@@ -46,6 +49,14 @@ abstract class LimeTypeRefsVisitor<T> {
             allElements.filterIsInstance<LimeContainerWithInheritance>().map { visitTypeRef(it, it.parent) } +
             allElements.filterIsInstance<LimeTypeAlias>().map { visitTypeRef(it, it.typeRef) } +
             allElements.filterIsInstance<LimeException>().map { visitTypeRef(it, it.errorType) }
+    }
+
+    protected fun traverseTypes(allTypes: Collection<LimeType>): List<T> {
+        val allFunctions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions }
+        val allElements = allTypes + allFunctions + allFunctions.flatMap { it.parameters } +
+            allTypes.filterIsInstance<LimeContainer>().flatMap { it.properties + it.constants } +
+            allTypes.filterIsInstance<LimeStruct>().flatMap { it.fields }
+        return traverseModel(allElements)
     }
 
     abstract fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): T

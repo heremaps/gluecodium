@@ -1,11 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_SimpleInterface.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
@@ -53,7 +53,7 @@ _baseRef smoke_SimpleInterface_getStringValue(_baseRef _instance) {
 _baseRef smoke_SimpleInterface_useSimpleInterface(_baseRef _instance, _baseRef input) {
     return Conversion<::std::shared_ptr< ::smoke::SimpleInterface >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::SimpleInterface >>(_instance)->get()->use_simple_interface(Conversion<::std::shared_ptr< ::smoke::SimpleInterface >>::toCpp(input)));
 }
-class smoke_SimpleInterfaceProxy : public ::std::shared_ptr< ::smoke::SimpleInterface >::element_type, public CachedProxyBase<smoke_SimpleInterfaceProxy> {
+class smoke_SimpleInterfaceProxy : public ::smoke::SimpleInterface, public CachedProxyBase<smoke_SimpleInterfaceProxy> {
 public:
     smoke_SimpleInterfaceProxy(smoke_SimpleInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))

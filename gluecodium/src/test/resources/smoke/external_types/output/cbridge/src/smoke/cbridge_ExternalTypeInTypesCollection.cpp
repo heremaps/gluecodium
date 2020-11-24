@@ -4,6 +4,7 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/Optional.h"
 #include "include/ExternalTypeInTypesCollection.h"
+#include <cstdint>
 #include <memory>
 #include <new>
 _baseRef

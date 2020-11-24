@@ -30,9 +30,6 @@ object CBridgeComponents {
     val PROXY_CACHE_FILENAME = Paths.get(
         CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "CachedProxyBase.h"
     ).toString()
-    val WRAPPER_CACHE_HEADER = Paths.get(
-        CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "WrapperCache.h"
-    ).toString()
 
     fun collectImplementationIncludes(cInterface: CInterface): List<Include> {
         val functions = (cInterface.functions + cInterface.inheritedFunctions).filter { !it.isSkipped }

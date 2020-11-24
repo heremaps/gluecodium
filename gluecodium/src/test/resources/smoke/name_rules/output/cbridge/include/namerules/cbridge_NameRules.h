@@ -31,11 +31,11 @@ _GLUECODIUM_C_EXPORT void namerules_NameRules_remove_swift_object_from_wrapper_c
 _GLUECODIUM_C_EXPORT _baseRef namerules_NameRules_create();
 _GLUECODIUM_C_EXPORT namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _instance, _baseRef someArgument);
 _GLUECODIUM_C_EXPORT uint32_t namerules_NameRules_intProperty_get(_baseRef _instance);
-_GLUECODIUM_C_EXPORT void namerules_NameRules_intProperty_set(_baseRef _instance, uint32_t newValue);
+_GLUECODIUM_C_EXPORT void namerules_NameRules_intProperty_set(_baseRef _instance, uint32_t value);
 _GLUECODIUM_C_EXPORT bool namerules_NameRules_booleanProperty_get(_baseRef _instance);
-_GLUECODIUM_C_EXPORT void namerules_NameRules_booleanProperty_set(_baseRef _instance, bool newValue);
+_GLUECODIUM_C_EXPORT void namerules_NameRules_booleanProperty_set(_baseRef _instance, bool value);
 _GLUECODIUM_C_EXPORT _baseRef namerules_NameRules_structProperty_get(_baseRef _instance);
-_GLUECODIUM_C_EXPORT void namerules_NameRules_structProperty_set(_baseRef _instance, _baseRef newValue);
+_GLUECODIUM_C_EXPORT void namerules_NameRules_structProperty_set(_baseRef _instance, _baseRef value);
 #ifdef __cplusplus
 }
 #endif

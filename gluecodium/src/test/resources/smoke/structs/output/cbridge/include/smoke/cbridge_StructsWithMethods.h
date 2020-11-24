@@ -8,7 +8,6 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include "cbridge/include/smoke/cbridge_ValidationUtils.h"
 #include <stdbool.h>
-#include <stdint.h>
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_create_handle(double x, double y);
 _GLUECODIUM_C_EXPORT void smoke_StructsWithMethods_Vector_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_create_optional_handle(double x, double y);

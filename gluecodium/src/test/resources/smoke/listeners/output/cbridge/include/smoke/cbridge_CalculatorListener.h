@@ -6,7 +6,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/smoke/cbridge_CalculationResult.h"
 _GLUECODIUM_C_EXPORT _baseRef smoke_CalculatorListener_ResultStruct_create_handle(double result);
 _GLUECODIUM_C_EXPORT void smoke_CalculatorListener_ResultStruct_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_CalculatorListener_ResultStruct_create_optional_handle(double result);

@@ -49,11 +49,11 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import java.io.File
 
-class CBridgeTypeMapper(
+internal class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,
     private val cppNameResolver: CppNameResolver,
     private val includeResolver: CBridgeIncludeResolver,
-    private val nameResolver: CBridgeNameResolver,
+    private val collectionNameResolver: CBridgeCollectionNameResolver,
     private val internalNamespace: List<String>
 ) {
     private val genericsCollector = mutableMapOf<String, CCollectionType>()
@@ -174,7 +174,7 @@ class CBridgeTypeMapper(
             valueType
         )
 
-        val mapName = nameResolver.getCollectionName(limeType)
+        val mapName = collectionNameResolver.getCollectionName(limeType)
         val cMap = CMap(mapName, keyType, valueType, CppLibraryIncludes.MAP, hasStdHash)
         genericsCollector.putIfAbsent(mapName, cMap)
         return result
@@ -206,7 +206,7 @@ class CBridgeTypeMapper(
             elementType
         )
 
-        val setName = nameResolver.getCollectionName(limeType)
+        val setName = collectionNameResolver.getCollectionName(limeType)
         val cSet = CSet(setName, elementType, CppLibraryIncludes.SET, hasStdHash)
         genericsCollector.putIfAbsent(setName, cSet)
 
@@ -229,7 +229,7 @@ class CBridgeTypeMapper(
             elementType
         )
 
-        val arrayName = nameResolver.getCollectionName(limeType)
+        val arrayName = collectionNameResolver.getCollectionName(limeType)
         genericsCollector.putIfAbsent(arrayName, CArray(arrayName, result))
 
         return result

@@ -27,14 +27,12 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.swift.SwiftGenerator
 import com.here.gluecodium.generator.swift.SwiftModel
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.generator.swift.SwiftWeakPropertiesValidator
-import com.here.gluecodium.model.cbridge.CBridgeIncludeResolver
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
@@ -69,13 +67,12 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules, internalPrefix)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = limeReferenceMap,
-            cppIncludeResolver =
-                CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace),
-            includeResolver = CBridgeIncludeResolver(rootNamespace, limeReferenceMap),
-            cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules),
+            rootNamespace = rootNamespace,
+            cachingNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules),
             internalNamespace = internalNamespace,
             swiftNameRules = swiftNameRules,
-            internalPrefix = internalPrefix
+            internalPrefix = internalPrefix,
+            cppNameRules = cppNameRules
         )
 
         val filteredElements =
@@ -119,7 +116,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         return nonEmptyFiles.map { generateSwiftFile(it) } +
             filteredElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
-            cBridgeGenerator.collectionsGenerator.generate() +
+            cBridgeGenerator.generateCollections(filteredElements) +
             swiftGenerator.genericsGenerator.generate() +
             swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
     }

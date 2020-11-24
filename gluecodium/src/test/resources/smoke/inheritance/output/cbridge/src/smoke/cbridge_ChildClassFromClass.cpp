@@ -1,14 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_ChildClassFromClass.h"
-#include "cbridge/include/smoke/cbridge_ParentClass.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/ChildClassFromClass.h"
-#include "smoke/ParentClass.h"
 #include <memory>
 #include <new>
 void smoke_ChildClassFromClass_release_handle(_baseRef handle) {

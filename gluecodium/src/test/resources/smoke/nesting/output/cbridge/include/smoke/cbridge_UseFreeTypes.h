@@ -7,7 +7,6 @@ extern "C" {
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
 #include "cbridge/include/smoke/cbridge_FreeEnum.h"
-#include "cbridge/include/smoke/cbridge_FreePoint.h"
 #include <stdbool.h>
 typedef struct {
     bool has_value;

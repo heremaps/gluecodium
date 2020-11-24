@@ -1,12 +1,15 @@
 //
 //
-#include "cbridge/include/DateHandle.h"
 #include "cbridge/include/smoke/cbridge_FreeLambda.h"
+#include "cbridge/include/DateHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "gluecodium/Optional.h"
+#include "gluecodium/TimePointHash.h"
 #include "smoke/FreeEnum.h"
 #include "smoke/FreeLambda.h"
 #include <chrono>
+#include <functional>
 #include <new>
 void smoke_FreeLambda_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::FreeLambda>(handle);

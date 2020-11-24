@@ -4,15 +4,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "cbridge\include\BaseHandle.h"
-#include "cbridge\include\Export.h"
-#include "cbridge\include\StringHandle.h"
-#include "cbridge\include\smoke\cbridge_AnotherDummyClass.h"
-#include "cbridge\include\smoke\cbridge_AuxStruct.h"
-#include "cbridge\include\smoke\cbridge_DummyClass.h"
-#include "cbridge\include\smoke\cbridge_DummyInterface.h"
-#include "cbridge\include\smoke\cbridge_GenericTypesWithCompoundTypes.h"
-#include "cbridge\include\smoke\cbridge_YetAnotherDummyClass.h"
+#include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
+#include "cbridge/include/smoke/cbridge_GenericTypesWithCompoundTypes.h"
 #include <stdbool.h>
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Float_create_handle();

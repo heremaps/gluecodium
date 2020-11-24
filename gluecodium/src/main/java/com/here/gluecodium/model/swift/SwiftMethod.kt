@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.model.swift
 
-import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.model.common.Comments
 
@@ -53,7 +52,7 @@ class SwiftMethod(
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
     fun getcBaseName() = NameHelper.joinNames(
-        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE
+        cNestedSpecifier, cShortName, "_"
     )
 
     override val childElements

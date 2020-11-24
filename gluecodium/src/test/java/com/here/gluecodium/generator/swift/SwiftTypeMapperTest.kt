@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.swift
 
-import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
+import com.here.gluecodium.generator.cbridge.CBridgeCollectionNameResolver
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -56,7 +56,7 @@ class SwiftTypeMapperTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        typeMapper = SwiftTypeMapper(nameResolver, CBridgeNameResolver(""))
+        typeMapper = SwiftTypeMapper(nameResolver, CBridgeCollectionNameResolver(""))
 
         every { nameResolver.getFullName(any()) } returns "nonsense"
     }

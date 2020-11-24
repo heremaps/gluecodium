@@ -1,14 +1,19 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_GenericTypesWithBasicTypes.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/UnorderedSetHash.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/GenericTypesWithBasicTypes.h"
+#include <cstdint>
 #include <memory>
 #include <new>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -32,6 +37,42 @@ void smoke_GenericTypesWithBasicTypes_cache_swift_object_wrapper(_baseRef handle
 void smoke_GenericTypesWithBasicTypes_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(handle)->get());
+}
+_baseRef smoke_GenericTypesWithBasicTypes_methodWithList(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::vector< int32_t >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_list(Conversion<::std::vector< int32_t >>::toCpp(input)));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_methodWithMap(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::unordered_map< int32_t, bool >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_map(Conversion<::std::unordered_map< int32_t, bool >>::toCpp(input)));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_methodWithSet(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::unordered_set< int32_t >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_set(Conversion<::std::unordered_set< int32_t >>::toCpp(input)));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::vector< ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_list_type_alias(Conversion<::std::vector< ::std::string >>::toCpp(input)));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::unordered_map< ::std::string, ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_map_type_alias(Conversion<::std::unordered_map< ::std::string, ::std::string >>::toCpp(input)));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::unordered_set< ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_set_type_alias(Conversion<::std::unordered_set< ::std::string >>::toCpp(input)));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_listProperty_get(_baseRef _instance) {
+    return Conversion<::std::vector< float >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->get_list_property());
+}
+void smoke_GenericTypesWithBasicTypes_listProperty_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->set_list_property(Conversion<::std::vector< float >>::toCpp(value));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_mapProperty_get(_baseRef _instance) {
+    return Conversion<::std::unordered_map< float, double >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->get_map_property());
+}
+void smoke_GenericTypesWithBasicTypes_mapProperty_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->set_map_property(Conversion<::std::unordered_map< float, double >>::toCpp(value));
+}
+_baseRef smoke_GenericTypesWithBasicTypes_setProperty_get(_baseRef _instance) {
+    return Conversion<::std::unordered_set< float >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->get_set_property());
+}
+void smoke_GenericTypesWithBasicTypes_setProperty_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->set_set_property(Conversion<::std::unordered_set< float >>::toCpp(value));
 }
 _baseRef
 smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle( _baseRef numbersList, _baseRef numbersMap, _baseRef numbersSet )
@@ -75,40 +116,4 @@ _baseRef smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersMap_get(_bas
 _baseRef smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersSet_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(handle);
     return Conversion<::std::unordered_set< uint8_t >>::toBaseRef(struct_pointer->numbers_set);
-}
-_baseRef smoke_GenericTypesWithBasicTypes_methodWithList(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::vector< int32_t >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_list(Conversion<::std::vector< int32_t >>::toCpp(input)));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_methodWithMap(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::unordered_map< int32_t, bool >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_map(Conversion<::std::unordered_map< int32_t, bool >>::toCpp(input)));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_methodWithSet(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::unordered_set< int32_t >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_set(Conversion<::std::unordered_set< int32_t >>::toCpp(input)));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::vector< ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_list_type_alias(Conversion<::std::vector< ::std::string >>::toCpp(input)));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::unordered_map< ::std::string, ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_map_type_alias(Conversion<::std::unordered_map< ::std::string, ::std::string >>::toCpp(input)));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(_baseRef _instance, _baseRef input) {
-    return Conversion<::std::unordered_set< ::std::string >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->method_with_set_type_alias(Conversion<::std::unordered_set< ::std::string >>::toCpp(input)));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_listProperty_get(_baseRef _instance) {
-    return Conversion<::std::vector< float >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->get_list_property());
-}
-void smoke_GenericTypesWithBasicTypes_listProperty_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->set_list_property(Conversion<::std::vector< float >>::toCpp(newValue));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_mapProperty_get(_baseRef _instance) {
-    return Conversion<::std::unordered_map< float, double >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->get_map_property());
-}
-void smoke_GenericTypesWithBasicTypes_mapProperty_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->set_map_property(Conversion<::std::unordered_map< float, double >>::toCpp(newValue));
-}
-_baseRef smoke_GenericTypesWithBasicTypes_setProperty_get(_baseRef _instance) {
-    return Conversion<::std::unordered_set< float >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->get_set_property());
-}
-void smoke_GenericTypesWithBasicTypes_setProperty_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::GenericTypesWithBasicTypes >>(_instance)->get()->set_set_property(Conversion<::std::unordered_set< float >>::toCpp(newValue));
 }

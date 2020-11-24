@@ -1,0 +1,119 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#notInstanceOf this "LimeTypesCollection"}}
+void {{resolveName}}_release_handle(_baseRef handle) {
+    delete get_pointer<{{resolveName this "C++" "ref"}}>(handle);
+}
+
+_baseRef {{resolveName}}_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<{{resolveName this "C++" "ref"}}>(handle)))
+        : 0;
+}
+
+{{#unless isFunctionalInterface}}
+const void* {{resolveName}}_get_swift_object_from_wrapper_cache(_baseRef handle) {
+    return handle
+        ? {{>common/InternalNamespace}}get_wrapper_cache().get_cached_wrapper(get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get())
+        : nullptr;
+}
+
+void {{resolveName}}_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
+    if (!handle) return;
+    {{>common/InternalNamespace}}get_wrapper_cache().cache_wrapper(get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get(), swift_pointer);
+}
+
+void {{resolveName}}_remove_swift_object_from_wrapper_cache(_baseRef handle) {
+    if (!{{>common/InternalNamespace}}WrapperCache::is_alive) return;
+    {{>common/InternalNamespace}}get_wrapper_cache().remove_cached_wrapper(get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get());
+}
+{{/unless}}
+
+{{#ifPredicate "hasTypeRepository"}}
+extern "C" {
+extern void* _CBridgeInit{{resolveName}}(_baseRef handle);
+}
+
+namespace {
+struct {{resolveName}}RegisterInit {
+    {{resolveName}}RegisterInit() {
+        get_init_repository().add_init("{{resolveName}}", &_CBridgeInit{{resolveName}});
+    }
+} s_{{resolveName}}_register_init;
+}
+
+void* {{resolveName}}_get_typed(_baseRef handle) {
+    const auto& real_type_id = {{>common/InternalNamespace}}get_type_repository({{!!
+    }}static_cast<{{resolveName this "C++" "ref"}}::element_type*>(nullptr)).get_id({{!!
+    }}get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get());
+    auto init_function = get_init_repository().get_init(real_type_id);
+    return init_function ? init_function(handle) : _CBridgeInit{{resolveName}}(handle);
+}
+{{/ifPredicate}}
+
+{{/notInstanceOf}}
+
+{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
+bool {{resolveName}}_equal(_baseRef lhs, _baseRef rhs) {
+{{#if attributes.equatable}}
+    return **get_pointer<{{resolveName this "C++" "ref"}}>(lhs) == **get_pointer<{{resolveName this "C++" "ref"}}>(rhs);
+{{/if}}{{#if attributes.pointerEquatable}}
+    return *get_pointer<{{resolveName this "C++" "ref"}}>(lhs) == *get_pointer<{{resolveName this "C++" "ref"}}>(rhs);
+{{/if}}
+}
+uint64_t {{resolveName}}_hash(_baseRef handle) {
+{{#if attributes.equatable}}
+    return {{>common/InternalNamespace}}hash<{{resolveName "C++"}}>()(**get_pointer<{{resolveName this "C++" "ref"}}>(handle));
+{{/if}}{{#if attributes.pointerEquatable}}
+    return {{>common/InternalNamespace}}hash<{{resolveName this "C++" "ref"}}>()(*get_pointer<{{resolveName this "C++" "ref"}}>(handle));
+{{/if}}
+}
+{{/if}}
+
+{{#set selfType=this}}
+{{#functions}}{{#unless attributes.swift.skip}}
+{{>cbridge/CBridgeFunctionDefinition}}
+{{/unless}}{{/functions}}
+{{#properties}}{{#unless attributes.swift.skip}}
+{{#getter}}
+{{>cbridge/CBridgeFunctionDefinition}}
+{{/getter}}
+{{#setter}}
+{{>cbridge/CBridgeFunctionDefinition}}
+{{/setter}}
+{{/unless}}{{/properties}}
+{{/set}}
+
+{{#instanceOf this "LimeInterface"}}
+{{>cbridge/CBridgeCppProxy}}
+{{/instanceOf}}
+
+{{#each classes interfaces}}
+{{>cbridge/CBridgeClassImpl}}
+{{/each}}
+
+{{#structs}}
+{{>cbridge/CBridgeStructImpl}}
+{{/structs}}
+
+{{#lambdas}}
+{{>cbridge/CBridgeLambdaImpl}}
+{{/lambdas}}

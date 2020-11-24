@@ -1,11 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_ErrorsInterface.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/ErrorsInterface.h"
 #include "smoke/Payload.h"
@@ -80,7 +80,7 @@ smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result smoke_ErrorsIn
         return {false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
     }
 }
-class smoke_ErrorsInterfaceProxy : public ::std::shared_ptr< ::smoke::ErrorsInterface >::element_type, public CachedProxyBase<smoke_ErrorsInterfaceProxy> {
+class smoke_ErrorsInterfaceProxy : public ::smoke::ErrorsInterface, public CachedProxyBase<smoke_ErrorsInterfaceProxy> {
 public:
     smoke_ErrorsInterfaceProxy(smoke_ErrorsInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))

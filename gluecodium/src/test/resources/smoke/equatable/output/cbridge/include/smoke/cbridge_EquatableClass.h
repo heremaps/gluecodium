@@ -6,8 +6,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/cbridge_PointerEquatableClass.h"
 #include <stdbool.h>
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT _baseRef smoke_EquatableClass_EquatableStruct_create_handle(int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance);

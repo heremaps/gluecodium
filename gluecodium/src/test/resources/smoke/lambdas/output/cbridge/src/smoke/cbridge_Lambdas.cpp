@@ -1,13 +1,17 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Lambdas.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/Lambdas.h"
+#include <cstdint>
+#include <functional>
 #include <memory>
 #include <new>
 #include <string>

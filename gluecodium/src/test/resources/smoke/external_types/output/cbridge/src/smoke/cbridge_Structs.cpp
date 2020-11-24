@@ -1,15 +1,17 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Structs.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
+#include "gluecodium/VectorHash.h"
 #include "non/Sense.h"
 #include "smoke/Structs.h"
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <string>
@@ -34,6 +36,12 @@ void smoke_Structs_cache_swift_object_wrapper(_baseRef handle, const void* swift
 void smoke_Structs_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Structs >>(handle)->get());
+}
+_baseRef smoke_Structs_getExternalStruct() {
+    return Conversion<::smoke::Structs::ExternalStruct>::toBaseRef(::smoke::Structs::get_external_struct());
+}
+_baseRef smoke_Structs_getAnotherExternalStruct() {
+    return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(::smoke::Structs::get_another_external_struct());
 }
 _baseRef
 smoke_Structs_ExternalStruct_create_handle( _baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField )
@@ -114,10 +122,4 @@ void smoke_Structs_AnotherExternalStruct_release_optional_handle(_baseRef handle
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::fire::SomeVeryExternalStruct>(handle);
     return struct_pointer->intField;
-}
-_baseRef smoke_Structs_getExternalStruct() {
-    return Conversion<::smoke::Structs::ExternalStruct>::toBaseRef(::smoke::Structs::get_external_struct());
-}
-_baseRef smoke_Structs_getAnotherExternalStruct() {
-    return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(::smoke::Structs::get_another_external_struct());
 }

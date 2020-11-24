@@ -1,12 +1,12 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_SkipProxy.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium\Optional.h"
-#include "gluecodium\TypeRepository.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/SkipProxy.h"
 #include <memory>
 #include <new>
@@ -56,16 +56,16 @@ float smoke_SkipProxy_notInDart(_baseRef _instance, float input) {
 _baseRef smoke_SkipProxy_skippedInJava_get(_baseRef _instance) {
     return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::SkipProxy >>(_instance)->get()->get_skipped_in_java());
 }
-void smoke_SkipProxy_skippedInJava_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::SkipProxy >>(_instance)->get()->set_skipped_in_java(Conversion<::std::string>::toCpp(newValue));
+void smoke_SkipProxy_skippedInJava_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::SkipProxy >>(_instance)->get()->set_skipped_in_java(Conversion<::std::string>::toCpp(value));
 }
 float smoke_SkipProxy_skippedInDart_get(_baseRef _instance) {
     return get_pointer<::std::shared_ptr< ::smoke::SkipProxy >>(_instance)->get()->get_skipped_in_dart();
 }
-void smoke_SkipProxy_skippedInDart_set(_baseRef _instance, float newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::SkipProxy >>(_instance)->get()->set_skipped_in_dart(newValue);
+void smoke_SkipProxy_skippedInDart_set(_baseRef _instance, float value) {
+    return get_pointer<::std::shared_ptr< ::smoke::SkipProxy >>(_instance)->get()->set_skipped_in_dart(value);
 }
-class smoke_SkipProxyProxy : public ::std::shared_ptr< ::smoke::SkipProxy >::element_type, public CachedProxyBase<smoke_SkipProxyProxy> {
+class smoke_SkipProxyProxy : public ::smoke::SkipProxy, public CachedProxyBase<smoke_SkipProxyProxy> {
 public:
     smoke_SkipProxyProxy(smoke_SkipProxy_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -91,25 +91,25 @@ public:
         auto _call_result = mFunctions.smoke_SkipProxy_skippedInJava_get(mFunctions.swift_pointer);
         return Conversion<::std::string>::toCppReturn(_call_result);
     }
-    void set_skipped_in_java(const ::std::string& newValue) override {
-        mFunctions.smoke_SkipProxy_skippedInJava_set(mFunctions.swift_pointer, Conversion<::std::string>::toBaseRef(newValue));
+    void set_skipped_in_java(const ::std::string& value) override {
+        mFunctions.smoke_SkipProxy_skippedInJava_set(mFunctions.swift_pointer, Conversion<::std::string>::toBaseRef(value));
     }
     bool is_skipped_in_swift() const override {
         return {};
     }
-    void set_skipped_in_swift(bool newValue) override {
+    void set_skipped_in_swift(bool value) override {
     }
     float get_skipped_in_dart() const override {
         auto _call_result = mFunctions.smoke_SkipProxy_skippedInDart_get(mFunctions.swift_pointer);
         return _call_result;
     }
-    void set_skipped_in_dart(float newValue) override {
-        mFunctions.smoke_SkipProxy_skippedInDart_set(mFunctions.swift_pointer, newValue);
+    void set_skipped_in_dart(float value) override {
+        mFunctions.smoke_SkipProxy_skippedInDart_set(mFunctions.swift_pointer, value);
     }
     ::smoke::SkippedEverywhere get_skipped_everywhere() const override {
         return {};
     }
-    void set_skipped_everywhere(const ::smoke::SkippedEverywhere& newValue) override {
+    void set_skipped_everywhere(const ::smoke::SkippedEverywhere& value) override {
     }
 private:
     smoke_SkipProxy_FunctionTable mFunctions;

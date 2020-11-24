@@ -18,67 +18,65 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>baseApi}}() );
+_baseRef {{resolveName}}_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{resolveName "C++"}}() );
 }
 
-void {{name}}_release_handle(_baseRef handle) {
-    delete get_pointer<{{>baseApi}}>(handle);
+void {{resolveName}}_release_handle(_baseRef handle) {
+    delete get_pointer<{{resolveName "C++"}}>(handle);
 }
 
-void {{name}}_insert(_baseRef handle, {{elementType.functionReturnType}} value) {
-    (*get_pointer<{{>baseApi}}>(handle)).insert(::std::move({{>ConvertToCpp}}));
+void {{resolveName}}_insert(_baseRef handle, {{resolveName elementType}} value) {
+    (*get_pointer<{{resolveName "C++"}}>(handle)).insert(::std::move({{>ConvertToCpp}}));
 }
 
-_baseRef {{name}}_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
+_baseRef {{resolveName}}_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{resolveName "C++"}}::iterator( get_pointer<{{resolveName "C++"}}>(handle)->begin() ) );
 }
 
-void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+void {{resolveName}}_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle );
 }
 
-bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ) != get_pointer<{{>baseApi}}>(handle)->end();
+bool {{resolveName}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle ) != get_pointer<{{resolveName "C++"}}>(handle)->end();
 }
 
-void {{name}}_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+void {{resolveName}}_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle );
 }
 
-{{elementType.functionReturnType}} {{name}}_iterator_get(_baseRef iterator_handle) {
-    auto& value = **reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+{{resolveName elementType}} {{resolveName}}_iterator_get(_baseRef iterator_handle) {
+    auto& value = **reinterpret_cast<{{resolveName "C++"}}::iterator*>( iterator_handle );
     return {{>ConvertFromCpp}};
 }
 
-_baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
+_baseRef {{resolveName}}_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) ) );
 }
 
-void {{name}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{>baseApi}}>*>( handle );
+void {{resolveName}}_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle );
 }
 
-_baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{>baseApi}}>*>( handle ) );
-}
-
-{{!!
-
-}}{{+baseApi}}::std::unordered_set<{{elementType.name}}{{#unless hasStdHash}}, {{>common/InternalNamespace}}hash<{{elementType.name}}>{{/unless}}>{{/baseApi}}{{!!
+_baseRef {{resolveName}}_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle ) );
+}{{!!
 
 }}{{+ConvertToCpp}}{{!!
-}}{{#switch elementType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_SIMPLE"}}value{{/case}}{{!!
-    }}{{#case "ENUM"}}static_cast<{{elementType.name}}>(value){{/case}}{{!!
-    }}{{#default}}Conversion<{{elementType}}>::toCpp(value){{/default}}{{!!
-}}{{/switch}}{{!!
+}}{{#set typeRef=elementType}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName elementType "C++"}}>::toCpp(value){{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}{{!!
+}}static_cast<{{resolveName typeRef "C++"}}>(value){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}value{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}{{!!
 }}{{/ConvertToCpp}}{{!!
 
 }}{{+ConvertFromCpp}}{{!!
-}}{{#switch elementType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_SIMPLE"}}value{{/case}}{{!!
-    }}{{#case "ENUM"}}static_cast<{{elementType.functionReturnType}}>(value){{/case}}{{!!
-    }}{{#default}}Conversion<{{elementType}}>::referenceBaseRef(value){{/default}}{{!!
-}}{{/switch}}{{!!
+}}{{#set typeRef=elementType}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName typeRef "C++"}}>::referenceBaseRef(value){{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "isComplexType"}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}{{!!
+}}static_cast<{{resolveName typeRef}}>(value){{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}value{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/set}}{{!!
 }}{{/ConvertFromCpp}}

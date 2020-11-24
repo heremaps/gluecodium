@@ -6,7 +6,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT void smoke_Lambdas_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Lambdas_copy_handle(_baseRef handle);

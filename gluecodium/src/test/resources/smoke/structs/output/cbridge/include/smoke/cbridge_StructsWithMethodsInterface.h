@@ -6,7 +6,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_ValidationUtils.h"
 #include <stdbool.h>
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_handle(double x, double y, double z);

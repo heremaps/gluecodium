@@ -6,7 +6,6 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
 #include <stdbool.h>
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT void smoke_BasicTypes_release_handle(_baseRef handle);

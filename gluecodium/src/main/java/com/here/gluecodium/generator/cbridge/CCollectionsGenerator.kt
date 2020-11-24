@@ -76,18 +76,17 @@ class CCollectionsGenerator(private val internalNamespace: List<String>) {
     }
 
     companion object {
-        private const val COLLECTIONS_FILE = "GenericCollections"
         private val CBRIDGE_COLLECTIONS_HEADER =
             Paths.get(
                 CBridgeNameRules.CBRIDGE_PUBLIC,
                 CBridgeNameRules.INCLUDE_DIR,
-                "$COLLECTIONS_FILE.h"
+                "GenericCollections.h"
             ).toString()
         private val CBRIDGE_COLLECTIONS_IMPL =
             Paths.get(
                 CBridgeNameRules.CBRIDGE_PUBLIC,
                 CBridgeNameRules.SRC_DIR,
-                "$COLLECTIONS_FILE.cpp"
+                "GenericCollections.cpp"
             ).toString()
     }
 }

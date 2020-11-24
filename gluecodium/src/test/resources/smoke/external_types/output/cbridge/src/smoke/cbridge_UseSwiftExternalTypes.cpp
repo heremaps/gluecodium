@@ -4,8 +4,6 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "smoke/DateInterval.h"
 #include "smoke/Persistence.h"
 #include "smoke/PseudoColor.h"

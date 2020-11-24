@@ -1,11 +1,11 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_OuterClass.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/OuterClass.h"
 #include <memory>
@@ -98,7 +98,7 @@ void* smoke_OuterClass_InnerInterface_get_typed(_baseRef handle) {
 _baseRef smoke_OuterClass_InnerInterface_foo(_baseRef _instance, _baseRef input) {
     return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterClass::InnerInterface >>(_instance)->get()->foo(Conversion<::std::string>::toCpp(input)));
 }
-class smoke_OuterClass_InnerInterfaceProxy : public ::std::shared_ptr< ::smoke::OuterClass::InnerInterface >::element_type, public CachedProxyBase<smoke_OuterClass_InnerInterfaceProxy> {
+class smoke_OuterClass_InnerInterfaceProxy : public ::smoke::OuterClass::InnerInterface, public CachedProxyBase<smoke_OuterClass_InnerInterfaceProxy> {
 public:
     smoke_OuterClass_InnerInterfaceProxy(smoke_OuterClass_InnerInterface_FunctionTable&& functions)
      : mFunctions(::std::move(functions))

@@ -18,13 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-_GLUECODIUM_C_EXPORT _baseRef {{name}}_create_handle();
-_GLUECODIUM_C_EXPORT _baseRef {{name}}_copy_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT uint64_t {{name}}_count(_baseRef handle);
-_GLUECODIUM_C_EXPORT {{innerType}} {{name}}_get(_baseRef handle, uint64_t index);
-_GLUECODIUM_C_EXPORT void {{name}}_append(_baseRef handle, {{argument}} item);
-
-_GLUECODIUM_C_EXPORT _baseRef {{name}}_create_optional_handle();
-_GLUECODIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef {{name}}_unwrap_optional_handle(_baseRef handle);
+{{#if thrownType}}{{resolveName}}_result{{/if}}{{#unless thrownType}}{{resolveName returnType}}{{/unless}} {{!!
+}}{{resolveName}}({{#unless isStatic}}_baseRef _instance{{#if parameters}}, {{/if}}{{/unless}}{{!!
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

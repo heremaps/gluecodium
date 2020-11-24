@@ -1,13 +1,14 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_EquatableClass.h"
+#include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "smoke/EquatableClass.h"
 #include "smoke/PointerEquatableClass.h"
+#include <cstdint>
 #include <memory>
 #include <new>
 #include <string>
@@ -36,7 +37,7 @@ bool smoke_EquatableClass_equal(_baseRef lhs, _baseRef rhs) {
     return **get_pointer<::std::shared_ptr< ::smoke::EquatableClass >>(lhs) == **get_pointer<::std::shared_ptr< ::smoke::EquatableClass >>(rhs);
 }
 uint64_t smoke_EquatableClass_hash(_baseRef handle) {
-    return ::gluecodium::hash<::std::shared_ptr< ::smoke::EquatableClass >::element_type>()(**get_pointer<::std::shared_ptr< ::smoke::EquatableClass >>(handle));
+    return ::gluecodium::hash<::smoke::EquatableClass>()(**get_pointer<::std::shared_ptr< ::smoke::EquatableClass >>(handle));
 }
 _baseRef
 smoke_EquatableClass_EquatableStruct_create_handle( int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance )

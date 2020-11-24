@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
+import com.here.gluecodium.generator.cbridge.CBridgeCollectionNameResolver
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -49,7 +49,7 @@ import com.here.gluecodium.model.swift.SwiftType
 
 class SwiftTypeMapper(
     private val nameResolver: SwiftNameResolver,
-    private val cbridgeNameResolver: CBridgeNameResolver
+    private val cbridgeCollectionNameResolver: CBridgeCollectionNameResolver
 ) {
 
     private val genericsCollector = mutableMapOf<String, SwiftType>()
@@ -117,7 +117,7 @@ class SwiftTypeMapper(
     private fun mapArrayType(limeType: LimeList, collectGenerics: Boolean): SwiftArray {
         val result = SwiftArray(
             mapType(limeType.elementType.type, collectGenerics),
-            cbridgeNameResolver.getCollectionName(limeType)
+            cbridgeCollectionNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeList
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)
@@ -133,7 +133,7 @@ class SwiftTypeMapper(
         val result = SwiftDictionary(
             mapType(limeType.keyType.type, collectGenerics),
             mapType(limeType.valueType.type, collectGenerics),
-            cbridgeNameResolver.getCollectionName(limeType)
+            cbridgeCollectionNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeMap
         val keyTypeKey = getActualTypeKey(actualType.keyType.type)
@@ -149,7 +149,7 @@ class SwiftTypeMapper(
     private fun mapSetType(limeType: LimeSet, collectGenerics: Boolean): SwiftSet {
         val result = SwiftSet(
             mapType(limeType.elementType.type, collectGenerics),
-            cbridgeNameResolver.getCollectionName(limeType)
+            cbridgeCollectionNameResolver.getCollectionName(limeType)
         )
         val actualType = limeType.actualType as LimeSet
         val elementTypeKey = getActualTypeKey(actualType.elementType.type)

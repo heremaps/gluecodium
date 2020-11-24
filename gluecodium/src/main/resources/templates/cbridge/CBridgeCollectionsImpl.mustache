@@ -18,6 +18,21 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cbridge/FunctionReturnType}} {{name}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
+{{>cbridge/CopyrightHeader}}
 
-}}{{+signatureParameter}}{{mappedType.cType}} {{name}}{{/signatureParameter}}
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
+#include <new>
+
+{{#lists}}
+{{>cbridge/ListFunctionImplementations}}
+{{/lists}}
+
+{{#maps}}
+{{>cbridge/MapFunctionImplementations}}
+{{/maps}}
+
+{{#sets}}
+{{>cbridge/SetFunctionImplementations}}
+{{/sets}}

@@ -1,13 +1,11 @@
 //
 //
-#include "cbridge/include/smoke/cbridge_ListenerInterface.h"
 #include "cbridge/include/smoke/cbridge_Weakling.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium\Optional.h"
-#include "gluecodium\TypeRepository.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/ListenerInterface.h"
 #include "smoke/Weakling.h"
 #include <memory>
@@ -51,10 +49,10 @@ void* smoke_Weakling_get_typed(_baseRef handle) {
 _baseRef smoke_Weakling_listener_get(_baseRef _instance) {
     return Conversion<::std::shared_ptr< ::smoke::ListenerInterface >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Weakling >>(_instance)->get()->get_listener());
 }
-void smoke_Weakling_listener_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<::std::shared_ptr< ::smoke::Weakling >>(_instance)->get()->set_listener(Conversion<::std::shared_ptr< ::smoke::ListenerInterface >>::toCpp(newValue));
+void smoke_Weakling_listener_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::Weakling >>(_instance)->get()->set_listener(Conversion<::std::shared_ptr< ::smoke::ListenerInterface >>::toCpp(value));
 }
-class smoke_WeaklingProxy : public ::std::shared_ptr< ::smoke::Weakling >::element_type, public CachedProxyBase<smoke_WeaklingProxy> {
+class smoke_WeaklingProxy : public ::smoke::Weakling, public CachedProxyBase<smoke_WeaklingProxy> {
 public:
     smoke_WeaklingProxy(smoke_Weakling_FunctionTable&& functions)
      : mFunctions(::std::move(functions))
@@ -69,8 +67,8 @@ public:
         auto _call_result = mFunctions.smoke_Weakling_listener_get(mFunctions.swift_pointer);
         return Conversion<::std::shared_ptr< ::smoke::ListenerInterface >>::toCppReturn(_call_result);
     }
-    void set_listener(const ::std::shared_ptr< ::smoke::ListenerInterface >& newValue) override {
-        mFunctions.smoke_Weakling_listener_set(mFunctions.swift_pointer, Conversion<::std::shared_ptr< ::smoke::ListenerInterface >>::toBaseRef(newValue));
+    void set_listener(const ::std::shared_ptr< ::smoke::ListenerInterface >& value) override {
+        mFunctions.smoke_Weakling_listener_set(mFunctions.swift_pointer, Conversion<::std::shared_ptr< ::smoke::ListenerInterface >>::toBaseRef(value));
     }
 private:
     smoke_Weakling_FunctionTable mFunctions;

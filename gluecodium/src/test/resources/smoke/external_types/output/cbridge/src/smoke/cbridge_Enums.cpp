@@ -5,8 +5,6 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "foo/Bar.h"
-#include "gluecodium/Optional.h"
-#include "gluecodium/TypeRepository.h"
 #include "smoke/Enums.h"
 #include <memory>
 #include <new>
