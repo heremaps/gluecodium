@@ -34,25 +34,22 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
  * * Referring to non-enum types from exception types.
  * * Referring to exception types from anywhere but the `throws` clause.
  */
-internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
-    LimeTypeRefsVisitor<Boolean>() {
+internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) : LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
     override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
-        val referredType = limeTypeRef?.type?.let { it.actualType }
+        val referredType = limeTypeRef?.type?.actualType
         return when {
             referredType is LimeTypesCollection -> {
                 logger.error(
                     parentElement,
-                    "refers to `types` container ${referredType.fullName} " +
-                            "which cannot be used as a type itself."
+                    "refers to `types` container ${referredType.fullName} which cannot be used as a type itself."
                 )
                 false
             }
             referredType is LimeException &&
-                (parentElement !is LimeFunction ||
-                    parentElement.thrownType?.typeRef?.type !== referredType) -> {
+                    (parentElement !is LimeFunction || parentElement.thrownType?.typeRef?.type !== referredType) -> {
                 logger.error(
                     parentElement,
                     "refers to an exception type ${referredType.fullName} " +

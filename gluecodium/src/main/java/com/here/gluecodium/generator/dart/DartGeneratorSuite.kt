@@ -24,10 +24,10 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
-import com.here.gluecodium.generator.common.GenericTypesCollector
 import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.generator.common.ReferredTypesCollector
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
@@ -120,9 +120,9 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
-        val genericTypesCollector = GenericTypesCollector({ ffiNameResolver.resolveName(it) }, DART)
-        val genericTypes =
-            genericTypesCollector.getAllGenericTypes(dartFilteredElements.flatMap { LimeTypeHelper.getAllTypes(it) })
+        val collector = ReferredTypesCollector({ ffiNameResolver.resolveName(it) }, DART)
+        val allDeclaredTypes = dartFilteredElements.flatMap { LimeTypeHelper.getAllTypes(it) }
+        val genericTypes = collector.getAllReferredTypes(allDeclaredTypes).filterIsInstance<LimeGenericType>()
 
         val generatedFiles = dartFilteredElements.flatMap {
             listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
