@@ -46,7 +46,7 @@ internal class CBridgeHeaderIncludeResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap) {
 
     fun getHeaderFilePath(limeElement: LimeNamedElement) =
-        CBridgeNameRules.createPath(limeElement, rootNamespace, CBridgeNameRules.INCLUDE_DIR, ".h")
+        CBridgeNameRules.createPath(limeElement, rootNamespace, "include", ".h")
 
     fun resolveIncludes(limeElement: LimeNamedElement): List<Include> =
         when {
