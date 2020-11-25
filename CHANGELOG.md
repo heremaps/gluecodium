@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed compilation issue for Swift function overloads with `@Swift(Name)` platform names.
+  * Fixed compilation issues for "external" interfaces in Dart.
 
 ## 8.6.2
 Release date: 2020-11-19

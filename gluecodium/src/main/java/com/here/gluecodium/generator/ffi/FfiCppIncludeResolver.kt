@@ -42,6 +42,8 @@ internal class FfiCppIncludeResolver(
     internalNamespace: List<String>
 ) {
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, nameRules, internalNamespace)
+    val typeRepositoryInclude
+        get() = cppIncludeResolver.typeRepositoryInclude
 
     fun resolveIncludes(limeElement: LimeElement): List<Include> =
         when (limeElement) {

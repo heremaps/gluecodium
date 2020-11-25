@@ -118,6 +118,7 @@ private:
     const FfiOpaqueHandle p{{iter.position}}s;
 {{/if}}
 {{/unless}}{{/each}}
+{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 
     inline void dispatch(std::function<void()>&& callback) const
     {
@@ -125,6 +126,7 @@ private:
             ? callback()
             : {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
     }
+{{/if}}
 };{{!!
 
 }}{{+ffiReleaseHandle}}{{#if typeRef.isNullable}}delete reinterpret_cast<{{resolveName typeRef "C++"}}*>({{handle}}){{/if}}{{!!

@@ -2,6 +2,7 @@
 #include "ConversionBase.h"
 #include "CallbacksQueue.h"
 #include "ProxyCache.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/EquatableInterface.h"
 #include <memory>
 #include <memory>
@@ -24,12 +25,6 @@ private:
     const uint64_t token;
     const int32_t isolate_id;
     const FfiOpaqueHandle deleter;
-    inline void dispatch(std::function<void()>&& callback) const
-    {
-        gluecodium::ffi::IsolateContext::is_current(isolate_id)
-            ? callback()
-            : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
-    }
 };
 #ifdef __cplusplus
 extern "C" {

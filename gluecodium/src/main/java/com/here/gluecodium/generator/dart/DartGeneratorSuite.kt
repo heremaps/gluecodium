@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.LimeModelFilter
@@ -242,7 +243,12 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             structs.flatMap { it.fields }.map { it.typeRef }.flatMap { includeResolver.resolveIncludes(it) } +
             enums.flatMap { includeResolver.resolveIncludes(it) } +
             resolveThrownTypeIncludes(types) + resolveProxyIncludes(types) +
-            if (functions.isNotEmpty()) listOf(Include.createInternalInclude("IsolateContext.h")) else emptyList()
+            listOfNotNull(
+                isolateContextInclude.takeIf { functions.isNotEmpty() },
+                includeResolver.typeRepositoryInclude.takeIf {
+                    containers.any { CommonGeneratorPredicates.hasTypeRepository(it) }
+                }
+            )
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
@@ -463,6 +469,8 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         private const val SRC_DIR_SUFFIX = "src"
         private const val FFI_DIR = "$ROOT_DIR/ffi"
         private const val OPAQUE_HANDLE_TYPE = "void*"
+
+        private val isolateContextInclude = Include.createInternalInclude("IsolateContext.h")
 
         private val predicates = mapOf(
             "skipDeclaration" to { limeType: Any ->
