@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.6.3
+Release date: 2020-11-25
 ### Bug fixes:
   * Fixed compilation issue for Swift function overloads with `@Swift(Name)` platform names.
   * Fixed compilation issues for "external" interfaces in Dart.
