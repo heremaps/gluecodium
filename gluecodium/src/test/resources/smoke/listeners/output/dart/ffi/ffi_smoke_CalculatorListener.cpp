@@ -3,6 +3,7 @@
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
+#include "gluecodium/TypeRepository.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/CalculatorListener.h"

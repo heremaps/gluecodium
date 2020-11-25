@@ -1,6 +1,7 @@
 #include "ffi_smoke_Constructors.h"
 #include "ConversionBase.h"
 #include "IsolateContext.h"
+#include "gluecodium/TypeRepository.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Constructors.h"
 #include <cstdint>

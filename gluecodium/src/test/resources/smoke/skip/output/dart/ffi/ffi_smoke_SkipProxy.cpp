@@ -3,6 +3,7 @@
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
+#include "gluecodium/TypeRepository.h"
 #include "smoke/SkipProxy.h"
 #include "smoke/SkippedEverywhere.h"
 #include <memory>

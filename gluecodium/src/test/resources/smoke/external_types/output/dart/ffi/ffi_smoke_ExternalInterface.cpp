@@ -4,6 +4,7 @@
 #include "IsolateContext.h"
 #include "ProxyCache.h"
 #include "foo/Bar.h"
+#include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <memory>
 #include <string>

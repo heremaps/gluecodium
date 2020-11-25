@@ -137,3 +137,10 @@ types ExternalTypeInTypesCollection {
         int_field: Int
     }
 }
+
+interface ExternalWithNoFunctions {
+    external {
+        cpp include "some/path/Bar.h"
+        cpp name "::some::path::Bar"
+    }
+}
