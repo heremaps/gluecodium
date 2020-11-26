@@ -42,7 +42,6 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
-import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CBridgeNameResolver(
@@ -66,12 +65,7 @@ internal class CBridgeNameResolver(
             is LimeFunction -> resolveFunctionName(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
             is LimeTypeRef -> resolveTypeRef(element)
-
-            // TODO: review and remove after all tests are passing
-            is TypeId -> resolveBasicType(element)
-            is LimeTypeAlias -> resolveName(element.typeRef)
             is LimeNamedElement -> swiftNameRules.getName(element)
-            is LinkedHashMap<*, *> -> "" // TODO: remove
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
