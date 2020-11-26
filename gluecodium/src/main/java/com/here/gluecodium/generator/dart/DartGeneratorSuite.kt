@@ -22,8 +22,8 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.LimeModelFilter
