@@ -127,3 +127,10 @@ class JavaMethodOverloads {
     @Java("three")
     fun two(input: List<String>)
 }
+
+@Java(Skip) @Swift(Skip)
+interface SpecialNamesInterface {
+    lambda Callback = () -> Void
+    @Cpp(Const)
+    fun dispatch(callback: Callback)
+}
