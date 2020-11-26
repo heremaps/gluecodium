@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.6.4
+Release date: 2020-11-26
+### Bug fixes:
+  * Fixed compilation issue for generic types in Dart.
+
 ## 8.6.3
 Release date: 2020-11-25
 ### Bug fixes:
