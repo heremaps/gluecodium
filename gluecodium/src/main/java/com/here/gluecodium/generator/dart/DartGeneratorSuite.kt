@@ -23,9 +23,9 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
-import com.here.gluecodium.generator.common.GenericTypesCollector
 import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
@@ -52,13 +52,17 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
@@ -121,9 +125,11 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
-        val genericTypesCollector = GenericTypesCollector({ ffiNameResolver.resolveName(it) }, DART)
-        val genericTypes =
-            genericTypesCollector.getAllGenericTypes(dartFilteredElements.flatMap { LimeTypeHelper.getAllTypes(it) })
+        val genericTypes = TypeRefsCollector.getAllTypeRefs(limeModel)
+            .map { it.type }
+            .filterIsInstance<LimeGenericType>()
+            .distinctBy { ffiNameResolver.resolveName(it) }
+            .sortedBy { ffiNameResolver.resolveName(it) }
 
         val generatedFiles = dartFilteredElements.flatMap {
             listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
@@ -459,6 +465,35 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         limeFunction.parameters.map { it.typeRef } +
             limeFunction.returnType.typeRef +
             listOfNotNull(limeFunction.exception?.errorType)
+
+    private object TypeRefsCollector : LimeTypeRefsVisitor<List<LimeTypeRef>>() {
+        override fun visitTypeRef(
+            parentElement: LimeNamedElement,
+            limeTypeRef: LimeTypeRef?
+        ): List<LimeTypeRef> =
+            listOfNotNull(limeTypeRef) + when (val limeType = limeTypeRef?.type?.actualType) {
+                is LimeList -> visitTypeRef(parentElement, limeType.elementType)
+                is LimeSet -> visitTypeRef(parentElement, limeType.elementType)
+                is LimeMap -> visitTypeRef(parentElement, limeType.keyType) +
+                        visitTypeRef(parentElement, limeType.valueType)
+                else -> emptyList()
+            }
+
+        fun getAllTypeRefs(limeModel: LimeModel): List<LimeTypeRef> {
+            val allElements = limeModel.referenceMap.values
+                .filterIsInstance<LimeNamedElement>()
+                .filterNot { isSkipped(it, limeModel) }
+            return traverseModel(allElements).flatten()
+        }
+
+        private fun isSkipped(element: LimeNamedElement, limeModel: LimeModel) =
+            generateSequence(element) {
+                when {
+                    it.path.hasParent -> limeModel.referenceMap[it.path.parent.toString()] as? LimeNamedElement
+                    else -> null
+                }
+            }.any { it.attributes.have(DART, SKIP) }
+        }
 
     companion object {
         const val GENERATOR_NAME = "dart"
