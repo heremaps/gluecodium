@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.Cpp2NameResolver
@@ -27,7 +28,6 @@ import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
-import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration

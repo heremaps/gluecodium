@@ -20,9 +20,9 @@
 package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
-import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType

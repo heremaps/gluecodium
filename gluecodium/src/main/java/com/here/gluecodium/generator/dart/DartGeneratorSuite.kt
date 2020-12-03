@@ -27,6 +27,7 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
@@ -39,7 +40,6 @@ import com.here.gluecodium.generator.ffi.FfiCppNameResolver
 import com.here.gluecodium.generator.ffi.FfiCppParameterTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
-import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType

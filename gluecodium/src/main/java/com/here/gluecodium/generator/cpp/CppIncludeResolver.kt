@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.cpp
 
-import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -45,7 +45,8 @@ class CppIncludeResolver(
             when {
                 externalType != null ->
                     externalType.split(',').map { Include.createInternalInclude(it.trim()) }
-                !limeNamedElement.path.hasParent -> listOf(Include.createInternalInclude(
+                !limeNamedElement.path.hasParent -> listOf(
+                    Include.createInternalInclude(
                     nameRules.getOutputFilePath(limeNamedElement) + ".h"
                 ))
                 else -> {
