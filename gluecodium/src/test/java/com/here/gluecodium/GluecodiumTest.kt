@@ -23,10 +23,10 @@ import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.cache.CachingStrategy
 import com.here.gluecodium.cache.CachingStrategyCreator
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.output.FileOutput
-import com.here.gluecodium.platform.common.GeneratorSuite
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

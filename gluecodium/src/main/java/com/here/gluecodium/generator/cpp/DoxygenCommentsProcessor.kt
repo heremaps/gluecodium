@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.cpp
 
-import com.here.gluecodium.platform.common.CommentsProcessor
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl

@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
@@ -48,7 +49,6 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
-import com.here.gluecodium.platform.common.CommentsProcessor
 
 internal class JavaNameResolver(
     limeReferenceMap: Map<String, LimeElement>,

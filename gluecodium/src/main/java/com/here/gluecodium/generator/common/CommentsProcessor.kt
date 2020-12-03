@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.common
+package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.common.LimeLogger
 import com.vladsch.flexmark.ast.AutoLink

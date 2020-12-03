@@ -22,7 +22,7 @@ package com.here.gluecodium.cache
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.MAIN
-import com.here.gluecodium.platform.common.GeneratorSuite
+import com.here.gluecodium.generator.common.GeneratorSuite
 import java.io.File
 
 /**
