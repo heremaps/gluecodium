@@ -17,11 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.common
+package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.cpp.CppGeneratorSuite
 import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.java.JavaGeneratorSuite

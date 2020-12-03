@@ -24,6 +24,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -44,7 +45,6 @@ import com.here.gluecodium.model.swift.SwiftMethod
 import com.here.gluecodium.model.swift.SwiftModelElement
 import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.model.swift.SwiftType
-import com.here.gluecodium.platform.common.GeneratorSuite
 import java.util.logging.Logger
 
 /**

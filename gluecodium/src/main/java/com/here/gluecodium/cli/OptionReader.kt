@@ -20,7 +20,7 @@
 package com.here.gluecodium.cli
 
 import com.here.gluecodium.Gluecodium
-import com.here.gluecodium.platform.common.GeneratorSuite
+import com.here.gluecodium.generator.common.GeneratorSuite
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.Key

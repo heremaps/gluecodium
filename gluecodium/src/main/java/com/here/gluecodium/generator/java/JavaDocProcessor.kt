@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.platform.common.CommentsProcessor
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl

@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.lime
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -43,7 +44,6 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeTypesCollection
-import com.here.gluecodium.platform.common.GeneratorSuite
 
 class LimeGeneratorSuite : GeneratorSuite {
 
