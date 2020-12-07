@@ -25,8 +25,8 @@ import com.here.gluecodium.generator.cpp.CppGeneratorSuite
 import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.java.JavaGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
+import com.here.gluecodium.generator.swift.SwiftGeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
-import com.here.gluecodium.platform.swift.SwiftGeneratorSuite
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset

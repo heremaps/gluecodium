@@ -48,7 +48,7 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class SwiftTypeMapperTest {
-    @MockK private lateinit var nameResolver: SwiftNameResolver
+    @MockK private lateinit var nameResolver: SwiftNestedNamesResolver
 
     private lateinit var typeMapper: SwiftTypeMapper
 

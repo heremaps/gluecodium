@@ -79,7 +79,7 @@ class SwiftModelBuilder(
     contextStack: ModelBuilderContextStack<SwiftModelElement> = ModelBuilderContextStack(),
     private val limeReferenceMap: Map<String, LimeElement>,
     private val signatureResolver: LimeSignatureResolver,
-    private val nameResolver: SwiftNameResolver,
+    private val nameResolver: SwiftNestedNamesResolver,
     private val typeMapper: SwiftTypeMapper,
     private val nameRules: SwiftNameRules,
     private val buildTransientModel: (LimeNamedElement) -> List<SwiftFile>

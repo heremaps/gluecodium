@@ -22,6 +22,7 @@ package com.here.gluecodium.platform.swift
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.swift.SwiftGenerator
+import com.here.gluecodium.generator.swift.SwiftGeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
 import org.junit.Assert.assertTrue
 import org.junit.Test

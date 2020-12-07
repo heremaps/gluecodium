@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.swift
+package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
@@ -30,10 +30,6 @@ import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.generator.swift.SwiftGenerator
-import com.here.gluecodium.generator.swift.SwiftModel
-import com.here.gluecodium.generator.swift.SwiftNameRules
-import com.here.gluecodium.generator.swift.SwiftWeakPropertiesValidator
 import com.here.gluecodium.model.common.Comments
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP

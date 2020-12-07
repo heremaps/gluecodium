@@ -39,7 +39,7 @@ class SwiftGenerator(
     val genericsGenerator = SwiftGenericsGenerator(internalPrefix)
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
     private val signatureResolver = SwiftSignatureResolver(limeReferenceMap, nameRules)
-    private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)
+    private val nameResolver = SwiftNestedNamesResolver(limeReferenceMap, nameRules)
     private val cBridgeNameResolver = CBridgeCollectionNameResolver(internalPrefix ?: "")
 
     fun generateModel(rootElement: LimeNamedElement): SwiftModel {
