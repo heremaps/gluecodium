@@ -23,7 +23,6 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.Cpp2NameResolver
-import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
@@ -54,8 +53,8 @@ internal class JniTemplates(
         "" to jniNameResolver,
         "signature" to JniTypeSignatureNameResolver(jniNameResolver),
         "mangled" to JniMangledNameResolver(jniNameResolver),
-        "C++" to cppNameResolver,
-        "C++ FQN" to CppFullNameResolver(cachingNameResolver)
+        "C++" to JniCppNameResolver(cppNameResolver),
+        "C++ FQN" to JniFullNameResolver(cachingNameResolver)
     )
     private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver).predicates
 

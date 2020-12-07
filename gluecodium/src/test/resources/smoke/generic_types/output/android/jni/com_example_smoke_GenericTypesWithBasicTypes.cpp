@@ -56,9 +56,9 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSet(JNIEnv* _jenv, j
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::smoke::GenericTypesWithBasicTypes::BasicList input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::std::vector< ::std::string > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::GenericTypesWithBasicTypes::BasicList*)nullptr);
+            (::std::vector< ::std::string >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
@@ -71,9 +71,9 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(JNIEnv
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::smoke::GenericTypesWithBasicTypes::BasicMap input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::std::unordered_map< ::std::string, ::std::string > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::GenericTypesWithBasicTypes::BasicMap*)nullptr);
+            (::std::unordered_map< ::std::string, ::std::string >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
@@ -86,9 +86,9 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(JNIEnv*
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::smoke::GenericTypesWithBasicTypes::BasicSet input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::std::unordered_set< ::std::string > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::GenericTypesWithBasicTypes::BasicSet*)nullptr);
+            (::std::unordered_set< ::std::string >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithBasicTypes>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,

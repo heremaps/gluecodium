@@ -42,20 +42,20 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
         ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "enumField", "Lcom/example/smoke/Nullable$SomeEnum;"),
         (::gluecodium::optional< ::smoke::Nullable::SomeEnum >*)nullptr );
     _nout.enum_field = n_enum_field;
-    ::gluecodium::optional< ::smoke::Nullable::SomeArray > n_array_field = convert_from_jni(
+    ::gluecodium::optional< ::std::vector< ::std::string > > n_array_field = convert_from_jni(
         _jenv,
         ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "arrayField", "Ljava/util/List;"),
-        (::gluecodium::optional< ::smoke::Nullable::SomeArray >*)nullptr );
+        (::gluecodium::optional< ::std::vector< ::std::string > >*)nullptr );
     _nout.array_field = n_array_field;
     ::gluecodium::optional< ::std::vector< ::std::string > > n_inline_array_field = convert_from_jni(
         _jenv,
         ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "inlineArrayField", "Ljava/util/List;"),
         (::gluecodium::optional< ::std::vector< ::std::string > >*)nullptr );
     _nout.inline_array_field = n_inline_array_field;
-    ::gluecodium::optional< ::smoke::Nullable::SomeMap > n_map_field = convert_from_jni(
+    ::gluecodium::optional< ::std::unordered_map< int64_t, ::std::string > > n_map_field = convert_from_jni(
         _jenv,
         ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "mapField", "Ljava/util/Map;"),
-        (::gluecodium::optional< ::smoke::Nullable::SomeMap >*)nullptr );
+        (::gluecodium::optional< ::std::unordered_map< int64_t, ::std::string > >*)nullptr );
     _nout.map_field = n_map_field;
     ::std::shared_ptr< ::smoke::SomeInterface > n_instance_field = convert_from_jni(
         _jenv,

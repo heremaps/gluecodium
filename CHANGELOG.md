@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue in JNI for type aliases in combination with "external" types.
+
 ## 8.6.4
 Release date: 2020-11-26
 ### Bug fixes:

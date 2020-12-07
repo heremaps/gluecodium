@@ -145,7 +145,7 @@ com_example_smoke_ListenerWithPropertiesImpl_CppProxy::set_arrayed_message( cons
             "See the log for more information about the exception (including Java stack trace)." );
     }
 }
-::smoke::ListenerWithProperties::StringToDouble
+::std::unordered_map< ::std::string, double >
 com_example_smoke_ListenerWithPropertiesImpl_CppProxy::get_mapped_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "getMappedMessage", "()Ljava/util/Map;", jniEnv  );
@@ -156,10 +156,10 @@ com_example_smoke_ListenerWithPropertiesImpl_CppProxy::get_mapped_message(  ) co
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenerWithProperties::StringToDouble*)nullptr );
+    return convert_from_jni( jniEnv, result, (::std::unordered_map< ::std::string, double >*)nullptr );
 }
 void
-com_example_smoke_ListenerWithPropertiesImpl_CppProxy::set_mapped_message( const ::smoke::ListenerWithProperties::StringToDouble& nvalue ) {
+com_example_smoke_ListenerWithPropertiesImpl_CppProxy::set_mapped_message( const ::std::unordered_map< ::std::string, double >& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jvalue = convert_to_jni( jniEnv, nvalue );
     callJavaMethod<void>( "setMappedMessage", "(Ljava/util/Map;)V", jniEnv , jvalue);

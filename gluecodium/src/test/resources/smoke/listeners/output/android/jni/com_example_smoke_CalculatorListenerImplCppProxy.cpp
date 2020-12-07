@@ -67,7 +67,7 @@ com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_array( 
     }
 }
 void
-com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_map( const ::smoke::CalculatorListener::NamedCalculationResults& ncalculationResults ) {
+com_example_smoke_CalculatorListenerImpl_CppProxy::on_calculation_result_map( const ::std::unordered_map< ::std::string, double >& ncalculationResults ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jcalculationResults = convert_to_jni( jniEnv, ncalculationResults );
     callJavaMethod<void>( "onCalculationResultMap", "(Ljava/util/Map;)V", jniEnv , jcalculationResults);

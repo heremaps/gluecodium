@@ -104,9 +104,9 @@ Java_com_example_smoke_Nullable_methodWithSomeEnum(JNIEnv* _jenv, jobject _jinst
 jobject
 Java_com_example_smoke_Nullable_methodWithSomeArray(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::gluecodium::optional< ::smoke::Nullable::SomeArray > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::vector< ::std::string > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::gluecodium::optional< ::smoke::Nullable::SomeArray >*)nullptr);
+            (::gluecodium::optional< ::std::vector< ::std::string > >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
@@ -134,9 +134,9 @@ Java_com_example_smoke_Nullable_methodWithInlineArray(JNIEnv* _jenv, jobject _ji
 jobject
 Java_com_example_smoke_Nullable_methodWithSomeMap(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::gluecodium::optional< ::smoke::Nullable::SomeMap > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::unordered_map< int64_t, ::std::string > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::gluecodium::optional< ::smoke::Nullable::SomeMap >*)nullptr);
+            (::gluecodium::optional< ::std::unordered_map< int64_t, ::std::string > >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
@@ -332,9 +332,9 @@ Java_com_example_smoke_Nullable_getArrayProperty(JNIEnv* _jenv, jobject _jinstan
 void
 Java_com_example_smoke_Nullable_setArrayProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
 {
-    ::gluecodium::optional< ::smoke::Nullable::SomeArray > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::vector< ::std::string > > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::gluecodium::optional< ::smoke::Nullable::SomeArray >*)nullptr);
+            (::gluecodium::optional< ::std::vector< ::std::string > >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
@@ -384,9 +384,9 @@ Java_com_example_smoke_Nullable_getMapProperty(JNIEnv* _jenv, jobject _jinstance
 void
 Java_com_example_smoke_Nullable_setMapProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
 {
-    ::gluecodium::optional< ::smoke::Nullable::SomeMap > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::unordered_map< int64_t, ::std::string > > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::gluecodium::optional< ::smoke::Nullable::SomeMap >*)nullptr);
+            (::gluecodium::optional< ::std::unordered_map< int64_t, ::std::string > >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,

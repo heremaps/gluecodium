@@ -80,7 +80,7 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_array(  ) {
     }
     return convert_from_jni( jniEnv, result, (::std::vector< double >*)nullptr );
 }
-::smoke::ListenersWithReturnValues::StringToDouble
+::std::unordered_map< ::std::string, double >
 com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_map(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "fetchDataMap", "()Ljava/util/Map;", jniEnv  );
@@ -91,7 +91,7 @@ com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_map(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::StringToDouble*)nullptr );
+    return convert_from_jni( jniEnv, result, (::std::unordered_map< ::std::string, double >*)nullptr );
 }
 ::std::shared_ptr< ::smoke::CalculationResult >
 com_example_smoke_ListenersWithReturnValuesImpl_CppProxy::fetch_data_instance(  ) {

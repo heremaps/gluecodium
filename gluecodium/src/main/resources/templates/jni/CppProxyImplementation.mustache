@@ -92,12 +92,12 @@ namespace jni
         auto nErrorValue = convert_from_jni(
             jniEnv,
             jErrorValue,
-            ({{resolveName exception.errorType "C++ FQN"}}*)nullptr );
+            ({{resolveName exception.errorType "C++"}}*)nullptr );
 
 {{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}
         return ::std::error_code{nErrorValue};
 {{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}
-        return {{resolveName exception.errorType "C++ FQN"}}{nErrorValue};
+        return {{resolveName exception.errorType "C++"}}{nErrorValue};
 {{/notInstanceOf}}
     }
     else
