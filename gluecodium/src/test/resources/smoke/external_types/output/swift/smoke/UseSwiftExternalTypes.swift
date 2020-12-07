@@ -2,6 +2,7 @@
 //
 import Foundation
 import Foundation
+import UIKit
 public class UseSwiftExternalTypes {
     let c_instance : _baseRef
     init(cUseSwiftExternalTypes: _baseRef) {
@@ -22,7 +23,7 @@ public class UseSwiftExternalTypes {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_UseSwiftExternalTypes_persistenceRoundTrip(c_input.ref))
     }
-    public static func colorRoundTrip(input: PseudoColor) -> PseudoColor {
+    public static func colorRoundTrip(input: UIColor) -> UIColor {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_UseSwiftExternalTypes_colorRoundTrip(c_input.ref))
     }
