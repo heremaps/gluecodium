@@ -30,7 +30,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 
-class SwiftNameResolver(
+class SwiftNestedNamesResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: SwiftNameRules
 ) {

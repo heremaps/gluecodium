@@ -48,7 +48,7 @@ import com.here.gluecodium.model.swift.SwiftStruct
 import com.here.gluecodium.model.swift.SwiftType
 
 class SwiftTypeMapper(
-    private val nameResolver: SwiftNameResolver,
+    private val nameResolver: SwiftNestedNamesResolver,
     private val cbridgeCollectionNameResolver: CBridgeCollectionNameResolver
 ) {
 

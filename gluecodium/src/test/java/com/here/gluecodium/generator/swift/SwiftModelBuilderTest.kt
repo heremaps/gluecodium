@@ -81,7 +81,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class SwiftModelBuilderTest {
     @MockK private lateinit var signatureResolver: LimeSignatureResolver
-    @MockK private lateinit var nameResolver: SwiftNameResolver
+    @MockK private lateinit var nameResolver: SwiftNestedNamesResolver
     @MockK private lateinit var typeMapper: SwiftTypeMapper
 
     private val swiftType = SwiftType("", "")

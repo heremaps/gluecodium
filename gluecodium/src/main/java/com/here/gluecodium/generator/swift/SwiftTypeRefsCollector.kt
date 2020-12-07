@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.platform.swift
+package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.model.swift.SwiftArray
 import com.here.gluecodium.model.swift.SwiftClass

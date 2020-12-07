@@ -25,7 +25,6 @@ import com.here.gluecodium.model.swift.SwiftArray
 import com.here.gluecodium.model.swift.SwiftDictionary
 import com.here.gluecodium.model.swift.SwiftSet
 import com.here.gluecodium.model.swift.SwiftType
-import com.here.gluecodium.platform.swift.SwiftTypeRefsCollector
 import java.util.TreeMap
 
 class SwiftGenericsGenerator(private val internalPrefix: String?) {
