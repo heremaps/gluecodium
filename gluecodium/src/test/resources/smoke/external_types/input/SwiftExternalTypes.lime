@@ -38,11 +38,12 @@ enum Persistence {
     permanent
 }
 
+@Swift("UIColor")
 @Java(Skip) @Dart(Skip)
 @Equatable
 struct PseudoColor {
     external {
-        swift framework ""
+        swift framework "UIKit"
         swift converter "ColorConverter"
     }
 
