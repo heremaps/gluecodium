@@ -25,8 +25,10 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 
-class SwiftSignatureResolver(val limeReferenceMap: Map<String, LimeElement>, val nameRules: SwiftNameRules) :
-    LimeSignatureResolver(limeReferenceMap) {
+internal class SwiftSignatureResolver(
+    limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: SwiftNameRules
+) : LimeSignatureResolver(limeReferenceMap) {
 
     override fun getFunctionName(limeFunction: LimeFunction) =
         limeFunction.attributes.get(LimeAttributeType.SWIFT, LimeAttributeValueType.NAME, String::class.java)

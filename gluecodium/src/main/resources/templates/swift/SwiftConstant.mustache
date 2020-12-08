@@ -18,47 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-//
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-//
-
-import Foundation
-{{#imports}}
-import {{this}}
-{{/imports}}
-
-{{#model}}
-{{#classes}}
-{{>swift/ClassDefinition}}
-
-{{>swift/ClassConversion}}
-{{/classes}}{{!!
-
-}}{{#typeDefs}}
-{{>swift/Typedefs}}
-{{/typeDefs}}{{!!
-
-}}{{#closures}}
-{{>swift/Closure}}
-{{>swift/ClosureConversion}}
-{{/closures}}{{!!
-
-}}{{#allErrors}}
-extension {{type.publicName}} : Error {
-}
-{{/allErrors}}{{!!
-
-}}{{#enums}}
-{{>swift/Enum}}
-{{>swift/EnumConversion}}
-{{/enums}}{{!!
-
-}}{{#structs}}
-{{>swift/Struct}}
-{{>swift/StructConversion}}
-{{/structs}}{{!!
-
-}}{{#extensions}}
-{{>swift/Extension}}
-{{/extensions}}
-{{/model}}
+{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{resolveName visibility}} static let {{resolveName}}: {{resolveName typeRef}} = {{resolveName value}}

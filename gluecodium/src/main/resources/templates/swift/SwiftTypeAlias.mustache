@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isConstructor}}{{>swift/MethodComment}}{{>swift/SwiftAttributes}}{{/unless}}
-{{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{#visibilityPrefix}}{{.}} {{/visibilityPrefix}}{{/unless}}{{!!
-}}{{#isStatic}}static {{/isStatic}}func {{name}}({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}
+{{#unlessPredicate "skipTypeAlias"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unless isInterface}}{{resolveName visibility}} {{/unless}}typealias {{resolveName}} = {{!!
+}}{{#if errorType}}{{resolveName errorType}}{{/if}}{{#unless errorType}}{{resolveName typeRef}}{{/unless}}{{/unlessPredicate}}

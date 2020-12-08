@@ -12,8 +12,8 @@ internal class _ChildInterface: ChildInterface {
             return moveFromCType(smoke_ParentInterface_rootProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -68,9 +68,9 @@ internal func getRef(_ ref: ChildInterface?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ChildInterface
         return copyToCType(swift_class.rootProperty).ref
     }
-    functions.smoke_ParentInterface_rootProperty_set = {(swift_class_pointer, newValue) in
+    functions.smoke_ParentInterface_rootProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ChildInterface
-        swift_class.rootProperty = moveFromCType(newValue)
+        swift_class.rootProperty = moveFromCType(value)
     }
     let proxy = smoke_ChildInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ChildInterface_release_handle) : RefHolder(proxy)

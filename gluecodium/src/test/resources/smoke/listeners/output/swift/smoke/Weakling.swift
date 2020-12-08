@@ -10,8 +10,8 @@ internal class _Weakling: Weakling {
             return ListenerInterface_moveFromCType(smoke_Weakling_listener_get(self.c_instance))
         }
         set {
-            let c_newValue = weakToCType(newValue)
-            return moveFromCType(smoke_Weakling_listener_set(self.c_instance, c_newValue.ref))
+            let c_value = weakToCType(newValue)
+            return moveFromCType(smoke_Weakling_listener_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -52,9 +52,9 @@ internal func getRef(_ ref: Weakling?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Weakling
         return copyToCType(swift_class.listener).ref
     }
-    functions.smoke_Weakling_listener_set = {(swift_class_pointer, newValue) in
+    functions.smoke_Weakling_listener_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Weakling
-        swift_class.listener = ListenerInterface_moveFromCType(newValue)
+        swift_class.listener = ListenerInterface_moveFromCType(value)
     }
     let proxy = smoke_Weakling_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_Weakling_release_handle) : RefHolder(proxy)

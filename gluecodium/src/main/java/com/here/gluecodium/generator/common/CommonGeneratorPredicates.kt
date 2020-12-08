@@ -21,7 +21,9 @@ package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeHelper
 
@@ -29,6 +31,22 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
  * Predicates used by `ifPredicate`/`unlessPredicate` template helpers in several generators.
  */
 internal object CommonGeneratorPredicates {
+    fun hasAnyComment(limeElement: Any, platformTag: String) =
+        when (limeElement) {
+            is LimeFunction -> limeElement.run {
+                comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
+                        returnType.comment.getFor(platformTag).isNotBlank() ||
+                        (thrownType?.comment?.getFor(platformTag)?.isEmpty() == false) ||
+                        attributes.have(LimeAttributeType.DEPRECATED) ||
+                        parameters.any { it.comment.getFor(platformTag).isNotBlank() }
+            }
+            is LimeNamedElement -> limeElement.run {
+                comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
+                        attributes.have(LimeAttributeType.DEPRECATED)
+            }
+            else -> false
+        }
+
     fun hasImmutableFields(limeStruct: Any) =
         when {
             limeStruct !is LimeStruct -> false

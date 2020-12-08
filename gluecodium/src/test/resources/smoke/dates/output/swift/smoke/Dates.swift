@@ -10,8 +10,8 @@ public class Dates {
             return moveFromCType(smoke_Dates_dateProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Dates_dateProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Dates_dateProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef

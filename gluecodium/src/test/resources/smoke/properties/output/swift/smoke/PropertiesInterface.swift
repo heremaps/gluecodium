@@ -10,8 +10,8 @@ internal class _PropertiesInterface: PropertiesInterface {
             return moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -24,6 +24,15 @@ internal class _PropertiesInterface: PropertiesInterface {
     deinit {
         smoke_PropertiesInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_PropertiesInterface_release_handle(c_instance)
+    }
+}
+public struct ExampleStruct {
+    public var value: Double
+    public init(value: Double) {
+        self.value = value
+    }
+    internal init(cHandle: _baseRef) {
+        value = moveFromCType(smoke_PropertiesInterface_ExampleStruct_value_get(cHandle))
     }
 }
 @_cdecl("_CBridgeInitsmoke_PropertiesInterface")
@@ -52,9 +61,9 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! PropertiesInterface
         return copyToCType(swift_class.structProperty).ref
     }
-    functions.smoke_PropertiesInterface_structProperty_set = {(swift_class_pointer, newValue) in
+    functions.smoke_PropertiesInterface_structProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! PropertiesInterface
-        swift_class.structProperty = moveFromCType(newValue)
+        swift_class.structProperty = moveFromCType(value)
     }
     let proxy = smoke_PropertiesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PropertiesInterface_release_handle) : RefHolder(proxy)
@@ -119,15 +128,6 @@ internal func copyToCType(_ swiftClass: PropertiesInterface?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: PropertiesInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
-}
-public struct ExampleStruct {
-    public var value: Double
-    public init(value: Double) {
-        self.value = value
-    }
-    internal init(cHandle: _baseRef) {
-        value = moveFromCType(smoke_PropertiesInterface_ExampleStruct_value_get(cHandle))
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ExampleStruct {
     return ExampleStruct(cHandle: handle)

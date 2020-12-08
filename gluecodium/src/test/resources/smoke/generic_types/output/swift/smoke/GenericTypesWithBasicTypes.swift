@@ -10,8 +10,8 @@ public class GenericTypesWithBasicTypes {
             return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = foobar_moveToCType(newValue)
+            return moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var mapProperty: [Float: Double] {
@@ -19,8 +19,8 @@ public class GenericTypesWithBasicTypes {
             return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = foobar_moveToCType(newValue)
+            return moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var setProperty: Set<Float> {
@@ -28,8 +28,8 @@ public class GenericTypesWithBasicTypes {
             return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = foobar_moveToCType(newValue)
+            return moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef

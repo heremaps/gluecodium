@@ -18,28 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-extension {{name}} {
-{{#constants}}
-{{prefixPartial "swift/Constant" "    "}}
-{{/constants}}
-
-{{#typeAliases}}
-{{prefixPartial "swift/Typedefs" "    "}}
-{{/typeAliases}}
-
-{{#enums}}
-{{prefixPartial "swift/Enum" "    "}}
-{{/enums}}
-
-{{#structs}}
-{{prefixPartial "swift/Struct" "    "}}
-{{/structs}}
-}
-
-{{#enums}}
-{{>swift/EnumConversion}}
-{{/enums}}
-
-{{#structs}}
-{{>swift/StructConversion}}
-{{/structs}}
+{{#unless isConstructor}}{{>swift/SwiftFunctionComment}}{{>swift/SwiftAttributes}}{{/unless}}
+{{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{resolveName visibility}} {{/unless}}{{!!
+}}{{#if isStatic}}static {{/if}}func {{resolveName}}({{>swift/SwiftFunctionParameters}}){{!!
+}}{{#if thrownType}} throws{{/if}} -> {{#unless isConstructor}}{{resolveName returnType}}{{/unless}}{{#if isConstructor}}_baseRef{{/if}}

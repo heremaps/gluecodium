@@ -463,64 +463,6 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: GenericTypesWithCompoundTy
 internal func foobar_moveToCType(_ swiftType: [Int32: GenericTypesWithCompoundTypes.SomeEnum]?) -> RefHolder {
     return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_optional_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]] {
-    var swiftDict: [Int32: [Int32: Bool]] = [:]
-    let iterator_handle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator(handle)
-    while foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_is_valid(handle, iterator_handle) {
-        swiftDict[moveFromCType(foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_key(iterator_handle))] =
-            foobar_moveFromCType(foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_value(iterator_handle)) as [Int32: Bool]
-        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_increment(iterator_handle)
-    }
-    foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_release_handle(iterator_handle)
-    return swiftDict
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]] {
-    defer {
-        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyToCType(_ swiftDict: [Int32: [Int32: Bool]]) -> RefHolder {
-    let c_handle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_handle()
-    for (key, value) in swiftDict {
-        let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
-        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_put(c_handle, c_key.ref, c_value.ref)
-    }
-    return RefHolder(c_handle)
-}
-internal func foobar_moveToCType(_ swiftDict: [Int32: [Int32: Bool]]) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftDict).ref, release: foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_handle)
-}
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]]? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(handle)
-    return foobar_copyFromCType(unwrappedHandle) as [Int32: [Int32: Bool]]
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]]? {
-    defer {
-        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_optional_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyToCType(_ swiftDict: [Int32: [Int32: Bool]]?) -> RefHolder {
-    guard let swiftDict = swiftDict else {
-        return RefHolder(0)
-    }
-    let optionalHandle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_optional_handle()
-    let handle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(optionalHandle)
-    for (key, value) in swiftDict {
-        let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
-        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_put(handle, c_key.ref, c_value.ref)
-    }
-    return RefHolder(optionalHandle)
-}
-internal func foobar_moveToCType(_ swiftType: [Int32: [Int32: Bool]]?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_optional_handle)
-}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: Set<Int32>] {
     var swiftDict: [Int32: Set<Int32>] = [:]
     let iterator_handle = foobar_MapOf__Int_To_foobar_SetOf__Int_iterator(handle)
@@ -579,6 +521,64 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: Set<Int32>]?) -> RefHolder
 internal func foobar_moveToCType(_ swiftType: [Int32: Set<Int32>]?) -> RefHolder {
     return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf__Int_To_foobar_SetOf__Int_release_optional_handle)
 }
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]] {
+    var swiftDict: [Int32: [Int32: Bool]] = [:]
+    let iterator_handle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator(handle)
+    while foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_is_valid(handle, iterator_handle) {
+        swiftDict[moveFromCType(foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_key(iterator_handle))] =
+            foobar_moveFromCType(foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_value(iterator_handle)) as [Int32: Bool]
+        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_increment(iterator_handle)
+    }
+    foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]] {
+    defer {
+        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftDict: [Int32: [Int32: Bool]]) -> RefHolder {
+    let c_handle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_handle()
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = foobar_moveToCType(value)
+        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_put(c_handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(c_handle)
+}
+internal func foobar_moveToCType(_ swiftDict: [Int32: [Int32: Bool]]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftDict).ref, release: foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [Int32: [Int32: Bool]]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [Int32: [Int32: Bool]]? {
+    defer {
+        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftDict: [Int32: [Int32: Bool]]?) -> RefHolder {
+    guard let swiftDict = swiftDict else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_optional_handle()
+    let handle = foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(optionalHandle)
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = foobar_moveToCType(value)
+        foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_put(handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [Int32: [Int32: Bool]]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_optional_handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: [Int32]] {
     var swiftDict: [Int32: [Int32]] = [:]
     let iterator_handle = foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator(handle)
@@ -636,6 +636,64 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: [Int32]]?) -> RefHolder {
 }
 internal func foobar_moveToCType(_ swiftType: [Int32: [Int32]]?) -> RefHolder {
     return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf__Int_To_foobar_ArrayOf__Int_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool] {
+    var swiftDict: [Set<Int32>: Bool] = [:]
+    let iterator_handle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator(handle)
+    while foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_is_valid(handle, iterator_handle) {
+        swiftDict[foobar_moveFromCType(foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_key(iterator_handle))] =
+            moveFromCType(foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_value(iterator_handle)) as Bool
+        foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_increment(iterator_handle)
+    }
+    foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool] {
+    defer {
+        foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftDict: [Set<Int32>: Bool]) -> RefHolder {
+    let c_handle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_handle()
+    for (key, value) in swiftDict {
+        let c_key = foobar_moveToCType(key)
+        let c_value = moveToCType(value)
+        foobar_MapOf_foobar_SetOf__Int_To__Boolean_put(c_handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(c_handle)
+}
+internal func foobar_moveToCType(_ swiftDict: [Set<Int32>: Bool]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftDict).ref, release: foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [Set<Int32>: Bool]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool]? {
+    defer {
+        foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftDict: [Set<Int32>: Bool]?) -> RefHolder {
+    guard let swiftDict = swiftDict else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_optional_handle()
+    let handle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_unwrap_optional_handle(optionalHandle)
+    for (key, value) in swiftDict {
+        let c_key = foobar_moveToCType(key)
+        let c_value = moveToCType(value)
+        foobar_MapOf_foobar_SetOf__Int_To__Boolean_put(handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [Set<Int32>: Bool]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_optional_handle)
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [String: GenericTypesWithCompoundTypes.BasicStruct] {
     var swiftDict: [String: GenericTypesWithCompoundTypes.BasicStruct] = [:]
@@ -926,64 +984,6 @@ internal func foobar_copyToCType(_ swiftDict: [[Int32: Bool]: Bool]?) -> RefHold
 }
 internal func foobar_moveToCType(_ swiftType: [[Int32: Bool]: Bool]?) -> RefHolder {
     return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_release_optional_handle)
-}
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool] {
-    var swiftDict: [Set<Int32>: Bool] = [:]
-    let iterator_handle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator(handle)
-    while foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_is_valid(handle, iterator_handle) {
-        swiftDict[foobar_moveFromCType(foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_key(iterator_handle))] =
-            moveFromCType(foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_value(iterator_handle)) as Bool
-        foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_increment(iterator_handle)
-    }
-    foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_release_handle(iterator_handle)
-    return swiftDict
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool] {
-    defer {
-        foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyToCType(_ swiftDict: [Set<Int32>: Bool]) -> RefHolder {
-    let c_handle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_handle()
-    for (key, value) in swiftDict {
-        let c_key = foobar_moveToCType(key)
-        let c_value = moveToCType(value)
-        foobar_MapOf_foobar_SetOf__Int_To__Boolean_put(c_handle, c_key.ref, c_value.ref)
-    }
-    return RefHolder(c_handle)
-}
-internal func foobar_moveToCType(_ swiftDict: [Set<Int32>: Bool]) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftDict).ref, release: foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_handle)
-}
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool]? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_unwrap_optional_handle(handle)
-    return foobar_copyFromCType(unwrappedHandle) as [Set<Int32>: Bool]
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [Set<Int32>: Bool]? {
-    defer {
-        foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_optional_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyToCType(_ swiftDict: [Set<Int32>: Bool]?) -> RefHolder {
-    guard let swiftDict = swiftDict else {
-        return RefHolder(0)
-    }
-    let optionalHandle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_optional_handle()
-    let handle = foobar_MapOf_foobar_SetOf__Int_To__Boolean_unwrap_optional_handle(optionalHandle)
-    for (key, value) in swiftDict {
-        let c_key = foobar_moveToCType(key)
-        let c_value = moveToCType(value)
-        foobar_MapOf_foobar_SetOf__Int_To__Boolean_put(handle, c_key.ref, c_value.ref)
-    }
-    return RefHolder(optionalHandle)
-}
-internal func foobar_moveToCType(_ swiftType: [Set<Int32>: Bool]?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_optional_handle)
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [[Int32]: Bool] {
     var swiftDict: [[Int32]: Bool] = [:]

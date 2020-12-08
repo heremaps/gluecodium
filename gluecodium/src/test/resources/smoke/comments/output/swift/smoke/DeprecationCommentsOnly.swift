@@ -22,8 +22,8 @@ internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
             return moveFromCType(smoke_DeprecationCommentsOnly_someProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationCommentsOnly_someProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_DeprecationCommentsOnly_someProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -44,6 +44,48 @@ internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
     public func someMethodWithAllComments(input: String) -> DeprecationCommentsOnly.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_DeprecationCommentsOnly_someMethodWithAllComments(self.c_instance, c_input.ref))
+    }
+}
+@available(*, deprecated, message: "Unfortunately, this enum is deprecated.")
+public enum SomeEnum : UInt32, CaseIterable, Codable {
+    @available(*, deprecated, message: "Unfortunately, this item is deprecated.")
+    case useless
+    public static var allCases: [SomeEnum] {
+        return [.useless]
+    }
+    public enum Key: CodingKey {
+        case rawValue
+    }
+    public enum CodingError: Error {
+        case unknownValue
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        let rawValue = try container.decode(Int.self, forKey: .rawValue)
+        switch rawValue {
+        case 0:
+            self = .useless
+        default:
+            throw CodingError.unknownValue
+        }
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: Key.self)
+        switch self {
+        case .useless:
+            try container.encode(0, forKey: .rawValue)
+        }
+    }
+}
+@available(*, deprecated, message: "Unfortunately, this struct is deprecated.")
+public struct SomeStruct {
+    @available(*, deprecated, message: "Unfortunately, this field is deprecated.")
+    public var someField: DeprecationCommentsOnly.Usefulness
+    public init(someField: DeprecationCommentsOnly.Usefulness) {
+        self.someField = someField
+    }
+    internal init(cHandle: _baseRef) {
+        someField = moveFromCType(smoke_DeprecationCommentsOnly_SomeStruct_someField_get(cHandle))
     }
 }
 @_cdecl("_CBridgeInitsmoke_DeprecationCommentsOnly")
@@ -76,9 +118,9 @@ internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> Re
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
         return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_DeprecationCommentsOnly_someProperty_set = {(swift_class_pointer, newValue) in
+    functions.smoke_DeprecationCommentsOnly_someProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
-        swift_class.isSomeProperty = moveFromCType(newValue)
+        swift_class.isSomeProperty = moveFromCType(value)
     }
     let proxy = smoke_DeprecationCommentsOnly_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_DeprecationCommentsOnly_release_handle) : RefHolder(proxy)
@@ -144,78 +186,6 @@ internal func copyToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
 internal func moveToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-@available(*, deprecated, message: "Unfortunately, this enum is deprecated.")
-public enum SomeEnum : UInt32, CaseIterable, Codable {
-    @available(*, deprecated, message: "Unfortunately, this item is deprecated.")
-    case useless
-    public static var allCases: [SomeEnum] {
-        return [.useless]
-    }
-    public enum Key: CodingKey {
-        case rawValue
-    }
-    public enum CodingError: Error {
-        case unknownValue
-    }
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: Key.self)
-        let rawValue = try container.decode(Int.self, forKey: .rawValue)
-        switch rawValue {
-        case 0:
-            self = .useless
-        default:
-            throw CodingError.unknownValue
-        }
-    }
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: Key.self)
-        switch self {
-        case .useless:
-            try container.encode(0, forKey: .rawValue)
-        }
-    }
-}
-internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
-    return SomeEnum(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
-    guard handle != 0 else {
-        return nil
-    }
-    return SomeEnum(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-@available(*, deprecated, message: "Unfortunately, this struct is deprecated.")
-public struct SomeStruct {
-    @available(*, deprecated, message: "Unfortunately, this field is deprecated.")
-    public var someField: DeprecationCommentsOnly.Usefulness
-    public init(someField: DeprecationCommentsOnly.Usefulness) {
-        self.someField = someField
-    }
-    internal init(cHandle: _baseRef) {
-        someField = moveFromCType(smoke_DeprecationCommentsOnly_SomeStruct_someField_get(cHandle))
-    }
-}
 internal func copyFromCType(_ handle: _baseRef) -> SomeStruct {
     return SomeStruct(cHandle: handle)
 }
@@ -254,4 +224,34 @@ internal func copyToCType(_ swiftType: SomeStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DeprecationCommentsOnly_SomeStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
+internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
+    return SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
+    return copyFromCType(cValue)
+}
+internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SomeEnum(rawValue: uint32_t_value_get(handle))!
+}
+internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

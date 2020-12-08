@@ -133,7 +133,11 @@ internal class CBridgeNameResolver(
 
     private fun resolveElementTypeName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
-        val prefix = if (limeType is LimeBasicType) "_" else ""
+        val prefix = when {
+            limeTypeRef.isNullable -> "nullable_"
+            limeType is LimeBasicType -> "_"
+            else -> ""
+        }
         return prefix + resolveName(limeType)
     }
 

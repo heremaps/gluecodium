@@ -19,10 +19,8 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeClass
-import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeRef
 
@@ -32,20 +30,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal object JavaGeneratorPredicates {
     val predicates = mapOf(
         "hasAnyComment" to { limeElement: Any ->
-            when (limeElement) {
-                is LimeFunction -> limeElement.run {
-                    comment.getFor("Java").isNotBlank() || comment.isExcluded ||
-                        returnType.comment.getFor("Java").isNotBlank() ||
-                        (thrownType?.comment?.getFor("Java")?.isEmpty() == false) ||
-                        attributes.have(LimeAttributeType.DEPRECATED) ||
-                        parameters.any { it.comment.getFor("Java").isNotBlank() }
-                }
-                is LimeNamedElement -> limeElement.run {
-                    comment.getFor("Java").isNotBlank() || comment.isExcluded ||
-                        attributes.have(LimeAttributeType.DEPRECATED)
-                }
-                else -> false
-            }
+            CommonGeneratorPredicates.hasAnyComment(limeElement, "Java")
         },
         "hasInternalAllArgsConstructor" to { limeStruct: Any ->
             limeStruct is LimeStruct && limeStruct.fields.any { it.visibility.isInternal }

@@ -1,0 +1,58 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
+}}{{#if attributes.swift.objc}}
+@objcMembers
+{{/if}}{{!!
+}}{{resolveName visibility}} class {{resolveName}}{{!!
+}}{{#if parent}}: {{#if attributes.swift.objc}}{{#instanceOf parent.type.actualType "LimeInterface"}}NSObject, {{/instanceOf}}{{/if}}{{!!
+}}{{resolveName parent}}{{/if}}{{#unless parent}}{{#if attributes.swift.objc}}: NSObject{{/if}}{{/unless}} {
+
+{{#each typeAliases exceptions}}
+{{prefixPartial "swift/SwiftTypeAlias" "    "}}
+{{/each}}
+{{#lambdas}}
+{{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
+{{/lambdas}}
+{{#set class=this}}{{#constructors}}{{#unless attributes.swift.skip}}
+{{prefixPartial "swift/SwiftFunctionComment" "    "}}
+    {{resolveName visibility}} {{#ifPredicate "isOverriding"}}override {{/ifPredicate}}{{!!
+    }}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
+        let _result = {{#if thrownType}}try {{/if}}{{resolveName class "" "ref"}}.{{resolveName}}({{#parameters}}{{!!
+}}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!
+}}{{#unless attributes.swift.label}}{{resolveName}}: {{/unless}}{{!!
+}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+        {{#ifPredicate class "parentIsClass"}}super.init(c{{resolveName parent.type.actualType}}: _result){{/ifPredicate}}{{!!
+        }}{{#unlessPredicate class "parentIsClass"}}guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result{{/unlessPredicate}}
+        {{resolveName class "CBridge"}}_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+    }
+
+{{/unless}}{{/constructors}}{{/set}}
+
+{{prefixPartial "swift/CommonClassParts" "    "}}
+}
+
+{{#interfaces}}
+{{>swift/SwiftInterfaceDefinition}}
+{{/interfaces}}

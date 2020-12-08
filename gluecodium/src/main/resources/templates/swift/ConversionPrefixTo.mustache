@@ -18,9 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#switch category.toString}}{{!!
-}}{{#case "ARRAY"}}{{internalPrefix}}{{/case}}{{!!
-}}{{#case "SET"}}{{internalPrefix}}{{/case}}{{!!
-}}{{#case "DICTIONARY"}}{{internalPrefix}}{{/case}}{{!!
-}}{{#default}}{{/default}}{{!!
-}}{{/switch}}
+{{#typeRef.type.actualType}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{/typeRef.type.actualType}}

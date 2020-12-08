@@ -17,8 +17,8 @@ internal class _AttributesInterface: AttributesInterface {
             return moveFromCType(smoke_AttributesInterface_prop_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_AttributesInterface_prop_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_AttributesInterface_prop_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -68,9 +68,9 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
         return copyToCType(swift_class.prop).ref
     }
-    functions.smoke_AttributesInterface_prop_set = {(swift_class_pointer, newValue) in
+    functions.smoke_AttributesInterface_prop_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
-        swift_class.prop = moveFromCType(newValue)
+        swift_class.prop = moveFromCType(value)
     }
     let proxy = smoke_AttributesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release_handle) : RefHolder(proxy)

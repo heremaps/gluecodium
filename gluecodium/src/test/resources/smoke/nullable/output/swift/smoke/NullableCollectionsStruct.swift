@@ -2,9 +2,9 @@
 //
 import Foundation
 public struct NullableCollectionsStruct {
-    public var dates: [Date]
-    public var structs: [Int32: Nullable.SomeStruct]
-    public init(dates: [Date], structs: [Int32: Nullable.SomeStruct]) {
+    public var dates: [Date?]
+    public var structs: [Int32: Nullable.SomeStruct?]
+    public init(dates: [Date?], structs: [Int32: Nullable.SomeStruct?]) {
         self.dates = dates
         self.structs = structs
     }

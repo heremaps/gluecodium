@@ -27,6 +27,18 @@ internal class _ExternalInterface: ExternalInterface {
         return moveFromCType(smoke_ExternalInterface_someMethod(self.c_instance, c_someParameter.ref))
     }
 }
+public enum SomeEnum : UInt32, CaseIterable, Codable {
+    case someValue
+}
+public struct SomeStruct {
+    public var someField: String
+    public init(someField: String) {
+        self.someField = someField
+    }
+    internal init(cHandle: _baseRef) {
+        someField = moveFromCType(smoke_ExternalInterface_SomeStruct_someField_get(cHandle))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_ExternalInterface")
 internal func _CBridgeInitsmoke_ExternalInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _ExternalInterface(cExternalInterface: handle)
@@ -121,48 +133,6 @@ internal func copyToCType(_ swiftClass: ExternalInterface?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ExternalInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-public enum SomeEnum : UInt32, CaseIterable, Codable {
-    case someValue
-}
-internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
-    return SomeEnum(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
-    guard handle != 0 else {
-        return nil
-    }
-    return SomeEnum(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-public struct SomeStruct {
-    public var someField: String
-    public init(someField: String) {
-        self.someField = someField
-    }
-    internal init(cHandle: _baseRef) {
-        someField = moveFromCType(smoke_ExternalInterface_SomeStruct_someField_get(cHandle))
-    }
-}
 internal func copyFromCType(_ handle: _baseRef) -> SomeStruct {
     return SomeStruct(cHandle: handle)
 }
@@ -201,4 +171,34 @@ internal func copyToCType(_ swiftType: SomeStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ExternalInterface_SomeStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
+internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
+    return SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
+    return copyFromCType(cValue)
+}
+internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SomeEnum(rawValue: uint32_t_value_get(handle))!
+}
+internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

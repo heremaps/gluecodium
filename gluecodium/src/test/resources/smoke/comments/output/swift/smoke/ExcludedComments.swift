@@ -23,8 +23,8 @@ public class ExcludedComments {
             return moveFromCType(smoke_ExcludedComments_someProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_ExcludedComments_someProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_ExcludedComments_someProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef

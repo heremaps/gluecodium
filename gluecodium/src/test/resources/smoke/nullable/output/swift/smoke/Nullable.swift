@@ -9,8 +9,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_stringProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_stringProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_stringProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var isBoolProperty: Bool? {
@@ -18,8 +18,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_boolProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_boolProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_boolProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var doubleProperty: Double? {
@@ -27,8 +27,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_doubleProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_doubleProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_doubleProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var intProperty: Int64? {
@@ -36,8 +36,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_intProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_intProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_intProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var structProperty: Nullable.SomeStruct? {
@@ -45,8 +45,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_structProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_structProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_structProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var enumProperty: Nullable.SomeEnum? {
@@ -54,8 +54,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_enumProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_enumProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_enumProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var arrayProperty: Nullable.SomeArray? {
@@ -63,8 +63,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_arrayProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_arrayProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_arrayProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var inlineArrayProperty: [String]? {
@@ -72,8 +72,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_inlineArrayProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_inlineArrayProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_inlineArrayProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var mapProperty: Nullable.SomeMap? {
@@ -81,8 +81,8 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_mapProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_mapProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_mapProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var instanceProperty: SomeInterface? {
@@ -90,8 +90,8 @@ public class Nullable {
             return SomeInterface_moveFromCType(smoke_Nullable_instanceProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_instanceProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_instanceProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef

@@ -1,7 +1,6 @@
 //
 //
 import Foundation
-import Foundation
 internal func copyFromCType(_ handle: _baseRef) -> [DateInterval] {
     var result: [DateInterval] = []
     let count = ArrayOf_smoke_DateInterval_count(handle)

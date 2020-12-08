@@ -17,8 +17,8 @@ public class INameRules {
             return moveFromCType(namerules_NameRules_intProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(namerules_NameRules_intProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(namerules_NameRules_intProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var isBooleanPropertyPod: Bool {
@@ -26,8 +26,8 @@ public class INameRules {
             return moveFromCType(namerules_NameRules_booleanProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(namerules_NameRules_booleanProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(namerules_NameRules_booleanProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var structPropertyPod: INameRules.IExampleStruct {
@@ -35,8 +35,8 @@ public class INameRules {
             return moveFromCType(namerules_NameRules_structProperty_get(self.c_instance))
         }
         set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(namerules_NameRules_structProperty_set(self.c_instance, c_newValue.ref))
+            let c_value = moveToCType(newValue)
+            return moveFromCType(namerules_NameRules_structProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef

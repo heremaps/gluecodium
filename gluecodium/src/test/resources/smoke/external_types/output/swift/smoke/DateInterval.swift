@@ -1,7 +1,6 @@
 //
 //
 import Foundation
-import Foundation
 extension DateInterval {
     internal init?(cHandle: _baseRef) {
         self.init(start: moveFromCType(smoke_DateInterval_start_get(cHandle)), end: moveFromCType(smoke_DateInterval_end_get(cHandle)))

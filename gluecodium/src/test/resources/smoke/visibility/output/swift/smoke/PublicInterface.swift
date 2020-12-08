@@ -16,6 +16,15 @@ internal class _PublicInterface: PublicInterface {
         smoke_PublicInterface_release_handle(c_instance)
     }
 }
+internal struct InternalStruct {
+    internal var fieldOfInternalType: PublicClass.InternalStruct
+    internal init(fieldOfInternalType: PublicClass.InternalStruct) {
+        self.fieldOfInternalType = fieldOfInternalType
+    }
+    internal init(cHandle: _baseRef) {
+        fieldOfInternalType = moveFromCType(smoke_PublicInterface_InternalStruct_fieldOfInternalType_get(cHandle))
+    }
+}
 @_cdecl("_CBridgeInitsmoke_PublicInterface")
 internal func _CBridgeInitsmoke_PublicInterface(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _PublicInterface(cPublicInterface: handle)
@@ -101,15 +110,6 @@ internal func copyToCType(_ swiftClass: PublicInterface?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: PublicInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
-}
-internal struct InternalStruct {
-    internal var fieldOfInternalType: PublicClass.InternalStruct
-    internal init(fieldOfInternalType: PublicClass.InternalStruct) {
-        self.fieldOfInternalType = fieldOfInternalType
-    }
-    internal init(cHandle: _baseRef) {
-        fieldOfInternalType = moveFromCType(smoke_PublicInterface_InternalStruct_fieldOfInternalType_get(cHandle))
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {
     return InternalStruct(cHandle: handle)

@@ -1,7 +1,6 @@
 //
 //
 import Foundation
-import Foundation
 import UIKit
 public class UseSwiftExternalTypes {
     let c_instance : _baseRef

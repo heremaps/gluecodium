@@ -18,31 +18,36 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#types}}
-internal func copyToCType(_ swiftType: {{name}}?) -> RefHolder {
+//
+{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
+//
+
+{{#this}}
+internal func copyToCType(_ swiftType: {{resolveName}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder({{cPrefix}}_create_handle(swiftType))
+    return RefHolder({{resolveName "C++"}}_create_handle(swiftType))
 }
 
-internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
+internal func moveToCType(_ swiftType: {{resolveName}}?) -> RefHolder {
   guard let swiftType = swiftType else {
       return RefHolder(0)
   }
-  return RefHolder(ref: {{cPrefix}}_create_handle(swiftType), release: {{cPrefix}}_release_handle)
+  return RefHolder(ref: {{resolveName "C++"}}_create_handle(swiftType), release: {{resolveName "C++"}}_release_handle)
 }
 
-internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
+internal func copyFromCType(_ handle: _baseRef) -> {{resolveName}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{cPrefix}}_value_get(handle)
+    return {{resolveName "C++"}}_value_get(handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
+internal func moveFromCType(_ handle: _baseRef) -> {{resolveName}}? {
     defer {
-        {{cPrefix}}_release_handle(handle)
+        {{resolveName "C++"}}_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-{{/types}}
+
+{{/this}}
