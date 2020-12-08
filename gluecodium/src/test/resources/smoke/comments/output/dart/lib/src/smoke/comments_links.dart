@@ -5,9 +5,9 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-/// The nested types like [randomMethod2] don't need full name prefix, but it's
+/// The nested types like [CommentsLinks.randomMethod2] don't need full name prefix, but it's
 /// possible to references other interfaces like [CommentsInterface] or other members
-/// [someMethodWithAllComments].
+/// [Comments.someMethodWithAllComments].
 ///
 /// Weblinks are not modified like this [example1], [example2](http://www.example.com/2) or <https://www.example.com/3>.
 ///
@@ -25,11 +25,11 @@ abstract class CommentsLinks {
   /// * enum: [Comments_SomeEnum]
   /// * enum item: [Comments_SomeEnum.useful]
   /// * property: [Comments.isSomeProperty]
-  /// * property setter: [isSomeProperty]
-  /// * property getter: [isSomeProperty]
-  /// * method: [someMethodWithAllComments]
-  /// * method with signature: [oneParameterCommentOnly]
-  /// * method with signature with no spaces: [oneParameterCommentOnly]
+  /// * property setter: [Comments.isSomeProperty]
+  /// * property getter: [Comments.isSomeProperty]
+  /// * method: [Comments.someMethodWithAllComments]
+  /// * method with signature: [Comments.oneParameterCommentOnly]
+  /// * method with signature with no spaces: [Comments.oneParameterCommentOnly]
   /// * parameter: [CommentsLinks.randomMethod.inputParameter]
   /// * top level constant: [CommentsTypeCollection.typeCollectionConstant]
   /// * top level struct: [TypeCollectionStruct]
@@ -54,9 +54,9 @@ abstract class CommentsLinks {
   /// Throws [Comments_SomethingWrongException]. May or may not throw [Comments_SomethingWrongException]
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter);
   /// Links to method overloads:
-  /// * other one: [randomMethod]
-  /// * this one: [randomMethod2]
-  /// * ambiguous one: [randomMethod2]
+  /// * other one: [CommentsLinks.randomMethod]
+  /// * this one: [CommentsLinks.randomMethod2]
+  /// * ambiguous one: [CommentsLinks.randomMethod2]
   randomMethod2(String text, bool flag);
 }
 /// Links also work in:

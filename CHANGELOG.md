@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed compilation issue for collections of nullable types in Swift.
+  * Fixed documentation comment reference resolution for functions in Dart.
 
 ## 8.6.4
 Release date: 2020-11-26

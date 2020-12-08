@@ -11,7 +11,7 @@ class comments {
         // Not quite useful
         Useless,
         // Somewhat useful
-        Useful
+        USEFUL
     }
     // This is some very useful exception.
     exception SomethingWrong(SomeEnum)
