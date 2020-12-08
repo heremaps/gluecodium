@@ -41,6 +41,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
+import java.io.File
 
 internal class CBridgeImplIncludeResolver(
     private val rootNamespace: List<String>,
@@ -123,19 +124,20 @@ internal class CBridgeImplIncludeResolver(
         listOf(CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE, CACHED_PROXY_BASE_INCLUDE, cppIncludeResolver.optionalInclude)
 
     companion object {
-        val BASE_HANDLE_IMPL_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createInternalHeaderPath("BaseHandleImpl.h"))
+        val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(createInternalHeaderPath("BaseHandleImpl.h"))
         private val TYPE_INIT_REPOSITORY_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createInternalHeaderPath("TypeInitRepository.h"))
-        private val WRAPPER_CACHE_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createInternalHeaderPath("WrapperCache.h"))
+            Include.createInternalInclude(createInternalHeaderPath("TypeInitRepository.h"))
+        private val WRAPPER_CACHE_INCLUDE = Include.createInternalInclude(createInternalHeaderPath("WrapperCache.h"))
         private val CACHED_PROXY_BASE_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createInternalHeaderPath("CachedProxyBase.h"))
-        private val STRING_HANDLE_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createPublicHeaderPath("StringHandle.h"))
-        private val BLOB_HANDLE_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createPublicHeaderPath("ByteArrayHandle.h"))
-        private val DATE_HANDLE_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.createPublicHeaderPath("DateHandle.h"))
+            Include.createInternalInclude(createInternalHeaderPath("CachedProxyBase.h"))
+        private val STRING_HANDLE_INCLUDE = Include.createInternalInclude(createPublicHeaderPath("StringHandle.h"))
+        private val BLOB_HANDLE_INCLUDE = Include.createInternalInclude(createPublicHeaderPath("ByteArrayHandle.h"))
+        private val DATE_HANDLE_INCLUDE = Include.createInternalInclude(createPublicHeaderPath("DateHandle.h"))
+
+        private fun createPublicHeaderPath(fileName: String) =
+            listOf(CBridgeNameRules.CBRIDGE_PUBLIC, "include", fileName).joinToString(File.separator)
+
+        private fun createInternalHeaderPath(fileName: String) =
+            listOf(CBridgeNameRules.CBRIDGE_INTERNAL, "include", fileName).joinToString(File.separator)
     }
 }
