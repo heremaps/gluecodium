@@ -27,33 +27,21 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 
 internal class LimeFunctionsValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
-        val signatureResolver = LimeSignatureResolver(limeModel.referenceMap)
         val validationResults = limeModel.referenceMap.values
             .filterIsInstance<LimeFunction>()
-            .map { validateFunction(it, signatureResolver, limeModel.referenceMap) }
+            .map { validateFunction(it, limeModel.referenceMap) }
 
         return !validationResults.contains(false)
     }
 
-    private fun validateFunction(
-        limeFunction: LimeFunction,
-        signatureResolver: LimeSignatureResolver,
-        referenceMap: Map<String, LimeElement>
-    ): Boolean {
+    private fun validateFunction(limeFunction: LimeFunction, referenceMap: Map<String, LimeElement>): Boolean {
+
         var result = true
-        if (limeFunction.isConstructor && signatureResolver.hasConstructorSignatureClash(limeFunction)) {
-            logger.error(limeFunction, "constructor has conflicting overloads")
-            result = false
-        }
-        if (!limeFunction.isConstructor && signatureResolver.hasSignatureClash(limeFunction)) {
-            logger.error(limeFunction, "function has conflicting overloads")
-            result = false
-        }
+
         val thrownType = limeFunction.thrownType?.typeRef?.type?.actualType
         if (thrownType != null && thrownType !is LimeException) {
             logger.error(limeFunction, "function throws a non-exception type ${thrownType.fullName}")
@@ -66,6 +54,7 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger) {
                 result = false
             }
         }
+
         return result
     }
 }

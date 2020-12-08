@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed compilation issue for collections of nullable types in Swift.
+  * Fixed validation false positive for constructor overloads.
 
 ## 8.6.4
 Release date: 2020-11-26

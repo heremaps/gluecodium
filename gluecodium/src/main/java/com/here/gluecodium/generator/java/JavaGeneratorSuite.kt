@@ -48,6 +48,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
 import java.util.logging.Logger
 
@@ -71,11 +72,19 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameResolver(rootNamespace, limeModel.referenceMap, cppNameRules)
         val filteredElements = LimeModelFilter { shouldRetainElement(it) }.filter(limeModel.topElements)
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
+
+        val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, JAVA, javaNameRules, limeLogger)
+        val validationResult = overloadsValidator.validate(filteredElements)
+        if (!validationResult) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
+
         val nameResolver = JavaNameResolver(
             limeReferenceMap = limeModel.referenceMap,
             basePackages = basePackages,
             javaNameRules = javaNameRules,
-            limeLogger = LimeLogger(logger, limeModel.fileNameMap),
+            limeLogger = limeLogger,
             commentsProcessor = commentsProcessor
         )
         val importResolver = JavaImportResolver(

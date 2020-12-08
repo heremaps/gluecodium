@@ -31,10 +31,10 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.util.HashMap
 
-class CppNameResolver(
+internal class CppNameResolver(
     rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: CppNameRules
+    val nameRules: CppNameRules
 ) {
     private val rootNamespace: String = rootNamespace.joinToString("::")
     private val namesCache = HashMap<String, NamesCacheEntry>()

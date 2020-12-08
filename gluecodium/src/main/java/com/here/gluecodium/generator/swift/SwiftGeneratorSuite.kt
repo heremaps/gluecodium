@@ -57,6 +57,7 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.util.logging.Logger
 
 /**
@@ -74,6 +75,19 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
+        val filteredElements =
+            LimeModelFilter { it is LimeFunction || it is LimeProperty || !it.attributes.have(SWIFT, SKIP) }
+                .filter(limeModel.topElements)
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
+
+        val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, SWIFT, nameRules, limeLogger)
+        val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
+        val validationResults =
+            listOf(overloadsValidator.validate(filteredElements), weakPropertiesValidator.validate(filteredElements))
+        if (validationResults.contains(false)) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
+
         val cbridgeNameResolver = CBridgeNameResolver(limeReferenceMap, nameRules, internalPrefix ?: "")
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = limeReferenceMap,
@@ -84,16 +98,6 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             nameResolver = cbridgeNameResolver
         )
 
-        val filteredElements =
-            LimeModelFilter { it is LimeFunction || it is LimeProperty || !it.attributes.have(SWIFT, SKIP) }
-                .filter(limeModel.topElements)
-        val validationResult =
-            SwiftWeakPropertiesValidator(LimeLogger(logger, limeModel.fileNameMap)).validate(filteredElements)
-        if (!validationResult) {
-            throw GluecodiumExecutionException("Validation errors found, see log for details.")
-        }
-
-        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         val swiftNameResolver = SwiftNameResolver(limeReferenceMap, nameRules, limeLogger, commentsProcessor)
         val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
         val nameResolvers =

@@ -29,6 +29,7 @@ import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppGeneratorPredicates.predicates
 import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -49,6 +50,7 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
 import java.nio.file.Paths
 import java.util.logging.Logger
@@ -72,6 +74,14 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
+
+        val overloadsValidator =
+            LimeOverloadsValidator(limeModel.referenceMap, LimeAttributeType.CPP, nameRules, limeLogger)
+        val validationResult = overloadsValidator.validate(limeModel.topElements)
+        if (!validationResult) {
+            throw GluecodiumExecutionException("Validation errors found, see log for details.")
+        }
+
         val cachingNameResolver = CppNameResolver(rootNamespace, limeModel.referenceMap, nameRules)
         val nameResolver = Cpp2NameResolver(
             limeModel.referenceMap,
