@@ -21,7 +21,7 @@ class CommentsLinks {
     // * struct: [comments.SomeStruct]
     // * struct field: [comments.SomeStruct.someField]
     // * enum: [comments.SomeEnum]
-    // * enum item: [comments.SomeEnum.Useful]
+    // * enum item: [comments.SomeEnum.USEFUL]
     // * property: [comments.SomeProperty]
     // * property setter: [comments.SomeProperty.set]
     // * property getter: [comments.SomeProperty.get]
@@ -47,8 +47,8 @@ class CommentsLinks {
     //
     // Not working for Swift:
     // * named comment: [Alternative name for the link, stripped for Swift][comments.VeryUseful]
-    // @param[inputParameter] Sometimes takes [comments.SomeEnum.Useful]
-    // @return Sometimes returns [comments.SomeEnum.Useful]
+    // @param[inputParameter] Sometimes takes [comments.SomeEnum.USEFUL]
+    // @return Sometimes returns [comments.SomeEnum.USEFUL]
     // @throws May or may not throw [comments.SomethingWrong]
     fun random_method(
         inputParameter: SomeEnum

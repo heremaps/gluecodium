@@ -212,16 +212,16 @@ internal class DartNameResolver(
             .toMutableMap()
 
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
-        result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveName(it) })
+        result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveFullName(it) })
         result += functions.associateBy(
             { function -> function.path.withSuffix("").toString() + function.parameters
                 .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() } },
-            { resolveName(it) }
+            { resolveFullName(it) }
         )
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
-        result += properties.associateBy({ it.fullName + ".get" }, { resolveName(it) })
-        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveName(it) })
+        result += properties.associateBy({ it.fullName + ".get" }, { resolveFullName(it) })
+        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveFullName(it) })
 
         return result
     }

@@ -29,13 +29,13 @@ abstract class DeprecationComments {
   /// This is some very useful method that measures the usefulness of its input.
   /// [input] Very useful input parameter
   /// Returns [bool]. Usefulness of the input
-  @Deprecated("Unfortunately, this method is deprecated.\nUse [someMethodWithAllComments] instead.")
+  @Deprecated("Unfortunately, this method is deprecated.\nUse [Comments.someMethodWithAllComments] instead.")
   bool someMethodWithAllComments(String input);
   /// Gets some very useful property.
-  @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [isSomeProperty] instead.")
+  @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   bool get isSomeProperty;
   /// Sets some very useful property.
-  @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [isSomeProperty] instead.")
+  @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   set isSomeProperty(bool value);
 }
 /// This is some very useful enum.
@@ -236,7 +236,7 @@ class DeprecationComments$Impl implements DeprecationComments {
     }
   }
   /// Gets some very useful property.
-  @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [isSomeProperty] instead.")
+  @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   bool get isSomeProperty {
     final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DeprecationComments_isSomeProperty_get'));
     final _handle = this.handle;
@@ -248,7 +248,7 @@ class DeprecationComments$Impl implements DeprecationComments {
     }
   }
   /// Sets some very useful property.
-  @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [isSomeProperty] instead.")
+  @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   set isSomeProperty(bool value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean'));
     final _value_handle = Boolean_toFfi(value);
