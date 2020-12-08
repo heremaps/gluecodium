@@ -19,18 +19,15 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class JavaSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: NameRules
-) : LimeSignatureResolver(limeReferenceMap) {
-
-    override fun getFunctionName(limeFunction: LimeFunction) = nameRules.getName(limeFunction)
+    nameRules: JavaNameRules
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.JAVA, nameRules) {
 
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 

@@ -85,3 +85,12 @@ interface SpecialNamesInterface {
     @Cpp(Const)
     fun dispatch(callback: Callback)
 }
+
+class SkippedOverloads {
+    @Dart(Skip)
+    constructor make()
+
+    @Swift(Skip)
+    @Java(Skip)
+    constructor make_for_dart()
+}

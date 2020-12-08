@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2020 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -35,16 +35,14 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LimeFunctionsValidatorTest(
+class LimeOverloadsValidatorTest(
     private val limeMethod1: LimeFunction,
     private val limeMethod2: LimeFunction,
     private val expectedResult: Boolean
 ) {
-
     private val allElements = mutableMapOf<String, LimeElement>()
-    private val limeModel = LimeModel(allElements, emptyList())
 
-    private val validator = LimeFunctionsValidator(mockk(relaxed = true))
+    private val validator = LimeOverloadsValidator(LimeSignatureResolver(allElements), mockk(relaxed = true))
 
     @Test
     fun validateInContainer() {
@@ -53,7 +51,7 @@ class LimeFunctionsValidatorTest(
         allElements[fooPath.toString()] =
             LimeClass(fooPath, functions = listOf(limeMethod1, limeMethod2))
 
-        assertEquals(expectedResult, validator.validate(limeModel))
+        assertEquals(expectedResult, validator.validate(allElements.values))
     }
 
     @Test
@@ -63,7 +61,7 @@ class LimeFunctionsValidatorTest(
         allElements[fooPath.toString()] =
             LimeStruct(fooPath, functions = listOf(limeMethod1, limeMethod2))
 
-        assertEquals(expectedResult, validator.validate(limeModel))
+        assertEquals(expectedResult, validator.validate(allElements.values))
     }
 
     companion object {
