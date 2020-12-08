@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.6.5
+Release date: 2020-12-08
 ### Bug fixes:
   * Fixed compilation issue for collections of nullable types in Swift.
   * Fixed validation false positive for constructor overloads.
