@@ -54,8 +54,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
     private fun getAllConstructorOverloads(limeFunction: LimeFunction): List<LimeFunction> {
         val parentElement = referenceMap[limeFunction.path.parent.toString()]
         return when (parentElement) {
-            is LimeContainer -> parentElement.functions.filter { it.isConstructor }
-            is LimeStruct -> parentElement.functions.filter { it.isConstructor }
+            is LimeContainer -> getAllContainerFunctions(parentElement).filter { it.isConstructor }
             else -> emptyList()
         }
     }
@@ -64,8 +63,10 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         val parentContainer =
             (limeContainer as? LimeContainerWithInheritance)?.parent?.type as? LimeContainer
         val parentFunctions = parentContainer?.let { getAllFunctions(it) } ?: emptyList()
-        return parentFunctions + limeContainer.functions
+        return parentFunctions + getAllContainerFunctions(limeContainer)
     }
+
+    protected open fun getAllContainerFunctions(limeContainer: LimeContainer) = limeContainer.functions
 
     protected open fun getFunctionName(limeFunction: LimeFunction) = limeFunction.name
 
@@ -76,8 +77,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     protected open fun getSetName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}:]"
 
-    private fun computeSignature(limeFunction: LimeFunction) =
-        limeFunction.parameters.map { getTypeName(it.typeRef) }
+    private fun computeSignature(limeFunction: LimeFunction) = limeFunction.parameters.map { getTypeName(it.typeRef) }
 
     protected fun getTypeName(limeTypeRef: LimeTypeRef): String =
         when (val limeType = limeTypeRef.type) {

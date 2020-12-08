@@ -19,18 +19,11 @@
 
 package com.here.gluecodium.generator.swift
 
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 
 internal class SwiftSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: SwiftNameRules
-) : LimeSignatureResolver(limeReferenceMap) {
-
-    override fun getFunctionName(limeFunction: LimeFunction) =
-        limeFunction.attributes.get(LimeAttributeType.SWIFT, LimeAttributeValueType.NAME, String::class.java)
-            ?: nameRules.getName(limeFunction)
-}
+    nameRules: SwiftNameRules
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules)

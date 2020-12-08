@@ -23,6 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
@@ -45,7 +46,6 @@ import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
@@ -63,7 +63,7 @@ internal class Cpp2NameResolver(
     private val commentsProcessor: CommentsProcessor? = null
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
-    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
+    private val signatureResolver = PlatformSignatureResolver(limeReferenceMap, CPP, cachingNameResolver.nameRules)
     private val limeToCppNames = buildPathMap()
 
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
