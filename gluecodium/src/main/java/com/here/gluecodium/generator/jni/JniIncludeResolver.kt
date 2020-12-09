@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.jni
 
-import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeContainer

@@ -20,10 +20,10 @@
 package com.here.gluecodium.generator.ffi
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance

@@ -19,7 +19,7 @@
 
 package com.here.gluecodium.generator.cpp
 
-import com.here.gluecodium.model.common.Include
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
