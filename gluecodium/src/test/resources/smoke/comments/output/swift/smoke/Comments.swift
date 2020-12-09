@@ -14,11 +14,11 @@ public class Comments {
     /// Some very useful property.
     public var isSomeProperty: Comments.Usefulness {
         get {
-            return moveFromCType(smoke_Comments_someProperty_get(self.c_instance))
+            return moveFromCType(smoke_Comments_isSomeProperty_get(self.c_instance))
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Comments_someProperty_set(self.c_instance, c_value.ref))
+            return moveFromCType(smoke_Comments_isSomeProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef

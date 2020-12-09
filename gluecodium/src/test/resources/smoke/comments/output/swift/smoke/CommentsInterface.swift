@@ -45,11 +45,11 @@ internal class _CommentsInterface: CommentsInterface {
     /// Some very useful property.
     var isSomeProperty: CommentsInterface.Usefulness {
         get {
-            return moveFromCType(smoke_CommentsInterface_someProperty_get(self.c_instance))
+            return moveFromCType(smoke_CommentsInterface_isSomeProperty_get(self.c_instance))
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_CommentsInterface_someProperty_set(self.c_instance, c_value.ref))
+            return moveFromCType(smoke_CommentsInterface_isSomeProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -201,11 +201,11 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
         swift_class.someMethodWithoutReturnTypeOrInputParameters()
     }
-    functions.smoke_CommentsInterface_someProperty_get = {(swift_class_pointer) in
+    functions.smoke_CommentsInterface_isSomeProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
         return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_CommentsInterface_someProperty_set = {(swift_class_pointer, value) in
+    functions.smoke_CommentsInterface_isSomeProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
         swift_class.isSomeProperty = moveFromCType(value)
     }

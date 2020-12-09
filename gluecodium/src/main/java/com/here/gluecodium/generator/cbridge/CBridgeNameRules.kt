@@ -24,7 +24,6 @@ import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeType
 import java.io.File
 
 internal object CBridgeNameRules {
@@ -34,19 +33,7 @@ internal object CBridgeNameRules {
     private fun getName(limeElement: LimeNamedElement) =
         mangleName(getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name))
 
-    fun mangleSignature(name: String) =
-        name.replace("_", "_1").replace(":", "_2").replace("[", "_3").replace("]", "_4")
-
     fun mangleName(name: String) = name.replace(".", "_1")
-
-    fun getNestedNames(limeElement: LimeNamedElement) =
-        limeElement.path.head + limeElement.path.tail.map { NameHelper.toUpperCamelCase(it) }
-
-    private fun getNestedSpecifierString(limeElement: LimeNamedElement) =
-        getNestedNames(limeElement).dropLast(1).joinToString("_")
-
-    fun getTypeName(limeType: LimeType) =
-        listOf(getNestedSpecifierString(limeType), getName(limeType)).joinToString("_")
 
     private fun getPlatformName(limeElement: LimeNamedElement?) = limeElement?.attributes?.get(SWIFT, NAME)
 

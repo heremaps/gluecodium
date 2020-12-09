@@ -29,11 +29,11 @@ internal class _DeprecationComments: DeprecationComments {
     Use `Comments.isSomeProperty` instead.")
     var isSomeProperty: DeprecationComments.Usefulness {
         get {
-            return moveFromCType(smoke_DeprecationComments_someProperty_get(self.c_instance))
+            return moveFromCType(smoke_DeprecationComments_isSomeProperty_get(self.c_instance))
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationComments_someProperty_set(self.c_instance, c_value.ref))
+            return moveFromCType(smoke_DeprecationComments_isSomeProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -131,11 +131,11 @@ internal func getRef(_ ref: DeprecationComments?, owning: Bool = true) -> RefHol
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
         return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
     }
-    functions.smoke_DeprecationComments_someProperty_get = {(swift_class_pointer) in
+    functions.smoke_DeprecationComments_isSomeProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
         return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_DeprecationComments_someProperty_set = {(swift_class_pointer, value) in
+    functions.smoke_DeprecationComments_isSomeProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
         swift_class.isSomeProperty = moveFromCType(value)
     }

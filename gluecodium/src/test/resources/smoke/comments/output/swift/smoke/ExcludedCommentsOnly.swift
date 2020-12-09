@@ -14,11 +14,11 @@ public class ExcludedCommentsOnly {
     /// :nodoc:
     public var isSomeProperty: ExcludedCommentsOnly.Usefulness {
         get {
-            return moveFromCType(smoke_ExcludedCommentsOnly_someProperty_get(self.c_instance))
+            return moveFromCType(smoke_ExcludedCommentsOnly_isSomeProperty_get(self.c_instance))
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ExcludedCommentsOnly_someProperty_set(self.c_instance, c_value.ref))
+            return moveFromCType(smoke_ExcludedCommentsOnly_isSomeProperty_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
