@@ -101,6 +101,10 @@ open class GluecodiumTask : SourceTask() {
     val cppExportMacroName: Property<String> = project.objects.property(String::class.java)
 
     @Optional
+    @Input
+    val cppExportCommonMacroName: Property<String> = project.objects.property(String::class.java)
+
+    @Optional
     @InputFile
     @PathSensitive(PathSensitivity.ABSOLUTE)
     val cppNameRules: Property<File> = project.objects.property(File::class.java)
@@ -132,6 +136,7 @@ open class GluecodiumTask : SourceTask() {
         cppNamespace.orNull?.let { options.cppRootNamespace = it.split(".") }
         cppInternalNamespace.orNull?.let { options.cppInternalNamespace = it.split(".") }
         cppExportMacroName.orNull?.let { options.cppExport = it }
+        cppExportCommonMacroName.orNull?.let { options.cppExportCommon = it }
         options.cppNameRules =
             OptionReader.readConfigFile(cppNameRules.orNull?.absolutePath, options.cppNameRules)
 
