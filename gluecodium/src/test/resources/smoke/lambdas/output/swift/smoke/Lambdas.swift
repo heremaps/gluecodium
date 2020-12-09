@@ -149,12 +149,12 @@ internal func moveToCType(_ swiftType: Lambdas.Producer?) -> RefHolder {
     return RefHolder(ref: handle, release: smoke_Lambdas_Producer_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Lambdas.Convoluter {
-    return moveFromCType(smoke_Lambdas_Confuser_copy_handle(handle))
+    return moveFromCType(smoke_Lambdas_Convoluter_copy_handle(handle))
 }
 internal func moveFromCType(_ handle: _baseRef) -> Lambdas.Convoluter {
-    let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_Confuser_release_handle)
+    let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_Convoluter_release_handle)
     return { (p0: String) -> Lambdas.Producer in
-        return moveFromCType(smoke_Lambdas_Confuser_call(refHolder.ref, moveToCType(p0).ref))
+        return moveFromCType(smoke_Lambdas_Convoluter_call(refHolder.ref, moveToCType(p0).ref))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Lambdas.Convoluter? {
@@ -169,47 +169,47 @@ internal func moveFromCType(_ handle: _baseRef) -> Lambdas.Convoluter? {
     }
     return moveFromCType(handle) as Lambdas.Convoluter
 }
-internal func createFunctionalTable(_ swiftType: @escaping Lambdas.Convoluter) -> smoke_Lambdas_Confuser_FunctionTable {
-    class smoke_Lambdas_Confuser_Holder {
+internal func createFunctionalTable(_ swiftType: @escaping Lambdas.Convoluter) -> smoke_Lambdas_Convoluter_FunctionTable {
+    class smoke_Lambdas_Convoluter_Holder {
         let closure: Lambdas.Convoluter
         init(_ closure: @escaping Lambdas.Convoluter) {
             self.closure = closure
         }
     }
-    var functions = smoke_Lambdas_Confuser_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(smoke_Lambdas_Confuser_Holder(swiftType)).toOpaque()
+    var functions = smoke_Lambdas_Convoluter_FunctionTable()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(smoke_Lambdas_Convoluter_Holder(swiftType)).toOpaque()
     functions.release = { swift_closure_pointer in
         if let swift_closure = swift_closure_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_closure).release()
         }
     }
-    functions.smoke_Lambdas_Confuser_call = { swift_closure_pointer, p0 in
-        let closure_holder = Unmanaged<AnyObject>.fromOpaque(swift_closure_pointer!).takeUnretainedValue() as! smoke_Lambdas_Confuser_Holder
+    functions.smoke_Lambdas_Convoluter_call = { swift_closure_pointer, p0 in
+        let closure_holder = Unmanaged<AnyObject>.fromOpaque(swift_closure_pointer!).takeUnretainedValue() as! smoke_Lambdas_Convoluter_Holder
         return copyToCType(closure_holder.closure(moveFromCType(p0))).ref
     }
     return functions
 }
 internal func copyToCType(_ swiftType: @escaping Lambdas.Convoluter) -> RefHolder {
-    let handle = smoke_Lambdas_Confuser_create_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_Lambdas_Convoluter_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
 internal func moveToCType(_ swiftType: @escaping Lambdas.Convoluter) -> RefHolder {
-    let handle = smoke_Lambdas_Confuser_create_proxy(createFunctionalTable(swiftType))
-    return RefHolder(ref: handle, release: smoke_Lambdas_Confuser_release_handle)
+    let handle = smoke_Lambdas_Convoluter_create_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: smoke_Lambdas_Convoluter_release_handle)
 }
 internal func copyToCType(_ swiftType: Lambdas.Convoluter?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_Lambdas_Confuser_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_Lambdas_Convoluter_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
 internal func moveToCType(_ swiftType: Lambdas.Convoluter?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_Lambdas_Confuser_create_optional_proxy(createFunctionalTable(swiftType))
-    return RefHolder(ref: handle, release: smoke_Lambdas_Confuser_release_handle)
+    let handle = smoke_Lambdas_Convoluter_create_optional_proxy(createFunctionalTable(swiftType))
+    return RefHolder(ref: handle, release: smoke_Lambdas_Convoluter_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Lambdas.Consumer {
     return moveFromCType(smoke_Lambdas_Consumer_copy_handle(handle))

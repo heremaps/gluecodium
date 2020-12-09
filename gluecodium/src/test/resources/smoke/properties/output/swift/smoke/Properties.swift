@@ -63,11 +63,11 @@ public class Properties {
     }
     public var isBooleanProperty: Bool {
         get {
-            return moveFromCType(smoke_Properties_booleanProperty_get(self.c_instance))
+            return moveFromCType(smoke_Properties_isBooleanProperty_get(self.c_instance))
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_booleanProperty_set(self.c_instance, c_value.ref))
+            return moveFromCType(smoke_Properties_isBooleanProperty_set(self.c_instance, c_value.ref))
         }
     }
     public static var staticProperty: String {

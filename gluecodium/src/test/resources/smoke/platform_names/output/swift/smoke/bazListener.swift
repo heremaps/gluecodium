@@ -13,16 +13,16 @@ internal class _bazListener: bazListener {
         c_instance = cbazListener
     }
     deinit {
-        smoke_PlatformNamesListener_remove_swift_object_from_wrapper_cache(c_instance)
-        smoke_PlatformNamesListener_release_handle(c_instance)
+        smoke_bazListener_remove_swift_object_from_wrapper_cache(c_instance)
+        smoke_bazListener_release_handle(c_instance)
     }
     public func BazMethod(_ BazParameter: String) -> Void {
         let c_BazParameter = moveToCType(BazParameter)
         return moveFromCType(smoke_bazListener_BazMethod(self.c_instance, c_BazParameter.ref))
     }
 }
-@_cdecl("_CBridgeInitsmoke_PlatformNamesListener")
-internal func _CBridgeInitsmoke_PlatformNamesListener(handle: _baseRef) -> UnsafeMutableRawPointer {
+@_cdecl("_CBridgeInitsmoke_bazListener")
+internal func _CBridgeInitsmoke_bazListener(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = _bazListener(cbazListener: handle)
     return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
 }
@@ -31,12 +31,12 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        let handle_copy = smoke_PlatformNamesListener_copy_handle(instanceReference.c_handle)
+        let handle_copy = smoke_bazListener_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_PlatformNamesListener_release_handle)
+            ? RefHolder(ref: handle_copy, release: smoke_bazListener_release_handle)
             : RefHolder(handle_copy)
     }
-    var functions = smoke_PlatformNamesListener_FunctionTable()
+    var functions = smoke_bazListener_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
@@ -47,42 +47,42 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! bazListener
         swift_class.BazMethod(moveFromCType(BazParameter))
     }
-    let proxy = smoke_PlatformNamesListener_create_proxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_PlatformNamesListener_release_handle) : RefHolder(proxy)
+    let proxy = smoke_bazListener_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_bazListener_release_handle) : RefHolder(proxy)
 }
 extension _bazListener: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener {
-    if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_cache(handle),
+    if let swift_pointer = smoke_bazListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         return re_constructed
     }
-    if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_wrapper_cache(handle),
+    if let swift_pointer = smoke_bazListener_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         return re_constructed
     }
-    if let swift_pointer = smoke_PlatformNamesListener_get_typed(smoke_PlatformNamesListener_copy_handle(handle)),
+    if let swift_pointer = smoke_bazListener_get_typed(smoke_bazListener_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? bazListener {
-        smoke_PlatformNamesListener_cache_swift_object_wrapper(handle, swift_pointer)
+        smoke_bazListener_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")
 }
 internal func bazListener_moveFromCType(_ handle: _baseRef) -> bazListener {
-    if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_cache(handle),
+    if let swift_pointer = smoke_bazListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
-        smoke_PlatformNamesListener_release_handle(handle)
+        smoke_bazListener_release_handle(handle)
         return re_constructed
     }
-    if let swift_pointer = smoke_PlatformNamesListener_get_swift_object_from_wrapper_cache(handle),
+    if let swift_pointer = smoke_bazListener_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
-        smoke_PlatformNamesListener_release_handle(handle)
+        smoke_bazListener_release_handle(handle)
         return re_constructed
     }
-    if let swift_pointer = smoke_PlatformNamesListener_get_typed(handle),
+    if let swift_pointer = smoke_bazListener_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? bazListener {
-        smoke_PlatformNamesListener_cache_swift_object_wrapper(handle, swift_pointer)
+        smoke_bazListener_cache_swift_object_wrapper(handle, swift_pointer)
         return typed
     }
     fatalError("Failed to initialize Swift object")

@@ -1,6 +1,5 @@
 //
 //
-
 import Foundation
 public typealias bazTypedef = Double
 public enum bazEnum : UInt32, CaseIterable, Codable {
@@ -39,7 +38,7 @@ internal func moveFromCType(_ handle: _baseRef) -> bazEnum? {
 public struct bazStruct {
     public var BAZ_FIELD: String
     internal init(cHandle: _baseRef) {
-        BAZ_FIELD = moveFromCType(smoke_PlatformNames_bazStruct_BAZ_FIELD_get(cHandle))
+        BAZ_FIELD = moveFromCType(smoke_bazTypes_bazStruct_BAZ_FIELD_get(cHandle))
     }
     public init(_ BazParameter: String) {
         let _result_handle = bazStruct.BazCreate(BazParameter)
@@ -51,7 +50,7 @@ public struct bazStruct {
     }
     private static func BazCreate(_ BazParameter: String) -> _baseRef {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_PlatformNames_bazStruct_BazCreate(c_BazParameter.ref))
+        return moveFromCType(smoke_bazTypes_bazStruct_BazCreate(c_BazParameter.ref))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> bazStruct {
@@ -59,27 +58,27 @@ internal func copyFromCType(_ handle: _baseRef) -> bazStruct {
 }
 internal func moveFromCType(_ handle: _baseRef) -> bazStruct {
     defer {
-        smoke_PlatformNames_bazStruct_release_handle(handle)
+        smoke_bazTypes_bazStruct_release_handle(handle)
     }
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: bazStruct) -> RefHolder {
     let c_BAZ_FIELD = moveToCType(swiftType.BAZ_FIELD)
-    return RefHolder(smoke_PlatformNames_bazStruct_create_handle(c_BAZ_FIELD.ref))
+    return RefHolder(smoke_bazTypes_bazStruct_create_handle(c_BAZ_FIELD.ref))
 }
 internal func moveToCType(_ swiftType: bazStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PlatformNames_bazStruct_release_handle)
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_bazTypes_bazStruct_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> bazStruct? {
     guard handle != 0 else {
         return nil
     }
-    let unwrappedHandle = smoke_PlatformNames_bazStruct_unwrap_optional_handle(handle)
+    let unwrappedHandle = smoke_bazTypes_bazStruct_unwrap_optional_handle(handle)
     return bazStruct(cHandle: unwrappedHandle) as bazStruct
 }
 internal func moveFromCType(_ handle: _baseRef) -> bazStruct? {
     defer {
-        smoke_PlatformNames_bazStruct_release_optional_handle(handle)
+        smoke_bazTypes_bazStruct_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
@@ -88,8 +87,8 @@ internal func copyToCType(_ swiftType: bazStruct?) -> RefHolder {
         return RefHolder(0)
     }
     let c_BAZ_FIELD = moveToCType(swiftType.BAZ_FIELD)
-    return RefHolder(smoke_PlatformNames_bazStruct_create_optional_handle(c_BAZ_FIELD.ref))
+    return RefHolder(smoke_bazTypes_bazStruct_create_optional_handle(c_BAZ_FIELD.ref))
 }
 internal func moveToCType(_ swiftType: bazStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PlatformNames_bazStruct_release_optional_handle)
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_bazTypes_bazStruct_release_optional_handle)
 }
