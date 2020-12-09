@@ -19,8 +19,8 @@
 
 package com.here.gluecodium.generator.cbridge
 
+import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
-import com.here.gluecodium.model.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
