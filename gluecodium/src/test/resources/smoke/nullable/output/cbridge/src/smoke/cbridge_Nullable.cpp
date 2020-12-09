@@ -73,10 +73,10 @@ _baseRef smoke_Nullable_stringProperty_get(_baseRef _instance) {
 void smoke_Nullable_stringProperty_set(_baseRef _instance, _baseRef value) {
     return get_pointer<::std::shared_ptr< ::smoke::Nullable >>(_instance)->get()->set_string_property(Conversion<::gluecodium::optional< ::std::string >>::toCpp(value));
 }
-_baseRef smoke_Nullable_boolProperty_get(_baseRef _instance) {
+_baseRef smoke_Nullable_isBoolProperty_get(_baseRef _instance) {
     return Conversion<::gluecodium::optional< bool >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Nullable >>(_instance)->get()->is_bool_property());
 }
-void smoke_Nullable_boolProperty_set(_baseRef _instance, _baseRef value) {
+void smoke_Nullable_isBoolProperty_set(_baseRef _instance, _baseRef value) {
     return get_pointer<::std::shared_ptr< ::smoke::Nullable >>(_instance)->get()->set_bool_property(Conversion<::gluecodium::optional< bool >>::toCpp(value));
 }
 _baseRef smoke_Nullable_doubleProperty_get(_baseRef _instance) {
