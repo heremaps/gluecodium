@@ -41,7 +41,11 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
 
     private val parser = Parser.builder(DataSet()).build()
     private val logFunction: LimeLogger.(String, String) -> Unit =
-        if (werror) LimeLogger::error else LimeLogger::warning
+        if (werror) { elementName: String, message: String ->
+            this.error(elementName, message)
+        } else { elementName: String, message: String ->
+            this.warning(elementName, message)
+        }
 
     fun process(
         limeFullName: String,

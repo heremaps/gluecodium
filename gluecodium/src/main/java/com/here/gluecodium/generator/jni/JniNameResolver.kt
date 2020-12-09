@@ -62,9 +62,9 @@ internal class JniNameResolver(
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
-    override fun resolveGetterName(element: Any) = resolveAccessorName(element, JavaNameRules::getGetterName)
+    override fun resolveGetterName(element: Any) = resolveAccessorName(element) { getGetterName(it) }
 
-    override fun resolveSetterName(element: Any) = resolveAccessorName(element, JavaNameRules::getSetterName)
+    override fun resolveSetterName(element: Any) = resolveAccessorName(element) { getSetterName(it) }
 
     // Narrow usage: only for intermediate types for "external" types with converters.
     override fun resolveReferenceName(element: Any) =

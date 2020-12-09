@@ -36,7 +36,11 @@ internal class LimeDeprecationsValidator(
     private val werror: Boolean
 ) {
     private val logFunction: LimeLogger.(LimeNamedElement, String) -> Unit =
-        if (werror) LimeLogger::error else LimeLogger::warning
+        if (werror) { limeElement: LimeNamedElement, message: String ->
+            this.error(limeElement, message)
+        } else { limeElement: LimeNamedElement, message: String ->
+            this.warning(limeElement, message)
+        }
 
     fun validate(limeElements: List<LimeNamedElement>): Boolean {
         val validationResults = limeElements
