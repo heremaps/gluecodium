@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.6.6
+Release date: 2020-12-10
 ### Features:
   * Added support for specifying a distinct "export" macro name for "common" sources in C++.
 
