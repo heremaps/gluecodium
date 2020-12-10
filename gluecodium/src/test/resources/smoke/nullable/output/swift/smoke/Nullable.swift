@@ -15,11 +15,11 @@ public class Nullable {
     }
     public var isBoolProperty: Bool? {
         get {
-            return moveFromCType(smoke_Nullable_boolProperty_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_isBoolProperty_get(self.c_instance))
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_boolProperty_set(self.c_instance, c_value.ref))
+            return moveFromCType(smoke_Nullable_isBoolProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var doubleProperty: Double? {

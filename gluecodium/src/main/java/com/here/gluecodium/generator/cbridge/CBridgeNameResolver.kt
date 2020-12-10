@@ -20,16 +20,12 @@
 package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.generator.swift.SwiftSignatureResolver
-import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
-import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
@@ -38,7 +34,6 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
@@ -55,13 +50,7 @@ internal class CBridgeNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeGenericType -> resolveGenericTypeName(element)
-
-            // TODO: #592: normalize this mess
-            is LimeContainerWithInheritance -> CBridgeNameRules.getNestedNames(element).joinToString("_")
-            is LimeLambda -> CBridgeNameRules.getNestedNames(element).joinToString("_")
-            is LimeType ->
-                (CBridgeNameRules.getNestedNames(element).dropLast(1) + getPlatformName(element)).joinToString("_")
-
+            is LimeType -> resolveNestedNames(element).joinToString("_")
             is LimeFunction -> resolveFunctionName(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
             is LimeTypeRef -> resolveTypeRef(element)
@@ -70,27 +59,24 @@ internal class CBridgeNameResolver(
         }
 
     private fun resolveFunctionName(limeFunction: LimeFunction): String {
-        val parentElement = getParentElement(limeFunction)
-        // TODO: #592: normalize this mess
-        val prefix = when (parentElement) {
-            is LimeProperty -> CBridgeNameRules.getNestedNames(limeFunction).dropLast(2) +
-                    NameHelper.toLowerCamelCase(parentElement.name)
-            is LimeContainerWithInheritance -> CBridgeNameRules.getNestedNames(limeFunction).dropLast(2) +
-                    getPlatformName(parentElement)
-            else -> listOf(resolveName(parentElement))
-        }
-
-        // TODO: #592: normalize this mess
-        val platformName = if (parentElement !is LimeLambda) limeFunction.attributes.get(SWIFT, NAME) else null
-        val methodName = platformName ?: NameHelper.toLowerCamelCase(limeFunction.name)
-
         val suffix = when {
             !signatureResolver.isOverloaded(limeFunction) -> emptyList()
             limeFunction.parameters.isEmpty() -> listOf("")
-            else -> signatureResolver.getSignature(limeFunction).map { CBridgeNameRules.mangleSignature(it) }
+            else -> signatureResolver.getSignature(limeFunction).map { mangleSignature(it) }
         }
-        return (prefix + CBridgeNameRules.mangleName(methodName) + suffix).joinToString("_")
+        val parentElement = getParentElement(limeFunction)
+        val functionName = when (parentElement) {
+            is LimeLambda -> "call"
+            else -> CBridgeNameRules.mangleName(swiftNameRules.getName(limeFunction))
+        }
+        return (resolveNestedNames(parentElement) + functionName + suffix).joinToString("_")
     }
+
+    private fun resolveNestedNames(limeElement: LimeNamedElement): List<String> =
+        when {
+            limeElement.path.hasParent -> resolveNestedNames(getParentElement(limeElement))
+            else -> limeElement.path.head
+        } + CBridgeNameRules.mangleName(swiftNameRules.getName(limeElement))
 
     private fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
         if (limeTypeRef.isNullable) return HANDLE
@@ -141,11 +127,10 @@ internal class CBridgeNameResolver(
         return prefix + resolveName(limeType)
     }
 
-    private fun getPlatformName(limeType: LimeType) =
-        limeType.attributes.get(SWIFT, NAME)?.let { CBridgeNameRules.mangleName(it) }
-            ?: NameHelper.toUpperCamelCase(limeType.name)
-
     companion object {
         private const val HANDLE = "_baseRef"
+
+        private fun mangleSignature(name: String) =
+            name.replace("_", "_1").replace(":", "_2").replace("[", "_3").replace("]", "_4")
     }
 }

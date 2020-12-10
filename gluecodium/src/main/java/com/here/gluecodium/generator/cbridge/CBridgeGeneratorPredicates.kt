@@ -39,8 +39,8 @@ internal class CBridgeGeneratorPredicates(private val cppNameResolver: Cpp2NameR
         "hasCppSetter" to { limeField: Any ->
             limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
         },
-        "hasImmutableFields" to CommonGeneratorPredicates::hasImmutableFields,
-        "hasTypeRepository" to CommonGeneratorPredicates::hasTypeRepository,
+        "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
+        "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "isNonNullableEnum" to { limeTypeRef: Any ->
             limeTypeRef is LimeTypeRef && !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeEnumeration
         },

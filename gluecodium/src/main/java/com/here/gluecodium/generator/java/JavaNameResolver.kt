@@ -75,9 +75,9 @@ internal class JavaNameResolver(
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
-    override fun resolveGetterName(element: Any) = resolveAccessorName(element, JavaNameRules::getGetterName)
+    override fun resolveGetterName(element: Any) = resolveAccessorName(element) { getGetterName(it) }
 
-    override fun resolveSetterName(element: Any) = resolveAccessorName(element, JavaNameRules::getSetterName)
+    override fun resolveSetterName(element: Any) = resolveAccessorName(element) { getSetterName(it) }
 
     override fun resolveReferenceName(element: Any) =
         when (element) {

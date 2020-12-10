@@ -55,8 +55,8 @@ internal class JniGeneratorPredicates(
         "hasCppSetter" to { limeField: Any ->
             limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
         },
-        "hasImmutableFields" to CommonGeneratorPredicates::hasImmutableFields,
-        "hasTypeRepository" to CommonGeneratorPredicates::hasTypeRepository,
+        "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
+        "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "isJniPrimitive" to fun(limeTypeRef: Any): Boolean {
             if (limeTypeRef !is LimeTypeRef || limeTypeRef.isNullable) return false
 

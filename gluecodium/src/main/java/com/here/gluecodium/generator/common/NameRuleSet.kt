@@ -26,10 +26,10 @@ class NameRuleSet(
     val getEnumeratorName: (name: String) -> String,
     val getMethodName: (name: String) -> String,
     val getTypeName: (name: String) -> String,
-    val getPropertyName: (String, Boolean) -> String = ignore2(::illegal),
-    val getSetterName: (name: String) -> String = ::illegal,
-    val getGetterName: (name: String, Boolean) -> String = ignore2(::illegal),
-    val getErrorName: (name: String) -> String = ::illegal,
+    val getPropertyName: (String, Boolean) -> String = ignore2 { illegal(it) },
+    val getSetterName: (name: String) -> String = { illegal(it) },
+    val getGetterName: (name: String, Boolean) -> String = ignore2 { illegal(it) },
+    val getErrorName: (name: String) -> String = { illegal(it) },
     val joinInfix: String? = null
 ) {
     companion object {

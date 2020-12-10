@@ -50,7 +50,7 @@ internal class SwiftGeneratorPredicates(limeReferenceMap: Map<String, LimeElemen
             limeEnumeration is LimeEnumeration &&
                 limeEnumeration.enumerators.any { it.attributes.have(LimeAttributeType.DEPRECATED) }
         },
-        "hasTypeRepository" to CommonGeneratorPredicates::hasTypeRepository,
+        "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "hasWeakSupport" to fun(limeInterface: Any): Boolean {
             if (limeInterface !is LimeInterface) return false
             val interfacePathKey = limeInterface.path.toString()

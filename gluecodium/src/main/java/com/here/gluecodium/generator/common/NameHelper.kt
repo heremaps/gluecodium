@@ -40,7 +40,7 @@ object NameHelper {
         }
 
     fun joinToUpperSnakeCase(inputs: List<String?>) =
-        inputs.filterNotNull().joinToString(transform = ::toUpperSnakeCase, separator = UNDERSCORE)
+        inputs.filterNotNull().joinToString(transform = { toUpperSnakeCase(it) }, separator = UNDERSCORE)
 
     fun toLowerSnakeCase(input: String?): String =
         when {
@@ -54,7 +54,7 @@ object NameHelper {
         }
 
     fun joinToLowerSnakeCase(inputs: List<String?>) =
-        inputs.filterNotNull().joinToString(transform = ::toLowerSnakeCase, separator = UNDERSCORE)
+        inputs.filterNotNull().joinToString(transform = { toLowerSnakeCase(it) }, separator = UNDERSCORE)
 
     fun toUpperCamelCase(input: String?): String =
         when {
@@ -68,7 +68,7 @@ object NameHelper {
         }
 
     fun joinToUpperCamelCase(inputs: List<String?>) =
-        inputs.filterNotNull().joinToString(transform = ::toUpperCamelCase, separator = "")
+        inputs.filterNotNull().joinToString(transform = { toUpperCamelCase(it) }, separator = "")
 
     fun toLowerCamelCase(input: String?): String =
         when {
