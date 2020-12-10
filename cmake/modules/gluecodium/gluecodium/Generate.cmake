@@ -22,44 +22,112 @@ set(includeguard_gluecodium_Generate ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# Code generation module
-# ----------------------
-#
-# This module provides functions to generate API interfaces specified
-# in the LimeIDL language into target source code as provided by the
-# specified generator(s). Valid generators are:
-#
-#  * android
-#  * cbridge
-#  * cpp
-#  * swift
-#
-# .. command:: apigen_generate
-#
-# The general form of the command is::
-#
-#   apigen_generate(target inputDir generator)
-#
-# This function invokes the Gluecodium tool based on a set of of input *.lime
-# files with a specific target language generator.
-# Additional target ${TARGET}.gluecodium.generate is created to make it possible to
-# generate sources without building whole solution.
-#
-# Following properties will be set for given `target` based on the corresponding option without
-# APIGEN_ prefix:
-#  * APIGEN_GENERATOR The generator passed.
-#  * APIGEN_OUTPUT_DIR Output dir for the main source set, generators will create subdirectories.
-#        The main code set generated here is the generated code which depends on input IDL files.
-#  * APIGEN_COMMON_OUTPUT_DIR Output dir for the common source set, generators will create
-#        subdirectories. The common source set is independent of input IDL files, only depends on
-#        options like JAVA_PACKAGE, CPP_INTERNAL_NAMESPACE etc. and can be shared between multiple
-#        targets which use the same settings.
-#        The output directories can be nested inside another.
-#  * APIGEN_BUILD_OUTPUT_DIR Build artifacts created by custom build steps
-#        will end up in this directory. This should not be placed in the source output dir since
-#        since the generated file cache will delete these build results otherwise.
-#
+#[===================================================================================================[.rst:
+
+Code generation module
+----------------------
+
+This module provides functions to generate API interfaces specified
+in the LimeIDL language into target source code as provided by the
+specified generator(s).
+ 
+
+.. command:: apigen_generate
+
+The general form of the command is::
+
+  apigen_generate(
+      
+      # If next options are not specified an error is produced, i.e. they are REQUIRED
+
+      TARGET <target>                             # The target to add custom build rules for.
+      GENERATOR <generators>                      # The comma-separated list of generators.
+                                                  # Valid values are: android,swift,cpp,dart.
+      CPP_INTERNAL_NAMESPACE <namespace>          # The dot separated C++ namespace to use mostly
+                                                  # in COMMON (internal) sourceset. For example "my.module"
+      LIME_SOURCES <path1> ...                    # The list of lime files to generate sources from.
+
+      # Next options are OPTIONAL. If they are not specified default values will be set or
+      # feature will be disabled.
+
+      VALIDATE_ONLY                               # Perform validation of input
+                                                  # files without generating any code.
+      VERBOSE                                     # Generation step produces more
+                                                  # detailed output if this option specified. 
+      VERSION <version>                           # The version of Gluecodium to use for code
+                                                  # generation. Default is '+' (i.e. latest)
+      ANDROID_MERGE_MANIFEST <path>               # The path to android manifest which will be merged
+                                                  # with the generated AndroidManifest.xml
+      JAVA_PACKAGE                                # The base Java package to add generated Java sources
+                                                  # into, for example "com.my_company"
+      JAVA_INTERNAL_PACKAGE                       # The package where internal Java code is generated.
+      JAVA_NONNULL_ANNOTATION <package>           # The package to use for @NonNull annotation in Java.
+      JAVA_NULLABLE_ANNOTATION <package>          # The package to use for @Nullable annotation in Java.
+      COPYRIGHT_HEADER <path>                     # The path to file with copyright to
+                                                  # add in generated source files.
+      CPP_EXPORT <name>                           # The name of export macro. 
+      CPP_NAMERULES <path>                        # The path to a file with name rules for C++ (read below).
+      JAVA_NAMERULES <path>                       # The path to a file with name rules for Java (read below).
+      SWIFT_NAMERULES <path>                      # The path to a file with name rules for Swift (read below).
+      DART_NAMERULES <path>                       # The path to a file with name rules for Dart (read below).
+      INTERNAL_PREFIX <name>                      # Name prefix for internal conversion functions in Swift.
+      OUTPUT_DIR <path>                           # The root path to a folder where source files will be
+                                                  # generated. `MAIN` and `COMMON` source files are generated
+                                                  # in the same folder if `COMMON_OUTPUT_DIR` is not specified.
+      COMMON_OUTPUT_DIR <path>                    # The root path to a folder where `COMMON` source files are
+                                                  # generated. As side effect enables `modularisation`
+                                                  # (read below).
+      BUILD_OUTPUT_DIR <path>                     # The path to directory where united source files are
+                                                  # prepared. Java, Swift and Dart source files are
+                                                  # concatenated. For C++ 'umbrella' file is prepared
+                                                  # which includes all other generated C++ source files.
+      DART_LIBRARY_NAME                           # Name of the generated library for Dart.
+      DART_FUNCTION_LOOKUP_ERROR_MESSAGE <text>   # Custom error message for when Dart FFI function lookup
+                                                  # fails.
+      WERROR <warning_name1> ...                  # The list of warnings to treat as errors. Possible values:
+                                                  # DocLinks, DeprecatedAttributes, DartOverloads.
+      )
+
+This function invokes the Gluecodium tool based on a set of of input *.lime
+files with a specific target language generator.
+Additional target `${TARGET}.gluecodium.generate` is created to make it possible to
+generate sources without building whole solution.
+
+Following properties will be set for given `target` based on the corresponding option without
+APIGEN_ prefix:
+ * APIGEN_GENERATOR The generator passed.
+ * APIGEN_OUTPUT_DIR Output dir for the main source set, generators will create subdirectories.
+       The main code set generated here is the generated code which depends on input IDL files.
+ * APIGEN_COMMON_OUTPUT_DIR Output dir for the common source set, generators will create
+       subdirectories. The common source set is independent of input IDL files, only depends on
+       options like JAVA_PACKAGE, CPP_INTERNAL_NAMESPACE etc. and can be shared between multiple
+       targets which use the same settings.
+       The output directories can be nested inside another.
+ * APIGEN_BUILD_OUTPUT_DIR Build artifacts created by custom build steps
+       will end up in this directory. This should not be placed in the source output dir since
+       since the generated file cache will delete these build results otherwise.
+
+
+*Name rules*
+Naming of method names, classes, parameters, fields, etc. can be changed according to
+project's needs. It's especially useful for a public API. Look there for a possible
+parameters and more details:
+https://github.com/heremaps/gluecodium/blob/master/docs/naming_conventions.md
+
+*Modularisation*
+If a solution is separated into few modules (for example few SHARED libraries) which use
+Gluecodium and have common primitives generated by Gluecodium (i.e. classes which objects
+may cross boundaries of modules), then such project should use `modularisation` in Gluecodium.
+One should choose a module which will contain common source code. This common source code stores
+information about types, caches and provides other functionalty to allow passing objects between
+modules.
+When `COMMON_OUTPUT_DIR` is set it enables `modularisation` and generated source code
+is separated into two sets: `COMMON`, `MAIN`.
+Only one module should contain both `COMMON` and `MAIN` sources, other modules should include only `MAIN`.
+Other Gluecosdium's CMake functions like apigen_target_include_directories and apigen_target_sources
+take into account that `modularisation` is enabled and behave differently.
+
+#]===================================================================================================]
 
 if(COMMAND find_host_package)
   find_host_package(JAVA COMPONENTS Runtime REQUIRED)
@@ -246,7 +314,7 @@ cache=true\n")
   add_custom_target(${APIGEN_TARGET}.gluecodium.generate DEPENDS ${_generated_files})
 
   # This is necessary for CMake 3.19 which enabled support of
-  # "new build system" in Xcode >= 11.x
+  # "new build system" in Xcode >= 12.x
   # "New build system" requires for targets which depend on the same generated
   # files to have dependency between them.
   add_dependencies(${APIGEN_TARGET} ${APIGEN_TARGET}.gluecodium.generate)
