@@ -71,6 +71,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         Paths.get(internalNamespace.joinToString(File.separator), "Export.h").toString()
     )
     private val exportName = options.cppExport
+    private val exportCommonName = options.cppExportCommon ?: options.cppExport
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
@@ -111,7 +112,9 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
                 allErrorEnums
             )
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
-            COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") }
+            COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
+            generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
+            generateExportHelperFile(exportName, "", GeneratedFile.SourceSet.MAIN)
 
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
@@ -284,16 +287,21 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     }
 
     private fun generateHelperFile(fileName: String, subDir: String, suffix: String): GeneratedFile {
-        val templateData =
-            mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
+        val templateData = mapOf("internalNamespace" to internalNamespace, "exportName" to exportCommonName)
         val content = TemplateEngine.render("cpp/common/$fileName", templateData)
-        val resultFileName = Paths.get(
-            GENERATOR_NAME,
-            subDir,
-            internalNamespace.joinToString("/"),
-            fileName
-        ).toString() + suffix
-        return GeneratedFile(content, resultFileName, GeneratedFile.SourceSet.COMMON)
+        val namePrefix = Paths.get(GENERATOR_NAME, subDir, internalNamespace.joinToString("/"), fileName).toString()
+        return GeneratedFile(content, namePrefix + suffix, GeneratedFile.SourceSet.COMMON)
+    }
+
+    private fun generateExportHelperFile(
+        exportName: String,
+        infix: String,
+        sourceSet: GeneratedFile.SourceSet
+    ): GeneratedFile {
+        val templateData = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
+        val content = TemplateEngine.render("cpp/common/Export", templateData)
+        val namePrefix = Paths.get(GENERATOR_NAME, "include", internalNamespace.joinToString("/"), "Export").toString()
+        return GeneratedFile(content, "$namePrefix$infix.h", sourceSet)
     }
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
@@ -358,7 +366,6 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
         private val logger = Logger.getLogger(CppGeneratorSuite::class.java.name)
         private val COMMON_HEADERS = listOf(
-            "Export",
             "Hash",
             "Locale",
             "Mutex",

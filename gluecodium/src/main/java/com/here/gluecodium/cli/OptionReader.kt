@@ -108,7 +108,8 @@ object OptionReader {
             "C++ namespace for internal (non-API) headers. Multiple namespace levels may be separated with '.'."
         )
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
-        addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
+        addOption("cppexport", true, "C++ export macro name for explicit symbols exporting.")
+        addOption("cppexportcommon", true, "C++ export macro name for exporting explicit symbols from `common` dir.")
         addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
         addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
         addOption("dartlookuperrormessage", true, "Custom error message for when Dart FFI function lookup fails.")
@@ -186,6 +187,7 @@ object OptionReader {
         options.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
         options.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()
         getStringValue("cppexport")?.let { options.cppExport = it }
+        getStringValue("cppexportcommon")?.let { options.cppExportCommon = it }
         getStringValue("internalprefix")?.let { options.internalPrefix = it }
         getStringValue("libraryname")?.let { options.libraryName = it }
         getStringValue("dartlookuperrormessage")?.let { options.dartLookupErrorMessage = it }

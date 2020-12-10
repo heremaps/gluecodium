@@ -216,6 +216,7 @@ class Gluecodium(
         var cppInternalNamespace: List<String> = emptyList(),
         var cppRootNamespace: List<String> = listOf(),
         var cppExport: String = DEFAULT_CPP_EXPORT_MACRO_NAME,
+        var cppExportCommon: String? = null,
         var internalPrefix: String? = null,
         var libraryName: String = "library",
         var dartLookupErrorMessage: String =
