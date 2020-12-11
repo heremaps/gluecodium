@@ -22,6 +22,7 @@ import java.util.regex.Pattern
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url 'https://artifactory.in.here.com/artifactory/android-release-virtual' }
 }
 
 apply plugin: 'application'

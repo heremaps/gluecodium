@@ -60,6 +60,9 @@ The general form of the command is::
       [COPYRIGHT_HEADER <path>]                   # The path to file with copyright to
                                                   # add in generated source files.
       [CPP_EXPORT <name>]                         # The name of export macro for `MAIN` sources.
+      [CPP_EXPORT_COMMON <name>]                  # The name of export macro for `COMMON` sorces when
+                                                  # modularisation is enabled (read below about
+                                                  # modularisation). By default is the same as `CPP_EXPORT`.
       [CPP_NAMERULES <path>]                      # The path to a file with name rules for C++ (read below).
       [JAVA_NAMERULES <path>]                     # The path to a file with name rules for Java (read below).
       [SWIFT_NAMERULES <path>]                    # The path to a file with name rules for Swift (read below).
@@ -146,6 +149,7 @@ function(apigen_generate)
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
       CPP_EXPORT
+      CPP_EXPORT_COMMON
       CPP_NAMERULES
       SWIFT_NAMERULES
       INTERNAL_PREFIX
@@ -234,10 +238,17 @@ cache=true\n")
   _apigen_parse_option(dartlookuperrormessage DART_FUNCTION_LOOKUP_ERROR_MESSAGE)
   _apigen_parse_option(internalprefix INTERNAL_PREFIX)
   _apigen_parse_option(cppexport CPP_EXPORT)
+  _apigen_parse_option(cppexportcommon CPP_EXPORT_COMMON)
 
   if(NOT apigen_generate_CPP_EXPORT)
     set(apigen_generate_CPP_EXPORT _GLUECODIUM_CPP)
   endif()
+  if(NOT apigen_generate_CPP_EXPORT_COMMON)
+    set(apigen_generate_CPP_EXPORT_COMMON "${apigen_generate_CPP_EXPORT}")
+  endif()
+  set_target_properties(${APIGEN_TARGET} PROPERTIES
+      GLUECODIUM_CPP_EXPORT_COMMON "${apigen_generate_CPP_EXPORT_COMMON}"
+      GLUECODIUM_CPP_EXPORT "${apigen_generate_CPP_EXPORT}")
   get_target_property(apigen_target_type ${APIGEN_TARGET} TYPE)
   if(apigen_target_type STREQUAL SHARED_LIBRARY)
     target_compile_definitions(${APIGEN_TARGET}

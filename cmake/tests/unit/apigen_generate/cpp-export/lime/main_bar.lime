@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2020 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,20 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_Gluecodium)
-  return()
-endif()
-set(includeguard_gluecodium_Gluecodium ON)
+package unit.test
 
-cmake_minimum_required(VERSION 3.5)
+import unit.test.CommonMainFoo
 
-#.rst:
-# The main Gluecodium module
-# ----------------------
-#
-# Includes Gluecodium modules.
-
-include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/TargetIncludeDirectories.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/TargetCompileDefinitions.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/TargetSources.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/Generate.cmake)
+class MainBar {
+    constructor make(foo: CommonMainFoo)
+}

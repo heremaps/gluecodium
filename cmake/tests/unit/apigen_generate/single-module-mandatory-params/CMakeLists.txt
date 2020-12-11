@@ -23,6 +23,7 @@ set (CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 include(gluecodium/Gluecodium)
 
 add_library(single.module.package SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
@@ -43,3 +44,45 @@ apigen_generate(
 
 apigen_target_include_directories (single.module.package)
 apigen_target_sources (single.module.package)
+
+get_target_property(_actual_generator single.module.package APIGEN_GENERATOR)
+test_expect_strequal(
+    EXPECTED ${_gluecodium_generator}
+    ACTUAL ${_actual_generator}
+    MESSAGE "apigen_generate must set APIGEN_GENERATOR property")
+
+get_target_property(_output_dir single.module.package APIGEN_OUTPUT_DIR)
+test_expect_strequal(
+    EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/single.module.package/${_gluecodium_generator}"
+    ACTUAL ${_output_dir}
+    MESSAGE "apigen_generate must set APIGEN_OUTPUT_DIR property")
+
+get_target_property(_common_output_dir single.module.package APIGEN_COMMON_OUTPUT_DIR)
+test_expect_strequal(
+    EXPECTED ""
+    ACTUAL ${_common_output_dir}
+    MESSAGE "apigen_generate must set APIGEN_COMMON_OUTPUT_DIR property")
+
+get_target_property(_build_output_dir single.module.package APIGEN_BUILD_OUTPUT_DIR)
+test_expect_strequal(
+    EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/single.module.package/build"
+    ACTUAL ${_build_output_dir}
+    MESSAGE "apigen_generate must set APIGEN_BUILD_OUTPUT_DIR property")
+
+get_target_property(_build_output_dir single.module.package APIGEN_BUILD_OUTPUT_DIR)
+test_expect_strequal(
+    EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/single.module.package/build"
+    ACTUAL ${_build_output_dir}
+    MESSAGE "apigen_generate must set APIGEN_BUILD_OUTPUT_DIR property")
+
+get_target_property(_cpp_export single.module.package GLUECODIUM_CPP_EXPORT)
+test_expect_strequal(
+    EXPECTED "_GLUECODIUM_CPP"
+    ACTUAL ${_cpp_export}
+    MESSAGE "apigen_generate must set APIGEN_CPP_EXPORT property")
+
+get_target_property(_cpp_common_export single.module.package GLUECODIUM_CPP_EXPORT_COMMON)
+test_expect_strequal(
+    EXPECTED "_GLUECODIUM_CPP"
+    ACTUAL ${_cpp_common_export}
+    MESSAGE "apigen_generate must set APIGEN_CPP_EXPORT_COMMON property")
