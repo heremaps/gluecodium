@@ -1,4 +1,4 @@
-# Gluecodium [![Build Status](https://travis-ci.com/heremaps/gluecodium.svg?token=kvrUHaaizXLydRxV4KKk&branch=master)](https://travis-ci.com/heremaps/gluecodium) [![Release](https://jitpack.io/v/heremaps/gluecodium.svg)](https://jitpack.io/#heremaps/gluecodium)
+# Gluecodium [![Build Status](https://github.com/heremaps/gluecodium/workflows/CI/badge.svg)](https://github.com/heremaps/gluecodium/actions) [![Release](https://jitpack.io/v/heremaps/gluecodium.svg)](https://jitpack.io/#heremaps/gluecodium)
 
 Gluecodium **generates C++, Java**, **Swift**, and **Dart** code. The main purpose is generating C++ interfaces and
 corresponding Java/Swift/Dart bindings for **Android**/**iOS**/**Flutter** respectively, but other platforms like **macOS**
