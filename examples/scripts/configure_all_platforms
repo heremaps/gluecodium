@@ -58,7 +58,7 @@ pushd ${BUILD_DIR}
 popd
 
 # Generate and configure HelloWorld for Android
-[ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio)"
+[ $ANDROID_NDK_HOME ] || die "ANDROID_NDK_HOME environment variable is mandatory (NDK can be installed from within Android Studio)"
 
 BUILD_DIR=${PWD}/build-android-x86
 [ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
@@ -71,7 +71,7 @@ pushd ${BUILD_DIR}
         -DHELLO_APIGEN_GLUECODIUM_GENERATOR=android \
         -DHELLO_APIGEN_GLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
         -DHELLO_BUILD_IOS_APP=OFF \
-        -DCMAKE_ANDROID_NDK=$NDK_ROOT \
+        -DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
         -DCMAKE_ANDROID_STL_TYPE=gnustl_static \
         -DCMAKE_SYSTEM_NAME=Android \
         -G Ninja \
