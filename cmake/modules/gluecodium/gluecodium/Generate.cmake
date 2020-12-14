@@ -37,9 +37,6 @@ specified generator(s).
 The general form of the command is::
 
   apigen_generate(
-      
-      # If next options are not specified an error is produced, i.e. they are REQUIRED
-
       TARGET <target>                             # The target to add custom build rules for.
       GENERATOR <generators>                      # The comma-separated list of generators.
                                                   # Valid values are: android,swift,cpp,dart.
@@ -47,44 +44,41 @@ The general form of the command is::
                                                   # in COMMON (internal) sourceset. For example "my.module"
       LIME_SOURCES <path1> ...                    # The list of lime files to generate sources from.
 
-      # Next options are OPTIONAL. If they are not specified default values will be set or
-      # feature will be disabled.
-
-      VALIDATE_ONLY                               # Perform validation of input
+      [VALIDATE_ONLY]                             # Perform validation of input
                                                   # files without generating any code.
-      VERBOSE                                     # Generation step produces more
-                                                  # detailed output if this option specified. 
-      VERSION <version>                           # The version of Gluecodium to use for code
+      [VERBOSE]                                   # Generation step produces more
+                                                  # detailed output if this option specified.
+      [VERSION <version>]                         # The version of Gluecodium to use for code
                                                   # generation. Default is '+' (i.e. latest)
-      ANDROID_MERGE_MANIFEST <path>               # The path to android manifest which will be merged
+      [ANDROID_MERGE_MANIFEST <path>]             # The path to android manifest which will be merged
                                                   # with the generated AndroidManifest.xml
-      JAVA_PACKAGE                                # The base Java package to add generated Java sources
+      [JAVA_PACKAGE <package>]                    # The base Java package to add generated Java sources
                                                   # into, for example "com.my_company"
-      JAVA_INTERNAL_PACKAGE                       # The package where internal Java code is generated.
-      JAVA_NONNULL_ANNOTATION <package>           # The package to use for @NonNull annotation in Java.
-      JAVA_NULLABLE_ANNOTATION <package>          # The package to use for @Nullable annotation in Java.
-      COPYRIGHT_HEADER <path>                     # The path to file with copyright to
+      [JAVA_INTERNAL_PACKAGE <package>]           # The package where internal Java code is generated.
+      [JAVA_NONNULL_ANNOTATION <package>]         # The package to use for @NonNull annotation in Java.
+      [JAVA_NULLABLE_ANNOTATION <package>]        # The package to use for @Nullable annotation in Java.
+      [COPYRIGHT_HEADER <path>]                   # The path to file with copyright to
                                                   # add in generated source files.
-      CPP_EXPORT <name>                           # The name of export macro. 
-      CPP_NAMERULES <path>                        # The path to a file with name rules for C++ (read below).
-      JAVA_NAMERULES <path>                       # The path to a file with name rules for Java (read below).
-      SWIFT_NAMERULES <path>                      # The path to a file with name rules for Swift (read below).
-      DART_NAMERULES <path>                       # The path to a file with name rules for Dart (read below).
-      INTERNAL_PREFIX <name>                      # Name prefix for internal conversion functions in Swift.
-      OUTPUT_DIR <path>                           # The root path to a folder where source files will be
+      [CPP_EXPORT <name>]                         # The name of export macro for `MAIN` sources.
+      [CPP_NAMERULES <path>]                      # The path to a file with name rules for C++ (read below).
+      [JAVA_NAMERULES <path>]                     # The path to a file with name rules for Java (read below).
+      [SWIFT_NAMERULES <path>]                    # The path to a file with name rules for Swift (read below).
+      [DART_NAMERULES <path>]                     # The path to a file with name rules for Dart (read below).
+      [INTERNAL_PREFIX <name>]                    # Name prefix for internal conversion functions in Swift.
+      [OUTPUT_DIR <path>]                         # The root path to a folder where source files will be
                                                   # generated. `MAIN` and `COMMON` source files are generated
                                                   # in the same folder if `COMMON_OUTPUT_DIR` is not specified.
-      COMMON_OUTPUT_DIR <path>                    # The root path to a folder where `COMMON` source files are
+      [COMMON_OUTPUT_DIR <path>]                  # The root path to a folder where `COMMON` source files are
                                                   # generated. As side effect enables `modularisation`
                                                   # (read below).
-      BUILD_OUTPUT_DIR <path>                     # The path to directory where united source files are
+      [BUILD_OUTPUT_DIR <path>]                   # The path to directory where united source files are
                                                   # prepared. Java, Swift and Dart source files are
                                                   # concatenated. For C++ 'umbrella' file is prepared
                                                   # which includes all other generated C++ source files.
-      DART_LIBRARY_NAME                           # Name of the generated library for Dart.
-      DART_FUNCTION_LOOKUP_ERROR_MESSAGE <text>   # Custom error message for when Dart FFI function lookup
+      [DART_LIBRARY_NAME <name>]                  # Name of the generated library for Dart.
+      [DART_FUNCTION_LOOKUP_ERROR_MESSAGE <text>] # Custom error message for when Dart FFI function lookup
                                                   # fails.
-      WERROR <warning_name1> ...                  # The list of warnings to treat as errors. Possible values:
+      [WERROR <warning_name1> ...]                # The list of warnings to treat as errors. Possible values:
                                                   # DocLinks, DeprecatedAttributes, DartOverloads.
       )
 
