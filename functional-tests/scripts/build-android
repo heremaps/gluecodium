@@ -49,7 +49,7 @@ done
 
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
-[ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio"
+[ $ANDROID_NDK_HOME ] || die "ANDROID_NDK_HOME environment variable is mandatory (NDK can be installed from within Android Studio"
 
 # Constants
 GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"

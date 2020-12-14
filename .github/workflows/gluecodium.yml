@@ -109,8 +109,6 @@ jobs:
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
           export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
-          export SDK_ROOT=${ANDROID_HOME}
-          export NDK_ROOT=${ANDROID_NDK_HOME}
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
           pushd examples
           ./scripts/build-android --hostOnly --buildGluecodium

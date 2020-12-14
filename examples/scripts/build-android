@@ -85,7 +85,7 @@ fi
 
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
-[ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio"
+[ $ANDROID_NDK_HOME ] || die "ANDROID_NDK_HOME environment variable is mandatory (NDK can be installed from within Android Studio)"
 
 if [ "$USE_JEMALLOC" = true ]; then
     command -v jemalloc-config >/dev/null || die "jemalloc is required for this option"
@@ -107,9 +107,9 @@ CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
 EOF
 )
 CMAKE_CROSS_BUILD_PARAMETERS=$(cat <<EOF
--DANDROID_NDK=${NDK_ROOT} \
+-DANDROID_NDK=${ANDROID_NDK_HOME} \
 -DANDROID_TOOLCHAIN=clang \
--DCMAKE_TOOLCHAIN_FILE=${NDK_ROOT}/build/cmake/android.toolchain.cmake
+-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake
 EOF
 )
 
