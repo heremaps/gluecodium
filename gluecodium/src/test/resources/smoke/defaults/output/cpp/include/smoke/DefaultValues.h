@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "foo/Bar.h"
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"

@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "smoke/OuterClass.h"
 #include "smoke/OuterInterface.h"
 #include <cstdint>

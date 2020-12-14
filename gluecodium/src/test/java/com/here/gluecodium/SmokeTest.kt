@@ -28,7 +28,6 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 
 @RunWith(Parameterized::class)
-
 class SmokeTest(
     private val featureDirectory: File,
     generatorName: String,

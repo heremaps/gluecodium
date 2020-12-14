@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Hash.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"

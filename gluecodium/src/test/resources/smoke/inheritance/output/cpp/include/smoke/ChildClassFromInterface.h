@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "smoke/ParentInterface.h"
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT ChildClassFromInterface: public ::smoke::ParentInterface {

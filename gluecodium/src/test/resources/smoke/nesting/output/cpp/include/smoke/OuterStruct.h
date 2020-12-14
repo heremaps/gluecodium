@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Locale.h"
 #include "gluecodium/TimePointHash.h"
 #include "gluecodium/TypeRepository.h"

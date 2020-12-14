@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include <cstdint>
 namespace smoke {
 enum class [[OnEnumeration]] AttributesEnum {

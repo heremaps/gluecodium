@@ -5,7 +5,7 @@
 #pragma once
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/VectorHash.h"
 #include "non/Sense.h"
 #include <cstdint>
