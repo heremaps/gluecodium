@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
 namespace smoke_off {
 class _GLUECODIUM_CPP_EXPORT UnderscorePackage {

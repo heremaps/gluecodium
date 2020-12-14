@@ -5,7 +5,7 @@
 #pragma once
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Hash.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"

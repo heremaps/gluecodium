@@ -3,7 +3,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
+#include "ExportGluecodiumCpp.h"
 #include "Return.h"
 #include "VectorHash.h"
 #include <cstdint>

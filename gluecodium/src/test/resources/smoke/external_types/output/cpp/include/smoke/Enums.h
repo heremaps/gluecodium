@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "foo/Bar.h"
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include <cstdint>
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT Enums {

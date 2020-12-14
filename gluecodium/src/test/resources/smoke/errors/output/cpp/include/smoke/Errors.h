@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "foo/Bar.h"
-#include "gluecodium/Export.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include "smoke/Payload.h"
 #include <cstdint>
