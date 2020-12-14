@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.6.7
+Release date: 2020-12-14
+### Bug fixes:
+  * Fixed support for specifying distinct "export" macro name in C++ for "modularized" builds.
+
 ## 8.6.6
 Release date: 2020-12-10
 ### Features:
