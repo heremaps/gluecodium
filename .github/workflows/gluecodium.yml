@@ -203,3 +203,71 @@ jobs:
           export PATH="${PATH}:/usr/lib/dart/bin"
           cd examples
           ./scripts/build-dart --buildGluecodium
+
+  dart-asan:
+    name: Dart with AddressSanitizer
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            !*gluecodium*
+            !*lime-*
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Install CMake
+        uses: jwlawson/actions-setup-cmake@v1.4
+        with:
+          cmake-version: '3.15.7'
+      - name: Install ninja
+        run: sudo apt install -y ninja-build
+      - name: Cache Dart SDK
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/dart_sdk
+          key: ${{ runner.os }}-dart-2.9.0
+          restore-keys: ${{ runner.os }}-dart-2.9.0
+      - name: Compile Dart SDK without tcmalloc
+        run: |
+          export DART_BIN=${HOME}/dart_sdk/bin
+          export DART_LIB=${HOME}/dart_sdk/lib
+          export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
+          DART_VERSION=2.9.0
+          if [ ! -d "${HOME}/dart_sdk/bin" ]; then
+            git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+            mkdir dart-sdk
+            pushd dart-sdk
+            fetch dart
+            pushd sdk
+            git fetch --tags
+            git checkout tags/${DART_VERSION}
+            gclient sync
+            ./tools/generate_buildfiles.py
+            sed -i 's/dart_use_tcmalloc = true/dart_use_tcmalloc = false/g' ./out/ReleaseX64/args.gn
+            ./tools/build.py --mode release --arch x64 create_sdk
+            mkdir -p ${DART_BIN}
+            pushd out/ReleaseX64/dart-sdk
+            pushd bin
+            mv dart dart2native dartaotruntime pub utils ${DART_BIN}
+            popd
+            pushd bin/snapshots
+            mkdir -p ${DART_BIN}/snapshots
+            mv dart2native.dart.snapshot gen_kernel.dart.snapshot pub.dart.snapshot ${DART_BIN}/snapshots
+            popd
+            mkdir -p ${DART_LIB}
+            mv lib/_internal ${DART_LIB}
+          fi
+      - name: Build and run functional tests
+        run: |
+          export PATH="${PATH}:${HOME}/dart_sdk/bin"
+          cd examples
+          ./scripts/build-dart --buildGluecodium --asan
