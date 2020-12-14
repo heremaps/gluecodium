@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # Copyright (C) 2016-2018 HERE Europe B.V.
 #
@@ -127,6 +127,7 @@ if [ "$USE_VALGRIND" = true ]; then
     fi
     TEST_COMMAND="valgrind \
         --leak-check=full \
+        --error-exitcode=1 \
         --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
         --gen-suppressions=all \
         $REPORT_ARGS \
