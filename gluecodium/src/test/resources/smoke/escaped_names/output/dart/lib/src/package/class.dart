@@ -28,10 +28,6 @@ final _package_Class_release_handle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_package_Class_release_handle'));
-final _package_Class_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_package_Class_get_raw_pointer'));
 final _package_Class_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -59,12 +55,13 @@ class Class$Impl implements Class {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_package_Class_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _package_Class_release_handle(handle);
     handle = null;
   }
   Class$Impl.constructor() : handle = _constructor() {
-    __lib.reverseCache[_package_Class_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   static Pointer<Void> _constructor() {
     final _constructor_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));
@@ -123,9 +120,10 @@ class Class$Impl implements Class {
 Pointer<Void> package_Class_toFfi(Class value) =>
   _package_Class_copy_handle((value as Class$Impl).handle);
 Class package_Class_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _package_Class_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Class) return instance as Class;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Class;
+  if (instance != null) return instance;
   final _type_id_handle = _package_Class_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -133,7 +131,7 @@ Class package_Class_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : Class$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void package_Class_releaseFfiHandle(Pointer<Void> handle) =>

@@ -1,5 +1,6 @@
 #include "ffi_smoke_off_NestedPackages.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/off/NestedPackages.h"
 #include <memory>
@@ -29,12 +30,6 @@ library_smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_off_NestedPackages_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_off_NestedPackages_SomeStruct_create_handle(FfiOpaqueHandle someField) {

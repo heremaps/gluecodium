@@ -1,5 +1,6 @@
 #include "ffi_smoke_Structs.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
@@ -40,12 +41,6 @@ library_smoke_Structs_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Structs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Structs>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Structs_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Structs>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Structs_ExternalStruct_create_handle(FfiOpaqueHandle stringField, FfiOpaqueHandle externalStringField, FfiOpaqueHandle externalArrayField, FfiOpaqueHandle externalStructField) {

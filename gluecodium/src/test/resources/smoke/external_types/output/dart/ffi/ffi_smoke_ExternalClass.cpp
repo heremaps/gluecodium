@@ -1,5 +1,6 @@
 #include "ffi_smoke_ExternalClass.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "foo/Bar.h"
 #include <cstdint>
@@ -35,12 +36,6 @@ library_smoke_ExternalClass_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_ExternalClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_ExternalClass_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_ExternalClass_SomeStruct_create_handle(FfiOpaqueHandle someField) {

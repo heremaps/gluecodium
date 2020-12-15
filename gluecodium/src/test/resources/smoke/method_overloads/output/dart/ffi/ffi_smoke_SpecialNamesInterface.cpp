@@ -1,10 +1,11 @@
 #include "ffi_smoke_SpecialNamesInterface.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
-#include "gluecodium\TypeRepository.h"
-#include "smoke\SpecialNamesInterface.h"
+#include "gluecodium/TypeRepository.h"
+#include "smoke/SpecialNamesInterface.h"
 #include <functional>
 #include <memory>
 #include <memory>
@@ -15,10 +16,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_SpecialNamesInterface_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_SpecialNamesInterface");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_SpecialNamesInterface_Proxy(const smoke_SpecialNamesInterface_Proxy&) = delete;
@@ -47,10 +49,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_SpecialNamesInterface_Callback_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_SpecialNamesInterface_Callback");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_SpecialNamesInterface_Callback_Proxy(const smoke_SpecialNamesInterface_Callback_Proxy&) = delete;
@@ -100,12 +103,6 @@ library_smoke_SpecialNamesInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_SpecialNamesInterface_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_Callback_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) ::smoke::SpecialNamesInterface::Callback(
@@ -149,6 +146,7 @@ library_smoke_SpecialNamesInterface_create_proxy(uint64_t token, int32_t isolate
             new (std::nothrow) smoke_SpecialNamesInterface_Proxy(token, isolate_id, deleter, f0)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_SpecialNamesInterface", *proxy_ptr);
+        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
@@ -164,10 +162,6 @@ library_smoke_SpecialNamesInterface_Callback_create_proxy(uint64_t token, int32_
             std::bind(&smoke_SpecialNamesInterface_Callback_Proxy::operator(), cached_proxy)
         )
     );
-}
-FfiOpaqueHandle
-library_smoke_SpecialNamesInterface_Callback_get_raw_pointer(FfiOpaqueHandle handle) {
-    return handle;
 }
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_get_type_id(FfiOpaqueHandle handle) {

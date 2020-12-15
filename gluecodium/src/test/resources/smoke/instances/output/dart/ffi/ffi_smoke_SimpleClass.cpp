@@ -1,5 +1,6 @@
 #include "ffi_smoke_SimpleClass.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/SimpleClass.h"
 #include <memory>
@@ -36,12 +37,6 @@ library_smoke_SimpleClass_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_SimpleClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_SimpleClass_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(handle)->get()
-    );
 }
 #ifdef __cplusplus
 }

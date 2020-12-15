@@ -19,10 +19,6 @@ final _smoke_AttributesLambda_create_proxy = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_AttributesLambda_create_proxy'));
-final _smoke_AttributesLambda_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_AttributesLambda_get_raw_pointer'));
 class AttributesLambda$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;

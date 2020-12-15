@@ -37,7 +37,6 @@ extern "C" {
 {{#classes}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
 {{#if attributes.equatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}
 {{/classes}}
@@ -45,7 +44,6 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_p
 {{#lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle);
 {{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 {{/lambdas}}
 

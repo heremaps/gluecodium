@@ -23,10 +23,6 @@ final _smoke_ChildClassFromClass_release_handle = __lib.catchArgumentError(() =>
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_release_handle'));
-final _smoke_ChildClassFromClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ChildClassFromClass_get_raw_pointer'));
 final _smoke_ChildClassFromClass_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -36,7 +32,8 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ChildClassFromClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ChildClassFromClass_release_handle(handle);
     handle = null;
   }
@@ -55,9 +52,10 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
 Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
   _smoke_ChildClassFromClass_copy_handle((value as ChildClassFromClass$Impl).handle);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ChildClassFromClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ChildClassFromClass) return instance as ChildClassFromClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ChildClassFromClass;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -65,7 +63,7 @@ ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ChildClassFromClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ChildClassFromClass_releaseFfiHandle(Pointer<Void> handle) =>

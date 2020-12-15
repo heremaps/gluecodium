@@ -212,10 +212,6 @@ final _smoke_Comments_SomeLambda_create_proxy = __lib.catchArgumentError(() => _
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Comments_SomeLambda_create_proxy'));
-final _smoke_Comments_SomeLambda_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Comments_SomeLambda_get_raw_pointer'));
 class Comments_SomeLambda$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -305,10 +301,6 @@ final _smoke_Comments_release_handle = __lib.catchArgumentError(() => __lib.nati
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Comments_release_handle'));
-final _smoke_Comments_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Comments_get_raw_pointer'));
 final _someMethodWithAllComments_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -332,7 +324,8 @@ class Comments$Impl implements Comments {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_Comments_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Comments_release_handle(handle);
     handle = null;
   }
@@ -525,12 +518,13 @@ class Comments$Impl implements Comments {
 Pointer<Void> smoke_Comments_toFfi(Comments value) =>
   _smoke_Comments_copy_handle((value as Comments$Impl).handle);
 Comments smoke_Comments_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_Comments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Comments) return instance as Comments;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Comments;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Comments_copy_handle(handle);
   final result = Comments$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_Comments_releaseFfiHandle(Pointer<Void> handle) =>

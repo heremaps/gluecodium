@@ -19,7 +19,6 @@ _GLUECODIUM_FFI_EXPORT uint32_t library_smoke_BasicTypes_uintFunction__UInt(int3
 _GLUECODIUM_FFI_EXPORT uint64_t library_smoke_BasicTypes_ulongFunction__ULong(int32_t _isolate_id, uint64_t input);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_BasicTypes_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_BasicTypes_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_BasicTypes_get_raw_pointer(FfiOpaqueHandle handle);
 #ifdef __cplusplus
 }
 #endif

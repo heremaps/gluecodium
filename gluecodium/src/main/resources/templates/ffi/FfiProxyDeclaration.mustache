@@ -33,11 +33,12 @@ public:
 
     ~{{resolveName}}_Proxy() {
         {{>ffi/FfiInternal}}::remove_cached_proxy(token, isolate_id, "{{resolveName}}");
+        {{>ffi/FfiInternal}}::remove_cached_token(this, isolate_id);
 
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
 

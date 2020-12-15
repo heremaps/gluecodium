@@ -1,5 +1,6 @@
 #include "ffi_smoke_StandaloneProducer.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -14,10 +15,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
     ~smoke_StandaloneProducer_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_StandaloneProducer");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_StandaloneProducer_Proxy(const smoke_StandaloneProducer_Proxy&) = delete;
@@ -99,10 +101,6 @@ library_smoke_StandaloneProducer_create_proxy(uint64_t token, int32_t isolate_id
             std::bind(&smoke_StandaloneProducer_Proxy::operator(), cached_proxy)
         )
     );
-}
-FfiOpaqueHandle
-library_smoke_StandaloneProducer_get_raw_pointer(FfiOpaqueHandle handle) {
-    return handle;
 }
 #ifdef __cplusplus
 }

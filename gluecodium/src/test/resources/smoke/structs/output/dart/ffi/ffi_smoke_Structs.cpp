@@ -1,5 +1,6 @@
 #include "ffi_smoke_Structs.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
@@ -60,12 +61,6 @@ library_smoke_Structs_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Structs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Structs>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Structs_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Structs>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Structs_Point_create_handle(double x, double y) {

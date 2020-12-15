@@ -1,5 +1,6 @@
 #include "ffi_smoke_LevelOne.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/LevelOne.h"
 #include "smoke/OuterClass.h"
@@ -40,12 +41,6 @@ library_smoke_LevelOne_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::LevelOne>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_LevelOne_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::LevelOne>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::LevelOne::LevelTwo>(
@@ -58,12 +53,6 @@ library_smoke_LevelOne_LevelTwo_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_LevelOne_LevelTwo_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>(
@@ -74,12 +63,6 @@ library_smoke_LevelOne_LevelTwo_LevelThree_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_LevelOne_LevelTwo_LevelThree_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_LevelOne_LevelTwo_LevelThree_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle(FfiOpaqueHandle stringField) {

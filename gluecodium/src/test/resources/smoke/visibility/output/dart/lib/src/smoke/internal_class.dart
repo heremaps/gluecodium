@@ -23,10 +23,6 @@ final _smoke_InternalClass_release_handle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClass_release_handle'));
-final _smoke_InternalClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalClass_get_raw_pointer'));
 class InternalClass$Impl implements InternalClass {
   @protected
   Pointer<Void> handle;
@@ -34,7 +30,8 @@ class InternalClass$Impl implements InternalClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_InternalClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_InternalClass_release_handle(handle);
     handle = null;
   }
@@ -53,12 +50,13 @@ class InternalClass$Impl implements InternalClass {
 Pointer<Void> smoke_InternalClass_toFfi(InternalClass value) =>
   _smoke_InternalClass_copy_handle((value as InternalClass$Impl).handle);
 InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_InternalClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is InternalClass) return instance as InternalClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as InternalClass;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_InternalClass_copy_handle(handle);
   final result = InternalClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_InternalClass_releaseFfiHandle(Pointer<Void> handle) =>

@@ -24,10 +24,6 @@ final _smoke_ChildWithParentClassReferences_release_handle = __lib.catchArgument
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ChildWithParentClassReferences_release_handle'));
-final _smoke_ChildWithParentClassReferences_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ChildWithParentClassReferences_get_raw_pointer'));
 final _smoke_ChildWithParentClassReferences_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -39,7 +35,8 @@ class ChildWithParentClassReferences$Impl implements ChildWithParentClassReferen
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ChildWithParentClassReferences_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ChildWithParentClassReferences_release_handle(handle);
     handle = null;
   }
@@ -82,9 +79,10 @@ class ChildWithParentClassReferences$Impl implements ChildWithParentClassReferen
 Pointer<Void> smoke_ChildWithParentClassReferences_toFfi(ChildWithParentClassReferences value) =>
   _smoke_ChildWithParentClassReferences_copy_handle((value as ChildWithParentClassReferences$Impl).handle);
 ChildWithParentClassReferences smoke_ChildWithParentClassReferences_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ChildWithParentClassReferences_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ChildWithParentClassReferences) return instance as ChildWithParentClassReferences;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ChildWithParentClassReferences;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ChildWithParentClassReferences_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -92,7 +90,7 @@ ChildWithParentClassReferences smoke_ChildWithParentClassReferences_fromFfi(Poin
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ChildWithParentClassReferences$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ChildWithParentClassReferences_releaseFfiHandle(Pointer<Void> handle) =>

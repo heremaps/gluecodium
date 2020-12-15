@@ -25,10 +25,6 @@ final _package_Interface_create_proxy = __lib.catchArgumentError(() => __lib.nat
     Pointer<Void> Function(Uint64, Int32, Pointer),
     Pointer<Void> Function(int, int, Pointer)
   >('library_package_Interface_create_proxy'));
-final _package_Interface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_package_Interface_get_raw_pointer'));
 final _package_Interface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -40,7 +36,8 @@ class Interface$Impl implements Interface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_package_Interface_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _package_Interface_release_handle(handle);
     handle = null;
   }
@@ -52,13 +49,13 @@ Pointer<Void> package_Interface_toFfi(Interface value) {
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi
   );
-  __lib.reverseCache[_package_Interface_get_raw_pointer(result)] = value;
   return result;
 }
 Interface package_Interface_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _package_Interface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Interface) return instance as Interface;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Interface;
+  if (instance != null) return instance;
   final _type_id_handle = _package_Interface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -66,7 +63,7 @@ Interface package_Interface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : Interface$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void package_Interface_releaseFfiHandle(Pointer<Void> handle) =>

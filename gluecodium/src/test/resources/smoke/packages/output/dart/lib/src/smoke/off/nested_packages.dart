@@ -85,10 +85,6 @@ final _smoke_off_NestedPackages_release_handle = __lib.catchArgumentError(() => 
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_off_NestedPackages_release_handle'));
-final _smoke_off_NestedPackages_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_off_NestedPackages_get_raw_pointer'));
 class NestedPackages$Impl implements NestedPackages {
   @protected
   Pointer<Void> handle;
@@ -96,7 +92,8 @@ class NestedPackages$Impl implements NestedPackages {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_off_NestedPackages_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_off_NestedPackages_release_handle(handle);
     handle = null;
   }
@@ -115,12 +112,13 @@ class NestedPackages$Impl implements NestedPackages {
 Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
   _smoke_off_NestedPackages_copy_handle((value as NestedPackages$Impl).handle);
 NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_off_NestedPackages_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is NestedPackages) return instance as NestedPackages;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as NestedPackages;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_off_NestedPackages_copy_handle(handle);
   final result = NestedPackages$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_off_NestedPackages_releaseFfiHandle(Pointer<Void> handle) =>

@@ -297,10 +297,6 @@ final _smoke_PublicClass_release_handle = __lib.catchArgumentError(() => __lib.n
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PublicClass_release_handle'));
-final _smoke_PublicClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_PublicClass_get_raw_pointer'));
 class PublicClass$Impl implements PublicClass {
   @protected
   Pointer<Void> handle;
@@ -308,7 +304,8 @@ class PublicClass$Impl implements PublicClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_PublicClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_PublicClass_release_handle(handle);
     handle = null;
   }
@@ -377,12 +374,13 @@ class PublicClass$Impl implements PublicClass {
 Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) =>
   _smoke_PublicClass_copy_handle((value as PublicClass$Impl).handle);
 PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_PublicClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is PublicClass) return instance as PublicClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as PublicClass;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_PublicClass_copy_handle(handle);
   final result = PublicClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_PublicClass_releaseFfiHandle(Pointer<Void> handle) =>

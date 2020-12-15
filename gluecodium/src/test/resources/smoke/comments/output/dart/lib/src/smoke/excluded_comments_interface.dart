@@ -27,10 +27,6 @@ final _smoke_ExcludedCommentsInterface_create_proxy = __lib.catchArgumentError((
     Pointer<Void> Function(Uint64, Int32, Pointer),
     Pointer<Void> Function(int, int, Pointer)
   >('library_smoke_ExcludedCommentsInterface_create_proxy'));
-final _smoke_ExcludedCommentsInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ExcludedCommentsInterface_get_raw_pointer'));
 final _smoke_ExcludedCommentsInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -42,7 +38,8 @@ class ExcludedCommentsInterface$Impl implements ExcludedCommentsInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ExcludedCommentsInterface_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ExcludedCommentsInterface_release_handle(handle);
     handle = null;
   }
@@ -54,13 +51,13 @@ Pointer<Void> smoke_ExcludedCommentsInterface_toFfi(ExcludedCommentsInterface va
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi
   );
-  __lib.reverseCache[_smoke_ExcludedCommentsInterface_get_raw_pointer(result)] = value;
   return result;
 }
 ExcludedCommentsInterface smoke_ExcludedCommentsInterface_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ExcludedCommentsInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ExcludedCommentsInterface) return instance as ExcludedCommentsInterface;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ExcludedCommentsInterface;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ExcludedCommentsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -68,7 +65,7 @@ ExcludedCommentsInterface smoke_ExcludedCommentsInterface_fromFfi(Pointer<Void> 
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ExcludedCommentsInterface$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ExcludedCommentsInterface_releaseFfiHandle(Pointer<Void> handle) =>

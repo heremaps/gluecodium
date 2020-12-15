@@ -1,5 +1,6 @@
 #include "ffi_smoke_StructWithClass.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "smoke/SimpleClass.h"
 #include "smoke/StructWithClass.h"
 #include <memory>

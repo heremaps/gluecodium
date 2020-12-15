@@ -28,10 +28,6 @@ final _smoke_SomeClass_release_handle = __lib.catchArgumentError(() => __lib.nat
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SomeClass_release_handle'));
-final _smoke_SomeClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SomeClass_get_raw_pointer'));
 class SomeClass$Impl implements SomeClass {
   @protected
   Pointer<Void> handle;
@@ -39,13 +35,14 @@ class SomeClass$Impl implements SomeClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_SomeClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SomeClass_release_handle(handle);
     handle = null;
   }
   SomeClass fooBar() {
     final result = SomeClass$Impl(_fooBar());
-    __lib.reverseCache[_smoke_SomeClass_get_raw_pointer(handle)] = result;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(result));
     return result;
   }
   Pointer<Void> _fooBar() {
@@ -121,12 +118,13 @@ class SomeClass$Impl implements SomeClass {
 Pointer<Void> smoke_SomeClass_toFfi(SomeClass value) =>
   _smoke_SomeClass_copy_handle((value as SomeClass$Impl).handle);
 SomeClass smoke_SomeClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_SomeClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is SomeClass) return instance as SomeClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as SomeClass;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_SomeClass_copy_handle(handle);
   final result = SomeClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_SomeClass_releaseFfiHandle(Pointer<Void> handle) =>

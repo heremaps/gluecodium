@@ -1,5 +1,6 @@
 #include "ffi_smoke_Enums.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "smoke/Enums.h"
@@ -27,12 +28,6 @@ library_smoke_Enums_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Enums_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Enums>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Enums_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Enums>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Enums_ExternalEnum_create_handle_nullable(uint32_t value)

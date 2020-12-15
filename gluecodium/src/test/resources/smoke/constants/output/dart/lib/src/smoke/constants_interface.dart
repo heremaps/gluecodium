@@ -85,10 +85,6 @@ final _smoke_ConstantsInterface_release_handle = __lib.catchArgumentError(() => 
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ConstantsInterface_release_handle'));
-final _smoke_ConstantsInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ConstantsInterface_get_raw_pointer'));
 class ConstantsInterface$Impl implements ConstantsInterface {
   @protected
   Pointer<Void> handle;
@@ -96,7 +92,8 @@ class ConstantsInterface$Impl implements ConstantsInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ConstantsInterface_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ConstantsInterface_release_handle(handle);
     handle = null;
   }
@@ -104,12 +101,13 @@ class ConstantsInterface$Impl implements ConstantsInterface {
 Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
   _smoke_ConstantsInterface_copy_handle((value as ConstantsInterface$Impl).handle);
 ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ConstantsInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ConstantsInterface) return instance as ConstantsInterface;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ConstantsInterface;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_ConstantsInterface_copy_handle(handle);
   final result = ConstantsInterface$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) =>

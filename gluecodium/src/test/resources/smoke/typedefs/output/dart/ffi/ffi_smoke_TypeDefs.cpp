@@ -1,5 +1,6 @@
 #include "ffi_smoke_TypeDefs.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/TypeCollection.h"
@@ -91,12 +92,6 @@ library_smoke_TypeDefs_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_TypeDefs_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::TypeDefs>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_TypeDefs_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::TypeDefs>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(double field) {

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed referential equality in Dart for objects being sent from Dart to C++ and then back.
+
 ## 8.7.0
 Release date: 2021-01-11
 ### Features:

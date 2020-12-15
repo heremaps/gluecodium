@@ -40,10 +40,6 @@ final _smoke_MultipleAttributesDart_release_handle = __lib.catchArgumentError(()
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MultipleAttributesDart_release_handle'));
-final _smoke_MultipleAttributesDart_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_MultipleAttributesDart_get_raw_pointer'));
 class MultipleAttributesDart$Impl implements MultipleAttributesDart {
   @protected
   Pointer<Void> handle;
@@ -51,7 +47,8 @@ class MultipleAttributesDart$Impl implements MultipleAttributesDart {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_MultipleAttributesDart_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_MultipleAttributesDart_release_handle(handle);
     handle = null;
   }
@@ -114,12 +111,13 @@ class MultipleAttributesDart$Impl implements MultipleAttributesDart {
 Pointer<Void> smoke_MultipleAttributesDart_toFfi(MultipleAttributesDart value) =>
   _smoke_MultipleAttributesDart_copy_handle((value as MultipleAttributesDart$Impl).handle);
 MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_MultipleAttributesDart_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is MultipleAttributesDart) return instance as MultipleAttributesDart;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as MultipleAttributesDart;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_MultipleAttributesDart_copy_handle(handle);
   final result = MultipleAttributesDart$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_MultipleAttributesDart_releaseFfiHandle(Pointer<Void> handle) =>

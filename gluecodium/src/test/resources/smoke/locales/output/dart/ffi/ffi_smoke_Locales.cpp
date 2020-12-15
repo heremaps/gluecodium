@@ -1,5 +1,6 @@
 #include "ffi_smoke_Locales.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/Locale.h"
 #include "smoke/Locales.h"
@@ -43,12 +44,6 @@ library_smoke_Locales_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Locales_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Locales>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Locales_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Locales>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Locales_LocaleStruct_create_handle(FfiOpaqueHandle localeField) {
