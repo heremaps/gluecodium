@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issue with `Locale` type in C++ for Windows builds.
+
 ## 8.6.7
 Release date: 2020-12-14
 ### Bug fixes:
