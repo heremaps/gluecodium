@@ -4,8 +4,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "cbridge\include\BaseHandle.h"
-#include "cbridge\include\Export.h"
+#include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
 #include <stdint.h>
 _GLUECODIUM_C_EXPORT _baseRef ArrayOf__Double_create_handle();
 _GLUECODIUM_C_EXPORT _baseRef ArrayOf__Double_copy_handle(_baseRef handle);

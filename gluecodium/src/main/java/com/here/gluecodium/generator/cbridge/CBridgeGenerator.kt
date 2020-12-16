@@ -98,16 +98,21 @@ internal class CBridgeGenerator(
         )
         val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
 
-        templateData["includes"] =
-            genericTypes.flatMap { headerIncludeResolver.resolveIncludes(it) }.distinct().sorted()
+        val headerIncludes = genericTypes.flatMap { headerIncludeResolver.resolveIncludes(it) } +
+            listOfNotNull(
+                CBridgeHeaderIncludeResolver.INT_INCLUDE.takeIf { genericTypes.any { it is LimeList } },
+                CBridgeHeaderIncludeResolver.BOOL_INCLUDE.takeIf { genericTypes.any { it !is LimeList } }
+            )
+        templateData["includes"] = headerIncludes.distinct().sorted()
         val headerFileContent =
             TemplateEngine.render("cbridge/CBridgeCollectionsHeader", templateData, nameResolvers, predicates)
         val headerFile = GeneratedFile(headerFileContent, CBRIDGE_COLLECTIONS_HEADER)
 
-        templateData["includes"] = listOf(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER)) +
-            (genericTypes.flatMap { implIncludeResolver.resolveIncludes(it) } +
-                    CBridgeImplIncludeResolver.BASE_HANDLE_IMPL_INCLUDE +
-                    cppIncludeResolver.optionalInclude).distinct().sorted()
+        val implIncludes = genericTypes.flatMap { implIncludeResolver.resolveIncludes(it) } +
+            CBridgeImplIncludeResolver.BASE_HANDLE_IMPL_INCLUDE +
+            cppIncludeResolver.optionalInclude
+        templateData["includes"] =
+            listOf(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER)) + implIncludes.distinct().sorted()
         val implFileContent =
             TemplateEngine.render("cbridge/CBridgeCollectionsImpl", templateData, nameResolvers, predicates)
         val implFile = GeneratedFile(implFileContent, CBRIDGE_COLLECTIONS_IMPL)
