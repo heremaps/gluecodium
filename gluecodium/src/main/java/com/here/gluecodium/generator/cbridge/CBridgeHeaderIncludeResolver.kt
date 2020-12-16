@@ -103,7 +103,7 @@ internal class CBridgeHeaderIncludeResolver(
         Include.createInternalInclude(getHeaderFilePath(getTopElement(limeType)))
 
     companion object {
-        private val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
-        private val INT_INCLUDE = Include.createSystemInclude("stdint.h")
+        val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
+        val INT_INCLUDE = Include.createSystemInclude("stdint.h")
     }
 }
