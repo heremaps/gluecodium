@@ -100,4 +100,15 @@ void main() {
     list.first.release();
     result.first.release();
   });
+  _testSuite.test("Ref equality preserved for child class returned as parent type", () {
+    final instance1 = DummyFactory.getDummyChildClassSingleton();
+    final instance2 = DummyFactory.getDummyChildClassSingletonAsParent();
+
+    final result = instance1 == instance2;
+
+    expect(result, isTrue);
+
+    instance1.release();
+    instance2.release();
+  });
 }
