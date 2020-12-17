@@ -73,6 +73,13 @@ class RefEqualityTests: XCTestCase {
         XCTAssertTrue(list.first === result.first)
     }
 
+    func testRefEqualityPreservedForChildClassAsParent() {
+        let instance1 = DummyFactory.getDummyChildClassSingleton()
+        let instance2 = DummyFactory.getDummyChildClassSingletonAsParent()
+
+        XCTAssertTrue(instance1 === instance2)
+    }
+
     static var allTests = [
         ("testRefEqualityPreservedForClass", testRefEqualityPreservedForClass),
         ("testRefInequalityPreservedForClass", testRefInequalityPreservedForClass),
@@ -80,6 +87,7 @@ class RefEqualityTests: XCTestCase {
         ("testRefInequalityPreservedForInterface", testRefInequalityPreservedForInterface),
         ("testRefEqualityPreservedForClassConstructor", testRefEqualityPreservedForClassConstructor),
         ("testRefInequalityPreservedForClassConstructor", testRefInequalityPreservedForClassConstructor),
-        ("testRefEqualityPreservedForClassInList", testRefEqualityPreservedForClassInList)
+        ("testRefEqualityPreservedForClassInList", testRefEqualityPreservedForClassInList),
+        ("testRefEqualityPreservedForChildClassAsParent", testRefEqualityPreservedForChildClassAsParent)
     ]
 }

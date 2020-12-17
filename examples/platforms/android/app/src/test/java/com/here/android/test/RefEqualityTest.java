@@ -94,4 +94,12 @@ public final class RefEqualityTest {
 
     assertTrue(list.get(0) == result.get(0));
   }
+
+  @Test
+  public void refEqualityPreservedForChildClassAsParent() {
+    DummyChildClass instance1 = DummyFactory.getDummyChildClassSingleton();
+    DummyParentClass instance2 = DummyFactory.getDummyChildClassSingletonAsParent();
+
+    assertTrue(instance1 == instance2);
+  }
 }

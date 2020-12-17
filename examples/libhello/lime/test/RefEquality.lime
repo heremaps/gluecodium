@@ -26,9 +26,15 @@ class DummyClass {
 interface DummyInterface {
 }
 
+open class DummyParentClass {}
+
+class DummyChildClass: DummyParentClass {}
+
 class DummyFactory {
     static fun getDummyClassSingleton(): DummyClass
     static fun createDummyClass(): DummyClass
     static fun getDummyInterfaceSingleton(): DummyInterface
     static fun createDummyInterface(): DummyInterface
+    static fun getDummyChildClassSingleton(): DummyChildClass
+    static fun getDummyChildClassSingletonAsParent(): DummyParentClass
 }
