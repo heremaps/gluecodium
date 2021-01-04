@@ -65,7 +65,6 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
     private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
     private val nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
     private val nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
-    private val generateStubs = options.generateStubs
     private val basePackages = if (options.javaPackages.isNotEmpty()) options.javaPackages else listOf("com", "example")
     private val internalPackageList = basePackages + internalPackage
 
@@ -105,8 +104,6 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
             GeneratedFile.SourceSet.COMMON
         )
         resultFiles += AndroidManifestGenerator(basePackages).generate()
-
-        if (generateStubs) return resultFiles
 
         val jniTemplates = JniTemplates(
             limeReferenceMap = limeModel.referenceMap,
@@ -170,7 +167,6 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
         val templateData = mutableMapOf(
             "model" to limeElement,
             "contentTemplate" to contentTemplateName,
-            "stubs" to generateStubs,
             "package" to packages,
             "imports" to imports.distinct().sorted(),
             "nonNullAnnotation" to nonNullAnnotation,

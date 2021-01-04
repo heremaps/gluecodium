@@ -18,11 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless attributes.java.skip}}{{#if stubs}}{{#unless isConstructor}}
-{{>java/JavaMethodSignature}} {
-    throw RuntimeException("This method is a stub and has to be mocked.");
-}
-{{/unless}}{{/if}}{{#unless stubs}}{{#if isCached}}
+{{#unless attributes.java.skip}}{{#if isCached}}
 private {{#if isStatic}}static {{/if}}{{resolveName returnType}} cache_{{resolveName}};
 private {{#if isStatic}}static {{/if}}boolean is_cached_{{resolveName}} = false;
 
@@ -41,4 +37,3 @@ private {{#if isStatic}}static {{/if}}native {{resolveName returnType}} {{resolv
 }}{{joinPartial parameters "java/JavaParameter" ", "}});
 {{/if}}{{!!
 }}{{#unless isCached}}{{>java/JavaMethodSignature}};{{/unless}}{{/unless}}
-{{/unless}}

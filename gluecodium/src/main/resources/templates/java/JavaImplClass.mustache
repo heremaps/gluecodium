@@ -23,7 +23,6 @@
  * @exclude
  */
 static {{/if}}class {{resolveName}}Impl extends NativeBase implements {{resolveName}} {
-{{#unless stubs}}
     protected {{resolveName}}Impl(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
@@ -42,7 +41,7 @@ static {{/if}}class {{resolveName}}Impl extends NativeBase implements {{resolveN
     @Override
     public native int hashCode();
 
-{{/if}}{{/unless}}
+{{/if}}
 
 {{#set isImpl=true interface=this}}{{#functions}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaFunction" "    "}}
