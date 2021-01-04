@@ -79,7 +79,10 @@ public final class ListenerWithMapsTest {
   public void checkNativeListener() {
     ForecastListener listener = ForecastFactory.createListener();
     PROVIDER.inform(listener);
-    assertEquals(EXPECTED_DATA, HelloWorldStaticLogger.getLog());
+    assertEquals(
+        "OLOLO" + HelloWorldStaticLogger.getLog() + " != " + EXPECTED_DATA,
+        EXPECTED_DATA,
+        HelloWorldStaticLogger.getLog());
   }
 
   @Test
