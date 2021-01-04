@@ -22,33 +22,34 @@ set(includeguard_gluecodium_java_Compile ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# Java compilation module
-# -----------------------
-#
-# This module compiles Java code into *.class files for a target for which
-# apigen_generate($target ... android) was run.
-#
-# .. command:: apigen_java_compile
-#
-# The general form of the command is::
-#
-#     apigen_java_compile(TARGET target
-#        LOCAL_DEPENDENCIES jar_name
-#        LOCAL_DEPENDENCIES_DIRS dir_path
-#        LOCAL_SOURCES_DIRS source_path
-#        LOCAL_JARS jar_name
-#        REMOTE_DEPENDENCIES package_name )
-#
-# LOCAL_DEPENDENCIES specifies name(s) of the local package(s) to include as dependencies.
-# LOCAL_DEPENDENCIES_DIRS specifies paths(s) of the local directories where to look for those
-# packages.
-# LOCAL_JARS specifies the path(s) of local JAR file(s) to include as dependencies
-# REMOTE_DEPENDENCIES specifies name(s) of the Gradle packages to include as dependencies through
-# LOCAL_SOURCES_DIRS specifies paths(s) of the local directories with Java sources to compile.
-# the regular dependency resolution process (i.e. fetching them from the remote repository unless
-# an up-to-date version is present in the local Gradle cache).
-#
+#[===========================================================================================[.rst:
+Java compilation module
+-----------------------
+
+This module compiles Java code into *.class files for a target for which
+apigen_generate($target ... android) was run.
+
+.. command:: apigen_java_compile
+
+The general form of the command is::
+
+    apigen_java_compile(TARGET target
+       LOCAL_DEPENDENCIES jar_name
+       LOCAL_DEPENDENCIES_DIRS dir_path
+       LOCAL_SOURCES_DIRS source_path
+       LOCAL_JARS jar_name
+       REMOTE_DEPENDENCIES package_name )
+
+LOCAL_DEPENDENCIES specifies name(s) of the local package(s) to include as dependencies.
+LOCAL_DEPENDENCIES_DIRS specifies paths(s) of the local directories where to look for those
+packages.
+LOCAL_JARS specifies the path(s) of local JAR file(s) to include as dependencies
+REMOTE_DEPENDENCIES specifies name(s) of the Gradle packages to include as dependencies through
+LOCAL_SOURCES_DIRS specifies paths(s) of the local directories with Java sources to compile.
+the regular dependency resolution process (i.e. fetching them from the remote repository unless
+an up-to-date version is present in the local Gradle cache).
+
+#]===========================================================================================]
 
 find_package(Java COMPONENTS Development REQUIRED)
 

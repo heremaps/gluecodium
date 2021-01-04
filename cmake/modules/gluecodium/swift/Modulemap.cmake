@@ -22,25 +22,25 @@ set(includeguard_gluecodium_swift_Modulemap ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# apigen_swift_modulemap
-# ----------------------
-#
-# This module builds Swift modulemap needed for the framework creation.
-# The modulemap is used to get the Swift compiler into loading the header files and linking
-# against the CBridge library without exposing the C bindings in the framework.
-# The modulemap itself is not part of the framework.
-#
-# .. command:: apigen_swift_modulemap
-#
-# The general form of the command is::
-#
-#     apigen_swift_modulemap(target
-#       HEADERS file_list)
-#
-# HEADERS specifies additional file list to put into generated modulemap file
-#
+#[===========================================================================================[.rst:
+apigen_swift_modulemap
+----------------------
 
+This module builds Swift modulemap needed for the framework creation.
+The modulemap is used to get the Swift compiler into loading the header files and linking
+against the CBridge library without exposing the C bindings in the framework.
+The modulemap itself is not part of the framework.
+
+.. command:: apigen_swift_modulemap
+
+The general form of the command is::
+
+    apigen_swift_modulemap(target
+      HEADERS file_list)
+
+HEADERS specifies additional file list to put into generated modulemap file
+
+#]===========================================================================================]
 function(apigen_swift_modulemap target)
 
   set(multiArgs HEADERS)

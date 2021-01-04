@@ -26,27 +26,26 @@ include(${CMAKE_CURRENT_LIST_DIR}/Compile.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Modulemap.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Configuration.cmake)
 
-#.rst:
-# apigen_swift_build
-# -------------------
-#
-# This module build the framework binary
-# a swift framework.
-#
-# .. command:: apigen_swift_build
-#
-# The general form of the command is::
-#
-#     apigen_swift_build(target
-#       MODULEMAP_HEADERS file_list
-#       FRAMEWORKS framework_list
-#       FRAMEWORK_DIRS directory_list)
-#
-# MODULEMAP_HEADERS specifies additional file list to put into generated modulemap file
-# FRAMEWORKS specifies a list of frameworks to link to.
-# FRAMEWORK_DIRS specifies a list of directories to look for the frameworks in FRAMEWORKS.
-#
+#[===========================================================================================[.rst:
+apigen_swift_build
+-------------------
 
+This module build the framework binary
+a swift framework.
+
+.. command:: apigen_swift_build
+
+The general form of the command is::
+
+    apigen_swift_build(target
+      MODULEMAP_HEADERS file_list
+      FRAMEWORKS framework_list
+      FRAMEWORK_DIRS directory_list)
+
+MODULEMAP_HEADERS specifies additional file list to put into generated modulemap file
+FRAMEWORKS specifies a list of frameworks to link to.
+FRAMEWORK_DIRS specifies a list of directories to look for the frameworks in FRAMEWORKS.
+#]===========================================================================================]
 function(apigen_swift_build target)
 
   set(multiArgs MODULEMAP_HEADERS FRAMEWORKS FRAMEWORK_DIRS)

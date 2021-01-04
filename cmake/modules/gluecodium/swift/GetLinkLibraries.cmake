@@ -22,27 +22,27 @@ set(includeguard_apigen_GetLinkLibraries ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# GetLinkLibraries
-# -------------------
-# Return a list of all direct and transitive libraries needed for linking static libraries.
-#
-# Usage:
-#   get_link_libraries(
-#     target
-#     output_link_arguments
-#     )
-#
-# target
-#   Name of the target (e.g., hello).
-#
-# output_link_arguments
-#   A variable to which the swiftc linking arguments will be written to. It's supposed to
-#   be passed to swiftc directly, i.e. `COMMAND swiftc "${output_link_arguments}" ... COMMAND_EXPAND_LISTS`
-#
-# Note:
-#   make sure to always quote "${output_link_arguments}" and use COMMAND_EXPAND_LISTS in custom commands.
+#[===========================================================================================[.rst:
+GetLinkLibraries
+-------------------
+Return a list of all direct and transitive libraries needed for linking static libraries.
 
+Usage:
+  get_link_libraries(
+    target
+    output_link_arguments
+    )
+
+target
+  Name of the target (e.g., hello).
+
+output_link_arguments
+  A variable to which the swiftc linking arguments will be written to. It's supposed to
+  be passed to swiftc directly, i.e. `COMMAND swiftc "${output_link_arguments}" ... COMMAND_EXPAND_LISTS`
+
+Note:
+  make sure to always quote "${output_link_arguments}" and use COMMAND_EXPAND_LISTS in custom commands.
+#]===========================================================================================]
 function(get_swiftc_arguments target output_link_arguments)
     set(visited)
     set(included)

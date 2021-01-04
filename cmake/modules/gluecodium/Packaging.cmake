@@ -28,7 +28,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/CheckArguments.cmake)
 # calling the function.
 set(APIGEN_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-#[========================================[.rst:
+#[===========================================================================================[.rst:
 
 apigen_create_package
 _____________________
@@ -103,7 +103,7 @@ fixing up library search paths so the framework libraries may be loaded properly
 limitation would require a much more complicated scheme to detect which libraries belong to which
 frameworks.
 
-#]========================================]
+#]===========================================================================================]
 
 function(apigen_create_package)
   set(single_args TARGET NAME SWIFT_FRAMEWORK_IDENTIFIER)

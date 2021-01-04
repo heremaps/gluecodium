@@ -25,36 +25,36 @@ cmake_minimum_required(VERSION 3.5)
 include(${CMAKE_CURRENT_LIST_DIR}/FrameworkInfoPlist.cmake)
 
 
-#.rst:
-# apigen_swift_framework_bundle
-# -------------------
-#
-# This module builds a framework bundle to the target.
-# The second attribute is an array of paths were the resources must be copy
-# in the bundle.
-#
-# There is no need to create a bundle plist file, because it will be integrated
-# in the framework.
-#
-# .. command:: apigen_swift_framework_bundle
-#
-# The general form of the command is::
-#
-#     apigen_swift_framework_bundle(TARGET target
-#       [ASSET <asset-source-1> <asset-destination-1>]
-#       [ASSET <asset-source-2> <asset-destination-2>]
-#       [ASSETS asset1 asset2 ... assetN]
-#       [BUNDLE_PATH <path-to-bundle>])
-#
-# The ``ASSETS`` option recursively includes a folder structure using the last source path component
-# as the parent of the final asset hierarcy. For example, if you pass ``ASSETS my/folder/fonts``, files
-# will end up under ``assets/fonts`` in the resulting Android Archive. Use the ``ASSET`` option if more
-# specific control is needed. For example, if you pass ``ASSET my/folder/fonts magicfonts``, files
-# will resuide under ``assets/magicfonts`` in the resulting Android Archive.
-#
-# ``BUNDLE_PATH`` is an optional variable to specify where the bundle will be created. If it's not defined
-# default path will be set.
+#[===========================================================================================[.rst:
+apigen_swift_framework_bundle
+-------------------
 
+This module builds a framework bundle to the target.
+The second attribute is an array of paths were the resources must be copy
+in the bundle.
+
+There is no need to create a bundle plist file, because it will be integrated
+in the framework.
+
+.. command:: apigen_swift_framework_bundle
+
+The general form of the command is::
+
+    apigen_swift_framework_bundle(TARGET target
+      [ASSET <asset-source-1> <asset-destination-1>]
+      [ASSET <asset-source-2> <asset-destination-2>]
+      [ASSETS asset1 asset2 ... assetN]
+      [BUNDLE_PATH <path-to-bundle>])
+
+The ``ASSETS`` option recursively includes a folder structure using the last source path component
+as the parent of the final asset hierarcy. For example, if you pass ``ASSETS my/folder/fonts``, files
+will end up under ``assets/fonts`` in the resulting Android Archive. Use the ``ASSET`` option if more
+specific control is needed. For example, if you pass ``ASSET my/folder/fonts magicfonts``, files
+will resuide under ``assets/magicfonts`` in the resulting Android Archive.
+
+``BUNDLE_PATH`` is an optional variable to specify where the bundle will be created. If it's not defined
+default path will be set.
+#]===========================================================================================]
 function(apigen_swift_framework_bundle)
   set(oneValueArgs TARGET BUNDLE_PATH)
   set(multiValueArgs ASSET ASSETS)

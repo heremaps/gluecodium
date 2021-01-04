@@ -22,12 +22,12 @@ set(includeguard_gluecodium_All ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# The main Gluecodium module
-# ----------------------
-#
-# Includes all other Gluecodium modules for convenience.
+#[===========================================================================================[.rst:
+The main Gluecodium module
+----------------------
 
+Includes all other Gluecodium modules for convenience.
+#]===========================================================================================]
 # Generic modules
 include(${CMAKE_CURRENT_LIST_DIR}/Gluecodium.cmake)
 

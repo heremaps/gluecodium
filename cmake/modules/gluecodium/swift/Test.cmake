@@ -22,19 +22,19 @@ set(includeguard_gluecodium_swift_Test ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# apigen_swift_test
-# -----------------
-#
-# This module builds test target information
-#
-# .. command:: apigen_swift_test
-#
-# The general form of the command is::
-#
-#     apigen_swift_test(target)
-#
+#[===========================================================================================[.rst:
+apigen_swift_test
+-----------------
 
+This module builds test target information
+
+.. command:: apigen_swift_test
+
+The general form of the command is::
+
+    apigen_swift_test(target)
+
+#]===========================================================================================]
 function(apigen_swift_test target)
   set(options)
   set(oneValueArgs TEST_EXECUTABLE_NAME)

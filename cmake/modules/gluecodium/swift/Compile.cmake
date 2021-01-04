@@ -39,20 +39,20 @@ endif()
 include(${CMAKE_CURRENT_LIST_DIR}/GetLinkLibraries.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Test.cmake)
 
-#.rst:
-# apigen_swift_compile
-# -------------------
-#
-# This module create the framework structure and
-# compiles and generate the framework binary.
-#
-# .. command:: apigen_swift_compile
-#
-# The general form of the command is::
-#
-#     apigen_swift_compile(target)
-#
+#[===========================================================================================[.rst:
+apigen_swift_compile
+-------------------
 
+This module create the framework structure and
+compiles and generate the framework binary.
+
+.. command:: apigen_swift_compile
+
+The general form of the command is::
+
+    apigen_swift_compile(target)
+
+#]===========================================================================================]
 function(apigen_swift_compile target architecture)
 
   set(multiArgs FRAMEWORKS FRAMEWORK_DIRS)

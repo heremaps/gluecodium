@@ -22,19 +22,19 @@ set(includeguard_gluecodium_swift_FatLibrary ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# apigen_swift_fat_library
-# ------------------------
-#
-# This module crates fat libraries for different architecture
-#
-# .. command:: apigen_swift_fat_library
-#
-# The general form of the command is::
-#
-#     apigen_swift_fat_library(target)
-#
+#[===========================================================================================[.rst:
+apigen_swift_fat_library
+------------------------
 
+This module crates fat libraries for different architecture
+
+.. command:: apigen_swift_fat_library
+
+The general form of the command is::
+
+    apigen_swift_fat_library(target)
+
+#]===========================================================================================]
 function(apigen_swift_fat_library target)
 
   if(NOT APPLE)

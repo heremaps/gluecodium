@@ -22,20 +22,20 @@ set(includeguard_gluecodium_swift_FrameworkInfoPlist ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# apigen_check_only_listed_ios_architectures_are_enabled
-# ---------------------------------
-#
-# Checks if only listed architectures are enabled with CMAKE_OSX_ARCHITECTURES
-#   variable
-#
-# .. command:: apigen_check_only_listed_ios_architectures_are_enabled
-#
-# The general form of the command is::
-#
-#     apigen_check_only_listed_ios_architectures_are_enabled(result arch1 arch2 ...)
-#
+#[===========================================================================================[.rst:
+apigen_check_only_listed_ios_architectures_are_enabled
+---------------------------------
 
+Checks if only listed architectures are enabled with CMAKE_OSX_ARCHITECTURES
+  variable
+
+.. command:: apigen_check_only_listed_ios_architectures_are_enabled
+
+The general form of the command is::
+
+    apigen_check_only_listed_ios_architectures_are_enabled(result arch1 arch2 ...)
+
+#]===========================================================================================]
 function (apigen_check_only_listed_ios_architectures_are_enabled _result)
   foreach (_architecture ${CMAKE_OSX_ARCHITECTURES})
     if (NOT ${_architecture} IN_LIST ARGN)
@@ -46,19 +46,19 @@ function (apigen_check_only_listed_ios_architectures_are_enabled _result)
   set (${_result} YES PARENT_SCOPE)
 endfunction ()
 
-#.rst:
-# apigen_swift_framework_info_plist
-# ---------------------------------
-#
-# This module builds macos target information
-#
-# .. command:: apigen_swift_framework_info_plist
-#
-# The general form of the command is::
-#
-#     apigen_swift_framework_info_plist(target)
-#
+#[===========================================================================================[.rst:
+apigen_swift_framework_info_plist
+---------------------------------
 
+This module builds macos target information
+
+.. command:: apigen_swift_framework_info_plist
+
+The general form of the command is::
+
+    apigen_swift_framework_info_plist(target)
+
+#]===========================================================================================]
 # Used to find the .plist.in file when the function is called
 set(APIGEN_CMAKE_MODULE_SWIFT_DIR ${CMAKE_CURRENT_LIST_DIR})
 

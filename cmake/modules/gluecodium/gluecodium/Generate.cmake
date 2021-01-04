@@ -22,7 +22,7 @@ set(includeguard_gluecodium_Generate ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#[===================================================================================================[.rst:
+#[===========================================================================================[.rst:
 
 Code generation module
 ----------------------
@@ -121,7 +121,7 @@ Only one module should contain both `COMMON` and `MAIN` sources, other modules s
 Other Gluecosdium's CMake functions like apigen_target_include_directories and apigen_target_sources
 take into account that `modularisation` is enabled and behave differently.
 
-#]===================================================================================================]
+#]===========================================================================================]
 
 if(COMMAND find_host_package)
   find_host_package(JAVA COMPONENTS Runtime REQUIRED)
@@ -266,12 +266,14 @@ cache=true\n")
     set (_lime_target_sources "$<REMOVE_DUPLICATES:${_lime_target_sources}>")
     string(APPEND APIGEN_GLUECODIUM_PROPERTIES "auxinput=$<JOIN:${_lime_target_sources},$<COMMA>>\n")
   else()
+    # cmake-format: off
     # There is no $<FILTER: ... > in old CMake, so it's not possible to filter out other sources, so:
     # 1. custom command depends on all _lime_target_sources (which includes lime files)
     # 2. _lime_target_sources must be written to separate file and then filtered and merged into options file during compilation
     # 3. Also filtered lime files are written to another file.
     # 4. Now when any of sources or lime files are changed runGenerate.cmake checks if any of filtered lime file
     #    is newer than any of known generated and regenerates sources if it's true.
+    # cmake-format: on
     set (_lime_target_sources "${_target_interface_sources}")
     set (_gluecodium_auxinput_file "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-auxinput-${APIGEN_TARGET}.txt")
     set (_lime_dependencies "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")

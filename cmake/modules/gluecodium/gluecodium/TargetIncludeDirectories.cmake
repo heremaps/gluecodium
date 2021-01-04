@@ -24,55 +24,56 @@ cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
 
-#.rst:
-# Generated target_include_directories module
-# -------------------------------------------
-#
-# .. command:: apigen_get_target_include_directories
-#
-#     Returns list of include directories of the provided target. Result
-#     might depend on the previously used generator (cpp, android,
-#     swift, etc.). This method depends on apigen_generate() to have been run on
-#     the target first.
-#
-# The general form of the command is::
-#
-#     apigen_get_target_include_directories(
-#       target                                Target for which source was
-#                                             generated via `apigen_generate`.
-#       [MAIN]                                Optional flag to add the include path of
-#                                             the MAIN generated source set, i.e. code
-#                                             generated for the input Lime IDL files.
-#       [COMMON]                              Optional flag to add the include path of
-#                                             the common generated source set.
-#       PUBLIC_RESULT_VARIABLE <variable>     Variable to return result with list of
-#                                             public include directories.
-#       [PRIVATE_RESULT_VARIABLE <variable>]  Optional variable to return result with
-#                                             list of private include directories.
-#     )
-#     Note: If neither MAIN nor COMMON are specified, both are added. Specifying a
-#     source set requires a separate common output directory to be set for
-#     `apigen_generate`.
-#
-# .. command:: apigen_target_include_directories
-#
-#     Attaches additional include directories to the provided target.
-#     These might differ depending on the previously used generator (cpp, android,
-#     swift, etc.). This method depends on apigen_generate() to have been run on
-#     the target first.
-#
-# The general form of the command is::
-#
-#     apigen_target_include_directories(
-#        target     Target for which source was generated via `apigen_generate`
-#        [MAIN]     Add the include path to the MAIN generated source set, i.e.
-#                   code generated for the input Lime IDL files.
-#        [COMMON] Add the include path to the common generated source set.
-#     )
-#     Note: If neither MAIN nor COMMON are specified, both are added. Specifying a
-#     source set requires a separate common output directory to be set for
-#     `apigen_generate`.
-#
+#[===========================================================================================[.rst:
+Generated target_include_directories module
+-------------------------------------------
+
+.. command:: apigen_get_target_include_directories
+
+    Returns list of include directories of the provided target. Result
+    might depend on the previously used generator (cpp, android,
+    swift, etc.). This method depends on apigen_generate() to have been run on
+    the target first.
+
+The general form of the command is::
+
+    apigen_get_target_include_directories(
+      target                                Target for which source was
+                                            generated via `apigen_generate`.
+      [MAIN]                                Optional flag to add the include path of
+                                            the MAIN generated source set, i.e. code
+                                            generated for the input Lime IDL files.
+      [COMMON]                              Optional flag to add the include path of
+                                            the common generated source set.
+      PUBLIC_RESULT_VARIABLE <variable>     Variable to return result with list of
+                                            public include directories.
+      [PRIVATE_RESULT_VARIABLE <variable>]  Optional variable to return result with
+                                            list of private include directories.
+    )
+    Note: If neither MAIN nor COMMON are specified, both are added. Specifying a
+    source set requires a separate common output directory to be set for
+    `apigen_generate`.
+
+.. command:: apigen_target_include_directories
+
+    Attaches additional include directories to the provided target.
+    These might differ depending on the previously used generator (cpp, android,
+    swift, etc.). This method depends on apigen_generate() to have been run on
+    the target first.
+
+The general form of the command is::
+
+    apigen_target_include_directories(
+       target     Target for which source was generated via `apigen_generate`
+       [MAIN]     Add the include path to the MAIN generated source set, i.e.
+                  code generated for the input Lime IDL files.
+       [COMMON] Add the include path to the common generated source set.
+    )
+    Note: If neither MAIN nor COMMON are specified, both are added. Specifying a
+    source set requires a separate common output directory to be set for
+    `apigen_generate`.
+
+#]===========================================================================================]
 
 function(apigen_get_target_include_directories target)
   set(options MAIN COMMON)

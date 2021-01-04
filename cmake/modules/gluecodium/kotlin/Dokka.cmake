@@ -18,27 +18,29 @@
 cmake_minimum_required(VERSION 3.5)
 
 
-#.rst:
-# DokkaApiDocumentation
-# ---------------
-#
-# This module provides functions to generate documentation
-# for the Android public API.
-# Documents generation is done by dokka tool as a post-build command.
-#
-# .. command:: dokka_api_documentation
-#
-# The general form of the command is::
-#
-#   dokka_api_documentation(TARGET target
-#           OUTPUT_DIR outputDir
-#           INPUT_DIR inputDir1
-#           INPUT_DIR inputDir2)
-#
-# TARGET specifies the target that documents generation will be attached to
-# OUTPUT_DIR specifies the output directory of the documents generation tool
-# INPUT_DIR specifies the directory with source code that will be scanned by generator
-#
+#[===========================================================================================[.rst:
+DokkaApiDocumentation
+---------------
+
+This module provides functions to generate documentation
+for the Android public API.
+Documents generation is done by dokka tool as a post-build command.
+
+.. command:: dokka_api_documentation
+
+The general form of the command is::
+
+  dokka_api_documentation(TARGET target
+          OUTPUT_DIR outputDir
+          INPUT_DIR inputDir1
+          INPUT_DIR inputDir2)
+
+TARGET specifies the target that documents generation will be attached to
+OUTPUT_DIR specifies the output directory of the documents generation tool
+INPUT_DIR specifies the directory with source code that will be scanned by generator
+
+#]===========================================================================================]
+
 function(dokka_api_documentation)
     set(options OPTIONAL)
     set(one_value_args TARGET OUTPUT_DIR)

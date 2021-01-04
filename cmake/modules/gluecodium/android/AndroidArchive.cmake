@@ -22,32 +22,35 @@ set(includeguard_gluecodium_android_AndroidArchive ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# Android Archive module
-# ----------------------
-#
-# This module assembles an Android Archive (*.aar) file for a target.
-# It requires that apigen_android_archive(), apigen_java_compile() and
-# apigen_java_jar() have been invoked on it first.
-#
-# .. command:: apigen_android_archive
-#
-# The general form of the command is::
-#
-#     apigen_android_archive(TARGET target
-#       [NAME <archive-file-name>}
-#       [ASSET <asset-source-1> <asset-destination-1>]
-#       [ASSET <asset-source-2> <asset-destination-2>]
-#       [ASSETS <source-file or folder>]
-#       [ADD_JAR <jar-file>]
-#       [RESOURCES <resource-folder>])
-#
-# The ``ASSETS`` option recursively includes a folder structure using the last source path component
-# as the parent of the final asset hierarcy. For example, if you pass ``ASSETS my/folder/fonts``, files
-# will end up under ``assets/fonts`` in the resulting Android Archive. Use the ``ASSET`` option if more
-# specific control is needed. For example, if you pass ``ASSET my/folder/fonts magicfonts``, files
-# will resuide under ``assets/magicfonts`` in the resulting Android Archive. If the ``NAME`` option is
-# set it will be used to name the resulting *.aar file. Otherwise the ``TARGET`` is used as the base name.
+#[===========================================================================================[.rst:
+
+Android Archive module
+----------------------
+
+This module assembles an Android Archive (*.aar) file for a target.
+It requires that apigen_android_archive(), apigen_java_compile() and
+apigen_java_jar() have been invoked on it first.
+
+.. command:: apigen_android_archive
+
+The general form of the command is::
+
+    apigen_android_archive(TARGET target
+      [NAME <archive-file-name>}
+      [ASSET <asset-source-1> <asset-destination-1>]
+      [ASSET <asset-source-2> <asset-destination-2>]
+      [ASSETS <source-file or folder>]
+      [ADD_JAR <jar-file>]
+      [RESOURCES <resource-folder>])
+
+The ``ASSETS`` option recursively includes a folder structure using the last source path
+component as the parent of the final asset hierarcy. For example, if you pass
+``ASSETS my/folder/fonts``, files will end up under ``assets/fonts`` in the resulting Android
+Archive. Use the ``ASSET`` option if more specific control is needed. For example, if you pass
+``ASSET my/folder/fonts magicfonts``, files will resuide under ``assets/magicfonts`` in the
+resulting Android Archive. If the ``NAME`` option is set it will be used to name the resulting
+*.aar file. Otherwise the ``TARGET`` is used as the base name.
+#]===========================================================================================]
 
 
 find_package(Java COMPONENTS Development REQUIRED)

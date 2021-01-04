@@ -22,19 +22,20 @@ set(includeguard_gluecodium_java_Jar ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# Java jar module
-# ---------------
-#
-# This module assembles *.class files into a *.jar file for a target for which
-# apigen_java_compile($target) was run.
-#
-# .. command:: apigen_java_jar
-#
-# The general form of the command is::
-#
-#     apigen_java_jar(target)
-#
+#[===========================================================================================[.rst:
+Java jar module
+---------------
+
+This module assembles *.class files into a *.jar file for a target for which
+apigen_java_compile($target) was run.
+
+.. command:: apigen_java_jar
+
+The general form of the command is::
+
+    apigen_java_jar(target)
+
+#]===========================================================================================]
 
 find_package(Java COMPONENTS Development REQUIRED)
 

@@ -22,12 +22,12 @@ set(includeguard_gluecodium_Android ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# The Android Gluecodium module
-# -------------------------
-#
-# Includes modules needed for Android builds.
+#[===========================================================================================[.rst:
+The Android Gluecodium module
+-------------------------
 
+Includes modules needed for Android builds.
+#]===========================================================================================]
 # Java modules
 include(${CMAKE_CURRENT_LIST_DIR}/java/Compile.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/java/Jar.cmake)

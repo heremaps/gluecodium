@@ -26,21 +26,21 @@ else()
   cmake_minimum_required(VERSION 3.7.2)
 endif()
 
-#.rst:
-# apigen_swift_configuration
-# --------------------------
-#
-# This module builds configures the Swift framework.
-# Defines output and version library and it will added to the
-# target to be use later on.
-#
-# .. command:: apigen_swift_configuration
-#
-# The general form of the command is::
-#
-#     apigen_swift_configuration(target)
-#
+#[===========================================================================================[.rst:
+apigen_swift_configuration
+--------------------------
 
+This module builds configures the Swift framework.
+Defines output and version library and it will added to the
+target to be use later on.
+
+.. command:: apigen_swift_configuration
+
+The general form of the command is::
+
+    apigen_swift_configuration(target)
+
+#]===========================================================================================]
 function(apigen_swift_configuration target)
 
   get_target_property(GENERATOR ${target} APIGEN_GENERATOR)

@@ -24,35 +24,36 @@ cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
 
-#.rst:
-# Generated target_sources module
-# -------------------------------
-#
-# This module attaches additional source files to the provided target.
-# These might differ depending on the previously used generator (cpp, android,
-# swift, etc.). This module depends on apigen_generate() to have been run on
-# the target first.
-# For Swift generator the target properties SWIFT_SOURCES and BRIDGING_HEADERS
-# will be set.
-#
-# .. command:: apigen_target_sources
-#
-# The general form of the command is::
-#
-#     apigen_target_sources(<target> (MAIN) (COMMON))
-#        <target>      Target for which source was generated via `apigen_generate`
-#        SKIP_SWIFT    Do not add Swift files to the target directly. Instead the
-#                      target properties SWIFT_SOURCES and BRIDGING_HEADERS can be
-#                      used for custom compilation logic.
-#        MAIN          Add the MAIN generated source set, i.e. code generated for
-#                      the input Lime IDL files.
-#        COMMON        Add the common generated source set which is independent of
-#                      input Lime IDL files and can be shared between different
-#                      targets
-#     If neither MAIN nor COMMON are specified, both are added. Specifying a
-#     source set requires a separate common output directory to be set for
-#     `apigen_generate`.
-#
+#[===========================================================================================[.rst:
+Generated target_sources module
+-------------------------------
+
+This module attaches additional source files to the provided target.
+These might differ depending on the previously used generator (cpp, android,
+swift, etc.). This module depends on apigen_generate() to have been run on
+the target first.
+For Swift generator the target properties SWIFT_SOURCES and BRIDGING_HEADERS
+will be set.
+
+.. command:: apigen_target_sources
+
+The general form of the command is::
+
+    apigen_target_sources(<target> (MAIN) (COMMON))
+       <target>      Target for which source was generated via `apigen_generate`
+       SKIP_SWIFT    Do not add Swift files to the target directly. Instead the
+                     target properties SWIFT_SOURCES and BRIDGING_HEADERS can be
+                     used for custom compilation logic.
+       MAIN          Add the MAIN generated source set, i.e. code generated for
+                     the input Lime IDL files.
+       COMMON        Add the common generated source set which is independent of
+                     input Lime IDL files and can be shared between different
+                     targets
+    If neither MAIN nor COMMON are specified, both are added. Specifying a
+    source set requires a separate common output directory to be set for
+    `apigen_generate`.
+
+#]===========================================================================================]
 
 function(apigen_target_sources target)
   set(options MAIN COMMON SKIP_SWIFT)
