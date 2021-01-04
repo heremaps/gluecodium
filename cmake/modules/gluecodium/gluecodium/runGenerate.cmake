@@ -26,6 +26,7 @@ endforeach()
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
 include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
+include(${APIGEN_GLUECODIUM_DIR}/StringJoin.cmake)
 
 if(APIGEN_GLUECODIUM_AUXINPUT_FILE)
   set(APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME "${APIGEN_GLUECODIUM_AUXINPUT_FILE}.only-lime")
@@ -60,14 +61,9 @@ function(_merge_aux_file_with_options)
 
   if(APIGEN_AUX_FILES)
     list(REMOVE_DUPLICATES APIGEN_AUX_FILES)
-    file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "auxinput=")
-    # string (JOIN ...) is also not available in old CMake
-    set(_comma "")
-    foreach(_aux_lime IN LISTS APIGEN_AUX_FILES)
-      file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "${_comma}${_aux_lime}")
-      set(_comma ",")
-    endforeach()
-    file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "\n")
+
+    string_join("," _aux_lime ${APIGEN_AUX_FILES})
+    file(APPEND "${APIGEN_GLUECODIUM_OPTIONS_FILE}" "auxinput=${_aux_lime}\n")
 
     # List of lime files in this file will be used to check if any lime file is newer than any of
     # known generated file.
@@ -113,10 +109,9 @@ function(_generate)
     set(_no_daemon --no-daemon)
   endif()
 
+  unset(_gluecodium_time)
   if(DEFINED ENV{GLUECODIUM_TIME_LOGGING})
     set(_gluecodium_time time -o "${APIGEN_BUILD_OUTPUT_DIR}/gluecodium-time.log")
-  else()
-    unset(_gluecodium_time)
   endif()
 
   file(READ "${APIGEN_GLUECODIUM_OPTIONS_FILE}" _options_content)
