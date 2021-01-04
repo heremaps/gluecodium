@@ -19,7 +19,7 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{>structVisibility}}{{#if forceStatic}}static {{/if}}{{#unless stubs}}final {{/unless}}class {{resolveName}} {{!!
+{{>structVisibility}}{{#if forceStatic}}static {{/if}}final class {{resolveName}} {{!!
 }}{{#if attributes.serializable}}implements Parcelable {{/if}}{
 {{#if attributes.serializable}}{{prefixPartial "java/ParcelableCreator" "    "}}
 
@@ -33,11 +33,9 @@
 {{prefixPartial "java/JavaMethodComment" "    "}}
     {{>structVisibility}}{{resolveName classElement}}({{#set noAttributes=true}}{{joinPartial parameters "java/JavaParameter" ", "}}{{/set}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
-{{#unless stubs}}
         {{resolveName classElement}} _other = {{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#fields}}        this.{{resolveName}} = _other.{{resolveName}};
 {{/fields}}
-{{/unless}}
     }
 {{/unless}}{{/constructors}}{{/set}}
 {{#if fields}}{{#unless constructors}}

@@ -4,6 +4,8 @@
 ### Bug fixes:
   * `@Deprecated` attribute specified on a property in IDL is now propagated to that property's accessors (but only if
     they lack their own attribute of this type).
+### Removed:
+  * "Stubs" mode of Java generator was removed.
 
 ## 8.6.8
 Release date: 2020-12-16

@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isConstructor}}private static {{#unless stubs}}native {{/unless}}{{!!
+{{#if isConstructor}}private static native {{!!
 }}{{#if isClass}}long{{/if}}{{#unless isClass}}{{resolveName returnType}}{{/unless}}{{/if}}{{!!
 }}{{#unless isConstructor}}{{>java/JavaMethodComment}}{{>java/JavaAttributes}}{{!!
 }}{{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}{{!!
@@ -26,6 +26,6 @@
 @Override
 {{/if}}
 {{#unless isInterface}}{{#if isImpl}}public {{/if}}{{#unless isImpl}}{{resolveName visibility}}{{/unless}}{{/unless}}{{!!
-}}{{#if isStatic}}static {{/if}}{{#unless isInterface stubs logic="and"}}native {{/unless}}{{resolveName returnType}}{{/unless}}{{!!
+}}{{#if isStatic}}static {{/if}}{{#unless isInterface logic="and"}}native {{/unless}}{{resolveName returnType}}{{/unless}}{{!!
 }} {{resolveName}}{{#if isCached}}_private{{/if}}{{!!
 }}({{joinPartial parameters "java/JavaParameter" ", "}}){{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}}
