@@ -52,7 +52,10 @@ function(apigen_swift_configuration _target)
   get_target_property(SWIFT_FRAMEWORK_NAME ${_target} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_configuration() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_configuration() depends on apigen_generate() configured with generator 'swift'"
+    )
   endif()
 
   if(NOT SDK_VERSION)
@@ -65,7 +68,8 @@ function(apigen_swift_configuration _target)
 
   if(NOT MINIMUM_OS_VERSION)
     if(CMAKE_OSX_DEPLOYMENT_TARGET) # Variable from CMake default toolchain
-      set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${CMAKE_OSX_DEPLOYMENT_TARGET})
+      set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION
+                                                  ${CMAKE_OSX_DEPLOYMENT_TARGET})
     else()
       set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION 11.0)
     endif()
@@ -83,10 +87,13 @@ function(apigen_swift_configuration _target)
   set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
   set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_MODULE_NAME ${SWIFT_MODULE_NAME})
 
-  # Gluecodium invocations for different generators need different output directories
-  # as Gluecodium currently wipes the directory upon start.
+  # Gluecodium invocations for different generators need different output directories as Gluecodium
+  # currently wipes the directory upon start.
   set(SWIFT_BUILD_OUTPUT_DIR ${OUTPUT_DIR}/build)
 
-  message(STATUS "[Swift] Framework version ${FRAMEWORK_VERSION} will be generated in path ${SWIFT_BUILD_OUTPUT_DIR}")
+  message(
+    STATUS
+      "[Swift] Framework version ${FRAMEWORK_VERSION} will be generated in path ${SWIFT_BUILD_OUTPUT_DIR}"
+  )
 
 endfunction()

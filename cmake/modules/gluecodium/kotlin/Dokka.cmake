@@ -17,7 +17,6 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-
 #[===========================================================================================[.rst:
 DokkaApiDocumentation
 ---------------
@@ -42,32 +41,24 @@ INPUT_DIR specifies the directory with source code that will be scanned by gener
 #]===========================================================================================]
 
 function(dokka_api_documentation)
-    set(options OPTIONAL)
-    set(one_value_args TARGET OUTPUT_DIR)
-    set(multi_value_args INPUT_DIR)
+  set(options OPTIONAL)
+  set(one_value_args TARGET OUTPUT_DIR)
+  set(multi_value_args INPUT_DIR)
 
-    cmake_parse_arguments(
-        DOKKA_DOCS
-        "${options}"
-        "${one_value_args}"
-        "${multi_value_args}"
-        "${ARGN}"
-    )
+  cmake_parse_arguments(DOKKA_DOCS "${options}" "${one_value_args}" "${multi_value_args}" "${ARGN}")
 
-    # find dokka
-    find_program(DOKKA_EXECUTABLE NAMES dokka)
+  # find dokka
+  find_program(DOKKA_EXECUTABLE NAMES dokka)
 
-    if(NOT DOKKA_EXECUTABLE)
-        message(STATUS "Dokka executable not found. Android documentation will not be generated.")
-        return()
-    endif()
+  if(NOT DOKKA_EXECUTABLE)
+    message(STATUS "Dokka executable not found. Android documentation will not be generated.")
+    return()
+  endif()
 
-    add_custom_command(
-        TARGET ${DOKKA_DOCS_TARGET}
-        POST_BUILD
-        COMMAND ${DOKKA_EXECUTABLE} ${DOKKA_DOCS_INPUT_DIR}
-                    -output ${DOKKA_DOCS_OUTPUT_DIR}
-                    -format javadoc
-        COMMENT "Generating android documentation"
-    )
+  add_custom_command(
+    TARGET ${DOKKA_DOCS_TARGET}
+    POST_BUILD
+    COMMAND ${DOKKA_EXECUTABLE} ${DOKKA_DOCS_INPUT_DIR} -output ${DOKKA_DOCS_OUTPUT_DIR} -format
+            javadoc
+    COMMENT "Generating android documentation")
 endfunction()

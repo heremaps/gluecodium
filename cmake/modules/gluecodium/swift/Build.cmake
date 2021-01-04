@@ -55,7 +55,9 @@ function(apigen_swift_build _target)
   get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
   apigen_swift_configuration(${_target})
@@ -75,7 +77,8 @@ function(apigen_swift_build _target)
       apigen_swift_compile(${_target} "${TARGET_ARCH}" ${additional_args})
     endforeach()
 
-    set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH "${CMAKE_OSX_ARCHITECTURES}")
+    set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH
+                                                "${CMAKE_OSX_ARCHITECTURES}")
     message(STATUS "[Swift] FAT ${_target} ${CMAKE_OSX_ARCHITECTURES}")
   else()
     message(STATUS "[Swift] COMPILING ${_target} ${CMAKE_SYSTEM_PROCESSOR}")

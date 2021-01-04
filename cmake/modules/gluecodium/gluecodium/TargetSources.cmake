@@ -77,15 +77,15 @@ function(apigen_target_sources _target)
   endif()
   if(apigen_target_sources_COMMON)
     if(NOT COMMON_OUTPUT_DIR)
-      message(FATAL_ERROR "COMMON source set is specified, but apigen_target was "
-                          "called without COMMON_OUTPUT_DIR argument. "
-                          "Please specify this argument.")
+      message(
+        FATAL_ERROR "COMMON source set is specified, but apigen_target was "
+                    "called without COMMON_OUTPUT_DIR argument. " "Please specify this argument.")
     endif()
     list(APPEND _source_sets COMMON)
   endif()
 
-  apigen_list_generated_sources(_generated_files
-    ${_source_sets}
+  apigen_list_generated_sources(
+    _generated_files ${_source_sets}
     TARGET ${_target}
     GENERATOR "${GENERATOR}"
     BUILD_OUTPUT_DIR "${BUILD_OUTPUT_DIR}")
@@ -99,63 +99,69 @@ function(apigen_target_sources _target)
     foreach(_upper_case_source_set ${_source_sets})
       string(TOLOWER ${_upper_case_source_set} _source_set)
 
-      set (_generated_cpp_files
-        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
-        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}})
+      set(_generated_cpp_files ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
+                               ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}})
       if(GENERATOR MATCHES dart)
-          list(APPEND _generated_cpp_files ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_dart_${_source_set}})
+        list(APPEND _generated_cpp_files
+                    ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_dart_${_source_set}})
       endif()
 
-      # Generated files are marked as such by CMake, but this source file property is on directory scope.
-      # This means for targets in other directories, CMake is not aware that the file is supposed to be
-      # absent during configuration, see issue https://gitlab.kitware.com/cmake/cmake/issues/18399.
-      # Work around this by marking it explicitly as generated and also create dummy files.
-      # When creating these dummy files it is important that not all are already present while building,
-      # otherwise CMake may decide to skip Gluecodium step completely. But this workaround is only
-      # necessary for public/interface sources, so as long as there some private ones without dummy
-      # file, everything is fine.
-      set_property(SOURCE
-            ${_generated_cpp_files}
-            ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
-          PROPERTY GENERATED YES)
+      # Generated files are marked as such by CMake, but this source file property is on directory
+      # scope. This means for targets in other directories, CMake is not aware that the file is
+      # supposed to be absent during configuration, see issue
+      # https://gitlab.kitware.com/cmake/cmake/issues/18399. Work around this by marking it
+      # explicitly as generated and also create dummy files. When creating these dummy files it is
+      # important that not all are already present while building, otherwise CMake may decide to
+      # skip Gluecodium step completely. But this workaround is only necessary for public/interface
+      # sources, so as long as there some private ones without dummy file, everything is fine.
+      set_property(
+        SOURCE ${_generated_cpp_files}
+               ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+        PROPERTY GENERATED YES)
 
-      foreach(generated_file
-          ${_generated_cpp_files}
-          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
-          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+      foreach(
+        generated_file
+        ${_generated_cpp_files}
+        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
         _apigen_create_generated_file_if_missing("${generated_file}")
       endforeach()
 
       # Swift code which is supposed to end up in one module cannot easily be split into multiple
-      # compilation units. So instead just attach the Swift code as a property here.
-      # Bridging headers need to be collected for all included compilation units and end up in the final
+      # compilation units. So instead just attach the Swift code as a property here. Bridging
+      # headers need to be collected for all included compilation units and end up in the final
       # CBridge modulemap used for building.
-      set_property(TARGET ${_target} APPEND PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
-      set_property(TARGET ${_target} APPEND PROPERTY BRIDGING_HEADERS ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}})
+      set_property(
+        TARGET ${_target} APPEND
+        PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+      set_property(
+        TARGET ${_target} APPEND
+        PROPERTY BRIDGING_HEADERS
+                 ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}})
       if(NOT apigen_target_sources_SKIP_SWIFT)
-        target_sources(${_target} PRIVATE ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+        target_sources(${_target}
+                       PRIVATE ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
       endif()
 
-      target_sources(${_target}
-        PUBLIC
-          ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
-        PRIVATE
-          ${_generated_cpp_files}
-      )
+      target_sources(
+        ${_target} PUBLIC ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+        PRIVATE ${_generated_cpp_files})
     endforeach()
   endif()
 endfunction()
 
-function (_apigen_create_generated_file_if_missing generated_file)
+function(_apigen_create_generated_file_if_missing generated_file)
   if(NOT EXISTS "${generated_file}")
-    get_filename_component(directory "${generated_file}" DIRECTORY)
-    file(MAKE_DIRECTORY "${directory}")
-    file(WRITE "${generated_file}" "#error Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399")
+    get_filename_component(_directory "${generated_file}" DIRECTORY)
+    file(MAKE_DIRECTORY "${_directory}")
+    file(
+      WRITE "${generated_file}"
+      "#error Dummy file to be replaced by Gluecodium during build, see also https://gitlab.kitware.com/cmake/cmake/issues/18399"
+    )
 
-    execute_process(COMMAND touch -t 0001010101 "${generated_file}"
-      RESULT_VARIABLE _touch_result)
-    if (_touch_result)
-      message (WARNING "Failed to run 'touch' utility. Gluecodium may work wrong")
+    execute_process(COMMAND touch -t 0001010101 "${generated_file}" RESULT_VARIABLE _touch_result)
+    if(_touch_result)
+      message(WARNING "Failed to run 'touch' utility. Gluecodium may work wrong")
     endif()
   endif()
-endfunction ()
+endfunction()

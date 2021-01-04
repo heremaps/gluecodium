@@ -15,15 +15,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
 if(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-    enable_language (Swift)
+  enable_language(Swift)
 endif()
 
 project(gluecodium.test)
 
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
@@ -32,28 +32,29 @@ include(gluecodium/Packaging)
 
 add_library(single.module.package SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 
-if (ANDROID)
-    set (_gluecodium_generator android)
-    set (_expected_package_path "${CMAKE_CURRENT_BINARY_DIR}/apigen/android-java-jar/single.module.package.jar")
-elseif (APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-    set (_gluecodium_generator swift)
-    set (_expected_package_path "$<TARGET_BUNDLE_DIR:single.module.package>")
-else ()
-    set (_gluecodium_generator cpp)
-endif ()
+if(ANDROID)
+  set(_gluecodium_generator android)
+  set(_expected_package_path
+      "${CMAKE_CURRENT_BINARY_DIR}/apigen/android-java-jar/single.module.package.jar")
+elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
+  set(_gluecodium_generator swift)
+  set(_expected_package_path "$<TARGET_BUNDLE_DIR:single.module.package>")
+else()
+  set(_gluecodium_generator cpp)
+endif()
 
 apigen_generate(
-    TARGET single.module.package
-    LIME_SOURCES "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime"
-    GENERATOR ${_gluecodium_generator}
-    CPP_INTERNAL_NAMESPACE test)
+  TARGET single.module.package
+  LIME_SOURCES "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime"
+  GENERATOR ${_gluecodium_generator}
+  CPP_INTERNAL_NAMESPACE test)
 
-apigen_target_include_directories (single.module.package)
-apigen_target_sources (single.module.package)
+apigen_target_include_directories(single.module.package)
+apigen_target_sources(single.module.package)
 
 apigen_create_package(TARGET single.module.package NAME test.package)
 
-if (_expected_package_path)
-    include (${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_file_or_directory_exists_after_build.cmake)
-    check_file_or_directory_exists_after_build(single.module.package "${_expected_package_path}")
+if(_expected_package_path)
+  include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_file_or_directory_exists_after_build.cmake)
+  check_file_or_directory_exists_after_build(single.module.package "${_expected_package_path}")
 endif()

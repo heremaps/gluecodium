@@ -80,32 +80,33 @@ function(apigen_get_target_include_directories _target)
   set(single_args PUBLIC_RESULT_VARIABLE PRIVATE_RESULT_VARIABLE)
   cmake_parse_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES "${options}" "${single_args}" "" ${ARGN})
 
-  apigen_check_no_unparsed_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES apigen_target_include_directories)
+  apigen_check_no_unparsed_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES
+                                     apigen_target_include_directories)
 
-  unset (_properties_out_dir)
-  if (APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN)
-    list (APPEND _properties_out_dir APIGEN_OUTPUT_DIR)
-  endif ()
+  unset(_properties_out_dir)
+  if(APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN)
+    list(APPEND _properties_out_dir APIGEN_OUTPUT_DIR)
+  endif()
 
-  if (APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON)
+  if(APIGEN_TARGET_INCLUDE_DIRECTORIES_COMMON)
     get_target_property(COMMON_OUTPUT_DIR ${_target} APIGEN_COMMON_OUTPUT_DIR)
     if(NOT COMMON_OUTPUT_DIR)
       message(FATAL_ERROR "COMMON include directoriy is necessary, but apigen_target was called "
                           "without COMMON_OUTPUT_DIR argument. Please specify this argument.")
     endif()
-    list (APPEND _properties_out_dir APIGEN_COMMON_OUTPUT_DIR)
-  endif ()
+    list(APPEND _properties_out_dir APIGEN_COMMON_OUTPUT_DIR)
+  endif()
 
-  if (NOT _properties_out_dir)
-    list (APPEND _properties_out_dir APIGEN_OUTPUT_DIR APIGEN_COMMON_OUTPUT_DIR)
-  endif ()
+  if(NOT _properties_out_dir)
+    list(APPEND _properties_out_dir APIGEN_OUTPUT_DIR APIGEN_COMMON_OUTPUT_DIR)
+  endif()
 
   get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
 
-  unset (_result_list_public)
-  foreach (_property_out_dir ${_properties_out_dir})
+  unset(_result_list_public)
+  foreach(_property_out_dir ${_properties_out_dir})
     get_target_property(OUTPUT_DIR ${_target} ${_property_out_dir})
-    if (OUTPUT_DIR)
+    if(OUTPUT_DIR)
       list(APPEND _result_list_public $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>)
       if(NOT ${GENERATOR} STREQUAL cpp)
         list(APPEND _result_list_public $<BUILD_INTERFACE:${OUTPUT_DIR}>)
@@ -119,7 +120,7 @@ function(apigen_get_target_include_directories _target)
         list(APPEND _result_list_public $<BUILD_INTERFACE:${OUTPUT_DIR}/dart/ffi>)
       endif()
     endif()
-  endforeach ()
+  endforeach()
 
   if(${GENERATOR} MATCHES android)
     # If we're not crosscompiling, we need to manually add JNI includes.
@@ -129,25 +130,29 @@ function(apigen_get_target_include_directories _target)
     endif()
   endif()
 
-  if (APIGEN_TARGET_INCLUDE_DIRECTORIES_PUBLIC_RESULT_VARIABLE)
-    set (${APIGEN_TARGET_INCLUDE_DIRECTORIES_PUBLIC_RESULT_VARIABLE} ${_result_list_public} PARENT_SCOPE)
+  if(APIGEN_TARGET_INCLUDE_DIRECTORIES_PUBLIC_RESULT_VARIABLE)
+    set(${APIGEN_TARGET_INCLUDE_DIRECTORIES_PUBLIC_RESULT_VARIABLE} ${_result_list_public}
+        PARENT_SCOPE)
   endif()
 
-  if (APIGEN_TARGET_INCLUDE_DIRECTORIES_PRIVATE_RESULT_VARIABLE)
-    set (${APIGEN_TARGET_INCLUDE_DIRECTORIES_PRIVATE_RESULT_VARIABLE} ${_result_list_private} PARENT_SCOPE)
+  if(APIGEN_TARGET_INCLUDE_DIRECTORIES_PRIVATE_RESULT_VARIABLE)
+    set(${APIGEN_TARGET_INCLUDE_DIRECTORIES_PRIVATE_RESULT_VARIABLE} ${_result_list_private}
+        PARENT_SCOPE)
   endif()
 endfunction()
 
-
 function(apigen_target_include_directories _target)
-  apigen_get_target_include_directories(${_target} ${ARGN} PUBLIC_RESULT_VARIABLE _public_include_dirs
+  apigen_get_target_include_directories(
+    ${_target}
+    ${ARGN}
+    PUBLIC_RESULT_VARIABLE _public_include_dirs
     PRIVATE_RESULT_VARIABLE _private_include_dirs)
 
-  if (_public_include_dirs)
+  if(_public_include_dirs)
     target_include_directories(${_target} PUBLIC ${_public_include_dirs})
   endif()
 
-  if (_private_include_dirs)
+  if(_private_include_dirs)
     target_include_directories(${_target} PRIVATE ${_private_include_dirs})
-  endif ()
+  endif()
 endfunction()

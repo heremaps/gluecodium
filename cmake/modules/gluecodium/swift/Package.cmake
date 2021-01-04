@@ -41,7 +41,9 @@ The general form of the command is:
 function(apigen_swift_package _target)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_package() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_package() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
   apigen_swift_fat_library(${_target})

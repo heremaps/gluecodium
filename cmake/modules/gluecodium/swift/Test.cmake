@@ -39,7 +39,8 @@ function(apigen_swift_test _target)
   set(options)
   set(oneValueArgs TEST_EXECUTABLE_NAME)
   set(multiValueArgs SOURCES)
-  cmake_parse_arguments(apigen_swift_test "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+  cmake_parse_arguments(apigen_swift_test "${options}" "${oneValueArgs}" "${multiValueArgs}"
+                        ${ARGN})
 
   if(apigen_swift_test_TEST_EXECUTABLE_NAME)
     set(test_target ${apigen_swift_test_TEST_EXECUTABLE_NAME})
@@ -63,33 +64,42 @@ function(apigen_swift_test _target)
     add_executable(${test_target} ${sources})
     target_link_libraries(${test_target} ${_target})
     target_link_directories(${test_target} PRIVATE "$<TARGET_BUNDLE_DIR:${_target}>/")
-    set_target_properties(test${_target} PROPERTIES
-      # Add the path for XCTest
-      XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DIR)/Developer/Library/Frameworks/"
-      XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DIR)/Developer/Library/Frameworks/"
-      XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone")
+    set_target_properties(
+      test${_target}
+      PROPERTIES # Add the path for XCTest
+                 XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS
+                 "$(PLATFORM_DIR)/Developer/Library/Frameworks/"
+                 XCODE_ATTRIBUTE_OTHER_LDFLAGS
+                 "-rpath $(PLATFORM_DIR)/Developer/Library/Frameworks/"
+                 XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone")
 
     install(TARGETS ${test_target} DESTINATION .)
   else()
     get_swiftc_arguments(${_target} swift_link_libraries)
 
     set(BUILD_ARGUMENTS
-      -emit-executable
-      -o ${test_target}
-      -L$<TARGET_FILE_DIR:${_target}>
-      -I$<TARGET_FILE_DIR:${_target}>
-      -l${_target}
-      -lstdc++
-      "${swift_link_libraries}"
-      -enable-testing
-      -Xlinker -rpath -Xlinker "'$$ORIGIN'")
+        -emit-executable
+        -o
+        ${test_target}
+        -L$<TARGET_FILE_DIR:${_target}>
+        -I$<TARGET_FILE_DIR:${_target}>
+        -l${_target}
+        -lstdc++
+        "${swift_link_libraries}"
+        -enable-testing
+        -Xlinker
+        -rpath
+        -Xlinker
+        "'$$ORIGIN'")
 
     string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
     if(uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
       set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
     endif()
 
-    add_custom_target(${test_target} ALL DEPENDS ${_target}
+    add_custom_target(
+      ${test_target} ALL
+      DEPENDS ${_target}
       COMMAND swiftc "${BUILD_ARGUMENTS}" ${sources}
       WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
       COMMAND_EXPAND_LISTS)
@@ -110,10 +120,11 @@ function(create_xctest_bundle _target tests_name sources)
     set(XCODE_LD_RUNPATHS "${XCODE_LD_RUNPATHS} \
       @loader_path/../Frameworks/")
   endif()
-  set_target_properties(${TEST_TARGET} PROPERTIES
-    XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "${XCODE_LD_RUNPATHS}"
-    XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
-    XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
-    XCODE_ATTRIBUTE_ENABLE_TESTABILITY[variant=Debug] "YES"
-    XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone")
+  set_target_properties(
+    ${TEST_TARGET}
+    PROPERTIES XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "${XCODE_LD_RUNPATHS}"
+               XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
+               XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
+               XCODE_ATTRIBUTE_ENABLE_TESTABILITY[variant=Debug] "YES"
+               XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone")
 endfunction()

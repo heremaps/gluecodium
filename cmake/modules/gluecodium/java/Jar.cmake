@@ -43,18 +43,19 @@ function(apigen_java_jar _target)
   set(options "")
   set(oneValueArgs OUTPUT_DIR)
   set(multiValueArgs "")
-  cmake_parse_arguments(apigen_java_jar "${options}" "${oneValueArgs}"
-                      "${multiValueArgs}" ${ARGN})
+  cmake_parse_arguments(apigen_java_jar "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
   get_target_property(APIGEN_JAVA_OUTPUT_DIR ${_target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
   if(NOT ${GENERATOR} MATCHES "android")
-    message(FATAL_ERROR "apigen_java_jar() depends on apigen_generate() configured with generator 'android'")
+    message(
+      FATAL_ERROR
+        "apigen_java_jar() depends on apigen_generate() configured with generator 'android'")
   endif()
 
-  # Gluecodium invocations for different generators need different output directories
-  # as Gluecodium currently wipes the directory upon start.
+  # Gluecodium invocations for different generators need different output directories as Gluecodium
+  # currently wipes the directory upon start.
   if(NOT apigen_java_jar_OUTPUT_DIR)
     set(apigen_java_jar_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
   endif()
@@ -62,16 +63,17 @@ function(apigen_java_jar _target)
   set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${_target}.jar)
 
   # Attach properties to target for re-use in other modules
-  set_target_properties(${_target} PROPERTIES
-    APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR}
-    APIGEN_JAVA_JAR_OUTPUT_DIR ${APIGEN_JAVA_JAR_OUTPUT_DIR})
+  set_target_properties(
+    ${_target} PROPERTIES APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR} APIGEN_JAVA_JAR_OUTPUT_DIR
+                                                             ${APIGEN_JAVA_JAR_OUTPUT_DIR})
 
-  add_custom_command(TARGET ${_target} POST_BUILD
+  add_custom_command(
+    TARGET ${_target}
+    POST_BUILD
     COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}
     COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_JAVA_JAR} -C ${APIGEN_JAVA_OUTPUT_DIR} .
     COMMENT "Creating Java JAR from class files...")
-  # TODO: Installs unconditionally, allow to configure the module:
-  #install(FILES ${APIGEN_JAVA_JAR}
-  #  DESTINATION lib)
+  # TODO: Installs unconditionally, allow to configure the module: install(FILES ${APIGEN_JAVA_JAR}
+  # DESTINATION lib)
 
 endfunction()

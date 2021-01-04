@@ -16,7 +16,7 @@
 # License-Filename: LICENSE
 
 if(DEFINED includeguard_apigen_GetLinkLibraries)
-    return()
+  return()
 endif()
 set(includeguard_apigen_GetLinkLibraries ON)
 
@@ -44,12 +44,12 @@ Note:
   make sure to always quote "${output_link_arguments}" and use COMMAND_EXPAND_LISTS in custom commands.
 #]===========================================================================================]
 function(get_swiftc_arguments _target output_link_arguments)
-    set(visited)
-    set(included)
-    set(linked -Xlinker --start-group)
-    get_swiftc_arguments_recurse(${_target})
-    list(APPEND linked -Xlinker --end-group)
-    set(${output_link_arguments} ${included} ${linked} PARENT_SCOPE)
+  set(visited)
+  set(included)
+  set(linked -Xlinker --start-group)
+  get_swiftc_arguments_recurse(${_target})
+  list(APPEND linked -Xlinker --end-group)
+  set(${output_link_arguments} ${included} ${linked} PARENT_SCOPE)
 endfunction()
 
 function(get_swiftc_arguments_recurse _target)
@@ -59,8 +59,8 @@ function(get_swiftc_arguments_recurse _target)
   list(APPEND visited "${_target}")
   if(NOT TARGET ${_target})
     if(_target MATCHES ".*\\\$<LINK_ONLY:.*")
-      # Do nothing, CMake propagates this to INTERFACE_LINK_LIBRARIES even for PRIVATE
-      # dependencies, but it's only allowed in link targets.
+      # Do nothing, CMake propagates this to INTERFACE_LINK_LIBRARIES even for PRIVATE dependencies,
+      # but it's only allowed in link targets.
     elseif(_target MATCHES ".*-[lL].*")
       # Only append -l and -L flags (optionally in generator expressions) since swiftc might not
       # understand other flags
@@ -79,8 +79,10 @@ function(get_swiftc_arguments_recurse _target)
         endif()
       endif()
     endif()
-    if(TARGET_TYPE STREQUAL "STATIC_LIBRARY" OR TARGET_TYPE STREQUAL "SHARED_LIBRARY" OR TARGET_TYPE STREQUAL "INTERFACE_LIBRARY")
-      set(include_dirs "$<BUILD_INTERFACE:$<TARGET_PROPERTY:${_target},INTERFACE_INCLUDE_DIRECTORIES>>")
+    if(TARGET_TYPE STREQUAL "STATIC_LIBRARY" OR TARGET_TYPE STREQUAL "SHARED_LIBRARY"
+       OR TARGET_TYPE STREQUAL "INTERFACE_LIBRARY")
+      set(include_dirs
+          "$<BUILD_INTERFACE:$<TARGET_PROPERTY:${_target},INTERFACE_INCLUDE_DIRECTORIES>>")
       list(APPEND included "$<$<BOOL:${include_dirs}>:-I$<JOIN:${include_dirs},;-I>>")
 
       get_target_property(linked_libs ${_target} INTERFACE_LINK_LIBRARIES)

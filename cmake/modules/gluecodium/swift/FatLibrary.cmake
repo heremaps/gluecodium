@@ -47,7 +47,9 @@ function(apigen_swift_fat_library _target)
   get_target_property(SWIFT_ARCH ${_target} APIGEN_SWIFT_BUILD_ARCH)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_fat_library() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_fat_library() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
   set(framework_lib "${_target}.framework/${_target}")
@@ -56,7 +58,9 @@ function(apigen_swift_fat_library _target)
     list(APPEND libs lib${_target}.${TARGET_ARCH})
   endforeach()
 
-  add_custom_command(TARGET ${_target} POST_BUILD
+  add_custom_command(
+    TARGET ${_target}
+    POST_BUILD
     COMMAND lipo ${libs} -create -output "${framework_lib}"
     COMMAND install_name_tool -id "@rpath/${framework_lib}" "${framework_lib}"
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}

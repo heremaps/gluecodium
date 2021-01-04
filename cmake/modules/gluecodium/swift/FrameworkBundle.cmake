@@ -24,7 +24,6 @@ cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/FrameworkInfoPlist.cmake)
 
-
 #[===========================================================================================[.rst:
 apigen_swift_framework_bundle
 -------------------
@@ -58,33 +57,43 @@ default path will be set.
 function(apigen_swift_framework_bundle)
   set(oneValueArgs TARGET BUNDLE_PATH)
   set(multiValueArgs ASSET ASSETS)
-  cmake_parse_arguments(apigen_swift_framework_bundle
-    "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+  cmake_parse_arguments(apigen_swift_framework_bundle "${options}" "${oneValueArgs}"
+                        "${multiValueArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GENERATOR)
-  get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_FRAMEWORK_NAME ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_FRAMEWORK_NAME)
+  get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET}
+                      APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${apigen_swift_framework_bundle_TARGET}
+                      APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_framework_bundle() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_framework_bundle() depends on apigen_generate() configured with generator 'swift'"
+    )
   endif()
 
   set(SWIFT_ASSETS_DIRECTORY ${apigen_swift_framework_bundle_BUNDLE_PATH})
   if(NOT SWIFT_ASSETS_DIRECTORY)
-    set(SWIFT_ASSETS_DIRECTORY "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/../${SWIFT_FRAMEWORK_NAME}.framework/assets.bundle/Resources/")
+    set(SWIFT_ASSETS_DIRECTORY
+        "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/../${SWIFT_FRAMEWORK_NAME}.framework/assets.bundle/Resources/"
+    )
   endif()
   add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${SWIFT_ASSETS_DIRECTORY})
+                     COMMAND ${CMAKE_COMMAND} -E make_directory ${SWIFT_ASSETS_DIRECTORY})
 
   # Copy the folders that need to be in the bundle.
   foreach(FOLDER ${apigen_swift_framework_bundle_ASSETS})
-    # NOTE: Resources are symlinked, but some links will be invalid because the targets that
-    # build the assets haven't been built. Use tar to transfer the links that are valid to
-    # the build directory and preserve the directory hierarchy.
+    # NOTE: Resources are symlinked, but some links will be invalid because the targets that build
+    # the assets haven't been built. Use tar to transfer the links that are valid to the build
+    # directory and preserve the directory hierarchy.
     get_filename_component(FOLDER_PARENT ${FOLDER} DIRECTORY)
     get_filename_component(FOLDER_NAME ${FOLDER} NAME)
-    add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-      COMMAND sh -c
+    add_custom_command(
+      TARGET ${apigen_swift_framework_bundle_TARGET}
+      POST_BUILD
+      COMMAND
+        sh -c
         "(cd \"${FOLDER_PARENT}\" && find ${FOLDER_NAME} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${SWIFT_ASSETS_DIRECTORY}; tar xvf -))"
       VERBATIM)
   endforeach()
@@ -100,8 +109,11 @@ function(apigen_swift_framework_bundle)
       set(asset_target ${SWIFT_ASSETS_DIRECTORY}${asset_value})
       get_filename_component(asset_parent ${asset_key} DIRECTORY)
       get_filename_component(asset_name ${asset_key} NAME)
-      add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-        COMMAND sh -c
+      add_custom_command(
+        TARGET ${apigen_swift_framework_bundle_TARGET}
+        POST_BUILD
+        COMMAND
+          sh -c
           "mkdir -p \"${asset_target}\" ; (cd \"${asset_parent}\" && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd \"${asset_target}\"; tar xvf -))"
         VERBATIM
         COMMENT "Copying asset '${asset_key}' to '${asset_target}'")
@@ -111,7 +123,7 @@ function(apigen_swift_framework_bundle)
   # Remove any dead links from the above copy. This can happen for generated files that weren't
   # built as part of the dependencies for project.
   add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-    COMMAND find ${SWIFT_ASSETS_DIRECTORY} -type l -delete)
+                     COMMAND find ${SWIFT_ASSETS_DIRECTORY} -type l -delete)
 
   apigen_swift_framework_info_plist(${apigen_swift_framework_bundle_TARGET})
 
