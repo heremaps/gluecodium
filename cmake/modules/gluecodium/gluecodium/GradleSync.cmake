@@ -15,13 +15,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if (NOT APIGEN_GRADLE_SYNCHRONISATION_DIR)
-    message(FATAL_ERROR "APIGEN_GRADLE_SYNCHRONISATION_DIR must be specified")
-endif ()
+if(NOT APIGEN_GRADLE_SYNCHRONISATION_DIR)
+  message(FATAL_ERROR "APIGEN_GRADLE_SYNCHRONISATION_DIR must be specified")
+endif()
 
 set(_lock_file "${APIGEN_GRADLE_SYNCHRONISATION_DIR}/gluecodium-gradle-lock.cmake")
 
 if(APIGEN_VERBOSE)
-    message ("Using locking file to invocate gradle: ${_lock_file}")
+  message("Using locking file to invocate gradle: ${_lock_file}")
 endif()
-file (LOCK ${_lock_file} TIMEOUT 600)
+file(LOCK ${_lock_file} TIMEOUT 600)

@@ -15,8 +15,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
-include (${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 
 test_assert_true(CONDITION FALSE MESSAGE "Should fail with this message")

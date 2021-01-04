@@ -28,7 +28,7 @@ Checks that provided symbols exists in the provided binary after build.
    )
 #]=======================================================================]
 
-function(check_symbols_exists_after_build target lib_path egrep_pattern)
+function(check_symbols_exists_after_build _target lib_path egrep_pattern)
     find_program(_grep_path NAMES grep)
     if (NOT _grep_path)
         message(FATAL_ERROR "Required grep utility wasn't found")
@@ -39,16 +39,16 @@ function(check_symbols_exists_after_build target lib_path egrep_pattern)
         message(FATAL_ERROR "Required build utility nm wasn't found")
     endif ()
 
-    add_custom_command(TARGET ${target}
+    add_custom_command(TARGET ${_target}
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Find symbol with regex pattern ${egrep_pattern} in binary ${lib_path}. Symbols doesn\\'t exists when this step fails" 
+        COMMAND ${CMAKE_COMMAND} -E echo "Find symbol with regex pattern ${egrep_pattern} in binary ${lib_path}. Symbols doesn\\'t exists when this step fails"
         COMMAND ${_nm_path} ${lib_path} | ${_grep_path} -E \"${egrep_pattern}\")
 endfunction()
 
 #[=======================================================================[.rst:
 
 Finds a build utility depending on GLUECODIUM_BUILD_ENVIRONMENT variable either
-in Android NDK, in Xcode environment with xcrun or in host system. 
+in Android NDK, in Xcode environment with xcrun or in host system.
 Usage:
     _find_build_utility(
         <result>        # the result variable with full path to program.
@@ -172,36 +172,37 @@ Usage:
 
 #]=======================================================================]
 
-function (_find_program_with_xcrun result program_name)
-    if(NOT APPLE)
-        message(FATAL_ERROR "xcrun is available only on the macOS platform")
-    endif()
-    set(_option_arg REQUIRED)
-    cmake_parse_arguments(find_program_xcrun "${_option_arg}" "" "" ${ARGN})
+function(_find_program_with_xcrun result program_name)
+  if(NOT APPLE)
+    message(FATAL_ERROR "xcrun is available only on the macOS platform")
+  endif()
+  set(_option_arg REQUIRED)
+  cmake_parse_arguments(find_program_xcrun "${_option_arg}" "" "" ${ARGN})
 
-    unset(xcrun_out)
-    execute_process(
-        COMMAND xcrun --find ${program_name}
-        OUTPUT_VARIABLE xcrun_out OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_VARIABLE xcrun_err
-        RESULT_VARIABLE xcrun_result)
+  unset(xcrun_out)
+  execute_process(
+    COMMAND xcrun --find ${program_name}
+    OUTPUT_VARIABLE xcrun_out
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_VARIABLE xcrun_err
+    RESULT_VARIABLE xcrun_result)
 
-    if(NOT xcrun_result EQUAL 0)
-        if(find_program_xcrun_REQUIRED)
-            message(SEND_ERROR "Failed to find program ${program_name}: ${xcrun_err}")
-        else()
-            set(${result} "${result}-NOTFOUND" PARENT_SCOPE)
-            return()
-        endif()
-    endif()
-
-    if(xcrun_out)
-        set(${result} "${xcrun_out}" PARENT_SCOPE)
+  if(NOT xcrun_result EQUAL 0)
+    if(find_program_xcrun_REQUIRED)
+      message(SEND_ERROR "Failed to find program ${program_name}: ${xcrun_err}")
     else()
-        if(find_program_xcrun_REQUIRED)
-            message(SEND_ERROR "Failed to find program ${program_name}")
-        else()
-            set(${result} "${result}-NOTFOUND" PARENT_SCOPE)
-        endif()
+      set(${result} "${result}-NOTFOUND" PARENT_SCOPE)
+      return()
     endif()
+  endif()
+
+  if(xcrun_out)
+    set(${result} "${xcrun_out}" PARENT_SCOPE)
+  else()
+    if(find_program_xcrun_REQUIRED)
+      message(SEND_ERROR "Failed to find program ${program_name}")
+    else()
+      set(${result} "${result}-NOTFOUND" PARENT_SCOPE)
+    endif()
+  endif()
 endfunction()

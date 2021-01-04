@@ -26,41 +26,42 @@ include(${CMAKE_CURRENT_LIST_DIR}/Compile.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Modulemap.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Configuration.cmake)
 
-#.rst:
-# apigen_swift_build
-# -------------------
-#
-# This module build the framework binary
-# a swift framework.
-#
-# .. command:: apigen_swift_build
-#
-# The general form of the command is::
-#
-#     apigen_swift_build(target
-#       MODULEMAP_HEADERS file_list
-#       FRAMEWORKS framework_list
-#       FRAMEWORK_DIRS directory_list)
-#
-# MODULEMAP_HEADERS specifies additional file list to put into generated modulemap file
-# FRAMEWORKS specifies a list of frameworks to link to.
-# FRAMEWORK_DIRS specifies a list of directories to look for the frameworks in FRAMEWORKS.
-#
+#[===========================================================================================[.rst:
+apigen_swift_build
+-------------------
 
-function(apigen_swift_build target)
+This module build the framework binary
+a swift framework.
+
+.. command:: apigen_swift_build
+
+The general form of the command is::
+
+    apigen_swift_build(target
+      MODULEMAP_HEADERS file_list
+      FRAMEWORKS framework_list
+      FRAMEWORK_DIRS directory_list)
+
+MODULEMAP_HEADERS specifies additional file list to put into generated modulemap file
+FRAMEWORKS specifies a list of frameworks to link to.
+FRAMEWORK_DIRS specifies a list of directories to look for the frameworks in FRAMEWORKS.
+#]===========================================================================================]
+function(apigen_swift_build _target)
 
   set(multiArgs MODULEMAP_HEADERS FRAMEWORKS FRAMEWORK_DIRS)
 
   cmake_parse_arguments(APIGEN_SWIFT_BUILD "" "" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  apigen_swift_configuration(${target})
-  apigen_swift_modulemap(${target} HEADERS ${APIGEN_SWIFT_BUILD_MODULEMAP_HEADERS})
+  apigen_swift_configuration(${_target})
+  apigen_swift_modulemap(${_target} HEADERS ${APIGEN_SWIFT_BUILD_MODULEMAP_HEADERS})
 
   set(additional_args)
   if(APIGEN_SWIFT_BUILD_FRAMEWORKS)
@@ -72,16 +73,17 @@ function(apigen_swift_build target)
 
   if(CMAKE_CROSSCOMPILING)
     foreach(TARGET_ARCH IN LISTS CMAKE_OSX_ARCHITECTURES)
-      message(STATUS "[Swift] COMPILING ${target} ${TARGET_ARCH}")
-      apigen_swift_compile(${target} "${TARGET_ARCH}" ${additional_args})
+      message(STATUS "[Swift] COMPILING ${_target} ${TARGET_ARCH}")
+      apigen_swift_compile(${_target} "${TARGET_ARCH}" ${additional_args})
     endforeach()
 
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH "${CMAKE_OSX_ARCHITECTURES}")
-    message(STATUS "[Swift] FAT ${target} ${CMAKE_OSX_ARCHITECTURES}")
+    set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH
+                                                "${CMAKE_OSX_ARCHITECTURES}")
+    message(STATUS "[Swift] FAT ${_target} ${CMAKE_OSX_ARCHITECTURES}")
   else()
-    message(STATUS "[Swift] COMPILING ${target} ${CMAKE_SYSTEM_PROCESSOR}")
-    apigen_swift_compile(${target} ${CMAKE_SYSTEM_PROCESSOR} ${additional_args})
-    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
+    message(STATUS "[Swift] COMPILING ${_target} ${CMAKE_SYSTEM_PROCESSOR}")
+    apigen_swift_compile(${_target} ${CMAKE_SYSTEM_PROCESSOR} ${additional_args})
+    set_target_properties(${_target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
   endif()
 
 endfunction()

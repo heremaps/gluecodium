@@ -22,7 +22,7 @@ set(includeguard_gluecodium_Generate ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#[===================================================================================================[.rst:
+#[===========================================================================================[.rst:
 
 Code generation module
 ----------------------
@@ -30,7 +30,7 @@ Code generation module
 This module provides functions to generate API interfaces specified
 in the LimeIDL language into target source code as provided by the
 specified generator(s).
- 
+
 
 .. command:: apigen_generate
 
@@ -121,7 +121,7 @@ Only one module should contain both `COMMON` and `MAIN` sources, other modules s
 Other Gluecosdium's CMake functions like apigen_target_include_directories and apigen_target_sources
 take into account that `modularisation` is enabled and behave differently.
 
-#]===================================================================================================]
+#]===========================================================================================]
 
 if(COMMAND find_host_package)
   find_host_package(JAVA COMPONENTS Runtime REQUIRED)
@@ -136,7 +136,10 @@ include(${APIGEN_GLUECODIUM_DIR}/CheckArguments.cmake)
 
 function(apigen_generate)
   set(options VALIDATE_ONLY VERBOSE STUBS)
-  set(oneValueArgs TARGET GENERATOR VERSION
+  set(oneValueArgs
+      TARGET
+      GENERATOR
+      VERSION
       ANDROID_MERGE_MANIFEST
       JAVA_PACKAGE
       JAVA_INTERNAL_PACKAGE
@@ -156,8 +159,7 @@ function(apigen_generate)
       DART_FUNCTION_LOOKUP_ERROR_MESSAGE
       DART_NAMERULES)
   set(multiValueArgs LIME_SOURCES FRANCA_SOURCES WERROR)
-  cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
-                      "${multiValueArgs}" ${ARGN})
+  cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
   apigen_check_no_unparsed_arguments(apigen_generate apigen_generate)
   apigen_deprecate_argument_renamed(apigen_generate FRANCA_SOURCES LIME_SOURCES apigen_generate)
   list(APPEND apigen_generate_LIME_SOURCES ${apigen_generate_FRANCA_SOURCES})
@@ -165,8 +167,10 @@ function(apigen_generate)
 
   _apigen_set_option(GENERATOR)
   _apigen_set_option(TARGET)
-  _apigen_set_option_or_default(BUILD_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/build")
-  _apigen_set_option_or_default(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/${APIGEN_GENERATOR}")
+  _apigen_set_option_or_default(BUILD_OUTPUT_DIR
+                                "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/build")
+  _apigen_set_option_or_default(OUTPUT_DIR
+                                "${CMAKE_CURRENT_BINARY_DIR}/${APIGEN_TARGET}/${APIGEN_GENERATOR}")
   _apigen_set_option_or_default(COMMON_OUTPUT_DIR "")
   _apigen_set_option_or_default(VERSION +)
 
@@ -177,15 +181,18 @@ function(apigen_generate)
     set(validateProperty "true")
   endif()
 
-  message(STATUS "${operationVerb} '${APIGEN_TARGET}' with '${APIGEN_GENERATOR}' generator using Gluecodium version '${APIGEN_VERSION}'
+  message(
+    STATUS
+      "${operationVerb} '${APIGEN_TARGET}' with '${APIGEN_GENERATOR}' generator using Gluecodium version '${APIGEN_VERSION}'
   Input: '${apigen_generate_LIME_SOURCES}'")
 
   # Attach properties to target for re-use in other modules
-  set_target_properties(${APIGEN_TARGET} PROPERTIES
-    APIGEN_GENERATOR "${APIGEN_GENERATOR}"
-    APIGEN_OUTPUT_DIR "${APIGEN_OUTPUT_DIR}"
-    APIGEN_COMMON_OUTPUT_DIR "${APIGEN_COMMON_OUTPUT_DIR}"
-    APIGEN_BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
+  set_target_properties(
+    ${APIGEN_TARGET}
+    PROPERTIES APIGEN_GENERATOR "${APIGEN_GENERATOR}"
+               APIGEN_OUTPUT_DIR "${APIGEN_OUTPUT_DIR}"
+               APIGEN_COMMON_OUTPUT_DIR "${APIGEN_COMMON_OUTPUT_DIR}"
+               APIGEN_BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
   if(NOT apigen_generate_GENERATOR MATCHES cpp)
     if(NOT apigen_generate_STUBS)
@@ -193,14 +200,15 @@ function(apigen_generate)
     endif()
   endif()
 
-  set(APIGEN_GLUECODIUM_PROPERTIES "\
+  set(APIGEN_GLUECODIUM_PROPERTIES
+      "\
 output=${APIGEN_OUTPUT_DIR}\n\
 generators=${apigen_generate_GENERATOR}\n\
 validate=${validateProperty}\n\
 stubs=${apigen_generate_STUBS}\n\
 cache=true\n")
 
-  unset (_apigen_input_list)
+  unset(_apigen_input_list)
   foreach(input ${apigen_generate_LIME_SOURCES})
     # Attach sources to target for IDEs to display them properly in their projects
     file(GLOB_RECURSE inputLimeSources ${input}/*.lime)
@@ -211,12 +219,13 @@ cache=true\n")
     if(NOT IS_ABSOLUTE ${input})
       set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
     endif()
-    list (APPEND _apigen_input_list ${input})
+    list(APPEND _apigen_input_list ${input})
   endforeach()
   string(APPEND APIGEN_GLUECODIUM_PROPERTIES "input=$<JOIN:${_apigen_input_list},$<COMMA>>\n")
 
-  if (apigen_generate_WERROR)
-    string(APPEND APIGEN_GLUECODIUM_PROPERTIES "werror=$<JOIN:${apigen_generate_WERROR},$<COMMA>>\n")
+  if(apigen_generate_WERROR)
+    string(APPEND APIGEN_GLUECODIUM_PROPERTIES
+           "werror=$<JOIN:${apigen_generate_WERROR},$<COMMA>>\n")
   endif()
   _apigen_parse_option(mergemanifest ANDROID_MERGE_MANIFEST)
   _apigen_parse_option(javapackage JAVA_PACKAGE)
@@ -240,9 +249,8 @@ cache=true\n")
   endif()
   get_target_property(apigen_target_type ${APIGEN_TARGET} TYPE)
   if(apigen_target_type STREQUAL SHARED_LIBRARY)
-    target_compile_definitions(${APIGEN_TARGET}
-      PUBLIC ${apigen_generate_CPP_EXPORT}_SHARED
-      PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
+    target_compile_definitions(${APIGEN_TARGET} PUBLIC ${apigen_generate_CPP_EXPORT}_SHARED
+                               PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
   endif()
 
   message("Configured `Gluecodium")
@@ -251,81 +259,88 @@ cache=true\n")
   if(APIGEN_COMMON_OUTPUT_DIR)
     list(APPEND _source_sets COMMON)
   endif()
-  apigen_list_generated_sources(_generated_files
-    ${_source_sets}
+  apigen_list_generated_sources(
+    _generated_files ${_source_sets}
     TARGET ${APIGEN_TARGET}
     GENERATOR ${APIGEN_GENERATOR}
     BUILD_OUTPUT_DIR "${APIGEN_BUILD_OUTPUT_DIR}")
 
-  set (_target_interface_sources "$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>")
+  set(_target_interface_sources "$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>")
 
-  if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.15)
-    set (_lime_target_sources "$<FILTER:${_target_interface_sources},INCLUDE,.*\\.lime$>")
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.15)
+    set(_lime_target_sources "$<FILTER:${_target_interface_sources},INCLUDE,.*\\.lime$>")
     string(REPLACE ";" "$<SEMICOLON>" _escaped_lime_sources "${apigen_generate_LIME_SOURCES}")
-    set (_lime_dependencies "$<REMOVE_DUPLICATES:${_lime_target_sources}$<SEMICOLON>${_escaped_lime_sources}>")
-    set (_lime_target_sources "$<REMOVE_DUPLICATES:${_lime_target_sources}>")
-    string(APPEND APIGEN_GLUECODIUM_PROPERTIES "auxinput=$<JOIN:${_lime_target_sources},$<COMMA>>\n")
+    set(_lime_dependencies
+        "$<REMOVE_DUPLICATES:${_lime_target_sources}$<SEMICOLON>${_escaped_lime_sources}>")
+    set(_lime_target_sources "$<REMOVE_DUPLICATES:${_lime_target_sources}>")
+    string(APPEND APIGEN_GLUECODIUM_PROPERTIES
+           "auxinput=$<JOIN:${_lime_target_sources},$<COMMA>>\n")
   else()
+    # cmake-format: off
     # There is no $<FILTER: ... > in old CMake, so it's not possible to filter out other sources, so:
     # 1. custom command depends on all _lime_target_sources (which includes lime files)
     # 2. _lime_target_sources must be written to separate file and then filtered and merged into options file during compilation
     # 3. Also filtered lime files are written to another file.
     # 4. Now when any of sources or lime files are changed runGenerate.cmake checks if any of filtered lime file
     #    is newer than any of known generated and regenerates sources if it's true.
-    set (_lime_target_sources "${_target_interface_sources}")
-    set (_gluecodium_auxinput_file "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-auxinput-${APIGEN_TARGET}.txt")
-    set (_lime_dependencies "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
-    set (_escaped_generated_files "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
+    # cmake-format: on
+    set(_lime_target_sources "${_target_interface_sources}")
+    set(_gluecodium_auxinput_file
+        "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-auxinput-${APIGEN_TARGET}.txt")
+    set(_lime_dependencies "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
+    set(_escaped_generated_files "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
     string(REPLACE ";" "," _escaped_generated_files "${_generated_files}")
-    file (GENERATE OUTPUT "${_gluecodium_auxinput_file}" CONTENT "${_lime_target_sources}")
+    file(GENERATE OUTPUT "${_gluecodium_auxinput_file}" CONTENT "${_lime_target_sources}")
   endif()
 
-  set (_gluecodium_options_file "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-options-${APIGEN_TARGET}.txt")
-  file (GENERATE OUTPUT "${_gluecodium_options_file}" CONTENT "${APIGEN_GLUECODIUM_PROPERTIES}")
+  set(_gluecodium_options_file
+      "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-options-${APIGEN_TARGET}.txt")
+  file(GENERATE OUTPUT "${_gluecodium_options_file}" CONTENT "${APIGEN_GLUECODIUM_PROPERTIES}")
 
-  add_custom_command(OUTPUT ${_generated_files}
-    COMMAND ${CMAKE_COMMAND}
-        -DAPIGEN_TARGET=${APIGEN_TARGET}
-        -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
-        -DAPIGEN_GLUECODIUM_OPTIONS_FILE=${_gluecodium_options_file}
-        -DAPIGEN_GLUECODIUM_AUXINPUT_FILE=${_gluecodium_auxinput_file} # CMake < 3.15
-        -DAPIGEN_GLUECODIUM_VERSION=${APIGEN_VERSION}
-        -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
-        -DAPIGEN_GENERATOR=${APIGEN_GENERATOR}
-        -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
-        -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
-        -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
-        -DAPIGEN_GENERATED_FILES=${_escaped_generated_files}
-        -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
-        -DAPIGEN_VERBOSE=${apigen_generate_VERBOSE}
-        -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
-        VERBATIM
-    DEPENDS
-      "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
-      ${_lime_dependencies} # Should contain both input and aux files
-      )
+  add_custom_command(
+    OUTPUT ${_generated_files}
+    COMMAND
+      ${CMAKE_COMMAND} -DAPIGEN_TARGET=${APIGEN_TARGET}
+      -DBUILD_LOCAL_GLUECODIUM=${BUILD_LOCAL_GLUECODIUM}
+      -DAPIGEN_GLUECODIUM_OPTIONS_FILE=${_gluecodium_options_file}
+
+      -DAPIGEN_GLUECODIUM_AUXINPUT_FILE=${_gluecodium_auxinput_file} # CMake < 3.15
+      -DAPIGEN_GLUECODIUM_VERSION=${APIGEN_VERSION} -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
+      -DAPIGEN_GENERATOR=${APIGEN_GENERATOR} -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
+      -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
+      -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
+      -DAPIGEN_GENERATED_FILES=${_escaped_generated_files}
+      -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
+      -DAPIGEN_VERBOSE=${apigen_generate_VERBOSE} -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
+    VERBATIM
+    DEPENDS "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
+
+            ${_lime_dependencies} # Should contain both input and aux files
+  )
 
   add_custom_target(${APIGEN_TARGET}.gluecodium.generate DEPENDS ${_generated_files})
 
-  # This is necessary for CMake 3.19 which enabled support of
-  # "new build system" in Xcode >= 12.x
-  # "New build system" requires for targets which depend on the same generated
-  # files to have dependency between them.
+  # This is necessary for CMake 3.19 which enabled support of "new build system" in Xcode >= 12.x
+  # "New build system" requires for targets which depend on the same generated files to have
+  # dependency between them.
   add_dependencies(${APIGEN_TARGET} ${APIGEN_TARGET}.gluecodium.generate)
 endfunction()
 
 macro(_apigen_parse_path_option GLUECODIUM_PROPERTY CMAKE_OPTION)
   if(apigen_generate_${CMAKE_OPTION})
     if(NOT IS_ABSOLUTE ${apigen_generate_${CMAKE_OPTION}})
-      set(apigen_generate_${CMAKE_OPTION} "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${CMAKE_OPTION}}")
+      set(apigen_generate_${CMAKE_OPTION}
+          "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${CMAKE_OPTION}}")
     endif()
-    string(APPEND APIGEN_GLUECODIUM_PROPERTIES "${GLUECODIUM_PROPERTY}=${apigen_generate_${CMAKE_OPTION}}\n")
+    string(APPEND APIGEN_GLUECODIUM_PROPERTIES
+           "${GLUECODIUM_PROPERTY}=${apigen_generate_${CMAKE_OPTION}}\n")
   endif()
 endmacro()
 
 macro(_apigen_parse_option GLUECODIUM_PROPERTY CMAKE_OPTION)
   if(apigen_generate_${CMAKE_OPTION})
-    string(APPEND APIGEN_GLUECODIUM_PROPERTIES "${GLUECODIUM_PROPERTY}=${apigen_generate_${CMAKE_OPTION}}\n")
+    string(APPEND APIGEN_GLUECODIUM_PROPERTIES
+           "${GLUECODIUM_PROPERTY}=${apigen_generate_${CMAKE_OPTION}}\n")
   endif()
 endmacro()
 

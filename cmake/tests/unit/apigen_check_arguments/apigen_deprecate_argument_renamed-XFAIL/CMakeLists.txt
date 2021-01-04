@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
 project(gluecodium.test)
 
@@ -24,5 +24,6 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 include(gluecodium/gluecodium/CheckArguments)
 
 set(_test_prefix_TEST_ARGUMENT_NAME ON)
-apigen_deprecate_argument_renamed(_test_prefix TEST_ARGUMENT_NAME TEST_NEW_ARGUMENT_NAME test_function_name)
+apigen_deprecate_argument_renamed(_test_prefix TEST_ARGUMENT_NAME TEST_NEW_ARGUMENT_NAME
+                                  test_function_name)
 message(FATAL_ERROR "Deprecation succeed")

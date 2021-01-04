@@ -15,11 +15,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
 project(gluecodium.test)
 
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
@@ -27,19 +27,19 @@ include(gluecodium/Gluecodium)
 
 add_library(single.module.package SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 
-if (ANDROID)
-    set (_gluecodium_generator android)
-elseif (APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-    set (_gluecodium_generator swift)
-else ()
-    set (_gluecodium_generator cpp)
-endif ()
+if(ANDROID)
+  set(_gluecodium_generator android)
+elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
+  set(_gluecodium_generator swift)
+else()
+  set(_gluecodium_generator cpp)
+endif()
 
 apigen_generate(
-    TARGET single.module.package
-    LIME_SOURCES "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime"
-    GENERATOR ${_gluecodium_generator}
-    CPP_INTERNAL_NAMESPACE test)
+  TARGET single.module.package
+  LIME_SOURCES "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime"
+  GENERATOR ${_gluecodium_generator}
+  CPP_INTERNAL_NAMESPACE test)
 
-apigen_target_include_directories (single.module.package)
-apigen_target_sources (single.module.package)
+apigen_target_include_directories(single.module.package)
+apigen_target_sources(single.module.package)
