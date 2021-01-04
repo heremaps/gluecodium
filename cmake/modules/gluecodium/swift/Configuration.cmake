@@ -15,16 +15,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_swift_Configuration)
-  return()
-endif()
-set(includeguard_gluecodium_swift_Configuration ON)
-
 if(CMAKE_GENERATOR STREQUAL "Xcode" AND NOT XCODE_VERSION VERSION_LESS 10.0)
   cmake_minimum_required(VERSION 3.12.1)
 else()
-  cmake_minimum_required(VERSION 3.7.2)
+  cmake_minimum_required(VERSION 3.10)
 endif()
+
+include_guard()
 
 #.rst:
 # apigen_swift_configuration

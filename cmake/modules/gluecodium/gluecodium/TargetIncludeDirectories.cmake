@@ -15,12 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_TargetIncludeDirectories)
-  return()
-endif()
-set(includeguard_gluecodium_TargetIncludeDirectories ON)
+cmake_minimum_required(VERSION 3.10)
 
-cmake_minimum_required(VERSION 3.5)
+include_guard()
 
 include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
 

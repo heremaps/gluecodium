@@ -15,10 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguardapigen_packaging_gluecodium_PackagingUtils)
-  return()
-endif()
-set(includeguardapigen_packaging_gluecodium_PackagingUtils ON)
+cmake_minimum_required(VERSION 3.10)
+
+include_guard()
 
 function(apigen_packaging_find_shared_library_dependencies_rec var target add_aliases)
   set(found_deps ${${var}})

@@ -15,10 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguardapigen_packaging_Packaging)
-  return()
-endif()
-set(includeguardapigen_packaging_Packaging ON)
+cmake_minimum_required(VERSION 3.10)
+
+include_guard()
 
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/PackagingUtils.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/CheckArguments.cmake)

@@ -15,12 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_java_Jar)
-  return()
-endif()
-set(includeguard_gluecodium_java_Jar ON)
+cmake_minimum_required(VERSION 3.10)
 
-cmake_minimum_required(VERSION 3.5)
+include_guard()
 
 #.rst:
 # Java jar module

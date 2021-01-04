@@ -15,10 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_CheckArguments)
-  return()
-endif()
-set(includeguard_gluecodium_CheckArguments ON)
+cmake_minimum_required(VERSION 3.10)
+
+include_guard()
 
 #.rst:
 # Macros to validate argument passed to function

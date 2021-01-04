@@ -15,10 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_generatedSources)
-  return()
-endif()
-set(includeguard_gluecodium_generatedSources ON)
+cmake_minimum_required(VERSION 3.10)
+
+include_guard()
 
 macro(apigen_set_generated_files target)
   foreach(_source_group main common)

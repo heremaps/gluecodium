@@ -15,13 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_swift_Compile)
-  return()
-endif()
-set(includeguard_gluecodium_swift_Compile ON)
-
 # 3.13 for generator expressions in add_custom_command(WORKING_DIRECTORY)
 cmake_minimum_required(VERSION 3.13)
+
+include_guard()
 
 set(MINIMAL_CLANG_VERSION 5.0)
 if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"
