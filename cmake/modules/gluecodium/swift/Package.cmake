@@ -38,13 +38,13 @@ The general form of the command is:
     apigen_swift_swift_package(target)
 
 #]===========================================================================================]
-function(apigen_swift_package target)
+function(apigen_swift_package _target)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_package() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  apigen_swift_fat_library(${target})
-  apigen_swift_framework_info_plist(${target})
+  apigen_swift_fat_library(${_target})
+  apigen_swift_framework_info_plist(${_target})
 
 endfunction()

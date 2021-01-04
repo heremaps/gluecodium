@@ -55,15 +55,15 @@ The general form of the command is::
 
 #]===========================================================================================]
 
-function(apigen_target_sources target)
+function(apigen_target_sources _target)
   set(options MAIN COMMON SKIP_SWIFT)
   cmake_parse_arguments(apigen_target_sources "${options}" "" "" ${ARGN})
 
   apigen_check_no_unparsed_arguments(apigen_target_sources apigen_target_sources)
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
-  get_target_property(BUILD_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
+  get_target_property(COMMON_OUTPUT_DIR ${_target} APIGEN_COMMON_OUTPUT_DIR)
+  get_target_property(BUILD_OUTPUT_DIR ${_target} APIGEN_BUILD_OUTPUT_DIR)
 
   unset(_source_sets)
   if(NOT apigen_target_sources_MAIN AND NOT apigen_target_sources_COMMON)
@@ -86,15 +86,15 @@ function(apigen_target_sources target)
 
   apigen_list_generated_sources(_generated_files
     ${_source_sets}
-    TARGET ${target}
+    TARGET ${_target}
     GENERATOR "${GENERATOR}"
     BUILD_OUTPUT_DIR "${BUILD_OUTPUT_DIR}")
   source_group("Generated Source Files" FILES ${_generated_files})
 
   if(NOT GENERATOR MATCHES swift)
-    target_sources(${target} PRIVATE ${_generated_files})
+    target_sources(${_target} PRIVATE ${_generated_files})
   else()
-    apigen_set_generated_files(${target})
+    apigen_set_generated_files(${_target})
 
     foreach(_upper_case_source_set ${_source_sets})
       string(TOLOWER ${_upper_case_source_set} _source_set)
@@ -130,13 +130,13 @@ function(apigen_target_sources target)
       # compilation units. So instead just attach the Swift code as a property here.
       # Bridging headers need to be collected for all included compilation units and end up in the final
       # CBridge modulemap used for building.
-      set_property(TARGET ${target} APPEND PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
-      set_property(TARGET ${target} APPEND PROPERTY BRIDGING_HEADERS ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}})
+      set_property(TARGET ${_target} APPEND PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+      set_property(TARGET ${_target} APPEND PROPERTY BRIDGING_HEADERS ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}})
       if(NOT apigen_target_sources_SKIP_SWIFT)
-        target_sources(${target} PRIVATE ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+        target_sources(${_target} PRIVATE ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
       endif()
 
-      target_sources(${target}
+      target_sources(${_target}
         PUBLIC
           ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
         PRIVATE

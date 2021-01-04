@@ -53,18 +53,18 @@ The general form of the command is::
     apigen_swift_compile(target)
 
 #]===========================================================================================]
-function(apigen_swift_compile target architecture)
+function(apigen_swift_compile _target architecture)
 
   set(multiArgs FRAMEWORKS FRAMEWORK_DIRS)
   cmake_parse_arguments(APIGEN_SWIFT_COMPILE "" "" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
-  get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
-  get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
-  get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
+  get_target_property(OUTPUT_DIR ${_target} APIGEN_OUTPUT_DIR)
+  get_target_property(SWIFT_OUTPUT_DIR ${_target} APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_FRAMEWORK_VERSION ${_target} APIGEN_SWIFT_FRAMEWORK_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${_target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
+  get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${_target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${_target} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ADDITIONAL_SOURCES)
     set(ADDITIONAL_SOURCES "")
@@ -113,9 +113,9 @@ function(apigen_swift_compile target architecture)
     endif()
   endif()
 
-  set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
-  get_target_property(TARGET_TYPE ${target} TYPE)
-  get_target_property(additional_swift_flags ${target} APIGEN_SWIFT_FLAGS)
+  set(MODULE_NAME ${_target}$<TARGET_PROPERTY:${_target},DEBUG_POSTFIX>)
+  get_target_property(TARGET_TYPE ${_target} TYPE)
+  get_target_property(additional_swift_flags ${_target} APIGEN_SWIFT_FLAGS)
   if(APPLE)
     if(NOT CMAKE_Swift_COMPILER_LOADED)
       message(FATAL_ERROR "Swift language must be enabled on top level")
@@ -131,22 +131,22 @@ function(apigen_swift_compile target architecture)
       set(SWIFT_FLAGS "${SWIFT_FLAGS} ${additional_swift_flags}")
     endif()
     set(SWIFT_DEBUG_FLAG "-D DEBUG")
-    set_target_properties(${target} PROPERTIES
+    set_target_properties(${_target} PROPERTIES
       FRAMEWORK TRUE
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "${SWIFT_FLAGS}"
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS[variant=Debug] "${SWIFT_FLAGS} ${SWIFT_DEBUG_FLAG}"
       XCODE_ATTRIBUTE_OTHER_LDFLAGS "-lc++"
       XCODE_ATTRIBUTE_PRODUCT_NAME ${SWIFT_FRAMEWORK_NAME})
-    install(TARGETS ${target} FRAMEWORK DESTINATION .)
+    install(TARGETS ${_target} FRAMEWORK DESTINATION .)
   else()
     # The custom Swift compile step needs to collect link libraries manually for static targets.
     if(NOT TARGET_TYPE STREQUAL "STATIC_LIBRARY")
       message(FATAL_ERROR "Building Swift on linux requires a \"STATIC_LIBRARY\" target which will be embedded the dynamic framework.")
     endif()
     # Rename the C++ lib so we can reuse the name for the final library. The name should also indicate that it's not a usable library.
-    set_target_properties(${target} PROPERTIES ARCHIVE_OUTPUT_NAME ${MODULE_NAME}_intermediate)
+    set_target_properties(${_target} PROPERTIES ARCHIVE_OUTPUT_NAME ${MODULE_NAME}_intermediate)
 
-    get_swiftc_arguments(${target} swift_link_libraries)
+    get_swiftc_arguments(${_target} swift_link_libraries)
 
     if(additional_swift_flags)
       list(APPEND swift_target_flag ${additional_swift_flags})
@@ -161,8 +161,8 @@ function(apigen_swift_compile target architecture)
       ${swift_target_flag}
       -emit-module
       -emit-library
-      -module-name ${target}
-      -o "lib${target}.so"
+      -module-name ${_target}
+      -o "lib${_target}.so"
       -Xlinker "-rpath=$$ORIGIN"
       )
 
@@ -171,7 +171,7 @@ function(apigen_swift_compile target architecture)
       set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
     endif()
 
-    get_property(all_sources TARGET ${target} PROPERTY SOURCES)
+    get_property(all_sources TARGET ${_target} PROPERTY SOURCES)
     set(swift_sources)
     foreach(source ${all_sources})
       get_filename_component(extension "${source}" EXT)
@@ -180,24 +180,24 @@ function(apigen_swift_compile target architecture)
       endif()
     endforeach()
 
-    add_custom_command(TARGET ${target} POST_BUILD
+    add_custom_command(TARGET ${_target} POST_BUILD
       COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS}"
       COMMAND ${SWIFTC} "${BUILD_ARGUMENTS}" ${swift_sources} ${ADDITIONAL_SOURCES}
       WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
       COMMAND_EXPAND_LISTS)
 
     # Attach swiftc arguments needed to use the Swift module in other targets
-    target_link_libraries(${target} INTERFACE "$<BUILD_INTERFACE:-L${SWIFT_OUTPUT_DIR}>" "$<BUILD_INTERFACE:-l${target}>")
-    target_include_directories(${target} INTERFACE "$<BUILD_INTERFACE:${SWIFT_OUTPUT_DIR}>")
+    target_link_libraries(${_target} INTERFACE "$<BUILD_INTERFACE:-L${SWIFT_OUTPUT_DIR}>" "$<BUILD_INTERFACE:-l${_target}>")
+    target_include_directories(${_target} INTERFACE "$<BUILD_INTERFACE:${SWIFT_OUTPUT_DIR}>")
 
     install(
       FILES
-        "${SWIFT_OUTPUT_DIR}/${target}.swiftmodule"
-        "${SWIFT_OUTPUT_DIR}/${target}.swiftdoc"
+        "${SWIFT_OUTPUT_DIR}/${_target}.swiftmodule"
+        "${SWIFT_OUTPUT_DIR}/${_target}.swiftdoc"
       DESTINATION .)
-    install(PROGRAMS "${SWIFT_OUTPUT_DIR}/lib${target}.so" DESTINATION .)
+    install(PROGRAMS "${SWIFT_OUTPUT_DIR}/lib${_target}.so" DESTINATION .)
     if(${TARGET_TYPE} STREQUAL SHARED_LIBRARY)
-      install(TARGETS ${target} DESTINATION .)
+      install(TARGETS ${_target} DESTINATION .)
     endif()
   endif()
 endfunction()

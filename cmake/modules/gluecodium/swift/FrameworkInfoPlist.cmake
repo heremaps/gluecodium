@@ -62,16 +62,16 @@ The general form of the command is::
 # Used to find the .plist.in file when the function is called
 set(APIGEN_CMAKE_MODULE_SWIFT_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-function(apigen_swift_framework_info_plist target)
+function(apigen_swift_framework_info_plist _target)
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
-  get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
-  get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
-  get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
-  get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
-  get_target_property(MACOSX_FRAMEWORK_IDENTIFIER ${target} APIGEN_SWIFT_FRAMEWORK_IDENTIFIER)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
+  get_target_property(SWIFT_OUTPUT_DIR ${_target} APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_FRAMEWORK_VERSION ${_target} APIGEN_SWIFT_FRAMEWORK_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${_target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
+  get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${_target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
+  get_target_property(SWIFT_RESOURCES_DIR ${_target} APIGEN_SWIFT_RESOURCES_DIR)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${_target} APIGEN_SWIFT_FRAMEWORK_NAME)
+  get_target_property(MACOSX_FRAMEWORK_IDENTIFIER ${_target} APIGEN_SWIFT_FRAMEWORK_IDENTIFIER)
   if(IOS)
     if(CMAKE_OSX_ARCHITECTURES) # Support CMake's default toolchain
       apigen_check_only_listed_ios_architectures_are_enabled (_is_iphone_os "armv7" "armv7s" "arm64" "arm64e")
@@ -105,10 +105,10 @@ function(apigen_swift_framework_info_plist target)
   # TODO: APIGEN-1760 Check if we still need our own Info.plist file and cannot use CMake's generated one
   # using CMakes builtin Info.plist generation does not work properly, work around this by removing
   # and replacing the generated one
-  configure_file(${APIGEN_CMAKE_MODULE_SWIFT_DIR}/MacOSXFrameworkInfo.plist.in ${SWIFT_OUTPUT_DIR}/Info.plist.${target})
-  add_custom_command(TARGET ${target} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
-    COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
+  configure_file(${APIGEN_CMAKE_MODULE_SWIFT_DIR}/MacOSXFrameworkInfo.plist.in ${SWIFT_OUTPUT_DIR}/Info.plist.${_target})
+  add_custom_command(TARGET ${_target} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${_target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
+    COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${_target} "$<TARGET_FILE_DIR:${_target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
     )
   message(STATUS "[Swift] Creating Mac OS configuration...")
 

@@ -41,25 +41,25 @@ The general form of the command is::
 HEADERS specifies additional file list to put into generated modulemap file
 
 #]===========================================================================================]
-function(apigen_swift_modulemap target)
+function(apigen_swift_modulemap _target)
 
   set(multiArgs HEADERS)
 
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_MODULE_NAME ${target} APIGEN_SWIFT_MODULE_NAME)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
+  get_target_property(COMMON_OUTPUT_DIR ${_target} APIGEN_COMMON_OUTPUT_DIR)
+  get_target_property(SWIFT_OUTPUT_DIR ${_target} APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_MODULE_NAME ${_target} APIGEN_SWIFT_MODULE_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_modulemap() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
   # Module map generation
-  apigen_set_generated_files(${target})
+  apigen_set_generated_files(${_target})
   set(_cbridge_modulemap "module ${SWIFT_MODULE_NAME} {\n")
-  get_target_property(bridging_headers ${target} BRIDGING_HEADERS)
+  get_target_property(bridging_headers ${_target} BRIDGING_HEADERS)
   if(NOT bridging_headers)
     unset(bridging_headers)
   endif()
@@ -77,10 +77,10 @@ function(apigen_swift_modulemap target)
   # Clean up the modulemap after building to avoid double definition conflicts with the generated
   # framework - this is caused by using internally the same name as the final Xcode project
   # and Xcode will follow those caches
-  add_custom_command(TARGET "${target}" PRE_BUILD
+  add_custom_command(TARGET "${_target}" PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${SWIFT_OUTPUT_DIR}/module.modulemap")
   if(APPLE)
-    add_custom_command(TARGET "${target}" POST_BUILD
+    add_custom_command(TARGET "${_target}" POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E remove "${SWIFT_OUTPUT_DIR}/module.modulemap")
   endif()
 endfunction()

@@ -28,7 +28,7 @@ Checks that provided symbols exists in the provided binary after build.
    )
 #]=======================================================================]
 
-function(check_symbols_exists_after_build target lib_path egrep_pattern)
+function(check_symbols_exists_after_build _target lib_path egrep_pattern)
     find_program(_grep_path NAMES grep)
     if (NOT _grep_path)
         message(FATAL_ERROR "Required grep utility wasn't found")
@@ -39,7 +39,7 @@ function(check_symbols_exists_after_build target lib_path egrep_pattern)
         message(FATAL_ERROR "Required build utility nm wasn't found")
     endif ()
 
-    add_custom_command(TARGET ${target}
+    add_custom_command(TARGET ${_target}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo "Find symbol with regex pattern ${egrep_pattern} in binary ${lib_path}. Symbols doesn\\'t exists when this step fails" 
         COMMAND ${_nm_path} ${lib_path} | ${_grep_path} -E \"${egrep_pattern}\")

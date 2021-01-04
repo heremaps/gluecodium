@@ -35,7 +35,7 @@ The general form of the command is::
     apigen_swift_test(target)
 
 #]===========================================================================================]
-function(apigen_swift_test target)
+function(apigen_swift_test _target)
   set(options)
   set(oneValueArgs TEST_EXECUTABLE_NAME)
   set(multiValueArgs SOURCES)
@@ -44,7 +44,7 @@ function(apigen_swift_test target)
   if(apigen_swift_test_TEST_EXECUTABLE_NAME)
     set(test_target ${apigen_swift_test_TEST_EXECUTABLE_NAME})
   else()
-    set(test_target "test${target}")
+    set(test_target "test${_target}")
   endif()
 
   set(sources)
@@ -58,12 +58,12 @@ function(apigen_swift_test target)
 
   if(APPLE)
     find_package(XCTest REQUIRED)
-    create_xctest_bundle(${target} "xctest_" "${sources}")
+    create_xctest_bundle(${_target} "xctest_" "${sources}")
 
     add_executable(${test_target} ${sources})
-    target_link_libraries(${test_target} ${target})
-    target_link_directories(${test_target} PRIVATE "$<TARGET_BUNDLE_DIR:${target}>/")
-    set_target_properties(test${target} PROPERTIES
+    target_link_libraries(${test_target} ${_target})
+    target_link_directories(${test_target} PRIVATE "$<TARGET_BUNDLE_DIR:${_target}>/")
+    set_target_properties(test${_target} PROPERTIES
       # Add the path for XCTest
       XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DIR)/Developer/Library/Frameworks/"
       XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DIR)/Developer/Library/Frameworks/"
@@ -71,14 +71,14 @@ function(apigen_swift_test target)
 
     install(TARGETS ${test_target} DESTINATION .)
   else()
-    get_swiftc_arguments(${target} swift_link_libraries)
+    get_swiftc_arguments(${_target} swift_link_libraries)
 
     set(BUILD_ARGUMENTS
       -emit-executable
       -o ${test_target}
-      -L$<TARGET_FILE_DIR:${target}>
-      -I$<TARGET_FILE_DIR:${target}>
-      -l${target}
+      -L$<TARGET_FILE_DIR:${_target}>
+      -I$<TARGET_FILE_DIR:${_target}>
+      -l${_target}
       -lstdc++
       "${swift_link_libraries}"
       -enable-testing
@@ -89,20 +89,20 @@ function(apigen_swift_test target)
       set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
     endif()
 
-    add_custom_target(${test_target} ALL DEPENDS ${target}
+    add_custom_target(${test_target} ALL DEPENDS ${_target}
       COMMAND swiftc "${BUILD_ARGUMENTS}" ${sources}
-      WORKING_DIRECTORY $<TARGET_FILE_DIR:${target}>
+      WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
       COMMAND_EXPAND_LISTS)
 
-    install(PROGRAMS "$<TARGET_FILE_DIR:${target}>/${test_target}" DESTINATION .)
+    install(PROGRAMS "$<TARGET_FILE_DIR:${_target}>/${test_target}" DESTINATION .)
   endif()
 endfunction()
 
-function(create_xctest_bundle target tests_name sources)
-  set(TEST_TARGET "${tests_name}${target}")
+function(create_xctest_bundle _target tests_name sources)
+  set(TEST_TARGET "${tests_name}${_target}")
   message(STATUS "Test target : ${TEST_TARGET}")
-  xctest_add_bundle(${TEST_TARGET} ${target} ${sources})
-  set(XCODE_LD_RUNPATHS "$<TARGET_BUNDLE_DIR:${target}>/")
+  xctest_add_bundle(${TEST_TARGET} ${_target} ${sources})
+  set(XCODE_LD_RUNPATHS "$<TARGET_BUNDLE_DIR:${_target}>/")
   if(CMAKE_CROSSCOMPILING)
     set(XCODE_LD_RUNPATHS "${XCODE_LD_RUNPATHS} \
       @loader_path/Frameworks/")

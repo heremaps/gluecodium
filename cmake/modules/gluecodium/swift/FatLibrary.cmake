@@ -35,28 +35,28 @@ The general form of the command is::
     apigen_swift_fat_library(target)
 
 #]===========================================================================================]
-function(apigen_swift_fat_library target)
+function(apigen_swift_fat_library _target)
 
   if(NOT APPLE)
     return()
   endif()
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(OUTPUT_DIR ${target} APIGEN_OUTPUT_DIR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_ARCH ${target} APIGEN_SWIFT_BUILD_ARCH)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
+  get_target_property(OUTPUT_DIR ${_target} APIGEN_OUTPUT_DIR)
+  get_target_property(SWIFT_OUTPUT_DIR ${_target} APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_ARCH ${_target} APIGEN_SWIFT_BUILD_ARCH)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_fat_library() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  set(framework_lib "${target}.framework/${target}")
+  set(framework_lib "${_target}.framework/${_target}")
   set(libs)
   foreach(TARGET_ARCH IN LISTS SWIFT_ARCH)
-    list(APPEND libs lib${target}.${TARGET_ARCH})
+    list(APPEND libs lib${_target}.${TARGET_ARCH})
   endforeach()
 
-  add_custom_command(TARGET ${target} POST_BUILD
+  add_custom_command(TARGET ${_target} POST_BUILD
     COMMAND lipo ${libs} -create -output "${framework_lib}"
     COMMAND install_name_tool -id "@rpath/${framework_lib}" "${framework_lib}"
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
