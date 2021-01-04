@@ -264,8 +264,7 @@ EXCLUDE_TARGETS to have been created with apigen_create_package()")
           TARGET ${ARG_TARGET}
           POST_BUILD
           COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${dep}> ${lib_dir}
-          COMMAND
-            install_name_tool ${fixup_paths_args} ${lib_dir}/$<TARGET_FILE_NAME:${dep}>
+          COMMAND install_name_tool ${fixup_paths_args} ${lib_dir}/$<TARGET_FILE_NAME:${dep}>
           COMMAND codesign -s ${SIGNING_IDENTITY} -fv ${lib_dir}/$<TARGET_FILE_NAME:${dep}>)
       endforeach()
       add_custom_command(TARGET ${ARG_TARGET} POST_BUILD
