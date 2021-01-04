@@ -16,11 +16,12 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-set (_required_vars APIGEN_GLUECODIUM_DIR APIGEN_JAVA_LOCAL_SOURCES_DIRS APIGEN_JAVA_COMPILE_OUTPUT_DIR)
+set(_required_vars APIGEN_GLUECODIUM_DIR APIGEN_JAVA_LOCAL_SOURCES_DIRS
+                   APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 foreach(_var ${_required_vars})
-    if (NOT ${_var})
-        message(FATAL_ERROR "${_var} must be specified")
-    endif ()
+  if(NOT ${_var})
+    message(FATAL_ERROR "${_var} must be specified")
+  endif()
 endforeach()
 
 include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
@@ -28,24 +29,23 @@ include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
 
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_SOURCES_DIRS "${APIGEN_JAVA_LOCAL_SOURCES_DIRS}")
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_DEPENDENCIES "${APIGEN_JAVA_LOCAL_DEPENDENCIES}")
-string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
+string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS
+               "${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}")
 string(REPLACE ";" "\;" APIGEN_JAVA_REMOTE_DEPENDENCIES "${APIGEN_JAVA_REMOTE_DEPENDENCIES}")
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_JARS "${APIGEN_JAVA_LOCAL_JARS}")
 
 execute_process(
   COMMAND ${CMAKE_COMMAND} -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-  COMMAND ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
-    -b=compileJava.gradle
-    -PsrcDirs=${APIGEN_JAVA_LOCAL_SOURCES_DIRS}
-    -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+  COMMAND
+    ${APIGEN_GLUECODIUM_GRADLE_WRAPPER} -b=compileJava.gradle
+    -PsrcDirs=${APIGEN_JAVA_LOCAL_SOURCES_DIRS} -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
     -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
     -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
-    -PlocalJars=${APIGEN_JAVA_LOCAL_JARS}
-    -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
+    -PlocalJars=${APIGEN_JAVA_LOCAL_JARS} -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
     compileJava
   WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
   RESULT_VARIABLE COMPILE_RESULT)
 
 if(COMPILE_RESULT)
-    message(FATAL_ERROR "Failed to compile Java")
+  message(FATAL_ERROR "Failed to compile Java")
 endif()

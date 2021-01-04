@@ -25,26 +25,28 @@ cmake_minimum_required(VERSION 3.5)
 include(${CMAKE_CURRENT_LIST_DIR}/FatLibrary.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/FrameworkInfoPlist.cmake)
 
-#.rst:
-# apigen_swift_package
-# --------------------
-#
-# This module execute post operations when the build process has finished.
-#
-# .. command:: apigen_swift_package
-#
-# The general form of the command is:
-#
-#     apigen_swift_swift_package(target)
-#
+#[===========================================================================================[.rst:
+apigen_swift_package
+--------------------
 
-function(apigen_swift_package target)
+This module execute post operations when the build process has finished.
+
+.. command:: apigen_swift_package
+
+The general form of the command is:
+
+    apigen_swift_swift_package(target)
+
+#]===========================================================================================]
+function(apigen_swift_package _target)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_package() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_package() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  apigen_swift_fat_library(${target})
-  apigen_swift_framework_info_plist(${target})
+  apigen_swift_fat_library(${_target})
+  apigen_swift_framework_info_plist(${_target})
 
 endfunction()

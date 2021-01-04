@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
 project(gluecodium.test)
 
@@ -23,7 +23,5 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(gluecodium/Packaging)
 
-apigen_create_package(
-    TARGET single.module.package
-    NAME test.package
-    TEST_EXTRA_UNRECOGNISED_ARGUMENT)
+apigen_create_package(TARGET single.module.package NAME test.package
+                                                        TEST_EXTRA_UNRECOGNISED_ARGUMENT)

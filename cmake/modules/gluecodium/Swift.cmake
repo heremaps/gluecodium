@@ -22,12 +22,12 @@ set(includeguard_gluecodium_Swift ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# The Swift Gluecodium module
-# ---------------------
-#
-# Includes modules needed for Swift builds (on Linux or macOS).
+#[===========================================================================================[.rst:
+The Swift Gluecodium module
+---------------------
 
+Includes modules needed for Swift builds (on Linux or macOS).
+#]===========================================================================================]
 # Swift modules
 include(${CMAKE_CURRENT_LIST_DIR}/swift/Build.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/swift/FrameworkBundle.cmake)

@@ -22,13 +22,13 @@ set(includeguardapigen_packaging_Packaging ON)
 
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/PackagingUtils.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/CheckArguments.cmake)
-# NOTE: We need to include the platform-specific files inside the function, otherwise certain
-# checks (e.g. using clang of a new enough version for Swift) will fail when otherwise unused.
-# Need to cache the value of CMAKE_CURRENT_LIST_DIR, otherwise it will use the value of the file
-# calling the function.
+# NOTE: We need to include the platform-specific files inside the function, otherwise certain checks
+# (e.g. using clang of a new enough version for Swift) will fail when otherwise unused. Need to
+# cache the value of CMAKE_CURRENT_LIST_DIR, otherwise it will use the value of the file calling the
+# function.
 set(APIGEN_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-#[========================================[.rst:
+#[===========================================================================================[.rst:
 
 apigen_create_package
 _____________________
@@ -103,13 +103,21 @@ fixing up library search paths so the framework libraries may be loaded properly
 limitation would require a much more complicated scheme to detect which libraries belong to which
 frameworks.
 
-#]========================================]
+#]===========================================================================================]
 
 function(apigen_create_package)
   set(single_args TARGET NAME SWIFT_FRAMEWORK_IDENTIFIER)
-  set(multi_args EXTRA_SOURCE_DIR ASSET ASSETS EXCLUDE_TARGETS DEPENDS
-    ANDROID_JARS ANDROID_LOCAL_DEPENDENCIES ANDROID_LOCAL_DEPENDENCIES_DIRS
-    ANDROID_REMOTE_DEPENDENCIES ANDROID_LIBRARY_LIST)
+  set(multi_args
+      EXTRA_SOURCE_DIR
+      ASSET
+      ASSETS
+      EXCLUDE_TARGETS
+      DEPENDS
+      ANDROID_JARS
+      ANDROID_LOCAL_DEPENDENCIES
+      ANDROID_LOCAL_DEPENDENCIES_DIRS
+      ANDROID_REMOTE_DEPENDENCIES
+      ANDROID_LIBRARY_LIST)
   cmake_parse_arguments(ARG "" "${single_args}" "${multi_args}" ${ARGN})
 
   apigen_require_argument(ARG TARGET apigen_create_package)
@@ -117,8 +125,8 @@ function(apigen_create_package)
   apigen_check_no_unparsed_arguments(ARG apigen_create_package)
 
   get_target_property(generator ${ARG_TARGET} APIGEN_GENERATOR)
-  apigen_packaging_find_shared_library_dependencies(all_dependencies dependencies
-    TARGET ${ARG_TARGET} EXCLUDE_TARGETS ${ARG_EXCLUDE_TARGETS})
+  apigen_packaging_find_shared_library_dependencies(
+    all_dependencies dependencies TARGET ${ARG_TARGET} EXCLUDE_TARGETS ${ARG_EXCLUDE_TARGETS})
 
   if(generator STREQUAL android)
     include(${APIGEN_INCLUDE_DIR}/Android.cmake)
@@ -152,15 +160,17 @@ function(apigen_create_package)
       list(APPEND local_jars ${output_dir}/../android-java-jar/${dep}.jar)
     endforeach()
 
-    apigen_java_compile(TARGET ${ARG_TARGET}
+    apigen_java_compile(
+      TARGET ${ARG_TARGET}
       LOCAL_DEPENDENCIES android ${ARG_ANDROID_LOCAL_DEPENDENCIES}
       LOCAL_DEPENDENCIES_DIRS ${android_home}/platforms/${ANDROID_PLATFORM}
-        ${ARG_ANDROID_LOCAL_DEPENDENCIES_DIRS}
+                              ${ARG_ANDROID_LOCAL_DEPENDENCIES_DIRS}
       LOCAL_JARS ${local_jars}
       REMOTE_DEPENDENCIES ${ARG_ANDROID_REMOTE_DEPENDENCIES})
     apigen_java_jar(${ARG_TARGET})
 
-    apigen_android_archive(TARGET ${ARG_TARGET}
+    apigen_android_archive(
+      TARGET ${ARG_TARGET}
       NAME ${ARG_NAME}
       ADD_JAR ${ARG_ANDROID_JARS}
       ASSET ${ARG_ASSET}
@@ -169,27 +179,27 @@ function(apigen_create_package)
     # NOTE: These steps must be last.
     if(ARG_EXTRA_SOURCE_DIR)
       get_target_property(generated_output_dir ${ARG_TARGET} APIGEN_OUTPUT_DIR)
-      add_custom_command(TARGET ${ARG_TARGET} PRE_BUILD
+      add_custom_command(
+        TARGET ${ARG_TARGET} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${ARG_EXTRA_SOURCE_DIR}
-          ${generated_output_dir}/android/)
+                ${generated_output_dir}/android/)
     endif()
 
     get_target_property(archive_jni_dir ${ARG_TARGET} APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR)
-    add_custom_command(TARGET ${ARG_TARGET} PRE_BUILD
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${archive_jni_dir})
+    add_custom_command(TARGET ${ARG_TARGET} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory
+                                                              ${archive_jni_dir})
     foreach(dep ${dependencies})
       add_custom_command(TARGET ${ARG_TARGET} PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${dep}> ${archive_jni_dir}/)
+                         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${dep}> ${archive_jni_dir}/)
     endforeach()
   elseif(generator STREQUAL swift AND APPLE)
     include(${APIGEN_INCLUDE_DIR}/Swift.cmake)
 
-    set_target_properties(${ARG_TARGET} PROPERTIES
-      APIGEN_SWIFT_FRAMEWORK_NAME ${ARG_NAME}
-      OUTPUT_NAME ${ARG_NAME})
+    set_target_properties(
+      ${ARG_TARGET} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${ARG_NAME} OUTPUT_NAME ${ARG_NAME})
     if(ARG_SWIFT_FRAMEWORK_IDENTIFIER)
-      set_target_properties(${ARG_TARGET} PROPERTIES
-        APIGEN_SWIFT_FRAMEWORK_IDENTIFIER ${ARG_SWIFT_FRAMEWORK_IDENTIFIER})
+      set_target_properties(${ARG_TARGET} PROPERTIES APIGEN_SWIFT_FRAMEWORK_IDENTIFIER
+                                                     ${ARG_SWIFT_FRAMEWORK_IDENTIFIER})
     endif()
 
     set(local_frameworks)
@@ -211,8 +221,8 @@ function(apigen_create_package)
       set(other_framework_name)
       list(LENGTH ARG_EXCLUDE_TARGETS exclude_targets_len)
       if(exclude_targets_len GREATER 1)
-        message(FATAL_ERROR
-          "Swift packages currently only support a single EXCLUDE_TARGET argument.")
+        message(
+          FATAL_ERROR "Swift packages currently only support a single EXCLUDE_TARGET argument.")
       elseif(exclude_targets_len EQUAL 1)
         get_target_property(other_framework_name ${ARG_EXCLUDE_TARGETS} APIGEN_SWIFT_FRAMEWORK_NAME)
         if(NOT other_framework_name)
@@ -236,33 +246,34 @@ EXCLUDE_TARGETS to have been created with apigen_create_package()")
         list(FIND dependencies ${dep} this_framework)
         if(this_framework LESS 0)
           list(APPEND fixup_paths_args -change "@rpath/$<TARGET_FILE_NAME:${dep}>"
-            "@rpath/${other_search_dir}/$<TARGET_FILE_NAME:${dep}>")
+                      "@rpath/${other_search_dir}/$<TARGET_FILE_NAME:${dep}>")
         else()
           list(APPEND fixup_paths_args -change "@rpath/$<TARGET_FILE_NAME:${dep}>"
-            "@rpath/${search_dir}/$<TARGET_FILE_NAME:${dep}>")
+                      "@rpath/${search_dir}/$<TARGET_FILE_NAME:${dep}>")
         endif()
       endforeach()
 
       set(SIGNING_IDENTITY "${CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY}")
       if(SIGNING_IDENTITY STREQUAL "")
-          set(SIGNING_IDENTITY "-")
+        set(SIGNING_IDENTITY "-")
       endif()
 
       foreach(dep ${dependencies})
-        add_custom_command(TARGET ${ARG_TARGET} POST_BUILD
+        # Resign copied binary, because identity was changed by install_name_tool
+        add_custom_command(
+          TARGET ${ARG_TARGET}
+          POST_BUILD
           COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${dep}> ${lib_dir}
-          COMMAND install_name_tool ${fixup_paths_args} ${lib_dir}/$<TARGET_FILE_NAME:${dep}>
-          # Resign copied binary, because identity was changed by install_name_tool
+          COMMAND
+            install_name_tool ${fixup_paths_args} ${lib_dir}/$<TARGET_FILE_NAME:${dep}>
           COMMAND codesign -s ${SIGNING_IDENTITY} -fv ${lib_dir}/$<TARGET_FILE_NAME:${dep}>)
       endforeach()
       add_custom_command(TARGET ${ARG_TARGET} POST_BUILD
-        COMMAND install_name_tool ${fixup_paths_args} $<TARGET_FILE:${ARG_TARGET}>)
+                         COMMAND install_name_tool ${fixup_paths_args} $<TARGET_FILE:${ARG_TARGET}>)
     endif()
 
     apigen_swift_build(${ARG_TARGET} FRAMEWORKS ${local_frameworks}
-      FRAMEWORK_DIRS ${local_framework_dirs})
-    apigen_swift_framework_bundle(TARGET ${ARG_TARGET}
-      ASSET ${ARG_ASSET}
-      ASSETS ${ARG_ASSETS})
+                       FRAMEWORK_DIRS ${local_framework_dirs})
+    apigen_swift_framework_bundle(TARGET ${ARG_TARGET} ASSET ${ARG_ASSET} ASSETS ${ARG_ASSETS})
   endif()
 endfunction()

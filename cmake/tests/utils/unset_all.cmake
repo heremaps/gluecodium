@@ -25,8 +25,8 @@ Unsets all passed variables
 
 #]=======================================================================]
 
-macro (unset_all)
-    foreach (_variable_name ${ARGN})
-        unset (${_variable_name})
-    endforeach ()
-endmacro ()
+macro(unset_all)
+  foreach(_variable_name ${ARGN})
+    unset(${_variable_name})
+  endforeach()
+endmacro()

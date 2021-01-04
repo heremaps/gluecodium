@@ -22,44 +22,46 @@ set(includeguard_gluecodium_swift_Modulemap ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# apigen_swift_modulemap
-# ----------------------
-#
-# This module builds Swift modulemap needed for the framework creation.
-# The modulemap is used to get the Swift compiler into loading the header files and linking
-# against the CBridge library without exposing the C bindings in the framework.
-# The modulemap itself is not part of the framework.
-#
-# .. command:: apigen_swift_modulemap
-#
-# The general form of the command is::
-#
-#     apigen_swift_modulemap(target
-#       HEADERS file_list)
-#
-# HEADERS specifies additional file list to put into generated modulemap file
-#
+#[===========================================================================================[.rst:
+apigen_swift_modulemap
+----------------------
 
-function(apigen_swift_modulemap target)
+This module builds Swift modulemap needed for the framework creation.
+The modulemap is used to get the Swift compiler into loading the header files and linking
+against the CBridge library without exposing the C bindings in the framework.
+The modulemap itself is not part of the framework.
+
+.. command:: apigen_swift_modulemap
+
+The general form of the command is::
+
+    apigen_swift_modulemap(target
+      HEADERS file_list)
+
+HEADERS specifies additional file list to put into generated modulemap file
+
+#]===========================================================================================]
+function(apigen_swift_modulemap _target)
 
   set(multiArgs HEADERS)
 
   cmake_parse_arguments(APIGEN_SWIFT_MODULEMAP "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
-  get_target_property(GENERATOR ${target} APIGEN_GENERATOR)
-  get_target_property(COMMON_OUTPUT_DIR ${target} APIGEN_COMMON_OUTPUT_DIR)
-  get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_BUILD_OUTPUT_DIR)
-  get_target_property(SWIFT_MODULE_NAME ${target} APIGEN_SWIFT_MODULE_NAME)
+  get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
+  get_target_property(COMMON_OUTPUT_DIR ${_target} APIGEN_COMMON_OUTPUT_DIR)
+  get_target_property(SWIFT_OUTPUT_DIR ${_target} APIGEN_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_MODULE_NAME ${_target} APIGEN_SWIFT_MODULE_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
-    message(FATAL_ERROR "apigen_swift_modulemap() depends on apigen_generate() configured with generator 'swift'")
+    message(
+      FATAL_ERROR
+        "apigen_swift_modulemap() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
   # Module map generation
-  apigen_set_generated_files(${target})
+  apigen_set_generated_files(${_target})
   set(_cbridge_modulemap "module ${SWIFT_MODULE_NAME} {\n")
-  get_target_property(bridging_headers ${target} BRIDGING_HEADERS)
+  get_target_property(bridging_headers ${_target} BRIDGING_HEADERS)
   if(NOT bridging_headers)
     unset(bridging_headers)
   endif()
@@ -67,20 +69,24 @@ function(apigen_swift_modulemap target)
     string(APPEND _cbridge_modulemap "  header \"${header}\"\n")
   endforeach()
 
-  string(APPEND _cbridge_modulemap "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_main}\"\n")
+  string(APPEND _cbridge_modulemap
+         "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_main}\"\n")
   if(COMMON_OUTPUT_DIR)
-    string(APPEND _cbridge_modulemap "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_common}\"\n")
+    string(APPEND _cbridge_modulemap
+           "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_common}\"\n")
   endif()
   string(APPEND _cbridge_modulemap "\}\n")
   file(WRITE "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${_cbridge_modulemap}")
 
   # Clean up the modulemap after building to avoid double definition conflicts with the generated
-  # framework - this is caused by using internally the same name as the final Xcode project
-  # and Xcode will follow those caches
-  add_custom_command(TARGET "${target}" PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${SWIFT_OUTPUT_DIR}/module.modulemap")
+  # framework - this is caused by using internally the same name as the final Xcode project and
+  # Xcode will follow those caches
+  add_custom_command(
+    TARGET "${_target}" PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "${SWIFT_OUTPUT_DIR}/module.modulemap.generated"
+            "${SWIFT_OUTPUT_DIR}/module.modulemap")
   if(APPLE)
-    add_custom_command(TARGET "${target}" POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E remove "${SWIFT_OUTPUT_DIR}/module.modulemap")
+    add_custom_command(TARGET "${_target}" POST_BUILD
+                       COMMAND ${CMAKE_COMMAND} -E remove "${SWIFT_OUTPUT_DIR}/module.modulemap")
   endif()
 endfunction()

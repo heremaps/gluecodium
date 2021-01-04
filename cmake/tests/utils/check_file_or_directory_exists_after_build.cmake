@@ -28,10 +28,12 @@ Adds post build command which tries to rename file or directory.
    )
 #]=======================================================================]
 
-function(check_file_or_directory_exists_after_build target file_path)
-    add_custom_command(TARGET ${target}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Try to access file ${file_path}. This file doesn\\'t exists when command fails"
-        COMMAND ${CMAKE_COMMAND} -E rename "${file_path}" "${file_path}_checked"
-        COMMAND ${CMAKE_COMMAND} -E rename "${file_path}_checked" "${file_path}")
+function(check_file_or_directory_exists_after_build _target file_path)
+  add_custom_command(
+    TARGET ${_target}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E echo
+            "Try to access file ${file_path}. This file doesn\\'t exists when command fails"
+    COMMAND ${CMAKE_COMMAND} -E rename "${file_path}" "${file_path}_checked"
+    COMMAND ${CMAKE_COMMAND} -E rename "${file_path}_checked" "${file_path}")
 endfunction()

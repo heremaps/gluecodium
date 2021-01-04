@@ -15,9 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if (NOT APIGEN_GLUECODIUM_DIR)
-    message(FATAL_ERROR "APIGEN_GLUECODIUM_DIR must be specified")
-endif ()
+if(NOT APIGEN_GLUECODIUM_DIR)
+  message(FATAL_ERROR "APIGEN_GLUECODIUM_DIR must be specified")
+endif()
 
 if(WIN32)
   set(APIGEN_GLUECODIUM_GRADLE_WRAPPER ${APIGEN_GLUECODIUM_DIR}/gradlew.bat)

@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
 project(gluecodium.test)
 
@@ -25,7 +25,4 @@ include(gluecodium/Gluecodium)
 
 add_library(single.module.package)
 
-apigen_generate(
-    TARGET single.module.package
-    CPP_INTERNAL_NAMESPACE test
-    GENERATOR cpp)
+apigen_generate(TARGET single.module.package CPP_INTERNAL_NAMESPACE test GENERATOR cpp)
