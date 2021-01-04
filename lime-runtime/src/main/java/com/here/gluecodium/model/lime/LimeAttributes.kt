@@ -135,6 +135,17 @@ class LimeAttributes private constructor(
             return this
         }
 
+        fun addAttributeIfAbsent(
+            attributeType: LimeAttributeType,
+            valueType: LimeAttributeValueType,
+            newValue: Any? = true
+        ): Builder {
+            if (attributes[attributeType]?.get(valueType) == null) {
+                addAttribute(attributeType, valueType, newValue)
+            }
+            return this
+        }
+
         fun build() = LimeAttributes(attributes)
     }
 }

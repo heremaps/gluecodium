@@ -284,6 +284,7 @@ internal class AntlrLimeModelBuilder(
         val propertyVisibility = currentVisibility
         val propertyIsStatic = ctx.Static() != null
         val propertyComment = structuredCommentsStack.peek().description
+        val propertyAttributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
 
         val getter: LimeFunction
         val setter: LimeFunction?
@@ -293,6 +294,7 @@ internal class AntlrLimeModelBuilder(
             getter = LimeFunction(
                 path = getterPath,
                 comment = getComment("get", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
+                attributes = AntlrLimeConverter.convertAnnotations(currentPath, emptyList(), propertyAttributes),
                 visibility = propertyVisibility,
                 returnType = LimeReturnType(propertyType, propertyComment),
                 isStatic = propertyIsStatic
@@ -300,6 +302,7 @@ internal class AntlrLimeModelBuilder(
             setter = LimeFunction(
                 path = currentPath.child("set"),
                 comment = getComment("set", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
+                attributes = AntlrLimeConverter.convertAnnotations(currentPath, emptyList(), propertyAttributes),
                 visibility = propertyVisibility,
                 parameters = listOf(LimeParameter(
                     getterPath.child("value"),
@@ -310,7 +313,7 @@ internal class AntlrLimeModelBuilder(
             )
         } else {
             val getterAttributes =
-                AntlrLimeConverter.convertAnnotations(currentPath, getterContext.annotation())
+                AntlrLimeConverter.convertAnnotations(currentPath, getterContext.annotation(), propertyAttributes)
             val getterExternalDescriptor =
                 parseExternalDescriptor(getterContext.externalDescriptor(), getterContext.annotation())
             val getterComment = getComment("get", getterContext.docComment(), getterContext)
@@ -325,7 +328,7 @@ internal class AntlrLimeModelBuilder(
             )
             setter = ctx.setter()?.let {
                 val setterAttributes =
-                    AntlrLimeConverter.convertAnnotations(currentPath, it.annotation())
+                    AntlrLimeConverter.convertAnnotations(currentPath, it.annotation(), propertyAttributes)
                 val setterExternalDescriptor =
                     parseExternalDescriptor(it.externalDescriptor(), it.annotation())
                 val setterComment = getComment("set", it.docComment(), it)
@@ -349,7 +352,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             visibility = propertyVisibility,
             comment = propertyComment,
-            attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
+            attributes = propertyAttributes,
             typeRef = propertyType,
             getter = getter,
             setter = setter,
