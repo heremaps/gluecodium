@@ -202,6 +202,19 @@ additional_commands = {
       'ANDROID_LIBRARY_LIST': '*',
     }
   },
+  '_check_cmake_format_is_installed': {
+    'flags': ['REQUIRED'],
+    'kwargs': {
+      'PATH_VARIABLE': 1
+    }
+  },
+  '_cmake_format': {
+    'flags': ['APPLY', 'CHECK'],
+    'kwargs': {
+      'ROOT_PATH': 1,
+      'FILES': '*'
+    }
+  },
 
 
   'test_assert_strequal': {
@@ -332,7 +345,7 @@ additional_commands = {
       'MESSAGE': '*', 
       'ACTUAL': '*'
     }
-  },
+  }
 }
 
 # A list of command names which should always be wrapped
