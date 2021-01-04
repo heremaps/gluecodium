@@ -13,6 +13,9 @@ public protocol DeprecationComments : AnyObject {
     @available(*, deprecated, message: "Unfortunately, this property is deprecated.
     Use `Comments.isSomeProperty` instead.")
     var isSomeProperty: DeprecationComments.Usefulness { get set }
+    /// Describes the property but not accessors.
+    @available(*, deprecated, message: "Will be removed in v3.2.1.")
+    var propertyButNotAccessors: String { get set }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
@@ -34,6 +37,17 @@ internal class _DeprecationComments: DeprecationComments {
         set {
             let c_value = moveToCType(newValue)
             return moveFromCType(smoke_DeprecationComments_isSomeProperty_set(self.c_instance, c_value.ref))
+        }
+    }
+    /// Describes the property but not accessors.
+    @available(*, deprecated, message: "Will be removed in v3.2.1.")
+    var propertyButNotAccessors: String {
+        get {
+            return moveFromCType(smoke_DeprecationComments_propertyButNotAccessors_get(self.c_instance))
+        }
+        set {
+            let c_value = moveToCType(newValue)
+            return moveFromCType(smoke_DeprecationComments_propertyButNotAccessors_set(self.c_instance, c_value.ref))
         }
     }
     let c_instance : _baseRef
@@ -138,6 +152,14 @@ internal func getRef(_ ref: DeprecationComments?, owning: Bool = true) -> RefHol
     functions.smoke_DeprecationComments_isSomeProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
         swift_class.isSomeProperty = moveFromCType(value)
+    }
+    functions.smoke_DeprecationComments_propertyButNotAccessors_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
+        return copyToCType(swift_class.propertyButNotAccessors).ref
+    }
+    functions.smoke_DeprecationComments_propertyButNotAccessors_set = {(swift_class_pointer, value) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
+        swift_class.propertyButNotAccessors = moveFromCType(value)
     }
     let proxy = smoke_DeprecationComments_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_DeprecationComments_release_handle) : RefHolder(proxy)

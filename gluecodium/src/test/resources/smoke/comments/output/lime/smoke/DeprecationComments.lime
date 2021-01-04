@@ -41,4 +41,13 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [comments.SomeProperty.set] instead.")
         set
     }
+    // Describes the property but not accessors.
+    // @get Gets the property but not accessors.
+    @Deprecated("Will be removed in v3.2.1.")
+    property PropertyButNotAccessors: String {
+        @Deprecated("Will be removed in v3.2.1.")
+        get
+        @Deprecated("Will be removed in v3.2.1.")
+        set
+    }
 }

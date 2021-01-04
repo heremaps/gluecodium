@@ -85,4 +85,18 @@ public interface DeprecationComments {
      */
     @Deprecated
     void setSomeProperty(final boolean value);
+    /**
+     * <p>Gets the property but not accessors.</p>
+     * @deprecated <p>Will be removed in v3.2.1.</p>
+     */
+    @Deprecated
+    @NonNull
+    String getPropertyButNotAccessors();
+    /**
+     *
+     * @deprecated <p>Will be removed in v3.2.1.</p>
+     * @param value <p>Describes the property but not accessors.</p>
+     */
+    @Deprecated
+    void setPropertyButNotAccessors(@NonNull final String value);
 }

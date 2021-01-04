@@ -25,6 +25,7 @@ import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
@@ -40,10 +41,16 @@ internal object AntlrLimeConverter {
 
     fun convertAnnotations(
         limePath: LimePath,
-        annotations: List<LimeParser.AnnotationContext>
+        annotations: List<LimeParser.AnnotationContext>,
+        parentAttributes: LimeAttributes? = null
     ): LimeAttributes {
         val attributes = LimeAttributes.Builder()
         annotations.forEach { convertAnnotation(it, attributes, limePath) }
+
+        parentAttributes
+            ?.get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
+            ?.let { attributes.addAttributeIfAbsent(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, it) }
+
         return attributes.build()
     }
 

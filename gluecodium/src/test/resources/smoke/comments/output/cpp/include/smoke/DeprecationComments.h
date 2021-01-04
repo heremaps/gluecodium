@@ -77,6 +77,18 @@ public:
      * \param[in] value Some very useful property.
      */
     virtual void set_some_property( const ::smoke::DeprecationComments::Usefulness value ) = 0;
+    /**
+     * Gets the property but not accessors.
+     * \deprecated Will be removed in v3.2.1.
+     * \return Describes the property but not accessors.
+     */
+    virtual ::std::string get_property_but_not_accessors(  ) const = 0;
+    /**
+     *
+     * \deprecated Will be removed in v3.2.1.
+     * \param[in] value Describes the property but not accessors.
+     */
+    virtual void set_property_but_not_accessors( const ::std::string& value ) = 0;
 };
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::DeprecationComments::SomeEnum value ) noexcept;
 }
