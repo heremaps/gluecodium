@@ -95,9 +95,11 @@ function (get_parameters_for_build_environment result)
             -DCMAKE_OSX_SYSROOT=iphonesimulator
             -DCMAKE_SYSTEM_NAME=iOS)
     elseif (GLUECODIUM_BUILD_ENVIRONMENT STREQUAL "android-x86_64")
-        if (NOT DEFINED ENV{ANDROID_HOME} OR NOT DEFINED ENV{ANDROID_NDK_HOME})
-            message(FATAL_ERROR "Environment variable must be set: ANDROID_HOME")
-        endif ()
+        foreach(env_variable ANDROID_HOME ANDROID_NDK_HOME)
+            if (NOT DEFINED ENV{${env_variable}})
+                message(FATAL_ERROR "Environment variable must be set: ${env_variable}")
+            endif ()
+        endforeach()
         list (APPEND _params
             -GNinja
             -DANDROID_ABI=x86_64
