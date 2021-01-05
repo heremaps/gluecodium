@@ -18,7 +18,9 @@
  */
 package com.here.android.test;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import android.os.Build;
 import com.example.here.hello.BuildConfig;
@@ -79,7 +81,7 @@ public final class ListenerWithMapsTest {
   public void checkNativeListener() {
     ForecastListener listener = ForecastFactory.createListener();
     PROVIDER.inform(listener);
-    assertEquals(EXPECTED_DATA, HelloWorldStaticLogger.getLog());
+    assertThat(HelloWorldStaticLogger.getLog(), is(EXPECTED_DATA));
   }
 
   @Test
