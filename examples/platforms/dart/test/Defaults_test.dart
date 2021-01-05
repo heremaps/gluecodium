@@ -74,4 +74,34 @@ void main() {
     expect(result.structField.enumField, DefaultsExternalEnum.oneValue);
     expect(result.setTypeField, {"foo", "bar"});
   });
+  _testSuite.test("Check StructWithSomeDefaults short ctor", () {
+    final result = StructWithSomeDefaults("foobar");
+
+    expect(result.intField, 42);
+    expect(result.stringField, "foobar");
+  });
+  _testSuite.test("Check StructWithSomeDefaults long ctor", () {
+    final result = StructWithSomeDefaults("foobar", 13);
+
+    expect(result.intField, 13);
+    expect(result.stringField, "foobar");
+  });
+  _testSuite.test("Check StructWithAllDefaults parameterless ctor", () {
+    final result = StructWithAllDefaults();
+
+    expect(result.intField, 42);
+    expect(result.stringField, "\\Jonny \"Magic\" Smith\n");
+  });
+  _testSuite.test("Check StructWithAllDefaults short ctor", () {
+    final result = StructWithAllDefaults(13);
+
+    expect(result.intField, 13);
+    expect(result.stringField, "\\Jonny \"Magic\" Smith\n");
+  });
+  _testSuite.test("Check StructWithAllDefaults long ctor", () {
+    final result = StructWithAllDefaults(13, "foobar");
+
+    expect(result.intField, 13);
+    expect(result.stringField, "foobar");
+  });
 }

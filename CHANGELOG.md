@@ -1,6 +1,9 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added `@Dart(PositionalDefaults)` attribute for stucts. This attribute marks a struct to have a constructor with
+    optional positional parameters in Dart (only if the struct has at least one field with a default value).
 ### Bug fixes:
   * `@Deprecated` attribute specified on a property in IDL is now propagated to that property's accessors (but only if
     they lack their own attribute of this type).
