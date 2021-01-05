@@ -148,6 +148,7 @@ internal object AntlrLimeConverter {
             "Label" -> LimeAttributeValueType.LABEL
             "ObjC" -> LimeAttributeValueType.OBJC
             "Message" -> LimeAttributeValueType.MESSAGE
+            "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
             "Ref" -> LimeAttributeValueType.REF
             "Skip" -> LimeAttributeValueType.SKIP
             "Weak" -> LimeAttributeValueType.WEAK

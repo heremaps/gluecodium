@@ -279,6 +279,7 @@ feature(Defaults cpp android swift dart SOURCES
 
     lime/hello/HelloWorldDefaults.lime
     lime/test/Defaults.lime
+    lime/test/PositionalDefaults.lime
 )
 
 feature(Inheritance cpp android swift dart SOURCES

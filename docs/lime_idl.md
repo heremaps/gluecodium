@@ -522,6 +522,8 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
   * **Skip**: marks an element to be skipped (not generated) in Dart. Can be applied to any element except for struct
   fields.
+  * **PositionalDefaults**: marks a struct to have a constructor with optional positional parameters in Dart. Can only
+  be applied to a struct that has at least one field with a default value.
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Dart(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
