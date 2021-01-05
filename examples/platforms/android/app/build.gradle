@@ -76,3 +76,14 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:truth:1.0.0'
     androidTestImplementation 'com.google.truth:truth:0.42'
 }
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        showStandardStreams true
+        events = ["failed"]
+    }
+}
