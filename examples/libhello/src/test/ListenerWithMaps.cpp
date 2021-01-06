@@ -76,7 +76,7 @@ public:
                    << std::endl;
         }
 
-        s_log = s_log + stream.str();
+        s_log += stream.str();
     }
 };
 }
