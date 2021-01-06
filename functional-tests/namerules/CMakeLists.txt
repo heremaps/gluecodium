@@ -19,6 +19,17 @@ cmake_minimum_required(VERSION 3.6)
 
 project(namerules)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(APPLE)
+    enable_language(Swift)
+endif()
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../../cmake/modules/")
+
+set(GLUECODIUM_VERSION "+" CACHE STRING "Gluecodium version to use [defaults to: +]")
+
+enable_testing()
+
 set(LIME_SOURCES
     input/lime/NameRules.lime
 )

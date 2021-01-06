@@ -18,9 +18,6 @@
 # License-Filename: LICENSE
 
 
-# Script to build the "hello" library for a C++ consumer. This is demonstrated
-# by the base_api application.
-
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
@@ -106,10 +103,10 @@ safe cmake \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DHELLO_APIGEN_GLUECODIUM_GENERATOR=cpp \
-    -DHELLO_APIGEN_GLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
-    -DHELLO_BUILD_CPP_TESTS=ON \
-    -DHELLO_TEST_CPP_VERSION=${CPP_VERSION} \
+    -DFUNCTIONAL_GLUECODIUM_GENERATOR=cpp \
+    -DFUNCTIONAL_GLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
+    -DBUILD_CPP_TESTS=ON \
+    -DTEST_CPP_VERSION=${CPP_VERSION} \
     "${CMAKE_EXTRA_PARAMETERS[@]}" \
     .. | tee cmake_output.log
 popd

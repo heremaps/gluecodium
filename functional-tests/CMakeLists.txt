@@ -15,17 +15,26 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required(VERSION 3.6)
-project(functional-tests)
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-if(APPLE)
-    enable_language(Swift)
+if(IOS)
+    cmake_minimum_required(VERSION 3.15)
+else()
+    cmake_minimum_required(VERSION 3.6)
 endif()
+project(functional_tests)
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
 
-set(GLUECODIUM_VERSION "+" CACHE STRING "Gluecodium version to use [defaults to: +]")
+# Allow testing with different C++ standard versions
+if(NOT DEFINED TEST_CPP_VERSION)
+  set(TEST_CPP_VERSION 11)
+endif()
+set(CMAKE_CXX_STANDARD ${TEST_CPP_VERSION})
+
+set(FUNCTIONAL_GLUECODIUM_GENERATOR "cpp,android,swift" CACHE STRING "Gluecodium generator(s) to use [defaults to: cpp,android,swift]")
+
+# Ensure that symbols are properly exported.
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_C_VISIBILITY_PRESET hidden)
 
 enable_testing()
-add_subdirectory(namerules)
+add_subdirectory(functional)

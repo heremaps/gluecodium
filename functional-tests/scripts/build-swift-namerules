@@ -17,22 +17,20 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-. "${SCRIPT_DIR}/inc.functions"
-
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish                 Build and publish Gluecodium locally and use it for code generation
-    --buildGluecodium         Build and use local Gluecodium version
-    --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local Gluecodium (default: ${GLUECODIUM_PATH})
-    --debug                   Build with debug symbols
-    --valgrind                Run with valgrind
-    --junit                   Generate junit xml test report (requires ocunit2junit)
-    --help                    Print this message
+    --publish    Build and publish Gluecodium locally and use it for code generation
+    --debug      Build with debug symbols
+    --valgrind   Run with valgrind
+    --junit      Generate junit xml test report (requires ocunit2junit)
+    --help       Print this message
 EOF
 )
 
-BUILD_LOCAL_GLUECODIUM=false
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
 CMAKE_EXTRA_PARAMETERS=
 
 while [[ $# -gt 0 ]]; do
@@ -40,15 +38,6 @@ while [[ $# -gt 0 ]]; do
         --publish)
             publish_local
             shift
-            ;;
-        --buildGluecodium)
-            BUILD_LOCAL_GLUECODIUM=true
-            shift
-            ;;
-        --gluecodiumPath)
-            BUILD_LOCAL_GLUECODIUM=true
-            GLUECODIUM_PATH="$2"
-            shift 2
             ;;
         --debug)
             CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
@@ -68,10 +57,6 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-
-if [[ "$BUILD_LOCAL_GLUECODIUM" = "true" ]]; then
-    export GLUECODIUM_PATH
-fi
 
 GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-swift
@@ -98,27 +83,17 @@ safe cmake \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DHELLO_APIGEN_GLUECODIUM_GENERATOR=swift \
-    -DHELLO_APIGEN_GLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
-    -DHELLO_SWIFT_TESTS="${CWD}/platforms/ios/Tests" \
+    -DGLUECODIUM_GENERATOR=swift \
+    -DGLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
     ${CMAKE_EXTRA_PARAMETERS} \
-    .. > "$tmppipe"
+    ../namerules > "$tmppipe"
 popd
-
-# Run SwiftLint if available
-if which swiftlint; then
-    pushd platforms/ios > /dev/null
-    swiftlint --path . > "${BUILD_DIR}/swiftlint.xml"
-    popd > /dev/null
-else
-    echo "SwiftLint was not found, skip linting"
-fi
 
 safe cmake \
     --build "${BUILD_DIR}" \
     --target install
 
-TEST_EXECUTABLE="./testhello"
+TEST_EXECUTABLE="./testnamerules"
 
 if [ "$USE_VALGRIND" = true ]; then
     REPORT_ARGS=""

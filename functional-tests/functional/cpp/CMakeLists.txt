@@ -18,7 +18,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(test_cpp)
 
-if(NOT HELLO_BUILD_CPP_TESTS)
+if(NOT BUILD_CPP_TESTS)
   return()
 endif()
 
@@ -58,7 +58,7 @@ set(SOURCES
   tests/RuntimeTypeInformationTest.cpp
   tests/StructConstructorTest.cpp)
 
-if(HELLO_TEST_CPP_VERSION LESS 17)
+if(TEST_CPP_VERSION LESS 17)
   list(APPEND SOURCES
     tests/OptionalTestCxx11.cpp)
 else()
@@ -66,15 +66,15 @@ else()
     tests/OptionalTestCxx17.cpp)
 endif()
 
-# Set search path for libhello.so so it's easier to run the test
+# Set search path for libfunctional.so so it's easier to run the test
 set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
 
 add_executable(test_cpp ${SOURCES})
-target_compile_definitions(test_cpp PRIVATE -DHELLO_TEST_CPP_VERSION=Cxx${HELLO_TEST_CPP_VERSION})
+target_compile_definitions(test_cpp PRIVATE -DTEST_CPP_VERSION=Cxx${TEST_CPP_VERSION})
 target_link_libraries(test_cpp
-  hello
+  functional
   gmock_main
-  hello)
+  functional)
 
 add_test(unit_tests test_cpp)
 install(TARGETS test_cpp
