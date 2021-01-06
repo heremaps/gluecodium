@@ -28,6 +28,7 @@ types Forecast {
 class ForecastFactory {
     static fun createProvider(): ForecastProvider
     static fun createListener(): ForecastListener
+    static fun getLog(): String
 }
 
 class ForecastProvider {
