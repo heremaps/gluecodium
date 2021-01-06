@@ -27,13 +27,11 @@ class ListenersWithDictionaries: XCTestCase {
   let provider = ForecastFactory.createProvider()
 
   func testCheckNativeListener() {
-    HelloWorldStaticLogger.clearLog()
-
     let listener = ForecastFactory.createListener()
 
     provider.inform(listener: listener)
 
-    let log = HelloWorldStaticLogger.getLog()
+    let log = ForecastFactory.getLog()
     XCTAssertEqual(expectedData, log)
   }
 
