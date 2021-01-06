@@ -630,6 +630,16 @@ struct Options {
 }
 ```
 
+#### Formatting in documentation comments
+
+Markdown-style formatting is supported in documentation comments. It is processed and converted to language-specific
+formatting in the generated code, where appropriate (e.g. into HTML formatting in generated JavaDoc). Most commonly used
+Markdown features are:
+* links (see `Links` below)
+* bold/italic/code test formatting
+* ordered/unordered lists
+* character escaping (see `Character escaping` below)
+
 #### Links in documentation comments
 
 Markdown-style links are supported in documentation comments. Example:
@@ -671,10 +681,10 @@ Multiple platform tags can be combined in a single `{@ }` section, if necessary:
 // Process something{@Cpp @Java  the right way}.
 ```
 
-#### Special characters in documentation comments
+#### Character escaping in documentation comments
 
-Special characters `@`, `{`, `}`, and `\` can be used in documentation comments only if they are
-"escaped" with an additional backslash (i.e. `\@`, `\{`, `\}`, and `\\` respectively).
+Special characters `@`, `{`, `}`, `[`, `]`, and `\` can be used in documentation comments only if they are
+"escaped" with an additional backslash (i.e. `\@`, `\{`, `\}`, `\[`, `\]`, and `\\` respectively).
 
 #### Excluding an element from documentation
 
