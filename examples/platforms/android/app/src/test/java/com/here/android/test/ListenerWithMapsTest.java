@@ -25,10 +25,8 @@ import static org.junit.Assert.assertThat;
 import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
-import com.here.android.hello.HelloWorldStaticLogger;
 import java.util.List;
 import java.util.Map;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -72,16 +70,11 @@ public final class ListenerWithMapsTest {
   private static final String EXPECTED_DATA =
       "Berlin -> [-2, 26]\n" + "Madrid -> [1, 33]\n" + "Marrakesh -> [8, 40]\n";
 
-  @Before
-  public void setup() {
-    HelloWorldStaticLogger.clearLog();
-  }
-
   @Test
   public void checkNativeListener() {
     ForecastListener listener = ForecastFactory.createListener();
     PROVIDER.inform(listener);
-    assertThat(HelloWorldStaticLogger.getLog(), is(EXPECTED_DATA));
+    assertThat(ForecastFactory.getLog(), is(EXPECTED_DATA));
   }
 
   @Test

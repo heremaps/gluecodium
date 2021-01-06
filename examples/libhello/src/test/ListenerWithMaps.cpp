@@ -32,7 +32,8 @@
 
 namespace
 {
-const ::test::CityDataMap data{{"Berlin", {-2, 26}}, {"Marrakesh", {8, 40}}, {"Madrid", {1, 33}}};
+const ::test::CityDataMap DATA{{"Berlin", {-2, 26}}, {"Marrakesh", {8, 40}}, {"Madrid", {1, 33}}};
+std::string s_log{};
 
 class MyForecastProvider : public ::test::ForecastProvider
 {
@@ -43,7 +44,7 @@ public:
     void
     inform( const ::std::shared_ptr<::test::ForecastListener >& listener )
     {
-        listener->on_forecast_data_provided( data );
+        listener->on_forecast_data_provided( DATA );
     }
 };
 
@@ -75,10 +76,10 @@ public:
                    << std::endl;
         }
 
-        ::hello::HelloWorldStaticLogger::append( stream.str( ) );
+        s_log += stream.str();
     }
 };
-}  // namespace
+}
 
 namespace test
 {
@@ -93,4 +94,9 @@ ForecastFactory::create_listener( )
 {
     return std::make_shared< MyForecastListener >( );
 }
-}  // namespace test
+
+std::string
+ForecastFactory::get_log() {
+    return s_log;
+}
+}
