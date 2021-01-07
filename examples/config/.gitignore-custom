@@ -1,9 +1,0 @@
-### Gluecodium custom rules on top of github .gitignore templates
-#
-# Update .gitignore with github.com/simonwhitaker/gibo like this:
-#
-#   (cat config/.gitignore-custom ; gibo Java Android JetBrains VIM macOS Objective-C VisualStudioCode Swift) > .gitignore
-#
-.idea
-build*/
-dist/
