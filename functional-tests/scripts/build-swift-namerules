@@ -1,0 +1,128 @@
+#!/bin/bash -e
+#
+# Copyright (C) 2016-2018 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+USAGE=$(cat <<EOF
+$0 [options]
+    --publish    Build and publish Gluecodium locally and use it for code generation
+    --debug      Build with debug symbols
+    --valgrind   Run with valgrind
+    --junit      Generate junit xml test report (requires ocunit2junit)
+    --help       Print this message
+EOF
+)
+
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
+CMAKE_EXTRA_PARAMETERS=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --publish)
+            publish_local
+            shift
+            ;;
+        --debug)
+            CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --valgrind)
+            USE_VALGRIND=true
+            shift
+            ;;
+        --junit)
+            TEST_REPORTS=true
+            shift
+            ;;
+        --help|*)
+            echo "$USAGE"
+            exit 0
+            ;;
+    esac
+done
+
+GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
+BUILD_DIR=${PWD}/build-swift
+INSTALL_DIR=${PWD}/dist/swift
+
+[ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
+[ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
+
+# Chose platform-native CMake generator
+if [ "$(cmake_generator)" ] ; then
+CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
+    -G $(cmake_generator)"
+fi
+
+CWD=${PWD}
+pushd "${BUILD_DIR}"
+
+tmppipe=$(mktemp -u)
+mkfifo -m 600 "$tmppipe"
+trap 'rm -rf "$tmppipe"' EXIT HUP INT TERM
+tee cmake_output.log < "$tmppipe" &
+safe cmake \
+    -DCMAKE_C_COMPILER="$(which clang)" \
+    -DCMAKE_CXX_COMPILER="$(which clang++)" \
+    -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
+    -DCMAKE_VERBOSE_MAKEFILE=ON \
+    -DGLUECODIUM_GENERATOR=swift \
+    -DGLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
+    ${CMAKE_EXTRA_PARAMETERS} \
+    ../namerules > "$tmppipe"
+popd
+
+safe cmake \
+    --build "${BUILD_DIR}" \
+    --target install
+
+TEST_EXECUTABLE="./testnamerules"
+
+if [ "$USE_VALGRIND" = true ]; then
+    REPORT_ARGS=""
+    if [ "$TEST_REPORTS" = true ] ; then
+        REPORT_ARGS="--xml=yes --xml-file=swift_valgrind_report.xml"
+    fi
+    TEST_EXECUTABLE="valgrind \
+        --leak-check=full \
+        --error-exitcode=1 \
+        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+        --gen-suppressions=all \
+        $REPORT_ARGS \
+        $TEST_EXECUTABLE"
+fi
+
+pushd "${INSTALL_DIR}"
+    if [ "$TEST_REPORTS" = true ] ; then
+        # Pipe functional tests output to 'ocunit2junit' to generate JUnit XML
+        # reports.
+        # Sed is required to fix different output format obtained by running
+        # tests on Linux machine instead of Mac.
+        set -o pipefail
+        $TEST_EXECUTABLE 2>&1 \
+            | sed "s/Test Case '\([^-].*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
+            | sed "s/: error: \([^-].*\)\.\(.*\) :/: error: -[\1 \2] :/" \
+            | ocunit2junit
+        EXIT_VALUE=$?
+        exit $EXIT_VALUE
+    else
+        exec $TEST_EXECUTABLE
+    fi
+popd

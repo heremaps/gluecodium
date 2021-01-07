@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #
-# Copyright (C) 2016-2018 HERE Europe B.V.
+# Copyright (C) 2016-2019 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,9 +16,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
-#
+
+
 # Collection of shared functions
 #
+
+GLUECODIUM_PATH="$(cd ${SCRIPT_DIR}/../.. && pwd)"
 
 function die {
     echo -e "$@"
@@ -49,9 +52,7 @@ function cmake_generator {
 }
 
 function publish_local {
-    GLUECODIUM_DIRECTORY=${SCRIPT_DIR}/../../
-
-    pushd "${GLUECODIUM_DIRECTORY}"
+    pushd "${GLUECODIUM_PATH}"
     safe ./gradlew publishToMavenLocal
     GLUECODIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' gluecodium/src/main/resources/version.properties)
     popd

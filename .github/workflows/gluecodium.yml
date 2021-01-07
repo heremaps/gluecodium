@@ -64,8 +64,8 @@ jobs:
         run: sudo apt install -y valgrind
       - name: Build and run functional tests
         run: |
-          cd examples
-          ./scripts/build-cpp --valgrind --buildGluecodium
+          cd functional-tests
+          ./scripts/build-cpp-functional --valgrind --buildGluecodium
 
   android:
     name: Android
@@ -112,11 +112,9 @@ jobs:
           export ANDROID_HOME=${HOME}/android-sdk-linux
           export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
-          pushd examples
-          ./scripts/build-android --hostOnly --buildGluecodium
-          popd
           pushd functional-tests
-          ./scripts/build-android --publish
+          ./scripts/build-android-functional --hostOnly --buildGluecodium
+          ./scripts/build-android-namerules --publish
           popd
           pushd cmake
           GLUECODIUM_BUILD_ENVIRONMENT=android-host cmake -P run-cmake-unit-test.cmake
@@ -165,12 +163,10 @@ jobs:
           sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       - name: Build and run functional tests
         run: |
-          pushd examples
-          ./scripts/build-swift --valgrind --buildGluecodium
-          popd
-          pushd functional-tests
-          ./scripts/build-swift --valgrind --publish
-          popd
+          cd functional-tests
+          ./scripts/build-swift-functional --valgrind --buildGluecodium
+          ./scripts/clean
+          ./scripts/build-swift-namerules --valgrind --publish
 
   dart:
     name: Dart
@@ -205,8 +201,8 @@ jobs:
       - name: Build and run functional tests
         run: |
           export PATH="${PATH}:/usr/lib/dart/bin"
-          cd examples
-          ./scripts/build-dart --buildGluecodium
+          cd functional-tests
+          ./scripts/build-dart-functional --buildGluecodium
 
   dart-asan:
     name: Dart with AddressSanitizer
@@ -273,5 +269,5 @@ jobs:
       - name: Build and run functional tests
         run: |
           export PATH="${PATH}:${HOME}/dart_sdk/bin"
-          cd examples
-          ./scripts/build-dart --buildGluecodium --asan
+          cd functional-tests
+          ./scripts/build-dart-functional --buildGluecodium --asan

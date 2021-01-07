@@ -1,7 +1,0 @@
-name: HelloDartTests
-environment:
-  sdk: '>=2.7.0 <3.0.0'
-dependencies:
-  test:
-  hello:
-    path: ${CMAKE_CURRENT_BINARY_DIR}/../../libhello/hello/dart/dart
