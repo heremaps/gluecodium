@@ -17,7 +17,7 @@
 
 package test
 
-// Example interface which demonstrates the usage of instances for HelloWorld use case
+// Example interface which demonstrates the usage of instances
 class SimpleInstantiableOne {
     constructor create(value: String)
     fun setStringValue(
