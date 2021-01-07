@@ -111,14 +111,14 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitContainer(ctx: LimeParser.ContainerContext) {
-        val parentRef = ctx.identifier()?.let {
+        val parentTypes = ctx.parentTypes()?.identifier()?.map {
             LimeAmbiguousTypeRef(
                 relativePath = it.simpleId().map { simpleId -> convertSimpleId(simpleId) },
                 parentPaths = listOf(currentPath) + currentPath.allParents,
                 imports = imports,
                 referenceMap = referenceResolver.referenceMap
             )
-        }
+        } ?: emptyList()
         val comment = parseStructuredComment(ctx.docComment(), ctx).description
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
         val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor(), ctx.annotation())
@@ -130,7 +130,7 @@ internal class AntlrLimeModelBuilder(
                 comment = comment,
                 attributes = attributes,
                 external = externalDescriptor,
-                parents = listOfNotNull(parentRef),
+                parents = parentTypes,
                 structs = getPreviousResults(LimeStruct::class.java),
                 enumerations = getPreviousResults(LimeEnumeration::class.java),
                 constants = getPreviousResults(LimeConstant::class.java),
@@ -149,7 +149,7 @@ internal class AntlrLimeModelBuilder(
                 comment = comment,
                 attributes = attributes,
                 external = externalDescriptor,
-                parents = listOfNotNull(parentRef),
+                parents = parentTypes,
                 structs = getPreviousResults(LimeStruct::class.java),
                 enumerations = getPreviousResults(LimeEnumeration::class.java),
                 constants = getPreviousResults(LimeConstant::class.java),
@@ -159,7 +159,8 @@ internal class AntlrLimeModelBuilder(
                 exceptions = getPreviousResults(LimeException::class.java),
                 classes = getPreviousResults(LimeClass::class.java),
                 interfaces = getPreviousResults(LimeInterface::class.java),
-                lambdas = getPreviousResults(LimeLambda::class.java)
+                lambdas = getPreviousResults(LimeLambda::class.java),
+                isNarrow = ctx.Narrow() != null
             )
         }
 
