@@ -22,8 +22,6 @@
 #include "test/ForecastListener.h"
 #include "test/ForecastProvider.h"
 
-#include "hello/HelloWorldStaticLogger.h"
-
 #include <algorithm>
 #include <memory>
 #include <sstream>
