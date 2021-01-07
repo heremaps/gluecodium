@@ -41,12 +41,13 @@ abstract class LimeTypeRefsVisitor<T> {
         val allFunctions = allElements.filterIsInstance<LimeFunction>() + allLambdasAsFunctions
         val allTypedElements = allElements.filterIsInstance<LimeTypedElement>() +
             allLambdasAsFunctions.flatMap { it.parameters }
+        val allContainers = allElements.filterIsInstance<LimeContainerWithInheritance>()
 
         return allTypedElements.map { visitTypeRef(it, it.typeRef) } +
             allFunctions.flatMap {
                 listOf(visitTypeRef(it, it.returnType.typeRef), visitTypeRef(it, it.thrownType?.typeRef))
             } +
-            allElements.filterIsInstance<LimeContainerWithInheritance>().map { visitTypeRef(it, it.parent) } +
+            allContainers.flatMap { container -> container.parents.map { visitTypeRef(container, it) } } +
             allElements.filterIsInstance<LimeTypeAlias>().map { visitTypeRef(it, it.typeRef) } +
             allElements.filterIsInstance<LimeException>().map { visitTypeRef(it, it.errorType) }
     }

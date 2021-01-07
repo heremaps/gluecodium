@@ -35,7 +35,7 @@ class LimeInterface(
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
-    parent: LimeTypeRef? = null
+    parents: List<LimeTypeRef> = emptyList()
 ) : LimeContainerWithInheritance(
     path = path,
     visibility = visibility,
@@ -52,5 +52,5 @@ class LimeInterface(
     classes = classes,
     interfaces = interfaces,
     lambdas = lambdas,
-    parent = parent
+    parents = parents
 )

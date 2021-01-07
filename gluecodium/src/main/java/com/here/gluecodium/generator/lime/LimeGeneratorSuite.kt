@@ -72,7 +72,7 @@ class LimeGeneratorSuite : GeneratorSuite {
             is LimeContainerWithInheritance -> (
                     limeElement.structs + limeElement.constants + limeElement.typeAliases +
                     limeElement.functions + limeElement.properties + limeElement.exceptions +
-                    limeElement.classes + limeElement.interfaces + listOfNotNull(limeElement.parent)
+                    limeElement.classes + limeElement.interfaces + limeElement.parents
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeTypesCollection -> (
                     limeElement.structs + limeElement.constants + limeElement.typeAliases +
