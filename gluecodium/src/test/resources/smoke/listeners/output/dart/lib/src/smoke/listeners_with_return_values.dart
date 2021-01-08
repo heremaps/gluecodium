@@ -188,22 +188,14 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
   Map<String, double> Function() lambda_fetchDataMap;
   CalculationResult Function() lambda_fetchDataInstance;
   ListenersWithReturnValues$Lambdas(
-    double Function() lambda_fetchDataDouble,
-    String Function() lambda_fetchDataString,
-    ListenersWithReturnValues_ResultStruct Function() lambda_fetchDataStruct,
-    ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum,
-    List<double> Function() lambda_fetchDataArray,
-    Map<String, double> Function() lambda_fetchDataMap,
-    CalculationResult Function() lambda_fetchDataInstance
-  ) {
-    this.lambda_fetchDataDouble = lambda_fetchDataDouble;
-    this.lambda_fetchDataString = lambda_fetchDataString;
-    this.lambda_fetchDataStruct = lambda_fetchDataStruct;
-    this.lambda_fetchDataEnum = lambda_fetchDataEnum;
-    this.lambda_fetchDataArray = lambda_fetchDataArray;
-    this.lambda_fetchDataMap = lambda_fetchDataMap;
-    this.lambda_fetchDataInstance = lambda_fetchDataInstance;
-  }
+    this.lambda_fetchDataDouble,
+    this.lambda_fetchDataString,
+    this.lambda_fetchDataStruct,
+    this.lambda_fetchDataEnum,
+    this.lambda_fetchDataArray,
+    this.lambda_fetchDataMap,
+    this.lambda_fetchDataInstance
+  );
   @override
   void release() {}
   @override
@@ -229,7 +221,6 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
     lambda_fetchDataInstance();
 }
 class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
-  @protected
   Pointer<Void> handle;
   ListenersWithReturnValues$Impl(this.handle);
   @override

@@ -43,12 +43,9 @@ class SimpleInterface$Lambdas implements SimpleInterface {
   String Function() lambda_getStringValue;
   SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface;
   SimpleInterface$Lambdas(
-    String Function() lambda_getStringValue,
-    SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface
-  ) {
-    this.lambda_getStringValue = lambda_getStringValue;
-    this.lambda_useSimpleInterface = lambda_useSimpleInterface;
-  }
+    this.lambda_getStringValue,
+    this.lambda_useSimpleInterface
+  );
   @override
   void release() {}
   @override
@@ -59,7 +56,6 @@ class SimpleInterface$Lambdas implements SimpleInterface {
     lambda_useSimpleInterface(input);
 }
 class SimpleInterface$Impl implements SimpleInterface {
-  @protected
   Pointer<Void> handle;
   SimpleInterface$Impl(this.handle);
   @override

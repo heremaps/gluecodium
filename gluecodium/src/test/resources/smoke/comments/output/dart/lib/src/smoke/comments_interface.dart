@@ -231,32 +231,19 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   bool Function() lambda_isSomeProperty_get;
   void Function(bool) lambda_isSomeProperty_set;
   CommentsInterface$Lambdas(
-    bool Function(String) lambda_someMethodWithAllComments,
-    bool Function(String) lambda_someMethodWithInputComments,
-    bool Function(String) lambda_someMethodWithOutputComments,
-    bool Function(String) lambda_someMethodWithNoComments,
-    void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments,
-    void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments,
-    bool Function() lambda_someMethodWithoutInputParametersWithAllComments,
-    bool Function() lambda_someMethodWithoutInputParametersWithNoComments,
-    void Function() lambda_someMethodWithNothing,
-    void Function() lambda_someMethodWithoutReturnTypeOrInputParameters,
-    bool Function() lambda_isSomeProperty_get,
-    void Function(bool) lambda_isSomeProperty_set
-  ) {
-    this.lambda_someMethodWithAllComments = lambda_someMethodWithAllComments;
-    this.lambda_someMethodWithInputComments = lambda_someMethodWithInputComments;
-    this.lambda_someMethodWithOutputComments = lambda_someMethodWithOutputComments;
-    this.lambda_someMethodWithNoComments = lambda_someMethodWithNoComments;
-    this.lambda_someMethodWithoutReturnTypeWithAllComments = lambda_someMethodWithoutReturnTypeWithAllComments;
-    this.lambda_someMethodWithoutReturnTypeWithNoComments = lambda_someMethodWithoutReturnTypeWithNoComments;
-    this.lambda_someMethodWithoutInputParametersWithAllComments = lambda_someMethodWithoutInputParametersWithAllComments;
-    this.lambda_someMethodWithoutInputParametersWithNoComments = lambda_someMethodWithoutInputParametersWithNoComments;
-    this.lambda_someMethodWithNothing = lambda_someMethodWithNothing;
-    this.lambda_someMethodWithoutReturnTypeOrInputParameters = lambda_someMethodWithoutReturnTypeOrInputParameters;
-    this.lambda_isSomeProperty_get = lambda_isSomeProperty_get;
-    this.lambda_isSomeProperty_set = lambda_isSomeProperty_set;
-  }
+    this.lambda_someMethodWithAllComments,
+    this.lambda_someMethodWithInputComments,
+    this.lambda_someMethodWithOutputComments,
+    this.lambda_someMethodWithNoComments,
+    this.lambda_someMethodWithoutReturnTypeWithAllComments,
+    this.lambda_someMethodWithoutReturnTypeWithNoComments,
+    this.lambda_someMethodWithoutInputParametersWithAllComments,
+    this.lambda_someMethodWithoutInputParametersWithNoComments,
+    this.lambda_someMethodWithNothing,
+    this.lambda_someMethodWithoutReturnTypeOrInputParameters,
+    this.lambda_isSomeProperty_get,
+    this.lambda_isSomeProperty_set
+  );
   @override
   void release() {}
   @override
@@ -295,7 +282,6 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
 class CommentsInterface$Impl implements CommentsInterface {
-  @protected
   Pointer<Void> handle;
   CommentsInterface$Impl(this.handle);
   @override

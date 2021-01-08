@@ -253,10 +253,8 @@ final _smoke_OuterStruct_InnerInterface_get_type_id = __lib.catchArgumentError((
 class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
   Map<String, Uint8List> Function() lambda_barBaz;
   OuterStruct_InnerInterface$Lambdas(
-    Map<String, Uint8List> Function() lambda_barBaz
-  ) {
-    this.lambda_barBaz = lambda_barBaz;
-  }
+    this.lambda_barBaz
+  );
   @override
   void release() {}
   @override
@@ -264,7 +262,6 @@ class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
     lambda_barBaz();
 }
 class OuterStruct_InnerInterface$Impl implements OuterStruct_InnerInterface {
-  @protected
   Pointer<Void> handle;
   OuterStruct_InnerInterface$Impl(this.handle);
   @override

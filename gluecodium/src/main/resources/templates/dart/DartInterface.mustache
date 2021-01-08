@@ -105,73 +105,51 @@ final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.
 
 {{/functions}}{{!!
 }}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
-class {{resolveName}}$Lambdas {{#if parent}}extends {{resolveName parent}}$Lambdas {{/if}}implements {{resolveName}} {
-{{#functions}}
+class {{resolveName}}$Lambdas implements {{resolveName}} {
+{{#each inheritedFunctions functions}}
   {{>dart/DartLambdaType}} lambda_{{resolveName}};
-{{/functions}}
-{{#properties}}{{#set property=this}}
+{{/each}}
+{{#each inheritedProperties properties}}{{#set property=this}}
 {{#getter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get;
 {{/getter}}{{!!
 }}{{#setter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set;
 {{/setter}}
-{{/set}}{{/properties}}
+{{/set}}{{/each}}
 
   {{resolveName}}$Lambdas(
 {{#each inheritedFunctions functions}}
-    {{>dart/DartLambdaType}} lambda_{{resolveName}}{{#if iter.hasNext}},
+    this.lambda_{{resolveName}}{{#if iter.hasNext}},
 {{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
 {{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
-    {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
+    this.lambda_{{resolveName property}}_get{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    this.lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/each}}
 
-  ){{#if parent}} : super(
-{{#inheritedFunctions}}
-    lambda_{{resolveName}}{{#if iter.hasNext}},
-{{/if}}{{/inheritedFunctions}}{{#if inheritedFunctions inheritedProperties}},
-{{/if}}{{#inheritedProperties}}{{#set property=this}}{{#getter}}
-    lambda_{{resolveName property}}_get{{#if setter}},
-{{/if}}{{/getter}}{{#setter}}
-    lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
-{{/if}}{{/set}}{{/inheritedProperties}}
-
-  ){{/if}} {
-{{#functions}}
-    this.lambda_{{resolveName}} = lambda_{{resolveName}};
-{{/functions}}
-{{#properties}}{{#set property=this}}
-    this.lambda_{{resolveName property}}_get = lambda_{{resolveName property}}_get;
-{{#setter}}    this.lambda_{{resolveName property}}_set = lambda_{{resolveName property}}_set;
-{{/setter}}
-{{/set}}{{/properties}}
-
-  }
+  );
 
   @override
   void release() {}
 
-{{#functions}}
+{{#each inheritedFunctions functions}}
   @override
   {{>dart/DartFunctionSignature}} =>
     lambda_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{/functions}}
-{{#properties}}
+{{/each}}
+{{#each inheritedProperties properties}}
   @override
   {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => lambda_{{resolveName}}_get();
 {{#if setter}}
   @override
   set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => lambda_{{resolveName}}_set(value);
 {{/if}}
-{{/properties}}
+{{/each}}
 }
 {{/if}}
 
-class {{resolveName}}$Impl {{#if parent}}extends {{resolveName parent}}$Impl {{/if}}implements {{resolveName}} {
-  {{#if parent}}{{resolveName}}$Impl(Pointer<Void> handle) : super(handle);{{/if}}{{!!
-  }}{{#unless parent}}@protected
+class {{resolveName}}$Impl implements {{resolveName}} {
   Pointer<Void> handle;
-  {{resolveName}}$Impl(this.handle);{{/unless}}
+  {{resolveName}}$Impl(this.handle);
 
   @override
   void release() {
@@ -182,13 +160,13 @@ class {{resolveName}}$Impl {{#if parent}}extends {{resolveName parent}}$Impl {{/
     handle = null;
   }
 
-{{#set parent=this}}{{#functions}}
+{{#set parent=this}}{{#each inheritedFunctions functions}}
   @override
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{/set}}
-{{#properties}}
+{{/each}}{{/set}}
+{{#each inheritedProperties properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/properties}}
+{{/each}}
 {{#if attributes.equatable}}{{#set self=this nameSuffix="$Impl"}}{{#self}}{{!!
 }}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{!!
 }}{{/self}}{{/set}}{{/if}}

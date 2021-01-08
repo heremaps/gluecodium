@@ -125,20 +125,13 @@ class CalculatorListener$Lambdas implements CalculatorListener {
   void Function(Map<String, double>) lambda_onCalculationResultMap;
   void Function(CalculationResult) lambda_onCalculationResultInstance;
   CalculatorListener$Lambdas(
-    void Function(double) lambda_onCalculationResult,
-    void Function(double) lambda_onCalculationResultConst,
-    void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
-    void Function(List<double>) lambda_onCalculationResultArray,
-    void Function(Map<String, double>) lambda_onCalculationResultMap,
-    void Function(CalculationResult) lambda_onCalculationResultInstance
-  ) {
-    this.lambda_onCalculationResult = lambda_onCalculationResult;
-    this.lambda_onCalculationResultConst = lambda_onCalculationResultConst;
-    this.lambda_onCalculationResultStruct = lambda_onCalculationResultStruct;
-    this.lambda_onCalculationResultArray = lambda_onCalculationResultArray;
-    this.lambda_onCalculationResultMap = lambda_onCalculationResultMap;
-    this.lambda_onCalculationResultInstance = lambda_onCalculationResultInstance;
-  }
+    this.lambda_onCalculationResult,
+    this.lambda_onCalculationResultConst,
+    this.lambda_onCalculationResultStruct,
+    this.lambda_onCalculationResultArray,
+    this.lambda_onCalculationResultMap,
+    this.lambda_onCalculationResultInstance
+  );
   @override
   void release() {}
   @override
@@ -161,7 +154,6 @@ class CalculatorListener$Lambdas implements CalculatorListener {
     lambda_onCalculationResultInstance(calculationResult);
 }
 class CalculatorListener$Impl implements CalculatorListener {
-  @protected
   Pointer<Void> handle;
   CalculatorListener$Impl(this.handle);
   @override

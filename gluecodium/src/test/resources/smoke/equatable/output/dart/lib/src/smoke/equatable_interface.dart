@@ -33,7 +33,6 @@ final __are_equal = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFun
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableInterface_get_type_id'));
 class EquatableInterface$Impl implements EquatableInterface {
-  @protected
   Pointer<Void> handle;
   EquatableInterface$Impl(this.handle);
   @override

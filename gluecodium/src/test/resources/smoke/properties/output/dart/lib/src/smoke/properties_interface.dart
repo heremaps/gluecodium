@@ -107,12 +107,9 @@ class PropertiesInterface$Lambdas implements PropertiesInterface {
   PropertiesInterface_ExampleStruct Function() lambda_structProperty_get;
   void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set;
   PropertiesInterface$Lambdas(
-    PropertiesInterface_ExampleStruct Function() lambda_structProperty_get,
-    void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set
-  ) {
-    this.lambda_structProperty_get = lambda_structProperty_get;
-    this.lambda_structProperty_set = lambda_structProperty_set;
-  }
+    this.lambda_structProperty_get,
+    this.lambda_structProperty_set
+  );
   @override
   void release() {}
   @override
@@ -121,7 +118,6 @@ class PropertiesInterface$Lambdas implements PropertiesInterface {
   set structProperty(PropertiesInterface_ExampleStruct value) => lambda_structProperty_set(value);
 }
 class PropertiesInterface$Impl implements PropertiesInterface {
-  @protected
   Pointer<Void> handle;
   PropertiesInterface$Impl(this.handle);
   @override

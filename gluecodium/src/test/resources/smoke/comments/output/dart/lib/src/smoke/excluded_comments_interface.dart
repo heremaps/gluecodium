@@ -32,7 +32,6 @@ final _smoke_ExcludedCommentsInterface_get_type_id = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsInterface_get_type_id'));
 class ExcludedCommentsInterface$Impl implements ExcludedCommentsInterface {
-  @protected
   Pointer<Void> handle;
   ExcludedCommentsInterface$Impl(this.handle);
   @override

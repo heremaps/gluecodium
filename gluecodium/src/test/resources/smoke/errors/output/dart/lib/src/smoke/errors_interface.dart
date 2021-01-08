@@ -261,18 +261,12 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
   void Function() lambda_methodWithPayloadError;
   String Function() lambda_methodWithPayloadErrorAndReturnValue;
   ErrorsInterface$Lambdas(
-    void Function() lambda_methodWithErrors,
-    void Function() lambda_methodWithExternalErrors,
-    String Function() lambda_methodWithErrorsAndReturnValue,
-    void Function() lambda_methodWithPayloadError,
-    String Function() lambda_methodWithPayloadErrorAndReturnValue
-  ) {
-    this.lambda_methodWithErrors = lambda_methodWithErrors;
-    this.lambda_methodWithExternalErrors = lambda_methodWithExternalErrors;
-    this.lambda_methodWithErrorsAndReturnValue = lambda_methodWithErrorsAndReturnValue;
-    this.lambda_methodWithPayloadError = lambda_methodWithPayloadError;
-    this.lambda_methodWithPayloadErrorAndReturnValue = lambda_methodWithPayloadErrorAndReturnValue;
-  }
+    this.lambda_methodWithErrors,
+    this.lambda_methodWithExternalErrors,
+    this.lambda_methodWithErrorsAndReturnValue,
+    this.lambda_methodWithPayloadError,
+    this.lambda_methodWithPayloadErrorAndReturnValue
+  );
   @override
   void release() {}
   @override
@@ -292,7 +286,6 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
     lambda_methodWithPayloadErrorAndReturnValue();
 }
 class ErrorsInterface$Impl implements ErrorsInterface {
-  @protected
   Pointer<Void> handle;
   ErrorsInterface$Impl(this.handle);
   @override

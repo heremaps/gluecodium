@@ -53,14 +53,10 @@ class AttributesInterface$Lambdas implements AttributesInterface {
   String Function() lambda_prop_get;
   void Function(String) lambda_prop_set;
   AttributesInterface$Lambdas(
-    void Function(String) lambda_veryFun,
-    String Function() lambda_prop_get,
-    void Function(String) lambda_prop_set
-  ) {
-    this.lambda_veryFun = lambda_veryFun;
-    this.lambda_prop_get = lambda_prop_get;
-    this.lambda_prop_set = lambda_prop_set;
-  }
+    this.lambda_veryFun,
+    this.lambda_prop_get,
+    this.lambda_prop_set
+  );
   @override
   void release() {}
   @override
@@ -72,7 +68,6 @@ class AttributesInterface$Lambdas implements AttributesInterface {
   set prop(String value) => lambda_prop_set(value);
 }
 class AttributesInterface$Impl implements AttributesInterface {
-  @protected
   Pointer<Void> handle;
   AttributesInterface$Impl(this.handle);
   @override

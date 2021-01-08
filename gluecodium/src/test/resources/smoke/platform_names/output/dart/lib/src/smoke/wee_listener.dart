@@ -39,10 +39,8 @@ final _smoke_PlatformNamesListener_get_type_id = __lib.catchArgumentError(() => 
 class weeListener$Lambdas implements weeListener {
   void Function(String) lambda_WeeMethod;
   weeListener$Lambdas(
-    void Function(String) lambda_WeeMethod
-  ) {
-    this.lambda_WeeMethod = lambda_WeeMethod;
-  }
+    this.lambda_WeeMethod
+  );
   @override
   void release() {}
   @override
@@ -50,7 +48,6 @@ class weeListener$Lambdas implements weeListener {
     lambda_WeeMethod(WeeParameter);
 }
 class weeListener$Impl implements weeListener {
-  @protected
   Pointer<Void> handle;
   weeListener$Impl(this.handle);
   @override
