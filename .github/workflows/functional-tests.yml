@@ -4,12 +4,14 @@ on:
   push:
     paths-ignore:
       - 'CHANGELOG.md'
+      - 'gluecodium/src/main/resources/version.properties'
       - 'docs/**'
       - 'scripts/**'
       - 'tools/**'
   pull_request:
     paths-ignore:
       - 'CHANGELOG.md'
+      - 'gluecodium/src/main/resources/version.properties'
       - 'docs/**'
       - 'scripts/**'
       - 'tools/**'
