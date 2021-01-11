@@ -630,6 +630,16 @@ struct Options {
 }
 ```
 
+Structured comments for lambdas allow specifying comments for lambda parameters, even though they do not have explicit
+names. Implicit positional names should be used for parameters instead: `p0`, `p1`, and so on. Example:
+```
+// Communicate the date and the message.
+// @param[p0] the current date.
+// @param[p1] the new message.
+// @return whether the operation succeeded.
+lambda TimestampCallback = (Date, String) -> Boolean
+```
+
 #### Formatting in documentation comments
 
 Markdown-style formatting is supported in documentation comments. It is processed and converted to language-specific
