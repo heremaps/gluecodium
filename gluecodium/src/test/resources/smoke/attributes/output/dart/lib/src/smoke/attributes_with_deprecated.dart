@@ -100,10 +100,6 @@ final _smoke_AttributesWithDeprecated_release_handle = __lib.catchArgumentError(
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesWithDeprecated_release_handle'));
-final _smoke_AttributesWithDeprecated_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_AttributesWithDeprecated_get_raw_pointer'));
 class AttributesWithDeprecated$Impl implements AttributesWithDeprecated {
   @protected
   Pointer<Void> handle;
@@ -111,7 +107,8 @@ class AttributesWithDeprecated$Impl implements AttributesWithDeprecated {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_AttributesWithDeprecated_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_AttributesWithDeprecated_release_handle(handle);
     handle = null;
   }
@@ -156,12 +153,13 @@ class AttributesWithDeprecated$Impl implements AttributesWithDeprecated {
 Pointer<Void> smoke_AttributesWithDeprecated_toFfi(AttributesWithDeprecated value) =>
   _smoke_AttributesWithDeprecated_copy_handle((value as AttributesWithDeprecated$Impl).handle);
 AttributesWithDeprecated smoke_AttributesWithDeprecated_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_AttributesWithDeprecated_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is AttributesWithDeprecated) return instance as AttributesWithDeprecated;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as AttributesWithDeprecated;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_AttributesWithDeprecated_copy_handle(handle);
   final result = AttributesWithDeprecated$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_AttributesWithDeprecated_releaseFfiHandle(Pointer<Void> handle) =>

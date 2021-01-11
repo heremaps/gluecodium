@@ -181,10 +181,6 @@ final _smoke_Structs_release_handle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_release_handle'));
-final _smoke_Structs_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Structs_get_raw_pointer'));
 class Structs$Impl implements Structs {
   @protected
   Pointer<Void> handle;
@@ -192,7 +188,8 @@ class Structs$Impl implements Structs {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_Structs_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Structs_release_handle(handle);
     handle = null;
   }
@@ -218,12 +215,13 @@ class Structs$Impl implements Structs {
 Pointer<Void> smoke_Structs_toFfi(Structs value) =>
   _smoke_Structs_copy_handle((value as Structs$Impl).handle);
 Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_Structs_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Structs) return instance as Structs;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Structs;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Structs_copy_handle(handle);
   final result = Structs$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>

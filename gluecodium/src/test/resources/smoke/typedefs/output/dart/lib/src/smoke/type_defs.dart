@@ -158,10 +158,6 @@ final _smoke_TypeDefs_release_handle = __lib.catchArgumentError(() => __lib.nati
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_TypeDefs_release_handle'));
-final _smoke_TypeDefs_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_TypeDefs_get_raw_pointer'));
 class TypeDefs$Impl implements TypeDefs {
   @protected
   Pointer<Void> handle;
@@ -169,7 +165,8 @@ class TypeDefs$Impl implements TypeDefs {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_TypeDefs_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_TypeDefs_release_handle(handle);
     handle = null;
   }
@@ -267,12 +264,13 @@ class TypeDefs$Impl implements TypeDefs {
 Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) =>
   _smoke_TypeDefs_copy_handle((value as TypeDefs$Impl).handle);
 TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_TypeDefs_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is TypeDefs) return instance as TypeDefs;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as TypeDefs;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_TypeDefs_copy_handle(handle);
   final result = TypeDefs$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_TypeDefs_releaseFfiHandle(Pointer<Void> handle) =>

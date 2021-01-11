@@ -1,5 +1,6 @@
 #include "ffi_smoke_UseDartExternalTypes.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/CompressionState.h"
 #include "smoke/DartColor.h"
@@ -59,12 +60,6 @@ library_smoke_UseDartExternalTypes_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_UseDartExternalTypes_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::UseDartExternalTypes>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_UseDartExternalTypes_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::UseDartExternalTypes>*>(handle)->get()
-    );
 }
 #ifdef __cplusplus
 }

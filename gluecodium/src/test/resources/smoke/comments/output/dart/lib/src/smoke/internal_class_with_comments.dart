@@ -25,10 +25,6 @@ final _smoke_InternalClassWithComments_release_handle = __lib.catchArgumentError
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClassWithComments_release_handle'));
-final _smoke_InternalClassWithComments_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_InternalClassWithComments_get_raw_pointer'));
 class InternalClassWithComments$Impl implements InternalClassWithComments {
   @protected
   Pointer<Void> handle;
@@ -36,7 +32,8 @@ class InternalClassWithComments$Impl implements InternalClassWithComments {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_InternalClassWithComments_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_InternalClassWithComments_release_handle(handle);
     handle = null;
   }
@@ -55,12 +52,13 @@ class InternalClassWithComments$Impl implements InternalClassWithComments {
 Pointer<Void> smoke_InternalClassWithComments_toFfi(InternalClassWithComments value) =>
   _smoke_InternalClassWithComments_copy_handle((value as InternalClassWithComments$Impl).handle);
 InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_InternalClassWithComments_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is InternalClassWithComments) return instance as InternalClassWithComments;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as InternalClassWithComments;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_InternalClassWithComments_copy_handle(handle);
   final result = InternalClassWithComments$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_InternalClassWithComments_releaseFfiHandle(Pointer<Void> handle) =>

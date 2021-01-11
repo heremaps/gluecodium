@@ -175,10 +175,6 @@ final _smoke_ListenersWithReturnValues_create_proxy = __lib.catchArgumentError((
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ListenersWithReturnValues_create_proxy'));
-final _smoke_ListenersWithReturnValues_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ListenersWithReturnValues_get_raw_pointer'));
 final _smoke_ListenersWithReturnValues_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -239,7 +235,8 @@ class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ListenersWithReturnValues_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ListenersWithReturnValues_release_handle(handle);
     handle = null;
   }
@@ -399,13 +396,13 @@ Pointer<Void> smoke_ListenersWithReturnValues_toFfi(ListenersWithReturnValues va
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataMap_static, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValues_fetchDataInstance_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_ListenersWithReturnValues_get_raw_pointer(result)] = value;
   return result;
 }
 ListenersWithReturnValues smoke_ListenersWithReturnValues_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ListenersWithReturnValues_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ListenersWithReturnValues) return instance as ListenersWithReturnValues;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ListenersWithReturnValues;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ListenersWithReturnValues_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -413,7 +410,7 @@ ListenersWithReturnValues smoke_ListenersWithReturnValues_fromFfi(Pointer<Void> 
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ListenersWithReturnValues$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ListenersWithReturnValues_releaseFfiHandle(Pointer<Void> handle) =>

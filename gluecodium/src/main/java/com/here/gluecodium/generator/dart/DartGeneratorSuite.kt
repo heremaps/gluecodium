@@ -371,6 +371,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "LocaleHandle",
             "NullableHandles",
             "ProxyCache",
+            "ReverseCache",
             "StringHandle"
         )
         val data = mapOf(

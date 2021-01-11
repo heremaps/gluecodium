@@ -29,10 +29,6 @@ final _smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy = __lib.catch
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy'));
-final _smoke_LambdasWithStructuredTypes_ClassCallback_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_LambdasWithStructuredTypes_ClassCallback_get_raw_pointer'));
 class LambdasWithStructuredTypes_ClassCallback$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -122,10 +118,6 @@ final _smoke_LambdasWithStructuredTypes_StructCallback_create_proxy = __lib.catc
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_StructCallback_create_proxy'));
-final _smoke_LambdasWithStructuredTypes_StructCallback_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_LambdasWithStructuredTypes_StructCallback_get_raw_pointer'));
 class LambdasWithStructuredTypes_StructCallback$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -210,10 +202,6 @@ final _smoke_LambdasWithStructuredTypes_release_handle = __lib.catchArgumentErro
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_LambdasWithStructuredTypes_release_handle'));
-final _smoke_LambdasWithStructuredTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_LambdasWithStructuredTypes_get_raw_pointer'));
 class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
   @protected
   Pointer<Void> handle;
@@ -221,7 +209,8 @@ class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_LambdasWithStructuredTypes_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_LambdasWithStructuredTypes_release_handle(handle);
     handle = null;
   }
@@ -255,12 +244,13 @@ class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
 Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi(LambdasWithStructuredTypes value) =>
   _smoke_LambdasWithStructuredTypes_copy_handle((value as LambdasWithStructuredTypes$Impl).handle);
 LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_LambdasWithStructuredTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is LambdasWithStructuredTypes) return instance as LambdasWithStructuredTypes;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as LambdasWithStructuredTypes;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_LambdasWithStructuredTypes_copy_handle(handle);
   final result = LambdasWithStructuredTypes$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_LambdasWithStructuredTypes_releaseFfiHandle(Pointer<Void> handle) =>

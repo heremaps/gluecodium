@@ -91,10 +91,6 @@ final _smoke_Constructors_release_handle = __lib.catchArgumentError(() => __lib.
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Constructors_release_handle'));
-final _smoke_Constructors_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Constructors_get_raw_pointer'));
 final _smoke_Constructors_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -122,27 +118,28 @@ class Constructors$Impl implements Constructors {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_Constructors_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Constructors_release_handle(handle);
     handle = null;
   }
   Constructors$Impl.$init() : handle = _$init() {
-    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   Constructors$Impl.fromOther(Constructors other) : handle = _fromOther(other) {
-    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   Constructors$Impl.fromMulti(String foo, int bar) : handle = _fromMulti(foo, bar) {
-    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   Constructors$Impl.fromString(String input) : handle = _fromString(input) {
-    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   Constructors$Impl.fromList(List<double> input) : handle = _fromList(input) {
-    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   Constructors$Impl.create(int input) : handle = _create(input) {
-    __lib.reverseCache[_smoke_Constructors_get_raw_pointer(handle)] = this;
+    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   static Pointer<Void> _$init() {
     final _$init_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create'));
@@ -201,9 +198,10 @@ class Constructors$Impl implements Constructors {
 Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
   _smoke_Constructors_copy_handle((value as Constructors$Impl).handle);
 Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_Constructors_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Constructors) return instance as Constructors;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Constructors;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_Constructors_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -211,7 +209,7 @@ Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : Constructors$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) =>

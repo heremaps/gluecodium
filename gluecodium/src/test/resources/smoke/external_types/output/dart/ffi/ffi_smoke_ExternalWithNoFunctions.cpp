@@ -1,5 +1,6 @@
 #include "ffi_smoke_ExternalWithNoFunctions.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "CallbacksQueue.h"
 #include "ProxyCache.h"
 #include "gluecodium/TypeRepository.h"
@@ -13,10 +14,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter) { }
     ~smoke_ExternalWithNoFunctions_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ExternalWithNoFunctions");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_ExternalWithNoFunctions_Proxy(const smoke_ExternalWithNoFunctions_Proxy&) = delete;
@@ -42,12 +44,6 @@ library_smoke_ExternalWithNoFunctions_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_ExternalWithNoFunctions_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_ExternalWithNoFunctions_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ExternalWithNoFunctions_Proxy>(token, isolate_id, "smoke_ExternalWithNoFunctions");
     std::shared_ptr<smoke_ExternalWithNoFunctions_Proxy>* proxy_ptr;
@@ -58,6 +54,7 @@ library_smoke_ExternalWithNoFunctions_create_proxy(uint64_t token, int32_t isola
             new (std::nothrow) smoke_ExternalWithNoFunctions_Proxy(token, isolate_id, deleter)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_ExternalWithNoFunctions", *proxy_ptr);
+        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

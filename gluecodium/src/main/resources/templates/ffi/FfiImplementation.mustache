@@ -23,6 +23,7 @@
 #include "{{headerName}}.h"
 
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
@@ -59,13 +60,6 @@ FfiOpaqueHandle
 void
 {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
-}
-
-FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)->get()
-    );
 }
 
 {{#if attributes.equatable}}{{>ffiEqualityFunction}}{{/if}}{{!!
@@ -111,6 +105,7 @@ FfiOpaqueHandle
             }}{{#if setter}}, p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
         );
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", *proxy_ptr);
+        {{>ffi/FfiInternal}}::cache_token(proxy_ptr->get(), isolate_id, token);
     }
 
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
@@ -132,11 +127,6 @@ FfiOpaqueHandle
             std::bind(&{{resolveName}}_Proxy::operator(), cached_proxy{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}})
         )
     );
-}
-
-FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_get_raw_pointer(FfiOpaqueHandle handle) {
-    return handle;
 }
 
 {{/lambdas}}

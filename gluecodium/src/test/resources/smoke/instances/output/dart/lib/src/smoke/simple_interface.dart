@@ -35,10 +35,6 @@ final _smoke_SimpleInterface_create_proxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
   >('library_smoke_SimpleInterface_create_proxy'));
-final _smoke_SimpleInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SimpleInterface_get_raw_pointer'));
 final _smoke_SimpleInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -69,7 +65,8 @@ class SimpleInterface$Impl implements SimpleInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_SimpleInterface_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SimpleInterface_release_handle(handle);
     handle = null;
   }
@@ -127,13 +124,13 @@ Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterface_getStringValue_static, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterface_useSimpleInterface_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_SimpleInterface_get_raw_pointer(result)] = value;
   return result;
 }
 SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_SimpleInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is SimpleInterface) return instance as SimpleInterface;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as SimpleInterface;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_SimpleInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -141,7 +138,7 @@ SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : SimpleInterface$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) =>

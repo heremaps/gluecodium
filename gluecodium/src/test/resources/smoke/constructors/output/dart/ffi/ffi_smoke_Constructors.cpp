@@ -1,5 +1,6 @@
 #include "ffi_smoke_Constructors.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/TypeRepository.h"
 #include "gluecodium/VectorHash.h"
@@ -104,12 +105,6 @@ library_smoke_Constructors_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Constructors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Constructors_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Constructors_ErrorEnum_create_handle_nullable(uint32_t value)

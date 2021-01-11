@@ -1,5 +1,6 @@
 #include "ffi_smoke_CalculatorListener.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -17,10 +18,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) { }
     ~smoke_CalculatorListener_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_CalculatorListener");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_CalculatorListener_Proxy(const smoke_CalculatorListener_Proxy&) = delete;
@@ -136,12 +138,6 @@ library_smoke_CalculatorListener_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_CalculatorListener_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_CalculatorListener_Proxy>(token, isolate_id, "smoke_CalculatorListener");
     std::shared_ptr<smoke_CalculatorListener_Proxy>* proxy_ptr;
@@ -152,6 +148,7 @@ library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id
             new (std::nothrow) smoke_CalculatorListener_Proxy(token, isolate_id, deleter, f0, f1, f2, f3, f4, f5)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_CalculatorListener", *proxy_ptr);
+        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

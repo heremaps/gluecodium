@@ -1,5 +1,6 @@
 #include "ffi_smoke_Dates.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/TimePointHash.h"
 #include "smoke/Dates.h"
@@ -44,12 +45,6 @@ library_smoke_Dates_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Dates_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Dates>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Dates_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Dates>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Dates_DateStruct_create_handle(uint64_t dateField) {

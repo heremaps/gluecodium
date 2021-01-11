@@ -148,10 +148,6 @@ final _smoke_SkipTypes_release_handle = __lib.catchArgumentError(() => __lib.nat
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SkipTypes_release_handle'));
-final _smoke_SkipTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_SkipTypes_get_raw_pointer'));
 class SkipTypes$Impl implements SkipTypes {
   @protected
   Pointer<Void> handle;
@@ -159,7 +155,8 @@ class SkipTypes$Impl implements SkipTypes {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_SkipTypes_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SkipTypes_release_handle(handle);
     handle = null;
   }
@@ -167,12 +164,13 @@ class SkipTypes$Impl implements SkipTypes {
 Pointer<Void> smoke_SkipTypes_toFfi(SkipTypes value) =>
   _smoke_SkipTypes_copy_handle((value as SkipTypes$Impl).handle);
 SkipTypes smoke_SkipTypes_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_SkipTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is SkipTypes) return instance as SkipTypes;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as SkipTypes;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_SkipTypes_copy_handle(handle);
   final result = SkipTypes$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_SkipTypes_releaseFfiHandle(Pointer<Void> handle) =>

@@ -179,10 +179,6 @@ final _smoke_ErrorsInterface_create_proxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ErrorsInterface_create_proxy'));
-final _smoke_ErrorsInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ErrorsInterface_get_raw_pointer'));
 final _smoke_ErrorsInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -302,7 +298,8 @@ class ErrorsInterface$Impl implements ErrorsInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ErrorsInterface_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ErrorsInterface_release_handle(handle);
     handle = null;
   }
@@ -491,13 +488,13 @@ Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadError_static, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadErrorAndReturnValue_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_ErrorsInterface_get_raw_pointer(result)] = value;
   return result;
 }
 ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ErrorsInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ErrorsInterface) return instance as ErrorsInterface;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ErrorsInterface;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ErrorsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -505,7 +502,7 @@ ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ErrorsInterface$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ErrorsInterface_releaseFfiHandle(Pointer<Void> handle) =>

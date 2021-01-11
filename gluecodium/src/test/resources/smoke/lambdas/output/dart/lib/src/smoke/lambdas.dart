@@ -28,10 +28,6 @@ final _smoke_Lambdas_Producer_create_proxy = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Producer_create_proxy'));
-final _smoke_Lambdas_Producer_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Lambdas_Producer_get_raw_pointer'));
 class Lambdas_Producer$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -121,10 +117,6 @@ final _smoke_Lambdas_Confuser_create_proxy = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Confuser_create_proxy'));
-final _smoke_Lambdas_Confuser_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Lambdas_Confuser_get_raw_pointer'));
 class Lambdas_Confuser$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -216,10 +208,6 @@ final _smoke_Lambdas_Consumer_create_proxy = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Consumer_create_proxy'));
-final _smoke_Lambdas_Consumer_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Lambdas_Consumer_get_raw_pointer'));
 class Lambdas_Consumer$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -309,10 +297,6 @@ final _smoke_Lambdas_Indexer_create_proxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_Indexer_create_proxy'));
-final _smoke_Lambdas_Indexer_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Lambdas_Indexer_get_raw_pointer'));
 class Lambdas_Indexer$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -407,10 +391,6 @@ final _smoke_Lambdas_NullableConfuser_create_proxy = __lib.catchArgumentError(()
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_Lambdas_NullableConfuser_create_proxy'));
-final _smoke_Lambdas_NullableConfuser_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Lambdas_NullableConfuser_get_raw_pointer'));
 class Lambdas_NullableConfuser$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -497,10 +477,6 @@ final _smoke_Lambdas_release_handle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_release_handle'));
-final _smoke_Lambdas_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Lambdas_get_raw_pointer'));
 class Lambdas$Impl implements Lambdas {
   @protected
   Pointer<Void> handle;
@@ -508,7 +484,8 @@ class Lambdas$Impl implements Lambdas {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_Lambdas_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Lambdas_release_handle(handle);
     handle = null;
   }
@@ -544,12 +521,13 @@ class Lambdas$Impl implements Lambdas {
 Pointer<Void> smoke_Lambdas_toFfi(Lambdas value) =>
   _smoke_Lambdas_copy_handle((value as Lambdas$Impl).handle);
 Lambdas smoke_Lambdas_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_Lambdas_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Lambdas) return instance as Lambdas;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Lambdas;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Lambdas_copy_handle(handle);
   final result = Lambdas$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_Lambdas_releaseFfiHandle(Pointer<Void> handle) =>

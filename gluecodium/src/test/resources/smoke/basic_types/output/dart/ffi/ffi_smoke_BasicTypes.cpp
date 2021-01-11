@@ -1,5 +1,6 @@
 #include "ffi_smoke_BasicTypes.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/BasicTypes.h"
 #include <cstdint>
@@ -129,12 +130,6 @@ library_smoke_BasicTypes_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_BasicTypes_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_BasicTypes_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::BasicTypes>*>(handle)->get()
-    );
 }
 #ifdef __cplusplus
 }

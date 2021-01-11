@@ -162,10 +162,6 @@ final _smoke_ExcludedCommentsOnly_SomeLambda_create_proxy = __lib.catchArgumentE
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_create_proxy'));
-final _smoke_ExcludedCommentsOnly_SomeLambda_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ExcludedCommentsOnly_SomeLambda_get_raw_pointer'));
 class ExcludedCommentsOnly_SomeLambda$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
@@ -255,10 +251,6 @@ final _smoke_ExcludedCommentsOnly_release_handle = __lib.catchArgumentError(() =
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_release_handle'));
-final _smoke_ExcludedCommentsOnly_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ExcludedCommentsOnly_get_raw_pointer'));
 final _someMethodWithAllComments_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -282,7 +274,8 @@ class ExcludedCommentsOnly$Impl implements ExcludedCommentsOnly {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ExcludedCommentsOnly_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ExcludedCommentsOnly_release_handle(handle);
     handle = null;
   }
@@ -349,12 +342,13 @@ class ExcludedCommentsOnly$Impl implements ExcludedCommentsOnly {
 Pointer<Void> smoke_ExcludedCommentsOnly_toFfi(ExcludedCommentsOnly value) =>
   _smoke_ExcludedCommentsOnly_copy_handle((value as ExcludedCommentsOnly$Impl).handle);
 ExcludedCommentsOnly smoke_ExcludedCommentsOnly_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ExcludedCommentsOnly_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ExcludedCommentsOnly) return instance as ExcludedCommentsOnly;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ExcludedCommentsOnly;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_ExcludedCommentsOnly_copy_handle(handle);
   final result = ExcludedCommentsOnly$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ExcludedCommentsOnly_releaseFfiHandle(Pointer<Void> handle) =>

@@ -138,10 +138,6 @@ final _smoke_ExternalClass_release_handle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExternalClass_release_handle'));
-final _smoke_ExternalClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_ExternalClass_get_raw_pointer'));
 class ExternalClass$Impl implements ExternalClass {
   @protected
   Pointer<Void> handle;
@@ -149,7 +145,8 @@ class ExternalClass$Impl implements ExternalClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_ExternalClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ExternalClass_release_handle(handle);
     handle = null;
   }
@@ -181,12 +178,13 @@ class ExternalClass$Impl implements ExternalClass {
 Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
   _smoke_ExternalClass_copy_handle((value as ExternalClass$Impl).handle);
 ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_ExternalClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is ExternalClass) return instance as ExternalClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as ExternalClass;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_ExternalClass_copy_handle(handle);
   final result = ExternalClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>

@@ -1,5 +1,6 @@
 #include "ffi_smoke_Errors.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "smoke/Errors.h"
@@ -158,12 +159,6 @@ library_smoke_Errors_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_Errors_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Errors>*>(handle);
-}
-FfiOpaqueHandle
-library_smoke_Errors_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::Errors>*>(handle)->get()
-    );
 }
 FfiOpaqueHandle
 library_smoke_Errors_InternalErrorCode_create_handle_nullable(uint32_t value)

@@ -710,10 +710,6 @@ final _smoke_DefaultValues_release_handle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DefaultValues_release_handle'));
-final _smoke_DefaultValues_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_DefaultValues_get_raw_pointer'));
 class DefaultValues$Impl implements DefaultValues {
   @protected
   Pointer<Void> handle;
@@ -721,7 +717,8 @@ class DefaultValues$Impl implements DefaultValues {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_DefaultValues_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_DefaultValues_release_handle(handle);
     handle = null;
   }
@@ -740,12 +737,13 @@ class DefaultValues$Impl implements DefaultValues {
 Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
   _smoke_DefaultValues_copy_handle((value as DefaultValues$Impl).handle);
 DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_DefaultValues_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is DefaultValues) return instance as DefaultValues;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as DefaultValues;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_DefaultValues_copy_handle(handle);
   final result = DefaultValues$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_DefaultValues_releaseFfiHandle(Pointer<Void> handle) =>

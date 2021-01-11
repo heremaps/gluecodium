@@ -88,10 +88,6 @@ final _smoke_Locales_release_handle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Locales_release_handle'));
-final _smoke_Locales_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Locales_get_raw_pointer'));
 class Locales$Impl implements Locales {
   @protected
   Pointer<Void> handle;
@@ -99,7 +95,8 @@ class Locales$Impl implements Locales {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_Locales_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Locales_release_handle(handle);
     handle = null;
   }
@@ -144,12 +141,13 @@ class Locales$Impl implements Locales {
 Pointer<Void> smoke_Locales_toFfi(Locales value) =>
   _smoke_Locales_copy_handle((value as Locales$Impl).handle);
 Locales smoke_Locales_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_Locales_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Locales) return instance as Locales;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Locales;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Locales_copy_handle(handle);
   final result = Locales$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_Locales_releaseFfiHandle(Pointer<Void> handle) =>

@@ -30,10 +30,6 @@ final _smoke_OuterClass_InnerClass_release_handle = __lib.catchArgumentError(() 
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterClass_InnerClass_release_handle'));
-final _smoke_OuterClass_InnerClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_OuterClass_InnerClass_get_raw_pointer'));
 class OuterClass_InnerClass$Impl implements OuterClass_InnerClass {
   @protected
   Pointer<Void> handle;
@@ -41,7 +37,8 @@ class OuterClass_InnerClass$Impl implements OuterClass_InnerClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_OuterClass_InnerClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterClass_InnerClass_release_handle(handle);
     handle = null;
   }
@@ -62,12 +59,13 @@ class OuterClass_InnerClass$Impl implements OuterClass_InnerClass {
 Pointer<Void> smoke_OuterClass_InnerClass_toFfi(OuterClass_InnerClass value) =>
   _smoke_OuterClass_InnerClass_copy_handle((value as OuterClass_InnerClass$Impl).handle);
 OuterClass_InnerClass smoke_OuterClass_InnerClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_OuterClass_InnerClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is OuterClass_InnerClass) return instance as OuterClass_InnerClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as OuterClass_InnerClass;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_OuterClass_InnerClass_copy_handle(handle);
   final result = OuterClass_InnerClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_OuterClass_InnerClass_releaseFfiHandle(Pointer<Void> handle) =>
@@ -106,10 +104,6 @@ final _smoke_OuterClass_InnerInterface_create_proxy = __lib.catchArgumentError((
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_OuterClass_InnerInterface_create_proxy'));
-final _smoke_OuterClass_InnerInterface_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_OuterClass_InnerInterface_get_raw_pointer'));
 final _smoke_OuterClass_InnerInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -134,7 +128,8 @@ class OuterClass_InnerInterface$Impl implements OuterClass_InnerInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_OuterClass_InnerInterface_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterClass_InnerInterface_release_handle(handle);
     handle = null;
   }
@@ -170,13 +165,13 @@ Pointer<Void> smoke_OuterClass_InnerInterface_toFfi(OuterClass_InnerInterface va
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterClass_InnerInterface_foo_static, __lib.unknownError)
   );
-  __lib.reverseCache[_smoke_OuterClass_InnerInterface_get_raw_pointer(result)] = value;
   return result;
 }
 OuterClass_InnerInterface smoke_OuterClass_InnerInterface_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_OuterClass_InnerInterface_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is OuterClass_InnerInterface) return instance as OuterClass_InnerInterface;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as OuterClass_InnerInterface;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_OuterClass_InnerInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -184,7 +179,7 @@ OuterClass_InnerInterface smoke_OuterClass_InnerInterface_fromFfi(Pointer<Void> 
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : OuterClass_InnerInterface$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_OuterClass_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
@@ -205,10 +200,6 @@ final _smoke_OuterClass_release_handle = __lib.catchArgumentError(() => __lib.na
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterClass_release_handle'));
-final _smoke_OuterClass_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_OuterClass_get_raw_pointer'));
 class OuterClass$Impl implements OuterClass {
   @protected
   Pointer<Void> handle;
@@ -216,7 +207,8 @@ class OuterClass$Impl implements OuterClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_OuterClass_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterClass_release_handle(handle);
     handle = null;
   }
@@ -237,12 +229,13 @@ class OuterClass$Impl implements OuterClass {
 Pointer<Void> smoke_OuterClass_toFfi(OuterClass value) =>
   _smoke_OuterClass_copy_handle((value as OuterClass$Impl).handle);
 OuterClass smoke_OuterClass_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_OuterClass_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is OuterClass) return instance as OuterClass;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as OuterClass;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_OuterClass_copy_handle(handle);
   final result = OuterClass$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_OuterClass_releaseFfiHandle(Pointer<Void> handle) =>

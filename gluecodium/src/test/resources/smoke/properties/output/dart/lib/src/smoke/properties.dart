@@ -164,10 +164,6 @@ final _smoke_Properties_release_handle = __lib.catchArgumentError(() => __lib.na
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Properties_release_handle'));
-final _smoke_Properties_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_Properties_get_raw_pointer'));
 class Properties$Impl implements Properties {
   @protected
   Pointer<Void> handle;
@@ -175,7 +171,8 @@ class Properties$Impl implements Properties {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_Properties_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Properties_release_handle(handle);
     handle = null;
   }
@@ -391,12 +388,13 @@ class Properties$Impl implements Properties {
 Pointer<Void> smoke_Properties_toFfi(Properties value) =>
   _smoke_Properties_copy_handle((value as Properties$Impl).handle);
 Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_Properties_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is Properties) return instance as Properties;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as Properties;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Properties_copy_handle(handle);
   final result = Properties$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) =>

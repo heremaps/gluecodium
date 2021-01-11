@@ -1,5 +1,6 @@
 #include "ffi_smoke_EquatableInterface.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "CallbacksQueue.h"
 #include "ProxyCache.h"
 #include "gluecodium/TypeRepository.h"
@@ -13,10 +14,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter) { }
     ~smoke_EquatableInterface_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_EquatableInterface");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_EquatableInterface_Proxy(const smoke_EquatableInterface_Proxy&) = delete;
@@ -41,12 +43,6 @@ void
 library_smoke_EquatableInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle);
 }
-FfiOpaqueHandle
-library_smoke_EquatableInterface_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)->get()
-    );
-}
 bool
 library_smoke_EquatableInterface_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2) {
     bool isNull1 = handle1 == 0;
@@ -67,6 +63,7 @@ library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id
             new (std::nothrow) smoke_EquatableInterface_Proxy(token, isolate_id, deleter)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_EquatableInterface", *proxy_ptr);
+        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

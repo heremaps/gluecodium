@@ -136,10 +136,6 @@ final _smoke_CommentsLinks_release_handle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_release_handle'));
-final _smoke_CommentsLinks_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_CommentsLinks_get_raw_pointer'));
 final _randomMethod_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -163,7 +159,8 @@ class CommentsLinks$Impl implements CommentsLinks {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_CommentsLinks_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_CommentsLinks_release_handle(handle);
     handle = null;
   }
@@ -210,12 +207,13 @@ class CommentsLinks$Impl implements CommentsLinks {
 Pointer<Void> smoke_CommentsLinks_toFfi(CommentsLinks value) =>
   _smoke_CommentsLinks_copy_handle((value as CommentsLinks$Impl).handle);
 CommentsLinks smoke_CommentsLinks_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_CommentsLinks_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is CommentsLinks) return instance as CommentsLinks;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as CommentsLinks;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_CommentsLinks_copy_handle(handle);
   final result = CommentsLinks$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_CommentsLinks_releaseFfiHandle(Pointer<Void> handle) =>

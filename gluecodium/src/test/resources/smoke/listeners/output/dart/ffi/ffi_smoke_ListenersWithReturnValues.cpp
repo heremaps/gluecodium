@@ -1,5 +1,6 @@
 #include "ffi_smoke_ListenersWithReturnValues.h"
 #include "ConversionBase.h"
+#include "ReverseCache.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -18,10 +19,11 @@ public:
         : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5), f6(f6) { }
     ~smoke_ListenersWithReturnValues_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ListenersWithReturnValues");
+        gluecodium::ffi::remove_cached_token(this, isolate_id);
         auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t, FfiOpaqueHandle)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [this, token_local, deleter_local]() {
-            (*deleter_local)(token_local, this);
+        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
+            (*deleter_local)(token_local);
         });
     }
     smoke_ListenersWithReturnValues_Proxy(const smoke_ListenersWithReturnValues_Proxy&) = delete;
@@ -179,12 +181,6 @@ library_smoke_ListenersWithReturnValues_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_ListenersWithReturnValues_get_raw_pointer(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>*>(handle)->get()
-    );
-}
-FfiOpaqueHandle
 library_smoke_ListenersWithReturnValues_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ListenersWithReturnValues_Proxy>(token, isolate_id, "smoke_ListenersWithReturnValues");
     std::shared_ptr<smoke_ListenersWithReturnValues_Proxy>* proxy_ptr;
@@ -195,6 +191,7 @@ library_smoke_ListenersWithReturnValues_create_proxy(uint64_t token, int32_t iso
             new (std::nothrow) smoke_ListenersWithReturnValues_Proxy(token, isolate_id, deleter, f0, f1, f2, f3, f4, f5, f6)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_ListenersWithReturnValues", *proxy_ptr);
+        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
@@ -264,3 +261,4 @@ library_smoke_ListenersWithReturnValues_get_type_id(FfiOpaqueHandle handle) {
 #ifdef __cplusplus
 }
 #endif
+

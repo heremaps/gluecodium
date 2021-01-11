@@ -24,10 +24,6 @@ final _smoke_UseFreeTypes_release_handle = __lib.catchArgumentError(() => __lib.
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_release_handle'));
-final _smoke_UseFreeTypes_get_raw_pointer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Pointer<Void> Function(Pointer<Void>),
-      Pointer<Void> Function(Pointer<Void>)
-    >('library_smoke_UseFreeTypes_get_raw_pointer'));
 final _doStuff_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -51,7 +47,8 @@ class UseFreeTypes$Impl implements UseFreeTypes {
   @override
   void release() {
     if (handle == null) return;
-    __lib.reverseCache.remove(_smoke_UseFreeTypes_get_raw_pointer(handle));
+    __lib.uncacheObject(this);
+    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_UseFreeTypes_release_handle(handle);
     handle = null;
   }
@@ -85,12 +82,13 @@ class UseFreeTypes$Impl implements UseFreeTypes {
 Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
   _smoke_UseFreeTypes_copy_handle((value as UseFreeTypes$Impl).handle);
 UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
-  final raw_handle = _smoke_UseFreeTypes_get_raw_pointer(handle);
-  final instance = __lib.reverseCache[raw_handle];
-  if (instance is UseFreeTypes) return instance as UseFreeTypes;
+  final isolateId = __lib.LibraryContext.isolateId;
+  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final instance = __lib.instanceCache[token] as UseFreeTypes;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_UseFreeTypes_copy_handle(handle);
   final result = UseFreeTypes$Impl(_copied_handle);
-  __lib.reverseCache[raw_handle] = result;
+  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_UseFreeTypes_releaseFfiHandle(Pointer<Void> handle) =>
