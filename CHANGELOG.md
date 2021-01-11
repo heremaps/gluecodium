@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.7.0
+Release date: 2021-01-11
 ### Features:
   * Added `@Dart(PositionalDefaults)` attribute for stucts. This attribute marks a struct to have a constructor with
     optional positional parameters in Dart (only if the struct has at least one field with a default value).
