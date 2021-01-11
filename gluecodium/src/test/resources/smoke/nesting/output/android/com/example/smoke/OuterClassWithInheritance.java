@@ -5,7 +5,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public final class OuterClassWithInheritance extends ParentClass {
-    public static final class InnerClass  {
+    public static final class InnerClass extends NativeBase {
         /**
          * For internal use only.
          * @exclude

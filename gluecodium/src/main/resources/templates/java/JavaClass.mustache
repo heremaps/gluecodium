@@ -21,9 +21,9 @@
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
 }}{{#unless visibility.isOpen visibility.isInternal logic="and"}}final {{/unless}}{{!!
-}}class {{resolveName}} {{#if this.parent}}{{#instanceOf parent.type.actualType "LimeClass"}}extends{{/instanceOf}}{{!!
-}}{{#instanceOf parent.type.actualType "LimeInterface"}}extends NativeBase implements{{/instanceOf}} {{resolveName parent}}{{/if}}{{!!
-}}{{#unless parent}}extends NativeBase{{/unless}} {
+}}class {{resolveName}} extends {{#if this.parent}}{{!!
+}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}NativeBase implements {{/instanceOf}}{{resolveName this.parent}}{{/if}}{{!!
+}}{{#unless this.parent}}NativeBase{{/unless}} {
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
 {{>java/JavaContainerContents}}
