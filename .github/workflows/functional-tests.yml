@@ -3,10 +3,16 @@ name: Functional tests
 on:
   push:
     paths-ignore:
-      - '*.md'
+      - 'CHANGELOG.md'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'tools/**'
   pull_request:
     paths-ignore:
-      - '*.md'
+      - 'CHANGELOG.md'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'tools/**'
 
 jobs:
   cpp:
