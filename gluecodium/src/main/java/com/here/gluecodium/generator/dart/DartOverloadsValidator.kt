@@ -56,7 +56,8 @@ internal class DartOverloadsValidator(
             val pathsString = entry.value.map { it.path.toString() }.sorted().joinToString()
             logger.logFunction(
                 entry.value.first(),
-                "there is more than one function with '${entry.key}' name: $pathsString"
+                "there is more than one function with '${entry.key}' name: $pathsString. " +
+                    "Dart language does not support function overloading."
             )
         }
 
@@ -65,10 +66,10 @@ internal class DartOverloadsValidator(
         overloadedConstructors.forEach { entry ->
             val pathsString = entry.value.map { it.path.toString() }.sorted().joinToString()
             val warningText = if (entry.key.isEmpty()) {
-                "there is more than one default constructor: $pathsString"
+                "there is more than one default constructor: $pathsString. "
             } else {
-                "there is more than one constructor with '${entry.key}' name: $pathsString"
-            }
+                "there is more than one constructor with '${entry.key}' name: $pathsString. "
+            } + "Dart language does not support constructor overloading."
             logger.logFunction(entry.value.first(), warningText)
         }
 
