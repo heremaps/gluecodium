@@ -71,6 +71,14 @@ internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
 extension Errors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension Errors: Hashable {
+    public static func == (lhs: Errors, rhs: Errors) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func Errors_copyFromCType(_ handle: _baseRef) -> Errors {
     if let swift_pointer = smoke_Errors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Errors {

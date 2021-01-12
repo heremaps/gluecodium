@@ -165,6 +165,14 @@ internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
 extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension Structs: Hashable {
+    public static func == (lhs: Structs, rhs: Structs) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func Structs_copyFromCType(_ handle: _baseRef) -> Structs {
     if let swift_pointer = smoke_Structs_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Structs {

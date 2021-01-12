@@ -62,7 +62,21 @@ extension {{>implName}}: Hashable {
         hasher.combine({{resolveName "CBridge"}}_hash(c_handle))
     }
 }
-{{/if}}
+{{/if}}{{!!
+}}{{#unless attributes.equatable attributes.pointerEquatable logic="and"}}
+{{#instanceOf this "LimeClass"}}{{#unlessPredicate "parentIsClass"}}
+
+extension {{>implName}}: Hashable {
+    public static func == (lhs: {{>implName}}, rhs: {{>implName}}) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
+{{/unlessPredicate}}{{/instanceOf}}
+{{/unless}}
 
 internal func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}

@@ -47,6 +47,14 @@ internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {
 extension ExternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension ExternalClass: Hashable {
+    public static func == (lhs: ExternalClass, rhs: ExternalClass) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func ExternalClass_copyFromCType(_ handle: _baseRef) -> ExternalClass {
     if let swift_pointer = smoke_ExternalClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExternalClass {

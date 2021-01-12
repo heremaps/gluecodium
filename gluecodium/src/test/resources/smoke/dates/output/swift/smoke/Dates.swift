@@ -51,6 +51,14 @@ internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
 extension Dates: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension Dates: Hashable {
+    public static func == (lhs: Dates, rhs: Dates) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func Dates_copyFromCType(_ handle: _baseRef) -> Dates {
     if let swift_pointer = smoke_Dates_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Dates {

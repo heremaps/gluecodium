@@ -95,6 +95,14 @@ internal func getRef(_ ref: ExcludedComments?, owning: Bool = true) -> RefHolder
 extension ExcludedComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension ExcludedComments: Hashable {
+    public static func == (lhs: ExcludedComments, rhs: ExcludedComments) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func ExcludedComments_copyFromCType(_ handle: _baseRef) -> ExcludedComments {
     if let swift_pointer = smoke_ExcludedComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExcludedComments {

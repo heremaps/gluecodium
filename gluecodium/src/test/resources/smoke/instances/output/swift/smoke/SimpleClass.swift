@@ -33,6 +33,14 @@ internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {
 extension SimpleClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension SimpleClass: Hashable {
+    public static func == (lhs: SimpleClass, rhs: SimpleClass) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func SimpleClass_copyFromCType(_ handle: _baseRef) -> SimpleClass {
     if let swift_pointer = smoke_SimpleClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleClass {

@@ -39,6 +39,14 @@ internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder 
 extension UnicodeComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension UnicodeComments: Hashable {
+    public static func == (lhs: UnicodeComments, rhs: UnicodeComments) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments {
     if let swift_pointer = smoke_UnicodeComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UnicodeComments {

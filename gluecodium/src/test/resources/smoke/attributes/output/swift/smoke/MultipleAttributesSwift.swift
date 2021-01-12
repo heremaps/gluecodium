@@ -56,6 +56,14 @@ internal func getRef(_ ref: MultipleAttributesSwift?, owning: Bool = true) -> Re
 extension MultipleAttributesSwift: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension MultipleAttributesSwift: Hashable {
+    public static func == (lhs: MultipleAttributesSwift, rhs: MultipleAttributesSwift) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func MultipleAttributesSwift_copyFromCType(_ handle: _baseRef) -> MultipleAttributesSwift {
     if let swift_pointer = smoke_MultipleAttributesSwift_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultipleAttributesSwift {

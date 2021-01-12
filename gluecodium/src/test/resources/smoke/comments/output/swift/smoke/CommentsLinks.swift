@@ -102,6 +102,14 @@ internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
 extension CommentsLinks: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension CommentsLinks: Hashable {
+    public static func == (lhs: CommentsLinks, rhs: CommentsLinks) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks {
     if let swift_pointer = smoke_CommentsLinks_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsLinks {

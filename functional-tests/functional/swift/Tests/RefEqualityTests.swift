@@ -28,6 +28,7 @@ class RefEqualityTests: XCTestCase {
         let instance2 = DummyFactory.getDummyClassSingleton()
 
         XCTAssertTrue(instance1 === instance2)
+        XCTAssertTrue(instance1 == instance2)
     }
 
     func testRefInequalityPreservedForClass() {
@@ -35,6 +36,23 @@ class RefEqualityTests: XCTestCase {
         let instance2 = DummyFactory.createDummyClass()
 
         XCTAssertFalse(instance1 === instance2)
+        XCTAssertFalse(instance1 == instance2)
+    }
+
+    func testRefEqualityPreservedForClassInSet() {
+        let instance1 = DummyFactory.getDummyClassSingleton()
+        let instance2 = DummyFactory.getDummyClassSingleton()
+        let instanceSet: Set = [instance1, instance2]
+
+        XCTAssertEqual(instanceSet.count, 1)
+    }
+
+    func testRefInequalityPreservedForClassInSet() {
+        let instance1 = DummyFactory.getDummyClassSingleton()
+        let instance2 = DummyFactory.createDummyClass()
+        let instanceSet: Set = [instance1, instance2]
+
+        XCTAssertEqual(instanceSet.count, 2)
     }
 
     func testRefEqualityPreservedForInterface() {
@@ -56,6 +74,7 @@ class RefEqualityTests: XCTestCase {
         let instance2 = DummyClass.dummyClassRoundTrip(input: instance1)
 
         XCTAssertTrue(instance1 === instance2)
+        XCTAssertTrue(instance1 == instance2)
     }
 
     func testRefInequalityPreservedForClassConstructor() {
@@ -63,6 +82,7 @@ class RefEqualityTests: XCTestCase {
         let instance2 = DummyClass()
 
         XCTAssertFalse(instance1 === instance2)
+        XCTAssertFalse(instance1 == instance2)
     }
 
     func testRefEqualityPreservedForClassInList() {
@@ -71,6 +91,7 @@ class RefEqualityTests: XCTestCase {
         let result = DummyClass.dummyClassListRoundTrip(input: list)
 
         XCTAssertTrue(list.first === result.first)
+        XCTAssertTrue(list.first == result.first)
     }
 
     func testRefEqualityPreservedForChildClassAsParent() {
@@ -78,11 +99,14 @@ class RefEqualityTests: XCTestCase {
         let instance2 = DummyFactory.getDummyChildClassSingletonAsParent()
 
         XCTAssertTrue(instance1 === instance2)
+        XCTAssertTrue(instance1 == instance2)
     }
 
     static var allTests = [
         ("testRefEqualityPreservedForClass", testRefEqualityPreservedForClass),
         ("testRefInequalityPreservedForClass", testRefInequalityPreservedForClass),
+        ("testRefEqualityPreservedForClassInSet", testRefEqualityPreservedForClassInSet),
+        ("testRefInequalityPreservedForClassInSet", testRefInequalityPreservedForClassInSet),
         ("testRefEqualityPreservedForInterface", testRefEqualityPreservedForInterface),
         ("testRefInequalityPreservedForInterface", testRefInequalityPreservedForInterface),
         ("testRefEqualityPreservedForClassConstructor", testRefEqualityPreservedForClassConstructor),

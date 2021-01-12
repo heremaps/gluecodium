@@ -44,6 +44,14 @@ internal func getRef(_ ref: AttributesClass?, owning: Bool = true) -> RefHolder 
 extension AttributesClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension AttributesClass: Hashable {
+    public static func == (lhs: AttributesClass, rhs: AttributesClass) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func AttributesClass_copyFromCType(_ handle: _baseRef) -> AttributesClass {
     if let swift_pointer = smoke_AttributesClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesClass {
