@@ -97,7 +97,6 @@ final _smoke_PublicInterface_get_type_id = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_get_type_id'));
 class PublicInterface$Impl implements PublicInterface {
-  @protected
   Pointer<Void> handle;
   PublicInterface$Impl(this.handle);
   @override

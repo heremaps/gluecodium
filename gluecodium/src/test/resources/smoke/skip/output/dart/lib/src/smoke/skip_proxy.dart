@@ -59,20 +59,13 @@ class SkipProxy$Lambdas implements SkipProxy {
   bool Function() lambda_isSkippedInSwift_get;
   void Function(bool) lambda_isSkippedInSwift_set;
   SkipProxy$Lambdas(
-    String Function(String) lambda_notInJava,
-    bool Function(bool) lambda_notInSwift,
-    String Function() lambda_skippedInJava_get,
-    void Function(String) lambda_skippedInJava_set,
-    bool Function() lambda_isSkippedInSwift_get,
-    void Function(bool) lambda_isSkippedInSwift_set
-  ) {
-    this.lambda_notInJava = lambda_notInJava;
-    this.lambda_notInSwift = lambda_notInSwift;
-    this.lambda_skippedInJava_get = lambda_skippedInJava_get;
-    this.lambda_skippedInJava_set = lambda_skippedInJava_set;
-    this.lambda_isSkippedInSwift_get = lambda_isSkippedInSwift_get;
-    this.lambda_isSkippedInSwift_set = lambda_isSkippedInSwift_set;
-  }
+    this.lambda_notInJava,
+    this.lambda_notInSwift,
+    this.lambda_skippedInJava_get,
+    this.lambda_skippedInJava_set,
+    this.lambda_isSkippedInSwift_get,
+    this.lambda_isSkippedInSwift_set
+  );
   @override
   void release() {}
   @override
@@ -91,7 +84,6 @@ class SkipProxy$Lambdas implements SkipProxy {
   set isSkippedInSwift(bool value) => lambda_isSkippedInSwift_set(value);
 }
 class SkipProxy$Impl implements SkipProxy {
-  @protected
   Pointer<Void> handle;
   SkipProxy$Impl(this.handle);
   @override

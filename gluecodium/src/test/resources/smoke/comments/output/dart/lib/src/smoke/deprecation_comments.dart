@@ -200,18 +200,12 @@ class DeprecationComments$Lambdas implements DeprecationComments {
   String Function() lambda_propertyButNotAccessors_get;
   void Function(String) lambda_propertyButNotAccessors_set;
   DeprecationComments$Lambdas(
-    bool Function(String) lambda_someMethodWithAllComments,
-    bool Function() lambda_isSomeProperty_get,
-    void Function(bool) lambda_isSomeProperty_set,
-    String Function() lambda_propertyButNotAccessors_get,
-    void Function(String) lambda_propertyButNotAccessors_set
-  ) {
-    this.lambda_someMethodWithAllComments = lambda_someMethodWithAllComments;
-    this.lambda_isSomeProperty_get = lambda_isSomeProperty_get;
-    this.lambda_isSomeProperty_set = lambda_isSomeProperty_set;
-    this.lambda_propertyButNotAccessors_get = lambda_propertyButNotAccessors_get;
-    this.lambda_propertyButNotAccessors_set = lambda_propertyButNotAccessors_set;
-  }
+    this.lambda_someMethodWithAllComments,
+    this.lambda_isSomeProperty_get,
+    this.lambda_isSomeProperty_set,
+    this.lambda_propertyButNotAccessors_get,
+    this.lambda_propertyButNotAccessors_set
+  );
   @override
   void release() {}
   @override
@@ -227,7 +221,6 @@ class DeprecationComments$Lambdas implements DeprecationComments {
   set propertyButNotAccessors(String value) => lambda_propertyButNotAccessors_set(value);
 }
 class DeprecationComments$Impl implements DeprecationComments {
-  @protected
   Pointer<Void> handle;
   DeprecationComments$Impl(this.handle);
   @override

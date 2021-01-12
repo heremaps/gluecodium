@@ -159,12 +159,9 @@ class ExternalInterface$Lambdas implements ExternalInterface {
   void Function(int) lambda_someMethod;
   String Function() lambda_someProperty_get;
   ExternalInterface$Lambdas(
-    void Function(int) lambda_someMethod,
-    String Function() lambda_someProperty_get
-  ) {
-    this.lambda_someMethod = lambda_someMethod;
-    this.lambda_someProperty_get = lambda_someProperty_get;
-  }
+    this.lambda_someMethod,
+    this.lambda_someProperty_get
+  );
   @override
   void release() {}
   @override
@@ -174,7 +171,6 @@ class ExternalInterface$Lambdas implements ExternalInterface {
   String get someProperty => lambda_someProperty_get();
 }
 class ExternalInterface$Impl implements ExternalInterface {
-  @protected
   Pointer<Void> handle;
   ExternalInterface$Impl(this.handle);
   @override

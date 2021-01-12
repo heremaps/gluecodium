@@ -46,28 +46,41 @@ final _smoke_InheritFromSkipped_get_type_id = __lib.catchArgumentError(() => __l
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InheritFromSkipped_get_type_id'));
-class InheritFromSkipped$Lambdas extends SkipProxy$Lambdas implements InheritFromSkipped {
+class InheritFromSkipped$Lambdas implements InheritFromSkipped {
+  String Function(String) lambda_notInJava;
+  bool Function(bool) lambda_notInSwift;
+  String Function() lambda_skippedInJava_get;
+  void Function(String) lambda_skippedInJava_set;
+  bool Function() lambda_isSkippedInSwift_get;
+  void Function(bool) lambda_isSkippedInSwift_set;
   InheritFromSkipped$Lambdas(
-    String Function(String) lambda_notInJava,
-    bool Function(bool) lambda_notInSwift,
-    String Function() lambda_skippedInJava_get,
-    void Function(String) lambda_skippedInJava_set,
-    bool Function() lambda_isSkippedInSwift_get,
-    void Function(bool) lambda_isSkippedInSwift_set
-  ) : super(
-    lambda_notInJava,
-    lambda_notInSwift,
-    lambda_skippedInJava_get,
-    lambda_skippedInJava_set,
-    lambda_isSkippedInSwift_get,
-    lambda_isSkippedInSwift_set
-  ) {
-  }
+    this.lambda_notInJava,
+    this.lambda_notInSwift,
+    this.lambda_skippedInJava_get,
+    this.lambda_skippedInJava_set,
+    this.lambda_isSkippedInSwift_get,
+    this.lambda_isSkippedInSwift_set
+  );
   @override
   void release() {}
+  @override
+  String notInJava(String input) =>
+    lambda_notInJava(input);
+  @override
+  bool notInSwift(bool input) =>
+    lambda_notInSwift(input);
+  @override
+  String get skippedInJava => lambda_skippedInJava_get();
+  @override
+  set skippedInJava(String value) => lambda_skippedInJava_set(value);
+  @override
+  bool get isSkippedInSwift => lambda_isSkippedInSwift_get();
+  @override
+  set isSkippedInSwift(bool value) => lambda_isSkippedInSwift_set(value);
 }
-class InheritFromSkipped$Impl extends SkipProxy$Impl implements InheritFromSkipped {
-  InheritFromSkipped$Impl(Pointer<Void> handle) : super(handle);
+class InheritFromSkipped$Impl implements InheritFromSkipped {
+  Pointer<Void> handle;
+  InheritFromSkipped$Impl(this.handle);
   @override
   void release() {
     if (handle == null) return;
@@ -75,6 +88,76 @@ class InheritFromSkipped$Impl extends SkipProxy$Impl implements InheritFromSkipp
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_InheritFromSkipped_release_handle(handle);
     handle = null;
+  }
+  @override
+  String notInJava(String input) {
+    final _notInJava_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));
+    final _input_handle = String_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _notInJava_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
+    String_releaseFfiHandle(_input_handle);
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
+  }
+  @override
+  bool notInSwift(bool input) {
+    final _notInSwift_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_SkipProxy_notInSwift__Boolean'));
+    final _input_handle = Boolean_toFfi(input);
+    final _handle = this.handle;
+    final __result_handle = _notInSwift_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
+    Boolean_releaseFfiHandle(_input_handle);
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
+  }
+  String get skippedInJava {
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SkipProxy_skippedInJava_get'));
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
+  }
+  set skippedInJava(String value) {
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_skippedInJava_set__String'));
+    final _value_handle = String_toFfi(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
+    String_releaseFfiHandle(_value_handle);
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
+  }
+  bool get isSkippedInSwift {
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_SkipProxy_isSkippedInSwift_get'));
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return Boolean_fromFfi(__result_handle);
+    } finally {
+      Boolean_releaseFfiHandle(__result_handle);
+    }
+  }
+  set isSkippedInSwift(bool value) {
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_SkipProxy_isSkippedInSwift_set__Boolean'));
+    final _value_handle = Boolean_toFfi(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
+    Boolean_releaseFfiHandle(_value_handle);
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
   }
 }
 int _InheritFromSkipped_notInJava_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {

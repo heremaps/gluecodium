@@ -111,10 +111,8 @@ final _smoke_OuterClass_InnerInterface_get_type_id = __lib.catchArgumentError(()
 class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
   String Function(String) lambda_foo;
   OuterClass_InnerInterface$Lambdas(
-    String Function(String) lambda_foo
-  ) {
-    this.lambda_foo = lambda_foo;
-  }
+    this.lambda_foo
+  );
   @override
   void release() {}
   @override
@@ -122,7 +120,6 @@ class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
     lambda_foo(input);
 }
 class OuterClass_InnerInterface$Impl implements OuterClass_InnerInterface {
-  @protected
   Pointer<Void> handle;
   OuterClass_InnerInterface$Impl(this.handle);
   @override

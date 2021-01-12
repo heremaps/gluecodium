@@ -30,7 +30,6 @@ final _package_Interface_get_type_id = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Interface_get_type_id'));
 class Interface$Impl implements Interface {
-  @protected
   Pointer<Void> handle;
   Interface$Impl(this.handle);
   @override

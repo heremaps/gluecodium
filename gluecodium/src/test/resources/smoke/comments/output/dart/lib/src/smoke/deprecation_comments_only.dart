@@ -175,14 +175,10 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
   bool Function() lambda_isSomeProperty_get;
   void Function(bool) lambda_isSomeProperty_set;
   DeprecationCommentsOnly$Lambdas(
-    bool Function(String) lambda_someMethodWithAllComments,
-    bool Function() lambda_isSomeProperty_get,
-    void Function(bool) lambda_isSomeProperty_set
-  ) {
-    this.lambda_someMethodWithAllComments = lambda_someMethodWithAllComments;
-    this.lambda_isSomeProperty_get = lambda_isSomeProperty_get;
-    this.lambda_isSomeProperty_set = lambda_isSomeProperty_set;
-  }
+    this.lambda_someMethodWithAllComments,
+    this.lambda_isSomeProperty_get,
+    this.lambda_isSomeProperty_set
+  );
   @override
   void release() {}
   @override
@@ -194,7 +190,6 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
 class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
-  @protected
   Pointer<Void> handle;
   DeprecationCommentsOnly$Impl(this.handle);
   @override

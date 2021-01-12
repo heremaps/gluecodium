@@ -41,10 +41,8 @@ final _smoke_InternalInterface_get_type_id = __lib.catchArgumentError(() => __li
 class InternalInterface$Lambdas implements InternalInterface {
   void Function() lambda_fooBar;
   InternalInterface$Lambdas(
-    void Function() lambda_fooBar
-  ) {
-    this.lambda_fooBar = lambda_fooBar;
-  }
+    this.lambda_fooBar
+  );
   @override
   void release() {}
   @override
@@ -52,7 +50,6 @@ class InternalInterface$Lambdas implements InternalInterface {
     lambda_fooBar();
 }
 class InternalInterface$Impl implements InternalInterface {
-  @protected
   Pointer<Void> handle;
   InternalInterface$Impl(this.handle);
   @override

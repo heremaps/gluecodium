@@ -47,14 +47,10 @@ class ParentInterface$Lambdas implements ParentInterface {
   String Function() lambda_rootProperty_get;
   void Function(String) lambda_rootProperty_set;
   ParentInterface$Lambdas(
-    void Function() lambda_rootMethod,
-    String Function() lambda_rootProperty_get,
-    void Function(String) lambda_rootProperty_set
-  ) {
-    this.lambda_rootMethod = lambda_rootMethod;
-    this.lambda_rootProperty_get = lambda_rootProperty_get;
-    this.lambda_rootProperty_set = lambda_rootProperty_set;
-  }
+    this.lambda_rootMethod,
+    this.lambda_rootProperty_get,
+    this.lambda_rootProperty_set
+  );
   @override
   void release() {}
   @override
@@ -66,7 +62,6 @@ class ParentInterface$Lambdas implements ParentInterface {
   set rootProperty(String value) => lambda_rootProperty_set(value);
 }
 class ParentInterface$Impl implements ParentInterface {
-  @protected
   Pointer<Void> handle;
   ParentInterface$Impl(this.handle);
   @override
