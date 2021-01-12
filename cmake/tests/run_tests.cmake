@@ -136,6 +136,10 @@ function (base_devel_run_test test_file builddir)
         set (maybe_trace "--trace-expand")
     endif ()
 
+    if (_TEST_PARAMETERS)
+        file (READ ${_TEST_PARAMETERS} _test_parameters)
+    endif()
+
     get_parameters_for_build_environment (_env_params)
 
     execute_process (
@@ -146,6 +150,7 @@ function (base_devel_run_test test_file builddir)
                 "-DGLUECODIUM_CMAKE_TESTS_DIR=${CMAKE_CURRENT_LIST_DIR}"
                 "-DGLUECODIUM_CMAKE_DIR=${CMAKE_CURRENT_LIST_DIR}/.."
                 "-DGLUECODIUM_BUILD_ENVIRONMENT=${GLUECODIUM_BUILD_ENVIRONMENT}"
+            ${_test_parameters}
             ${_env_params}
             ${test_file}
         WORKING_DIRECTORY "${builddir}"
@@ -241,14 +246,34 @@ foreach (test_file IN LISTS tests)
     if (NOT IS_DIRECTORY ${test_file} OR test_file MATCHES "-DISABLED$")
         continue ()
     endif ()
-    set (test_name "${PROJECT_NAME}.${relpath}")
 
-    add_test (
-        NAME "${test_name}"
-        COMMAND
-            ${CMAKE_COMMAND}
-            "-DGLUECODIUM_BUILD_ENVIRONMENT=$ENV{GLUECODIUM_BUILD_ENVIRONMENT}"
-            "-DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}" "-D_CURRENT_TEST=${test_file}"
-            "-D_TEST_DIR=${CMAKE_CURRENT_BINARY_DIR}/test/${relpath}"
-            "-DTEST_OUTPUT_FILE=${TEST_OUTPUT_FILE}" -P ${CMAKE_CURRENT_LIST_FILE})
+    file (GLOB test_parameter_files ${test_file}/test_parameters/*.txt)
+
+    function(_add_test test_name test_file test_dir test_parameter_file)
+        add_test (
+            NAME "${test_name}"
+            COMMAND
+                ${CMAKE_COMMAND}
+                "-DGLUECODIUM_BUILD_ENVIRONMENT=$ENV{GLUECODIUM_BUILD_ENVIRONMENT}"
+                "-DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}" "-D_CURRENT_TEST=${test_file}"
+                "-D_TEST_DIR=${test_dir}"
+                "-D_TEST_PARAMETERS=${test_parameter_file}"
+                "-DTEST_OUTPUT_FILE=${TEST_OUTPUT_FILE}" -P ${CMAKE_CURRENT_LIST_FILE})
+    endfunction()
+
+    if (test_parameter_files)
+        foreach(test_parameter_file ${test_parameter_files})
+            get_filename_component(parameter_filename ${test_parameter_file} NAME_WLE)
+
+            _add_test("${PROJECT_NAME}.${relpath}/${parameter_filename}"
+                "${test_file}"
+                "${CMAKE_CURRENT_BINARY_DIR}/test/${relpath}/${parameter_filename}"
+                "${test_parameter_file}")
+        endforeach()
+    else()
+        _add_test("${PROJECT_NAME}.${relpath}"
+                "${test_file}"
+                "${CMAKE_CURRENT_BINARY_DIR}/test/${relpath}"
+                "")
+    endif()
 endforeach ()
