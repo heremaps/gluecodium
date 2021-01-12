@@ -68,6 +68,14 @@ internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder
 extension PlatformComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension PlatformComments: Hashable {
+    public static func == (lhs: PlatformComments, rhs: PlatformComments) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func PlatformComments_copyFromCType(_ handle: _baseRef) -> PlatformComments {
     if let swift_pointer = smoke_PlatformComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PlatformComments {

@@ -34,6 +34,14 @@ internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
 extension Calculator: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension Calculator: Hashable {
+    public static func == (lhs: Calculator, rhs: Calculator) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func Calculator_copyFromCType(_ handle: _baseRef) -> Calculator {
     if let swift_pointer = smoke_Calculator_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Calculator {

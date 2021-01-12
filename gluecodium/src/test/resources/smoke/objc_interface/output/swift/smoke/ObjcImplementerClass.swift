@@ -32,6 +32,14 @@ internal func getRef(_ ref: ObjcImplementerClass?, owning: Bool = true) -> RefHo
 extension ObjcImplementerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension ObjcImplementerClass: Hashable {
+    public static func == (lhs: ObjcImplementerClass, rhs: ObjcImplementerClass) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func ObjcImplementerClass_copyFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
     if let swift_pointer = smoke_ObjcImplementerClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcImplementerClass {

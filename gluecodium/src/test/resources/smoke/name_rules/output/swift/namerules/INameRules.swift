@@ -91,6 +91,14 @@ internal func getRef(_ ref: INameRules?, owning: Bool = true) -> RefHolder {
 extension INameRules: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension INameRules: Hashable {
+    public static func == (lhs: INameRules, rhs: INameRules) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func INameRules_copyFromCType(_ handle: _baseRef) -> INameRules {
     if let swift_pointer = namerules_INameRules_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? INameRules {

@@ -72,6 +72,14 @@ internal func getRef(_ ref: LevelOne?, owning: Bool = true) -> RefHolder {
 extension LevelOne: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension LevelOne: Hashable {
+    public static func == (lhs: LevelOne, rhs: LevelOne) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne {
     if let swift_pointer = smoke_LevelOne_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne {
@@ -127,6 +135,14 @@ internal func getRef(_ ref: LevelOne.LevelTwo?, owning: Bool = true) -> RefHolde
 extension LevelOne.LevelTwo: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension LevelOne.LevelTwo: Hashable {
+    public static func == (lhs: LevelOne.LevelTwo, rhs: LevelOne.LevelTwo) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
     if let swift_pointer = smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo {
@@ -181,6 +197,14 @@ internal func getRef(_ ref: LevelOne.LevelTwo.LevelThree?, owning: Bool = true) 
 }
 extension LevelOne.LevelTwo.LevelThree: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+extension LevelOne.LevelTwo.LevelThree: Hashable {
+    public static func == (lhs: LevelOne.LevelTwo.LevelThree, rhs: LevelOne.LevelTwo.LevelThree) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
 }
 internal func LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
     if let swift_pointer = smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(handle),

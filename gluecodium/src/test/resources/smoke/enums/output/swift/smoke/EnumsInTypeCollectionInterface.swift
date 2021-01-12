@@ -30,6 +30,14 @@ internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true
 extension EnumsInTypeCollectionInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension EnumsInTypeCollectionInterface: Hashable {
+    public static func == (lhs: EnumsInTypeCollectionInterface, rhs: EnumsInTypeCollectionInterface) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
     if let swift_pointer = smoke_EnumsInTypeCollectionInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EnumsInTypeCollectionInterface {

@@ -36,6 +36,14 @@ internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {
 extension UseFreeTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension UseFreeTypes: Hashable {
+    public static func == (lhs: UseFreeTypes, rhs: UseFreeTypes) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func UseFreeTypes_copyFromCType(_ handle: _baseRef) -> UseFreeTypes {
     if let swift_pointer = smoke_UseFreeTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseFreeTypes {

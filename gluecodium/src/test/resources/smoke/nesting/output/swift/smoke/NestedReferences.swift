@@ -40,6 +40,14 @@ internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder
 extension NestedReferences: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension NestedReferences: Hashable {
+    public static func == (lhs: NestedReferences, rhs: NestedReferences) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences {
     if let swift_pointer = smoke_NestedReferences_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedReferences {

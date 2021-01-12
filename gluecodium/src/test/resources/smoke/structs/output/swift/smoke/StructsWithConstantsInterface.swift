@@ -43,6 +43,14 @@ internal func getRef(_ ref: StructsWithConstantsInterface?, owning: Bool = true)
 extension StructsWithConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension StructsWithConstantsInterface: Hashable {
+    public static func == (lhs: StructsWithConstantsInterface, rhs: StructsWithConstantsInterface) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func StructsWithConstantsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface {
     if let swift_pointer = smoke_StructsWithConstantsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithConstantsInterface {

@@ -90,6 +90,14 @@ internal func getRef(_ ref: StructsWithMethodsInterface?, owning: Bool = true) -
 extension StructsWithMethodsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension StructsWithMethodsInterface: Hashable {
+    public static func == (lhs: StructsWithMethodsInterface, rhs: StructsWithMethodsInterface) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
     if let swift_pointer = smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithMethodsInterface {

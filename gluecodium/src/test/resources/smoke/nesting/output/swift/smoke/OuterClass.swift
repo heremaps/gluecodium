@@ -67,6 +67,14 @@ internal func getRef(_ ref: OuterClass?, owning: Bool = true) -> RefHolder {
 extension OuterClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension OuterClass: Hashable {
+    public static func == (lhs: OuterClass, rhs: OuterClass) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func OuterClass_copyFromCType(_ handle: _baseRef) -> OuterClass {
     if let swift_pointer = smoke_OuterClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterClass {
@@ -121,6 +129,14 @@ internal func getRef(_ ref: OuterClass.InnerClass?, owning: Bool = true) -> RefH
 }
 extension OuterClass.InnerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+extension OuterClass.InnerClass: Hashable {
+    public static func == (lhs: OuterClass.InnerClass, rhs: OuterClass.InnerClass) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
 }
 internal func OuterClass_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterClass.InnerClass {
     if let swift_pointer = smoke_OuterClass_InnerClass_get_swift_object_from_wrapper_cache(handle),

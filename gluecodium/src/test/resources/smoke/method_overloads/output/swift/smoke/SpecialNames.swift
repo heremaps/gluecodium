@@ -38,6 +38,14 @@ internal func getRef(_ ref: SpecialNames?, owning: Bool = true) -> RefHolder {
 extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension SpecialNames: Hashable {
+    public static func == (lhs: SpecialNames, rhs: SpecialNames) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
     if let swift_pointer = smoke_SpecialNames_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialNames {

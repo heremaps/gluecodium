@@ -59,6 +59,14 @@ internal func getRef(_ ref: AttributesWithDeprecated?, owning: Bool = true) -> R
 extension AttributesWithDeprecated: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension AttributesWithDeprecated: Hashable {
+    public static func == (lhs: AttributesWithDeprecated, rhs: AttributesWithDeprecated) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func AttributesWithDeprecated_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated {
     if let swift_pointer = smoke_AttributesWithDeprecated_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesWithDeprecated {

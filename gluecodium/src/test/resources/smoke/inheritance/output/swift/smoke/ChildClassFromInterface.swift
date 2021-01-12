@@ -46,6 +46,14 @@ internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> Re
 extension ChildClassFromInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension ChildClassFromInterface: Hashable {
+    public static func == (lhs: ChildClassFromInterface, rhs: ChildClassFromInterface) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
     if let swift_pointer = smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromInterface {

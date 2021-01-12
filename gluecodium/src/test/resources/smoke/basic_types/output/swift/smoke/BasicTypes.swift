@@ -74,6 +74,14 @@ internal func getRef(_ ref: BasicTypes?, owning: Bool = true) -> RefHolder {
 extension BasicTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension BasicTypes: Hashable {
+    public static func == (lhs: BasicTypes, rhs: BasicTypes) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes {
     if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {

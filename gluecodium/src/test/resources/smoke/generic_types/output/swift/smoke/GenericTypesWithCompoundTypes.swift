@@ -84,6 +84,14 @@ internal func getRef(_ ref: GenericTypesWithCompoundTypes?, owning: Bool = true)
 extension GenericTypesWithCompoundTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension GenericTypesWithCompoundTypes: Hashable {
+    public static func == (lhs: GenericTypesWithCompoundTypes, rhs: GenericTypesWithCompoundTypes) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func GenericTypesWithCompoundTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
     if let swift_pointer = smoke_GenericTypesWithCompoundTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithCompoundTypes {

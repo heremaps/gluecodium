@@ -234,6 +234,14 @@ internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
 extension Nullable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension Nullable: Hashable {
+    public static func == (lhs: Nullable, rhs: Nullable) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func Nullable_copyFromCType(_ handle: _baseRef) -> Nullable {
     if let swift_pointer = smoke_Nullable_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Nullable {

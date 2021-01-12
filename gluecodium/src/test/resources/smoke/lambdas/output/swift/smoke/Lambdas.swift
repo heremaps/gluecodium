@@ -42,6 +42,14 @@ internal func getRef(_ ref: Lambdas?, owning: Bool = true) -> RefHolder {
 extension Lambdas: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension Lambdas: Hashable {
+    public static func == (lhs: Lambdas, rhs: Lambdas) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func Lambdas_copyFromCType(_ handle: _baseRef) -> Lambdas {
     if let swift_pointer = smoke_Lambdas_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Lambdas {

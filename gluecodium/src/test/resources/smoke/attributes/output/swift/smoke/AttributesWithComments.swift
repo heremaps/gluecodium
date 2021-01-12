@@ -58,6 +58,14 @@ internal func getRef(_ ref: AttributesWithComments?, owning: Bool = true) -> Ref
 extension AttributesWithComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension AttributesWithComments: Hashable {
+    public static func == (lhs: AttributesWithComments, rhs: AttributesWithComments) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func AttributesWithComments_copyFromCType(_ handle: _baseRef) -> AttributesWithComments {
     if let swift_pointer = smoke_AttributesWithComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesWithComments {

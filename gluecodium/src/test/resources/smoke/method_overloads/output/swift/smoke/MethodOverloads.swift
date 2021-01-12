@@ -82,6 +82,14 @@ internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder 
 extension MethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension MethodOverloads: Hashable {
+    public static func == (lhs: MethodOverloads, rhs: MethodOverloads) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads {
     if let swift_pointer = smoke_MethodOverloads_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MethodOverloads {

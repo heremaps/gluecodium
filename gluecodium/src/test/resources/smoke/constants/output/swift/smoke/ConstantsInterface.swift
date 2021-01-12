@@ -37,6 +37,14 @@ internal func getRef(_ ref: ConstantsInterface?, owning: Bool = true) -> RefHold
 extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension ConstantsInterface: Hashable {
+    public static func == (lhs: ConstantsInterface, rhs: ConstantsInterface) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface {
     if let swift_pointer = smoke_ConstantsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ConstantsInterface {

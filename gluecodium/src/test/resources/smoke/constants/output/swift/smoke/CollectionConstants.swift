@@ -30,6 +30,14 @@ internal func getRef(_ ref: CollectionConstants?, owning: Bool = true) -> RefHol
 extension CollectionConstants: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension CollectionConstants: Hashable {
+    public static func == (lhs: CollectionConstants, rhs: CollectionConstants) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
 internal func CollectionConstants_copyFromCType(_ handle: _baseRef) -> CollectionConstants {
     if let swift_pointer = smoke_CollectionConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CollectionConstants {
