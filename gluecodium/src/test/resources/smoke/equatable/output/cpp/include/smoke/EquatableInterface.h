@@ -27,6 +27,3 @@ struct EqualityHash< std::shared_ptr< ::smoke::EquatableInterface > >
     _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const std::shared_ptr< ::smoke::EquatableInterface >& t ) const;
 };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::EquatableInterface*);
-}

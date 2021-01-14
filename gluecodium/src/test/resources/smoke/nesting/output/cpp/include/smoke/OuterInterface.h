@@ -30,7 +30,3 @@ public:
     virtual ::std::string foo( const ::std::string& input ) = 0;
 };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::OuterInterface*);
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::OuterInterface::InnerInterface*);
-}

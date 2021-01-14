@@ -44,7 +44,7 @@ struct smoke_ChildInterfaceRegisterInit {
 } s_smoke_ChildInterface_register_init;
 }
 void* smoke_ChildInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr< ::smoke::ChildInterface >::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr< ::smoke::ChildInterface >>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository().get_id(get_pointer<::std::shared_ptr< ::smoke::ChildInterface >>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_ChildInterface(handle);
 }

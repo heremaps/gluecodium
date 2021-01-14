@@ -25,6 +25,3 @@ public:
     virtual ::std::shared_ptr< ::smoke::SimpleInterface > use_simple_interface( const ::std::shared_ptr< ::smoke::SimpleInterface >& input ) = 0;
 };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::SimpleInterface*);
-}
