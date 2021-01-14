@@ -78,18 +78,6 @@ struct EqualityHash< std::shared_ptr< {{resolveName "FQN"}} > >
 {{#internalNamespace}}
 }
 {{/internalNamespace}}
-{{/if}}
-{{#if typeRegisteredClasses}}
-
-{{#internalNamespace}}
-namespace {{.}} {
-{{/internalNamespace}}
-{{#typeRegisteredClasses}}
-{{>cpp/CppExportMacro}}TypeRepository& get_type_repository(const {{resolveName "FQN"}}*);
-{{/typeRegisteredClasses}}
-{{#internalNamespace}}
-}
-{{/internalNamespace}}
 {{/if}}{{!!
 
 }}{{+forwardDeclarationGroup}}

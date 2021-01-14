@@ -3,12 +3,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/OuterClass.h"
-namespace gluecodium {
-TypeRepository& get_type_repository(const ::smoke::OuterClass::InnerInterface*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 OuterClass::OuterClass() {
 }

@@ -39,7 +39,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "{{#internalNamespace}}{{.}}/{{/internalNamespace}}TypeRepository.h"
-#include "{{#internalNamespace}}{{.}}/{{/internalNamespace}}Mutex.h"
+#include <mutex>
 #include <unordered_map>
 
 {{#internalNamespace}}
@@ -49,7 +49,7 @@ namespace {{.}} {
 struct TypeRepository::Impl
 {
     std::unordered_map<const void*, TypeId> m_repo;
-    mutable Mutex m_mutex;
+    mutable std::mutex m_mutex;
 };
 
 TypeRepository::TypeRepository()
@@ -65,14 +65,14 @@ TypeRepository::~TypeRepository()
 void
 TypeRepository::add_type(const void* instance, const std::string& id)
 {
-    WriteLock lock(pimpl->m_mutex);
+    std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     pimpl->m_repo[instance] = id;
 }
 
 std::string
 TypeRepository::get_id(const void* instance) const
 {
-    ReadLock lock(pimpl->m_mutex);
+    std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     const auto& found = pimpl->m_repo.find(instance);
     return found != pimpl->m_repo.end() ? found->second : "";
 }
@@ -80,11 +80,11 @@ TypeRepository::get_id(const void* instance) const
 void
 TypeRepository::remove_type(const void* instance)
 {
-    WriteLock lock(pimpl->m_mutex);
+    std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     pimpl->m_repo.erase(instance);
 }
 
-TypeRepository& get_type_repository(const void*)
+TypeRepository& get_type_repository()
 {
     static TypeRepository s_repo;
     return s_repo;

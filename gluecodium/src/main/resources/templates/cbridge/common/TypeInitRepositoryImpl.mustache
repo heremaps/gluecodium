@@ -39,13 +39,13 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "cbridge_internal/include/TypeInitRepository.h"
-#include "{{>common/InternalInclude}}Mutex.h"
+#include <mutex>
 #include <unordered_map>
 
 struct TypeInitRepository::Impl
 {
     ::std::unordered_map<std::string, InitFunction*> m_init;
-    mutable {{>common/InternalNamespace}}Mutex m_mutex;
+    std::mutex m_mutex;
 };
 
 TypeInitRepository::TypeInitRepository()
@@ -60,13 +60,13 @@ TypeInitRepository::~TypeInitRepository()
 
 void
 TypeInitRepository::add_init(const ::std::string& id, TypeInitRepository::InitFunction* init) {
-    {{>common/InternalNamespace}}WriteLock lock(pimpl->m_mutex);
+    std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     pimpl->m_init[id] = init;
 }
 
 TypeInitRepository::InitFunction*
 TypeInitRepository::get_init(const ::std::string& id) const {
-    {{>common/InternalNamespace}}ReadLock lock(pimpl->m_mutex);
+    std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     const auto& found = pimpl->m_init.find(id);
     return found != pimpl->m_init.end() ? found->second : nullptr;
 }

@@ -30,7 +30,7 @@ using namespace ::testing;
 
 template<class T>
 lorem_ipsum::test::TypeId get_type_id(const T* instance) {
-    return lorem_ipsum::test::get_type_repository(instance).get_id(instance);
+    return lorem_ipsum::test::get_type_repository().get_id(instance);
 }
 /*
  The base class does not need to register itself since it's always the fallback.
@@ -66,14 +66,6 @@ TEST( RuntimeTypeInformationTest, class_ids_are_different_for_child_and_parent )
     const auto child = InheritanceTestHelper::create_concrete_child();
     const auto grandchild = InheritanceTestHelper::create_concrete_grand_child();
     EXPECT_NE(get_type_id(child.get()), get_type_id(grandchild.get()));
-}
-
-TEST( RuntimeTypeInformationTest, type_repositories_are_disjunct )
-{
-    std::shared_ptr<ChildInterface> child = InheritanceTestHelper::create_child();
-
-    EXPECT_NE("", get_type_id(child.get()));
-    EXPECT_EQ("", get_type_id((ChildClass*)child.get()));
 }
 
 }

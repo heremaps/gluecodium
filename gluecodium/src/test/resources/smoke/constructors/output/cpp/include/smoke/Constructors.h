@@ -71,6 +71,3 @@ namespace std
 template <>
 struct is_error_code_enum< ::smoke::Constructors::ErrorEnum > : public std::true_type { };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::Constructors*);
-}

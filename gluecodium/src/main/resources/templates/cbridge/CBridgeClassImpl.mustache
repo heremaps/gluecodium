@@ -61,9 +61,8 @@ struct {{resolveName}}RegisterInit {
 }
 
 void* {{resolveName}}_get_typed(_baseRef handle) {
-    const auto& real_type_id = {{>common/InternalNamespace}}get_type_repository({{!!
-    }}static_cast<{{resolveName this "C++" "ref"}}::element_type*>(nullptr)).get_id({{!!
-    }}get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get());
+    const auto& real_type_id = {{>common/InternalNamespace}}get_type_repository(){{!!
+    }}.get_id(get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInit{{resolveName}}(handle);
 }

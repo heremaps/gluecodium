@@ -189,7 +189,6 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "model" to rootElement,
             "equatables" to equatableTypes,
             "errorEnums" to errorEnums,
-            "typeRegisteredClasses" to typeRegisteredClasses,
             "forwardDeclarations" to forwardDeclarations
         )
 
@@ -380,7 +379,6 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         private val COMMON_HEADERS = listOf(
             "Hash",
             "Locale",
-            "Mutex",
             "Optional",
             "OptionalImpl", // This is a header file, despite the "Impl" suffix.
             "Return",

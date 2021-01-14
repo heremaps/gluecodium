@@ -69,8 +69,7 @@ library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id
 }
 FfiOpaqueHandle
 library_smoke_EquatableInterface_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::EquatableInterface*>(nullptr));
-    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus
