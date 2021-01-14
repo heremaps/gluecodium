@@ -29,8 +29,6 @@ import com.here.gluecodium.generator.swift.SwiftGeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
 import java.io.File
 import java.io.IOException
-import java.nio.charset.Charset
-import org.apache.commons.io.IOUtils
 
 /** The base interface for all the generators.  */
 interface GeneratorSuite {
@@ -70,7 +68,7 @@ interface GeneratorSuite {
 
             return try {
                 GeneratedFile(
-                        IOUtils.toString(stream, Charset.defaultCharset()),
+                        stream.bufferedReader().use { it.readText() },
                         if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName,
                         GeneratedFile.SourceSet.COMMON
                 )
