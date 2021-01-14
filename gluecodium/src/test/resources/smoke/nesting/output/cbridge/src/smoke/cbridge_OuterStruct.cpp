@@ -145,7 +145,7 @@ struct smoke_OuterStruct_InnerInterfaceRegisterInit {
 } s_smoke_OuterStruct_InnerInterface_register_init;
 }
 void* smoke_OuterStruct_InnerInterface_get_typed(_baseRef handle) {
-    const auto& real_type_id = ::gluecodium::get_type_repository(static_cast<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >::element_type*>(nullptr)).get_id(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(handle)->get());
+    const auto& real_type_id = ::gluecodium::get_type_repository().get_id(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(handle)->get());
     auto init_function = get_init_repository().get_init(real_type_id);
     return init_function ? init_function(handle) : _CBridgeInitsmoke_OuterStruct_InnerInterface(handle);
 }

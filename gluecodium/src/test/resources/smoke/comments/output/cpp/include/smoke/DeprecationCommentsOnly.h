@@ -66,6 +66,3 @@ public:
     virtual void set_some_property( const ::smoke::DeprecationCommentsOnly::Usefulness value ) = 0;
 };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::DeprecationCommentsOnly*);
-}

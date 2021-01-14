@@ -67,6 +67,3 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     void do_nothing(  ) const;
 };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::OuterStruct::InnerInterface*);
-}

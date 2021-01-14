@@ -34,5 +34,5 @@ private:
     struct Impl;
     Impl* pimpl;
 };
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const void*);
+_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository();
 }

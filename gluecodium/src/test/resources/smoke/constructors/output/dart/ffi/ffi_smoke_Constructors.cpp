@@ -129,8 +129,7 @@ library_smoke_Constructors_ErrorEnum_get_value_nullable(FfiOpaqueHandle handle)
 }
 FfiOpaqueHandle
 library_smoke_Constructors_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::Constructors*>(nullptr));
-    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::Constructors>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

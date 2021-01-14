@@ -39,6 +39,3 @@ public:
     virtual void on_calculation_result_instance( const ::std::shared_ptr< ::smoke::CalculationResult >& calculation_result ) = 0;
 };
 }
-namespace gluecodium {
-_GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository(const ::smoke::CalculatorListener*);
-}

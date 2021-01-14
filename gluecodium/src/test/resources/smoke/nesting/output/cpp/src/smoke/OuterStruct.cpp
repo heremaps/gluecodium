@@ -4,12 +4,6 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/OuterStruct.h"
 #include <utility>
-namespace gluecodium {
-TypeRepository& get_type_repository(const ::smoke::OuterStruct::InnerInterface*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-}
 namespace smoke {
 OuterStruct::InnerStruct::InnerStruct( )
     : other_field{ }

@@ -105,7 +105,7 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
 {{/notInstanceOf}}
 
 {{#ifPredicate "hasTypeRepository"}}
-    const auto& id = {{>common/InternalNamespace}}get_type_repository(static_cast< {{resolveName "C++ FQN"}}* >(nullptr)).get_id(_ninput.get());
+    const auto& id = {{>common/InternalNamespace}}get_type_repository().get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::get_java_class(id);
 {{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
     auto &javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;

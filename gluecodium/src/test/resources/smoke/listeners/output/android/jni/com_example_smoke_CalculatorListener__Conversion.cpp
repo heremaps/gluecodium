@@ -51,7 +51,7 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::CalculatorListener>
     if (jResult) return jResult;
     jResult = ::gluecodium::jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
     if (jResult) return jResult;
-    const auto& id = ::gluecodium::get_type_repository(static_cast< ::smoke::CalculatorListener* >(nullptr)).get_id(_ninput.get());
+    const auto& id = ::gluecodium::get_type_repository().get_id(_ninput.get());
     const auto& javaClass = CachedJavaClass<::smoke::CalculatorListener>::get_java_class(id);
     auto pInstanceSharedPointer = new (::std::nothrow) std::shared_ptr<::smoke::CalculatorListener>(_ninput);
     if ( pInstanceSharedPointer == nullptr )

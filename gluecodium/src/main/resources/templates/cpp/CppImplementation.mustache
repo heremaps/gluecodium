@@ -22,23 +22,6 @@
 
 {{#includes}}{{>common/Include}}{{/includes}}
 
-{{#if typeRegisteredClasses}}
-{{#internalNamespace}}
-namespace {{.}} {
-{{/internalNamespace}}
-
-{{#typeRegisteredClasses}}
-TypeRepository& get_type_repository(const {{resolveName "FQN"}}*) {
-    static TypeRepository s_repo;
-    return s_repo;
-}
-{{/typeRegisteredClasses}}
-
-{{#internalNamespace}}
-}
-{{/internalNamespace}}
-{{/if}}
-
 {{#namespace}}
 namespace {{.}} {
 {{/namespace}}

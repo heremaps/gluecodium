@@ -189,8 +189,7 @@ library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaq
 }
 FfiOpaqueHandle
 library_smoke_SkipProxy_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_repository = ::gluecodium::get_type_repository(static_cast<::smoke::SkipProxy*>(nullptr));
-    const auto& type_id = type_repository.get_id(reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus
