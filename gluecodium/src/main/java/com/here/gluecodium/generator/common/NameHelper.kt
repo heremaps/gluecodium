@@ -21,8 +21,6 @@ package com.here.gluecodium.generator.common
 
 import com.google.common.base.CaseFormat
 import com.google.common.base.CharMatcher
-import com.google.common.base.Strings
-import org.apache.commons.text.WordUtils.capitalizeFully
 
 @Suppress("UnstableApiUsage", "DEPRECATION")
 object NameHelper {
@@ -64,7 +62,7 @@ object NameHelper {
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
                     CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input)
-            else -> capitalizeFully(input) // Capitalize the first character and lowercase the rest.
+            else -> input.toLowerCase().capitalize()
         }
 
     fun joinToUpperCamelCase(inputs: List<String?>) =
@@ -85,11 +83,4 @@ object NameHelper {
         val filtered = inputs.filterNotNull()
         return toLowerCamelCase(filtered.firstOrNull()) + joinToUpperCamelCase(filtered.drop(1))
     }
-
-    fun joinNames(firstString: String?, secondString: String?, delimiter: String): String? =
-        when {
-            Strings.isNullOrEmpty(firstString) -> secondString
-            Strings.isNullOrEmpty(secondString) -> firstString
-            else -> firstString + delimiter + secondString
-        }
 }
