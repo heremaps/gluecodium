@@ -110,7 +110,7 @@ class {{resolveName}}$Impl{{!!
 {{#unless isStatic}}  @override
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{#if inheritanceParent}}{{#instanceOf inheritanceParent.type "LimeInterface"}}
+{{/functions}}{{#if inheritanceParent}}{{#instanceOf inheritanceParent.type.actualType "LimeInterface"}}
 {{#inheritedFunctions}}
 {{#unless isStatic}}  @override
 {{/unless}}
@@ -121,9 +121,11 @@ class {{resolveName}}$Impl{{!!
 {{/if}}{{#unless attributes.cached}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/unless}}{{/properties}}
+{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
 {{#inheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/inheritedProperties}}{{/set}}
+{{/inheritedProperties}}
+{{/instanceOf}}{{/if}}{{/set}}
 {{#if attributes.equatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}
 }

@@ -37,6 +37,8 @@ public:
     void do_something( const std::string& value ) override;
     void do_something_to_child_class(
         const ::std::shared_ptr<::test::ChildClass >& input ) override;
+    int32_t get_child_number( ) const override;
+    void set_child_number( const int32_t number ) override;
 };
 
-}  // namespace test
+}

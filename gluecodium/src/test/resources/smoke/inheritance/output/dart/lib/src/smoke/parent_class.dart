@@ -12,6 +12,8 @@ abstract class ParentClass {
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   rootMethod();
+  String get rootProperty;
+  set rootProperty(String value);
 }
 // ParentClass "private" section, not exported.
 final _smoke_ParentClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -43,6 +45,30 @@ class ParentClass$Impl implements ParentClass {
     final _rootMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod'));
     final _handle = this.handle;
     final __result_handle = _rootMethod_ffi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return (__result_handle);
+    } finally {
+      (__result_handle);
+    }
+  }
+  @override
+  String get rootProperty {
+    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootProperty_get'));
+    final _handle = this.handle;
+    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return String_fromFfi(__result_handle);
+    } finally {
+      String_releaseFfiHandle(__result_handle);
+    }
+  }
+  @override
+  set rootProperty(String value) {
+    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentClass_rootProperty_set__String'));
+    final _value_handle = String_toFfi(value);
+    final _handle = this.handle;
+    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
+    String_releaseFfiHandle(_value_handle);
     try {
       return (__result_handle);
     } finally {

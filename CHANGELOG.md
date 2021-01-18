@@ -4,6 +4,7 @@
 ### Bug fixes:
   * Fixed referential equality in Dart for objects being sent from Dart to C++ and then back.
   * Fixed `Hashable` protocol conformance for Swift classes that are not marked as `@Equatable`.
+  * Fixed Dart issue with properties of the parent class being incorrectly propagated to the child class.
 
 ## 8.7.0
 Release date: 2021-01-11
