@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.7.1
+Release date: 2021-01-18
 ### Bug fixes:
   * Fixed referential equality in Dart for objects being sent from Dart to C++ and then back.
   * Fixed `Hashable` protocol conformance for Swift classes that are not marked as `@Equatable`.
