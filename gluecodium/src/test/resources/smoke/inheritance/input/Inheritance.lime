@@ -32,6 +32,7 @@ class ChildClassFromInterface : ParentInterface {
 
 open class ParentClass {
     fun rootMethod()
+    property rootProperty: String
 }
 
 class ChildClassFromClass : ParentClass {

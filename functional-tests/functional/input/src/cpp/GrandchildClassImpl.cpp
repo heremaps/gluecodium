@@ -70,4 +70,14 @@ GrandchildClassImpl::do_something_to_child_class(
     // Do nothing
 }
 
-}  // namespace test
+int32_t
+GrandchildClassImpl::get_child_number() const {
+    return ChildClassImpl::get_child_number();
+}
+
+void
+GrandchildClassImpl::set_child_number(const int32_t number) {
+    ChildClassImpl::set_child_number(number);
+}
+
+}

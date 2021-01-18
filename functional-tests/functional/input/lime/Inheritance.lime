@@ -39,6 +39,7 @@ open class ChildClass : ParentInterface {
     fun doSomethingToChildClass(
         input: ChildClass
     )
+    property childNumber: Int
 }
 
 class GrandchildClass : ChildClass {

@@ -29,7 +29,7 @@ ChildClass::create_child_class( )
 }
 
 ChildClassImpl::ChildClassImpl( )
-    : m_lucky_number( 7 )
+    : m_lucky_number(7), m_child_number(-42)
 {
 }
 
@@ -63,4 +63,14 @@ ChildClassImpl::do_something_to_child_class( const ::std::shared_ptr<::test::Chi
     // Do nothing
 }
 
-}  // namespace test
+int32_t
+ChildClassImpl::get_child_number() const {
+    return m_child_number;
+}
+
+void
+ChildClassImpl::set_child_number(const int32_t number) {
+    m_child_number = number;
+}
+
+}
