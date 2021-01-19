@@ -1,0 +1,17 @@
+package smoke
+class SkipTagsOnly {
+    @Skip("Lite")
+    static fun skipUnquoted()
+    @Skip(["Lite", "Pro"])
+    static fun skipUnquotedList()
+    @Skip("Lite")
+    static fun skipQuoted()
+    @Skip(["Lite", "Pro"])
+    static fun skipQuotedList()
+    @Skip("Lite")
+    static fun skipTagged()
+    @Skip(["Lite", "Pro"])
+    static fun skipTaggedList()
+    @Skip(["Lite", "Pro"])
+    static fun skipMixedList()
+}

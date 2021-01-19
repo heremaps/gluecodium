@@ -484,13 +484,18 @@ deprecated, takes a string literal value as a deprecation message. Platform-spec
 deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
 access and cached in Java/Swift/Dart afterwards). Currently only supported for read-only properties.
+* **@Skip(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@Skip(**__CustomTag__**)**: marks an element to be skipped
+(not generated) if a custom tag with that name was defined through command-line parameters. Custom tags are
+case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Swift", and
+"Dart". They mark the element to be skipped in the generated code for the corresponding language. There is no skip tag
+for C++.
 * **@Java**: marks an element with Java-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
   This is the default specification for this attribute.
   * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Java (instead of a default name).
   * **Skip**: marks an element to be skipped (not generated) in Java. Can be applied to any element except for struct
-  fields.
+  fields. `@Java(Skip)` is equivalent `@Skip(Java)` (see `@Skip` above).
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Java
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
@@ -507,7 +512,7 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
   * **Skip**: marks an element to be skipped (not generated) in Swift. Can be applied to any element except for struct
-  fields.
+  fields. `@Swift(Skip)` is equivalent `@Skip(Swift)` (see `@Skip` above).
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
   that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
@@ -521,7 +526,7 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
   This is the default specification for this attribute.
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
   * **Skip**: marks an element to be skipped (not generated) in Dart. Can be applied to any element except for struct
-  fields.
+  fields. `@Dart(Skip)` is equivalent `@Skip(Dart)` (see `@Skip` above).
   * **PositionalDefaults**: marks a struct to have a constructor with optional positional parameters in Dart. Can only
   be applied to a struct that has at least one field with a default value.
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart

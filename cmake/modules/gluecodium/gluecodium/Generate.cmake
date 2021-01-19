@@ -80,6 +80,7 @@ The general form of the command is::
                                                   # fails.
       [WERROR <warning_name1> ...]                # The list of warnings to treat as errors. Possible values:
                                                   # DocLinks, DeprecatedAttributes, DartOverloads.
+      [TAGS <tag_name1> ...]                      # A list of custom tags for `@Skip` attributes.
       )
 
 This function invokes the Gluecodium tool based on a set of of input *.lime
@@ -158,7 +159,7 @@ function(apigen_generate)
       DART_LIBRARY_NAME
       DART_FUNCTION_LOOKUP_ERROR_MESSAGE
       DART_NAMERULES)
-  set(multiValueArgs LIME_SOURCES FRANCA_SOURCES WERROR)
+  set(multiValueArgs LIME_SOURCES FRANCA_SOURCES WERROR TAGS)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
   apigen_check_no_unparsed_arguments(apigen_generate apigen_generate)
   apigen_deprecate_argument_renamed(apigen_generate FRANCA_SOURCES LIME_SOURCES apigen_generate)
@@ -226,6 +227,10 @@ cache=true\n")
   if(apigen_generate_WERROR)
     string(APPEND APIGEN_GLUECODIUM_PROPERTIES
            "werror=$<JOIN:${apigen_generate_WERROR},$<COMMA>>\n")
+  endif()
+  if(apigen_generate_TAGS)
+    string(APPEND APIGEN_GLUECODIUM_PROPERTIES
+           "tag=$<JOIN:${apigen_generate_TAGS},$<COMMA>>\n")
   endif()
   _apigen_parse_option(mergemanifest ANDROID_MERGE_MANIFEST)
   _apigen_parse_option(javapackage JAVA_PACKAGE)

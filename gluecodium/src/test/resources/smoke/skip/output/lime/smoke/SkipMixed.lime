@@ -1,0 +1,18 @@
+package smoke
+class SkipMixed {
+    @Java(Skip)
+    @Skip("Lite")
+    static fun notInJava(
+        input: String
+    ): String
+    @Swift(Skip)
+    @Skip("Lite")
+    static fun notInSwift(
+        input: Boolean
+    ): Boolean
+    @Dart(Skip)
+    @Skip("Lite")
+    static fun notInDart(
+        input: Float
+    ): Float
+}

@@ -223,6 +223,7 @@ class Gluecodium(
             "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",
         var werror: Set<String> = emptySet(),
         var generateStubs: Boolean = false,
+        var tags: Set<String> = emptySet(),
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/cpp.properties"

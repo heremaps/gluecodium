@@ -91,6 +91,7 @@ additional_commands = {
       'DART_NAMERULES': 1,
       'LIME_SOURCES': '*',
       'FRANCA_SOURCES': '*',
+      'TAGS': '*',
       'WERROR': '*'
     }
   },

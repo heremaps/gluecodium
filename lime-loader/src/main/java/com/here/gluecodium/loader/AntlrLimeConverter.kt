@@ -89,6 +89,11 @@ internal object AntlrLimeConverter {
         val annotationValues = annotationContext.annotationValue()
         if (annotationValues.isEmpty()) {
             attributes.addAttribute(attributeType)
+            return
+        }
+        if (attributeType == LimeAttributeType.SKIP) {
+            annotationValues.forEach { addSkipAttribute(attributes, it) }
+            return
         }
 
         annotationValues.forEach {
@@ -111,6 +116,25 @@ internal object AntlrLimeConverter {
         }
     }
 
+    private fun addSkipAttribute(
+        attributes: LimeAttributes.Builder,
+        valueContext: LimeParser.AnnotationValueContext
+    ) {
+        val valueTypeText = valueContext.simpleId()?.text
+        val value = when (valueTypeText?.toLowerCase()) {
+            null, "tag" -> convertAnnotationValue(valueContext)
+            else -> valueTypeText
+        }
+
+        val valueList = if (value is List<*>) value else listOf(value)
+        valueList.filterIsInstance<String>().forEach {
+            when (val attributeType = LimeAttributeType.fromString[it]) {
+                null -> attributes.addAttribute(LimeAttributeType.SKIP, LimeAttributeValueType.TAG, it)
+                else -> attributes.addAttribute(attributeType, LimeAttributeValueType.SKIP)
+            }
+        }
+    }
+
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
         when (val id = ctx.simpleId().text) {
             "Cached" -> LimeAttributeType.CACHED
@@ -123,6 +147,7 @@ internal object AntlrLimeConverter {
             "PointerEquatable" -> LimeAttributeType.POINTER_EQUATABLE
             "Swift" -> LimeAttributeType.SWIFT
             "Serializable" -> LimeAttributeType.SERIALIZABLE
+            "Skip" -> LimeAttributeType.SKIP
             else -> throw LimeLoadingException("Unsupported attribute: '$id'")
         }
 
@@ -151,6 +176,7 @@ internal object AntlrLimeConverter {
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
             "Ref" -> LimeAttributeValueType.REF
             "Skip" -> LimeAttributeValueType.SKIP
+            "Tag" -> LimeAttributeValueType.TAG
             "Weak" -> LimeAttributeValueType.WEAK
             "ExternalType", "ExternalName", "ExternalGetter", "ExternalSetter" -> null
             else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
