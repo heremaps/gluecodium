@@ -22,9 +22,11 @@ package com.here.gluecodium.generator.cpp
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -74,13 +76,16 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         internalNamespace.joinToString(File.separator),
         getExportFileName(exportName) + ".h"
     ).toString())
+    private val customTags = options.tags
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
+        val filteredElements =
+            LimeModelFilter { !CommonGeneratorPredicates.hasSkipTags(it, customTags) }.filter(limeModel.topElements)
         val overloadsValidator =
             LimeOverloadsValidator(limeModel.referenceMap, LimeAttributeType.CPP, nameRules, limeLogger)
-        val validationResult = overloadsValidator.validate(limeModel.topElements)
+        val validationResult = overloadsValidator.validate(filteredElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -94,7 +99,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             commentsProcessor
         )
 
-        val allErrorEnums = limeModel.topElements
+        val allErrorEnums = filteredElements
             .filterIsInstance<LimeType>()
             .flatMap { LimeTypeHelper.getAllTypes(it) }
             .asSequence()
@@ -102,9 +107,10 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             .map { it.errorType.type }
             .filterIsInstance<LimeEnumeration>()
             .filter { it.external?.cpp == null }
+            .map { it.fullName }
             .toSet()
 
-        val generatedFiles = limeModel.topElements.flatMap {
+        val generatedFiles = filteredElements.flatMap {
             generateCode(
                 it,
                 nameRules.getOutputFilePath(it),
@@ -131,7 +137,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         includeResolver: Cpp2IncludeResolver,
         nameResolver: Cpp2NameResolver,
         fullNameResolver: CppFullNameResolver,
-        allErrorEnums: Set<LimeEnumeration>
+        allErrorEnums: Set<String>
     ): List<GeneratedFile> {
 
         val limeElements = when (rootElement) {
@@ -145,7 +151,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val equatableTypes = allTypes.filter {
             it.external?.cpp == null && it.attributes.have(EQUATABLE)
         }
-        val errorEnums = allTypes.intersect(allErrorEnums)
+        val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
 
         val hasConstants = limeElements.any { it is LimeConstant }
         val needsHeader = hasConstants ||

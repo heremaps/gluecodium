@@ -20,6 +20,7 @@
 package com.here.gluecodium.cli
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.common.CaseInsensitiveSet
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
@@ -193,7 +194,7 @@ object OptionReader {
         getStringValue("libraryname")?.let { options.libraryName = it }
         getStringValue("dartlookuperrormessage")?.let { options.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { options.werror = it.toSet() }
-        getStringListValue("tag")?.let { options.tags = it.toSet() }
+        getStringListValue("tag")?.let { options.tags = CaseInsensitiveSet(it) }
         options.generateStubs = getFlagValue("stubs")
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)

@@ -15,41 +15,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package smoke
+package test
 
 class SkipTagsOnly {
     @Skip(Lite)
     static fun skipUnquoted()
-    @Skip(Lite, Pro)
-    static fun skipUnquotedList()
     @Skip("Lite")
-    static fun skipQuoted()
-    @Skip("Lite", "Pro")
-    static fun skipQuotedList()
-    @Skip(Tag = "Lite")
-    static fun skipTagged()
-    @Skip(Tag = ["Lite", "Pro"])
-    static fun skipTaggedList()
-    @Skip(Lite, "Pro")
-    static fun skipMixedList()
-}
-
-class SkipPlatforms {
-    @Skip(Java)
-    static fun notInJava(input: String): String
-    @Skip(Swift)
-    static fun notInSwift(input: Boolean): Boolean
-    @Skip(Dart)
-    static fun notInDart(input: Float): Float
-}
-
-class SkipMixed {
-    @Skip(Java, Lite)
-    static fun notInJava(input: String): String
-    @Skip(Swift, Lite)
-    static fun notInSwift(input: Boolean): Boolean
-    @Skip(Dart, Lite)
-    static fun notInDart(input: Float): Float
+    static property skipQuoted: String
 }
 
 types SkipTypesTags {

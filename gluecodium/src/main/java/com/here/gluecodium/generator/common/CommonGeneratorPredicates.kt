@@ -20,6 +20,8 @@
 package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.SKIP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.TAG
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -54,6 +56,13 @@ internal object CommonGeneratorPredicates {
             else -> limeStruct.fields
                 .flatMap { LimeTypeHelper.getAllFieldTypes(it.typeRef.type) }
                 .any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
+        }
+
+    fun hasSkipTags(limeElement: LimeNamedElement, tags: Set<String>) =
+        when (val skipTags = limeElement.attributes.get(SKIP, TAG, Any::class.java)) {
+            is String -> tags.contains(skipTags)
+            is List<*> -> skipTags.filterIsInstance<String>().intersect(tags).isNotEmpty()
+            else -> false
         }
 
     fun hasTypeRepository(limeContainer: Any) =

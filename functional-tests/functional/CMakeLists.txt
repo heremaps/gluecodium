@@ -397,6 +397,12 @@ feature(SkipAttribute android swift dart SOURCES
     input/src/cpp/Skip.cpp
 )
 
+feature(SkipTags cpp SOURCES
+    input/lime/SkipTags.lime
+
+    input/src/cpp/SkipTags.cpp
+)
+
 # This feature is intended for Swift only.
 feature(Extensions swift SOURCES
     input/lime/Extensions.lime
@@ -445,6 +451,7 @@ apigen_generate(TARGET functional
         DART_LIBRARY_NAME "functional"
         DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
+        TAGS "Lite"
         VERBOSE)
 apigen_target_include_directories(functional)
 apigen_target_sources(functional)
