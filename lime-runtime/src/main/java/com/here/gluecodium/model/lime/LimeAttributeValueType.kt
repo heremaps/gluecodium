@@ -35,6 +35,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     POSITIONAL_DEFAULTS("PositionalDefaults"),
     REF("Ref"),
     SKIP("Skip"),
+    TAG("Tag"),
     WEAK("Weak");
 
     override fun toString() = tag

@@ -1,0 +1,15 @@
+package smoke
+class SkipPlatforms {
+    @Java(Skip)
+    static fun notInJava(
+        input: String
+    ): String
+    @Swift(Skip)
+    static fun notInSwift(
+        input: Boolean
+    ): Boolean
+    @Dart(Skip)
+    static fun notInDart(
+        input: Float
+    ): Float
+}

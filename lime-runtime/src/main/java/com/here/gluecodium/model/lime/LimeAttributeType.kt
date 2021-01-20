@@ -34,7 +34,8 @@ enum class LimeAttributeType(
     EQUATABLE("Equatable"),
     IMMUTABLE("Immutable"),
     POINTER_EQUATABLE("PointerEquatable"),
-    SERIALIZABLE("Serializable");
+    SERIALIZABLE("Serializable"),
+    SKIP("Skip", LimeAttributeValueType.TAG);
 
     override fun toString() = tag
 

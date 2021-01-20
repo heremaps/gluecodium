@@ -130,6 +130,7 @@ object OptionReader {
             false,
             "Generate stubs for classes and methods, enabling mocking in unit tests. Only supported for Dart."
         )
+        addOption("tag", true, "Add a custom tag for @Skip attributes.")
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
         addOption("swiftnamerules", true, "Swift name rules property file.")
@@ -192,6 +193,7 @@ object OptionReader {
         getStringValue("libraryname")?.let { options.libraryName = it }
         getStringValue("dartlookuperrormessage")?.let { options.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { options.werror = it.toSet() }
+        getStringListValue("tag")?.let { options.tags = it.toSet() }
         options.generateStubs = getFlagValue("stubs")
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
