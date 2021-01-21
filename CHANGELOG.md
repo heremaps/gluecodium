@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added `@Skip("Tag1", "Tag2"...)` attribute for skipping elements based on presence of user-defined custom tags.
+
 ## 8.7.1
 Release date: 2021-01-18
 ### Bug fixes:
