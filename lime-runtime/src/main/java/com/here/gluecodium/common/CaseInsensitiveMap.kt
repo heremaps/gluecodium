@@ -22,7 +22,7 @@ package com.here.gluecodium.common
 import java.util.function.BiFunction
 import java.util.function.Function
 
-class CaseInsensitiveMap<V> : HashMap<String, V>() {
+class CaseInsensitiveMap<V : Any /* mark as non-nullable */> : HashMap<String, V>() {
     override fun compute(key: String, remappingFunction: BiFunction<in String, in V?, out V?>) =
         super.compute(key.toLowerCase(), remappingFunction)
 
