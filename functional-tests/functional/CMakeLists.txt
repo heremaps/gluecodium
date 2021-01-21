@@ -390,16 +390,11 @@ feature(Visibility dart SOURCES
     input/src/cpp/Visibility.cpp
 )
 
-# Not supported for C++
-feature(SkipAttribute android swift dart SOURCES
+feature(SkipAttribute cpp android swift dart SOURCES
     input/lime/Skip.lime
-
-    input/src/cpp/Skip.cpp
-)
-
-feature(SkipTags cpp android swift SOURCES
     input/lime/SkipTags.lime
 
+    input/src/cpp/Skip.cpp
     input/src/cpp/SkipTags.cpp
 )
 
@@ -512,6 +507,14 @@ elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL dart)
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/season_converter.dart"
         "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/season_converter.dart"
+        COPYONLY)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/skip_me.dart"
+        "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/skip_me.dart"
+        COPYONLY)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/skip_me_too.dart"
+        "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/skip_me_too.dart"
         COPYONLY)
 
     # Install the shared library for Dart
