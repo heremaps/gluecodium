@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.common
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
@@ -113,12 +114,25 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
         ) }
 
     private fun filterEnum(limeEnum: LimeEnumeration) =
-        limeEnum.run { LimeEnumeration(
-            path = path,
-            visibility = visibility,
-            comment = comment,
-            attributes = attributes,
-            external = external,
-            enumerators = enumerators.filter(predicate)
-        ) }
+        limeEnum.run {
+            val filteredEnumerators = enumerators.filter(predicate)
+            val relinkedEnumerators = filteredEnumerators.mapIndexed { idx, it ->
+                LimeEnumerator(
+                    path = it.path,
+                    comment = it.comment,
+                    attributes = it.attributes,
+                    explicitValue = it.explicitValue,
+                    previous = filteredEnumerators.getOrNull(idx - 1)
+                )
+            }
+
+            LimeEnumeration(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                external = external,
+                enumerators = relinkedEnumerators
+            )
+        }
 }

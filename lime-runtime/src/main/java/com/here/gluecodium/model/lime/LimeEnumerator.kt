@@ -23,8 +23,14 @@ class LimeEnumerator(
     path: LimePath,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    computedValue: LimeValue = LimeValue.ZERO,
-    val explicitValue: LimeValue? = null
+    val explicitValue: LimeValue? = null,
+    private val previous: LimeEnumerator? = null
 ) : LimeNamedElement(path = path, comment = comment, attributes = attributes) {
-    val value = explicitValue ?: computedValue
+    val value
+        get() = explicitValue ?: computeValue()
+
+    private fun computeValue(): LimeValue =
+        previous?.value?.toString()?.toIntOrNull()?.let {
+            LimeValue.Literal(LimeBasicTypeRef.INT, (it + 1).toString())
+        } ?: LimeValue.ZERO
 }
