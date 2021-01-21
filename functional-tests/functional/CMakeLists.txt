@@ -397,7 +397,7 @@ feature(SkipAttribute android swift dart SOURCES
     input/src/cpp/Skip.cpp
 )
 
-feature(SkipTags cpp SOURCES
+feature(SkipTags cpp android SOURCES
     input/lime/SkipTags.lime
 
     input/src/cpp/SkipTags.cpp
