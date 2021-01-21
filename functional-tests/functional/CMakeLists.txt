@@ -397,7 +397,7 @@ feature(SkipAttribute android swift dart SOURCES
     input/src/cpp/Skip.cpp
 )
 
-feature(SkipTags cpp android SOURCES
+feature(SkipTags cpp android swift SOURCES
     input/lime/SkipTags.lime
 
     input/src/cpp/SkipTags.cpp
@@ -496,7 +496,9 @@ elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL swift)
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/ColorConverter.swift"
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoColor.swift"
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/Season.swift"
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SeasonConverter.swift")
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SeasonConverter.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMe.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMeToo.swift")
 
     apigen_swift_build(functional)
     apigen_swift_framework_info_plist(functional)
