@@ -393,9 +393,11 @@ feature(Visibility dart SOURCES
 feature(SkipAttribute cpp android swift dart SOURCES
     input/lime/Skip.lime
     input/lime/SkipTags.lime
+    input/lime/SkipEnumerator.lime
 
     input/src/cpp/Skip.cpp
     input/src/cpp/SkipTags.cpp
+    input/src/cpp/SkipEnumerator.cpp
 )
 
 # This feature is intended for Swift only.

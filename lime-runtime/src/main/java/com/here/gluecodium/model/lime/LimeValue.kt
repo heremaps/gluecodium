@@ -70,16 +70,6 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
         }
 
         override fun toString() = value.toString()
-
-        companion object {
-            val FLOAT_NAN = Special(LimeBasicTypeRef.FLOAT, ValueId.NAN)
-            val FLOAT_INFINITY = Special(LimeBasicTypeRef.FLOAT, ValueId.INFINITY)
-            val FLOAT_NEGATIVE_INFINITY = Special(LimeBasicTypeRef.FLOAT, ValueId.NEGATIVE_INFINITY)
-            val DOUBLE_NAN = Special(LimeBasicTypeRef.DOUBLE, ValueId.NAN)
-            val DOUBLE_INFINITY = Special(LimeBasicTypeRef.DOUBLE, ValueId.INFINITY)
-            val DOUBLE_NEGATIVE_INFINITY =
-                Special(LimeBasicTypeRef.DOUBLE, ValueId.NEGATIVE_INFINITY)
-        }
     }
 
     class Null(type: LimeTypeRef) : LimeValue(type) {
