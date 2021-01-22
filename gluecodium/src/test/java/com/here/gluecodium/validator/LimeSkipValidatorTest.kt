@@ -26,6 +26,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -37,12 +38,11 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class LimeFieldsValidatorTest {
-
+class LimeSkipValidatorTest {
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
-    private val validator = LimeFieldsValidator(mockk(relaxed = true))
+    private val validator = LimeSkipValidator(mockk(relaxed = true))
 
     @Test
     fun validateFieldWithNoAttributes() {
@@ -78,6 +78,43 @@ class LimeFieldsValidatorTest {
         allElements[""] = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
+            attributes = LimeAttributes.Builder().addAttribute(DART, SKIP).build()
+        )
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateEnumeratorWithNoAttributes() {
+        allElements[""] = LimeEnumerator(EMPTY_PATH)
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateEnumeratorWithJavaSkipAttribute() {
+        allElements[""] = LimeEnumerator(
+            EMPTY_PATH,
+            attributes = LimeAttributes.Builder().addAttribute(JAVA, SKIP).build()
+        )
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateEnumeratorWithSwiftSkipAttribute() {
+        allElements[""] = LimeEnumerator(
+            EMPTY_PATH,
+            attributes = LimeAttributes.Builder().addAttribute(SWIFT, SKIP).build()
+        )
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateEnumeratorWithDartSkipAttribute() {
+        allElements[""] = LimeEnumerator(
+            EMPTY_PATH,
             attributes = LimeAttributes.Builder().addAttribute(DART, SKIP).build()
         )
 

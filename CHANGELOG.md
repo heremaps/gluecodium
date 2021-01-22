@@ -3,6 +3,9 @@
 ## Unreleased
 ### Features:
   * Added `@Skip("Tag1", "Tag2"...)` attribute for skipping elements based on presence of user-defined custom tags.
+### Bug fixes:
+  * Added validation against applying `@Java(Skip)`, `@Swift(Skip)`, and `@Dart(Skip)` attributes to enumerators
+    (i.e. to items of an enumeration).
 
 ## 8.7.1
 Release date: 2021-01-18
