@@ -28,7 +28,8 @@ foreach(_required_variable ${_required_vars})
 endforeach()
 
 if(NOT EXISTS "${CHECK_SYMBOL_BINARY_PATH}")
-  message_colored(RED FATAL_ERROR "Binary to check symbols doesn't exits: \"${CHECK_SYMBOL_BINARY_PATH}\"")
+  message_colored(RED FATAL_ERROR
+                  "Binary to check symbols doesn't exits: \"${CHECK_SYMBOL_BINARY_PATH}\"")
 endif()
 
 function(_check_existance result binary_path regex)

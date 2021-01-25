@@ -24,4 +24,4 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 include(gluecodium/gluecodium/CheckArguments)
 
 set(_test_prefix_UNPARSED_ARGUMENTS TEST_ARGUMENT1 TEST_ARGUMENT2)
-apigen_check_no_unparsed_arguments(_test_prefix test_function_name)
+gluecodium_check_no_unparsed_arguments(_test_prefix test_function_name)

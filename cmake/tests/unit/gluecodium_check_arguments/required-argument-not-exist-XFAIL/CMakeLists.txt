@@ -23,4 +23,4 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(gluecodium/gluecodium/CheckArguments)
 
-apigen_require_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)
+gluecodium_require_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)

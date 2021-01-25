@@ -24,8 +24,8 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 include(gluecodium/gluecodium/CheckArguments)
 
 set(_test_prefix_TEST_ARGUMENT_NAME ON)
-apigen_require_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)
-apigen_check_no_unparsed_arguments(_test_prefix test_function_name)
-apigen_deprecate_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)
-apigen_deprecate_argument_renamed(_test_prefix TEST_ARGUMENT_NAME TEST_NEW_ARGUMENT_NAME
-                                  test_function_name)
+gluecodium_require_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)
+gluecodium_check_no_unparsed_arguments(_test_prefix test_function_name)
+gluecodium_deprecate_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)
+gluecodium_deprecate_argument_renamed(_test_prefix TEST_ARGUMENT_NAME TEST_NEW_ARGUMENT_NAME
+                                      test_function_name)
