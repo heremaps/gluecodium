@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2020 HERE Europe B.V.
+# Copyright (C) 2016-2021 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,18 +17,40 @@
 
 #[=======================================================================[.rst:
 
-.. command:check_symbols_exists_after_build
+.. command:check_symbols_after_build
 
-Checks that provided symbols exists in the provided binary after build.
+Checks that provided symbols exists in the provided binary after build of
+the given binary.
 
-  check_symbols_exists_after_build(
-     <target>                   # Target to add post build command
-     <lib_path>                 # Path to library, generator expressions can be used.
-     <egrep_pattern>            # Symbols to find as extended grep pattern
+  check_symbols_after_build(
+    <target>                                # Target to add post build command
+    [BINARY_PATH <path>]                    # Optional path to binary if it's
+                                            # different from the
+                                            # $<TARGET_FILE:${target}>.
+    [EXPECT_EXIST <egrep_pattern> ...]      # List of extended grep patterns
+                                            # to check that they exist in the
+                                            # binary.
+    [EXPECT_NOT_EXIST <egrep_pattern> ...]  # List of extended grep patterns
+                                            # to check that they DON'T exist
+                                            # in the binary
+
    )
 #]=======================================================================]
 
-function(check_symbols_exists_after_build _target lib_path egrep_pattern)
+set (TEST_UTILS_DIR "${CMAKE_CURRENT_LIST_DIR}")
+
+function(check_symbols_after_build _target)
+    set(_single_arg BINARY_PATH)
+    set(_multi_args EXPECT_EXIST EXPECT_NOT_EXIST)
+    cmake_parse_arguments(_args "" "${_single_arg}" "${_multi_args}" ${ARGN})
+    if(_args_UNPARSED_ARGUMENTS)
+        message(FATAL_ERROR "Unparsed arguments: ${_args_UNPARSED_ARGUMENTS}")
+    endif()
+
+    if (NOT _args_BINARY_PATH)
+        set (_args_BINARY_PATH "$<TARGET_FILE:${_target}>")
+    endif( )
+
     find_program(_grep_path NAMES grep)
     if (NOT _grep_path)
         message(FATAL_ERROR "Required grep utility wasn't found")
@@ -39,10 +61,17 @@ function(check_symbols_exists_after_build _target lib_path egrep_pattern)
         message(FATAL_ERROR "Required build utility nm wasn't found")
     endif ()
 
+    string(REPLACE ";" "$<SEMICOLON>" _args_EXPECT_EXIST "${_args_EXPECT_EXIST}")
+    string(REPLACE ";" "$<SEMICOLON>" _args_EXPECT_NOT_EXIST "${_args_EXPECT_NOT_EXIST}")
+
     add_custom_command(TARGET ${_target}
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Find symbol with regex pattern ${egrep_pattern} in binary ${lib_path}. Symbols doesn\\'t exists when this step fails"
-        COMMAND ${_nm_path} ${lib_path} | ${_grep_path} -E \"${egrep_pattern}\")
+        COMMAND ${CMAKE_COMMAND} -DCHECK_SYMBOL_NM_PATH="${_nm_path}"
+            -DCHECK_SYMBOL_GREP_PATH="${_grep_path}"
+            -DCHECK_SYMBOL_BINARY_PATH="${_args_BINARY_PATH}"
+            -DCHECK_SYMBOL_EXIST_REGEXES="${_args_EXPECT_EXIST}"
+            -DCHECK_SYMBOL_NOT_EXIST_REGEXES="${_args_EXPECT_NOT_EXIST}"
+            -P "${TEST_UTILS_DIR}/run_check_symbol_exists.cmake")
 endfunction()
 
 #[=======================================================================[.rst:

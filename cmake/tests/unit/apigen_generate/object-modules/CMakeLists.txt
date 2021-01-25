@@ -64,7 +64,6 @@ apigen_target_include_directories(shared.module2 MAIN)
 apigen_target_sources(shared.module2 MAIN)
 
 if(_expected_symbol)
-  include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_symbols_exists_after_build.cmake)
-  check_symbols_exists_after_build(shared.module2 "$<TARGET_FILE:shared.module2>"
-                                   "${_expected_symbol}")
+  include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_symbols_after_build.cmake)
+  check_symbols_after_build(shared.module2 EXPECT_EXIST "${_expected_symbol}")
 endif()
