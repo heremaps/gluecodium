@@ -120,9 +120,9 @@ function(apigen_create_package)
       ANDROID_LIBRARY_LIST)
   cmake_parse_arguments(ARG "" "${single_args}" "${multi_args}" ${ARGN})
 
-  apigen_require_argument(ARG TARGET apigen_create_package)
-  apigen_require_argument(ARG NAME apigen_create_package)
-  apigen_check_no_unparsed_arguments(ARG apigen_create_package)
+  gluecodium_require_argument(ARG TARGET apigen_create_package)
+  gluecodium_require_argument(ARG NAME apigen_create_package)
+  gluecodium_check_no_unparsed_arguments(ARG apigen_create_package)
 
   get_target_property(generator ${ARG_TARGET} APIGEN_GENERATOR)
   apigen_packaging_find_shared_library_dependencies(

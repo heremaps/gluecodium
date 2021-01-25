@@ -59,7 +59,7 @@ function(apigen_target_sources _target)
   set(options MAIN COMMON SKIP_SWIFT)
   cmake_parse_arguments(apigen_target_sources "${options}" "" "" ${ARGN})
 
-  apigen_check_no_unparsed_arguments(apigen_target_sources apigen_target_sources)
+  gluecodium_check_no_unparsed_arguments(apigen_target_sources apigen_target_sources)
 
   get_target_property(GENERATOR ${_target} APIGEN_GENERATOR)
   get_target_property(COMMON_OUTPUT_DIR ${_target} APIGEN_COMMON_OUTPUT_DIR)

@@ -25,23 +25,23 @@ Macros to validate argument passed to function
 ----------------------
 
 Next macros are provided:
- apigen_require_argument              Checks that argument exists
- apigen_check_no_unparsed_arguments   Checks that no unparsed arguments are left
- apigen_deprecate_argument            Shows deprecation message if argument exists
- apigen_deprecate_argument_renamed    Shows suggestion to use new argument
+ gluecodium_require_argument              Checks that argument exists
+ gluecodium_check_no_unparsed_arguments   Checks that no unparsed arguments are left
+ gluecodium_deprecate_argument            Shows deprecation message if argument exists
+ gluecodium_deprecate_argument_renamed    Shows suggestion to use new argument
 #]===========================================================================================]
 
 #[===========================================================================================[.rst:
-.. command:: apigen_require_argument
+.. command:: gluecodium_require_argument
 
 The general form of the macro is::
 
-  apigen_require_argument(prefix argument_name function_name)
+  gluecodium_require_argument(prefix argument_name function_name)
 
 This macro checks that variable <prefix>_<argument_name> exists
 in scope and shows fatal error otherwise.
 #]===========================================================================================]
-macro(apigen_require_argument prefix argument_name function_name)
+macro(gluecodium_require_argument prefix argument_name function_name)
   if(NOT DEFINED ${prefix}_${argument_name})
     message(FATAL_ERROR "Mandatory argument ${argument_name} was not passed "
                         "to function ${function_name}.")
@@ -49,32 +49,32 @@ macro(apigen_require_argument prefix argument_name function_name)
 endmacro()
 
 #[===========================================================================================[.rst:
-.. command:: apigen_check_no_unparsed_arguments
+.. command:: gluecodium_check_no_unparsed_arguments
 
 The general form of the macro is::
 
-  apigen_check_no_unparsed_arguments(prefix function_name)
+  gluecodium_check_no_unparsed_arguments(prefix function_name)
 
 This macro checks that variable <prefix>_UNPARSED_ARGUMENTS DOESN't exists
 in scope and shows fatal error otherwise.
 #]===========================================================================================]
-macro(apigen_check_no_unparsed_arguments prefix function_name)
+macro(gluecodium_check_no_unparsed_arguments prefix function_name)
   if(${prefix}_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Function ${function_name} detected unknown argument(s): ${${prefix}_UNPARSED_ARGUMENTS}.")
   endif()
 endmacro()
 
 #[===========================================================================================[.rst:
-.. command:: apigen_deprecate_argument
+.. command:: gluecodium_deprecate_argument
 
 The general form of the macro is::
 
-  apigen_deprecate_argument(prefix argument_name function_name)
+  gluecodium_deprecate_argument(prefix argument_name function_name)
 
 This macro checks that variable <prefix>_<argument_name> exists
 in scope and shows deprrecation warning in this case.
 #]===========================================================================================]
-macro(apigen_deprecate_argument prefix argument_name function_name)
+macro(gluecodium_deprecate_argument prefix argument_name function_name)
   if(DEFINED ${prefix}_${argument_name})
     message(WARNING "Argument ${argument_name} which is passed to function ${function_name} "
                     "is deprecated and might be removed in future versions.")
@@ -82,17 +82,17 @@ macro(apigen_deprecate_argument prefix argument_name function_name)
 endmacro()
 
 #[===========================================================================================[.rst:
-.. command:: apigen_deprecate_argument_renamed
+.. command:: gluecodium_deprecate_argument_renamed
 
 The general form of the macro is::
 
-  apigen_deprecate_argument_renamed(prefix argument_name new_argument_name function_name)
+  gluecodium_deprecate_argument_renamed(prefix argument_name new_argument_name function_name)
 
 This macro checks that variable <prefix>_<argument_name> exists
 in scope and shows deprrecation warning and suggestion to use variable <new_argument_name>
 if exists.
 #]===========================================================================================]
-macro(apigen_deprecate_argument_renamed prefix argument_name new_argument_name function_name)
+macro(gluecodium_deprecate_argument_renamed prefix argument_name new_argument_name function_name)
   if(DEFINED ${prefix}_${argument_name})
     message(WARNING "Argument ${argument_name} which is passed to function ${function_name} "
                     "is deprecated and might be removed in future versions. "

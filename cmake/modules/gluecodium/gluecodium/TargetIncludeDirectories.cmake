@@ -80,8 +80,8 @@ function(apigen_get_target_include_directories _target)
   set(single_args PUBLIC_RESULT_VARIABLE PRIVATE_RESULT_VARIABLE)
   cmake_parse_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES "${options}" "${single_args}" "" ${ARGN})
 
-  apigen_check_no_unparsed_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES
-                                     apigen_target_include_directories)
+  gluecodium_check_no_unparsed_arguments(APIGEN_TARGET_INCLUDE_DIRECTORIES
+                                         apigen_target_include_directories)
 
   unset(_properties_out_dir)
   if(APIGEN_TARGET_INCLUDE_DIRECTORIES_MAIN)
