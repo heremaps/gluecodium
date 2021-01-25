@@ -20,16 +20,20 @@
 package com.here.gluecodium.common
 
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePositionalEnumeratorRef
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypesCollection
+import com.here.gluecodium.model.lime.LimeValue
 
 object LimeModelFilter {
     fun filter(limeModel: LimeModel, predicate: (LimeNamedElement) -> Boolean) =
@@ -87,7 +91,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             external = external,
             structs = structs.filter(predicate).map { filterStruct(it) },
             enumerations = enumerations.filter(predicate).map { filterEnum(it) },
-            constants = constants.filter(predicate),
+            constants = constants.filter(predicate).map { filterConstant(it) },
             typeAliases = typeAliases.filter(predicate),
             functions = functions.filter(predicate),
             properties = properties.filter(predicate),
@@ -107,7 +111,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             external = external,
             structs = structs.filter(predicate).map { filterStruct(it) },
             enumerations = enumerations.filter(predicate).map { filterEnum(it) },
-            constants = constants.filter(predicate),
+            constants = constants.filter(predicate).map { filterConstant(it) },
             typeAliases = typeAliases.filter(predicate),
             functions = functions.filter(predicate),
             properties = properties.filter(predicate),
@@ -126,7 +130,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             attributes = attributes,
             structs = structs.filter(predicate).map { filterStruct(it) },
             enumerations = enumerations.filter(predicate).map { filterEnum(it) },
-            constants = constants.filter(predicate),
+            constants = constants.filter(predicate).map { filterConstant(it) },
             typeAliases = typeAliases.filter(predicate),
             exceptions = exceptions.filter(predicate)
         ) }
@@ -139,8 +143,8 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             attributes = attributes,
             external = external,
             functions = functions.filter(predicate),
-            constants = constants.filter(predicate),
-            fields = fields.filter(predicate),
+            constants = constants.filter(predicate).map { filterConstant(it) },
+            fields = fields.filter(predicate).map { filterField(it) },
             constructorComment = constructorComment,
             structs = structs.filter(predicate),
             classes = classes.filter(predicate),
@@ -170,4 +174,37 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 enumerators = relinkedEnumerators
             )
         }
+
+    private fun filterConstant(limeConstant: LimeConstant) =
+        limeConstant.run {
+            LimeConstant(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                typeRef = typeRef,
+                value = filterValue(value)
+            )
+        }
+
+    private fun filterField(limeField: LimeField) =
+        limeField.run {
+            LimeField(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                external = external,
+                typeRef = typeRef,
+                defaultValue = defaultValue?.let { filterValue(it) }
+            )
+        }
+
+    private fun filterValue(limeValue: LimeValue): LimeValue {
+        if (limeValue !is LimeValue.Enumerator || limeValue.valueRef !is LimePositionalEnumeratorRef) return limeValue
+        val limeEnumeration = limeValue.typeRef.type.actualType as? LimeEnumeration ?: return limeValue
+
+        val filteredTypeRef = LimeDirectTypeRef(filterEnum(limeEnumeration))
+        return LimeValue.Enumerator(filteredTypeRef, limeValue.valueRef.remap(filteredTypeRef))
+    }
 }

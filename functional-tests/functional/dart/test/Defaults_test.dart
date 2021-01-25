@@ -104,4 +104,12 @@ void main() {
     expect(result.intField, 13);
     expect(result.stringField, "foobar");
   });
+  _testSuite.test("Check positional enumerator defaults", () {
+    final result = StructWithEnums();
+
+    expect(result.firstField, SomethingEnum.reallyFirst);
+    expect(result.explicitField, SomethingEnum.explicit);
+    expect(result.lastField, SomethingEnum.last);
+    expect(StructWithEnums.firstConstant, SomethingEnum.reallyFirst);
+  });
 }

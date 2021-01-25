@@ -456,7 +456,8 @@ set.
 
 #### Enumerator reference
 
-Initializes an enumeration-type constant or field with the given enumerator value, e.g. `Mode.FAST`.
+Initializes an enumeration-type constant or field with the given enumerator value, e.g. `Mode.FAST`. An enumerators can
+also be referenced by its raw value, e.g. `Mode(0)`.
 
 ### Attributes
 

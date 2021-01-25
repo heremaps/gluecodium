@@ -186,4 +186,14 @@ public final class DefaultsTest {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     assertEquals(exampleMap, result.mapField);
   }
+
+  @Test
+  public void checkPositionalEnumeratorDefaults() {
+    StructWithEnums result = new StructWithEnums();
+
+    assertEquals(SomethingEnum.REALLY_FIRST, result.firstField);
+    assertEquals(SomethingEnum.EXPLICIT, result.explicitField);
+    assertEquals(SomethingEnum.LAST, result.lastField);
+    assertEquals(SomethingEnum.REALLY_FIRST, StructWithEnums.FIRST_CONSTANT);
+  }
 }

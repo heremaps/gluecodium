@@ -116,10 +116,6 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitLiteralConstant(ctx: LimeParser.LiteralConstantContext) {}
 
-    override fun enterStringLiteral(ctx: LimeParser.StringLiteralContext) {}
-
-    override fun exitStringLiteral(ctx: LimeParser.StringLiteralContext) {}
-
     override fun enterSingleLineStringLiteral(ctx: LimeParser.SingleLineStringLiteralContext) {}
 
     override fun exitSingleLineStringLiteral(ctx: LimeParser.SingleLineStringLiteralContext) {}
@@ -139,6 +135,10 @@ internal abstract class AntlrLimeModelBuilderBase(
     override fun enterEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
 
     override fun exitEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
+
+    override fun enterPositionalEnumeratorRef(ctx: LimeParser.PositionalEnumeratorRefContext) {}
+
+    override fun exitPositionalEnumeratorRef(ctx: LimeParser.PositionalEnumeratorRefContext) {}
 
     override fun enterStructInitializer(ctx: LimeParser.StructInitializerContext) {}
 

@@ -198,6 +198,7 @@ literalConstant
     : singleLineStringLiteral
     | multiLineStringLiteral
     | enumeratorRef
+    | positionalEnumeratorRef
     | structInitializer
     | listInitializer
     | mapInitializer
@@ -207,10 +208,6 @@ literalConstant
     | ('+' | '-')? 'Infinity'
     | 'null'
     | 'NaN'
-    ;
-
-stringLiteral
-    : singleLineStringLiteral | multiLineStringLiteral
     ;
 
 singleLineStringLiteral
@@ -230,6 +227,10 @@ multiLineStringContent
 
 enumeratorRef
     : identifier NewLine*
+    ;
+
+positionalEnumeratorRef
+    : identifier NewLine* '(' NewLine* IntegerLiteral NewLine* ')' NewLine*
     ;
 
 structInitializer
