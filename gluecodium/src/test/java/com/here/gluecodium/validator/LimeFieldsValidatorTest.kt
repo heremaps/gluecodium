@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 HERE Europe B.V.
+ * Copyright (C) 2016-2019 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@
 
 package com.here.gluecodium.validator
 
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
-import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeEnumerator
-import com.here.gluecodium.model.lime.LimeEnumeratorRef
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeModel
-import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.gluecodium.model.lime.LimeValue
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -41,57 +41,44 @@ class LimeFieldsValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
-    private val dummyEnumeratorRef = object : LimeEnumeratorRef() {
-        override val elementFullName = ""
-        override val enumerator = LimeEnumerator(EMPTY_PATH)
-    }
-    private val throwingEnumeratorRef = object : LimeEnumeratorRef() {
-        override val elementFullName = ""
-        override val enumerator
-            get() = throw LimeModelLoaderException("")
-    }
 
-    private val validator = LimeEnumeratorRefsValidator(mockk(relaxed = true))
+    private val validator = LimeFieldsValidator(mockk(relaxed = true))
 
     @Test
-    fun validateFieldWithValidRef() {
-        allElements[""] = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.Enumerator(LimeBasicTypeRef.INT, dummyEnumeratorRef)
-        )
+    fun validateFieldWithNoAttributes() {
+        allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
-    fun validateFieldWithInvalidRef() {
+    fun validateFieldWithJavaSkipAttribute() {
         allElements[""] = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.Enumerator(LimeBasicTypeRef.INT, throwingEnumeratorRef)
+            attributes = LimeAttributes.Builder().addAttribute(JAVA, SKIP).build()
         )
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
-    fun validateConstantWithValidRef() {
-        allElements[""] = LimeConstant(
+    fun validateFieldWithSwiftSkipAttribute() {
+        allElements[""] = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            value = LimeValue.Enumerator(LimeBasicTypeRef.INT, dummyEnumeratorRef)
+            attributes = LimeAttributes.Builder().addAttribute(SWIFT, SKIP).build()
         )
 
-        assertTrue(validator.validate(limeModel))
+        assertFalse(validator.validate(limeModel))
     }
 
     @Test
-    fun validateConstantWithInvalidRef() {
-        allElements[""] = LimeConstant(
+    fun validateFieldWithDartSkipAttribute() {
+        allElements[""] = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            value = LimeValue.Enumerator(LimeBasicTypeRef.INT, throwingEnumeratorRef)
+            attributes = LimeAttributes.Builder().addAttribute(DART, SKIP).build()
         )
 
         assertFalse(validator.validate(limeModel))
