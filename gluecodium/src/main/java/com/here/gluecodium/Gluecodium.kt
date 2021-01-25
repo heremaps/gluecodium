@@ -37,12 +37,12 @@ import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
-import com.here.gluecodium.validator.LimeFieldsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
 import com.here.gluecodium.validator.LimePropertiesValidator
 import com.here.gluecodium.validator.LimeSerializableStructsValidator
+import com.here.gluecodium.validator.LimeSkipValidator
 import com.here.gluecodium.validator.LimeStructsValidator
 import com.here.gluecodium.validator.LimeTypeRefTargetValidator
 import com.here.gluecodium.validator.LimeTypeRefsValidator
@@ -196,7 +196,7 @@ class Gluecodium(
                 options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
             ).validate(it.topElements) },
             { LimeFunctionsValidator(limeLogger).validate(it) },
-            { LimeFieldsValidator(limeLogger).validate(it) }
+            { LimeSkipValidator(limeLogger).validate(it) }
         )
 
     data class Options(
