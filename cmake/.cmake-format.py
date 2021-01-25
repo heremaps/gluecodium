@@ -346,6 +346,14 @@ additional_commands = {
       'MESSAGE': '*', 
       'ACTUAL': '*'
     }
+  },
+  'check_symbols_after_build': {
+    'pargs': 1,
+    'kwargs': {
+      'BINARY_PATH': 1,
+      'EXPECT_EXIST': '*',
+      'EXPECT_NOT_EXIST': '*'
+    }
   }
 }
 
