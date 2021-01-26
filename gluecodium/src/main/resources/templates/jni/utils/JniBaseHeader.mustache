@@ -40,9 +40,9 @@ namespace {{.}}
 namespace jni
 {
 
-JavaVM* get_java_vm( );
+JNIEXPORT JavaVM* get_java_vm( );
 
-JNIEnv* getJniEnvironmentForCurrentThread( );
+JNIEXPORT JNIEnv* getJniEnvironmentForCurrentThread( );
 
 }
 {{#internalNamespace}}

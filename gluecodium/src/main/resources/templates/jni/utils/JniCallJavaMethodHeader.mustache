@@ -119,7 +119,7 @@ call_java_method( JNIEnv* jni_env,
     return call_java_method<ResultType>(jni_env, java_object, method_id, args...);
 }
 
-void throw_runtime_exception(JNIEnv* jni_env, const char* message);
+JNIEXPORT void throw_runtime_exception(JNIEnv* jni_env, const char* message);
 
 }
 {{#internalNamespace}}

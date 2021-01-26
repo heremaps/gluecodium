@@ -47,37 +47,37 @@ namespace jni
 /**
  * Converts a JNI jstring to an std::string.
  */
-std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* );
-std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* );
-{{>common/InternalNamespace}}optional<std::string> convert_from_jni(
+JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* );
+JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* );
+JNIEXPORT {{>common/InternalNamespace}}optional<std::string> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* );
-{{>common/InternalNamespace}}optional<std::string> convert_from_jni(
+JNIEXPORT {{>common/InternalNamespace}}optional<std::string> convert_from_jni(
     JNIEnv* env, const JniReference<jstring>& jvalue, {{>common/InternalNamespace}}optional<std::string>* );
 
 /**
  * Converts a jbyteArray to a byte buffer
  */
-std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
+JNIEXPORT std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
     JNIEnv* env, const JniReference<jbyteArray>& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* );
-{{>common/InternalNamespace}}optional<std::shared_ptr< ::std::vector< uint8_t > > > convert_from_jni(
+JNIEXPORT {{>common/InternalNamespace}}optional<std::shared_ptr< ::std::vector< uint8_t > > > convert_from_jni(
     JNIEnv* env, const JniReference<jbyteArray>& jvalue,
     {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > >* );
 
 /**
  * Converts a Java Date object to an std::chrono::time_point.
  */
-std::chrono::system_clock::time_point convert_from_jni(
+JNIEXPORT std::chrono::system_clock::time_point convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::system_clock::time_point* );
-{{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point> convert_from_jni(
+JNIEXPORT {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue,
     {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>* );
 
 /**
  * Converts a Java Locale object to {{>common/InternalNamespace}}Locale.
  */
-{{>common/InternalNamespace}}Locale convert_from_jni(
+JNIEXPORT {{>common/InternalNamespace}}Locale convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}Locale*);
-{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale> convert_from_jni(
+JNIEXPORT {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue,
     {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*);
 
@@ -86,28 +86,28 @@ std::chrono::system_clock::time_point convert_from_jni(
 /**
  * Converts an std::string to a JNI jstring
  */
-JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
-JniReference<jstring> convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional<std::string>& nvalue );
+JNIEXPORT JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
+JNIEXPORT JniReference<jstring> convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional<std::string>& nvalue );
 
 /**
  * Converts a byte buffer to a jbyteArray
  */
-JniReference<jbyteArray> convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
-JniReference<jbyteArray> convert_to_jni(
+JNIEXPORT JniReference<jbyteArray> convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
+JNIEXPORT JniReference<jbyteArray> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > >& nvalue );
 
 /**
  * Converts an std::chrono::time_point to a Java Date object.
  */
-JniReference<jobject> convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue );
-JniReference<jobject> convert_to_jni(
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>& nvalue );
 
 /**
  * Converts {{>common/InternalNamespace}}Locale to a Java Date object.
  */
-JniReference<jobject> convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue);
-JniReference<jobject> convert_to_jni(
+JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue);
+JNIEXPORT JniReference<jobject> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>& nvalue);
 
 // -------------------- optional<std::function<>> conversion functions -----------------------------

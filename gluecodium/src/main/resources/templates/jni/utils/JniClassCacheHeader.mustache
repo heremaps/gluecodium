@@ -31,7 +31,7 @@ namespace {{.}}
 namespace jni
 {
 
-class CachedJavaClassBase
+class JNIEXPORT CachedJavaClassBase
 {
 public:
     explicit CachedJavaClassBase(const char* name);
@@ -85,7 +85,7 @@ JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
   CachedJavaClass<__VA_ARGS__> register_name(name, cpp_name); \
   }
 
-JniReference<jclass>& get_cached_native_base_class();
+JNIEXPORT JniReference<jclass>& get_cached_native_base_class();
 
 }
 
