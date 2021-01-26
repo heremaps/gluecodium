@@ -29,11 +29,11 @@ The Android Gluecodium module
 Includes modules needed for Android builds.
 #]===========================================================================================]
 # Java modules
-include(${CMAKE_CURRENT_LIST_DIR}/java/Compile.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/java/Jar.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/obsolete/java/Compile.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/obsolete/java/Jar.cmake)
 
 # Android modules
-include(${CMAKE_CURRENT_LIST_DIR}/android/AndroidArchive.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/obsolete/android/AndroidArchive.cmake)
 
 # Kotlin modules
-include(${CMAKE_CURRENT_LIST_DIR}/kotlin/Dokka.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/obsolete/kotlin/Dokka.cmake)

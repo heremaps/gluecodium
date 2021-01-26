@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-set(_required_vars APIGEN_GLUECODIUM_DIR APIGEN_OUTPUT_DIR)
+set(_required_vars APIGEN_GLUECODIUM_DIR APIGEN_GLUECODIUM_DETAILS_DIR APIGEN_OUTPUT_DIR)
 foreach(_var ${_required_vars})
   if(NOT ${_var})
     message(FATAL_ERROR "${_var} must be specified")
@@ -24,9 +24,9 @@ foreach(_var ${_required_vars})
 endforeach()
 
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
-include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
-include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
-include(${APIGEN_GLUECODIUM_DIR}/StringJoin.cmake)
+include(${APIGEN_GLUECODIUM_DETAILS_DIR}/Gradle.cmake)
+include(${APIGEN_GLUECODIUM_DETAILS_DIR}/GradleSync.cmake)
+include(${APIGEN_GLUECODIUM_DETAILS_DIR}/StringJoin.cmake)
 
 if(APIGEN_GLUECODIUM_AUXINPUT_FILE)
   set(APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME "${APIGEN_GLUECODIUM_AUXINPUT_FILE}.only-lime")
@@ -146,7 +146,7 @@ function(_generate)
                                                                     # files at configure time
     COMMAND ${_make_common_output_dir}
     COMMAND ${_gluecodium_command}
-    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
+    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DETAILS_DIR}
     RESULT_VARIABLE GENERATE_RESULT ${_redirect_output})
 
   if(GENERATE_RESULT)
