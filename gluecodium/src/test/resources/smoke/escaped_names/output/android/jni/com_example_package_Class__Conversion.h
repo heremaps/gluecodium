@@ -12,7 +12,7 @@ namespace gluecodium
 {
 namespace jni
 {
-std::shared_ptr<::package::Class> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::package::Class>*);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::package::Class>& _ninput);
+JNIEXPORT std::shared_ptr<::package::Class> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::package::Class>*);
+JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::package::Class>& _ninput);
 }
 }

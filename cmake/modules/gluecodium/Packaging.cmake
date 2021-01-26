@@ -20,8 +20,8 @@ if(DEFINED includeguardapigen_packaging_Packaging)
 endif()
 set(includeguardapigen_packaging_Packaging ON)
 
-include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/PackagingUtils.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/CheckArguments.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/PackagingUtils.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/details/CheckArguments.cmake)
 # NOTE: We need to include the platform-specific files inside the function, otherwise certain checks
 # (e.g. using clang of a new enough version for Swift) will fail when otherwise unused. Need to
 # cache the value of CMAKE_CURRENT_LIST_DIR, otherwise it will use the value of the file calling the

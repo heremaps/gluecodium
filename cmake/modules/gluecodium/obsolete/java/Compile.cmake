@@ -54,6 +54,7 @@ an up-to-date version is present in the local Gradle cache).
 find_package(Java COMPONENTS Development REQUIRED)
 
 set(APIGEN_COMPILE_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(APIGEN_GLUECODIUM_DETAILS_DIR ${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details)
 
 function(collect_java_dependencies TARGET JAVA_DEPENDENCIES JAVA_DEPENDENCIES_DIRS)
   if(${TARGET} IN_LIST java_deps_visited)
@@ -184,8 +185,9 @@ function(apigen_java_compile)
       -DAPIGEN_JAVA_LOCAL_SOURCES_DIRS=${APIGEN_JAVA_LOCAL_SOURCES_DIRS}
       -DAPIGEN_JAVA_LOCAL_JARS=${APIGEN_JAVA_LOCAL_JARS}
       -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
-      -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR} -P ${APIGEN_COMPILE_DIR}/runCompile.cmake
-    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
+      -DAPIGEN_GLUECODIUM_DETAILS_DIR=${APIGEN_GLUECODIUM_DETAILS_DIR} -P
+      ${APIGEN_COMPILE_DIR}/runCompile.cmake
+    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DETAILS_DIR}
     DEPENDS "${CMAKE_CURRENT_LIST_DIR}/runCompile.cmake" VERBATIM
     COMMENT "Compiling generated Java sources into class files...")
 endfunction()

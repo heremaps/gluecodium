@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-set(_required_vars APIGEN_GLUECODIUM_DIR APIGEN_JAVA_LOCAL_SOURCES_DIRS
+set(_required_vars APIGEN_GLUECODIUM_DETAILS_DIR APIGEN_JAVA_LOCAL_SOURCES_DIRS
                    APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 foreach(_var ${_required_vars})
   if(NOT ${_var})
@@ -24,8 +24,8 @@ foreach(_var ${_required_vars})
   endif()
 endforeach()
 
-include(${APIGEN_GLUECODIUM_DIR}/Gradle.cmake)
-include(${APIGEN_GLUECODIUM_DIR}/GradleSync.cmake)
+include(${APIGEN_GLUECODIUM_DETAILS_DIR}/Gradle.cmake)
+include(${APIGEN_GLUECODIUM_DETAILS_DIR}/GradleSync.cmake)
 
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_SOURCES_DIRS "${APIGEN_JAVA_LOCAL_SOURCES_DIRS}")
 string(REPLACE ";" "\;" APIGEN_JAVA_LOCAL_DEPENDENCIES "${APIGEN_JAVA_LOCAL_DEPENDENCIES}")
@@ -43,7 +43,7 @@ execute_process(
     -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
     -PlocalJars=${APIGEN_JAVA_LOCAL_JARS} -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
     compileJava
-  WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DIR}
+  WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DETAILS_DIR}
   RESULT_VARIABLE COMPILE_RESULT)
 
 if(COMPILE_RESULT)

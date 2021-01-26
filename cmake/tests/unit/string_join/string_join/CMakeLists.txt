@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
-include(gluecodium/gluecodium/StringJoin)
+include(gluecodium/gluecodium/details/StringJoin)
 
 string_join("-" _result)
 test_expect_strequal(EXPECTED "" ACTUAL "${_result}"

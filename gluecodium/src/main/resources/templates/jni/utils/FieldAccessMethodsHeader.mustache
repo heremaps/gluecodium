@@ -43,224 +43,224 @@ namespace jni
 
 // -------------------- JNI object field getters --------------------------------------------------
 
-bool get_field_value(
+JNIEXPORT bool get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool* );
-int8_t get_field_value(
+JNIEXPORT int8_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int8_t* );
-int16_t get_field_value(
+JNIEXPORT int16_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int16_t* );
-int32_t get_field_value(
+JNIEXPORT int32_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int32_t* );
-int64_t get_field_value(
+JNIEXPORT int64_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int64_t* );
-uint8_t get_field_value(
+JNIEXPORT uint8_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint8_t* );
-uint16_t get_field_value(
+JNIEXPORT uint16_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint16_t* );
-uint32_t get_field_value(
+JNIEXPORT uint32_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint32_t* );
-uint64_t get_field_value(
+JNIEXPORT uint64_t get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint64_t* );
-float get_field_value(
+JNIEXPORT float get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, float* );
-double get_field_value(
+JNIEXPORT double get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, double* );
-::std::string get_field_value(
+JNIEXPORT ::std::string get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, ::std::string* );
 
-{{>common/InternalNamespace}}optional< bool > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< bool > get_field_value( JNIEnv* env,
                                            const JniReference< jobject >& object,
                                            const char* fieldName,
                                            {{>common/InternalNamespace}}optional< bool >* );
-{{>common/InternalNamespace}}optional< int8_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< int8_t > get_field_value( JNIEnv* env,
                                              const JniReference< jobject >& object,
                                              const char* fieldName,
                                              {{>common/InternalNamespace}}optional< int8_t >* );
-{{>common/InternalNamespace}}optional< int16_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< int16_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
                                               {{>common/InternalNamespace}}optional< int16_t >* );
-{{>common/InternalNamespace}}optional< int32_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< int32_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
                                               {{>common/InternalNamespace}}optional< int32_t >* );
-{{>common/InternalNamespace}}optional< int64_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< int64_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
                                               {{>common/InternalNamespace}}optional< int64_t >* );
-{{>common/InternalNamespace}}optional< uint8_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< uint8_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
                                               {{>common/InternalNamespace}}optional< uint8_t >* );
-{{>common/InternalNamespace}}optional< uint16_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< uint16_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
                                                {{>common/InternalNamespace}}optional< uint16_t >* );
-{{>common/InternalNamespace}}optional< uint32_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< uint32_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
                                                {{>common/InternalNamespace}}optional< uint32_t >* );
-{{>common/InternalNamespace}}optional< uint64_t > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< uint64_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
                                                {{>common/InternalNamespace}}optional< uint64_t >* );
-{{>common/InternalNamespace}}optional< float > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< float > get_field_value( JNIEnv* env,
                                             const JniReference< jobject >& object,
                                             const char* fieldName,
                                             {{>common/InternalNamespace}}optional< float >* );
-{{>common/InternalNamespace}}optional< double > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< double > get_field_value( JNIEnv* env,
                                              const JniReference< jobject >& object,
                                              const char* fieldName,
                                              {{>common/InternalNamespace}}optional< double >* );
-{{>common/InternalNamespace}}optional< ::std::string > get_field_value( JNIEnv* env,
+JNIEXPORT {{>common/InternalNamespace}}optional< ::std::string > get_field_value( JNIEnv* env,
                                                     const JniReference< jobject >& object,
                                                     const char* fieldName,
                                                     {{>common/InternalNamespace}}optional< ::std::string >* );
 
-::std::shared_ptr< ::std::vector< uint8_t > > get_field_value(
+JNIEXPORT ::std::shared_ptr< ::std::vector< uint8_t > > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     ::std::shared_ptr< ::std::vector< uint8_t > >* );
-{{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > > get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > >* );
 
-::std::chrono::system_clock::time_point get_field_value(
+JNIEXPORT ::std::chrono::system_clock::time_point get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     ::std::chrono::system_clock::time_point* );
-{{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point >* );
 
-{{>common/InternalNamespace}}Locale get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}Locale get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     {{>common/InternalNamespace}}Locale* );
-{{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale >* );
 
-JniReference< jobject > get_object_field_value( JNIEnv* env,
+JNIEXPORT JniReference< jobject > get_object_field_value( JNIEnv* env,
                                        const JniReference<jobject>& object,
                                        const char* fieldName,
                                        const char* fieldSignature );
 
 // -------------------- JNI object field setters --------------------------------------------------
 
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int8_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int16_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int32_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int64_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint8_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint16_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint32_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint64_t value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, float value );
-void set_field_value(
+JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, double value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       const std::string& fieldValue );
 
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< bool > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< int8_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< int16_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< int32_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< int64_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< uint8_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< uint16_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< uint32_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< uint64_t > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< float > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< double > value );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< ::std::string > value );
 
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       const std::shared_ptr< ::std::vector< uint8_t > >& fieldValue );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > > fieldValue );
 
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       const ::std::chrono::system_clock::time_point& fieldValue );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > fieldValue );
 
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       const {{>common/InternalNamespace}}Locale& fieldValue );
-void set_field_value( JNIEnv* env,
+JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > fieldValue );
 
-void set_object_field_value( JNIEnv* env,
+JNIEXPORT void set_object_field_value( JNIEnv* env,
                              const JniReference<jobject>& object,
                              const char* fieldName,
                              const char* fieldSignature,

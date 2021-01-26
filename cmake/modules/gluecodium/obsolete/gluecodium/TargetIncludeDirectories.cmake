@@ -22,7 +22,7 @@ set(includeguard_gluecodium_TargetIncludeDirectories ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details/CheckArguments.cmake)
 
 #[===========================================================================================[.rst:
 Generated target_include_directories module
