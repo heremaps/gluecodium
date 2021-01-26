@@ -34,7 +34,7 @@ endif()
 
 function(_check_existance result binary_path regex)
   execute_process(
-    COMMAND ${CHECK_SYMBOL_NM_PATH} "${binary_path}"
+    COMMAND ${CHECK_SYMBOL_NM_PATH} ${CHECK_SYMBOL_NM_OPTIONS} "${binary_path}"
     COMMAND ${CHECK_SYMBOL_GREP_PATH} -E "${regex}"
     RESULT_VARIABLE _regex_result
     OUTPUT_VARIABLE _output)
