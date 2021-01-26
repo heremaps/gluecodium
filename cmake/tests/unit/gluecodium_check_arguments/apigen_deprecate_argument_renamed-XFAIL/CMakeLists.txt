@@ -21,7 +21,7 @@ project(gluecodium.test)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
-include(gluecodium/gluecodium/CheckArguments)
+include(gluecodium/gluecodium/details/CheckArguments)
 
 set(_test_prefix_TEST_ARGUMENT_NAME ON)
 gluecodium_deprecate_argument_renamed(_test_prefix TEST_ARGUMENT_NAME TEST_NEW_ARGUMENT_NAME

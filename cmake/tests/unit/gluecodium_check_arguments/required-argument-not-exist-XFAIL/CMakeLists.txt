@@ -21,6 +21,6 @@ project(gluecodium.test)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
-include(gluecodium/gluecodium/CheckArguments)
+include(gluecodium/gluecodium/details/CheckArguments)
 
 gluecodium_require_argument(_test_prefix TEST_ARGUMENT_NAME test_function_name)
