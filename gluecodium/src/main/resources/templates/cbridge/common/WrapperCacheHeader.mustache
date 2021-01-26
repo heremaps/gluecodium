@@ -40,6 +40,7 @@
 
 #pragma once
 
+#include "cbridge/include/Export.h"
 #include <atomic>
 #include <mutex>
 #include <unordered_map>
@@ -47,7 +48,7 @@
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
-class WrapperCache {
+class _GLUECODIUM_C_EXPORT WrapperCache {
 public:
     static ::std::atomic<bool> is_alive;
 
@@ -66,7 +67,7 @@ private:
     ::std::unordered_map<CppPtr, SwiftPtr> cache;
 };
 
-WrapperCache& get_wrapper_cache();
+_GLUECODIUM_C_EXPORT WrapperCache& get_wrapper_cache();
 {{#internalNamespace}}
 }
 {{/internalNamespace}}

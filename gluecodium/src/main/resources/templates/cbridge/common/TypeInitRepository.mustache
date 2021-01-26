@@ -41,12 +41,13 @@
 #pragma once
 
 #include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
 #include <string>
 
 /**
  * Stores links to Swift init functions.
  */
-class TypeInitRepository
+class _GLUECODIUM_C_EXPORT TypeInitRepository
 {
 public:
     TypeInitRepository();
@@ -61,4 +62,4 @@ private:
     Impl* pimpl;
 };
 
-TypeInitRepository& get_init_repository();
+_GLUECODIUM_C_EXPORT TypeInitRepository& get_init_repository();
