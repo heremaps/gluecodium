@@ -37,8 +37,8 @@ namespace jni
 {
 
 {{#model}}
-{{>cppTypeName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput);
+JNIEXPORT {{>cppTypeName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*);
+JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput);
 {{/model}}
 
 }
