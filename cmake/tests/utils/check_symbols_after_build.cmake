@@ -61,12 +61,17 @@ function(check_symbols_after_build _target)
         message(FATAL_ERROR "Required build utility nm wasn't found")
     endif ()
 
+    if (GLUECODIUM_BUILD_ENVIRONMENT MATCHES "ios-")
+        set(_nm_options -U)
+    endif ()
+
     string(REPLACE ";" "$<SEMICOLON>" _args_EXPECT_EXIST "${_args_EXPECT_EXIST}")
     string(REPLACE ";" "$<SEMICOLON>" _args_EXPECT_NOT_EXIST "${_args_EXPECT_NOT_EXIST}")
 
     add_custom_command(TARGET ${_target}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -DCHECK_SYMBOL_NM_PATH="${_nm_path}"
+            -DCHECK_SYMBOL_NM_OPTIONS="${_nm_options}"
             -DCHECK_SYMBOL_GREP_PATH="${_grep_path}"
             -DCHECK_SYMBOL_BINARY_PATH="${_args_BINARY_PATH}"
             -DCHECK_SYMBOL_EXIST_REGEXES="${_args_EXPECT_EXIST}"
