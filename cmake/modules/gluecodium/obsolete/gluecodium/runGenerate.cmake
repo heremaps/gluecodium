@@ -16,30 +16,31 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-set(_required_vars APIGEN_GLUECODIUM_DIR APIGEN_GLUECODIUM_DETAILS_DIR APIGEN_OUTPUT_DIR)
+set(_required_vars APIGEN_GLUECODIUM_DIR GLUECODIUM_DETAILS_DIR APIGEN_OUTPUT_DIR)
 foreach(_var ${_required_vars})
-  if(NOT ${_var})
+  if(NOT DEFINED ${_var})
     message(FATAL_ERROR "${_var} must be specified")
   endif()
 endforeach()
 
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
-include(${APIGEN_GLUECODIUM_DETAILS_DIR}/Gradle.cmake)
-include(${APIGEN_GLUECODIUM_DETAILS_DIR}/GradleSync.cmake)
-include(${APIGEN_GLUECODIUM_DETAILS_DIR}/StringJoin.cmake)
+include(${GLUECODIUM_DETAILS_DIR}/Gradle.cmake)
+include(${GLUECODIUM_DETAILS_DIR}/GradleSync.cmake)
+include(${GLUECODIUM_DETAILS_DIR}/StringJoin.cmake)
+include(${GLUECODIUM_DETAILS_DIR}/InitVariablesWithUnitedFilePaths.cmake)
 
 if(APIGEN_GLUECODIUM_AUXINPUT_FILE)
   set(APIGEN_GLUECODIUM_AUXINPUT_FILE_ONLY_LIME "${APIGEN_GLUECODIUM_AUXINPUT_FILE}.only-lime")
 endif()
 
 function(_print_status)
-  if(APIGEN_VERBOSE)
+  if(GLUECODIUM_VERBOSE)
     message(${ARGN})
   endif()
 endfunction()
 
 function(_main)
-  apigen_set_generated_files(${APIGEN_TARGET})
+  gluecodium_init_variables_with_united_file_paths(${APIGEN_TARGET})
   _merge_aux_file_with_options()
   _check_generation_necessary(_is_generation_necessary)
   if(NOT _is_generation_necessary)
@@ -123,7 +124,7 @@ function(_generate)
 
   set(_gluecodium_command
       ${_gluecodium_time}
-      ${APIGEN_GLUECODIUM_GRADLE_WRAPPER}
+      ${GLUECODIUM_GRADLE_WRAPPER}
       ${_build_local_gluecodium}
       ${_no_daemon}
       -Pversion=${APIGEN_GLUECODIUM_VERSION}
@@ -136,7 +137,7 @@ function(_generate)
     set(_make_common_output_dir ${CMAKE_COMMAND} -E echo "No common directory specified")
   endif()
 
-  if(NOT APIGEN_VERBOSE)
+  if(NOT GLUECODIUM_VERBOSE)
     set(_redirect_output OUTPUT_VARIABLE GENERATE_OUTPUT ERROR_VARIABLE GENERATE_OUTPUT)
   endif()
 
@@ -146,7 +147,7 @@ function(_generate)
                                                                     # files at configure time
     COMMAND ${_make_common_output_dir}
     COMMAND ${_gluecodium_command}
-    WORKING_DIRECTORY ${APIGEN_GLUECODIUM_DETAILS_DIR}
+    WORKING_DIRECTORY ${GLUECODIUM_DETAILS_DIR}
     RESULT_VARIABLE GENERATE_RESULT ${_redirect_output})
 
   if(GENERATE_RESULT)
@@ -177,20 +178,20 @@ function(_concatenate_swift_files)
   file(GLOB_RECURSE _main_swift RELATIVE "${APIGEN_OUTPUT_DIR}"
        "${APIGEN_OUTPUT_DIR}/swift/*.swift")
 
-  file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_main}" "")
+  file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_main}" "")
   foreach(_file ${_main_swift})
     file(READ "${APIGEN_OUTPUT_DIR}/${_file}" _content)
-    file(APPEND "${APIGEN_BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_main}"
+    file(APPEND "${APIGEN_BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_main}"
          "/////\n// ${_file}\n${_content}")
   endforeach()
 
   if(APIGEN_COMMON_OUTPUT_DIR)
     file(GLOB_RECURSE _common_swift RELATIVE "${APIGEN_OUTPUT_DIR}"
          "${APIGEN_COMMON_OUTPUT_DIR}/swift/*.swift")
-    file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_common}" "")
+    file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_common}" "")
     foreach(_file ${_common_swift})
       file(READ "${APIGEN_OUTPUT_DIR}/${_file}" _content)
-      file(APPEND "${APIGEN_BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_common}"
+      file(APPEND "${APIGEN_BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_common}"
            "/////\n// ${_file}\n${_content}")
     endforeach()
   endif()
@@ -213,7 +214,7 @@ function(_include_all _generator)
   foreach(_file IN LISTS _main_files)
     string(APPEND _includes "#include \"${_file}\"\n")
   endforeach()
-  file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_${_generator}_main}" "${_includes}")
+  file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_${_generator}_main}" "${_includes}")
 
   if(APIGEN_COMMON_OUTPUT_DIR)
     list(REMOVE_DUPLICATES _common_files)
@@ -221,7 +222,8 @@ function(_include_all _generator)
     foreach(_file IN LISTS _common_files)
       string(APPEND _includes "#include \"${_file}\"\n")
     endforeach()
-    file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_${_generator}_common}" "${_includes}")
+    file(WRITE "${APIGEN_BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_${_generator}_common}"
+         "${_includes}")
   endif()
 endfunction()
 

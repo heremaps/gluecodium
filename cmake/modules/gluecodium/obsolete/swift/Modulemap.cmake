@@ -22,6 +22,8 @@ set(includeguard_gluecodium_swift_Modulemap ON)
 
 cmake_minimum_required(VERSION 3.5)
 
+include(${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details/InitVariablesWithUnitedFilePaths.cmake)
+
 #[===========================================================================================[.rst:
 apigen_swift_modulemap
 ----------------------
@@ -59,7 +61,7 @@ function(apigen_swift_modulemap _target)
   endif()
 
   # Module map generation
-  apigen_set_generated_files(${_target})
+  gluecodium_init_variables_with_united_file_paths(${_target})
   set(_cbridge_modulemap "module ${SWIFT_MODULE_NAME} {\n")
   get_target_property(bridging_headers ${_target} BRIDGING_HEADERS)
   if(NOT bridging_headers)
@@ -70,10 +72,10 @@ function(apigen_swift_modulemap _target)
   endforeach()
 
   string(APPEND _cbridge_modulemap
-         "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_main}\"\n")
+         "  header \"${SWIFT_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_header_main}\"\n")
   if(COMMON_OUTPUT_DIR)
     string(APPEND _cbridge_modulemap
-           "  header \"${SWIFT_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_common}\"\n")
+           "  header \"${SWIFT_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_header_common}\"\n")
   endif()
   string(APPEND _cbridge_modulemap "\}\n")
   file(WRITE "${SWIFT_OUTPUT_DIR}/module.modulemap.generated" "${_cbridge_modulemap}")

@@ -17,23 +17,58 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.generator.common
+package com.here.gluecodium.common
 
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
-class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
-    fun filter(elements: List<LimeNamedElement>) =
-        elements.filter(predicate).map { filterElement(it) }
+object LimeModelFilter {
+    fun filter(limeModel: LimeModel, predicate: (LimeNamedElement) -> Boolean) =
+        LimeModelFilterImpl(limeModel, predicate).filter()
+}
 
-    private fun filterElement(element: LimeNamedElement) =
+private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (LimeNamedElement) -> Boolean) {
+
+    private val droppedElements = mutableSetOf<String>()
+
+    private val predicate: (LimeNamedElement) -> Boolean = {
+        predicate(it).also { result ->
+            if (!result) {
+                droppedElements += it.fullName
+                if (it.path.disambiguator.isNotEmpty()) {
+                    droppedElements += it.path.withSuffix("").toString()
+                }
+            }
+        }
+    }
+
+    fun filter(): LimeModel {
+        val topElements = limeModel.topElements.filter(predicate).map { filterTopElement(it) }
+        val auxiliaryElements = limeModel.auxiliaryElements.filter(predicate).map { filterTopElement(it) }
+        // Has to be filtered last, when [droppedElements] is already filled.
+        val referenceMap = limeModel.referenceMap.filterValues { refMapPredicate(it) }
+
+        return LimeModel(referenceMap, topElements, auxiliaryElements, limeModel.fileNameMap)
+    }
+
+    private fun refMapPredicate(limeElement: LimeElement) =
+        when {
+            limeElement !is LimeNamedElement -> true
+            droppedElements.contains(limeElement.fullName) -> false
+            limeElement.path.tailParents.any { droppedElements.contains(it.toString()) } -> false
+            else -> true
+        }
+
+    private fun filterTopElement(element: LimeNamedElement) =
         when (element) {
             is LimeClass -> filterClass(element)
             is LimeInterface -> filterInterface(element)
@@ -60,7 +95,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             classes = classes.filter(predicate).map { filterClass(it) },
             interfaces = interfaces.filter(predicate).map { filterInterface(it) },
             lambdas = lambdas.filter(predicate),
-            parent = parent?.let { LimeDirectTypeRef(filterElement(it.type.actualType) as LimeType) }
+            parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
         ) }
 
     private fun filterInterface(limeInterface: LimeInterface): LimeInterface =
@@ -80,7 +115,7 @@ class LimeModelFilter(private val predicate: (LimeNamedElement) -> Boolean) {
             classes = classes.filter(predicate).map { filterClass(it) },
             interfaces = interfaces.filter(predicate).map { filterInterface(it) },
             lambdas = lambdas.filter(predicate),
-            parent = parent?.let { LimeDirectTypeRef(filterElement(it.type.actualType) as LimeType) }
+            parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
         ) }
 
     private fun filterTypesCollection(limeTypes: LimeTypesCollection) =

@@ -22,11 +22,10 @@ package com.here.gluecodium.generator.java
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
-import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
-import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameResolver
@@ -68,11 +67,10 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
     private val nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
     private val basePackages = if (options.javaPackages.isNotEmpty()) options.javaPackages else listOf("com", "example")
     private val internalPackageList = basePackages + internalPackage
-    private val customTags = options.tags
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameResolver(rootNamespace, limeModel.referenceMap, cppNameRules)
-        val filteredElements = LimeModelFilter { shouldRetainElement(it) }.filter(limeModel.topElements)
+        val filteredElements = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }.topElements
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, JAVA, javaNameRules, limeLogger)
@@ -146,12 +144,11 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
         }
 
     private fun shouldRetainElement(limeElement: LimeNamedElement) =
-        !CommonGeneratorPredicates.hasSkipTags(limeElement, customTags) &&
-            when {
-                limeElement is LimeFunction || limeElement is LimeProperty -> true
-                limeElement.attributes.have(JAVA, SKIP) -> false
-                else -> true
-            }
+        when {
+            limeElement is LimeFunction || limeElement is LimeProperty -> true
+            limeElement.attributes.have(JAVA, SKIP) -> false
+            else -> true
+        }
 
     private fun generateJavaFiles(
         limeElement: LimeNamedElement,

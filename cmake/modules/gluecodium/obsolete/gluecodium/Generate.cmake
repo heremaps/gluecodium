@@ -131,10 +131,10 @@ else()
 endif()
 
 set(APIGEN_GLUECODIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(APIGEN_GLUECODIUM_DETAILS_DIR ${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details)
+set(GLUECODIUM_DETAILS_DIR ${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details)
 
 include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
-include(${APIGEN_GLUECODIUM_DETAILS_DIR}/CheckArguments.cmake)
+include(${GLUECODIUM_DETAILS_DIR}/CheckArguments.cmake)
 
 function(apigen_generate)
   set(options VALIDATE_ONLY VERBOSE STUBS)
@@ -272,10 +272,11 @@ cache=true\n")
 
   set(_target_interface_sources "$<TARGET_PROPERTY:${APIGEN_TARGET},INTERFACE_SOURCES>")
 
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.15)
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.15 AND NOT
+                                                  GLUECODIUM_DONT_USE_FILTER_GENERATOR_EXPRESSION)
     set(_lime_target_sources "$<FILTER:${_target_interface_sources},INCLUDE,.*\\.lime$>")
     string(REPLACE ";" "$<SEMICOLON>" _escaped_lime_sources "${apigen_generate_LIME_SOURCES}")
-    set(_lime_dependencies
+    set(_command_dependencies
         "$<REMOVE_DUPLICATES:${_lime_target_sources}$<SEMICOLON>${_escaped_lime_sources}>")
     set(_lime_target_sources "$<REMOVE_DUPLICATES:${_lime_target_sources}>")
     string(APPEND APIGEN_GLUECODIUM_PROPERTIES
@@ -292,7 +293,7 @@ cache=true\n")
     set(_lime_target_sources "${_target_interface_sources}")
     set(_gluecodium_auxinput_file
         "${CMAKE_CURRENT_BINARY_DIR}/gluecodium-auxinput-${APIGEN_TARGET}.txt")
-    set(_lime_dependencies "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
+    set(_command_dependencies $<TARGET_PROPERTY:${APIGEN_TARGET},LINK_LIBRARIES>)
     set(_escaped_generated_files "${apigen_generate_LIME_SOURCES};${_lime_target_sources}")
     string(REPLACE ";" "," _escaped_generated_files "${_generated_files}")
     file(GENERATE OUTPUT "${_gluecodium_auxinput_file}" CONTENT "${_lime_target_sources}")
@@ -311,18 +312,15 @@ cache=true\n")
 
       -DAPIGEN_GLUECODIUM_AUXINPUT_FILE=${_gluecodium_auxinput_file} # CMake < 3.15
       -DAPIGEN_GLUECODIUM_VERSION=${APIGEN_VERSION} -DAPIGEN_GLUECODIUM_DIR=${APIGEN_GLUECODIUM_DIR}
-      -DAPIGEN_GLUECODIUM_DETAILS_DIR=${APIGEN_GLUECODIUM_DETAILS_DIR}
-      -DAPIGEN_GENERATOR=${APIGEN_GENERATOR} -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
+      -DGLUECODIUM_DETAILS_DIR=${GLUECODIUM_DETAILS_DIR} -DAPIGEN_GENERATOR=${APIGEN_GENERATOR}
+      -DAPIGEN_OUTPUT_DIR=${APIGEN_OUTPUT_DIR}
       -DAPIGEN_COMMON_OUTPUT_DIR=${APIGEN_COMMON_OUTPUT_DIR}
       -DAPIGEN_BUILD_OUTPUT_DIR=${APIGEN_BUILD_OUTPUT_DIR}
       -DAPIGEN_GENERATED_FILES=${_escaped_generated_files}
-      -DAPIGEN_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
-      -DAPIGEN_VERBOSE=${apigen_generate_VERBOSE} -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
+      -DGLUECODIUM_GRADLE_SYNCHRONISATION_DIR=${CMAKE_BINARY_DIR}
+      -DGLUECODIUM_VERBOSE=${apigen_generate_VERBOSE} -P ${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake
     VERBATIM
-    DEPENDS "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake"
-
-            ${_lime_dependencies} # Should contain both input and aux files
-  )
+    DEPENDS "${APIGEN_GLUECODIUM_DIR}/runGenerate.cmake" ${_command_dependencies})
 
   add_custom_target(${APIGEN_TARGET}.gluecodium.generate DEPENDS ${_generated_files})
 
