@@ -137,6 +137,15 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(result.mapField, [1: "foo", 42: "bar"])
     }
 
+    func testPositionalEnumeratorDefaults() {
+      let result = StructWithEnums()
+
+      XCTAssertEqual(result.firstField, SomethingEnum.reallyFirst)
+      XCTAssertEqual(result.explicitField, SomethingEnum.explicit)
+      XCTAssertEqual(result.lastField, SomethingEnum.last)
+      XCTAssertEqual(StructWithEnums.firstConstant, SomethingEnum.reallyFirst)
+    }
+
     static var allTests = [
         ("testGetDefault", testGetDefault),
         ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
@@ -148,6 +157,7 @@ class DefaultsTests: XCTestCase {
         ("testSwiftEmptyDefaults", testSwiftEmptyDefaults),
         ("testCppEmptyDefaults", testCppEmptyDefaults),
         ("testSwiftInitializerDefaults", testSwiftInitializerDefaults),
-        ("testCppInitializerDefaults", testCppInitializerDefaults)
+        ("testCppInitializerDefaults", testCppInitializerDefaults),
+        ("testPositionalEnumeratorDefaults", testPositionalEnumeratorDefaults)
     ]
 }

@@ -20,16 +20,14 @@
 package com.here.gluecodium.model.lime
 
 /**
- * A delayed-resolution reference to a type, represented by the element's positional [index] in the
- * list of its siblings (i.e. type references from child elements of the parent type
- * [parentTypeRef]). The name is resolved into an actual type through the [referenceMap] on the
- * first call. The resolution logic is "lazy": if it succeeds on the first call then the result is
- * stored and the stored result is used on subsequent calls instead.
+ * A delayed-resolution reference to a type, represented by the element's positional [index] in the list of its siblings
+ * (i.e. type references from child elements of the parent type [parentTypeRef]). The index is resolved into an actual
+ * type on the first call. The resolution logic is "lazy": if it succeeds on the first call then the result is stored
+ * and the stored result is used on subsequent calls instead.
  */
 class LimePositionalTypeRef(
     private val parentTypeRef: LimeTypeRef,
     private val index: Int,
-    private val referenceMap: Map<String, LimeElement>,
     override val isNullable: Boolean = false
 ) : LimeTypeRef() {
 
@@ -43,6 +41,5 @@ class LimePositionalTypeRef(
             )
     }
 
-    override fun asNullable() =
-        if (isNullable) this else LimePositionalTypeRef(parentTypeRef, index, referenceMap, true)
+    override fun asNullable() = if (isNullable) this else LimePositionalTypeRef(parentTypeRef, index, true)
 }

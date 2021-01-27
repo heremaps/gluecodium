@@ -40,6 +40,7 @@ import com.here.gluecodium.model.lime.LimeLazyTypeRef
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimePositionalEnumeratorRef
 import com.here.gluecodium.model.lime.LimePositionalTypeRef
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReferenceResolver
@@ -572,37 +573,45 @@ internal class AntlrLimeModelBuilder(
         when {
             ctx.enumeratorRef() != null -> {
                 val enumeratorRef = LimeAmbiguousEnumeratorRef(
-                    relativePath =
-                        ctx.enumeratorRef().identifier().simpleId().map { convertSimpleId(it) },
+                    relativePath = ctx.enumeratorRef().identifier().simpleId().map { convertSimpleId(it) },
                     parentPaths = listOf(currentPath) + currentPath.allParents + imports,
                     imports = imports,
                     referenceMap = referenceResolver.referenceMap
                 )
                 return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
             }
+            ctx.positionalEnumeratorRef() != null -> {
+                val enumerationRef = LimeAmbiguousTypeRef(
+                    relativePath = ctx.positionalEnumeratorRef().identifier().simpleId().map { convertSimpleId(it) },
+                    parentPaths = listOf(currentPath) + currentPath.allParents + imports,
+                    imports = imports,
+                    referenceMap = referenceResolver.referenceMap
+                )
+                val enumeratorRef = LimePositionalEnumeratorRef(
+                    parentTypeRef = enumerationRef,
+                    index = ctx.positionalEnumeratorRef().IntegerLiteral().text.toInt()
+                )
+                return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
+            }
             ctx.structInitializer() != null -> {
                 val values = ctx.structInitializer().literalConstant()
                     .mapIndexed { idx: Int, childCtx: LimeParser.LiteralConstantContext ->
-                        val fieldTypeRef =
-                            LimePositionalTypeRef(limeTypeRef, idx, referenceResolver.referenceMap)
+                        val fieldTypeRef = LimePositionalTypeRef(limeTypeRef, idx)
                         convertLiteralConstant(fieldTypeRef, childCtx)
                     }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }
             ctx.listInitializer() != null -> {
                 val values = ctx.listInitializer().literalConstant().map {
-                    val elementTypeRef =
-                        LimePositionalTypeRef(limeTypeRef, 0, referenceResolver.referenceMap)
+                    val elementTypeRef = LimePositionalTypeRef(limeTypeRef, 0)
                     convertLiteralConstant(elementTypeRef, it)
                 }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }
             ctx.mapInitializer() != null -> {
                 val values = ctx.mapInitializer().keyValuePair().map {
-                    val keyTypeRef =
-                        LimePositionalTypeRef(limeTypeRef, 0, referenceResolver.referenceMap)
-                    val valueTypeRef =
-                        LimePositionalTypeRef(limeTypeRef, 1, referenceResolver.referenceMap)
+                    val keyTypeRef = LimePositionalTypeRef(limeTypeRef, 0)
+                    val valueTypeRef = LimePositionalTypeRef(limeTypeRef, 1)
                     LimeValue.KeyValuePair(
                         convertLiteralConstant(keyTypeRef, it.literalConstant().first()),
                         convertLiteralConstant(valueTypeRef, it.literalConstant().last())
