@@ -41,11 +41,13 @@ data class LimePath(
         get() = tail.last()
 
     val parent
-        get() = LimePath(head, tail.take(tail.size - 1))
+        get() = LimePath(head, tail.dropLast(1))
+
+    val tailParents
+        get() = (1..tail.size).map { LimePath(head, tail.dropLast(it)) }
 
     val allParents
-        get() = (1..tail.size).map { LimePath(head, tail.dropLast(it)) } +
-                (1..head.size).map { LimePath(head.dropLast(it), emptyList()) }
+        get() = tailParents + (1..head.size).map { LimePath(head.dropLast(it), emptyList()) }
 
     val hasParent
         get() = tail.size > 1

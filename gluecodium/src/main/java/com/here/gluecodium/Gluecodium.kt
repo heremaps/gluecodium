@@ -25,14 +25,19 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.cli.OptionReaderException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.java.JavaGeneratorSuite
+import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.loader.getLoader
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
@@ -101,10 +106,14 @@ class Gluecodium(
 
         TemplateEngine.initCopyrightHeaderContents(options.copyrightHeaderContents)
 
+        val filteredModel = filterModel(limeModel)
         val fileNamesCache = hashMapOf<String, String>()
         var executionSucceeded = false
         try {
-            executionSucceeded = discoverGenerators().all { executeGenerator(it, limeModel, fileNamesCache) }
+            executionSucceeded = discoverGenerators().all {
+                val model = if (it == LimeGeneratorSuite.GENERATOR_NAME) limeModel else filteredModel
+                executeGenerator(it, model, fileNamesCache)
+            }
         } finally {
             // cache has to be updated in any case
             executionSucceeded = cache.write(executionSucceeded)
@@ -175,6 +184,9 @@ class Gluecodium(
         val validationResults = validators.map { it.invoke(limeModel) }
         return typeRefsValidationResult && !validationResults.contains(false)
     }
+
+    internal fun filterModel(limeModel: LimeModel) =
+        if (options.tags.isEmpty()) limeModel else LimeModelFilter.filter(limeModel) { !hasSkipTags(it, options.tags) }
 
     private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
@@ -323,6 +335,16 @@ class Gluecodium(
                 return false
             }
             return true
+        }
+
+        private fun hasSkipTags(limeElement: LimeNamedElement, tags: Set<String>): Boolean {
+            val skipTags =
+                limeElement.attributes.get(LimeAttributeType.SKIP, LimeAttributeValueType.TAG, Any::class.java)
+            return when (skipTags) {
+                is String -> tags.contains(skipTags)
+                is List<*> -> skipTags.filterIsInstance<String>().intersect(tags).isNotEmpty()
+                else -> false
+            }
         }
 
         @JvmStatic

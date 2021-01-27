@@ -22,14 +22,13 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator.Companion.getAllParentTypes
 import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
-import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
-import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -73,11 +72,10 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val nameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
     private val internalPrefix = options.internalPrefix
-    private val customTags = options.tags
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
-        val filteredElements = LimeModelFilter { shouldRetainElement(it) }.filter(limeModel.topElements)
+        val filteredElements = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }.topElements
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, SWIFT, nameRules, limeLogger)
@@ -235,12 +233,11 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         }
 
     private fun shouldRetainElement(limeElement: LimeNamedElement) =
-        !CommonGeneratorPredicates.hasSkipTags(limeElement, customTags) &&
-            when {
-                limeElement is LimeFunction || limeElement is LimeProperty -> true
-                limeElement.attributes.have(SWIFT, SKIP) -> false
-                else -> true
-            }
+        when {
+            limeElement is LimeFunction || limeElement is LimeProperty -> true
+            limeElement.attributes.have(SWIFT, SKIP) -> false
+            else -> true
+        }
 
     private class ReferredTypesCollector(private val nameResolver: SwiftNameResolver) :
         LimeTypeRefsVisitor<List<LimeType>>() {
