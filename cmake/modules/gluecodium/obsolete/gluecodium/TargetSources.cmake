@@ -23,6 +23,7 @@ set(includeguard_gluecodium_TargetSources ON)
 cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details/CheckArguments.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details/InitVariablesWithUnitedFilePaths.cmake)
 
 #[===========================================================================================[.rst:
 Generated target_sources module
@@ -94,16 +95,16 @@ function(apigen_target_sources _target)
   if(NOT GENERATOR MATCHES swift)
     target_sources(${_target} PRIVATE ${_generated_files})
   else()
-    apigen_set_generated_files(${_target})
+    gluecodium_init_variables_with_united_file_paths(${_target})
 
     foreach(_upper_case_source_set ${_source_sets})
       string(TOLOWER ${_upper_case_source_set} _source_set)
 
-      set(_generated_cpp_files ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_${_source_set}}
-                               ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cpp_${_source_set}})
+      set(_generated_cpp_files ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_${_source_set}}
+                               ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cpp_${_source_set}})
       if(GENERATOR MATCHES dart)
         list(APPEND _generated_cpp_files
-                    ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_dart_${_source_set}})
+                    ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_dart_${_source_set}})
       endif()
 
       # Generated files are marked as such by CMake, but this source file property is on directory
@@ -113,17 +114,18 @@ function(apigen_target_sources _target)
       # explicitly as generated and also create dummy files. When creating these dummy files it is
       # important that not all are already present while building, otherwise CMake may decide to
       # skip Gluecodium step completely. But this workaround is only necessary for public/interface
-      # sources, so as long as there some private ones without dummy file, everything is fine.
+      # sources, so as long as there some private ones without dummy file, everything is fine. TODO:
+      # Get rid of it with CMake >= 3.20
       set_property(
         SOURCE ${_generated_cpp_files}
-               ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+               ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_header_${_source_set}}
         PROPERTY GENERATED YES)
 
       foreach(
         generated_file
         ${_generated_cpp_files}
-        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
-        ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+        ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_header_${_source_set}}
+        ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_${_source_set}})
         _apigen_create_generated_file_if_missing("${generated_file}")
       endforeach()
 
@@ -133,18 +135,18 @@ function(apigen_target_sources _target)
       # CBridge modulemap used for building.
       set_property(
         TARGET ${_target} APPEND
-        PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+        PROPERTY SWIFT_SOURCES ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_${_source_set}})
       set_property(
         TARGET ${_target} APPEND
         PROPERTY BRIDGING_HEADERS
-                 ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}})
+                 ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_header_${_source_set}})
       if(NOT apigen_target_sources_SKIP_SWIFT)
         target_sources(${_target}
-                       PRIVATE ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_swift_${_source_set}})
+                       PRIVATE ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_swift_${_source_set}})
       endif()
 
       target_sources(
-        ${_target} PUBLIC ${BUILD_OUTPUT_DIR}/${APIGEN_GENERATED_cbridge_header_${_source_set}}
+        ${_target} PUBLIC ${BUILD_OUTPUT_DIR}/${GLUECODIUM_GENERATED_cbridge_header_${_source_set}}
         PRIVATE ${_generated_cpp_files})
     endforeach()
   endif()
