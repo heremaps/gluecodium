@@ -77,7 +77,9 @@ abstract class AcceptanceTestBase protected constructor(
 
         val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
         assertTrue(gluecodium.validateModel(limeModel))
-        assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
+        val filteredModel =
+            if (generatorName == LimeGeneratorSuite.GENERATOR_NAME) limeModel else gluecodium.filterModel(limeModel)
+        assertTrue(gluecodium.executeGenerator(generatorName, filteredModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 

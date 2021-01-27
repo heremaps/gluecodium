@@ -22,13 +22,13 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.Include
-import com.here.gluecodium.generator.common.LimeModelFilter
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -81,7 +81,6 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         DartCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
     private val overloadsWerror = options.werror.contains(Gluecodium.Options.WARNING_DART_OVERLOADS)
     private val testableMode = options.generateStubs
-    private val customTags = options.tags
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
@@ -90,14 +89,10 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
         val ffiFilteredElements =
-            LimeModelFilter {
-                !CommonGeneratorPredicates.hasSkipTags(it, customTags) &&
-                    (it is LimeFunction || it is LimeProperty || !it.attributes.have(DART, SKIP))
-            }.filter(limeModel.topElements)
-        val dartFilteredElements =
-            LimeModelFilter {
-                !CommonGeneratorPredicates.hasSkipTags(it, customTags) && !it.attributes.have(DART, SKIP)
-            }.filter(limeModel.topElements)
+            LimeModelFilter.filter(limeModel) {
+                it is LimeFunction || it is LimeProperty || !it.attributes.have(DART, SKIP)
+            }.topElements
+        val dartFilteredElements = LimeModelFilter.filter(limeModel) { !it.attributes.have(DART, SKIP) }.topElements
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
             .validate(dartFilteredElements)
         if (!validationResult) {
