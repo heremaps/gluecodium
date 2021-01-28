@@ -69,3 +69,9 @@ dependencies {
         }
     }
 }
+
+configurations {
+    if (project.hasProperty('jarName')) {
+        jar.archiveName = "${project.jarName}.jar"
+    }
+}
