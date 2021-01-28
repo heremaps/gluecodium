@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_CheckArguments)
+if(DEFINED includeguard_gluecodium_details_CheckArguments)
   return()
 endif()
-set(includeguard_gluecodium_CheckArguments ON)
+set(includeguard_gluecodium_details_CheckArguments ON)
 
 #[===========================================================================================[.rst:
 Macros to validate argument passed to function

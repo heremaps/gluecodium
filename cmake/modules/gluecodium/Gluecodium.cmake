@@ -31,3 +31,8 @@ Includes Gluecodium modules.
 include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/TargetIncludeDirectories.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/TargetSources.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/Generate.cmake)
+
+include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/TargetCompileDefinitions.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/Generate.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/AddGenerateCommand.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/TargetLimeSources.cmake)

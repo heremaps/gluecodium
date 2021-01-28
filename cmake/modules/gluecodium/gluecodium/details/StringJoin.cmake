@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_gluecodium_StringJoin)
+if(DEFINED includeguard_gluecodium_details_StringJoin)
   return()
 endif()
-set(includeguard_gluecodium_StringJoin ON)
+set(includeguard_gluecodium_details_StringJoin ON)
 
 cmake_minimum_required(VERSION 3.5)
 

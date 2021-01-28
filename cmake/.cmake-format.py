@@ -95,6 +95,31 @@ additional_commands = {
       'WERROR': '*'
     }
   },
+  '_gluecodium_define_target_property': {
+    'pargs': 1,
+    'kwargs': {
+      'BRIEF_DOCS': '*',
+      'FULL_DOCS': '*'
+    }
+  },
+  'gluecodium_generate': {
+    'pargs': 1,
+    'flags': ['MAIN_ONLY'],
+    'kwargs': {
+      'OUTPUT_DIR': 1,
+      'GENERATORS': '*',
+      'LIME_SOURCES': '*'
+    }
+  },
+  'gluecodium_add_generate_command': {
+    'pargs': 1,
+    'flags': ['MAIN_ONLY'],
+    'kwargs': {
+      'OUTPUT_DIR': 1,
+      'GENERATORS': '*',
+      'LIME_SOURCES': '*'
+    }
+  },
   'apigen_list_generated_sources': {
     'flags': ['MAIN', 'COMMON'],
     'kwargs': {
@@ -214,6 +239,72 @@ additional_commands = {
     'kwargs': {
       'ROOT_PATH': 1,
       'FILES': '*'
+    }
+  },
+  'gluecodium_list_generated_files': {
+    'pargs': 1,
+    'flags': ['MAIN', 'COMMON'],
+    'kwargs': {
+      'OUTPUT_ALL': 1,
+      'OUTPUT_CPP': 1,
+      'OUTPUT_SWIFT': 1,
+      'OUTPUT_BRIDGING_HEADERS': 1
+    }
+  },
+  'gluecodium_read_required_properties': {
+    'kwargs': {
+      'GENERATORS': 1,
+      'SOURCE_SETS': 1,
+      'OUTPUT_DIR': 1,
+      'OUTPUT_MAIN_DIR': 1,
+      'OUTPUT_COMMON_DIR': 1,
+      'OUTPUT_UNITY_DIR': 1,
+      'OUTPUT_BUILD_DIR': 1
+    }
+  },
+  'gluecodium_target_swift_sources': {
+    'pargs': 1,
+    'flags': ['COLLECT_FROM_DEPENDENCIES', 'ADD_MODULE_MODULEMAP'],
+    'kwargs': {
+      'COPY_FROM_TARGETS': '*',
+      'SWIFT_FILES': '*',
+      'BRIDGING_HEADERS': '*'
+    }
+  },
+  'gluecodium_target_add_module_modulemap': {
+    'pargs': 1,
+    'kwargs': {
+      'OUTPUT_DIR': 1
+    }
+  },
+  'gluecodium_target_link_frameworks': {
+    'pargs': 1,
+    'kwargs': {
+      'COMMON_FRAMEWORK': 1,
+      'COMMON_TARGET': 1,
+      'FRAMEWORKS': '*'
+    }
+  },
+  'gluecodium_target_lime_sources': {
+    'pargs': 1,
+    'kwargs': {
+      'INTERFACE': '*',
+      'PUBLIC': '*',
+      'PRIVATE': '*'
+    }
+  },
+  'gluecodium_get_target_compile_definitions': {
+    'pargs': 1,
+    'kwargs': {
+      'RESULT_PUBLIC': 1,
+      'RESULT_PRIVATE': 1
+    }
+  },
+  'gluecodium_get_target_include_directories': {
+    'pargs': 1,
+    'kwargs': {
+      'RESULT_PUBLIC': 1,
+      'RESULT_PRIVATE': 1
     }
   },
 
