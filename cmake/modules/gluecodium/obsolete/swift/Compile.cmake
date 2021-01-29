@@ -142,7 +142,8 @@ function(apigen_swift_compile _target architecture)
                  XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS[variant=Debug]
                  "${SWIFT_FLAGS} ${SWIFT_DEBUG_FLAG}"
                  XCODE_ATTRIBUTE_OTHER_LDFLAGS "-lc++"
-                 XCODE_ATTRIBUTE_PRODUCT_NAME ${SWIFT_FRAMEWORK_NAME})
+                 XCODE_ATTRIBUTE_PRODUCT_NAME ${SWIFT_FRAMEWORK_NAME}
+                 XCODE_ATTRIBUTE_DEFINES_MODULE YES)
     install(TARGETS ${_target} FRAMEWORK DESTINATION .)
   else()
     # The custom Swift compile step needs to collect link libraries manually for static targets.
