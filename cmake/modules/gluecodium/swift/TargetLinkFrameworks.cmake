@@ -143,7 +143,7 @@ function(_gluecodium_target_link_common_target target_dst common_target)
   target_sources(${target_dst} PRIVATE "$<${_is_framework_expression}:${_common_swift}>")
 
   set_property(TARGET ${target_dst} APPEND PROPERTY GLUECODIUM_BRIDGING_HEADERS
-                                                 ${_common_bridging_headers})
+                                                    ${_common_bridging_headers})
 
   set_property(TARGET ${target_dst} APPEND PROPERTY GLUECODIUM_SWIFT ${_common_swift})
 endfunction()
