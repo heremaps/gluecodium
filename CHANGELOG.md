@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Removed:
+  * Deprecated IDL attribute `@Swift(ObjC)` was removed.
+
 ## 8.8.0
 Release date: 2021-01-27
 ### Features:

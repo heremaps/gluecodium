@@ -420,14 +420,6 @@ feature(Locales cpp android swift dart SOURCES
     input/lime/Locales.lime
 )
 
-if(APPLE)
-    # Disabled because of https://github.com/heremaps/gluecodium/issues/734
-    # This feature is intended for Swift only. It also does not compile outside of Apple platforms.
-    # feature(ObjcInterface swift SOURCES
-    #     input/lime/ObjcInterface.lime
-    # )
-endif()
-
 add_library(functional ${FUNCTIONAL_SOURCES} ${FUNCTIONAL_LIME_SOURCES})
 
 source_group("LimeIDL files" FILES ${FUNCTIONAL_LIME_SOURCES})

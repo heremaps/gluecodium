@@ -22,9 +22,7 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
-import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
-import com.here.gluecodium.model.lime.LimeAttributeValueType.OBJC
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeNamedElement
 
@@ -58,11 +56,6 @@ internal class LimeDeprecationsValidator(
             }
             limeContainer.attributes.have(JAVA, BUILDER) -> {
                 logger.logFunction(limeContainer, "@Java(Builder) attribute is deprecated")
-                false
-            }
-            limeContainer.attributes.have(SWIFT, OBJC) -> {
-                logger.logFunction(limeContainer, "@Swift(ObjC) attribute is deprecated. @Swift(Attribute=\"objc\") " +
-                    "or @Swift(Attribute=\"objcMembers\") should be used instead.")
                 false
             }
             else -> true
