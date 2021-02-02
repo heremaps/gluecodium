@@ -27,7 +27,6 @@ let platformSpecificTests = [TestCaseEntry]()
 let platformSpecificTests = [testCase(ExternalTypesTests.allTests)]
 #endif
 
-
 let allTests = platformSpecificTests + [
     testCase(ArraysTests.allTests),
     testCase(AttributesInterfaceTests.allTests),
@@ -60,7 +59,7 @@ let allTests = platformSpecificTests + [
     testCase(NullableListenersTests.allTests),
     testCase(NullableMethodArgumentsTests.allTests),
     testCase(NullableStructsTests.allTests),
-    testCase(PlainDataStructuresFromTypeCollectionTests.allTests),
+    testCase(PodTypeCollectionTests.allTests),
     testCase(PlainDataStructuresTests.allTests),
     testCase(RefEqualityTests.allTests),
     testCase(SerializationTests.allTests),

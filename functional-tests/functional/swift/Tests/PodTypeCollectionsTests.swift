@@ -21,7 +21,7 @@
 import XCTest
 import functional
 
-class PlainDataStructuresFromTypeCollectionTests: XCTestCase {
+class PodTypeCollectionTests: XCTestCase {
     func testReturnStruct() {
         let point = PlainDataStructuresFromTypeCollection.createPoint(x: 1.2, y: 3.4)
         XCTAssertEqual(point.x, 1.2)
