@@ -66,9 +66,11 @@ class EnumsTests: XCTestCase {
     func testCodableWithDeprecated() {
         let value = EnumWithDeprecatedItems.baz
 
-        let data = try! JSONEncoder().encode(value)
-        let result = try! JSONDecoder().decode(EnumWithDeprecatedItems.self, from: data)
-
+        guard let data = try? JSONEncoder().encode(value) else {
+            XCTFail("Failed to encode data")
+            return
+        }
+        let result = try? JSONDecoder().decode(EnumWithDeprecatedItems.self, from: data)
         XCTAssertEqual(result, value)
     }
 

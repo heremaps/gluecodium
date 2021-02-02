@@ -92,7 +92,6 @@ import XCTest
         }
     }
 
-    // TODO: accept command line parameters to run individual tests with .perform
     func XCTMain(_: [TestCaseEntry]) -> Never {
         let defaultSuite = XCTestSuite.default
         defaultSuite.run()

@@ -23,15 +23,15 @@ import functional
 
 class SerializationTests: XCTestCase {
 
-    func serializableEncodeDecodeRoundTrip() {
+    private func createSerializableStruct() -> SerializableStruct {
         let nestedStruct = NestedSerializableStruct(someField: "foo")
         let byteBuffer = Data([1, 7])
         let stringList = ["bar", "baz"]
         let structList = [NestedSerializableStruct(someField: "crazy"),
                           NestedSerializableStruct(someField: "stuff")]
-        let errorMap: Dictionary<Int32, String> = [0: "one", 1: "two"]
+        let errorMap: [Int32: String] = [0: "one", 1: "two"]
 
-        let serializableStruct = SerializableStruct(
+        return SerializableStruct(
             boolField: true,
             byteField: 42,
             shortField: 542,
@@ -49,9 +49,18 @@ class SerializationTests: XCTestCase {
             enumSetField: [FooEnum.bar],
             enumField: FooEnum.bar
         )
+    }
 
-        let data = try! JSONEncoder().encode(serializableStruct)
-        let resultStruct = try! JSONDecoder().decode(SerializableStruct.self, from: data)
+    func serializableEncodeDecodeRoundTrip() {
+        let serializableStruct = createSerializableStruct()
+        guard let data = try? JSONEncoder().encode(serializableStruct) else {
+            XCTFail("Failed to encode data")
+            return
+        }
+        guard let resultStruct = try? JSONDecoder().decode(SerializableStruct.self, from: data) else {
+            XCTFail("Failed to decode data")
+            return
+        }
 
         XCTAssertEqual(serializableStruct.boolField, resultStruct.boolField)
         XCTAssertEqual(serializableStruct.byteField, resultStruct.byteField)
