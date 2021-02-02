@@ -99,7 +99,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             classes = classes.filter(predicate).map { filterClass(it) },
             interfaces = interfaces.filter(predicate).map { filterInterface(it) },
             lambdas = lambdas.filter(predicate),
-            parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
+            parents = parents.map { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
         ) }
 
     private fun filterInterface(limeInterface: LimeInterface): LimeInterface =
@@ -119,7 +119,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             classes = classes.filter(predicate).map { filterClass(it) },
             interfaces = interfaces.filter(predicate).map { filterInterface(it) },
             lambdas = lambdas.filter(predicate),
-            parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
+            parents = parents.map { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
         ) }
 
     private fun filterTypesCollection(limeTypes: LimeTypesCollection) =

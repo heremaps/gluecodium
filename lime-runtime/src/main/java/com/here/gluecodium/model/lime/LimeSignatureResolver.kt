@@ -60,9 +60,9 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
     }
 
     private fun getAllFunctions(limeContainer: LimeContainer): List<LimeFunction> {
-        val parentContainer =
-            (limeContainer as? LimeContainerWithInheritance)?.parent?.type as? LimeContainer
-        val parentFunctions = parentContainer?.let { getAllFunctions(it) } ?: emptyList()
+        val parentContainers = (limeContainer as? LimeContainerWithInheritance)?.parents
+            ?.mapNotNull { it.type.actualType as? LimeContainer } ?: emptyList()
+        val parentFunctions = parentContainers.flatMap { getAllFunctions(it) }
         return parentFunctions + getAllContainerFunctions(limeContainer)
     }
 

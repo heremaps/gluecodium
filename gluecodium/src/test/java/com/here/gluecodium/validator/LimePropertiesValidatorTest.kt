@@ -106,7 +106,7 @@ class LimePropertiesValidatorTest {
     fun validateInheritanceNoOwnProperties() {
         allElements[""] = object : LimeContainerWithInheritance(
             EMPTY_PATH,
-            parent = LimeDirectTypeRef(limeContainerDoubleFoo)
+            parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo))
         ) {}
 
         assertTrue(validator.validate(limeModel))
@@ -116,7 +116,7 @@ class LimePropertiesValidatorTest {
     fun validatePropertiesInheritanceNoNameClash() {
         allElements[""] = object : LimeContainerWithInheritance(
             EMPTY_PATH,
-            parent = LimeDirectTypeRef(limeContainerDoubleFoo),
+            parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
             properties = listOf(limePropertyBar)
         ) {}
 
@@ -127,7 +127,7 @@ class LimePropertiesValidatorTest {
     fun validatePropertiesInheritanceWithNameClash() {
         allElements[""] = object : LimeContainerWithInheritance(
             EMPTY_PATH,
-            parent = LimeDirectTypeRef(limeContainerDoubleFoo),
+            parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
             properties = listOf(limePropertyFoo)
         ) {}
 

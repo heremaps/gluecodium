@@ -172,6 +172,10 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitExternalDescriptorValue(ctx: LimeParser.ExternalDescriptorValueContext?) {}
 
+    override fun enterParentTypes(ctx: LimeParser.ParentTypesContext?) {}
+
+    override fun exitParentTypes(ctx: LimeParser.ParentTypesContext?) {}
+
     override fun visitTerminal(node: TerminalNode) {}
 
     override fun visitErrorNode(node: ErrorNode) {}

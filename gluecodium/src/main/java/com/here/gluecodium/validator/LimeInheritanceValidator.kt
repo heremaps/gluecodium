@@ -43,19 +43,23 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
     }
 
     private fun validateClass(limeClass: LimeClass): Boolean {
-        val parentType = limeClass.parent?.type
+        val parentTypes = limeClass.parents.map { it.type.actualType }
         return when {
-            parentType == null -> true
+            parentTypes.isEmpty() -> true
             hasInheritanceLoop(limeClass) -> {
                 logger.error(limeClass, "a class cannot inherit from itself or its own descendants")
                 false
             }
-            parentType !is LimeClass && parentType !is LimeInterface -> {
+            parentTypes.any { it !is LimeClass && it !is LimeInterface } -> {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
                 false
             }
-            parentType is LimeClass && !parentType.visibility.isOpen -> {
+            parentTypes.any { it is LimeClass && !it.visibility.isOpen } -> {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
+                false
+            }
+            parentTypes.filterIsInstance<LimeClass>().size > 1 -> {
+                logger.error(limeClass, "a class can inherit from at most one class")
                 false
             }
             else -> true
@@ -63,9 +67,9 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
     }
 
     private fun validateInterface(limeInterface: LimeInterface): Boolean {
-        val parentType = limeInterface.parent?.type
+        val parentTypes = limeInterface.parents.map { it.type.actualType }
         return when {
-            parentType == null -> true
+            parentTypes.isEmpty() -> true
             hasInheritanceLoop(limeInterface) -> {
                 logger.error(
                     limeInterface,
@@ -73,7 +77,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 )
                 false
             }
-            parentType !is LimeInterface -> {
+            parentTypes.any { it !is LimeInterface } -> {
                 logger.error(limeInterface, "an interface can inherit only from an interface")
                 false
             }
@@ -81,17 +85,16 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         }
     }
 
-    private fun hasInheritanceLoop(limeContainer: LimeContainerWithInheritance): Boolean {
-        val visitedContainers = mutableSetOf<LimePath>()
-        val inheritanceIterator = generateSequence(limeContainer) {
-            it.parent?.type as? LimeContainerWithInheritance
-        }.iterator()
-        while (inheritanceIterator.hasNext()) {
-            if (!visitedContainers.add(inheritanceIterator.next().path)) {
-                return true
-            }
-        }
-        return false
+    private fun hasInheritanceLoop(
+        limeContainer: LimeContainerWithInheritance,
+        visitedPaths: Set<LimePath> = emptySet()
+    ): Boolean {
+        val containerPath = limeContainer.path
+        if (visitedPaths.contains(containerPath)) return true
+
+        val parentContainers = limeContainer.parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
+        val newVisitedPaths = visitedPaths + containerPath
+        return parentContainers.any { hasInheritanceLoop(it, newVisitedPaths) }
     }
 
     companion object {
