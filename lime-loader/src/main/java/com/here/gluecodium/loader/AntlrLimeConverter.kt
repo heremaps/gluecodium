@@ -171,7 +171,6 @@ internal object AntlrLimeConverter {
             "Extension" -> LimeAttributeValueType.EXTENSION
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL
-            "ObjC" -> LimeAttributeValueType.OBJC
             "Message" -> LimeAttributeValueType.MESSAGE
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
             "Ref" -> LimeAttributeValueType.REF
