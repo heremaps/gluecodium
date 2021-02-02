@@ -24,6 +24,7 @@
 
 #include <jni.h>
 
+#include <cstdint>
 #include <type_traits>
 
 {{#internalNamespace}}
@@ -59,6 +60,7 @@ struct JniMethodArgumentTypeChecker< T, Args... >
           std::is_same< T, jshort >::value ||
           std::is_same< T, jint >::value ||
           std::is_same< T, jlong >::value ||
+          std::is_same< T, std::int64_t >::value ||   // Sometimes is_same_v<std::int64_t, jlong> == 0
           std::is_same< T, jfloat >::value ||
           std::is_same< T, jdouble >::value ||
           IsDerivedFromJObject< T >::value ) &&
@@ -111,6 +113,15 @@ template<>
 struct JniMethodForType<jlong, false>
 {
     static constexpr auto method_ptr = &JNIEnv::CallLongMethod;
+};
+
+// std::is_same<std::int64_t, jlong> == 0 in some compilers even when jlong == long long.
+// This specialisation doesn't make sense on such systems (jlong doesn't derive from jobject),
+// otherwise prevents from compilation error.
+template<>
+struct JniMethodForType<std::int64_t, std::is_same<std::int64_t, jlong>::value>
+{
+    static constexpr auto method_ptr = JniMethodForType<jlong, false>::method_ptr;
 };
 
 template<>

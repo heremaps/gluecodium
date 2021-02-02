@@ -19,12 +19,8 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
-}}{{#if attributes.swift.objc}}
-@objcMembers
-{{/if}}{{!!
 }}{{resolveName visibility}} class {{resolveName}}{{!!
-}}{{#if parent}}: {{#if attributes.swift.objc}}{{#instanceOf parent.type.actualType "LimeInterface"}}NSObject, {{/instanceOf}}{{/if}}{{!!
-}}{{resolveName parent}}{{/if}}{{#unless parent}}{{#if attributes.swift.objc}}: NSObject{{/if}}{{/unless}} {
+}}{{#if parent}}: {{resolveName parent}}{{/if}}{{#unless parent}}{{/unless}} {
 
 {{#each typeAliases exceptions}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}

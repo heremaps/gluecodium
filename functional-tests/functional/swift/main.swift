@@ -21,7 +21,13 @@
 import XCTest
 import functional
 
-let allTests = [
+#if os(macOS)
+let platformSpecificTests = [TestCaseEntry]()
+#else
+let platformSpecificTests = [testCase(ExternalTypesTests.allTests)]
+#endif
+
+let allTests = platformSpecificTests + [
     testCase(ArraysTests.allTests),
     testCase(AttributesInterfaceTests.allTests),
     testCase(AttributesTests.allTests),
@@ -36,7 +42,6 @@ let allTests = [
     testCase(ErrorsInInterfaceTests.allTests),
     testCase(ErrorsTests.allTests),
     testCase(ExtensionsTests.allTests),
-    testCase(ExternalTypesTests.allTests),
     testCase(InheritanceTests.allTests),
     testCase(InterfacesTests.allTests),
     testCase(LambdasTests.allTests),
@@ -54,7 +59,7 @@ let allTests = [
     testCase(NullableListenersTests.allTests),
     testCase(NullableMethodArgumentsTests.allTests),
     testCase(NullableStructsTests.allTests),
-    testCase(PlainDataStructuresFromTypeCollectionTests.allTests),
+    testCase(PodTypeCollectionTests.allTests),
     testCase(PlainDataStructuresTests.allTests),
     testCase(RefEqualityTests.allTests),
     testCase(SerializationTests.allTests),

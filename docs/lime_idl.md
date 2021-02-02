@@ -521,7 +521,6 @@ for C++.
   generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ can contain parameters, e.g.
   `@Swift(Attribute="available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string
   literals, their enclosing quotes need to be backslash-escaped, as in the example.
-  * ~~**ObjC**~~: **deprecated**. Marks a class as Objective-C compatible in Swift.
 * **@Dart**: marks an element with Dart-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default specification for this attribute.

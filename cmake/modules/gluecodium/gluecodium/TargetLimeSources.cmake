@@ -74,7 +74,26 @@ function(gluecodium_target_lime_sources _target)
   set(_multi_args PUBLIC PRIVATE INTERFACE)
   cmake_parse_arguments(_args "" "" "${_multi_args}" ${ARGN})
 
-  target_sources(${_target} ${ARGN})
+  function(_wrap_sources_with_build_interface result)
+    unset(_build_public_limes)
+    foreach(_src_lime ${ARGN})
+      if(IS_ABSOLUTE "${_src_lime}")
+        list(APPEND _build_public_limes $<BUILD_INTERFACE:${_src_lime}>)
+      else()
+        list(APPEND _build_public_limes $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${_src_lime}>)
+      endif()
+    endforeach()
+    set(${result} ${_build_public_limes} PARENT_SCOPE)
+  endfunction()
+
+  _wrap_sources_with_build_interface(_public_limes ${_args_PUBLIC})
+  _wrap_sources_with_build_interface(_interface_limes ${_args_INTERFACE})
+
+  target_sources(
+    ${_target}
+    PUBLIC ${_public_limes}
+    PRIVATE ${_args_PRIVATE}
+    INTERFACE ${_interface_limes})
 
   set_property(
     TARGET ${_target} APPEND PROPERTY GLUECODIUM_LIME_SOURCES ${_args_PUBLIC} ${_args_PRIVATE}

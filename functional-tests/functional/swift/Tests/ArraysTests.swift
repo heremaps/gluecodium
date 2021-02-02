@@ -128,9 +128,8 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayStruct() {
-        let structArray: Arrays.StructArray = [Arrays.BasicStruct(value: 3.2),
-                                               Arrays.BasicStruct(value: 2.2),
-                                               Arrays.BasicStruct(value: 1.2)]
+        let structArray = [Arrays.BasicStruct(value: 3.2), Arrays.BasicStruct(value: 2.2),
+                           Arrays.BasicStruct(value: 1.2)]
         let result = Arrays.reverseStructArray(input: structArray)
         for (index, structValue) in result.enumerated() {
             XCTAssertEqual(structValue.value, structArray[2-index].value)
@@ -147,7 +146,7 @@ class ArraysTests: XCTestCase {
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
         let result = Arrays.reverseExplicitInstancesArray(input: instanceArray)
-        XCTAssertEqual(result.count, 3)
+        XCTAssertEqual(result.count, instanceArray.count)
         for (index, instanceValue) in result.enumerated() {
             XCTAssertEqual(instanceValue.getStringValue(), instanceArray[2-index].getStringValue())
         }
@@ -163,7 +162,7 @@ class ArraysTests: XCTestCase {
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
         let result = Arrays.reverseImplicitInstancesArray(input: instanceArray)
-        XCTAssertEqual(result.count, 3)
+        XCTAssertEqual(result.count, instanceArray.count)
         for (index, instanceValue) in result.enumerated() {
             XCTAssertEqual(instanceValue.getStringValue(), instanceArray[2-index].getStringValue())
         }
@@ -180,12 +179,10 @@ class ArraysTests: XCTestCase {
     }
 
     func testNestedStructArray() {
-        let structArray: [Arrays.BasicStruct] = [Arrays.BasicStruct(value: 3.2),
-                                                  Arrays.BasicStruct(value: 2.2),
-                                                  Arrays.BasicStruct(value: 1.2)]
-        let structArray2: [Arrays.BasicStruct] = [Arrays.BasicStruct(value: 4.2),
-                                                   Arrays.BasicStruct(value: 5.2),
-                                                   Arrays.BasicStruct(value: 6.2)]
+        let structArray = [Arrays.BasicStruct(value: 3.2), Arrays.BasicStruct(value: 2.2),
+                           Arrays.BasicStruct(value: 1.2)]
+        let structArray2 = [Arrays.BasicStruct(value: 4.2), Arrays.BasicStruct(value: 5.2),
+                            Arrays.BasicStruct(value: 6.2)]
         let nested = [structArray, structArray2]
         let result = Arrays.reverseNestedStructArray(input: nested)
         for (indexArray, subarray) in result.enumerated() {
@@ -201,8 +198,7 @@ class ArraysTests: XCTestCase {
 
         let result = Arrays.mergeArraysOfStructsWithArrays(inlineFancyArray: fancyArray, fancyArray: fancyArray2)
         for (index, fancyStructValue) in result.enumerated() {
-            let value: UInt8 =  (4 - UInt8(index))
-            XCTAssertEqual(fancyStructValue.numbers.first!, value)
+            XCTAssertEqual(fancyStructValue.numbers.first!, 4 - UInt8(index))
         }
     }
 
@@ -257,7 +253,6 @@ class ArraysTests: XCTestCase {
 
         let resultArray = Arrays.reverseMapsArray(input: inputArray)
 
-        XCTAssertEqual(resultArray.count, 2)
         XCTAssertEqual(resultArray[0], inputArray[1])
         XCTAssertEqual(resultArray[1], inputArray[0])
     }
@@ -268,7 +263,6 @@ class ArraysTests: XCTestCase {
 
         let resultArray = Arrays.reverseArrayMapsArray(input: inputArray)
 
-        XCTAssertEqual(resultArray.count, 2)
         XCTAssertEqual(resultArray[0], inputArray[1])
         XCTAssertEqual(resultArray[1], inputArray[0])
     }
@@ -290,11 +284,8 @@ class ArraysTests: XCTestCase {
         let names = NameDispenser.randomNames()
         let counts = CountDispenser.countCharacters(input: names)
 
-        XCTAssertEqual(names.count, 3)
-        XCTAssertEqual(counts.count, 3)
-
-        for i in 0...2 {
-            XCTAssertEqual(names[i].name.count, Int(counts[i].count))
+        for idx in 0...2 {
+            XCTAssertEqual(names[idx].name.count, Int(counts[idx].count))
         }
     }
 

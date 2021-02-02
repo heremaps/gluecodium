@@ -19,9 +19,6 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
-}}{{#if attributes.swift.objc}}
-@objc
-{{/if}}{{!!
 }}{{resolveName visibility}} protocol {{resolveName}} : {{!!
 }}{{#if parent}}{{resolveName parent}}{{/if}}{{#unless parent}}AnyObject{{/unless}} {
 {{#set isInterface=true interface=this}}{{#each typeAliases exceptions}}
