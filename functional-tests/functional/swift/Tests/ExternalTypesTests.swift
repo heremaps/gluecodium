@@ -17,7 +17,7 @@
 // License-Filename: LICENSE
 //
 // -------------------------------------------------------------------------------------------------
-
+#if !os(macOS)
 import XCTest
 import functional
 import FoundationNetworking
@@ -130,3 +130,4 @@ class ExternalTypesTests: XCTestCase {
         ("testMyClass", testMyClass)
     ]
 }
+#endif

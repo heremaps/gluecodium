@@ -285,11 +285,13 @@ feature(JavaExternalTypes android SOURCES
     input/lime/JavaExternalTypes.lime
 )
 
-feature(SwiftExternalTypes swift SOURCES
-    input/src/cpp/SwiftExternalTypes.cpp
+if(NOT APPLE)
+    feature(SwiftExternalTypes swift SOURCES
+        input/src/cpp/SwiftExternalTypes.cpp
 
-    input/lime/SwiftExternalTypes.lime
-)
+        input/lime/SwiftExternalTypes.lime
+    )
+endif()
 
 feature(DartExternalTypes dart SOURCES
     input/src/cpp/DartExternalTypes.cpp
@@ -419,10 +421,11 @@ feature(Locales cpp android swift dart SOURCES
 )
 
 if(APPLE)
+    # Disabled because of https://github.com/heremaps/gluecodium/issues/734
     # This feature is intended for Swift only. It also does not compile outside of Apple platforms.
-    feature(ObjcInterface swift SOURCES
-        input/lime/ObjcInterface.lime
-    )
+    # feature(ObjcInterface swift SOURCES
+    #     input/lime/ObjcInterface.lime
+    # )
 endif()
 
 add_library(functional ${FUNCTIONAL_SOURCES} ${FUNCTIONAL_LIME_SOURCES})
