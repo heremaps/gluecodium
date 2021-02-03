@@ -25,11 +25,14 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
- * Validate inheritance relationships for classes and interfaces. Classes can inherit from open
- * classes and interfaces (but not from other types). Interfaces can inherit only from other
- * interfaces.
+ * Validate inheritance relationships for classes and interfaces.
+ * * Classes can inherit from open classes and interfaces (but not from other types).
+ * * Interfaces can inherit only from other interfaces.
+ * * A class can inherit from at most one class.
+ * * "Diamond" inheritance is not allowed.
  */
 internal class LimeInheritanceValidator(private val logger: LimeLogger) {
 
@@ -46,10 +49,6 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         val parentTypes = limeClass.parents.map { it.type.actualType }
         return when {
             parentTypes.isEmpty() -> true
-            hasInheritanceLoop(limeClass) -> {
-                logger.error(limeClass, "a class cannot inherit from itself or its own descendants")
-                false
-            }
             parentTypes.any { it !is LimeClass && it !is LimeInterface } -> {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
                 false
@@ -62,6 +61,14 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 logger.error(limeClass, "a class can inherit from at most one class")
                 false
             }
+            hasInheritanceLoop(limeClass) -> {
+                logger.error(limeClass, "a class cannot inherit from itself or its own descendants")
+                false
+            }
+            hasDiamondInheritance(limeClass) -> {
+                logger.error(limeClass, "\"diamond\" inheritance is not supported")
+                false
+            }
             else -> true
         }
     }
@@ -70,6 +77,10 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         val parentTypes = limeInterface.parents.map { it.type.actualType }
         return when {
             parentTypes.isEmpty() -> true
+            parentTypes.any { it !is LimeInterface } -> {
+                logger.error(limeInterface, "an interface can inherit only from an interface")
+                false
+            }
             hasInheritanceLoop(limeInterface) -> {
                 logger.error(
                     limeInterface,
@@ -77,8 +88,8 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 )
                 false
             }
-            parentTypes.any { it !is LimeInterface } -> {
-                logger.error(limeInterface, "an interface can inherit only from an interface")
+            hasDiamondInheritance(limeInterface) -> {
+                logger.error(limeInterface, "\"diamond\" inheritance is not supported")
                 false
             }
             else -> true
@@ -96,6 +107,16 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         val newVisitedPaths = visitedPaths + containerPath
         return parentContainers.any { hasInheritanceLoop(it, newVisitedPaths) }
     }
+
+    private fun hasDiamondInheritance(limeContainer: LimeContainerWithInheritance): Boolean {
+        val allAncestors = getAllAncestors(limeContainer).map { it.type.actualType.fullName }
+        return allAncestors.size != allAncestors.distinct().size
+    }
+
+    private fun getAllAncestors(limeContainer: LimeContainerWithInheritance): List<LimeTypeRef> =
+        limeContainer.parents + limeContainer.parents
+            .mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
+            .flatMap { getAllAncestors(it) }
 
     companion object {
         private const val CLASS_INHERITANCE_MESSAGE =
