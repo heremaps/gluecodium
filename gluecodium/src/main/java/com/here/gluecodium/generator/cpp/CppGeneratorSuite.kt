@@ -157,10 +157,8 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             return emptyList()
         }
 
-        val typeRegisteredClasses =
-            allTypes.filterIsInstance<LimeContainerWithInheritance>()
-                .filter { it.external?.cpp == null && it.parent == null &&
-                    (it is LimeInterface || it.visibility.isOpen) }
+        val typeRegisteredClasses = allTypes.filterIsInstance<LimeContainerWithInheritance>()
+            .filter { it.external?.cpp == null && it.parents.isEmpty() && (it is LimeInterface || it.visibility.isOpen) }
         val allTypeRefs = collectTypeRefs(allTypes)
         val forwardDeclaredTypes = allTypeRefs.map { it.type }
             .filterIsInstance<LimeContainerWithInheritance>()
@@ -218,8 +216,8 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         errorEnums: Set<LimeType>,
         typeRegisteredClasses: List<LimeContainerWithInheritance>
     ): List<Include> {
-        val parentIncludes = (rootElement as? LimeContainerWithInheritance)?.parent
-            ?.let { includeResolver.resolveIncludes(it.type) } ?: emptyList()
+        val parentIncludes = (rootElement as? LimeContainerWithInheritance)?.parents
+            ?.flatMap { includeResolver.resolveIncludes(it.type) } ?: emptyList()
         val additionalIncludes = (parentIncludes + exportInclude).toMutableList()
         if (allTypes.any { it is LimeEnumeration }) {
             additionalIncludes += CppLibraryIncludes.INT_TYPES
