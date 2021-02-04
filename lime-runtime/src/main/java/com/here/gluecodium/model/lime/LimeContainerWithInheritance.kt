@@ -35,7 +35,7 @@ abstract class LimeContainerWithInheritance(
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
-    val parents: List<LimeTypeRef> = emptyList()
+    val parent: LimeTypeRef? = null
 ) : LimeContainer(
     path = path,
     visibility = visibility,
@@ -53,19 +53,13 @@ abstract class LimeContainerWithInheritance(
     interfaces = interfaces,
     lambdas = lambdas
 ) {
-    val parent
-        get() = parents.firstOrNull()
-
-    val parentInterfaces
-        get() = parents.map { it.type.actualType }.filterIsInstance<LimeInterface>()
-
     @Suppress("unused")
     val inheritedFunctions: List<LimeFunction>
-        get() = parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
-            .flatMap { it.functions + it.inheritedFunctions }
+        get() = (parent?.type?.actualType as? LimeContainerWithInheritance)
+            ?.let { it.functions + it.inheritedFunctions } ?: emptyList()
 
     @Suppress("unused")
     val inheritedProperties: List<LimeProperty>
-        get() = parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
-            .flatMap { it.properties + it.inheritedProperties }
+        get() = (parent?.type?.actualType as? LimeContainerWithInheritance)
+            ?.let { it.properties + it.inheritedProperties } ?: emptyList()
 }

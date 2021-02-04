@@ -35,7 +35,7 @@ class LimeClass(
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
-    parents: List<LimeTypeRef> = emptyList()
+    parent: LimeTypeRef? = null
 ) : LimeContainerWithInheritance(
     path = path,
     visibility = visibility,
@@ -52,12 +52,9 @@ class LimeClass(
     classes = classes,
     interfaces = interfaces,
     lambdas = lambdas,
-    parents = parents
+    parent = parent
 ) {
-    val parentClass
-        get() = parents.map { it.type.actualType }.firstOrNull { it is LimeClass }
-
     @Suppress("unused")
     val hasClassParent
-        get() = parentClass != null
+        get() = parent?.type?.actualType is LimeClass
 }

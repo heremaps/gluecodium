@@ -64,22 +64,22 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateClassWithInvalidParent() {
         val limeStruct = LimeStruct(fooPath)
-        allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(limeStruct)))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(limeStruct))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateClassWithSelfParent() {
-        allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeLazyTypeRef("", allElements)))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeLazyTypeRef("", allElements))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateClassWithChildParent() {
-        val childClass = LimeClass(fooPath, parents = listOf(LimeLazyTypeRef("", allElements)))
-        allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(childClass)))
+        val childClass = LimeClass(fooPath, parent = LimeLazyTypeRef("", allElements))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(childClass))
 
         assertFalse(validator.validate(limeModel))
     }
@@ -87,7 +87,7 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateClassWithClassParent() {
         val anotherClass = LimeClass(fooPath)
-        allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass)))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
 
         assertFalse(validator.validate(limeModel))
     }
@@ -95,25 +95,15 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateClassWithOpenClassParent() {
         val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
-        allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass)))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
-    fun validateClassWithTwoOpenClassParents() {
-        val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
-        val yetAnotherClass = LimeClass(LimePath(emptyList(), listOf("bar")), visibility = LimeVisibility.OPEN)
-        allElements[""] =
-            LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass), LimeDirectTypeRef(yetAnotherClass)))
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
     fun validateClassWithInterfaceParent() {
         val anotherInterface = LimeInterface(fooPath)
-        allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherInterface)))
+        allElements[""] = LimeClass(EMPTY_PATH, parent = LimeDirectTypeRef(anotherInterface))
 
         assertTrue(validator.validate(limeModel))
     }
@@ -128,22 +118,22 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateInterfaceWithInvalidParent() {
         val limeStruct = LimeStruct(fooPath)
-        allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(limeStruct)))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(limeStruct))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithSelfParent() {
-        allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeLazyTypeRef("", allElements)))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeLazyTypeRef("", allElements))
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateInterfaceWithChildParent() {
-        val childInterface = LimeInterface(fooPath, parents = listOf(LimeLazyTypeRef("", allElements)))
-        allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(childInterface)))
+        val childInterface = LimeInterface(fooPath, parent = LimeLazyTypeRef("", allElements))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(childInterface))
 
         assertFalse(validator.validate(limeModel))
     }
@@ -151,7 +141,7 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateInterfaceWithClassParent() {
         val anotherClass = LimeClass(fooPath)
-        allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass)))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(anotherClass))
 
         assertFalse(validator.validate(limeModel))
     }
@@ -159,7 +149,7 @@ class LimeInheritanceValidatorTest {
     @Test
     fun validateInterfaceWithInterfaceParent() {
         val anotherInterface = LimeInterface(fooPath)
-        allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherInterface)))
+        allElements[""] = LimeInterface(EMPTY_PATH, parent = LimeDirectTypeRef(anotherInterface))
 
         assertTrue(validator.validate(limeModel))
     }

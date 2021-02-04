@@ -109,14 +109,14 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitContainer(ctx: LimeParser.ContainerContext) {
-        val parentTypes = ctx.parentTypes()?.identifier()?.map {
+        val parentRef = ctx.identifier()?.let {
             LimeAmbiguousTypeRef(
                 relativePath = it.simpleId().map { simpleId -> convertSimpleId(simpleId) },
                 parentPaths = listOf(currentPath) + currentPath.allParents,
                 imports = imports,
                 referenceMap = referenceResolver.referenceMap
             )
-        } ?: emptyList()
+        }
         val comment = parseStructuredComment(ctx.docComment(), ctx).description
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
         val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor(), ctx.annotation())
@@ -128,7 +128,7 @@ internal class AntlrLimeModelBuilder(
                 comment = comment,
                 attributes = attributes,
                 external = externalDescriptor,
-                parents = parentTypes,
+                parent = parentRef,
                 structs = getPreviousResults(LimeStruct::class.java),
                 enumerations = getPreviousResults(LimeEnumeration::class.java),
                 constants = getPreviousResults(LimeConstant::class.java),
@@ -147,7 +147,7 @@ internal class AntlrLimeModelBuilder(
                 comment = comment,
                 attributes = attributes,
                 external = externalDescriptor,
-                parents = parentTypes,
+                parent = parentRef,
                 structs = getPreviousResults(LimeStruct::class.java),
                 enumerations = getPreviousResults(LimeEnumeration::class.java),
                 constants = getPreviousResults(LimeConstant::class.java),
