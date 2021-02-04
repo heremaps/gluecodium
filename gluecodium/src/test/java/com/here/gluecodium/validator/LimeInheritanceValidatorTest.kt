@@ -54,10 +54,8 @@ class LimeInheritanceValidatorTest {
         assertTrue(validator.validate(limeModel))
     }
 
-    // Class
-
     @Test
-    fun validateClassWithNoParent() {
+    fun validateWithClassWithNoParent() {
         allElements[""] = LimeClass(EMPTY_PATH)
 
         assertTrue(validator.validate(limeModel))
@@ -121,23 +119,6 @@ class LimeInheritanceValidatorTest {
     }
 
     @Test
-    fun validateClassWithDiamondInheritance() {
-        val rootInterface = LimeInterface(fooPath)
-        val anotherInterface =
-            LimeInterface(LimePath(emptyList(), listOf("bar")), parents = listOf(LimeDirectTypeRef(rootInterface)))
-        val yetAnotherInterface =
-            LimeInterface(LimePath(emptyList(), listOf("fizz")), parents = listOf(LimeDirectTypeRef(rootInterface)))
-        allElements[""] = LimeClass(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(yetAnotherInterface))
-        )
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    // Interface
-
-    @Test
     fun validateInterfaceWithNoParent() {
         allElements[""] = LimeInterface(EMPTY_PATH)
 
@@ -181,20 +162,5 @@ class LimeInheritanceValidatorTest {
         allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherInterface)))
 
         assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateInterfaceWithDiamondInheritance() {
-        val rootInterface = LimeInterface(fooPath)
-        val anotherInterface =
-            LimeInterface(LimePath(emptyList(), listOf("bar")), parents = listOf(LimeDirectTypeRef(rootInterface)))
-        val yetAnotherInterface =
-            LimeInterface(LimePath(emptyList(), listOf("fizz")), parents = listOf(LimeDirectTypeRef(rootInterface)))
-        allElements[""] = LimeInterface(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(yetAnotherInterface))
-        )
-
-        assertFalse(validator.validate(limeModel))
     }
 }

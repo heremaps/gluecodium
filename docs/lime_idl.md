@@ -147,9 +147,8 @@ immediately after the package declaration.
 
 #### Container-type elements
 
-* Syntax: (**class** | **interface** | **types**) *ElementName*\[**:** *parent-types-list*\] **{**
+* Syntax: (**class** | **interface** | **types**) *ElementName*\[**:** *ParentName*\] **{**
 *child-elements-declarations...* **}**
-* where *parent-types-list* is a comma-separated list of parent types, see `Inheritance` below.
 * Example: `class SomeImportantProcessor { ... }`
 * Example: `interface ProcessorDelegate: GenericDelegate { ... }`
 * Description: declares a container-type language element:
@@ -162,22 +161,20 @@ class, interface, or struct. `types` declaration can be only placed at file leve
 
 #### Inheritance
 
-Classes and interfaces support inheritance (optionally, see *parent-types-list* in the syntax above). Multiple
-inheritance is supported. There are some rules and restrictions for inheritance:
-* a class or an interface can inherit from any number of interfaces.
-* a class can inherit from at most one class.
+Classes and interfaces support inheritance (optionally, see *ParentName* in the syntax above).
+There are some restrictions on inheritance:
+* multiple inheritance is not supported.
 * an interface cannot inherit from a class.
-* a class can only inherit from another ("parent") class if the parent class has "open" visibility
+* an class can only inherit from another ("parent") class if the parent class has "open" visibility
 (see `Visibility` above).
 * a class or an interface with "public" visibility cannot inherit from a class or an interface with
 "internal" visibility (see `Visibility` above).
-* "diamond" inheritance is not supported (i.e. when two classes/interfaces B and C inherit from A, and class/interface D
-inherits from both B and C).
 
 Contrary to the usual practice encountered in programming languages, in LimeIDL it is not necessary
 to (re)declare functions and properties of parent class/interface in the child class. An IDL
 declaration describes an API and parent's functions and properties are already part of child's API
-due to inheritance. Gluecodium will also generate all necessary code for the child class automatically.
+due to inheritance. Gluecodium generators will also generate all necessary code for the child class
+automatically.
 
 ### Child element declarations
 
