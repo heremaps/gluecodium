@@ -19,7 +19,7 @@
   !
   !}}
 {{>lime/LimeDocumentation}}
-{{visibility}}class {{escapedName}} {{#if parents}}: {{#parents}}{{type.name}}{{#if iter.hasNext}}, {{/if}}{{/parents}} {{/if}}{
+{{visibility}}class {{escapedName}} {{#parent}}: {{type.name}} {{/parent}}{
 {{prefixPartial "lime/LimeExternalDescriptor" "    "}}
 {{>lime/LimeContainerContents}}
 }

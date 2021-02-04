@@ -61,6 +61,6 @@ internal object CommonGeneratorPredicates {
             limeContainer !is LimeContainerWithInheritance -> false
             limeContainer is LimeInterface -> true
             limeContainer.visibility.isOpen -> true
-            else -> limeContainer.parents.isNotEmpty()
+            else -> limeContainer.parent != null
         }
 }

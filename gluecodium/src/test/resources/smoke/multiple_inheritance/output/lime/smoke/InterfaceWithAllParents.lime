@@ -1,5 +1,0 @@
-package smoke
-interface InterfaceWithAllParents : ParentInterfaceOne, ParentInterfaceTwo {
-    fun childFunction()
-    property childProperty: String
-}

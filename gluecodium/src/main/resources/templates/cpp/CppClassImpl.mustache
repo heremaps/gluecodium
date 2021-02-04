@@ -20,12 +20,12 @@
   !}}
 {{#unless external.cpp}}
 {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::{{resolveName}}() {
-{{#if parents}}
+{{#if parent}}
     {{>common/InternalNamespace}}get_type_repository().add_type(this, "{{#namespace}}{{.}}_{{/namespace}}{{resolveName}}");
 {{/if}}
 }
 {{#parentName}}{{.}}::{{/parentName}}{{resolveName}}::~{{resolveName}}() {
-{{#if parents}}
+{{#if parent}}
     {{>common/InternalNamespace}}get_type_repository().remove_type(this);
 {{/if}}
 }
