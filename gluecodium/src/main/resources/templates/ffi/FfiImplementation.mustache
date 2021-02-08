@@ -23,7 +23,9 @@
 #include "{{headerName}}.h"
 
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+{{#if interfaces}}
+#include "InstanceCache.h"
+{{/if}}
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
@@ -87,7 +89,7 @@ void
 
 {{#interfaces}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
 }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
@@ -98,14 +100,13 @@ FfiOpaqueHandle
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(
-            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, deleter{{!!
+            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, dart_handle{{!!
             }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
             }}, f{{iter.position}}{{/unless}}{{/each}}{{!!
             }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, p{{iter.position}}g{{!!
             }}{{#if setter}}, p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
         );
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", *proxy_ptr);
-        {{>ffi/FfiInternal}}::cache_token(proxy_ptr->get(), isolate_id, token);
     }
 
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
@@ -114,11 +115,10 @@ FfiOpaqueHandle
 {{/interfaces}}
 {{#lambdas}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy({{!!
-}}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
     auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, isolate_id, "{{resolveName}}");
     if (!cached_proxy) {
-        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, deleter, f0);
+        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, dart_handle, f0);
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", cached_proxy);
     }
 

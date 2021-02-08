@@ -401,11 +401,12 @@ internal class DartGenerator : Generator {
             "BlobHandle",
             "CallbacksQueue",
             "CallbacksHandle",
+            "DartDLInit",
+            "InstanceCache",
             "IsolateContext",
             "LocaleHandle",
             "NullableHandles",
             "ProxyCache",
-            "ReverseCache",
             "StringHandle"
         )
         val data = mapOf(
