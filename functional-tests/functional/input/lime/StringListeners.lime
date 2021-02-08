@@ -58,4 +58,6 @@ class PersistingLogger {
     static fun addListener(listener: StringListener)
     // Returns `false` if listeners was not found, returns `true` otherwise.
     static fun removeListener(listener: StringListener): Boolean
+    static fun removeAllListeners()
+    static fun messageAll(message: String)
 }

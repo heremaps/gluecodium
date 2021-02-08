@@ -96,6 +96,7 @@ class LibraryContext {
   /// fails, current process is used as a native library instead.
   static void init(IsolateOrigin isolateOrigin, {String nativeLibraryPath}) {
     _loadCustomLibrary(nativeLibraryPath);
+    _initializeDartDL();
     _isolateId = _library_callbacks_queue_init(isolateOrigin == IsolateOrigin.main ? 1 : 0);
 
     final receivePort = ReceivePort();
@@ -123,5 +124,16 @@ class LibraryContext {
 
   static DynamicLibrary _loadCustomLibrary(String nativeLibraryPath) {
     if (nativeLibraryPath != null) _nativeLibrary = _loadNativeLibrary(nativeLibraryPath);
+  }
+
+  static void _initializeDartDL() {
+    final _library_dart_dl_init = catchArgumentError(() => nativeLibrary.lookupFunction<
+        Int32 Function(Pointer<Void>),
+        int Function(Pointer<Void>)
+      >('{{libraryName}}_dart_dl_initialize'));
+
+    if (_library_dart_dl_init(NativeApi.initializeApiDLData) != 1) {
+      throw UnsupportedError("Unsupported version of Dart DL API.");
+    }
   }
 }

@@ -32,8 +32,8 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
 final _{{resolveName "Ffi"}}_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy'));
 
 class {{resolveName}}$Impl {
@@ -50,13 +50,13 @@ class {{resolveName}}$Impl {
 
 {{#set parent=this}}{{#asFunction}}
 int _{{resolveName parent}}_{{resolveName}}_static({{!!
-}}int _token{{#if parameters}}, {{/if}}{{!!
+}}Object _obj{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
   {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _result_object;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_result_object = {{/unless}}{{!!
-  }}(__lib.instanceCache[_token] as {{resolveName parent}})({{#parameters}}{{!!
+  }}(_obj as {{resolveName parent}})({{#parameters}}{{!!
   }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
     _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/unless}}
@@ -75,9 +75,9 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   final result = _{{resolveName "Ffi"}}_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,{{#set parent=this}}{{#asFunction}}
+    value,{{#set parent=this}}{{#asFunction}}
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{/asFunction}}{{/set}}
   );
 
@@ -103,6 +103,6 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Int64 Function(Uint64{{#if parameters}}, {{/if}}{{!!
+}}{{+ffiApi}}Int64 Function(Handle{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}){{/ffiApi}}

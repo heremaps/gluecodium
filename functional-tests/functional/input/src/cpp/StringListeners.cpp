@@ -70,4 +70,16 @@ PersistingLogger::remove_listener(const std::shared_ptr<test::StringListener>& l
     return true;
 }
 
-}  // namespace test
+void
+PersistingLogger::remove_all_listeners() {
+    s_listeners.clear();
+}
+
+void
+PersistingLogger::message_all(const std::string& message) {
+    for (const auto& listener: s_listeners) {
+        listener->on_message(message);
+    }
+}
+
+}
