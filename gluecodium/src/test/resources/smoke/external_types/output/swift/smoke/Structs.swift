@@ -27,7 +27,7 @@ public class Structs {
         internal init(cHandle: _baseRef) {
             stringField = moveFromCType(smoke_Structs_ExternalStruct_stringField_get(cHandle))
             externalStringField = moveFromCType(smoke_Structs_ExternalStruct_externalStringField_get(cHandle))
-            externalArrayField = moveFromCType(smoke_Structs_ExternalStruct_externalArrayField_get(cHandle))
+            externalArrayField = foobar_moveFromCType(smoke_Structs_ExternalStruct_externalArrayField_get(cHandle))
             externalStructField = moveFromCType(smoke_Structs_ExternalStruct_externalStructField_get(cHandle))
         }
     }
@@ -122,7 +122,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.ExternalStruct {
 internal func copyToCType(_ swiftType: Structs.ExternalStruct) -> RefHolder {
     let c_stringField = moveToCType(swiftType.stringField)
     let c_externalStringField = moveToCType(swiftType.externalStringField)
-    let c_externalArrayField = moveToCType(swiftType.externalArrayField)
+    let c_externalArrayField = foobar_moveToCType(swiftType.externalArrayField)
     let c_externalStructField = moveToCType(swiftType.externalStructField)
     return RefHolder(smoke_Structs_ExternalStruct_create_handle(c_stringField.ref, c_externalStringField.ref, c_externalArrayField.ref, c_externalStructField.ref))
 }
@@ -148,7 +148,7 @@ internal func copyToCType(_ swiftType: Structs.ExternalStruct?) -> RefHolder {
     }
     let c_stringField = moveToCType(swiftType.stringField)
     let c_externalStringField = moveToCType(swiftType.externalStringField)
-    let c_externalArrayField = moveToCType(swiftType.externalArrayField)
+    let c_externalArrayField = foobar_moveToCType(swiftType.externalArrayField)
     let c_externalStructField = moveToCType(swiftType.externalStructField)
     return RefHolder(smoke_Structs_ExternalStruct_create_optional_handle(c_stringField.ref, c_externalStringField.ref, c_externalArrayField.ref, c_externalStructField.ref))
 }

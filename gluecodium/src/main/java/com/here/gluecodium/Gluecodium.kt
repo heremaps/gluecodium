@@ -262,14 +262,7 @@ class Gluecodium(
 
     companion object {
         private val LOGGER = Logger.getLogger(Gluecodium::class.java.name)
-        val DEFAULT_INTERNAL_NAMESPACE = listOf("gluecodium")
         const val DEFAULT_CPP_EXPORT_MACRO_NAME = "_GLUECODIUM_CPP"
-
-        internal fun testOptions() = Options(
-            cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE,
-            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
-            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
-        )
 
         private fun loadVersion(): String {
             val prop = Properties()

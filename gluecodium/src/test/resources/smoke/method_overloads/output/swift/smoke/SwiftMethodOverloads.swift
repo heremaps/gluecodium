@@ -18,7 +18,7 @@ public class SwiftMethodOverloads {
         return moveFromCType(smoke_SwiftMethodOverloads_three_String(self.c_instance, c_input.ref))
     }
     public func three(input: [String]) -> Void {
-        let c_input = moveToCType(input)
+        let c_input = foobar_moveToCType(input)
         return moveFromCType(smoke_SwiftMethodOverloads_three__3String_4(self.c_instance, c_input.ref))
     }
 }

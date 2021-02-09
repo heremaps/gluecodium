@@ -27,10 +27,10 @@ public class Properties {
     }
     public var arrayProperty: [String] {
         get {
-            return moveFromCType(smoke_Properties_arrayProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_Properties_arrayProperty_get(self.c_instance))
         }
         set {
-            let c_value = moveToCType(newValue)
+            let c_value = foobar_moveToCType(newValue)
             return moveFromCType(smoke_Properties_arrayProperty_set(self.c_instance, c_value.ref))
         }
     }

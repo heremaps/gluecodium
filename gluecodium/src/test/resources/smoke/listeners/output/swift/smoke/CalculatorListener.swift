@@ -35,11 +35,11 @@ internal class _CalculatorListener: CalculatorListener {
         return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultArray(calculationResult: [Double]) -> Void {
-        let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = foobar_moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void {
-        let c_calculationResults = moveToCType(calculationResults)
+        let c_calculationResults = foobar_moveToCType(calculationResults)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(self.c_instance, c_calculationResults.ref))
     }
     public func onCalculationResultInstance(calculationResult: CalculationResult) -> Void {
@@ -92,11 +92,11 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.smoke_CalculatorListener_onCalculationResultArray = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        swift_class.onCalculationResultArray(calculationResult: moveFromCType(calculationResult))
+        swift_class.onCalculationResultArray(calculationResult: foobar_moveFromCType(calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultMap = {(swift_class_pointer, calculationResults) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        swift_class.onCalculationResultMap(calculationResults: moveFromCType(calculationResults))
+        swift_class.onCalculationResultMap(calculationResults: foobar_moveFromCType(calculationResults))
     }
     functions.smoke_CalculatorListener_onCalculationResultInstance = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener

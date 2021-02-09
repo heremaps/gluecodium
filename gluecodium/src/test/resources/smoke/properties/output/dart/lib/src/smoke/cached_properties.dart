@@ -44,9 +44,9 @@ class CachedProperties$Impl implements CachedProperties {
       final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
       final __result_handle = _get_ffi(this.handle, __lib.LibraryContext.isolateId);
       try {
-        _cache_cachedProperty = ListOf_String_fromFfi(__result_handle);
+        _cache_cachedProperty = foobar_ListOf_String_fromFfi(__result_handle);
       } finally {
-        ListOf_String_releaseFfiHandle(__result_handle);
+        foobar_ListOf_String_releaseFfiHandle(__result_handle);
       }
       _is_cached_cachedProperty = true;
     }

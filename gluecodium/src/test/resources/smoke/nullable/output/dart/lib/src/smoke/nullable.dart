@@ -229,9 +229,9 @@ Pointer<Void> smoke_Nullable_NullableStruct_toFfi(Nullable_NullableStruct value)
   final _doubleField_handle = Double_toFfi_nullable(value.doubleField);
   final _structField_handle = smoke_Nullable_SomeStruct_toFfi_nullable(value.structField);
   final _enumField_handle = smoke_Nullable_SomeEnum_toFfi_nullable(value.enumField);
-  final _arrayField_handle = ListOf_String_toFfi_nullable(value.arrayField);
-  final _inlineArrayField_handle = ListOf_String_toFfi_nullable(value.inlineArrayField);
-  final _mapField_handle = MapOf_Long_to_String_toFfi_nullable(value.mapField);
+  final _arrayField_handle = foobar_ListOf_String_toFfi_nullable(value.arrayField);
+  final _inlineArrayField_handle = foobar_ListOf_String_toFfi_nullable(value.inlineArrayField);
+  final _mapField_handle = foobar_MapOf_Long_to_String_toFfi_nullable(value.mapField);
   final _instanceField_handle = smoke_SomeInterface_toFfi_nullable(value.instanceField);
   final _result = _smoke_Nullable_NullableStruct_create_handle(_stringField_handle, _boolField_handle, _doubleField_handle, _structField_handle, _enumField_handle, _arrayField_handle, _inlineArrayField_handle, _mapField_handle, _instanceField_handle);
   String_releaseFfiHandle_nullable(_stringField_handle);
@@ -239,9 +239,9 @@ Pointer<Void> smoke_Nullable_NullableStruct_toFfi(Nullable_NullableStruct value)
   Double_releaseFfiHandle_nullable(_doubleField_handle);
   smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_structField_handle);
   smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
-  ListOf_String_releaseFfiHandle_nullable(_inlineArrayField_handle);
-  MapOf_Long_to_String_releaseFfiHandle_nullable(_mapField_handle);
+  foobar_ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
+  foobar_ListOf_String_releaseFfiHandle_nullable(_inlineArrayField_handle);
+  foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(_mapField_handle);
   smoke_SomeInterface_releaseFfiHandle_nullable(_instanceField_handle);
   return _result;
 }
@@ -262,9 +262,9 @@ Nullable_NullableStruct smoke_Nullable_NullableStruct_fromFfi(Pointer<Void> hand
       Double_fromFfi_nullable(_doubleField_handle),
       smoke_Nullable_SomeStruct_fromFfi_nullable(_structField_handle),
       smoke_Nullable_SomeEnum_fromFfi_nullable(_enumField_handle),
-      ListOf_String_fromFfi_nullable(_arrayField_handle),
-      ListOf_String_fromFfi_nullable(_inlineArrayField_handle),
-      MapOf_Long_to_String_fromFfi_nullable(_mapField_handle),
+      foobar_ListOf_String_fromFfi_nullable(_arrayField_handle),
+      foobar_ListOf_String_fromFfi_nullable(_inlineArrayField_handle),
+      foobar_MapOf_Long_to_String_fromFfi_nullable(_mapField_handle),
       smoke_SomeInterface_fromFfi_nullable(_instanceField_handle)
     );
   } finally {
@@ -273,9 +273,9 @@ Nullable_NullableStruct smoke_Nullable_NullableStruct_fromFfi(Pointer<Void> hand
     Double_releaseFfiHandle_nullable(_doubleField_handle);
     smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_structField_handle);
     smoke_Nullable_SomeEnum_releaseFfiHandle_nullable(_enumField_handle);
-    ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
-    ListOf_String_releaseFfiHandle_nullable(_inlineArrayField_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(_mapField_handle);
+    foobar_ListOf_String_releaseFfiHandle_nullable(_arrayField_handle);
+    foobar_ListOf_String_releaseFfiHandle_nullable(_inlineArrayField_handle);
+    foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(_mapField_handle);
     smoke_SomeInterface_releaseFfiHandle_nullable(_instanceField_handle);
   }
 }
@@ -546,40 +546,40 @@ class Nullable$Impl implements Nullable {
   @override
   List<String> methodWithSomeArray(List<String> input) {
     final _methodWithSomeArray_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_1String'));
-    final _input_handle = ListOf_String_toFfi_nullable(input);
+    final _input_handle = foobar_ListOf_String_toFfi_nullable(input);
     final _handle = this.handle;
     final __result_handle = _methodWithSomeArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    ListOf_String_releaseFfiHandle_nullable(_input_handle);
+    foobar_ListOf_String_releaseFfiHandle_nullable(_input_handle);
     try {
-      return ListOf_String_fromFfi_nullable(__result_handle);
+      return foobar_ListOf_String_fromFfi_nullable(__result_handle);
     } finally {
-      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+      foobar_ListOf_String_releaseFfiHandle_nullable(__result_handle);
     }
   }
   @override
   List<String> methodWithInlineArray(List<String> input) {
     final _methodWithInlineArray_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithInlineArray__ListOf_1String'));
-    final _input_handle = ListOf_String_toFfi_nullable(input);
+    final _input_handle = foobar_ListOf_String_toFfi_nullable(input);
     final _handle = this.handle;
     final __result_handle = _methodWithInlineArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    ListOf_String_releaseFfiHandle_nullable(_input_handle);
+    foobar_ListOf_String_releaseFfiHandle_nullable(_input_handle);
     try {
-      return ListOf_String_fromFfi_nullable(__result_handle);
+      return foobar_ListOf_String_fromFfi_nullable(__result_handle);
     } finally {
-      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+      foobar_ListOf_String_releaseFfiHandle_nullable(__result_handle);
     }
   }
   @override
   Map<int, String> methodWithSomeMap(Map<int, String> input) {
     final _methodWithSomeMap_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_1Long_1to_1String'));
-    final _input_handle = MapOf_Long_to_String_toFfi_nullable(input);
+    final _input_handle = foobar_MapOf_Long_to_String_toFfi_nullable(input);
     final _handle = this.handle;
     final __result_handle = _methodWithSomeMap_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(_input_handle);
+    foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(_input_handle);
     try {
-      return MapOf_Long_to_String_fromFfi_nullable(__result_handle);
+      return foobar_MapOf_Long_to_String_fromFfi_nullable(__result_handle);
     } finally {
-      MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
+      foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
     }
   }
   @override
@@ -745,18 +745,18 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return ListOf_String_fromFfi_nullable(__result_handle);
+      return foobar_ListOf_String_fromFfi_nullable(__result_handle);
     } finally {
-      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+      foobar_ListOf_String_releaseFfiHandle_nullable(__result_handle);
     }
   }
   @override
   set arrayProperty(List<String> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_1String'));
-    final _value_handle = ListOf_String_toFfi_nullable(value);
+    final _value_handle = foobar_ListOf_String_toFfi_nullable(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    ListOf_String_releaseFfiHandle_nullable(_value_handle);
+    foobar_ListOf_String_releaseFfiHandle_nullable(_value_handle);
     try {
       return (__result_handle);
     } finally {
@@ -769,18 +769,18 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return ListOf_String_fromFfi_nullable(__result_handle);
+      return foobar_ListOf_String_fromFfi_nullable(__result_handle);
     } finally {
-      ListOf_String_releaseFfiHandle_nullable(__result_handle);
+      foobar_ListOf_String_releaseFfiHandle_nullable(__result_handle);
     }
   }
   @override
   set inlineArrayProperty(List<String> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_set__ListOf_1String'));
-    final _value_handle = ListOf_String_toFfi_nullable(value);
+    final _value_handle = foobar_ListOf_String_toFfi_nullable(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    ListOf_String_releaseFfiHandle_nullable(_value_handle);
+    foobar_ListOf_String_releaseFfiHandle_nullable(_value_handle);
     try {
       return (__result_handle);
     } finally {
@@ -793,18 +793,18 @@ class Nullable$Impl implements Nullable {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return MapOf_Long_to_String_fromFfi_nullable(__result_handle);
+      return foobar_MapOf_Long_to_String_fromFfi_nullable(__result_handle);
     } finally {
-      MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
+      foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(__result_handle);
     }
   }
   @override
   set mapProperty(Map<int, String> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String'));
-    final _value_handle = MapOf_Long_to_String_toFfi_nullable(value);
+    final _value_handle = foobar_MapOf_Long_to_String_toFfi_nullable(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    MapOf_Long_to_String_releaseFfiHandle_nullable(_value_handle);
+    foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(_value_handle);
     try {
       return (__result_handle);
     } finally {

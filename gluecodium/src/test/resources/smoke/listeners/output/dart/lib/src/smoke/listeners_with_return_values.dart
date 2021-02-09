@@ -281,9 +281,9 @@ class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
     final _handle = this.handle;
     final __result_handle = _fetchDataArray_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return ListOf_Double_fromFfi(__result_handle);
+      return foobar_ListOf_Double_fromFfi(__result_handle);
     } finally {
-      ListOf_Double_releaseFfiHandle(__result_handle);
+      foobar_ListOf_Double_releaseFfiHandle(__result_handle);
     }
   }
   @override
@@ -292,9 +292,9 @@ class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
     final _handle = this.handle;
     final __result_handle = _fetchDataMap_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return MapOf_String_to_Double_fromFfi(__result_handle);
+      return foobar_MapOf_String_to_Double_fromFfi(__result_handle);
     } finally {
-      MapOf_String_to_Double_releaseFfiHandle(__result_handle);
+      foobar_MapOf_String_to_Double_releaseFfiHandle(__result_handle);
     }
   }
   @override
@@ -349,7 +349,7 @@ int _ListenersWithReturnValues_fetchDataArray_static(int _token, Pointer<Pointer
   List<double> _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataArray();
-    _result.value = ListOf_Double_toFfi(_result_object);
+    _result.value = foobar_ListOf_Double_toFfi(_result_object);
   } finally {
   }
   return 0;
@@ -358,7 +358,7 @@ int _ListenersWithReturnValues_fetchDataMap_static(int _token, Pointer<Pointer<V
   Map<String, double> _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataMap();
-    _result.value = MapOf_String_to_Double_toFfi(_result_object);
+    _result.value = foobar_MapOf_String_to_Double_toFfi(_result_object);
   } finally {
   }
   return 0;

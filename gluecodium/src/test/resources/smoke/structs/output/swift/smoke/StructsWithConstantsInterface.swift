@@ -23,7 +23,7 @@ public class StructsWithConstantsInterface {
             self.type = type
         }
         internal init(cHandle: _baseRef) {
-            descriptions = moveFromCType(smoke_StructsWithConstantsInterface_MultiRoute_descriptions_get(cHandle))
+            descriptions = foobar_moveFromCType(smoke_StructsWithConstantsInterface_MultiRoute_descriptions_get(cHandle))
             type = moveFromCType(smoke_StructsWithConstantsInterface_MultiRoute_type_get(cHandle))
         }
     }
@@ -104,7 +104,7 @@ internal func moveFromCType(_ handle: _baseRef) -> StructsWithConstantsInterface
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: StructsWithConstantsInterface.MultiRoute) -> RefHolder {
-    let c_descriptions = moveToCType(swiftType.descriptions)
+    let c_descriptions = foobar_moveToCType(swiftType.descriptions)
     let c_type = moveToCType(swiftType.type)
     return RefHolder(smoke_StructsWithConstantsInterface_MultiRoute_create_handle(c_descriptions.ref, c_type.ref))
 }
@@ -128,7 +128,7 @@ internal func copyToCType(_ swiftType: StructsWithConstantsInterface.MultiRoute?
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_descriptions = moveToCType(swiftType.descriptions)
+    let c_descriptions = foobar_moveToCType(swiftType.descriptions)
     let c_type = moveToCType(swiftType.type)
     return RefHolder(smoke_StructsWithConstantsInterface_MultiRoute_create_optional_handle(c_descriptions.ref, c_type.ref))
 }

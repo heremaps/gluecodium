@@ -49,12 +49,12 @@ final _smoke_Structs_ExternalStruct_get_field_externalStructField = __lib.catchA
 Pointer<Void> smoke_Structs_ExternalStruct_toFfi(Structs_ExternalStruct value) {
   final _stringField_handle = String_toFfi(value.stringField);
   final _externalStringField_handle = String_toFfi(value.externalStringField);
-  final _externalArrayField_handle = ListOf_Byte_toFfi(value.externalArrayField);
+  final _externalArrayField_handle = foobar_ListOf_Byte_toFfi(value.externalArrayField);
   final _externalStructField_handle = smoke_Structs_AnotherExternalStruct_toFfi(value.externalStructField);
   final _result = _smoke_Structs_ExternalStruct_create_handle(_stringField_handle, _externalStringField_handle, _externalArrayField_handle, _externalStructField_handle);
   String_releaseFfiHandle(_stringField_handle);
   String_releaseFfiHandle(_externalStringField_handle);
-  ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+  foobar_ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
   smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
   return _result;
 }
@@ -67,13 +67,13 @@ Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi(Pointer<Void> handle
     return Structs_ExternalStruct(
       String_fromFfi(_stringField_handle),
       String_fromFfi(_externalStringField_handle),
-      ListOf_Byte_fromFfi(_externalArrayField_handle),
+      foobar_ListOf_Byte_fromFfi(_externalArrayField_handle),
       smoke_Structs_AnotherExternalStruct_fromFfi(_externalStructField_handle)
     );
   } finally {
     String_releaseFfiHandle(_stringField_handle);
     String_releaseFfiHandle(_externalStringField_handle);
-    ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
+    foobar_ListOf_Byte_releaseFfiHandle(_externalArrayField_handle);
     smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructField_handle);
   }
 }

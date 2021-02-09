@@ -36,10 +36,10 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance))
     }
     public func fetchDataArray() -> [Double] {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance))
+        return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance))
     }
     public func fetchDataMap() -> ListenersWithReturnValues.StringToDouble {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
+        return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
     }
     public func fetchDataInstance() -> CalculationResult {
         return CalculationResult_moveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
@@ -98,11 +98,11 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
     }
     functions.smoke_ListenersWithReturnValues_fetchDataArray = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return copyToCType(swift_class.fetchDataArray()).ref
+        return foobar_copyToCType(swift_class.fetchDataArray()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchDataMap = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return copyToCType(swift_class.fetchDataMap()).ref
+        return foobar_copyToCType(swift_class.fetchDataMap()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchDataInstance = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
