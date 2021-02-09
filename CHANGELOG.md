@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Bug fixes:
+  * Fixed compilation issues for modularized Swift builds.
 ### Removed:
   * Deprecated IDL attribute `@Swift(ObjC)` was removed.
 
