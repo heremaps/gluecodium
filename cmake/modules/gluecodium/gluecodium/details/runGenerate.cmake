@@ -147,7 +147,6 @@ function(_prepare_gluecodium_config_file file_path)
   _append_option(cppexport GLUECODIUM_CPP_EXPORT_MACRO_NAME)
   _append_option(cppexportcommon GLUECODIUM_CPP_EXPORT_COMMON_MACRO_NAME)
 
-  _append_path_option(mergemanifest GLUECODIUM_ANDROID_MERGE_MANIFEST)
   _append_path_option(copyright GLUECODIUM_COPYRIGHT_HEADER)
   _append_path_option(cppnamerules GLUECODIUM_CPP_NAMERULES)
   _append_path_option(javanamerules GLUECODIUM_JAVA_NAMERULES)

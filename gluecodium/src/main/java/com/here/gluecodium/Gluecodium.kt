@@ -19,7 +19,6 @@
 
 package com.here.gluecodium
 
-import com.android.manifmerger.Merger
 import com.here.gluecodium.cache.SplitSourceSetCache
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
@@ -29,7 +28,6 @@ import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.java.JavaGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -54,9 +52,7 @@ import com.here.gluecodium.validator.LimeTypeRefsValidator
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.IOException
-import java.nio.file.Paths
 import java.util.Properties
 import java.util.logging.Level
 import java.util.logging.LogManager
@@ -144,16 +140,6 @@ class Gluecodium(
         val outputSuccessful = output(generatorName, outputFiles)
         val processedWithoutCollisions = checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)
 
-        if (generatorName == JavaGeneratorSuite.GENERATOR_NAME &&
-            options.androidMergeManifestPath != null &&
-            outputSuccessful &&
-            processedWithoutCollisions
-        ) {
-            val baseManifestPath = Paths.get(options.outputDir, "android", "AndroidManifest.xml").toString()
-            return mergeAndroidManifests(
-                baseManifestPath, options.androidMergeManifestPath.toString(), baseManifestPath
-            )
-        }
         return processedWithoutCollisions && outputSuccessful
     }
 
@@ -223,7 +209,6 @@ class Gluecodium(
         var isValidatingOnly: Boolean = false,
         var generators: Set<String> = setOf(),
         var isEnableCaching: Boolean = false,
-        var androidMergeManifestPath: String? = null,
         var copyrightHeaderContents: String? = null,
         var cppInternalNamespace: List<String> = emptyList(),
         var cppRootNamespace: List<String> = listOf(),
@@ -298,26 +283,6 @@ class Gluecodium(
                 }
             }
             return succeeded
-        }
-
-        internal fun mergeAndroidManifests(
-            baseManifestPath: String,
-            appendManifestPath: String,
-            outputFilePath: String
-        ) = try {
-            Merger().process(
-                arrayOf(
-                    "--main",
-                    baseManifestPath,
-                    "--overlays",
-                    appendManifestPath,
-                    "--out",
-                    outputFilePath
-                )
-            ) == 0
-        } catch (e: FileNotFoundException) {
-            LOGGER.severe("Could not merge base Android Manifest files: " + e.message)
-            false
         }
 
         private fun saveToDirectory(outputDir: String, files: List<GeneratedFile>): Boolean {

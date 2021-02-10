@@ -106,7 +106,6 @@ class GluecodiumPlugin @Inject constructor(private val objectFactory: ObjectFact
         task.javaNameRules.set(gluecodiumExtension.javaNameRules)
         task.javaNonNullAnnotation.set(gluecodiumExtension.javaNonNullAnnotation)
         task.javaNullableAnnotation.set(gluecodiumExtension.javaNullableAnnotation)
-        task.androidMergeManifest.set(gluecodiumExtension.androidMergeManifest)
         task.cppNamespace.set(gluecodiumExtension.cppNamespace)
         task.cppInternalNamespace.set(gluecodiumExtension.cppInternalNamespace)
         task.cppExportMacroName.set(gluecodiumExtension.cppExportMacroName)
