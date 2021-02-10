@@ -62,7 +62,7 @@ extension GenericTypesWithGenericTypes: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
+internal func foobar_GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
     if let swift_pointer = smoke_GenericTypesWithGenericTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithGenericTypes {
         return re_constructed
@@ -71,7 +71,7 @@ internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> 
     smoke_GenericTypesWithGenericTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
+internal func foobar_GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes {
     if let swift_pointer = smoke_GenericTypesWithGenericTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithGenericTypes {
         smoke_GenericTypesWithGenericTypes_release_handle(handle)
@@ -81,27 +81,27 @@ internal func GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> 
     smoke_GenericTypesWithGenericTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
+internal func foobar_GenericTypesWithGenericTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
     guard handle != 0 else {
         return nil
     }
-    return GenericTypesWithGenericTypes_moveFromCType(handle) as GenericTypesWithGenericTypes
+    return foobar_GenericTypesWithGenericTypes_moveFromCType(handle) as GenericTypesWithGenericTypes
 }
-internal func GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
+internal func foobar_GenericTypesWithGenericTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithGenericTypes? {
     guard handle != 0 else {
         return nil
     }
-    return GenericTypesWithGenericTypes_moveFromCType(handle) as GenericTypesWithGenericTypes
+    return foobar_GenericTypesWithGenericTypes_moveFromCType(handle) as GenericTypesWithGenericTypes
 }
-internal func copyToCType(_ swiftClass: GenericTypesWithGenericTypes) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: GenericTypesWithGenericTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: GenericTypesWithGenericTypes) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: GenericTypesWithGenericTypes) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: GenericTypesWithGenericTypes?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: GenericTypesWithGenericTypes?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: GenericTypesWithGenericTypes?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: GenericTypesWithGenericTypes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

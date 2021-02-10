@@ -13,7 +13,7 @@ public struct Vector {
         guard _result_handle != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        let _result: Vector = moveFromCType(_result_handle)
+        let _result: Vector = foobar_moveFromCType(_result_handle)
         self.x = _result.x
         self.y = _result.y
     }
@@ -22,19 +22,19 @@ public struct Vector {
         guard _result_handle != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        let _result: Vector = moveFromCType(_result_handle)
+        let _result: Vector = foobar_moveFromCType(_result_handle)
         self.x = _result.x
         self.y = _result.y
     }
     public func distanceTo(other: Vector) -> Double {
-        let c_self_handle = moveToCType(self)
-        let c_other = moveToCType(other)
+        let c_self_handle = foobar_moveToCType(self)
+        let c_other = foobar_moveToCType(other)
         return moveFromCType(smoke_StructsWithMethods_Vector_distanceTo(c_self_handle.ref, c_other.ref))
     }
     public func add(other: Vector) -> Vector {
-        let c_self_handle = moveToCType(self)
-        let c_other = moveToCType(other)
-        return moveFromCType(smoke_StructsWithMethods_Vector_add(c_self_handle.ref, c_other.ref))
+        let c_self_handle = foobar_moveToCType(self)
+        let c_other = foobar_moveToCType(other)
+        return foobar_moveFromCType(smoke_StructsWithMethods_Vector_add(c_self_handle.ref, c_other.ref))
     }
     public static func validate(x: Double, y: Double) -> Bool {
         let c_x = moveToCType(x)
@@ -47,46 +47,46 @@ public struct Vector {
         return moveFromCType(smoke_StructsWithMethods_Vector_create_Double_Double(c_x.ref, c_y.ref))
     }
     private static func create(other: Vector) throws -> _baseRef {
-        let c_other = moveToCType(other)
+        let c_other = foobar_moveToCType(other)
         let RESULT = smoke_StructsWithMethods_Vector_create_Vector(c_other.ref)
         if (!RESULT.has_value) {
-            throw moveFromCType(RESULT.error_value) as ValidationError
+            throw foobar_moveFromCType(RESULT.error_value) as ValidationError
         } else {
             return moveFromCType(RESULT.returned_value)
         }
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> Vector {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Vector {
     return Vector(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> Vector {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Vector {
     defer {
         smoke_StructsWithMethods_Vector_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Vector) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: Vector) -> RefHolder {
     let c_x = moveToCType(swiftType.x)
     let c_y = moveToCType(swiftType.y)
     return RefHolder(smoke_StructsWithMethods_Vector_create_handle(c_x.ref, c_y.ref))
 }
-internal func moveToCType(_ swiftType: Vector) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructsWithMethods_Vector_release_handle)
+internal func foobar_moveToCType(_ swiftType: Vector) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructsWithMethods_Vector_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Vector? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Vector? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_StructsWithMethods_Vector_unwrap_optional_handle(handle)
     return Vector(cHandle: unwrappedHandle) as Vector
 }
-internal func moveFromCType(_ handle: _baseRef) -> Vector? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Vector? {
     defer {
         smoke_StructsWithMethods_Vector_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Vector?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: Vector?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -94,6 +94,6 @@ internal func copyToCType(_ swiftType: Vector?) -> RefHolder {
     let c_y = moveToCType(swiftType.y)
     return RefHolder(smoke_StructsWithMethods_Vector_create_optional_handle(c_x.ref, c_y.ref))
 }
-internal func moveToCType(_ swiftType: Vector?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructsWithMethods_Vector_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: Vector?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructsWithMethods_Vector_release_optional_handle)
 }

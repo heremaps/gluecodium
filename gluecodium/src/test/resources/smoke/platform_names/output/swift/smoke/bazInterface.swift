@@ -32,7 +32,7 @@ public class bazInterface {
     }
     public func BazMethod(_ BazParameter: String) -> bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_bazInterface_BazMethod(self.c_instance, c_BazParameter.ref))
+        return foobar_moveFromCType(smoke_bazInterface_BazMethod(self.c_instance, c_BazParameter.ref))
     }
     private static func make(_ makeParameter: String) -> _baseRef {
         let c_makeParameter = moveToCType(makeParameter)
@@ -59,7 +59,7 @@ extension bazInterface: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface {
+internal func foobar_bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface {
     if let swift_pointer = smoke_bazInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazInterface {
         return re_constructed
@@ -68,7 +68,7 @@ internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface {
     smoke_bazInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface {
+internal func foobar_bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface {
     if let swift_pointer = smoke_bazInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazInterface {
         smoke_bazInterface_release_handle(handle)
@@ -78,27 +78,27 @@ internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface {
     smoke_bazInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface? {
+internal func foobar_bazInterface_copyFromCType(_ handle: _baseRef) -> bazInterface? {
     guard handle != 0 else {
         return nil
     }
-    return bazInterface_moveFromCType(handle) as bazInterface
+    return foobar_bazInterface_moveFromCType(handle) as bazInterface
 }
-internal func bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface? {
+internal func foobar_bazInterface_moveFromCType(_ handle: _baseRef) -> bazInterface? {
     guard handle != 0 else {
         return nil
     }
-    return bazInterface_moveFromCType(handle) as bazInterface
+    return foobar_bazInterface_moveFromCType(handle) as bazInterface
 }
-internal func copyToCType(_ swiftClass: bazInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: bazInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: bazInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: bazInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: bazInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: bazInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: bazInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: bazInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

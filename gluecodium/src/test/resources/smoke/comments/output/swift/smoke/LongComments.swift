@@ -45,7 +45,7 @@ extension LongComments: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
+internal func foobar_LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
     if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
         return re_constructed
@@ -54,7 +54,7 @@ internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
     smoke_LongComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
+internal func foobar_LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
     if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
         smoke_LongComments_release_handle(handle)
@@ -64,27 +64,27 @@ internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
     smoke_LongComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments? {
+internal func foobar_LongComments_copyFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {
         return nil
     }
-    return LongComments_moveFromCType(handle) as LongComments
+    return foobar_LongComments_moveFromCType(handle) as LongComments
 }
-internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments? {
+internal func foobar_LongComments_moveFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {
         return nil
     }
-    return LongComments_moveFromCType(handle) as LongComments
+    return foobar_LongComments_moveFromCType(handle) as LongComments
 }
-internal func copyToCType(_ swiftClass: LongComments) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: LongComments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: LongComments) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: LongComments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: LongComments?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: LongComments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: LongComments?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: LongComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

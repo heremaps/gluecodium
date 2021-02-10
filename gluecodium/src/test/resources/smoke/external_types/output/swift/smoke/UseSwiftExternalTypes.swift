@@ -15,20 +15,20 @@ public class UseSwiftExternalTypes {
         smoke_UseSwiftExternalTypes_release_handle(c_instance)
     }
     public static func dateIntervalRoundTrip(input: DateInterval) -> DateInterval {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_dateIntervalRoundTrip(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_UseSwiftExternalTypes_dateIntervalRoundTrip(c_input.ref))
     }
     public static func persistenceRoundTrip(input: URLCredential.Persistence) -> URLCredential.Persistence {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_persistenceRoundTrip(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_UseSwiftExternalTypes_persistenceRoundTrip(c_input.ref))
     }
     public static func colorRoundTrip(input: UIColor) -> UIColor {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_colorRoundTrip(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_UseSwiftExternalTypes_colorRoundTrip(c_input.ref))
     }
     public static func seasonRoundTrip(input: SwiftSeason) -> SwiftSeason {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_seasonRoundTrip(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_UseSwiftExternalTypes_seasonRoundTrip(c_input.ref))
     }
 }
 internal func getRef(_ ref: UseSwiftExternalTypes?, owning: Bool = true) -> RefHolder {
@@ -51,7 +51,7 @@ extension UseSwiftExternalTypes: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func UseSwiftExternalTypes_copyFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes {
+internal func foobar_UseSwiftExternalTypes_copyFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes {
     if let swift_pointer = smoke_UseSwiftExternalTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseSwiftExternalTypes {
         return re_constructed
@@ -60,7 +60,7 @@ internal func UseSwiftExternalTypes_copyFromCType(_ handle: _baseRef) -> UseSwif
     smoke_UseSwiftExternalTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func UseSwiftExternalTypes_moveFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes {
+internal func foobar_UseSwiftExternalTypes_moveFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes {
     if let swift_pointer = smoke_UseSwiftExternalTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UseSwiftExternalTypes {
         smoke_UseSwiftExternalTypes_release_handle(handle)
@@ -70,27 +70,27 @@ internal func UseSwiftExternalTypes_moveFromCType(_ handle: _baseRef) -> UseSwif
     smoke_UseSwiftExternalTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func UseSwiftExternalTypes_copyFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes? {
+internal func foobar_UseSwiftExternalTypes_copyFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes? {
     guard handle != 0 else {
         return nil
     }
-    return UseSwiftExternalTypes_moveFromCType(handle) as UseSwiftExternalTypes
+    return foobar_UseSwiftExternalTypes_moveFromCType(handle) as UseSwiftExternalTypes
 }
-internal func UseSwiftExternalTypes_moveFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes? {
+internal func foobar_UseSwiftExternalTypes_moveFromCType(_ handle: _baseRef) -> UseSwiftExternalTypes? {
     guard handle != 0 else {
         return nil
     }
-    return UseSwiftExternalTypes_moveFromCType(handle) as UseSwiftExternalTypes
+    return foobar_UseSwiftExternalTypes_moveFromCType(handle) as UseSwiftExternalTypes
 }
-internal func copyToCType(_ swiftClass: UseSwiftExternalTypes) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: UseSwiftExternalTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: UseSwiftExternalTypes) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: UseSwiftExternalTypes) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: UseSwiftExternalTypes?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: UseSwiftExternalTypes?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: UseSwiftExternalTypes?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: UseSwiftExternalTypes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

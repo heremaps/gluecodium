@@ -14,8 +14,8 @@ public class EnumsInTypeCollectionInterface {
         smoke_EnumsInTypeCollectionInterface_release_handle(c_instance)
     }
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(c_input.ref))
     }
 }
 internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true) -> RefHolder {
@@ -38,7 +38,7 @@ extension EnumsInTypeCollectionInterface: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
+internal func foobar_EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
     if let swift_pointer = smoke_EnumsInTypeCollectionInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EnumsInTypeCollectionInterface {
         return re_constructed
@@ -47,7 +47,7 @@ internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -
     smoke_EnumsInTypeCollectionInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
+internal func foobar_EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
     if let swift_pointer = smoke_EnumsInTypeCollectionInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EnumsInTypeCollectionInterface {
         smoke_EnumsInTypeCollectionInterface_release_handle(handle)
@@ -57,27 +57,27 @@ internal func EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -
     smoke_EnumsInTypeCollectionInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
+internal func foobar_EnumsInTypeCollectionInterface_copyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EnumsInTypeCollectionInterface_moveFromCType(handle) as EnumsInTypeCollectionInterface
+    return foobar_EnumsInTypeCollectionInterface_moveFromCType(handle) as EnumsInTypeCollectionInterface
 }
-internal func EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
+internal func foobar_EnumsInTypeCollectionInterface_moveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EnumsInTypeCollectionInterface_moveFromCType(handle) as EnumsInTypeCollectionInterface
+    return foobar_EnumsInTypeCollectionInterface_moveFromCType(handle) as EnumsInTypeCollectionInterface
 }
-internal func copyToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: EnumsInTypeCollectionInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: EnumsInTypeCollectionInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: EnumsInTypeCollectionInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: EnumsInTypeCollectionInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

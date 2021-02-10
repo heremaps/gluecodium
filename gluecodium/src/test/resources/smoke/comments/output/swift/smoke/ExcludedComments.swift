@@ -72,7 +72,7 @@ public class ExcludedComments {
         let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_ExcludedComments_someMethodWithAllComments(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
-            throw moveFromCType(RESULT.error_value) as ExcludedComments.SomethingWrongError
+            throw foobar_moveFromCType(RESULT.error_value) as ExcludedComments.SomethingWrongError
         } else {
             return moveFromCType(RESULT.returned_value)
         }
@@ -103,7 +103,7 @@ extension ExcludedComments: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func ExcludedComments_copyFromCType(_ handle: _baseRef) -> ExcludedComments {
+internal func foobar_ExcludedComments_copyFromCType(_ handle: _baseRef) -> ExcludedComments {
     if let swift_pointer = smoke_ExcludedComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExcludedComments {
         return re_constructed
@@ -112,7 +112,7 @@ internal func ExcludedComments_copyFromCType(_ handle: _baseRef) -> ExcludedComm
     smoke_ExcludedComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func ExcludedComments_moveFromCType(_ handle: _baseRef) -> ExcludedComments {
+internal func foobar_ExcludedComments_moveFromCType(_ handle: _baseRef) -> ExcludedComments {
     if let swift_pointer = smoke_ExcludedComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExcludedComments {
         smoke_ExcludedComments_release_handle(handle)
@@ -122,50 +122,50 @@ internal func ExcludedComments_moveFromCType(_ handle: _baseRef) -> ExcludedComm
     smoke_ExcludedComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func ExcludedComments_copyFromCType(_ handle: _baseRef) -> ExcludedComments? {
+internal func foobar_ExcludedComments_copyFromCType(_ handle: _baseRef) -> ExcludedComments? {
     guard handle != 0 else {
         return nil
     }
-    return ExcludedComments_moveFromCType(handle) as ExcludedComments
+    return foobar_ExcludedComments_moveFromCType(handle) as ExcludedComments
 }
-internal func ExcludedComments_moveFromCType(_ handle: _baseRef) -> ExcludedComments? {
+internal func foobar_ExcludedComments_moveFromCType(_ handle: _baseRef) -> ExcludedComments? {
     guard handle != 0 else {
         return nil
     }
-    return ExcludedComments_moveFromCType(handle) as ExcludedComments
+    return foobar_ExcludedComments_moveFromCType(handle) as ExcludedComments
 }
-internal func copyToCType(_ swiftClass: ExcludedComments) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ExcludedComments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ExcludedComments) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ExcludedComments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ExcludedComments?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ExcludedComments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ExcludedComments?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ExcludedComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda {
-    return moveFromCType(smoke_ExcludedComments_SomeLambda_copy_handle(handle))
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda {
+    return foobar_moveFromCType(smoke_ExcludedComments_SomeLambda_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda {
     let refHolder = RefHolder(ref: handle, release: smoke_ExcludedComments_SomeLambda_release_handle)
     return { (p0: String, p1: Int32) -> Double in
         return moveFromCType(smoke_ExcludedComments_SomeLambda_call(refHolder.ref, moveToCType(p0).ref, moveToCType(p1).ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as ExcludedComments.SomeLambda
+    return foobar_copyFromCType(handle) as ExcludedComments.SomeLambda
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as ExcludedComments.SomeLambda
+    return foobar_moveFromCType(handle) as ExcludedComments.SomeLambda
 }
 internal func createFunctionalTable(_ swiftType: @escaping ExcludedComments.SomeLambda) -> smoke_ExcludedComments_SomeLambda_FunctionTable {
     class smoke_ExcludedComments_SomeLambda_Holder {
@@ -187,96 +187,96 @@ internal func createFunctionalTable(_ swiftType: @escaping ExcludedComments.Some
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping ExcludedComments.SomeLambda) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: @escaping ExcludedComments.SomeLambda) -> RefHolder {
     let handle = smoke_ExcludedComments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping ExcludedComments.SomeLambda) -> RefHolder {
+internal func foobar_moveToCType(_ swiftType: @escaping ExcludedComments.SomeLambda) -> RefHolder {
     let handle = smoke_ExcludedComments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_ExcludedComments_SomeLambda_release_handle)
 }
-internal func copyToCType(_ swiftType: ExcludedComments.SomeLambda?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: ExcludedComments.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let handle = smoke_ExcludedComments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: ExcludedComments.SomeLambda?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftType: ExcludedComments.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let handle = smoke_ExcludedComments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_ExcludedComments_SomeLambda_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct {
     return ExcludedComments.SomeStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct {
     defer {
         smoke_ExcludedComments_SomeStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: ExcludedComments.SomeStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: ExcludedComments.SomeStruct) -> RefHolder {
     let c_someField = moveToCType(swiftType.someField)
     return RefHolder(smoke_ExcludedComments_SomeStruct_create_handle(c_someField.ref))
 }
-internal func moveToCType(_ swiftType: ExcludedComments.SomeStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ExcludedComments_SomeStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: ExcludedComments.SomeStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_ExcludedComments_SomeStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_ExcludedComments_SomeStruct_unwrap_optional_handle(handle)
     return ExcludedComments.SomeStruct(cHandle: unwrappedHandle) as ExcludedComments.SomeStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeStruct? {
     defer {
         smoke_ExcludedComments_SomeStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: ExcludedComments.SomeStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: ExcludedComments.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_someField = moveToCType(swiftType.someField)
     return RefHolder(smoke_ExcludedComments_SomeStruct_create_optional_handle(c_someField.ref))
 }
-internal func moveToCType(_ swiftType: ExcludedComments.SomeStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ExcludedComments_SomeStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: ExcludedComments.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_ExcludedComments_SomeStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: ExcludedComments.SomeEnum) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: ExcludedComments.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: ExcludedComments.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: ExcludedComments.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: ExcludedComments.SomeEnum?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: ExcludedComments.SomeEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: ExcludedComments.SomeEnum?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: ExcludedComments.SomeEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> ExcludedComments.SomeEnum {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> ExcludedComments.SomeEnum {
     return ExcludedComments.SomeEnum(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> ExcludedComments.SomeEnum {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> ExcludedComments.SomeEnum {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeEnum? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedComments.SomeEnum? {
     guard handle != 0 else {
         return nil
     }
     return ExcludedComments.SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeEnum? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ExcludedComments.SomeEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
 extension ExcludedComments.SomeEnum : Error {
 }

@@ -37,7 +37,7 @@ extension InternalClass: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass {
+internal func foobar_InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass {
     if let swift_pointer = smoke_InternalClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalClass {
         return re_constructed
@@ -46,7 +46,7 @@ internal func InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass {
     smoke_InternalClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass {
+internal func foobar_InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass {
     if let swift_pointer = smoke_InternalClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalClass {
         smoke_InternalClass_release_handle(handle)
@@ -56,27 +56,27 @@ internal func InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass {
     smoke_InternalClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass? {
+internal func foobar_InternalClass_copyFromCType(_ handle: _baseRef) -> InternalClass? {
     guard handle != 0 else {
         return nil
     }
-    return InternalClass_moveFromCType(handle) as InternalClass
+    return foobar_InternalClass_moveFromCType(handle) as InternalClass
 }
-internal func InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass? {
+internal func foobar_InternalClass_moveFromCType(_ handle: _baseRef) -> InternalClass? {
     guard handle != 0 else {
         return nil
     }
-    return InternalClass_moveFromCType(handle) as InternalClass
+    return foobar_InternalClass_moveFromCType(handle) as InternalClass
 }
-internal func copyToCType(_ swiftClass: InternalClass) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: InternalClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: InternalClass) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: InternalClass) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: InternalClass?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: InternalClass?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: InternalClass?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: InternalClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

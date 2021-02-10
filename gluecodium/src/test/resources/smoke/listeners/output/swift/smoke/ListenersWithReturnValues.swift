@@ -30,10 +30,10 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchDataString(self.c_instance))
     }
     public func fetchDataStruct() -> ResultStruct {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataStruct(self.c_instance))
+        return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataStruct(self.c_instance))
     }
     public func fetchDataEnum() -> ResultEnum {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance))
+        return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance))
     }
     public func fetchDataArray() -> [Double] {
         return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance))
@@ -42,7 +42,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
     }
     public func fetchDataInstance() -> CalculationResult {
-        return CalculationResult_moveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
+        return foobar_CalculationResult_moveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
     }
 }
 public enum ResultEnum : UInt32, CaseIterable, Codable {
@@ -90,11 +90,11 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
     }
     functions.smoke_ListenersWithReturnValues_fetchDataStruct = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return copyToCType(swift_class.fetchDataStruct()).ref
+        return foobar_copyToCType(swift_class.fetchDataStruct()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchDataEnum = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return copyToCType(swift_class.fetchDataEnum()).ref
+        return foobar_copyToCType(swift_class.fetchDataEnum()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchDataArray = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
@@ -106,7 +106,7 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
     }
     functions.smoke_ListenersWithReturnValues_fetchDataInstance = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return copyToCType(swift_class.fetchDataInstance()).ref
+        return foobar_copyToCType(swift_class.fetchDataInstance()).ref
     }
     let proxy = smoke_ListenersWithReturnValues_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ListenersWithReturnValues_release_handle) : RefHolder(proxy)
@@ -114,7 +114,7 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
 extension _ListenersWithReturnValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+internal func foobar_ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
     if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
         return re_constructed
@@ -130,7 +130,7 @@ internal func ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> Lis
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+internal func foobar_ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
     if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(handle)
@@ -148,96 +148,96 @@ internal func ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> Lis
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
+internal func foobar_ListenersWithReturnValues_copyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
     guard handle != 0 else {
         return nil
     }
-    return ListenersWithReturnValues_moveFromCType(handle) as ListenersWithReturnValues
+    return foobar_ListenersWithReturnValues_moveFromCType(handle) as ListenersWithReturnValues
 }
-internal func ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
+internal func foobar_ListenersWithReturnValues_moveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
     guard handle != 0 else {
         return nil
     }
-    return ListenersWithReturnValues_moveFromCType(handle) as ListenersWithReturnValues
+    return foobar_ListenersWithReturnValues_moveFromCType(handle) as ListenersWithReturnValues
 }
-internal func copyToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ResultStruct {
     return ResultStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> ResultStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ResultStruct {
     defer {
         smoke_ListenersWithReturnValues_ResultStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: ResultStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: ResultStruct) -> RefHolder {
     let c_result = moveToCType(swiftType.result)
     return RefHolder(smoke_ListenersWithReturnValues_ResultStruct_create_handle(c_result.ref))
 }
-internal func moveToCType(_ swiftType: ResultStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ResultStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ResultStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle(handle)
     return ResultStruct(cHandle: unwrappedHandle) as ResultStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> ResultStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ResultStruct? {
     defer {
         smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: ResultStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: ResultStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_result = moveToCType(swiftType.result)
     return RefHolder(smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(c_result.ref))
 }
-internal func moveToCType(_ swiftType: ResultStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: ResultStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: ResultEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> ResultEnum {
     return ResultEnum(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> ResultEnum {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ResultEnum? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ResultEnum? {
     guard handle != 0 else {
         return nil
     }
     return ResultEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> ResultEnum? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ResultEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }

@@ -82,7 +82,7 @@ extension BasicTypes: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes {
+internal func foobar_BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes {
     if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {
         return re_constructed
@@ -91,7 +91,7 @@ internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes {
     smoke_BasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes {
+internal func foobar_BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes {
     if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {
         smoke_BasicTypes_release_handle(handle)
@@ -101,27 +101,27 @@ internal func BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes {
     smoke_BasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes? {
+internal func foobar_BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes? {
     guard handle != 0 else {
         return nil
     }
-    return BasicTypes_moveFromCType(handle) as BasicTypes
+    return foobar_BasicTypes_moveFromCType(handle) as BasicTypes
 }
-internal func BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes? {
+internal func foobar_BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes? {
     guard handle != 0 else {
         return nil
     }
-    return BasicTypes_moveFromCType(handle) as BasicTypes
+    return foobar_BasicTypes_moveFromCType(handle) as BasicTypes
 }
-internal func copyToCType(_ swiftClass: BasicTypes) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: BasicTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: BasicTypes) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: BasicTypes) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: BasicTypes?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: BasicTypes?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: BasicTypes?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: BasicTypes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

@@ -30,26 +30,26 @@ public class Enums {
             self.message = message
         }
         internal init(cHandle: _baseRef) {
-            type = moveFromCType(smoke_Enums_ErrorStruct_type_get(cHandle))
+            type = foobar_moveFromCType(smoke_Enums_ErrorStruct_type_get(cHandle))
             message = moveFromCType(smoke_Enums_ErrorStruct_message_get(cHandle))
         }
     }
     public static func methodWithEnumeration(input: Enums.SimpleEnum) -> Enums.SimpleEnum {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_methodWithEnumeration(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_Enums_methodWithEnumeration(c_input.ref))
     }
     public static func flipEnumValue(input: Enums.InternalErrorCode) -> Enums.InternalErrorCode {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_flipEnumValue(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_Enums_flipEnumValue(c_input.ref))
     }
     public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalErrorCode {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_extractEnumFromStruct(c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_Enums_extractEnumFromStruct(c_input.ref))
     }
     public static func createStructWithEnumInside(type: Enums.InternalErrorCode, message: String) -> Enums.ErrorStruct {
-        let c_type = moveToCType(type)
+        let c_type = foobar_moveToCType(type)
         let c_message = moveToCType(message)
-        return moveFromCType(smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref))
+        return foobar_moveFromCType(smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref))
     }
 }
 internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
@@ -72,7 +72,7 @@ extension Enums: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums {
+internal func foobar_Enums_copyFromCType(_ handle: _baseRef) -> Enums {
     if let swift_pointer = smoke_Enums_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Enums {
         return re_constructed
@@ -81,7 +81,7 @@ internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums {
     smoke_Enums_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums {
+internal func foobar_Enums_moveFromCType(_ handle: _baseRef) -> Enums {
     if let swift_pointer = smoke_Enums_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Enums {
         smoke_Enums_release_handle(handle)
@@ -91,128 +91,128 @@ internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums {
     smoke_Enums_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func Enums_copyFromCType(_ handle: _baseRef) -> Enums? {
+internal func foobar_Enums_copyFromCType(_ handle: _baseRef) -> Enums? {
     guard handle != 0 else {
         return nil
     }
-    return Enums_moveFromCType(handle) as Enums
+    return foobar_Enums_moveFromCType(handle) as Enums
 }
-internal func Enums_moveFromCType(_ handle: _baseRef) -> Enums? {
+internal func foobar_Enums_moveFromCType(_ handle: _baseRef) -> Enums? {
     guard handle != 0 else {
         return nil
     }
-    return Enums_moveFromCType(handle) as Enums
+    return foobar_Enums_moveFromCType(handle) as Enums
 }
-internal func copyToCType(_ swiftClass: Enums) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Enums) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Enums) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Enums) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: Enums?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Enums?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Enums?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Enums?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Enums.ErrorStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Enums.ErrorStruct {
     return Enums.ErrorStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> Enums.ErrorStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Enums.ErrorStruct {
     defer {
         smoke_Enums_ErrorStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Enums.ErrorStruct) -> RefHolder {
-    let c_type = moveToCType(swiftType.type)
+internal func foobar_copyToCType(_ swiftType: Enums.ErrorStruct) -> RefHolder {
+    let c_type = foobar_moveToCType(swiftType.type)
     let c_message = moveToCType(swiftType.message)
     return RefHolder(smoke_Enums_ErrorStruct_create_handle(c_type.ref, c_message.ref))
 }
-internal func moveToCType(_ swiftType: Enums.ErrorStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Enums_ErrorStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: Enums.ErrorStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Enums_ErrorStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Enums.ErrorStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Enums.ErrorStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Enums_ErrorStruct_unwrap_optional_handle(handle)
     return Enums.ErrorStruct(cHandle: unwrappedHandle) as Enums.ErrorStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> Enums.ErrorStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Enums.ErrorStruct? {
     defer {
         smoke_Enums_ErrorStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Enums.ErrorStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: Enums.ErrorStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_type = moveToCType(swiftType.type)
+    let c_type = foobar_moveToCType(swiftType.type)
     let c_message = moveToCType(swiftType.message)
     return RefHolder(smoke_Enums_ErrorStruct_create_optional_handle(c_type.ref, c_message.ref))
 }
-internal func moveToCType(_ swiftType: Enums.ErrorStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Enums_ErrorStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: Enums.ErrorStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Enums_ErrorStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: Enums.SimpleEnum) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: Enums.SimpleEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Enums.SimpleEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: Enums.SimpleEnum) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: Enums.SimpleEnum?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: Enums.SimpleEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Enums.SimpleEnum?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: Enums.SimpleEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> Enums.SimpleEnum {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> Enums.SimpleEnum {
     return Enums.SimpleEnum(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> Enums.SimpleEnum {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> Enums.SimpleEnum {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Enums.SimpleEnum? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Enums.SimpleEnum? {
     guard handle != 0 else {
         return nil
     }
     return Enums.SimpleEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> Enums.SimpleEnum? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Enums.SimpleEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftEnum: Enums.InternalErrorCode) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: Enums.InternalErrorCode) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Enums.InternalErrorCode) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: Enums.InternalErrorCode) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: Enums.InternalErrorCode?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: Enums.InternalErrorCode?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Enums.InternalErrorCode?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: Enums.InternalErrorCode?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> Enums.InternalErrorCode {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> Enums.InternalErrorCode {
     return Enums.InternalErrorCode(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> Enums.InternalErrorCode {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> Enums.InternalErrorCode {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
     guard handle != 0 else {
         return nil
     }
     return Enums.InternalErrorCode(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Enums.InternalErrorCode? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }

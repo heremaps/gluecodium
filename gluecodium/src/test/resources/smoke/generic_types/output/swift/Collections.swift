@@ -5,7 +5,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [AnotherDummyClass] {
     var result: [AnotherDummyClass] = []
     let count = foobar_ArrayOf_smoke_AnotherDummyClass_count(handle)
     for idx in 0..<count {
-        result.append(AnotherDummyClass_copyFromCType(foobar_ArrayOf_smoke_AnotherDummyClass_get(handle, idx)))
+        result.append(foobar_AnotherDummyClass_copyFromCType(foobar_ArrayOf_smoke_AnotherDummyClass_get(handle, idx)))
     }
     return result
 }
@@ -18,7 +18,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [AnotherDummyClass] {
 internal func foobar_copyToCType(_ swiftArray: [AnotherDummyClass]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_AnotherDummyClass_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_AnotherDummyClass_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -33,7 +33,7 @@ internal func foobar_copyToCType(_ swiftArray: [AnotherDummyClass]?) -> RefHolde
     let optionalHandle = foobar_ArrayOf_smoke_AnotherDummyClass_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_AnotherDummyClass_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_AnotherDummyClass_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -57,7 +57,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [AuxStruct] {
     var result: [AuxStruct] = []
     let count = foobar_ArrayOf_smoke_AuxStruct_count(handle)
     for idx in 0..<count {
-        result.append(copyFromCType(foobar_ArrayOf_smoke_AuxStruct_get(handle, idx)))
+        result.append(foobar_copyFromCType(foobar_ArrayOf_smoke_AuxStruct_get(handle, idx)))
     }
     return result
 }
@@ -70,7 +70,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [AuxStruct] {
 internal func foobar_copyToCType(_ swiftArray: [AuxStruct]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_AuxStruct_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_AuxStruct_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -85,7 +85,7 @@ internal func foobar_copyToCType(_ swiftArray: [AuxStruct]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf_smoke_AuxStruct_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_AuxStruct_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_AuxStruct_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_AuxStruct_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -109,7 +109,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [DummyClass] {
     var result: [DummyClass] = []
     let count = foobar_ArrayOf_smoke_DummyClass_count(handle)
     for idx in 0..<count {
-        result.append(DummyClass_copyFromCType(foobar_ArrayOf_smoke_DummyClass_get(handle, idx)))
+        result.append(foobar_DummyClass_copyFromCType(foobar_ArrayOf_smoke_DummyClass_get(handle, idx)))
     }
     return result
 }
@@ -122,7 +122,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [DummyClass] {
 internal func foobar_copyToCType(_ swiftArray: [DummyClass]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_DummyClass_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_DummyClass_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -137,7 +137,7 @@ internal func foobar_copyToCType(_ swiftArray: [DummyClass]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf_smoke_DummyClass_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_DummyClass_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_DummyClass_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_DummyClass_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -161,7 +161,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [DummyInterface] {
     var result: [DummyInterface] = []
     let count = foobar_ArrayOf_smoke_DummyInterface_count(handle)
     for idx in 0..<count {
-        result.append(DummyInterface_copyFromCType(foobar_ArrayOf_smoke_DummyInterface_get(handle, idx)))
+        result.append(foobar_DummyInterface_copyFromCType(foobar_ArrayOf_smoke_DummyInterface_get(handle, idx)))
     }
     return result
 }
@@ -174,7 +174,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [DummyInterface] {
 internal func foobar_copyToCType(_ swiftArray: [DummyInterface]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_DummyInterface_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_DummyInterface_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -189,7 +189,7 @@ internal func foobar_copyToCType(_ swiftArray: [DummyInterface]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf_smoke_DummyInterface_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_DummyInterface_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_DummyInterface_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_DummyInterface_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -265,7 +265,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
     var result: [GenericTypesWithCompoundTypes.BasicStruct] = []
     let count = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_count(handle)
     for idx in 0..<count {
-        result.append(copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get(handle, idx)))
+        result.append(foobar_copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get(handle, idx)))
     }
     return result
 }
@@ -278,7 +278,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
 internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.BasicStruct]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -293,7 +293,7 @@ internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.Ba
     let optionalHandle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -317,7 +317,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
     var result: [GenericTypesWithCompoundTypes.ExternalEnum] = []
     let count = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_count(handle)
     for idx in 0..<count {
-        result.append(copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get(handle, idx)))
+        result.append(foobar_copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get(handle, idx)))
     }
     return result
 }
@@ -330,7 +330,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
 internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.ExternalEnum]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -345,7 +345,7 @@ internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.Ex
     let optionalHandle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -369,7 +369,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
     var result: [GenericTypesWithCompoundTypes.ExternalStruct] = []
     let count = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_count(handle)
     for idx in 0..<count {
-        result.append(copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get(handle, idx)))
+        result.append(foobar_copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get(handle, idx)))
     }
     return result
 }
@@ -382,7 +382,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
 internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.ExternalStruct]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -397,7 +397,7 @@ internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.Ex
     let optionalHandle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -421,7 +421,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
     var result: [GenericTypesWithCompoundTypes.SomeEnum] = []
     let count = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_count(handle)
     for idx in 0..<count {
-        result.append(copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get(handle, idx)))
+        result.append(foobar_copyFromCType(foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get(handle, idx)))
     }
     return result
 }
@@ -434,7 +434,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
 internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.SomeEnum]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -449,7 +449,7 @@ internal func foobar_copyToCType(_ swiftArray: [GenericTypesWithCompoundTypes.So
     let optionalHandle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -681,7 +681,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [YetAnotherDummyClass]
     var result: [YetAnotherDummyClass] = []
     let count = foobar_ArrayOf_smoke_YetAnotherDummyClass_count(handle)
     for idx in 0..<count {
-        result.append(YetAnotherDummyClass_copyFromCType(foobar_ArrayOf_smoke_YetAnotherDummyClass_get(handle, idx)))
+        result.append(foobar_YetAnotherDummyClass_copyFromCType(foobar_ArrayOf_smoke_YetAnotherDummyClass_get(handle, idx)))
     }
     return result
 }
@@ -694,7 +694,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [YetAnotherDummyClass]
 internal func foobar_copyToCType(_ swiftArray: [YetAnotherDummyClass]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_YetAnotherDummyClass_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
+        let value = foobar_moveToCType(item)
         foobar_ArrayOf_smoke_YetAnotherDummyClass_append(handle, value.ref)
     }
     return RefHolder(handle)
@@ -709,7 +709,7 @@ internal func foobar_copyToCType(_ swiftArray: [YetAnotherDummyClass]?) -> RefHo
     let optionalHandle = foobar_ArrayOf_smoke_YetAnotherDummyClass_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_YetAnotherDummyClass_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_YetAnotherDummyClass_append(handle, moveToCType(item).ref)
+        foobar_ArrayOf_smoke_YetAnotherDummyClass_append(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }

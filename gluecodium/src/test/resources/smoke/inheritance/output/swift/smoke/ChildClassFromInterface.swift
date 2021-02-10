@@ -54,7 +54,7 @@ extension ChildClassFromInterface: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
+internal func foobar_ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
     if let swift_pointer = smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromInterface {
         return re_constructed
@@ -66,7 +66,7 @@ internal func ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> Child
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildClassFromInterface_moveFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
+internal func foobar_ChildClassFromInterface_moveFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
     if let swift_pointer = smoke_ChildClassFromInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromInterface {
         smoke_ChildClassFromInterface_release_handle(handle)
@@ -79,27 +79,27 @@ internal func ChildClassFromInterface_moveFromCType(_ handle: _baseRef) -> Child
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
+internal func foobar_ChildClassFromInterface_copyFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ChildClassFromInterface_moveFromCType(handle) as ChildClassFromInterface
+    return foobar_ChildClassFromInterface_moveFromCType(handle) as ChildClassFromInterface
 }
-internal func ChildClassFromInterface_moveFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
+internal func foobar_ChildClassFromInterface_moveFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ChildClassFromInterface_moveFromCType(handle) as ChildClassFromInterface
+    return foobar_ChildClassFromInterface_moveFromCType(handle) as ChildClassFromInterface
 }
-internal func copyToCType(_ swiftClass: ChildClassFromInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ChildClassFromInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ChildClassFromInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ChildClassFromInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ChildClassFromInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ChildClassFromInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ChildClassFromInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ChildClassFromInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
