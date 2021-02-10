@@ -27,9 +27,11 @@ extension PointerEquatableClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension PointerEquatableClass: Hashable {
+    // :nodoc:
     public static func == (lhs: PointerEquatableClass, rhs: PointerEquatableClass) -> Bool {
         return smoke_PointerEquatableClass_equal(lhs.c_handle, rhs.c_handle)
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(smoke_PointerEquatableClass_hash(c_handle))
     }

@@ -46,7 +46,8 @@ extension {{>implName}}: NativeBase {
 
 }}{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
 {{#instanceOf this "LimeInterface"}}
-public func ==(lhs: {{resolveName this "" "ref"}}, rhs: {{resolveName this "" "ref"}}) -> Bool {
+// :nodoc:
+public func == (lhs: {{resolveName this "" "ref"}}, rhs: {{resolveName this "" "ref"}}) -> Bool {
     guard let lhsImpl = lhs as? {{>implName}} else { return lhs === rhs }
     guard let rhsImpl = rhs as? {{>implName}} else { return lhs === rhs }
     return lhsImpl == rhsImpl
@@ -54,10 +55,12 @@ public func ==(lhs: {{resolveName this "" "ref"}}, rhs: {{resolveName this "" "r
 
 {{/instanceOf}}
 extension {{>implName}}: Hashable {
+    // :nodoc:
     public static func == (lhs: {{>implName}}, rhs: {{>implName}}) -> Bool {
         return {{resolveName "CBridge"}}_equal(lhs.c_handle, rhs.c_handle)
     }
 
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine({{resolveName "CBridge"}}_hash(c_handle))
     }
@@ -67,10 +70,12 @@ extension {{>implName}}: Hashable {
 {{#instanceOf this "LimeClass"}}{{#unlessPredicate "parentIsClass"}}
 
 extension {{>implName}}: Hashable {
+    // :nodoc:
     public static func == (lhs: {{>implName}}, rhs: {{>implName}}) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
 
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

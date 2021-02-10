@@ -81,9 +81,11 @@ extension ExcludedCommentsOnly: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension ExcludedCommentsOnly: Hashable {
+    // :nodoc:
     public static func == (lhs: ExcludedCommentsOnly, rhs: ExcludedCommentsOnly) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

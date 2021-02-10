@@ -55,9 +55,11 @@ extension GenericTypesWithGenericTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension GenericTypesWithGenericTypes: Hashable {
+    // :nodoc:
     public static func == (lhs: GenericTypesWithGenericTypes, rhs: GenericTypesWithGenericTypes) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

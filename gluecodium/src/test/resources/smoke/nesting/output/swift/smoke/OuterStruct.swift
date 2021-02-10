@@ -118,9 +118,11 @@ extension OuterStruct.InnerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension OuterStruct.InnerClass: Hashable {
+    // :nodoc:
     public static func == (lhs: OuterStruct.InnerClass, rhs: OuterStruct.InnerClass) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
