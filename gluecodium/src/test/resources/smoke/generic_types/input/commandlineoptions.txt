@@ -1,6 +1,0 @@
--input $INPUT_FOLDER
--auxinput $AUX_FOLDER
--intnamespace gluecodium
--internalprefix foobar_
--javanonnullannotation android.support.annotation.NonNull
--javanullableannotation android.support.annotation.Nullables

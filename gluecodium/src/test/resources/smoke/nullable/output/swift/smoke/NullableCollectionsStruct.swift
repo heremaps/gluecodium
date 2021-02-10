@@ -9,8 +9,8 @@ public struct NullableCollectionsStruct {
         self.structs = structs
     }
     internal init(cHandle: _baseRef) {
-        dates = moveFromCType(smoke_NullableCollectionsStruct_dates_get(cHandle))
-        structs = moveFromCType(smoke_NullableCollectionsStruct_structs_get(cHandle))
+        dates = foobar_moveFromCType(smoke_NullableCollectionsStruct_dates_get(cHandle))
+        structs = foobar_moveFromCType(smoke_NullableCollectionsStruct_structs_get(cHandle))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> NullableCollectionsStruct {
@@ -23,8 +23,8 @@ internal func moveFromCType(_ handle: _baseRef) -> NullableCollectionsStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: NullableCollectionsStruct) -> RefHolder {
-    let c_dates = moveToCType(swiftType.dates)
-    let c_structs = moveToCType(swiftType.structs)
+    let c_dates = foobar_moveToCType(swiftType.dates)
+    let c_structs = foobar_moveToCType(swiftType.structs)
     return RefHolder(smoke_NullableCollectionsStruct_create_handle(c_dates.ref, c_structs.ref))
 }
 internal func moveToCType(_ swiftType: NullableCollectionsStruct) -> RefHolder {
@@ -47,8 +47,8 @@ internal func copyToCType(_ swiftType: NullableCollectionsStruct?) -> RefHolder 
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_dates = moveToCType(swiftType.dates)
-    let c_structs = moveToCType(swiftType.structs)
+    let c_dates = foobar_moveToCType(swiftType.dates)
+    let c_structs = foobar_moveToCType(swiftType.structs)
     return RefHolder(smoke_NullableCollectionsStruct_create_optional_handle(c_dates.ref, c_structs.ref))
 }
 internal func moveToCType(_ swiftType: NullableCollectionsStruct?) -> RefHolder {

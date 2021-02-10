@@ -34,7 +34,7 @@ public class Class: Interface {
         return moveFromCType(package_Class_constructor())
     }
     public func fun(double: List) throws -> Struct {
-        let c_double = moveToCType(double)
+        let c_double = foobar_moveToCType(double)
         let RESULT = package_Class_fun(self.c_instance, c_double.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as ExceptionError

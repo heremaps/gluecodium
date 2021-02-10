@@ -111,19 +111,19 @@ final _smoke_OuterStruct_InnerStruct_get_field_otherField = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerStruct_get_field_otherField'));
 Pointer<Void> smoke_OuterStruct_InnerStruct_toFfi(OuterStruct_InnerStruct value) {
-  final _otherField_handle = ListOf_Date_toFfi(value.otherField);
+  final _otherField_handle = foobar_ListOf_Date_toFfi(value.otherField);
   final _result = _smoke_OuterStruct_InnerStruct_create_handle(_otherField_handle);
-  ListOf_Date_releaseFfiHandle(_otherField_handle);
+  foobar_ListOf_Date_releaseFfiHandle(_otherField_handle);
   return _result;
 }
 OuterStruct_InnerStruct smoke_OuterStruct_InnerStruct_fromFfi(Pointer<Void> handle) {
   final _otherField_handle = _smoke_OuterStruct_InnerStruct_get_field_otherField(handle);
   try {
     return OuterStruct_InnerStruct(
-      ListOf_Date_fromFfi(_otherField_handle)
+      foobar_ListOf_Date_fromFfi(_otherField_handle)
     );
   } finally {
-    ListOf_Date_releaseFfiHandle(_otherField_handle);
+    foobar_ListOf_Date_releaseFfiHandle(_otherField_handle);
   }
 }
 void smoke_OuterStruct_InnerStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_OuterStruct_InnerStruct_release_handle(handle);
@@ -192,9 +192,9 @@ class OuterStruct_InnerClass$Impl implements OuterStruct_InnerClass {
     final _handle = this.handle;
     final __result_handle = _fooBar_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return SetOf_Locale_fromFfi(__result_handle);
+      return foobar_SetOf_Locale_fromFfi(__result_handle);
     } finally {
-      SetOf_Locale_releaseFfiHandle(__result_handle);
+      foobar_SetOf_Locale_releaseFfiHandle(__result_handle);
     }
   }
 }
@@ -278,9 +278,9 @@ class OuterStruct_InnerInterface$Impl implements OuterStruct_InnerInterface {
     final _handle = this.handle;
     final __result_handle = _barBaz_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return MapOf_String_to_Blob_fromFfi(__result_handle);
+      return foobar_MapOf_String_to_Blob_fromFfi(__result_handle);
     } finally {
-      MapOf_String_to_Blob_releaseFfiHandle(__result_handle);
+      foobar_MapOf_String_to_Blob_releaseFfiHandle(__result_handle);
     }
   }
 }
@@ -288,7 +288,7 @@ int _OuterStruct_InnerInterface_barBaz_static(int _token, Pointer<Pointer<Void>>
   Map<String, Uint8List> _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as OuterStruct_InnerInterface).barBaz();
-    _result.value = MapOf_String_to_Blob_toFfi(_result_object);
+    _result.value = foobar_MapOf_String_to_Blob_toFfi(_result_object);
   } finally {
   }
   return 0;

@@ -183,13 +183,13 @@ class TypeDefs$Impl implements TypeDefs {
   }
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) {
     final _methodWithComplexTypeDef_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct'));
-    final _input_handle = ListOf_smoke_TypeDefs_TestStruct_toFfi(input);
+    final _input_handle = foobar_ListOf_smoke_TypeDefs_TestStruct_toFfi(input);
     final __result_handle = _methodWithComplexTypeDef_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
+    foobar_ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(_input_handle);
     try {
-      return ListOf_smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
+      return foobar_ListOf_smoke_TypeDefs_TestStruct_fromFfi(__result_handle);
     } finally {
-      ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
+      foobar_ListOf_smoke_TypeDefs_TestStruct_releaseFfiHandle(__result_handle);
     }
   }
   static double returnNestedIntTypeDef(double input) {
@@ -242,18 +242,18 @@ class TypeDefs$Impl implements TypeDefs {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return ListOf_Double_fromFfi(__result_handle);
+      return foobar_ListOf_Double_fromFfi(__result_handle);
     } finally {
-      ListOf_Double_releaseFfiHandle(__result_handle);
+      foobar_ListOf_Double_releaseFfiHandle(__result_handle);
     }
   }
   @override
   set primitiveTypeProperty(List<double> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double'));
-    final _value_handle = ListOf_Double_toFfi(value);
+    final _value_handle = foobar_ListOf_Double_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    ListOf_Double_releaseFfiHandle(_value_handle);
+    foobar_ListOf_Double_releaseFfiHandle(_value_handle);
     try {
       return (__result_handle);
     } finally {

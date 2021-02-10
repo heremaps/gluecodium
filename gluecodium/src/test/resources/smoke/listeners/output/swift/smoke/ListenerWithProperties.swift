@@ -50,19 +50,19 @@ internal class _ListenerWithProperties: ListenerWithProperties {
     }
     var arrayedMessage: [String] {
         get {
-            return moveFromCType(smoke_ListenerWithProperties_arrayedMessage_get(self.c_instance))
+            return foobar_moveFromCType(smoke_ListenerWithProperties_arrayedMessage_get(self.c_instance))
         }
         set {
-            let c_value = moveToCType(newValue)
+            let c_value = foobar_moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithProperties_arrayedMessage_set(self.c_instance, c_value.ref))
         }
     }
     var mappedMessage: ListenerWithProperties.StringToDouble {
         get {
-            return moveFromCType(smoke_ListenerWithProperties_mappedMessage_get(self.c_instance))
+            return foobar_moveFromCType(smoke_ListenerWithProperties_mappedMessage_get(self.c_instance))
         }
         set {
-            let c_value = moveToCType(newValue)
+            let c_value = foobar_moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithProperties_mappedMessage_set(self.c_instance, c_value.ref))
         }
     }
@@ -156,19 +156,19 @@ internal func getRef(_ ref: ListenerWithProperties?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithProperties_arrayedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties
-        return copyToCType(swift_class.arrayedMessage).ref
+        return foobar_copyToCType(swift_class.arrayedMessage).ref
     }
     functions.smoke_ListenerWithProperties_arrayedMessage_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties
-        swift_class.arrayedMessage = moveFromCType(value)
+        swift_class.arrayedMessage = foobar_moveFromCType(value)
     }
     functions.smoke_ListenerWithProperties_mappedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties
-        return copyToCType(swift_class.mappedMessage).ref
+        return foobar_copyToCType(swift_class.mappedMessage).ref
     }
     functions.smoke_ListenerWithProperties_mappedMessage_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties
-        swift_class.mappedMessage = moveFromCType(value)
+        swift_class.mappedMessage = foobar_moveFromCType(value)
     }
     functions.smoke_ListenerWithProperties_bufferedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithProperties

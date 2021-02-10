@@ -25,9 +25,9 @@ public class Lambdas {
         return moveFromCType(smoke_Lambdas_deconfuse(self.c_instance, c_value.ref, c_confuser.ref))
     }
     public static func fuse(items: [String], callback: @escaping Lambdas.Indexer) -> [Int32: String] {
-        let c_items = moveToCType(items)
+        let c_items = foobar_moveToCType(items)
         let c_callback = moveToCType(callback)
-        return moveFromCType(smoke_Lambdas_fuse(c_items.ref, c_callback.ref))
+        return foobar_moveFromCType(smoke_Lambdas_fuse(c_items.ref, c_callback.ref))
     }
 }
 internal func getRef(_ ref: Lambdas?, owning: Bool = true) -> RefHolder {

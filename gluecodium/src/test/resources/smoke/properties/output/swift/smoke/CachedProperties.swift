@@ -3,7 +3,7 @@
 import Foundation
 public class CachedProperties {
     public private(set) lazy var cachedProperty: [String] = {
-        return moveFromCType(smoke_CachedProperties_cachedProperty_get(self.c_instance))
+        return foobar_moveFromCType(smoke_CachedProperties_cachedProperty_get(self.c_instance))
     }()
     public private(set) static var staticCachedProperty: Data = {
         return moveFromCType(smoke_CachedProperties_staticCachedProperty_get())

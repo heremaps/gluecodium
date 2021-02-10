@@ -60,28 +60,28 @@ public class Nullable {
     }
     public var arrayProperty: Nullable.SomeArray? {
         get {
-            return moveFromCType(smoke_Nullable_arrayProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_Nullable_arrayProperty_get(self.c_instance))
         }
         set {
-            let c_value = moveToCType(newValue)
+            let c_value = foobar_moveToCType(newValue)
             return moveFromCType(smoke_Nullable_arrayProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var inlineArrayProperty: [String]? {
         get {
-            return moveFromCType(smoke_Nullable_inlineArrayProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_Nullable_inlineArrayProperty_get(self.c_instance))
         }
         set {
-            let c_value = moveToCType(newValue)
+            let c_value = foobar_moveToCType(newValue)
             return moveFromCType(smoke_Nullable_inlineArrayProperty_set(self.c_instance, c_value.ref))
         }
     }
     public var mapProperty: Nullable.SomeMap? {
         get {
-            return moveFromCType(smoke_Nullable_mapProperty_get(self.c_instance))
+            return foobar_moveFromCType(smoke_Nullable_mapProperty_get(self.c_instance))
         }
         set {
-            let c_value = moveToCType(newValue)
+            let c_value = foobar_moveToCType(newValue)
             return moveFromCType(smoke_Nullable_mapProperty_set(self.c_instance, c_value.ref))
         }
     }
@@ -145,9 +145,9 @@ public class Nullable {
             doubleField = moveFromCType(smoke_Nullable_NullableStruct_doubleField_get(cHandle))
             structField = moveFromCType(smoke_Nullable_NullableStruct_structField_get(cHandle))
             enumField = moveFromCType(smoke_Nullable_NullableStruct_enumField_get(cHandle))
-            arrayField = moveFromCType(smoke_Nullable_NullableStruct_arrayField_get(cHandle))
-            inlineArrayField = moveFromCType(smoke_Nullable_NullableStruct_inlineArrayField_get(cHandle))
-            mapField = moveFromCType(smoke_Nullable_NullableStruct_mapField_get(cHandle))
+            arrayField = foobar_moveFromCType(smoke_Nullable_NullableStruct_arrayField_get(cHandle))
+            inlineArrayField = foobar_moveFromCType(smoke_Nullable_NullableStruct_inlineArrayField_get(cHandle))
+            mapField = foobar_moveFromCType(smoke_Nullable_NullableStruct_mapField_get(cHandle))
             instanceField = SomeInterface_moveFromCType(smoke_Nullable_NullableStruct_instanceField_get(cHandle))
         }
     }
@@ -206,16 +206,16 @@ public class Nullable {
         return moveFromCType(smoke_Nullable_methodWithSomeEnum(self.c_instance, c_input.ref))
     }
     public func methodWithSomeArray(input: Nullable.SomeArray?) -> Nullable.SomeArray? {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithSomeArray(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_Nullable_methodWithSomeArray(self.c_instance, c_input.ref))
     }
     public func methodWithInlineArray(input: [String]?) -> [String]? {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithInlineArray(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_Nullable_methodWithInlineArray(self.c_instance, c_input.ref))
     }
     public func methodWithSomeMap(input: Nullable.SomeMap?) -> Nullable.SomeMap? {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithSomeMap(self.c_instance, c_input.ref))
+        let c_input = foobar_moveToCType(input)
+        return foobar_moveFromCType(smoke_Nullable_methodWithSomeMap(self.c_instance, c_input.ref))
     }
     public func methodWithInstance(input: SomeInterface?) -> SomeInterface? {
         let c_input = moveToCType(input)
@@ -339,9 +339,9 @@ internal func copyToCType(_ swiftType: Nullable.NullableStruct) -> RefHolder {
     let c_doubleField = moveToCType(swiftType.doubleField)
     let c_structField = moveToCType(swiftType.structField)
     let c_enumField = moveToCType(swiftType.enumField)
-    let c_arrayField = moveToCType(swiftType.arrayField)
-    let c_inlineArrayField = moveToCType(swiftType.inlineArrayField)
-    let c_mapField = moveToCType(swiftType.mapField)
+    let c_arrayField = foobar_moveToCType(swiftType.arrayField)
+    let c_inlineArrayField = foobar_moveToCType(swiftType.inlineArrayField)
+    let c_mapField = foobar_moveToCType(swiftType.mapField)
     let c_instanceField = moveToCType(swiftType.instanceField)
     return RefHolder(smoke_Nullable_NullableStruct_create_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref, c_instanceField.ref))
 }
@@ -370,9 +370,9 @@ internal func copyToCType(_ swiftType: Nullable.NullableStruct?) -> RefHolder {
     let c_doubleField = moveToCType(swiftType.doubleField)
     let c_structField = moveToCType(swiftType.structField)
     let c_enumField = moveToCType(swiftType.enumField)
-    let c_arrayField = moveToCType(swiftType.arrayField)
-    let c_inlineArrayField = moveToCType(swiftType.inlineArrayField)
-    let c_mapField = moveToCType(swiftType.mapField)
+    let c_arrayField = foobar_moveToCType(swiftType.arrayField)
+    let c_inlineArrayField = foobar_moveToCType(swiftType.inlineArrayField)
+    let c_mapField = foobar_moveToCType(swiftType.mapField)
     let c_instanceField = moveToCType(swiftType.instanceField)
     return RefHolder(smoke_Nullable_NullableStruct_create_optional_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref, c_instanceField.ref))
 }

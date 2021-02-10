@@ -566,19 +566,19 @@ final _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField = __lib.cat
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField'));
 Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi(Structs_StructWithArrayOfImmutable value) {
-  final _arrayField_handle = ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
+  final _arrayField_handle = foobar_ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
   final _result = _smoke_Structs_StructWithArrayOfImmutable_create_handle(_arrayField_handle);
-  ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+  foobar_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
   return _result;
 }
 Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_fromFfi(Pointer<Void> handle) {
   final _arrayField_handle = _smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField(handle);
   try {
     return Structs_StructWithArrayOfImmutable(
-      ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
+      foobar_ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayField_handle)
     );
   } finally {
-    ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
+    foobar_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayField_handle);
   }
 }
 void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> handle) => _smoke_Structs_StructWithArrayOfImmutable_release_handle(handle);

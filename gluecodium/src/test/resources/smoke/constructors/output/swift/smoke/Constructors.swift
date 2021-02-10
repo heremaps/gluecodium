@@ -80,7 +80,7 @@ public class Constructors {
         }
     }
     private static func create(input: [Double]) -> _baseRef {
-        let c_input = moveToCType(input)
+        let c_input = foobar_moveToCType(input)
         return moveFromCType(smoke_Constructors_create__3Double_4(c_input.ref))
     }
 }

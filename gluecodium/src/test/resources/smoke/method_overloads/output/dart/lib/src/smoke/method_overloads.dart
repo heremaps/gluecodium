@@ -191,10 +191,10 @@ class MethodOverloads$Impl implements MethodOverloads {
   @override
   bool isBooleanStringArray(List<String> input) {
     final _isBooleanStringArray_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_1String'));
-    final _input_handle = ListOf_String_toFfi(input);
+    final _input_handle = foobar_ListOf_String_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _isBooleanStringArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    ListOf_String_releaseFfiHandle(_input_handle);
+    foobar_ListOf_String_releaseFfiHandle(_input_handle);
     try {
       return Boolean_fromFfi(__result_handle);
     } finally {
@@ -204,10 +204,10 @@ class MethodOverloads$Impl implements MethodOverloads {
   @override
   bool isBooleanIntArray(List<int> input) {
     final _isBooleanIntArray_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_1Byte'));
-    final _input_handle = ListOf_Byte_toFfi(input);
+    final _input_handle = foobar_ListOf_Byte_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _isBooleanIntArray_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    ListOf_Byte_releaseFfiHandle(_input_handle);
+    foobar_ListOf_Byte_releaseFfiHandle(_input_handle);
     try {
       return Boolean_fromFfi(__result_handle);
     } finally {
@@ -241,10 +241,10 @@ class MethodOverloads$Impl implements MethodOverloads {
   @override
   bool isFloatList(List<int> input) {
     final _isFloatList_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__ListOf_1Byte'));
-    final _input_handle = ListOf_Byte_toFfi(input);
+    final _input_handle = foobar_ListOf_Byte_toFfi(input);
     final _handle = this.handle;
     final __result_handle = _isFloatList_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    ListOf_Byte_releaseFfiHandle(_input_handle);
+    foobar_ListOf_Byte_releaseFfiHandle(_input_handle);
     try {
       return Boolean_fromFfi(__result_handle);
     } finally {

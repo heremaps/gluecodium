@@ -241,18 +241,18 @@ class Properties$Impl implements Properties {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return ListOf_String_fromFfi(__result_handle);
+      return foobar_ListOf_String_fromFfi(__result_handle);
     } finally {
-      ListOf_String_releaseFfiHandle(__result_handle);
+      foobar_ListOf_String_releaseFfiHandle(__result_handle);
     }
   }
   @override
   set arrayProperty(List<String> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_1String'));
-    final _value_handle = ListOf_String_toFfi(value);
+    final _value_handle = foobar_ListOf_String_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    ListOf_String_releaseFfiHandle(_value_handle);
+    foobar_ListOf_String_releaseFfiHandle(_value_handle);
     try {
       return (__result_handle);
     } finally {

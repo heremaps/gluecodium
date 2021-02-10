@@ -114,7 +114,7 @@ public class Structs {
             self.arrayField = arrayField
         }
         internal init(cHandle: _baseRef) {
-            arrayField = moveFromCType(smoke_Structs_StructWithArrayOfImmutable_arrayField_get(cHandle))
+            arrayField = foobar_moveFromCType(smoke_Structs_StructWithArrayOfImmutable_arrayField_get(cHandle))
         }
     }
     public struct ImmutableStructWithCppAccessors {
@@ -451,7 +451,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmu
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable) -> RefHolder {
-    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_arrayField = foobar_moveToCType(swiftType.arrayField)
     return RefHolder(smoke_Structs_StructWithArrayOfImmutable_create_handle(c_arrayField.ref))
 }
 internal func moveToCType(_ swiftType: Structs.StructWithArrayOfImmutable) -> RefHolder {
@@ -474,7 +474,7 @@ internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> R
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_arrayField = foobar_moveToCType(swiftType.arrayField)
     return RefHolder(smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(c_arrayField.ref))
 }
 internal func moveToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> RefHolder {

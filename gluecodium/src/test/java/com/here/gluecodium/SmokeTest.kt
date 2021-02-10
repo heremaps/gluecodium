@@ -19,6 +19,7 @@
 
 package com.here.gluecodium
 
+import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.cpp.CppGeneratorSuite
@@ -58,7 +59,7 @@ class SmokeTest(
 
     private val results = mutableListOf<GeneratedFile>()
 
-    private fun getGluecodiumOptions(): Gluecodium.Options {
+    private fun getGluecodiumOptions(): Options {
         val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
         val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
         val commandLineOptions = File(inputDirectory, "commandlineoptions.txt")
@@ -73,7 +74,7 @@ class SmokeTest(
             return options!!
         }
 
-        return Gluecodium.testOptions()
+        return TEST_OPTIONS
     }
 
     @Before
@@ -127,6 +128,13 @@ class SmokeTest(
     }
 
     companion object {
+        private val TEST_OPTIONS = Options(
+            cppInternalNamespace = listOf("gluecodium"),
+            internalPrefix = "foobar_",
+            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
+            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
+        )
+
         private const val FEATURE_INPUT_FOLDER = "input"
         private const val FEATURE_AUX_FOLDER = "auxiliary"
         private const val FEATURE_OUTPUT_FOLDER = "output"
@@ -144,13 +152,13 @@ class SmokeTest(
 
         init {
             GENERATOR_DIRECTORIES[CppGeneratorSuite.GENERATOR_NAME] =
-                    listOf(CppGeneratorSuite.GENERATOR_NAME)
+                listOf(CppGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[JavaGeneratorSuite.GENERATOR_NAME] =
-                    listOf(JavaGeneratorSuite.GENERATOR_NAME)
+                listOf(JavaGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[SwiftGeneratorSuite.GENERATOR_NAME] =
-                    listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
+                listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
             GENERATOR_DIRECTORIES[LimeGeneratorSuite.GENERATOR_NAME] =
-                    listOf(LimeGeneratorSuite.GENERATOR_NAME)
+                listOf(LimeGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[DartGeneratorSuite.GENERATOR_NAME] =
                 listOf(DartGeneratorSuite.GENERATOR_NAME)
         }
@@ -215,6 +223,5 @@ class SmokeTest(
                 .split('\n').joinToString("\n") { if (it.startsWith("#include")) it.replace('/', '\\') else it }
 
         private fun getFeatureName(parentDirectory: File, featureDirectory: File) =
-            getRelativePath(parentDirectory, featureDirectory).replace("/", "")
-    }
+            getRelativePath(parentDirectory, featureDirectory).replace("/", "") }
 }

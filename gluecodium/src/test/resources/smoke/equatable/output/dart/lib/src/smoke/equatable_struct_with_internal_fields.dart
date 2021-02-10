@@ -71,15 +71,15 @@ final _smoke_EquatableStructWithInternalFields_get_field_internalSetField = __li
 Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi(EquatableStructWithInternalFields value) {
   final _publicField_handle = String_toFfi(value.publicField);
   final _internalField_handle = String_toFfi(value.internal_internalField);
-  final _internalListField_handle = ListOf_String_toFfi(value.internal_internalListField);
-  final _internalMapField_handle = MapOf_String_to_String_toFfi(value.internal_internalMapField);
-  final _internalSetField_handle = SetOf_String_toFfi(value.internal_internalSetField);
+  final _internalListField_handle = foobar_ListOf_String_toFfi(value.internal_internalListField);
+  final _internalMapField_handle = foobar_MapOf_String_to_String_toFfi(value.internal_internalMapField);
+  final _internalSetField_handle = foobar_SetOf_String_toFfi(value.internal_internalSetField);
   final _result = _smoke_EquatableStructWithInternalFields_create_handle(_publicField_handle, _internalField_handle, _internalListField_handle, _internalMapField_handle, _internalSetField_handle);
   String_releaseFfiHandle(_publicField_handle);
   String_releaseFfiHandle(_internalField_handle);
-  ListOf_String_releaseFfiHandle(_internalListField_handle);
-  MapOf_String_to_String_releaseFfiHandle(_internalMapField_handle);
-  SetOf_String_releaseFfiHandle(_internalSetField_handle);
+  foobar_ListOf_String_releaseFfiHandle(_internalListField_handle);
+  foobar_MapOf_String_to_String_releaseFfiHandle(_internalMapField_handle);
+  foobar_SetOf_String_releaseFfiHandle(_internalSetField_handle);
   return _result;
 }
 EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFfi(Pointer<Void> handle) {
@@ -92,16 +92,16 @@ EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFf
     return EquatableStructWithInternalFields(
       String_fromFfi(_publicField_handle),
       String_fromFfi(_internalField_handle),
-      ListOf_String_fromFfi(_internalListField_handle),
-      MapOf_String_to_String_fromFfi(_internalMapField_handle),
-      SetOf_String_fromFfi(_internalSetField_handle)
+      foobar_ListOf_String_fromFfi(_internalListField_handle),
+      foobar_MapOf_String_to_String_fromFfi(_internalMapField_handle),
+      foobar_SetOf_String_fromFfi(_internalSetField_handle)
     );
   } finally {
     String_releaseFfiHandle(_publicField_handle);
     String_releaseFfiHandle(_internalField_handle);
-    ListOf_String_releaseFfiHandle(_internalListField_handle);
-    MapOf_String_to_String_releaseFfiHandle(_internalMapField_handle);
-    SetOf_String_releaseFfiHandle(_internalSetField_handle);
+    foobar_ListOf_String_releaseFfiHandle(_internalListField_handle);
+    foobar_MapOf_String_to_String_releaseFfiHandle(_internalMapField_handle);
+    foobar_SetOf_String_releaseFfiHandle(_internalSetField_handle);
   }
 }
 void smoke_EquatableStructWithInternalFields_releaseFfiHandle(Pointer<Void> handle) => _smoke_EquatableStructWithInternalFields_release_handle(handle);

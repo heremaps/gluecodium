@@ -367,17 +367,17 @@ class ListenerWithProperties$Impl implements ListenerWithProperties {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return ListOf_String_fromFfi(__result_handle);
+      return foobar_ListOf_String_fromFfi(__result_handle);
     } finally {
-      ListOf_String_releaseFfiHandle(__result_handle);
+      foobar_ListOf_String_releaseFfiHandle(__result_handle);
     }
   }
   set arrayedMessage(List<String> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_1String'));
-    final _value_handle = ListOf_String_toFfi(value);
+    final _value_handle = foobar_ListOf_String_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    ListOf_String_releaseFfiHandle(_value_handle);
+    foobar_ListOf_String_releaseFfiHandle(_value_handle);
     try {
       return (__result_handle);
     } finally {
@@ -389,17 +389,17 @@ class ListenerWithProperties$Impl implements ListenerWithProperties {
     final _handle = this.handle;
     final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return MapOf_String_to_Double_fromFfi(__result_handle);
+      return foobar_MapOf_String_to_Double_fromFfi(__result_handle);
     } finally {
-      MapOf_String_to_Double_releaseFfiHandle(__result_handle);
+      foobar_MapOf_String_to_Double_releaseFfiHandle(__result_handle);
     }
   }
   set mappedMessage(Map<String, double> value) {
     final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_1String_1to_1Double'));
-    final _value_handle = MapOf_String_to_Double_toFfi(value);
+    final _value_handle = foobar_MapOf_String_to_Double_toFfi(value);
     final _handle = this.handle;
     final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    MapOf_String_to_Double_releaseFfiHandle(_value_handle);
+    foobar_MapOf_String_to_Double_releaseFfiHandle(_value_handle);
     try {
       return (__result_handle);
     } finally {
@@ -482,28 +482,28 @@ int _ListenerWithProperties_enumeratedMessage_set_static(int _token, int _value)
   return 0;
 }
 int _ListenerWithProperties_arrayedMessage_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = ListOf_String_toFfi((__lib.instanceCache[_token] as ListenerWithProperties).arrayedMessage);
+  _result.value = foobar_ListOf_String_toFfi((__lib.instanceCache[_token] as ListenerWithProperties).arrayedMessage);
   return 0;
 }
 int _ListenerWithProperties_arrayedMessage_set_static(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).arrayedMessage =
-      ListOf_String_fromFfi(_value);
+      foobar_ListOf_String_fromFfi(_value);
   } finally {
-    ListOf_String_releaseFfiHandle(_value);
+    foobar_ListOf_String_releaseFfiHandle(_value);
   }
   return 0;
 }
 int _ListenerWithProperties_mappedMessage_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = MapOf_String_to_Double_toFfi((__lib.instanceCache[_token] as ListenerWithProperties).mappedMessage);
+  _result.value = foobar_MapOf_String_to_Double_toFfi((__lib.instanceCache[_token] as ListenerWithProperties).mappedMessage);
   return 0;
 }
 int _ListenerWithProperties_mappedMessage_set_static(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).mappedMessage =
-      MapOf_String_to_Double_fromFfi(_value);
+      foobar_MapOf_String_to_Double_fromFfi(_value);
   } finally {
-    MapOf_String_to_Double_releaseFfiHandle(_value);
+    foobar_MapOf_String_to_Double_releaseFfiHandle(_value);
   }
   return 0;
 }

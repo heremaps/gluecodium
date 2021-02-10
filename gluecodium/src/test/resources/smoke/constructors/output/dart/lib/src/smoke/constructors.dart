@@ -182,9 +182,9 @@ class Constructors$Impl implements Constructors {
   }
   static Pointer<Void> _fromList(List<double> input) {
     final _fromList_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double'));
-    final _input_handle = ListOf_Double_toFfi(input);
+    final _input_handle = foobar_ListOf_Double_toFfi(input);
     final __result_handle = _fromList_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    ListOf_Double_releaseFfiHandle(_input_handle);
+    foobar_ListOf_Double_releaseFfiHandle(_input_handle);
     return __result_handle;
   }
   static Pointer<Void> _create(int input) {

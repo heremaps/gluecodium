@@ -506,15 +506,15 @@ class Lambdas$Impl implements Lambdas {
   }
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) {
     final _fuse_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_fuse__ListOf_1String_Indexer'));
-    final _items_handle = ListOf_String_toFfi(items);
+    final _items_handle = foobar_ListOf_String_toFfi(items);
     final _callback_handle = smoke_Lambdas_Indexer_toFfi(callback);
     final __result_handle = _fuse_ffi(__lib.LibraryContext.isolateId, _items_handle, _callback_handle);
-    ListOf_String_releaseFfiHandle(_items_handle);
+    foobar_ListOf_String_releaseFfiHandle(_items_handle);
     smoke_Lambdas_Indexer_releaseFfiHandle(_callback_handle);
     try {
-      return MapOf_Int_to_String_fromFfi(__result_handle);
+      return foobar_MapOf_Int_to_String_fromFfi(__result_handle);
     } finally {
-      MapOf_Int_to_String_releaseFfiHandle(__result_handle);
+      foobar_MapOf_Int_to_String_releaseFfiHandle(__result_handle);
     }
   }
 }
