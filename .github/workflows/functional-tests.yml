@@ -101,7 +101,7 @@ jobs:
           ./scripts/build-android-namerules --publish
 
   swift:
-    name: Swift
+    name: Swift on Linux
     runs-on: ubuntu-18.04
 
     steps:
@@ -147,6 +147,31 @@ jobs:
           ./scripts/build-swift-functional --valgrind --buildGluecodium
           ./scripts/clean
           ./scripts/build-swift-namerules --valgrind --publish
+
+  swift-mac:
+    name: Swift on MacOS
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            !*gluecodium*
+            !*lime-*
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Install ninja
+        run: brew install ninja
+      - name: Build and run functional tests
+        run: |
+          cd functional-tests
+          ./scripts/build-swift-functional --buildGluecodium
+          ./scripts/clean
+          ./scripts/build-swift-namerules --publish
+
 
   dart:
     name: Dart

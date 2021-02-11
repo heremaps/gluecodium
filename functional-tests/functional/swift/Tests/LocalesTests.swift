@@ -92,7 +92,9 @@ class LocalesTests: XCTestCase {
 
         let result = LocalesStruct.localesStructRoundTrip(input: localesStruct)
 
-        XCTAssertEqual(result, localesStruct)
+        XCTAssertEqual(result.primaryLocale.identifier, localesStruct.primaryLocale.identifier)
+        XCTAssertNotNil(result.secondaryLocale)
+        XCTAssertEqual(result.secondaryLocale?.identifier, localesStruct.secondaryLocale?.identifier)
         XCTAssertEqual(hash(result), hash(localesStruct))
     }
 

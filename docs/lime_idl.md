@@ -384,6 +384,9 @@ Container types:
 * **Set<Type>**: set container type, e.g. `Set<String>`
 * **Map<KeyType, ValueType>**: map container type, e.g. `Map<String, Blob>`
 
+**Note**: Since the `Locale` type is based on ISO-compliant identifiers (as described above), any platform-specific
+properties of `Locale` type (e.g. `calendarIdentifier` for Swift) are not preserved on language boundary transition.
+
 #### User-defined types
 
 User-defined types are types declared in the same or in another LimeIDL file. There are several ways
