@@ -20,6 +20,10 @@ cmake_minimum_required(VERSION 3.6)
 project(functional)
 
 if(APPLE)
+    if (CMAKE_GENERATOR STREQUAL "Xcode")
+        set (CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
+    endif()
+
     enable_language(Swift)
 endif()
 
@@ -499,6 +503,13 @@ elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL swift)
     apigen_swift_framework_info_plist(functional)
     file(GLOB_RECURSE SWIFT_TEST_SOURCES CONFIGURE_DEPENDS ${FUNCTIONAL_SWIFT_TESTS}/*.swift)
     apigen_swift_test(functional SOURCES ${SWIFT_TEST_SOURCES})
+    if (CMAKE_GENERATOR STREQUAL "Xcode")
+        foreach(_target functional testfunctional xctest_functional)
+            set_target_properties(${_target} PROPERTIES
+                XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "$<IF:$<CONFIG:Debug>,dwarf,dwarf-with-dsym>"
+                XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "$<IF:$<CONFIG:Debug>,-Onone,-O>")
+        endforeach()
+    endif()
 elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL dart)
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/color_converter.dart"
