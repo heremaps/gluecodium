@@ -87,8 +87,8 @@ class NullableStructsTests: XCTestCase {
             doubleField: 3.14,
             structField: NullableInterface.SomeStruct(stringField: "Woo"),
             enumField: NullableInterface.SomeEnum.on,
-            arrayField: ["Bar"],
-            inlineArrayField: ["Baz"],
+            arrayField: ["BarBarBarBarBarBarBar"],
+            inlineArrayField: ["BazBazBazBazBazBazBazBaz"],
             mapField: [7: "Wee"],
             blobField: Data([42]))
 
