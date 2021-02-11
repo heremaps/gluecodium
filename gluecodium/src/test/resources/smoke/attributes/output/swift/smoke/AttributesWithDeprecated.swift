@@ -60,14 +60,16 @@ extension AttributesWithDeprecated: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension AttributesWithDeprecated: Hashable {
+    // :nodoc:
     public static func == (lhs: AttributesWithDeprecated, rhs: AttributesWithDeprecated) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func AttributesWithDeprecated_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated {
+internal func foobar_AttributesWithDeprecated_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated {
     if let swift_pointer = smoke_AttributesWithDeprecated_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesWithDeprecated {
         return re_constructed
@@ -76,7 +78,7 @@ internal func AttributesWithDeprecated_copyFromCType(_ handle: _baseRef) -> Attr
     smoke_AttributesWithDeprecated_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func AttributesWithDeprecated_moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated {
+internal func foobar_AttributesWithDeprecated_moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated {
     if let swift_pointer = smoke_AttributesWithDeprecated_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesWithDeprecated {
         smoke_AttributesWithDeprecated_release_handle(handle)
@@ -86,66 +88,66 @@ internal func AttributesWithDeprecated_moveFromCType(_ handle: _baseRef) -> Attr
     smoke_AttributesWithDeprecated_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func AttributesWithDeprecated_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated? {
+internal func foobar_AttributesWithDeprecated_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesWithDeprecated_moveFromCType(handle) as AttributesWithDeprecated
+    return foobar_AttributesWithDeprecated_moveFromCType(handle) as AttributesWithDeprecated
 }
-internal func AttributesWithDeprecated_moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated? {
+internal func foobar_AttributesWithDeprecated_moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesWithDeprecated_moveFromCType(handle) as AttributesWithDeprecated
+    return foobar_AttributesWithDeprecated_moveFromCType(handle) as AttributesWithDeprecated
 }
-internal func copyToCType(_ swiftClass: AttributesWithDeprecated) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: AttributesWithDeprecated) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: AttributesWithDeprecated) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: AttributesWithDeprecated) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: AttributesWithDeprecated?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: AttributesWithDeprecated?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: AttributesWithDeprecated?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: AttributesWithDeprecated?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct {
     return AttributesWithDeprecated.SomeStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct {
     defer {
         smoke_AttributesWithDeprecated_SomeStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: AttributesWithDeprecated.SomeStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: AttributesWithDeprecated.SomeStruct) -> RefHolder {
     let c_field = moveToCType(swiftType.field)
     return RefHolder(smoke_AttributesWithDeprecated_SomeStruct_create_handle(c_field.ref))
 }
-internal func moveToCType(_ swiftType: AttributesWithDeprecated.SomeStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesWithDeprecated_SomeStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: AttributesWithDeprecated.SomeStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_AttributesWithDeprecated_SomeStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_AttributesWithDeprecated_SomeStruct_unwrap_optional_handle(handle)
     return AttributesWithDeprecated.SomeStruct(cHandle: unwrappedHandle) as AttributesWithDeprecated.SomeStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> AttributesWithDeprecated.SomeStruct? {
     defer {
         smoke_AttributesWithDeprecated_SomeStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: AttributesWithDeprecated.SomeStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: AttributesWithDeprecated.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_field = moveToCType(swiftType.field)
     return RefHolder(smoke_AttributesWithDeprecated_SomeStruct_create_optional_handle(c_field.ref))
 }
-internal func moveToCType(_ swiftType: AttributesWithDeprecated.SomeStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesWithDeprecated_SomeStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: AttributesWithDeprecated.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_AttributesWithDeprecated_SomeStruct_release_optional_handle)
 }

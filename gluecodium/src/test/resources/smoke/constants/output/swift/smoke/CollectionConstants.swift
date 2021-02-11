@@ -31,14 +31,16 @@ extension CollectionConstants: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension CollectionConstants: Hashable {
+    // :nodoc:
     public static func == (lhs: CollectionConstants, rhs: CollectionConstants) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func CollectionConstants_copyFromCType(_ handle: _baseRef) -> CollectionConstants {
+internal func foobar_CollectionConstants_copyFromCType(_ handle: _baseRef) -> CollectionConstants {
     if let swift_pointer = smoke_CollectionConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CollectionConstants {
         return re_constructed
@@ -47,7 +49,7 @@ internal func CollectionConstants_copyFromCType(_ handle: _baseRef) -> Collectio
     smoke_CollectionConstants_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func CollectionConstants_moveFromCType(_ handle: _baseRef) -> CollectionConstants {
+internal func foobar_CollectionConstants_moveFromCType(_ handle: _baseRef) -> CollectionConstants {
     if let swift_pointer = smoke_CollectionConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CollectionConstants {
         smoke_CollectionConstants_release_handle(handle)
@@ -57,27 +59,27 @@ internal func CollectionConstants_moveFromCType(_ handle: _baseRef) -> Collectio
     smoke_CollectionConstants_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func CollectionConstants_copyFromCType(_ handle: _baseRef) -> CollectionConstants? {
+internal func foobar_CollectionConstants_copyFromCType(_ handle: _baseRef) -> CollectionConstants? {
     guard handle != 0 else {
         return nil
     }
-    return CollectionConstants_moveFromCType(handle) as CollectionConstants
+    return foobar_CollectionConstants_moveFromCType(handle) as CollectionConstants
 }
-internal func CollectionConstants_moveFromCType(_ handle: _baseRef) -> CollectionConstants? {
+internal func foobar_CollectionConstants_moveFromCType(_ handle: _baseRef) -> CollectionConstants? {
     guard handle != 0 else {
         return nil
     }
-    return CollectionConstants_moveFromCType(handle) as CollectionConstants
+    return foobar_CollectionConstants_moveFromCType(handle) as CollectionConstants
 }
-internal func copyToCType(_ swiftClass: CollectionConstants) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: CollectionConstants) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: CollectionConstants) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: CollectionConstants) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: CollectionConstants?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: CollectionConstants?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: CollectionConstants?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: CollectionConstants?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

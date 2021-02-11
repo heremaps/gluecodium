@@ -22,7 +22,7 @@ internal struct InternalStruct {
         self.fieldOfInternalType = fieldOfInternalType
     }
     internal init(cHandle: _baseRef) {
-        fieldOfInternalType = moveFromCType(smoke_PublicInterface_InternalStruct_fieldOfInternalType_get(cHandle))
+        fieldOfInternalType = foobar_moveFromCType(smoke_PublicInterface_InternalStruct_fieldOfInternalType_get(cHandle))
     }
 }
 @_cdecl("_CBridgeInitsmoke_PublicInterface")
@@ -53,7 +53,7 @@ internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder 
 extension _PublicInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterface {
+internal func foobar_PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterface {
     if let swift_pointer = smoke_PublicInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
         return re_constructed
@@ -69,7 +69,7 @@ internal func PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterfa
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterface {
+internal func foobar_PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterface {
     if let swift_pointer = smoke_PublicInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
         smoke_PublicInterface_release_handle(handle)
@@ -87,66 +87,66 @@ internal func PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterfa
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterface? {
+internal func foobar_PublicInterface_copyFromCType(_ handle: _baseRef) -> PublicInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PublicInterface_moveFromCType(handle) as PublicInterface
+    return foobar_PublicInterface_moveFromCType(handle) as PublicInterface
 }
-internal func PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterface? {
+internal func foobar_PublicInterface_moveFromCType(_ handle: _baseRef) -> PublicInterface? {
     guard handle != 0 else {
         return nil
     }
-    return PublicInterface_moveFromCType(handle) as PublicInterface
+    return foobar_PublicInterface_moveFromCType(handle) as PublicInterface
 }
-internal func copyToCType(_ swiftClass: PublicInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: PublicInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: PublicInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: PublicInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: PublicInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: PublicInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: PublicInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: PublicInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> InternalStruct {
     return InternalStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> InternalStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> InternalStruct {
     defer {
         smoke_PublicInterface_InternalStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: InternalStruct) -> RefHolder {
-    let c_fieldOfInternalType = moveToCType(swiftType.fieldOfInternalType)
+internal func foobar_copyToCType(_ swiftType: InternalStruct) -> RefHolder {
+    let c_fieldOfInternalType = foobar_moveToCType(swiftType.fieldOfInternalType)
     return RefHolder(smoke_PublicInterface_InternalStruct_create_handle(c_fieldOfInternalType.ref))
 }
-internal func moveToCType(_ swiftType: InternalStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicInterface_InternalStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: InternalStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicInterface_InternalStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> InternalStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> InternalStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_PublicInterface_InternalStruct_unwrap_optional_handle(handle)
     return InternalStruct(cHandle: unwrappedHandle) as InternalStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> InternalStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> InternalStruct? {
     defer {
         smoke_PublicInterface_InternalStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: InternalStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: InternalStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_fieldOfInternalType = moveToCType(swiftType.fieldOfInternalType)
+    let c_fieldOfInternalType = foobar_moveToCType(swiftType.fieldOfInternalType)
     return RefHolder(smoke_PublicInterface_InternalStruct_create_optional_handle(c_fieldOfInternalType.ref))
 }
-internal func moveToCType(_ swiftType: InternalStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicInterface_InternalStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: InternalStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicInterface_InternalStruct_release_optional_handle)
 }

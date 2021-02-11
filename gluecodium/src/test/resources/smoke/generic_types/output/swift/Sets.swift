@@ -58,7 +58,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Set<GenericTypesWithCo
     var result: Set<GenericTypesWithCompoundTypes.ExternalEnum> = []
     let iterator_handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(handle)
     while foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(handle, iterator_handle) {
-        result.insert(copyFromCType(foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(iterator_handle)))
+        result.insert(foobar_copyFromCType(foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(iterator_handle)))
         foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(iterator_handle)
     }
     foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(iterator_handle)
@@ -73,7 +73,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<GenericTypesWithCo
 internal func foobar_copyToCType(_ swiftSet: Set<GenericTypesWithCompoundTypes.ExternalEnum>) -> RefHolder {
     let handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle()
     for item in swiftSet {
-        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(handle, moveToCType(item).ref)
+        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
@@ -87,7 +87,7 @@ internal func foobar_copyToCType(_ swiftSet: Set<GenericTypesWithCompoundTypes.E
     let optionalHandle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle()
     let handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(optionalHandle)
     for item in swiftSet {
-        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(handle, moveToCType(item).ref)
+        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -111,7 +111,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Set<GenericTypesWithCo
     var result: Set<GenericTypesWithCompoundTypes.SomeEnum> = []
     let iterator_handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(handle)
     while foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(handle, iterator_handle) {
-        result.insert(copyFromCType(foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(iterator_handle)))
+        result.insert(foobar_copyFromCType(foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(iterator_handle)))
         foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(iterator_handle)
     }
     foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(iterator_handle)
@@ -126,7 +126,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<GenericTypesWithCo
 internal func foobar_copyToCType(_ swiftSet: Set<GenericTypesWithCompoundTypes.SomeEnum>) -> RefHolder {
     let handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle()
     for item in swiftSet {
-        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(handle, moveToCType(item).ref)
+        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
@@ -140,7 +140,7 @@ internal func foobar_copyToCType(_ swiftSet: Set<GenericTypesWithCompoundTypes.S
     let optionalHandle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle()
     let handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(optionalHandle)
     for item in swiftSet {
-        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(handle, moveToCType(item).ref)
+        foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(handle, foobar_moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }

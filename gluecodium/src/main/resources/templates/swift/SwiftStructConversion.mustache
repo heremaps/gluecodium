@@ -19,21 +19,21 @@
   !
   !}}
 {{#if fields}}
-internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#if external.swift.converter}}
     return {{external.swift.converter}}.convertFromInternal({{resolveName this "" "ref"}}_internal(cHandle: handle))
 {{/if}}{{#unless external.swift.converter}}
     return {{resolveName this "" "ref"}}(cHandle: handle){{#ifPredicate "skipDeclaration"}}!{{/ifPredicate}}
 {{/unless}}
 }
-internal func moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
     defer {
         {{resolveName "CBridge"}}_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return {{internalPrefix}}copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftType{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftType{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}) -> RefHolder {
 {{#if external.swift.converter}}
     let swiftType = {{external.swift.converter}}.convertToInternal(swiftType_ext)
 {{/if}}
@@ -42,13 +42,13 @@ internal func copyToCType(_ swiftType{{#if external.swift.converter}}_ext{{/if}}
 {{/fields}}
     return RefHolder({{resolveName "CBridge"}}_create_handle({{#fields}}c_{{resolveName}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}}))
 }
-internal func moveToCType(_ swiftType: {{resolveName this "" "ref"}}) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: {{resolveName "CBridge"}}_release_handle)
+internal func {{internalPrefix}}moveToCType(_ swiftType: {{resolveName this "" "ref"}}) -> RefHolder {
+    return RefHolder(ref: {{internalPrefix}}copyToCType(swiftType).ref, release: {{resolveName "CBridge"}}_release_handle)
 }
 {{!!
 Optionals
 }}
-internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
@@ -59,14 +59,14 @@ internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}
     return {{resolveName this "" "ref"}}(cHandle: unwrappedHandle){{#ifPredicate "skipDeclaration"}}!{{/ifPredicate}} as {{resolveName this "" "ref"}}
 {{/unless}}
 }
-internal func moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     defer {
         {{resolveName "CBridge"}}_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return {{internalPrefix}}copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftType{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftType{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}?) -> RefHolder {
     guard let swiftType{{#if external.swift.converter}}_ext{{/if}} = swiftType{{#if external.swift.converter}}_ext{{/if}} else {
         return RefHolder(0)
     }
@@ -78,8 +78,8 @@ internal func copyToCType(_ swiftType{{#if external.swift.converter}}_ext{{/if}}
 {{/fields}}
     return RefHolder({{resolveName "CBridge"}}_create_optional_handle({{#fields}}c_{{resolveName}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}}))
 }
-internal func moveToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: {{resolveName "CBridge"}}_release_optional_handle)
+internal func {{internalPrefix}}moveToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
+    return RefHolder(ref: {{internalPrefix}}copyToCType(swiftType).ref, release: {{resolveName "CBridge"}}_release_optional_handle)
 }
 
 {{/if}}

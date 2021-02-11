@@ -35,14 +35,16 @@ extension SwiftMethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension SwiftMethodOverloads: Hashable {
+    // :nodoc:
     public static func == (lhs: SwiftMethodOverloads, rhs: SwiftMethodOverloads) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func SwiftMethodOverloads_copyFromCType(_ handle: _baseRef) -> SwiftMethodOverloads {
+internal func foobar_SwiftMethodOverloads_copyFromCType(_ handle: _baseRef) -> SwiftMethodOverloads {
     if let swift_pointer = smoke_SwiftMethodOverloads_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SwiftMethodOverloads {
         return re_constructed
@@ -51,7 +53,7 @@ internal func SwiftMethodOverloads_copyFromCType(_ handle: _baseRef) -> SwiftMet
     smoke_SwiftMethodOverloads_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func SwiftMethodOverloads_moveFromCType(_ handle: _baseRef) -> SwiftMethodOverloads {
+internal func foobar_SwiftMethodOverloads_moveFromCType(_ handle: _baseRef) -> SwiftMethodOverloads {
     if let swift_pointer = smoke_SwiftMethodOverloads_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SwiftMethodOverloads {
         smoke_SwiftMethodOverloads_release_handle(handle)
@@ -61,27 +63,27 @@ internal func SwiftMethodOverloads_moveFromCType(_ handle: _baseRef) -> SwiftMet
     smoke_SwiftMethodOverloads_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func SwiftMethodOverloads_copyFromCType(_ handle: _baseRef) -> SwiftMethodOverloads? {
+internal func foobar_SwiftMethodOverloads_copyFromCType(_ handle: _baseRef) -> SwiftMethodOverloads? {
     guard handle != 0 else {
         return nil
     }
-    return SwiftMethodOverloads_moveFromCType(handle) as SwiftMethodOverloads
+    return foobar_SwiftMethodOverloads_moveFromCType(handle) as SwiftMethodOverloads
 }
-internal func SwiftMethodOverloads_moveFromCType(_ handle: _baseRef) -> SwiftMethodOverloads? {
+internal func foobar_SwiftMethodOverloads_moveFromCType(_ handle: _baseRef) -> SwiftMethodOverloads? {
     guard handle != 0 else {
         return nil
     }
-    return SwiftMethodOverloads_moveFromCType(handle) as SwiftMethodOverloads
+    return foobar_SwiftMethodOverloads_moveFromCType(handle) as SwiftMethodOverloads
 }
-internal func copyToCType(_ swiftClass: SwiftMethodOverloads) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: SwiftMethodOverloads) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: SwiftMethodOverloads) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: SwiftMethodOverloads) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: SwiftMethodOverloads?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: SwiftMethodOverloads?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: SwiftMethodOverloads?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: SwiftMethodOverloads?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

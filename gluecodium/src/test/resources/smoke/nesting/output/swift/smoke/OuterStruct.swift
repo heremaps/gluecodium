@@ -22,7 +22,7 @@ public struct OuterStruct {
             otherField = foobar_moveFromCType(smoke_OuterStruct_InnerStruct_otherField_get(cHandle))
         }
         public func doSomething() -> Void {
-            let c_self_handle = moveToCType(self)
+            let c_self_handle = foobar_moveToCType(self)
             return moveFromCType(smoke_OuterStruct_InnerStruct_doSomething(c_self_handle.ref))
         }
     }
@@ -43,7 +43,7 @@ public struct OuterStruct {
         }
     }
     public func doNothing() -> Void {
-        let c_self_handle = moveToCType(self)
+        let c_self_handle = foobar_moveToCType(self)
         return moveFromCType(smoke_OuterStruct_doNothing(c_self_handle.ref))
     }
 }
@@ -66,44 +66,44 @@ internal class _InnerInterface: InnerInterface {
         return foobar_moveFromCType(smoke_OuterStruct_InnerInterface_barBaz(self.c_instance))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> OuterStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> OuterStruct {
     return OuterStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> OuterStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> OuterStruct {
     defer {
         smoke_OuterStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: OuterStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: OuterStruct) -> RefHolder {
     let c_field = moveToCType(swiftType.field)
     return RefHolder(smoke_OuterStruct_create_handle(c_field.ref))
 }
-internal func moveToCType(_ swiftType: OuterStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_OuterStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: OuterStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_OuterStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> OuterStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> OuterStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_OuterStruct_unwrap_optional_handle(handle)
     return OuterStruct(cHandle: unwrappedHandle) as OuterStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> OuterStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> OuterStruct? {
     defer {
         smoke_OuterStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: OuterStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: OuterStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_field = moveToCType(swiftType.field)
     return RefHolder(smoke_OuterStruct_create_optional_handle(c_field.ref))
 }
-internal func moveToCType(_ swiftType: OuterStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_OuterStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: OuterStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_OuterStruct_release_optional_handle)
 }
 internal func getRef(_ ref: OuterStruct.InnerClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
@@ -118,14 +118,16 @@ extension OuterStruct.InnerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension OuterStruct.InnerClass: Hashable {
+    // :nodoc:
     public static func == (lhs: OuterStruct.InnerClass, rhs: OuterStruct.InnerClass) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func OuterStruct_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass {
+internal func foobar_OuterStruct_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass {
     if let swift_pointer = smoke_OuterStruct_InnerClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterStruct.InnerClass {
         return re_constructed
@@ -134,7 +136,7 @@ internal func OuterStruct_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterS
     smoke_OuterStruct_InnerClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func OuterStruct_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass {
+internal func foobar_OuterStruct_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass {
     if let swift_pointer = smoke_OuterStruct_InnerClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? OuterStruct.InnerClass {
         smoke_OuterStruct_InnerClass_release_handle(handle)
@@ -144,28 +146,28 @@ internal func OuterStruct_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterS
     smoke_OuterStruct_InnerClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func OuterStruct_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass? {
+internal func foobar_OuterStruct_InnerClass_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass? {
     guard handle != 0 else {
         return nil
     }
-    return OuterStruct_InnerClass_moveFromCType(handle) as OuterStruct.InnerClass
+    return foobar_OuterStruct_InnerClass_moveFromCType(handle) as OuterStruct.InnerClass
 }
-internal func OuterStruct_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass? {
+internal func foobar_OuterStruct_InnerClass_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerClass? {
     guard handle != 0 else {
         return nil
     }
-    return OuterStruct_InnerClass_moveFromCType(handle) as OuterStruct.InnerClass
+    return foobar_OuterStruct_InnerClass_moveFromCType(handle) as OuterStruct.InnerClass
 }
-internal func copyToCType(_ swiftClass: OuterStruct.InnerClass) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: OuterStruct.InnerClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: OuterStruct.InnerClass) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: OuterStruct.InnerClass) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: OuterStruct.InnerClass?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: OuterStruct.InnerClass?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: OuterStruct.InnerClass?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: OuterStruct.InnerClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 @_cdecl("_CBridgeInitsmoke_OuterStruct_InnerInterface")
@@ -200,7 +202,7 @@ internal func getRef(_ ref: InnerInterface?, owning: Bool = true) -> RefHolder {
 extension _InnerInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func InnerInterface_copyFromCType(_ handle: _baseRef) -> InnerInterface {
+internal func foobar_InnerInterface_copyFromCType(_ handle: _baseRef) -> InnerInterface {
     if let swift_pointer = smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InnerInterface {
         return re_constructed
@@ -216,7 +218,7 @@ internal func InnerInterface_copyFromCType(_ handle: _baseRef) -> InnerInterface
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InnerInterface_moveFromCType(_ handle: _baseRef) -> InnerInterface {
+internal func foobar_InnerInterface_moveFromCType(_ handle: _baseRef) -> InnerInterface {
     if let swift_pointer = smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InnerInterface {
         smoke_OuterStruct_InnerInterface_release_handle(handle)
@@ -234,96 +236,96 @@ internal func InnerInterface_moveFromCType(_ handle: _baseRef) -> InnerInterface
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func InnerInterface_copyFromCType(_ handle: _baseRef) -> InnerInterface? {
+internal func foobar_InnerInterface_copyFromCType(_ handle: _baseRef) -> InnerInterface? {
     guard handle != 0 else {
         return nil
     }
-    return InnerInterface_moveFromCType(handle) as InnerInterface
+    return foobar_InnerInterface_moveFromCType(handle) as InnerInterface
 }
-internal func InnerInterface_moveFromCType(_ handle: _baseRef) -> InnerInterface? {
+internal func foobar_InnerInterface_moveFromCType(_ handle: _baseRef) -> InnerInterface? {
     guard handle != 0 else {
         return nil
     }
-    return InnerInterface_moveFromCType(handle) as InnerInterface
+    return foobar_InnerInterface_moveFromCType(handle) as InnerInterface
 }
-internal func copyToCType(_ swiftClass: InnerInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: InnerInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: InnerInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: InnerInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: InnerInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: InnerInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: InnerInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: InnerInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct {
     return OuterStruct.InnerStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct {
     defer {
         smoke_OuterStruct_InnerStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: OuterStruct.InnerStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: OuterStruct.InnerStruct) -> RefHolder {
     let c_otherField = foobar_moveToCType(swiftType.otherField)
     return RefHolder(smoke_OuterStruct_InnerStruct_create_handle(c_otherField.ref))
 }
-internal func moveToCType(_ swiftType: OuterStruct.InnerStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_OuterStruct_InnerStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: OuterStruct.InnerStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_OuterStruct_InnerStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_OuterStruct_InnerStruct_unwrap_optional_handle(handle)
     return OuterStruct.InnerStruct(cHandle: unwrappedHandle) as OuterStruct.InnerStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerStruct? {
     defer {
         smoke_OuterStruct_InnerStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: OuterStruct.InnerStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: OuterStruct.InnerStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_otherField = foobar_moveToCType(swiftType.otherField)
     return RefHolder(smoke_OuterStruct_InnerStruct_create_optional_handle(c_otherField.ref))
 }
-internal func moveToCType(_ swiftType: OuterStruct.InnerStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_OuterStruct_InnerStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: OuterStruct.InnerStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_OuterStruct_InnerStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: OuterStruct.InnerEnum) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: OuterStruct.InnerEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: OuterStruct.InnerEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: OuterStruct.InnerEnum) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: OuterStruct.InnerEnum?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: OuterStruct.InnerEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: OuterStruct.InnerEnum?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: OuterStruct.InnerEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> OuterStruct.InnerEnum {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> OuterStruct.InnerEnum {
     return OuterStruct.InnerEnum(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> OuterStruct.InnerEnum {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> OuterStruct.InnerEnum {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
     guard handle != 0 else {
         return nil
     }
     return OuterStruct.InnerEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }

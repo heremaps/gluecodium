@@ -46,7 +46,7 @@ internal func getRef(_ ref: ExcludedCommentsInterface?, owning: Bool = true) -> 
 extension _ExcludedCommentsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func ExcludedCommentsInterface_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface {
+internal func foobar_ExcludedCommentsInterface_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface {
     if let swift_pointer = smoke_ExcludedCommentsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExcludedCommentsInterface {
         return re_constructed
@@ -62,7 +62,7 @@ internal func ExcludedCommentsInterface_copyFromCType(_ handle: _baseRef) -> Exc
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ExcludedCommentsInterface_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface {
+internal func foobar_ExcludedCommentsInterface_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface {
     if let swift_pointer = smoke_ExcludedCommentsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ExcludedCommentsInterface {
         smoke_ExcludedCommentsInterface_release_handle(handle)
@@ -80,27 +80,27 @@ internal func ExcludedCommentsInterface_moveFromCType(_ handle: _baseRef) -> Exc
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ExcludedCommentsInterface_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface? {
+internal func foobar_ExcludedCommentsInterface_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ExcludedCommentsInterface_moveFromCType(handle) as ExcludedCommentsInterface
+    return foobar_ExcludedCommentsInterface_moveFromCType(handle) as ExcludedCommentsInterface
 }
-internal func ExcludedCommentsInterface_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface? {
+internal func foobar_ExcludedCommentsInterface_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ExcludedCommentsInterface_moveFromCType(handle) as ExcludedCommentsInterface
+    return foobar_ExcludedCommentsInterface_moveFromCType(handle) as ExcludedCommentsInterface
 }
-internal func copyToCType(_ swiftClass: ExcludedCommentsInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ExcludedCommentsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ExcludedCommentsInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ExcludedCommentsInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ExcludedCommentsInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ExcludedCommentsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ExcludedCommentsInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ExcludedCommentsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

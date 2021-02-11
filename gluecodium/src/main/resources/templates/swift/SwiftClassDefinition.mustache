@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
+{{#unless isAuxiliary}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
 }}{{resolveName visibility}} class {{resolveName}}{{!!
 }}{{#if parent}}: {{resolveName parent}}{{/if}}{{#unless parent}}{{/unless}} {
 
@@ -51,4 +51,4 @@
 
 {{#interfaces}}
 {{>swift/SwiftInterfaceDefinition}}
-{{/interfaces}}
+{{/interfaces}}{{/unless}}

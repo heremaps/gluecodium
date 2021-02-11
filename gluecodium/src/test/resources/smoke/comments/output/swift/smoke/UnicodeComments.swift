@@ -21,7 +21,7 @@ public class UnicodeComments {
         let c_input = moveToCType(input)
         let RESULT = smoke_UnicodeComments_someMethodWithAllComments(self.c_instance, c_input.ref)
         if (!RESULT.has_value) {
-            throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
+            throw foobar_moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
             return moveFromCType(RESULT.returned_value)
         }
@@ -40,14 +40,16 @@ extension UnicodeComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension UnicodeComments: Hashable {
+    // :nodoc:
     public static func == (lhs: UnicodeComments, rhs: UnicodeComments) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments {
+internal func foobar_UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments {
     if let swift_pointer = smoke_UnicodeComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UnicodeComments {
         return re_constructed
@@ -56,7 +58,7 @@ internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeCommen
     smoke_UnicodeComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments {
+internal func foobar_UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments {
     if let swift_pointer = smoke_UnicodeComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? UnicodeComments {
         smoke_UnicodeComments_release_handle(handle)
@@ -66,27 +68,27 @@ internal func UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeCommen
     smoke_UnicodeComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments? {
+internal func foobar_UnicodeComments_copyFromCType(_ handle: _baseRef) -> UnicodeComments? {
     guard handle != 0 else {
         return nil
     }
-    return UnicodeComments_moveFromCType(handle) as UnicodeComments
+    return foobar_UnicodeComments_moveFromCType(handle) as UnicodeComments
 }
-internal func UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments? {
+internal func foobar_UnicodeComments_moveFromCType(_ handle: _baseRef) -> UnicodeComments? {
     guard handle != 0 else {
         return nil
     }
-    return UnicodeComments_moveFromCType(handle) as UnicodeComments
+    return foobar_UnicodeComments_moveFromCType(handle) as UnicodeComments
 }
-internal func copyToCType(_ swiftClass: UnicodeComments) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: UnicodeComments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: UnicodeComments) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: UnicodeComments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: UnicodeComments?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: UnicodeComments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: UnicodeComments?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: UnicodeComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

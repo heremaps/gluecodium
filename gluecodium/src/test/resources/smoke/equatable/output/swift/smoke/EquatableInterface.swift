@@ -44,20 +44,23 @@ internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHold
 extension _EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-public func ==(lhs: EquatableInterface, rhs: EquatableInterface) -> Bool {
+// :nodoc:
+public func == (lhs: EquatableInterface, rhs: EquatableInterface) -> Bool {
     guard let lhsImpl = lhs as? _EquatableInterface else { return lhs === rhs }
     guard let rhsImpl = rhs as? _EquatableInterface else { return lhs === rhs }
     return lhsImpl == rhsImpl
 }
 extension _EquatableInterface: Hashable {
+    // :nodoc:
     public static func == (lhs: _EquatableInterface, rhs: _EquatableInterface) -> Bool {
         return smoke_EquatableInterface_equal(lhs.c_handle, rhs.c_handle)
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(smoke_EquatableInterface_hash(c_handle))
     }
 }
-internal func EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableInterface {
+internal func foobar_EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableInterface {
     if let swift_pointer = smoke_EquatableInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EquatableInterface {
         return re_constructed
@@ -73,7 +76,7 @@ internal func EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableI
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableInterface {
+internal func foobar_EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableInterface {
     if let swift_pointer = smoke_EquatableInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? EquatableInterface {
         smoke_EquatableInterface_release_handle(handle)
@@ -91,27 +94,27 @@ internal func EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableI
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableInterface? {
+internal func foobar_EquatableInterface_copyFromCType(_ handle: _baseRef) -> EquatableInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EquatableInterface_moveFromCType(handle) as EquatableInterface
+    return foobar_EquatableInterface_moveFromCType(handle) as EquatableInterface
 }
-internal func EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableInterface? {
+internal func foobar_EquatableInterface_moveFromCType(_ handle: _baseRef) -> EquatableInterface? {
     guard handle != 0 else {
         return nil
     }
-    return EquatableInterface_moveFromCType(handle) as EquatableInterface
+    return foobar_EquatableInterface_moveFromCType(handle) as EquatableInterface
 }
-internal func copyToCType(_ swiftClass: EquatableInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: EquatableInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: EquatableInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: EquatableInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: EquatableInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: EquatableInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: EquatableInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: EquatableInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
