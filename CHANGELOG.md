@@ -6,6 +6,8 @@
   * Suppressed documentation for equality operator and hash function overloads in Swift.
 ### Removed:
   * Deprecated IDL attribute `@Swift(ObjC)` was removed.
+  * Removed "-mergemanifest" command line option. Android manifest merger should be performed with external tools
+    instead (e.g. using Gradle).
 
 ## 8.8.0
 Release date: 2021-01-27

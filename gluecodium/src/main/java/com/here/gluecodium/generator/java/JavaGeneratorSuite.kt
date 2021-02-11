@@ -23,7 +23,6 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
-import com.here.gluecodium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -103,7 +102,10 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
             nativeBasePath.joinToString("/"),
             GeneratedFile.SourceSet.COMMON
         )
-        resultFiles += AndroidManifestGenerator(basePackages).generate()
+        resultFiles += GeneratedFile(
+            TemplateEngine.render("android/AndroidManifest", basePackages.joinToString(".")),
+            GENERATOR_NAME + File.separator + "AndroidManifest.xml"
+        )
 
         val jniTemplates = JniTemplates(
             limeReferenceMap = limeModel.referenceMap,

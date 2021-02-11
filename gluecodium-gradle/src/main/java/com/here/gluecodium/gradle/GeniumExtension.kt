@@ -43,7 +43,6 @@ open class GluecodiumExtension(objects: ObjectFactory) {
 
     val javaNonNullAnnotation: Property<String> = objects.property(String::class.java)
     val javaNullableAnnotation: Property<String> = objects.property(String::class.java)
-    val androidMergeManifest: Property<File> = objects.property(File::class.java)
 
     val cppNamespace: Property<String> = objects.property(String::class.java)
     val cppInternalNamespace: Property<String> = objects.property(String::class.java)
