@@ -66,12 +66,6 @@ object OptionReader {
             true,
             "Java package name to append to 'javapackage' for internal types."
         )
-        addOption(
-            "mergemanifest",
-            "android-merge-manifest",
-            true,
-            "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml"
-        )
         addOption("help", false, "Shows this help and exits.")
         addOption("version", false, "Prints version info and exits.")
         addOption(
@@ -180,7 +174,6 @@ object OptionReader {
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
         options.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
         options.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
-        options.androidMergeManifestPath = getStringValue("mergemanifest")
         options.generators = getStringListValue("generators")?.toSet() ?: GeneratorSuite.generatorShortNames()
 
         options.isValidatingOnly = getFlagValue("validate")

@@ -20,7 +20,7 @@
   !}}
 {
 {{#unless isStatic}}{{#if selfIsStruct}}
-    let c_self_handle = moveToCType(self)
+    let c_self_handle = {{internalPrefix}}moveToCType(self)
 {{/if}}{{/unless}}
 {{#parameters}}
     let c_{{resolveName}} = {{>swift/ConversionPrefixTo}}{{!!
@@ -29,7 +29,7 @@
 {{#if thrownType}}
     let RESULT = {{>delegateCall}}
     if (!RESULT.has_value) {
-        throw moveFromCType(RESULT.error_value) as {{resolveName exception "" "ref"}}
+        throw {{#set typeRef=exception.errorType}}{{>swift/ConversionPrefixFrom}}{{/set}}moveFromCType(RESULT.error_value) as {{resolveName exception "" "ref"}}
     }{{#unless returnType.isVoid}} else {
         return {{#unless isConstructor}}{{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}{{/unless}}moveFromCType(RESULT.returned_value)
     }{{/unless}}

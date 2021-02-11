@@ -149,19 +149,6 @@ class OptionReaderTest {
     }
 
     @Test
-    @Throws(OptionReaderException::class)
-    fun androidMergeManifestPathIsRecognised() {
-        // Arrange
-        val toRead = prepareToRead("-mergemanifest", TEST_ADDITIONAL_ANDROID_MANIFEST)
-
-        // Act
-        val options = OptionReader.read(toRead)
-
-        // Assert
-        assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, options!!.androidMergeManifestPath)
-    }
-
-    @Test
     @Throws(OptionReaderException::class, IOException::class)
     fun copyrightHeaderPathIsRecognised() {
         // Arrange
@@ -184,6 +171,5 @@ class OptionReaderTest {
         private const val TEST_OUTPUT = "./outputFile"
         private const val TEST_GENERATORS = "java,cpp"
         private const val TEST_JAVA_PACKAGE_LIST = "some_package"
-        private const val TEST_ADDITIONAL_ANDROID_MANIFEST = "path/to/additional/AndroidManifest.xml"
     }
 }

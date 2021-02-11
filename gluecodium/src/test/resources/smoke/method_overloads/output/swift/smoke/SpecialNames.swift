@@ -39,14 +39,16 @@ extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension SpecialNames: Hashable {
+    // :nodoc:
     public static func == (lhs: SpecialNames, rhs: SpecialNames) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
+internal func foobar_SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
     if let swift_pointer = smoke_SpecialNames_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialNames {
         return re_constructed
@@ -55,7 +57,7 @@ internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames {
     smoke_SpecialNames_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames {
+internal func foobar_SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames {
     if let swift_pointer = smoke_SpecialNames_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialNames {
         smoke_SpecialNames_release_handle(handle)
@@ -65,27 +67,27 @@ internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames {
     smoke_SpecialNames_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames? {
+internal func foobar_SpecialNames_copyFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {
         return nil
     }
-    return SpecialNames_moveFromCType(handle) as SpecialNames
+    return foobar_SpecialNames_moveFromCType(handle) as SpecialNames
 }
-internal func SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames? {
+internal func foobar_SpecialNames_moveFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {
         return nil
     }
-    return SpecialNames_moveFromCType(handle) as SpecialNames
+    return foobar_SpecialNames_moveFromCType(handle) as SpecialNames
 }
-internal func copyToCType(_ swiftClass: SpecialNames) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: SpecialNames) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: SpecialNames) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: SpecialNames) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: SpecialNames?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: SpecialNames?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: SpecialNames?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: SpecialNames?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

@@ -84,11 +84,6 @@ open class GluecodiumTask : SourceTask() {
     val javaNullableAnnotation: Property<String> = project.objects.property(String::class.java)
 
     @Optional
-    @InputFile
-    @PathSensitive(PathSensitivity.ABSOLUTE)
-    val androidMergeManifest: Property<File> = project.objects.property(File::class.java)
-
-    @Optional
     @Input
     val cppNamespace: Property<String> = project.objects.property(String::class.java)
 
@@ -132,7 +127,6 @@ open class GluecodiumTask : SourceTask() {
             OptionReader.readConfigFile(javaNameRules.orNull?.absolutePath, options.javaNameRules)
         options.javaNonNullAnnotation = OptionReader.parseAnnotation(javaNonNullAnnotation.orNull)
         options.javaNullableAnnotation = OptionReader.parseAnnotation(javaNullableAnnotation.orNull)
-        androidMergeManifest.orNull?.let { options.androidMergeManifestPath = it.absolutePath }
         cppNamespace.orNull?.let { options.cppRootNamespace = it.split(".") }
         cppInternalNamespace.orNull?.let { options.cppInternalNamespace = it.split(".") }
         cppExportMacroName.orNull?.let { options.cppExport = it }
@@ -154,7 +148,6 @@ open class GluecodiumTask : SourceTask() {
         logProperty("javaNameRules", javaNameRules, DEFAULT_VALUE_STRING)
         logProperty("javaNonNullAnnotation", javaNonNullAnnotation)
         logProperty("javaNullableAnnotation", javaNullableAnnotation)
-        logProperty("androidMergeManifest", androidMergeManifest)
         logProperty("cppNamespace", cppNamespace)
         logProperty("cppInternalNamespace", cppInternalNamespace)
         logProperty("cppExportMacroName", cppExportMacroName,

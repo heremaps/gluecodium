@@ -24,7 +24,6 @@ dependencies {
     compile project(":lime-runtime")
     compile project(":lime-loader")
 
-    compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'com.android.tools:annotations:25.3.0'
     compile 'com.google.guava:guava:29.0-jre'
     compile 'com.natpryce:konfig:1.6.10.0'

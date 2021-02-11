@@ -19,7 +19,7 @@ public class ChildConstructors: Constructors {
         return moveFromCType(smoke_ChildConstructors_create_())
     }
     private static func create(other: Constructors) -> _baseRef {
-        let c_other = moveToCType(other)
+        let c_other = foobar_moveToCType(other)
         return moveFromCType(smoke_ChildConstructors_create_Constructors(c_other.ref))
     }
 }
@@ -37,7 +37,7 @@ internal func getRef(_ ref: ChildConstructors?, owning: Bool = true) -> RefHolde
         ? RefHolder(ref: handle_copy, release: smoke_ChildConstructors_release_handle)
         : RefHolder(handle_copy)
 }
-internal func ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstructors {
+internal func foobar_ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstructors {
     if let swift_pointer = smoke_ChildConstructors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildConstructors {
         return re_constructed
@@ -49,7 +49,7 @@ internal func ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstr
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors {
+internal func foobar_ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors {
     if let swift_pointer = smoke_ChildConstructors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildConstructors {
         smoke_ChildConstructors_release_handle(handle)
@@ -62,27 +62,27 @@ internal func ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstr
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstructors? {
+internal func foobar_ChildConstructors_copyFromCType(_ handle: _baseRef) -> ChildConstructors? {
     guard handle != 0 else {
         return nil
     }
-    return ChildConstructors_moveFromCType(handle) as ChildConstructors
+    return foobar_ChildConstructors_moveFromCType(handle) as ChildConstructors
 }
-internal func ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors? {
+internal func foobar_ChildConstructors_moveFromCType(_ handle: _baseRef) -> ChildConstructors? {
     guard handle != 0 else {
         return nil
     }
-    return ChildConstructors_moveFromCType(handle) as ChildConstructors
+    return foobar_ChildConstructors_moveFromCType(handle) as ChildConstructors
 }
-internal func copyToCType(_ swiftClass: ChildConstructors) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ChildConstructors) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ChildConstructors) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ChildConstructors) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ChildConstructors?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ChildConstructors?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ChildConstructors?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ChildConstructors?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

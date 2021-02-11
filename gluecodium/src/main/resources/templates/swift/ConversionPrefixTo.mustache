@@ -18,6 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#typeRef.type.actualType}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{/typeRef.type.actualType}}
+{{#typeRef.type.actualType}}{{#notInstanceOf this "LimeBasicType"}}{{internalPrefix}}{{/notInstanceOf}}{{/typeRef.type.actualType}}

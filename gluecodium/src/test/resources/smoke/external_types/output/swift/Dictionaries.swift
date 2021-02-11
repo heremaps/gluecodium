@@ -3,8 +3,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [URLCredential.Persist
     var swiftDict: [URLCredential.Persistence: DateInterval] = [:]
     let iterator_handle = foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator(handle)
     while foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_is_valid(handle, iterator_handle) {
-        swiftDict[moveFromCType(foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_key(iterator_handle))] =
-            moveFromCType(foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_value(iterator_handle)) as DateInterval
+        swiftDict[foobar_moveFromCType(foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_key(iterator_handle))] =
+            foobar_moveFromCType(foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_value(iterator_handle)) as DateInterval
         foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_increment(iterator_handle)
     }
     foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_iterator_release_handle(iterator_handle)
@@ -19,8 +19,8 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [URLCredential.Persist
 internal func foobar_copyToCType(_ swiftDict: [URLCredential.Persistence: DateInterval]) -> RefHolder {
     let c_handle = foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_create_handle()
     for (key, value) in swiftDict {
-        let c_key = moveToCType(key)
-        let c_value = moveToCType(value)
+        let c_key = foobar_moveToCType(key)
+        let c_value = foobar_moveToCType(value)
         foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -48,8 +48,8 @@ internal func foobar_copyToCType(_ swiftDict: [URLCredential.Persistence: DateIn
     let optionalHandle = foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_create_optional_handle()
     let handle = foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
-        let c_key = moveToCType(key)
-        let c_value = moveToCType(value)
+        let c_key = foobar_moveToCType(key)
+        let c_value = foobar_moveToCType(value)
         foobar_MapOf_smoke_URLCredential_1Persistence_To_smoke_DateInterval_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)

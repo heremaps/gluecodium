@@ -38,10 +38,7 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
 import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Paths
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -172,61 +169,6 @@ class GluecodiumTest {
         val result = Gluecodium(options).output("", GENERATED_FILES)
 
         assertFalse(result)
-    }
-
-    @Test
-    @Throws(IOException::class)
-    fun mergeAndroidManifestsMergesTwoManifests() {
-        // Arrange
-        val basePath = Paths.get("src", "test", "resources", "android_manifests").toString()
-        val baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString()
-        val appendManifestPath = Paths.get(basePath, "AppendAndroidManifest.xml").toString()
-        val mergedManifestPath = Paths.get(temporaryFolder.root.path, "MergedAndroidManifest.xml")
-        val expectedMergedManifestPath = Paths.get(basePath, "ExpectedMergedAndroidManifest.xml")
-
-        // Act
-        val result = Gluecodium.mergeAndroidManifests(
-            baseManifestPath, appendManifestPath, mergedManifestPath.toString()
-        )
-
-        // Assert
-        assertTrue(result)
-        val expectedMergedManifest = String(Files.readAllBytes(expectedMergedManifestPath))
-        val actualMergedManifest = String(Files.readAllBytes(mergedManifestPath))
-        assertEquals(expectedMergedManifest, actualMergedManifest)
-    }
-
-    @Test
-    fun mergeAndroidManifestsReturnsFalseIfFirstFileDoesNotExist() {
-        // Arrange
-        val basePath = Paths.get("src", "test", "resources", "android_manifests").toString()
-        val baseManifestPath = "INVALID_PATH"
-        val appendManifestPath = Paths.get(basePath, "AppendAndroidManifest.xml").toString()
-        val mergedManifestPath = Paths.get(temporaryFolder.root.path, "MergedAndroidManifest.xml")
-
-        // Act
-        val result = Gluecodium.mergeAndroidManifests(
-            baseManifestPath, appendManifestPath, mergedManifestPath.toString()
-        )
-
-        // Assert
-        assertFalse(result)
-    }
-
-    @Test
-    fun mergeAndroidManifestsReturnsFalseIfSecondFileDoesNotExist() {
-        // Arrange
-        val basePath = Paths.get("src", "test", "resources", "android_manifests").toString()
-        val baseManifestPath = Paths.get(basePath, "BaseAndroidManifest.xml").toString()
-        val appendManifestPath = "INVALID_PATH"
-        val mergedManifestPath = Paths.get(temporaryFolder.root.path, "MergedAndroidManifest.xml")
-
-        // Act, assert
-        assertFalse(
-            Gluecodium.mergeAndroidManifests(
-                baseManifestPath, appendManifestPath, mergedManifestPath.toString()
-            )
-        )
     }
 
     private fun createGluecodium(options: Options) = spyk(Gluecodium(options, modelLoader))

@@ -18,14 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#ifPredicate "hasTypeRepository"}}
+{{#unless isAuxiliary}}{{#ifPredicate "hasTypeRepository"}}
 @_cdecl("_CBridgeInit{{resolveName "CBridge"}}")
 internal func _CBridgeInit{{resolveName "CBridge"}}(handle: _baseRef) -> UnsafeMutableRawPointer {
     let reference = {{>implName}}(c{{resolveName}}: handle)
     return Unmanaged<AnyObject>.passRetained(reference).toOpaque()
 }
 
-{{/ifPredicate}}
+{{/ifPredicate}}{{/unless}}
 {{#instanceOf this "LimeInterface"}}{{>swift/GetReference}}{{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeInterface"}}
 internal func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true) -> RefHolder {
@@ -39,14 +39,15 @@ internal func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true)
 }
 {{/notInstanceOf}}
 
-{{#unlessPredicate "parentIsClass"}}
+{{#unless isAuxiliary}}{{#unlessPredicate "parentIsClass"}}
 extension {{>implName}}: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }{{/unlessPredicate}}{{!!
 
 }}{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
 {{#instanceOf this "LimeInterface"}}
-public func ==(lhs: {{resolveName this "" "ref"}}, rhs: {{resolveName this "" "ref"}}) -> Bool {
+// :nodoc:
+public func == (lhs: {{resolveName this "" "ref"}}, rhs: {{resolveName this "" "ref"}}) -> Bool {
     guard let lhsImpl = lhs as? {{>implName}} else { return lhs === rhs }
     guard let rhsImpl = rhs as? {{>implName}} else { return lhs === rhs }
     return lhsImpl == rhsImpl
@@ -54,10 +55,12 @@ public func ==(lhs: {{resolveName this "" "ref"}}, rhs: {{resolveName this "" "r
 
 {{/instanceOf}}
 extension {{>implName}}: Hashable {
+    // :nodoc:
     public static func == (lhs: {{>implName}}, rhs: {{>implName}}) -> Bool {
         return {{resolveName "CBridge"}}_equal(lhs.c_handle, rhs.c_handle)
     }
 
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine({{resolveName "CBridge"}}_hash(c_handle))
     }
@@ -67,18 +70,20 @@ extension {{>implName}}: Hashable {
 {{#instanceOf this "LimeClass"}}{{#unlessPredicate "parentIsClass"}}
 
 extension {{>implName}}: Hashable {
+    // :nodoc:
     public static func == (lhs: {{>implName}}, rhs: {{>implName}}) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
 
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
 {{/unlessPredicate}}{{/instanceOf}}
-{{/unless}}
+{{/unless}}{{/unless}}
 
-internal func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func {{internalPrefix}}{{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -103,7 +108,7 @@ internal func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) ->
 {{/unlessPredicate}}
 }
 
-internal func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -130,32 +135,32 @@ internal func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{re
 {{/unlessPredicate}}
 }
 
-internal func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{internalPrefix}}{{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
+    return {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
-internal func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
+    return {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
 
-internal func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
 
-internal func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
+internal func {{internalPrefix}}moveToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 
-internal func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
 
-internal func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func {{internalPrefix}}moveToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 

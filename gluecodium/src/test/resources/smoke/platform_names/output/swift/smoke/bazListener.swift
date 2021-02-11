@@ -53,7 +53,7 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
 extension _bazListener: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener {
+internal func foobar_bazListener_copyFromCType(_ handle: _baseRef) -> bazListener {
     if let swift_pointer = smoke_bazListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         return re_constructed
@@ -69,7 +69,7 @@ internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func bazListener_moveFromCType(_ handle: _baseRef) -> bazListener {
+internal func foobar_bazListener_moveFromCType(_ handle: _baseRef) -> bazListener {
     if let swift_pointer = smoke_bazListener_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? bazListener {
         smoke_bazListener_release_handle(handle)
@@ -87,27 +87,27 @@ internal func bazListener_moveFromCType(_ handle: _baseRef) -> bazListener {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener? {
+internal func foobar_bazListener_copyFromCType(_ handle: _baseRef) -> bazListener? {
     guard handle != 0 else {
         return nil
     }
-    return bazListener_moveFromCType(handle) as bazListener
+    return foobar_bazListener_moveFromCType(handle) as bazListener
 }
-internal func bazListener_moveFromCType(_ handle: _baseRef) -> bazListener? {
+internal func foobar_bazListener_moveFromCType(_ handle: _baseRef) -> bazListener? {
     guard handle != 0 else {
         return nil
     }
-    return bazListener_moveFromCType(handle) as bazListener
+    return foobar_bazListener_moveFromCType(handle) as bazListener
 }
-internal func copyToCType(_ swiftClass: bazListener) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: bazListener) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: bazListener) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: bazListener) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: bazListener?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: bazListener?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: bazListener?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: bazListener?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

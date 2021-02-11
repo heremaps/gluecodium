@@ -38,14 +38,16 @@ extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension ConstantsInterface: Hashable {
+    // :nodoc:
     public static func == (lhs: ConstantsInterface, rhs: ConstantsInterface) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
-internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface {
+internal func foobar_ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface {
     if let swift_pointer = smoke_ConstantsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ConstantsInterface {
         return re_constructed
@@ -54,7 +56,7 @@ internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsI
     smoke_ConstantsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsInterface {
+internal func foobar_ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsInterface {
     if let swift_pointer = smoke_ConstantsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ConstantsInterface {
         smoke_ConstantsInterface_release_handle(handle)
@@ -64,57 +66,57 @@ internal func ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsI
     smoke_ConstantsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface? {
+internal func foobar_ConstantsInterface_copyFromCType(_ handle: _baseRef) -> ConstantsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ConstantsInterface_moveFromCType(handle) as ConstantsInterface
+    return foobar_ConstantsInterface_moveFromCType(handle) as ConstantsInterface
 }
-internal func ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsInterface? {
+internal func foobar_ConstantsInterface_moveFromCType(_ handle: _baseRef) -> ConstantsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return ConstantsInterface_moveFromCType(handle) as ConstantsInterface
+    return foobar_ConstantsInterface_moveFromCType(handle) as ConstantsInterface
 }
-internal func copyToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ConstantsInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ConstantsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ConstantsInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ConstantsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftEnum: ConstantsInterface.StateEnum) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: ConstantsInterface.StateEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: ConstantsInterface.StateEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: ConstantsInterface.StateEnum) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: ConstantsInterface.StateEnum?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: ConstantsInterface.StateEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: ConstantsInterface.StateEnum?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: ConstantsInterface.StateEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
     return ConstantsInterface.StateEnum(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ConstantsInterface.StateEnum? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> ConstantsInterface.StateEnum? {
     guard handle != 0 else {
         return nil
     }
     return ConstantsInterface.StateEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> ConstantsInterface.StateEnum? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> ConstantsInterface.StateEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }

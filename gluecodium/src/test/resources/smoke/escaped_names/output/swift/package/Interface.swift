@@ -44,7 +44,7 @@ internal func getRef(_ ref: Interface?, owning: Bool = true) -> RefHolder {
 extension _Interface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func Interface_copyFromCType(_ handle: _baseRef) -> Interface {
+internal func foobar_Interface_copyFromCType(_ handle: _baseRef) -> Interface {
     if let swift_pointer = package_Interface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Interface {
         return re_constructed
@@ -60,7 +60,7 @@ internal func Interface_copyFromCType(_ handle: _baseRef) -> Interface {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func Interface_moveFromCType(_ handle: _baseRef) -> Interface {
+internal func foobar_Interface_moveFromCType(_ handle: _baseRef) -> Interface {
     if let swift_pointer = package_Interface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Interface {
         package_Interface_release_handle(handle)
@@ -78,27 +78,27 @@ internal func Interface_moveFromCType(_ handle: _baseRef) -> Interface {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func Interface_copyFromCType(_ handle: _baseRef) -> Interface? {
+internal func foobar_Interface_copyFromCType(_ handle: _baseRef) -> Interface? {
     guard handle != 0 else {
         return nil
     }
-    return Interface_moveFromCType(handle) as Interface
+    return foobar_Interface_moveFromCType(handle) as Interface
 }
-internal func Interface_moveFromCType(_ handle: _baseRef) -> Interface? {
+internal func foobar_Interface_moveFromCType(_ handle: _baseRef) -> Interface? {
     guard handle != 0 else {
         return nil
     }
-    return Interface_moveFromCType(handle) as Interface
+    return foobar_Interface_moveFromCType(handle) as Interface
 }
-internal func copyToCType(_ swiftClass: Interface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Interface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Interface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Interface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: Interface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Interface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Interface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Interface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

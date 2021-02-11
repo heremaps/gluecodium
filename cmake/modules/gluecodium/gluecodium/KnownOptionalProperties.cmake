@@ -53,14 +53,6 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
-  GLUECODIUM_ANDROID_MERGE_MANIFEST
-  BRIEF_DOCS "The path to an Android manifest to merge with generated one"
-  FULL_DOCS
-    "The path to an Android manifest which will be merged with the generated AndroidManifest.xml."
-    "This property is initialized by the value of the GLUECODIUM_ANDROID_MERGE_MANIFEST_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
-)
-
-_gluecodium_define_target_property(
   GLUECODIUM_JAVA_PACKAGE
   BRIEF_DOCS "The base Java package to use for generated Java sources"
   FULL_DOCS

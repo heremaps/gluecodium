@@ -18,17 +18,18 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal func copyToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}) -> PrimitiveHolder<UInt32> {
+internal func {{internalPrefix}}copyToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}) -> PrimitiveHolder<UInt32> {
 {{#if external.swift.converter}}
     let swiftEnum = {{external.swift.converter}}.convertToInternal(swiftEnum_ext)
 {{/if}}
     return PrimitiveHolder({{#ifPredicate "skipDeclaration"}}UInt32({{/ifPredicate}}swiftEnum.rawValue{{#ifPredicate "skipDeclaration"}}){{/ifPredicate}})
 }
-internal func moveToCType(_ swiftEnum: {{resolveName this "" "ref"}}) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+
+internal func {{internalPrefix}}moveToCType(_ swiftEnum: {{resolveName this "" "ref"}}) -> PrimitiveHolder<UInt32> {
+    return {{internalPrefix}}copyToCType(swiftEnum)
 }
 
-internal func copyToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func {{internalPrefix}}copyToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}?) -> RefHolder {
 {{#ifPredicate "skipDeclaration"}}
     if let rawValue = swiftEnum?.rawValue {
         return copyToCType(UInt32(rawValue) as UInt32?)
@@ -45,7 +46,8 @@ internal func copyToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}
     return copyToCType(swiftEnum?.rawValue)
 {{/unlessPredicate}}
 }
-internal func moveToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}?) -> RefHolder {
+
+internal func {{internalPrefix}}moveToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}: {{resolveName this "" "ref"}}?) -> RefHolder {
 {{#ifPredicate "skipDeclaration"}}
     if let rawValue = swiftEnum?.rawValue {
         return moveToCType(UInt32(rawValue) as UInt32?)
@@ -63,18 +65,19 @@ internal func moveToCType(_ swiftEnum{{#if external.swift.converter}}_ext{{/if}}
 {{/unlessPredicate}}
 }
 
-internal func copyFromCType(_ cValue: UInt32) -> {{resolveName this "" "ref"}} {
+internal func {{internalPrefix}}copyFromCType(_ cValue: UInt32) -> {{resolveName this "" "ref"}} {
 {{#if external.swift.converter}}
     return {{external.swift.converter}}.convertFromInternal({{resolveName this "" "ref"}}_internal(rawValue: cValue)!)
 {{/if}}{{#unless external.swift.converter}}
     return {{resolveName this "" "ref"}}(rawValue: {{#ifPredicate "skipDeclaration"}}UInt({{/ifPredicate}}cValue{{#ifPredicate "skipDeclaration"}}){{/ifPredicate}})!
 {{/unless}}
 }
-internal func moveFromCType(_ cValue: UInt32) -> {{resolveName this "" "ref"}} {
-    return copyFromCType(cValue)
+
+internal func {{internalPrefix}}moveFromCType(_ cValue: UInt32) -> {{resolveName this "" "ref"}} {
+    return {{internalPrefix}}copyFromCType(cValue)
 }
 
-internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
@@ -84,9 +87,10 @@ internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}
     return {{resolveName this "" "ref"}}(rawValue: {{#ifPredicate "skipDeclaration"}}UInt({{/ifPredicate}}uint32_t_value_get(handle){{#ifPredicate "skipDeclaration"}}){{/ifPredicate}})!
 {{/unless}}
 }
-internal func moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+
+internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return {{internalPrefix}}copyFromCType(handle)
 }

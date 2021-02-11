@@ -7,10 +7,10 @@ public protocol Weakling : AnyObject {
 internal class _Weakling: Weakling {
     weak var listener: ListenerInterface? {
         get {
-            return ListenerInterface_moveFromCType(smoke_Weakling_listener_get(self.c_instance))
+            return foobar_ListenerInterface_moveFromCType(smoke_Weakling_listener_get(self.c_instance))
         }
         set {
-            let c_value = weakToCType(newValue)
+            let c_value = foobar_weakToCType(newValue)
             return moveFromCType(smoke_Weakling_listener_set(self.c_instance, c_value.ref))
         }
     }
@@ -50,11 +50,11 @@ internal func getRef(_ ref: Weakling?, owning: Bool = true) -> RefHolder {
     }
     functions.smoke_Weakling_listener_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Weakling
-        return copyToCType(swift_class.listener).ref
+        return foobar_copyToCType(swift_class.listener).ref
     }
     functions.smoke_Weakling_listener_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Weakling
-        swift_class.listener = ListenerInterface_moveFromCType(value)
+        swift_class.listener = foobar_ListenerInterface_moveFromCType(value)
     }
     let proxy = smoke_Weakling_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_Weakling_release_handle) : RefHolder(proxy)
@@ -62,7 +62,7 @@ internal func getRef(_ ref: Weakling?, owning: Bool = true) -> RefHolder {
 extension _Weakling: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func Weakling_copyFromCType(_ handle: _baseRef) -> Weakling {
+internal func foobar_Weakling_copyFromCType(_ handle: _baseRef) -> Weakling {
     if let swift_pointer = smoke_Weakling_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Weakling {
         return re_constructed
@@ -78,7 +78,7 @@ internal func Weakling_copyFromCType(_ handle: _baseRef) -> Weakling {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func Weakling_moveFromCType(_ handle: _baseRef) -> Weakling {
+internal func foobar_Weakling_moveFromCType(_ handle: _baseRef) -> Weakling {
     if let swift_pointer = smoke_Weakling_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Weakling {
         smoke_Weakling_release_handle(handle)
@@ -96,27 +96,27 @@ internal func Weakling_moveFromCType(_ handle: _baseRef) -> Weakling {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func Weakling_copyFromCType(_ handle: _baseRef) -> Weakling? {
+internal func foobar_Weakling_copyFromCType(_ handle: _baseRef) -> Weakling? {
     guard handle != 0 else {
         return nil
     }
-    return Weakling_moveFromCType(handle) as Weakling
+    return foobar_Weakling_moveFromCType(handle) as Weakling
 }
-internal func Weakling_moveFromCType(_ handle: _baseRef) -> Weakling? {
+internal func foobar_Weakling_moveFromCType(_ handle: _baseRef) -> Weakling? {
     guard handle != 0 else {
         return nil
     }
-    return Weakling_moveFromCType(handle) as Weakling
+    return foobar_Weakling_moveFromCType(handle) as Weakling
 }
-internal func copyToCType(_ swiftClass: Weakling) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Weakling) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Weakling) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Weakling) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: Weakling?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Weakling?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Weakling?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Weakling?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

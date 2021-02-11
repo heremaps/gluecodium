@@ -50,8 +50,6 @@ The general form of the command is::
                                                   # detailed output if this option specified.
       [VERSION <version>]                         # The version of Gluecodium to use for code
                                                   # generation. Default is '+' (i.e. latest)
-      [ANDROID_MERGE_MANIFEST <path>]             # The path to android manifest which will be merged
-                                                  # with the generated AndroidManifest.xml
       [JAVA_PACKAGE <package>]                    # The base Java package to add generated Java sources
                                                   # into, for example "com.my_company"
       [JAVA_INTERNAL_PACKAGE <package>]           # The package where internal Java code is generated.
@@ -232,7 +230,6 @@ cache=true\n")
   if(apigen_generate_TAGS)
     string(APPEND APIGEN_GLUECODIUM_PROPERTIES "tag=$<JOIN:${apigen_generate_TAGS},$<COMMA>>\n")
   endif()
-  _apigen_parse_option(mergemanifest ANDROID_MERGE_MANIFEST)
   _apigen_parse_option(javapackage JAVA_PACKAGE)
   _apigen_parse_option(intpackage JAVA_INTERNAL_PACKAGE)
   _apigen_parse_option(javanonnullannotation JAVA_NONNULL_ANNOTATION)

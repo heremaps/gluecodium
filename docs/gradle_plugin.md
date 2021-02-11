@@ -41,7 +41,6 @@ gluecodium {
     javaNameRules = file("${rootDir}/sample/gluecodium/namerules/java.properties")
     javaNonNullAnnotation = 'android.support.annotation.NonNull'
     javaNullableAnnotation = 'android.support.annotation.Nullable'
-    androidMergeManifest = file("${rootDir}/sample/gluecodium/AndroidManifest.xml")
     cppNamespace = 'sample'
     cppInternalNamespace = 'sample.internal'
     cppExportMacroName = 'GLUECODIUM_SAMPLE_EXPORT'

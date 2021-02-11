@@ -13,11 +13,12 @@ public struct SimpleEquatableStruct: Hashable {
         self.nullableInterfaceField = nullableInterfaceField
     }
     internal init(cHandle: _baseRef) {
-        classField = NonEquatableClass_moveFromCType(smoke_SimpleEquatableStruct_classField_get(cHandle))
-        interfaceField = NonEquatableInterface_moveFromCType(smoke_SimpleEquatableStruct_interfaceField_get(cHandle))
-        nullableClassField = NonEquatableClass_moveFromCType(smoke_SimpleEquatableStruct_nullableClassField_get(cHandle))
-        nullableInterfaceField = NonEquatableInterface_moveFromCType(smoke_SimpleEquatableStruct_nullableInterfaceField_get(cHandle))
+        classField = foobar_NonEquatableClass_moveFromCType(smoke_SimpleEquatableStruct_classField_get(cHandle))
+        interfaceField = foobar_NonEquatableInterface_moveFromCType(smoke_SimpleEquatableStruct_interfaceField_get(cHandle))
+        nullableClassField = foobar_NonEquatableClass_moveFromCType(smoke_SimpleEquatableStruct_nullableClassField_get(cHandle))
+        nullableInterfaceField = foobar_NonEquatableInterface_moveFromCType(smoke_SimpleEquatableStruct_nullableInterfaceField_get(cHandle))
     }
+    // :nodoc:
     public static func == (lhs: SimpleEquatableStruct, rhs: SimpleEquatableStruct) -> Bool {
         return
             lhs.classField === rhs.classField &&
@@ -25,6 +26,7 @@ public struct SimpleEquatableStruct: Hashable {
             lhs.nullableClassField === rhs.nullableClassField &&
             lhs.nullableInterfaceField === rhs.nullableInterfaceField
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(Unmanaged<AnyObject>.passUnretained(classField).toOpaque().hashValue)
         hasher.combine(Unmanaged<AnyObject>.passUnretained(interfaceField).toOpaque().hashValue)
@@ -32,48 +34,48 @@ public struct SimpleEquatableStruct: Hashable {
         hasher.combine(nullableInterfaceField != nil ? Unmanaged<AnyObject>.passUnretained(nullableInterfaceField!).toOpaque().hashValue : 0)
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> SimpleEquatableStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> SimpleEquatableStruct {
     return SimpleEquatableStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> SimpleEquatableStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> SimpleEquatableStruct {
     defer {
         smoke_SimpleEquatableStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: SimpleEquatableStruct) -> RefHolder {
-    let c_classField = moveToCType(swiftType.classField)
-    let c_interfaceField = moveToCType(swiftType.interfaceField)
-    let c_nullableClassField = moveToCType(swiftType.nullableClassField)
-    let c_nullableInterfaceField = moveToCType(swiftType.nullableInterfaceField)
+internal func foobar_copyToCType(_ swiftType: SimpleEquatableStruct) -> RefHolder {
+    let c_classField = foobar_moveToCType(swiftType.classField)
+    let c_interfaceField = foobar_moveToCType(swiftType.interfaceField)
+    let c_nullableClassField = foobar_moveToCType(swiftType.nullableClassField)
+    let c_nullableInterfaceField = foobar_moveToCType(swiftType.nullableInterfaceField)
     return RefHolder(smoke_SimpleEquatableStruct_create_handle(c_classField.ref, c_interfaceField.ref, c_nullableClassField.ref, c_nullableInterfaceField.ref))
 }
-internal func moveToCType(_ swiftType: SimpleEquatableStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_SimpleEquatableStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: SimpleEquatableStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_SimpleEquatableStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> SimpleEquatableStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> SimpleEquatableStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_SimpleEquatableStruct_unwrap_optional_handle(handle)
     return SimpleEquatableStruct(cHandle: unwrappedHandle) as SimpleEquatableStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> SimpleEquatableStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> SimpleEquatableStruct? {
     defer {
         smoke_SimpleEquatableStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: SimpleEquatableStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: SimpleEquatableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_classField = moveToCType(swiftType.classField)
-    let c_interfaceField = moveToCType(swiftType.interfaceField)
-    let c_nullableClassField = moveToCType(swiftType.nullableClassField)
-    let c_nullableInterfaceField = moveToCType(swiftType.nullableInterfaceField)
+    let c_classField = foobar_moveToCType(swiftType.classField)
+    let c_interfaceField = foobar_moveToCType(swiftType.interfaceField)
+    let c_nullableClassField = foobar_moveToCType(swiftType.nullableClassField)
+    let c_nullableInterfaceField = foobar_moveToCType(swiftType.nullableInterfaceField)
     return RefHolder(smoke_SimpleEquatableStruct_create_optional_handle(c_classField.ref, c_interfaceField.ref, c_nullableClassField.ref, c_nullableInterfaceField.ref))
 }
-internal func moveToCType(_ swiftType: SimpleEquatableStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_SimpleEquatableStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: SimpleEquatableStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_SimpleEquatableStruct_release_optional_handle)
 }
