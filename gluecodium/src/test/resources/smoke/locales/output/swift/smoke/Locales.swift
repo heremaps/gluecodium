@@ -59,7 +59,7 @@ extension Locales: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func Locales_copyFromCType(_ handle: _baseRef) -> Locales {
+internal func foobar_Locales_copyFromCType(_ handle: _baseRef) -> Locales {
     if let swift_pointer = smoke_Locales_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Locales {
         return re_constructed
@@ -68,7 +68,7 @@ internal func Locales_copyFromCType(_ handle: _baseRef) -> Locales {
     smoke_Locales_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func Locales_moveFromCType(_ handle: _baseRef) -> Locales {
+internal func foobar_Locales_moveFromCType(_ handle: _baseRef) -> Locales {
     if let swift_pointer = smoke_Locales_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Locales {
         smoke_Locales_release_handle(handle)
@@ -78,66 +78,66 @@ internal func Locales_moveFromCType(_ handle: _baseRef) -> Locales {
     smoke_Locales_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func Locales_copyFromCType(_ handle: _baseRef) -> Locales? {
+internal func foobar_Locales_copyFromCType(_ handle: _baseRef) -> Locales? {
     guard handle != 0 else {
         return nil
     }
-    return Locales_moveFromCType(handle) as Locales
+    return foobar_Locales_moveFromCType(handle) as Locales
 }
-internal func Locales_moveFromCType(_ handle: _baseRef) -> Locales? {
+internal func foobar_Locales_moveFromCType(_ handle: _baseRef) -> Locales? {
     guard handle != 0 else {
         return nil
     }
-    return Locales_moveFromCType(handle) as Locales
+    return foobar_Locales_moveFromCType(handle) as Locales
 }
-internal func copyToCType(_ swiftClass: Locales) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Locales) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Locales) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Locales) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: Locales?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: Locales?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Locales?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: Locales?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Locales.LocaleStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Locales.LocaleStruct {
     return Locales.LocaleStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> Locales.LocaleStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Locales.LocaleStruct {
     defer {
         smoke_Locales_LocaleStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Locales.LocaleStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: Locales.LocaleStruct) -> RefHolder {
     let c_localeField = moveToCType(swiftType.localeField)
     return RefHolder(smoke_Locales_LocaleStruct_create_handle(c_localeField.ref))
 }
-internal func moveToCType(_ swiftType: Locales.LocaleStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Locales_LocaleStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: Locales.LocaleStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Locales_LocaleStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Locales.LocaleStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> Locales.LocaleStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Locales_LocaleStruct_unwrap_optional_handle(handle)
     return Locales.LocaleStruct(cHandle: unwrappedHandle) as Locales.LocaleStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> Locales.LocaleStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> Locales.LocaleStruct? {
     defer {
         smoke_Locales_LocaleStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Locales.LocaleStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: Locales.LocaleStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_localeField = moveToCType(swiftType.localeField)
     return RefHolder(smoke_Locales_LocaleStruct_create_optional_handle(c_localeField.ref))
 }
-internal func moveToCType(_ swiftType: Locales.LocaleStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Locales_LocaleStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: Locales.LocaleStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Locales_LocaleStruct_release_optional_handle)
 }

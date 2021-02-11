@@ -18,8 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#typeRef.type.actualType}}{{#instanceOf this "LimeInterface"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeClass"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{/typeRef.type.actualType}}
+{{#typeRef.type.actualType}}{{#notInstanceOf this "LimeBasicType"}}{{internalPrefix}}{{/notInstanceOf}}{{!!
+}}{{#instanceOf this "LimeInterface"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeClass"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{/typeRef.type.actualType}}

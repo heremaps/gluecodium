@@ -23,7 +23,7 @@ internal func getRef(_ ref: ChildClassFromClass?, owning: Bool = true) -> RefHol
         ? RefHolder(ref: handle_copy, release: smoke_ChildClassFromClass_release_handle)
         : RefHolder(handle_copy)
 }
-internal func ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass {
+internal func foobar_ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass {
     if let swift_pointer = smoke_ChildClassFromClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromClass {
         return re_constructed
@@ -35,7 +35,7 @@ internal func ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClas
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass {
+internal func foobar_ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass {
     if let swift_pointer = smoke_ChildClassFromClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ChildClassFromClass {
         smoke_ChildClassFromClass_release_handle(handle)
@@ -48,27 +48,27 @@ internal func ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClas
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
+internal func foobar_ChildClassFromClass_copyFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
     guard handle != 0 else {
         return nil
     }
-    return ChildClassFromClass_moveFromCType(handle) as ChildClassFromClass
+    return foobar_ChildClassFromClass_moveFromCType(handle) as ChildClassFromClass
 }
-internal func ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
+internal func foobar_ChildClassFromClass_moveFromCType(_ handle: _baseRef) -> ChildClassFromClass? {
     guard handle != 0 else {
         return nil
     }
-    return ChildClassFromClass_moveFromCType(handle) as ChildClassFromClass
+    return foobar_ChildClassFromClass_moveFromCType(handle) as ChildClassFromClass
 }
-internal func copyToCType(_ swiftClass: ChildClassFromClass) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ChildClassFromClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ChildClassFromClass) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ChildClassFromClass) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: ChildClassFromClass?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: ChildClassFromClass?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: ChildClassFromClass?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: ChildClassFromClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

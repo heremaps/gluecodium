@@ -42,7 +42,7 @@ extension SpecialAttributes: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func SpecialAttributes_copyFromCType(_ handle: _baseRef) -> SpecialAttributes {
+internal func foobar_SpecialAttributes_copyFromCType(_ handle: _baseRef) -> SpecialAttributes {
     if let swift_pointer = smoke_SpecialAttributes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialAttributes {
         return re_constructed
@@ -51,7 +51,7 @@ internal func SpecialAttributes_copyFromCType(_ handle: _baseRef) -> SpecialAttr
     smoke_SpecialAttributes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func SpecialAttributes_moveFromCType(_ handle: _baseRef) -> SpecialAttributes {
+internal func foobar_SpecialAttributes_moveFromCType(_ handle: _baseRef) -> SpecialAttributes {
     if let swift_pointer = smoke_SpecialAttributes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SpecialAttributes {
         smoke_SpecialAttributes_release_handle(handle)
@@ -61,27 +61,27 @@ internal func SpecialAttributes_moveFromCType(_ handle: _baseRef) -> SpecialAttr
     smoke_SpecialAttributes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func SpecialAttributes_copyFromCType(_ handle: _baseRef) -> SpecialAttributes? {
+internal func foobar_SpecialAttributes_copyFromCType(_ handle: _baseRef) -> SpecialAttributes? {
     guard handle != 0 else {
         return nil
     }
-    return SpecialAttributes_moveFromCType(handle) as SpecialAttributes
+    return foobar_SpecialAttributes_moveFromCType(handle) as SpecialAttributes
 }
-internal func SpecialAttributes_moveFromCType(_ handle: _baseRef) -> SpecialAttributes? {
+internal func foobar_SpecialAttributes_moveFromCType(_ handle: _baseRef) -> SpecialAttributes? {
     guard handle != 0 else {
         return nil
     }
-    return SpecialAttributes_moveFromCType(handle) as SpecialAttributes
+    return foobar_SpecialAttributes_moveFromCType(handle) as SpecialAttributes
 }
-internal func copyToCType(_ swiftClass: SpecialAttributes) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: SpecialAttributes) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: SpecialAttributes) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: SpecialAttributes) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: SpecialAttributes?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: SpecialAttributes?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: SpecialAttributes?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: SpecialAttributes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

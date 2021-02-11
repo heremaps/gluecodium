@@ -2,26 +2,26 @@
 //
 import Foundation
 public typealias StandaloneProducer = () -> String
-internal func copyFromCType(_ handle: _baseRef) -> StandaloneProducer {
-    return moveFromCType(smoke_StandaloneProducer_copy_handle(handle))
+internal func foobar_copyFromCType(_ handle: _baseRef) -> StandaloneProducer {
+    return foobar_moveFromCType(smoke_StandaloneProducer_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> StandaloneProducer {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> StandaloneProducer {
     let refHolder = RefHolder(ref: handle, release: smoke_StandaloneProducer_release_handle)
     return { () -> String in
         return moveFromCType(smoke_StandaloneProducer_call(refHolder.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> StandaloneProducer? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> StandaloneProducer? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as StandaloneProducer
+    return foobar_copyFromCType(handle) as StandaloneProducer
 }
-internal func moveFromCType(_ handle: _baseRef) -> StandaloneProducer? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> StandaloneProducer? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as StandaloneProducer
+    return foobar_moveFromCType(handle) as StandaloneProducer
 }
 internal func createFunctionalTable(_ swiftType: @escaping StandaloneProducer) -> smoke_StandaloneProducer_FunctionTable {
     class smoke_StandaloneProducer_Holder {
@@ -43,22 +43,22 @@ internal func createFunctionalTable(_ swiftType: @escaping StandaloneProducer) -
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping StandaloneProducer) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: @escaping StandaloneProducer) -> RefHolder {
     let handle = smoke_StandaloneProducer_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping StandaloneProducer) -> RefHolder {
+internal func foobar_moveToCType(_ swiftType: @escaping StandaloneProducer) -> RefHolder {
     let handle = smoke_StandaloneProducer_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_StandaloneProducer_release_handle)
 }
-internal func copyToCType(_ swiftType: StandaloneProducer?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: StandaloneProducer?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let handle = smoke_StandaloneProducer_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: StandaloneProducer?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftType: StandaloneProducer?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }

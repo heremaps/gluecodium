@@ -52,7 +52,7 @@ extension AttributesClass: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func AttributesClass_copyFromCType(_ handle: _baseRef) -> AttributesClass {
+internal func foobar_AttributesClass_copyFromCType(_ handle: _baseRef) -> AttributesClass {
     if let swift_pointer = smoke_AttributesClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesClass {
         return re_constructed
@@ -61,7 +61,7 @@ internal func AttributesClass_copyFromCType(_ handle: _baseRef) -> AttributesCla
     smoke_AttributesClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func AttributesClass_moveFromCType(_ handle: _baseRef) -> AttributesClass {
+internal func foobar_AttributesClass_moveFromCType(_ handle: _baseRef) -> AttributesClass {
     if let swift_pointer = smoke_AttributesClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesClass {
         smoke_AttributesClass_release_handle(handle)
@@ -71,27 +71,27 @@ internal func AttributesClass_moveFromCType(_ handle: _baseRef) -> AttributesCla
     smoke_AttributesClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func AttributesClass_copyFromCType(_ handle: _baseRef) -> AttributesClass? {
+internal func foobar_AttributesClass_copyFromCType(_ handle: _baseRef) -> AttributesClass? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesClass_moveFromCType(handle) as AttributesClass
+    return foobar_AttributesClass_moveFromCType(handle) as AttributesClass
 }
-internal func AttributesClass_moveFromCType(_ handle: _baseRef) -> AttributesClass? {
+internal func foobar_AttributesClass_moveFromCType(_ handle: _baseRef) -> AttributesClass? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesClass_moveFromCType(handle) as AttributesClass
+    return foobar_AttributesClass_moveFromCType(handle) as AttributesClass
 }
-internal func copyToCType(_ swiftClass: AttributesClass) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: AttributesClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: AttributesClass) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: AttributesClass) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: AttributesClass?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: AttributesClass?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: AttributesClass?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: AttributesClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

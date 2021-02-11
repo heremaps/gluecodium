@@ -103,7 +103,7 @@ extension GenericTypesWithBasicTypes: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func GenericTypesWithBasicTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes {
+internal func foobar_GenericTypesWithBasicTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes {
     if let swift_pointer = smoke_GenericTypesWithBasicTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithBasicTypes {
         return re_constructed
@@ -112,7 +112,7 @@ internal func GenericTypesWithBasicTypes_copyFromCType(_ handle: _baseRef) -> Ge
     smoke_GenericTypesWithBasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func GenericTypesWithBasicTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes {
+internal func foobar_GenericTypesWithBasicTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes {
     if let swift_pointer = smoke_GenericTypesWithBasicTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithBasicTypes {
         smoke_GenericTypesWithBasicTypes_release_handle(handle)
@@ -122,62 +122,62 @@ internal func GenericTypesWithBasicTypes_moveFromCType(_ handle: _baseRef) -> Ge
     smoke_GenericTypesWithBasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func GenericTypesWithBasicTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes? {
+internal func foobar_GenericTypesWithBasicTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes? {
     guard handle != 0 else {
         return nil
     }
-    return GenericTypesWithBasicTypes_moveFromCType(handle) as GenericTypesWithBasicTypes
+    return foobar_GenericTypesWithBasicTypes_moveFromCType(handle) as GenericTypesWithBasicTypes
 }
-internal func GenericTypesWithBasicTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes? {
+internal func foobar_GenericTypesWithBasicTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes? {
     guard handle != 0 else {
         return nil
     }
-    return GenericTypesWithBasicTypes_moveFromCType(handle) as GenericTypesWithBasicTypes
+    return foobar_GenericTypesWithBasicTypes_moveFromCType(handle) as GenericTypesWithBasicTypes
 }
-internal func copyToCType(_ swiftClass: GenericTypesWithBasicTypes) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: GenericTypesWithBasicTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: GenericTypesWithBasicTypes) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: GenericTypesWithBasicTypes) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: GenericTypesWithBasicTypes?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: GenericTypesWithBasicTypes?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: GenericTypesWithBasicTypes?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: GenericTypesWithBasicTypes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics {
     return GenericTypesWithBasicTypes.StructWithGenerics(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics {
     defer {
         smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics) -> RefHolder {
     let c_numbersList = foobar_moveToCType(swiftType.numbersList)
     let c_numbersMap = foobar_moveToCType(swiftType.numbersMap)
     let c_numbersSet = foobar_moveToCType(swiftType.numbersSet)
     return RefHolder(smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle(c_numbersList.ref, c_numbersMap.ref, c_numbersSet.ref))
 }
-internal func moveToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle)
+internal func foobar_moveToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_GenericTypesWithBasicTypes_StructWithGenerics_unwrap_optional_handle(handle)
     return GenericTypesWithBasicTypes.StructWithGenerics(cHandle: unwrappedHandle) as GenericTypesWithBasicTypes.StructWithGenerics
 }
-internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithBasicTypes.StructWithGenerics? {
     defer {
         smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -186,6 +186,6 @@ internal func copyToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGene
     let c_numbersSet = foobar_moveToCType(swiftType.numbersSet)
     return RefHolder(smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_optional_handle(c_numbersList.ref, c_numbersMap.ref, c_numbersSet.ref))
 }
-internal func moveToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: GenericTypesWithBasicTypes.StructWithGenerics?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_optional_handle)
 }

@@ -128,7 +128,7 @@ internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> Re
 extension _DeprecationCommentsOnly: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
+internal func foobar_DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationCommentsOnly {
         return re_constructed
@@ -144,7 +144,7 @@ internal func DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> Depre
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
+internal func foobar_DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly {
     if let swift_pointer = smoke_DeprecationCommentsOnly_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? DeprecationCommentsOnly {
         smoke_DeprecationCommentsOnly_release_handle(handle)
@@ -162,96 +162,96 @@ internal func DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> Depre
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
+internal func foobar_DeprecationCommentsOnly_copyFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
     guard handle != 0 else {
         return nil
     }
-    return DeprecationCommentsOnly_moveFromCType(handle) as DeprecationCommentsOnly
+    return foobar_DeprecationCommentsOnly_moveFromCType(handle) as DeprecationCommentsOnly
 }
-internal func DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
+internal func foobar_DeprecationCommentsOnly_moveFromCType(_ handle: _baseRef) -> DeprecationCommentsOnly? {
     guard handle != 0 else {
         return nil
     }
-    return DeprecationCommentsOnly_moveFromCType(handle) as DeprecationCommentsOnly
+    return foobar_DeprecationCommentsOnly_moveFromCType(handle) as DeprecationCommentsOnly
 }
-internal func copyToCType(_ swiftClass: DeprecationCommentsOnly) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: DeprecationCommentsOnly) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: DeprecationCommentsOnly) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: DeprecationCommentsOnly) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: DeprecationCommentsOnly?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> SomeStruct {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> SomeStruct {
     return SomeStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> SomeStruct {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> SomeStruct {
     defer {
         smoke_DeprecationCommentsOnly_SomeStruct_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: SomeStruct) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: SomeStruct) -> RefHolder {
     let c_someField = moveToCType(swiftType.someField)
     return RefHolder(smoke_DeprecationCommentsOnly_SomeStruct_create_handle(c_someField.ref))
 }
-internal func moveToCType(_ swiftType: SomeStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DeprecationCommentsOnly_SomeStruct_release_handle)
+internal func foobar_moveToCType(_ swiftType: SomeStruct) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_DeprecationCommentsOnly_SomeStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> SomeStruct? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> SomeStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_DeprecationCommentsOnly_SomeStruct_unwrap_optional_handle(handle)
     return SomeStruct(cHandle: unwrappedHandle) as SomeStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> SomeStruct? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> SomeStruct? {
     defer {
         smoke_DeprecationCommentsOnly_SomeStruct_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: SomeStruct?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_someField = moveToCType(swiftType.someField)
     return RefHolder(smoke_DeprecationCommentsOnly_SomeStruct_create_optional_handle(c_someField.ref))
 }
-internal func moveToCType(_ swiftType: SomeStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DeprecationCommentsOnly_SomeStruct_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: SomeStruct?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_DeprecationCommentsOnly_SomeStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+internal func foobar_copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
+internal func foobar_moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return foobar_copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
+internal func foobar_copyFromCType(_ cValue: UInt32) -> SomeEnum {
     return SomeEnum(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
-    return copyFromCType(cValue)
+internal func foobar_moveFromCType(_ cValue: UInt32) -> SomeEnum {
+    return foobar_copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> SomeEnum? {
     guard handle != 0 else {
         return nil
     }
     return SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> SomeEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }

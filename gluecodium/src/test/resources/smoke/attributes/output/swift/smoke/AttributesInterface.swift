@@ -78,7 +78,7 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
 extension _AttributesInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func AttributesInterface_copyFromCType(_ handle: _baseRef) -> AttributesInterface {
+internal func foobar_AttributesInterface_copyFromCType(_ handle: _baseRef) -> AttributesInterface {
     if let swift_pointer = smoke_AttributesInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesInterface {
         return re_constructed
@@ -94,7 +94,7 @@ internal func AttributesInterface_copyFromCType(_ handle: _baseRef) -> Attribute
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func AttributesInterface_moveFromCType(_ handle: _baseRef) -> AttributesInterface {
+internal func foobar_AttributesInterface_moveFromCType(_ handle: _baseRef) -> AttributesInterface {
     if let swift_pointer = smoke_AttributesInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesInterface {
         smoke_AttributesInterface_release_handle(handle)
@@ -112,27 +112,27 @@ internal func AttributesInterface_moveFromCType(_ handle: _baseRef) -> Attribute
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func AttributesInterface_copyFromCType(_ handle: _baseRef) -> AttributesInterface? {
+internal func foobar_AttributesInterface_copyFromCType(_ handle: _baseRef) -> AttributesInterface? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesInterface_moveFromCType(handle) as AttributesInterface
+    return foobar_AttributesInterface_moveFromCType(handle) as AttributesInterface
 }
-internal func AttributesInterface_moveFromCType(_ handle: _baseRef) -> AttributesInterface? {
+internal func foobar_AttributesInterface_moveFromCType(_ handle: _baseRef) -> AttributesInterface? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesInterface_moveFromCType(handle) as AttributesInterface
+    return foobar_AttributesInterface_moveFromCType(handle) as AttributesInterface
 }
-internal func copyToCType(_ swiftClass: AttributesInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: AttributesInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: AttributesInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: AttributesInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: AttributesInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: AttributesInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: AttributesInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: AttributesInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

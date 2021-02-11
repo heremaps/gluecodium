@@ -27,7 +27,7 @@ public class StructsWithMethodsInterface {
             guard _result_handle != 0 else {
                 fatalError("Nullptr value is not supported for initializers")
             }
-            let _result: StructsWithMethodsInterface.Vector3 = moveFromCType(_result_handle)
+            let _result: StructsWithMethodsInterface.Vector3 = foobar_moveFromCType(_result_handle)
             self.x = _result.x
             self.y = _result.y
             self.z = _result.z
@@ -37,20 +37,20 @@ public class StructsWithMethodsInterface {
             guard _result_handle != 0 else {
                 fatalError("Nullptr value is not supported for initializers")
             }
-            let _result: StructsWithMethodsInterface.Vector3 = moveFromCType(_result_handle)
+            let _result: StructsWithMethodsInterface.Vector3 = foobar_moveFromCType(_result_handle)
             self.x = _result.x
             self.y = _result.y
             self.z = _result.z
         }
         public func distanceTo(other: StructsWithMethodsInterface.Vector3) -> Double {
-            let c_self_handle = moveToCType(self)
-            let c_other = moveToCType(other)
+            let c_self_handle = foobar_moveToCType(self)
+            let c_other = foobar_moveToCType(other)
             return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_distanceTo(c_self_handle.ref, c_other.ref))
         }
         public func add(other: StructsWithMethodsInterface.Vector3) -> StructsWithMethodsInterface.Vector3 {
-            let c_self_handle = moveToCType(self)
-            let c_other = moveToCType(other)
-            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_add(c_self_handle.ref, c_other.ref))
+            let c_self_handle = foobar_moveToCType(self)
+            let c_other = foobar_moveToCType(other)
+            return foobar_moveFromCType(smoke_StructsWithMethodsInterface_Vector3_add(c_self_handle.ref, c_other.ref))
         }
         public static func validate(x: Double, y: Double, z: Double) -> Bool {
             let c_x = moveToCType(x)
@@ -63,10 +63,10 @@ public class StructsWithMethodsInterface {
             return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_create_String(c_input.ref))
         }
         private static func create(other: StructsWithMethodsInterface.Vector3) throws -> _baseRef {
-            let c_other = moveToCType(other)
+            let c_other = foobar_moveToCType(other)
             let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_Vector3(c_other.ref)
             if (!RESULT.has_value) {
-                throw moveFromCType(RESULT.error_value) as ValidationError
+                throw foobar_moveFromCType(RESULT.error_value) as ValidationError
             } else {
                 return moveFromCType(RESULT.returned_value)
             }
@@ -98,7 +98,7 @@ extension StructsWithMethodsInterface: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
+internal func foobar_StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
     if let swift_pointer = smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithMethodsInterface {
         return re_constructed
@@ -107,7 +107,7 @@ internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> S
     smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
+internal func foobar_StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface {
     if let swift_pointer = smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructsWithMethodsInterface {
         smoke_StructsWithMethodsInterface_release_handle(handle)
@@ -117,62 +117,62 @@ internal func StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> S
     smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface? {
+internal func foobar_StructsWithMethodsInterface_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return StructsWithMethodsInterface_moveFromCType(handle) as StructsWithMethodsInterface
+    return foobar_StructsWithMethodsInterface_moveFromCType(handle) as StructsWithMethodsInterface
 }
-internal func StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface? {
+internal func foobar_StructsWithMethodsInterface_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface? {
     guard handle != 0 else {
         return nil
     }
-    return StructsWithMethodsInterface_moveFromCType(handle) as StructsWithMethodsInterface
+    return foobar_StructsWithMethodsInterface_moveFromCType(handle) as StructsWithMethodsInterface
 }
-internal func copyToCType(_ swiftClass: StructsWithMethodsInterface) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: StructsWithMethodsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: StructsWithMethodsInterface) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: StructsWithMethodsInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: StructsWithMethodsInterface?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: StructsWithMethodsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: StructsWithMethodsInterface?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: StructsWithMethodsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3 {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3 {
     return StructsWithMethodsInterface.Vector3(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3 {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3 {
     defer {
         smoke_StructsWithMethodsInterface_Vector3_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: StructsWithMethodsInterface.Vector3) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: StructsWithMethodsInterface.Vector3) -> RefHolder {
     let c_x = moveToCType(swiftType.x)
     let c_y = moveToCType(swiftType.y)
     let c_z = moveToCType(swiftType.z)
     return RefHolder(smoke_StructsWithMethodsInterface_Vector3_create_handle(c_x.ref, c_y.ref, c_z.ref))
 }
-internal func moveToCType(_ swiftType: StructsWithMethodsInterface.Vector3) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructsWithMethodsInterface_Vector3_release_handle)
+internal func foobar_moveToCType(_ swiftType: StructsWithMethodsInterface.Vector3) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructsWithMethodsInterface_Vector3_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_StructsWithMethodsInterface_Vector3_unwrap_optional_handle(handle)
     return StructsWithMethodsInterface.Vector3(cHandle: unwrappedHandle) as StructsWithMethodsInterface.Vector3
 }
-internal func moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> StructsWithMethodsInterface.Vector3? {
     defer {
         smoke_StructsWithMethodsInterface_Vector3_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: StructsWithMethodsInterface.Vector3?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: StructsWithMethodsInterface.Vector3?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -181,6 +181,6 @@ internal func copyToCType(_ swiftType: StructsWithMethodsInterface.Vector3?) -> 
     let c_z = moveToCType(swiftType.z)
     return RefHolder(smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(c_x.ref, c_y.ref, c_z.ref))
 }
-internal func moveToCType(_ swiftType: StructsWithMethodsInterface.Vector3?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructsWithMethodsInterface_Vector3_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: StructsWithMethodsInterface.Vector3?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructsWithMethodsInterface_Vector3_release_optional_handle)
 }

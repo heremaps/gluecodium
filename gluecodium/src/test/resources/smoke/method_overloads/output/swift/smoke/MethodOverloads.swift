@@ -40,14 +40,14 @@ public class MethodOverloads {
         return moveFromCType(smoke_MethodOverloads_isBoolean_String(self.c_instance, c_input.ref))
     }
     public func isBoolean(input: MethodOverloads.Point) -> Bool {
-        let c_input = moveToCType(input)
+        let c_input = foobar_moveToCType(input)
         return moveFromCType(smoke_MethodOverloads_isBoolean_Point(self.c_instance, c_input.ref))
     }
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
         let c_input1 = moveToCType(input1)
         let c_input2 = moveToCType(input2)
         let c_input3 = moveToCType(input3)
-        let c_input4 = moveToCType(input4)
+        let c_input4 = foobar_moveToCType(input4)
         return moveFromCType(smoke_MethodOverloads_isBoolean_Boolean_Byte_String_Point(self.c_instance, c_input1.ref, c_input2.ref, c_input3.ref, c_input4.ref))
     }
     public func isBoolean(input: MethodOverloads.StringArray) -> Bool {
@@ -90,7 +90,7 @@ extension MethodOverloads: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads {
+internal func foobar_MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads {
     if let swift_pointer = smoke_MethodOverloads_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MethodOverloads {
         return re_constructed
@@ -99,7 +99,7 @@ internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloa
     smoke_MethodOverloads_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads {
+internal func foobar_MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads {
     if let swift_pointer = smoke_MethodOverloads_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MethodOverloads {
         smoke_MethodOverloads_release_handle(handle)
@@ -109,61 +109,61 @@ internal func MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloa
     smoke_MethodOverloads_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads? {
+internal func foobar_MethodOverloads_copyFromCType(_ handle: _baseRef) -> MethodOverloads? {
     guard handle != 0 else {
         return nil
     }
-    return MethodOverloads_moveFromCType(handle) as MethodOverloads
+    return foobar_MethodOverloads_moveFromCType(handle) as MethodOverloads
 }
-internal func MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads? {
+internal func foobar_MethodOverloads_moveFromCType(_ handle: _baseRef) -> MethodOverloads? {
     guard handle != 0 else {
         return nil
     }
-    return MethodOverloads_moveFromCType(handle) as MethodOverloads
+    return foobar_MethodOverloads_moveFromCType(handle) as MethodOverloads
 }
-internal func copyToCType(_ swiftClass: MethodOverloads) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: MethodOverloads) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: MethodOverloads) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: MethodOverloads) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: MethodOverloads?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftClass: MethodOverloads?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: MethodOverloads?) -> RefHolder {
+internal func foobar_moveToCType(_ swiftClass: MethodOverloads?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> MethodOverloads.Point {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> MethodOverloads.Point {
     return MethodOverloads.Point(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> MethodOverloads.Point {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> MethodOverloads.Point {
     defer {
         smoke_MethodOverloads_Point_release_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
     let c_x = moveToCType(swiftType.x)
     let c_y = moveToCType(swiftType.y)
     return RefHolder(smoke_MethodOverloads_Point_create_handle(c_x.ref, c_y.ref))
 }
-internal func moveToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_handle)
+internal func foobar_moveToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> MethodOverloads.Point? {
+internal func foobar_copyFromCType(_ handle: _baseRef) -> MethodOverloads.Point? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_MethodOverloads_Point_unwrap_optional_handle(handle)
     return MethodOverloads.Point(cHandle: unwrappedHandle) as MethodOverloads.Point
 }
-internal func moveFromCType(_ handle: _baseRef) -> MethodOverloads.Point? {
+internal func foobar_moveFromCType(_ handle: _baseRef) -> MethodOverloads.Point? {
     defer {
         smoke_MethodOverloads_Point_release_optional_handle(handle)
     }
-    return copyFromCType(handle)
+    return foobar_copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
+internal func foobar_copyToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -171,6 +171,6 @@ internal func copyToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
     let c_y = moveToCType(swiftType.y)
     return RefHolder(smoke_MethodOverloads_Point_create_optional_handle(c_x.ref, c_y.ref))
 }
-internal func moveToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_optional_handle)
+internal func foobar_moveToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_optional_handle)
 }
