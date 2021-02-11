@@ -161,9 +161,11 @@ extension InnerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension InnerClass: Hashable {
+    // :nodoc:
     public static func == (lhs: InnerClass, rhs: InnerClass) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

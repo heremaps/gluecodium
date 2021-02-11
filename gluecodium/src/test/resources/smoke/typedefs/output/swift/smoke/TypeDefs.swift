@@ -84,9 +84,11 @@ extension TypeDefs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension TypeDefs: Hashable {
+    // :nodoc:
     public static func == (lhs: TypeDefs, rhs: TypeDefs) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

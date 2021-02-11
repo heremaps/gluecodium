@@ -38,9 +38,11 @@ extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension ConstantsInterface: Hashable {
+    // :nodoc:
     public static func == (lhs: ConstantsInterface, rhs: ConstantsInterface) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

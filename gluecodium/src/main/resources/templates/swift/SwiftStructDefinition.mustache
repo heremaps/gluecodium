@@ -104,6 +104,7 @@
 {{prefixPartial "swift/SwiftClassDefinition" "    "}}
 {{/classes}}
 {{#ifPredicate "needsExplicitHashable"}}
+    // :nodoc:
     public static func == (lhs: {{resolveName}}, rhs: {{resolveName}}) -> Bool {
         return
 {{#fields}}
@@ -111,6 +112,7 @@
 {{/fields}}
     }
 
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
 {{#fields}}{{#ifPredicate "isRefEquatable"}}{{#if typeRef.isNullable}}
         hasher.combine({{resolveName}} != nil ? Unmanaged<AnyObject>.passUnretained({{resolveName}}!).toOpaque().hashValue : 0)

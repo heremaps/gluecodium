@@ -44,15 +44,18 @@ internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHold
 extension _EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-public func ==(lhs: EquatableInterface, rhs: EquatableInterface) -> Bool {
+// :nodoc:
+public func == (lhs: EquatableInterface, rhs: EquatableInterface) -> Bool {
     guard let lhsImpl = lhs as? _EquatableInterface else { return lhs === rhs }
     guard let rhsImpl = rhs as? _EquatableInterface else { return lhs === rhs }
     return lhsImpl == rhsImpl
 }
 extension _EquatableInterface: Hashable {
+    // :nodoc:
     public static func == (lhs: _EquatableInterface, rhs: _EquatableInterface) -> Bool {
         return smoke_EquatableInterface_equal(lhs.c_handle, rhs.c_handle)
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(smoke_EquatableInterface_hash(c_handle))
     }

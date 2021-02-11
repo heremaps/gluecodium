@@ -73,9 +73,11 @@ extension LevelOne: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension LevelOne: Hashable {
+    // :nodoc:
     public static func == (lhs: LevelOne, rhs: LevelOne) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
@@ -136,9 +138,11 @@ extension LevelOne.LevelTwo: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension LevelOne.LevelTwo: Hashable {
+    // :nodoc:
     public static func == (lhs: LevelOne.LevelTwo, rhs: LevelOne.LevelTwo) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
@@ -199,9 +203,11 @@ extension LevelOne.LevelTwo.LevelThree: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension LevelOne.LevelTwo.LevelThree: Hashable {
+    // :nodoc:
     public static func == (lhs: LevelOne.LevelTwo.LevelThree, rhs: LevelOne.LevelTwo.LevelThree) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

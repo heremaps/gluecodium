@@ -18,6 +18,7 @@ public struct SimpleEquatableStruct: Hashable {
         nullableClassField = foobar_NonEquatableClass_moveFromCType(smoke_SimpleEquatableStruct_nullableClassField_get(cHandle))
         nullableInterfaceField = foobar_NonEquatableInterface_moveFromCType(smoke_SimpleEquatableStruct_nullableInterfaceField_get(cHandle))
     }
+    // :nodoc:
     public static func == (lhs: SimpleEquatableStruct, rhs: SimpleEquatableStruct) -> Bool {
         return
             lhs.classField === rhs.classField &&
@@ -25,6 +26,7 @@ public struct SimpleEquatableStruct: Hashable {
             lhs.nullableClassField === rhs.nullableClassField &&
             lhs.nullableInterfaceField === rhs.nullableInterfaceField
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(Unmanaged<AnyObject>.passUnretained(classField).toOpaque().hashValue)
         hasher.combine(Unmanaged<AnyObject>.passUnretained(interfaceField).toOpaque().hashValue)

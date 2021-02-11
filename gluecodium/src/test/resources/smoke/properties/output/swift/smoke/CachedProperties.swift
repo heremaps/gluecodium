@@ -33,9 +33,11 @@ extension CachedProperties: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension CachedProperties: Hashable {
+    // :nodoc:
     public static func == (lhs: CachedProperties, rhs: CachedProperties) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

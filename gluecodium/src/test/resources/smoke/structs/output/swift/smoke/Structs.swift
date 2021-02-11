@@ -166,9 +166,11 @@ extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension Structs: Hashable {
+    // :nodoc:
     public static func == (lhs: Structs, rhs: Structs) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

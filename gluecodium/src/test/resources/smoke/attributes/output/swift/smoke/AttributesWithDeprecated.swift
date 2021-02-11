@@ -60,9 +60,11 @@ extension AttributesWithDeprecated: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension AttributesWithDeprecated: Hashable {
+    // :nodoc:
     public static func == (lhs: AttributesWithDeprecated, rhs: AttributesWithDeprecated) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+    // :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
