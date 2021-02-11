@@ -329,9 +329,11 @@ feature(Equatable cpp android swift dart SOURCES
 feature(Nullable cpp android swift dart SOURCES
     input/src/cpp/NullableInstances.cpp
     input/src/cpp/NullableInterfaceImpl.cpp
+    input/src/cpp/NullableCollections.cpp
 
     input/lime/NullableInstances.lime
     input/lime/NullableInterface.lime
+    input/lime/NullableCollections.lime
 )
 
 feature(CallbacksWithThreads cpp android dart SOURCES

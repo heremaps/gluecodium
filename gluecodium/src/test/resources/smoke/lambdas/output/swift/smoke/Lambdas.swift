@@ -164,7 +164,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.Convoluter {
 internal func foobar_moveFromCType(_ handle: _baseRef) -> Lambdas.Convoluter {
     let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_Convoluter_release_handle)
     return { (p0: String) -> Lambdas.Producer in
-        return foobar_moveFromCType(smoke_Lambdas_Convoluter_call(refHolder.ref, moveToCType(p0).ref))
+        let _p0 = moveToCType(p0)
+        return foobar_moveFromCType(smoke_Lambdas_Convoluter_call(refHolder.ref, _p0.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.Convoluter? {
@@ -227,7 +228,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.Consumer {
 internal func foobar_moveFromCType(_ handle: _baseRef) -> Lambdas.Consumer {
     let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_Consumer_release_handle)
     return { (p0: String) -> Void in
-        return moveFromCType(smoke_Lambdas_Consumer_call(refHolder.ref, moveToCType(p0).ref))
+        let _p0 = moveToCType(p0)
+        return moveFromCType(smoke_Lambdas_Consumer_call(refHolder.ref, _p0.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.Consumer? {
@@ -290,7 +292,9 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.Indexer {
 internal func foobar_moveFromCType(_ handle: _baseRef) -> Lambdas.Indexer {
     let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_Indexer_release_handle)
     return { (p0: String, p1: Float) -> Int32 in
-        return moveFromCType(smoke_Lambdas_Indexer_call(refHolder.ref, moveToCType(p0).ref, moveToCType(p1).ref))
+        let _p0 = moveToCType(p0)
+        let _p1 = moveToCType(p1)
+        return moveFromCType(smoke_Lambdas_Indexer_call(refHolder.ref, _p0.ref, _p1.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.Indexer? {
@@ -353,7 +357,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.NullableConfus
 internal func foobar_moveFromCType(_ handle: _baseRef) -> Lambdas.NullableConfuser {
     let refHolder = RefHolder(ref: handle, release: smoke_Lambdas_NullableConfuser_release_handle)
     return { (p0: String?) -> Lambdas.Producer? in
-        return foobar_moveFromCType(smoke_Lambdas_NullableConfuser_call(refHolder.ref, moveToCType(p0).ref))
+        let _p0 = moveToCType(p0)
+        return foobar_moveFromCType(smoke_Lambdas_NullableConfuser_call(refHolder.ref, _p0.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> Lambdas.NullableConfuser? {
