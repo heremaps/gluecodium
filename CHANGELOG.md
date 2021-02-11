@@ -4,6 +4,7 @@
 ### Bug fixes:
   * Fixed compilation issues for modularized Swift builds.
   * Suppressed documentation for equality operator and hash function overloads in Swift.
+  * Fixed run-time issues when passing lambdas, sets, or nullable lists from Swift to C++.
 ### Removed:
   * Deprecated IDL attribute `@Swift(ObjC)` was removed.
   * Removed "-mergemanifest" command line option. Android manifest merger should be performed with external tools

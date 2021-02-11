@@ -26,8 +26,11 @@ internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveNa
     let refHolder = RefHolder(ref: handle, release: {{resolveName "CBridge"}}_release_handle)
     return { ({{#parameters}}p{{iter.position}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }} -> {{resolveName returnType}} in
+{{#parameters}}
+        let _p{{iter.position}} = {{>swift/ConversionPrefixTo}}moveToCType(p{{iter.position}})
+{{/parameters}}
         return {{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}moveFromCType({{resolveName "CBridge"}}_call(refHolder.ref{{!!
-        }}{{#parameters}}, {{>swift/ConversionPrefixTo}}moveToCType(p{{iter.position}}).ref{{/parameters}}))
+        }}{{#parameters}}, _p{{iter.position}}.ref{{/parameters}}))
     }
 }
 

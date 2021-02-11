@@ -20,7 +20,8 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<URLCredential.Pers
 internal func foobar_copyToCType(_ swiftSet: Set<URLCredential.Persistence>) -> RefHolder {
     let handle = foobar_SetOf_smoke_URLCredential_1Persistence_create_handle()
     for item in swiftSet {
-        foobar_SetOf_smoke_URLCredential_1Persistence_insert(handle, foobar_moveToCType(item).ref)
+        let _item = foobar_moveToCType(item)
+        foobar_SetOf_smoke_URLCredential_1Persistence_insert(handle, _item.ref)
     }
     return RefHolder(handle)
 }
@@ -34,7 +35,8 @@ internal func foobar_copyToCType(_ swiftSet: Set<URLCredential.Persistence>?) ->
     let optionalHandle = foobar_SetOf_smoke_URLCredential_1Persistence_create_optional_handle()
     let handle = foobar_SetOf_smoke_URLCredential_1Persistence_unwrap_optional_handle(optionalHandle)
     for item in swiftSet {
-        foobar_SetOf_smoke_URLCredential_1Persistence_insert(handle, foobar_moveToCType(item).ref)
+        let _item = foobar_moveToCType(item)
+        foobar_SetOf_smoke_URLCredential_1Persistence_insert(handle, _item.ref)
     }
     return RefHolder(optionalHandle)
 }

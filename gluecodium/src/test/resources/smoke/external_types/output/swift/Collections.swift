@@ -18,8 +18,8 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [DateInterval] {
 internal func foobar_copyToCType(_ swiftArray: [DateInterval]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_DateInterval_create_handle()
     for item in swiftArray {
-        let value = foobar_moveToCType(item)
-        foobar_ArrayOf_smoke_DateInterval_append(handle, value.ref)
+        let _item = foobar_moveToCType(item)
+        foobar_ArrayOf_smoke_DateInterval_append(handle, _item.ref)
     }
     return RefHolder(handle)
 }
@@ -33,7 +33,8 @@ internal func foobar_copyToCType(_ swiftArray: [DateInterval]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf_smoke_DateInterval_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_DateInterval_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf_smoke_DateInterval_append(handle, foobar_moveToCType(item).ref)
+        let _item = foobar_moveToCType(item)
+        foobar_ArrayOf_smoke_DateInterval_append(handle, _item.ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -70,8 +71,8 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [Int8] {
 internal func foobar_copyToCType(_ swiftArray: [Int8]) -> RefHolder {
     let handle = foobar_ArrayOf__Byte_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
-        foobar_ArrayOf__Byte_append(handle, value.ref)
+        let _item = moveToCType(item)
+        foobar_ArrayOf__Byte_append(handle, _item.ref)
     }
     return RefHolder(handle)
 }
@@ -85,7 +86,8 @@ internal func foobar_copyToCType(_ swiftArray: [Int8]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf__Byte_create_optional_handle()
     let handle = foobar_ArrayOf__Byte_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf__Byte_append(handle, moveToCType(item).ref)
+        let _item = moveToCType(item)
+        foobar_ArrayOf__Byte_append(handle, _item.ref)
     }
     return RefHolder(optionalHandle)
 }
@@ -122,8 +124,8 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [String] {
 internal func foobar_copyToCType(_ swiftArray: [String]) -> RefHolder {
     let handle = foobar_ArrayOf__String_create_handle()
     for item in swiftArray {
-        let value = moveToCType(item)
-        foobar_ArrayOf__String_append(handle, value.ref)
+        let _item = moveToCType(item)
+        foobar_ArrayOf__String_append(handle, _item.ref)
     }
     return RefHolder(handle)
 }
@@ -137,7 +139,8 @@ internal func foobar_copyToCType(_ swiftArray: [String]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf__String_create_optional_handle()
     let handle = foobar_ArrayOf__String_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        foobar_ArrayOf__String_append(handle, moveToCType(item).ref)
+        let _item = moveToCType(item)
+        foobar_ArrayOf__String_append(handle, _item.ref)
     }
     return RefHolder(optionalHandle)
 }

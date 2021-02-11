@@ -47,8 +47,8 @@ internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveNa
 internal func {{internalPrefix}}copyToCType(_ swiftArray: {{resolveName}}) -> RefHolder {
     let handle = {{resolveName "CBridge"}}_create_handle()
     for item in swiftArray {
-        let value = {{#set typeRef=elementType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(item)
-        {{resolveName "CBridge"}}_append(handle, value.ref)
+        let _item = {{#set typeRef=elementType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(item)
+        {{resolveName "CBridge"}}_append(handle, _item.ref)
     }
     return RefHolder(handle)
 }
@@ -67,7 +67,8 @@ internal func {{internalPrefix}}copyToCType(_ swiftArray: {{resolveName}}?) -> R
     let optionalHandle = {{resolveName "CBridge"}}_create_optional_handle()
     let handle = {{resolveName "CBridge"}}_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        {{resolveName "CBridge"}}_append(handle, {{#set typeRef=elementType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(item).ref)
+        let _item = {{#set typeRef=elementType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(item)
+        {{resolveName "CBridge"}}_append(handle, _item.ref)
     }
     return RefHolder(optionalHandle)
 }

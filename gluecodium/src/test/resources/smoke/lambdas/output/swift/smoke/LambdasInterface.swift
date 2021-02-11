@@ -118,7 +118,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeS
 internal func foobar_moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasInterface_TakeScreenshotCallback_release_handle)
     return { (p0: Data?) -> Void in
-        return moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_call(refHolder.ref, moveToCType(p0).ref))
+        let _p0 = moveToCType(p0)
+        return moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_call(refHolder.ref, _p0.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {

@@ -95,7 +95,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredT
 internal func foobar_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_ClassCallback_release_handle)
     return { (p0: LambdasInterface) -> Void in
-        return moveFromCType(smoke_LambdasWithStructuredTypes_ClassCallback_call(refHolder.ref, foobar_moveToCType(p0).ref))
+        let _p0 = foobar_moveToCType(p0)
+        return moveFromCType(smoke_LambdasWithStructuredTypes_ClassCallback_call(refHolder.ref, _p0.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback? {
@@ -158,7 +159,8 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredT
 internal func foobar_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_StructCallback_release_handle)
     return { (p0: LambdasDeclarationOrder.SomeStruct) -> Void in
-        return moveFromCType(smoke_LambdasWithStructuredTypes_StructCallback_call(refHolder.ref, foobar_moveToCType(p0).ref))
+        let _p0 = foobar_moveToCType(p0)
+        return moveFromCType(smoke_LambdasWithStructuredTypes_StructCallback_call(refHolder.ref, _p0.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback? {
