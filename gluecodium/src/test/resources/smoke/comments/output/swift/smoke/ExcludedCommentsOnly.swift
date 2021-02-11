@@ -139,7 +139,9 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.S
 internal func foobar_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda {
     let refHolder = RefHolder(ref: handle, release: smoke_ExcludedCommentsOnly_SomeLambda_release_handle)
     return { (p0: String, p1: Int32) -> Double in
-        return moveFromCType(smoke_ExcludedCommentsOnly_SomeLambda_call(refHolder.ref, moveToCType(p0).ref, moveToCType(p1).ref))
+        let _p0 = moveToCType(p0)
+        let _p1 = moveToCType(p1)
+        return moveFromCType(smoke_ExcludedCommentsOnly_SomeLambda_call(refHolder.ref, _p0.ref, _p1.ref))
     }
 }
 internal func foobar_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda? {

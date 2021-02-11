@@ -55,6 +55,7 @@ let allTests = platformSpecificTests + [
     testCase(MultiListenerTests.allTests),
     testCase(NestingTests.allTests),
     testCase(NullableAttributesTests.allTests),
+    testCase(NullableCollectionsTests.allTests),
     testCase(NullableInstancesTests.allTests),
     testCase(NullableListenersTests.allTests),
     testCase(NullableMethodArgumentsTests.allTests),
