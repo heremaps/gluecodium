@@ -673,6 +673,9 @@ There are three ways to specify web links:
 
 Any square-brackets link that does not resolve into a web link is treated as a link to some IDL element, e.g. `[Mode]`.
 
+When referring to a property element, you can also specifically refer to its getter or its setter by adding `.get` or
+`.set` suffix respectively, e.g. `[Processor.secretDelegate.set]`.
+
 #### Platform-specific comments
 
 Parts of documentation comments can be varied per platform (i.e. per output language). Example:
