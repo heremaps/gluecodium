@@ -4,4 +4,4 @@ environment:
 dependencies:
   test:
   functional:
-    path: ${CMAKE_CURRENT_BINARY_DIR}/../functional/dart/dart
+    path: ${CMAKE_CURRENT_BINARY_DIR}/../dart-merged

@@ -19,15 +19,14 @@ cmake_minimum_required(VERSION 3.6)
 
 project(functional)
 
-if(APPLE)
+if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
+    enable_language(Swift)
+    set (CMAKE_Swift_LANGUAGE_VERSION 5)
     if (CMAKE_GENERATOR STREQUAL "Xcode")
         set (CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
     endif()
-
-    if (FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL swift)
-        enable_language(Swift)
-    endif()
 endif()
+
 
 set(FUNCTIONAL_VERSION_MAJOR 0)
 set(FUNCTIONAL_VERSION_MINOR 0)
@@ -51,7 +50,7 @@ function(feature feature_name)
     set(lime_sources)
 
     foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
-        if(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL ${generator})
+        if(${generator} IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
             message("Enabling feature ${feature_name} for ${generator}")
             foreach(source ${feature_SOURCES})
                 get_filename_component(extension "${source}" EXT)
@@ -428,112 +427,132 @@ feature(Locales cpp android swift dart SOURCES
     input/lime/Locales.lime
 )
 
-add_library(functional ${FUNCTIONAL_SOURCES} ${FUNCTIONAL_LIME_SOURCES})
+# OBJECT suits all test variants except swift for linux,
+# because build system can't mix Swift and C++ code in single target
+if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT AND NOT CMAKE_GENERATOR STREQUAL "Xcode")
+    set (_binding_lib_type STATIC)
+else()
+    set (_binding_lib_type OBJECT)
+endif()
+add_library(functional_bindings ${_binding_lib_type} ${FUNCTIONAL_SOURCES})
 
 source_group("LimeIDL files" FILES ${FUNCTIONAL_LIME_SOURCES})
-set_target_properties(functional PROPERTIES
+set_target_properties(functional_bindings PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         SOVERSION ${FUNCTIONAL_VERSION_MAJOR}
         VERSION ${FUNCTIONAL_VERSION})
-target_include_directories(functional PRIVATE "input/src/cpp/")
-target_link_libraries(functional PRIVATE Threads::Threads)
+target_include_directories(functional_bindings PRIVATE "input/src/cpp/")
 
 include(gluecodium/Gluecodium)
-apigen_generate(TARGET functional
-        LIME_SOURCES ${FUNCTIONAL_LIME_SOURCES}
-        GENERATOR ${FUNCTIONAL_GLUECODIUM_GENERATOR}
-        VERSION ${FUNCTIONAL_GLUECODIUM_VERSION}
-        JAVA_PACKAGE com.here.android
-        JAVA_INTERNAL_PACKAGE lorem.ipsum
-        JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
-        JAVA_NULLABLE_ANNOTATION android.support.annotation.Nullable
-        CPP_INTERNAL_NAMESPACE lorem_ipsum.test
-        INTERNAL_PREFIX "libfunctional_"
-        DART_LIBRARY_NAME "functional"
-        DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
-        COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
-        TAGS "Lite"
-        VERBOSE)
-apigen_target_include_directories(functional)
-apigen_target_sources(functional)
+gluecodium_generate(functional_bindings)
+set_target_properties(functional_bindings PROPERTIES
+    GLUECODIUM_JAVA_PACKAGE com.here.android
+    GLUECODIUM_JAVA_INTERNAL_PACKAGE lorem.ipsum
+    GLUECODIUM_JAVA_NONNULL_ANNOTATION androidx.annotation.NonNull
+    GLUECODIUM_JAVA_NULLABLE_ANNOTATION androidx.annotation.Nullable
+    GLUECODIUM_CPP_INTERNAL_NAMESPACE "lorem_ipsum::test"
+    GLUECODIUM_CBRIDGE_INTERNAL_PREFIX "libfunctional_"
+    GLUECODIUM_DART_LIBRARY_NAME "functional"
+    GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
+    GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
+    GLUECODIUM_TAGS "Lite"
+    GLUECODIUM_VERBOSE ON)
 
+gluecodium_get_target_compile_definitions(functional_bindings RESULT_PUBLIC _public_definitions
+                                              RESULT_PRIVATE _private_definitions)
+target_compile_definitions(functional_bindings
+    PUBLIC ${_public_definitions}
+    PRIVATE ${_private_definitions})
+
+gluecodium_target_lime_sources(functional_bindings PRIVATE ${FUNCTIONAL_LIME_SOURCES})
+
+add_library(functional SHARED)
+target_link_libraries(functional PUBLIC functional_bindings)
 
 # Target platform specific rules to follow...
-if(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL cpp)
-    # Install the shared library for C++
-    install(TARGETS functional EXPORT functionalTargets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        INCLUDES DESTINATION functional)
-elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL android)
-    # Android users want an Android Archive and it's pre-requirements...
-
-    # Optional step:
-    # Use custom JNI_OnLoad method instead of generated one, so redefine generated one
-    # Add this always public in case multiple modules share the same generated common code
-    target_compile_definitions(functional PUBLIC GLUECODIUM_JNI_ONLOAD=JNI_OnLoad_functional)
-    # And then add our own
-    target_sources(functional PRIVATE input/src/android/CustomJniOnLoad.cpp)
-
-    include(gluecodium/Android)
-    if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
-        set(ANDROID_NATIVE_API_LEVEL "28")
-    endif()
-    if(NOT DEFINED ANDROID_PLATFORM)
-        set(ANDROID_PLATFORM "android-${ANDROID_NATIVE_API_LEVEL}")
-    endif()
-    apigen_java_compile(TARGET functional
-        LOCAL_SOURCES_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/input/src/android"
-        LOCAL_DEPENDENCIES "android"
-        LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}"
-        REMOTE_DEPENDENCIES "com.android.support:support-annotations:28.0.0")
-    apigen_java_jar(functional)
-    apigen_android_archive(TARGET functional)
-elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL swift)
-    # Swift users want a module...
+if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
     include(gluecodium/Swift)
 
-    list(APPEND ADDITIONAL_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/ColorConverter.swift"
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoColor.swift"
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/Season.swift"
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SeasonConverter.swift"
+    file(GLOB_RECURSE SWIFT_TEST_SOURCES CONFIGURE_DEPENDS ${FUNCTIONAL_SWIFT_TESTS}/*.swift)
+
+    target_sources(functional PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMe.swift"
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMeToo.swift")
 
-    apigen_swift_build(functional)
-    apigen_swift_framework_info_plist(functional)
-    file(GLOB_RECURSE SWIFT_TEST_SOURCES CONFIGURE_DEPENDS ${FUNCTIONAL_SWIFT_TESTS}/*.swift)
-    apigen_swift_test(functional SOURCES ${SWIFT_TEST_SOURCES})
+    if (APPLE)
+        find_package(XCTest REQUIRED)
+    else ()
+        unset(XCTest_LIBRARIES)
+        target_sources(functional PRIVATE
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/ColorConverter.swift"
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoColor.swift"
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/Season.swift"
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SeasonConverter.swift")
+    endif()
+
+    gluecodium_target_swift_sources(functional
+           COPY_FROM_TARGETS functional_bindings)
+
     if (CMAKE_GENERATOR STREQUAL "Xcode")
-        foreach(_target functional testfunctional xctest_functional)
+        find_package(XCTest REQUIRED)
+
+        gluecodium_target_add_module_modulemap(functional RESULT_DIR_VARIABLE _underlying_dir REMOVE_AFTER_BUILD)
+        target_include_directories(functional PRIVATE ${_underlying_dir})
+
+        set_target_properties(
+            functional
+            PROPERTIES FRAMEWORK TRUE
+                 XCODE_ATTRIBUTE_DEFINES_MODULE YES)
+
+        xctest_add_bundle(testfunctional functional ${SWIFT_TEST_SOURCES})
+        xctest_add_test(XCTest.functional testfunctional)
+
+        foreach(_target functional testfunctional)
             set_target_properties(${_target} PROPERTIES
                 XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "$<IF:$<CONFIG:Debug>,dwarf,dwarf-with-dsym>"
                 XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "$<IF:$<CONFIG:Debug>,-Onone,-O>")
         endforeach()
-    endif()
-elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL dart)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/color_converter.dart"
-        "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/color_converter.dart"
-        COPYONLY)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/season_converter.dart"
-        "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/season_converter.dart"
-        COPYONLY)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/skip_me.dart"
-        "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/skip_me.dart"
-        COPYONLY)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart/skip_me_too.dart"
-        "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/skip_me_too.dart"
-        COPYONLY)
 
+        install(TARGETS functional FRAMEWORK DESTINATION .)
+    else()
+        gluecodium_target_add_module_modulemap(functional RESULT_DIR_VARIABLE _underlying_dir)
+        target_include_directories(functional PUBLIC ${_underlying_dir})
+
+        target_compile_options(functional PRIVATE -enable-testing)
+
+        add_executable(testfunctional ${SWIFT_TEST_SOURCES})
+        target_link_libraries(testfunctional PRIVATE functional ${XCTest_LIBRARIES})
+
+        add_test(NAME XCTest.functional COMMAND testfunctional)
+
+        install(TARGETS functional DESTINATION .)
+    endif()
+
+    install(TARGETS testfunctional DESTINATION .)
+
+elseif(dart IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
     if(BUILD_DART_WITH_ASAN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=leak")
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address -fsanitize=leak")
     endif()
+
+    gluecodium_read_required_properties(functional_bindings
+        OUTPUT_COMMON_DIR _common_output
+        OUTPUT_MAIN_DIR _main_output)
+
+    # Collect all dart sources in one folder.
+    add_custom_command(TARGET functional POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+            -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/dart-merged
+        COMMAND ${CMAKE_COMMAND}
+            -E copy_directory ${_common_output}/dart/lib ${CMAKE_CURRENT_BINARY_DIR}/dart-merged/lib
+        COMMAND ${CMAKE_COMMAND}
+            -E copy ${_common_output}/dart/pubspec.yaml ${CMAKE_CURRENT_BINARY_DIR}/dart-merged/pubspec.yaml
+        COMMAND ${CMAKE_COMMAND}
+            -E copy_directory ${_main_output}/dart/lib ${CMAKE_CURRENT_BINARY_DIR}/dart-merged/lib
+        COMMAND ${CMAKE_COMMAND}
+            -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/input/src/dart ${CMAKE_CURRENT_BINARY_DIR}/dart-merged/lib/src
+        )
 endif()
 
 add_subdirectory(cpp)

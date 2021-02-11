@@ -82,7 +82,6 @@ fi
 
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
-[ $ANDROID_NDK_HOME ] || die "ANDROID_NDK_HOME environment variable is mandatory (NDK can be installed from within Android Studio)"
 
 if [ "$USE_JEMALLOC" = true ]; then
     command -v jemalloc-config >/dev/null || die "jemalloc is required for this option"
@@ -90,37 +89,7 @@ if [ "$USE_JEMALLOC" = true ]; then
     CMAKE_BUILD_TYPE="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
 fi
 
-# Constants
 GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
-HOST_ARCH=host-$(uname -m)
-CMAKE_DEFAULT_PARAMETERS=$(cat <<EOF
--DANDROID_NATIVE_API_LEVEL=28 \
--DBUILD_SHARED_LIBS=ON \
--DCMAKE_SYSTEM_VERSION=21 \
--DCMAKE_VERBOSE_MAKEFILE=ON \
--DFUNCTIONAL_GLUECODIUM_GENERATOR=android \
--DFUNCTIONAL_GLUECODIUM_VERSION=${GLUECODIUM_VERSION} \
--G Ninja
-EOF
-)
-CMAKE_CROSS_BUILD_PARAMETERS=$(cat <<EOF
--DANDROID_NDK=${ANDROID_NDK_HOME} \
--DANDROID_TOOLCHAIN=clang \
--DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake
-EOF
-)
-
-# The CMake toolchain shipped with the NDK doesn't work with CMake-3.72
-# or 3.9.1. To ensure compatibility, use the shipped cmake binary. See
-# https://github.com/android-ndk/ndk/issues/254 or
-# https://gitlab.kitware.com/cmake/cmake/issues/16708
-if [ -d "$ANDROID_HOME/cmake" ]; then
-    NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake | head -n1)
-fi
-if [ -z "$NDK_CMAKE_BINARY" ]; then
-    NDK_CMAKE_BINARY=cmake
-fi
-
 BUILD_DIR_PREFIX="${PWD}/build-android-"
 ANDROID_DIR="${PWD}/functional/android"
 DIST_ANDROID_DIR="${PWD}/dist/android"
@@ -128,78 +97,12 @@ DOCS_DIR="${DIST_ANDROID_DIR}/docs"
 INSTALL_AAR_DIR="${ANDROID_DIR}/app/libs/"
 TMP_DIR=$(mktemp -d)
 
-# Do cross-compilation build for generating a proper Android Archive
-
 if $HOST_ONLY; then
-    ARCHITECTURES=${HOST_ARCH}
+    ./gradlew test -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
 else
-    ARCHITECTURES="x86 armeabi-v7a ${HOST_ARCH}"
+    ./gradlew test -PgluecodiumVersion=${GLUECODIUM_VERSION}
 fi
-
-for arch in ${ARCHITECTURES} ; do
-    build_dir="${BUILD_DIR_PREFIX}${arch}"
-    install_dir="${DIST_ANDROID_DIR}/${arch}"
-
-    [ -d ${build_dir} ] || mkdir -p ${build_dir}
-    [ -d ${install_dir} ] || mkdir -p ${install_dir}
-
-    pushd ${build_dir}
-
-    CMAKE_EXTRA_PARAMETERS=
-    # Do host-native build for testing on the JVM with Robolectric using the
-    # CMake binary supplied (and supported) by the NDK
-    if [ "${arch}" != "host-$(uname -m)" ] ; then
-        CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} ${CMAKE_CROSS_BUILD_PARAMETERS} \
-        -DANDROID_ABI=${arch}"
-        CMAKE_BINARY=${NDK_CMAKE_BINARY}
-    else
-        CMAKE_BINARY=cmake
-    fi
-
-    set -o pipefail
-
-    safe ${CMAKE_BINARY} \
-        ${CMAKE_DEFAULT_PARAMETERS} \
-        ${CMAKE_EXTRA_PARAMETERS} \
-        ${CMAKE_BUILD_TYPE} \
-        -DCMAKE_INSTALL_PREFIX=${install_dir} \
-        .. | tee "cmake_output.log"
-
-    popd
-
-    safe ${CMAKE_BINARY} \
-        --build ${build_dir} \
-        --target install
-done
-
-# At the moment we build one AAR per target architecture as it is not straightforward
-# to do a multi-arch build in one CMake build invocation. However, for simplicity we
-# want to include all architectures into one Android Archive. Hence do it in bash:
-find ${DIST_ANDROID_DIR} -name *.aar -exec unzip -n {} -d ${TMP_DIR} \;
-jar cvf ${DIST_ANDROID_DIR}/functional.aar -C ${TMP_DIR} .
-cp ${DIST_ANDROID_DIR}/functional.aar ${INSTALL_AAR_DIR}
-
-# Copy the host-build shared object into the application folder as well so that it
-# can be used for testing
-rm -rf ${TMP_DIR}
-find ${DIST_ANDROID_DIR}/${HOST_ARCH} -name *.aar -exec unzip -n {} -d ${TMP_DIR} \;
-mkdir -p ${INSTALL_AAR_DIR}/${HOST_ARCH}
-cp ${TMP_DIR}/jni/* ${INSTALL_AAR_DIR}/${HOST_ARCH}
 
 if [ "$GENERATE_DOCS" = true ]; then
-    mkdir -p "${DOCS_DIR}"
-    pushd "${DOCS_DIR}"
-    safe javadoc com.here.android $(find ${BUILD_DIR_PREFIX}${HOST_ARCH}/ -name *.java)
-    popd
+    ./gradlew generateJavadoc
 fi
-
-# Finally build the example app itself and run tests
-pushd ${ANDROID_DIR}
-LD_PRELOAD=$JEMALLOC_LIB safe ./gradlew build
-
-if [ "$USE_JEMALLOC" = true ]; then
-    REPORTS_DIR=app/build/reports/
-    mkdir -p $REPORTS_DIR
-    jeprof --show_bytes ../../build-android-$HOST_ARCH/libfunctional/libfunctional.so app/jeprof.*.heap --text --lines >$REPORTS_DIR/android_tests_jeprof
-fi
-popd
