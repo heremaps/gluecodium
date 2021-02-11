@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unless isAuxiliary}}{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
 {{>swift/TypeVisibility}} enum {{resolveName}}{{#if external.swift.converter}}_internal{{/if}} : UInt32, CaseIterable, Codable {
 {{#enumerators}}{{prefixPartial "enumerator" "    "}}
 {{/enumerators}}{{!!
@@ -59,6 +59,7 @@
     }
 {{/ifPredicate}}
 }
-{{/unlessPredicate}}{{!!
+{{/unlessPredicate}}{{/unless}}{{!!
+
 }}{{+enumerator}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
 case {{resolveName}}{{#if explicitValue}} = {{resolveName explicitValue}}{{/if}}{{/enumerator}}
