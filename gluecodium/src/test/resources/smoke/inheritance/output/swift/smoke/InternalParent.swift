@@ -41,7 +41,7 @@ extension InternalParent: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent {
+internal func InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent {
     if let swift_pointer = smoke_InternalParent_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalParent {
         return re_constructed
@@ -53,7 +53,7 @@ internal func foobar_InternalParent_copyFromCType(_ handle: _baseRef) -> Interna
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent {
+internal func InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent {
     if let swift_pointer = smoke_InternalParent_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalParent {
         smoke_InternalParent_release_handle(handle)
@@ -66,27 +66,27 @@ internal func foobar_InternalParent_moveFromCType(_ handle: _baseRef) -> Interna
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent? {
+internal func InternalParent_copyFromCType(_ handle: _baseRef) -> InternalParent? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_InternalParent_moveFromCType(handle) as InternalParent
+    return InternalParent_moveFromCType(handle) as InternalParent
 }
-internal func foobar_InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent? {
+internal func InternalParent_moveFromCType(_ handle: _baseRef) -> InternalParent? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_InternalParent_moveFromCType(handle) as InternalParent
+    return InternalParent_moveFromCType(handle) as InternalParent
 }
-internal func foobar_copyToCType(_ swiftClass: InternalParent) -> RefHolder {
+internal func copyToCType(_ swiftClass: InternalParent) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: InternalParent) -> RefHolder {
+internal func moveToCType(_ swiftClass: InternalParent) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: InternalParent?) -> RefHolder {
+internal func copyToCType(_ swiftClass: InternalParent?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: InternalParent?) -> RefHolder {
+internal func moveToCType(_ swiftClass: InternalParent?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

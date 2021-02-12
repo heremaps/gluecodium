@@ -94,7 +94,7 @@ extension GenericTypesWithCompoundTypes: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_GenericTypesWithCompoundTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
+internal func GenericTypesWithCompoundTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
     if let swift_pointer = smoke_GenericTypesWithCompoundTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithCompoundTypes {
         return re_constructed
@@ -103,7 +103,7 @@ internal func foobar_GenericTypesWithCompoundTypes_copyFromCType(_ handle: _base
     smoke_GenericTypesWithCompoundTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_GenericTypesWithCompoundTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
+internal func GenericTypesWithCompoundTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes {
     if let swift_pointer = smoke_GenericTypesWithCompoundTypes_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? GenericTypesWithCompoundTypes {
         smoke_GenericTypesWithCompoundTypes_release_handle(handle)
@@ -113,165 +113,165 @@ internal func foobar_GenericTypesWithCompoundTypes_moveFromCType(_ handle: _base
     smoke_GenericTypesWithCompoundTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_GenericTypesWithCompoundTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes? {
+internal func GenericTypesWithCompoundTypes_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_GenericTypesWithCompoundTypes_moveFromCType(handle) as GenericTypesWithCompoundTypes
+    return GenericTypesWithCompoundTypes_moveFromCType(handle) as GenericTypesWithCompoundTypes
 }
-internal func foobar_GenericTypesWithCompoundTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes? {
+internal func GenericTypesWithCompoundTypes_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_GenericTypesWithCompoundTypes_moveFromCType(handle) as GenericTypesWithCompoundTypes
+    return GenericTypesWithCompoundTypes_moveFromCType(handle) as GenericTypesWithCompoundTypes
 }
-internal func foobar_copyToCType(_ swiftClass: GenericTypesWithCompoundTypes) -> RefHolder {
+internal func copyToCType(_ swiftClass: GenericTypesWithCompoundTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: GenericTypesWithCompoundTypes) -> RefHolder {
+internal func moveToCType(_ swiftClass: GenericTypesWithCompoundTypes) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: GenericTypesWithCompoundTypes?) -> RefHolder {
+internal func copyToCType(_ swiftClass: GenericTypesWithCompoundTypes?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: GenericTypesWithCompoundTypes?) -> RefHolder {
+internal func moveToCType(_ swiftClass: GenericTypesWithCompoundTypes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct {
+internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct {
     return GenericTypesWithCompoundTypes.BasicStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct {
+internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct {
     defer {
         smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct) -> RefHolder {
     let c_value = moveToCType(swiftType.value)
     return RefHolder(smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle(c_value.ref))
 }
-internal func foobar_moveToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle)
+internal func moveToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle(handle)
     return GenericTypesWithCompoundTypes.BasicStruct(cHandle: unwrappedHandle) as GenericTypesWithCompoundTypes.BasicStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.BasicStruct? {
     defer {
         smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_value = moveToCType(swiftType.value)
     return RefHolder(smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle(c_value.ref))
 }
-internal func foobar_moveToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: GenericTypesWithCompoundTypes.BasicStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct {
+internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct {
     return GenericTypesWithCompoundTypes.ExternalStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct {
+internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct {
     defer {
         smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct) -> RefHolder {
     let c_string = moveToCType(swiftType.string)
     return RefHolder(smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle(c_string.ref))
 }
-internal func foobar_moveToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle)
+internal func moveToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle(handle)
     return GenericTypesWithCompoundTypes.ExternalStruct(cHandle: unwrappedHandle) as GenericTypesWithCompoundTypes.ExternalStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalStruct? {
     defer {
         smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_string = moveToCType(swiftType.string)
     return RefHolder(smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle(c_string.ref))
 }
-internal func foobar_moveToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: GenericTypesWithCompoundTypes.ExternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle)
 }
-internal func foobar_copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.SomeEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.SomeEnum {
+internal func copyFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.SomeEnum {
     return GenericTypesWithCompoundTypes.SomeEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.SomeEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.SomeEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.SomeEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.SomeEnum? {
     guard handle != 0 else {
         return nil
     }
     return GenericTypesWithCompoundTypes.SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.SomeEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.SomeEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: GenericTypesWithCompoundTypes.ExternalEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.ExternalEnum {
+internal func copyFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.ExternalEnum {
     return GenericTypesWithCompoundTypes.ExternalEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.ExternalEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> GenericTypesWithCompoundTypes.ExternalEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalEnum? {
     guard handle != 0 else {
         return nil
     }
     return GenericTypesWithCompoundTypes.ExternalEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> GenericTypesWithCompoundTypes.ExternalEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }

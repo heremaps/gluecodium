@@ -18,11 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
-    return {{internalPrefix}}moveFromCType({{resolveName "CBridge"}}_copy_handle(handle))
+internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+    return moveFromCType({{resolveName "CBridge"}}_copy_handle(handle))
 }
-
-internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
     let refHolder = RefHolder(ref: handle, release: {{resolveName "CBridge"}}_release_handle)
     return { ({{#parameters}}p{{iter.position}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }} -> {{resolveName returnType}} in
@@ -34,18 +33,17 @@ internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveNa
     }
 }
 
-internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{internalPrefix}}copyFromCType(handle) as {{resolveName this "" "ref"}}
+    return copyFromCType(handle) as {{resolveName this "" "ref"}}
 }
-
-internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{internalPrefix}}moveFromCType(handle) as {{resolveName this "" "ref"}}
+    return moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
 
 internal func createFunctionalTable(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> {{resolveName "CBridge"}}_FunctionTable {
@@ -72,17 +70,16 @@ internal func createFunctionalTable(_ swiftType: @escaping {{resolveName this ""
     return functions
 }
 
-internal func {{internalPrefix}}copyToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
+internal func copyToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
     let handle = {{resolveName "CBridge"}}_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-
-internal func {{internalPrefix}}moveToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
+internal func moveToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
     let handle = {{resolveName "CBridge"}}_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: {{resolveName "CBridge"}}_release_handle)
 }
 
-internal func {{internalPrefix}}copyToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func copyToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -90,8 +87,7 @@ internal func {{internalPrefix}}copyToCType(_ swiftType: {{resolveName this "" "
     let handle = {{resolveName "CBridge"}}_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-
-internal func {{internalPrefix}}moveToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func moveToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }

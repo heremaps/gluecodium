@@ -7,10 +7,10 @@ public class PublicClass {
     internal typealias StringToInternalStructMap = [String: PublicClass.InternalStruct]
     internal var internalStructProperty: PublicClass.InternalStruct {
         get {
-            return foobar_moveFromCType(smoke_PublicClass_internalStructProperty_get(self.c_instance))
+            return moveFromCType(smoke_PublicClass_internalStructProperty_get(self.c_instance))
         }
         set {
-            let c_value = foobar_moveToCType(newValue)
+            let c_value = moveToCType(newValue)
             return moveFromCType(smoke_PublicClass_internalStructProperty_set(self.c_instance, c_value.ref))
         }
     }
@@ -53,7 +53,7 @@ public class PublicClass {
             self.internalField = internalField
         }
         internal init(cHandle: _baseRef) {
-            internalField = foobar_moveFromCType(smoke_PublicClass_PublicStruct_internalField_get(cHandle))
+            internalField = moveFromCType(smoke_PublicClass_PublicStruct_internalField_get(cHandle))
         }
     }
     public struct PublicStructWithInternalDefaults {
@@ -73,8 +73,8 @@ public class PublicClass {
         }
     }
     internal func internalMethod(input: PublicClass.InternalStruct) -> PublicClass.InternalStructTypeDef {
-        let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_PublicClass_internalMethod(self.c_instance, c_input.ref))
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_PublicClass_internalMethod(self.c_instance, c_input.ref))
     }
 }
 internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
@@ -99,7 +99,7 @@ extension PublicClass: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass {
+internal func PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass {
     if let swift_pointer = smoke_PublicClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicClass {
         return re_constructed
@@ -108,7 +108,7 @@ internal func foobar_PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClas
     smoke_PublicClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass {
+internal func PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass {
     if let swift_pointer = smoke_PublicClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicClass {
         smoke_PublicClass_release_handle(handle)
@@ -118,139 +118,139 @@ internal func foobar_PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClas
     smoke_PublicClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass? {
+internal func PublicClass_copyFromCType(_ handle: _baseRef) -> PublicClass? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_PublicClass_moveFromCType(handle) as PublicClass
+    return PublicClass_moveFromCType(handle) as PublicClass
 }
-internal func foobar_PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass? {
+internal func PublicClass_moveFromCType(_ handle: _baseRef) -> PublicClass? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_PublicClass_moveFromCType(handle) as PublicClass
+    return PublicClass_moveFromCType(handle) as PublicClass
 }
-internal func foobar_copyToCType(_ swiftClass: PublicClass) -> RefHolder {
+internal func copyToCType(_ swiftClass: PublicClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: PublicClass) -> RefHolder {
+internal func moveToCType(_ swiftClass: PublicClass) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: PublicClass?) -> RefHolder {
+internal func copyToCType(_ swiftClass: PublicClass?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: PublicClass?) -> RefHolder {
+internal func moveToCType(_ swiftClass: PublicClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct {
     return PublicClass.InternalStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct {
     defer {
         smoke_PublicClass_InternalStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: PublicClass.InternalStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: PublicClass.InternalStruct) -> RefHolder {
     let c_stringField = moveToCType(swiftType.stringField)
     return RefHolder(smoke_PublicClass_InternalStruct_create_handle(c_stringField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: PublicClass.InternalStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicClass_InternalStruct_release_handle)
+internal func moveToCType(_ swiftType: PublicClass.InternalStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_InternalStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_PublicClass_InternalStruct_unwrap_optional_handle(handle)
     return PublicClass.InternalStruct(cHandle: unwrappedHandle) as PublicClass.InternalStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct? {
     defer {
         smoke_PublicClass_InternalStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: PublicClass.InternalStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: PublicClass.InternalStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_stringField = moveToCType(swiftType.stringField)
     return RefHolder(smoke_PublicClass_InternalStruct_create_optional_handle(c_stringField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: PublicClass.InternalStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicClass_InternalStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: PublicClass.InternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_InternalStruct_release_optional_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct {
     return PublicClass.PublicStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct {
     defer {
         smoke_PublicClass_PublicStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: PublicClass.PublicStruct) -> RefHolder {
-    let c_internalField = foobar_moveToCType(swiftType.internalField)
+internal func copyToCType(_ swiftType: PublicClass.PublicStruct) -> RefHolder {
+    let c_internalField = moveToCType(swiftType.internalField)
     return RefHolder(smoke_PublicClass_PublicStruct_create_handle(c_internalField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: PublicClass.PublicStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_handle)
+internal func moveToCType(_ swiftType: PublicClass.PublicStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_PublicClass_PublicStruct_unwrap_optional_handle(handle)
     return PublicClass.PublicStruct(cHandle: unwrappedHandle) as PublicClass.PublicStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct? {
     defer {
         smoke_PublicClass_PublicStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_internalField = foobar_moveToCType(swiftType.internalField)
+    let c_internalField = moveToCType(swiftType.internalField)
     return RefHolder(smoke_PublicClass_PublicStruct_create_optional_handle(c_internalField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_optional_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults {
     return PublicClass.PublicStructWithInternalDefaults(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults {
     defer {
         smoke_PublicClass_PublicStructWithInternalDefaults_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults) -> RefHolder {
+internal func copyToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults) -> RefHolder {
     let c_internalField = moveToCType(swiftType.internalField)
     let c_publicField = moveToCType(swiftType.publicField)
     return RefHolder(smoke_PublicClass_PublicStructWithInternalDefaults_create_handle(c_internalField.ref, c_publicField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStructWithInternalDefaults_release_handle)
+internal func moveToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStructWithInternalDefaults_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults? {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_PublicClass_PublicStructWithInternalDefaults_unwrap_optional_handle(handle)
     return PublicClass.PublicStructWithInternalDefaults(cHandle: unwrappedHandle) as PublicClass.PublicStructWithInternalDefaults
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults? {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults? {
     defer {
         smoke_PublicClass_PublicStructWithInternalDefaults_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults?) -> RefHolder {
+internal func copyToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -258,36 +258,36 @@ internal func foobar_copyToCType(_ swiftType: PublicClass.PublicStructWithIntern
     let c_publicField = moveToCType(swiftType.publicField)
     return RefHolder(smoke_PublicClass_PublicStructWithInternalDefaults_create_optional_handle(c_internalField.ref, c_publicField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStructWithInternalDefaults_release_optional_handle)
+internal func moveToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStructWithInternalDefaults_release_optional_handle)
 }
-internal func foobar_copyToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: PublicClass.InternalEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: PublicClass.InternalEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: PublicClass.InternalEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: PublicClass.InternalEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
+internal func copyFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
     return PublicClass.InternalEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> PublicClass.InternalEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.InternalEnum? {
     guard handle != 0 else {
         return nil
     }
     return PublicClass.InternalEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> PublicClass.InternalEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.InternalEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }

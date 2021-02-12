@@ -62,7 +62,7 @@ public class Constructors {
         return moveFromCType(smoke_Constructors_create_())
     }
     private static func create(other: Constructors) -> _baseRef {
-        let c_other = foobar_moveToCType(other)
+        let c_other = moveToCType(other)
         return moveFromCType(smoke_Constructors_create_Constructors(c_other.ref))
     }
     private static func create(foo: String, bar: UInt64) -> _baseRef {
@@ -74,7 +74,7 @@ public class Constructors {
         let c_input = moveToCType(input)
         let RESULT = smoke_Constructors_create_String(c_input.ref)
         if (!RESULT.has_value) {
-            throw foobar_moveFromCType(RESULT.error_value) as Constructors.ConstructorExplodedError
+            throw moveFromCType(RESULT.error_value) as Constructors.ConstructorExplodedError
         } else {
             return moveFromCType(RESULT.returned_value)
         }
@@ -111,7 +111,7 @@ extension Constructors: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_Constructors_copyFromCType(_ handle: _baseRef) -> Constructors {
+internal func Constructors_copyFromCType(_ handle: _baseRef) -> Constructors {
     if let swift_pointer = smoke_Constructors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Constructors {
         return re_constructed
@@ -123,7 +123,7 @@ internal func foobar_Constructors_copyFromCType(_ handle: _baseRef) -> Construct
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_Constructors_moveFromCType(_ handle: _baseRef) -> Constructors {
+internal func Constructors_moveFromCType(_ handle: _baseRef) -> Constructors {
     if let swift_pointer = smoke_Constructors_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Constructors {
         smoke_Constructors_release_handle(handle)
@@ -136,59 +136,59 @@ internal func foobar_Constructors_moveFromCType(_ handle: _baseRef) -> Construct
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_Constructors_copyFromCType(_ handle: _baseRef) -> Constructors? {
+internal func Constructors_copyFromCType(_ handle: _baseRef) -> Constructors? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Constructors_moveFromCType(handle) as Constructors
+    return Constructors_moveFromCType(handle) as Constructors
 }
-internal func foobar_Constructors_moveFromCType(_ handle: _baseRef) -> Constructors? {
+internal func Constructors_moveFromCType(_ handle: _baseRef) -> Constructors? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Constructors_moveFromCType(handle) as Constructors
+    return Constructors_moveFromCType(handle) as Constructors
 }
-internal func foobar_copyToCType(_ swiftClass: Constructors) -> RefHolder {
+internal func copyToCType(_ swiftClass: Constructors) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Constructors) -> RefHolder {
+internal func moveToCType(_ swiftClass: Constructors) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: Constructors?) -> RefHolder {
+internal func copyToCType(_ swiftClass: Constructors?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Constructors?) -> RefHolder {
+internal func moveToCType(_ swiftClass: Constructors?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftEnum: Constructors.ErrorEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: Constructors.ErrorEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: Constructors.ErrorEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: Constructors.ErrorEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: Constructors.ErrorEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: Constructors.ErrorEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: Constructors.ErrorEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: Constructors.ErrorEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
+internal func copyFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
     return Constructors.ErrorEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> Constructors.ErrorEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> Constructors.ErrorEnum? {
     guard handle != 0 else {
         return nil
     }
     return Constructors.ErrorEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> Constructors.ErrorEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> Constructors.ErrorEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
 extension Constructors.ErrorEnum : Error {
 }

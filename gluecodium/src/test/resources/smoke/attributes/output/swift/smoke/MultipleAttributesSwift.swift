@@ -66,7 +66,7 @@ extension MultipleAttributesSwift: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_MultipleAttributesSwift_copyFromCType(_ handle: _baseRef) -> MultipleAttributesSwift {
+internal func MultipleAttributesSwift_copyFromCType(_ handle: _baseRef) -> MultipleAttributesSwift {
     if let swift_pointer = smoke_MultipleAttributesSwift_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultipleAttributesSwift {
         return re_constructed
@@ -75,7 +75,7 @@ internal func foobar_MultipleAttributesSwift_copyFromCType(_ handle: _baseRef) -
     smoke_MultipleAttributesSwift_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_MultipleAttributesSwift_moveFromCType(_ handle: _baseRef) -> MultipleAttributesSwift {
+internal func MultipleAttributesSwift_moveFromCType(_ handle: _baseRef) -> MultipleAttributesSwift {
     if let swift_pointer = smoke_MultipleAttributesSwift_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultipleAttributesSwift {
         smoke_MultipleAttributesSwift_release_handle(handle)
@@ -85,27 +85,27 @@ internal func foobar_MultipleAttributesSwift_moveFromCType(_ handle: _baseRef) -
     smoke_MultipleAttributesSwift_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_MultipleAttributesSwift_copyFromCType(_ handle: _baseRef) -> MultipleAttributesSwift? {
+internal func MultipleAttributesSwift_copyFromCType(_ handle: _baseRef) -> MultipleAttributesSwift? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_MultipleAttributesSwift_moveFromCType(handle) as MultipleAttributesSwift
+    return MultipleAttributesSwift_moveFromCType(handle) as MultipleAttributesSwift
 }
-internal func foobar_MultipleAttributesSwift_moveFromCType(_ handle: _baseRef) -> MultipleAttributesSwift? {
+internal func MultipleAttributesSwift_moveFromCType(_ handle: _baseRef) -> MultipleAttributesSwift? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_MultipleAttributesSwift_moveFromCType(handle) as MultipleAttributesSwift
+    return MultipleAttributesSwift_moveFromCType(handle) as MultipleAttributesSwift
 }
-internal func foobar_copyToCType(_ swiftClass: MultipleAttributesSwift) -> RefHolder {
+internal func copyToCType(_ swiftClass: MultipleAttributesSwift) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: MultipleAttributesSwift) -> RefHolder {
+internal func moveToCType(_ swiftClass: MultipleAttributesSwift) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: MultipleAttributesSwift?) -> RefHolder {
+internal func copyToCType(_ swiftClass: MultipleAttributesSwift?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: MultipleAttributesSwift?) -> RefHolder {
+internal func moveToCType(_ swiftClass: MultipleAttributesSwift?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

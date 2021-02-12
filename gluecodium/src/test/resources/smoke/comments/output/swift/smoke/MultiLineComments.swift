@@ -68,7 +68,7 @@ extension MultiLineComments: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments {
+internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments {
     if let swift_pointer = smoke_MultiLineComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultiLineComments {
         return re_constructed
@@ -77,7 +77,7 @@ internal func foobar_MultiLineComments_copyFromCType(_ handle: _baseRef) -> Mult
     smoke_MultiLineComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments {
+internal func MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments {
     if let swift_pointer = smoke_MultiLineComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? MultiLineComments {
         smoke_MultiLineComments_release_handle(handle)
@@ -87,27 +87,27 @@ internal func foobar_MultiLineComments_moveFromCType(_ handle: _baseRef) -> Mult
     smoke_MultiLineComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments? {
+internal func MultiLineComments_copyFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_MultiLineComments_moveFromCType(handle) as MultiLineComments
+    return MultiLineComments_moveFromCType(handle) as MultiLineComments
 }
-internal func foobar_MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments? {
+internal func MultiLineComments_moveFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_MultiLineComments_moveFromCType(handle) as MultiLineComments
+    return MultiLineComments_moveFromCType(handle) as MultiLineComments
 }
-internal func foobar_copyToCType(_ swiftClass: MultiLineComments) -> RefHolder {
+internal func copyToCType(_ swiftClass: MultiLineComments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: MultiLineComments) -> RefHolder {
+internal func moveToCType(_ swiftClass: MultiLineComments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: MultiLineComments?) -> RefHolder {
+internal func copyToCType(_ swiftClass: MultiLineComments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: MultiLineComments?) -> RefHolder {
+internal func moveToCType(_ swiftClass: MultiLineComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
