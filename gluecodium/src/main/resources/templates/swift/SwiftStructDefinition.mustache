@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isAuxiliary}}{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
 {{>swift/TypeVisibility}} struct {{resolveName}}{{#if external.swift.converter}}_internal{{/if}}{{#unless external.swift.converter}}{{!!
 }}{{#if attributes.equatable attributes.serializable logic="or"}}{{!!
 }}:{{#if attributes.equatable}} Hashable{{/if}}{{#if attributes.equatable attributes.serializable logic="and"}},{{/if}}{{!!
@@ -143,7 +143,7 @@ extension {{resolveName}} {
         }}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/set}})
     }
 }
-{{/ifPredicate}}{{/unless}}{{!!
+{{/ifPredicate}}{{!!
 
 }}{{+initParameter}}{{!!
 }}{{resolveName}}: {{#unless typeRef.isNullable}}{{#instanceOf typeRef.type.actualType "LimeLambda"}}@escaping {{/instanceOf}}{{/unless}}{{!!
