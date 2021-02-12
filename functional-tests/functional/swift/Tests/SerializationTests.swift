@@ -51,7 +51,7 @@ class SerializationTests: XCTestCase {
         )
     }
 
-    func serializableEncodeDecodeRoundTrip() {
+    func testSerializableEncodeDecodeRoundTrip() {
         let serializableStruct = createSerializableStruct()
         guard let data = try? JSONEncoder().encode(serializableStruct) else {
             XCTFail("Failed to encode data")
@@ -80,6 +80,6 @@ class SerializationTests: XCTestCase {
     }
 
     static var allTests = [
-        ("serializableEncodeDecodeRoundTrip", serializableEncodeDecodeRoundTrip)
+        ("testSerializableEncodeDecodeRoundTrip", testSerializableEncodeDecodeRoundTrip)
     ]
 }
