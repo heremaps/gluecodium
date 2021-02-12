@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issues for modularized Swift builds.
+
 ## 8.9.0
 Release date: 2021-02-15
 ### Bug fixes:

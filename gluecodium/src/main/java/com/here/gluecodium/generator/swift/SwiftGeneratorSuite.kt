@@ -72,6 +72,8 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val nameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
     private val internalPrefix = options.internalPrefix
+    private val conversionVisibility =
+        if (options.swiftExposeInternals) CONVERSION_VISIBILITY_PUBLIC else CONVERSION_VISIBILITY_INTERNAL
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
@@ -111,7 +113,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             cBridgeGenerator.generateCollections(filteredElements) +
             generateCollections(filteredElements, cBridgeGenerator.genericTypesCollector, swiftNameResolver, nameResolvers) +
             generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
-            cBridgeGenerator.generateHelpers()
+            cBridgeGenerator.generateHelpers() + generateRefHolder()
     }
 
     private fun generateSwiftFile(
@@ -129,7 +131,8 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "imports" to imports.distinct().sorted() - FOUNDATION,
             "allExceptions" to allExceptions,
             "definitionTemplate" to selectDefinitionTemplate(limeElement),
-            "conversionTemplate" to selectConversionTemplate(limeElement)
+            "conversionTemplate" to selectConversionTemplate(limeElement),
+            "conversionVisibility" to conversionVisibility
         )
         return GeneratedFile(
             TemplateEngine.render("swift/SwiftFile", templateData, nameResolvers, predicates.predicates),
@@ -208,6 +211,11 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         return GeneratedFile(content, "swift/BuiltinOptionals.swift", GeneratedFile.SourceSet.COMMON)
     }
 
+    private fun generateRefHolder(): GeneratedFile {
+        val content = TemplateEngine.render("swift/RefHolder", mapOf("conversionVisibility" to conversionVisibility))
+        return GeneratedFile(content, "swift/RefHolder.swift", GeneratedFile.SourceSet.COMMON)
+    }
+
     private fun selectDefinitionTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
             is LimeException, is LimeTypeAlias -> "swift/SwiftTypeAlias"
@@ -260,10 +268,11 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     companion object {
         const val GENERATOR_NAME = "swift"
         private const val FOUNDATION = "Foundation"
+        private const val CONVERSION_VISIBILITY_INTERNAL = "internal"
+        private const val CONVERSION_VISIBILITY_PUBLIC = "/// :nodoc:\npublic"
 
         private val logger = Logger.getLogger(SwiftGeneratorSuite::class.java.name)
         private val STATIC_FILES = listOf(
-            GeneratorSuite.copyCommonFile("swift/RefHolder.swift", ""),
             GeneratorSuite.copyCommonFile("swift/BuiltinConversions.swift", ""),
             GeneratorSuite.copyCommonFile("swift/NativeBase.swift", "")
         )

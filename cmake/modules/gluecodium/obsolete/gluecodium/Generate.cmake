@@ -135,7 +135,7 @@ include(${APIGEN_GLUECODIUM_DIR}/GeneratedSources.cmake)
 include(${GLUECODIUM_DETAILS_DIR}/CheckArguments.cmake)
 
 function(apigen_generate)
-  set(options VALIDATE_ONLY VERBOSE STUBS)
+  set(options VALIDATE_ONLY VERBOSE STUBS SWIFT_EXPOSE_INTERNALS)
   set(oneValueArgs
       TARGET
       GENERATOR
@@ -206,6 +206,7 @@ output=${APIGEN_OUTPUT_DIR}\n\
 generators=${apigen_generate_GENERATOR}\n\
 validate=${validateProperty}\n\
 stubs=${apigen_generate_STUBS}\n\
+swiftexpose=${apigen_generate_SWIFT_EXPOSE_INTERNALS}\n\
 cache=true\n")
 
   unset(_apigen_input_list)

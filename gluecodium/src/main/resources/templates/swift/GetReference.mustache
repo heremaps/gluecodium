@@ -19,7 +19,7 @@
   !
   !}}
 {{#ifPredicate "hasWeakSupport"}}
-internal class {{resolveName}}_WeakHolder {
+{{conversionVisibility}} class {{resolveName}}_WeakHolder {
     weak var value: {{resolveName}}?
 
     init(_ value: {{resolveName}}) {
@@ -28,7 +28,7 @@ internal class {{resolveName}}_WeakHolder {
 }
 
 {{/ifPredicate}}
-internal func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{{!!
+{{conversionVisibility}} func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{{!!
 }}{{#ifPredicate "hasWeakSupport"}}, isWeak: Bool = false{{/ifPredicate}}) -> RefHolder {
 
     guard let reference = ref else {
@@ -69,7 +69,7 @@ internal func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{
 {{/class}}{{/set}}
 {{#ifPredicate "hasWeakSupport"}}
 
-internal func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
+{{conversionVisibility}} func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
 {{/ifPredicate}}{{!!

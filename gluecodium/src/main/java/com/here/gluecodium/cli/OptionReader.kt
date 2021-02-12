@@ -125,6 +125,12 @@ object OptionReader {
             false,
             "Generate stubs for classes and methods, enabling mocking in unit tests. Only supported for Dart."
         )
+        addOption(
+            "swiftexpose",
+            "swift-expose-internals",
+            false,
+            "Expose `internal` Swift generated code as `public` for reuse across several frameworks."
+        )
         addOption("tag", true, "Add a custom tag for @Skip attributes.")
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
@@ -189,6 +195,7 @@ object OptionReader {
         getStringListValue("werror")?.let { options.werror = it.toSet() }
         getStringListValue("tag")?.let { options.tags = CaseInsensitiveSet(it) }
         options.generateStubs = getFlagValue("stubs")
+        options.swiftExposeInternals = getFlagValue("swiftexpose")
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
         options.javaNameRules =

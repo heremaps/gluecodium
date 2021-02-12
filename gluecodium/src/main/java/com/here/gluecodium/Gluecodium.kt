@@ -221,6 +221,7 @@ class Gluecodium(
         var werror: Set<String> = emptySet(),
         var generateStubs: Boolean = false,
         var tags: Set<String> = emptySet(),
+        var swiftExposeInternals: Boolean = false,
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/cpp.properties"

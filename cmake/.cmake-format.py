@@ -66,7 +66,7 @@ additional_commands = {
     }
   },
   'apigen_generate': {
-    'flags': ['VALIDATE_ONLY', 'VERBOSE', 'STUBS'],
+    'flags': ['VALIDATE_ONLY', 'VERBOSE', 'STUBS', 'SWIFT_EXPOSE_INTERNALS'],
     'kwargs': {
       'TARGET': 1,
       'GENERATOR': 1,
