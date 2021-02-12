@@ -26,6 +26,7 @@ $0 [options]
     --buildGluecodium         Build and use local Gluecodium version
     --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local Gluecodium (default: ${GLUECODIUM_PATH})
     --debug                   Build with debug symbols
+    --cmakeGenerator [NAME]   Overrides default cmake generator. Default are Xcode on Darwin and Ninja on Linux
     --valgrind                Run with valgrind
     --junit                   Generate junit xml test report (requires ocunit2junit)
     --help                    Print this message
@@ -34,6 +35,7 @@ EOF
 
 BUILD_LOCAL_GLUECODIUM=false
 CMAKE_EXTRA_PARAMETERS=
+CMAKE_GENERATOR=
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -53,6 +55,10 @@ while [[ $# -gt 0 ]]; do
         --debug)
             CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
             shift
+            ;;
+        --cmakeGenerator)
+            CMAKE_GENERATOR="$2"
+            shift 2
             ;;
         --valgrind)
             USE_VALGRIND=true
@@ -80,10 +86,13 @@ INSTALL_DIR=${PWD}/dist/swift
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 [ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
 
-# Chose platform-native CMake generator
-if [ "$(cmake_generator)" ] ; then
-CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
-    -G $(cmake_generator)"
+# Choose platform-native CMake generator
+if [ -z "$CMAKE_GENERATOR" ] ; then
+    CMAKE_GENERATOR="$(cmake_generator)"
+fi
+
+if [[ ! -z "$CMAKE_GENERATOR" ]] ; then
+    CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} -G ${CMAKE_GENERATOR}"
 fi
 
 CWD=${PWD}
