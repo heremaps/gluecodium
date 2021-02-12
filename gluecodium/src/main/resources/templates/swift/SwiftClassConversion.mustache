@@ -83,7 +83,7 @@ extension {{>implName}}: Hashable {
 {{/unlessPredicate}}{{/instanceOf}}
 {{/unless}}
 
-internal func {{internalPrefix}}{{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -108,7 +108,7 @@ internal func {{internalPrefix}}{{resolveName "mangled"}}copyFromCType(_ handle:
 {{/unlessPredicate}}
 }
 
-internal func {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+internal func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -135,32 +135,32 @@ internal func {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(_ handle:
 {{/unlessPredicate}}
 }
 
-internal func {{internalPrefix}}{{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
+    return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
-internal func {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+internal func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
-    return {{internalPrefix}}{{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
+    return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
 
-internal func {{internalPrefix}}copyToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
+internal func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
 
-internal func {{internalPrefix}}moveToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
+internal func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 
-internal func {{internalPrefix}}copyToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
 
-internal func {{internalPrefix}}moveToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
+internal func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 

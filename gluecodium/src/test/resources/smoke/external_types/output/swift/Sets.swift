@@ -5,7 +5,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> Set<URLCredential.Pers
     var result: Set<URLCredential.Persistence> = []
     let iterator_handle = foobar_SetOf_smoke_URLCredential_1Persistence_iterator(handle)
     while foobar_SetOf_smoke_URLCredential_1Persistence_iterator_is_valid(handle, iterator_handle) {
-        result.insert(foobar_copyFromCType(foobar_SetOf_smoke_URLCredential_1Persistence_iterator_get(iterator_handle)))
+        result.insert(copyFromCType(foobar_SetOf_smoke_URLCredential_1Persistence_iterator_get(iterator_handle)))
         foobar_SetOf_smoke_URLCredential_1Persistence_iterator_increment(iterator_handle)
     }
     foobar_SetOf_smoke_URLCredential_1Persistence_iterator_release_handle(iterator_handle)
@@ -20,7 +20,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> Set<URLCredential.Pers
 internal func foobar_copyToCType(_ swiftSet: Set<URLCredential.Persistence>) -> RefHolder {
     let handle = foobar_SetOf_smoke_URLCredential_1Persistence_create_handle()
     for item in swiftSet {
-        let _item = foobar_moveToCType(item)
+        let _item = moveToCType(item)
         foobar_SetOf_smoke_URLCredential_1Persistence_insert(handle, _item.ref)
     }
     return RefHolder(handle)
@@ -35,7 +35,7 @@ internal func foobar_copyToCType(_ swiftSet: Set<URLCredential.Persistence>?) ->
     let optionalHandle = foobar_SetOf_smoke_URLCredential_1Persistence_create_optional_handle()
     let handle = foobar_SetOf_smoke_URLCredential_1Persistence_unwrap_optional_handle(optionalHandle)
     for item in swiftSet {
-        let _item = foobar_moveToCType(item)
+        let _item = moveToCType(item)
         foobar_SetOf_smoke_URLCredential_1Persistence_insert(handle, _item.ref)
     }
     return RefHolder(optionalHandle)

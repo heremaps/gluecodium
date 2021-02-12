@@ -31,7 +31,7 @@ public class CommentsLinks {
             self.randomField = randomField
         }
         internal init(cHandle: _baseRef) {
-            randomField = foobar_moveFromCType(smoke_CommentsLinks_RandomStruct_randomField_get(cHandle))
+            randomField = moveFromCType(smoke_CommentsLinks_RandomStruct_randomField_get(cHandle))
         }
     }
     /// Link types:
@@ -69,12 +69,12 @@ public class CommentsLinks {
     /// - Returns: Sometimes returns `Comments.SomeEnum.useful`
     /// - Throws: `Comments.SomethingWrongError` May or may not throw `Comments.SomethingWrongError`
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
-        let c_inputParameter = foobar_moveToCType(inputParameter)
+        let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_CommentsLinks_randomMethod_SomeEnum(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
-            throw foobar_moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
+            throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
-            return foobar_moveFromCType(RESULT.returned_value)
+            return moveFromCType(RESULT.returned_value)
         }
     }
     /// Links to method overloads:
@@ -112,7 +112,7 @@ extension CommentsLinks: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks {
+internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks {
     if let swift_pointer = smoke_CommentsLinks_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsLinks {
         return re_constructed
@@ -121,7 +121,7 @@ internal func foobar_CommentsLinks_copyFromCType(_ handle: _baseRef) -> Comments
     smoke_CommentsLinks_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks {
+internal func CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks {
     if let swift_pointer = smoke_CommentsLinks_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsLinks {
         smoke_CommentsLinks_release_handle(handle)
@@ -131,66 +131,66 @@ internal func foobar_CommentsLinks_moveFromCType(_ handle: _baseRef) -> Comments
     smoke_CommentsLinks_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks? {
+internal func CommentsLinks_copyFromCType(_ handle: _baseRef) -> CommentsLinks? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_CommentsLinks_moveFromCType(handle) as CommentsLinks
+    return CommentsLinks_moveFromCType(handle) as CommentsLinks
 }
-internal func foobar_CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks? {
+internal func CommentsLinks_moveFromCType(_ handle: _baseRef) -> CommentsLinks? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_CommentsLinks_moveFromCType(handle) as CommentsLinks
+    return CommentsLinks_moveFromCType(handle) as CommentsLinks
 }
-internal func foobar_copyToCType(_ swiftClass: CommentsLinks) -> RefHolder {
+internal func copyToCType(_ swiftClass: CommentsLinks) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: CommentsLinks) -> RefHolder {
+internal func moveToCType(_ swiftClass: CommentsLinks) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: CommentsLinks?) -> RefHolder {
+internal func copyToCType(_ swiftClass: CommentsLinks?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: CommentsLinks?) -> RefHolder {
+internal func moveToCType(_ swiftClass: CommentsLinks?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct {
+internal func copyFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct {
     return CommentsLinks.RandomStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct {
+internal func moveFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct {
     defer {
         smoke_CommentsLinks_RandomStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: CommentsLinks.RandomStruct) -> RefHolder {
-    let c_randomField = foobar_moveToCType(swiftType.randomField)
+internal func copyToCType(_ swiftType: CommentsLinks.RandomStruct) -> RefHolder {
+    let c_randomField = moveToCType(swiftType.randomField)
     return RefHolder(smoke_CommentsLinks_RandomStruct_create_handle(c_randomField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: CommentsLinks.RandomStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_CommentsLinks_RandomStruct_release_handle)
+internal func moveToCType(_ swiftType: CommentsLinks.RandomStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CommentsLinks_RandomStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_CommentsLinks_RandomStruct_unwrap_optional_handle(handle)
     return CommentsLinks.RandomStruct(cHandle: unwrappedHandle) as CommentsLinks.RandomStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> CommentsLinks.RandomStruct? {
     defer {
         smoke_CommentsLinks_RandomStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: CommentsLinks.RandomStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: CommentsLinks.RandomStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_randomField = foobar_moveToCType(swiftType.randomField)
+    let c_randomField = moveToCType(swiftType.randomField)
     return RefHolder(smoke_CommentsLinks_RandomStruct_create_optional_handle(c_randomField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: CommentsLinks.RandomStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_CommentsLinks_RandomStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: CommentsLinks.RandomStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CommentsLinks_RandomStruct_release_optional_handle)
 }

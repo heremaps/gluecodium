@@ -14,11 +14,11 @@ public class Calculator {
         smoke_Calculator_release_handle(c_instance)
     }
     public static func registerListener(listener: CalculatorListener) -> Void {
-        let c_listener = foobar_moveToCType(listener)
+        let c_listener = moveToCType(listener)
         return moveFromCType(smoke_Calculator_registerListener(c_listener.ref))
     }
     public static func unregisterListener(listener: CalculatorListener) -> Void {
-        let c_listener = foobar_moveToCType(listener)
+        let c_listener = moveToCType(listener)
         return moveFromCType(smoke_Calculator_unregisterListener(c_listener.ref))
     }
 }
@@ -44,7 +44,7 @@ extension Calculator: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_Calculator_copyFromCType(_ handle: _baseRef) -> Calculator {
+internal func Calculator_copyFromCType(_ handle: _baseRef) -> Calculator {
     if let swift_pointer = smoke_Calculator_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Calculator {
         return re_constructed
@@ -53,7 +53,7 @@ internal func foobar_Calculator_copyFromCType(_ handle: _baseRef) -> Calculator 
     smoke_Calculator_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_Calculator_moveFromCType(_ handle: _baseRef) -> Calculator {
+internal func Calculator_moveFromCType(_ handle: _baseRef) -> Calculator {
     if let swift_pointer = smoke_Calculator_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Calculator {
         smoke_Calculator_release_handle(handle)
@@ -63,27 +63,27 @@ internal func foobar_Calculator_moveFromCType(_ handle: _baseRef) -> Calculator 
     smoke_Calculator_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_Calculator_copyFromCType(_ handle: _baseRef) -> Calculator? {
+internal func Calculator_copyFromCType(_ handle: _baseRef) -> Calculator? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Calculator_moveFromCType(handle) as Calculator
+    return Calculator_moveFromCType(handle) as Calculator
 }
-internal func foobar_Calculator_moveFromCType(_ handle: _baseRef) -> Calculator? {
+internal func Calculator_moveFromCType(_ handle: _baseRef) -> Calculator? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Calculator_moveFromCType(handle) as Calculator
+    return Calculator_moveFromCType(handle) as Calculator
 }
-internal func foobar_copyToCType(_ swiftClass: Calculator) -> RefHolder {
+internal func copyToCType(_ swiftClass: Calculator) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Calculator) -> RefHolder {
+internal func moveToCType(_ swiftClass: Calculator) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: Calculator?) -> RefHolder {
+internal func copyToCType(_ swiftClass: Calculator?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Calculator?) -> RefHolder {
+internal func moveToCType(_ swiftClass: Calculator?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

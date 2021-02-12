@@ -5,7 +5,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [DateInterval] {
     var result: [DateInterval] = []
     let count = foobar_ArrayOf_smoke_DateInterval_count(handle)
     for idx in 0..<count {
-        result.append(foobar_copyFromCType(foobar_ArrayOf_smoke_DateInterval_get(handle, idx)))
+        result.append(copyFromCType(foobar_ArrayOf_smoke_DateInterval_get(handle, idx)))
     }
     return result
 }
@@ -18,7 +18,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [DateInterval] {
 internal func foobar_copyToCType(_ swiftArray: [DateInterval]) -> RefHolder {
     let handle = foobar_ArrayOf_smoke_DateInterval_create_handle()
     for item in swiftArray {
-        let _item = foobar_moveToCType(item)
+        let _item = moveToCType(item)
         foobar_ArrayOf_smoke_DateInterval_append(handle, _item.ref)
     }
     return RefHolder(handle)
@@ -33,7 +33,7 @@ internal func foobar_copyToCType(_ swiftArray: [DateInterval]?) -> RefHolder {
     let optionalHandle = foobar_ArrayOf_smoke_DateInterval_create_optional_handle()
     let handle = foobar_ArrayOf_smoke_DateInterval_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        let _item = foobar_moveToCType(item)
+        let _item = moveToCType(item)
         foobar_ArrayOf_smoke_DateInterval_append(handle, _item.ref)
     }
     return RefHolder(optionalHandle)

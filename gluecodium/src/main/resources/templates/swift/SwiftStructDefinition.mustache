@@ -87,7 +87,7 @@
         guard _result_handle != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        let _result: {{resolveName struct "" "ref"}} = {{internalPrefix}}moveFromCType(_result_handle)
+        let _result: {{resolveName struct "" "ref"}} = moveFromCType(_result_handle)
 {{#fields}}
         self.{{resolveName}} = _result.{{resolveName}}
 {{/fields}}

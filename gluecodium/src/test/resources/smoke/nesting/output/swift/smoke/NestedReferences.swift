@@ -23,9 +23,9 @@ public class NestedReferences {
         }
     }
     public func insideOut(struct1: NestedReferences.NestedReferences, struct2: NestedReferences.NestedReferences) -> NestedReferences {
-        let c_struct1 = foobar_moveToCType(struct1)
-        let c_struct2 = foobar_moveToCType(struct2)
-        return foobar_NestedReferences_moveFromCType(smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref))
+        let c_struct1 = moveToCType(struct1)
+        let c_struct2 = moveToCType(struct2)
+        return NestedReferences_moveFromCType(smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref))
     }
 }
 internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder {
@@ -50,7 +50,7 @@ extension NestedReferences: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences {
+internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences {
     if let swift_pointer = smoke_NestedReferences_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedReferences {
         return re_constructed
@@ -59,7 +59,7 @@ internal func foobar_NestedReferences_copyFromCType(_ handle: _baseRef) -> Neste
     smoke_NestedReferences_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences {
+internal func NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences {
     if let swift_pointer = smoke_NestedReferences_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedReferences {
         smoke_NestedReferences_release_handle(handle)
@@ -69,66 +69,66 @@ internal func foobar_NestedReferences_moveFromCType(_ handle: _baseRef) -> Neste
     smoke_NestedReferences_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences? {
+internal func NestedReferences_copyFromCType(_ handle: _baseRef) -> NestedReferences? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_NestedReferences_moveFromCType(handle) as NestedReferences
+    return NestedReferences_moveFromCType(handle) as NestedReferences
 }
-internal func foobar_NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences? {
+internal func NestedReferences_moveFromCType(_ handle: _baseRef) -> NestedReferences? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_NestedReferences_moveFromCType(handle) as NestedReferences
+    return NestedReferences_moveFromCType(handle) as NestedReferences
 }
-internal func foobar_copyToCType(_ swiftClass: NestedReferences) -> RefHolder {
+internal func copyToCType(_ swiftClass: NestedReferences) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: NestedReferences) -> RefHolder {
+internal func moveToCType(_ swiftClass: NestedReferences) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: NestedReferences?) -> RefHolder {
+internal func copyToCType(_ swiftClass: NestedReferences?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: NestedReferences?) -> RefHolder {
+internal func moveToCType(_ swiftClass: NestedReferences?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences {
+internal func copyFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences {
     return NestedReferences.NestedReferences(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences {
+internal func moveFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences {
     defer {
         smoke_NestedReferences_NestedReferences_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: NestedReferences.NestedReferences) -> RefHolder {
+internal func copyToCType(_ swiftType: NestedReferences.NestedReferences) -> RefHolder {
     let c_stringField = moveToCType(swiftType.stringField)
     return RefHolder(smoke_NestedReferences_NestedReferences_create_handle(c_stringField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: NestedReferences.NestedReferences) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_NestedReferences_NestedReferences_release_handle)
+internal func moveToCType(_ swiftType: NestedReferences.NestedReferences) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_NestedReferences_NestedReferences_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences? {
+internal func copyFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_NestedReferences_NestedReferences_unwrap_optional_handle(handle)
     return NestedReferences.NestedReferences(cHandle: unwrappedHandle) as NestedReferences.NestedReferences
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences? {
+internal func moveFromCType(_ handle: _baseRef) -> NestedReferences.NestedReferences? {
     defer {
         smoke_NestedReferences_NestedReferences_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: NestedReferences.NestedReferences?) -> RefHolder {
+internal func copyToCType(_ swiftType: NestedReferences.NestedReferences?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_stringField = moveToCType(swiftType.stringField)
     return RefHolder(smoke_NestedReferences_NestedReferences_create_optional_handle(c_stringField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: NestedReferences.NestedReferences?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_NestedReferences_NestedReferences_release_optional_handle)
+internal func moveToCType(_ swiftType: NestedReferences.NestedReferences?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_NestedReferences_NestedReferences_release_optional_handle)
 }

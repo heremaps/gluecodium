@@ -50,12 +50,12 @@ public class LevelOne {
                     stringField = moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_stringField_get(cHandle))
                 }
                 public static func fooFactory() -> LevelOne.LevelTwo.LevelThree.LevelFour {
-                    return foobar_moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory())
+                    return moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory())
                 }
             }
             public func foo(input: InnerInterface) -> InnerClass {
-                let c_input = foobar_moveToCType(input)
-                return foobar_InnerClass_moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_foo(self.c_instance, c_input.ref))
+                let c_input = moveToCType(input)
+                return InnerClass_moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_foo(self.c_instance, c_input.ref))
             }
         }
     }
@@ -82,7 +82,7 @@ extension LevelOne: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne {
+internal func LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne {
     if let swift_pointer = smoke_LevelOne_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne {
         return re_constructed
@@ -91,7 +91,7 @@ internal func foobar_LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne {
     smoke_LevelOne_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne {
+internal func LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne {
     if let swift_pointer = smoke_LevelOne_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne {
         smoke_LevelOne_release_handle(handle)
@@ -101,28 +101,28 @@ internal func foobar_LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne {
     smoke_LevelOne_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne? {
+internal func LevelOne_copyFromCType(_ handle: _baseRef) -> LevelOne? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LevelOne_moveFromCType(handle) as LevelOne
+    return LevelOne_moveFromCType(handle) as LevelOne
 }
-internal func foobar_LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne? {
+internal func LevelOne_moveFromCType(_ handle: _baseRef) -> LevelOne? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LevelOne_moveFromCType(handle) as LevelOne
+    return LevelOne_moveFromCType(handle) as LevelOne
 }
-internal func foobar_copyToCType(_ swiftClass: LevelOne) -> RefHolder {
+internal func copyToCType(_ swiftClass: LevelOne) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LevelOne) -> RefHolder {
+internal func moveToCType(_ swiftClass: LevelOne) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: LevelOne?) -> RefHolder {
+internal func copyToCType(_ swiftClass: LevelOne?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LevelOne?) -> RefHolder {
+internal func moveToCType(_ swiftClass: LevelOne?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 internal func getRef(_ ref: LevelOne.LevelTwo?, owning: Bool = true) -> RefHolder {
@@ -147,7 +147,7 @@ extension LevelOne.LevelTwo: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
+internal func LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
     if let swift_pointer = smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo {
         return re_constructed
@@ -156,7 +156,7 @@ internal func foobar_LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> Leve
     smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
+internal func LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo {
     if let swift_pointer = smoke_LevelOne_LevelTwo_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo {
         smoke_LevelOne_LevelTwo_release_handle(handle)
@@ -166,28 +166,28 @@ internal func foobar_LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> Leve
     smoke_LevelOne_LevelTwo_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo? {
+internal func LevelOne_LevelTwo_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LevelOne_LevelTwo_moveFromCType(handle) as LevelOne.LevelTwo
+    return LevelOne_LevelTwo_moveFromCType(handle) as LevelOne.LevelTwo
 }
-internal func foobar_LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo? {
+internal func LevelOne_LevelTwo_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LevelOne_LevelTwo_moveFromCType(handle) as LevelOne.LevelTwo
+    return LevelOne_LevelTwo_moveFromCType(handle) as LevelOne.LevelTwo
 }
-internal func foobar_copyToCType(_ swiftClass: LevelOne.LevelTwo) -> RefHolder {
+internal func copyToCType(_ swiftClass: LevelOne.LevelTwo) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LevelOne.LevelTwo) -> RefHolder {
+internal func moveToCType(_ swiftClass: LevelOne.LevelTwo) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: LevelOne.LevelTwo?) -> RefHolder {
+internal func copyToCType(_ swiftClass: LevelOne.LevelTwo?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LevelOne.LevelTwo?) -> RefHolder {
+internal func moveToCType(_ swiftClass: LevelOne.LevelTwo?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 internal func getRef(_ ref: LevelOne.LevelTwo.LevelThree?, owning: Bool = true) -> RefHolder {
@@ -212,7 +212,7 @@ extension LevelOne.LevelTwo.LevelThree: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
+internal func LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
     if let swift_pointer = smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo.LevelThree {
         return re_constructed
@@ -221,7 +221,7 @@ internal func foobar_LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseR
     smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
+internal func LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree {
     if let swift_pointer = smoke_LevelOne_LevelTwo_LevelThree_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LevelOne.LevelTwo.LevelThree {
         smoke_LevelOne_LevelTwo_LevelThree_release_handle(handle)
@@ -231,96 +231,96 @@ internal func foobar_LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseR
     smoke_LevelOne_LevelTwo_LevelThree_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree? {
+internal func LevelOne_LevelTwo_LevelThree_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LevelOne_LevelTwo_LevelThree_moveFromCType(handle) as LevelOne.LevelTwo.LevelThree
+    return LevelOne_LevelTwo_LevelThree_moveFromCType(handle) as LevelOne.LevelTwo.LevelThree
 }
-internal func foobar_LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree? {
+internal func LevelOne_LevelTwo_LevelThree_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LevelOne_LevelTwo_LevelThree_moveFromCType(handle) as LevelOne.LevelTwo.LevelThree
+    return LevelOne_LevelTwo_LevelThree_moveFromCType(handle) as LevelOne.LevelTwo.LevelThree
 }
-internal func foobar_copyToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree) -> RefHolder {
+internal func copyToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree) -> RefHolder {
+internal func moveToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree?) -> RefHolder {
+internal func copyToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree?) -> RefHolder {
+internal func moveToCType(_ swiftClass: LevelOne.LevelTwo.LevelThree?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour {
+internal func copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour {
     return LevelOne.LevelTwo.LevelThree.LevelFour(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour {
+internal func moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour {
     defer {
         smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour) -> RefHolder {
+internal func copyToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour) -> RefHolder {
     let c_stringField = moveToCType(swiftType.stringField)
     return RefHolder(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle(c_stringField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle)
+internal func moveToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour? {
+internal func copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_LevelOne_LevelTwo_LevelThree_LevelFour_unwrap_optional_handle(handle)
     return LevelOne.LevelTwo.LevelThree.LevelFour(cHandle: unwrappedHandle) as LevelOne.LevelTwo.LevelThree.LevelFour
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour? {
+internal func moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFour? {
     defer {
         smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour?) -> RefHolder {
+internal func copyToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_stringField = moveToCType(swiftType.stringField)
     return RefHolder(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_optional_handle(c_stringField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_optional_handle)
+internal func moveToCType(_ swiftType: LevelOne.LevelTwo.LevelThree.LevelFour?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_optional_handle)
 }
-internal func foobar_copyToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: LevelOne.LevelTwo.LevelThree.LevelFourEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum {
+internal func copyFromCType(_ cValue: UInt32) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum {
     return LevelOne.LevelTwo.LevelThree.LevelFourEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum? {
     guard handle != 0 else {
         return nil
     }
     return LevelOne.LevelTwo.LevelThree.LevelFourEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> LevelOne.LevelTwo.LevelThree.LevelFourEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
