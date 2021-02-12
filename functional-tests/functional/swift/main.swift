@@ -21,62 +21,66 @@
 import XCTest
 import functional
 
-#if os(macOS)
-let platformSpecificTests = [TestCaseEntry]()
-#else
-let platformSpecificTests = [testCase(ExternalTypesTests.allTests)]
-#endif
+func getAllTests() -> [XCTestCaseEntry] {
 
-let allTests = platformSpecificTests + [
-    testCase(ArraysTests.allTests),
-    testCase(AttributesInterfaceTests.allTests),
-    testCase(AttributesTests.allTests),
-    testCase(ConstantsTests.allTests),
-    testCase(CppConstMethodsTests.allTests),
-    testCase(DatesTests.allTests),
-    testCase(DefaultsTests.allTests),
-    testCase(EnumsTests.allTests),
-    testCase(EquatableInstancesTests.allTests),
-    testCase(EquatableNullableTests.allTests),
-    testCase(EquatableTests.allTests),
-    testCase(ErrorsInInterfaceTests.allTests),
-    testCase(ErrorsTests.allTests),
-    testCase(ExtensionsTests.allTests),
-    testCase(InheritanceTests.allTests),
-    testCase(InterfacesTests.allTests),
-    testCase(LambdasTests.allTests),
-    testCase(ListenerRoundtripTests.allTests),
-    testCase(ListenerWithAttributesTests.allTests),
-    testCase(ListenersReturnValuesTests.allTests),
-    testCase(ListenersWithDictionaries.allTests),
-    testCase(LocalesTests.allTests),
-    testCase(MapsTests.allTests),
-    testCase(MethodOverloadsTests.allTests),
-    testCase(MultiListenerTests.allTests),
-    testCase(NestingTests.allTests),
-    testCase(NullableAttributesTests.allTests),
-    testCase(NullableCollectionsTests.allTests),
-    testCase(NullableInstancesTests.allTests),
-    testCase(NullableListenersTests.allTests),
-    testCase(NullableMethodArgumentsTests.allTests),
-    testCase(NullableStructsTests.allTests),
-    testCase(PodTypeCollectionTests.allTests),
-    testCase(PlainDataStructuresTests.allTests),
-    testCase(RefEqualityTests.allTests),
-    testCase(SerializationTests.allTests),
-    testCase(SetTypeTests.allTests),
-    testCase(SimpleEqualityTests.allTests),
-    testCase(SkipEnumeratorTests.allTests),
-    testCase(StaticBooleanMethodsTests.allTests),
-    testCase(StaticByteArrayMethodsTests.allTests),
-    testCase(StaticFloatDoubleMethodsTests.allTests),
-    testCase(StaticIntMethodsTests.allTests),
-    testCase(StaticStringMethodsTests.allTests),
-    testCase(StructWithConstantsTests.allTests),
-    testCase(StructsWithMethodsTests.allTests),
-    testCase(StructWithInstanceTests.allTests),
-    testCase(TypeDefTests.allTests),
-    testCase(WeakListenersTests.allTests)
-]
+    #if os(macOS)
+    let platformSpecificTests = [XCTestCaseEntry]()
+    #else
+    let platformSpecificTests = [testCase(ExternalTypesTests.allTests)]
+    #endif
 
-XCTMain(allTests)
+    let allTests = platformSpecificTests + [
+        testCase(ArraysTests.allTests),
+        testCase(AttributesInterfaceTests.allTests),
+        testCase(AttributesTests.allTests),
+        testCase(ConstantsTests.allTests),
+        testCase(CppConstMethodsTests.allTests),
+        testCase(DatesTests.allTests),
+        testCase(DefaultsTests.allTests),
+        testCase(EnumsTests.allTests),
+        testCase(EquatableInstancesTests.allTests),
+        testCase(EquatableNullableTests.allTests),
+        testCase(EquatableTests.allTests),
+        testCase(ErrorsInInterfaceTests.allTests),
+        testCase(ErrorsTests.allTests),
+        testCase(ExtensionsTests.allTests),
+        testCase(InheritanceTests.allTests),
+        testCase(InterfacesTests.allTests),
+        testCase(LambdasTests.allTests),
+        testCase(ListenerRoundtripTests.allTests),
+        testCase(ListenerWithAttributesTests.allTests),
+        testCase(ListenersReturnValuesTests.allTests),
+        testCase(ListenersWithDictionaries.allTests),
+        testCase(LocalesTests.allTests),
+        testCase(MapsTests.allTests),
+        testCase(MethodOverloadsTests.allTests),
+        testCase(MultiListenerTests.allTests),
+        testCase(NestingTests.allTests),
+        testCase(NullableAttributesTests.allTests),
+        testCase(NullableCollectionsTests.allTests),
+        testCase(NullableInstancesTests.allTests),
+        testCase(NullableListenersTests.allTests),
+        testCase(NullableMethodArgumentsTests.allTests),
+        testCase(NullableStructsTests.allTests),
+        testCase(PodTypeCollectionTests.allTests),
+        testCase(PlainDataStructuresTests.allTests),
+        testCase(RefEqualityTests.allTests),
+        testCase(SerializationTests.allTests),
+        testCase(SetTypeTests.allTests),
+        testCase(SimpleEqualityTests.allTests),
+        testCase(SkipEnumeratorTests.allTests),
+        testCase(StaticBooleanMethodsTests.allTests),
+        testCase(StaticByteArrayMethodsTests.allTests),
+        testCase(StaticFloatDoubleMethodsTests.allTests),
+        testCase(StaticIntMethodsTests.allTests),
+        testCase(StaticStringMethodsTests.allTests),
+        testCase(StructWithConstantsTests.allTests),
+        testCase(StructsWithMethodsTests.allTests),
+        testCase(StructWithInstanceTests.allTests),
+        testCase(TypeDefTests.allTests),
+        testCase(WeakListenersTests.allTests)
+    ]
+    return allTests
+}
+
+XCTMain(getAllTests())
