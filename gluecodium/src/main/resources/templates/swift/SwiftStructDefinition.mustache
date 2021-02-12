@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isAuxiliary}}{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
 {{>swift/TypeVisibility}} struct {{resolveName}}{{#if external.swift.converter}}_internal{{/if}}{{#unless external.swift.converter}}{{!!
 }}{{#if attributes.equatable attributes.serializable logic="or"}}{{!!
 }}:{{#if attributes.equatable}} Hashable{{/if}}{{#if attributes.equatable attributes.serializable logic="and"}},{{/if}}{{!!
@@ -87,7 +87,7 @@
         guard _result_handle != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        let _result: {{resolveName struct "" "ref"}} = {{internalPrefix}}moveFromCType(_result_handle)
+        let _result: {{resolveName struct "" "ref"}} = moveFromCType(_result_handle)
 {{#fields}}
         self.{{resolveName}} = _result.{{resolveName}}
 {{/fields}}
@@ -143,7 +143,7 @@ extension {{resolveName}} {
         }}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/set}})
     }
 }
-{{/ifPredicate}}{{/unless}}{{!!
+{{/ifPredicate}}{{!!
 
 }}{{+initParameter}}{{!!
 }}{{resolveName}}: {{#unless typeRef.isNullable}}{{#instanceOf typeRef.type.actualType "LimeLambda"}}@escaping {{/instanceOf}}{{/unless}}{{!!

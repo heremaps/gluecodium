@@ -1,39 +1,40 @@
 //
 //
+
 import Foundation
 public enum StateEnum : UInt32, CaseIterable, Codable {
     case off
     case on
 }
-internal func foobar_copyToCType(_ swiftEnum: StateEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: StateEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: StateEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: StateEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: StateEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: StateEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: StateEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: StateEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> StateEnum {
+internal func copyFromCType(_ cValue: UInt32) -> StateEnum {
     return StateEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> StateEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> StateEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> StateEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> StateEnum? {
     guard handle != 0 else {
         return nil
     }
     return StateEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> StateEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> StateEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
 public struct Constants {
     public static let boolConstant: Bool = true

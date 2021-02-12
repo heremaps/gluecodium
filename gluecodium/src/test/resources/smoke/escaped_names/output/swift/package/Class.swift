@@ -12,10 +12,10 @@ public class Class: Interface {
     }
     public var property: Enum {
         get {
-            return foobar_moveFromCType(package_Class_property_get(self.c_instance))
+            return moveFromCType(package_Class_property_get(self.c_instance))
         }
         set {
-            let c_value = foobar_moveToCType(newValue)
+            let c_value = moveToCType(newValue)
             return moveFromCType(package_Class_property_set(self.c_instance, c_value.ref))
         }
     }
@@ -37,9 +37,9 @@ public class Class: Interface {
         let c_double = foobar_moveToCType(double)
         let RESULT = package_Class_fun(self.c_instance, c_double.ref)
         if (!RESULT.has_value) {
-            throw foobar_moveFromCType(RESULT.error_value) as ExceptionError
+            throw moveFromCType(RESULT.error_value) as ExceptionError
         } else {
-            return foobar_moveFromCType(RESULT.returned_value)
+            return moveFromCType(RESULT.returned_value)
         }
     }
 }
@@ -70,7 +70,7 @@ extension Class: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_Class_copyFromCType(_ handle: _baseRef) -> Class {
+internal func Class_copyFromCType(_ handle: _baseRef) -> Class {
     if let swift_pointer = package_Class_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Class {
         return re_constructed
@@ -82,7 +82,7 @@ internal func foobar_Class_copyFromCType(_ handle: _baseRef) -> Class {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_Class_moveFromCType(_ handle: _baseRef) -> Class {
+internal func Class_moveFromCType(_ handle: _baseRef) -> Class {
     if let swift_pointer = package_Class_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Class {
         package_Class_release_handle(handle)
@@ -95,27 +95,27 @@ internal func foobar_Class_moveFromCType(_ handle: _baseRef) -> Class {
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_Class_copyFromCType(_ handle: _baseRef) -> Class? {
+internal func Class_copyFromCType(_ handle: _baseRef) -> Class? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Class_moveFromCType(handle) as Class
+    return Class_moveFromCType(handle) as Class
 }
-internal func foobar_Class_moveFromCType(_ handle: _baseRef) -> Class? {
+internal func Class_moveFromCType(_ handle: _baseRef) -> Class? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Class_moveFromCType(handle) as Class
+    return Class_moveFromCType(handle) as Class
 }
-internal func foobar_copyToCType(_ swiftClass: Class) -> RefHolder {
+internal func copyToCType(_ swiftClass: Class) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Class) -> RefHolder {
+internal func moveToCType(_ swiftClass: Class) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: Class?) -> RefHolder {
+internal func copyToCType(_ swiftClass: Class?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Class?) -> RefHolder {
+internal func moveToCType(_ swiftClass: Class?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

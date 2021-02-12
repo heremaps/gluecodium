@@ -74,61 +74,51 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private val internalPrefix = options.internalPrefix
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val filteredModel = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }
-        val limeLogger = LimeLogger(logger, filteredModel.fileNameMap)
+        val limeReferenceMap = limeModel.referenceMap
+        val filteredElements = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }.topElements
+        val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val overloadsValidator = LimeOverloadsValidator(filteredModel.referenceMap, SWIFT, nameRules, limeLogger)
+        val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, SWIFT, nameRules, limeLogger)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
-        val validationResults = listOf(
-            overloadsValidator.validate(filteredModel.topElements),
-            weakPropertiesValidator.validate(filteredModel.topElements)
-        )
+        val validationResults =
+            listOf(overloadsValidator.validate(filteredElements), weakPropertiesValidator.validate(filteredElements))
         if (validationResults.contains(false)) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val cbridgeNameResolver = CBridgeNameResolver(filteredModel.referenceMap, nameRules, internalPrefix ?: "")
+        val cbridgeNameResolver = CBridgeNameResolver(limeReferenceMap, nameRules, internalPrefix ?: "")
         val cBridgeGenerator = CBridgeGenerator(
-            limeReferenceMap = filteredModel.referenceMap,
+            limeReferenceMap = limeReferenceMap,
             rootNamespace = rootNamespace,
-            cachingNameResolver = CppNameResolver(rootNamespace, filteredModel.referenceMap, cppNameRules),
+            cachingNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules),
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             nameResolver = cbridgeNameResolver
         )
 
-        val swiftNameResolver = SwiftNameResolver(filteredModel.referenceMap, nameRules, limeLogger, commentsProcessor)
+        val swiftNameResolver = SwiftNameResolver(limeReferenceMap, nameRules, limeLogger, commentsProcessor)
         val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
-        val predicates = SwiftGeneratorPredicates(filteredModel.referenceMap, nameRules)
-        val swiftFiles =
-            filteredModel.topElements.map { generateSwiftFile(it, swiftNameResolver, nameResolvers, predicates) }
+        val predicates = SwiftGeneratorPredicates(limeReferenceMap, nameRules)
+        val swiftFiles = filteredElements.map { generateSwiftFile(it, swiftNameResolver, nameResolvers, predicates) }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val auxConversions = filteredModel.auxiliaryElements.map {
-            generateSwiftFile(it, swiftNameResolver, nameResolvers, predicates, isAuxiliary = true)
-        }
-        val genericsConversions = generateCollections(
-            filteredModel.topElements,
-            cBridgeGenerator.genericTypesCollector,
-            swiftNameResolver,
-            nameResolvers
-        )
-        return swiftFiles + auxConversions + filteredModel.topElements.flatMap { cBridgeGenerator.generate(it) } +
-                CBridgeGenerator.STATIC_FILES + STATIC_FILES + cBridgeGenerator.generateHelpers() +
-                cBridgeGenerator.generateCollections(filteredModel.topElements) + genericsConversions +
-                generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver))
+        return swiftFiles + filteredElements.flatMap { cBridgeGenerator.generate(it) } +
+            CBridgeGenerator.STATIC_FILES + STATIC_FILES +
+            cBridgeGenerator.generateCollections(filteredElements) +
+            generateCollections(filteredElements, cBridgeGenerator.genericTypesCollector, swiftNameResolver, nameResolvers) +
+            generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
+            cBridgeGenerator.generateHelpers()
     }
 
     private fun generateSwiftFile(
         limeElement: LimeNamedElement,
         swiftNameResolver: SwiftNameResolver,
         nameResolvers: Map<String, NameResolver>,
-        predicates: SwiftGeneratorPredicates,
-        isAuxiliary: Boolean = false
+        predicates: SwiftGeneratorPredicates
     ): GeneratedFile {
 
         val imports = resolveImports(limeElement, swiftNameResolver)
@@ -139,8 +129,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "imports" to imports.distinct().sorted() - FOUNDATION,
             "allExceptions" to allExceptions,
             "definitionTemplate" to selectDefinitionTemplate(limeElement),
-            "conversionTemplate" to selectConversionTemplate(limeElement),
-            "isAuxiliary" to isAuxiliary
+            "conversionTemplate" to selectConversionTemplate(limeElement)
         )
         return GeneratedFile(
             TemplateEngine.render("swift/SwiftFile", templateData, nameResolvers, predicates.predicates),

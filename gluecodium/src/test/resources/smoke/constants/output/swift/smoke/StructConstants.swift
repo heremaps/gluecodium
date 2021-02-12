@@ -33,7 +33,7 @@ public class StructConstants {
             self.structField = structField
         }
         internal init(cHandle: _baseRef) {
-            structField = foobar_moveFromCType(smoke_StructConstants_NestingStruct_structField_get(cHandle))
+            structField = moveFromCType(smoke_StructConstants_NestingStruct_structField_get(cHandle))
         }
     }
 }
@@ -59,7 +59,7 @@ extension StructConstants: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants {
+internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants {
     if let swift_pointer = smoke_StructConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructConstants {
         return re_constructed
@@ -68,7 +68,7 @@ internal func foobar_StructConstants_copyFromCType(_ handle: _baseRef) -> Struct
     smoke_StructConstants_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants {
+internal func StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants {
     if let swift_pointer = smoke_StructConstants_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? StructConstants {
         smoke_StructConstants_release_handle(handle)
@@ -78,61 +78,61 @@ internal func foobar_StructConstants_moveFromCType(_ handle: _baseRef) -> Struct
     smoke_StructConstants_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants? {
+internal func StructConstants_copyFromCType(_ handle: _baseRef) -> StructConstants? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_StructConstants_moveFromCType(handle) as StructConstants
+    return StructConstants_moveFromCType(handle) as StructConstants
 }
-internal func foobar_StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants? {
+internal func StructConstants_moveFromCType(_ handle: _baseRef) -> StructConstants? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_StructConstants_moveFromCType(handle) as StructConstants
+    return StructConstants_moveFromCType(handle) as StructConstants
 }
-internal func foobar_copyToCType(_ swiftClass: StructConstants) -> RefHolder {
+internal func copyToCType(_ swiftClass: StructConstants) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: StructConstants) -> RefHolder {
+internal func moveToCType(_ swiftClass: StructConstants) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: StructConstants?) -> RefHolder {
+internal func copyToCType(_ swiftClass: StructConstants?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: StructConstants?) -> RefHolder {
+internal func moveToCType(_ swiftClass: StructConstants?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct {
+internal func copyFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct {
     return StructConstants.SomeStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct {
+internal func moveFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct {
     defer {
         smoke_StructConstants_SomeStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: StructConstants.SomeStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: StructConstants.SomeStruct) -> RefHolder {
     let c_stringField = moveToCType(swiftType.stringField)
     let c_floatField = moveToCType(swiftType.floatField)
     return RefHolder(smoke_StructConstants_SomeStruct_create_handle(c_stringField.ref, c_floatField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: StructConstants.SomeStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructConstants_SomeStruct_release_handle)
+internal func moveToCType(_ swiftType: StructConstants.SomeStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructConstants_SomeStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_StructConstants_SomeStruct_unwrap_optional_handle(handle)
     return StructConstants.SomeStruct(cHandle: unwrappedHandle) as StructConstants.SomeStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> StructConstants.SomeStruct? {
     defer {
         smoke_StructConstants_SomeStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: StructConstants.SomeStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: StructConstants.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -140,45 +140,45 @@ internal func foobar_copyToCType(_ swiftType: StructConstants.SomeStruct?) -> Re
     let c_floatField = moveToCType(swiftType.floatField)
     return RefHolder(smoke_StructConstants_SomeStruct_create_optional_handle(c_stringField.ref, c_floatField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: StructConstants.SomeStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructConstants_SomeStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: StructConstants.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructConstants_SomeStruct_release_optional_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct {
+internal func copyFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct {
     return StructConstants.NestingStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct {
+internal func moveFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct {
     defer {
         smoke_StructConstants_NestingStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: StructConstants.NestingStruct) -> RefHolder {
-    let c_structField = foobar_moveToCType(swiftType.structField)
+internal func copyToCType(_ swiftType: StructConstants.NestingStruct) -> RefHolder {
+    let c_structField = moveToCType(swiftType.structField)
     return RefHolder(smoke_StructConstants_NestingStruct_create_handle(c_structField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: StructConstants.NestingStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructConstants_NestingStruct_release_handle)
+internal func moveToCType(_ swiftType: StructConstants.NestingStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructConstants_NestingStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_StructConstants_NestingStruct_unwrap_optional_handle(handle)
     return StructConstants.NestingStruct(cHandle: unwrappedHandle) as StructConstants.NestingStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> StructConstants.NestingStruct? {
     defer {
         smoke_StructConstants_NestingStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: StructConstants.NestingStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: StructConstants.NestingStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_structField = foobar_moveToCType(swiftType.structField)
+    let c_structField = moveToCType(swiftType.structField)
     return RefHolder(smoke_StructConstants_NestingStruct_create_optional_handle(c_structField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: StructConstants.NestingStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_StructConstants_NestingStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: StructConstants.NestingStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_StructConstants_NestingStruct_release_optional_handle)
 }

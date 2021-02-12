@@ -7,10 +7,10 @@ public protocol PropertiesInterface : AnyObject {
 internal class _PropertiesInterface: PropertiesInterface {
     var structProperty: ExampleStruct {
         get {
-            return foobar_moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
+            return moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
         }
         set {
-            let c_value = foobar_moveToCType(newValue)
+            let c_value = moveToCType(newValue)
             return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_value.ref))
         }
     }
@@ -59,11 +59,11 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
     }
     functions.smoke_PropertiesInterface_structProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! PropertiesInterface
-        return foobar_copyToCType(swift_class.structProperty).ref
+        return copyToCType(swift_class.structProperty).ref
     }
     functions.smoke_PropertiesInterface_structProperty_set = {(swift_class_pointer, value) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! PropertiesInterface
-        swift_class.structProperty = foobar_moveFromCType(value)
+        swift_class.structProperty = moveFromCType(value)
     }
     let proxy = smoke_PropertiesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PropertiesInterface_release_handle) : RefHolder(proxy)
@@ -71,7 +71,7 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
 extension _PropertiesInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func foobar_PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface {
+internal func PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface {
     if let swift_pointer = smoke_PropertiesInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PropertiesInterface {
         return re_constructed
@@ -87,7 +87,7 @@ internal func foobar_PropertiesInterface_copyFromCType(_ handle: _baseRef) -> Pr
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_PropertiesInterface_moveFromCType(_ handle: _baseRef) -> PropertiesInterface {
+internal func PropertiesInterface_moveFromCType(_ handle: _baseRef) -> PropertiesInterface {
     if let swift_pointer = smoke_PropertiesInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PropertiesInterface {
         smoke_PropertiesInterface_release_handle(handle)
@@ -105,66 +105,66 @@ internal func foobar_PropertiesInterface_moveFromCType(_ handle: _baseRef) -> Pr
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface? {
+internal func PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_PropertiesInterface_moveFromCType(handle) as PropertiesInterface
+    return PropertiesInterface_moveFromCType(handle) as PropertiesInterface
 }
-internal func foobar_PropertiesInterface_moveFromCType(_ handle: _baseRef) -> PropertiesInterface? {
+internal func PropertiesInterface_moveFromCType(_ handle: _baseRef) -> PropertiesInterface? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_PropertiesInterface_moveFromCType(handle) as PropertiesInterface
+    return PropertiesInterface_moveFromCType(handle) as PropertiesInterface
 }
-internal func foobar_copyToCType(_ swiftClass: PropertiesInterface) -> RefHolder {
+internal func copyToCType(_ swiftClass: PropertiesInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: PropertiesInterface) -> RefHolder {
+internal func moveToCType(_ swiftClass: PropertiesInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: PropertiesInterface?) -> RefHolder {
+internal func copyToCType(_ swiftClass: PropertiesInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: PropertiesInterface?) -> RefHolder {
+internal func moveToCType(_ swiftClass: PropertiesInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> ExampleStruct {
+internal func copyFromCType(_ handle: _baseRef) -> ExampleStruct {
     return ExampleStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> ExampleStruct {
+internal func moveFromCType(_ handle: _baseRef) -> ExampleStruct {
     defer {
         smoke_PropertiesInterface_ExampleStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: ExampleStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: ExampleStruct) -> RefHolder {
     let c_value = moveToCType(swiftType.value)
     return RefHolder(smoke_PropertiesInterface_ExampleStruct_create_handle(c_value.ref))
 }
-internal func foobar_moveToCType(_ swiftType: ExampleStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PropertiesInterface_ExampleStruct_release_handle)
+internal func moveToCType(_ swiftType: ExampleStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PropertiesInterface_ExampleStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> ExampleStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> ExampleStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_PropertiesInterface_ExampleStruct_unwrap_optional_handle(handle)
     return ExampleStruct(cHandle: unwrappedHandle) as ExampleStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> ExampleStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> ExampleStruct? {
     defer {
         smoke_PropertiesInterface_ExampleStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: ExampleStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: ExampleStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_value = moveToCType(swiftType.value)
     return RefHolder(smoke_PropertiesInterface_ExampleStruct_create_optional_handle(c_value.ref))
 }
-internal func foobar_moveToCType(_ swiftType: ExampleStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_PropertiesInterface_ExampleStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: ExampleStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PropertiesInterface_ExampleStruct_release_optional_handle)
 }

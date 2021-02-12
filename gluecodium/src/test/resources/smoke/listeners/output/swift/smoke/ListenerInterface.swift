@@ -66,13 +66,13 @@ internal func getRef(_ ref: ListenerInterface?, owning: Bool = true, isWeak: Boo
     let proxy = smoke_ListenerInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ListenerInterface_release_handle) : RefHolder(proxy)
 }
-internal func foobar_weakToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
+internal func weakToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
 extension _ListenerInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func foobar_ListenerInterface_copyFromCType(_ handle: _baseRef) -> ListenerInterface {
+internal func ListenerInterface_copyFromCType(_ handle: _baseRef) -> ListenerInterface {
     if let swift_pointer = smoke_ListenerInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerInterface {
         return re_constructed
@@ -88,7 +88,7 @@ internal func foobar_ListenerInterface_copyFromCType(_ handle: _baseRef) -> List
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_ListenerInterface_moveFromCType(_ handle: _baseRef) -> ListenerInterface {
+internal func ListenerInterface_moveFromCType(_ handle: _baseRef) -> ListenerInterface {
     if let swift_pointer = smoke_ListenerInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerInterface {
         smoke_ListenerInterface_release_handle(handle)
@@ -106,27 +106,27 @@ internal func foobar_ListenerInterface_moveFromCType(_ handle: _baseRef) -> List
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_ListenerInterface_copyFromCType(_ handle: _baseRef) -> ListenerInterface? {
+internal func ListenerInterface_copyFromCType(_ handle: _baseRef) -> ListenerInterface? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_ListenerInterface_moveFromCType(handle) as ListenerInterface
+    return ListenerInterface_moveFromCType(handle) as ListenerInterface
 }
-internal func foobar_ListenerInterface_moveFromCType(_ handle: _baseRef) -> ListenerInterface? {
+internal func ListenerInterface_moveFromCType(_ handle: _baseRef) -> ListenerInterface? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_ListenerInterface_moveFromCType(handle) as ListenerInterface
+    return ListenerInterface_moveFromCType(handle) as ListenerInterface
 }
-internal func foobar_copyToCType(_ swiftClass: ListenerInterface) -> RefHolder {
+internal func copyToCType(_ swiftClass: ListenerInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: ListenerInterface) -> RefHolder {
+internal func moveToCType(_ swiftClass: ListenerInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
+internal func copyToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
+internal func moveToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

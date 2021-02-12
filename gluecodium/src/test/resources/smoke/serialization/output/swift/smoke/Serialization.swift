@@ -7,35 +7,35 @@ public enum SomeEnum : UInt32, CaseIterable, Codable {
     case foo
     case bar = 7
 }
-internal func foobar_copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> SomeEnum {
+internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
     return SomeEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> SomeEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
     guard handle != 0 else {
         return nil
     }
     return SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
 public struct SerializableStruct: Codable {
     public var boolField: Bool
@@ -81,26 +81,26 @@ public struct SerializableStruct: Codable {
         floatField = moveFromCType(smoke_Serialization_SerializableStruct_floatField_get(cHandle))
         doubleField = moveFromCType(smoke_Serialization_SerializableStruct_doubleField_get(cHandle))
         stringField = moveFromCType(smoke_Serialization_SerializableStruct_stringField_get(cHandle))
-        structField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_structField_get(cHandle))
+        structField = moveFromCType(smoke_Serialization_SerializableStruct_structField_get(cHandle))
         byteBufferField = moveFromCType(smoke_Serialization_SerializableStruct_byteBufferField_get(cHandle))
         arrayField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_arrayField_get(cHandle))
         structArrayField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_structArrayField_get(cHandle))
         mapField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_mapField_get(cHandle))
         setField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_setField_get(cHandle))
         enumSetField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_enumSetField_get(cHandle))
-        enumField = foobar_moveFromCType(smoke_Serialization_SerializableStruct_enumField_get(cHandle))
+        enumField = moveFromCType(smoke_Serialization_SerializableStruct_enumField_get(cHandle))
     }
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> SerializableStruct {
+internal func copyFromCType(_ handle: _baseRef) -> SerializableStruct {
     return SerializableStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> SerializableStruct {
+internal func moveFromCType(_ handle: _baseRef) -> SerializableStruct {
     defer {
         smoke_Serialization_SerializableStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: SerializableStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: SerializableStruct) -> RefHolder {
     let c_boolField = moveToCType(swiftType.boolField)
     let c_byteField = moveToCType(swiftType.byteField)
     let c_shortField = moveToCType(swiftType.shortField)
@@ -109,33 +109,33 @@ internal func foobar_copyToCType(_ swiftType: SerializableStruct) -> RefHolder {
     let c_floatField = moveToCType(swiftType.floatField)
     let c_doubleField = moveToCType(swiftType.doubleField)
     let c_stringField = moveToCType(swiftType.stringField)
-    let c_structField = foobar_moveToCType(swiftType.structField)
+    let c_structField = moveToCType(swiftType.structField)
     let c_byteBufferField = moveToCType(swiftType.byteBufferField)
     let c_arrayField = foobar_moveToCType(swiftType.arrayField)
     let c_structArrayField = foobar_moveToCType(swiftType.structArrayField)
     let c_mapField = foobar_moveToCType(swiftType.mapField)
     let c_setField = foobar_moveToCType(swiftType.setField)
     let c_enumSetField = foobar_moveToCType(swiftType.enumSetField)
-    let c_enumField = foobar_moveToCType(swiftType.enumField)
+    let c_enumField = moveToCType(swiftType.enumField)
     return RefHolder(smoke_Serialization_SerializableStruct_create_handle(c_boolField.ref, c_byteField.ref, c_shortField.ref, c_intField.ref, c_longField.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_structField.ref, c_byteBufferField.ref, c_arrayField.ref, c_structArrayField.ref, c_mapField.ref, c_setField.ref, c_enumSetField.ref, c_enumField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: SerializableStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Serialization_SerializableStruct_release_handle)
+internal func moveToCType(_ swiftType: SerializableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Serialization_SerializableStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> SerializableStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> SerializableStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Serialization_SerializableStruct_unwrap_optional_handle(handle)
     return SerializableStruct(cHandle: unwrappedHandle) as SerializableStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> SerializableStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> SerializableStruct? {
     defer {
         smoke_Serialization_SerializableStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: SerializableStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: SerializableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -147,18 +147,18 @@ internal func foobar_copyToCType(_ swiftType: SerializableStruct?) -> RefHolder 
     let c_floatField = moveToCType(swiftType.floatField)
     let c_doubleField = moveToCType(swiftType.doubleField)
     let c_stringField = moveToCType(swiftType.stringField)
-    let c_structField = foobar_moveToCType(swiftType.structField)
+    let c_structField = moveToCType(swiftType.structField)
     let c_byteBufferField = moveToCType(swiftType.byteBufferField)
     let c_arrayField = foobar_moveToCType(swiftType.arrayField)
     let c_structArrayField = foobar_moveToCType(swiftType.structArrayField)
     let c_mapField = foobar_moveToCType(swiftType.mapField)
     let c_setField = foobar_moveToCType(swiftType.setField)
     let c_enumSetField = foobar_moveToCType(swiftType.enumSetField)
-    let c_enumField = foobar_moveToCType(swiftType.enumField)
+    let c_enumField = moveToCType(swiftType.enumField)
     return RefHolder(smoke_Serialization_SerializableStruct_create_optional_handle(c_boolField.ref, c_byteField.ref, c_shortField.ref, c_intField.ref, c_longField.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_structField.ref, c_byteBufferField.ref, c_arrayField.ref, c_structArrayField.ref, c_mapField.ref, c_setField.ref, c_enumSetField.ref, c_enumField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: SerializableStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Serialization_SerializableStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: SerializableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Serialization_SerializableStruct_release_optional_handle)
 }
 public struct NestedSerializableStruct: Codable {
     public var someField: String
@@ -169,42 +169,42 @@ public struct NestedSerializableStruct: Codable {
         someField = moveFromCType(smoke_Serialization_NestedSerializableStruct_someField_get(cHandle))
     }
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> NestedSerializableStruct {
+internal func copyFromCType(_ handle: _baseRef) -> NestedSerializableStruct {
     return NestedSerializableStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> NestedSerializableStruct {
+internal func moveFromCType(_ handle: _baseRef) -> NestedSerializableStruct {
     defer {
         smoke_Serialization_NestedSerializableStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: NestedSerializableStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: NestedSerializableStruct) -> RefHolder {
     let c_someField = moveToCType(swiftType.someField)
     return RefHolder(smoke_Serialization_NestedSerializableStruct_create_handle(c_someField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: NestedSerializableStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Serialization_NestedSerializableStruct_release_handle)
+internal func moveToCType(_ swiftType: NestedSerializableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Serialization_NestedSerializableStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> NestedSerializableStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> NestedSerializableStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Serialization_NestedSerializableStruct_unwrap_optional_handle(handle)
     return NestedSerializableStruct(cHandle: unwrappedHandle) as NestedSerializableStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> NestedSerializableStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> NestedSerializableStruct? {
     defer {
         smoke_Serialization_NestedSerializableStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: NestedSerializableStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: NestedSerializableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_someField = moveToCType(swiftType.someField)
     return RefHolder(smoke_Serialization_NestedSerializableStruct_create_optional_handle(c_someField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: NestedSerializableStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Serialization_NestedSerializableStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: NestedSerializableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Serialization_NestedSerializableStruct_release_optional_handle)
 }

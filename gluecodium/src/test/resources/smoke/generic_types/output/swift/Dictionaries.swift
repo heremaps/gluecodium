@@ -61,7 +61,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
     var swiftDict: [GenericTypesWithCompoundTypes.ExternalEnum: Bool] = [:]
     let iterator_handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator(handle)
     while foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_is_valid(handle, iterator_handle) {
-        swiftDict[foobar_moveFromCType(foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_key(iterator_handle))] =
+        swiftDict[moveFromCType(foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_key(iterator_handle))] =
             moveFromCType(foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_value(iterator_handle)) as Bool
         foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_increment(iterator_handle)
     }
@@ -77,7 +77,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
 internal func foobar_copyToCType(_ swiftDict: [GenericTypesWithCompoundTypes.ExternalEnum: Bool]) -> RefHolder {
     let c_handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_create_handle()
     for (key, value) in swiftDict {
-        let c_key = foobar_moveToCType(key)
+        let c_key = moveToCType(key)
         let c_value = moveToCType(value)
         foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_put(c_handle, c_key.ref, c_value.ref)
     }
@@ -106,7 +106,7 @@ internal func foobar_copyToCType(_ swiftDict: [GenericTypesWithCompoundTypes.Ext
     let optionalHandle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_create_optional_handle()
     let handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
-        let c_key = foobar_moveToCType(key)
+        let c_key = moveToCType(key)
         let c_value = moveToCType(value)
         foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_put(handle, c_key.ref, c_value.ref)
     }
@@ -119,7 +119,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
     var swiftDict: [GenericTypesWithCompoundTypes.SomeEnum: Bool] = [:]
     let iterator_handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator(handle)
     while foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_is_valid(handle, iterator_handle) {
-        swiftDict[foobar_moveFromCType(foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_key(iterator_handle))] =
+        swiftDict[moveFromCType(foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_key(iterator_handle))] =
             moveFromCType(foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_value(iterator_handle)) as Bool
         foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_increment(iterator_handle)
     }
@@ -135,7 +135,7 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [GenericTypesWithCompo
 internal func foobar_copyToCType(_ swiftDict: [GenericTypesWithCompoundTypes.SomeEnum: Bool]) -> RefHolder {
     let c_handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_create_handle()
     for (key, value) in swiftDict {
-        let c_key = foobar_moveToCType(key)
+        let c_key = moveToCType(key)
         let c_value = moveToCType(value)
         foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_put(c_handle, c_key.ref, c_value.ref)
     }
@@ -164,7 +164,7 @@ internal func foobar_copyToCType(_ swiftDict: [GenericTypesWithCompoundTypes.Som
     let optionalHandle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_create_optional_handle()
     let handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
-        let c_key = foobar_moveToCType(key)
+        let c_key = moveToCType(key)
         let c_value = moveToCType(value)
         foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_put(handle, c_key.ref, c_value.ref)
     }
@@ -236,7 +236,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: DummyClass] {
     let iterator_handle = foobar_MapOf__Int_To_smoke_DummyClass_iterator(handle)
     while foobar_MapOf__Int_To_smoke_DummyClass_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(foobar_MapOf__Int_To_smoke_DummyClass_iterator_key(iterator_handle))] =
-            foobar_DummyClass_moveFromCType(foobar_MapOf__Int_To_smoke_DummyClass_iterator_value(iterator_handle)) as DummyClass
+            DummyClass_moveFromCType(foobar_MapOf__Int_To_smoke_DummyClass_iterator_value(iterator_handle)) as DummyClass
         foobar_MapOf__Int_To_smoke_DummyClass_iterator_increment(iterator_handle)
     }
     foobar_MapOf__Int_To_smoke_DummyClass_iterator_release_handle(iterator_handle)
@@ -252,7 +252,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: DummyClass]) -> RefHolder 
     let c_handle = foobar_MapOf__Int_To_smoke_DummyClass_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_DummyClass_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -281,7 +281,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: DummyClass]?) -> RefHolder
     let handle = foobar_MapOf__Int_To_smoke_DummyClass_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_DummyClass_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)
@@ -294,7 +294,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: DummyInterface
     let iterator_handle = foobar_MapOf__Int_To_smoke_DummyInterface_iterator(handle)
     while foobar_MapOf__Int_To_smoke_DummyInterface_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(foobar_MapOf__Int_To_smoke_DummyInterface_iterator_key(iterator_handle))] =
-            foobar_DummyInterface_moveFromCType(foobar_MapOf__Int_To_smoke_DummyInterface_iterator_value(iterator_handle)) as DummyInterface
+            DummyInterface_moveFromCType(foobar_MapOf__Int_To_smoke_DummyInterface_iterator_value(iterator_handle)) as DummyInterface
         foobar_MapOf__Int_To_smoke_DummyInterface_iterator_increment(iterator_handle)
     }
     foobar_MapOf__Int_To_smoke_DummyInterface_iterator_release_handle(iterator_handle)
@@ -310,7 +310,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: DummyInterface]) -> RefHol
     let c_handle = foobar_MapOf__Int_To_smoke_DummyInterface_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_DummyInterface_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -339,7 +339,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: DummyInterface]?) -> RefHo
     let handle = foobar_MapOf__Int_To_smoke_DummyInterface_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_DummyInterface_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)
@@ -352,7 +352,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: GenericTypesWi
     let iterator_handle = foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(handle)
     while foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_key(iterator_handle))] =
-            foobar_moveFromCType(foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.ExternalEnum
+            moveFromCType(foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.ExternalEnum
         foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(iterator_handle)
     }
     foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(iterator_handle)
@@ -368,7 +368,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: GenericTypesWithCompoundTy
     let c_handle = foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -397,7 +397,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: GenericTypesWithCompoundTy
     let handle = foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)
@@ -410,7 +410,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int32: GenericTypesWi
     let iterator_handle = foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(handle)
     while foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_key(iterator_handle))] =
-            foobar_moveFromCType(foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.SomeEnum
+            moveFromCType(foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.SomeEnum
         foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(iterator_handle)
     }
     foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(iterator_handle)
@@ -426,7 +426,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: GenericTypesWithCompoundTy
     let c_handle = foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -455,7 +455,7 @@ internal func foobar_copyToCType(_ swiftDict: [Int32: GenericTypesWithCompoundTy
     let handle = foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)
@@ -700,7 +700,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [String: GenericTypesW
     let iterator_handle = foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(handle)
     while foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_key(iterator_handle))] =
-            foobar_moveFromCType(foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.BasicStruct
+            moveFromCType(foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.BasicStruct
         foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(iterator_handle)
     }
     foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(iterator_handle)
@@ -716,7 +716,7 @@ internal func foobar_copyToCType(_ swiftDict: [String: GenericTypesWithCompoundT
     let c_handle = foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -745,7 +745,7 @@ internal func foobar_copyToCType(_ swiftDict: [String: GenericTypesWithCompoundT
     let handle = foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)
@@ -758,7 +758,7 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [String: GenericTypesW
     let iterator_handle = foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(handle)
     while foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_key(iterator_handle))] =
-            foobar_moveFromCType(foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.ExternalStruct
+            moveFromCType(foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_value(iterator_handle)) as GenericTypesWithCompoundTypes.ExternalStruct
         foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(iterator_handle)
     }
     foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(iterator_handle)
@@ -774,7 +774,7 @@ internal func foobar_copyToCType(_ swiftDict: [String: GenericTypesWithCompoundT
     let c_handle = foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put(c_handle, c_key.ref, c_value.ref)
     }
     return RefHolder(c_handle)
@@ -803,7 +803,7 @@ internal func foobar_copyToCType(_ swiftDict: [String: GenericTypesWithCompoundT
     let handle = foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle(optionalHandle)
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
-        let c_value = foobar_moveToCType(value)
+        let c_value = moveToCType(value)
         foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put(handle, c_key.ref, c_value.ref)
     }
     return RefHolder(optionalHandle)

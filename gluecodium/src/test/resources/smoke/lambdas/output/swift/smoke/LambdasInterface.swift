@@ -18,7 +18,7 @@ internal class _LambdasInterface: LambdasInterface {
         smoke_LambdasInterface_release_handle(c_instance)
     }
     public func takeScreenshot(callback: @escaping LambdasInterface.TakeScreenshotCallback) -> Void {
-        let c_callback = foobar_moveToCType(callback)
+        let c_callback = moveToCType(callback)
         return moveFromCType(smoke_LambdasInterface_takeScreenshot(self.c_instance, c_callback.ref))
     }
 }
@@ -46,7 +46,7 @@ internal func getRef(_ ref: LambdasInterface?, owning: Bool = true) -> RefHolder
     }
     functions.smoke_LambdasInterface_takeScreenshot = {(swift_class_pointer, callback) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! LambdasInterface
-        swift_class.takeScreenshot(callback: foobar_moveFromCType(callback))
+        swift_class.takeScreenshot(callback: moveFromCType(callback))
     }
     let proxy = smoke_LambdasInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_LambdasInterface_release_handle) : RefHolder(proxy)
@@ -54,7 +54,7 @@ internal func getRef(_ ref: LambdasInterface?, owning: Bool = true) -> RefHolder
 extension _LambdasInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func foobar_LambdasInterface_copyFromCType(_ handle: _baseRef) -> LambdasInterface {
+internal func LambdasInterface_copyFromCType(_ handle: _baseRef) -> LambdasInterface {
     if let swift_pointer = smoke_LambdasInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasInterface {
         return re_constructed
@@ -70,7 +70,7 @@ internal func foobar_LambdasInterface_copyFromCType(_ handle: _baseRef) -> Lambd
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_LambdasInterface_moveFromCType(_ handle: _baseRef) -> LambdasInterface {
+internal func LambdasInterface_moveFromCType(_ handle: _baseRef) -> LambdasInterface {
     if let swift_pointer = smoke_LambdasInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LambdasInterface {
         smoke_LambdasInterface_release_handle(handle)
@@ -88,51 +88,51 @@ internal func foobar_LambdasInterface_moveFromCType(_ handle: _baseRef) -> Lambd
     }
     fatalError("Failed to initialize Swift object")
 }
-internal func foobar_LambdasInterface_copyFromCType(_ handle: _baseRef) -> LambdasInterface? {
+internal func LambdasInterface_copyFromCType(_ handle: _baseRef) -> LambdasInterface? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LambdasInterface_moveFromCType(handle) as LambdasInterface
+    return LambdasInterface_moveFromCType(handle) as LambdasInterface
 }
-internal func foobar_LambdasInterface_moveFromCType(_ handle: _baseRef) -> LambdasInterface? {
+internal func LambdasInterface_moveFromCType(_ handle: _baseRef) -> LambdasInterface? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_LambdasInterface_moveFromCType(handle) as LambdasInterface
+    return LambdasInterface_moveFromCType(handle) as LambdasInterface
 }
-internal func foobar_copyToCType(_ swiftClass: LambdasInterface) -> RefHolder {
+internal func copyToCType(_ swiftClass: LambdasInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LambdasInterface) -> RefHolder {
+internal func moveToCType(_ swiftClass: LambdasInterface) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: LambdasInterface?) -> RefHolder {
+internal func copyToCType(_ swiftClass: LambdasInterface?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: LambdasInterface?) -> RefHolder {
+internal func moveToCType(_ swiftClass: LambdasInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
-    return foobar_moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_copy_handle(handle))
+internal func copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
+    return moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_copy_handle(handle))
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
+internal func moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasInterface_TakeScreenshotCallback_release_handle)
     return { (p0: Data?) -> Void in
         let _p0 = moveToCType(p0)
         return moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_call(refHolder.ref, _p0.ref))
     }
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
+internal func copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_copyFromCType(handle) as LambdasInterface.TakeScreenshotCallback
+    return copyFromCType(handle) as LambdasInterface.TakeScreenshotCallback
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
+internal func moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_moveFromCType(handle) as LambdasInterface.TakeScreenshotCallback
+    return moveFromCType(handle) as LambdasInterface.TakeScreenshotCallback
 }
 internal func createFunctionalTable(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> smoke_LambdasInterface_TakeScreenshotCallback_FunctionTable {
     class smoke_LambdasInterface_TakeScreenshotCallback_Holder {
@@ -154,22 +154,22 @@ internal func createFunctionalTable(_ swiftType: @escaping LambdasInterface.Take
     }
     return functions
 }
-internal func foobar_copyToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
+internal func copyToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
     let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func foobar_moveToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
+internal func moveToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
     let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasInterface_TakeScreenshotCallback_release_handle)
 }
-internal func foobar_copyToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
+internal func copyToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func foobar_moveToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
+internal func moveToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }

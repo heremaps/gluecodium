@@ -68,7 +68,7 @@ extension AttributesWithComments: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_AttributesWithComments_copyFromCType(_ handle: _baseRef) -> AttributesWithComments {
+internal func AttributesWithComments_copyFromCType(_ handle: _baseRef) -> AttributesWithComments {
     if let swift_pointer = smoke_AttributesWithComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesWithComments {
         return re_constructed
@@ -77,7 +77,7 @@ internal func foobar_AttributesWithComments_copyFromCType(_ handle: _baseRef) ->
     smoke_AttributesWithComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_AttributesWithComments_moveFromCType(_ handle: _baseRef) -> AttributesWithComments {
+internal func AttributesWithComments_moveFromCType(_ handle: _baseRef) -> AttributesWithComments {
     if let swift_pointer = smoke_AttributesWithComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesWithComments {
         smoke_AttributesWithComments_release_handle(handle)
@@ -87,66 +87,66 @@ internal func foobar_AttributesWithComments_moveFromCType(_ handle: _baseRef) ->
     smoke_AttributesWithComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_AttributesWithComments_copyFromCType(_ handle: _baseRef) -> AttributesWithComments? {
+internal func AttributesWithComments_copyFromCType(_ handle: _baseRef) -> AttributesWithComments? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_AttributesWithComments_moveFromCType(handle) as AttributesWithComments
+    return AttributesWithComments_moveFromCType(handle) as AttributesWithComments
 }
-internal func foobar_AttributesWithComments_moveFromCType(_ handle: _baseRef) -> AttributesWithComments? {
+internal func AttributesWithComments_moveFromCType(_ handle: _baseRef) -> AttributesWithComments? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_AttributesWithComments_moveFromCType(handle) as AttributesWithComments
+    return AttributesWithComments_moveFromCType(handle) as AttributesWithComments
 }
-internal func foobar_copyToCType(_ swiftClass: AttributesWithComments) -> RefHolder {
+internal func copyToCType(_ swiftClass: AttributesWithComments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: AttributesWithComments) -> RefHolder {
+internal func moveToCType(_ swiftClass: AttributesWithComments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: AttributesWithComments?) -> RefHolder {
+internal func copyToCType(_ swiftClass: AttributesWithComments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: AttributesWithComments?) -> RefHolder {
+internal func moveToCType(_ swiftClass: AttributesWithComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct {
+internal func copyFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct {
     return AttributesWithComments.SomeStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct {
+internal func moveFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct {
     defer {
         smoke_AttributesWithComments_SomeStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: AttributesWithComments.SomeStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: AttributesWithComments.SomeStruct) -> RefHolder {
     let c_field = moveToCType(swiftType.field)
     return RefHolder(smoke_AttributesWithComments_SomeStruct_create_handle(c_field.ref))
 }
-internal func foobar_moveToCType(_ swiftType: AttributesWithComments.SomeStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_AttributesWithComments_SomeStruct_release_handle)
+internal func moveToCType(_ swiftType: AttributesWithComments.SomeStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesWithComments_SomeStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_AttributesWithComments_SomeStruct_unwrap_optional_handle(handle)
     return AttributesWithComments.SomeStruct(cHandle: unwrappedHandle) as AttributesWithComments.SomeStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> AttributesWithComments.SomeStruct? {
     defer {
         smoke_AttributesWithComments_SomeStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: AttributesWithComments.SomeStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: AttributesWithComments.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_field = moveToCType(swiftType.field)
     return RefHolder(smoke_AttributesWithComments_SomeStruct_create_optional_handle(c_field.ref))
 }
-internal func foobar_moveToCType(_ swiftType: AttributesWithComments.SomeStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_AttributesWithComments_SomeStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: AttributesWithComments.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesWithComments_SomeStruct_release_optional_handle)
 }

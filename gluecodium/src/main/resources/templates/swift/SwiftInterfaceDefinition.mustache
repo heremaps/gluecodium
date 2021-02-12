@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isAuxiliary}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
+{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
 }}{{resolveName visibility}} protocol {{resolveName}} : {{!!
 }}{{#if parent}}{{resolveName parent}}{{/if}}{{#unless parent}}AnyObject{{/unless}} {
 {{#set isInterface=true interface=this}}{{#each typeAliases exceptions}}
@@ -59,4 +59,4 @@ internal class _{{resolveName}}: {{resolveName}} {
 
 {{#structs}}
 {{>swift/SwiftStructDefinition}}
-{{/structs}}{{/unless}}
+{{/structs}}

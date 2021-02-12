@@ -68,7 +68,7 @@ public class Comments {
         let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
-            throw foobar_moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
+            throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
         } else {
             return moveFromCType(RESULT.returned_value)
         }
@@ -163,7 +163,7 @@ extension Comments: Hashable {
         hasher.combine(c_handle)
     }
 }
-internal func foobar_Comments_copyFromCType(_ handle: _baseRef) -> Comments {
+internal func Comments_copyFromCType(_ handle: _baseRef) -> Comments {
     if let swift_pointer = smoke_Comments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Comments {
         return re_constructed
@@ -172,7 +172,7 @@ internal func foobar_Comments_copyFromCType(_ handle: _baseRef) -> Comments {
     smoke_Comments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_Comments_moveFromCType(_ handle: _baseRef) -> Comments {
+internal func Comments_moveFromCType(_ handle: _baseRef) -> Comments {
     if let swift_pointer = smoke_Comments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Comments {
         smoke_Comments_release_handle(handle)
@@ -182,34 +182,34 @@ internal func foobar_Comments_moveFromCType(_ handle: _baseRef) -> Comments {
     smoke_Comments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_Comments_copyFromCType(_ handle: _baseRef) -> Comments? {
+internal func Comments_copyFromCType(_ handle: _baseRef) -> Comments? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Comments_moveFromCType(handle) as Comments
+    return Comments_moveFromCType(handle) as Comments
 }
-internal func foobar_Comments_moveFromCType(_ handle: _baseRef) -> Comments? {
+internal func Comments_moveFromCType(_ handle: _baseRef) -> Comments? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_Comments_moveFromCType(handle) as Comments
+    return Comments_moveFromCType(handle) as Comments
 }
-internal func foobar_copyToCType(_ swiftClass: Comments) -> RefHolder {
+internal func copyToCType(_ swiftClass: Comments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Comments) -> RefHolder {
+internal func moveToCType(_ swiftClass: Comments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: Comments?) -> RefHolder {
+internal func copyToCType(_ swiftClass: Comments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: Comments?) -> RefHolder {
+internal func moveToCType(_ swiftClass: Comments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
-    return foobar_moveFromCType(smoke_Comments_SomeLambda_copy_handle(handle))
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
+    return moveFromCType(smoke_Comments_SomeLambda_copy_handle(handle))
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
     let refHolder = RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
     return { (p0: String, p1: Int32) -> Double in
         let _p0 = moveToCType(p0)
@@ -217,17 +217,17 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
         return moveFromCType(smoke_Comments_SomeLambda_call(refHolder.ref, _p0.ref, _p1.ref))
     }
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_copyFromCType(handle) as Comments.SomeLambda
+    return copyFromCType(handle) as Comments.SomeLambda
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_moveFromCType(handle) as Comments.SomeLambda
+    return moveFromCType(handle) as Comments.SomeLambda
 }
 internal func createFunctionalTable(_ swiftType: @escaping Comments.SomeLambda) -> smoke_Comments_SomeLambda_FunctionTable {
     class smoke_Comments_SomeLambda_Holder {
@@ -249,59 +249,59 @@ internal func createFunctionalTable(_ swiftType: @escaping Comments.SomeLambda) 
     }
     return functions
 }
-internal func foobar_copyToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
+internal func copyToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
     let handle = smoke_Comments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func foobar_moveToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
+internal func moveToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
     let handle = smoke_Comments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
 }
-internal func foobar_copyToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
+internal func copyToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let handle = smoke_Comments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func foobar_moveToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
+internal func moveToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let handle = smoke_Comments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     return Comments.SomeStruct(cHandle: handle)
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     defer {
         smoke_Comments_SomeStruct_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
     let c_someField = moveToCType(swiftType.someField)
     let c_nullableField = moveToCType(swiftType.nullableField)
     return RefHolder(smoke_Comments_SomeStruct_create_handle(c_someField.ref, c_nullableField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_handle)
+internal func moveToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_handle)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Comments_SomeStruct_unwrap_optional_handle(handle)
     return Comments.SomeStruct(cHandle: unwrappedHandle) as Comments.SomeStruct
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct? {
     defer {
         smoke_Comments_SomeStruct_release_optional_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
-internal func foobar_copyToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -309,38 +309,38 @@ internal func foobar_copyToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder
     let c_nullableField = moveToCType(swiftType.nullableField)
     return RefHolder(smoke_Comments_SomeStruct_create_optional_handle(c_someField.ref, c_nullableField.ref))
 }
-internal func foobar_moveToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_optional_handle)
 }
-internal func foobar_copyToCType(_ swiftEnum: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return foobar_copyToCType(swiftEnum)
+internal func moveToCType(_ swiftEnum: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
 }
-internal func foobar_copyToCType(_ swiftEnum: Comments.SomeEnum?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: Comments.SomeEnum?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func foobar_moveToCType(_ swiftEnum: Comments.SomeEnum?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: Comments.SomeEnum?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func foobar_copyFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
+internal func copyFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
     return Comments.SomeEnum(rawValue: cValue)!
 }
-internal func foobar_moveFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
-    return foobar_copyFromCType(cValue)
+internal func moveFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
+    return copyFromCType(cValue)
 }
-internal func foobar_copyFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
     guard handle != 0 else {
         return nil
     }
     return Comments.SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func foobar_moveFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
     defer {
         uint32_t_release_handle(handle)
     }
-    return foobar_copyFromCType(handle)
+    return copyFromCType(handle)
 }
 extension Comments.SomeEnum : Error {
 }

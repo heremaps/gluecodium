@@ -36,7 +36,7 @@ extension PointerEquatableClass: Hashable {
         hasher.combine(smoke_PointerEquatableClass_hash(c_handle))
     }
 }
-internal func foobar_PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> PointerEquatableClass {
+internal func PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> PointerEquatableClass {
     if let swift_pointer = smoke_PointerEquatableClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PointerEquatableClass {
         return re_constructed
@@ -45,7 +45,7 @@ internal func foobar_PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> 
     smoke_PointerEquatableClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_PointerEquatableClass_moveFromCType(_ handle: _baseRef) -> PointerEquatableClass {
+internal func PointerEquatableClass_moveFromCType(_ handle: _baseRef) -> PointerEquatableClass {
     if let swift_pointer = smoke_PointerEquatableClass_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PointerEquatableClass {
         smoke_PointerEquatableClass_release_handle(handle)
@@ -55,27 +55,27 @@ internal func foobar_PointerEquatableClass_moveFromCType(_ handle: _baseRef) -> 
     smoke_PointerEquatableClass_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
-internal func foobar_PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> PointerEquatableClass? {
+internal func PointerEquatableClass_copyFromCType(_ handle: _baseRef) -> PointerEquatableClass? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_PointerEquatableClass_moveFromCType(handle) as PointerEquatableClass
+    return PointerEquatableClass_moveFromCType(handle) as PointerEquatableClass
 }
-internal func foobar_PointerEquatableClass_moveFromCType(_ handle: _baseRef) -> PointerEquatableClass? {
+internal func PointerEquatableClass_moveFromCType(_ handle: _baseRef) -> PointerEquatableClass? {
     guard handle != 0 else {
         return nil
     }
-    return foobar_PointerEquatableClass_moveFromCType(handle) as PointerEquatableClass
+    return PointerEquatableClass_moveFromCType(handle) as PointerEquatableClass
 }
-internal func foobar_copyToCType(_ swiftClass: PointerEquatableClass) -> RefHolder {
+internal func copyToCType(_ swiftClass: PointerEquatableClass) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: PointerEquatableClass) -> RefHolder {
+internal func moveToCType(_ swiftClass: PointerEquatableClass) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func foobar_copyToCType(_ swiftClass: PointerEquatableClass?) -> RefHolder {
+internal func copyToCType(_ swiftClass: PointerEquatableClass?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func foobar_moveToCType(_ swiftClass: PointerEquatableClass?) -> RefHolder {
+internal func moveToCType(_ swiftClass: PointerEquatableClass?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
