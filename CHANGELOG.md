@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.9.0
+Release date: 2021-02-15
 ### Bug fixes:
   * Suppressed documentation for equality operator and hash function overloads in Swift.
   * Fixed run-time issues when passing lambdas, sets, or nullable lists from Swift to C++.
