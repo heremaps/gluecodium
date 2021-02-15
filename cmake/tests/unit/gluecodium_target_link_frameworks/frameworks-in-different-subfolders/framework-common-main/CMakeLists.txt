@@ -17,6 +17,8 @@ gluecodium_target_lime_sources(ModuleWithMainAndCommon
 set(MACOSX_FRAMEWORK_NAME ModuleWithMainAndCommon)
 set_target_properties(
   ModuleWithMainAndCommon
-  PROPERTIES FRAMEWORK TRUE MACOSX_FRAMEWORK_IDENTIFIER gluecodium.common.main.test
-
-             XCODE_ATTRIBUTE_DEFINES_MODULE YES OUTPUT_NAME CustomName)
+  PROPERTIES FRAMEWORK TRUE
+             MACOSX_FRAMEWORK_IDENTIFIER gluecodium.common.main.test
+             GLUECODIUM_SWIFT_EXPOSE_INTERNALS ON
+             XCODE_ATTRIBUTE_DEFINES_MODULE YES
+             OUTPUT_NAME CustomName)

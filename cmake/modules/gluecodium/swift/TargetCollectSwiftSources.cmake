@@ -45,7 +45,7 @@ The general form of the command is::
 
 function(gluecodium_target_collect_swift_sources _target)
   unset(_linked_targets)
-  _gluecodium_get_targets_with_swift_sources(_linked_targets ${_target})
+  _gluecodium_get_targets_with_swift_sources(_linked_targets ${_target} ONLY_STATIC)
   foreach(_linked_target IN LISTS _linked_targets)
     gluecodium_target_copy_swift_sources(${_target} ${_linked_target})
   endforeach()
