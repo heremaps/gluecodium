@@ -35,11 +35,11 @@ extension SwiftMethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension SwiftMethodOverloads: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: SwiftMethodOverloads, rhs: SwiftMethodOverloads) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

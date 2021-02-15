@@ -59,11 +59,11 @@ extension AttributesWithComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension AttributesWithComments: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: AttributesWithComments, rhs: AttributesWithComments) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

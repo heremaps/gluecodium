@@ -90,11 +90,11 @@ extension PublicClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension PublicClass: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: PublicClass, rhs: PublicClass) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

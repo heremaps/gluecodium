@@ -45,11 +45,11 @@ extension AttributesClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension AttributesClass: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: AttributesClass, rhs: AttributesClass) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

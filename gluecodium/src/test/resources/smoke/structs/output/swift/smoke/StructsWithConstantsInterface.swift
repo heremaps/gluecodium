@@ -44,11 +44,11 @@ extension StructsWithConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension StructsWithConstantsInterface: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: StructsWithConstantsInterface, rhs: StructsWithConstantsInterface) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
