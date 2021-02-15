@@ -122,6 +122,7 @@ function(_prepare_gluecodium_config_file file_path)
   # TODO: Isn't it obsolete parameter?
   _append_boolean_value(cache ON)
   _append_boolean_value(validate "${GLUECODIUM_VALIDATE_ONLY}")
+  _append_boolean_value(swiftexpose "${GLUECODIUM_SWIFT_EXPOSE_INTERNALS}")
 
   _append_list_option(generators GLUECODIUM_GENERATORS)
   _append_list_option(werror GLUECODIUM_WERROR)
