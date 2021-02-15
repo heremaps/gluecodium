@@ -52,11 +52,11 @@ extension Locales: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension Locales: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: Locales, rhs: Locales) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }

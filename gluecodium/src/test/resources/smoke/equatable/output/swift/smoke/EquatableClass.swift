@@ -45,11 +45,11 @@ extension EquatableClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 extension EquatableClass: Hashable {
-    // :nodoc:
+    /// :nodoc:
     public static func == (lhs: EquatableClass, rhs: EquatableClass) -> Bool {
         return smoke_EquatableClass_equal(lhs.c_handle, rhs.c_handle)
     }
-    // :nodoc:
+    /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(smoke_EquatableClass_hash(c_handle))
     }
