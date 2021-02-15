@@ -273,8 +273,10 @@ additional_commands = {
   },
   'gluecodium_target_add_module_modulemap': {
     'pargs': 1,
+    'flags': ['REMOVE_AFTER_BUILD'],
     'kwargs': {
-      'OUTPUT_DIR': 1
+      'OUTPUT_DIR': 1,
+      'RESULT_DIR_VARIABLE': 1
     }
   },
   'gluecodium_target_link_frameworks': {
