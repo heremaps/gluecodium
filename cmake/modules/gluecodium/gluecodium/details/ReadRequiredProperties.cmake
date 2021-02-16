@@ -37,21 +37,28 @@ function(gluecodium_read_required_properties _target)
   cmake_parse_arguments(_args "" "${_single_value}" "" ${ARGN})
   gluecodium_check_no_unparsed_arguments(_args gluecodium_read_required_properties)
 
+  if (NOT TARGET ${_target})
+    message(FATAL_ERROR "Specified target '${_target}' doesn't exist")
+  endif()
+
   set(GLUECODIUM_SUPPORTED_GENERATORS cpp android swift dart)
 
-  get_target_property(_gluecodium_source_sets ${_target} GLUECODIUM_SOURCE_SETS)
-  get_target_property(_gluecodium_generators ${_target} GLUECODIUM_GENERATORS)
-  get_target_property(_gluecodium_output_dir ${_target} GLUECODIUM_OUTPUT_DIR)
-
-  foreach(_required_property "${_gluecodium_source_sets}" "${_gluecodium_generators}"
-                             "${_gluecodium_output_dir}")
-    if(NOT _required_property)
+  function(_read_required_property result _target property_name)
+    get_target_property(_property_value ${_target} ${property_name})
+    if(NOT _property_value)
       message(
         FATAL_ERROR
-          "Property ${_required_property} is undefined, please call gluecodium_add_generate_command before"
+          "Property '${property_name}' is undefined for target '${_target}', "
+          "please call gluecodium_add_generate_command or gluecodium_generate before"
       )
     endif()
-  endforeach()
+    set(${result} ${_property_value} PARENT_SCOPE)
+
+  endfunction()
+
+  _read_required_property(_gluecodium_source_sets ${_target} GLUECODIUM_SOURCE_SETS)
+  _read_required_property(_gluecodium_generators ${_target} GLUECODIUM_GENERATORS)
+  _read_required_property(_gluecodium_output_dir ${_target} GLUECODIUM_OUTPUT_DIR)
 
   foreach(_generator ${_gluecodium_generators})
     if(NOT _generator IN_LIST GLUECODIUM_SUPPORTED_GENERATORS)

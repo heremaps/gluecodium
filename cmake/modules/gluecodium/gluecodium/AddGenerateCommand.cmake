@@ -235,6 +235,7 @@ function(_gluecodium_construct_output_folder result _target)
     return()
   endif()
 
+  unset(_output_dir)
   _gluecodium_get_default_value_for_variable(_output_dir GLUECODIUM_OUTPUT_DIR)
   if(_output_dir)
     set(${result} "${_output_dir}" PARENT_SCOPE)
