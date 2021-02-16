@@ -28,10 +28,10 @@ set_target_properties(
   ModuleWithMainAndCommon
   PROPERTIES FRAMEWORK TRUE MACOSX_FRAMEWORK_IDENTIFIER gluecodium.common.main.test
 
-             XCODE_ATTRIBUTE_DEFINES_MODULE YES)
+             GLUECODIUM_SWIFT_EXPOSE_INTERNALS ON XCODE_ATTRIBUTE_DEFINES_MODULE YES)
 
-if(TEST_OUTPUT_NAME)
-  set_target_properties(ModuleWithMainAndCommon PROPERTIES OUTPUT_NAME ${TEST_OUTPUT_NAME})
+if(TEST_OUTPUT_CUSTOM_NAME)
+  set_target_properties(ModuleWithMainAndCommon PROPERTIES OUTPUT_NAME CustomName)
 endif()
 
 # MAIN
@@ -52,7 +52,13 @@ gluecodium_target_link_frameworks(ModuleWithMainOnly FRAMEWORKS ModuleWithMainAn
                                   COMMON_FRAMEWORK ModuleWithMainAndCommon)
 
 # Check that generated Swift is compiled in the framework 'ModuleWithMainAndCommon'
-add_library(ModuleUseMainOnly SHARED "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar.swift")
+add_library(ModuleUseMainOnly SHARED)
+if(TEST_OUTPUT_CUSTOM_NAME)
+  set(_user_bar_swift "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar_custom.swift")
+else()
+  set(_user_bar_swift "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar.swift")
+endif()
+target_sources(ModuleUseMainOnly PRIVATE ${_user_bar_swift})
 add_dependencies(ModuleUseMainOnly ModuleWithMainOnly)
 target_link_libraries(ModuleUseMainOnly PRIVATE ModuleWithMainOnly)
 

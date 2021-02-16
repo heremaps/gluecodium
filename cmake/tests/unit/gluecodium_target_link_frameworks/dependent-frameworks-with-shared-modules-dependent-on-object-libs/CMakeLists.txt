@@ -21,6 +21,7 @@ add_library(ObjectWithMainAndCommon OBJECT)
 gluecodium_generate(ObjectWithMainAndCommon GENERATORS cpp swift)
 gluecodium_target_lime_sources(ObjectWithMainAndCommon
                                PUBLIC "${CMAKE_CURRENT_LIST_DIR}/lime/common_main_foo.lime")
+set_target_properties(ObjectWithMainAndCommon PROPERTIES GLUECODIUM_SWIFT_EXPOSE_INTERNALS ON)
 
 add_library(ModuleWithMainAndCommon SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/CommonMainFooImpl.cpp")
 target_link_libraries(ModuleWithMainAndCommon PUBLIC ObjectWithMainAndCommon)
@@ -34,8 +35,8 @@ set_target_properties(
 gluecodium_target_swift_sources(ModuleWithMainAndCommon COLLECT_FROM_DEPENDENCIES
                                 ADD_MODULE_MODULEMAP)
 
-if(TEST_OUTPUT_NAME)
-  set_target_properties(ModuleWithMainAndCommon PROPERTIES OUTPUT_NAME ${TEST_OUTPUT_NAME})
+if(TEST_OUTPUT_CUSTOM_NAME)
+  set_target_properties(ModuleWithMainAndCommon PROPERTIES OUTPUT_NAME CustomName)
 endif()
 
 # MAIN
@@ -54,13 +55,37 @@ set_target_properties(
   PROPERTIES FRAMEWORK TRUE MACOSX_FRAMEWORK_IDENTIFIER gluecodium.main.test
 
              XCODE_ATTRIBUTE_DEFINES_MODULE YES)
+
 gluecodium_target_swift_sources(ModuleWithMainOnly COLLECT_FROM_DEPENDENCIES ADD_MODULE_MODULEMAP)
+get_target_property(_main_only_swift_sources ModuleWithMainOnly GLUECODIUM_SWIFT)
+if(GLUECODIUM_DONT_USE_TARGET_GENEX_EVAL)
+  test_expect_strequal_lists(
+    EXPECTED
+      "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/ObjectWithMainOnly/cpp-swift/unity/swift/ObjectWithMainOnly_main_glue.swift"
+    ACTUAL ${_main_only_swift_sources}
+    MESSAGE "When Swift sources are collected then they should belong only to the current target")
+else()
+  test_expect_strequal_lists(
+    EXPECTED
+      "$<TARGET_GENEX_EVAL:ModuleWithMainOnly,$<TARGET_PROPERTY:ObjectWithMainOnly,GLUECODIUM_SWIFT>>"
+    ACTUAL ${_main_only_swift_sources}
+    MESSAGE "When Swift sources are collected then they should belong only to the current target")
+endif()
 
 gluecodium_target_link_frameworks(ModuleWithMainOnly FRAMEWORKS ModuleWithMainAndCommon
                                   COMMON_FRAMEWORK ModuleWithMainAndCommon)
 
 # Check that generated Swift is compiled in the framework 'ModuleWithMainAndCommon'
-add_library(ModuleUseMainOnly SHARED "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar.swift")
+add_library(ModuleUseMainOnly SHARED)
+
+if(TEST_OUTPUT_CUSTOM_NAME)
+  set(_user_bar_swift "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar_custom.swift")
+else()
+  set(_user_bar_swift "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar.swift")
+endif()
+
+target_sources(ModuleUseMainOnly PRIVATE ${_user_bar_swift})
+
 add_dependencies(ModuleUseMainOnly ModuleWithMainOnly)
 target_link_libraries(ModuleUseMainOnly PRIVATE ModuleWithMainOnly)
 

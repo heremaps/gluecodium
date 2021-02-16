@@ -4,6 +4,6 @@ import ModuleWithMainOnly
 class UseFoo {
   public init() {
     let foo = CommonMainFoo()
-    let _ = MainBar(foo: foo)
+    let bar = MainBar(foo: foo)
   }
 }

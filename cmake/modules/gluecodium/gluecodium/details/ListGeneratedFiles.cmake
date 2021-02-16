@@ -26,20 +26,22 @@ function(gluecodium_list_generated_files _target)
   gluecodium_check_no_unparsed_arguments(_args gluecodium_list_generated_files)
 
   unset(_source_sets)
-  if(MAIN)
+  if(_args_MAIN)
     list(APPEND _source_sets MAIN)
   endif()
 
-  if(COMMON)
+  if(_args_COMMON)
     list(APPEND _source_sets COMMON)
   endif()
 
+  gluecodium_read_required_properties(
+    ${_target}
+    SOURCE_SETS _source_sets_from_properties
+    GENERATORS _generators
+    OUTPUT_UNITY_DIR _unity_dir)
+
   if(NOT _source_sets)
-    gluecodium_read_required_properties(
-      ${_target}
-      SOURCE_SETS _source_sets
-      GENERATORS _generators
-      OUTPUT_UNITY_DIR _unity_dir)
+    set(_source_sets ${_source_sets_from_properties})
   endif()
 
   gluecodium_init_variables_with_united_file_paths(${_target})

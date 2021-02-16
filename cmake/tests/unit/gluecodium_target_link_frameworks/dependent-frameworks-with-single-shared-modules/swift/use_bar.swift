@@ -1,3 +1,4 @@
+import ModuleWithMainAndCommon
 import ModuleWithMainOnly
 
 class UseFoo {
