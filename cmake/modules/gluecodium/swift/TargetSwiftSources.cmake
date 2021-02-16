@@ -83,7 +83,9 @@ function(gluecodium_target_swift_sources _target)
   endforeach()
 
   if(_args_ADD_MODULE_MODULEMAP)
-    gluecodium_target_add_module_modulemap(${_target})
+    gluecodium_target_add_module_modulemap(${_target} RESULT_DIR_VARIABLE _underlying_dir
+                                           REMOVE_AFTER_BUILD)
+    target_include_directories(${_target} PRIVATE ${_underlying_dir})
   endif()
 
   if(_args_SWIFT_FILES)

@@ -60,7 +60,16 @@ function(gluecodium_target_copy_swift_sources target_dst target_src)
   set_property(TARGET ${target_dst} APPEND PROPERTY GLUECODIUM_BRIDGING_HEADERS
                                                     "${_bridging_header_src_property}")
 
-  _gluecodium_set_framework_swift_sources(${target_dst})
+  get_target_property(_type ${target_dst} TYPE)
+  if(_type STREQUAL "EXECUTABLE" OR (_type STREQUAL "SHARED_LIBRARY" AND CMAKE_GENERATOR STREQUAL
+                                                                         Ninja))
+    target_sources(
+      ${target_dst}
+      PRIVATE "$<TARGET_GENEX_EVAL:${target_dst},$<TARGET_PROPERTY:${target_dst},GLUECODIUM_SWIFT>>"
+    )
+  else()
+    _gluecodium_set_framework_swift_sources(${target_dst})
+  endif()
 endfunction()
 
 function(_gluecodium_swift_get_property_or_expression result _target property_name)
