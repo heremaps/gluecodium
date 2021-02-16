@@ -63,6 +63,8 @@ function(gluecodium_target_generated_sources _target)
   gluecodium_read_required_properties(${_target} OUTPUT_DIR _output_dir GENERATORS _generators)
 
   if(swift IN_LIST _generators)
+    get_target_property(_type ${_target} TYPE)
+
     _gluecodium_is_framework_expression(_is_framework_expression ${_target})
 
     if(_generated_swift)
@@ -70,16 +72,25 @@ function(gluecodium_target_generated_sources _target)
     endif()
 
     set(_swift_property "$<TARGET_PROPERTY:${_target},GLUECODIUM_SWIFT>")
-    target_sources(${_target} PRIVATE "$<${_is_framework_expression}:${_swift_property}>")
+    if(_type STREQUAL "EXECUTABLE")
+      target_sources(${_target} PRIVATE "${_swift_property}")
+    else()
+      target_sources(${_target} PRIVATE "$<${_is_framework_expression}:${_swift_property}>")
+    endif()
 
     if(_generated_bridging_headers)
       set_property(TARGET ${_target} APPEND PROPERTY GLUECODIUM_BRIDGING_HEADERS
                                                      ${_generated_bridging_headers})
     endif()
 
-    get_target_property(_type ${_target} TYPE)
-    if(_type STREQUAL "SHARED_LIBRARY" OR _type STREQUAL "STATIC_LIBRARY")
-      gluecodium_target_add_module_modulemap(${_target} OUTPUT_DIR "${_output_dir}")
+    if((_type STREQUAL "SHARED_LIBRARY") OR (_type STREQUAL "STATIC_LIBRARY") OR (_type STREQUAL
+                                                                                  "EXECUTABLE"))
+      gluecodium_target_add_module_modulemap(
+        ${_target}
+        OUTPUT_DIR "${_output_dir}"
+        RESULT_DIR_VARIABLE _underlying_dir
+        REMOVE_AFTER_BUILD)
+      target_include_directories(${_target} PRIVATE ${_underlying_dir})
     endif()
 
     # TODO: Check CMake < 3.20.0
