@@ -60,10 +60,6 @@ function(gluecodium_get_linked_targets_rec result visited_targets _target only_s
       if(_linked_type STREQUAL "SHARED_LIBRARY" OR _framework)
         continue()
       endif()
-
-      if(_target_type STREQUAL "OBJECT_LIBRARY" AND _linked_type STREQUAL "OBJECT_LIBRARY")
-        continue()
-      endif()
     endif()
 
     list(APPEND _lib_targets ${_linked_lib})
