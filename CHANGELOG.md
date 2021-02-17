@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.9.2
+Release date: 2021-02-17
+### Bug fixes:
+  * Fixed output directory deduction in CMake toolchain.
+
 ## 8.9.1
 Release date: 2021-02-16
 ### Bug fixes:
