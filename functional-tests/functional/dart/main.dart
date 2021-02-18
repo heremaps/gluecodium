@@ -18,6 +18,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+import 'dart:io';
+import 'package:functional/src/_library_context.dart' as __lib;
+
 import "test/Blobs_test.dart" as BlobsTests;
 import "test/CallbacksMultithreaded_test.dart" as CallbacksMultithreadedTests;
 import "test/Classes_test.dart" as ClassesTests;
@@ -61,7 +64,6 @@ import "test/StructsWithMethods_test.dart" as StructsWithMethodsTests;
 
 final _allTests = [
   BlobsTests.main,
-  CallbacksMultithreadedTests.main,
   ClassesTests.main,
   ConstantsTests.main,
   CppConstMethodsTests.main,
@@ -102,6 +104,18 @@ final _allTests = [
   StructsWithMethodsTests.main
 ];
 
-void main() {
+String _getLibraryPath(String nativeLibraryName) {
+  if (Platform.isWindows) return 'lib${nativeLibraryName}.dll';
+  if (Platform.isMacOS || Platform.isIOS) return 'lib${nativeLibraryName}.dylib';
+  return 'lib${nativeLibraryName}.so';
+}
+
+void main(List<String> arguments) {
+  final libraryName = arguments.isEmpty ? _getLibraryPath('functional') : arguments[0];
+
+  __lib.LibraryContext.init(__lib.IsolateOrigin.main, nativeLibraryPath: libraryName);
   _allTests.forEach((testCase) => testCase());
+  __lib.LibraryContext.release();
+
+  CallbacksMultithreadedTests.main(libraryName);
 }

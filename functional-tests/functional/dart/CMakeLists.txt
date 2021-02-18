@@ -50,5 +50,9 @@ add_custom_target(test_dart ALL
     DEPENDS functional
     COMMAND_EXPAND_LISTS)
 
-install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/test_dart"
-        DESTINATION bin)
+add_test(NAME test_dart COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test_dart $<TARGET_FILE:functional>)
+
+if(BUILD_DART_WITH_ASAN)
+    set_tests_properties(test_dart PROPERTIES
+        ENVIRONMENT "LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libasan.so.4")
+endif()

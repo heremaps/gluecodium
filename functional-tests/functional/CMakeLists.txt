@@ -528,12 +528,6 @@ elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL dart)
         "${CMAKE_CURRENT_BINARY_DIR}/functional/dart/dart/lib/src/skip_me_too.dart"
         COPYONLY)
 
-    # Install the shared library for Dart
-    install(TARGETS functional EXPORT functionalTargets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        INCLUDES DESTINATION functional)
-
     if(BUILD_DART_WITH_ASAN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=leak")
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address -fsanitize=leak")
