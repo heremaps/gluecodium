@@ -46,9 +46,9 @@ class ThreadedListenerImpl implements ThreadedListener {
   void release() {}
 }
 
-void main() {
+void main(String library_name) {
   setUp(() {
-    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: "libfunctional.so");
+    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: library_name);
   });
   tearDown(() {
     LibraryContext.release();

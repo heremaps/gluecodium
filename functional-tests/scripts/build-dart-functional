@@ -38,7 +38,6 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --asan)
-            USE_ASAN=true
             CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} -DBUILD_DART_WITH_ASAN=ON"
             shift
             ;;
@@ -60,12 +59,6 @@ INSTALL_DIR=${PWD}/dist/dart
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 [ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
 
-# Chose platform-native CMake generator
-if [ "$(cmake_generator)" ] ; then
-CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
-    -G $(cmake_generator)"
-fi
-
 set -x
 CWD=${PWD}
 pushd "${BUILD_DIR}"
@@ -83,21 +76,13 @@ safe cmake \
     -DFUNCTIONAL_GLUECODIUM_GENERATOR=dart \
     -DFUNCTIONAL_GLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
     -DFUNCTIONAL_BUILD_DART_TESTS=ON \
+    -G Ninja \
     ${CMAKE_EXTRA_PARAMETERS} \
     .. > "$tmppipe"
 popd
 
-safe cmake \
-    --build "${BUILD_DIR}" \
-    --target install
+safe cmake --build "${BUILD_DIR}"
 
-LIBRARY_PATH="${INSTALL_DIR}/lib"
-TEST_EXECUTABLE="./bin/test_dart"
-
-pushd "${INSTALL_DIR}"
-if [ "$USE_ASAN" = true ]; then
-    LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libasan.so.4" LD_LIBRARY_PATH=$LIBRARY_PATH exec $TEST_EXECUTABLE
-else
-    LD_LIBRARY_PATH=$LIBRARY_PATH exec $TEST_EXECUTABLE
-fi
+pushd "${BUILD_DIR}"
+ctest --verbose
 popd
