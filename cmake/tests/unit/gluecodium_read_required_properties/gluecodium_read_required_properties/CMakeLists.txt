@@ -30,68 +30,71 @@ add_library(cpp.main.common SHARED EXCLUDE_FROM_ALL )
 gluecodium_generate(cpp.main.common GENERATORS cpp)
 
 gluecodium_read_required_properties(
-    cpp.main.common
-    GENERATORS _generators
-    SOURCE_SETS _source_sets
-    OUTPUT_DIR _output_dir
-    OUTPUT_MAIN_DIR _output_main_dir
-    OUTPUT_COMMON_DIR _output_common_dir
-    OUTPUT_BUILD_DIR _output_build_dir)
+  cpp.main.common
+  GENERATORS _generators
+  SOURCE_SETS _source_sets
+  OUTPUT_DIR _output_dir
+  OUTPUT_MAIN_DIR _output_main_dir
+  OUTPUT_COMMON_DIR _output_common_dir
+  OUTPUT_BUILD_DIR _output_build_dir)
 
 test_expect_strequal_lists(EXPECTED "cpp" ACTUAL ${_generators})
 test_expect_strequal_lists(EXPECTED "MAIN" "COMMON" ACTUAL ${_source_sets})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main.common/cpp"
-    ACTUAL ${_output_dir})
+                     ACTUAL ${_output_dir})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main.common/cpp/main"
-    ACTUAL ${_output_main_dir})
+                     ACTUAL ${_output_main_dir})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main.common/cpp/common"
-    ACTUAL ${_output_common_dir})
+                     ACTUAL ${_output_common_dir})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main.common/cpp/build"
-    ACTUAL ${_output_build_dir})
+                     ACTUAL ${_output_build_dir})
 
-
-unset_all (_generators _source_sets _output_dir _output_main_dir _output_common_dir _output_build_dir)
+unset_all(_generators _source_sets _output_dir _output_main_dir _output_common_dir
+          _output_build_dir)
 add_library(cpp.main SHARED EXCLUDE_FROM_ALL )
 gluecodium_generate(cpp.main GENERATORS cpp MAIN_ONLY)
 gluecodium_read_required_properties(
-    cpp.main
-    GENERATORS _generators
-    SOURCE_SETS _source_sets
-    OUTPUT_DIR _output_dir
-    OUTPUT_MAIN_DIR _output_main_dir
-    OUTPUT_COMMON_DIR _output_common_dir
-    OUTPUT_BUILD_DIR _output_build_dir)
+  cpp.main
+  GENERATORS _generators
+  SOURCE_SETS _source_sets
+  OUTPUT_DIR _output_dir
+  OUTPUT_MAIN_DIR _output_main_dir
+  OUTPUT_COMMON_DIR _output_common_dir
+  OUTPUT_BUILD_DIR _output_build_dir)
 
 test_expect_strequal_lists(EXPECTED "cpp" ACTUAL ${_generators})
 test_expect_strequal_lists(EXPECTED "MAIN" ACTUAL ${_source_sets})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main/cpp"
-    ACTUAL ${_output_dir})
+                     ACTUAL ${_output_dir})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main/cpp/main"
-    ACTUAL ${_output_main_dir})
+                     ACTUAL ${_output_main_dir})
 test_expect_false(CONDITION DEFINED _output_common_dir)
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main/cpp/build"
-    ACTUAL ${_output_build_dir})
+                     ACTUAL ${_output_build_dir})
 
-
-unset_all (_generators _source_sets _output_dir _output_main_dir _output_common_dir _output_build_dir)
+unset_all(_generators _source_sets _output_dir _output_main_dir _output_common_dir
+          _output_build_dir)
 add_library(cpp.dart.main.common SHARED EXCLUDE_FROM_ALL )
 gluecodium_generate(cpp.dart.main.common GENERATORS cpp dart)
 gluecodium_read_required_properties(
-    cpp.dart.main.common
-    GENERATORS _generators
-    SOURCE_SETS _source_sets
-    OUTPUT_DIR _output_dir
-    OUTPUT_MAIN_DIR _output_main_dir
-    OUTPUT_COMMON_DIR _output_common_dir
-    OUTPUT_BUILD_DIR _output_build_dir)
+  cpp.dart.main.common
+  GENERATORS _generators
+  SOURCE_SETS _source_sets
+  OUTPUT_DIR _output_dir
+  OUTPUT_MAIN_DIR _output_main_dir
+  OUTPUT_COMMON_DIR _output_common_dir
+  OUTPUT_BUILD_DIR _output_build_dir)
 
 test_expect_strequal_lists(EXPECTED "cpp" "dart" ACTUAL ${_generators})
 test_expect_strequal_lists(EXPECTED "MAIN" "COMMON" ACTUAL ${_source_sets})
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart"
-    ACTUAL ${_output_dir})
-test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/main"
-    ACTUAL ${_output_main_dir})
-test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/common"
-    ACTUAL ${_output_common_dir})
-test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/build"
-    ACTUAL ${_output_build_dir})
+                     ACTUAL ${_output_dir})
+test_expect_strequal(
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/main"
+  ACTUAL ${_output_main_dir})
+test_expect_strequal(
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/common"
+  ACTUAL ${_output_common_dir})
+test_expect_strequal(
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/build"
+  ACTUAL ${_output_build_dir})

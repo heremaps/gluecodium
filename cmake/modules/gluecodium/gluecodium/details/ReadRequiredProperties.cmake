@@ -37,7 +37,7 @@ function(gluecodium_read_required_properties _target)
   cmake_parse_arguments(_args "" "${_single_value}" "" ${ARGN})
   gluecodium_check_no_unparsed_arguments(_args gluecodium_read_required_properties)
 
-  if (NOT TARGET ${_target})
+  if(NOT TARGET ${_target})
     message(FATAL_ERROR "Specified target '${_target}' doesn't exist")
   endif()
 
@@ -47,10 +47,8 @@ function(gluecodium_read_required_properties _target)
     get_target_property(_property_value ${_target} ${property_name})
     if(NOT _property_value)
       message(
-        FATAL_ERROR
-          "Property '${property_name}' is undefined for target '${_target}', "
-          "please call gluecodium_add_generate_command or gluecodium_generate before"
-      )
+        FATAL_ERROR "Property '${property_name}' is undefined for target '${_target}', "
+                    "please call gluecodium_add_generate_command or gluecodium_generate before")
     endif()
     set(${result} ${_property_value} PARENT_SCOPE)
 
