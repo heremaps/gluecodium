@@ -20,6 +20,8 @@ if(DEFINED includeguard_gluecodium_TargetIncludeDirectories2)
 endif()
 set(includeguard_gluecodium_TargetIncludeDirectories2 ON)
 
+include(${CMAKE_CURRENT_LIST_DIR}/details/FindPackageHost.cmake)
+
 #[===================================================================================================[.rst:
 Adds include directories with generated sources to a target.
 ----------------------------------------------------------
@@ -89,6 +91,11 @@ function(gluecodium_get_target_include_directories _target)
       find_package(JNI REQUIRED)
       list(APPEND _result_list_private "$<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>")
     endif()
+  endif()
+
+  if(dart IN_LIST _generators)
+    gluecodium_find_package_host(DartLang REQUIRED)
+    list(APPEND _result_list_private $<BUILD_INTERFACE:${DART_LANG_INCLUDE_DIRS}>)
   endif()
 
   if(_args_RESULT_PUBLIC)
