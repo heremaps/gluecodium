@@ -22,6 +22,7 @@ project(gluecodium.test)
 set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
+set(GLUECODIUM_DONT_REQUIRE_DART_INCLUDES ON)
 
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 include(gluecodium/Gluecodium)

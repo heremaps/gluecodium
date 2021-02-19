@@ -74,10 +74,10 @@ test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main/c
 
 unset_all(_generators _source_sets _output_dir _output_main_dir _output_common_dir
           _output_build_dir)
-add_library(cpp.dart.main.common SHARED EXCLUDE_FROM_ALL )
-gluecodium_generate(cpp.dart.main.common GENERATORS cpp dart)
+add_library(cpp.android.main.common SHARED EXCLUDE_FROM_ALL )
+gluecodium_generate(cpp.android.main.common GENERATORS cpp android)
 gluecodium_read_required_properties(
-  cpp.dart.main.common
+  cpp.android.main.common
   GENERATORS _generators
   SOURCE_SETS _source_sets
   OUTPUT_DIR _output_dir
@@ -85,16 +85,17 @@ gluecodium_read_required_properties(
   OUTPUT_COMMON_DIR _output_common_dir
   OUTPUT_BUILD_DIR _output_build_dir)
 
-test_expect_strequal_lists(EXPECTED "cpp" "dart" ACTUAL ${_generators})
+test_expect_strequal_lists(EXPECTED "android" "cpp" ACTUAL ${_generators})
 test_expect_strequal_lists(EXPECTED "MAIN" "COMMON" ACTUAL ${_source_sets})
-test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart"
-                     ACTUAL ${_output_dir})
 test_expect_strequal(
-  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/main"
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.android.main.common/android-cpp"
+  ACTUAL ${_output_dir})
+test_expect_strequal(
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.android.main.common/android-cpp/main"
   ACTUAL ${_output_main_dir})
 test_expect_strequal(
-  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/common"
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.android.main.common/android-cpp/common"
   ACTUAL ${_output_common_dir})
 test_expect_strequal(
-  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.dart.main.common/cpp-dart/build"
+  EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.android.main.common/android-cpp/build"
   ACTUAL ${_output_build_dir})
