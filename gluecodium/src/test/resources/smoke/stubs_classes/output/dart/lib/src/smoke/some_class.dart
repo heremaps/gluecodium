@@ -35,14 +35,13 @@ class SomeClass$Impl implements SomeClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_SomeClass_release_handle(handle);
     handle = null;
   }
   SomeClass fooBar() {
     final result = SomeClass$Impl(_fooBar());
-    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(result));
+    __lib.cacheInstance(handle, result);
     return result;
   }
   Pointer<Void> _fooBar() {
@@ -118,13 +117,11 @@ class SomeClass$Impl implements SomeClass {
 Pointer<Void> smoke_SomeClass_toFfi(SomeClass value) =>
   _smoke_SomeClass_copy_handle((value as SomeClass$Impl).handle);
 SomeClass smoke_SomeClass_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SomeClass;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SomeClass) return instance as SomeClass;
   final _copied_handle = _smoke_SomeClass_copy_handle(handle);
   final result = SomeClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_SomeClass_releaseFfiHandle(Pointer<Void> handle) =>

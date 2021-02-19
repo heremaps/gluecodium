@@ -757,8 +757,7 @@ class Structs$Impl implements Structs {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_Structs_release_handle(handle);
     handle = null;
   }
@@ -812,13 +811,11 @@ class Structs$Impl implements Structs {
 Pointer<Void> smoke_Structs_toFfi(Structs value) =>
   _smoke_Structs_copy_handle((value as Structs$Impl).handle);
 Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Structs;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Structs) return instance as Structs;
   final _copied_handle = _smoke_Structs_copy_handle(handle);
   final result = Structs$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>

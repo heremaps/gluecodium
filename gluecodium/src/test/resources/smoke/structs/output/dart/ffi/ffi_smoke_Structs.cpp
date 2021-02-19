@@ -1,6 +1,5 @@
 #include "ffi_smoke_Structs.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"

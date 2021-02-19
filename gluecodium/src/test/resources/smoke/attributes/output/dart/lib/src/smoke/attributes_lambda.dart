@@ -16,8 +16,8 @@ final _smoke_AttributesLambda_release_handle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_AttributesLambda_release_handle'));
 final _smoke_AttributesLambda_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AttributesLambda_create_proxy'));
 class AttributesLambda$Impl {
   Pointer<Void> get _handle => handle;
@@ -35,19 +35,19 @@ class AttributesLambda$Impl {
     }
   }
 }
-int _AttributesLambda_call_static(int _token) {
+int _AttributesLambda_call_static(Object _obj) {
   try {
-    (__lib.instanceCache[_token] as AttributesLambda)();
+    (_obj as AttributesLambda)();
   } finally {
   }
   return 0;
 }
 Pointer<Void> smoke_AttributesLambda_toFfi(AttributesLambda value) {
   final result = _smoke_AttributesLambda_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64)>(_AttributesLambda_call_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Int64 Function(Handle)>(_AttributesLambda_call_static, __lib.unknownError)
   );
   return result;
 }

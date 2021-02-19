@@ -29,8 +29,7 @@ class SimpleClass$Impl implements SimpleClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_SimpleClass_release_handle(handle);
     handle = null;
   }
@@ -62,13 +61,11 @@ class SimpleClass$Impl implements SimpleClass {
 Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
   _smoke_SimpleClass_copy_handle((value as SimpleClass$Impl).handle);
 SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SimpleClass;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SimpleClass) return instance as SimpleClass;
   final _copied_handle = _smoke_SimpleClass_copy_handle(handle);
   final result = SimpleClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) =>

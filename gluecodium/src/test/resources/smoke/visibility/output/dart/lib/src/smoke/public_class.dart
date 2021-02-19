@@ -304,8 +304,7 @@ class PublicClass$Impl implements PublicClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_PublicClass_release_handle(handle);
     handle = null;
   }
@@ -374,13 +373,11 @@ class PublicClass$Impl implements PublicClass {
 Pointer<Void> smoke_PublicClass_toFfi(PublicClass value) =>
   _smoke_PublicClass_copy_handle((value as PublicClass$Impl).handle);
 PublicClass smoke_PublicClass_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as PublicClass;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is PublicClass) return instance as PublicClass;
   final _copied_handle = _smoke_PublicClass_copy_handle(handle);
   final result = PublicClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_PublicClass_releaseFfiHandle(Pointer<Void> handle) =>

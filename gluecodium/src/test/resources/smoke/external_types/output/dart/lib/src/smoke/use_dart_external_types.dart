@@ -36,8 +36,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_UseDartExternalTypes_release_handle(handle);
     handle = null;
   }
@@ -89,13 +88,11 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
 Pointer<Void> smoke_UseDartExternalTypes_toFfi(UseDartExternalTypes value) =>
   _smoke_UseDartExternalTypes_copy_handle((value as UseDartExternalTypes$Impl).handle);
 UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseDartExternalTypes;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is UseDartExternalTypes) return instance as UseDartExternalTypes;
   final _copied_handle = _smoke_UseDartExternalTypes_copy_handle(handle);
   final result = UseDartExternalTypes$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_UseDartExternalTypes_releaseFfiHandle(Pointer<Void> handle) =>

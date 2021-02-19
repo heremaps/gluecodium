@@ -30,8 +30,7 @@ class InternalClass$Impl implements InternalClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_InternalClass_release_handle(handle);
     handle = null;
   }
@@ -50,13 +49,11 @@ class InternalClass$Impl implements InternalClass {
 Pointer<Void> smoke_InternalClass_toFfi(InternalClass value) =>
   _smoke_InternalClass_copy_handle((value as InternalClass$Impl).handle);
 InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalClass;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is InternalClass) return instance as InternalClass;
   final _copied_handle = _smoke_InternalClass_copy_handle(handle);
   final result = InternalClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_InternalClass_releaseFfiHandle(Pointer<Void> handle) =>

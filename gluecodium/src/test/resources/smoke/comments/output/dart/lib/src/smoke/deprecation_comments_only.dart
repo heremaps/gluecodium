@@ -163,8 +163,8 @@ final _smoke_DeprecationCommentsOnly_release_handle = __lib.catchArgumentError((
     void Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_release_handle'));
 final _smoke_DeprecationCommentsOnly_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_DeprecationCommentsOnly_create_proxy'));
 final _smoke_DeprecationCommentsOnly_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -195,8 +195,7 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_DeprecationCommentsOnly_release_handle(handle);
     handle = null;
   }
@@ -238,23 +237,23 @@ class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
     }
   }
 }
-int _DeprecationCommentsOnly_someMethodWithAllComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _DeprecationCommentsOnly_someMethodWithAllComments_static(Object _obj, Pointer<Void> input, Pointer<Uint8> _result) {
   bool _result_object = null;
   try {
-    _result_object = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(String_fromFfi(input));
+    _result_object = (_obj as DeprecationCommentsOnly).someMethodWithAllComments(String_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
   } finally {
     String_releaseFfiHandle(input);
   }
   return 0;
 }
-int _DeprecationCommentsOnly_isSomeProperty_get_static(int _token, Pointer<Uint8> _result) {
-  _result.value = Boolean_toFfi((__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty);
+int _DeprecationCommentsOnly_isSomeProperty_get_static(Object _obj, Pointer<Uint8> _result) {
+  _result.value = Boolean_toFfi((_obj as DeprecationCommentsOnly).isSomeProperty);
   return 0;
 }
-int _DeprecationCommentsOnly_isSomeProperty_set_static(int _token, int _value) {
+int _DeprecationCommentsOnly_isSomeProperty_set_static(Object _obj, int _value) {
   try {
-    (__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty =
+    (_obj as DeprecationCommentsOnly).isSomeProperty =
       Boolean_fromFfi(_value);
   } finally {
     Boolean_releaseFfiHandle(_value);
@@ -264,20 +263,18 @@ int _DeprecationCommentsOnly_isSomeProperty_set_static(int _token, int _value) {
 Pointer<Void> smoke_DeprecationCommentsOnly_toFfi(DeprecationCommentsOnly value) {
   if (value is DeprecationCommentsOnly$Impl) return _smoke_DeprecationCommentsOnly_copy_handle(value.handle);
   final result = _smoke_DeprecationCommentsOnly_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationCommentsOnly_someMethodWithAllComments_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_DeprecationCommentsOnly_isSomeProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_DeprecationCommentsOnly_isSomeProperty_set_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_DeprecationCommentsOnly_someMethodWithAllComments_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_DeprecationCommentsOnly_isSomeProperty_get_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_DeprecationCommentsOnly_isSomeProperty_set_static, __lib.unknownError)
   );
   return result;
 }
 DeprecationCommentsOnly smoke_DeprecationCommentsOnly_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as DeprecationCommentsOnly;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is DeprecationCommentsOnly) return instance as DeprecationCommentsOnly;
   final _type_id_handle = _smoke_DeprecationCommentsOnly_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -285,7 +282,7 @@ DeprecationCommentsOnly smoke_DeprecationCommentsOnly_fromFfi(Pointer<Void> hand
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : DeprecationCommentsOnly$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_DeprecationCommentsOnly_releaseFfiHandle(Pointer<Void> handle) =>

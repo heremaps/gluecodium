@@ -32,8 +32,7 @@ class InternalClassWithStaticProperty$Impl implements InternalClassWithStaticPro
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_InternalClassWithStaticProperty_release_handle(handle);
     handle = null;
   }
@@ -61,13 +60,11 @@ class InternalClassWithStaticProperty$Impl implements InternalClassWithStaticPro
 Pointer<Void> smoke_InternalClassWithStaticProperty_toFfi(InternalClassWithStaticProperty value) =>
   _smoke_InternalClassWithStaticProperty_copy_handle((value as InternalClassWithStaticProperty$Impl).handle);
 InternalClassWithStaticProperty smoke_InternalClassWithStaticProperty_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalClassWithStaticProperty;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is InternalClassWithStaticProperty) return instance as InternalClassWithStaticProperty;
   final _copied_handle = _smoke_InternalClassWithStaticProperty_copy_handle(handle);
   final result = InternalClassWithStaticProperty$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_InternalClassWithStaticProperty_releaseFfiHandle(Pointer<Void> handle) =>

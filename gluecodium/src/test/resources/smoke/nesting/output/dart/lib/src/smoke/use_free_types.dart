@@ -47,8 +47,7 @@ class UseFreeTypes$Impl implements UseFreeTypes {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_UseFreeTypes_release_handle(handle);
     handle = null;
   }
@@ -82,13 +81,11 @@ class UseFreeTypes$Impl implements UseFreeTypes {
 Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
   _smoke_UseFreeTypes_copy_handle((value as UseFreeTypes$Impl).handle);
 UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseFreeTypes;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is UseFreeTypes) return instance as UseFreeTypes;
   final _copied_handle = _smoke_UseFreeTypes_copy_handle(handle);
   final result = UseFreeTypes$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_UseFreeTypes_releaseFfiHandle(Pointer<Void> handle) =>

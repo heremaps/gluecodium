@@ -41,8 +41,8 @@ final _smoke_AttributesInterface_release_handle = __lib.catchArgumentError(() =>
     void Function(Pointer<Void>)
   >('library_smoke_AttributesInterface_release_handle'));
 final _smoke_AttributesInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_AttributesInterface_create_proxy'));
 final _smoke_AttributesInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -73,8 +73,7 @@ class AttributesInterface$Impl implements AttributesInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_AttributesInterface_release_handle(handle);
     handle = null;
   }
@@ -116,21 +115,21 @@ class AttributesInterface$Impl implements AttributesInterface {
     }
   }
 }
-int _AttributesInterface_veryFun_static(int _token, Pointer<Void> param) {
+int _AttributesInterface_veryFun_static(Object _obj, Pointer<Void> param) {
   try {
-    (__lib.instanceCache[_token] as AttributesInterface).veryFun(String_fromFfi(param));
+    (_obj as AttributesInterface).veryFun(String_fromFfi(param));
   } finally {
     String_releaseFfiHandle(param);
   }
   return 0;
 }
-int _AttributesInterface_prop_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as AttributesInterface).prop);
+int _AttributesInterface_prop_get_static(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = String_toFfi((_obj as AttributesInterface).prop);
   return 0;
 }
-int _AttributesInterface_prop_set_static(int _token, Pointer<Void> _value) {
+int _AttributesInterface_prop_set_static(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as AttributesInterface).prop =
+    (_obj as AttributesInterface).prop =
       String_fromFfi(_value);
   } finally {
     String_releaseFfiHandle(_value);
@@ -140,20 +139,18 @@ int _AttributesInterface_prop_set_static(int _token, Pointer<Void> _value) {
 Pointer<Void> smoke_AttributesInterface_toFfi(AttributesInterface value) {
   if (value is AttributesInterface$Impl) return _smoke_AttributesInterface_copy_handle(value.handle);
   final result = _smoke_AttributesInterface_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_AttributesInterface_veryFun_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_AttributesInterface_prop_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_AttributesInterface_prop_set_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_AttributesInterface_veryFun_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_AttributesInterface_prop_get_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_AttributesInterface_prop_set_static, __lib.unknownError)
   );
   return result;
 }
 AttributesInterface smoke_AttributesInterface_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is AttributesInterface) return instance as AttributesInterface;
   final _type_id_handle = _smoke_AttributesInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -161,7 +158,7 @@ AttributesInterface smoke_AttributesInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : AttributesInterface$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_AttributesInterface_releaseFfiHandle(Pointer<Void> handle) =>

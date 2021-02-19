@@ -92,8 +92,7 @@ class NestedPackages$Impl implements NestedPackages {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_off_NestedPackages_release_handle(handle);
     handle = null;
   }
@@ -112,13 +111,11 @@ class NestedPackages$Impl implements NestedPackages {
 Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
   _smoke_off_NestedPackages_copy_handle((value as NestedPackages$Impl).handle);
 NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as NestedPackages;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is NestedPackages) return instance as NestedPackages;
   final _copied_handle = _smoke_off_NestedPackages_copy_handle(handle);
   final result = NestedPackages$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_off_NestedPackages_releaseFfiHandle(Pointer<Void> handle) =>

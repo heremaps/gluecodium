@@ -165,8 +165,7 @@ class TypeDefs$Impl implements TypeDefs {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_TypeDefs_release_handle(handle);
     handle = null;
   }
@@ -264,13 +263,11 @@ class TypeDefs$Impl implements TypeDefs {
 Pointer<Void> smoke_TypeDefs_toFfi(TypeDefs value) =>
   _smoke_TypeDefs_copy_handle((value as TypeDefs$Impl).handle);
 TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as TypeDefs;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is TypeDefs) return instance as TypeDefs;
   final _copied_handle = _smoke_TypeDefs_copy_handle(handle);
   final result = TypeDefs$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_TypeDefs_releaseFfiHandle(Pointer<Void> handle) =>

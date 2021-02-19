@@ -145,8 +145,7 @@ class ExternalClass$Impl implements ExternalClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_ExternalClass_release_handle(handle);
     handle = null;
   }
@@ -178,13 +177,11 @@ class ExternalClass$Impl implements ExternalClass {
 Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
   _smoke_ExternalClass_copy_handle((value as ExternalClass$Impl).handle);
 ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ExternalClass;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ExternalClass) return instance as ExternalClass;
   final _copied_handle = _smoke_ExternalClass_copy_handle(handle);
   final result = ExternalClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>

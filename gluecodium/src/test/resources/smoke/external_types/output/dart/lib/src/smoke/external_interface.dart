@@ -148,8 +148,8 @@ final _smoke_ExternalInterface_release_handle = __lib.catchArgumentError(() => _
     void Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_release_handle'));
 final _smoke_ExternalInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_ExternalInterface_create_proxy'));
 final _smoke_ExternalInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -176,8 +176,7 @@ class ExternalInterface$Impl implements ExternalInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_ExternalInterface_release_handle(handle);
     handle = null;
   }
@@ -205,34 +204,32 @@ class ExternalInterface$Impl implements ExternalInterface {
     }
   }
 }
-int _ExternalInterface_someMethod_static(int _token, int someParameter) {
+int _ExternalInterface_someMethod_static(Object _obj, int someParameter) {
   try {
-    (__lib.instanceCache[_token] as ExternalInterface).someMethod((someParameter));
+    (_obj as ExternalInterface).someMethod((someParameter));
   } finally {
     (someParameter);
   }
   return 0;
 }
-int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as ExternalInterface).someProperty);
+int _ExternalInterface_someProperty_get_static(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = String_toFfi((_obj as ExternalInterface).someProperty);
   return 0;
 }
 Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
   if (value is ExternalInterface$Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
   final result = _smoke_ExternalInterface_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Int8)>(_ExternalInterface_someMethod_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_ExternalInterface_someProperty_get_static, __lib.unknownError)
   );
   return result;
 }
 ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ExternalInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ExternalInterface) return instance as ExternalInterface;
   final _type_id_handle = _smoke_ExternalInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -240,7 +237,7 @@ ExternalInterface smoke_ExternalInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ExternalInterface$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_ExternalInterface_releaseFfiHandle(Pointer<Void> handle) =>

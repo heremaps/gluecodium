@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -35,11 +36,11 @@ _GLUECODIUM_FFI_EXPORT void library_smoke_Lambdas_NullableConfuser_release_handl
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_NullableConfuser_create_handle_nullable(FfiOpaqueHandle value);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Lambdas_NullableConfuser_release_handle_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_NullableConfuser_get_value_nullable(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Producer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Confuser_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Consumer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Indexer_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_NullableConfuser_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Producer_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Confuser_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Consumer_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Indexer_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_NullableConfuser_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
 #ifdef __cplusplus
 }
 #endif

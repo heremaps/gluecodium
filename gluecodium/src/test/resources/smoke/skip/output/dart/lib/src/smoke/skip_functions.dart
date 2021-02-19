@@ -29,8 +29,7 @@ class SkipFunctions$Impl implements SkipFunctions {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_SkipFunctions_release_handle(handle);
     handle = null;
   }
@@ -60,13 +59,11 @@ class SkipFunctions$Impl implements SkipFunctions {
 Pointer<Void> smoke_SkipFunctions_toFfi(SkipFunctions value) =>
   _smoke_SkipFunctions_copy_handle((value as SkipFunctions$Impl).handle);
 SkipFunctions smoke_SkipFunctions_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipFunctions;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SkipFunctions) return instance as SkipFunctions;
   final _copied_handle = _smoke_SkipFunctions_copy_handle(handle);
   final result = SkipFunctions$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_SkipFunctions_releaseFfiHandle(Pointer<Void> handle) =>

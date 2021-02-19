@@ -36,8 +36,7 @@ class AttributesClass$Impl implements AttributesClass {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_AttributesClass_release_handle(handle);
     handle = null;
   }
@@ -84,13 +83,11 @@ class AttributesClass$Impl implements AttributesClass {
 Pointer<Void> smoke_AttributesClass_toFfi(AttributesClass value) =>
   _smoke_AttributesClass_copy_handle((value as AttributesClass$Impl).handle);
 AttributesClass smoke_AttributesClass_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesClass;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is AttributesClass) return instance as AttributesClass;
   final _copied_handle = _smoke_AttributesClass_copy_handle(handle);
   final result = AttributesClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_AttributesClass_releaseFfiHandle(Pointer<Void> handle) =>

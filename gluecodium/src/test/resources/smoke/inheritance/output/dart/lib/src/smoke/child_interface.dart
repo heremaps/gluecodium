@@ -36,8 +36,8 @@ final _smoke_ChildInterface_release_handle = __lib.catchArgumentError(() => __li
     void Function(Pointer<Void>)
   >('library_smoke_ChildInterface_release_handle'));
 final _smoke_ChildInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ChildInterface_create_proxy'));
 final _smoke_ChildInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -73,8 +73,7 @@ class ChildInterface$Impl implements ChildInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_ChildInterface_release_handle(handle);
     handle = null;
   }
@@ -123,27 +122,27 @@ class ChildInterface$Impl implements ChildInterface {
     }
   }
 }
-int _ChildInterface_rootMethod_static(int _token) {
+int _ChildInterface_rootMethod_static(Object _obj) {
   try {
-    (__lib.instanceCache[_token] as ChildInterface).rootMethod();
+    (_obj as ChildInterface).rootMethod();
   } finally {
   }
   return 0;
 }
-int _ChildInterface_childMethod_static(int _token) {
+int _ChildInterface_childMethod_static(Object _obj) {
   try {
-    (__lib.instanceCache[_token] as ChildInterface).childMethod();
+    (_obj as ChildInterface).childMethod();
   } finally {
   }
   return 0;
 }
-int _ChildInterface_rootProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as ChildInterface).rootProperty);
+int _ChildInterface_rootProperty_get_static(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = String_toFfi((_obj as ChildInterface).rootProperty);
   return 0;
 }
-int _ChildInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
+int _ChildInterface_rootProperty_set_static(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as ChildInterface).rootProperty =
+    (_obj as ChildInterface).rootProperty =
       String_fromFfi(_value);
   } finally {
     String_releaseFfiHandle(_value);
@@ -153,21 +152,19 @@ int _ChildInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
 Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {
   if (value is ChildInterface$Impl) return _smoke_ChildInterface_copy_handle(value.handle);
   final result = _smoke_ChildInterface_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_ChildInterface_rootMethod_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_ChildInterface_childMethod_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ChildInterface_rootProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ChildInterface_rootProperty_set_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle)>(_ChildInterface_rootMethod_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle)>(_ChildInterface_childMethod_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_ChildInterface_rootProperty_get_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_ChildInterface_rootProperty_set_static, __lib.unknownError)
   );
   return result;
 }
 ChildInterface smoke_ChildInterface_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ChildInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ChildInterface) return instance as ChildInterface;
   final _type_id_handle = _smoke_ChildInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -175,7 +172,7 @@ ChildInterface smoke_ChildInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ChildInterface$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_ChildInterface_releaseFfiHandle(Pointer<Void> handle) =>

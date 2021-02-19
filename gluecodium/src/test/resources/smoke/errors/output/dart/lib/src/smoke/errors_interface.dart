@@ -176,8 +176,8 @@ final _smoke_ErrorsInterface_release_handle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_release_handle'));
 final _smoke_ErrorsInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ErrorsInterface_create_proxy'));
 final _smoke_ErrorsInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -291,8 +291,7 @@ class ErrorsInterface$Impl implements ErrorsInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_ErrorsInterface_release_handle(handle);
     handle = null;
   }
@@ -405,10 +404,10 @@ class ErrorsInterface$Impl implements ErrorsInterface {
     }
   }
 }
-int _ErrorsInterface_methodWithErrors_static(int _token, Pointer<Uint32> _error) {
+int _ErrorsInterface_methodWithErrors_static(Object _obj, Pointer<Uint32> _error) {
   bool _error_flag = false;
   try {
-    (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrors();
+    (_obj as ErrorsInterface).methodWithErrors();
   } on ErrorsInterface_InternalException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -417,10 +416,10 @@ int _ErrorsInterface_methodWithErrors_static(int _token, Pointer<Uint32> _error)
   }
   return _error_flag ? 1 : 0;
 }
-int _ErrorsInterface_methodWithExternalErrors_static(int _token, Pointer<Uint32> _error) {
+int _ErrorsInterface_methodWithExternalErrors_static(Object _obj, Pointer<Uint32> _error) {
   bool _error_flag = false;
   try {
-    (__lib.instanceCache[_token] as ErrorsInterface).methodWithExternalErrors();
+    (_obj as ErrorsInterface).methodWithExternalErrors();
   } on ErrorsInterface_ExternalException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -429,11 +428,11 @@ int _ErrorsInterface_methodWithExternalErrors_static(int _token, Pointer<Uint32>
   }
   return _error_flag ? 1 : 0;
 }
-int _ErrorsInterface_methodWithErrorsAndReturnValue_static(int _token, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
+int _ErrorsInterface_methodWithErrorsAndReturnValue_static(Object _obj, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
   bool _error_flag = false;
   String _result_object = null;
   try {
-    _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrorsAndReturnValue();
+    _result_object = (_obj as ErrorsInterface).methodWithErrorsAndReturnValue();
     _result.value = String_toFfi(_result_object);
   } on ErrorsInterface_InternalException catch(e) {
     _error_flag = true;
@@ -443,10 +442,10 @@ int _ErrorsInterface_methodWithErrorsAndReturnValue_static(int _token, Pointer<P
   }
   return _error_flag ? 1 : 0;
 }
-int _ErrorsInterface_methodWithPayloadError_static(int _token, Pointer<Pointer<Void>> _error) {
+int _ErrorsInterface_methodWithPayloadError_static(Object _obj, Pointer<Pointer<Void>> _error) {
   bool _error_flag = false;
   try {
-    (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadError();
+    (_obj as ErrorsInterface).methodWithPayloadError();
   } on WithPayloadException catch(e) {
     _error_flag = true;
     final _error_object = e.error;
@@ -455,11 +454,11 @@ int _ErrorsInterface_methodWithPayloadError_static(int _token, Pointer<Pointer<V
   }
   return _error_flag ? 1 : 0;
 }
-int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(int _token, Pointer<Pointer<Void>> _result, Pointer<Pointer<Void>> _error) {
+int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(Object _obj, Pointer<Pointer<Void>> _result, Pointer<Pointer<Void>> _error) {
   bool _error_flag = false;
   String _result_object = null;
   try {
-    _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadErrorAndReturnValue();
+    _result_object = (_obj as ErrorsInterface).methodWithPayloadErrorAndReturnValue();
     _result.value = String_toFfi(_result_object);
   } on WithPayloadException catch(e) {
     _error_flag = true;
@@ -472,22 +471,20 @@ int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(int _token, Poi
 Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
   if (value is ErrorsInterface$Impl) return _smoke_ErrorsInterface_copy_handle(value.handle);
   final result = _smoke_ErrorsInterface_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrors_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ErrorsInterface_methodWithExternalErrors_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrorsAndReturnValue_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadError_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadErrorAndReturnValue_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrors_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint32>)>(_ErrorsInterface_methodWithExternalErrors_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrorsAndReturnValue_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadError_static, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadErrorAndReturnValue_static, __lib.unknownError)
   );
   return result;
 }
 ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ErrorsInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ErrorsInterface) return instance as ErrorsInterface;
   final _type_id_handle = _smoke_ErrorsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -495,7 +492,7 @@ ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ErrorsInterface$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_ErrorsInterface_releaseFfiHandle(Pointer<Void> handle) =>

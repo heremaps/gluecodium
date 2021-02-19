@@ -1,6 +1,5 @@
 #include "ffi_smoke_UseDartExternalTypes.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/CompressionState.h"
 #include "smoke/DartColor.h"

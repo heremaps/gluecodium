@@ -39,8 +39,7 @@ class BasicTypes$Impl implements BasicTypes {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_BasicTypes_release_handle(handle);
     handle = null;
   }
@@ -180,13 +179,11 @@ class BasicTypes$Impl implements BasicTypes {
 Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
   _smoke_BasicTypes_copy_handle((value as BasicTypes$Impl).handle);
 BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as BasicTypes;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is BasicTypes) return instance as BasicTypes;
   final _copied_handle = _smoke_BasicTypes_copy_handle(handle);
   final result = BasicTypes$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) =>

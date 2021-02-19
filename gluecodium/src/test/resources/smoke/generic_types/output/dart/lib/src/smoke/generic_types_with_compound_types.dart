@@ -284,8 +284,7 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_GenericTypesWithCompoundTypes_release_handle(handle);
     handle = null;
   }
@@ -397,13 +396,11 @@ class GenericTypesWithCompoundTypes$Impl implements GenericTypesWithCompoundType
 Pointer<Void> smoke_GenericTypesWithCompoundTypes_toFfi(GenericTypesWithCompoundTypes value) =>
   _smoke_GenericTypesWithCompoundTypes_copy_handle((value as GenericTypesWithCompoundTypes$Impl).handle);
 GenericTypesWithCompoundTypes smoke_GenericTypesWithCompoundTypes_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as GenericTypesWithCompoundTypes;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is GenericTypesWithCompoundTypes) return instance as GenericTypesWithCompoundTypes;
   final _copied_handle = _smoke_GenericTypesWithCompoundTypes_copy_handle(handle);
   final result = GenericTypesWithCompoundTypes$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_GenericTypesWithCompoundTypes_releaseFfiHandle(Pointer<Void> handle) =>

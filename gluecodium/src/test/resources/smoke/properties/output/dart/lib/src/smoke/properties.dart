@@ -171,8 +171,7 @@ class Properties$Impl implements Properties {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_Properties_release_handle(handle);
     handle = null;
   }
@@ -388,13 +387,11 @@ class Properties$Impl implements Properties {
 Pointer<Void> smoke_Properties_toFfi(Properties value) =>
   _smoke_Properties_copy_handle((value as Properties$Impl).handle);
 Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Properties;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Properties) return instance as Properties;
   final _copied_handle = _smoke_Properties_copy_handle(handle);
   final result = Properties$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) =>

@@ -32,13 +32,12 @@ class weeInterface$Impl implements weeInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_PlatformNamesInterface_release_handle(handle);
     handle = null;
   }
   weeInterface$Impl.make(String makeParameter) : handle = _make(makeParameter) {
-    __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+    __lib.cacheInstance(handle, this);
   }
   @override
   weeStruct WeeMethod(String WeeParameter) {
@@ -88,13 +87,11 @@ class weeInterface$Impl implements weeInterface {
 Pointer<Void> smoke_PlatformNamesInterface_toFfi(weeInterface value) =>
   _smoke_PlatformNamesInterface_copy_handle((value as weeInterface$Impl).handle);
 weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as weeInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is weeInterface) return instance as weeInterface;
   final _copied_handle = _smoke_PlatformNamesInterface_copy_handle(handle);
   final result = weeInterface$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_PlatformNamesInterface_releaseFfiHandle(Pointer<Void> handle) =>

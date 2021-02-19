@@ -24,8 +24,8 @@ final _smoke_ClassWithInternalLambda_InternalLambda_release_handle = __lib.catch
     void Function(Pointer<Void>)
   >('library_smoke_ClassWithInternalLambda_InternalLambda_release_handle'));
 final _smoke_ClassWithInternalLambda_InternalLambda_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_ClassWithInternalLambda_InternalLambda_create_proxy'));
 class ClassWithInternalLambda_InternalLambda$Impl {
   Pointer<Void> get _handle => handle;
@@ -45,10 +45,10 @@ class ClassWithInternalLambda_InternalLambda$Impl {
     }
   }
 }
-int _ClassWithInternalLambda_InternalLambda_call_static(int _token, Pointer<Void> p0, Pointer<Uint8> _result) {
+int _ClassWithInternalLambda_InternalLambda_call_static(Object _obj, Pointer<Void> p0, Pointer<Uint8> _result) {
   bool _result_object;
   try {
-    _result_object = (__lib.instanceCache[_token] as ClassWithInternalLambda_InternalLambda)(String_fromFfi(p0));
+    _result_object = (_obj as ClassWithInternalLambda_InternalLambda)(String_fromFfi(p0));
     _result.value = Boolean_toFfi(_result_object);
   } finally {
     String_releaseFfiHandle(p0);
@@ -57,10 +57,10 @@ int _ClassWithInternalLambda_InternalLambda_call_static(int _token, Pointer<Void
 }
 Pointer<Void> smoke_ClassWithInternalLambda_InternalLambda_toFfi(ClassWithInternalLambda_InternalLambda value) {
   final result = _smoke_ClassWithInternalLambda_InternalLambda_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_ClassWithInternalLambda_InternalLambda_call_static, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_ClassWithInternalLambda_InternalLambda_call_static, __lib.unknownError)
   );
   return result;
 }
@@ -120,8 +120,7 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_ClassWithInternalLambda_release_handle(handle);
     handle = null;
   }
@@ -142,13 +141,11 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
 Pointer<Void> smoke_ClassWithInternalLambda_toFfi(ClassWithInternalLambda value) =>
   _smoke_ClassWithInternalLambda_copy_handle((value as ClassWithInternalLambda$Impl).handle);
 ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ClassWithInternalLambda;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ClassWithInternalLambda) return instance as ClassWithInternalLambda;
   final _copied_handle = _smoke_ClassWithInternalLambda_copy_handle(handle);
   final result = ClassWithInternalLambda$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_ClassWithInternalLambda_releaseFfiHandle(Pointer<Void> handle) =>

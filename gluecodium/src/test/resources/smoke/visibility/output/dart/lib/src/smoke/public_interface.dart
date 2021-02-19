@@ -89,8 +89,8 @@ final _smoke_PublicInterface_release_handle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_PublicInterface_release_handle'));
 final _smoke_PublicInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer),
-    Pointer<Void> Function(int, int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle),
+    Pointer<Void> Function(int, int, Object)
   >('library_smoke_PublicInterface_create_proxy'));
 final _smoke_PublicInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -102,8 +102,7 @@ class PublicInterface$Impl implements PublicInterface {
   @override
   void release() {
     if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smoke_PublicInterface_release_handle(handle);
     handle = null;
   }
@@ -111,17 +110,15 @@ class PublicInterface$Impl implements PublicInterface {
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
   if (value is PublicInterface$Impl) return _smoke_PublicInterface_copy_handle(value.handle);
   final result = _smoke_PublicInterface_create_proxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi
+    value
   );
   return result;
 }
 PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as PublicInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is PublicInterface) return instance as PublicInterface;
   final _type_id_handle = _smoke_PublicInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -129,7 +126,7 @@ PublicInterface smoke_PublicInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : PublicInterface$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copied_handle, result);
   return result;
 }
 void smoke_PublicInterface_releaseFfiHandle(Pointer<Void> handle) =>
