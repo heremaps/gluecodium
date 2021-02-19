@@ -243,12 +243,13 @@ jobs:
           restore-keys: ${{ runner.os }}-dart-2.10.5
       - name: Compile Dart SDK without tcmalloc
         run: |
-          export DART_BIN=${HOME}/dart_sdk/bin
-          export DART_LIB=${HOME}/dart_sdk/lib
+          export DART_ROOT=${HOME}/dart_sdk
+          export DART_BIN=${DART_ROOT}/bin
           export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
           DART_VERSION=2.10.5
-          if [ ! -d "${HOME}/dart_sdk/bin" ]; then
+          if [ ! -d "${DART_ROOT}/include" ]; then
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+            rm -rf ${DART_ROOT}
             mkdir dart-sdk
             pushd dart-sdk
             fetch dart
@@ -267,8 +268,9 @@ jobs:
             mkdir -p ${DART_BIN}/snapshots
             mv dart2native.dart.snapshot gen_kernel.dart.snapshot pub.dart.snapshot ${DART_BIN}/snapshots
             popd
-            mkdir -p ${DART_LIB}
-            mv lib/_internal ${DART_LIB}
+            mv include ${DART_ROOT}
+            mkdir -p ${DART_ROOT}/lib
+            mv lib/_internal ${DART_ROOT}/lib
           fi
       - name: Build and run functional tests
         run: |
