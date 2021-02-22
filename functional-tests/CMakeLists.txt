@@ -22,6 +22,10 @@ else()
 endif()
 project(functional_tests)
 
+if (FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "cpp")
+    include (CTest)
+endif()
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
 
 # Allow testing with different C++ standard versions
