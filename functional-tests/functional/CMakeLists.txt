@@ -24,7 +24,9 @@ if(APPLE)
         set (CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
     endif()
 
-    enable_language(Swift)
+    if (FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL swift)
+        enable_language(Swift)
+    endif()
 endif()
 
 set(FUNCTIONAL_VERSION_MAJOR 0)
