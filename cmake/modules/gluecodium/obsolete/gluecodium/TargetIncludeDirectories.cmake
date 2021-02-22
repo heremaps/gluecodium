@@ -23,6 +23,7 @@ set(includeguard_gluecodium_TargetIncludeDirectories ON)
 cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details/CheckArguments.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../../gluecodium/details/FindPackageHost.cmake)
 
 #[===========================================================================================[.rst:
 Generated target_include_directories module
@@ -128,6 +129,11 @@ function(apigen_get_target_include_directories _target)
       find_package(JNI REQUIRED)
       list(APPEND _result_list_private $<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>)
     endif()
+  endif()
+
+  if(${GENERATOR} MATCHES dart)
+    gluecodium_find_package_host(DartLang REQUIRED)
+    list(APPEND _result_list_private $<BUILD_INTERFACE:${DART_LANG_INCLUDE_DIRS}>)
   endif()
 
   if(APIGEN_TARGET_INCLUDE_DIRECTORIES_PUBLIC_RESULT_VARIABLE)

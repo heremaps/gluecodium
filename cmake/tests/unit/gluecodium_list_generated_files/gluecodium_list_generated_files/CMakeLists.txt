@@ -21,6 +21,8 @@ project(gluecodium.test)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
+set(GLUECODIUM_DONT_REQUIRE_DART_INCLUDES ON)
+
 list(APPEND _gluecodium_generator cpp dart)
 if(ANDROID)
   list(APPEND _gluecodium_generator android)
