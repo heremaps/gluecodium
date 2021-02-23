@@ -47,9 +47,11 @@ jobs:
       - name: Install valgrind
         run: sudo apt install -y valgrind
       - name: Build and run functional tests
-        run: |
-          cd functional-tests
-          ./scripts/build-cpp-functional --valgrind --buildGluecodium
+        run: scripts/build-cpp-functional --valgrind --buildGluecodium
+        working-directory: functional-tests
+      - name: Print Valgrind results
+        if: ${{ always() }}
+        run: cat functional-tests/build-cpp/Testing/Temporary/MemoryChecker.1.log
 
   android:
     name: Android

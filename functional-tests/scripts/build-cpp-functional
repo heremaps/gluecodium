@@ -111,30 +111,17 @@ safe cmake \
     .. | tee cmake_output.log
 popd
 
-safe cmake \
-    --build ${BUILD_DIR} \
-    --target install
+safe cmake --build ${BUILD_DIR} --target install
 
-TEST_COMMAND="./test_cpp"
+pushd "${BUILD_DIR}"
+    if [ "$USE_VALGRIND" = true ]; then
+        VALGRIND_ARGS="--leak-check=full \
+            --error-exitcode=1 \
+            --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+            --gen-suppressions=all"
 
-if [ "$USE_VALGRIND" = true ]; then
-    REPORT_ARGS=""
-    if [ "$TEST_REPORTS" = true ] ; then
-        REPORT_ARGS="--xml=yes --xml-file=cpp_valgrind_report.xml"
+        ctest --overwrite MemoryCheckCommandOptions="$VALGRIND_ARGS" -T memcheck -V
+    else
+        ctest -V
     fi
-    TEST_COMMAND="valgrind \
-        --leak-check=full \
-        --error-exitcode=1 \
-        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
-        --gen-suppressions=all \
-        $REPORT_ARGS \
-        $TEST_COMMAND"
-fi
-
-pushd "${INSTALL_DIR}/bin"
-    REPORT_ARGS=""
-    if [ "$TEST_REPORTS" = true ] ; then
-        REPORT_ARGS="--gtest_output=xml"
-    fi
-    exec $TEST_COMMAND $REPORT_ARGS
 popd
