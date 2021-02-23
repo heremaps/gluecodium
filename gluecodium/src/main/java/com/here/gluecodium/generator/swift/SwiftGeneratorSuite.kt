@@ -32,7 +32,7 @@ import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
@@ -92,7 +92,7 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = limeReferenceMap,
             rootNamespace = rootNamespace,
-            cachingNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules),
+            nameCache = CppNameCache(rootNamespace, limeReferenceMap, cppNameRules),
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             nameResolver = cbridgeNameResolver

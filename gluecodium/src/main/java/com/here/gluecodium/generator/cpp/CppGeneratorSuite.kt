@@ -85,7 +85,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val cachingNameResolver = CppNameResolver(rootNamespace, limeModel.referenceMap, nameRules)
+        val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, nameRules)
         val nameResolver = Cpp2NameResolver(
             limeModel.referenceMap,
             internalNamespace,

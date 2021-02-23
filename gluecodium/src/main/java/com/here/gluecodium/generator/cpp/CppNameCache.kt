@@ -31,7 +31,7 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.util.HashMap
 
-internal class CppNameResolver(
+internal class CppNameCache(
     rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>,
     val nameRules: CppNameRules

@@ -30,7 +30,7 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.Cpp2NameResolver
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
-import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -51,14 +51,14 @@ import java.nio.file.Paths
 internal class CBridgeGenerator(
     limeReferenceMap: Map<String, LimeElement>,
     rootNamespace: List<String>,
-    cachingNameResolver: CppNameResolver,
+    nameCache: CppNameCache,
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
     private val nameResolver: CBridgeNameResolver
 ) {
-    val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, cachingNameResolver)
+    val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val cppRefNameResolver =
-        CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(cachingNameResolver), cppNameResolver)
+        CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(nameCache), cppNameResolver)
     private val headerIncludeResolver = CBridgeHeaderIncludeResolver(limeReferenceMap, rootNamespace)
     private val cppIncludeResolver = Cpp2IncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val implIncludeResolver = CBridgeImplIncludeResolver(rootNamespace, cppIncludeResolver)

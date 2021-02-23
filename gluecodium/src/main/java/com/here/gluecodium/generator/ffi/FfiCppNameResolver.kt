@@ -23,7 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
-import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
@@ -53,7 +53,7 @@ internal class FfiCppNameResolver(
     internalNamespace: List<String>
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
-    private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
+    private val cppNameResolver = CppNameCache(rootNamespace, limeReferenceMap, nameRules)
     private val internalNamespace = internalNamespace.joinToString("::")
 
     override fun resolveName(element: Any): String =

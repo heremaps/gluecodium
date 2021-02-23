@@ -58,12 +58,12 @@ import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 internal class Cpp2NameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     internalNamespace: List<String>,
-    private val cachingNameResolver: CppNameResolver,
+    private val nameCache: CppNameCache,
     private val limeLogger: LimeLogger? = null,
     private val commentsProcessor: CommentsProcessor? = null
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
-    private val signatureResolver = PlatformSignatureResolver(limeReferenceMap, CPP, cachingNameResolver.nameRules)
+    private val signatureResolver = PlatformSignatureResolver(limeReferenceMap, CPP, nameCache.nameRules)
     private val limeToCppNames = buildPathMap()
 
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
@@ -78,19 +78,19 @@ internal class Cpp2NameResolver(
             is LimeType -> resolveTypeName(element, isFullName = false)
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
-            is LimeNamedElement -> cachingNameResolver.getName(element)
+            is LimeNamedElement -> nameCache.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
     override fun resolveGetterName(element: Any) =
         when (element) {
-            is LimeProperty -> cachingNameResolver.getGetterName(element)
+            is LimeProperty -> nameCache.getGetterName(element)
             is LimeField -> when {
                 element.external?.cpp?.get(GETTER_NAME_NAME) != null ->
-                    cachingNameResolver.getGetterName(element)
+                    nameCache.getGetterName(element)
                 getParentElement(element).attributes.have(CPP, ACCESSORS) ->
-                    cachingNameResolver.getGetterName(element)
+                    nameCache.getGetterName(element)
                 else -> null
             }
             else ->
@@ -99,12 +99,12 @@ internal class Cpp2NameResolver(
 
     override fun resolveSetterName(element: Any) =
         when (element) {
-            is LimeProperty -> cachingNameResolver.getSetterName(element)
+            is LimeProperty -> nameCache.getSetterName(element)
             is LimeField -> when {
                 element.external?.cpp?.get(SETTER_NAME_NAME) != null ->
-                    cachingNameResolver.getSetterName(element)
+                    nameCache.getSetterName(element)
                 getParentElement(element).attributes.have(CPP, ACCESSORS) ->
-                    cachingNameResolver.getSetterName(element)
+                    nameCache.getSetterName(element)
                 else -> null
             }
             else ->
@@ -128,10 +128,10 @@ internal class Cpp2NameResolver(
             limeType is LimeException -> "::std::error_code"
             isFullName -> when (limeType.actualType) {
                 is LimeContainerWithInheritance ->
-                    "::std::shared_ptr< ${cachingNameResolver.getFullyQualifiedName(limeType)} >"
-                else -> cachingNameResolver.getFullyQualifiedName(limeType)
+                    "::std::shared_ptr< ${nameCache.getFullyQualifiedName(limeType)} >"
+                else -> nameCache.getFullyQualifiedName(limeType)
             }
-            else -> cachingNameResolver.getName(limeType)
+            else -> nameCache.getName(limeType)
         }
 
     private fun resolveBasicType(typeId: TypeId) =
@@ -162,7 +162,7 @@ internal class Cpp2NameResolver(
                 limeValue.toString() + if (isFloat) "f" else ""
             }
             is LimeValue.Enumerator ->
-                cachingNameResolver.getFullyQualifiedName(limeValue.valueRef.enumerator)
+                nameCache.getFullyQualifiedName(limeValue.valueRef.enumerator)
             is LimeValue.Special -> {
                 val valueType = limeValue.typeRef.type
                 val isFloat = valueType is LimeBasicType && valueType.typeId == TypeId.FLOAT
@@ -209,7 +209,7 @@ internal class Cpp2NameResolver(
         ) ?: ""
 
     private fun getFullyQualifiedReference(limeElement: LimeNamedElement) =
-        cachingNameResolver.getFullyQualifiedName(limeElement) +
+        nameCache.getFullyQualifiedName(limeElement) +
             when {
                 limeElement is LimeFunction && signatureResolver.isOverloaded(limeElement) ->
                     limeElement.parameters.joinToString(prefix = "(", postfix = ")") {
@@ -244,15 +244,15 @@ internal class Cpp2NameResolver(
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
         result += properties.associateBy(
             { it.fullName },
-            { cachingNameResolver.getFullyQualifiedGetterName(it) }
+            { nameCache.getFullyQualifiedGetterName(it) }
         )
         result += properties.associateBy(
             { it.fullName + ".get" },
-            { cachingNameResolver.getFullyQualifiedGetterName(it) }
+            { nameCache.getFullyQualifiedGetterName(it) }
         )
         result += properties.filter { it.setter != null }.associateBy(
             { it.fullName + ".set" },
-            { cachingNameResolver.getFullyQualifiedSetterName(it) }
+            { nameCache.getFullyQualifiedSetterName(it) }
         )
 
         return result
