@@ -22,8 +22,8 @@ package com.here.gluecodium.generator.jni
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -60,7 +60,7 @@ internal class JniTemplates(
     private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver).predicates
 
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
-    private val cppIncludeResolver = Cpp2IncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
+    private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
 
     fun generateFiles(limeElement: LimeNamedElement) =
         when (limeElement) {

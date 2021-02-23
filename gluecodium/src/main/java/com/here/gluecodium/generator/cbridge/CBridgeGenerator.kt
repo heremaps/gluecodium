@@ -27,8 +27,8 @@ import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -60,7 +60,7 @@ internal class CBridgeGenerator(
     private val cppRefNameResolver =
         CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(nameCache), cppNameResolver)
     private val headerIncludeResolver = CBridgeHeaderIncludeResolver(limeReferenceMap, rootNamespace)
-    private val cppIncludeResolver = Cpp2IncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
+    private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val implIncludeResolver = CBridgeImplIncludeResolver(rootNamespace, cppIncludeResolver)
     private val predicates = CBridgeGeneratorPredicates(cppNameResolver).predicates
     val genericTypesCollector = GenericTypesCollector(nameResolver)

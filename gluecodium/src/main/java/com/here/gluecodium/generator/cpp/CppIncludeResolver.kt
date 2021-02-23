@@ -39,7 +39,7 @@ import com.here.gluecodium.model.lime.LimeValue
  * Resolves includes for C++ types. Resolves all types of includes: system includes, Gluecodium
  * helper includes and includes for generated type definitions.
  */
-internal class Cpp2IncludeResolver(
+internal class CppIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
     internalNamespace: List<String>

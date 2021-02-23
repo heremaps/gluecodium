@@ -109,7 +109,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             generateCode(
                 it,
                 nameRules.getOutputFilePath(it),
-                Cpp2IncludeResolver(limeModel.referenceMap, nameRules, internalNamespace),
+                CppIncludeResolver(limeModel.referenceMap, nameRules, internalNamespace),
                 nameResolver,
                 CppFullNameResolver(cachingNameResolver),
                 allErrorEnums
@@ -129,7 +129,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     private fun generateCode(
         rootElement: LimeNamedElement,
         fileName: String,
-        includeResolver: Cpp2IncludeResolver,
+        includeResolver: CppIncludeResolver,
         nameResolver: CppNameResolver,
         fullNameResolver: CppFullNameResolver,
         allErrorEnums: Set<String>
@@ -212,7 +212,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
 
     private fun collectAdditionalIncludes(
         rootElement: LimeNamedElement,
-        includeResolver: Cpp2IncludeResolver,
+        includeResolver: CppIncludeResolver,
         allTypes: List<LimeType>,
         equatableTypes: List<LimeType>,
         errorEnums: Set<LimeType>,
@@ -241,7 +241,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         nameResolvers: Map<String, NameResolver>,
         allTypes: List<LimeType>,
         implementationIncludes: MutableList<Include>,
-        includeResolver: Cpp2IncludeResolver,
+        includeResolver: CppIncludeResolver,
         errorEnums: Set<LimeType>,
         generalData: Map<String, Any>,
         fileName: String
