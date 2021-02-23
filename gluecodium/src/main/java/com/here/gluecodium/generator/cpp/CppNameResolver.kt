@@ -63,12 +63,12 @@ internal class CppNameResolver(
     private val commentsProcessor: CommentsProcessor? = null
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
-    private val signatureResolver = PlatformSignatureResolver(limeReferenceMap, CPP, nameCache.nameRules)
-    private val limeToCppNames = buildPathMap()
-
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
     private val optionalTypeName = (listOf("") + internalNamespace + "optional").joinToString("::")
     private val localeTypeName = (listOf("") + internalNamespace + "Locale").joinToString("::")
+
+    private val signatureResolver = PlatformSignatureResolver(limeReferenceMap, CPP, nameCache.nameRules)
+    private val limeToCppNames = buildPathMap()
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -213,7 +213,7 @@ internal class CppNameResolver(
             when {
                 limeElement is LimeFunction && signatureResolver.isOverloaded(limeElement) ->
                     limeElement.parameters.joinToString(prefix = "(", postfix = ")") {
-                        "const ${resolveName(it.typeRef)}" + if (needsRefSuffix(it.typeRef)) "&" else ""
+                        "const ${resolveTypeRef(it.typeRef)}" + if (needsRefSuffix(it.typeRef)) "&" else ""
                     }
                 else -> ""
             }

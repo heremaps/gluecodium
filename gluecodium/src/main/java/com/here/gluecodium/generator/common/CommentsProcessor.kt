@@ -59,16 +59,17 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         val linkRefHandler = VisitHandler(LinkRef::class.java) {
             if (it.isDefined) return@VisitHandler
 
-            val reference = it.reference.toString().replace(" ", "")
+            val rawReference = it.reference.toString()
+            val normalizedReference = normalizeReference(rawReference)
             for (i in path.size downTo 0) {
-                val child = (path.take(i) + reference).joinToString(".")
+                val child = (path.take(i) + normalizedReference).joinToString(".")
                 val element = limeToLanguage[child]
                 if (element != null) {
                     processLink(it, element)
                     return@VisitHandler
                 }
             }
-            logger?.logFunction(limeFullName, "Failed to resolve documentation reference [$reference]")
+            logger?.logFunction(limeFullName, "Failed to resolve documentation reference [$rawReference]")
             hasErrorFlag = true
         }
         val codeBlockHandler = VisitHandler(Code::class.java) {
@@ -80,6 +81,19 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         NodeVisitor(linkRefHandler, codeBlockHandler, autoLinkHandler).visit(document)
 
         return renderer.render(document).trim()
+    }
+
+    // Normalize element reference to ensure a name match:
+    // 1. Remove all spaces.
+    // 2. For function overload references with signatures, reduce qualified type names to a single name component.
+    private fun normalizeReference(reference: String): String {
+        val result = reference.replace(" ", "")
+        val signatureComponents = result.split('(')
+        if (signatureComponents.size == 1) return result
+
+        val name = signatureComponents.first()
+        val signature = signatureComponents.drop(1).joinToString("")
+        return name + "(" + signature.split(",").joinToString(",") { it.split('.').last() }
     }
 
     abstract fun processLink(linkNode: LinkRef, linkReference: String)

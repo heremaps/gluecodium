@@ -675,10 +675,12 @@ There are three ways to specify web links:
 3. automatic web link, e.g. `<https://www.example.com/details3>`.
 
 Any square-brackets link that does not resolve into a web link is treated as a link to some IDL element, e.g. `[Mode]`.
+Please note that all whitespace between the square brackets is ignored during link resolution.
 
 When referring to a function, you can also optionally mention its signature (list of parameter types, but not the return
-type), e.g. `[Processor.process(Mode,String)]`. This way you can refer to a specific overload of an overloaded function.
-Please note the lack of whitespace after a comma between parameters.
+type), e.g. `[Processor.process(Mode, String)]`. This way you can refer to a specific overload of an overloaded
+function. Please not that parameter type names should be simple unqualified names, i.e.
+`[Processor.process(Mode, String)]` instead of `[Processor.process(com.example.Processor.Mode, String)]`
 
 When referring to a property element, you can also specifically refer to its getter or its setter by adding `.get` or
 `.set` suffix respectively, e.g. `[Processor.secretDelegate.set]`.
