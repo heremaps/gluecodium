@@ -80,24 +80,25 @@ find_path(
   PATH_SUFFIXES ${_path_suffixes}
   HINTS ${_find_hints})
 
-set(_dart_include_fixup_dir "${CMAKE_CURRENT_BINARY_DIR}/dart_include_fixup")
+if (DART_LANG_INCLUDE_DIRS)
+  set(_dart_include_fixup_dir "${CMAKE_CURRENT_BINARY_DIR}/dart_include_fixup")
+  if (NOT EXISTS "${_dart_include_fixup_dir}")
+    function(_create_dart_fixup_header include_header_name)
+      file(WRITE "${_dart_include_fixup_dir}/include/${include_header_name}" "#include <${include_header_name}>")
+    endfunction()
+    _create_dart_fixup_header("dart_api.h")
+    _create_dart_fixup_header("dart_native_api.h")
+  endif()
+  list(APPEND DART_LANG_INCLUDE_DIRS ${_dart_include_fixup_dir})
 
-if (NOT EXISTS "${_dart_include_fixup_dir}")
-  function(_create_dart_fixup_header include_header_name)
-    file(WRITE "${_dart_include_fixup_dir}/include/${include_header_name}" "#include <${include_header_name}>")
-  endfunction()
-  _create_dart_fixup_header("dart_api.h")
-  _create_dart_fixup_header("dart_native_api.h")
-endif()
-
-list(APPEND DART_LANG_INCLUDE_DIRS ${_dart_include_fixup_dir})
-
-if(DART_LANG_INCLUDE_DIRS AND NOT TARGET DartLang::dart)
-  add_library(DartLang::dart INTERFACE IMPORTED)
-  target_include_directories(DartLang::dart INTERFACE ${DART_LANG_INCLUDE_DIRS})
+  if(NOT TARGET DartLang::dart)
+    add_library(DartLang::dart INTERFACE IMPORTED)
+    target_include_directories(DartLang::dart INTERFACE ${DART_LANG_INCLUDE_DIRS})
+  endif()
 endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(DartLang FOUND_VAR DARTLANG_FOUND REQUIRED_VARS
                                   DART_LANG_INCLUDE_DIRS)
 mark_as_advanced(DART_LANG_INCLUDE_DIRS)
+
