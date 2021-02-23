@@ -23,9 +23,9 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
-import com.here.gluecodium.generator.cpp.Cpp2NameResolver
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
+import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -48,7 +48,7 @@ internal class JniTemplates(
     nameCache: CppNameCache
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
-    private val cppNameResolver = Cpp2NameResolver(limeReferenceMap, internalNamespace, nameCache)
+    private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
     private val nameResolvers = mapOf(
         "" to jniNameResolver,

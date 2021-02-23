@@ -36,7 +36,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal object CppGeneratorPredicates {
     val predicates = mapOf(
         "needsRefSuffix" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && Cpp2NameResolver.needsRefSuffix(limeTypeRef)
+            limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
         },
         "needsNotNullComment" to { limeTypeRef: Any ->
             limeTypeRef is LimeTypeRef && needsNotNullComment(limeTypeRef)

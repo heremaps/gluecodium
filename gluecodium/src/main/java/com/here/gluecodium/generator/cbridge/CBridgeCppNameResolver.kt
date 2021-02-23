@@ -21,8 +21,8 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
-import com.here.gluecodium.generator.cpp.Cpp2NameResolver
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
+import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
@@ -36,7 +36,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class CBridgeCppNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val cppFullNameResolver: CppFullNameResolver,
-    private val cppShortNameResolver: Cpp2NameResolver
+    private val cppShortNameResolver: CppNameResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =

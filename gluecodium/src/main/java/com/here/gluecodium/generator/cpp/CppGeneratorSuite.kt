@@ -86,7 +86,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         }
 
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, nameRules)
-        val nameResolver = Cpp2NameResolver(
+        val nameResolver = CppNameResolver(
             limeModel.referenceMap,
             internalNamespace,
             cachingNameResolver,
@@ -130,7 +130,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         rootElement: LimeNamedElement,
         fileName: String,
         includeResolver: Cpp2IncludeResolver,
-        nameResolver: Cpp2NameResolver,
+        nameResolver: CppNameResolver,
         fullNameResolver: CppFullNameResolver,
         allErrorEnums: Set<String>
     ): List<GeneratedFile> {

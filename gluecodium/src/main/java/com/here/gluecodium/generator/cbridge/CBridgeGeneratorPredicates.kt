@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
-import com.here.gluecodium.generator.cpp.Cpp2NameResolver
+import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
@@ -31,7 +31,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 /**
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in CBridge generator.
  */
-internal class CBridgeGeneratorPredicates(private val cppNameResolver: Cpp2NameResolver) {
+internal class CBridgeGeneratorPredicates(private val cppNameResolver: CppNameResolver) {
     val predicates = mapOf(
         "hasCppGetter" to { limeField: Any ->
             limeField is LimeField && cppNameResolver.resolveGetterName(limeField) != null

@@ -55,7 +55,7 @@ import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
  * Main name resolver for the C++ generator. Resolves names for types, type references and comments.
  * Type names are resolved as own names (unqualified names, without namespaces or outer types).
  */
-internal class Cpp2NameResolver(
+internal class CppNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     internalNamespace: List<String>,
     private val nameCache: CppNameCache,
