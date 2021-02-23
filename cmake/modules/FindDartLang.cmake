@@ -80,7 +80,7 @@ find_path(
   PATH_SUFFIXES ${_path_suffixes}
   HINTS ${_find_hints})
 
-if(DART_LANG_INCLUDE_DIRS)
+if(DART_LANG_INCLUDE_DIRS AND NOT TARGET DartLang::dart)
   add_library(DartLang::dart INTERFACE IMPORTED)
   target_include_directories(DartLang::dart INTERFACE ${DART_LANG_INCLUDE_DIRS})
 endif()
