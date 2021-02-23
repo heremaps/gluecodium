@@ -133,7 +133,9 @@ function(apigen_get_target_include_directories _target)
 
   if(${GENERATOR} MATCHES dart)
     gluecodium_find_package_host(DartLang REQUIRED)
-    list(APPEND _result_list_private $<BUILD_INTERFACE:${DART_LANG_INCLUDE_DIRS}>)
+    foreach(_dart_include_dir IN LISTS DART_LANG_INCLUDE_DIRS)
+      list(APPEND _result_list_private $<BUILD_INTERFACE:${_dart_include_dir}>)
+    endforeach(item)
   endif()
 
   if(APIGEN_TARGET_INCLUDE_DIRECTORIES_PUBLIC_RESULT_VARIABLE)
