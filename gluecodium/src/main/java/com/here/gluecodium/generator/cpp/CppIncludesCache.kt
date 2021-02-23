@@ -25,7 +25,7 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_N
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
-class CppIncludeResolver(
+internal class CppIncludesCache(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: CppNameRules,
     private val internalNamespace: List<String>
@@ -33,7 +33,6 @@ class CppIncludeResolver(
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
     val optionalInclude = createInternalNamespaceInclude("Optional.h")
-    val hashInclude = createInternalNamespaceInclude("Hash.h")
     val typeRepositoryInclude = createInternalNamespaceInclude("TypeRepository.h")
 
     fun createInternalNamespaceInclude(fileName: String) =
