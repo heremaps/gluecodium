@@ -95,7 +95,9 @@ function(gluecodium_get_target_include_directories _target)
 
   if(dart IN_LIST _generators AND NOT GLUECODIUM_DONT_REQUIRE_DART_INCLUDES)
     gluecodium_find_package_host(DartLang REQUIRED)
-    list(APPEND _result_list_private $<BUILD_INTERFACE:${DART_LANG_INCLUDE_DIRS}>)
+    foreach(_dart_include_dir IN LISTS DART_LANG_INCLUDE_DIRS)
+      list(APPEND _result_list_private $<BUILD_INTERFACE:${_dart_include_dir}>)
+    endforeach(item)
   endif()
 
   if(_args_RESULT_PUBLIC)
