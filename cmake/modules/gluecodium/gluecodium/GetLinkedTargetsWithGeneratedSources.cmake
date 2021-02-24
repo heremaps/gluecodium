@@ -61,11 +61,10 @@ function(gluecodium_get_linked_targets_with_generated_sources result _target)
   endif()
 
   foreach(_linked_target IN LISTS _linked_targets)
-    if (CMAKE_VERSION VERSION_LESS 3.19)
+    if(CMAKE_VERSION VERSION_LESS 3.19)
       get_target_property(_type ${_linked_target} TYPE)
-      if (_type STREQUAL "INTERFACE_LIBRARY")
-        # Prior CMake 3.19 interface libararies may have only whitelisted
-        # properties
+      if(_type STREQUAL "INTERFACE_LIBRARY")
+        # Prior CMake 3.19 interface libararies may have only whitelisted properties
         continue()
       endif()
     endif()

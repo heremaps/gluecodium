@@ -27,6 +27,7 @@ if (FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "cpp")
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
+set (GLUECODIUM_USE_OBSOLETE_API ON)
 
 # Allow testing with different C++ standard versions
 if(NOT DEFINED TEST_CPP_VERSION)

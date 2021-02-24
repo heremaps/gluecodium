@@ -57,13 +57,13 @@ function(gluecodium_get_linked_targets_rec result visited_targets _target only_s
       get_target_property(_linked_type ${_linked_lib} TYPE)
       if(_linked_type STREQUAL "SHARED_LIBRARY")
         continue()
-      elseif (NOT _linked_type STREQUAL "INTERFACE_LIBRARY")
+      elseif(NOT _linked_type STREQUAL "INTERFACE_LIBRARY")
         get_target_property(_framework ${_linked_lib} FRAMEWORK)
         # Framework can be static, but it's still final target
         if(_linked_type STREQUAL "SHARED_LIBRARY" OR _framework)
           continue()
         endif()
-      endif ()
+      endif()
     endif()
 
     list(APPEND _lib_targets ${_linked_lib})
