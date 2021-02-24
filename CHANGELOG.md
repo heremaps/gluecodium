@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.9.3
+Release date: 2021-02-24
 ### Bug fixes:
   * Fixed processing of documentation links to method overloads when one of the paramers refers to a nested type.
   * Fixed DoxyGen comment generation for links to method overloads with nullable parameters in C++.
