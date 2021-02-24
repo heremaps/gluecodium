@@ -198,12 +198,15 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
           cmake-version: '3.19.3'
+      - name: Update apt repos
+        run: sudo apt-get -qq update || true
       - name: Install ninja
         run: sudo apt install -y ninja-build
       - name: Install Dart SDK
         run: |
-          DART_VERSION=2.10.5
-          wget -nv https://storage.googleapis.com/dart-archive/channels/stable/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
+          DART_RELEASE_CHANNEL=beta
+          DART_VERSION=2.12.0-259.16.beta
+          wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests
         run: |
@@ -241,14 +244,14 @@ jobs:
         with:
           path: |
             ~/dart_sdk
-          key: ${{ runner.os }}-dart-2.10.5-includes
-          restore-keys: ${{ runner.os }}-dart-2.10.5-includes
+          key: ${{ runner.os }}-dart-2.12.0-259.16.beta
+          restore-keys: ${{ runner.os }}-dart-2.12.0-259.16.beta
       - name: Compile Dart SDK without tcmalloc
         run: |
           export DART_ROOT=${HOME}/dart_sdk
           export DART_BIN=${DART_ROOT}/bin
           export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
-          DART_VERSION=2.10.5
+          DART_VERSION=2.12.0-259.16.beta
           if [ ! -d "${DART_ROOT}/bin" ]; then
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
             mkdir dart-sdk
