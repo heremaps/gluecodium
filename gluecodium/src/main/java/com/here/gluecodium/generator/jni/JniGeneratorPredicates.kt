@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
-import com.here.gluecodium.generator.cpp.Cpp2NameResolver
+import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -41,7 +41,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class JniGeneratorPredicates(
     limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
-    private val cppNameResolver: Cpp2NameResolver
+    private val cppNameResolver: CppNameResolver
 ) {
     private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules)
 
@@ -75,7 +75,7 @@ internal class JniGeneratorPredicates(
             return !descriptor.containsKey(CONVERTER_NAME)
         },
         "needsRefSuffix" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && Cpp2NameResolver.needsRefSuffix(limeTypeRef)
+            limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
         },
         "returnsOpaqueHandle" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&

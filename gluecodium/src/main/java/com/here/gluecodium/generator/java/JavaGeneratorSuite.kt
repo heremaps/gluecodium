@@ -27,7 +27,7 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
@@ -68,7 +68,7 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
     private val internalPackageList = basePackages + internalPackage
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val cachingNameResolver = CppNameResolver(rootNamespace, limeModel.referenceMap, cppNameRules)
+        val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, cppNameRules)
         val filteredElements = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }.topElements
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
@@ -115,7 +115,7 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             generatorName = GENERATOR_NAME,
-            cachingNameResolver = cachingNameResolver
+            nameCache = cachingNameResolver
         )
         for (fileName in UTILS_FILES) {
             resultFiles += jniTemplates.generateConversionUtilsHeaderFile(fileName)

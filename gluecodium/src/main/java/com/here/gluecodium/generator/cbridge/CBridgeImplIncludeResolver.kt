@@ -21,7 +21,7 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.Include
-import com.here.gluecodium.generator.cpp.Cpp2IncludeResolver
+import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
@@ -45,7 +45,7 @@ import java.io.File
 
 internal class CBridgeImplIncludeResolver(
     private val rootNamespace: List<String>,
-    private val cppIncludeResolver: Cpp2IncludeResolver
+    private val cppIncludeResolver: CppIncludeResolver
 ) {
 
     fun getImplFilePath(limeElement: LimeNamedElement) =

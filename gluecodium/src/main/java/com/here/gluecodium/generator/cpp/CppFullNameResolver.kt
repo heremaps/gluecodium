@@ -28,7 +28,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 /**
  * Auxiliary name resolver for the C++ generator. Resolves fully qualified names only.
  */
-internal class CppFullNameResolver(private val cachingNameResolver: CppNameResolver) : NameResolver {
+internal class CppFullNameResolver(private val nameCache: CppNameCache) : NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -40,5 +40,5 @@ internal class CppFullNameResolver(private val cachingNameResolver: CppNameResol
         }
 
     private fun resolveElementName(limeElement: LimeNamedElement) =
-        cachingNameResolver.getFullyQualifiedName(limeElement)
+        nameCache.getFullyQualifiedName(limeElement)
 }
