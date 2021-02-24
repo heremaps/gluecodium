@@ -55,11 +55,15 @@ function(gluecodium_get_linked_targets_rec result visited_targets _target only_s
 
     if(only_static)
       get_target_property(_linked_type ${_linked_lib} TYPE)
-      get_target_property(_framework ${_linked_lib} FRAMEWORK)
-      # Framework can be static, but it's still final target
-      if(_linked_type STREQUAL "SHARED_LIBRARY" OR _framework)
+      if(_linked_type STREQUAL "SHARED_LIBRARY")
         continue()
-      endif()
+      elseif (NOT _linked_type STREQUAL "INTERFACE_LIBRARY")
+        get_target_property(_framework ${_linked_lib} FRAMEWORK)
+        # Framework can be static, but it's still final target
+        if(_linked_type STREQUAL "SHARED_LIBRARY" OR _framework)
+          continue()
+        endif()
+      endif ()
     endif()
 
     list(APPEND _lib_targets ${_linked_lib})
