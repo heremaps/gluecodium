@@ -24,13 +24,14 @@
 
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_GLUECODIUM_FFI_EXPORT void {{>lazyListPrefix}}_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{>lazyListPrefix}}_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT uint64_t {{>lazyListPrefix}}_get_size(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT {{resolveName elementType}} {{>lazyListPrefix}}_get(FfiOpaqueHandle handle, uint64_t index);
 

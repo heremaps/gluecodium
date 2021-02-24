@@ -32,8 +32,6 @@ void main() {
     expect(result.length, 2);
     expect(result[0].field, "foo");
     expect(result[1].field, "bar");
-
-    (result as LazyList).release();
   });
   _testSuite.test("Optimized list iterator from method", () {
     final result = UseOptimizedList.fetchTheBigOnes();
@@ -44,8 +42,6 @@ void main() {
     expect(iterator.moveNext(), isTrue);
     expect(iterator.current.field, "bar");
     expect(iterator.moveNext(), isFalse);
-
-    (result as LazyList).release();
   });
   _testSuite.test("Optimized list from property", () {
     final result = UseOptimizedList.lazyOnes;
@@ -56,7 +52,6 @@ void main() {
     final element2 = result[0];
     expect(element2, isNotNull);
 
-    (result as LazyList).release();
     element1.release();
     element2.release();
   });
@@ -72,7 +67,6 @@ void main() {
     expect(element2, isNotNull);
     expect(iterator.moveNext(), isFalse);
 
-    (result as LazyList).release();
     element1.release();
     element2.release();
   });
@@ -82,8 +76,5 @@ void main() {
     expect(result.structs.length, 2);
     expect(result.structs[0].field, "foo");
     expect(result.structs[1].field, "bar");
-
-    (result.structs as LazyList).release();
-    (result.classes as LazyList).release();
   });
 }

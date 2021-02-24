@@ -1,5 +1,11 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Dart generated code now supports automatic finalization (clean-up of underlying C++ objects).
+### Deprecated:
+  * `release()` method on classes and interfaces in Dart is now deprecated and does nothing.
+
 ## 9.0.1
 Release date: 2021-05-28
 ### Features:

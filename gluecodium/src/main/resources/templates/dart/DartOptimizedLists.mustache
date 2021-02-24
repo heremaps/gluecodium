@@ -29,9 +29,9 @@ final _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListG
     {{resolveName elementType "FfiApiTypes"}} Function(Pointer<Void>, Uint64),
     {{resolveName elementType "FfiDartTypes"}} Function(Pointer<Void>, int)
   >('{{libraryName}}_{{resolveName container "FfiSnakeCase"}}_{{resolveName elementType "FfiSnakeCase"}}LazyList_get'));
-final _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListReleaseHandle = {{!!
+final _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListRegisterFinalizer = {{!!
 }}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName container "FfiSnakeCase"}}_{{resolveName elementType "FfiSnakeCase"}}LazyList_release_handle'));
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('{{libraryName}}_{{resolveName container "FfiSnakeCase"}}_{{resolveName elementType "FfiSnakeCase"}}LazyList_register_finalizer'));
 {{/set}}{{/this}}{{/eval}}{{/set}}
