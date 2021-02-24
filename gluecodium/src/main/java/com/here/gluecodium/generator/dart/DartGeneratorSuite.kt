@@ -371,6 +371,7 @@ class DartGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
             "DartDLInit",
             "InstanceCache",
             "IsolateContext",
+            "FinalizerData",
             "LocaleHandle",
             "NullableHandles",
             "ProxyCache",

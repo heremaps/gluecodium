@@ -20,20 +20,26 @@
   !}}
 {{>ffi/FfiCopyrightHeader}}
 
-#pragma once
-
-#include "Export.h"
-#include "dart_api_dl.h"
+#include "FinalizerData.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_GLUECODIUM_FFI_EXPORT Dart_Handle {{libraryName}}_get_cached_dart_handle(FfiOpaqueHandle handle, int32_t isolate_id, Dart_Handle null_handle);
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_cache_dart_handle(FfiOpaqueHandle handle, int32_t isolate_id, Dart_Handle dart_handle);
-void {{libraryName}}_cache_dart_handle_by_raw_pointer(void* raw_pointer, int32_t isolate_id, Dart_Handle dart_handle);
-void {{libraryName}}_uncache_dart_handle_by_raw_pointer(void* raw_pointer, int32_t isolate_id);
+void
+{{libraryName}}_execute_finalizer(void*, void* data) {
+    FinalizerData* finalizer_data = (FinalizerData*)data;
+    if (finalizer_data->ffi_handle == nullptr || finalizer_data->finalizer == nullptr) return;
+
+    finalizer_data->finalizer(finalizer_data->ffi_handle, finalizer_data->isolate_id);
+
+    finalizer_data->ffi_handle = nullptr;
+    finalizer_data->finalizer = nullptr;
+
+    delete finalizer_data;
+}
 
 #ifdef __cplusplus
 }
 #endif
+
