@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 3.12)
 project(gluecodium.test)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
+set(GLUECODIUM_USE_OBSOLETE_API ON)
 
 include(gluecodium/Packaging)
 

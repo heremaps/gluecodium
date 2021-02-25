@@ -26,6 +26,7 @@ project(gluecodium.test)
 set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
+set(GLUECODIUM_USE_OBSOLETE_API ON)
 
 include(gluecodium/Gluecodium)
 include(gluecodium/Packaging)

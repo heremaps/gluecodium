@@ -42,6 +42,7 @@ add_library(namerules ${CPP_SOURCES} ${LIME_SOURCES})
 set_target_properties(namerules PROPERTIES
     POSITION_INDEPENDENT_CODE ON)
 
+set (GLUECODIUM_USE_OBSOLETE_API ON)
 include(gluecodium/Gluecodium)
 apigen_generate(TARGET namerules
         LIME_SOURCES ${LIME_SOURCES}
