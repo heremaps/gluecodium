@@ -48,7 +48,6 @@ class RouteProviderImpl extends RouteProvider {
   void setRoute(Route route) {
     setRouteWasRun = true;
     setRouteCouldCast = route is RouteImpl;
-    route.release();
   }
 }
 

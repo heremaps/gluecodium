@@ -37,10 +37,10 @@ void main() {
     interface2 = NonEquatableFactory.createNonEquatableInterface();
   });
   tearDown(() {
-    class1.release();
-    class2.release();
-    interface1.release();
-    interface2.release();
+    class1 = null;
+    class2 = null;
+    interface1 = null;
+    interface2 = null;
   });
 
   _testSuite.test("Simple equality for structs", () {

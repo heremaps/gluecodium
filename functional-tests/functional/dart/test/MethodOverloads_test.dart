@@ -74,15 +74,11 @@ void main() {
     final result = ConstructorOverloads();
 
     expect(result, isNotNull);
-
-    result.release();
   });
   _testSuite.test("Call overloaded class constructor", () {
     final result = ConstructorOverloads.fromString("foo");
 
     expect(result, isNotNull);
-
-    result.release();
   });
   _testSuite.test("Call default struct constructor", () {
     final result = StructConstructorOverloads("foo");

@@ -67,8 +67,8 @@ void main() {
     delivery = MessageDelivery();
   });
   tearDown(() {
-    envelope.release();
-    delivery.release();
+    envelope = null;
+    delivery = null;
   });
 
   _testSuite.test("String return works", () {

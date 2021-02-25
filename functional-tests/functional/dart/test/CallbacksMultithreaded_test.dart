@@ -62,8 +62,6 @@ void main(String library_name) {
     final result = await completer.future;
 
     expect(result, "foo");
-
-    notifier.release();
   });
   _testSuite.test("Lambda notifier on different C++ thread", () async {
     final notifier = new ThreadedNotifier();
@@ -74,7 +72,5 @@ void main(String library_name) {
     final result = await completer.future;
 
     expect(result, "foo");
-
-    notifier.release();
   });
 }

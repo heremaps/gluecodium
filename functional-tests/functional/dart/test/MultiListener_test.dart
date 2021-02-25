@@ -55,7 +55,5 @@ void main() {
     expect(myMultiReceiver.log.length, 2);
     expect(myMultiReceiver.log[0], "ReceiverA: received from Sender: Sent from A");
     expect(myMultiReceiver.log[1], "ReceiverB: received from Sender: Sent from B");
-
-    mySender.release();
   });
 }

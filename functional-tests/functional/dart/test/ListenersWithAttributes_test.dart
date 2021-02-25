@@ -58,10 +58,7 @@ class TestListener implements ListenerWithAttributes {
   Uint8List bufferedMessage = Uint8List.fromList(utf8.encode("Doesn't work"));
 
   @override
-  void release() {
-    if (packedMessage != null) packedMessage.release();
-    if (boxedMessage != null) boxedMessage.release();
-  }
+  void release() {}
 }
 
 void main() {
@@ -72,8 +69,8 @@ void main() {
     delivery = AttributedMessageDelivery();
   });
   tearDown(() {
-    envelope.release();
-    delivery.release();
+    envelope = null;
+    delivery = null;
   });
 
   _testSuite.test("String round trip works", () {

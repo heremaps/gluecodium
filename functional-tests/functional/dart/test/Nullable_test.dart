@@ -31,7 +31,7 @@ void main() {
     instance = NullableInterface();
   });
   tearDown(() {
-    instance.release();
+    instance = null;
   });
 
   _testSuite.test("Struct with nullable fields defaults", () {

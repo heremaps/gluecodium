@@ -75,7 +75,7 @@ void main() {
     messenger = ErrorMessenger();
   });
   tearDown(() {
-    messenger.release();
+    messenger = null;
   });
 
   _testSuite.test("String round trip works", () {
@@ -98,8 +98,6 @@ void main() {
 
     expect(exception, isNotNull);
     expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
-
-    listener.release();
   });
   _testSuite.test("setMessage() error rethrown", () {
     AdditionalErrorsExternalException exception = null;
@@ -113,8 +111,6 @@ void main() {
 
     expect(exception, isNotNull);
     expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
-
-    listener.release();
   });
   _testSuite.test("getMessageWithPayload() error rethrown", () {
     WithPayloadException exception = null;
@@ -128,8 +124,6 @@ void main() {
 
     expect(exception, isNotNull);
     expect(exception.error, Payload(42, "foo"));
-
-    listener.release();
   });
   _testSuite.test("setMessageWithPayload() error rethrown", () {
     WithPayloadException exception = null;
@@ -143,7 +137,5 @@ void main() {
 
     expect(exception, isNotNull);
     expect(exception.error, Payload(42, "foo"));
-
-    listener.release();
   });
 }
